@@ -1,0 +1,120 @@
+<br><br>
+<div id="contentArea" style="height:50; width:50; background-color:green;""></div>
+
+<br><br>
+
+<form method="get" name="gviewerForm" action="http://localhost:8080/web/Gviewer3.jsp">
+<table border="0" id="expressionTable" bgcolor="#E3EEFF" align="center">
+    <tr>
+        <td width="10%">&nbsp;</td>
+        <td width="25%" style="font-size:11;" valign="bottom">Search Term </td>
+        <td width="25%"style="font-size:11;" valign="bottom">Select Ontoloy Type/s</td>
+        <td width="5%">&nbsp;</td>
+        <td width="30%" align="right"><Input type="button" Value="Run GViewer" onclick="javascript:makeRequest(this.form)"></td>
+    </tr>
+    <tr id="rootExpression">
+        <td valign="top" width="15%">&nbsp;</td>
+        <td valign="top" style="font-size:11;">
+            <input name="term" value="testit" />
+        </td>
+        <td>
+            <table cellpadding=0 cellspacing=0 border=0 style="font-size:11; background-color:white;">
+                <tr>
+                    <td><input name="GO" type="checkbox" value="4" checked>Gene Ontology</td>
+                </tr>
+                    <tr>
+                        <td><input name="DO" type="checkbox" value="7" checked>Disease Ontology</td>
+                    </tr>
+                    <tr>
+                        <td><input name="BO" type="checkbox" value="8" checked>Behavioral Ontology</td>
+                    </tr>
+                    <tr>
+                        <td><input name="PHO" type="checkbox" value="5" checked>Phenotype Ontology</td>
+                    </tr>
+                    <tr>
+                        <td><input name="PAO" type="checkbox" value="6" checked>Pathway Ontology</td>
+                    </tr>
+            </table>
+        </td>
+        <td  colspan="2" align="center"><a href="javascript:appendExpression()" style="font-size:11; color:blue; font-weight:700;">Add Another Search Term</a></td>
+
+    </tr>
+</table>
+
+</form>
+
+
+<script>
+function getFormString(theform) {
+    var formStr = "";
+    var amp = "";
+
+    for(i=0; i<theform.elements.length; i++){
+        if(theform.elements[i].type == "text" || theform.elements[i].type == "textarea" || theform.elements[i].type == "hidden"){
+            formStr += amp+theform.elements[i].name+"="+encodeURIComponent(theform.elements[i].value);
+        } else if ((theform.elements[i].type == "checkbox" || theform.elements[i].type == "radio")) {
+            if (theform.elements[i].checked) {
+                formStr += amp+theform.elements[i].name+"="+encodeURIComponent(theform.elements[i].value);
+            }
+        } else if (theform.elements[i].type == "select-one") {
+            formStr += amp+theform.elements[i].name+"="+theform.elements[i].options[theform.elements[i].selectedIndex].text;
+        }
+
+        if (formStr != "") {
+            amp = "&";
+        }
+    }
+    return formStr;
+}//end PostAform function
+
+
+
+</script>
+
+<script type="text/javascript" language="javascript">
+  var http_request = false;
+
+  function makeRequest(form) {
+    url = form.action ;
+    params = "?" + getFormString(form);
+    alert(url);
+
+    if (window.XMLHttpRequest) // if Mozilla, Safari etc
+        http_request = new XMLHttpRequest()
+    else if (window.ActiveXObject){ // if IE
+        try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP")
+        } catch (e){
+            try{
+                http_request = new ActiveXObject("Microsoft.XMLHTTP")
+            } catch (e){}
+        }
+    }
+
+    if (http_request.overrideMimeType) {
+      http_request.overrideMimeType('text/xml');
+    }
+    if (!http_request) {
+      alert('Cannot create XMLHTTP instance');
+      return false;
+    }
+    http_request.onreadystatechange = populateContent;
+    http_request.open('POST', url, true);
+    http_request.send(params);
+  }
+
+  function populateContent() {
+    if (http_request.readyState == 4) {
+      if (http_request.status == 200) {
+        document.getElementById("contentArea").innerHTML = http_request.responseText;
+      } else {
+        alert('There was a problem with the request. Status: ' + http_request.status );
+      }
+    }
+  }
+
+</script>
+
+
+
+

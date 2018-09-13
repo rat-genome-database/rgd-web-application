@@ -1,0 +1,10 @@
+<div id="sideviewmenu">
+
+<ul class="menulinks">
+<li><a href="#">Hypertension Genes</a></li>
+<li><a href="#">My Pathways</a></li>
+<li><a href="#">Another List</a></li>
+<li><a href="#">List 4</a></li>
+</ul>
+
+</div>

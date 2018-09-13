@@ -1,0 +1,63 @@
+    .gaLabel {
+        font-weight:700;
+        color:#3F3F3F;
+    }
+
+    .gaLabelHeader {
+        font-weight:700;
+        color:#3F3F3F;
+        background-color:#D8D8DB;
+    }
+    .gaTable{
+        background-color: #E6E6E6;
+        border: 1px solid #c8c8c8;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        color:#4088b8;
+        clear: both;
+        font-weight:700;
+    }
+
+    #wrap {
+        color: #404040;
+        /*margin: 0 12%;*/
+        margin: 20px 40px;
+    }
+
+
+    ul, ol {
+        margin-left 0;
+    }
+
+    ul ul {
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: #4088b8;
+    }
+    .gaTable td, .gaTable a, .gaTable input, .gaTable option{
+       font-size:11px;
+       background: #f8f8f8;
+       font-family:Arial;
+       color:#3F3F3F;
+            background: #f8f8f8;
+    text-align: left;
+    padding: 5px;
+    vertical-align: top;
+    }
+       .evenRow {
+    background-color: #FFFFFF;
+}
+.oddRow {
+    background-color: #E2E2E2;
+}
+.headerRow {
+    background-color: #838383;
+    color: white;
+    font-family: arial;
+    font-size: 11px;
+    font-weight: 700;
+}

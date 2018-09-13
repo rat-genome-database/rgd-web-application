@@ -1,0 +1,59 @@
+<%@ page import="edu.mcw.rgd.process.search.ReportFactory" %>
+<%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
+<%@ page import="edu.mcw.rgd.reporting.Report" %>
+<%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
+<%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+
+<%@ include file="sectionHeader.jsp"%>
+
+<%
+    String geneAssotitle = "Genes in Region (" + refMap.getName() + ")";
+    Report r = ReportFactory.getInstance().getGeneReport(sb);
+
+    if (r.records != null && r.records.size() > 1) {
+
+%>
+
+<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>
+
+<table>
+    <tr>
+        <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 1px solid black;" border="0" ng-click="rgd.showTools('geneList',3,360)"/></td>
+        <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis Tools</a></td>
+    </tr>
+</table>
+
+    <%
+        r.removeColumn(11);
+        r.removeColumn(10);
+        r.removeColumn(9);
+        r.removeColumn(4);
+        r.removeColumn(0);
+
+        List symbols = r.getColumn(1);
+        Iterator it = symbols.iterator();
+        int count=1;
+        it.next();
+        while (it.hasNext()) {
+            String sym = (String) it.next();
+            String ident =  (String) r.getColumn(0).get(count);
+            r.updateRecordValue(count, 1, "<a class='geneList' href='" + Link.gene(Integer.parseInt(ident)) + "'>" + sym + "</a>");
+            count++;
+        }
+
+        out.print(r.format(new HTMLTableReportStrategy()));
+    %>
+<br>
+<%=ui.dynClose("geneAsscociation")%>
+
+<% } %>
+
+<%@ include file="sectionFooter.jsp"%>
+

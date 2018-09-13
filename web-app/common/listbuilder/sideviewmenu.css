@@ -1,0 +1,176 @@
+body {
+
+	-webkit-transition: background 0.5s ease-in;
+	transition: background 0.5s ease-in; /* transition properties and type. */
+
+}
+
+.toggler { /* Icon toggler */
+	width: 30px;
+	height: 30px;
+	border: 6px solid black;
+	text-indent: -100000px;
+	position: relative;
+	cursor: pointer;
+}
+
+.toggler::before{
+	position: absolute;
+	border: 6px solid black;
+	content: '';
+	width: 100%;
+	height: 20%;
+	top: 6px;
+	left: -6px;
+	display: block;
+}
+
+.toggler:hover, .toggler:hover::before{
+	border-color: darkred;
+}
+
+#contentwrapper { /* DIV that wraps around entire BODY content */
+	background: white;
+	-webkit-transform-origin:  100% 20%;
+	transform-origin: 100% 20%;
+
+	-webkit-transition: all 0.5s ease-in; /* transition properties and type. Actual duration is set by script */
+	transition: all 0.5s ease-in;
+
+	-webkit-transition-property: -webkit-transform, padding;
+	transition-property: transform, padding;
+}
+
+#contentwrapper::before { /* veil overlapping BODY content to add shadow */
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0);
+	left: 0;
+	top: 0;
+	z-index: -1000;
+}
+
+#sideviewmenu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	width: 280px; /* width of slide out menu */
+	height: 100%;
+	color: white;
+	background: transparent;
+	visibility: hidden;
+
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+
+	-webkit-transform-origin: 100% 50%;
+	transform-origin: 100% 50%;
+
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
+
+	-webkit-transition: all 0.5s ease-in; /* transition properties and type. Actual duration is set by script */
+	transition: all 0.5s ease-in;
+}
+
+#sideviewmenu .backdrop { /* Radial gradient background behind menu layer */
+	position: absolute;
+	left: 0;
+	top: 0;
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background: rgb(125,126,125); /* Begin Radial gradient background */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(125,126,125,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(14,14,14,1))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	opacity: 0.9;
+}
+
+
+#sideviewmenu ul.menulinks { /* UL list within menu that will be animated during open state */
+	list-style: none;
+	font: bold 12px 'Asul', sans-serif;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+	text-shadow: 0 -2px 1px #8a8a8a;
+	transition: none;
+}
+
+
+#sideviewmenu ul.menulinks li { /* LI elements within ul.menulinks that will be animated during open state */
+	position: relative;
+	display: block;
+	left: -100%;
+	text-indent: 10px;
+
+	-webkit-transition: none;
+	transition: none;
+}
+
+
+#sideviewmenu ul.menulinks li a {
+	text-decoration: none;
+	color: white;
+	padding: 30px 0;
+	letter-spacing: 3px;
+	display: block;
+}
+
+#sideviewmenu ul.menulinks li a:hover {
+	color: lightyellow;
+}
+
+
+.opensideviewmenu { /* class that gets added to BODY element on page when menu is revealed */
+	background: black;
+}
+
+.opensideviewmenu #contentwrapper {
+	padding: 15px;
+
+	-webkit-transform: scale(0.8); /* scale down BODY content to 80% of original size*/
+	transform: scale(0.8);
+}
+
+.opensideviewmenu #contentwrapper::before { /* Apply gradient background to content's shadow layer */
+	z-index: 1000;
+	content: '';
+	background: -moz-linear-gradient(left,  rgba(0,0,0,0.21) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.21)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  rgba(0,0,0,0.21) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  rgba(0,0,0,0.21) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  rgba(0,0,0,0.21) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(to right,  rgba(0,0,0,0.21) 0%,rgba(0,0,0,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#36000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+.opensideviewmenu #sideviewmenu {
+	-webkit-transform: translate3d(0, 0, 0); /* translate menu back to original position on page to reveal it */
+	transform: translate3d(0, 0, 0);
+
+	-webkit-box-shadow: 5px 0 5px black;
+	box-shadow: 5px 0 5px black;
+	visibility: visible;
+}
+
+.opensideviewmenu #sideviewmenu .backdrop{
+visibility: visible;
+}
+
+
+.opensideviewmenu #sideviewmenu ul.menulinks li {
+	left: 0; /* reveal LI elements within ul.menulinks */
+
+	-webkit-transition: all 0.5s ease-in; /* transition properties and type. Actual durations and delays are set by script */
+	transition: all 0.5s ease-in;
+}

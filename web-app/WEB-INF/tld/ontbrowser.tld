@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+    <short-name>ontbrowser</short-name>
+
+    <tag>
+        <name>tree</name>
+        <tag-class>edu.mcw.rgd.ontology.OntBrowser</tag-class>
+        <body-content>tagdependent</body-content>
+
+        <attribute>
+            <name>acc_id</name>
+            <description>term accession id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>url</name>
+            <description>url of the page the control is embedded with,
+                for example: '/rgdweb/ontology/view.html?mode=popup';
+                acc_id parameters (and others, as needed, fe 'offset')
+                will be added to the url on-the-fly
+            </description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>offset</name>
+            <description>used to reduce window jitter when clicking sibling terms</description>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>opener_sel_acc_id</name>
+            <description>id of opener window's input control that should receive accession id of selected term</description>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>opener_sel_term</name>
+            <description>id of opener window's input control that should receive term name of selected term</description>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>filter</name>
+            <description>Filter ontology term</description>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+</taglib>

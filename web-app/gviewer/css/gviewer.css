@@ -1,0 +1,57 @@
+.stalk { text-align: left; position: relative;  background-color: #cccccc; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.acen { text-align: left; position: relative;  background-color: #cccccc; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos { text-align: left; position: relative;  background-color: #000000; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos100 { text-align: left; position: relative;  background-color: #000000; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos75 { text-align: left; position: relative;  background-color: #444444; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos66 { text-align: left; position: relative;  background-color: #666666; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos50 { text-align: left; position: relative;  background-color: #888888; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos33 { text-align: left; position: relative;  background-color: #aaaaaa; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos25 { text-align: left; position: relative;  background-color: #cccccc; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gvar { text-align: left; position: relative;  background-color: #cccccc; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.gneg { text-align: left; position: relative;  background-color: #ffffff; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.stalk-zoom { text-align: left;height:100%; position: relative;  float: left; background-color: #cccccc; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.acen-zoom { text-align: left;height:100%; position: relative;  float: left; background-color: #cccccc; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #000000; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos100-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #000000; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos75-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #444444; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos66-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #666666; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos50-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #888888; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos33-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #aaaaaa; color: #ffffff; font-size:10px; font-weight: 700; overflow: hidden;}
+.gpos25-zoom {text-align: left; height:100%; position: relative;  float: left; background-color: #cccccc; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.gvar-zoom { height:100%; position: relative;  float: left; background-color: #cccccc; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.gneg-zoom { height:100%; position: relative;  float: left; background-color: #ffffff; color: #000000; font-size:10px; font-weight: 700; overflow: hidden;}
+.chr-wrapper  { position: absolute; float: left; font-weight:700; font-size:13px; text-align: center; overflow: visible; cursor: pointer;}
+.chr  { border-left: 1px solid #000000; border-right: 1px solid #000000; position: relative;   font-size: 1px; overflow: visible; background-color: #ffffff; }
+.chr-zoom  {  border: 1px solid #000000; position: relative;   font-size: 1px; overflow: visible; background-color: #ffffff;}
+.gene { position: absolute; overflow: hidden;}
+.sslp { position: absolute; overflow: hidden;}
+.snp { position: absolute; overflow: hidden;}
+.qtl  { position: absolute; background-color: #4b45a9;  overflow: hidden;}
+.strain { position: absolute; overflow: hidden;}
+.slider  { position: absolute; background-color: gray; border: 1px solid black; visibility: hidden;}
+.skin0 { position:absolute; width:165px; border:2px solid black; background-color:menu; font-family:Verdana; line-height:20px; cursor:default; font-size:12px; visibility:hidden;}
+.menuitems {padding-left:10px;padding-right:10px;}
+.zoom-pane {display: none; border:  2px green ridge; overflow: scroll; background-color: white;}
+.zoom-pane-content {position: relative; top: 10px; height: 2000px; cursor: pointer;}
+.rounded-image {width: 100%;}
+.annotation-label {position: absolute; font-size: 12px; font-weight: 700; overflow: visible;}
+.gviewer {position: relative; background-color: white;  border: 1px solid black; }
+.position-bar { height: 15px; text-align: center; width:100%;  margin-bottom: 2px; background-color: #ffffff;  color: #000000; font-size: 13px;}
+.scale-pixel { background-color: white; font-size: 1px; position: absolute; top: 17; width: 1; height: 13; border-right: 1px solid #000000;}
+.scale-label {font-size: 10px; position: absolute; top: 17; }
+.scale-grid {background-color: white; font-size: 1px; position: absolute; top: 30; width: 1px; height: 100%; border-right: 1px dashed #cccccc}
+.centromere-left {background-color: white; position: absolute; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;}
+.centromere-right {background-color: white; position: absolute; border-left: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;}
+.control-bar { background-color: #f1f1ec; height: 17px;  padding-top: 0px; padding-bottom: 0px; font-weight: 700; text-align: right; font-size: 11px; border-top: 1px solid black;}
+.control-bar a { font-weight: 700; font-size: 11px;}
+.loading-bar {border: 1px solid black; font-weight: 700px; background-color: #f1f1ec; color: black; padding:3px; font-size: 18; visibility: hidden; position: absolute; z-index:2000;}
+.status-bar {  text-align: center;  height:20px; font-size: 16px; font-weight: 700; color: #2865a3;  }
+.canvas{}
+.image-viewer { background-color:#cccccc;font-weight: 700; visibility: hidden; border: 1px solid black; position: absolute;}
+.dhtmlwindow{ position: absolute; border: 2px solid black; visibility: hidden; background-color: white;}
+.drag-handle{ padding: 1px; text-indent: 3px; font: bold 14px Arial; background-color: #CA0000; color: white; cursor: move; overflow: hidden; width: auto; filter:progid:DXImageTransform.Microsoft.alpha(opacity=100); -moz-opacity: 1; opacity: 1;}
+.drag-handle .drag-controls{position: absolute; right: 1px; top: 2px; cursor: hand; cursor: pointer; }
+* html .drag-handle{ width: 100%;}
+.drag-contentarea{border-top: 1px solid brown; background-color: white; color: black; height: 150px; padding: 2px; overflow: auto; }
+.drag-statusarea{ border-top: 1px solid gray; background-color: #F8F8F8; height: 13px;}
+.drag-resizearea{ float: right; width: 13px; height: 13px; cursor: nw-resize; font-size: 0;}

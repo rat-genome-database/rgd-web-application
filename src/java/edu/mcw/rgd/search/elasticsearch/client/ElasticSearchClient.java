@@ -1,0 +1,43 @@
+package edu.mcw.rgd.search.elasticsearch.client;
+
+import edu.mcw.rgd.process.search.ElasticNode;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import java.net.InetAddress;
+import java.util.List;
+
+
+/**
+ * Created by jthota on 2/22/2017.
+ */
+public class ElasticSearchClient {
+    private static List<String> hosts;
+
+    private ElasticSearchClient(){}
+    public static TransportClient getInstance() {
+        TransportClient client=null;
+            Settings settings = Settings.builder()
+                    .put("cluster.name", "rgd-elastic")
+                    .build();
+            try {
+                client = new PreBuiltTransportClient(settings);
+               for(String host:hosts){
+                client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
+               }
+            } catch (Exception e) {
+                e.printStackTrace();
+    }
+
+        return client;
+    }
+
+    public static List<String> getHosts() {
+        return hosts;
+    }
+
+    public static void setHosts(List<String> hosts) {
+        ElasticSearchClient.hosts = hosts;
+    }
+}

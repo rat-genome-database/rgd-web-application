@@ -1,0 +1,59 @@
+/* used by report pages */
+
+.reportTableHeader {
+    color: #2865a3;
+    font-weight: 700;
+}
+.pmore { /* link to page with chebiterm-gene interaction from Original References column */
+}
+.imore { /* link to page with chebiterm-gene annotations */
+    background-image: url('/common/images/icons/arrow_refresh.png');
+    padding-left:2px;
+    padding-right:2px;
+    font-weight: 700;
+}
+a.imore, a:hover.imore, a:focus.imore, a:active.imore {
+    text-decoration: none; /* remove underline from anchor class */
+}
+
+.vert {
+    -moz-transform:rotate(-270deg);
+    -moz-transform-origin: bottom left;
+    -webkit-transform: rotate(-270deg);
+    -webkit-transform-origin: bottom left;
+    -o-transform: rotate(-270deg);
+    -o-transform-origin:  bottom left;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    background: #eeeeee;
+    display: block;
+}
+
+
+/* gene report pages - info.jsp - orthologs - show or hide extended info */
+.orthoExtInfo {
+    font-size:11px;
+    font-weight:bold;
+    color:#2865A3;
+    background-color:#b6baba;
+    border: solid 1px #0000aa;
+    padding:6px;"
+}
+
+.orthoExtBar {
+    font-size:13px;
+    background-color:#e0e2e1;
+    text-align: left;
+    color:#2865A3;
+    padding-left:12px;
+}
+
+.seqExtInfo {
+    font-size:11px;
+    font-weight:bold;
+    color:#2865A3;
+    /*
+    background-color:#b6baba;
+    border: solid 1px #0000aa;
+    */
+    padding:6px;
+}

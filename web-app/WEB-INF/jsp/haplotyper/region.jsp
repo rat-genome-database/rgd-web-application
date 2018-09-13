@@ -1,0 +1,115 @@
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.carpenovo.SampleManager" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+
+<%
+String pageTitle = "Variant Visualizer (Define Region)";
+String headContent = "";
+String pageDescription = "Define Region";
+
+%>
+
+<%@ include file="carpeHeader.jsp"%>
+<%@ include file="menuBar.jsp" %>
+<%
+   int mapKey = Integer.parseInt(request.getParameter("mapKey"));
+%>
+
+   <br>
+<div class="typerMat">
+    <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
+     <br><br>
+    <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
+        <tr>
+            <td><b>Step 2:</b> Define a Region</td>
+            <td align="right"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>
+        </tr>
+    </table>
+
+<br><br>
+
+<form action="config.html" name="optionForm">
+
+
+<table border=0 align="center" style="padding:8px; ">
+    <tr>
+        <td width=200 style="font-size:14px;color:white;">A region can be defined using a genomic position or 2 gene/SSLP flanks located on the same chromosome</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td >
+
+            <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable" style="padding: 10px;">
+                <tr>
+                <td   colspan=3><div class="typerSubTitle" >Position</div></td>
+                </tr>
+                <tr>
+                    <td colspan=2>
+                        <table>
+                            <tr>
+                                <td>Chromosome <select   name="chr" id="chr" ><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="X">X</option><option value="Y">Y</option><option value="MT">MT</option></select></td>
+                                <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="optional" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",req.getParameter("start")))%>"></td>
+                                <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="optional" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",req.getParameter("stop")))%>"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3) { %>
+                <tr>
+                    <td colspan=3 align="center"><div style="background-color:#002752; margin-top:20px; margin-bottom:20px; padding:2px;font-weight:700; color:white;"><< OR >></div></td>
+                </tr>
+
+                <tr>
+                <td   colspan=3><div class="typerSubTitle" >Gene or SSLP Bounds  <span style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;(must be on same chromosome)</span></div></td>
+                </tr>
+                <tr>
+                    <td colspan=2>Symbol 1: <input type="text" name="geneStart" size=30 value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>"/> &nbsp;&nbsp;&nbsp;&nbsp;Symbol 2: <input type="text" size="30" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>"/> </td>
+                </tr>
+                <% } %>
+            </table>
+            </td>
+        <td>&nbsp;</td>
+        <td valign="top" align="left">
+            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..."/></div>
+        </td>
+    </tr>
+</table>
+
+             <br>
+    <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
+        <tr>
+            <td><b>Strains Selected</b></td>
+        </tr>
+    </table>
+
+        <div style="margin-top:12px; margin-bottom:12px;">
+<table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
+    <tr>
+     <td style="font-size:11px;color:white;" >
+    <%
+    for (int i=1; i<100; i++) {
+        if (request.getParameter("sample" + i) != null) {
+            String strain = "";
+            if (i > 1) {
+                strain += ",&nbsp;";
+            }
+
+            strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
+
+    %>
+        <%=strain%>
+        <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+    <%
+        }
+    }
+    %>
+         <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+</form>
+
+</div>
+

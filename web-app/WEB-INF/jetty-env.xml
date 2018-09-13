@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+
+
+    <New id="rgd2" class="org.mortbay.jetty.plus.naming.Resource">
+        <Arg>jdbc/rgd2</Arg>
+        <Arg>
+         <New class="oracle.jdbc.pool.OracleConnectionPoolDataSource">
+                     <Set name="URL">jdbc:oracle:thin:@meads.hmgc.mcw.edu:1521:rgddev1</Set>
+                     <Set name="User">dev_1</Set>
+                     <Set name="Password">f#epe7r2z8s9ep8uxupreyu5ewum</Set>
+
+         </New>
+        </Arg>
+    </New>
+
+</Configure>
+

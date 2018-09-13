@@ -1,0 +1,109 @@
+<beans:beans
+    xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd"
+    >
+
+    <debug/>
+
+
+    <http use-expressions="true" authentication-manager-ref="ldapAuthenticationManager">
+	        <intercept-url pattern="/login.jsp" access="permitAll" />
+
+    <!-- 	        <intercept-url pattern="/curation/**" access="hasAnyRole('ROLE_RGD.DEV','ROLE_RGD.CURATORS','ROLE_CGen-Authors')" />
+        commented out restricted access to /curation/ because it does not work and cannot test curation tool -marek-
+        -->
+	        <intercept-url pattern="/phenotype/**" access="hasAnyRole('ROLE_RGD.DEV','ROLE_RGD.CURATORS')" />
+	        <intercept-url pattern="/**" access="permitAll" />
+	        <form-login
+	                login-page="/login.jsp"
+	                default-target-url="/my/account.html"
+                    always-use-default-target="false"
+	                authentication-failure-url="/login.jsp?login_error=1"
+	        />
+	        <logout logout-success-url="/index.jsp" invalidate-session="true" delete-cookies="JSESSIONID"/>
+	    </http>
+
+        <beans:bean id="rgdDataSource2" class="org.springframework.jndi.JndiObjectFactoryBean">
+            <beans:property name="jndiName" value="java:comp/env/jdbc/rgd2"/>
+        </beans:bean>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+	    <authentication-manager id="ldapAuthenticationManager">
+	        <authentication-provider ref="ldapAuthProvider"/>
+
+            <!--
+            <authentication-provider >
+            <user-service >
+	                <user name="user1" password="user1" authorities="ROLE_RGD.DEV"/>
+                <user name="user2" password="user2" authorities="ROLE_RGD.DEV"/>
+                <user name="jdepons" password="jdepons" authorities="ROLE_RGD.DEV"/>
+                <user name="mtutaj" password="mtutaj" authorities="ROLE_RGD.DEV"/>
+           </user-service>
+            </authentication-provider>
+-->
+            <authentication-provider>
+                <password-encoder ref="encoder"/>
+                <jdbc-user-service data-source-ref="rgdDataSource2"
+                                   users-by-username-query="
+                SELECT username, password, 1
+                FROM my_users
+                WHERE username=?
+                "
+                                   authorities-by-username-query="
+                SELECT username, role
+                FROM my_user_roles r
+                WHERE username=?
+            "
+                                   role-prefix="ROLE_"
+                />
+            </authentication-provider>
+
+        </authentication-manager>
+
+
+    <beans:bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <beans:constructor-arg ref="ldapAuthenticator" />
+        <beans:constructor-arg ref="authoritiesPopulator" />
+    </beans:bean>
+
+    <beans:bean id="authoritiesPopulator" class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator">
+        <beans:constructor-arg ref="contextSource" />
+        <beans:constructor-arg value="ou=groups,OU=RGD,OU=MCW,DC=hmgc,DC=mcw,DC=edu" />
+        <beans:property name="groupSearchFilter" value="(&amp;(objectclass=group)(member={0}))"/>
+        <beans:property name="groupRoleAttribute" value="cn" />
+        <beans:property name="rolePrefix" value="ROLE_" />
+        <beans:property name="searchSubtree" value="true" />
+        <beans:property name="ignorePartialResultException" value="true"/>
+    </beans:bean>
+
+    <beans:bean id="ldapAuthenticator" class="org.springframework.security.ldap.authentication.BindAuthenticator">
+        <beans:constructor-arg ref="contextSource" />
+        <beans:property name="userSearch" ref="userSearch" />
+    </beans:bean>
+
+    <beans:bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+        <beans:constructor-arg value="OU=RGD,OU=MCW,DC=hmgc,DC=mcw,DC=edu"/>
+        <beans:constructor-arg value="(sAMAccountName={0})"/>
+        <beans:constructor-arg ref="contextSource" />
+        <beans:property name="searchSubtree" value="true"/>
+    </beans:bean>
+
+    <beans:bean id="contextSource"
+        class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+        <beans:constructor-arg value="ldap://hmgcdc01.hmgc.mcw.edu:389"/>
+        <beans:property name="userDn"><beans:value>MCW_HMGC\ADreader</beans:value></beans:property>
+        <beans:property name="password"><beans:value>March(8)</beans:value></beans:property>
+        <beans:property name="baseEnvironmentProperties">
+            <beans:map>
+                <beans:entry key="java.naming.referral" value="follow"/>
+            </beans:map>
+        </beans:property>
+    </beans:bean>
+
+</beans:beans>

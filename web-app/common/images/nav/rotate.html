@@ -1,0 +1,202 @@
+<html>
+
+<body>
+
+<script>
+
+var screens = {};
+screens[0] = "div1";
+screens[45] = "div2";
+screens[90] = "div3";
+screens[135] = "div4";
+screens[180] = "div5";
+screens[225] = "div6";
+screens[270] = "div7";
+screens[315] = "div8";
+screens[360] = "div9";
+//screens[270] = "div10";
+//screens[300] = "div11";
+//screens[330] = "div12";
+
+
+
+var looper;
+var degrees = 0;
+var el="img1";
+var max=0;
+var speed=1;
+var run=true;
+
+function rotateMenu(){
+	document.getElementById(screens[max]).style.display="none";
+	max+=45;
+	run=true;
+	rotateAnimation();
+	document.getElementById(screens[max]).style.display="block";
+}
+
+function rotateAnimation(){
+	
+	if (run==true) {
+	
+	
+	var elem = document.getElementById("img1");
+	if(navigator.userAgent.match("Chrome")){
+		elem.style.WebkitTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("Firefox")){
+		elem.style.MozTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("MSIE")){
+		elem.style.msTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("Opera")){
+		elem.style.OTransform = "rotate("+degrees+"deg)";
+	} else {
+		elem.style.transform = "rotate("+degrees+"deg)";
+	}
+	looper = setTimeout('rotateAnimation(\''+el+'\','+speed+')',speed);
+	degrees++;
+	
+	if (degrees> max) {
+	  run=false;		
+	}
+	
+	if(degrees > 359){
+		degrees = 0;
+		max=0;
+	}
+	document.getElementById("status").innerHTML = "rotate("+degrees+"deg)";
+	
+	}
+}
+</script>
+</head>
+<body>
+
+<div id="spinMenu">
+
+<img id="img1" src="nav/Wheel_Data.gif" alt="cog1" style="z-index:100;position:absolute;top:200;left:20">
+
+</div>
+
+<h2 style="width:200px;" id="status"></h2>
+</body>  
+</html>
+
+<script>
+document.getElementById("spinMenu").onclick=rotateMenu;
+</script>
+
+<style>
+.mainMenuBlock {
+	z-index:3; 
+	position:absolute;
+	top:105;
+	left:303;  
+	width:700; 
+	height:210;
+	padding-left:40px; 
+	padding-top:10px;
+}
+</style>
+
+<div id="dt" style="z-index:300; top:250; left:150; position:absolute;border:1px solid red; width:50;"><img src="nav/Web_Data.gif"/></div>
+
+
+
+<div id="div1"  class="mainMenuBlock" style=" background-color:blue;">
+<table border="0" width="100%" style="color:white;">
+
+<tr>
+	<td><img src="nav/Web_Data.gif"/></td>
+	<td style="font-size:30px;">Data</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td>GENES</td>
+	<td>&nbsp;</td>
+	<td>MAPS</td>
+	<td>&nbsp;</td>
+	<td>MARKERS</td>
+	<td>&nbsp;</td>
+	<td>ONTOLOGIES</td>
+</tr>	
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td>QTLS</td>
+	<td>&nbsp;</td>
+	<td>REFERENCES</td>
+	<td>&nbsp;</td>
+	<td>SEQUENCES</td>
+	<td>&nbsp;</td>
+	<td>STRAINS</td>
+</tr>	
+<tr>
+	<td colspan="7" align="right">SEE MORE...</td>
+</tr>
+
+</table>
+</div>
+<div id="div2"  class="mainMenuBlock" style="background-color:red;">
+<table border="0" width="100%" style="color:white;">
+
+<tr>
+	<td style="font-size:30px;">Genome Tools</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td>RAT GENOME BROWSERS</td>
+	<td>&nbsp;</td>
+	<td>GENE ANNOTATOR</td>
+	<td>&nbsp;</td>
+	<td>VARIANT VISUALIZER</td>
+	<td>&nbsp;</td>
+	<td>GENOME VIEWER</td>
+</tr>	
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td colspan=7>OLGA - OBJECT LIST GENERATOR</td>
+</tr>	
+<tr>
+	<td colspan="7" align="right">SEE MORE...</td>
+</tr>
+
+</table>
+</div>
+
+
+<div id="div3"  class="mainMenuBlock" style="background-color:orange;">hello</div>
+<div id="div4"  class="mainMenuBlock" style="background-color:green;">hello</div>
+<div id="div5"  class="mainMenuBlock" style="background-color:gray;">hello</div>
+<div id="div6"  class="mainMenuBlock" style="background-color:purple;">hello</div>
+<div id="div7"  class="mainMenuBlock" style="background-color:red;">hello</div>
+<div id="div8"  class="mainMenuBlock" style="background-color:orange;">hello</div>
+<div id="div9"  class="mainMenuBlock" style="background-color:green;">hello</div>
+<div id="div10" style="background-color:blue;">hello</div>
+<div id="div11" style="background-color:orange;">hello</div>
+<div id="div12" style="background-color:blue;">hello</div>
+
+
+
+<script>
+
+document.getElementById("div2").style.display="none";
+document.getElementById("div3").style.display="none";
+document.getElementById("div4").style.display="none";
+document.getElementById("div5").style.display="none";
+document.getElementById("div6").style.display="none";
+document.getElementById("div7").style.display="none";
+document.getElementById("div8").style.display="none";
+document.getElementById("div9").style.display="none";
+document.getElementById("div10").style.display="none";
+document.getElementById("div11").style.display="none";
+document.getElementById("div12").style.display="none";
+</script>
+
+

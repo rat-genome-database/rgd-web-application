@@ -1,0 +1,178 @@
+#titleDivWrapper{
+    width:100%;
+    height:50px;
+    background:white; /* For browsers that do not support gradients */
+   /* background: -webkit-linear-gradient(#e0eafc, #cfdef3); /* For Safari 5.1 to 6.0 */
+  /*  background: -o-linear-gradient(#e0eafc, #cfdef3); /* For Opera 11.1 to 12.0 */
+  /*  background: -moz-linear-gradient(#e0eafc, #cfdef3); /* For Firefox 3.6 to 15 */
+  /*  background:linear-gradient(#e0eafc, #cfdef3);
+    /* Standard syntax */
+ /* background-image: url(../../images/genome3.png);*/
+  /*  background-image:url("../../images/genome2.png"), linear-gradient(dodgerblue, white);*/
+}
+#title{
+    padding:20px
+}
+#subHead{
+    background-image:url('../../images/genome1.png')
+}
+#Rat{
+    width:25%;;top:10px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#Human{
+    width:25%;margin-left:26%;top:10px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#Mouse {
+    width: 25%;
+    height:400px;
+    margin-left: 52%;
+    top: 10px;
+    position:absolute;
+    display:inline-block;
+}
+#Chinchilla{
+    width:25%;margin-left:78%;top:10px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#Dog{
+    width:25%;margin-left:35%;top:450px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#Bonobo {
+    width: 25%;
+    height:400px;
+    margin-left: 64%;
+    top: 450px;
+    position:absolute;
+    display:inline-block;
+}
+#Squirrel{
+    width:25%;margin-left:7%;top:450px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#wrapper{
+    position:relative;
+    width:100%;
+    height:1000px;
+
+}
+
+/*******************************************************************/
+body {
+    font: 10px sans-serif;
+}
+#chart {
+    height: 360px;
+    position: relative;
+    width: 360px;
+}
+/*   .arc path {
+       stroke: #fff;
+   }
+
+   text {
+       text-rendering: optimize-legibility;
+       color:white
+   }
+*/
+.bar {
+    fill: orange;
+}
+
+.bar:hover {
+    fill: dodgerblue;
+}
+
+.axis--x path {
+    display: none;
+}
+.column{
+    column-count: 2;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    width:600px;
+    height:600px;
+}
+.genome tr:hover{
+    background-color:#f4f4f4;
+}
+
+.borderless td, .borderless th {
+    padding:5px;
+}
+.label{
+    text-align: left;
+    color:grey;
+    background-color: transparent;
+}
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+th.rotate {
+    /* Something you can count on */
+    height: 140px;
+    white-space: nowrap;
+}
+
+th.rotate > div {
+    transform:
+        /* Magic Numbers */
+            translate(25px, 51px)
+                /* 45 is really 360 - 45 */
+            rotate(315deg);
+    width: 30px;
+}
+th.rotate > div > span {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+}
+.vc:nth-child(odd){background-color:lightpink}
+.vc:nth-child(even){background-color:lightblue}
+.vcRow{
+    padding:5px
+}
+.vc{
+    padding:5px;
+}
+.row-header{
+    font-size:small;
+    font-weight:100;
+    padding:5px
+}

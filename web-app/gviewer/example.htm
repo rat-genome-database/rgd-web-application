@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
+    // ================================================================
+    //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
+    //  Copyright 2005-2007 Kawasaki Yusuke <u-suke@kawa.net>
+    //  http://www.kawa.net/works/js/jkl/parsexml.html
+    // ================================================================
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
+    /***********************************************
+    * DHTML Window script- © Dynamic Drive (http://www.dynamicdrive.com)
+    * This notice MUST stay intact for legal use
+    * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+    ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
+    /***********************************************
+    * Context Menu script- © Dynamic Drive (http://www.dynamicdrive.com)
+    * This notice MUST stay intact for legal use
+    * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+    ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
+    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
+    <script>
+    window.onload = function() {
+        var gviewer = new Gviewer("gviewer", 200, 750 );
+	  gviewer.loadBands("data/rgd_rat_ideo.xml");
+        gviewer.loadAnnotations("data/hypertension.xml");
+        gviewer.addZoomPane("zoomWrapper", 250, 750);
+    }
+    </script>
+</head>
+
+<body>
+
+<div id="gviewer" class="gviewer"></div>
+<div id="zoomWrapper" class="zoom-pane"></div>
+
+<script>
+    //var gviewer2 = new Gviewer("gviewer2", 200, 700 );
+    //gviewer2.loadBands("data/celegans_ideo.xml");
+    //gviewer2.loadAnnotations("data/worm_framework.xml");
+    //gviewer2.addZoomPane("zoomWrapper2", 250, 700);
+
+</script>
+
+</body>
+</html>
+

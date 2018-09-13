@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>search</shortname>
+    <uri>http://rgd.mcw.edu/taglibs/search</uri>
+	<info>RGD Search tag library</info>
+
+  <tag>
+    <name>matrix</name>
+    <tagclass>edu.mcw.rgd.search.MatrixRow</tagclass>
+  <!--Body content can have a value of
+  	 empty: no body
+      JSP: body that is evaluated by container, then possibly processed by the tag
+      tagdependent: body is only processed by tag; JSP in body is not evaluated.
+   -->
+   <!-- <bodycontent>empty</bodycontent>-->
+    <info>
+	This is a simple hello tag.
+    </info>
+  <!-- Optional attributes  -->
+  <attribute>
+      <name>title</name>
+      <required>true</required>
+  </attribute>
+  <attribute>
+      <name>counts</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+      <name>view</name>
+       <required>true</required>
+  </attribute>
+      <attribute>
+          <name>term</name>
+           <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+</tag>
+    <tag>
+      <name>summary</name>
+      <tagclass>edu.mcw.rgd.search.SearchSummary</tagclass>
+    <!--Body content can have a value of
+         empty: no body
+        JSP: body that is evaluated by container, then possibly processed by the tag
+        tagdependent: body is only processed by tag; JSP in body is not evaluated.
+     -->
+     <!-- <bodycontent>empty</bodycontent>-->
+      <info>
+      This is a simple hello tag.
+      </info>
+    <!-- Optional attributes  -->
+    <attribute>
+        <name>title</name>
+        <required>true</required>
+    </attribute>
+    <attribute>
+        <name>counts</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>view</name>
+         <required>true</required>
+    </attribute>
+        <attribute>
+            <name>term</name>
+             <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>showDetails</name>
+             <required>false</required>
+        </attribute>
+  </tag>
+</taglib>
