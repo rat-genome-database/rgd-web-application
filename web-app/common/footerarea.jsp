@@ -29,6 +29,7 @@
 </table>
 
 <div id="copyright">
+    <p><a href="https://creativecommons.org/licenses/by/4.0/">License CC BY 4.0</a></p>
     <p>&copy; <a href="http://www.mcw.edu/">Medical
         College of Wisconsin</a></p>
     <p><a href="/wg/home/disclaimer">Legal Disclaimer</a></p>
