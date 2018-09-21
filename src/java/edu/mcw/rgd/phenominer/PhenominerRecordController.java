@@ -315,7 +315,7 @@ public class PhenominerRecordController extends PhenominerController {
             rec.append(r.getSample().getSex());
 
             List<Condition> conditions =
-                    dao!=null ? dao.getConditions(r.getConditionGroupId()) : r.getConditions();
+                    dao!=null ? dao.getConditions(r.getId()) : r.getConditions();
 
             for (Condition cond : conditions) {
                 try {
