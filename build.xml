@@ -101,7 +101,7 @@
     </target>
 
     <target name="buildCurationNoJavaDoc" depends="prepare" description="Build curation without running javadoc">
-        <javac destdir="${build.dir}" target="1.7" source="1.7" debug="true"
+        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
