@@ -50,7 +50,7 @@
 
     <!-- Compile all of our class files -->
     <target name="build" depends="prepare" description="Compile main source tree java files and build war file">
-        <javac destdir="${build.dir}" target="1.7" source="1.7" debug="true"
+        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
