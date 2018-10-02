@@ -62,11 +62,11 @@ public class QueryService1 {
                    }else{
                        sortField="mapDataList."+sortBy;
                        if (sortOrder.equalsIgnoreCase("asc")) {
-                           System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                         //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
                            srb .addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
                                   );
                        } else {
-                           System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                        //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
                            srb .addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
                        }
                    }
@@ -87,8 +87,8 @@ public class QueryService1 {
                     .highlighter(this.buildHighlights())
                     .setFrom(from)
                     .setSize(size);
-            System.out.println("trait: "+ trait);
-            System.out.println("type:"+ type);
+           // System.out.println("trait: "+ trait);
+          //  System.out.println("type:"+ type);
           if(!Objects.equals(species, "") &&  !category.equalsIgnoreCase("general") ) {
               if(type!=null && !Objects.equals(type, "")) {
                   if (!Objects.equals(type, "null")) {
@@ -110,7 +110,7 @@ public class QueryService1 {
               }
               if (!category.equalsIgnoreCase("general")) {
                   if(category.equalsIgnoreCase(("Ontology"))){
-                      System.out.println("SUBCAT INSIDE: " + subCat);
+                 //     System.out.println("SUBCAT INSIDE: " + subCat);
                       if(subCat!=null && subCat!="") {
                           srb.setPostFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)).filter(QueryBuilders.termQuery("subcat.keyword", subCat))));
                       }else{
@@ -230,7 +230,7 @@ public class QueryService1 {
               .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
               .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
-              .add(QueryBuilders.prefixQuery("symbol.symbol", term))
+             // .add(QueryBuilders.prefixQuery("symbol.symbol", term))
              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
      
 
@@ -252,7 +252,7 @@ public class QueryService1 {
 
            .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
            .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-           .add(QueryBuilders.prefixQuery("term.term", term))
+       //    .add(QueryBuilders.prefixQuery("term.term", term))
            .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
            .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
 
