@@ -2,16 +2,15 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
-import org.elasticsearch.search.aggregations.bucket.nested.Nested;
+
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +23,6 @@ public class SearchService {
 
     public ModelMap getResultsMap(SearchResponse sr, String term, String cat1, String sp1, int postCount ) throws IOException {
         ModelMap model= new ModelMap();
-
 
         String scrollId= sr.getScrollId();
 
@@ -100,14 +98,16 @@ public class SearchService {
            Filter chromosomeAgg;
         long totalTerms = 0;
         int nvCount=0;
-        if(sr!=null) {
+    //    if(sr!=null) {
             if (sr.getAggregations() != null) {
                 speciesAgg = sr.getAggregations().get("species");
-                System.out.println("speciesBKTs size:"+speciesAgg.getBuckets().size());
+             //   System.out.println("speciesBKTs size:"+speciesAgg.getBuckets().size());
                 speciesBkts.addAll(speciesAgg.getBuckets());
 
                 categoryAgg = sr.getAggregations().get("category");
-                categoryBks.addAll(categoryAgg.getBuckets());
+                List<Terms.Bucket> catBuckets=categoryAgg.getBuckets();
+                System.out.println("CAT BUCKETS SIZE:"+catBuckets.size());
+                categoryBks.addAll(catBuckets);
 
                for(Terms.Bucket speciesBkt:speciesBkts){
                Terms catFilterAgg= speciesBkt.getAggregations().get("categoryFilter");
@@ -254,10 +254,11 @@ public class SearchService {
                    }
                }
                 chromosomeAgg=sr.getAggregations().get("chromosome");
-                if(chromosomeAgg!=null)
-                System.out.println("CHROMOSOME AGG:"+chromosomeAgg.getDocCount());
+             /*   if(chromosomeAgg!=null)
+                System.out.println("CHROMOSOME AGG:"+chromosomeAgg.getDocCount());*/
 
-                for (Terms.Bucket bucket : categoryAgg.getBuckets()) {
+         //      for (Terms.Bucket bucket : categoryAgg.getBuckets()) {
+                   for (Terms.Bucket bucket :categoryBks) {
 
                     String bucketType = bucket.getKey().toString();
                     String bType = new String();
@@ -293,7 +294,7 @@ public class SearchService {
 
                         switch (bType) {
                             case "Gene":
-                                String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
+                         //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
                                 speciesCatArray[0][8] = String.valueOf(bucket.getDocCount()) ;
                                 break;
@@ -309,7 +310,7 @@ public class SearchService {
                             case "QTL":
                                 speciesCatArray[2][k] =  String.valueOf(b.getDocCount());
                                 speciesCatArray[2][8] =  String.valueOf(bucket.getDocCount()) ;
-                                System.out.println(key + " : "+ b.getDocCount());
+                              //  System.out.println(key + " : "+ b.getDocCount());
                                 break;
                             case "SSLP":
                                 speciesCatArray[3][k] = String.valueOf(b.getDocCount());
@@ -335,7 +336,7 @@ public class SearchService {
              for (int j = 0; j < 7; j++) {
 
                     for (int l = 0; l < 9; l++) {
-                        if (speciesCatArray[j][l] == null || speciesCatArray[j][l] == "") {
+                        if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
                             nvCount=nvCount+1;
                             speciesCatArray[j][l] = "-";
                         }
@@ -350,8 +351,9 @@ public class SearchService {
            totalHits = sr.getHits().getTotalHits();
             searchHits.add(sr.getHits().getHits());
 
-        }
+  //      }
         int matrixResultsExists=0;
+
         if(nvCount<56){
           matrixResultsExists=1;
         }
@@ -422,7 +424,7 @@ public class SearchService {
         model.addAttribute("ontologyTermCount", totalTerms);
         model.addAttribute("scrollId", scrollId);
         model.addAttribute("took", sr.getTookInMillis());
-        System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTookInMillis() + " || "+ sr.getTotalShards());
+     //   System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTookInMillis() + " || "+ sr.getTotalShards());
         return model;
     }
     public SearchResponse getSearchResponse(String term, String category, String species, String type, String subCat,int  currentPage, int pagesize, boolean page,String sortOrder, String sortBy, String assembly, String trait, String start, String stop, String chr)  {
