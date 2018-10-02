@@ -1,0 +1,67 @@
+function getPhenotypeSelectedOptions(){
+    cmo=$('#cmoId').val();
+    traitOntId=$('#trait').val();
+    phenotypestrains=$('.phenotypestrains:checked').map(function () {
+        return this.value;
+    }).get().join(",");
+    phenotypeage=$('.phenotypeage:checked').map(function () {
+        return this.value;
+    }).get().join(",");
+    phenotypesex=$('.phenotypesex:checked').map(function () {
+        return this.value;
+    }).get().join(",");
+    phenotypemethods=$('.phenotypemethods:checked').map(function () {
+        return this.value;
+    }).get().join(",");
+}
+function getPhenotypeRangeData() {
+    var $url="/rgdweb/phenominer/phenominerExpectedRanges/views/selectedOptions.html?phenotypestrains="+phenotypestrains+"&phenotypeage="+phenotypeage+"&phenotypesex="+phenotypesex+"&cmo="+cmo+"&trait="+traitOntId+
+        "&methods="+ phenotypemethods;
+   console.log($url);
+    $.get($url, function (data, status) {
+        $('#mainContent').html(data);
+    })
+
+}
+
+function toggle(_this, groupClass){
+    if(_this.checked){
+        $('.'+groupClass).prop("checked", true);
+
+    }
+
+    else{
+        $('.'+groupClass).prop("checked", false);
+    }
+}
+$(function () {
+
+        $("#erPhenotypesSelect").on('change', function () {
+            var phenotype=this.value;
+            $("#cmoId").val(phenotype);
+            $("#erPhenotypesSelectForm").submit();
+        });
+        $('.phenotypeconditions').attr("disabled", true);
+
+    $("input[name='phenotypestrains']").on('click', function () {
+        var checked=$(this).val();
+        getPhenotypeSelectedOptions();
+        getPhenotypeRangeData();
+    });
+    $("input[name='phenotypeage']").on('click', function () {
+        var checked=$(this).val();
+        getPhenotypeSelectedOptions();
+        getPhenotypeRangeData();
+    });
+    $("input[name='phenotypesex']").on('click', function () {
+        var checked=$(this).val();
+        getPhenotypeSelectedOptions();
+       getPhenotypeRangeData();
+    });
+    $("input[name='phenotypemethods']").on('click', function () {
+        var checked=$(this).val();
+        getPhenotypeSelectedOptions();
+        getPhenotypeRangeData();
+       
+    });
+});
