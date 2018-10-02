@@ -127,7 +127,7 @@ public class AutocompleteController implements Controller {
                     case "General":
 
                         dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(100));
-                        dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
+                      //  dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
                         dqb.add(QueryBuilders.termQuery("symbol", term).boost(10));
                         dqb.add(QueryBuilders.termQuery("symbol.ngram",term));
 
@@ -156,14 +156,14 @@ public class AutocompleteController implements Controller {
                         break;
                     case "Strain":
                         dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(100));
-                        dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
+                    //    dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
                         dqb.add(QueryBuilders.termQuery("symbol", term).boost(10));
                         dqb.add(QueryBuilders.termQuery("symbol.ngram",term));
                         break;
                     default:
 
                         dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(100));
-                        dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
+                    //    dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
                         dqb.add(QueryBuilders.termQuery("symbol", term).boost(10));
                         dqb.add(QueryBuilders.termQuery("symbol.ngram",term));
                         break;

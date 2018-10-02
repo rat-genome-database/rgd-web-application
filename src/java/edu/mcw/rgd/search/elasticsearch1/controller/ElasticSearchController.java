@@ -145,15 +145,16 @@ public class ElasticSearchController implements Controller {
         if (redirUrl != null) {
             response.sendRedirect(redirUrl);
             return null;
-        }
+        }else{
            int defaultPageSize=(size>0)?size:50;
            SearchResponse sr=service.getSearchResponse(term,  category, species, type, subCat, currentPage, size, page, sortOrder, sortBy, assembly, trait, start, stop, chr);
 
            int totalPages= (int) ((sr.getHits().getTotalHits()/defaultPageSize)) + (((int) (sr.getHits().getTotalHits())%defaultPageSize>0)?1:0);
-            model.putAll(service.getResultsMap(sr,term, cat1, sp1, postCount));
+            if(sr!=null){
+                ModelMap resultsMap=service.getResultsMap(sr,term, cat1, sp1, postCount);
+                model.putAll(resultsMap);
+            }
             model.put("viewall", viewAll);
-
-           
             model.put("qtlTrait", trait);
             model.put("filterOption", type);
             model.put("subCat", subCat);
@@ -199,6 +200,8 @@ public class ElasticSearchController implements Controller {
         }}
 
         return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
+        }
+          return null;
 
     }
 
