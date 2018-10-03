@@ -38,23 +38,25 @@
                 <div style="width:50%;">
                     <table class="table" style="width:90%">
                         <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strain Group</td><td>
-                            <form id="erStrainsSelectForm" action="strain.html">
-                                <input type="hidden" name="trait" id="trait" value="${model.traitOntId}"/>
-                                <input type="hidden" name="strainGroupId" id="strainGroupId" value="${model.strainGroupId}"/>
-                                <select id="erStrainSelect" class="form-control form-control-sm " >
-                                    <c:forEach items="${model.strainObjects}" var="item">
-                                        <c:choose>
-                                            <c:when test="${model.strainGroup==item.strainGroupName}">
-                                                <option value="${item.strainGroupId}" selected>${item.strainGroupName}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${item.strainGroupId}">${item.strainGroupName}</option>
-                                            </c:otherwise>
-                                        </c:choose>
 
-                                    </c:forEach>
-                                </select>
-                            </form>
+                    <form id="erStrainsSelectForm" action="strain.html">
+                        <input type="hidden" name="trait" id="trait" value="${model.traitOntId}"/>
+                        <input type="hidden" name="strainGroupId" id="strainGroupId" value="${model.strainGroupId}"/>
+                        <select id="erStrainSelect" class="form-control form-control-sm " >
+                            <c:forEach items="${model.strainObjects}" var="item">
+                                <c:choose>
+                                    <c:when test="${model.strainGroup==item.strainGroupName}">
+                                        <option value="${item.strainGroupId}" selected>${item.strainGroupName}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${item.strainGroupId}">${item.strainGroupName}</option>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </c:forEach>
+                        </select>
+                    </form>
+
                         </td></tr>
                         <c:if test="${model.trait!=null && model.trait!=''}"><tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td><td style="text-transform: capitalize">${model.trait}</td></c:if></tr>
                         <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains Type</td><td>Inbred </td></tr>
@@ -105,7 +107,9 @@
 
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    <span style="text-transform: capitalize;"><input class="rangephenotypes" type="radio" name="phenotypes" value="${p.value}">&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=${p.value}" >${p.key}</a></span>
+
+                                                            <span style="text-transform: capitalize;"><input class="rangephenotypes" type="radio" name="phenotypes" value="${p.value}">&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=${p.value}" >${p.key}</a></span>
+
                                                                 </c:otherwise>
                                                             </c:choose>
 
@@ -126,9 +130,11 @@
                                                                    <c:when test="${model.initialPlotPhenotype==p.key}">
                                                                         <span style="text-transform: capitalize;"><input class="rangephenotypes" type="radio" name="phenotypes" value="${p.value}" checked>&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=${p.value}" >${p.key}</a></span>
 
+                                                                      
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <span style="text-transform: capitalize;"><input class="rangephenotypes" type="radio" name="phenotypes" value="${p.value}">&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=${p.value}" >${p.key}</a></span>
+                                                                <span style="text-transform: capitalize;"><input class="rangephenotypes" type="radio" name="phenotypes" value="${p.value}">&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=${p.value}" >${p.key}</a></span>
+
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </td>

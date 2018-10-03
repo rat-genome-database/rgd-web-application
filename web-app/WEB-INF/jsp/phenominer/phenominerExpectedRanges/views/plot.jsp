@@ -2,27 +2,31 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div>
 <div>Display Normal Ranges:
-<c:if test="${model.phenotypeObject.normalAll!=null}">
-    <input type="hidden" id="normalLow" value="${model.phenotypeObject.normalAll.rangeLow}"/>
-    <input type="hidden" id="normalHigh" value="${model.phenotypeObject.normalAll.rangeHigh}"/>
+
+<c:if test="${model.normalAll!=null}">
+    <input type="hidden" id="normalLow" value="${model.normalAll.rangeLow}"/>
+    <input type="hidden" id="normalHigh" value="${model.normalAll.rangeHigh}"/>
     <input type="radio" class="normalRadio" name="normal" value="Both" checked>&nbsp;&nbsp;<span title="All Ages and All Sex">Normal All</span>&nbsp;&nbsp;
     </c:if>
-    <c:if test="${model.phenotypeObject.normalMale!=null}">
-       <input type="hidden" id="normalMaleLow" value="${model.phenotypeObject.normalMale.rangeLow}"/>
-        <input type="hidden" id="normalMaleHigh" value="${model.phenotypeObject.normalMale.rangeHigh}"/>
+    <c:if test="${model.normalMale!=null}">
+       <input type="hidden" id="normalMaleLow" value="${model.normalMale.rangeLow}"/>
+        <input type="hidden" id="normalMaleHigh" value="${model.normalMale.rangeHigh}"/>
 
     <input type="radio" class="normalRadio" name="normal" value="Male">&nbsp;&nbsp;<span title="Male - All ages">Normal Male</span>&nbsp;&nbsp;
     </c:if>
-    <c:if test="${model.phenotypeObject.normalFemale!=null}">
-        <input type="hidden" id="normalFemaleLow" value="${model.phenotypeObject.normalFemale.rangeLow}"/>
-        <input type="hidden" id="normalFemaleHigh" value="${model.phenotypeObject.normalFemale.rangeHigh}"/>
+    <c:if test="${model.normalFemale!=null}">
+        <input type="hidden" id="normalFemaleLow" value="${model.normalFemale.rangeLow}"/>
+        <input type="hidden" id="normalFemaleHigh" value="${model.normalFemale.rangeHigh}"/>
+
 
     <input type="radio" class="normalRadio" name="normal" value="Female">&nbsp;&nbsp;<span title="Female - All Ages">Normal Female</span>&nbsp;&nbsp;
         </c:if>
 <c:choose>
 
 
-<c:when test="${model.phenotypeObject.normalAll==null && model.phenotypeObject.normalMale==null && model.phenotypeObject.normalFemale==null}">
+
+<c:when test="${model.normalAll==null && model.normalMale==null && model.normalFemale==null}">
+
     <span style="color:red">Not available</span>
 </c:when>
     <c:otherwise>
@@ -37,19 +41,21 @@
 </div>
 
 <br>Normal Ranges:
-<c:if test="${model.phenotypeObject.normalAll!=null}">
-    <span style="font-weight: bold;color:red;font-size: small">LOW:</span><strong>${model.phenotypeObject.normalAll.rangeLow}</strong>
-    <span style="font-weight: bold;color:red;font-size: small">HIGH: </span><strong>${model.phenotypeObject.normalAll.rangeHigh}</strong>
+
+<c:if test="${model.normalAll!=null}">
+    <span style="font-weight: bold;color:red;font-size: small">LOW:</span><strong>${model.normalAll.rangeLow}</strong>
+    <span style="font-weight: bold;color:red;font-size: small">HIGH: </span><strong>${model.normalAll.rangeHigh}</strong>
 </c:if>
 
 
-<c:if test="${model.phenotypeObject.normalMale!=null}">
-<span style="font-weight: bold;color:blue;font-size: small">MALE LOW:</span><strong>${model.phenotypeObject.normalMale.rangeLow}</strong>
+<c:if test="${model.normalMale!=null}">
+<span style="font-weight: bold;color:blue;font-size: small">MALE LOW:</span><strong>${model.normalMale.rangeLow}</strong>
 <span style="font-weight: bold;color:blue;font-size: small">MALE HIGH:</span><strong>${model.phenotypeObject.normalMale.rangeHigh}</strong>
     </c:if>
-<c:if test="${model.phenotypeObject.normalFemale!=null}">
-<span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE LOW:</span><strong>${model.phenotypeObject.normalFemale.rangeLow}</strong>
-<span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE HIGH:</span><strong>${model.phenotypeObject.normalFemale.rangeHigh}</strong>
+<c:if test="${model.normalFemale!=null}">
+<span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE LOW:</span><strong>${model.normalFemale.rangeLow}</strong>
+<span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE HIGH:</span><strong>${model.normalFemale.rangeHigh}</strong>
+
    </c:if>
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

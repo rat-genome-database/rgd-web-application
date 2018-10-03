@@ -80,7 +80,9 @@
                                     </c:when>
                                         <c:otherwise>
                                             <tr><td colspan="7" style="background: lightskyblue;text-align: center" ><span style="text-transform: capitalize;font-weight: bold">${item.key.term}</span></td></tr>
-                                       </c:otherwise>
+
+                                        </c:otherwise>
+
                                     </c:choose>
                                     <c:forEach items="${item.value}" var="i">
                                         <c:choose>
@@ -91,10 +93,12 @@
                                                 <c:set var="traitExists" value="false"/>
                                             </c:otherwise>
                                         </c:choose>
-                                     <tr>
+
+                                        <tr>
                                             <td><span style="text-transform: capitalize">
                                                 <c:forEach items="${i.traits}" var="t">
-                                                   ${t.term}<br>
+                                                    ${t.term}<br>
+
                                                 </c:forEach>
                                             </span></td>
                                             <td><span style="text-transform: capitalize"><a href="selectedMeasurement.html?cmoId=${i.clinicalMeasurementOntId}&trait=${model.traitOntId}&traitExists=${traitExists}" style="cursor: hand;color:#006dba" title="Click to view measurement data">${i.clinicalMeasurement}</a></span></td>

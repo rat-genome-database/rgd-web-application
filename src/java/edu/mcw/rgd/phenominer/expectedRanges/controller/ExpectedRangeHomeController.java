@@ -32,7 +32,9 @@ public class ExpectedRangeHomeController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
        ExpectedRangeProcess process = new ExpectedRangeProcess();
 
-       OntologyXDAO xdao = new OntologyXDAO();
+
+        OntologyXDAO xdao = new OntologyXDAO();
+
 
        ModelMap model = new ModelMap();
        String traitOntId = request.getParameter("trait"); // if selected trait facet
@@ -41,12 +43,13 @@ public class ExpectedRangeHomeController implements Controller {
 
        if (traitOntId != null && !traitOntId.equals("") && !traitOntId.equalsIgnoreCase("pga")) trait = xdao.getTerm(traitOntId).getTerm();
        if (traitOntId != null && traitOntId.equalsIgnoreCase("pga")) isPGA = true;
-       if(traitOntId != null && traitOntId.equals("")){
+
+       if(traitOntId != null &&traitOntId.equals("")){
            traitOntId=null;
        }
-      List<String> phenotypes = process.getPhenotypesByAncestorTrait(traitOntId);
-  //  List<String> phenotypes =new ArrayList<>(Arrays.asList("CMO:0001556"));
-//     List<String> phenotypes =new ArrayList<>(Arrays.asList("CMO:0000132"));
+     List<String> phenotypes = process.getPhenotypesByAncestorTrait(traitOntId);
+   //    List<String> phenotypes =new ArrayList<>(Arrays.asList("CMO:0001556"));
+
        Map<String, String> tMap = process.getDistinctExpectedRangeTraits();
        Map<List<Term>, List<PhenotypeObject>> objectsNTraits;
        List<PhenotypeObject> overallObjects = new ArrayList<>();
@@ -98,8 +101,10 @@ public class ExpectedRangeHomeController implements Controller {
         HttpSession session= request.getSession();
         session.setAttribute("phenotypes",overallObjects);
         session.setAttribute("strainObjects", strainObjects);
-       Map<Term, List<PhenotypeObject>> traitSubtraitMap= process.getTraitSubtraitMap(distinctTraits, overallObjects);
-       System.out.println("TRAIT SUBTRAIT SIZE:"+traitSubtraitMap.size());
+
+        Map<Term, List<PhenotypeObject>> traitSubtraitMap= process.getTraitSubtraitMap(distinctTraits, overallObjects);
+      //  System.out.println("TRAIT SUBTRAIT SIZE:"+traitSubtraitMap.size());
+
         model.addAttribute("traitSubtraitMap",traitSubtraitMap);
         model.addAttribute("counts", overallObjects);
         model.addAttribute("traitOntId", traitOntId);

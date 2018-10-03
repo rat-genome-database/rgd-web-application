@@ -39,6 +39,9 @@
                             </td>
 
                             <td>
+
+
+
                                 <c:forEach items="${item.strains}" var="s">
                                     <c:if test="${s.getAccId()!=null && s.getAccId()!=''}">
                                         <c:set var="href" value="${href}${s.getAccId()},"/>
