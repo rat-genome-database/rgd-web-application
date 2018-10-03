@@ -1,3 +1,4 @@
+
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
@@ -251,15 +252,6 @@
         <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
     <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
 
-
- <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
-    <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
-    <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
-        <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
-    <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
-
-
-
 <bean id="wwwDir" abstract="true">
     <property name="uploadingDir" value="/rgd/data/pathway/inputFolder/"/><!-- directory where the uploaded files will be stored-->
     <property name="dataDir" value="/rgd/data/pathway/outputCache/"/>
@@ -485,3 +477,4 @@
     <bean id="TreeXmlController" class="edu.mcw.rgd.phenominer.frontend.TreeXmlController"/>
 
     </beans>
+
