@@ -2,6 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div>
 <div>Display Normal Ranges:
+
 <c:if test="${model.normalAll!=null}">
     <input type="hidden" id="normalLow" value="${model.normalAll.rangeLow}"/>
     <input type="hidden" id="normalHigh" value="${model.normalAll.rangeHigh}"/>
@@ -17,12 +18,15 @@
         <input type="hidden" id="normalFemaleLow" value="${model.normalFemale.rangeLow}"/>
         <input type="hidden" id="normalFemaleHigh" value="${model.normalFemale.rangeHigh}"/>
 
+
     <input type="radio" class="normalRadio" name="normal" value="Female">&nbsp;&nbsp;<span title="Female - All Ages">Normal Female</span>&nbsp;&nbsp;
         </c:if>
 <c:choose>
 
 
+
 <c:when test="${model.normalAll==null && model.normalMale==null && model.normalFemale==null}">
+
     <span style="color:red">Not available</span>
 </c:when>
     <c:otherwise>
@@ -37,6 +41,7 @@
 </div>
 
 <br>Normal Ranges:
+
 <c:if test="${model.normalAll!=null}">
     <span style="font-weight: bold;color:red;font-size: small">LOW:</span><strong>${model.normalAll.rangeLow}</strong>
     <span style="font-weight: bold;color:red;font-size: small">HIGH: </span><strong>${model.normalAll.rangeHigh}</strong>
@@ -50,6 +55,7 @@
 <c:if test="${model.normalFemale!=null}">
 <span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE LOW:</span><strong>${model.normalFemale.rangeLow}</strong>
 <span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE HIGH:</span><strong>${model.normalFemale.rangeHigh}</strong>
+
    </c:if>
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
