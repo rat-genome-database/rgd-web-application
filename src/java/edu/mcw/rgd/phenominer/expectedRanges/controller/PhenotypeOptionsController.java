@@ -40,7 +40,6 @@ public class PhenotypeOptionsController implements Controller {
         boolean isPGA=false;
         if(traitOntId==null){
             isPGA=true;
-
         }
 
         List<Integer> selectedStrains= new ArrayList<>();
@@ -87,6 +86,9 @@ public class PhenotypeOptionsController implements Controller {
         }
 
         List<PhenominerExpectedRange> records=dao.getExpectedRanges(cmoIds, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA, null);
+
+        System.out.println("RECORDS SIZE: " +records.size());
+
 
         model.addAttribute("plotData",  process.getPlotData(records,"phenotype"));
         model.addAttribute("records", process.addExtraAttributes(records));
