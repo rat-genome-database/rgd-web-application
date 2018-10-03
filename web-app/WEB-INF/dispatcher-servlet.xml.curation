@@ -242,11 +242,7 @@
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
     <bean id="phenominerERSelectedPhenotypeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedPhenotypeController"/>
 
- <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
-    <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
-    <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
-        <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
-    <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
+
 
 
 
