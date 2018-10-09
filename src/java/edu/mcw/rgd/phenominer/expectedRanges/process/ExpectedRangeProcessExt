@@ -1,0 +1,97 @@
+package edu.mcw.rgd.phenominer.expectedRanges.process;
+
+import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
+import edu.mcw.rgd.dao.impl.PhenominerStrainGroupDao;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
+import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
+import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenotypeObject;
+import edu.mcw.rgd.datamodel.phenominerExpectedRange.TraitObject;
+
+import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
+
+import java.util.*;
+
+/**
+ * Created by jthota on 6/7/2018.
+ */
+public class ExpectedRangeProcessExt extends ExpectedRangeProcess {
+    PhenominerStrainGroupDao sdao= new PhenominerStrainGroupDao();
+    PhenominerDAO pdao= new PhenominerDAO();
+    PhenominerExpectedRangeDao dao=new PhenominerExpectedRangeDao();
+
+    public Map<List<Term>, List<PhenotypeObject>> getOverAllObjectsNDistinctTraits(List<String> phenotypes, String traitOntId, boolean isPGA) throws Exception {
+        List<Term> distinctTraits=new ArrayList<>();
+        List<PhenotypeObject> overallObjects=new ArrayList<>();
+        Map<List<Term>, List<PhenotypeObject>> objectsNDistinctTraits=new HashMap<>();
+
+        for (String p : phenotypes) {
+            List<PhenominerExpectedRange> records= new ArrayList<>();
+            List<TraitObject> phenoTraits = getPhenotypeTraitParents(p, traitOntId);
+            if (phenoTraits.size() > 0) {
+
+                for (TraitObject t : phenoTraits) {
+                    if (t != null) {
+                        records = dao.getExpectedRangesByParentTrait(p, isPGA, t.getSubTrait().getAccId());
+                        PhenotypeObject overAllObj = getOverAllObject(records, p);
+                        if(records.size()>0)
+                        overAllObj.setTraits(getTraitTerms(records));
+                        overAllObj.setTraitAncestors(new ArrayList<>(Arrays.asList(t)));
+                        if (isDistinctTrait(distinctTraits, t.getSubTrait()))
+                            distinctTraits.add(t.getSubTrait());
+
+                        overallObjects.add(overAllObj);
+
+                    } else {
+                         records = dao.getExpectedRanges(p, null, null, null, null, null, isPGA);
+                        if(records.size()>0)
+                        overallObjects.add(getOverAllObject(records, p));
+                    }
+                }
+                if(traitOntId==null || Objects.equals(traitOntId, "") || traitOntId.equalsIgnoreCase("pga")) {
+                    records = this.dao.getExpectedRanges(p, (List) null, (List) null, (List) null, (List) null, (List) null, true);
+                    if (records.size() > 0)
+                        overallObjects.add(this.getOverAllObject(records, p));
+                }
+            } else {
+                records = dao.getExpectedRanges(p, null, null, null, null, null, isPGA);
+                overallObjects.add(getOverAllObject(records, p));
+            }
+        }
+
+
+        overallObjects.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getClinicalMeasurement(), o2.getClinicalMeasurement()));
+        objectsNDistinctTraits.put(distinctTraits, overallObjects);
+        return objectsNDistinctTraits;
+    }
+
+    public PhenotypeObject getOverAllObject(List<PhenominerExpectedRange> records, String p) throws Exception {
+     //   System.out.println("PHENOTYPE: "+ p+"\tRECORDS SIZE: "+ records.size());
+        PhenotypeObject overAllObj = new PhenotypeObject();
+        overAllObj.setClinicalMeasurement(this.getClinicalMeasurement(records));
+        overAllObj.setClinicalMeasurementOntId(p);
+        PhenominerExpectedRange normalRecord = this.getNormalRange(records, "Mixed");
+        if(normalRecord != null) {
+            overAllObj.setNormalRange(normalRecord.getRangeLow() + " - " + normalRecord.getRangeHigh());
+        }
+
+        overAllObj.setRanges(records);
+        overAllObj.setStrainSpecifiedRecordCount(this.getRecordCountByStrain(records));
+        overAllObj.setSexSpecifiedRecordCount(this.getRecordCountBySex(records));
+        overAllObj.setAgeSpecifiedRecordCount(this.getRecordCountByAge(records));
+        return overAllObj;
+    }
+    @Override
+    public List<Term> getTraitTerms(List<PhenominerExpectedRange> records) throws Exception {
+        List<Term> terms= new ArrayList<>();
+        for(PhenominerExpectedRange r:records){
+            String trait=r.getTraitOntId();
+            if(trait!=null)
+            if(!existInTerms(trait, terms)){
+                terms.add(getTerm(trait));
+            }
+        }
+        return terms;
+    }
+}
