@@ -588,8 +588,41 @@ public class PhenotypeExpectedRangeDao extends OntologyXDAO {
                 y.add(r.getGroupValue());
                 y.add(r.getGroupLow());
                 trace.setY(y);
-                if(recordType.equalsIgnoreCase("phenotype"))
-                trace.setName(r.getId()+". "+strainGroup + "- [Sex:" + r.getSex() + " - Age:" + r.getAgeLowBound() + "-" + r.getAgeHighBound() + " days" +"]");
+              /*  if(recordType.equalsIgnoreCase("phenotype"))
+                trace.setName(r.getId()+". "+strainGroup + "- [Sex:" + r.getSex() + " - Age:" + r.getAgeLowBound() + "-" + r.getAgeHighBound() + " days" +"]");*/
+                /*================================================================================================*/
+                    String name;
+                     if(recordType.equalsIgnoreCase("phenotype")) {
+                    name = new String();
+                    if(r.getSex().equals("Mixed")) {
+                        if(r.getAgeLowBound() == "0" && r.getAgeHighBound() == "999" && !r.getExpectedRangeName().contains("vascular") && !r.getExpectedRangeName().contains("tail")) {
+                            name = strainGroup;
+                        } else {
+                            if(r.getExpectedRangeName().contains("vascular") || r.getExpectedRangeName().contains("tail")) {
+                                if(r.getExpectedRangeName().contains("vascular")) {
+                                    name = strainGroup + "_vascular";
+                                } else {
+                                    name = strainGroup + "_tail";
+                                }
+                            }
+
+                            if(r.getAgeLowBound() != "0" || r.getAgeHighBound() != "999") {
+                                name = strainGroup + "_" + r.getAgeLowBound() + "-" + r.getAgeHighBound() + " days";
+                            }
+                        }
+                    } else {
+                        name = strainGroup + "_" + r.getSex();
+                    }
+
+                    trace.setName(name);
+                }
+                /*============================================================================================================     */
+
+
+
+
+
+
                 if(recordType.equalsIgnoreCase("strain"))
                     trace.setName(r.getExpectedRangeName());
                 trace.setType("box");
