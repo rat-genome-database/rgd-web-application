@@ -595,9 +595,10 @@ public class PhenotypeExpectedRangeDao extends OntologyXDAO {
                      if(recordType.equalsIgnoreCase("phenotype")) {
                     name = new String();
                     if(r.getSex().equals("Mixed")) {
-                        if(r.getAgeLowBound() == "0" && r.getAgeHighBound() == "999" && !r.getExpectedRangeName().contains("vascular") && !r.getExpectedRangeName().contains("tail")) {
+                        if(r.getAgeLowBound().equals("0") && r.getAgeHighBound().equals("999") && !r.getExpectedRangeName().contains("vascular") && !r.getExpectedRangeName().contains("tail")) {
                             name = strainGroup;
                         } else {
+
                             if(r.getExpectedRangeName().contains("vascular") || r.getExpectedRangeName().contains("tail")) {
                                 if(r.getExpectedRangeName().contains("vascular")) {
                                     name = strainGroup + "_vascular";
@@ -606,7 +607,7 @@ public class PhenotypeExpectedRangeDao extends OntologyXDAO {
                                 }
                             }
 
-                            if(r.getAgeLowBound() != "0" || r.getAgeHighBound() != "999") {
+                            if(!r.getAgeLowBound().equals("0") || !r.getAgeHighBound().equals("999")) {
                                 name = strainGroup + "_" + r.getAgeLowBound() + "-" + r.getAgeHighBound() + " days";
                             }
                         }
