@@ -16,7 +16,7 @@ import java.util.Map;
  * User: mtutaj <br>
  * Date: 7/15/11 <br>
  * Time: 1:30 PM <br>
- * <p/>
+ * <p>
  * contains all of the data used during the PGA data load
  */
 public class PhenominerPgaLoadBean {

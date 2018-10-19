@@ -32,7 +32,7 @@ public class PubmedImageGenerator implements Controller{
             type = req.getParameter("type");
         }
 
-        int refRgdId =  refDao.getReferenceRgdIdByPubmedId(pmId);
+        int refRgdId =  refDao.getMaxReferenceRgdIdByPubmedId(pmId);
 
         if((!(pmId.equals(""))) && (type.equals(""))){
             returnImage(refRgdId, response);

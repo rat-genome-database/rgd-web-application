@@ -1,9 +1,8 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch1.model.RgdIndex;
 
+import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -16,7 +15,6 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -41,13 +39,12 @@ public class QueryService1 {
     public SearchResponse getSearchResponse(String term, String category, String species, String  type, String subCat, int from, int size, boolean page, String sortOrder, String sortBy, String assembly, String trait, String start, String stop, String chr) {
 
         if(term!=null) {
-           SearchRequestBuilder srb=null;
-           Map<String, String> filterMap= this.getFilterMap(category, species,type,subCat);
+            Map<String, String> filterMap= this.getFilterMap(category, species,type,subCat);
             BoolQueryBuilder builder=this.boolQueryBuilder(term,category,species, filterMap,chr, start, stop, assembly );
 
 
             String sortField=null;
-            srb = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+            SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                     .setQuery(builder);
                if(sortBy.equalsIgnoreCase("relevance")){
                      srb.addSort(SortBuilders.scoreSort().order(SortOrder.DESC));
@@ -355,9 +352,9 @@ public class QueryService1 {
     }
 
     public SearchResponse getSearchResponse(String term, String category) throws Exception {
-      return ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+        return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                          .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                            .setQuery(QueryBuilders.termQuery("term_acc", term))
                            .get();
-}
+    }
 }

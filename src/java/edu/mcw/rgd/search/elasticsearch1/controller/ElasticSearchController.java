@@ -1,7 +1,5 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
-
-import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
 import edu.mcw.rgd.datamodel.RgdId;
@@ -9,8 +7,6 @@ import edu.mcw.rgd.datamodel.SearchLog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch1.model.RgdIndex;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
