@@ -960,7 +960,7 @@
 	function writeClinVar() {
 		writeRow( "Symbol:", symbol, 1, URL_RGD_VARIANT, dbxRef_rgdID );
 		writeRow( "Name:", name, 1, null, null );
-		writeRow( "Clinical Significance:", cvClinicalSignificance, 1, null, null );
+		writeRow( "Clinical Significance:", clinicalSignificance, 1, null, null );
 		writeRow( "Trait Name(s):", cvTraitName, 1, null, null );
 		writeRow( "Molecular Consequence:", cvMolecularConsequence, 1, null, null );
 		writeRow( "Method Type:", cvMethodType, 1, null, null );
@@ -1116,7 +1116,7 @@
 	// (NO ADDITIONAL VARIABLES REQUIRED)
 
 	// dbSNP track variables
-	var mapWeight, allele;
+	var mapWeight, allele, functionClass, clinicalSignificance;
 
 	// ensemblSNP track variables
 	var strain;
@@ -1178,7 +1178,7 @@
 	// (NO ADDITIONAL VARIABLES REQUIRED)
 
 	// clinvar variables
-	var cvClinicalSignificance, cvMethodType, cvMolecularConsequence, cvAgeOfOnset, cvPrevalence, cvSubmitter, cvTraitName;
+	var cvMethodType, cvMolecularConsequence, cvAgeOfOnset, cvPrevalence, cvSubmitter, cvTraitName;
 
 	var URLparts = window.location.search.substring( 1 ).split( "&" );
 
@@ -1309,6 +1309,9 @@
 				break;
 			case "allele":
 				allele = testEmpty( decodeURIComponent( URL_subParts[ 1 ] ) );
+				break;
+			case "functionClass":
+				functionClass = testEmpty( decodeURIComponent( URL_subParts[ 1 ] ) );
 				break;
 			case "strain":
 				strain = testEmpty( decodeURIComponent( URL_subParts[ 1 ] ) );
@@ -1443,7 +1446,7 @@
 				break;
 
 			case "clinicalSignificance":
-				cvClinicalSignificance = decodeURIComponent(testEmpty(URL_subParts[1]));
+				clinicalSignificance = decodeURIComponent(testEmpty(URL_subParts[1]));
 				break;
 			case "methodType":
 				cvMethodType = decodeURIComponent(testEmpty(URL_subParts[1]));
@@ -1536,11 +1539,22 @@
 			writeRow( "Primary ID:", id, 1, null, null );
 			break;
 		case "dbSNP": // rn5 dbSNP feature tracks
-			writeRow( "ID:", alias, 1, URL_NCBI_SNP, alias.substring( 2 ) );
-			writeRow( "Accession:", name, 1, null, null );
-			writeRow( "Map Weight:", mapWeight, 1, null, null );
-			writeRow( "Type:", testEmpty( type.split( "," )[ 1 ] ), 1, null, null );
+			if( alias!=null && alias !== 'NA' ) {
+				writeRow("ID:", alias, 1, URL_NCBI_SNP, alias.substring(2));
+			}
+			if( name!=null && name.indexOf('rs')==0 ) {
+				writeRow("Accession:", name, 1, URL_NCBI_SNP, name);
+			} else {
+				writeRow("Accession:", name, 1, null, null);
+			}
+			writeRow( "Clinical Significance:", clinicalSignificance, 1, null, null );
+			var snpType = testEmpty( type.split( "," )[ 1 ] );
+			if( snpType!='NA' ) {
+				writeRow("Type:", snpType, 1, null, null);
+			}
 			writeRow( "Allele:", allele, 1, null, null );
+			writeRow( "Map Weight:", mapWeight, 1, null, null );
+			writeRow( "Function Class:", functionClass, 1, null, null );
 			break;
 		case "ensemblSNP": // rn5 ensemblSNP tracks
 			writeDynamicURLrow( URL_ENSEMBL_SNP, 0, "ID:", name, 1 );

@@ -9,7 +9,7 @@
 
 <script>
     $(document).ready(function(){
-        $.get("http://<%=request.getServerName()%>:8080<%=boardRowUri%>", function(responseText, status, xhr){
+        $.get("https://<%=request.getServerName()%><%=boardRowUri%>", function(responseText, status, xhr){
 
             var html = '';
             if( status=='error') {

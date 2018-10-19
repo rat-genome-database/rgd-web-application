@@ -111,7 +111,8 @@
             <p  style="color:#1f65ac;font-weight:bold;font-size:10pt;margin-left:15px;text-decoration:underline">Resources/Links:</p>
             <ul>
                 <li><a href="strainSubmissionForm.html?new=true">Strain Submission</a></li>
-                <!--li>Contact Us</li-->
+                <li><a href="download.html">Excel Download</a></li>
+                <li>Contact Us</li>
             </ul>
             <p  style="color:#1f65ac;font-weight:bold;font-size:10pt;margin-left:15px;text-decoration:underline">Key Personnel:</p>
             <ul>

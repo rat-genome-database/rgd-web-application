@@ -1,4 +1,5 @@
 <%@ page import="edu.mcw.rgd.datamodel.SSLP" %>
+<%@ page import="edu.mcw.rgd.dao.spring.StringListQuery" %>
 <%
     String pageTitle = "Edit SSLP";
     String headContent = "";
@@ -27,37 +28,28 @@
     List<String> sslpTypes = sslpDAO.getSslpTypes();
     sslpTypes.add(0, "");
 
-    List<Sequence> seqList = new SequenceDAO().getObjectSequences(rgdId);
+    // temporary code
+    String sql1 = "SELECT seq_template FROM sslps WHERE rgd_id=?";
+    String sql2 = "SELECT seq_forward FROM sslps WHERE rgd_id=?";
+    String sql3 = "SELECT seq_reverse FROM sslps WHERE rgd_id=?";
 
     // SSLP may have a forward primer, reverse primer and nucleotide sequence
-    String forward = "";
-    String reverse = "";
-    String cloneSeq = "";
+    String cloneSeq = sslpDAO.getStringResult(sql1, rgdId);
+    String forward = sslpDAO.getStringResult(sql2, rgdId);
+    String reverse = sslpDAO.getStringResult(sql3, rgdId);
+
     String cloneSeqFormatted = "";
+    if( cloneSeq != null ) {
+        double value = (double) cloneSeq.length() / (double) 60;
+        int loops = (int) Math.ceil(value);
 
-    for (Sequence seq: seqList) {
-        if (seq.getForwardSeq() != null) {
-            forward = seq.getForwardSeq();
-        }
+        for (int i = 0; i < loops; i++) {
 
-        if (seq.getReverseSeq() != null) {
-            reverse = seq.getReverseSeq();
-        }
-
-        if (seq.getCloneSeq() != null) {
-            cloneSeq = seq.getCloneSeq();
-
-            double value = (double)cloneSeq.length() / (double)60;
-            int loops = (int) Math.ceil(value);
-
-            for (int i=0; i< loops; i++) {
-
-                int index=i*60;
-                if ((i + 1) == loops) {
-                    cloneSeqFormatted += cloneSeq.substring(index) + "\r";
-                }else {
-                    cloneSeqFormatted += cloneSeq.substring(index, index + 60) + "\r";
-                }
+            int index = i * 60;
+            if ((i + 1) == loops) {
+                cloneSeqFormatted += cloneSeq.substring(index) + "\r";
+            } else {
+                cloneSeqFormatted += cloneSeq.substring(index, index + 60) + "\r";
             }
         }
     }
@@ -120,7 +112,7 @@
                 </tr>
                 <tr>
                     <td class="label">Template Sequence:</td>
-                    <td><textarea rows="6" name="templateSeq" cols="45" ><%=dm.out("templateSeq",cloneSeqFormatted)%></textarea></td>
+                    <td><textarea rows="6" name="templateSeq" cols="65" ><%=dm.out("templateSeq",cloneSeqFormatted)%></textarea></td>
                 </tr>
 <% } %>
                 <tr>

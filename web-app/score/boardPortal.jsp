@@ -68,6 +68,9 @@
             <option value="2" <%=fu.optionParams(speciesType, "2")%>>Mouse</option>
             <option value="3" <%=fu.optionParams(speciesType, "3")%>>Rat</option>
             <option value="4" <%=fu.optionParams(speciesType, "4")%>>Chinchilla</option>
+            <option value="5" <%=fu.optionParams(speciesType, "5")%>>Bonobo</option>
+            <option value="6" <%=fu.optionParams(speciesType, "6")%>>Dog</option>
+            <option value="7" <%=fu.optionParams(speciesType, "7")%>>Squirrel</option>
             </select>
         </td>
         <td>&nbsp;</td>

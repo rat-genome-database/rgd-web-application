@@ -1,33 +1,18 @@
-<%@ page language="java" import="java.io.*, java.sql.*, java.util.*" %>
-<%@ page import="org.apache.commons.fileupload.*, org.apache.commons.io.*, org.apache.commons.fileupload.disk.*, org.apache.commons.fileupload.servlet.*" %>
+<%@ page language="java" import="java.io.*, java.util.*" %>
+<%@ page import="org.apache.commons.fileupload.*, org.apache.commons.fileupload.disk.*, org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="static org.apache.commons.io.FileUtils.*" %>
 <%
-
-
-
 /**
  * This pages gives a sample of java upload management. It needs the commons FileUpload library, which can be found on apache.org.
  *
  * Note:
  * - putting error=true as a parameter on the URL will generate an error. Allows test of upload error management in the applet. 
- * 
- * 
- * 
- * 
- * 
- * 
  */
 
     // Directory to store all the uploaded files
-    //String ourTempDirectory = (String)session.getAttribute("tempDir");
     String ourTempDirectory = "/rgd/www/pathway/";
 
-    //String ourTempDirectory = "/rgd/www/pathway"; //for the server..
-    /*String pathwayFile =  "";*/
-
-    //System.out.println("here is formdata line 27.. ^^^^^^^^^^^^^^^^^^^");
-
-	byte[] cr = {13}; 
+	byte[] cr = {13};
 	byte[] lf = {10}; 
 	String CR = new String(cr);
 	String LF = new String(lf);
@@ -56,13 +41,10 @@
   	out.println("[parseRequest.jsp]  " + header + ": " + request.getHeader(header));  	  	
   }
   out.println("[parseRequest.jsp]  ------------------------------ "); 
-  //System.out.println("[parseRequest.jsp]  ------------------------------ ");
   try{
     // Get URL Parameters.
-    //System.out.println("getting parameter names");
     Enumeration paraNames = request.getParameterNames();
     out.println("[parseRequest.jsp]  ------------------------------ ");
-    System.out.println("[parseRequest.jsp]  Parameters: ");
     out.println("[parseRequest.jsp]  Parameters: ");
     String pname;
     String pvalue;
@@ -132,7 +114,7 @@
 		}//while
 		is.close();
 		out.println("[parseRequest.jsp] ==========================================================================="); 
-	} else if (! request.getContentType().startsWith("multipart/form-data")) {
+	} else if (request.getContentType()!=null && !request.getContentType().startsWith("multipart/form-data")) {
 		out.println("[parseRequest.jsp] No parsing of uploaded file: content type is " + request.getContentType()); 
 	} else { 
 		List /* FileItem */ items = upload.parseRequest(request);
@@ -145,38 +127,31 @@
         File cachePath = null;
 
 	    out.println("[parseRequest.jsp]  Let's read the sent data   (" + items.size() + " items)");
-		//System.out.println("[parseRequest.jsp]  Let's read the sent data   (" + items.size() + " items)");
+        System.out.println("****** START-OF-REQUEST");
+		System.out.println("IMOD_ITEMS :" + items.size());
         String relpath = "";
 
 	     while (iter.hasNext()) {
 		    fileItem = (FileItem) iter.next();
-		
+             System.out.println("IMOD_STR: "+fileItem.toString());
+
 		    if (fileItem.isFormField()) {
-		        System.out.println("*******[parseRequest.jsp] (form field) " + fileItem.getFieldName() + " = " + fileItem.getString());
                 out.println("[parseRequest.jsp] (here is the form field) " + fileItem.getFieldName() + " = " + fileItem.getString());
-		        
+                System.out.println("  FORM_FIELD " + fileItem.getFieldName() + " = " + fileItem.getString());
+
                 if(fileItem.getFieldName().equals("pathwayLoc")){
-                        System.out.println("**************session set to " + session.getAttribute("flag")+ "********");
-                        System.out.println("FORMDATA HERE!!!");
-                        ourTempDirectory = fileItem.getString();
-                        System.out.println("################here is the formval:" + ourTempDirectory + "^^^^^^^^^^^");
-                        formPath = new File(ourTempDirectory);
-                        System.out.println("here is the formpath:" + ourTempDirectory);
-                    if(session.getAttribute("flag").equals("0")){
-                        if(formPath.exists()&& formPath.isDirectory()){
-                            cleanDirectory(formPath);
-                            System.out.println("Directory exists .. Cleaning directory");
-                        }
-                        formPath.mkdirs();
-                        System.out.println("cleaned file");
-                        session.setAttribute("flag", "1");
-                    }
+                    ourTempDirectory = fileItem.getString();
+                    System.out.println(" FORMVAL " + ourTempDirectory);
+                    formPath = new File(ourTempDirectory);
+
+                    formPath.mkdirs();
                 }
                 if(fileItem.getFieldName().equals("cacheImageLoc")){
                     String cacheImg = fileItem.getString();
                     cachePath = new File(cacheImg);
                     if(cachePath.exists()&&cachePath.isDirectory()){
                         cleanDirectory(cachePath);
+                        System.out.println("Cleaned dir "+cachePath);
                     }
                     cachePath.mkdirs();
                 }
@@ -184,7 +159,6 @@
                 if(fileItem.getFieldName().equals("relpathinfo0")) {
 				    fout2 = new File(fileItem.getString());
                     relpath = fout2 + "/";
-				//System.out.println("relpath = " + relpath);
 		        }
 
 
@@ -203,34 +177,23 @@
 		        out.println("[parseRequest.jsp] File Name: " + fileItem.getName());
 		        out.println("[parseRequest.jsp] ContentType: " + fileItem.getContentType());
 		        out.println("[parseRequest.jsp] Size (Bytes): " + fileItem.getSize());
+
+                System.out.println(" FIELD_NAME: " + fileItem.getFieldName());
+                System.out.println(" FILE_NAME: " + fileItem.getName());
+                System.out.println(" CONTENT_TYPE: " + fileItem.getContentType());
+                System.out.println(" FILE_SIZE: " + fileItem.getSize());
 		        //If we are in chunk mode, we add ".partN" at the end of the file, where N is the chunk number.
 		        String uploadedFilename = fileItem.getName() + ( numChunk>0 ? ".part"+numChunk : "") ;
 
-             //System.out.println("here is the temp dir"+ ourTempDirectory + "/"+relpath);
-			File f = new File(ourTempDirectory+"/"+relpath);
-			f.mkdirs();
+                File f = new File(ourTempDirectory+"/"+relpath);
+                f.mkdirs();
 
-			//System.out.println(ourTempDirectory + "/"+relpath + (new File(uploadedFilename)).getName());
-            fout = new File(ourTempDirectory + "/"+ relpath + (new File(uploadedFilename)).getName());
-            //fout2 = new File(ourTempDirectory + relpath);
+                fout = new File(ourTempDirectory + "/"+ relpath + (new File(uploadedFilename)).getName());
 
+                out.println("[parseRequest.jsp] File Out: " + fout.toString());
+                System.out.println(" FILE_OUT: " + fout.toString());
 
-                    out.println("[parseRequest.jsp] File Out: " + fout.toString());
-
-
-                    out.println("[Pushkala Test] this is the fileset: " + uploadedFilename);
-
-
-                /*if((fout2.exists()) && (fout2.isDirectory())){
-                    out.println("[Pushkala Test] this folder exists!!! Do Full Drop and Reload of Folder and its contents!!!");
-                    System.out.println("[Pushkala Test] this folder exists!!! Do Full Drop and Reload of Folder and its contents!!!");
-                    org.apache.commons.io.FileUtils.cleanDirectory(fout2);
-                    fout = new File(fout2 + (new File(uploadedFilename)).getName());
-                    fileItem.write(fout);
-                }else{*/
-                    // write the file
-                    fileItem.write(fout);	        
-                //}
+                fileItem.write(fout);
 
 		        
 		        //////////////////////////////////////////////////////////////////////////////////////
@@ -239,6 +202,7 @@
 		        //
 		        if (bLastChunk) {	        
 			        out.println("[parseRequest.jsp]  Last chunk received: let's rebuild the complete file (" + fileItem.getName() + ")");
+                    System.out.println("[parseRequest.jsp]  Last chunk received: let's rebuild the complete file (" + fileItem.getName() + ")");
 			        //First: construct the final filename.
 			        FileInputStream fis;
 			        //System.out.println("here is our temp directory: " + ourTempDirectory + " and here is our fileITEM" + fileItem.getName());
@@ -264,7 +228,8 @@
 		        //////////////////////////////////////////////////////////////////////////////////////
 		        
 		        fileItem.delete();
-		    }	    
+                System.out.println(" ITEM OK, tmp file deleted");
+		    }
 		}//while
 	}
 	
@@ -282,10 +247,10 @@
     	out.println("ERROR: this is a test error (forced in /wwwroot/pages/parseRequest.jsp).\\nHere is a second line!");
     } else {
     	out.println("SUCCESS");
-    	//out.println("                        <span class=\"cpg_user_message\">Il y eu une erreur lors de l'exécution de la requête</span>");
+    	//out.println("                        <span class=\"cpg_user_message\">Il y eu une erreur lors de l'exï¿½cution de la requï¿½te</span>");
     }
 
-  	  //System.out.println("*********************[parseRequest.jsp] " + "End of server treatment ");
+  	  System.out.println("****** END-OF-REQUEST\n");
       out.println("[parseRequest.jsp] " + "End of server treatment ");
 
     }

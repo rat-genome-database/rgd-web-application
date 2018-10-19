@@ -14,10 +14,20 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
-<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
 
+<%
+    String pageTitle = "OLGA Gene List Generator";
+    String headContent = "";
+    String pageDescription = "Build and analyze gene lists based on functional annotation";
+%>
+
+<%@ include file="/common/compactHeaderArea.jsp" %>
+
+<!--
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.custom.js"></script>
+<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+-->
 <style>
 .rootont {
     float:left;
@@ -54,7 +64,11 @@ try {
 
 
  <script>
-$(document).ready(function(){
+
+
+
+
+jQuery_1_3_2(document).ready(function(){
 
     // handle to popup windows
     var rdo_popup_wnd = null;
@@ -63,7 +77,7 @@ $(document).ready(function(){
     var pw_popup_wnd = null;
 
 
-    $("#rdo_popup").click(function(){
+    jQuery_1_3_2("#rdo_popup").click(function(){
         if( rdo_popup_wnd!=null ) {
             if( !rdo_popup_wnd.closed ) {
                 rdo_popup_wnd.focus();
@@ -76,7 +90,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $("input[name='rdo_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='rdo_term']").autocomplete('/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -90,11 +104,11 @@ $(document).ready(function(){
     }
     );
 
-    $('#rdo_term').result(function(data, value){
+    jQuery_1_3_2('#rdo_term').result(function(data, value){
         document.getElementById("rdo_acc_id").value= value[1];
     });
 
-   $("#mp_popup").click(function(){
+   jQuery_1_3_2("#mp_popup").click(function(){
         if( mp_popup_wnd!=null ) {
             if( !mp_popup_wnd.closed ) {
                 mp_popup_wnd.focus();
@@ -108,7 +122,7 @@ $(document).ready(function(){
 
     });
 
-    $("input[name='mp_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='mp_term']").autocomplete('/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -122,11 +136,11 @@ $(document).ready(function(){
     }
     );
 
-    $('#mp_term').result(function(data, value){
+    jQuery_1_3_2('#mp_term').result(function(data, value){
         document.getElementById("mp_acc_id").value= value[1];
     });
 
-    $("#pw_popup").click(function(){
+    jQuery_1_3_2("#pw_popup").click(function(){
          if( pw_popup_wnd!=null ) {
              if( !pw_popup_wnd.closed ) {
                  pw_popup_wnd.focus();
@@ -140,7 +154,7 @@ $(document).ready(function(){
 
      });
 
-     $("input[name='pw_term']").autocomplete('/OntoSolr/select', {
+     jQuery_1_3_2("input[name='pw_term']").autocomplete('/OntoSolr/select', {
        extraParams:{
            'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
            'bf': 'term_len_l^.02',
@@ -154,11 +168,11 @@ $(document).ready(function(){
      }
      );
 
-    $('#pw_term').result(function(data, value){
+    jQuery_1_3_2('#pw_term').result(function(data, value){
         document.getElementById("pw_acc_id").value= value[1];
     });
 
-    $("#chebi_popup").click(function(){
+    jQuery_1_3_2("#chebi_popup").click(function(){
         if( chebi_popup_wnd!=null ) {
             if( !chebi_popup_wnd.closed ) {
                 chebi_popup_wnd.focus();
@@ -172,7 +186,7 @@ $(document).ready(function(){
 
     });
 
-    $("input[name='chebi_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='chebi_term']").autocomplete('/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -186,7 +200,7 @@ $(document).ready(function(){
     }
     );
 
-    $('#chebi_term').result(function(data, value){
+    jQuery_1_3_2('#chebi_term').result(function(data, value){
         document.getElementById("chebi_acc_id").value= value[1];
     });
 
@@ -575,7 +589,6 @@ $(document).ready(function(){
 
 </script>
 
-<%@ include file="../compactHeaderArea.jsp" %>
 
 <table width="95%">
     <tr>
@@ -1329,3 +1342,5 @@ for (String gene: aGenes.get(i)) {
 }%>
 
 
+<br><br><br>
+<jsp:include page="/common/footerarea.jsp"/>
