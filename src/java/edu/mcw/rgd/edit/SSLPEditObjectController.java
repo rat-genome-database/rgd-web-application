@@ -54,7 +54,7 @@ public class SSLPEditObjectController extends EditObjectController {
                 }
                 sslp.setNotes(req.getParameter("notes"));
                 sslp.setSslpType(req.getParameter("sslp_type"));
-                sslp.setTemplateSeq(req.getParameter("templateSeq").replace("[\\s]+",""));
+                sslp.setTemplateSeq(req.getParameter("templateSeq").replaceAll("[\\s]+",""));
                 sslp.setForwardSeq(req.getParameter("forwardPrimer"));
                 sslp.setReverseSeq(req.getParameter("reversePrimer"));
 
