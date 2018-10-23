@@ -54,10 +54,12 @@ public class SSLPEditObjectController extends EditObjectController {
                 }
                 sslp.setNotes(req.getParameter("notes"));
                 sslp.setSslpType(req.getParameter("sslp_type"));
+                sslp.setTemplateSeq(req.getParameter("templateSeq"));
+                sslp.setForwardSeq(req.getParameter("forwardPrimer"));
+                sslp.setReverseSeq(req.getParameter("reversePrimer"));
 
                 if (persist) {
                     dao.updateSSLP(sslp);
-                    updateSequences(rgdId, req);
                 }
             }
         }
@@ -83,16 +85,5 @@ public class SSLPEditObjectController extends EditObjectController {
         }
         dao.insertSSLP(obj);
         return obj;
-    }
-
-    void updateSequences(int rgdId, HttpRequestFacade req) throws Exception {
-
-        // get incoming template sequence (and strip all whitespace from it)
-        String template = req.getParameter("templateSeq").replaceAll("[\\s]+","");
-        String forward = req.getParameter("forwardPrimer").replaceAll("[\\s]+","");
-        String reverse = req.getParameter("reversePrimer").replaceAll("[\\s]+","");
-
-        String sql = "UPDATE sslps SET seq_template=?,seq_forward=?,seq_reverse=? WHERE rgd_id=?";
-        dao.update(sql, template, forward, reverse, rgdId);
     }
 }

@@ -95,18 +95,10 @@
 
 <%
     // show RefSeq protein sequences
-    for( Sequence2 seq: sequenceDAO.getObjectSequences2(t.getRgdId(), "ncbi_protein") ) {
+    for( Sequence seq: sequenceDAO.getObjectSequences(t.getRgdId(), "ncbi_protein") ) {
 
         // break sequence into several lines, 64 nucleotides per line
-        String seqFormatted = "";
-        int loopCount = (seq.getSeqData().length() + 63) / 64;
-        for (int i=0; i<loopCount; i++) {
-            if( i+1 == loopCount ) {
-                seqFormatted += seq.getSeqData().substring(i*64) + "<br>";
-            }else {
-                seqFormatted += seq.getSeqData().substring(i*64, (i+1)*64) + "<br>";
-            }
-        }
+        String seqFormatted = FormUtility.formatFasta(seq.getSeqData());
 %>
 <tr>
     <td class="label" valign="top" style="background-color: #f1f1f1"> - Sequence:</td>

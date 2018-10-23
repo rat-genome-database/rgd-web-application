@@ -337,4 +337,21 @@ public class FormUtility {
         }
         return hidden.toString();
     }
+
+    // break sequence into several lines, 64 nucleotides per line
+    static public String formatFasta(String seq) {
+        if( seq==null || seq.isEmpty() ) {
+            return "";
+        }
+        String seqFormatted = "";
+        int loopCount = (seq.length() + 63) / 64;
+        for (int i=0; i<loopCount; i++) {
+            if( i+1 == loopCount ) {
+                seqFormatted += seq.substring(i*64) + "<br>";
+            }else {
+                seqFormatted += seq.substring(i*64, (i+1)*64) + "<br>";
+            }
+        }
+        return seqFormatted;
+    }
 }

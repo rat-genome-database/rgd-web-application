@@ -38,22 +38,10 @@
 
     <%
         // show transcript sequences
-        for( Sequence seq: sequenceDAO.getObjectSequences(t.getRgdId()) ) {
-            if( seq.getSeqTypeKey()!=7 ) // show only RefSeq nucleotide sequences
-                continue;
+        for( Sequence seq: sequenceDAO.getObjectSequences(t.getRgdId(), "ncbi_rna") ) {
 
             // break sequence into several lines, 64 nucleotides per line
-            String seqFormatted = "";
-            if( seq.getCloneSeq()!=null ) {
-                int loopCount = (seq.getCloneSeq().length() + 63) / 64;
-                for (int i=0; i<loopCount; i++) {
-                    if( i+1 == loopCount ) {
-                        seqFormatted += seq.getCloneSeq().substring(i*64) + "<br>";
-                    }else {
-                        seqFormatted += seq.getCloneSeq().substring(i*64, (i+1)*64) + "<br>";
-                    }
-                }
-            }
+            String seqFormatted = FormUtility.formatFasta(seq.getSeqData());
     %>
     <tr>
         <td class="label" valign="top">Sequence:</td>
