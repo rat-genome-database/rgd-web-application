@@ -32,6 +32,7 @@
                 <div style="width:50%;">
                 <table class="table" style="width:90%">
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Clinical Measurement</td><td>
+
           <c:set var="ranges" value="${model.records}"/>
             <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
                 <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
@@ -50,11 +51,14 @@
 
                 </select>
             </form>
+
                 </td></tr>
                  <c:if test="${model.trait!=null && model.trait!=''}"><tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td><td style="text-transform: capitalize">${model.trait}</td></c:if></tr>
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains</td><td>Inbred </td></tr>
                 </table>
+
         </div>
+
 
 
         <!--h4 style="text-transform: capitalize;color:#24609c;">$--{model.phenotype} <!--c:if test="$-{model.trait!=null}"> - $-{model.trait}<!--/c:if> - Inbred Strains</h4-->

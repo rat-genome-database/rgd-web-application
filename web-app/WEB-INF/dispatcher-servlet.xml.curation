@@ -1,3 +1,4 @@
+
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
@@ -223,6 +224,15 @@
                 <prop key="genomeViewer.html">genomeViewerController</prop>
                 <prop key="search/excelDownload.html">downloadController</prop>
                 <prop key="variantVisualizer.html">vvController</prop>
+
+                <prop key="phenominer/phenominerExpectedRanges/home.html">phenominerExpectedRangeController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/selectedPhenotype.html">phenominerERSelectedPhenotypeController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/selectedStrain.html">phenominerERSelectedStrainController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/strain.html">strainExpectedRangeController</prop>
+
+
+
+
                  <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
                                 <prop key="phenominer/phenominerExpectedRanges/views/selectedMeasurement.html">selectedMeasurementController</prop>
                                 <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
@@ -231,14 +241,16 @@
             </props>
         </property>
     </bean>
+    <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
+    <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
+    <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
+    <bean id="phenominerERSelectedPhenotypeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedPhenotypeController"/>
 
  <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
     <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
     <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
         <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
     <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
-
-
 
 <bean id="wwwDir" abstract="true">
     <property name="uploadingDir" value="/rgd/data/pathway/inputFolder/"/><!-- directory where the uploaded files will be stored-->
@@ -465,3 +477,4 @@
     <bean id="TreeXmlController" class="edu.mcw.rgd.phenominer.frontend.TreeXmlController"/>
 
     </beans>
+

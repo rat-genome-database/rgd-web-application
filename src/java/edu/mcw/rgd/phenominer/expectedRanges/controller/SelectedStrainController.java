@@ -53,7 +53,9 @@ public class SelectedStrainController implements Controller{
         List<PhenominerExpectedRange> records=process.getExpectedRangesByTraitNStrainGroupId(Integer.parseInt(strainGroupId), traitOntId);
         records.sort((o1,o2)-> Utils.stringsCompareToIgnoreCase(o1.getClinicalMeasurement(),o2.getClinicalMeasurement()));
         List<PhenominerExpectedRange> plotRecords= new ArrayList<>();
+
        String clinical_measurement=(records.get(0).getClinicalMeasurement());
+
         for(PhenominerExpectedRange r:records){
             if(r.getClinicalMeasurement().equals(clinical_measurement)){
                 plotRecords.add(r);
@@ -68,7 +70,9 @@ public class SelectedStrainController implements Controller{
         model.put("trait", traitTerm);
         model.put("strainObjects", strainObjects);
         model.put("initialPlotPhenotype",clinical_measurement);
+
        model.addAttribute("plotData",  process.getPlotData(plotRecords, "strain"));
+
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/strain.jsp","model", model);
     }
 }
