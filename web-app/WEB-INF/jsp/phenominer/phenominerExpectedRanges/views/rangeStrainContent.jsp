@@ -24,7 +24,7 @@
                     <thead><tr><th>Range Name</th><th>Strains</th><th>Measurement</th><th>Method</th><th>Conditions</th><th>Sex</th><th>Age</th><th>Range Mean</th><th>Range SD</th><th>Range Low</th><th>Range High</th><th>Units</th><th>Experiment Records of the range</th></tr></thead>
                     <tbody>
                     <c:forEach items="${ranges}" var="item">
-                        <!--c:if test="$--{!item.strainGroupName.contains('normal')}"-->
+                        <c:if test="${!item.strainGroupName.contains('normal')}">
                         <c:set var="href" value="/rgdweb/phenominer/table.html?species=3&terms="/>
                         <tr>
                             <td>
@@ -81,7 +81,7 @@
                             <td>${item.units}</td>
                             <td><a href="${href}" target="_blank"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
                         </tr>
-                        <!--/c:if-->
+                        </c:if>
                     </c:forEach>
                     </tbody>
                 </table>

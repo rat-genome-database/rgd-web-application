@@ -37,10 +37,11 @@
 
         <ul class="list-unstyled components">
             <li><a href="home.html">All Traits</a></li>
-            <c:forEach items="${model.traitMap}" var="t">
-                <li><a href="home.html?trait=${t.value}"><span style="text-transform: capitalize">${t.key}</span></a></li>
+            <c:forEach items="${model.facets}" var="t">
+                <!--li><a href="home.html?trait=$--{t.value}"><span style="text-transform: capitalize">$-{t.key}</span></a></li-->
+                <li><a href="home.html?trait=${t.key.accId}"><span style="text-transform: capitalize">${t.key.term}(${t.value})</span></a></li>
             </c:forEach>
-            <li><a href="home.html?trait=pga">PGA</a></li>
+            <!--li><a href="home.html?trait=pga">PGA</a></li-->
         </ul>
 
     </nav>
@@ -62,6 +63,7 @@
             </ul>
             <div class="tab-content">
                 <!----Phenotypes TAB--->
+                <h4 style="color:green">Total number of phenotypes <c:if test="${model.trait!=null}">of  ${model.trait}:</c:if> ${model.objectsSize}</h4>
                 <div class="tab-pane active" id="phenotypes">
 
                     <table class="table table-striped table-hover expectedRangesTable" >

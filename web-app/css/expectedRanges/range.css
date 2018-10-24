@@ -134,8 +134,8 @@ ul ul a {
     color:#24609c
 }
 #expectedRangesTable{
-    width:80%;
-    margin-left:10%;
+ /*   width:80%;
+    margin-left:10%;*/
     border:5px solid #f2f2f2;
 }
 #expectedRangesTable tbody tr td{
