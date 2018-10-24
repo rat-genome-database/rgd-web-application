@@ -1,13 +1,12 @@
 package edu.mcw.rgd.report;
 
-
 import edu.mcw.rgd.dao.impl.MapDAO;
 
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch1.model.RgdIndex;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -50,23 +49,22 @@ public class ChromosomeController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/chromosome.jsp","model", model);
 
     }
+
     public List<SearchHit[]> getChromosome(int mapKey, String chr){
         List<SearchHit[]> hitsList= new ArrayList<>();
 
-        SearchResponse sr=new SearchResponse();
-
-        sr = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+        SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                 .setTypes("chromosomes")
                 .setQuery(QueryBuilders.matchAllQuery())
                 .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("chromosome.keyword", chr)).filter(QueryBuilders.matchQuery("mapKey", mapKey)))
                 .get();
-        System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
 
         if(sr!=null) {
+            System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());
             System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
         }
         return hitsList;
     }
 
-    }
+}

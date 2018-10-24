@@ -6,7 +6,7 @@ package edu.mcw.rgd.phenominer;
  * Date: 7/18/11 <br>
  * Time: 1:06 PM <br>
  * To change this template use File | Settings | File Templates.
- * <p/>
+ * <p>
  * represents a mapping stored during pga load in table PGALOAD_MAPPINGS
  */
 public class PhenominerLoadMapping {

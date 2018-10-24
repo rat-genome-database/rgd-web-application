@@ -8,6 +8,7 @@
             -->
         <% if (RgdContext.isCurator()) {%>
            <li ><a href="/rgdweb/curation/edit/editReference.html?rgdId=<%=obj.getRgdId()%>">Edit Me!</a></li>
+           <li ><a href="/rgdweb/curation/edit/editReference.html?act=clone&rgdId=<%=obj.getRgdId()%>">Clone Me!</a></li>
         <% } %>
     </ul>
 

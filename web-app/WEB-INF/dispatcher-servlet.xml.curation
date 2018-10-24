@@ -126,7 +126,7 @@
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
-
+               
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="carpe/search.html">CarpenovoSearchController</prop>
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
@@ -448,8 +448,8 @@
 
 
     <bean id="ImageDisplayController" class="edu.mcw.rgd.edit.submittedStrains.ImageDiplayController"/>
-    
 
+    
     
     <bean id="ElasticSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.ElasticSearchController"/>
     <bean id="AutocompleteListController" class="edu.mcw.rgd.search.elasticsearch1.controller.AutocompleteController"/>

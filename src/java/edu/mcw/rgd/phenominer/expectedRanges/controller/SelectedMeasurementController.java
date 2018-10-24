@@ -65,6 +65,7 @@ public class SelectedMeasurementController implements Controller {
 
         List<PhenominerExpectedRange> records = dao.getExpectedRanges(cmoID, null, null, null, null, null, isPGA);
 
+
        PhenominerExpectedRange normalRecord=getPhenotypeExpectedRangeRecordNormal(records,"Mixed");
        PhenominerExpectedRange normalMaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Male");
         PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
@@ -84,6 +85,7 @@ public class SelectedMeasurementController implements Controller {
             model.addAttribute("normalFemale",normalFemaleRecord);
         }
 
+
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));
         model.addAttribute("phenotype", phenotype);
@@ -96,6 +98,7 @@ public class SelectedMeasurementController implements Controller {
         model.addAttribute("conditions", Arrays.asList("Control Conditions"));
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/phenotype.jsp", "model", model);
     }
+
     public PhenominerExpectedRange getPhenotypeExpectedRangeRecordNormal(List<PhenominerExpectedRange> records, String sex){
         for(PhenominerExpectedRange r:records){
             PhenominerExpectedRange normalStrain= new PhenominerExpectedRange();
@@ -114,4 +117,5 @@ public class SelectedMeasurementController implements Controller {
         }
         return null;
     }
+
 }

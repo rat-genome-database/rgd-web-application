@@ -33,6 +33,7 @@ $(function() {
             {
                 selector: 'edge',
                 css: {
+
                     'line-color':'data(typeColor)',
                     'edge-text-rotation': 'autorotate',
                     'font-size': '12px',
@@ -41,7 +42,8 @@ $(function() {
                 }
             },
 
-            {selector: 'node.active',
+            {
+                selector: 'node.active',
                 css: {
                     "shape": "cirlce",
                     "border-width": "6px",
@@ -64,21 +66,25 @@ $(function() {
                     'height': 50
                 }
             },
-            {selector: 'edge.active',
+            {
+                selector: 'edge.active',
                 css: {"line-color": "data[typeColor]", 'width': '6px'}
             },
-            {selector: '.faded',
+            {
+                selector: '.faded',
                 css: {'opacity': 0.25, 'text-opacity': 0}
             },
 
-            {selector: 'edge.typeOn',
+            {
+                selector: 'edge.typeOn',
                 css: {'line-color': 'data(typeColor)', 'width': 6 }
             },
             {
                 selector: 'node.Q',
                 css: {'background-color': 'yellow', 'shape': 'cirlce', 'border-width': '20px', 'border-color': 'data(nodeColor)', 'width':100, 'height':100, 'border-opacity':0.4, 'text-background-color':'yellow'}
             },
-            {selector: 'node.hover',
+            {
+                selector: 'node.hover',
                 css: {
                     'background-color': '#ff9999',
                     'width': 60,
@@ -102,20 +108,25 @@ $(function() {
 
                 }
             },
-            {selector: 'edge.hover',
+            {
+                selector: 'edge.hover',
                 css: {'width': '6px'}
             },
-            {selector: 'node.common',
+            {
+                selector: 'node.common',
                 css: {'background-color': 'data(nodeColor)', 'line-color': 'yellow', 'width':80, 'height':80, 'text-background-color':'#555', 'font-size':30}
             },
 
-            {selector:'edge.common',
+            {
+              selector:'edge.common',
                 css:{'line-color': 'data(typeColor)','width':5}
             },
-            {selector: 'edge.highlight',
+            {
+                selector: 'edge.highlight',
                 css: {'line-color': 'data(typeColor)', 'width': 5}
             },
-            {selector: 'node.highlight',
+            {
+                selector: 'node.highlight',
                 css: {'background-color': 'data(nodeColor)', 'width':80, 'height':80, 'label': 'data(name)',
                     'font-size': '20px',
                     'text-valign': 'center',
@@ -129,10 +140,12 @@ $(function() {
                     'text-border-opacity': 1,
                     'color': '#fff'}
             },
-            {selector: 'edge.highlightN',
+            {
+                selector: 'edge.highlightN',
                 css: {'line-color': 'data(typeColor)', 'width': 6}
             },
-            {selector: 'node.highlightN',
+            {
+                selector: 'node.highlightN',
                 css: {
 
                     'background-color': 'data(nodeColor)', 'width':50, 'height':50, 'label': 'data(name)',
@@ -148,12 +161,14 @@ $(function() {
                     'text-border-opacity': 1,
                     'color': '#fff'}
             },
-            {selector:'node.highlightNspecial',
+            {
+                selector:'node.highlightNspecial',
                 css:{
 
-                    'overlay-color':'#99ff99',
+                   // 'background-color': 'data(nodeColor)',  /*'border-color': '#00ffcc', 'border-width':'6',*/ 'width':100, 'height':100, 'label': 'data(name)',
+                   'overlay-color':'#99ff99',
                     'overlay-padding':60,
-                    'overlay-opacity':0.3,
+                   'overlay-opacity':0.3,
                     'width':80, 'height':80,
                     'font-size': '20px',
                     'text-valign': 'center',
@@ -168,6 +183,8 @@ $(function() {
                     'color': '#fff'
                 }
             }
+
+
         ],
         elements: {
             nodes: nodesList,
@@ -180,8 +197,10 @@ $(function() {
         layout: {
             name: 'cose',
             nodeSpacing: 5,
+         //   animate: true,
             randomize:true,
             overlap:false,
+         //   maxSimulationTime: 1500,
             ready: function () {},
             stop: function () {}
         },
@@ -225,9 +244,47 @@ $(function() {
 
     });*/
    
+  /* var eles= cy.elements().nodes();
+    $.each(eles, function () {
+        var dc=cy.$().dc({root: this}).degree;
+        var btwn=cy.$().bc().betweennessNormalized(this);
+        if(btwn>0){
+            this.css({'width':(btwn*100) + 70,"height": (btwn*100)+70});
+        //   this.style("width", (btwn*100) + 70).style("height", (btwn*100)+70);
+        }
+    });
+*/
+  /*  $("#cy").cytoscape(function () {
+        var bcList= cy.elements().nodes().map(function (ele) {
+            var dc=cy.$().dc({root: ele}).degree;
+            var btwn=cy.$().bc().betweennessNormalized(ele);
+            //   console.log(dc + "||" + btwn);
+            //    if(dc<100)
+            //   ele.style("width", 500*btwn+ dc+30).style("height", 500*btwn + dc+30);
+            // else
+            //   ele.style("width", 10*btwn+(dc/20)).style("height",10*btwn+(dc/20));
+            return dc;
+        });
+        //    var maxbtwn=Math.max.apply(null, bcList);
+        var maxDegree= Math.max.apply(null, bcList);
+        // console.log(maxbtwn);
+        console.log(maxDegree);
+   });*/
    
-  cy.nodes().forEach(function (n) {
+    /* cy.on('tap', 'edge', function(){
+     try{
+     window.open(this.data('href'));
+
+     }catch(e){
+     window.location.href=this.data('href');
+     }
+     });*/
+
+
+   
+    cy.nodes().forEach(function (n) {
         var g = n.data('id');
+    //    var gUrl = n.data('href');
         var uUrl = n.data('uniprotUrl');
         var speciesTypeKey= n.data('speciesTypeKey');
         var geneSymbolCount= n.data('geneSymbolCount');
@@ -316,7 +373,8 @@ $(function() {
         for(var i=0;i<sourcedbCount;i++){
             var attNameDb= "sourcedb" + i ;
           innerhtml= innerhtml+ "<td>" + this.data(attNameDb)+ "<br>";
-         }
+        //    alert(this.data(attNameDb));
+        }
         innerhtml=innerhtml+ "</td></tr>" +
             "<tr><td  style='font-weight: bold'>IMEX ID</td>"  ;
         for(var j=0; j<imexCount;j++){
@@ -428,10 +486,14 @@ $(function() {
         });
 
     });
+
+  
     var selected = cy.collection();
     $(".netrow").click(function () {
         cy.elements().removeClass('faded').removeClass('active').removeClass('highlightN').removeClass('H').removeClass('M').removeClass('R').removeClass('typeOn').removeClass('Q').removeClass('common');
-         if($(this).hasClass("selected")){
+       //cy.elements().removeStyle();
+        //  $(this).addClass("selected").siblings().removeClass("selected");
+        if($(this).hasClass("selected")){
             $(this).removeClass("selected");
         }else {
             $(this).addClass("selected");
@@ -441,6 +503,8 @@ $(function() {
         var $type= $(this).find(".type").html();
         $("#cy").cytoscape(function () {
             var cy = this;
+            //    var edges= cy.edges().filter('[target="'+ $t + '"]','[source="'+ $src + '"]');
+            //   var edges= cy.edges('[target=\"'+ $t + '\"],[source=\"'+ $src + '\"]');
             var name = $s + "-->" + $t;
             var edges = cy.edges().filter('[source="' + $s + '"][target=\"' + $t + '\"][description=\"' + $type + '\"]');
             if (edges.hasClass('highlight')) {
@@ -459,7 +523,7 @@ $(function() {
                 selected.removeClass('faded');
                 selected.connectedNodes().removeClass('faded');
             }
-
+            //  alert($src +"  : " + $t);
         });
     });
    
@@ -478,6 +542,8 @@ $(function() {
             var cy = this;
 
             var nodes = cy.nodes().filter('[id="' + $id + '"]');
+
+          //  var eles= cy.elements().filter('.highlightN');
             var eles= cy.elements().filter('.highlightNspecial');
             var fadedNodes= cy.elements().filter(".faded");
             cy.elements().addClass('faded');
@@ -513,11 +579,21 @@ $(function() {
 $("input[name='intType']").click(function(){
     var clas=this.value;
     var prop= $(this).prop("checked")==true;
+  //  alert(this.value.toString())
     $.each(types, function (index, value) {
         if (index ==clas) {
             var color = value;
             $("#cy").cytoscape(function () {
                 var cy = this;
+
+            /*    cy.elements().removeClass('faded').removeClass('active').removeClass('highlight').removeClass('H').removeClass('M').removeClass('R').removeClass('Q').removeClass('common');
+                $("input[name='species']").prop('checked', false);
+                $("input[name='query']").prop('checked', false);
+                $("input[name='common']").prop('checked', false);
+                $(".noderow").removeClass('selected');
+                $(".netrow").removeClass('selected');*/
+
+
                 var edges = cy.edges().filter('[typeColor="' + color + '"]');
                 cy.elements().addClass('faded');
                 var typeOnEdges=  cy.elements().filter('.typeOn');
@@ -525,17 +601,21 @@ $("input[name='intType']").click(function(){
                 typeOnEdges.connectedNodes().removeClass('faded');
                 if(prop){
                     edges.addClass('typeOn');
+                  //  edges.connectedNodes().style('border-color', color).style('border-width', 5).style('shape', 'circle').style('text-background-color', color);
                     edges.connectedNodes().addClass('typeOn');
                     edges.removeClass('faded');
                     edges.connectedNodes().removeClass('faded');
                  }else{
                     edges.removeClass('typeOn');
+                  //  edges.connectedNodes().removeStyle('border-color', color).removeStyle('border-wdith', 2).removeStyle('shape','square').removeStyle('text-background-color', color);
                     edges.connectedNodes().removeClass('typeOn');
                 }
 
             });
         }
     });
+
+
 });
 
     var $config1 = $('.species');
@@ -554,16 +634,25 @@ $("input[name='intType']").click(function(){
         var prop= $(this).prop("checked")==true;
         $("#cy").cytoscape(function () {
                 var cy = this;
+           /*     cy.elements().removeClass('faded').removeClass('active').removeClass('highlight').removeClass('typeOn').removeClass('Q').removeClass('common');
+              //  cy.elements().removeStyle();
+                $("input[name='intType']").prop('checked', false);
+                $("input[name='query']").prop('checked', false);
+                $("input[name='common']").prop('checked', false);
+                $(".noderow").removeClass('selected');
+                $(".netrow").removeClass('selected');*/
                 var elesRat= cy.nodes().filter('.rat');
                 var elesMouse=cy.nodes().filter('.mouse');
                 var elesHuman=cy.nodes().filter('.human');
                 var elesfaded=cy.nodes().filter('.faded');
+
                 cy.elements().addClass('faded');
                 elesRat.removeClass('faded');
                 elesMouse.removeClass('faded');
                 elesHuman.removeClass('faded');
                 elesfaded.addClass('faded');
-                 var nodes = cy.nodes().filter('.' + clas);
+
+                   var nodes = cy.nodes().filter('.' + clas);
                 if(prop){
                     nodes.removeClass('faded');
                }else{
@@ -586,17 +675,24 @@ $("input[name='intType']").click(function(){
             if(checked){
                 removeAll();
                 $(_this).prop("checked", true);
-               cy.elements().dfs({
+           /* var dfs =*/ cy.elements().dfs({
                 roots: 'node',
                 visit: function (i, depth) {
-                   if (this.degree() >= 2) {
+              //          console.log('visit: ' + i + "||" + this.id() + "Depth:" + depth);
+               //        console.log("Degree Centrality: " + cy.$().dc({root:this}).degree);
+                //       console.log("Betweennes: " + cy.$().bc().betweenness(this));
+                  //   console.log("ClosenessCentrality: " + cy.$().cc({root: this}));
+                    if (this.degree() >= 2) {
                         if (this.parallelEdges()) {
                             var v = this.neighborhood().connectedNodes();
-                             if (v.length > 2) {
+                            // console.log(v.length);
+                            // console.log(this.id());
+                            if (v.length > 2) {
                               commonNode.push(this);
-
+                               // callCommon(this);
                             }
                         }
+
                     }
                 }
             });
@@ -613,14 +709,18 @@ $("input[name='intType']").click(function(){
 
     function callCommon(nodes) {
        var eles = cy.elements();
+
        eles.addClass('faded');
+
       $.each(nodes, function (i, node) {
           console.log(nodes[i].data('id') + " other nodes ");
           $.each(nodes, function(j){
               if(nodes[j]!=node){
+                  //  console.log(nodes[j].data("id"));
                   var edges= cy.elements().filter('[source="' + node.data("id") + '"][target="' + nodes[j].data("id") + '"]');
                    $.each(edges, function () {
-                      if(this.hasClass("common")){
+                      // console.log(this.data("name"));
+                       if(this.hasClass("common")){
                            this.removeClass("common");
                            this.connectedNodes().removeClass("common");
                        }else{
@@ -635,6 +735,7 @@ $("input[name='intType']").click(function(){
 
           });
         });
+
     }
     var $configq = $('.q');
     var $ulq = $('<ul id="query" style="list-style-type:none"></ul>');
@@ -657,9 +758,9 @@ $("input[name='intType']").click(function(){
                             var geneCount = this.data('geneSymbolCount');
                             for (var i = 0; i < geneCount; i++) {
                             var str1= node.data('name').toLowerCase();
-                               
+                                console.log("str: "+ str);
                                 var str2= "(" + str.toLowerCase() +")";
-                               
+                               console.log("str2: " + str2);
                             if (node.data('id') == str || node.data('gene'+ i) == str || str1.indexOf(str2)!=-1) {
                                 node.addClass('Q');
                             }
@@ -679,7 +780,7 @@ $("input[name='intType']").click(function(){
     var $lil3= $('<li><input type="radio" name="layout" value="grid">' + "grid" + '</li>');
     var $lil4= $('<li><input type="radio" name="layout" value="cola" >' + "cola" + '</li>');
     var $lil5= $('<li><input type="radio" name="layout" value="breadthfirst" >' + "breadthfirst" + '</li>');
-
+   // var $lil6= $('<li><input type="radio" name="layout" value="springy">' + "springy" + '</a></li>');
     $ull.append($lil1);
     $ull.append($lil2);
     $ull.append($lil3);
@@ -691,11 +792,17 @@ $("input[name='intType']").click(function(){
     $("input[type='radio']").click(function(){
         var radioValue=$("input[name='layout']:checked").val();
         if(radioValue){
-
+          //  alert("you selected: " + radioValue);
             options = {
                 name: radioValue,
                 nodeSpacing: 5
-               };
+              //  directed:true,
+              //  padding:10,
+             //   edgeLengthVal: 45,
+              //  animate: true,
+             //   randomize: false,
+             //   maxSimulationTime: 1500
+            };
             var layout = makeLayout();
             var running = false;
             cy.on('layoutstart', function () {
@@ -715,4 +822,66 @@ $("input[name='intType']").click(function(){
         return cy.makeLayout(options);
     }
  
+
+ /*   var configG=$("#controls");
+    var $ulG = $('<ul id="radio"></ul>');
+    var $liG1= $('<li><input type="radio" name="remove" value="remove">' + "Remove Selected Node" + '</li>');
+    var $liG2= $('<li><input type="radio" name="remove" value="restore">' + "Restore" + '</li>');
+    $ulG.append($liG1);
+    $ulG.append($liG2);
+    configG.append($ulG);
+
+    $("input[name='remove']").on('click', function () {
+        var radioValue = $("input[name='remove']:checked").val();
+        if (radioValue){
+            $("#cy").cytoscape(function () {
+                var cy = this;
+                var nodes = cy.nodes().filter(':selected');
+                var edges = nodes.connectedEdges();
+                if(radioValue=='remove'){
+                    nodes.remove();
+                }else {
+                           nodes.restore();
+                           edges.restore();
+                }
+            });
+    }
+    });*/
+
+
+ /*   var configNStat= $('#nodeStat');
+    var $table= $("<table id='statTable'></table>");
+    var $thRow= $("<th>Node</th><th>Degree Centrality</th><th>Betweenness Centrality</th><th>Closness Centrality</th>");
+    $table.append($thRow);
+    var commonNode = [];
+    var dfs = cy.elements().dfs({
+        roots: 'node',
+        visit: function (i, depth) {
+            var dc=cy.$().dc({root: this}).degree;
+            var btwn=cy.$().bc().betweennessNormalized(this);
+      //      var closeness=cy.$().cc({root: this});
+            var id= this.id();
+            //     console.log('visit: ' + i + "||" + this.id() + "Depth:" + depth);
+            //      console.log("Degree Centrality: " + cy.$().dc({root: this}).degree);
+            //      console.log("Betweennes: " + cy.$().bc().betweenness(this));
+            //      console.log("ClosenessCentrality: " + cy.$().cc({root: this}));
+            var $tr=$("<tr><td>" + id+ "</td><td style='text-align:center'>" + dc+ "</td><td>" + btwn + "</td></tr>");
+            $table.append($tr);
+            if (this.degree() >= 2) {
+                if (this.parallelEdges()) {
+                    var v = this.neighborhood().connectedNodes();
+                    // console.log(v.length);
+                    // console.log(this.id());
+                    if (v.length > 2) {
+                        commonNode.push(this);
+                        // callCommon(this);
+                    }
+                }
+            }
+        }
+    });
+    configNStat.append($table);*/
+
+/*************************************************************************************************************/
+
 });

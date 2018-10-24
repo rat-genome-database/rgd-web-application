@@ -24,14 +24,8 @@
     <td><b>Trait</b></td>
 </tr>
 <%
-   DaoUtils c= DaoUtils.getInstance();
     for (QTL qtl: qtls) {
-        List<Term> traitTerms = null;
-        try {
-            traitTerms = c.getTraitTermsForObject(qtl.getRgdId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Term> traitTerms = DaoUtils.getInstance().getTraitTermsForObject(qtl.getRgdId());
         if( traitTerms.isEmpty() ) {
             List<Note> notes = noteDAO.getNotes(obj.getRgdId(), "qtl_trait");
             if( !notes.isEmpty() ) {
@@ -50,7 +44,7 @@
                 <a title="show term annotations" href="<%=Link.ontAnnot(term.getAccId())%>" ><img border="0" alt="" src="/rgdweb/images/icon-a.gif"></a>
                 <a title="browse term tree" href="<%=Link.ontView(term.getAccId())%>"><img border="0" alt="" src="/rgdweb/common/images/tree.png"></a>
                 <br>
-            <% } else { %>
+                <% } else { %>
                 <%=term.getTerm()%><br>
                 <% }
                 } %>

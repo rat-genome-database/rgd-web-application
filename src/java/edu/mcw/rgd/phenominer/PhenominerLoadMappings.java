@@ -13,7 +13,7 @@ import java.sql.Types;
  * Date: 7/18/11 <br>
  * Time: 1:07 PM <br>
  * To change this template use File | Settings | File Templates.
- * <p/>
+ * <p>
  * utility class to handle loading/saving of pga mappings
  */
 public class PhenominerLoadMappings extends AbstractDAO {

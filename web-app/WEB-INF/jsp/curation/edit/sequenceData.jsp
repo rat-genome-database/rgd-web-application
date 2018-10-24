@@ -6,7 +6,7 @@
     List<Sequence> seqList = seqDAO.getObjectSequences(displayRgdId);
     String seqClone = "";
     if( !seqList.isEmpty() )
-        seqClone = seqList.get(0).getCloneSeq();
+        seqClone = seqList.get(0).getSeqData();
 %>
 
 <form action="updateSequence.html" >

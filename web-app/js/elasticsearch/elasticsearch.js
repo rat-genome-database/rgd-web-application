@@ -490,7 +490,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 }
 
 function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
-  
+
     var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6,speciesTypeKey, mapKey, objectkey;
     objectkey=objectType=='genes'?1:objectType=='strains'?5:objectType=="qtls"?6:objectType=="sslps"?3:objectType=="variants"?7:objectType=="reference"?12:objectType=="ontology"?0:null;
     if(species=='Rat'){

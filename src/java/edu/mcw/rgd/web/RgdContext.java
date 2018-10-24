@@ -11,14 +11,16 @@ import java.net.UnknownHostException;
  * Created by IntelliJ IDEA.
  * User: jdepons
  * Date: 8/28/12
- * Time: 11:57 AM
  * <p>
  * contains information global for the application
  */
 public class RgdContext {
 
-    private static boolean isCurator; // true iff host is KYLE or HASTINGS
-    private static boolean isProduction; // true iff host is HORAN/HANCOCK or OSLER/OWEN
+    private static boolean isCurator; // isPipelines() || isDev
+    private static boolean isProduction; // true iff host is HANCOCK or OWEN
+	private static boolean isPipelines; // true iff host is REED
+	private static boolean isTest; // true iff host is IRVINE
+	private static boolean isDev; // true iff host is HASTINGS
     private static String hostname;
 
 
@@ -48,7 +50,6 @@ public class RgdContext {
     public static void setChinchilla(ServletRequest request) throws UnknownHostException {
         LogFactory.getLog(RgdContext.class).debug("RgdContext.setChinchilla "+request.getServerName()+", "+request.toString());
         boolean isChin = (request.getServerName().contains("ngc.mcw.edu") || request.getServerName().contains("crrd.mcw.edu"));
-        //|| InetAddress.getLocalHost().getHostName().toLowerCase().contains("rgd-27p8tr1");
         request.setAttribute("isChin", isChin);
     }
 
@@ -57,11 +58,14 @@ public class RgdContext {
             return;
         try {
 
-            InetAddress addr = InetAddress.getLocalHost();
-
-            hostname = addr.getHostName().toLowerCase();
-            isCurator = hostname.contains("kyle") || hostname.contains("hastings") || hostname.contains("rgd-27p8tr1");
-            isProduction = hostname.contains("horan") || hostname.contains("osler") || hostname.contains("hancock") || hostname.contains("owen");
+            hostname = InetAddress.getLocalHost().getHostName().toLowerCase();
+			
+            isProduction = hostname.contains("hancock") || hostname.contains("owen");
+            isPipelines = hostname.contains("reed");
+            isDev = hostname.contains("hastings") || hostname.contains("rgd-27p8tr1");
+            isCurator = isPipelines || isDev;
+            isTest = hostname.contains("irvine");
+			
             //System.out.println("RgdContext: HOSTNAME="+hostname);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,4 +81,40 @@ public class RgdContext {
         parseHostName();
         return isProduction;
     }
+
+    public static boolean isPipelines() throws UnknownHostException {
+        parseHostName();
+        return isPipelines;
+    }
+
+    public static boolean isTest() throws UnknownHostException {
+        parseHostName();
+        return isTest;
+    }
+
+    public static boolean isDev() throws UnknownHostException {
+        parseHostName();
+        return isDev;
+    }
+	
+	public static String getESIndexName() {
+		try {
+			if( isProduction() ) {
+				return "rgd_index_prod";
+			}
+			if( isPipelines() ) {
+				return "rgd_index_cur";
+			}
+			if( isTest() ) {
+				return "rgd_index_test";
+			}
+			if( isDev() ) {
+				return "rgd_index_dev";
+			}
+			
+		} catch( UnknownHostException e ) {
+			return null;
+		}
+        return null;
+	}
 }

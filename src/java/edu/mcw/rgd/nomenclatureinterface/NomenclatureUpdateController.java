@@ -1,6 +1,7 @@
 package edu.mcw.rgd.nomenclatureinterface;
 
 import edu.mcw.rgd.dao.impl.NomenclatureDAO;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.dao.spring.XmlBeanFactoryManager;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,8 +48,12 @@ public class NomenclatureUpdateController implements Controller {
             warning = new ArrayList();
             status = new ArrayList();
 
+            XmlWebApplicationContext ctx = new XmlWebApplicationContext();
+            ctx.setServletContext(request.getSession().getServletContext());
+            ctx.refresh();
+
             NomenclatureManager manager = (edu.mcw.rgd.nomenclatureinterface.NomenclatureManager)
-                    (XmlBeanFactoryManager.getInstance().getBean("nomenclatureManager"));
+                    (ctx.getBean("nomenclatureManager"));
             request.setAttribute("NomenclatureManager", manager);
 
             //check request object for updates to nomenclature

@@ -34,18 +34,23 @@
       <td>
         <select onchange="populateMapKeys()" id="selectSpecies">
           <option <%=speciesTypeKey==SpeciesType.HUMAN?"selected=\"selected\"":""%>>Human</option>
+          <option <%=speciesTypeKey==SpeciesType.MOUSE?"selected=\"selected\"":""%>>Mouse</option>
           <option <%=speciesTypeKey==SpeciesType.RAT?"selected=\"selected\"":""%>>Rat</option>
         </select>
       </td>
       <td>
         <select id="mapKey" name="mapKey">
             <% if( speciesTypeKey==SpeciesType.HUMAN ) { %>
+              <option value="38" <%=mapKey==38?"selected":""%>>GRCh38 (hg38)</option>
               <option value="17" <%=mapKey==17?"selected":""%>>GRCh37 (hg19)</option>
               <option value="13" <%=mapKey==13?"selected":""%>>NCBI 36 (hg18)</option>
+            <% } else if( speciesTypeKey==SpeciesType.MOUSE ) { %>
+              <option value="35" <%=mapKey==35?"selected":""%>>GRCm38</option>
+              <option value="18" <%=mapKey==18?"selected":""%>>MGSCv37</option>
             <% } else if( speciesTypeKey==SpeciesType.RAT ) { %>
-              <option value="360" <%=mapKey==360?"selected":""%>>Rnor6.0</option>
-              <option value="70" <%=mapKey==70?"selected":""%>>Rnor5.0</option>
-              <option value="60" <%=mapKey==60?"selected":""%>>RGSC3.4</option>
+            <option value="360" <%=mapKey==360?"selected":""%>>Rnor6.0</option>
+            <option value="70" <%=mapKey==70?"selected":""%>>Rnor5.0</option>
+            <option value="60" <%=mapKey==60?"selected":""%>>RGSC3.4</option>
             <% } else { %>
             <% } %>
         </select>
@@ -91,8 +96,14 @@
         var speciesName = document.getElementById('selectSpecies').value;
         if( speciesName=='Human' ) {
             mapKeyObj.innerHTML =
+            '<option value="38">GRCh38 (hg18)</option>\n'+
             '<option value="17">GRCh37 (hg19)</option>\n'+
             '<option value="13">NCBI 36 (hg18)</option>\n';
+        }
+        else if( speciesName=='Mouse' ) {
+            mapKeyObj.innerHTML =
+            '<option value="35">GRCm38</option>\n'+
+            '<option value="18">MGSCv37</option>\n';
         }
         else if( speciesName=='Rat' ) {
             mapKeyObj.innerHTML =
