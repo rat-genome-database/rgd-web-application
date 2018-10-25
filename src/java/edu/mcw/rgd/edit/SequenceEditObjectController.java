@@ -1,7 +1,6 @@
 package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.SequenceDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.Sequence;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -10,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: Feb 5, 2012
- * Time: 8:59:47 AM
+ * @author mtutaj
+ * @since Feb 5, 2012
  */
 public class SequenceEditObjectController extends EditObjectController {
 
@@ -47,10 +44,10 @@ public class SequenceEditObjectController extends EditObjectController {
 
         if( seqs.size()>0 ) {
             Sequence seq = seqs.get(0);
-            seq.setCloneSeq(req.getParameter("sequence"));
+            seq.setSeqData(req.getParameter("sequence"));
 
             if (persist) {
-                dao.updateSeqClone(seqRgdId, seq.getCloneSeq());
+                dao.updateSequence(seq);
             }
         }
 
