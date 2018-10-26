@@ -58,33 +58,29 @@
   </table>
 </form>
 
-<form name="createPgaStudy" action="studies.html">
+<form name="createStudy" action="studies.html">
     <input name="act" type="hidden" value="save">
   <table width="90%" cellpadding="5" style="border:1px solid black;background-color:#fef0dc;">
     <tr>
-        <td style="font-weight:700;font-size:16px;">Create a PGA Study</td>
+        <td style="font-weight:700;font-size:16px;">Create a New Study</td>
     </tr>
     <tr>
       <td width="33%">Study Name:</td>
-      <td width="33%"><input type="text" name="name" value="PGA "></td>
+      <td width="33%"><input type="text" name="name" value=""></td>
+    </tr>
+    <tr>
+          <td>Study Source:</td>
+          <td><input type="text" name="source" value=""></td>
     </tr>
     <tr>
       <td>Study Type:</td>
-      <td>
-          <select name="type">
-              <option value="PGA consomic protocol" selected="selected">PGA consomic protocol</option>
-              <option value="PGA mutant protocol">PGA mutant protocol</option>
-          </select>
-       </td>
-      <tr>
-        <td>Study Source:</td>
-        <td><input type="text" name="source" value="PGA"></td>
-      </tr>
-      <tr>
-        <td>Study URL:</td>
-        <td><input type="text" name="url" value="http://pga.mcw.edu"></td>
-        <td><input type="submit" name="create_pga_study" value="Create Study"></td>
-      </tr>
+      <td><input type="text" name="type" value=""></td>
+    </tr>
+    <tr>
+        <td>Ref RGD Id:</td>
+        <td><input type="text" name="refRgdId" value=""></td>
+        <td><input type="submit" name="create_study" value="Create Study"></td>
+    </tr>
   </table>
 </form>
 

@@ -28,7 +28,6 @@
                 <prop key="curation/phenominer/studies.html">PhenominerStudyController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
-                <prop key="curation/phenominer/pgaload.html">PhenominerPgaLoadController</prop>
 
                 <prop key="curation/nomen/nomenSearch.html">nomenclatureUpdateController</prop>
                 <prop key="curation/nomen/nomenEdit.html">nomenclatureUpdateController</prop>
@@ -275,7 +274,6 @@
     <bean id="PhenominerStudyController" class="edu.mcw.rgd.phenominer.PhenominerStudyController"/>
     <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
     <bean id="PhenominerRecordController" class="edu.mcw.rgd.phenominer.PhenominerRecordController"/>
-    <bean id="PhenominerPgaLoadController" class="edu.mcw.rgd.phenominer.PhenominerPgaLoadController"/>
 
 
     <bean id="GeneReportController" class="edu.mcw.rgd.report.GeneReportController"/>
