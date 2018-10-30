@@ -1,5 +1,6 @@
 package edu.mcw.rgd.models;
 
+
 import edu.mcw.rgd.dao.impl.GeneticModelsDAO;
 import edu.mcw.rgd.datamodel.models.GeneticModel;
 import edu.mcw.rgd.process.Utils;
@@ -20,7 +21,9 @@ import java.util.*;
 public class DownloadController extends GeneticModelsController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         GeneticModelsDAO geneticModelsDAO= new GeneticModelsDAO();
+
         List<GeneticModel> strains = geneticModelsDAO.getGerrcModels();
         List<GeneticModel> strainsWithAliasesInfo= this.getStrainWithAliases(strains);
         Collections.sort(strainsWithAliasesInfo, new Comparator<GeneticModel>() {
