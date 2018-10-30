@@ -27,40 +27,39 @@
                 <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
                  <strong>Analysis Description:</strong>
                     PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
-                    <!--Meta-analysis is the statistical procedure for combining data from multiple studies. When the treatment effect (or effect size) is consistent from one study to the next, meta-analysis can be used to identify this common effect. When the effect varies from one study to the next, meta-analysis may be used to identify the reason for the variation.-->
+
                 </div>
                 <div style="width:50%;">
                 <table class="table" style="width:90%">
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Clinical Measurement</td><td>
-          <c:set var="ranges" value="${model.records}"/>
-            <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
-                <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
-                <input type="hidden" id="trait" name="trait" value="${model.traitOntId}">
-                      <select id="erPhenotypesSelect" class="form-control form-control-sm " style="z-index: 999">
-                    <c:forEach items="${model.phenotypes}" var="item">
-                        <c:choose>
-                            <c:when test="${model.phenotype.equals(item.clinicalMeasurement)}">
-                                <option value="${item.clinicalMeasurementOntId}" selected>${item.clinicalMeasurement}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${item.clinicalMeasurementOntId}">${item.clinicalMeasurement}</option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
+                  <c:set var="ranges" value="${model.records}"/>
+                    <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
+                        <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
+                        <input type="hidden" id="trait" name="trait" value="${model.traitOntId}">
+                              <select id="erPhenotypesSelect" class="form-control form-control-sm " style="z-index: 999">
+                            <c:forEach items="${model.phenotypes}" var="item">
+                                <c:choose>
+                                    <c:when test="${model.phenotype.equals(item.clinicalMeasurement)}">
+                                        <option value="${item.clinicalMeasurementOntId}" selected>${item.clinicalMeasurement}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${item.clinicalMeasurementOntId}">${item.clinicalMeasurement}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
 
-                </select>
-            </form>
-                </td></tr>
-                 <c:if test="${model.trait!=null && model.trait!=''}"><tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td><td style="text-transform: capitalize">${model.trait}</td></c:if></tr>
+                        </select>
+                    </form>
+                </td>
+                </tr>
+
+                    <tr><c:if test="${model.trait!=null && model.trait!=''}"><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td>
+                        <td style="text-transform: capitalize">${model.trait}</td> </c:if></tr>
+
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains</td><td>Inbred </td></tr>
                 </table>
         </div>
-
-
-        <!--h4 style="text-transform: capitalize;color:#24609c;">$--{model.phenotype} <!--c:if test="$-{model.trait!=null}"> - $-{model.trait}<!--/c:if> - Inbred Strains</h4-->
-
-
-            <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
+           <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
                 <table class="table rangeOptionsTable" id="expectedRangeOptionsTable">
                         <!--caption style="background-color: #eeeeee;padding-left:10px;color:#24609c;font-weight: 100">Options/Filters</caption-->
                         <tr class="rangeOptionsRow">
@@ -111,7 +110,7 @@
                                 <table>
                                     <tr><td><input type="checkbox"  class="form-check-input phenotypesex" name="phenotypesex" value="Female">&nbsp;&nbsp;Female</td></tr>
                                     <tr><td><input type="checkbox"  class="form-check-input phenotypesex" name="phenotypesex" value="Male">&nbsp;&nbsp;Male</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex"  name="phenotypesex"value="Mixed">&nbsp;&nbsp;Mixed</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex"  name="phenotypesex" value="Mixed">&nbsp;&nbsp;Mixed</td></tr>
                                  </table>
                             </td>
                             <td class="rangeOptionsColumn">
