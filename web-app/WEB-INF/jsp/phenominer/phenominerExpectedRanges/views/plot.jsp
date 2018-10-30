@@ -52,7 +52,8 @@
 <span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE HIGH:</span><strong>${model.normalFemale.rangeHigh}</strong>
    </c:if>
 </div>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+<script src="/rgdweb/js/expectedRanges/plotly-latest.min.js"></script>
 <script src="/rgdweb/js/expectedRanges/expectedRanges.js"></script>
 
 <script>
