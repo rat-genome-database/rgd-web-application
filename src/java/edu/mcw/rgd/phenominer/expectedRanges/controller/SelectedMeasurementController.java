@@ -64,9 +64,28 @@ public class SelectedMeasurementController implements Controller {
         }
 
         List<PhenominerExpectedRange> records = dao.getExpectedRanges(cmoID, null, null, null, null, null, isPGA);
+
+
+       PhenominerExpectedRange normalRecord=getPhenotypeExpectedRangeRecordNormal(records,"Mixed");
+       PhenominerExpectedRange normalMaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Male");
+        PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
+
         records.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getStrainGroupName(), o2.getStrainGroupName()));
 
         session.setAttribute("phenotypes", phenotypes);
+        if(normalRecord!=null){
+            model.addAttribute("normalAll", normalRecord);
+            //   System.out.println("NORMAL RECORD:" +object.getNormalAll().getGroupLow()+"\t" +object.getNormalAll().getGroupHigh());
+        }
+        if(normalMaleRecord!=null) {
+           model.addAttribute("normalMale",normalMaleRecord);
+        }
+
+        if(normalFemaleRecord!=null) {
+            model.addAttribute("normalFemale",normalFemaleRecord);
+        }
+
+
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));
         model.addAttribute("phenotype", phenotype);
@@ -78,6 +97,25 @@ public class SelectedMeasurementController implements Controller {
         model.addAttribute("strainGroupMap", process.getStrainGroupMap(records));
         model.addAttribute("conditions", Arrays.asList("Control Conditions"));
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/phenotype.jsp", "model", model);
+    }
+
+    public PhenominerExpectedRange getPhenotypeExpectedRangeRecordNormal(List<PhenominerExpectedRange> records, String sex){
+        for(PhenominerExpectedRange r:records){
+            PhenominerExpectedRange normalStrain= new PhenominerExpectedRange();
+
+            if(r.getExpectedRangeName().contains("NormalStrain")){
+                if(r.getSex().equalsIgnoreCase(sex) && r.getAgeLowBound()==0 && r.getAgeHighBound() == 999){
+                    normalStrain.setRangeValue(r.getRangeValue());
+                    normalStrain.setRangeLow(r.getRangeLow());
+                    normalStrain.setRangeHigh(r.getRangeHigh());
+                    return normalStrain;
+                }
+
+            }
+
+
+        }
+        return null;
     }
 
 }
