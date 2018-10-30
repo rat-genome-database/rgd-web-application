@@ -88,7 +88,13 @@
         <td>Type:</td><td><input size="40" type="text" name="type" id="type" value="<%=dm.out("type", study.getType())%>"> </td>
     </tr>
     <tr>
-        <td>Reference:</td><td><input type="text" size="15" name="reference" id="reference" value="<%=dm.out("reference", ref)%>"> </td>
+        <td>Reference:</td><td><input type="text" size="15" name="refRgdId" id="refRgdId" value="<%=dm.out("refRgdId", ref)%>"> </td>
+    </tr>
+    <tr>
+        <td>Data Type:</td><td><input size="40" type="text" name="dataType" id="dataType" value="<%=dm.out("dataType", study.getDataType())%>"> </td>
+    </tr>
+    <tr>
+        <td>GEO Series Acc:</td><td><input size="40" type="text" name="geoSeriesAcc" id="geoSeriesAcc" value="<%=dm.out("geoSeriesAcc", study.getGeoSeriesAcc())%>"> </td>
     </tr>
     <tr><td>&nbsp;</td></tr>
     <tr>

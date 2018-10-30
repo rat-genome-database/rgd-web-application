@@ -31,6 +31,7 @@ public class ExpectedRangeHomeController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         OntologyXDAO xdao=new OntologyXDAO();
         ExpectedRangeProcess process= new ExpectedRangeProcess();
 
@@ -39,8 +40,6 @@ public class ExpectedRangeHomeController implements Controller {
         List<PhenotypeObject> overAllObjects= new ArrayList<>();
         List<Term> distinctTraits = new ArrayList<>();
         Map<List<Term>, List<PhenotypeObject>> objectsNTraits;
-
-
 
         List<String> phenotypes=process.getPhenotypesByAncestorTrait(traitOntId);
         boolean selectByTrait=false;
@@ -111,7 +110,9 @@ public class ExpectedRangeHomeController implements Controller {
         HttpSession session= request.getSession();
         session.setAttribute("phenotypes",phenotypeObjects);
         session.setAttribute("strainObjects", strainObjects);
+
         Map<Term, List<PhenotypeObject>> traitSubtraitMap= process.getTraitSubtraitMap(distinctTraits, overAllObjects);
+
         model.addAttribute("traitSubtraitMap",traitSubtraitMap);
         model.addAttribute("counts", overAllObjects);
         model.addAttribute("traitOntId", traitOntId);
