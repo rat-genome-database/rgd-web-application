@@ -2,13 +2,8 @@ package edu.mcw.rgd.search.elasticsearch1.controller;
 
 
 import com.google.gson.Gson;
-
-
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-
-
-;
-import edu.mcw.rgd.search.elasticsearch1.model.RgdIndex;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.common.xcontent.ToXContent;
@@ -173,16 +168,16 @@ public class AutocompleteController implements Controller {
 
 
             List<String> autocompleteList = new ArrayList<>();
-            SearchResponse sr=null;
+            SearchResponse sr;
             if(!category.equalsIgnoreCase("general") && !category.equalsIgnoreCase("reference") && !category.equalsIgnoreCase("ontology")){
-                sr = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                     .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                     .setQuery(dqb)
                         .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)))
                         .setFrom(0).setSize(20)
                     .get();
             }else {
-                sr = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                         .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                         .setQuery(dqb)
                         .setFrom(0).setSize(20)

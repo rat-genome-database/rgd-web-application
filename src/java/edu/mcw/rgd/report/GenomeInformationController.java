@@ -1,15 +1,12 @@
 package edu.mcw.rgd.report;
 
-
-
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.*;
-
 
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch1.model.RgdIndex;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 
 import org.elasticsearch.index.query.QueryBuilders;
@@ -99,39 +96,40 @@ public class GenomeInformationController implements Controller{
 
        return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/genomeInfoHome.jsp", "model", model );
     }
-public java.util.Map<String, List<Map>> getAllSpeciesAssemblyListMap() throws Exception {
-    java.util.Map<String, List<Map>> assemblyListsMap= new HashMap<>();
-    for(int speciesKey:SpeciesType.getSpeciesTypeKeys()){
-        List<Map> maps= mdao.getMaps(speciesKey, "bp");
-        assemblyListsMap.put(SpeciesType.getCommonName(speciesKey), maps);
+
+    public java.util.Map<String, List<Map>> getAllSpeciesAssemblyListMap() throws Exception {
+        java.util.Map<String, List<Map>> assemblyListsMap= new HashMap<>();
+        for(int speciesKey:SpeciesType.getSpeciesTypeKeys()){
+            List<Map> maps= mdao.getMaps(speciesKey, "bp");
+            assemblyListsMap.put(SpeciesType.getCommonName(speciesKey), maps);
+        }
+        return assemblyListsMap;
     }
-    return assemblyListsMap;
-}
-   public List<SearchHit[]> getGenome(int mapkey){
+
+    public List<SearchHit[]> getGenome(int mapkey){
         List<SearchHit[]> hitsList= new ArrayList<>();
 
-       SearchResponse sr=new SearchResponse();
-        if(mapkey==0) {
+        SearchResponse sr;
+        if( mapkey==0 ) {
             System.out.println("SPECIES AND MAPKEY 0");
-            sr = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                     .setTypes("genomeinfo")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setSize(100)
                  //   .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")))
                     .get();
             System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
-        }else
-        {
-            sr = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
+        }else {
+            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                     .setTypes("genomeinfo")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
                     .get();
         }
-       if(sr!=null) {
-           hitsList.add(sr.getHits().getHits());
-           System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
-       }
+        if(sr!=null) {
+            hitsList.add(sr.getHits().getHits());
+            System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+        }
         return hitsList;
     }
 

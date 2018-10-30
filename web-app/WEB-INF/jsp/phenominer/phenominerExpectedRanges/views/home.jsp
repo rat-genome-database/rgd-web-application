@@ -104,7 +104,7 @@
                                                 </c:forEach>
                                             </span></td>
                                             <td><span style="text-transform: capitalize"><a href="selectedMeasurement.html?cmoId=${i.clinicalMeasurementOntId}&trait=${model.traitOntId}&traitExists=${traitExists}" style="cursor: hand;color:#006dba" title="Click to view measurement data">${i.clinicalMeasurement}</a></span></td>
-                                            <td>${i.normalRange}</td>
+                                            <td><!--$-{i.normalRange}--></td>
                                             <td>${i.strainSpecifiedRecordCount}</td>
                                             <td>${i.sexSpecifiedRecordCount}</td>
                                             <td>${i.ageSpecifiedRecordCount}</td>

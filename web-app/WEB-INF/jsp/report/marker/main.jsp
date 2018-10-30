@@ -2,10 +2,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.SSLP" %>
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%--
-  Created by IntelliJ IDEA.
   User: jdepons
   Date: May 30, 2008
-  Time: 4:19:11 PM
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
@@ -80,7 +78,7 @@
 
 
             <br><div  class="subTitle">Strains and Sequence</div><br>
-            <%@ include file="../sequence.jsp"%>
+            <%@ include file="sequence.jsp"%>
             <%@ include file="strainVariation.jsp"%>
 
             <br><div  class="subTitle">Region</div><br>

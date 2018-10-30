@@ -146,11 +146,11 @@
             if (window.location.host.indexOf("localhost") > -1) {
                 host= window.location.protocol + "//localhost:8080";
             } else if (window.location.host.indexOf("dev.rgd") > -1) {
-                host= window.location.protocol + "//dev.rgd.mcw.edu:8080";
+                host= window.location.protocol + "//dev.rgd.mcw.edu";
             }else if (window.location.host.indexOf("test.rgd") > -1) {
-                host= window.location.protocol + "//test.rgd.mcw.edu:8080";
+                host= window.location.protocol + "//test.rgd.mcw.edu";
             }else if (window.location.host.indexOf("pipelines.rgd") > -1) {
-                host= window.location.protocol + "//pipelines.rgd.mcw.edu:8080";
+                host= window.location.protocol + "//pipelines.rgd.mcw.edu";
             }else {
                 host=window.location.protocol + "//rest.rgd.mcw.edu";
             }
@@ -158,7 +158,7 @@
             ctrl.load = function () {
                 $http({
                     method: 'GET',
-                    //url: "http://dev.rgd.mcw.edu:8080/rgdws/phenotype/phenominer/chart/RS%3A0000029%2CRS%3A0001860%2CRS%3A0001381%2CCMO%3A0000015",
+                    //url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/3/chart/RS%3A0000029%2CRS%3A0001860%2CRS%3A0001381%2CCMO%3A0000015",
                     url: host + "/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
                 }).then(function successCallback(response) {
 

@@ -3,14 +3,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.RgdId" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
-    <%@ include file="sectionHeader.jsp"%>
+<%@ include file="sectionHeader.jsp"%>
 <%
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
-
-    List speciesList = new ArrayList();
-    speciesList.add("Rat");
-    speciesList.add("Mouse");
-    speciesList.add("Human");
 
     List statusList = new ArrayList();
     statusList.add("ACTIVE");
@@ -35,7 +30,9 @@
     </tr>
     <tr>
         <td class="label" valign="top">Species:</td>
-        <td><%=SpeciesType.getTaxonomicName(id.getSpeciesTypeKey())%></td>
+        <td><a href="<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(id.getSpeciesTypeKey())%>"
+               title="<%=SpeciesType.getGenebankCommonName(id.getSpeciesTypeKey())%>">
+            <%=SpeciesType.getTaxonomicName(id.getSpeciesTypeKey())%></a></td>
     </tr>
     <tr>
         <td class="label">Last Modified:</td>

@@ -33,7 +33,8 @@
 
                 <h3>Phenominer Expected Ranges</h3>
                 <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
-                    <strong>Analysis Description:</strong> Meta-analysis is the statistical procedure for combining data from multiple studies. When the treatment effect (or effect size) is consistent from one study to the next, meta-analysis can be used to identify this common effect. When the effect varies from one study to the next, meta-analysis may be used to identify the reason for the variation.
+                    <strong>Analysis Description:</strong>
+                    PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
                 </div>
                 <div style="width:50%;">
                     <table class="table" style="width:90%">

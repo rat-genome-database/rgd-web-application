@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 9/20/11 <br>
  * Time: 3:54 PM <br>
  * To change this template use File | Settings | File Templates.
- * <p/>
+ * <p>
  * CLASS DESCRIPTION HERE
  */
 public class PipelineLogsHomeController implements Controller {

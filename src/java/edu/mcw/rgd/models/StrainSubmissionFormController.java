@@ -7,7 +7,7 @@ import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
-
+import edu.mcw.rgd.edit.submittedStrains.EditHomePageController;
 import edu.mcw.rgd.my.MyRGDLookupController;
 import edu.mcw.rgd.web.VerifyRecaptcha;
 import org.springframework.ui.ModelMap;
@@ -152,8 +152,8 @@ public class StrainSubmissionFormController implements Controller {
                    String curatorMsg="Dear RGD Curators, \n\nA new strain registration information has been generated.\n\n" +
                            "Submitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status+"\nSubmission Key:  "+insertedCount +"\nLink to Submitted Strains Interface: " +link;
                     MyRGDLookupController.send(submitterEmail, "Strain Submission", userMsg   );
-                   MyRGDLookupController.send("rgd.data2@mcw.edu", "New Strain Submission", curatorMsg);
-                //  MyRGDLookupController.send("jthota@mcw.edu", "New Strain Submission", curatorMsg);
+                   // MyRGDLookupController.send("rgd.data2@mcw.edu", "New Strain Submission", curatorMsg);
+                    MyRGDLookupController.send("jthota@mcw.edu", "New Strain Submission", curatorMsg);
                     response.getWriter().write(msg);
                     return null;
                 }

@@ -274,7 +274,7 @@ public class DistributionController extends HaplotyperController {
              vsb.setScore(req.getParameter("scoreLowBound"), req.getParameter("scoreHighBound"));
              vsb.setDBSNPNovel(req.getParameter("notDBSNP"), req.getParameter("foundDBSNP"));
              vsb.setLocation(req.getParameter("intron"), req.getParameter("3prime"), req.getParameter("5prime"), req.getParameter("proteinCoding"));
-             vsb.setPseudoautosomal(req.getParameter("excludePsudoautosomal"), req.getParameter("onlyPsudoautosomal"));
+             //vsb.setPseudoautosomal(req.getParameter("excludePsudoautosomal"), req.getParameter("onlyPsudoautosomal"));
              vsb.setAlleleCount(req.getParameter("alleleCount1"),req.getParameter("alleleCount2"),req.getParameter("alleleCount3"),req.getParameter("alleleCount4"));
              vsb.setVariantType(req.getParameter("snv"),req.getParameter("ins"),req.getParameter("del"));
              vsb.setIsFrameshift(req.getParameter("frameshift"));
