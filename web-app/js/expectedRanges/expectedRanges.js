@@ -76,7 +76,7 @@ function normalMale() {
 
             }]};
     Plotly.newPlot('rangeDiv', data, layout1);
-    Plotly.newPlot('jDiv', data, layout1);
+  /*  Plotly.newPlot('jDiv', data, layout1);*/
 }
 function normalFemale() {
   
@@ -111,7 +111,7 @@ function normalFemale() {
 
             }]};
     Plotly.newPlot('rangeDiv', data, layout1);
-    Plotly.newPlot('jDiv', data, layout1);
+  /*  Plotly.newPlot('jDiv', data, layout1);*/
 }
 function initialPlot(){
 
@@ -145,7 +145,7 @@ function initialPlot(){
 
          }]};
     Plotly.newPlot('rangeDiv', data, layout1);
-    Plotly.newPlot('jDiv', data, layout1);
+  /*  Plotly.newPlot('jDiv', data, layout1);*/
 }
 function turnOffNormalRanges(){
 
@@ -154,5 +154,5 @@ function turnOffNormalRanges(){
 
       };
     Plotly.newPlot('rangeDiv', data, layout1);
-    Plotly.newPlot('jDiv', data, layout1);
+  /*  Plotly.newPlot('jDiv', data, layout1);*/
 }
