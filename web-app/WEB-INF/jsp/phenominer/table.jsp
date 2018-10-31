@@ -305,7 +305,7 @@
                         //hoverinfo:'all',
                         showlegend:true,
                         opacity:1,
-                        name:'', //name:'hello world',
+                        name:'Show Toolbar',
                         error_y: {
                             type: 'data',
                             array: eArray,
