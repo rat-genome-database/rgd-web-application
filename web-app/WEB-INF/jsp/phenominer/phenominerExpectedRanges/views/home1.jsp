@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <% String pageTitle = " Phenominer Expected Ranges - " + RgdContext.getLongSiteName(request);
@@ -37,11 +36,10 @@
 
         <ul class="list-unstyled components">
             <li><a href="home.html">All Traits</a></li>
-            <c:forEach items="${model.facets}" var="t">
-                <!--li><a href="home.html?trait=$--{t.value}"><span style="text-transform: capitalize">$-{t.key}</span></a></li-->
-                <li><a href="home.html?trait=${t.key.accId}"><span style="text-transform: capitalize">${t.key.term}(${t.value})</span></a></li>
+            <c:forEach items="${model.traitMap}" var="t">
+                <li><a href="home.html?trait=${t.value}"><span style="text-transform: capitalize">${t.key}</span></a></li>
             </c:forEach>
-            <!--li><a href="home.html?trait=pga">PGA</a></li-->
+            <li><a href="home.html?trait=pga">PGA</a></li>
         </ul>
 
     </nav>
@@ -63,7 +61,6 @@
             </ul>
             <div class="tab-content">
                 <!----Phenotypes TAB--->
-                <h4 style="color:green">Total number of phenotypes <c:if test="${model.trait!=null}">of  ${model.trait}:</c:if> ${model.objectsSize}</h4>
                 <div class="tab-pane active" id="phenotypes">
 
                     <table class="table table-striped table-hover expectedRangesTable" >
@@ -82,9 +79,7 @@
                                     </c:when>
                                         <c:otherwise>
                                             <tr><td colspan="7" style="background: lightskyblue;text-align: center" ><span style="text-transform: capitalize;font-weight: bold">${item.key.term}</span></td></tr>
-
-                                        </c:otherwise>
-
+                                       </c:otherwise>
                                     </c:choose>
                                     <c:forEach items="${item.value}" var="i">
                                         <c:choose>
@@ -95,16 +90,14 @@
                                                 <c:set var="traitExists" value="false"/>
                                             </c:otherwise>
                                         </c:choose>
-
-                                        <tr>
+                                     <tr>
                                             <td><span style="text-transform: capitalize">
                                                 <c:forEach items="${i.traits}" var="t">
-                                                    ${t.term}<br>
-
+                                                   ${t.term}<br>
                                                 </c:forEach>
                                             </span></td>
                                             <td><span style="text-transform: capitalize"><a href="selectedMeasurement.html?cmoId=${i.clinicalMeasurementOntId}&trait=${model.traitOntId}&traitExists=${traitExists}" style="cursor: hand;color:#006dba" title="Click to view measurement data">${i.clinicalMeasurement}</a></span></td>
-                                            <td><!--$-{i.normalRange}--></td>
+                                            <td>${i.normalRange}</td>
                                             <td>${i.strainSpecifiedRecordCount}</td>
                                             <td>${i.sexSpecifiedRecordCount}</td>
                                             <td>${i.ageSpecifiedRecordCount}</td>
