@@ -103,7 +103,8 @@ public class RgdContext {
 				return "rgd_index_prod";
 			}
 			if( isPipelines() ) {
-				return "rgd_index_cur";
+				//return "rgd_index_cur";
+                return "rgd_index_prod";
 			}
 			if( isTest() ) {
 				return "rgd_index_test";
