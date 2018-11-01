@@ -14,7 +14,7 @@
         </div>
         <div>
             <div class="optionsHeading">
-               ${model.phenotype} - Measurement Data
+               ${model.phenotype}  - Measurement Data
             </div>
             <div>
                 <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
@@ -89,7 +89,7 @@
                             <td>${item.rangeLow}</td>
                             <td>${item.rangeHigh}</td>
                             <td>${item.units}</td>
-                            <td><a href="${href}" target="_blank"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
+                            <td><a href="${href}${model.cmo}" target="_blank"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
                         </tr>
                         </c:if>
                     </c:forEach>
