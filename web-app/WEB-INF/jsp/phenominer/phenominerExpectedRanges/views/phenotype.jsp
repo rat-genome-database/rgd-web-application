@@ -32,6 +32,7 @@
                 <div style="width:50%;">
                 <table class="table" style="width:90%">
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Clinical Measurement</td><td>
+
                   <c:set var="ranges" value="${model.records}"/>
                     <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
                         <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
@@ -52,14 +53,18 @@
                     </form>
                 </td>
                 </tr>
-
+                    <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Ontology Id</td><td>${model.cmo}</td></tr>
                     <tr><c:if test="${model.trait!=null && model.trait!=''}"><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td>
                         <td style="text-transform: capitalize">${model.trait}</td> </c:if></tr>
 
+
                 <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains</td><td>Inbred </td></tr>
                 </table>
+
         </div>
+
            <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
+
                 <table class="table rangeOptionsTable" id="expectedRangeOptionsTable">
                         <!--caption style="background-color: #eeeeee;padding-left:10px;color:#24609c;font-weight: 100">Options/Filters</caption-->
                         <tr class="rangeOptionsRow">

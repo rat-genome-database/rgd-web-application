@@ -98,7 +98,7 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setName(req.getParameter("name"));
                     s.setSource(req.getParameter("source"));
                     s.setType(req.getParameter("type"));
-                    s.setRefRgdId(Integer.parseInt(req.getParameter("reference")));
+                    s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
                     dao.insertStudy(s);
 
                     status.add("Study Create Successful");
@@ -119,8 +119,14 @@ public class PhenominerStudyController extends PhenominerController {
                         if (!req.getParameter("type").equals("")) {
                             s.setType(req.getParameter("type"));
                         }
-                        if (!req.getParameter("reference").equals("")) {
-                            s.setRefRgdId(Integer.parseInt(req.getParameter("reference")));
+                        if (!req.getParameter("refRgdId").equals("")) {
+                            s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+                        }
+                        if (!req.getParameter("dataType").equals("")) {
+                            s.setDataType(req.getParameter("dataType"));
+                        }
+                        if (!req.getParameter("geoSeriesAcc").equals("")) {
+                            s.setGeoSeriesAcc(req.getParameter("geoSeriesAcc"));
                         }
 
                         s.setCurationStatus((req.getParameter("sStatus") != null && req.getParameter("sStatus").length()>0) ?
@@ -197,8 +203,8 @@ public class PhenominerStudyController extends PhenominerController {
             throw new Exception("Study type is required");
         }
 
-        if (req.getParameter("reference").isEmpty() && req.getParameter("url").isEmpty() ) {
-            throw new Exception("Reference or Url is required");
+        if (req.getParameter("refRgdId").isEmpty() ) {
+            throw new Exception("Reference RGD Id is required");
         }
     }
 

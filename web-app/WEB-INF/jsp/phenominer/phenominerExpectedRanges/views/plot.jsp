@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div>
+
 <!--div>Display Normal Ranges:
 <!--c:if test="$-{model.normalAll!=null}">
     <input type="hidden" id="normalLow" value="$-{model.normalAll.rangeLow}"/>
     <input type="hidden" id="normalHigh" value="$-{model.normalAll.rangeHigh}"/>
+
     <input type="radio" class="normalRadio" name="normal" value="Both" checked>&nbsp;&nbsp;<span title="All Ages and All Sex">Normal All</span>&nbsp;&nbsp;
     <!--/c:if>
     <!--c:if test="$-{model.normalMale!=null}">
@@ -17,12 +19,15 @@
         <input type="hidden" id="normalFemaleLow" value="$-{model.normalFemale.rangeLow}"/>
         <input type="hidden" id="normalFemaleHigh" value="$-{model.normalFemale.rangeHigh}"/>
 
+
     <input type="radio" class="normalRadio" name="normal" value="Female">&nbsp;&nbsp;<span title="Female - All Ages">Normal Female</span>&nbsp;&nbsp;
         <!--/c:if>
 <!--c:choose>
 
 
+
 <!--c:when test="$-{model.normalAll==null && model.normalMale==null && model.normalFemale==null}">
+
     <span style="color:red">Not available</span>
 <!--/c:when>
     <!--c:otherwise>
@@ -35,6 +40,7 @@
 <div id="rangeDiv" style="width: auto">
 
 </div>
+
 
 <!--br>Normal Ranges:
 <!--c:if test="$-{model.normalAll!=null}">
@@ -54,6 +60,7 @@
 </div-->
 <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
 <script src="/rgdweb/js/expectedRanges/plotly-latest.min.js"></script>
+
 <script src="/rgdweb/js/expectedRanges/expectedRanges.js"></script>
 
 <script>
