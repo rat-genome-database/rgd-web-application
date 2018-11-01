@@ -43,7 +43,7 @@ public class SelectedMeasurementController implements Controller {
         String phenotype = xdao.getTerm(cmoID).getTerm();
         String traitOntId = request.getParameter("trait");
         String traitExists= request.getParameter("traitExists");
-       // System.out.println("TRAIT EXISTS:"+traitExists);
+
         boolean isPGA = false;
         String trait= new String();
         if (traitOntId != null) {
