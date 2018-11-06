@@ -65,7 +65,8 @@ public class SelectedStrainController implements Controller{
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.put("strainGroup", strainGroupName);
         model.put("strainGroupId", strainGroupId);
-        model.put("ranges", process.addExtraAttributes(records));
+      //  model.put("ranges", process.addExtraAttributes(records));
+        model.put("ranges", process.addExtraAttributes(plotRecords));
         model.put("traitOntId", traitOntId);
         model.put("trait", traitTerm);
         model.put("strainObjects", strainObjects);

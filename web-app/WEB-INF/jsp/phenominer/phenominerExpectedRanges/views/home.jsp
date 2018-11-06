@@ -56,7 +56,7 @@
         </button>
 
 
-            <h3>Phenominer Expected Ranges <c:if test="${model.trait!=null}"> - <span style="color:deepskyblue;text-transform: capitalize">${model.trait}</span></c:if></h3>
+            <h3>PhenoMiner Expected Ranges <c:if test="${model.trait!=null}"> - <span style="color:deepskyblue;text-transform: capitalize">${model.trait}</span></c:if></h3>
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#phenotypes" role="tab" data-toggle="tab"><strong>Phenotypes with Expected Ranges</strong></a></li>
                 <li><a href="#strains" role="tab" data-toggle="tab"><strong>Strains</strong></a></li>
