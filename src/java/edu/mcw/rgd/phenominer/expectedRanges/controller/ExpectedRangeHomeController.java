@@ -44,9 +44,11 @@ public class ExpectedRangeHomeController implements Controller {
         List<String> phenotypes=process.getPhenotypesByAncestorTrait(traitOntId);
         boolean selectByTrait=false;
         String trait = null;
-        if(traitOntId!=null && !traitOntId.equals("")) {
-            selectByTrait = true;
-            trait = xdao.getTerm(traitOntId).getTerm();
+        if(traitOntId!=null) {
+            if(!traitOntId.equals("")) {
+                selectByTrait = true;
+                trait = xdao.getTerm(traitOntId).getTerm();
+            }
            }
 
         if(selectByTrait){
