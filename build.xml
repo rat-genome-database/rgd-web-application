@@ -170,7 +170,7 @@
     </target>
 
     <!-- Compile all of our class files -->
-    <target name="buildCuration" depends="buildCurationNoJavaDoc,buildJavaDoc" description="Compile main source tree java files and build war file">
+    <target name="buildCuration" depends="buildCurationNoJavaDoc" description="Compile main source tree java files and build war file">
     </target>
 
     <!-- Compile all of our class files -->

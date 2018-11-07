@@ -65,6 +65,25 @@
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 
+<script type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "Dataset",
+"name": "<%=obj.getSymbol()%>",
+"description": "<%=Utils.getGeneDescription(obj)%>",
+"url": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=<%=obj.getRgdId()%>",
+"keywords": "Rat Gene RGD Genome",
+"includedInDataCatalog": "https://rgd.mcw.edu",
+"creator": {
+"@type": "Organization",
+"name": "Rat Genome Database"
+},
+"version": "1",
+"license": "Creative Commons CC BY 4.0"
+}
+</script>
+
+
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/rgd-s-gene-report-pages-tutorial";
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
