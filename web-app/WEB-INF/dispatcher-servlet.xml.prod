@@ -156,11 +156,22 @@
                 <prop key="genomeViewer.html">genomeViewerController</prop>
                 <prop key="search/excelDownload.html">downloadController</prop>
                 <prop key="variantVisualizer.html">vvController</prop>
+
+                <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
+               <prop key="phenominer/phenominerExpectedRanges/views/selectedMeasurement.html">selectedMeasurementController</prop>
+               <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
+               <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
+               <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
 				 
             </props>
         </property>
     </bean>
 
+ <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
+    <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
+    <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
+        <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
+    <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
 
 <bean id="wwwDir" abstract="true">
     <property name="uploadingDir" value="/rgd/data/pathway/inputFolder/"/><!-- directory where the uploaded files will be stored-->

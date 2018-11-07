@@ -8,15 +8,15 @@
     String pageDescription = "";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- Our Custom CSS -->
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Our Custom CSS -->
 <link href="/rgdweb/css/expectedRanges/range.css" type="text/css" rel="stylesheet">
- <!-- jQuery CDN -->
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<!-- jQuery CDN -->
+<!--script src="https://code.jquery.com/jquery-1.12.0.min.js"></script-->
 <!-- Bootstrap Js CDN -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script>
     $(document).ready(function () {
 
@@ -56,7 +56,7 @@
         </button>
 
 
-            <h3>Phenominer Expected Ranges <c:if test="${model.trait!=null}"> - <span style="color:deepskyblue;text-transform: capitalize">${model.trait}</span></c:if></h3>
+            <h3>PhenoMiner Expected Ranges <c:if test="${model.trait!=null}"> - <span style="color:deepskyblue;text-transform: capitalize">${model.trait}</span></c:if></h3>
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#phenotypes" role="tab" data-toggle="tab"><strong>Phenotypes with Expected Ranges</strong></a></li>
                 <li><a href="#strains" role="tab" data-toggle="tab"><strong>Strains</strong></a></li>

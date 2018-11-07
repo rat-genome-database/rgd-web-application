@@ -305,7 +305,9 @@
                         //hoverinfo:'all',
                         showlegend:true,
                         opacity:1,
-                        name:'hello world',
+
+                        name:'', // must
+
                         error_y: {
                             type: 'data',
                             array: eArray,

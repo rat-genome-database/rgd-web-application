@@ -53,7 +53,7 @@
                     </form>
                 </td>
                 </tr>
-
+                    <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Ontology Id</td><td>${model.cmo}</td></tr>
                     <tr><c:if test="${model.trait!=null && model.trait!=''}"><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td>
                         <td style="text-transform: capitalize">${model.trait}</td> </c:if></tr>
 
