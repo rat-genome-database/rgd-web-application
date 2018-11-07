@@ -35,6 +35,26 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
+
+<script type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "Dataset",
+"name": "<%=obj.getSymbol()%>",
+"description": "QTL Report",
+"url": "https://rgd.mcw.edu/rgdweb/report/qtl/main.html?id=<%=obj.getRgdId()%>",
+"keywords": "Rat Gene RGD Genome",
+"includedInDataCatalog": "https://rgd.mcw.edu",
+"creator": {
+"@type": "Organization",
+"name": "Rat Genome Database"
+},
+"version": "1",
+"license": "Creative Commons CC BY 4.0"
+}
+</script>
+
+
 <%@ include file="menu.jsp"%>
 
 
