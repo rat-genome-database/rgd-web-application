@@ -38,7 +38,7 @@ public class PhenominerStudyController extends PhenominerController {
         try {
 
             if (action.equals("edit")) {
-                List<String> idList;
+                List idList;
                 if (!req.getParameter("referenceId").isEmpty()) {
 
                     SearchBean sb = new SearchBean();
