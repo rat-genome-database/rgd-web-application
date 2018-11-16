@@ -24,7 +24,7 @@ public class SearchService {
     public ModelMap getResultsMap(SearchResponse sr, String term, String cat1, String sp1, int postCount ) throws IOException {
         ModelMap model= new ModelMap();
 
-        String scrollId= sr.getScrollId();
+     //   String scrollId= sr.getScrollId();
 
         long totalHits=0;
         List<Terms.Bucket> speciesBkts = new ArrayList<>();
@@ -422,7 +422,7 @@ public class SearchService {
         model.addAttribute("message", message);
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
-        model.addAttribute("scrollId", scrollId);
+   //     model.addAttribute("scrollId", scrollId);
         model.addAttribute("took", sr.getTookInMillis());
      //   System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTookInMillis() + " || "+ sr.getTotalShards());
         return model;
