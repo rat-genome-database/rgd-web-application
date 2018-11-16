@@ -27,42 +27,42 @@
      <ul>
         <c:if test="${model.category.equals('Gene') || model.category.equals('Strain') || model.category.equals('QTL')
                     || model.category.equals('SSLP') || model.category.equals('Variant') || model.viewall.equals('true') || model.category.equals('Ontology') || model.category.equals('Cell line') || model.category.equals('Promoter')}" >
-            <c:if test="${fn:length(model.speciesBkts)>0}">
-                <c:forEach items="${model.speciesBkts}" var="item">
+            <c:if test="${fn:length(model.aggregations.species)>0}">
+                <c:forEach items="${model.aggregations.species}" var="item">
                     <c:if test="${item.key.equalsIgnoreCase('rat')}">
                         <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.category}', '${item.key}','')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
                             <ul>
                                 <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                     <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->
-                                    <c:forEach items="${model.ratFilterBkts}" var="ratFilterItem">
+                                    <c:forEach items="${model.aggregations.rat}" var="ratFilterItem">
 
                                         <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
 
                                             <ul>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('gene')}">
-                                                    <c:forEach items="${model.ratGeneTypeBkts}" var="geneType">
+                                                    <c:forEach items="${model.aggregations.ratGene}" var="geneType">
                                                         <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                     </c:forEach>
                                                 </c:if>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('variant')}">
-                                                    <c:forEach items="${model.ratVariantTypeBkts}" var="variantType">
+                                                    <c:forEach items="${model.aggregations.ratVariant}" var="variantType">
                                                         <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                     </c:forEach>
                                                 </c:if>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                    <c:forEach items="${model.ratQtlTypeBkts}" var="qtlType">
+                                                    <c:forEach items="${model.aggregations.ratQtl}" var="qtlType">
                                                         <c:if test="${qtlType.key!='Not determined'}">
                                                             <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
                                                         </c:if>
                                                     </c:forEach>
                                                 </c:if>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                    <c:forEach items="${model.ratSslpTypeBkts}" var="sslpType">
+                                                    <c:forEach items="${model.aggregations.ratSslp}" var="sslpType">
                                                         <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                     </c:forEach>
                                                 </c:if>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('strain')}">
-                                                    <c:forEach items="${model.ratStrainTypeBkts}" var="sslpType">
+                                                    <c:forEach items="${model.aggregations.ratStrain}" var="sslpType">
                                                         <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                     </c:forEach>
                                                 </c:if>
@@ -77,9 +77,9 @@
               </c:forEach>
               </c:if>
 
-                <c:if test="${fn:length(model.speciesBkts)>0}">
+                <c:if test="${fn:length(model.aggregations.species)>0}">
 
-                <c:forEach items="${model.speciesBkts}" var="item">
+                <c:forEach items="${model.aggregations.species}" var="item">
 
                     <c:if test="${!item.key.equals('All') && !item.key.equalsIgnoreCase('rat')}">
 
@@ -87,35 +87,35 @@
                                   <ul>
                                             <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                                 <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->
-                                                <c:forEach items="${model.ratFilterBkts}" var="ratFilterItem">
+                                                <c:forEach items="${model.aggregations.rat}" var="ratFilterItem">
 
                                                     <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
 
                                                         <ul>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                <c:forEach items="${model.ratGeneTypeBkts}" var="geneType">
+                                                                <c:forEach items="${model.aggregations.ratGene}" var="geneType">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('variant')}">
-                                                                <c:forEach items="${model.ratVariantTypeBkts}" var="variantType">
+                                                                <c:forEach items="${model.aggregations.ratVariant}" var="variantType">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                                <c:forEach items="${model.ratQtlTypeBkts}" var="qtlType">
+                                                                <c:forEach items="${model.aggregations.ratQtl}" var="qtlType">
                                                                     <c:if test="${qtlType.key!='Not determined'}">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
                                                                     </c:if>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                                <c:forEach items="${model.ratSslpTypeBkts}" var="sslpType">
+                                                                <c:forEach items="${model.aggregations.ratSslp}" var="sslpType">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('strain')}">
-                                                                <c:forEach items="${model.ratStrainTypeBkts}" var="sslpType">
+                                                                <c:forEach items="${model.aggregations.ratStrain}" var="sslpType">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
@@ -126,30 +126,30 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('human')}">
                                                 <!--c:if test="$--{fn:length(model.humanFilterBkts)>1}"-->
-                                                <c:forEach items="${model.humanFilterBkts}" var="humanFilterItem">
+                                                <c:forEach items="${model.aggregations.human}" var="humanFilterItem">
                                                  <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
 
                                                        <ul>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
-                                                               <c:forEach items="${model.humanGeneTypeBkts}" var="geneType">
+                                                               <c:forEach items="${model.aggregations.humanGene}" var="geneType">
                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('variant')}">
-                                                               <c:forEach items="${model.humanVariantTypeBkts}" var="variantType">
+                                                               <c:forEach items="${model.aggregations.humanVariant}" var="variantType">
                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                               <c:forEach items="${model.humanQtlTypeBkts}" var="qtlType">
+                                                               <c:forEach items="${model.aggregations.humanQtl}" var="qtlType">
 
                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                               <c:forEach items="${model.humanSslpTypeBkts}" var="sslpType">
+                                                               <c:forEach items="${model.aggregations.humanSslp}" var="sslpType">
                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
@@ -157,30 +157,30 @@
                                                    </li>
                                                    </c:if>
                                                 </c:forEach>
-                                                <c:forEach items="${model.humanFilterBkts}" var="humanFilterItem">
+                                                <c:forEach items="${model.aggregations.human}" var="humanFilterItem">
                                                  <c:if test="${!humanFilterItem.key.equalsIgnoreCase('gene')}">
                                                                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
 
                                                                                                        <ul>
                                                                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                                                               <c:forEach items="${model.humanGeneTypeBkts}" var="geneType">
+                                                                                                               <c:forEach items="${model.aggregations.humanGene}" var="geneType">
                                                                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                                                                </c:forEach>
                                                                                                            </c:if>
                                                                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('variant')}">
-                                                                                                               <c:forEach items="${model.humanVariantTypeBkts}" var="variantType">
+                                                                                                               <c:forEach items="${model.aggregations.humanVariant}" var="variantType">
                                                                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                                                                </c:forEach>
                                                                                                            </c:if>
                                                                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                                                                               <c:forEach items="${model.humanQtlTypeBkts}" var="qtlType">
+                                                                                                               <c:forEach items="${model.aggregations.humanQtl}" var="qtlType">
 
                                                                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                                                                </c:forEach>
                                                                                                            </c:if>
                                                                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                                                                               <c:forEach items="${model.humanSslpTypeBkts}" var="sslpType">
+                                                                                                               <c:forEach items="${model.aggregations.humanSslp}" var="sslpType">
                                                                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                                                                </c:forEach>
                                                                                                            </c:if>
@@ -193,28 +193,28 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('mouse')}">
                                                 <!--c:if test="$--{fn:length(model.mouseFilterBkts)>1}"-->
-                                                <c:forEach items="${model.mouseFilterBkts}" var="mouseFilterItem">
+                                                <c:forEach items="${model.aggregations.mouse}" var="mouseFilterItem">
                                                     <li><button style="border:none;background-color: transparent" onclick="filterClick('${mouseFilterItem.key}', '${item.key}')"><span>${mouseFilterItem.key} (${mouseFilterItem.docCount})</span></button>
                                                         <ul>
                                                             <c:if test="${mouseFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                <c:forEach items="${model.mouseGeneTypeBkts}" var="geneType">
+                                                                <c:forEach items="${model.aggregations.mouseGene}" var="geneType">
                                                                     <li onclick="filterClick('${mouseFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${mouseFilterItem.key.equalsIgnoreCase('variant')}">
-                                                                <c:forEach items="${model.mouseVariantTypeBkts}" var="variantType">
+                                                                <c:forEach items="${model.aggregations.mouseVariant}" var="variantType">
                                                                     <li onclick="filterClick('${mouseFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${mouseFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                                <c:forEach items="${model.mouseQtlTypeBkts}" var="qtlType">
+                                                                <c:forEach items="${model.aggregations.mouseQtl}" var="qtlType">
 
                                                                     <li onclick="filterClick('${mouseFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                 </c:forEach>
                                                             </c:if>
                                                             <c:if test="${mouseFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                                <c:forEach items="${model.mouseSslpTypeBkts}" var="sslpType">
+                                                                <c:forEach items="${model.aggregations.mouseSslp}" var="sslpType">
                                                                     <li onclick="filterClick('${mouseFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                 </c:forEach>
                                                             </c:if>
@@ -227,30 +227,30 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('dog')}">
 
-                                                <c:forEach items="${model.dogFilterBkts}" var="dogFilterItem">
+                                                <c:forEach items="${model.aggregations.dog}" var="dogFilterItem">
                                                     <li><button style="border:none;background-color: transparent" onclick="filterClick('${dogFilterItem.key}', '${item.key}')"><span style= >${dogFilterItem.key} (${dogFilterItem.docCount})</span></button>
 
 
                                                             <ul>
                                                                 <c:if test="${dogFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                    <c:forEach items="${model.dogGeneTypeBkts}" var="geneType">
+                                                                    <c:forEach items="${model.aggregations.dogGene}" var="geneType">
                                                                         <li onclick="filterClick('${dogFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${dogFilterItem.key.equalsIgnoreCase('variant')}">
-                                                                    <c:forEach items="${model.dogVariantTypeBkts}" var="variantType">
+                                                                    <c:forEach items="${model.aggregations.dogVariant}" var="variantType">
                                                                         <li onclick="filterClick('${dogFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${dogFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                                    <c:forEach items="${model.dogQtlTypeBkts}" var="qtlType">
+                                                                    <c:forEach items="${model.aggregations.dogQtl}" var="qtlType">
 
                                                                         <li onclick="filterClick('${dogFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${dogFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                                    <c:forEach items="${model.dogSslpTypeBkts}" var="sslpType">
+                                                                    <c:forEach items="${model.aggregations.dogSslp}" var="sslpType">
                                                                         <li onclick="filterClick('${dogFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
@@ -264,29 +264,29 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('chinchilla')}">
 
-                                                <c:forEach items="${model.chinchillaFilterBkts}" var="chinchillaFilterItem">
+                                                <c:forEach items="${model.aggregations.chinchilla}" var="chinchillaFilterItem">
                                                     <li><button style="border:none;background-color: transparent" onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}')"><span style=>${chinchillaFilterItem.key} (${chinchillaFilterItem.docCount})</span></button>
 
                                                             <ul>
                                                                 <c:if test="${chinchillaFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                    <c:forEach items="${model.chinchillaGeneTypeBkts}" var="geneType">
+                                                                    <c:forEach items="${model.aggregations.chinchillaGene}" var="geneType">
                                                                         <li onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${chinchillaFilterItem.key.equalsIgnoreCase('variant')}">
-                                                                    <c:forEach items="${model.chinchillaVariantTypeBkts}" var="variantType">
+                                                                    <c:forEach items="${model.aggregations.chinchillaVariant}" var="variantType">
                                                                         <li onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${chinchillaFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                                    <c:forEach items="${model.chinchillaQtlTypeBkts}" var="qtlType">
+                                                                    <c:forEach items="${model.aggregations.chinchilla}" var="qtlType">
 
                                                                         <li onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                     </c:forEach>
                                                                 </c:if>
                                                                 <c:if test="${chinchillaFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                                    <c:forEach items="${model.chinchillaSslpTypeBkts}" var="sslpType">
+                                                                    <c:forEach items="${model.aggregations.chinchillaSslp}" var="sslpType">
                                                                         <li onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                     </c:forEach>
                                                                 </c:if>
@@ -300,26 +300,26 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('bonobo')}">
 
-                                                <c:forEach items="${model.bonoboFilterBkts}" var="bonoboFilterItem">
+                                                <c:forEach items="${model.aggregations.bonobo}" var="bonoboFilterItem">
                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${bonoboFilterItem.key}', '${item.key}')"><span >${bonoboFilterItem.key} (${bonoboFilterItem.docCount})</span></button>
                                                        <ul>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('gene')}">
-                                                               <c:forEach items="${model.bonoboGeneTypeBkts}" var="geneType">
+                                                               <c:forEach items="${model.aggregations.bonoboGene}" var="geneType">
                                                                    <li onclick="filterClick('${bonoboFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('variant')}">
-                                                               <c:forEach items="${model.bonoboVariantTypeBkts}" var="variantType">
+                                                               <c:forEach items="${model.aggregations.bonoboVariant}" var="variantType">
                                                                    <li onclick="filterClick('${bonoboFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                               <c:forEach items="${model.bonoboQtlTypeBkts}" var="qtlType">
+                                                               <c:forEach items="${model.aggregations.bonoboQtl}" var="qtlType">
                                                                    <li onclick="filterClick('${bonoboFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                               <c:forEach items="${model.bonoboSslpTypeBkts}" var="sslpType">
+                                                               <c:forEach items="${model.aggregations.bonoboSslp}" var="sslpType">
                                                                    <li onclick="filterClick('${bonoboFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
@@ -332,29 +332,29 @@
                                             </c:if>
                                             <c:if test="${item.key.equalsIgnoreCase('squirrel')}">
 
-                                                <c:forEach items="${model.squirrelFilterBkts}" var="squirrelFilterItem">
+                                                <c:forEach items="${model.aggregations.squirrel}" var="squirrelFilterItem">
                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${squirrelFilterItem.key}', '${item.key}')"><span>${squirrelFilterItem.key} (${squirrelFilterItem.docCount})</span></button>
 
                                                        <ul>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('gene')}">
-                                                               <c:forEach items="${model.squirrelGeneTypeBkts}" var="geneType">
+                                                               <c:forEach items="${model.aggregations.squirrelGene}" var="geneType">
                                                                    <li onclick="filterClick('${squirrelFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('variant')}">
-                                                               <c:forEach items="${model.squirrelVariantTypeBkts}" var="variantType">
+                                                               <c:forEach items="${model.aggregations.squirrelVariant}" var="variantType">
                                                                    <li onclick="filterClick('${squirrelFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('qtl')}">
-                                                               <c:forEach items="${model.squirrelQtlTypeBkts}" var="qtlType">
+                                                               <c:forEach items="${model.aggregations.squirrelQtl}" var="qtlType">
 
                                                                    <li onclick="filterClick('${squirrelFilterItem.key}', '${item.key}','', '${qtlType.key}'),'trait'">${qtlType.key} (${qtlType.docCount})</li>
 
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('sslp')}">
-                                                               <c:forEach items="${model.squirrelSslpTypeBkts}" var="sslpType">
+                                                               <c:forEach items="${model.aggregations.squirrelSslp}" var="sslpType">
                                                                    <li onclick="filterClick('${squirrelFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
@@ -374,19 +374,19 @@
          <li><span style="font-weight: bold;color:#24609c">Other Categories:</span>
              <ul>
 
-                     <c:forEach items="${model.categoryBkts}" var="item">
+                     <c:forEach items="${model.aggregations.category}" var="item">
                 <c:if test="${item.key.equalsIgnoreCase('reference')}">
                         <li style="border:none;background-color: transparent;cursor: pointer" onclick="filterClick('${item.key}', '')">${item.key}(${item.docCount})</li>
                 </c:if>
             </c:forEach>
 
-             <c:if test="${fn:length(model.ontologyBkts)>0}">
+             <c:if test="${fn:length(model.aggregations.ontology)>0}">
 
-                 <c:forEach items="${model.categoryBkts}" var="item">
+                 <c:forEach items="${model.aggregations.category}" var="item">
                  <c:if test="${item.key.equalsIgnoreCase('ontology')}">
                      <li><span style="font-weight: bold">Ontology Terms: (${item.docCount})</span>
               <ul>
-                   <c:forEach items="${model.ontologyBkts}" var="ontItem">
+                   <c:forEach items="${model.aggregations.ontology}" var="ontItem">
                        <li>
                            <button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('Ontology', '','${ontItem.key}')">${ontItem.key}</button>(${ontItem.docCount})</li>
                    </c:forEach>

@@ -11,10 +11,7 @@ import org.springframework.ui.ModelMap;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by jthota on 2/22/2017.
@@ -23,68 +20,13 @@ public class SearchService {
 
     public ModelMap getResultsMap(SearchResponse sr, String term, String cat1, String sp1, int postCount ) throws IOException {
         ModelMap model= new ModelMap();
-
-        String scrollId= sr.getScrollId();
-
-        long totalHits=0;
-        List<Terms.Bucket> speciesBkts = new ArrayList<>();
-        List<Terms.Bucket> categoryBks = new ArrayList<>();
-        List<Terms.Bucket> speciesFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> categoryFilterBkts = new ArrayList<>();
-
-
-        List<Terms.Bucket> humanFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> mouseFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> ratFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> bonoboFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> squirrelFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> dogFilterBkts = new ArrayList<>();
-        List<Terms.Bucket> chinchillaFilterBkts = new ArrayList<>();
-
-        List<Terms.Bucket> ontologyBkts = new ArrayList<>();
-        List<Terms.Bucket> subCatBks = new ArrayList<>();
-        List<Terms.Bucket> typeBks = new ArrayList<>();
-        List<Terms.Bucket> chrBkts = new ArrayList<>();
         List<SearchHit[]> searchHits=new ArrayList<>();
 
-        List<Terms.Bucket> ratGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> ratVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> ratSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> ratQtlTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> ratStrainTypeBkts= new ArrayList<>();
+    //    String scrollId= sr.getScrollId();
 
-        List<Terms.Bucket> humanGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> humanVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> humanSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> humanQtlTypeBkts= new ArrayList<>();
+        long totalHits=0;
 
-        List<Terms.Bucket> chinchillaGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket>  chinchillaVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket>  chinchillaSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket>  chinchillaQtlTypeBkts= new ArrayList<>();
-
-        List<Terms.Bucket> dogGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> dogVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> dogSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> dogQtlTypeBkts= new ArrayList<>();
-
-        List<Terms.Bucket> squirrelGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> squirrelVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> squirrelSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> squirrelQtlTypeBkts= new ArrayList<>();
-
-        List<Terms.Bucket> bonoboGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> bonoboVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> bonoboSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> bonoboQtlTypeBkts= new ArrayList<>();
-
-        List<Terms.Bucket> mouseGeneTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> mouseVariantTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> mouseSslpTypeBkts= new ArrayList<>();
-        List<Terms.Bucket> mouseQtlTypeBkts= new ArrayList<>();
-
-
-
+        Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
         String[][] speciesCatArray = new String[7][9];
         speciesCatArray[0][0]="Gene";
         speciesCatArray[4][0]="Variant";
@@ -95,170 +37,29 @@ public class SearchService {
         speciesCatArray[6][0]="Cell line";
 
         Terms speciesAgg, categoryAgg, typeAgg;
-           Filter chromosomeAgg;
+        Filter chromosomeAgg;
         long totalTerms = 0;
         int nvCount=0;
-    //    if(sr!=null) {
+
             if (sr.getAggregations() != null) {
                 speciesAgg = sr.getAggregations().get("species");
-             //   System.out.println("speciesBKTs size:"+speciesAgg.getBuckets().size());
-                speciesBkts.addAll(speciesAgg.getBuckets());
 
+                 aggregations.put("species", speciesAgg.getBuckets());
                 categoryAgg = sr.getAggregations().get("category");
-                List<Terms.Bucket> catBuckets=categoryAgg.getBuckets();
+                List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
                 System.out.println("CAT BUCKETS SIZE:"+catBuckets.size());
-                categoryBks.addAll(catBuckets);
-
-               for(Terms.Bucket speciesBkt:speciesBkts){
-               Terms catFilterAgg= speciesBkt.getAggregations().get("categoryFilter");
-
-                    if(speciesBkt.getKey().toString().equalsIgnoreCase("rat")){
-                       ratFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           Terms traitFilterAgg= bucket.getAggregations().get("trait");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               ratGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                             //  ratQtlTypeBkts.addAll(typeFilterAgg.getBuckets());
-                               ratQtlTypeBkts.addAll(traitFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               ratSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               ratVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("strain")){
-                               ratStrainTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("mouse")){
-                      mouseFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           Terms traitFilterAgg= bucket.getAggregations().get("trait");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               mouseGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                               mouseQtlTypeBkts.addAll(traitFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               mouseSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               mouseVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("human")){
-                       humanFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           Terms traitFilterAgg= bucket.getAggregations().get("trait");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               humanGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                              humanQtlTypeBkts.addAll(traitFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                              humanSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               humanVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("chinchilla")){
-                       chinchillaFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               chinchillaGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                               chinchillaQtlTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               chinchillaSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               chinchillaVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("dog")){
-                       dogFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               dogGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                               dogQtlTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               dogSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               dogVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("squirrel")){
-                       squirrelFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               squirrelGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                               squirrelQtlTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               squirrelSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               squirrelVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
-                   }
-                   if(speciesBkt.getKey().toString().equalsIgnoreCase("bonobo")){
-                       bonoboFilterBkts.addAll(catFilterAgg.getBuckets());
-                       for(Terms.Bucket bucket:catFilterAgg.getBuckets()){
-                           Terms typeFilterAgg=bucket.getAggregations().get("typeFilter");
-                           if(bucket.getKey().toString().equalsIgnoreCase("gene")){
-                               bonoboGeneTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                             bonoboQtlTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("sslp")){
-                               bonoboSslpTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-                           if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                               bonoboVariantTypeBkts.addAll(typeFilterAgg.getBuckets());
-                           }
-
-                       }
+                   aggregations.put("category", catBuckets);
+               for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
+                   Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
+                   String species = speciesBkt.getKey().toString().toLowerCase();
+                   aggregations.put(species, catFilterAgg.getBuckets());
+                   for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
+                       Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
+                       aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
                    }
                }
                 chromosomeAgg=sr.getAggregations().get("chromosome");
-             /*   if(chromosomeAgg!=null)
-                System.out.println("CHROMOSOME AGG:"+chromosomeAgg.getDocCount());*/
-
-         //      for (Terms.Bucket bucket : categoryAgg.getBuckets()) {
-                   for (Terms.Bucket bucket :categoryBks) {
+                 for (Terms.Bucket bucket :catBuckets) {
 
                     String bucketType = bucket.getKey().toString();
                     String bType = new String();
@@ -266,8 +67,8 @@ public class SearchService {
 
                     if(bucketType.equalsIgnoreCase("ontology")){
                         Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
-                        ontologyBkts.addAll(ontologySubcatAgg.getBuckets());
-
+                     //   ontologyBkts.addAll(ontologySubcatAgg.getBuckets());
+                        aggregations.put("ontology", ontologySubcatAgg.getBuckets());
                     }
 
                     Terms subAgg = bucket.getAggregations().get("subspecies");
@@ -345,11 +146,18 @@ public class SearchService {
 
 
                 typeAgg = sr.getAggregations().get("type");
-                typeBks.addAll(typeAgg.getBuckets());
+                aggregations.put("type", typeAgg.getBuckets());
             }
 
            totalHits = sr.getHits().getTotalHits();
             searchHits.add(sr.getHits().getHits());
+            SearchHit[] hitsarray= sr.getHits().getHits();
+        for(SearchHit h:hitsarray){{
+           Map map=h.getSourceAsMap();
+
+        }
+
+        }
 
   //      }
         int matrixResultsExists=0;
@@ -363,68 +171,14 @@ public class SearchService {
         }
 
        model.addAttribute("totalHits", totalHits);
-       model.addAttribute("speciesBkts", speciesBkts);
-       model.addAttribute("categoryBkts", categoryBks);
-       model.addAttribute("hitArray", searchHits);
-       model.addAttribute("subCatBkts", subCatBks);
-       model.addAttribute("speciesFilterBkts", speciesFilterBkts);
-       model.addAttribute("categoryFilterBkts", categoryFilterBkts);
-       model.addAttribute("humanFilterBkts",humanFilterBkts);
-       model.addAttribute("mouseFilterBkts",mouseFilterBkts);
-       model.addAttribute("ratFilterBkts",ratFilterBkts);
-       model.addAttribute("bonoboFilterBkts", bonoboFilterBkts);
-       model.addAttribute("squirrelFilterBkts", squirrelFilterBkts);
-       model.addAttribute("dogFilterBkts", dogFilterBkts);
-       model.addAttribute("chinchillaFilterBkts", chinchillaFilterBkts);
+        model.addAttribute("aggregations", aggregations);
 
-        model.addAttribute("humanGeneTypeBkts", humanGeneTypeBkts);
-        model.addAttribute("humanVariantTypeBkts", humanVariantTypeBkts);
-        model.addAttribute("humanSslpTypeBkts", humanSslpTypeBkts);
-        model.addAttribute("humanQtlTypeBkts", humanQtlTypeBkts);
-
-        model.addAttribute("mouseGeneTypeBkts", mouseGeneTypeBkts);
-        model.addAttribute("mouseVariantTypeBkts", mouseVariantTypeBkts);
-        model.addAttribute("mouseSslpTypeBkts", mouseSslpTypeBkts);
-        model.addAttribute("mouseQtlTypeBkts", mouseQtlTypeBkts);
-
-        model.addAttribute("ratGeneTypeBkts", ratGeneTypeBkts);
-        model.addAttribute("ratVariantTypeBkts", ratVariantTypeBkts);
-        model.addAttribute("ratSslpTypeBkts", ratSslpTypeBkts);
-        model.addAttribute("ratQtlTypeBkts", ratQtlTypeBkts);
-        model.addAttribute("ratStrainTypeBkts", ratStrainTypeBkts);
-
-
-        model.addAttribute("dogGeneTypeBkts", dogGeneTypeBkts);
-        model.addAttribute("dogVariantTypeBkts", dogVariantTypeBkts);
-        model.addAttribute("dogSslpTypeBkts", dogSslpTypeBkts);
-        model.addAttribute("dogQtlTypeBkts", dogQtlTypeBkts);
-
-        model.addAttribute("chinchillaGeneTypeBkts", chinchillaGeneTypeBkts);
-        model.addAttribute("chinchillaVariantTypeBkts", chinchillaVariantTypeBkts);
-        model.addAttribute("chinchillaSslpTypeBkts", chinchillaSslpTypeBkts);
-        model.addAttribute("chinchillaQtlTypeBkts", chinchillaQtlTypeBkts);
-
-        model.addAttribute("bonoboGeneTypeBkts", bonoboGeneTypeBkts);
-        model.addAttribute("bonoboVariantTypeBkts", bonoboVariantTypeBkts);
-        model.addAttribute("bonoboSslpTypeBkts", bonoboSslpTypeBkts);
-        model.addAttribute("bonoboQtlTypeBkts", bonoboQtlTypeBkts);
-
-        model.addAttribute("squirrelGeneTypeBkts", squirrelGeneTypeBkts);
-        model.addAttribute("squirrelVariantTypeBkts", squirrelVariantTypeBkts);
-        model.addAttribute("squirrelSslpTypeBkts", squirrelSslpTypeBkts);
-        model.addAttribute("squirrelQtlTypeBkts",squirrelQtlTypeBkts);
-
-
-        model.addAttribute("chrBkts", chrBkts);
-        model.addAttribute("ontologyBkts", ontologyBkts);
-        model.addAttribute("typeBks", typeBks);
         model.addAttribute("speciesCatArray", speciesCatArray);
         model.addAttribute("message", message);
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
-        model.addAttribute("scrollId", scrollId);
-        model.addAttribute("took", sr.getTookInMillis());
-     //   System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTookInMillis() + " || "+ sr.getTotalShards());
+        model.addAttribute("took", sr.getTook());
+        System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
     public SearchResponse getSearchResponse(String term, String category, String species, String type, String subCat,int  currentPage, int pagesize, boolean page,String sortOrder, String sortBy, String assembly, String trait, String start, String stop, String chr)  {
@@ -434,7 +188,8 @@ public class SearchService {
             QueryService1 qs = new QueryService1();
            return qs.getSearchResponse(term, category, species, type, subCat, from, defaultPageSize, page, sortOrder, sortBy, assembly, trait, start, stop, chr);
         }catch (Exception e){
-        System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client...");
+        System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
+            e.printStackTrace();
         reInitiateClient();
         try{
 

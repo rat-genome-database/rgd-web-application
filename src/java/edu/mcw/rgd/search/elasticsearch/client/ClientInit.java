@@ -1,10 +1,17 @@
 package edu.mcw.rgd.search.elasticsearch.client;
 
 
+
 import edu.mcw.rgd.process.search.ElasticNode;
+
 import io.netty.util.internal.InternalThreadLocalMap;
 import org.elasticsearch.client.transport.TransportClient;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -18,9 +25,10 @@ public class ClientInit {
         System.out.println("Initializing Elasticsearch Client...");
         if(client==null){
             hosts=this.getHostNames();
-        ElasticSearchClient.setHosts(hosts);
-      System.out.println("CLIENT IS NULL, CREATING NEW CLIENT...");
-           client=ElasticSearchClient.getInstance();
+            ElasticSearchClient.setHosts(hosts);
+            System.out.println("CLIENT IS NULL, CREATING NEW CLIENT...");
+            client=ElasticSearchClient.getInstance();
+            System.out.println("Initialized elasticsearch client ...");
         }
     }
 
@@ -52,7 +60,40 @@ public class ClientInit {
     }
     public List<String> getHostNames(){
           ElasticNode elastic= new ElasticNode();
-            return elastic.getNodeURLs();
+        //    return elastic.getNodeURLs();
+        return this.getNodeURLs();
 
     }
+
+    public List<String> getNodeURLs() {
+        ArrayList hostNames = new ArrayList();
+        List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200"));
+        Iterator var2 = nodeUrls.iterator();
+
+        while(var2.hasNext()) {
+            String str = (String)var2.next();
+
+            try {
+                URL e = new URL(str);
+                HttpURLConnection conn = (HttpURLConnection)e.openConnection();
+                conn.setRequestMethod("GET");
+                if(conn.getResponseMessage().equals("OK")) {
+                    hostNames.add(str.substring(0, str.lastIndexOf(":")).replace("http://", ""));
+                }
+
+                conn.disconnect();
+            } catch (Exception var6) {
+                var6.printStackTrace();
+            }
+        }
+
+        return hostNames;
+    }
+    public static void main(String[] args){
+        ClientInit c= new ClientInit();
+        c.init();
+        c.destroy();
+        System.out.println("DONE!!!!!!!!!!");
+    }
+
 }

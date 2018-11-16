@@ -34,7 +34,8 @@
     })
 
 </script>
-
+<h1>${model.aggregations.species[0].key} - ${fn:length(model.aggregations.category)}</h1>
+<h1>${model.aggregations.ratGene}</h1>
 <table width="100%">
 
 <tr><td>
@@ -59,13 +60,13 @@
                             records found for <strong>"${model.term}"</strong></span>
 
 
-        <c:if test="${model.species!='' || fn:length(model.speciesBkts)==1}">
-            of species <span class="${model.species} ${model.speciesBkts[0].key}" style="font-weight: bold; font-size: 20px">
+        <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1}">
+            of species <span class="${model.species} ${model.aggregations.species[0].key}" style="font-weight: bold; font-size: 20px">
                     <c:if test="${model.species!=''}">
                         ${model.species}
                     </c:if>
-                     <c:if test="${fn:length(model.speciesBkts)==1 && model.species==''}">
-                            ${model.speciesBkts[0].key}
+                     <c:if test="${fn:length(model.aggregations.species)==1 && model.species==''}">
+                            ${model.aggregations.species[0].key}
                         </c:if>
                           </span>
                           <c:if test="${model.chr!=0 && model.chr!=''}">
@@ -86,7 +87,7 @@
             <c:choose>
                 <c:when test="${!model.category.equalsIgnoreCase('general')}">
                     <c:choose>
-                        <c:when test="${model.species!='' || model.subCat!='' || model.category=='Reference' || fn:length(model.speciesBkts)==1 || fn:length(model.ontologyBkts)==1}">
+                        <c:when test="${model.species!='' || model.subCat!='' || model.category=='Reference' || fn:length(model.aggregations.species)==1 || fn:length(model.aggregations.ontology)==1}">
                             <td title="Toggle Check All"><input type="checkbox" onclick="toggle(this)"></td>
                         </c:when>
                         <c:otherwise>
@@ -103,13 +104,13 @@
             <td></td>
             <td>
                 <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
-                    <c:if test="${model.species=='' && fn:length(model.speciesBkts)!=1}">
+                    <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
                         Species
                     </c:if>
-                    <c:if test="${model.species=='' && fn:length(model.speciesBkts)==1}">
+                    <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1}">
 
                     </c:if>
-                    <c:if test="${model.species!='' || fn:length(model.speciesBkts)==1}">
+                    <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1}">
 
                     </c:if>
                 </c:if>
@@ -186,23 +187,23 @@
         <c:set var="sampleExists" value="0"/>
         <c:forEach items="${model.hitArray}" var="hitArray">
             <c:forEach items="${hitArray}" var="hit">
-                <c:set var="xRecordCount" value="${xRecordCount+ hit.getSource().experimentRecordCount}"/>
-                <c:set var="sampleExists" value="${sampleExists+ hit.getSource().sampleExists}"/>
-                <c:set var="url" value="/rgdweb/report/${hit.getSource().category.toLowerCase()}/main.html?id=${hit.getSource().id}${hit.getSource().term_acc}"/>
-                <c:if test="${hit.getSource().category=='Reference'}">
-                    <c:set var="url" value="/rgdweb/report/reference/main.html?id=${hit.getSource().id}${hit.getSource().term_acc}"/>
+                <c:set var="xRecordCount" value="${xRecordCount+ hit.getSourceAsMap().experimentRecordCount}"/>
+                <c:set var="sampleExists" value="${sampleExists+ hit.getSourceAsMap().sampleExists}"/>
+                <c:set var="url" value="/rgdweb/report/${hit.getSourceAsMap().category.toLowerCase()}/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
+                <c:if test="${hit.getSourceAsMap().category=='Reference'}">
+                    <c:set var="url" value="/rgdweb/report/reference/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
-                <c:if test="${hit.getSource().category=='SSLP'}">
-                    <c:set var="url" value="/rgdweb/report/marker/main.html?id=${hit.getSource().id}${hit.getSource().term_acc}"/>
+                <c:if test="${hit.getSourceAsMap().category=='SSLP'}">
+                    <c:set var="url" value="/rgdweb/report/marker/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
-                <c:if test="${hit.getSource().category!='SSLP'&& hit.getSource().category!='Gene' && hit.getSource().category!='Strain' && hit.getSource().category!='QTL' && hit.getSource().category!='Variant' && hit.getSource().category!='Reference'}">
-                    <c:set var="url" value="/rgdweb/ontology/annot.html?acc_id=${hit.getSource().term_acc}&species=All"/>
+                <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'}">
+                    <c:set var="url" value="/rgdweb/ontology/annot.html?acc_id=${hit.getSourceAsMap().term_acc}&species=All"/>
                 </c:if>
-                <c:if test="${hit.getSource().category=='Promoter'}">
-                    <c:set var="url" value="/rgdweb/report/ge/main.html?id=${hit.getSource().term_acc}"/>
+                <c:if test="${hit.getSourceAsMap().category=='Promoter'}">
+                    <c:set var="url" value="/rgdweb/report/ge/main.html?id=${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
-                <c:if test="${hit.getSource().category=='Cell line'}">
-                    <c:set var="url" value="/rgdweb/report/cellline/main.html?id=${hit.getSource().term_acc}"/>
+                <c:if test="${hit.getSourceAsMap().category=='Cell line'}">
+                    <c:set var="url" value="/rgdweb/report/cellline/main.html?id=${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
                 <!--tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location= '$-{url}'"-->
                 <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.open('${url}', '_blank')">
@@ -210,14 +211,14 @@
                         <c:when test="${model.category.equals('Gene') || model.category.equals('Strain') || model.category.equals('QTL')
                                          || model.category.equals('SSLP') || model.category.equals('Variant') || model.category.equals('Promoter') || model.category.equals('Reference') || model.category.equals('Cell line')}">
                             <c:choose>
-                                <c:when test="${model.species!='' ||  fn:length(model.speciesBkts)==1 || model.category.equals('Reference')}">
-                                    <td  class="${hit.getSource().species}" onmouseover="link=false;" onmouseout="link=true;">
+                                <c:when test="${model.species!='' ||  fn:length(model.aggregations.species)==1 || model.category.equals('Reference')}">
+                                    <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
                                         <c:choose>
                                             <c:when test="${model.category!='Gene'}">
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().term_acc}" data-count="${hit.getSource().experimentRecordCount}" data-symbol="${hit.getSource().symbol}" data-sampleExists="${hit.getSource().sampleExists}">
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </c:when>
                                             <c:otherwise>
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().symbol}" data-rgdids="${hit.getSource().term_acc}">
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().symbol}" data-rgdids="${hit.getSourceAsMap().term_acc}">
                                             </c:otherwise>
                                         </c:choose>
 
@@ -225,44 +226,44 @@
                                 </c:when>
                                 <c:otherwise>
 
-                                    <td  class="${hit.getSource().species}"></td>
+                                    <td  class="${hit.getSourceAsMap().species}"></td>
                                 </c:otherwise>
                             </c:choose>
                         </c:when>
                         <c:otherwise>
                             <c:choose>
-                                <c:when test="${fn:length(model.categoryBkts)==1 || (fn:length(model.ontologyBkts)==1 && model.species!='')}">
-                                    <c:if test="${model.categoryBkts[0].key!='Ontology'}">
-                                        <td  class="${hit.getSource().species}" onmouseover="link=false;" onmouseout="link=true;">
+                                <c:when test="${fn:length(model.aggregations.category)==1 || (fn:length(model.aggregations.category)==1 && model.species!='')}">
+                                    <c:if test="${model.aggregations.category[0].key!='Ontology'}">
+                                        <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
                                             <c:choose>
-                                                <c:when test="${model.categoryBkts[0].key!='Gene'}">
-                                                    <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().term_acc}" data-count="${hit.getSource().experimentRecordCount}" data-symbol="${hit.getSource().symbol}" data-sampleExists="${hit.getSource().sampleExists}">
+                                                <c:when test="${model.aggregations.category[0].key!='Gene'}">
+                                                    <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().symbol}">
+                                                    <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().symbol}">
                                                 </c:otherwise>
                                             </c:choose>
 
                                         </td>
                                     </c:if>
-                                    <c:if test="${model.categoryBkts[0].key=='Ontology'}">
+                                    <c:if test="${model.aggregations.category[0].key=='Ontology'}">
 
                                         <c:choose>
-                                            <c:when test="${fn:length(model.ontologyBkts)==1}">
-                                                <td  class="${hit.getSource().species}" onmouseover="link=false;" onmouseout="link=true;">
+                                            <c:when test="${fn:length(model.aggregations.category)==1}">
+                                                <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
                                                     <c:choose>
-                                                        <c:when test="${model.categoryBkts[0].key!='Gene'}">
-                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().term_acc}" data-count="${hit.getSource().experimentRecordCount}" data-symbol="${hit.getSource().symbol}" data-sampleExists="${hit.getSource().sampleExists}">
+                                                        <c:when test="${model.aggregations.category[0].key!='Gene'}">
+                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().symbol}">
+                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().symbol}">
                                                         </c:otherwise>
                                                     </c:choose>
 
                                                 </td>
                                             </c:when>
                                             <c:otherwise>
-                                                <td  class="${hit.getSource().species}"></td>
+                                                <td  class="${hit.getSourceAsMap().species}"></td>
                                             </c:otherwise>
                                         </c:choose>
 
@@ -273,16 +274,16 @@
                                     <c:choose>
                                         <c:when test="${model.category.equals('Ontology') && model.subCat!=''}">
 
-                                            <td  class="${hit.getSource().species}" onmouseover="link=false;" onmouseout="link=true;">
+                                            <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
 
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSource().term_acc}" data-count="${hit.getSource().experimentRecordCount}" data-symbol="${hit.getSource().symbol}" data-sampleExists="${hit.getSource().sampleExists}">
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </td>
 
 
 
                                         </c:when>
                                         <c:otherwise>
-                                            <td  class="${hit.getSource().species}"></td>
+                                            <td  class="${hit.getSourceAsMap().species}"></td>
                                         </c:otherwise>
                                     </c:choose>
 
@@ -292,46 +293,46 @@
 
                         </c:otherwise>
                     </c:choose>
-                    <td class="${hit.getSource().species}">
+                    <td class="${hit.getSourceAsMap().species}">
 
-                        <c:if test="${hit.getSource().species!='All' && hit.getSource().species!=null}">
+                        <c:if test="${hit.getSourceAsMap().species!='All' && hit.getSourceAsMap().species!=null}">
 
-                            <c:if test="${model.species=='' && fn:length(model.speciesBkts)!=1}">
+                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
                                 <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <!--div style="float:left"><figure class="circle $-{hit.getSource().species}"></figure></div-->
+                                <!--div style="float:left"><figure class="circle $-{hit.getSourceAsMap().species}"></figure></div-->
                             </c:if>
-                            <c:if test="${model.species!='' || fn:length(model.speciesBkts)==1 }">
+                            <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
-                            <c:if test="${model.species=='' && fn:length(model.speciesBkts)==1 }">
-
-                            </c:if>
-                        </c:if>
-                    </td>
-
-                    <td class="${hit.getSource().species}" >
-                        <c:if test="${hit.getSource().species!='All' && hit.getSource().species!=null}">
-                            <c:if test="${model.species=='' && fn:length(model.speciesBkts)!=1}">
-                                 ${hit.getSource().species}
-                            </c:if>
-                            <c:if test="${model.species!='' || fn:length(model.speciesBkts)==1 }">
-
-                            </c:if>
-                            <c:if test="${model.species=='' && fn:length(model.speciesBkts)==1 }">
+                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
                         </c:if>
                     </td>
 
+                    <td class="${hit.getSourceAsMap().species}" >
+                        <c:if test="${hit.getSourceAsMap().species!='All' && hit.getSourceAsMap().species!=null}">
+                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
+                                 ${hit.getSourceAsMap().species}
+                            </c:if>
+                            <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1 }">
 
-                    <td><span class="${hit.getSource().category}">
-                        <c:if test="${hit.getSource().category.equalsIgnoreCase('ontology')}">
+                            </c:if>
+                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1 }">
+
+                            </c:if>
+                        </c:if>
+                    </td>
+
+
+                    <td><span class="${hit.getSourceAsMap().category}">
+                        <c:if test="${hit.getSourceAsMap().category.equalsIgnoreCase('ontology')}">
                             <c:if test="${model.category.equalsIgnoreCase('General') }">
-                                 ${hit.getSource().subcat}
+                                 ${hit.getSourceAsMap().subcat}
                             </c:if>
                             <c:if test="${!model.category.equalsIgnoreCase('General') }">
                                 <c:if test="${model.subCat==''}">
-                                     ${hit.getSource().subcat}
+                                     ${hit.getSourceAsMap().subcat}
                                 </c:if>
                             </c:if>
 
@@ -339,9 +340,9 @@
 
 
 
-                         <c:if test="${!hit.getSource().category.equalsIgnoreCase('ontology') }">
+                         <c:if test="${!hit.getSourceAsMap().category.equalsIgnoreCase('ontology') }">
                              <c:if test="${model.category.equalsIgnoreCase('General')}">
-                                  ${hit.getSource().category}
+                                  ${hit.getSourceAsMap().category}
                              </c:if>
                              <c:if test="${!model.category.equalsIgnoreCase('General')}">
 
@@ -351,31 +352,31 @@
                     </td>
 
                     <td>
-                        <c:set var="symbl" value="${hit.getSource().symbol}"/>
+                        <c:set var="symbl" value="${hit.getSourceAsMap().symbol}"/>
                         <c:set var="t" value="${model.term}"/>
                        ${f:format(symbl, t)}
-                        <c:if test="${hit.getSource().sampleExists==1}">
+                        <c:if test="${hit.getSourceAsMap().sampleExists==1}">
                             <span style="color:red;font-size:20px;font-weight:bold" title='Can be analyzed in Variant Visulizer tool'>
                                 <img src="/rgdweb/images/VV_small.gif" >
                             </span></c:if>
-                        <c:if test="${hit.getSource().experimentRecordCount>0}">
+                        <c:if test="${hit.getSourceAsMap().experimentRecordCount>0}">
                             <span style="color:blue;font-size:20px;font-weight:bold" title='Phenominer Data Available'>
                                 <img src="/rgdweb/images/PM_small.gif" ></span></c:if>
                     </td>
 
                     <td  onmouseover="link=false;" onmouseout="link=true;" style="cursor: auto;">
                         <a href="${url}" target="_blank">
-                            <c:set var="str" value="${hit.getSource().name}${hit.getSource().title}${hit.getSource().term}"/>
+                            <c:set var="str" value="${hit.getSourceAsMap().name}${hit.getSourceAsMap().title}${hit.getSourceAsMap().term}"/>
                        ${f:format(str,t )}
                         </a>
-                        <c:if test="${hit.getSource().category!='SSLP'&& hit.getSource().category!='Gene' && hit.getSource().category!='Strain' && hit.getSource().category!='QTL' && hit.getSource().category!='Variant' && hit.getSource().category!='Reference'  && hit.getSource().category!='Promoter'  && hit.getSource().category!='Cell line'}">
-                            <a href="/rgdweb/ontology/view.html?acc_id=${hit.getSource().term_acc}" title="click to browse the term" alt="browse term" target="_blank">
+                        <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'  && hit.getSourceAsMap().category!='Promoter'  && hit.getSourceAsMap().category!='Cell line'}">
+                            <a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().term_acc}" title="click to browse the term" alt="browse term" target="_blank">
                                 <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
-                            <c:if test="${hit.getSource().annotationsCount>0}">
-                                &nbsp;<a href="${url}" target="_blank"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show ${hit.getSource().annotationsCount} annotated objects"></a>
+                            <c:if test="${hit.getSourceAsMap().annotationsCount>0}">
+                                &nbsp;<a href="${url}" target="_blank"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show ${hit.getSourceAsMap().annotationsCount} annotated objects"></a>
                             </c:if>
-                            <c:if test="${hit.getSource().pathwayDiagUrl!=null}">
-                                &nbsp;<a href="${hit.getSource().pathwayDiagUrl}" target="_blank"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
+                            <c:if test="${hit.getSourceAsMap().pathwayDiagUrl!=null}">
+                                &nbsp;<a href="${hit.getSourceAsMap().pathwayDiagUrl}" target="_blank"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
                             </c:if>
                         </c:if>
                     </td>
@@ -383,7 +384,7 @@
                     <td>
                         <c:choose>
                             <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSource().mapDataList}" var="chrMap">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="chrMap">
                                     <c:if test="${chrMap.map.equalsIgnoreCase(model.defaultAssembly)}">
                                          ${chrMap.chromosome}<br>
 
@@ -392,7 +393,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <c:forEach items="${hit.getSource().mapDataList}" var="item">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
 
                                     <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
                                           ${item.chromosome}
@@ -421,13 +422,13 @@
                         </c:choose>
                         <c:if test="${!model.category.equalsIgnoreCase('general')}">
 
-                           ${f:format(hit.getSource().citation,t )} </span>
+                           ${f:format(hit.getSourceAsMap().citation,t )} </span>
                         </c:if>
                     </td>
                     <td>
                         <c:choose>
                             <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSource().mapDataList}" var="startPosMap">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="startPosMap">
                                     <c:if test="${startPosMap.map.equalsIgnoreCase(model.defaultAssembly)}">
                                         ${startPosMap.startPos}<br>
                                     </c:if>
@@ -435,7 +436,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <c:forEach items="${hit.getSource().mapDataList}" var="item">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
 
                                     <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
                                         ${item.startPos}
@@ -463,14 +464,14 @@
                             </c:otherwise>
                         </c:choose>
                         <c:if test="${!model.category.equalsIgnoreCase('general')}">
-                            ${f:format(hit.getSource().author, t )}
+                            ${f:format(hit.getSourceAsMap().author, t )}
                         </c:if>
 
                     </td>
                     <td>
                         <c:choose>
                             <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSource().mapDataList}" var="stopPosMap">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="stopPosMap">
                                     <c:if test="${stopPosMap.map.equalsIgnoreCase(model.defaultAssembly)}">
                                        ${stopPosMap.stopPos}<br>
                                     </c:if>
@@ -478,7 +479,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <c:forEach items="${hit.getSource().mapDataList}" var="item">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
                                     <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
                                        ${item.stopPos}
                                     </c:if>
@@ -506,16 +507,16 @@
 
 
                     </td>
-                    <!--td>$--{hit.getSource().type}</td-->
+                    <!--td>$--{hit.getSourceAsMap().type}</td-->
 
                     <td>
                         <c:if test="${model.category!='Ontology' && model.category!='Reference'}">
-                            ${hit.getSource().annotationsCount}
+                            ${hit.getSourceAsMap().annotationsCount}
                         </c:if>
                         <c:if test="${model.category=='Ontology'}">
-                            <div class="tooltips"><!--a href="search/annotGraph.html?id=$--{hit.getSource().term_acc}&rootTerm=$--{hit.getSource().term}" target="_blank">AnnotCount</a-->
-                                <c:if test="${hit.getSource().annotationsCount>0}">
-                                    Term  (${hit.getSource().termAnnotsCount}) + Child Term  (${hit.getSource().childTermsAnnotsCount})
+                            <div class="tooltips"><!--a href="search/annotGraph.html?id=$--{hit.getSourceAsMap().term_acc}&rootTerm=$--{hit.getSourceAsMap().term}" target="_blank">AnnotCount</a-->
+                                <c:if test="${hit.getSourceAsMap().annotationsCount>0}">
+                                    Term  (${hit.getSourceAsMap().termAnnotsCount}) + Child Term  (${hit.getSourceAsMap().childTermsAnnotsCount})
                                     <div class="scoreBoard tooltiptext" style="font-size: x-small;width:400px">
 
                                         <table width="100%">
@@ -532,7 +533,7 @@
                                                 <td style="color: white;padding-right:10px">Squirrel</td>
                                             </tr>
                                             <c:set var="i" value="0"/>
-                                            <c:forEach items="${hit.getSource().annotationsMatrix}" var="row">
+                                            <c:forEach items="${hit.getSourceAsMap().annotationsMatrix}" var="row">
                                                 <tr>
 
                                                     <td style="color: white">
@@ -570,7 +571,7 @@
                         </c:if>
                     </td>
 
-                    <td class="id">${hit.getSource().id}${hit.getSource().term_acc}</td>
+                    <td class="id">${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}</td>
                     <td id="highlight">
                         <c:set value="true" var="first"/>
                         <c:set value="false" var="synonymExists"/>
