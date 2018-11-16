@@ -301,7 +301,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('bonobo')}">
 
                                                 <c:forEach items="${model.bonoboFilterBkts}" var="bonoboFilterItem">
-                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${bonoboFilterItem.key}', '${item.key}')"><span >${bonoboFilterItem.key} (${bonoboFilterItem.docCount})</span></button>
+                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${bonoboFilterItem.key}', '${item.key}', '', '')"><span >${bonoboFilterItem.key} (${bonoboFilterItem.docCount})</span></button>
                                                        <ul>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('gene')}">
                                                                <c:forEach items="${model.bonoboGeneTypeBkts}" var="geneType">
@@ -333,7 +333,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('squirrel')}">
 
                                                 <c:forEach items="${model.squirrelFilterBkts}" var="squirrelFilterItem">
-                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${squirrelFilterItem.key}', '${item.key}')"><span>${squirrelFilterItem.key} (${squirrelFilterItem.docCount})</span></button>
+                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${squirrelFilterItem.key}', '${item.key}', '', '')"><span>${squirrelFilterItem.key} (${squirrelFilterItem.docCount})</span></button>
 
                                                        <ul>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('gene')}">
