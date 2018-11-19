@@ -266,7 +266,7 @@ public class QueryService1 {
            .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
            .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
 
-            .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
+      .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
              .must(QueryBuilders.matchQuery("citation.citation", term)))
 
              .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
@@ -303,9 +303,7 @@ public class QueryService1 {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword").subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                     .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
-                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
-                        //    .order(Terms.Order.term(true))) deprecated in 6.4
-            ;
+                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(Terms.Order.term(true)));
 
            return aggs;
      }
@@ -314,17 +312,13 @@ public class QueryService1 {
                     .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
 
-                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
-                          //  .order(Terms.Order.term(true)))  deprecated in 6.4
-            ;
+                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(Terms.Order.term(true)));
 
             return aggs;
         }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                 .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
-                       // .order(Terms.Order.term(true)))  deprecated in 6.4
-        ;
+                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(Terms.Order.term(true)));
        return aggs;
     }
 

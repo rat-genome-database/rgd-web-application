@@ -185,34 +185,34 @@ public class AutocompleteController implements Controller {
             }
 
             for (SearchHit h : sr.getHits().getHits()) {
-                    if (h.getFields().get("symbol") != null) {
-                    Object o = h.getFields().get("symbol");
+                    if (h.getSource().get("symbol") != null) {
+                    Object o = h.getSource().get("symbol");
                     if(!isAdded(autocompleteList, o.toString())){
                         autocompleteList.add(o.toString());
                     }
                   //  System.out.println(h.getSource().get("symbol")+ "\t" + h.getSource().get("species") +"\t"+h.getSource().get("category"));
                     }
 
-                    if (h.getFields().get("term") != null) {
-                    if(h.getFields().get("term")!=null) {
-                        Object o = h.getFields().get("term");
+                    if (h.getSource().get("term") != null) {
+                    if(h.getSource().get("term")!=null) {
+                        Object o = h.getSource().get("term");
                         if (!isAdded(autocompleteList, o.toString())) {
                             autocompleteList.add(o.toString());
                     }
                         //      System.out.println(h.getSource().get("term")+ "\t" + h.getSource().get("subcat"));
                     }
                 }
-                if(h.getFields().get("title")!=null) {
-                    if (h.getFields().get("title") != null) {
-                        Object o = h.getFields().get("title");
+                if(h.getSource().get("title")!=null) {
+                    if (h.getSource().get("title") != null) {
+                        Object o = h.getSource().get("title");
                         if (!isAdded(autocompleteList, o.toString())) {
                             autocompleteList.add(o.toString());
                     }
                 }
                     }
-                if(h.getFields().get("author")!=null) {
-                    if (h.getFields().get("author") != null) {
-                        Object o = h.getFields().get("author");
+                if(h.getSource().get("author")!=null) {
+                    if (h.getSource().get("author") != null) {
+                        Object o = h.getSource().get("author");
                         if (!isAdded(autocompleteList, o.toString())) {
                             autocompleteList.add(o.toString());
                     }

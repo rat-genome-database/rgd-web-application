@@ -100,22 +100,22 @@ public class RgdContext {
 	public static String getESIndexName() {
 		try {
 			if( isProduction() ) {
-				return "search_index_prod";
+				return "rgd_index_prod";
 			}
 			if( isPipelines() ) {
 				//return "rgd_index_cur";
-                return "search_index_prod";
+                return "rgd_index_prod";
 			}
 			if( isTest() ) {
-				return "search_index_test";
+				return "rgd_index_test";
 			}
 			if( isDev() ) {
-				return "search_index_dev";
+				return "rgd_index_dev";
 			}
 			
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return "search_index_dev";
+        return null;
 	}
 }

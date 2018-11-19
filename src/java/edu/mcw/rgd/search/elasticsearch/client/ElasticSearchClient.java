@@ -1,15 +1,11 @@
 package edu.mcw.rgd.search.elasticsearch.client;
 
 import edu.mcw.rgd.process.search.ElasticNode;
-import org.elasticsearch.client.ClusterAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.settings.Settings;
-
-import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -22,23 +18,14 @@ public class ElasticSearchClient {
     private ElasticSearchClient(){}
     public static TransportClient getInstance() {
         TransportClient client=null;
-
             Settings settings = Settings.builder()
-                     .put("client.transport.sniff", true)
-                      .put("cluster.name", "erika")
-
+                    .put("cluster.name", "rgd-elastic")
                     .build();
-
-        try {
+            try {
                 client = new PreBuiltTransportClient(settings);
                for(String host:hosts){
-                 client.addTransportAddress(new TransportAddress(InetAddress.getByName(host), 9300));
+                client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
                }
-                List<DiscoveryNode>nodes=client.listedNodes();
-                 System.out.println("NODES SIZE: " + nodes.size() + client.transportAddresses().toString());
-                for(DiscoveryNode n:nodes){
-                    System.out.println("ADDRESS:"+n.getAddress()+"\tNAME"+ n.getName()+"\tHOSTNAME"+ n.getHostName()+"\tHOST ADDRESS"+ n.getHostAddress());
-                }
             } catch (Exception e) {
                 e.printStackTrace();
     }
