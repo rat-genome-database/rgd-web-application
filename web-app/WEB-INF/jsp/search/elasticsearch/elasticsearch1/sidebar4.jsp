@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div>
@@ -30,13 +31,13 @@
             <c:if test="${fn:length(model.aggregations.species)>0}">
                 <c:forEach items="${model.aggregations.species}" var="item">
                     <c:if test="${item.key.equalsIgnoreCase('rat')}">
-                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.category}', '${item.key}','')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
+                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.category}', '${item.key}','', '')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
                             <ul>
                                 <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                     <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->
                                     <c:forEach items="${model.aggregations.rat}" var="ratFilterItem">
 
-                                        <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
+                                        <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}','','')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
 
                                             <ul>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('gene')}">
@@ -83,13 +84,13 @@
 
                     <c:if test="${!item.key.equals('All') && !item.key.equalsIgnoreCase('rat')}">
 
-                           <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.category}', '${item.key}','')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
+                           <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.category}', '${item.key}','','')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
                                   <ul>
                                             <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                                 <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->
                                                 <c:forEach items="${model.aggregations.rat}" var="ratFilterItem">
 
-                                                    <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
+                                                    <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}','','')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
 
                                                         <ul>
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('gene')}">
@@ -128,7 +129,7 @@
                                                 <!--c:if test="$--{fn:length(model.humanFilterBkts)>1}"-->
                                                 <c:forEach items="${model.aggregations.human}" var="humanFilterItem">
                                                  <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
-                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
+                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}','','')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
 
                                                        <ul>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
@@ -159,7 +160,7 @@
                                                 </c:forEach>
                                                 <c:forEach items="${model.aggregations.human}" var="humanFilterItem">
                                                  <c:if test="${!humanFilterItem.key.equalsIgnoreCase('gene')}">
-                                                                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
+                                                                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${humanFilterItem.key}', '${item.key}','','')"><span>${humanFilterItem.key} (${humanFilterItem.docCount})</span></button>
 
                                                                                                        <ul>
                                                                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('gene')}">
@@ -194,7 +195,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('mouse')}">
                                                 <!--c:if test="$--{fn:length(model.mouseFilterBkts)>1}"-->
                                                 <c:forEach items="${model.aggregations.mouse}" var="mouseFilterItem">
-                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${mouseFilterItem.key}', '${item.key}')"><span>${mouseFilterItem.key} (${mouseFilterItem.docCount})</span></button>
+                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${mouseFilterItem.key}', '${item.key}','','')"><span>${mouseFilterItem.key} (${mouseFilterItem.docCount})</span></button>
                                                         <ul>
                                                             <c:if test="${mouseFilterItem.key.equalsIgnoreCase('gene')}">
                                                                 <c:forEach items="${model.aggregations.mouseGene}" var="geneType">
@@ -228,7 +229,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('dog')}">
 
                                                 <c:forEach items="${model.aggregations.dog}" var="dogFilterItem">
-                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${dogFilterItem.key}', '${item.key}')"><span style= >${dogFilterItem.key} (${dogFilterItem.docCount})</span></button>
+                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${dogFilterItem.key}', '${item.key}','','')"><span style= >${dogFilterItem.key} (${dogFilterItem.docCount})</span></button>
 
 
                                                             <ul>
@@ -265,7 +266,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('chinchilla')}">
 
                                                 <c:forEach items="${model.aggregations.chinchilla}" var="chinchillaFilterItem">
-                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}')"><span style=>${chinchillaFilterItem.key} (${chinchillaFilterItem.docCount})</span></button>
+                                                    <li><button style="border:none;background-color: transparent" onclick="filterClick('${chinchillaFilterItem.key}', '${item.key}','','')"><span style=>${chinchillaFilterItem.key} (${chinchillaFilterItem.docCount})</span></button>
 
                                                             <ul>
                                                                 <c:if test="${chinchillaFilterItem.key.equalsIgnoreCase('gene')}">
@@ -301,7 +302,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('bonobo')}">
 
                                                 <c:forEach items="${model.aggregations.bonobo}" var="bonoboFilterItem">
-                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${bonoboFilterItem.key}', '${item.key}')"><span >${bonoboFilterItem.key} (${bonoboFilterItem.docCount})</span></button>
+                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${bonoboFilterItem.key}', '${item.key}','','')"><span >${bonoboFilterItem.key} (${bonoboFilterItem.docCount})</span></button>
                                                        <ul>
                                                            <c:if test="${bonoboFilterItem.key.equalsIgnoreCase('gene')}">
                                                                <c:forEach items="${model.aggregations.bonoboGene}" var="geneType">
@@ -333,7 +334,7 @@
                                             <c:if test="${item.key.equalsIgnoreCase('squirrel')}">
 
                                                 <c:forEach items="${model.aggregations.squirrel}" var="squirrelFilterItem">
-                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${squirrelFilterItem.key}', '${item.key}')"><span>${squirrelFilterItem.key} (${squirrelFilterItem.docCount})</span></button>
+                                                   <li><button style="border:none;background-color: transparent" onclick="filterClick('${squirrelFilterItem.key}', '${item.key}','','')"><span>${squirrelFilterItem.key} (${squirrelFilterItem.docCount})</span></button>
 
                                                        <ul>
                                                            <c:if test="${squirrelFilterItem.key.equalsIgnoreCase('gene')}">
@@ -403,6 +404,7 @@
          </ul>
 
        </div>
+
 
 
 </div>

@@ -172,7 +172,7 @@ public class SearchService {
 
        model.addAttribute("totalHits", totalHits);
         model.addAttribute("aggregations", aggregations);
-
+        model.addAttribute("hitArray", searchHits);
         model.addAttribute("speciesCatArray", speciesCatArray);
         model.addAttribute("message", message);
         model.addAttribute("matrixResultsExists", matrixResultsExists );

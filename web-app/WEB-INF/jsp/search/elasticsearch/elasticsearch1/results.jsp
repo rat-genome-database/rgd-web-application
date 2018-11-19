@@ -34,8 +34,7 @@
     })
 
 </script>
-<h1>${model.aggregations.species[0].key} - ${fn:length(model.aggregations.category)}</h1>
-<h1>${model.aggregations.ratGene}</h1>
+
 <table width="100%">
 
 <tr><td>
