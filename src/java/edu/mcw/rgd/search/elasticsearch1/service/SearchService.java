@@ -1,14 +1,21 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
 
+import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
+import edu.mcw.rgd.search.elasticsearch1.model.Sort;
+import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 import java.util.*;
@@ -181,8 +188,32 @@ public class SearchService {
         System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
-    public SearchResponse getSearchResponse(String term, String category, String species, String type, String subCat,int  currentPage, int pagesize, boolean page,String sortOrder, String sortBy, String assembly, String trait, String start, String stop, String chr)  {
-        int defaultPageSize=(pagesize>0)?pagesize:50;
+   public SearchResponse getSearchResponse(HttpServletRequest request, String term)  {
+       String start=request.getParameter("start")!=null?request.getParameter("start"):"",
+               stop=request.getParameter("stop")!=null?request.getParameter("stop"):"",
+               chr=request.getParameter("chr")!=null && !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
+
+       String category = request.getParameter("category") != null ? request.getParameter("category") : "";
+       String species = (request.getParameter("species") == null) ? "" : request.getParameter("species");
+       String type = (request.getParameter("type") == null) ? "" : request.getParameter("type");
+       String subCat = (request.getParameter("subCat") == null) ? "" : request.getParameter("subCat");
+       String sortValue=(request.getParameter("sortBy")==null)?"0":request.getParameter("sortBy");
+       String trait=(request.getParameter("trait")==null)?"":request.getParameter("trait");
+       Map<String, Sort> sortMap= SortMap.getSortMap();
+       Sort s= sortMap.get(sortValue);
+       String sortBy=s.getSortBy();
+       String sortOrder= s.getSortOrder();
+
+       String pageCurrent = request.getParameter("currentPage");
+       String size = request.getParameter("size");
+       String viewAll = request.getParameter("viewall");
+       boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
+       int currentPage = (pageCurrent != null) ? Integer.parseInt(pageCurrent) : 1;
+       int pageSize = (size != null) ? Integer.parseInt(request.getParameter("size")) : 50;
+
+       String assembly=(request.getParameter("assembly") != null && !request.getParameter("assembly").equals(""))?request.getParameter("assembly"):null;
+
+       int defaultPageSize=(pageSize>0)?pageSize:50;
         int from=(currentPage>0)?(currentPage-1)*defaultPageSize:0;
         try {
             QueryService1 qs = new QueryService1();
@@ -198,20 +229,6 @@ public class SearchService {
         }catch (Exception exception){}}
         return null;
     }
-    public SearchResponse getSearchResponse(String term, String category){
-        try{
-            QueryService1 qs= new QueryService1();
-            return qs.getSearchResponse(term, category);
-        } catch (Exception e) {
-             System.out.println("UNKNOWN HOST EXCETPITON When search for term_acc.. Reinitiating client...");
-            reInitiateClient();
-            try{
-                QueryService1 qs = new QueryService1();
-                return qs.getSearchResponse(term, category);
-            }catch (Exception exception){}
-        }
-        return null;
-    }
 
     public void reInitiateClient(){
         ClientInit esClient= new ClientInit();
@@ -220,6 +237,52 @@ public class SearchService {
         ClientInit.setClient(null);
         esClient.init();
 
+    }
+    public SearchBean getSearchBean(HttpServletRequest request, String term){
+        String start=request.getParameter("start")!=null?request.getParameter("start"):"",
+                stop=request.getParameter("stop")!=null?request.getParameter("stop"):"",
+                chr=request.getParameter("chr")!=null && !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
+
+        String category = request.getParameter("category") != null ? request.getParameter("category") : "";
+        String species = (request.getParameter("species") == null) ? "" : request.getParameter("species");
+        String type = (request.getParameter("type") == null) ? "" : request.getParameter("type");
+        String subCat = (request.getParameter("subCat") == null) ? "" : request.getParameter("subCat");
+        String sortValue=(request.getParameter("sortBy")==null)?"0":request.getParameter("sortBy");
+        String trait=(request.getParameter("trait")==null)?"":request.getParameter("trait");
+        Map<String, Sort> sortMap= SortMap.getSortMap();
+        Sort s= sortMap.get(sortValue);
+        String sortBy=s.getSortBy();
+        String sortOrder= s.getSortOrder();
+
+        String pageCurrent = request.getParameter("currentPage");
+        String size = request.getParameter("size");
+        boolean viewAll = request.getParameter("viewall").equals("true");
+        boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
+        int currentPage = (pageCurrent != null) ? Integer.parseInt(pageCurrent) : 1;
+        int pageSize = (size != null) ? Integer.parseInt(request.getParameter("size")) : 50;
+
+        String assembly=(request.getParameter("assembly") != null && !request.getParameter("assembly").equals(""))?request.getParameter("assembly"):null;
+
+        int defaultPageSize=(pageSize>0)?pageSize:50;
+        int from=(currentPage>0)?(currentPage-1)*defaultPageSize:0;
+        SearchBean sb= new SearchBean();
+        sb.setAssembly(assembly);
+        sb.setCategory(category);
+        sb.setChr(chr);
+        sb.setFrom(from);
+        sb.setPage(page);
+        sb.setSize(pageSize);
+        sb.setSortBy(sortBy);
+        sb.setSortOrder(sortOrder);
+        sb.setSpecies(species);
+        sb.setStart(start);
+        sb.setStop(stop);
+        sb.setSubCat(subCat);
+        sb.setTerm(term);
+        sb.setTrait(trait);
+        sb.setType(type);
+        sb.setViewAll(viewAll);
+        return sb;
     }
     public static void main(String[] args) throws IOException {
         System.out.println("start time: " + new Date());
