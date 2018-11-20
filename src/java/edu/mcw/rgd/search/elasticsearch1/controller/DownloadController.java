@@ -31,8 +31,7 @@ public class DownloadController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        HttpRequestFacade req = new HttpRequestFacade(request);
-        String format=request.getParameter("format");
+           String format=request.getParameter("format");
 
             String objectKey = request.getParameter("oKey");
 
