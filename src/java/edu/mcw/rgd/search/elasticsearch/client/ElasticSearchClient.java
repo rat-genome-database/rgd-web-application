@@ -35,10 +35,10 @@ public class ElasticSearchClient {
                  client.addTransportAddress(new TransportAddress(InetAddress.getByName(host), 9300));
                }
                 List<DiscoveryNode>nodes=client.listedNodes();
-                 System.out.println("NODES SIZE: " + nodes.size() + client.transportAddresses().toString());
+             /*    System.out.println("NODES SIZE: " + nodes.size() + client.transportAddresses().toString());
                 for(DiscoveryNode n:nodes){
                     System.out.println("ADDRESS:"+n.getAddress()+"\tNAME"+ n.getName()+"\tHOSTNAME"+ n.getHostName()+"\tHOST ADDRESS"+ n.getHostAddress());
-                }
+                }*/
             } catch (Exception e) {
                 e.printStackTrace();
     }

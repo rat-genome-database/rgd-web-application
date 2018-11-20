@@ -26,6 +26,7 @@ public class ClientInit {
         if(client==null){
             hosts=this.getHostNames();
             ElasticSearchClient.setHosts(hosts);
+
             System.out.println("CLIENT IS NULL, CREATING NEW CLIENT...");
             client=ElasticSearchClient.getInstance();
             System.out.println("Initialized elasticsearch client ...");
