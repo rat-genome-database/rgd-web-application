@@ -27,99 +27,22 @@ import java.util.*;
  * Created by jthota on 5/1/2017.
  */
 public class AutocompleteController implements Controller {
- /*@Override
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List<String> categories=new ArrayList<>(Arrays.asList("General", "Gene", "QTL", "SSLP", "Strain", "Reference","Ontology" ));
-       String term = null;
-        if (request != null) {
-            String category= request.getParameter("category");
-            if (request.getParameter("term") != null) {
-                term = request.getParameter("term").toLowerCase();
-            }
-            if(term!=null){
-                List<String> autocompleteSuggestions= new ArrayList<>();
-                SearchResponse searchResponse=null;
-                String catStr;
-                if(!category.equalsIgnoreCase("general")) {
-                    if(!categories.contains(category)){
-                        catStr = category.toUpperCase();
-                    }else{
-                       catStr=category.toLowerCase();
-                    }
-
-                    Map<String, List<? extends ToXContent>> contextMap = new HashMap<>();
-                    contextMap.put("category", Collections.singletonList(CategoryQueryContext.builder().setCategory(catStr).build()));
-                    searchResponse = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
-                            .suggest(new SuggestBuilder().addSuggestion("suggest", SuggestBuilders.completionSuggestion("suggest")
-                                    .contexts(contextMap)
-                                   .text(term)
-                                 // .regex(".+"+term +".+")
-                                    .size(20)
-                            ))
-                            .get();
-                }else{
-                    searchResponse = ClientInit.getClient().prepareSearch(RgdIndex.INDEX_NAME)
-                            .suggest(new SuggestBuilder().addSuggestion("suggest", SuggestBuilders.completionSuggestion("suggest")
-                                 .text(term)
-                                   // .regex(".+"+term +".+")
-                                    .size(20)
-                            ))
-                            .get();
-                }
-                CompletionSuggestion completionSuggestion= searchResponse.getSuggest().getSuggestion("suggest");
-                List<CompletionSuggestion.Entry> entries=completionSuggestion.getEntries();
-
-
-
-
-/*
-                Iterator $i= entries.iterator();
-                while ($i.hasNext()){
-                    CompletionSuggestion.Entry entry= (CompletionSuggestion.Entry) $i.next();
-                    List<CompletionSuggestion.Entry.Option> options=entry.getOptions();
-                    Iterator i=options.iterator();
-                    while(i.hasNext()){
-                        CompletionSuggestion.Entry.Option option= (CompletionSuggestion.Entry.Option) i.next();
-
-                        autocompleteSuggestions.add(option.getText().toString());
-                    }
-                }
-                Set<String> autoStrs=new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-                autoStrs.addAll(autocompleteSuggestions);
-
-                Set<String> autoSet= new LinkedHashSet<>(autoStrs);
-                autoSet.retainAll(new LinkedHashSet<>(autoStrs));
-                autocompleteSuggestions=new ArrayList<>(autoSet);
-              String autoList = new Gson().toJson(autocompleteSuggestions);
-            /*   Gson gson = new Gson();
-                String autoList = gson.toJson(autocompleteSuggestions);
-
-                response.getWriter().write(autoList);
-            }
-
-        }
-
-        return null;
-
-
-    }*/
    @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
 
-        String term=null;
-        if(request!=null) {
-            if (request.getParameter("term") != null) {
-                term = request.getParameter("term").toLowerCase();
-            }
-            String category = request.getParameter("category");
+        String term=request.getParameter("term")!=null?request.getParameter("term").trim():null;
+     //   if(request!=null) {
 
+            String category = request.getParameter("category")!=null?request.getParameter("category").toLowerCase():"general";
+            System.out.println("Category:"+category);
             DisMaxQueryBuilder dqb = new DisMaxQueryBuilder();
-            if (term != null) {
+            if (term != null ) {
                 switch (category) {
-                    case "General":
+
+                    case  "general":
 
                         dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(100));
                       //  dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
@@ -136,20 +59,21 @@ public class AutocompleteController implements Controller {
                         dqb.add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND));
                         dqb.add(QueryBuilders.termQuery("author.author", term).boost(10));
                         break;
-                    case "Reference":
 
+                    case "reference":
                         dqb.add(QueryBuilders.termQuery("title.title", term).boost(10));
                         dqb.add(QueryBuilders.termQuery("title", term).boost(5));//.edgeNgram
                         dqb.add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND));
                         dqb.add(QueryBuilders.termQuery("author.author", term).boost(10));
                         break;
-                    case "Ontology":
 
+                    case "ontology":
                         dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(15)); // term Lowercase
                         dqb.add(QueryBuilders.termQuery("term", term).boost(10)); //edgeNgram
                         dqb.add(QueryBuilders.matchQuery("term.symbol", term).operator(Operator.AND).boost(5));
                         break;
-                    case "Strain":
+
+                    case "strain":
                         dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(100));
                     //    dqb.add(QueryBuilders.prefixQuery("symbol.symbol", term).boost(50));
                         dqb.add(QueryBuilders.termQuery("symbol", term).boost(10));
@@ -170,14 +94,14 @@ public class AutocompleteController implements Controller {
             List<String> autocompleteList = new ArrayList<>();
             SearchResponse sr;
             if(!category.equalsIgnoreCase("general") && !category.equalsIgnoreCase("reference") && !category.equalsIgnoreCase("ontology")){
-                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
+                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                     .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                     .setQuery(dqb)
                         .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)))
                         .setFrom(0).setSize(20)
                     .get();
             }else {
-                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
+                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                         .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                         .setQuery(dqb)
                         .setFrom(0).setSize(20)
@@ -185,46 +109,42 @@ public class AutocompleteController implements Controller {
             }
 
             for (SearchHit h : sr.getHits().getHits()) {
-                    if (h.getFields().get("symbol") != null) {
-                    Object o = h.getFields().get("symbol");
-                    if(!isAdded(autocompleteList, o.toString())){
-                        autocompleteList.add(o.toString());
+                if(h.getSourceAsMap().get("symbol")!=null){
+                    if(!isAdded(autocompleteList, h.getSourceAsMap().get("symbol").toString())){
+                        autocompleteList.add(h.getSourceAsMap().get("symbol").toString());
                     }
-                  //  System.out.println(h.getSource().get("symbol")+ "\t" + h.getSource().get("species") +"\t"+h.getSource().get("category"));
+                }
+            //   System.out.println("SYMBOL:"+h.getSourceAsMap().get("symbol"));
+                if(h.getSourceAsMap().get("name")!=null){
+                    if(!isAdded(autocompleteList, h.getSourceAsMap().get("name").toString())){
+                        autocompleteList.add(h.getSourceAsMap().get("name").toString());
                     }
+                }
+             //   System.out.println("NAME:"+h.getSourceAsMap().get("name"));
+                if(h.getSourceAsMap().get("term")!=null){
+                    if(!isAdded(autocompleteList, h.getSourceAsMap().get("term").toString())){
+                        autocompleteList.add(h.getSourceAsMap().get("term").toString());
+                    }
+                }
+             //   System.out.println("TERM:"+h.getSourceAsMap().get("term"));
+                if(h.getSourceAsMap().get("title")!=null){
+                    if(!isAdded(autocompleteList, h.getSourceAsMap().get("title").toString())){
+                        autocompleteList.add(h.getSourceAsMap().get("title").toString());
+                    }
+                }
+                if(h.getSourceAsMap().get("author")!=null){
+                    if(!isAdded(autocompleteList, h.getSourceAsMap().get("author").toString())){
+                        autocompleteList.add(h.getSourceAsMap().get("author").toString());
+                    }
+                }
 
-                    if (h.getFields().get("term") != null) {
-                    if(h.getFields().get("term")!=null) {
-                        Object o = h.getFields().get("term");
-                        if (!isAdded(autocompleteList, o.toString())) {
-                            autocompleteList.add(o.toString());
-                    }
-                        //      System.out.println(h.getSource().get("term")+ "\t" + h.getSource().get("subcat"));
-                    }
-                }
-                if(h.getFields().get("title")!=null) {
-                    if (h.getFields().get("title") != null) {
-                        Object o = h.getFields().get("title");
-                        if (!isAdded(autocompleteList, o.toString())) {
-                            autocompleteList.add(o.toString());
-                    }
-                }
-                    }
-                if(h.getFields().get("author")!=null) {
-                    if (h.getFields().get("author") != null) {
-                        Object o = h.getFields().get("author");
-                        if (!isAdded(autocompleteList, o.toString())) {
-                            autocompleteList.add(o.toString());
-                    }
-                }
-            }
             }
 
             Gson gson = new Gson();
             String autoList = gson.toJson(autocompleteList);
 
             response.getWriter().write(autoList);
-        }
+      //  }
 
         return null;
     }

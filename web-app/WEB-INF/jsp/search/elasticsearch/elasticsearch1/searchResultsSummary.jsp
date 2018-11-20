@@ -121,17 +121,17 @@
                         <div style="background-color:#fafafa" class="ontologyCategories" >
                             <table class="table">
 
-                                <c:forEach items="${model.categoryBkts}" var="item">
+                                <c:forEach items="${model.aggregations.category}" var="item">
 
                                     <c:if test="${item.key=='Ontology'}">
                                       <c:if test="${item.docCount>0}">
-                                        <caption style="text-align: center">Ontology Terms (${item.docCount})</caption>
-                                         <c:forEach items="${model.ontologyBkts}" var="ontBkt">
+                                        <caption style="text-align: center;cursor: pointer">Ontology Terms (${item.docCount})</caption>
+                                         <c:forEach items="${model.aggregations.ontology}" var="ontBkt">
                                              <c:if test="${ontBkt.docCount!=1}">
-                                             <tr><td><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.docCount}</a></td></tr>
+                                             <tr><td><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.docCount}</a></td></tr>
                                              </c:if>
                                              <c:if test="${ontBkt.docCount==1}">
-                                                 <tr><td ><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold" >${ontBkt.docCount}</a></td></tr>
+                                                 <tr><td ><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold" >${ontBkt.docCount}</a></td></tr>
                                              </c:if>
                                          </c:forEach>
 

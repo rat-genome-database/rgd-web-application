@@ -46,7 +46,7 @@ public class QueryService1 {
 
 
             String sortField=null;
-            SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
+            SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                     .setQuery(builder);
             if(sb!=null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance")) {
@@ -370,7 +370,7 @@ public class QueryService1 {
     }
 
     public SearchResponse getSearchResponse(String term, String category) throws Exception {
-        return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
+        return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                          .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                            .setQuery(QueryBuilders.termQuery("term_acc", term))
                            .get();
