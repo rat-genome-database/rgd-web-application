@@ -25,7 +25,7 @@ import java.util.*;
  */
 public class SearchService {
 
-    public ModelMap getResultsMap(SearchResponse sr, String term, String cat1, String sp1, int postCount ) throws IOException {
+    public ModelMap getResultsMap(SearchResponse sr, String term ) throws IOException {
         ModelMap model= new ModelMap();
         List<SearchHit[]> searchHits=new ArrayList<>();
 
@@ -51,18 +51,23 @@ public class SearchService {
             if (sr.getAggregations() != null) {
                 speciesAgg = sr.getAggregations().get("species");
 
-                 aggregations.put("species", speciesAgg.getBuckets());
+                aggregations.put("species", speciesAgg.getBuckets());
                 categoryAgg = sr.getAggregations().get("category");
                 List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
-                System.out.println("CAT BUCKETS SIZE:"+catBuckets.size());
-                   aggregations.put("category", catBuckets);
-               for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
+             //   System.out.println("CAT BUCKETS SIZE:"+catBuckets.size());
+                aggregations.put("category", catBuckets);
+                for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
                    Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
                    String species = speciesBkt.getKey().toString().toLowerCase();
                    aggregations.put(species, catFilterAgg.getBuckets());
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
+                       Terms traitFilterAgg=bucket.getAggregations().get("trait");
+                       if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
+                           aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
+                       }else
                        aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
+
                    }
                }
                 chromosomeAgg=sr.getAggregations().get("chromosome");
@@ -158,13 +163,9 @@ public class SearchService {
 
            totalHits = sr.getHits().getTotalHits();
             searchHits.add(sr.getHits().getHits());
-            SearchHit[] hitsarray= sr.getHits().getHits();
-        for(SearchHit h:hitsarray){{
-           Map map=h.getSourceAsMap();
-
-        }
-
-        }
+          /*  SearchHit[] hitsarray= sr.getHits().getHits();
+        for(SearchHit h:hitsarray){
+           Map map=h.getSourceAsMap();  }*/
 
   //      }
         int matrixResultsExists=0;
@@ -185,39 +186,14 @@ public class SearchService {
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
         model.addAttribute("took", sr.getTook());
-        System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
+    //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
-   public SearchResponse getSearchResponse(HttpServletRequest request, String term)  {
-       String start=request.getParameter("start")!=null?request.getParameter("start"):"",
-               stop=request.getParameter("stop")!=null?request.getParameter("stop"):"",
-               chr=request.getParameter("chr")!=null && !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
-
-       String category = request.getParameter("category") != null ? request.getParameter("category") : "";
-       String species = (request.getParameter("species") == null) ? "" : request.getParameter("species");
-       String type = (request.getParameter("type") == null) ? "" : request.getParameter("type");
-       String subCat = (request.getParameter("subCat") == null) ? "" : request.getParameter("subCat");
-       String sortValue=(request.getParameter("sortBy")==null)?"0":request.getParameter("sortBy");
-       String trait=(request.getParameter("trait")==null)?"":request.getParameter("trait");
-       Map<String, Sort> sortMap= SortMap.getSortMap();
-       Sort s= sortMap.get(sortValue);
-       String sortBy=s.getSortBy();
-       String sortOrder= s.getSortOrder();
-
-       String pageCurrent = request.getParameter("currentPage");
-       String size = request.getParameter("size");
-       String viewAll = request.getParameter("viewall");
-       boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
-       int currentPage = (pageCurrent != null) ? Integer.parseInt(pageCurrent) : 1;
-       int pageSize = (size != null) ? Integer.parseInt(request.getParameter("size")) : 50;
-
-       String assembly=(request.getParameter("assembly") != null && !request.getParameter("assembly").equals(""))?request.getParameter("assembly"):null;
-
-       int defaultPageSize=(pageSize>0)?pageSize:50;
-        int from=(currentPage>0)?(currentPage-1)*defaultPageSize:0;
-        try {
+   public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb)  {
+           try {
             QueryService1 qs = new QueryService1();
-           return qs.getSearchResponse(term, category, species, type, subCat, from, defaultPageSize, page, sortOrder, sortBy, assembly, trait, start, stop, chr);
+           return qs.getSearchResponse(term, sb);
+                   //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception e){
         System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
             e.printStackTrace();
@@ -225,7 +201,8 @@ public class SearchService {
         try{
 
             QueryService1 qs = new QueryService1();
-            return qs.getSearchResponse(term, category, species, type, subCat, from, defaultPageSize, page, sortOrder, sortBy, assembly, trait, start, stop, chr);
+            return qs.getSearchResponse(term,sb);
+                    //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception exception){}}
         return null;
     }
@@ -254,9 +231,9 @@ public class SearchService {
         String sortBy=s.getSortBy();
         String sortOrder= s.getSortOrder();
 
-        String pageCurrent = request.getParameter("currentPage");
-        String size = request.getParameter("size");
-        boolean viewAll = request.getParameter("viewall").equals("true");
+        String pageCurrent = request.getParameter("currentPage")!=null?request.getParameter("currentPage"):null;
+        String size = request.getParameter("size")!=null?request.getParameter("size"):null;
+        boolean viewAll = request.getParameter("viewall") != null && request.getParameter("viewall").equals("true");
         boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
         int currentPage = (pageCurrent != null) ? Integer.parseInt(pageCurrent) : 1;
         int pageSize = (size != null) ? Integer.parseInt(request.getParameter("size")) : 50;
@@ -282,6 +259,7 @@ public class SearchService {
         sb.setTrait(trait);
         sb.setType(type);
         sb.setViewAll(viewAll);
+        sb.setCurrentPage(currentPage);
         return sb;
     }
     public static void main(String[] args) throws IOException {

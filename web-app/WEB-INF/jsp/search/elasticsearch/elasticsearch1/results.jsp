@@ -41,35 +41,35 @@
 <div>
 
                         <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
-                            <c:if test="${model.category!='General' && model.category!='general' && model.category!='Ontology'}">
-                                <c:if test="${model.filterOption!='null'}">
-                             <span style="color:blue">${model.filterOption}</span>
+                            <c:if test="${model.searchBean.category!='General' && model.searchBean.category!='general' && model.searchBean.category!='Ontology'}">
+                                <c:if test="${model.searchBean.type!='null'}">
+                             <span style="color:blue">${model.searchBean.type}</span>
                                 </c:if>
-                                <c:if test="${model.qtlTrait!=null && model.qtlTrait!='null'}">
-                                    <span style="color:blue">${model.qtlTrait}</span>
+                                <c:if test="${model.searchBean.trait!=null && model.searchBean.trait!='null'}">
+                                    <span style="color:blue">${model.searchBean.trait}</span>
                                 </c:if>
-                                <span class="${model.category}">${model.category}</span>
+                                <span class="${model.searchBean.category}">${model.searchBean.category}</span>
                             </c:if>
-                             <c:if test="${model.category=='Ontology' && model.subCat!=''}">
-                                 <span class="${model.category}" style="color:mediumpurple;font-weight: bold;" > ${model.subCat}</span>
+                             <c:if test="${model.searchBean.category=='Ontology' && model.searchBean.subCat!=''}">
+                                 <span class="${model.searchBean.category}" style="color:mediumpurple;font-weight: bold;" > ${model.searchBean.subCat}</span>
                              </c:if>
-                             <c:if test="${model.category=='Ontology' && model.subCat==''}">
-                                 <span class="${model.category}" style="color:mediumpurple;font-weight: bold;" > ${model.category}</span>
+                             <c:if test="${model.searchBean.category=='Ontology' && model.searchBean.subCat==''}">
+                                 <span class="${model.searchBean.category}" style="color:mediumpurple;font-weight: bold;" > ${model.searchBean.category}</span>
                              </c:if>
                             records found for <strong>"${model.term}"</strong></span>
 
 
-        <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1}">
-            of species <span class="${model.species} ${model.aggregations.species[0].key}" style="font-weight: bold; font-size: 20px">
-                    <c:if test="${model.species!=''}">
-                        ${model.species}
+        <c:if test="${model.searchBean.species!='' || fn:length(model.aggregations.species)==1}">
+            of species <span class="${model.searchBean.species} ${model.aggregations.species[0].key}" style="font-weight: bold; font-size: 20px">
+                    <c:if test="${model.searchBean.species!=''}">
+                        ${model.searchBean.species}
                     </c:if>
-                     <c:if test="${fn:length(model.aggregations.species)==1 && model.species==''}">
+                     <c:if test="${fn:length(model.aggregations.species)==1 && model.searchBean.species==''}">
                             ${model.aggregations.species[0].key}
                         </c:if>
                           </span>
-                          <c:if test="${model.chr!=0 && model.chr!=''}">
-                           on chromosome <span style="font-weight:bold;font-size: 15px">${model.chr}</span>
+                          <c:if test="${model.searchBean.chr!=0 && model.searchBean.chr!=''}">
+                           on chromosome <span style="font-weight:bold;font-size: 15px">${model.searchBean.chr}</span>
                           </c:if>
         </c:if>
     <h4>Showing results <span id="showResultsFrom">1</span> - <span id="showResultsTo"><c:if test="${model.totalHits<50}">${model.totalHits}</c:if>
@@ -84,9 +84,9 @@
         <thead>
         <tr>
             <c:choose>
-                <c:when test="${!model.category.equalsIgnoreCase('general')}">
+                <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                     <c:choose>
-                        <c:when test="${model.species!='' || model.subCat!='' || model.category=='Reference' || fn:length(model.aggregations.species)==1 || fn:length(model.aggregations.ontology)==1}">
+                        <c:when test="${model.searchBean.species!='' || model.searchBean.subCat!='' || model.searchBean.category=='Reference' || fn:length(model.aggregations.species)==1 || fn:length(model.aggregations.ontology)==1}">
                             <td title="Toggle Check All"><input type="checkbox" onclick="toggle(this)"></td>
                         </c:when>
                         <c:otherwise>
@@ -102,76 +102,76 @@
 
             <td></td>
             <td>
-                <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
-                    <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
+                    <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)!=1}">
                         Species
                     </c:if>
-                    <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1}">
+                    <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)==1}">
 
                     </c:if>
-                    <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1}">
+                    <c:if test="${model.searchBean.species!='' || fn:length(model.aggregations.species)==1}">
 
                     </c:if>
                 </c:if>
             </td>
             <td>
-                <c:if test="${!model.category.equals('Ontology')}">
-                    <c:if test="${model.category.equals('General') || model.category.equals('general')}">
+                <c:if test="${!model.searchBean.category.equals('Ontology')}">
+                    <c:if test="${model.searchBean.category.equals('General') || model.searchBean.category.equals('general')}">
                         Object
                     </c:if>
                 </c:if>
-                <c:if test="${model.category.equals('Ontology')&& model.subCat.equals('')}">
+                <c:if test="${model.searchBean.category.equals('Ontology')&& model.searchBean.subCat.equals('')}">
                     Object
                 </c:if>
-                <c:if test="${model.category.equals('Ontology')&& !model.subCat.equals('')}">
+                <c:if test="${model.searchBean.category.equals('Ontology')&& !model.searchBean.subCat.equals('')}">
 
                 </c:if>
             </td>
             <td style="width: 10em;">
-                <c:if test="${model.category!='Reference' && model.category!='Ontology' && model.category!='Variant'}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology' && model.searchBean.category!='Variant'}">
                     Symbol
                 </c:if>
             </td>
             <td style="width:30%">
-                <c:if test="${model.category=='Reference'}">
+                <c:if test="${model.searchBean.category=='Reference'}">
                     Title
                 </c:if>
-                <c:if test="${model.category=='Ontology'}">
+                <c:if test="${model.searchBean.category=='Ontology'}">
                     Term
                 </c:if>
-                <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
-                    <c:if test="${model.category.equalsIgnoreCase('General')}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
+                    <c:if test="${model.searchBean.category.equalsIgnoreCase('General')}">
                         Name/Term/Title
                     </c:if>
-                    <c:if test="${!model.category.equalsIgnoreCase('General')}">
+                    <c:if test="${!model.searchBean.category.equalsIgnoreCase('General')}">
                         Name
                     </c:if>
 
                 </c:if>
             </td>
             <td>
-                <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     Chr
                 </c:if>
-                <c:if test="${model.category=='Reference'}">
+                <c:if test="${model.searchBean.category=='Reference'}">
                     Citation
                 </c:if>
             </td>
             <td>
-                <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     Start
                 </c:if>
-                <c:if test="${model.category=='Reference'}">
+                <c:if test="${model.searchBean.category=='Reference'}">
                     Authors
                 </c:if>
             </td>
             <td>
-                <c:if test="${model.category!='Reference' && model.category!='Ontology'}">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     Stop
                 </c:if>
             </td>
             <td>
-                <c:if test="${!model.category.equalsIgnoreCase('Reference')}">
+                <c:if test="${!model.searchBean.category.equalsIgnoreCase('Reference')}">
                     Annotations
                 </c:if>
             </td>
@@ -207,13 +207,13 @@
                 <!--tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location= '$-{url}'"-->
                 <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.open('${url}', '_blank')">
                     <c:choose>
-                        <c:when test="${model.category.equals('Gene') || model.category.equals('Strain') || model.category.equals('QTL')
-                                         || model.category.equals('SSLP') || model.category.equals('Variant') || model.category.equals('Promoter') || model.category.equals('Reference') || model.category.equals('Cell line')}">
+                        <c:when test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
+                                         || model.searchBean.category.equals('SSLP') || model.searchBean.category.equals('Variant') || model.searchBean.category.equals('Promoter') || model.searchBean.category.equals('Reference') || model.searchBean.category.equals('Cell line')}">
                             <c:choose>
-                                <c:when test="${model.species!='' ||  fn:length(model.aggregations.species)==1 || model.category.equals('Reference')}">
+                                <c:when test="${model.searchBean.species!='' ||  fn:length(model.aggregations.species)==1 || model.searchBean.category.equals('Reference')}">
                                     <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
                                         <c:choose>
-                                            <c:when test="${model.category!='Gene'}">
+                                            <c:when test="${model.searchBean.category!='Gene'}">
                                                 <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </c:when>
                                             <c:otherwise>
@@ -231,7 +231,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:choose>
-                                <c:when test="${fn:length(model.aggregations.category)==1 || (fn:length(model.aggregations.category)==1 && model.species!='')}">
+                                <c:when test="${fn:length(model.aggregations.category)==1 || (fn:length(model.aggregations.category)==1 && model.searchBean.species!='')}">
                                     <c:if test="${model.aggregations.category[0].key!='Ontology'}">
                                         <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
                                             <c:choose>
@@ -271,7 +271,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:choose>
-                                        <c:when test="${model.category.equals('Ontology') && model.subCat!=''}">
+                                        <c:when test="${model.searchBean.category.equals('Ontology') && model.searchBean.subCat!=''}">
 
                                             <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
 
@@ -296,14 +296,14 @@
 
                         <c:if test="${hit.getSourceAsMap().species!='All' && hit.getSourceAsMap().species!=null}">
 
-                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
+                            <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)!=1}">
                                 <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                 <!--div style="float:left"><figure class="circle $-{hit.getSourceAsMap().species}"></figure></div-->
                             </c:if>
-                            <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1 }">
+                            <c:if test="${model.searchBean.species!='' || fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
-                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1 }">
+                            <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
                         </c:if>
@@ -311,13 +311,13 @@
 
                     <td class="${hit.getSourceAsMap().species}" >
                         <c:if test="${hit.getSourceAsMap().species!='All' && hit.getSourceAsMap().species!=null}">
-                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)!=1}">
+                            <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)!=1}">
                                  ${hit.getSourceAsMap().species}
                             </c:if>
-                            <c:if test="${model.species!='' || fn:length(model.aggregations.species)==1 }">
+                            <c:if test="${model.searchBean.species!='' || fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
-                            <c:if test="${model.species=='' && fn:length(model.aggregations.species)==1 }">
+                            <c:if test="${model.searchBean.species=='' && fn:length(model.aggregations.species)==1 }">
 
                             </c:if>
                         </c:if>
@@ -326,11 +326,11 @@
 
                     <td><span class="${hit.getSourceAsMap().category}">
                         <c:if test="${hit.getSourceAsMap().category.equalsIgnoreCase('ontology')}">
-                            <c:if test="${model.category.equalsIgnoreCase('General') }">
+                            <c:if test="${model.searchBean.category.equalsIgnoreCase('General') }">
                                  ${hit.getSourceAsMap().subcat}
                             </c:if>
-                            <c:if test="${!model.category.equalsIgnoreCase('General') }">
-                                <c:if test="${model.subCat==''}">
+                            <c:if test="${!model.searchBean.category.equalsIgnoreCase('General') }">
+                                <c:if test="${model.searchBean.subCat==''}">
                                      ${hit.getSourceAsMap().subcat}
                                 </c:if>
                             </c:if>
@@ -340,10 +340,10 @@
 
 
                          <c:if test="${!hit.getSourceAsMap().category.equalsIgnoreCase('ontology') }">
-                             <c:if test="${model.category.equalsIgnoreCase('General')}">
+                             <c:if test="${model.searchBean.category.equalsIgnoreCase('General')}">
                                   ${hit.getSourceAsMap().category}
                              </c:if>
-                             <c:if test="${!model.category.equalsIgnoreCase('General')}">
+                             <c:if test="${!model.searchBean.category.equalsIgnoreCase('General')}">
 
                              </c:if>
                          </c:if>
@@ -419,7 +419,7 @@
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
-                        <c:if test="${!model.category.equalsIgnoreCase('general')}">
+                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
 
                            ${f:format(hit.getSourceAsMap().citation,t )} </span>
                         </c:if>
@@ -462,7 +462,7 @@
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
-                        <c:if test="${!model.category.equalsIgnoreCase('general')}">
+                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().author, t )}
                         </c:if>
 
@@ -509,10 +509,10 @@
                     <!--td>$--{hit.getSourceAsMap().type}</td-->
 
                     <td>
-                        <c:if test="${model.category!='Ontology' && model.category!='Reference'}">
+                        <c:if test="${model.searchBean.category!='Ontology' && model.searchBean.category!='Reference'}">
                             ${hit.getSourceAsMap().annotationsCount}
                         </c:if>
-                        <c:if test="${model.category=='Ontology'}">
+                        <c:if test="${model.searchBean.category=='Ontology'}">
                             <div class="tooltips"><!--a href="search/annotGraph.html?id=$--{hit.getSourceAsMap().term_acc}&rootTerm=$--{hit.getSourceAsMap().term}" target="_blank">AnnotCount</a-->
                                 <c:if test="${hit.getSourceAsMap().annotationsCount>0}">
                                     Term  (${hit.getSourceAsMap().termAnnotsCount}) + Child Term  (${hit.getSourceAsMap().childTermsAnnotsCount})

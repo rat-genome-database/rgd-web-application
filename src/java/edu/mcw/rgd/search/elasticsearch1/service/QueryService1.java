@@ -2,6 +2,7 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
+import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -36,89 +37,90 @@ public class QueryService1 {
     }
 
 
-    public SearchResponse getSearchResponse(String term, String category, String species, String  type, String subCat, int from, int size, boolean page, String sortOrder, String sortBy, String assembly, String trait, String start, String stop, String chr) {
+    public SearchResponse getSearchResponse(String term, SearchBean sb){
 
         if(term!=null) {
-            Map<String, String> filterMap= this.getFilterMap(category, species,type,subCat);
-            BoolQueryBuilder builder=this.boolQueryBuilder(term,category,species, filterMap,chr, start, stop, assembly );
+            Map<String, String> filterMap= this.getFilterMap(sb);
+            BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
+                    //sb.getCategory(),sb.getSpecies(), filterMap,sb.getChr(), sb.getStart(), sb.getStop(), sb.getAssembly() );
 
 
             String sortField=null;
             SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
                     .setQuery(builder);
-               if(sortBy.equalsIgnoreCase("relevance")){
-                     srb.addSort(SortBuilders.scoreSort().order(SortOrder.DESC));
-                }else{
-                   if(sortBy.equalsIgnoreCase("symbol")) {
-                       sortField=sortBy + ".keyword";
-                       if (sortOrder.equalsIgnoreCase("asc")) {
-                               srb.addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
-                       } else {
-                           srb .addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
-                       }
-                   }else{
-                       sortField="mapDataList."+sortBy;
-                       if (sortOrder.equalsIgnoreCase("asc")) {
-                         //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                           srb .addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
-                                  );
-                       } else {
-                        //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                           srb .addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
-                       }
-                   }
-               }
+            if(sb!=null) {
+                if (sb.getSortBy().equalsIgnoreCase("relevance")) {
+                    srb.addSort(SortBuilders.scoreSort().order(SortOrder.DESC));
+                } else {
+                    if (sb.getSortBy().equalsIgnoreCase("symbol")) {
+                        sortField = sb.getSortBy() + ".keyword";
+                        if (sb.getSortOrder().equalsIgnoreCase("asc")) {
+                            srb.addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
+                        } else {
+                            srb.addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
+                        }
+                    } else {
+                        sortField = "mapDataList." + sb.getSortBy();
+                        if (sb.getSortOrder().equalsIgnoreCase("asc")) {
+                            //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                            srb.addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
+                            );
+                        } else {
+                            //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                            srb.addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
+                        }
+                    }
+                }
 
-           List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait"));
+                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait"));
 
-           if (!page) {
+                if (!sb.isPage()) {
 
-               for (String field : aggFields) {
-                   AggregationBuilder aggs = this.buildAggregations(field);
-                   if(aggs!=null)
-                   srb.addAggregation(aggs);
-               }
-           }
+                    for (String field : aggFields) {
+                        AggregationBuilder aggs = this.buildAggregations(field);
+                        if (aggs != null)
+                            srb.addAggregation(aggs);
+                    }
+                }
 
-            srb
-                    .highlighter(this.buildHighlights())
-                    .setFrom(from)
-                    .setSize(size);
-           // System.out.println("trait: "+ trait);
-          //  System.out.println("type:"+ type);
-          if(!Objects.equals(species, "") &&  !category.equalsIgnoreCase("general") ) {
-              if(type!=null && !Objects.equals(type, "")) {
-                  if (!Objects.equals(type, "null")) {
-                      srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", species)).filter(QueryBuilders.termQuery("category.keyword", category)).filter(QueryBuilders.termQuery("type.keyword", type)));
-                  }
+                srb
+                        .highlighter(this.buildHighlights())
+                        .setFrom(sb.getFrom())
+                        .setSize(sb.getSize());
 
-              }
+                if (!Objects.equals(sb.getSpecies(), "") && !sb.getCategory().equalsIgnoreCase("general")) {
+                    if (sb.getType() != null && !Objects.equals(sb.getType(), "")) {
+                        if (!Objects.equals(sb.getType(), "null")) {
+                            srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("type.keyword", sb.getType())));
+                        }
 
-           if(!trait.equals("")){
-               srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", species)).filter(QueryBuilders.termQuery("category.keyword", category)).filter(QueryBuilders.termQuery("trait.keyword", trait)));
-           }
-              if (type != null && type.equals("") && trait.equalsIgnoreCase("")) {
-                srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", species)).filter(QueryBuilders.termQuery("category.keyword", category)));
+                    }
+
+                    if (!sb.getTrait().equals("")) {
+                        srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
+                    }
+                    if (sb.getType() != null && sb.getType().equals("") && sb.getTrait().equalsIgnoreCase("")) {
+                        srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                    }
+                } else {
+                    if (!Objects.equals(sb.getSpecies(), "")) {
+                        srb.setPostFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
+
+                    }
+                    if (!sb.getCategory().equalsIgnoreCase("general")) {
+                        if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
+
+                            if (sb.getSubCat() != null && sb.getSubCat() != "") {
+                                srb.setPostFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat()))));
+                            } else {
+                                srb.setPostFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                            }
+                        } else
+                            srb.setPostFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+
+                    }
+                }
             }
-            }else{
-              if (!Objects.equals(species, "")) {
-                  srb.setPostFilter(QueryBuilders.termQuery("species.keyword", species));
-
-              }
-              if (!category.equalsIgnoreCase("general")) {
-                  if(category.equalsIgnoreCase(("Ontology"))){
-                 //     System.out.println("SUBCAT INSIDE: " + subCat);
-                      if(subCat!=null && subCat!="") {
-                          srb.setPostFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)).filter(QueryBuilders.termQuery("subcat.keyword", subCat))));
-                      }else{
-                          srb.setPostFilter((QueryBuilders.termQuery("category.keyword", category)));
-                      }
-                      }else
-                  srb.setPostFilter((QueryBuilders.termQuery("category.keyword", category)));
-
-              }
-          }
-
         SearchResponse sr=srb
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
                 .setRequestCache(true)
@@ -129,52 +131,61 @@ public class QueryService1 {
 
        return null;
     }
-    public Map<String, String> getFilterMap(String category, String species, String type, String subCat){
-        Map<String, String> filterMap= new HashMap<>();
-        if(species!=null){
-            if(!species.equals("")){
-                filterMap.put("species", species);}}
-        if(category!=null){
-            if(!category.equalsIgnoreCase("general") ){
-                filterMap.put("category", category);
-            }
-            if(category.equalsIgnoreCase("ontology")){
-                if(!subCat.equals("")) {
-                    filterMap.put("subcat", subCat);
-                }else{
-                    filterMap.put("category", category);
+    public Map<String, String> getFilterMap(SearchBean sb){
+            //String category, String species, String type, String subCat){
+        if(sb!=null) {
+            Map<String, String> filterMap = new HashMap<>();
+            if (sb.getSpecies() != null) {
+                if (!sb.getSpecies().equals("")) {
+                    filterMap.put("species", sb.getSpecies());
                 }
+            }
+            if (sb.getCategory() != null) {
+                if (!sb.getCategory().equalsIgnoreCase("general")) {
+                    filterMap.put("category", sb.getCategory());
+                }
+                if (sb.getCategory().equalsIgnoreCase("ontology")) {
+                    if (!sb.getSubCat().equals("")) {
+                        filterMap.put("subcat", sb.getSubCat());
+                    } else {
+                        filterMap.put("category", sb.getCategory());
+                    }
 
-            }}
-        if(type!=null) {
-                    if(!type.equals("")){
-                          filterMap.put("type", type);
-                     }
-                   }
+                }
+            }
+            if (sb.getType() != null) {
+                if (!sb.getType().equals("")) {
+                    filterMap.put("type", sb.getType());
+                }
+            }
 
 
-        return filterMap;
+            return filterMap;
+        }else return null;
     }
-    public BoolQueryBuilder boolQueryBuilder(String term, String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
+    public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
+                                             //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
-        builder.must(this.getDisMaxQuery(term, category));
-        if(!category.equalsIgnoreCase("general")){
-            builder.filter(QueryBuilders.termQuery("category.keyword", category));
-        }
-        if(species!=null && !species.equals("")){
-            builder.filter(QueryBuilders.termQuery("species.keyword", species));
-        }
-        if(!chr.equals("")){
-            if (!start.equals("") && !stop.equals("")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
-                        nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", assembly))
-                                .must(QueryBuilders.matchQuery("mapDataList.chromosome", chr)).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(stop).includeUpper(true).includeUpper(false))
-                                .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(start).includeLower(true).includeLower(false)), ScoreMode.None)));
-            }else{
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders
-                        .nestedQuery("mapDataList", QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("mapDataList.map", assembly))
-                                .must(QueryBuilders.matchQuery("mapDataList.chromosome", chr)), ScoreMode.None)));
+        builder.must(this.getDisMaxQuery(term, sb));
+        if(sb!=null) {
+            if (!sb.getCategory().equalsIgnoreCase("general")) {
+                builder.filter(QueryBuilders.termQuery("category.keyword", sb.getCategory()));
+            }
+            if (sb.getSpecies() != null && !sb.getSpecies().equals("")) {
+                builder.filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
+            }
+            if (!sb.getChr().equals("")) {
+                if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
+                    builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                            nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
+                                    .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
+                                    .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
+                } else {
+                    builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders
+                            .nestedQuery("mapDataList", QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
+                                    .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())), ScoreMode.None)));
 
+                }
             }
         }
         return builder;
@@ -208,103 +219,104 @@ public class QueryService1 {
     return null;
     }
 
-    public QueryBuilder getDisMaxQuery(String term, String category){
+    public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
      DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-      dqb
+        if(sb!=null) {
+            dqb
 
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
 
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
 
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
 
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
 
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
-              .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
-             // .add(QueryBuilders.prefixQuery("symbol.symbol", term))
-             .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
+                    // .add(QueryBuilders.prefixQuery("symbol.symbol", term))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
      
 
        /*  .add(QueryBuilders.matchQuery("symbol" , term).operator(Operator.AND).boost(500))
           .add(QueryBuilders.matchQuery("symbol.symbol", term).operator(Operator.AND).boost(1200))
          
            .add(QueryBuilders.termQuery("symbol.ngram", term).boost(500))*/
-         //    .add(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).boost(1200)
+                    //    .add(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).boost(1200)
 
-           .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
-           .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-       //    .add(QueryBuilders.prefixQuery("name.name", term))
-
-
-            .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
-            .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
-            .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
-            .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
-
-           .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
-           .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-       //    .add(QueryBuilders.prefixQuery("term.term", term))
-           .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
-           .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
+                    .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
+                    .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
+                    //    .add(QueryBuilders.prefixQuery("name.name", term))
 
 
-           .add(QueryBuilders.matchQuery("title", term).operator(Operator.AND).boost(50))
-           .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
-           .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
+                    .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
+                    .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
+                    .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
+                    .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
-         //     .add(QueryBuilders.matchQuery("citation", term).operator(Operator.OR).boost(100))
-           .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
-         //   .add(QueryBuilders.matchQuery("citation", term))
-           .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
-           .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
-           .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
-           .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
-
-            .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-             .must(QueryBuilders.matchQuery("citation.citation", term)))
-
-             .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-                     .must(QueryBuilders.matchQuery("citation.cittion", term))
-                     .must(QueryBuilders.matchQuery("author.author", term)))
+                    .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
+                    .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+                    //    .add(QueryBuilders.prefixQuery("term.term", term))
+                    .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
+                    .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
 
 
-              .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND).boost(10))
-              .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND).boost(50))
-              .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND).boost(5))
-              .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND).boost(10))
-              .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
+                    .add(QueryBuilders.matchQuery("title", term).operator(Operator.AND).boost(50))
+                    .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
+                    .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
 
-              .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
+                    //     .add(QueryBuilders.matchQuery("citation", term).operator(Operator.OR).boost(100))
+                    .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
+                    //   .add(QueryBuilders.matchQuery("citation", term))
+                    .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
+                    .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
+                    .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
+                    .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
 
-              .add(QueryBuilders.matchQuery("promoters", term).operator(Operator.AND).boost(1))
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
+                            .must(QueryBuilders.matchQuery("citation.citation", term)))
 
-              .add(QueryBuilders.matchQuery("protein_acc_ids", term).operator(Operator.AND).boost(1))
-              .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
-              .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
-              .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
-              .add(QueryBuilders.termQuery("xdata", term).boost(1))
-      ;
+                    .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
+                            .must(QueryBuilders.matchQuery("citation.cittion", term))
+                            .must(QueryBuilders.matchQuery("author.author", term)))
 
+
+                    .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND).boost(10))
+                    .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND).boost(50))
+                    .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND).boost(5))
+                    .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND).boost(10))
+                    .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
+
+                    .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
+
+                    .add(QueryBuilders.matchQuery("promoters", term).operator(Operator.AND).boost(1))
+
+                    .add(QueryBuilders.matchQuery("protein_acc_ids", term).operator(Operator.AND).boost(1))
+                    .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
+                    .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
+                    .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
+                    .add(QueryBuilders.termQuery("xdata", term).boost(1))
+            ;
+        }else{
+            dqb.add(QueryBuilders.termQuery("term_acc", term));
+        }
         return dqb;
 
     }
     public AggregationBuilder buildAggregations(String aggField) {
 
         AggregationBuilder   aggs=null;
-
-
        if(aggField.equalsIgnoreCase("species")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword").subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                     .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
-                        //    .order(Terms.Order.term(true))) deprecated in 6.4
+                       //    .order(Terms.Order.term(true))) deprecated in 6.4
             ;
 
            return aggs;

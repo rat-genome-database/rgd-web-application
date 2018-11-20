@@ -8,20 +8,17 @@ import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
-import edu.mcw.rgd.search.elasticsearch1.model.Sort;
-import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
-
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
 import org.elasticsearch.action.search.SearchResponse;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
+
 import java.util.*;
 
 /**
@@ -48,7 +45,6 @@ public class ElasticSearchController implements Controller {
             String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
-            Map<String, String> persistObj = new HashMap<>();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
             String assembly=(request.getParameter("assembly") != null && !request.getParameter("assembly").equals(""))?request.getParameter("assembly"):null;
 
@@ -62,12 +58,9 @@ public class ElasticSearchController implements Controller {
                     }
             }
            boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
-        //   int currentPage = (pageCurrent != null) ? Integer.parseInt(pageCurrent) : 1;
-       //    int size = (pageSize != null) ? Integer.parseInt(request.getParameter("size")) : 50;
            int postCount=request.getParameter("postCount")!=null?Integer.parseInt(request.getParameter("postCount")):0;
            postCount= postCount+1;
-     //      Map<String, Map> map = new HashMap<>();
-            if(postCount<=1){
+           if(postCount<=1){
                 cat1=sb.getCategory();
                 sp1=sb.getSpecies();
             }else{
@@ -75,52 +68,34 @@ public class ElasticSearchController implements Controller {
                 sp1=request.getParameter("sp1");
             }
 
-            String redirUrl = this.getRedirectUrl(request, term);
+            String redirUrl = this.getRedirectUrl(request, term, sb);
+
             if (redirUrl != null) {
                 response.sendRedirect(redirUrl);
                 return null;
             }else{
-  //         int defaultPageSize=(sb.getSize()>0)?sb.getSize():50;
-           SearchResponse sr=service.getSearchResponse(request,term);
-  //          int totalPages= 0;
+            int defaultPageSize=(sb.getSize()>0)?sb.getSize():50;
+           SearchResponse sr=service.getSearchResponse(request,term, sb);
+           int totalPages= 0;
             if(sr!=null){
- //               totalPages= (int) ((sr.getHits().getTotalHits()/defaultPageSize)) + (((int) (sr.getHits().getTotalHits())%defaultPageSize>0)?1:0);
-                ModelMap resultsMap=service.getResultsMap(sr,term, cat1, sp1, postCount);
+               totalPages= (int) ((sr.getHits().getTotalHits()/defaultPageSize)) + (((int) (sr.getHits().getTotalHits())%defaultPageSize>0)?1:0);
+                ModelMap resultsMap=service.getResultsMap(sr,term);
                 model.putAll(resultsMap);
             }
-        /*    model.put("viewall", viewAll);
-            model.put("qtlTrait", trait);
-            model.put("filterOption", type);
-            model.put("subCat", subCat);
-            model.addAttribute("currentPage", currentPage);
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("term", term);
-            model.addAttribute("category", category);
-            model.addAttribute("species", species);*/
+
             model.addAttribute("assemblyMaps", assemblyMaps);
             model.addAttribute("defaultAssembly", assembly);
-       //     model.addAttribute("mapKey", this.getMapKey(assembly, species));
+            model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
+            model.addAttribute("totalPages", totalPages);
             model.addAttribute("postCount", postCount);
             model.addAttribute("cat1", cat1);
             model.addAttribute("sp1", sp1);
-  //          model.addAttribute("persistObj",map);
-                model.addAttribute("searchBean", sb);
-        /*    model.addAttribute("start",start);
-            model.addAttribute("stop",stop);
-            model.addAttribute("chr",chr);*/
-            if(objectSearch!=null){
-                model.addAttribute("objectSearch", objectSearch);
+            model.addAttribute("term", term);
+            model.addAttribute("searchBean", sb);
 
-            }
-            if(log) {
-                if(sr!=null)
-                this.logResults(term, sb.getCategory(), sr.getHits().getTotalHits());
-            }
-            }
-            if (page) {
-
-                return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);
-            }
+            if(objectSearch!=null){model.addAttribute("objectSearch", objectSearch);}
+            if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), sr.getHits().getTotalHits());}
+            if (page) { return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);}
 
         if (sb.getCategory() != null ) {
             if(sb.getSpecies()!=null){
@@ -135,39 +110,44 @@ public class ElasticSearchController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
         }
+        }
        return null;
     }
 
 
 
-    public String getRedirectUrl(HttpServletRequest request, String term){
+    public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
         int rgdIdValue = 0;
         try {
-            int rgdid = Integer.parseInt(term);
-            RgdId id =rdao.getRgdId2(rgdid);
-            String redirUrl=(id != null) ?Link.it(rgdid, id.getObjectKey()):null;
+            if(term.contains("[0-9]+")) {
+                int rgdid = Integer.parseInt(term);
+                RgdId id = rdao.getRgdId2(rgdid);
+                String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
-            if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdid))){
-                //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
-                return redirUrl;
-            }else{
-                SearchService service=new SearchService();
-                SearchResponse sr=new SearchResponse();
-                sr=service.getSearchResponse(request, term);
+                if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
+                    //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
+                    redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+                    return redirUrl;
+                }  }
+            else {
 
-                if(sr!=null) {
-                    if (sr.getHits() != null && sr.getHits().getTotalHits()==1)
-                        return getUrl(sr, request, term);
-                    else return null;
+                    SearchService service = new SearchService();
+                    SearchResponse sr = service.getSearchResponse(request, term, null);
+
+                    if (sr != null) {
+                        if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)
+                            return getUrl(sr, request, term);
+                        else return null;
+                    }
+                    return null;
                 }
-               return null;
-            }
+
         }catch (Exception e){
 
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
     public String getUrl(SearchResponse sr, HttpServletRequest request,String term){
         this.logResults(term,request.getParameter("category"), sr.getHits().getTotalHits());
@@ -175,11 +155,12 @@ public class ElasticSearchController implements Controller {
         RgdId id = null;
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
-        String docId=sr.getHits().getHits()[0].getId();
+        String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
+        System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
             //  if (!source.getString("term_acc").contains(":")) {
-            if (!docId.contains(":")) {
+            if (docId.contains("[0-9]+")) {
                 rgdIdValue = Integer.parseInt(docId);
                 id = rdao.getRgdId2(rgdIdValue);
             }
@@ -193,11 +174,11 @@ public class ElasticSearchController implements Controller {
             }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
                 //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
+                redirUrl = request.getScheme() + "://" + request.getServerName()+":8080"  + redirUrl;
 
             }
-        } catch (Exception e) {}
-
+        } catch (Exception e) {e.printStackTrace();}
+        System.out.println("REDIRECT URL: "+ redirUrl);
         return redirUrl;
     }
 
