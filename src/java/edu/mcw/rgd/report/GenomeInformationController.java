@@ -47,7 +47,7 @@ public class GenomeInformationController implements Controller{
 
             mapKey=Integer.parseInt(key);
         }
-        List<SearchHit[]> hits=new ArrayList<>();
+        List<SearchHit[]> hits;
         model.addAttribute("speciesList", this.getSpeciesList());
 
             if (isDetailsPage || species != null || action != null) {
