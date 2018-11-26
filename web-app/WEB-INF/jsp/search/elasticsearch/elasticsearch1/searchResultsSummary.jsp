@@ -143,7 +143,7 @@
                         <div style="background-color:#fafafa" class="reference" >
                             <table class="table">
 
-                                <c:forEach items="${model.categoryBkts}" var="item">
+                                <c:forEach items="${model.aggregations.category}" var="item">
                                     <c:if test="${item.key=='Reference'}">
                                         <c:if test="${item.docCount>0}">
                                         <caption style="text-align: center">References</caption>
