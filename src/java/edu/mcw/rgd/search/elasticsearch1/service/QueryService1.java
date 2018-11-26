@@ -11,6 +11,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -48,7 +49,7 @@ public class QueryService1 {
             String sortField=null;
             SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                     .setQuery(builder);
-            if(sb!=null) {
+            if(sb != null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance")) {
                     srb.addSort(SortBuilders.scoreSort().order(SortOrder.DESC));
                 } else {
@@ -223,7 +224,6 @@ public class QueryService1 {
      DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         if(sb!=null) {
             dqb
-
                     .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                     .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
 
@@ -315,8 +315,9 @@ public class QueryService1 {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword").subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                     .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
-                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
+                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                        //    .order(Terms.Order.term(true))) deprecated in 6.4
+
             ;
 
            return aggs;
@@ -326,7 +327,7 @@ public class QueryService1 {
                     .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
 
-                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
+                    .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                           //  .order(Terms.Order.term(true)))  deprecated in 6.4
             ;
 
@@ -334,7 +335,7 @@ public class QueryService1 {
         }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                 .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20))
+                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                        // .order(Terms.Order.term(true)))  deprecated in 6.4
         ;
        return aggs;

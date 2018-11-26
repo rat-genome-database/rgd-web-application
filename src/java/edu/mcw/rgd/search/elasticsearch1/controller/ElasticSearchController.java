@@ -118,10 +118,9 @@ public class ElasticSearchController implements Controller {
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
-        int rgdIdValue = 0;
+
         try {
-            int t=Integer.parseInt(term);
-            if(t!=0) {
+            if(!term.matches("[a-zA-Z]+") && !sb.isRedirect()) {
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
                 String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
@@ -130,12 +129,16 @@ public class ElasticSearchController implements Controller {
                     //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
                     redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
                     return redirUrl;
-                }  }
-            else {
+                }
+            }else {
 
                     SearchService service = new SearchService();
-                    SearchResponse sr = service.getSearchResponse(request, term, null);
-
+                    SearchResponse sr;
+                if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
+                   sr = service.getSearchResponse(request, term, sb);
+                }else{
+                    sr = service.getSearchResponse(request, term, null);
+                }
                     if (sr != null) {
                         if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)
                             return getUrl(sr, request, term);
