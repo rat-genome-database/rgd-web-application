@@ -20,6 +20,15 @@ public class SearchBean {
     private String stop;
     private String chr;
     private int currentPage;
+    private boolean redirect;
+
+    public boolean isRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(boolean redirect) {
+        this.redirect = redirect;
+    }
 
     public int getCurrentPage() {
         return currentPage;

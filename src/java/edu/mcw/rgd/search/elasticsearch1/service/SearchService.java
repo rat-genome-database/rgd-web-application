@@ -230,6 +230,7 @@ public class SearchService {
         Sort s= sortMap.get(sortValue);
         String sortBy=s.getSortBy();
         String sortOrder= s.getSortOrder();
+        boolean redirect= request.getParameter("redirect") != null && request.getParameter("redirect").equals("true");
 
         String pageCurrent = request.getParameter("currentPage")!=null?request.getParameter("currentPage"):null;
         String size = request.getParameter("size")!=null?request.getParameter("size"):null;
@@ -260,6 +261,7 @@ public class SearchService {
         sb.setType(type);
         sb.setViewAll(viewAll);
         sb.setCurrentPage(currentPage);
+        sb.setRedirect(redirect);
         return sb;
     }
     public static void main(String[] args) throws IOException {
