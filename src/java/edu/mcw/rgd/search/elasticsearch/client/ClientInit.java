@@ -60,9 +60,7 @@ public class ClientInit {
         ClientInit.hosts = hosts;
     }
     public List<String> getHostNames(){
-          ElasticNode elastic= new ElasticNode();
-        //    return elastic.getNodeURLs();
-        return this.getNodeURLs();
+          return this.getNodeURLs();
 
     }
 

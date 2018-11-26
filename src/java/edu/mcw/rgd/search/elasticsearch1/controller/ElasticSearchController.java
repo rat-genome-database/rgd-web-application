@@ -120,7 +120,8 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao = new RGDManagementDAO();
         int rgdIdValue = 0;
         try {
-            if(term.contains("[0-9]+")) {
+            int t=Integer.parseInt(term);
+            if(t!=0) {
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
                 String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
@@ -173,8 +174,8 @@ public class ElasticSearchController implements Controller {
                     redirUrl = Link.ontAnnot(docId);
             }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-                //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                redirUrl = request.getScheme() + "://" + request.getServerName()+":8080"  + redirUrl;
+                  redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
+           //     redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
