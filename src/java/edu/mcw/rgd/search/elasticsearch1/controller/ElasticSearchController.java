@@ -120,7 +120,7 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao = new RGDManagementDAO();
 
         try {
-            if(!term.matches("[a-zA-Z]+") && !sb.isRedirect()) {
+            if(term.matches("[0-9]+") && !sb.isRedirect()) {
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
                 String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
