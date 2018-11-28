@@ -109,7 +109,7 @@
             <%@ include file="markers.jsp"%>
             <%@ include file="../sequence.jsp"%>
             <%@ include file="qtlAssociation.jsp"%>
-
+            <%@ include file="damagingVariants.jsp"%>
             <br>
             <div class="subTitle">Additional Information</div>
             <br>
