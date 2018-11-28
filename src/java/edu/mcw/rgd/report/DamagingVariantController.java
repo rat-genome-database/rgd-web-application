@@ -1,0 +1,85 @@
+package edu.mcw.rgd.report;
+
+
+import edu.mcw.rgd.dao.impl.StrainDAO;
+import edu.mcw.rgd.datamodel.Strain;
+import edu.mcw.rgd.datamodel.Map;
+import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.dao.DataSourceFactory;
+import edu.mcw.rgd.dao.impl.VariantDAO;
+import edu.mcw.rgd.dao.impl.SampleDAO;
+import edu.mcw.rgd.datamodel.Variant;
+import edu.mcw.rgd.datamodel.Sample;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Created by hsnalabolu on 11/26/2018.
+ */
+public class DamagingVariantController implements Controller{
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        int rgdId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
+        String fmt = Utils.NVL(request.getParameter("fmt"), "full"); // one of 'full','csv','tab','print'
+        int assembly = Integer.parseInt(Utils.NVL(request.getParameter("map"),"0"));
+        StrainDAO strainDAO = new StrainDAO();
+        Strain obj;
+        Map m = MapManager.getInstance().getMap(assembly);
+        try {
+            obj = strainDAO.getStrain(rgdId);
+
+        } catch(Exception e) {
+            obj = new Strain();
+            obj.setSymbol("");
+        }
+        request.setAttribute("strainSymbol", obj.getSymbol());
+        request.setAttribute("assembly",m.getName());
+        Report report = getDamagingVariants(rgdId,assembly, request);
+        request.setAttribute("report", report);
+        return new ModelAndView("/WEB-INF/jsp/report/strain/damagingVariants_"+fmt+".jsp");
+    }
+    Report getDamagingVariants(int rgdId,int assembly,HttpServletRequest request) throws Exception {
+        VariantDAO vdao = new VariantDAO();
+        vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+        List<Variant> variants = vdao.getDamagingVariantsForStrainByAssembly(rgdId,assembly);
+        HashMap<Long,String> map = new HashMap();
+        SampleDAO sdao = new SampleDAO();
+        sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+
+        Report report = new Report();
+        edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
+        rec.append("Chromosome");
+        rec.append("Position Start");
+        rec.append("Position End");
+        rec.append("Reference Nucleotide");
+        rec.append("Variant Nucleotide");
+        rec.append("Variant Type");
+        rec.append("GeneSymbol");
+        report.append(rec);
+
+        Variant v1 = new Variant();
+        Map m = new Map();
+        for (Variant v : variants) {
+
+            rec = new edu.mcw.rgd.reporting.Record();
+            rec.append(v.getChromosome());
+            rec.append(String.valueOf(v.getStartPos()));
+            rec.append(String.valueOf(v.getEndPos()));
+            rec.append(v.getReferenceNucleotide());
+            rec.append(v.getVariantNucleotide());
+            rec.append(v.getVariantType());
+            rec.append(v.getRegionName());
+            report.append(rec);
+        }
+
+        return report;
+    }
+}
