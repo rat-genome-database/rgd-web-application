@@ -178,6 +178,7 @@
         <%@ include file="../promoters.jsp"%>
         <%@ include file="clinicalVariants.jsp"%>
         <%@ include file="../variants.jsp"%>
+        <%@ include file="damagingVariants.jsp"%>
 
 
         <a name="additional"></a>
