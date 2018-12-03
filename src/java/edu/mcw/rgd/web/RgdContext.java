@@ -110,12 +110,12 @@ public class RgdContext {
 				return index+"_index_test";
 			}
 			if( isDev() ) {
-				return index+"_index_dev";
+				return index+"_index_dev1";
 			}
 			
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return index+"_index_dev";
+        return index+"_index_dev1";
 	}
 }
