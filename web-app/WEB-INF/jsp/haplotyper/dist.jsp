@@ -171,16 +171,18 @@ if (hasAnnotation) {
             int j = 0;
             int k = 0;
             Iterator it = sampleIds.iterator();
+            SampleManager s = SampleManager.getInstance();
             while (it.hasNext()) {
                 String sample = (String) it.next();
+                String analysisName = s.getSampleName(Integer.parseInt(sample)).getAnalysisName();
         %>
         <tr>
 
             <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
             <td valign="center">
                 <div class="snpLabel"><a style="cursor:default; text-decoration:none;"
-                                         title="<%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
-                                         href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>
+                                         title="<%=analysisName%>"
+                                         href="javascript:void(0);"><%=analysisName%>
                 </a>&nbsp;</div>
             </td>
         </tr>
