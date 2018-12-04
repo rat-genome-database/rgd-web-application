@@ -1,15 +1,12 @@
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Record" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.ClinicalMeasurement" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.MeasurementMethod" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="edu.mcw.rgd.dao.spring.HistogramQuery" %>
 <%@ page import="edu.mcw.rgd.datamodel.HistogramRecord" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
 
 <%
     String pageTitle = "Edit Record";
