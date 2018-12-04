@@ -655,4 +655,17 @@ $("#sAccId").result(function(data, value){
 
 </form>
 
+<% if( !multiEdit ) {
+    String recId = idList.get(0);
+    List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
+    if( !indRecs.isEmpty() ) { %>
+        <h3>Individual Records</h3>
+        <table border>
+            <tr><th>ID</th><th>Animal ID</th><th>Value</th></tr>
+        <% for( IndividualRecord ir: indRecs ) { %>
+            <tr><td><%=ir.getId()%></td><td><%=ir.getAnimalId()%></td><td><%=ir.getMeasurementValue()%></td></tr>
+        <% } %>
+        </table>
+<% }} %>
+
 <%@ include file="editFooter.jsp" %>
