@@ -97,25 +97,25 @@ public class RgdContext {
         return isDev;
     }
 	
-	public static String getESIndexName() {
+	public static String getESIndexName(String index) {
 		try {
 			if( isProduction() ) {
-				return "rgd_index_prod";
+				return index+"_index_prod";
 			}
 			if( isPipelines() ) {
 				//return "rgd_index_cur";
-                return "rgd_index_prod";
+                return index+"_index_prod";
 			}
 			if( isTest() ) {
-				return "rgd_index_test";
+				return index+"_index_test";
 			}
 			if( isDev() ) {
-				return "rgd_index_dev";
+				return index+"_index_dev1";
 			}
 			
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return null;
+        return index+"_index_dev1";
 	}
 }

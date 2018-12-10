@@ -23,15 +23,15 @@
          <input type="hidden" id="species" value="${model.species}"/>
     <c:forEach items="${model.hits}" var="hits">
     <c:forEach items="${hits}" var="hit">
-        <c:set var="chromosome" value="${hit.source.chromosome}"/>
-        <c:set var="pieData" value="${hit.source.pieData}"/>
-        <input type="hidden" id="mapKey" value="${hit.source.mapKey}"/>
+        <c:set var="chromosome" value="${hit.sourceAsMap.chromosome}"/>
+        <c:set var="pieData" value="${hit.sourceAsMap.pieData}"/>
+        <input type="hidden" id="mapKey" value="${hit.sourceAsMap.mapKey}"/>
 
-        <input type="hidden" id="chr" value="${hit.source.chromosome}"/>
-        <div style="margin-left:70%;"><a href="/rgdweb/report/genomeInformation/genomeInformation.html?species=${model.species}&mapKey=${hit.source.mapKey}" style=";font-weight:bold;color: #24609c" title="click to go to Genome page"><i class="fa fa-arrow-left" aria-hidden="true" style="color:green"></i>&nbsp;Back to ${hit.source.assembly}</a></div>
-        <p style="font-size: 25px;font-weight:100;color: #24609c;"><a href="/rgdweb/report/genomeInformation/genomeInformation.html?species=${model.species}&mapKey=${hit.source.mapKey}" style="font-size: 25px;font-weight:100;color: #24609c" title="click to go to Genome page">
+        <input type="hidden" id="chr" value="${hit.sourceAsMap.chromosome}"/>
+        <div style="margin-left:70%;"><a href="/rgdweb/report/genomeInformation/genomeInformation.html?species=${model.species}&mapKey=${hit.sourceAsMap.mapKey}" style=";font-weight:bold;color: #24609c" title="click to go to Genome page"><i class="fa fa-arrow-left" aria-hidden="true" style="color:green"></i>&nbsp;Back to ${hit.sourceAsMap.assembly}</a></div>
+        <p style="font-size: 25px;font-weight:100;color: #24609c;"><a href="/rgdweb/report/genomeInformation/genomeInformation.html?species=${model.species}&mapKey=${hit.sourceAsMap.mapKey}" style="font-size: 25px;font-weight:100;color: #24609c" title="click to go to Genome page">
         <c:if test="${model.species!='Dog' && model.species!='Bonobo'}">
-        ${model.species}</c:if> ${hit.source.assembly}</a>/Chromosome ${hit.source.chromosome}</p>
+        ${model.species}</c:if> ${hit.sourceAsMap.assembly}</a>/Chromosome ${hit.sourceAsMap.chromosome}</p>
 
 
         <hr>
@@ -41,12 +41,12 @@
            <table class="borderless genome" style=";width:100%;background-color: #f4f4f4;">
                <tr><td>
                <table>
-                <tr><td class="label">Chromosome Assembly</td><td>${hit.source.assembly}</td></tr>
-                <tr><td class="label">RefSeq Id</td><td><a href="https://www.ncbi.nlm.nih.gov/nuccore/${hit.source.refseqId}" target="_blank">${hit.source.refseqId} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
-                <tr><td class="label">Chromosome Sequence Length</td><td>${hit.source.seqLength} bp</td></tr>
-                <tr><td class="label">Gap Length</td><td>${hit.source.gapLength}</td></tr>
-                <tr><td class="label">Gap Count</td><td>${hit.source.gapCount}</td></tr>
-                <tr><td class="label">Contig Count</td><td>${hit.source.contigCount}</td></tr>
+                <tr><td class="label">Chromosome Assembly</td><td>${hit.sourceAsMap.assembly}</td></tr>
+                <tr><td class="label">RefSeq Id</td><td><a href="https://www.ncbi.nlm.nih.gov/nuccore/${hit.sourceAsMap.refseqId}" target="_blank">${hit.sourceAsMap.refseqId} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
+                <tr><td class="label">Chromosome Sequence Length</td><td>${hit.sourceAsMap.seqLength} bp</td></tr>
+                <tr><td class="label">Gap Length</td><td>${hit.sourceAsMap.gapLength}</td></tr>
+                <tr><td class="label">Gap Count</td><td>${hit.sourceAsMap.gapCount}</td></tr>
+                <tr><td class="label">Contig Count</td><td>${hit.sourceAsMap.contigCount}</td></tr>
                </table>
                </td>
 
@@ -92,39 +92,39 @@
             <div style="width:50%;float:left">
             <table  class="borderless genome" style="width:100%">
 
-                <c:if test="${hit.source.totalGenes!=0}">
-                    <tr><td>Total Genes</td><td>${hit.source.totalGenes}</td></tr>
+                <c:if test="${hit.sourceAsMap.totalGenes!=0}">
+                    <tr><td>Total Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.proteinCoding!=0}">
-                    <tr><td>Protein Coding genes</td><td>${hit.source.proteinCoding} </td></tr>
+                <c:if test="${hit.sourceAsMap.proteinCoding!=0}">
+                    <tr><td>Protein Coding genes</td><td>${hit.sourceAsMap.proteinCoding} </td></tr>
                 </c:if>
-                <c:if test="${hit.source.ncrna!=0}">
-                    <tr><td>Non coding RNA</td><td>${hit.source.ncrna}</td></tr>
+                <c:if test="${hit.sourceAsMap.ncrna!=0}">
+                    <tr><td>Non coding RNA</td><td>${hit.sourceAsMap.ncrna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.tRna!=0}">
-                    <tr><td>tRNA</td><td>${hit.source.tRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.tRna!=0}">
+                    <tr><td>tRNA</td><td>${hit.sourceAsMap.tRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.snRna!=0}">
-                    <tr><td>SnRNA</td><td>${hit.source.snRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.snRna!=0}">
+                    <tr><td>SnRNA</td><td>${hit.sourceAsMap.snRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.rRna!=0}">
-                    <tr><td>rRNA</td><td>${hit.source.rRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.rRna!=0}">
+                    <tr><td>rRNA</td><td>${hit.sourceAsMap.rRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.pseudo!=0}">
-                    <tr><td>Pseudogenes</td><td>${hit.source.pseudo}</td></tr>
+                <c:if test="${hit.sourceAsMap.pseudo!=0}">
+                    <tr><td>Pseudogenes</td><td>${hit.sourceAsMap.pseudo}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.mirnaTargetsConfirmed!=0}">
-                    <tr><td>miRNA Targets Confirmed</td><td>${hit.source.mirnaTargetsConfirmed}</td></tr>
+                <c:if test="${hit.sourceAsMap.mirnaTargetsConfirmed!=0}">
+                    <tr><td>miRNA Targets Confirmed</td><td>${hit.sourceAsMap.mirnaTargetsConfirmed}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.mirnaTargetsPredicted!=0}">
-                    <tr><td>miRNA Targets Predicted</td><td>${hit.source.mirnaTargetsPredicted}</td></tr>
+                <c:if test="${hit.sourceAsMap.mirnaTargetsPredicted!=0}">
+                    <tr><td>miRNA Targets Predicted</td><td>${hit.sourceAsMap.mirnaTargetsPredicted}</td></tr>
                 </c:if>
 
-                <c:if test="${hit.source.genesWithoutOrthologs!=0}">
-                    <tr><td>Genes without orthologs</td><td>${hit.source.genesWithoutOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.genesWithoutOrthologs!=0}">
+                    <tr><td>Genes without orthologs</td><td>${hit.sourceAsMap.genesWithoutOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.genesWithOrthologs!=0}">
-                    <tr><td>Genes with Orthologs</td><td>${hit.source.genesWithOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.genesWithOrthologs!=0}">
+                    <tr><td>Genes with Orthologs</td><td>${hit.sourceAsMap.genesWithOrthologs}</td></tr>
                 </c:if>
             </table>
 
@@ -142,26 +142,26 @@
 
             <table class="table table-striped table-condensed genome" style="border:1px solid gainsboro;">
 
-                <c:if test="${hit.source.humanOrthologs!=0}">
-                    <tr><td>Human</td><td>${hit.source.humanOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.humanOrthologs!=0}">
+                    <tr><td>Human</td><td>${hit.sourceAsMap.humanOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.mouseOrthologs!=0}">
-                    <tr><td>Mouse</td><td>${hit.source.mouseOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.mouseOrthologs!=0}">
+                    <tr><td>Mouse</td><td>${hit.sourceAsMap.mouseOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.ratOrthologs!=0}">
-                    <tr><td>Rat</td><td>${hit.source.ratOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.ratOrthologs!=0}">
+                    <tr><td>Rat</td><td>${hit.sourceAsMap.ratOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.chinchillaOrthologs!=0}">
-                    <tr><td>Chinchilla</td><td>${hit.source.chinchillaOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.chinchillaOrthologs!=0}">
+                    <tr><td>Chinchilla</td><td>${hit.sourceAsMap.chinchillaOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.bonoboOrthologs!=0}">
-                    <tr><td>Bonobo</td><td>${hit.source.bonoboOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.bonoboOrthologs!=0}">
+                    <tr><td>Bonobo</td><td>${hit.sourceAsMap.bonoboOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.dogOrthologs!=0}">
-                    <tr><td>Dog</td><td>${hit.source.dogOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.dogOrthologs!=0}">
+                    <tr><td>Dog</td><td>${hit.sourceAsMap.dogOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.squirrelOrthologs!=0}">
-                    <tr><td>Squirrel</td><td>${hit.source.squirrelOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.squirrelOrthologs!=0}">
+                    <tr><td>Squirrel</td><td>${hit.sourceAsMap.squirrelOrthologs}</td></tr>
                 </c:if>
             </table>
 
@@ -175,32 +175,32 @@
 
             <table class="table table-striped table-condensed genome" style="border:1px solid gainsboro;">
 
-                <!--c:if test="$-{hit.source.utrs3!=0}">
-                    <!--tr><td>3UTRS</td><td>$-{hit.source.utrs3}</td></tr>
+                <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
+                    <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
                 <!--/c:if-->
-                <!--c:if test="$-{hit.source.utrs5!=0}">
-                    <!--tr><td>5UTRS</td><td>$-{hit.source.utrs5}</td></tr>
+                <!--c:if test="$-{hit.sourceAsMap.utrs5!=0}">
+                    <!--tr><td>5UTRS</td><td>$-{hit.sourceAsMap.utrs5}</td></tr>
                 <!--/c:if-->
-                <c:if test="${hit.source.exons!=0}">
-                    <tr><td>Exons</td><td>${hit.source.exons}</td></tr>
+                <c:if test="${hit.sourceAsMap.exons!=0}">
+                    <tr><td>Exons</td><td>${hit.sourceAsMap.exons}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.proteins!=null && hit.source.proteins!=0 }">
-                    <tr><td>Proteins</td><td>${hit.source.proteins}</td></tr>
+                <c:if test="${hit.sourceAsMap.proteins!=null && hit.sourceAsMap.proteins!=0 }">
+                    <tr><td>Proteins</td><td>${hit.sourceAsMap.proteins}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.qtls!=0}">
-                    <tr><td>QTLS</td><td>${hit.source.qtls}</td></tr>
+                <c:if test="${hit.sourceAsMap.qtls!=0}">
+                    <tr><td>QTLS</td><td>${hit.sourceAsMap.qtls}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.sslps!=0}">
-                    <tr><td>SSLPs</td><td>${hit.source.sslps}</td></tr>
+                <c:if test="${hit.sourceAsMap.sslps!=0}">
+                    <tr><td>SSLPs</td><td>${hit.sourceAsMap.sslps}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.strains!=0}">
-                    <tr><td>Strains</td><td>${hit.source.strains}</td></tr>
+                <c:if test="${hit.sourceAsMap.strains!=0}">
+                    <tr><td>Strains</td><td>${hit.sourceAsMap.strains}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.variants!=0}">
-                    <tr><td>ClinVar Variants</td><td>${hit.source.variants}</td></tr>
+                <c:if test="${hit.sourceAsMap.variants!=0}">
+                    <tr><td>ClinVar Variants</td><td>${hit.sourceAsMap.variants}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.transcripts!=0}">
-                    <tr><td>Gene transcripts</td><td>${hit.source.transcripts}</td></tr>
+                <c:if test="${hit.sourceAsMap.transcripts!=0}">
+                    <tr><td>Gene transcripts</td><td>${hit.sourceAsMap.transcripts}</td></tr>
                 </c:if>
 
             </table>
@@ -218,7 +218,7 @@
                         <c:set var="row1" value="true"/>
                         <c:set var="i" value="1"/>
                         <table>
-                       <c:forEach items="${hit.source.variantsMatrix}" var="row">
+                       <c:forEach items="${hit.sourceAsMap.variantsMatrix}" var="row">
                             <c:if test="${i<=4}">
                                <c:choose>
                                    <c:when test="${row1=='true'}">
@@ -284,9 +284,9 @@
                 <table class="table  table-condensed table-hover">
                     <tr><th>Disease</th><th>Genes</th></tr>
 
-                    <c:forEach items="${hit.source.diseaseGenes}" var="d">
+                    <c:forEach items="${hit.sourceAsMap.diseaseGenes}" var="d">
                         <tr><td><a href="/rgdweb/ontology/annot.html?acc_id=${d.ontTermAccId}&species=${model.species}" title="click to go to disease page"><span class="text-capitalize">${d.ontTerm}</span></a></td><td>${d.geneCount}&nbsp;
-                            <a href="diseaseGenes.html?mapKey=${hit.source.mapKey}&chr=${hit.source.chromosome}&accId=${d.ontTermAccId}" title="click to download Genes"><span class="glyphicon glyphicon-cloud-download" style="color:grey;"></span> </a>
+                            <a href="diseaseGenes.html?mapKey=${hit.sourceAsMap.mapKey}&chr=${hit.sourceAsMap.chromosome}&accId=${d.ontTermAccId}" title="click to download Genes"><span class="glyphicon glyphicon-cloud-download" style="color:grey;"></span> </a>
                         </td>
                       </tr>
                     </c:forEach>
@@ -308,7 +308,7 @@
                 var g = svg.append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                var data=${hit.source.diseaseGenechartData};
+                var data=${hit.sourceAsMap.diseaseGenechartData};
 
                 var tip = d3.tip()
                         .attr('class', 'd3-tip')
@@ -384,7 +384,7 @@
         </c:if>
         <c:if test="${model.species.equals('Human') }">
             <ul>
-                <c:if test="${hit.source.chromosome=='1'}">
+                <c:if test="${hit.sourceAsMap.chromosome=='1'}">
 
                 <li><a href="/rgdweb/report/reference/main.html?id=11058543">The DNA sequence and biological annotation of human chromosome 1. </a> PMID:16710414&nbsp;<a href="${url}16710414" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
                 </c:if>

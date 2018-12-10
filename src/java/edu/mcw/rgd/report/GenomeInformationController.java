@@ -47,7 +47,7 @@ public class GenomeInformationController implements Controller{
 
             mapKey=Integer.parseInt(key);
         }
-        List<SearchHit[]> hits=new ArrayList<>();
+        List<SearchHit[]> hits;
         model.addAttribute("speciesList", this.getSpeciesList());
 
             if (isDetailsPage || species != null || action != null) {
@@ -112,16 +112,16 @@ public class GenomeInformationController implements Controller{
         SearchResponse sr;
         if( mapkey==0 ) {
             System.out.println("SPECIES AND MAPKEY 0");
-            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
-                    .setTypes("genomeinfo")
+            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
+                    .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setSize(100)
                  //   .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")))
                     .get();
             System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
         }else {
-            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
-                    .setTypes("genomeinfo")
+            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
+                    .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
                     .get();
