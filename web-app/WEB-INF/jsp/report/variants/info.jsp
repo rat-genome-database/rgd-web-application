@@ -11,7 +11,7 @@
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3><%=objType%> : <%=obj.getName()!=null?"("+obj.getName()+")":""%>&nbsp;<%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></h3></td></tr>
+    <tr><td colspan="2"><h3>Variant: <%=obj.getName()!=null?obj.getName():""%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></h3></td></tr>
 
     <tr>
         <td class="label" valign="top">Name:</td>
@@ -24,7 +24,7 @@
 
     <tr>
         <td class="label">Type:</td>
-        <td><%=obj.getType()%></td>
+        <td><a href="<%=Link.ontView(obj.getType())%>" title="click to go to sequence ontology"><%=obj.getType()%></a></td>
     </tr>
     <tr>
         <td class="label" valign="top">Reference Nucleotide:</td>
@@ -55,7 +55,7 @@
             });
     %>
     <tr>
-        <td class="label" valign="top">Trait Synonyms:</td>
+        <td class="label" valign="top">Aliases:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>

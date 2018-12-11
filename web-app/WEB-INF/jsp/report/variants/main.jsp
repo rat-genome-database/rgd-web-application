@@ -28,6 +28,7 @@
 <table width="95%" border="0">
     <tr>
         <td>
+
         <%@ include file="info.jsp"%>
 
         <br><div class="subTitle">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>

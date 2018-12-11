@@ -60,6 +60,7 @@
                 <prop key="curation/edit/updateCellLineAssociations.html">CellLineAssociationsEditObjectController</prop>
                 <prop key="curation/edit/updateSslpAlleles.html">SslpAllelesEditObjectController</prop>
                 <prop key="curation/edit/updateSslp2GeneAssociations.html">Sslp2GeneAssociationsEditObjectController</prop>
+                <prop key="curation/edit/updateVariantAssociations.html">VariantAssociationsEditObjectController</prop>
                 <prop key="curation/edit/notesAdd.html">NotesAddController</prop>
                 <prop key="curation/edit/statusUpdate.html">StatusUpdateController</prop>
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
@@ -347,6 +348,7 @@
     <bean id="NotesAddController" class="edu.mcw.rgd.edit.NotesAddController"/>
     <bean id="GeneVariantsEditObjectController" class="edu.mcw.rgd.edit.GeneVariantsEditObjectController"/>
     <bean id="GeneAssociationsEditObjectController" class="edu.mcw.rgd.edit.GeneAssociationsEditObjectController"/>
+    <bean id="VariantAssociationsEditObjectController" class="edu.mcw.rgd.edit.VariantAssociationsEditObjectController"/>
     <bean id="CellLineAssociationsEditObjectController" class="edu.mcw.rgd.edit.CellLineAssociationsEditObjectController"/>
     <bean id="CuratedReferencesEditObjectController" class="edu.mcw.rgd.edit.CuratedReferencesEditObjectController"/>
     <bean id="ExternalLinksEditObjectController" class="edu.mcw.rgd.edit.ExternalLinksEditObjectController"/>

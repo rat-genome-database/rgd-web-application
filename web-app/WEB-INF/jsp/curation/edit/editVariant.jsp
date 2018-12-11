@@ -35,10 +35,11 @@
     }
     AssociationDAO associationDAO = new AssociationDAO();
     String references= (String) request.getAttribute("references");
-%>
-
-<h1>Edit Variant: </h1>
-
+ if( rgdId<=0  ){ %>
+<h1>Create Variant</h1>
+<% } else { %>
+<h1>Edit Variant: <%=dm.out("name", variants.getName())%></h1>
+<% } %>
 
 <table>
     <tr>
@@ -112,6 +113,7 @@
     </tr>
 </table>
 <%@ include file="mapData.jsp" %>
+<%@ include file="variant2geneAssociationData.jsp" %>
 <%@ include file="curatedReferencesData.jsp" %>
 <%@ include file="geneAssociationData.jsp" %>
 <%@ include file="aliasData.jsp" %>

@@ -80,7 +80,7 @@
       if( pageTitle.equals("Edit Gene") )
           url = '/rgdweb/curation/edit/editGene.html?act=symbol&rgdId='+varRgdId;
       else if(pageTile.equals("Edit Variant"))
-           url = '/rgdweb/curation/edit/editVariant.html?rgdId='+varRgdId;
+           url = '/rgdweb/curation/edit/editVariant.html?act=symbol&rgdId='+varRgdId;
       else
           url = '/rgdweb/curation/edit/editSSLP.html?act=symbol&rgdId='+varRgdId;
       loadDiv(url, oid2);
