@@ -84,7 +84,7 @@
         row.appendChild(td);
 
         td = document.createElement("TD");
-        td.innerHTML = '<input type="text" size="12" id="strainRgdIdCreated'+strainAssocCreatedCount+'" name="strainRgdId" value="0" readonly> ';
+        td.innerHTML = '<input type="text" size="12" id="strainRgdIdCreated'+strainAssocCreatedCount+'" name="strainRgdId" value="0"> ';
         rLink = document.createElement("A");
         rLink.border="0";
         rLink.href = "javascript:strainassoc_lookup_prerender('strainRgdIdCreated" + strainAssocCreatedCount + "',3,'STRAINS') ;void(0);";
