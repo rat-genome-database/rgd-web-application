@@ -39,6 +39,7 @@
         <div id="associationsStandard" style="display:block;">
             <%@ include file="../associations.jsp"%>
         </div>
+            <%@ include file="../relatedStrains.jsp"%>
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
 
