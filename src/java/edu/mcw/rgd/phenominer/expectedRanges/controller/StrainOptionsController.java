@@ -63,6 +63,9 @@ public class StrainOptionsController implements Controller{
         model.put("strainGroupId", strainGroupId);
         model.put("ranges", process.addExtraAttributes(records));
         model.addAttribute("plotData",  process.getPlotData(records, "strain"));
+        String unitsStr=records.get(0).getUnits();
+        String units=unitsStr.substring(1, unitsStr.length()-1);
+        model.addAttribute("units", units);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/rangeStrainContent.jsp","model", model);
     }
 }
