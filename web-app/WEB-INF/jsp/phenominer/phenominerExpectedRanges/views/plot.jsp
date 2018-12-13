@@ -73,6 +73,7 @@
     var normalFemaleHigh= $('#normalFemaleHigh').val();
     var data = ${model.plotData};
     var phenotype='${model.phenotype}${model.strainGroup}';
+    var yaxisTitle=$('#units').val();
 
     var x1=${fn:length(model.plotData)}
 

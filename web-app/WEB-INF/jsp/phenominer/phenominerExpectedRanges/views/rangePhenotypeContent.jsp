@@ -8,6 +8,7 @@
         <div class="panel panel-default">
 
             <div class="panel-body">
+                <input type="hidden" id="units" value="${model.units}"
                 <jsp:include page="plot.jsp"/>
 
             </div>

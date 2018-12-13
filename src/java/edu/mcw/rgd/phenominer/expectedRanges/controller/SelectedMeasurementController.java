@@ -84,10 +84,12 @@ public class SelectedMeasurementController implements Controller {
         if(normalFemaleRecord!=null) {
             model.addAttribute("normalFemale",normalFemaleRecord);
         }
-
-
+        String unitsStr=records.get(0).getUnits();
+        String units=unitsStr.substring(1, unitsStr.length()-1);
+        model.addAttribute("units", units);
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));
+
         model.addAttribute("phenotype", phenotype);
         model.addAttribute("cmo", cmoID);
         model.addAttribute("phenotypes", phenotypes);

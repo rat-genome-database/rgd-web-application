@@ -16,6 +16,17 @@ function normalAll(){
       var layout1 = {
         title: phenotype + ' - Expected Ranges',
         // showlegend:false
+          yaxis:
+              {
+                  title:"<---------- "+yaxisTitle+" ---------->",
+                  visible:true,
+                  titlefont:{
+                      family	:"Open Sans",
+                      size	:	14,
+                      color	:"#444"
+                  }
+              }
+          ,
 
         shapes:[{
             'type':'line',
@@ -49,6 +60,18 @@ function normalMale() {
     var layout1 = {
         title: phenotype + ' - Expected Ranges',
         // showlegend:false
+        yaxis:
+        {
+            title:"<---------- "+yaxisTitle+" ---------->",
+            visible:true,
+            titlefont:{
+                family	:"Open Sans",
+                size	:	14,
+                color	:"#444"
+            },
+            side	:"left"
+        }
+        ,
          shapes:[{
             'type':'line',
             'x0':-1,
@@ -82,6 +105,18 @@ function normalFemale() {
   
     var layout1 = {
         title: phenotype +' - Expected Ranges',
+        yaxis:
+        {
+            title:"<---------- "+yaxisTitle+" ---------->",
+            visible:true,
+            titlefont:{
+                family	:"Open Sans",
+                size	:	14,
+                color	:"#444"
+            },
+            side	:"left"
+        }
+        ,
         // showlegend:false
 
         shapes:[{
@@ -117,7 +152,19 @@ function initialPlot(){
 
     var layout1 = {
         title: phenotype + ' - Expected Ranges',
-  
+        yaxis:
+            {
+                title:"<---------- "+yaxisTitle+" ---------->",
+                visible:true,
+                titlefont:{
+                    family	:"Open Sans",
+                    size	:	14,
+                    color	:"#444"
+                },
+                side	:"left"
+            }
+       ,
+
          shapes:[{
          'type':'line',
          'x0':-1,
@@ -143,14 +190,27 @@ function initialPlot(){
          'dash':'dot'
          }
 
-         }]};
+         }]
+    };
     Plotly.newPlot('rangeDiv', data, layout1);
   /*  Plotly.newPlot('jDiv', data, layout1);*/
 }
 function turnOffNormalRanges(){
 
     var layout1 = {
-        title: phenotype + ' - Expected Ranges'
+        title: phenotype + ' - Expected Ranges',
+        yaxis:
+        {
+            title:"<---------- "+yaxisTitle+" ---------->",
+            visible:true,
+            titlefont:{
+                family	:"Open Sans",
+                size	:	14,
+                color	:"#444"
+            },
+            side	:"left"
+        }
+
 
       };
     Plotly.newPlot('rangeDiv', data, layout1);
