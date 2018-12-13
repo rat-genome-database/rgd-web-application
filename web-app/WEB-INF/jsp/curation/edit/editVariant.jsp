@@ -22,23 +22,23 @@
 <%@ include file="editHeader.jsp" %>
 
 <%
-    Variants variants = (Variants) request.getAttribute("editObject");
+    RgdVariant variant = (RgdVariant) request.getAttribute("editObject");
 
-    int rgdId = variants.getRgdId();
+    int rgdId = variant.getRgdId();
     int displayRgdId = rgdId;
 
 
     if (isClone) {
-        Variants clone = (Variants) request.getAttribute("cloneObject");
-        variants = clone;
-        displayRgdId = variants.getRgdId();
+        RgdVariant clone = (RgdVariant) request.getAttribute("cloneObject");
+        variant = clone;
+        displayRgdId = variant.getRgdId();
     }
     AssociationDAO associationDAO = new AssociationDAO();
     String references= (String) request.getAttribute("references");
  if( rgdId<=0  ){ %>
 <h1>Create Variant</h1>
 <% } else { %>
-<h1>Edit Variant: <%=dm.out("name", variants.getName())%></h1>
+<h1>Edit Variant: <%=dm.out("name", variant.getName())%></h1>
 <% } %>
 
 <table>
@@ -65,30 +65,30 @@
 
                     <tr>
                         <td class="label">Name:</td>
-                        <td><input name="name" type="text" size="45" value="<%=dm.out("name",variants.getName())%>"/></td>
+                        <td><input name="name" type="text" size="45" value="<%=dm.out("name",variant.getName())%>"/></td>
                     </tr>
                     <tr>
                         <td class="label">Description:</td>
                         <td><input name="description" type="text" size="45"
-                                   value="<%=dm.out("description",variants.getDescription())%>"/></td>
+                                   value="<%=dm.out("description",variant.getDescription())%>"/></td>
                     </tr>
                     <tr>
                     <td class="label">SO ACC ID:</td>
-                    <td><input name="type" type="text" size="30" value="<%=dm.out("type",variants.getType())%>"/></td>
+                    <td><input name="type" type="text" size="30" value="<%=dm.out("type",variant.getType())%>"/></td>
                     </tr>
 
                     <tr>
                         <td class="label">Reference Nucleotide</td>
-                        <td><input name="refNuc" type="text" size="5" value="<%=dm.out("refNuc",variants.getRef_nuc())%>"/></td>
+                        <td><input name="refNuc" type="text" size="5" value="<%=dm.out("refNuc",variant.getRef_nuc())%>"/></td>
                     </tr>
                     <tr>
                         <td class="label">Variant Nucleotide</td>
-                        <td><input name="varNuc" type="text" size="5" value="<%=dm.out("varNuc",variants.getVar_nuc())%>"/>
+                        <td><input name="varNuc" type="text" size="5" value="<%=dm.out("varNuc",variant.getVar_nuc())%>"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="label">Notes</td>
-                        <td><input name="notes" type="text" size="100" value="<%=dm.out("notes",variants.getNotes())%>"/></td>
+                        <td><input name="notes" type="text" size="100" value="<%=dm.out("notes",variant.getNotes())%>"/></td>
                     </tr>
 
                     <tr>

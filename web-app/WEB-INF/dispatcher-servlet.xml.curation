@@ -125,8 +125,8 @@
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
                 <prop key="report/annotation/table.html">GeneTermAnnotationsController</prop>
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
-                <prop key="report/variant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">VariantsReportController</prop>
+                <prop key="report/variant/main.html">ClinVarReportController</prop>
+                <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
@@ -290,8 +290,8 @@
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
-    <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
-       <bean id="VariantsReportController" class="edu.mcw.rgd.report.VariantsReportController"/>
+    <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
+       <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
 

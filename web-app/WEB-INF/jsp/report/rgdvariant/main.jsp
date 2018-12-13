@@ -5,8 +5,8 @@
 
 <% boolean includeMapping = true;
     String title = "Variant";
-    Variants obj = (Variants) request.getAttribute("reportObject");
-    String objectType="variants";
+    RgdVariant obj = (RgdVariant) request.getAttribute("reportObject");
+    String objectType="RgdVariant";
     String displayName=obj.getName();
 
     Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
