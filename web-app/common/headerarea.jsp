@@ -309,7 +309,7 @@ urchinTracker();
      <ul>
      <li class="first"><a href="/fgb2/gbrowse/rgd_5/" rel="ct4"><span>Rat GBrowse</span></a></li>
      <li ><a href="http://bioneos.com/VCMap/" rel="ct1"><span>VCMap</span></a></li>
-     <li ><a href="/rgdweb/front/select.html" rel="ct1"><span>Variant Visualizer</span></a></li>
+     <li ><a href="/rgdweb/front/config.html" rel="ct1"><span>Variant Visualizer</span></a></li>
 
      <li><a href="/rgdweb/gTool/Gviewer.jsp" rel="ct3"><span>GViewer</span></a></li>
      <li><a href="/ACPHAPLOTYPER" rel="ct7"><span>ACP Haplotyper</span></a></li>
