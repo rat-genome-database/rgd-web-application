@@ -61,6 +61,9 @@ public class SelectedStrainController implements Controller{
                 plotRecords.add(r);
             }
         }
+        String unitsStr=plotRecords.get(0).getUnits();
+        String units=unitsStr.substring(1, unitsStr.length()-1);
+        model.addAttribute("units", units);
         model.put("phenotypesMap", phenotypeIdMap);
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.put("strainGroup", strainGroupName);

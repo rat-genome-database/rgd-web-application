@@ -94,7 +94,9 @@ public class PhenotypeOptionsController implements Controller {
         model.addAttribute("records", process.addExtraAttributes(records));
         model.addAttribute("phenotype", phenotype);
         model.addAttribute("phenotypeAccId",phenotypeAccId);
-
+        String unitsStr=records.get(0).getUnits();
+        String units=unitsStr.substring(1, unitsStr.length()-1);
+        model.addAttribute("units", units);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/rangePhenotypeContent.jsp", "model", model);
 
     }
