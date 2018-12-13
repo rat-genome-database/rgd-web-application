@@ -41,7 +41,7 @@
         <tr id="geneAssocRow<%=geneAssocCount%>">
             <td id="geneSymbol<%=geneAssocCount%>"><%=geneDAO.getGene(geneAssoc.getDetailRgdId()).getSymbol()%></td>
             <td><input type="text" size="12" id="geneRgdId<%=geneAssocCount%>" value="<%=geneAssoc.getDetailRgdId()%>" name="geneRgdId">
-                <a href="javascript:geneassoc_lookup_prerender('geneRgdId<%=geneAssocCount%>',<%=variants.getSpeciesTypeKey()%>,'GENES')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a>
+                <a href="javascript:geneassoc_lookup_prerender('geneRgdId<%=geneAssocCount%>',<%=variant.getSpeciesTypeKey()%>,'GENES')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a>
             </td>
             <td>
                 <select id="geneMarkerType<%=geneAssocCount%>" name="geneMarkerType">
@@ -100,7 +100,7 @@
         td.innerHTML = '<input type="text" size="12" id="geneRgdIdCreated'+geneAssocCreatedCount+'" name="geneRgdId" value="0"> ';
         rLink = document.createElement("A");
         rLink.border="0";
-        rLink.href = "javascript:geneassoc_lookup_prerender('geneRgdIdCreated" + geneAssocCreatedCount + "',<%=variants.getSpeciesTypeKey()%>,'GENES') ;void(0);";
+        rLink.href = "javascript:geneassoc_lookup_prerender('geneRgdIdCreated" + geneAssocCreatedCount + "',<%=variant.getSpeciesTypeKey()%>,'GENES') ;void(0);";
         rLink.innerHTML = '<img src="/rgdweb/common/images/glass.jpg" border="0"/>';
         td.appendChild(rLink);
         row.appendChild(td);

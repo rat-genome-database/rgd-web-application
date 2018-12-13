@@ -29,21 +29,21 @@ public class VariantEditObjectController extends EditObjectController {
     }
 
     public Object getObject(int rgdId) throws Exception{
-        return new VariantsDAO().getVariant(rgdId);
+        return new RgdVariantDAO().getVariant(rgdId);
     }
     public Object getSubmittedObject(int submissionKey) throws Exception {
         return null;
     }
     public Object newObject() throws Exception{
-        Variants variants = new Variants();
+        RgdVariant variants = new RgdVariant();
         variants.setRgdId(-1);
         return variants;
     }
 
     public Object update(HttpServletRequest request, boolean persist) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-        VariantsDAO dao = new VariantsDAO();
-        Variants variants = null;
+        RgdVariantDAO dao = new RgdVariantDAO();
+        RgdVariant variant = null;
 
         boolean isNew = false;
 
@@ -56,28 +56,28 @@ public class VariantEditObjectController extends EditObjectController {
 
             if (rgdId == -1 ) {
                 isNew = true;
-                variants = new Variants();
+                variant = new RgdVariant();
             }else {
-                variants = dao.getVariant(rgdId);
+                variant = dao.getVariant(rgdId);
             }
 
 
-            variants.setName(req.getParameter("name"));
-            variants.setDescription(req.getParameter("description"));
-            variants.setType(req.getParameter("type"));
-            variants.setRef_nuc(req.getParameter("refNuc"));
-            variants.setVar_nuc(req.getParameter("varNuc"));
-            variants.setNotes(req.getParameter("notes"));
+            variant.setName(req.getParameter("name"));
+            variant.setDescription(req.getParameter("description"));
+            variant.setType(req.getParameter("type"));
+            variant.setRef_nuc(req.getParameter("refNuc"));
+            variant.setVar_nuc(req.getParameter("varNuc"));
+            variant.setNotes(req.getParameter("notes"));
 
 
             if (persist) {
                 if (isNew) {
-                    dao.insertVariant(variants, req.getParameter("objectStatus"),SpeciesType.parse(req.getParameter("speciesType")) );
+                    dao.insertVariant(variant, req.getParameter("objectStatus"),SpeciesType.parse(req.getParameter("speciesType")) );
                 } else {
-                    dao.updateVariant(variants);
+                    dao.updateVariant(variant);
                 }
             }
         }
-        return variants;
+        return variant;
     }
 }
