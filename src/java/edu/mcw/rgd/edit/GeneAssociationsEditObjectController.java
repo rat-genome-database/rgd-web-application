@@ -30,15 +30,18 @@ public class GeneAssociationsEditObjectController implements Controller {
 
         int geneRgdId = Integer.parseInt(request.getParameter("rgdId"));
 
-        List<Integer> incomingStrainRgdIds = parseParameters(request);
         List<Integer> existingStrainRgdIds = getExistingStrainRgdIds(geneRgdId);
+        List<Integer> incomingStrainRgdIds = parseParameters(request);
+
 
         // drop shared strain rgd ids
         dropSharedStrainRgdIds(incomingStrainRgdIds, existingStrainRgdIds);
 
         // add new strain rgd ids
-        for( Integer strainRgdId: incomingStrainRgdIds ) {
-            dao.insertStrainAssociation(strainRgdId, geneRgdId);
+        if(incomingStrainRgdIds != null) {
+            for (Integer strainRgdId : incomingStrainRgdIds) {
+                dao.insertStrainAssociation(strainRgdId, geneRgdId);
+            }
         }
 
         // delete unused strain rgd ids
@@ -56,19 +59,21 @@ public class GeneAssociationsEditObjectController implements Controller {
     }
 
     List<Integer> parseParameters(HttpServletRequest request) {
-
+if(request.getParameterMap().containsKey("strainRgdId")) {
         String[] strainRgdIds = request.getParameterValues("strainRgdId");
-        int recCount = strainRgdIds.length;
 
-        List<Integer> records = new ArrayList<Integer>(recCount);
-        for( int i=0; i<recCount; i++ ) {
-            int strainRgdId = Integer.parseInt(strainRgdIds[i]);
+            int recCount = strainRgdIds.length;
 
-            // ensure the new id is unique
-            if( !records.contains(strainRgdId) )
-                records.add(strainRgdId);
-        }
-        return records;
+            List<Integer> records = new ArrayList<Integer>(recCount);
+            for (int i = 0; i < recCount; i++) {
+                int strainRgdId = Integer.parseInt(strainRgdIds[i]);
+
+                // ensure the new id is unique
+                if (!records.contains(strainRgdId))
+                    records.add(strainRgdId);
+            }
+            return records;
+        } else return null;
     }
 
     List<Integer> getExistingStrainRgdIds(int geneRgdId) throws Exception {
@@ -85,26 +90,27 @@ public class GeneAssociationsEditObjectController implements Controller {
     int dropSharedStrainRgdIds(List<Integer> incomingStrainRgdIds, List<Integer> existingStrainRgdIds) throws Exception {
 
         int droppedCount = 0;
+        if(incomingStrainRgdIds!=null) {
+            // find incoming annotation that matches existingAnnotation
+            Iterator<Integer> it1 = incomingStrainRgdIds.iterator();
+            while (it1.hasNext()) {
+                Integer var1 = it1.next();
 
-        // find incoming annotation that matches existingAnnotation
-        Iterator<Integer> it1 = incomingStrainRgdIds.iterator();
-        while( it1.hasNext() ) {
-            Integer var1 = it1.next();
+                Iterator<Integer> it2 = existingStrainRgdIds.iterator();
+                while (it2.hasNext()) {
+                    Integer var2 = it2.next();
 
-            Iterator<Integer> it2 = existingStrainRgdIds.iterator();
-            while( it2.hasNext() ) {
-                Integer var2 = it2.next();
+                    if (var1.equals(var2)) {
 
-                if( var1.equals(var2) ) {
-
-                    droppedCount++;
-                    it1.remove();
-                    it2.remove();
-                    break; // break inner loop
+                        droppedCount++;
+                        it1.remove();
+                        it2.remove();
+                        break; // break inner loop
+                    }
                 }
             }
-        }
-        return droppedCount;
+            return droppedCount;
+        } else return existingStrainRgdIds.size();
     }
 
 }
