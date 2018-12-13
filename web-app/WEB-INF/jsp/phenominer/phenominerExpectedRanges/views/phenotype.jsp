@@ -23,7 +23,7 @@
         <div class="panel panel-default">
             <div class="panel-body " >
                 <div style="float:right;background:linear-gradient(gainsboro, white);border:1px solid gainsboro; padding:5px"><strong><a href="home.html?trait=${model.traitOntId}">Back to all measurements</a></strong></div>
-                <h3>Phenominer Expected Ranges</h3>
+                <h3>PhenoMiner Expected Ranges</h3>
                 <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
                  <strong>Analysis Description:</strong>
                     PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
