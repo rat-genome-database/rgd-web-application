@@ -70,6 +70,9 @@ public class SelectedMeasurementController implements Controller {
        PhenominerExpectedRange normalMaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Male");
         PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
 
+       System.out.println("normalRcord="+ normalRecord.getRangeLow()+" - "+ normalRecord.getRangeHigh());
+        System.out.println("normalMaleRcord="+ normalMaleRecord.getRangeLow()+" - "+ normalMaleRecord.getRangeHigh());
+        System.out.println("normalFemalRcord="+ normalFemaleRecord.getRangeLow()+" - "+ normalFemaleRecord.getRangeHigh());
         records.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getStrainGroupName(), o2.getStrainGroupName()));
 
         session.setAttribute("phenotypes", phenotypes);
