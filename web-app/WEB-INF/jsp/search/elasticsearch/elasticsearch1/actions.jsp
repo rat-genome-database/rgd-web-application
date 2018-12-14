@@ -18,24 +18,20 @@
             <c:if test="${model.objectSearch=='true'}">
             <td>
                 <form  id="assemblyForm" action="elasticResults.html" method="post">
-                <input type="hidden" name="category" value="${model.category}">
-                 <input type="hidden" name="species" value="${model.species}"/>
+                <input type="hidden" name="category" value="${model.searchBean.category}">
+                 <input type="hidden" name="species" value="${model.searchBean.species}"/>
 
                     <input type="hidden" name="currentPage" value="1">
                     <input type="hidden" name="term" value="${model.term}"/>
 
-                    <input type="hidden" name="subCat" value="${model.subCat}">
-                    <input type="hidden" name="start" value="${model.start}"/>
+                    <input type="hidden" name="subCat" value="${model.searchBean.subCat}">
+                    <input type="hidden" name="start" value="${model.searchBean.start}"/>
 
-                    <input type="hidden" name="stop" value="${model.stop}">
-                    <input type="hidden" name="chr" value="${model.chr}"/>
+                    <input type="hidden" name="stop" value="${model.searchBean.stop}">
+                    <input type="hidden" name="chr" value="${model.searchBean.chr}"/>
 
                     <input type="hidden" name="size" value="50">
-                    <input type="hidden" name="term" value="${model.term}"/>
-
-                    <input type="hidden" name="currentPage" value="1">
-                    <input type="hidden" name="term" value="${model.term}"/>
-                                    <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
+                    <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
 
                     <label for="objectSearchAssembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
                     <select  id="objectSearchAssembly" name="assembly">
@@ -61,7 +57,7 @@
             </c:if>
             <c:if test="${model.objectSearch!='true'}">
             <td>
-                <c:if test="${model.species!=null && model.species!='' && model.defaultAssembly!=null}">
+                <c:if test="${model.searchBean.species!=null && model.searchBean.species!='' && model.defaultAssembly!=null}">
                     <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
                     <select class="assembly" id="assembly" onchange="assembly('change',this.value)">
                     <c:forEach items="${model.assemblyMaps}" var="map">
@@ -85,7 +81,7 @@
 
             <td>
                 <c:choose>
-                    <c:when test="${!model.category.equalsIgnoreCase('general')  && !model.category.equalsIgnoreCase('Ontology') && !model.category.equalsIgnoreCase('Reference')}">
+                    <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')  && !model.searchBean.category.equalsIgnoreCase('Ontology') && !model.searchBean.category.equalsIgnoreCase('Reference')}">
                         <label for="sortBy" style="font-size:x-small;font-weight: bold">Sort By</label><br>
                         <select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)" >
                         <option selected="selected" value="0">Relevance</option>
@@ -100,7 +96,7 @@
                     </select>
                     </c:when>
                     <c:otherwise>
-                        <c:if test="${model.category.equalsIgnoreCase('general')}">
+                        <c:if test="${model.searchBean.category.equalsIgnoreCase('general')}">
                             <label for="sortBy" style="font-size:x-small;font-weight: bold">Sort By</label><br><select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)" >
                             <option selected="selected" value="0">Relevance</option>
                             <option value="1">Symbol - ASC</option>
@@ -146,10 +142,10 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>
-                Page <span id="currentPage">${model.currentPage}</span> of <span id="totalPages"> ${model.totalPages}</span> <br>
+                Page <span id="currentPage">${model.searchBean.currentPage}</span> of <span id="totalPages"> ${model.totalPages}</span> <br>
 
                 <button id="prev" onclick="prevFunction('click', 'prev')">&#10094;</button>
-                <button id="next" onclick="nextFunction('click','next', '${model.currentPage}', '${model.totalPages}', $('#pageSize').find('option:selected'))">&#10095;</button>
+                <button id="next" onclick="nextFunction('click','next', '${model.searchBean.currentPage}', '${model.totalPages}', $('#pageSize').find('option:selected'))">&#10095;</button>
             </td>
         </tr>
     </table>

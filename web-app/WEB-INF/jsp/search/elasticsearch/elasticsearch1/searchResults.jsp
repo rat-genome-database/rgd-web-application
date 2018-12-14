@@ -21,22 +21,22 @@
 
     <div style=";background-color:white;">
         <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
-        <input type="hidden" value="${model.category}" id="searchCategory" name="category"/>
+        <input type="hidden" value="${model.searchBean.category}" id="searchCategory" name="category"/>
         <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">
         <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">
         <input type="hidden" name="type" id = "type" >
         <input type="hidden" name="filter" id = "filter" >
-        <input type="hidden" name="subCat" id = "subCat" value="${model.subCat}" >
-        <input type="hidden" name="start" id="start" value="${model.start}"/>
-        <input type="hidden" name="stop" id="stop" value="${model.stop}"/>
-        <input type="hidden" name="chr" id="chr" value="${model.chr}"/>
+        <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >
+        <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
+        <input type="hidden" name="stop" id="stop" value="${model.searchBean.stop}"/>
+        <input type="hidden" name="chr" id="chr" value="${model.searchBean.chr}"/>
 
         <c:choose>
-            <c:when test="${fn:length(model.speciesBkts)==1}">
-                <input type="hidden" id="species" name="species" value="${model.speciesBkts[0].key}"/>
+            <c:when test="${fn:length(model.aggregations.species)==1}">
+                <input type="hidden" id="species" name="species" value="${model.aggregations.species[0].key}"/>
             </c:when>
             <c:otherwise>
-                <input type="hidden" id="species" name="species" value="${model.species}"/>
+                <input type="hidden" id="species" name="species" value="${model.searchBean.species}"/>
             </c:otherwise>
         </c:choose>
 
@@ -53,13 +53,13 @@
 
     <div class="headContent" style="background-color: white">
         <h2 style="color:#24609c">RGD Search Results..</h2>
-        <c:if test="${fn:toLowerCase(model.category)!='general'}">
+        <c:if test="${fn:toLowerCase(model.searchBean.category)!='general'}">
         <div style="float:right">
 
             <form action="elasticResults.html">
                 <table>
                     <tr><td>
-                <input type="hidden" name="category" value="${model.category}"><strong>${model.category} Search: </strong><input type="text" size=45 name="term" value="${model.term}" />
+                <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong><input type="text" size=45 name="term" value="${model.term}" />
         </td>
                     <td><input type="image" src="/common/images/searchGlass.gif" class="searchButtonSmall"/></td>
                     </tr>
@@ -67,7 +67,7 @@
                 </form>
         </div>
         </c:if>
-        <p><strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.category}"</p>
+        <p><strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}"</p>
 
     </div>
     <hr>
@@ -75,7 +75,7 @@
     <div>
     <table id="contentTable" width="100%">
         <tr>
-            <c:if test="${!model.cat1.equalsIgnoreCase('reference') && !model.category.equalsIgnoreCase('reference')}">
+            <c:if test="${!model.cat1.equalsIgnoreCase('reference') && !model.searchBean.category.equalsIgnoreCase('reference')}">
         <td style="width:20%;">
 
                 <div class="sidebarFilters"  style=";background-color: white;overflow: auto;overflow-y: hidden;">

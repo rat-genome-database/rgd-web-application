@@ -23,7 +23,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             WEB-INF/applicationContext.xml
-            WEB-INF/applicationSecurity.xml
+           WEB-INF/applicationSecurity.xml
         </param-value>
     </context-param>
 
@@ -50,14 +50,18 @@
     </filter-mapping>
 
 
+
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
-
     <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-     </listener>
+    </listener>
+
+    <listener>
+        <listener-class>edu.mcw.rgd.web.PhenominerListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
