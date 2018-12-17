@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="java.util.ArrayList" %>
 <% if (!isNew) {
 
@@ -78,6 +79,8 @@
       var url;
       if( pageTitle.equals("Edit Gene") )
           url = '/rgdweb/curation/edit/editGene.html?act=symbol&rgdId='+varRgdId;
+      else if(pageTile.equals("Edit Variant"))
+           url = '/rgdweb/curation/edit/editVariant.html?act=symbol&rgdId='+varRgdId;
       else
           url = '/rgdweb/curation/edit/editSSLP.html?act=symbol&rgdId='+varRgdId;
       loadDiv(url, oid2);

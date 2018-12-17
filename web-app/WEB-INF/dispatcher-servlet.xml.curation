@@ -36,6 +36,7 @@
                 <prop key="curation/edit/editObject.html">GeneEditObjectController</prop>
                 <prop key="curation/edit/editGene.html">GeneEditObjectController</prop>
                 <prop key="curation/edit/editQTL.html">QTLEditObjectController</prop>
+                <prop key="curation/edit/editVariant.html">VariantEditObjectController</prop>
                 <prop key="curation/edit/editReference.html">ReferenceEditObjectController</prop>
                 <prop key="curation/edit/editSSLP.html">SSLPEditObjectController</prop>
                 <prop key="curation/edit/editStrain.html">StrainEditObjectController</prop>
@@ -59,6 +60,7 @@
                 <prop key="curation/edit/updateCellLineAssociations.html">CellLineAssociationsEditObjectController</prop>
                 <prop key="curation/edit/updateSslpAlleles.html">SslpAllelesEditObjectController</prop>
                 <prop key="curation/edit/updateSslp2GeneAssociations.html">Sslp2GeneAssociationsEditObjectController</prop>
+                <prop key="curation/edit/updateVariantAssociations.html">VariantAssociationsEditObjectController</prop>
                 <prop key="curation/edit/notesAdd.html">NotesAddController</prop>
                 <prop key="curation/edit/statusUpdate.html">StatusUpdateController</prop>
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
@@ -123,7 +125,8 @@
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
                 <prop key="report/annotation/table.html">GeneTermAnnotationsController</prop>
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
-                <prop key="report/variant/main.html">VariantReportController</prop>
+                <prop key="report/variant/main.html">ClinVarReportController</prop>
+                <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
@@ -287,7 +290,8 @@
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
-    <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
+    <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
+       <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
 
@@ -320,6 +324,7 @@
     <bean id="nomenclatureUpdateController" class="edu.mcw.rgd.nomenclatureinterface.NomenclatureUpdateController"/>
     <bean id="GeneEditObjectController" class="edu.mcw.rgd.edit.GeneEditObjectController"/>
     <bean id="QTLEditObjectController" class="edu.mcw.rgd.edit.QTLEditObjectController"/>
+    <bean id="VariantEditObjectController" class="edu.mcw.rgd.edit.VariantEditObjectController"/>
     <bean id="ReferenceEditObjectController" class="edu.mcw.rgd.edit.ReferenceEditObjectController"/>
     <bean id="SSLPEditObjectController" class="edu.mcw.rgd.edit.SSLPEditObjectController"/>
     <bean id="SslpAllelesEditObjectController" class="edu.mcw.rgd.edit.SslpAllelesEditObjectController"/>
@@ -343,6 +348,7 @@
     <bean id="NotesAddController" class="edu.mcw.rgd.edit.NotesAddController"/>
     <bean id="GeneVariantsEditObjectController" class="edu.mcw.rgd.edit.GeneVariantsEditObjectController"/>
     <bean id="GeneAssociationsEditObjectController" class="edu.mcw.rgd.edit.GeneAssociationsEditObjectController"/>
+    <bean id="VariantAssociationsEditObjectController" class="edu.mcw.rgd.edit.VariantAssociationsEditObjectController"/>
     <bean id="CellLineAssociationsEditObjectController" class="edu.mcw.rgd.edit.CellLineAssociationsEditObjectController"/>
     <bean id="CuratedReferencesEditObjectController" class="edu.mcw.rgd.edit.CuratedReferencesEditObjectController"/>
     <bean id="ExternalLinksEditObjectController" class="edu.mcw.rgd.edit.ExternalLinksEditObjectController"/>
