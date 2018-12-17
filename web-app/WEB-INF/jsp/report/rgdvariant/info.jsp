@@ -54,11 +54,11 @@
     <% }  %>
     <tr>
         <td class="label" valign="top">Reference Nucleotide:</td>
-        <td><%=obj.getRef_nuc()==null ? "" : obj.getRef_nuc()%></td>
+        <td><%=obj.getRefNuc()==null ? "" : obj.getRefNuc()%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Variant Nucleotide:</td>
-        <td><%=obj.getVar_nuc()==null ? "" : obj.getVar_nuc()%></td>
+        <td><%=obj.getVarNuc()==null ? "" : obj.getVarNuc()%></td>
     </tr>
     <%
 

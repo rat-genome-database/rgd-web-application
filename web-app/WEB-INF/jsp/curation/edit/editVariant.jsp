@@ -79,11 +79,11 @@
 
                     <tr>
                         <td class="label">Reference Nucleotide</td>
-                        <td><input name="refNuc" type="text" size="5" value="<%=dm.out("refNuc",variant.getRef_nuc())%>"/></td>
+                        <td><input name="refNuc" type="text" size="5" value="<%=dm.out("refNuc",variant.getRefNuc())%>"/></td>
                     </tr>
                     <tr>
                         <td class="label">Variant Nucleotide</td>
-                        <td><input name="varNuc" type="text" size="5" value="<%=dm.out("varNuc",variant.getVar_nuc())%>"/>
+                        <td><input name="varNuc" type="text" size="5" value="<%=dm.out("varNuc",variant.getVarNuc())%>"/>
                         </td>
                     </tr>
                     <tr>

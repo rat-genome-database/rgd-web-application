@@ -65,8 +65,8 @@ public class VariantEditObjectController extends EditObjectController {
             variant.setName(req.getParameter("name"));
             variant.setDescription(req.getParameter("description"));
             variant.setType(req.getParameter("type"));
-            variant.setRef_nuc(req.getParameter("refNuc"));
-            variant.setVar_nuc(req.getParameter("varNuc"));
+            variant.setRefNuc(req.getParameter("refNuc"));
+            variant.setVarNuc(req.getParameter("varNuc"));
             variant.setNotes(req.getParameter("notes"));
 
 
