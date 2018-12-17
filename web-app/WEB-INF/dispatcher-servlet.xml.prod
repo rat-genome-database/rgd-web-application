@@ -45,8 +45,7 @@
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 				
 				<prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
-                
-				<prop key="report/format.html">FormatController</prop>
+                <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
@@ -55,7 +54,8 @@
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
                 <prop key="report/annotation/table.html">GeneTermAnnotationsController</prop>
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
-                <prop key="report/variant/main.html">VariantReportController</prop>
+                <prop key="report/variant/main.html">ClinVarReportController</prop>
+                <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
@@ -200,10 +200,11 @@
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
+   <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
 	<bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-	
+
 <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
