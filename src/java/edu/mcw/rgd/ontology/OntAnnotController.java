@@ -543,6 +543,14 @@ public class OntAnnotController implements Controller {
             buf.append("data_mm37");
         }else if( speciesTypeKey==SpeciesType.HUMAN ){
             buf.append("data_hg19");
+        }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
+            buf.append("data_cl1_0");
+        }else if (speciesTypeKey==SpeciesType.DOG) {
+            buf.append("data_dog3_1");
+        }else if (speciesTypeKey==SpeciesType.BONOBO) {
+            buf.append("data_bonobo1_1");
+        }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
+            buf.append("data_squirrel2_0");
         }
 
         if( a.isGene() ) {
