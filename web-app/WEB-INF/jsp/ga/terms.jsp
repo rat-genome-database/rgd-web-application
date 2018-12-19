@@ -8,6 +8,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
 <%@ page import="edu.mcw.rgd.web.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.process.enrichment.geneOntology.GeneOntologyEnrichmentProcess" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneEnrichmentDAO" %>
 
 <%@ include file="gaHeader.jsp" %>
 
@@ -30,7 +32,10 @@
      LinkedHashMap<String,Integer> geneCounts=  adao.getGeneCounts(om.getMappedRgdIds(), termSet, passedAspects);
 
      OntologyXDAO oDao = new OntologyXDAO();
-
+     GeneEnrichmentDAO gedao = new GeneEnrichmentDAO();
+     GeneOntologyEnrichmentProcess process = new GeneOntologyEnrichmentProcess();
+     int speciesTypeKey = Integer.parseInt(req.getParameter("species"));
+     int refGenes = gedao.getReferenceGeneCount(speciesTypeKey);
  %>
 
 
@@ -39,8 +44,14 @@
 <% if (geneCounts.size() == 0) { %>
     <tr><td>0 annotations found</td></tr>
 <% } %>
-
+<tr>
+    <th style="background-color:white;" >Term</th>
+    <th style="background-color:white;" >Matches</th>
+    <th style="background-color:white;" >P Value</th>
+    <th style="background-color:white;" >Compare</th>
+</tr>
 <%
+    int inputGenes = om.getMapped().size();
     int count=0;
     Iterator tit = geneCounts.keySet().iterator();
 
@@ -65,6 +76,7 @@
                 String term = "";
                 try {
                    term = oDao.getTermByAccId(acc).getTerm();
+
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -72,7 +84,7 @@
             %>
 
 
-            &nbsp;&nbsp; <%=genePercent.round(new MathContext(4))%>% &nbsp;&nbsp;<b><%=term%></b> (<%=acc%>)
+           <b><%=term%></b> (<%=acc%>)
 
         </div>
             <div style='display:none;' id="<%=acc%>_content">
@@ -85,6 +97,8 @@
 
 
     </td>
+        <td style="background-color:white;" > <%=refs%></td>
+    <td style="background-color:white;" ><%=process.calculatePValue(inputGenes,refGenes,acc,refs)%></td>
         <td style="background-color:white;" valign="top"><input type="checkbox" id="<%=acc%>" name="<%=acc%>" onclick="compare()"/></td>
     </tr>
 
