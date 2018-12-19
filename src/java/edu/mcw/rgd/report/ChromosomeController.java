@@ -53,8 +53,8 @@ public class ChromosomeController implements Controller {
     public List<SearchHit[]> getChromosome(int mapKey, String chr){
         List<SearchHit[]> hitsList= new ArrayList<>();
 
-        SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName())
-                .setTypes("chromosomes")
+        SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("chromosome"))
+                .setTypes("chromosome")
                 .setQuery(QueryBuilders.matchAllQuery())
                 .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("chromosome.keyword", chr)).filter(QueryBuilders.matchQuery("mapKey", mapKey)))
                 .get();

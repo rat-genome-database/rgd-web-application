@@ -130,80 +130,80 @@
             <table class="table table-striped" style="border:1px solid gainsboro;">
                 <caption>Summary</caption>
 
-                <tr><td>Assembly</td><td>${model.assembly}<br><a href="${hit.source.ncbiLink}" target="_blank">${hit.source.refSeqAssemblyAccession} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
-                <tr><td>Base Pairs</td><td>${hit.source.basePairs}</td></tr>
-                <tr><td>Total Sequence Length (bp)</td><td>${hit.source.totalLength}</td></tr>
-                <tr><td>Total Assembly Gap Length (bp)</td><td>${hit.source.gapLength}</td></tr>
-                <tr><td>Gaps Between Scaffolds (bp)</td><td>${hit.source.gapBetweenScaffolds}</td></tr>
-                <tr><td>Number of Scaffolds</td><td>${hit.source.scaffolds}</td></tr>
-                <tr><td>Scaffold N50 (bp)</td><td>${hit.source.scaffoldN50}</td></tr>
-                <tr><td>Scaffold L50</td><td>${hit.source.scaffoldL50}</td></tr>
-                <tr><td>Number of Contigs</td><td>${hit.source.contigs}</td></tr>
-                <tr><td>Contig N50 (bp)</td><td>${hit.source.contigN50}</td></tr>
-                <tr><td>Contig L50</td><td>${hit.source.contigL50}</td></tr>
-                <tr><td>No. of NCBI chromosome records</td><td>${hit.source.chromosomes}</td></tr>
+                <tr><td>Assembly</td><td>${model.assembly}<br><a href="${hit.sourceAsMap.ncbiLink}" target="_blank">${hit.sourceAsMap.refSeqAssemblyAccession} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
+                <tr><td>Base Pairs</td><td>${hit.sourceAsMap.basePairs}</td></tr>
+                <tr><td>Total Sequence Length (bp)</td><td>${hit.sourceAsMap.totalLength}</td></tr>
+                <tr><td>Total Assembly Gap Length (bp)</td><td>${hit.sourceAsMap.gapLength}</td></tr>
+                <tr><td>Gaps Between Scaffolds (bp)</td><td>${hit.sourceAsMap.gapBetweenScaffolds}</td></tr>
+                <tr><td>Number of Scaffolds</td><td>${hit.sourceAsMap.scaffolds}</td></tr>
+                <tr><td>Scaffold N50 (bp)</td><td>${hit.sourceAsMap.scaffoldN50}</td></tr>
+                <tr><td>Scaffold L50</td><td>${hit.sourceAsMap.scaffoldL50}</td></tr>
+                <tr><td>Number of Contigs</td><td>${hit.sourceAsMap.contigs}</td></tr>
+                <tr><td>Contig N50 (bp)</td><td>${hit.sourceAsMap.contigN50}</td></tr>
+                <tr><td>Contig L50</td><td>${hit.sourceAsMap.contigL50}</td></tr>
+                <tr><td>No. of NCBI chromosome records</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
             </table>
             <table class="table table-striped" style="border:1px solid gainsboro;">
                 <caption>Gene Counts</caption>
-                <c:if test="${hit.source.totalGenes!=0}">
-                <tr><td>Total Genes</td><td>${hit.source.totalGenes}</td></tr>
+                <c:if test="${hit.sourceAsMap.totalGenes!=0}">
+                <tr><td>Total Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.proteinCoding!=0}">
-                <tr><td>Protein Coding genes</td><td>${hit.source.proteinCoding} </td></tr>
+                <c:if test="${hit.sourceAsMap.proteinCoding!=0}">
+                <tr><td>Protein Coding genes</td><td>${hit.sourceAsMap.proteinCoding} </td></tr>
                 </c:if>
-                <c:if test="${hit.source.ncrna!=0}">
-                <tr><td>Non coding RNA</td><td>${hit.source.ncrna}</td></tr>
+                <c:if test="${hit.sourceAsMap.ncrna!=0}">
+                <tr><td>Non coding RNA</td><td>${hit.sourceAsMap.ncrna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.tRna!=0}">
-                <tr><td>tRNA</td><td>${hit.source.tRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.tRna!=0}">
+                <tr><td>tRNA</td><td>${hit.sourceAsMap.tRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.snRna!=0}">
-                <tr><td>SnRNA</td><td>${hit.source.snRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.snRna!=0}">
+                <tr><td>SnRNA</td><td>${hit.sourceAsMap.snRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.rRna!=0}">
-                <tr><td>rRNA</td><td>${hit.source.rRna}</td></tr>
+                <c:if test="${hit.sourceAsMap.rRna!=0}">
+                <tr><td>rRNA</td><td>${hit.sourceAsMap.rRna}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.pseudo!=0}">
-                <tr><td>Pseudogenes</td><td>${hit.source.pseudo}</td></tr>
+                <c:if test="${hit.sourceAsMap.pseudo!=0}">
+                <tr><td>Pseudogenes</td><td>${hit.sourceAsMap.pseudo}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.mirnaTargetsConfirmed!=0}">
-                <tr><td>miRNA Targets Confirmed</td><td>${hit.source.mirnaTargetsConfirmed}</td></tr>
+                <c:if test="${hit.sourceAsMap.mirnaTargetsConfirmed!=0}">
+                <tr><td>miRNA Targets Confirmed</td><td>${hit.sourceAsMap.mirnaTargetsConfirmed}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.mirnaTargetsPredicted!=0}">
-                <tr><td>miRNA Targets Predicted</td><td>${hit.source.mirnaTargetsPredicted}</td></tr>
+                <c:if test="${hit.sourceAsMap.mirnaTargetsPredicted!=0}">
+                <tr><td>miRNA Targets Predicted</td><td>${hit.sourceAsMap.mirnaTargetsPredicted}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.transcripts!=0}">
-                <tr><td>Gene transcripts</td><td>${hit.source.transcripts}</td></tr>
+                <c:if test="${hit.sourceAsMap.transcripts!=0}">
+                <tr><td>Gene transcripts</td><td>${hit.sourceAsMap.transcripts}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.genesWithoutOrthologs!=0}">
-                <tr><td>Genes without orthologs</td><td>${hit.source.genesWithoutOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.genesWithoutOrthologs!=0}">
+                <tr><td>Genes without orthologs</td><td>${hit.sourceAsMap.genesWithoutOrthologs}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.genesWithOrthologs!=0}">
-                <tr><td>Genes with Orthologs</td><td>${hit.source.genesWithOrthologs}</td></tr>
+                <c:if test="${hit.sourceAsMap.genesWithOrthologs!=0}">
+                <tr><td>Genes with Orthologs</td><td>${hit.sourceAsMap.genesWithOrthologs}</td></tr>
                 </c:if>
             </table>
                 <table class="table table-striped" style="border:1px solid gainsboro;">
                     <caption>#${model.species} Genes with Orthologs in...</caption>
-                    <c:if test="${hit.source.humanOrthologs!=0}">
-                    <tr><td>Human</td><td>${hit.source.humanOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.humanOrthologs!=0}">
+                    <tr><td>Human</td><td>${hit.sourceAsMap.humanOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.mouseOrthologs!=0}">
-                    <tr><td>Mouse</td><td>${hit.source.mouseOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.mouseOrthologs!=0}">
+                    <tr><td>Mouse</td><td>${hit.sourceAsMap.mouseOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.ratOrthologs!=0}">
-                    <tr><td>Rat</td><td>${hit.source.ratOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.ratOrthologs!=0}">
+                    <tr><td>Rat</td><td>${hit.sourceAsMap.ratOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.chinchillaOrthologs!=0}">
-                    <tr><td>Chinchilla</td><td>${hit.source.chinchillaOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.chinchillaOrthologs!=0}">
+                    <tr><td>Chinchilla</td><td>${hit.sourceAsMap.chinchillaOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.bonoboOrthologs!=0}">
-                    <tr><td>Bonobo</td><td>${hit.source.bonoboOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.bonoboOrthologs!=0}">
+                    <tr><td>Bonobo</td><td>${hit.sourceAsMap.bonoboOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.dogOrthologs!=0}">
-                    <tr><td>Dog</td><td>${hit.source.dogOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.dogOrthologs!=0}">
+                    <tr><td>Dog</td><td>${hit.sourceAsMap.dogOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.source.squirrelOrthologs!=0}">
-                    <tr><td>Squirrel</td><td>${hit.source.squirrelOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.squirrelOrthologs!=0}">
+                    <tr><td>Squirrel</td><td>${hit.sourceAsMap.squirrelOrthologs}</td></tr>
                     </c:if>
 
 
@@ -211,29 +211,29 @@
                 </table>
             <table class="table table-striped" style="border:1px solid gainsboro;">
                 <caption>Other</caption>
-                <!--c:if test="$-{hit.source.utrs3!=0}">
-                <!--tr><td>3UTRS</td><td>$-{hit.source.utrs3}</td></tr>
+                <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
+                <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
                 <!--/c:if>
-                <!--c:if test="$-{hit.source.utrs5!=0}">
-                <!--tr><td>5UTRS</td><td>$-{hit.source.utrs5}</td></tr>
+                <!--c:if test="$-{hit.sourceAsMap.utrs5!=0}">
+                <!--tr><td>5UTRS</td><td>$-{hit.sourceAsMap.utrs5}</td></tr>
                 <!--/c:if-->
-                <c:if test="${hit.source.exons!=0}">
-                    <tr><td>Exons</td><td>${hit.source.exons}</td></tr>
+                <c:if test="${hit.sourceAsMap.exons!=0}">
+                    <tr><td>Exons</td><td>${hit.sourceAsMap.exons}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.proteins!=0 && hit.source.proteins!=null}">
-                    <tr><td>Proteins</td><td>${hit.source.proteins}</td></tr>
+                <c:if test="${hit.sourceAsMap.proteins!=0 && hit.sourceAsMap.proteins!=null}">
+                    <tr><td>Proteins</td><td>${hit.sourceAsMap.proteins}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.qtls!=0}">
-                <tr><td>QTLS</td><td>${hit.source.qtls}</td></tr>
+                <c:if test="${hit.sourceAsMap.qtls!=0}">
+                <tr><td>QTLS</td><td>${hit.sourceAsMap.qtls}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.sslps!=0}">
-                <tr><td>SSLPs</td><td>${hit.source.sslps}</td></tr>
+                <c:if test="${hit.sourceAsMap.sslps!=0}">
+                <tr><td>SSLPs</td><td>${hit.sourceAsMap.sslps}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.strains!=0}">
-                <tr><td>Strains</td><td>${hit.source.strains}</td></tr>
+                <c:if test="${hit.sourceAsMap.strains!=0}">
+                <tr><td>Strains</td><td>${hit.sourceAsMap.strains}</td></tr>
                 </c:if>
-                <c:if test="${hit.source.variants!=0}">
-                <tr><td>ClinVar Variants</td><td>${hit.source.variants}</td></tr>
+                <c:if test="${hit.sourceAsMap.variants!=0}">
+                <tr><td>ClinVar Variants</td><td>${hit.sourceAsMap.variants}</td></tr>
                 </c:if>
 
 
@@ -365,7 +365,7 @@
                         <c:set var="row1" value="true"/>
                         <c:set var="i" value="1"/>
                         <table>
-                            <c:forEach items="${hit.source.variantsMatrix}" var="row">
+                            <c:forEach items="${hit.sourceAsMap.variantsMatrix}" var="row">
                                 <c:if test="${i<=4}">
                                 <c:choose>
                                     <c:when test="${row1=='true'}">
