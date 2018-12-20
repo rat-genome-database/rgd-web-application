@@ -51,7 +51,7 @@
 
  %>
 
-
+<div style="overflow-x:auto; height:500px; width:800px; background-color:#F8F8F8; border: 1px solid #346F97;">
 <table cellpadding="2" cellspacing="2" width="100%" border=0 style="background-color:#E6E6E6;">
 
 <% if (geneCounts.size() == 0) { %>
@@ -130,7 +130,7 @@
 
 
 </table>
-
+</div>
 <% } catch (Exception e) {
     e.printStackTrace();
 
