@@ -98,7 +98,7 @@
 
     </td>
         <td style="background-color:white;" > <%=refs%></td>
-    <td style="background-color:white;" ><%=(float)process.calculatePValue(inputGenes,refGenes,acc,refs)%></td>
+    <td style="background-color:white;" ><%=(float)process.calculatePValue(inputGenes,refGenes,acc,refs,speciesTypeKey)%></td>
         <td style="background-color:white;" valign="top"><input type="checkbox" id="<%=acc%>" name="<%=acc%>" onclick="compare()"/></td>
     </tr>
 
