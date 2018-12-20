@@ -30,16 +30,29 @@
     */
 
      LinkedHashMap<String,Integer> geneCounts=  adao.getGeneCounts(om.getMappedRgdIds(), termSet, passedAspects);
-
+     HashMap<String,Float> pvalues = new HashMap<String,Float>();
+     Map<String,Float> sortedpvalues = new HashMap<String,Float>();
      OntologyXDAO oDao = new OntologyXDAO();
      GeneEnrichmentDAO gedao = new GeneEnrichmentDAO();
      GeneOntologyEnrichmentProcess process = new GeneOntologyEnrichmentProcess();
      int speciesTypeKey = Integer.parseInt(req.getParameter("species"));
      int refGenes = gedao.getReferenceGeneCount(speciesTypeKey);
+     int inputGenes = om.getMapped().size();
+     int count=0;
+     Iterator tit = geneCounts.keySet().iterator();
+     while (tit.hasNext() && count++ < 200) {
+         String acc = (String) tit.next();
+         int refs = geneCounts.get(acc);
+         float pvalue = (float) process.calculatePValue(inputGenes, refGenes, acc, refs, speciesTypeKey);
+         pvalues.put(acc, pvalue);
+
+     }
+     sortedpvalues = process.sortPvalues(pvalues);
+
  %>
 
 
-<table cellpadding="2" cellspacing="2" width=550 border=0 style="background-color:#E6E6E6;">
+<table cellpadding="2" cellspacing="2" width="100%" border=0 style="background-color:#E6E6E6;">
 
 <% if (geneCounts.size() == 0) { %>
     <tr><td>0 annotations found</td></tr>
@@ -48,20 +61,25 @@
     <th style="background-color:white;" >Term</th>
     <th style="background-color:white;" >Matches</th>
     <th style="background-color:white;" >P Value</th>
+    <th style="background-color:white;">Bonferroni Correction</th>
+    <th style="background-color:white;">HolmBonferroni Correction</th>
+    <th style="background-color:white;">Benjamini Correction</th>
     <th style="background-color:white;" >Compare</th>
 </tr>
 <%
-    int inputGenes = om.getMapped().size();
-    int count=0;
-    Iterator tit = geneCounts.keySet().iterator();
 
-    while (tit.hasNext() && count++ < 200) {
+    int rank=0;
 
-        String acc = (String) tit.next();
+    int numberOfTerms = geneCounts.keySet().size();
+
+    for (Map.Entry<String,Float> entry:sortedpvalues.entrySet()) {
+        String acc = (String) entry.getKey();
         int refs = geneCounts.get(acc);
-
-        BigDecimal genePercent = new BigDecimal(((double) refs / (double) om.getMappedRgdIds().size() * 100));
-
+        float pvalue = entry.getValue();
+        float bonferroni = process.calculateBonferroni(pvalue,numberOfTerms);
+        float holmBonferroni = process.calculateHolmBonferroni(pvalue,numberOfTerms,rank);
+        float benjamini = process.calculateBenjamini(pvalue,numberOfTerms,rank+1);
+       rank++;
 %>
 
     <tr>
@@ -98,7 +116,10 @@
 
     </td>
         <td style="background-color:white;" > <%=refs%></td>
-    <td style="background-color:white;" ><%=(float)process.calculatePValue(inputGenes,refGenes,acc,refs,speciesTypeKey)%></td>
+    <td style="background-color:white;" ><%=pvalue%></td>
+        <td style="background-color:white;" ><%=bonferroni%></td>
+        <td style="background-color:white;" ><%=holmBonferroni%></td>
+        <td style="background-color:white;" ><%=benjamini%></td>
         <td style="background-color:white;" valign="top"><input type="checkbox" id="<%=acc%>" name="<%=acc%>" onclick="compare()"/></td>
     </tr>
 

@@ -168,7 +168,7 @@
 
 
 
-<div style="background-color:#F8F8F8; width:<%=(ontologies.size() * 559)%>px; border: 1px solid #346F97;">
+<div style="background-color:#F8F8F8; width:<%=(ontologies.size() * 809)%>px; border: 1px solid #346F97;">
 
 <table style="font-size:13px;">
     <tr>
@@ -180,42 +180,42 @@
         <% if (asp.equals(Aspect.DISEASE)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.DISEASE)%></span>
-            <div id="disease" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="disease" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
         <% if (asp.equals(Aspect.PATHWAY)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.PATHWAY)%></span>
-            <div id="pathway" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="pathway" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
         <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE)%></span>
-            <div id="pheno" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="pheno" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
         <% if (asp.equals(Aspect.CELLULAR_COMPONENT)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.CELLULAR_COMPONENT)%></span>
-            <div id="cc" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="cc" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
         <% if (asp.equals(Aspect.MOLECULAR_FUNCTION)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MOLECULAR_FUNCTION)%></span>
-            <div id="mf" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="mf" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
         <% if (asp.equals(Aspect.BIOLOGICAL_PROCESS)) { %>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.BIOLOGICAL_PROCESS)%></span>
-            <div id="bp" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="bp" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
@@ -224,7 +224,7 @@
 
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.CHEBI)%></span>
-            <div id="chebi" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
+            <div id="chebi" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
 
