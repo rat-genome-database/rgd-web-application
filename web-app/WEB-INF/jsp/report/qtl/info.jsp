@@ -178,7 +178,7 @@
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : "";
         String tracks = obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "GFF3_track" : "AQTLS";
-        String jbUrl = "/jbrowse/?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
+        String jbUrl = "https://jbrowse.rgd.mcw.edu/?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
         System.out.println("jbrowse = " + jbUrl);
     %>
     <tr>
@@ -186,7 +186,7 @@
         <td align="left">
             <%
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="/jbrowse/?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>
+            <a href="https://jbrowse.rgd.mcw.edu/?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>
             <% } %>
         </td>
     </tr>
