@@ -15,6 +15,20 @@
         <td><%=description==null ? "" : description%></td>
     </tr>
 
+    <% if( obj.getAgrDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">AGR Description:</td>
+        <td><%=obj.getAgrDescription()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getMergedDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">Merged Description:</td>
+        <td><%=obj.getMergedDescription()%></td>
+    </tr>
+     <% } %>
+
     <tr>
         <td class="label" valign="top">Type:</td>
         <td><%=obj.getType()%>
