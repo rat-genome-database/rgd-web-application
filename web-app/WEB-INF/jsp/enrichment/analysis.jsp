@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 
 
 <html>
@@ -43,13 +45,27 @@
         String firstId = null;
         String species = req.getParameter("species");
         List symbols = (List) request.getAttribute("symbols");
+        Iterator symbolIt = om.getMapped().iterator();
         String geneSymbols = "";
-        for(int i=0;i<symbols.size();i++){
-            if(geneSymbols.equals(""))
-                geneSymbols = (String)symbols.get(i);
-            else
-          geneSymbols+= ","+symbols.get(i);
-      }
+        while (symbolIt.hasNext()) {
+            Object obj = symbolIt.next();
+
+            String symbol = "";
+            int rgdId = -1;
+            String type = "";
+
+            if (obj instanceof Gene) {
+                Gene g = (Gene) obj;
+                symbol = g.getSymbol();
+                if(geneSymbols.equals(""))
+                    geneSymbols = symbol;
+                else
+                    geneSymbols+= ","+symbol;
+            }
+        }
+
+
+
     %>
     <% List<String> ontologies = req.getParameterValues("o");
 
