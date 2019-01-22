@@ -1,15 +1,12 @@
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
-<%@ page import="java.net.URI" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
+
 
 <html>
 <body>
 <%@ include file="/common/compactHeaderArea.jsp" %>
 <%@ include file="../ga/gaHeader.jsp" %>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" xmlns:v-on="http://www.w3.org/1999/xhtml"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <style>
@@ -60,54 +57,7 @@
        %>
 
     <br>
-    <table>
-        <tr style="display:none">
 
-            <%
-                int i = 1;
-
-                Iterator symbolIt = om.getMapped().iterator();
-                while (symbolIt.hasNext()) {
-                    Object obj = symbolIt.next();
-
-                    String symbol = "";
-                    int rgdId=-1;
-                    String type="";
-
-                    if (obj instanceof Gene) {
-                        Gene g = (Gene) obj;
-                        symbol=g.getSymbol();
-                        rgdId=g.getRgdId();
-                        type="gene";
-                        if (firstId == null) {
-                            firstId=rgdId + "";
-                        }
-                    }
-                    if (obj instanceof String) {
-
-                        symbol=(String) obj;
-                        rgdId=-1;
-                    }
-
-                    if (rgdId==-1) {
-            %>
-            <td><span style="color:red; font-weight:700; margin-left:7px;" class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
-
-
-            <%
-            } else {
-
-            %>
-
-            <td><a href="javascript:void(0);" style="font-size:18px;margin-left:7px;" onClick="viewReport(<%=rgdId%>,'<%=type%>')" class="geneList"><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
-
-            <% }
-                i++;
-            } %>
-            <!--    </ul> -->
-
-        </tr>
-    </table>
 <div id="app">
     <h1>Gene Enrichment</h1>
     <section v-if="errored">
@@ -116,9 +66,9 @@
 
     <section v-else>
 
-        <div v-if="loading">Loading...</div>
-    <div style="background-color:#F8F8F8; width:1600px; border: 1px solid #346F97;" v-for="pair in pairs">
 
+    <div style="background-color:#F8F8F8; width:1600px; border: 1px solid #346F97;" v-for="pair in pairs">
+        <div v-if="loading">Loading...</div>
     <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span>
 
         <table>
@@ -128,6 +78,7 @@
 
         <table id="t" >
             <tr>
+                <th></th>
                 <th> Term </th>
                 <th>Matches</th>
                 <th>pvalue</th>
@@ -137,7 +88,7 @@
                     v-for="record in pair.info"
                     class="record"
             >
-
+<td><img v-bind:id=record.acc src="/rgdweb/common/images/add.png"  /></td>
                 <td>{{record.term}} </td>
                 <td>{{record.count}}</td>
                 <td> {{record.pvalue}}</td>
@@ -171,7 +122,7 @@
             dataLoad: function(aspect,index) {
 
                 axios
-                        .get('https://dev.rgd.mcw.edu/rgdws/enrichment/enrichment/chart/<%=species%>/<%=geneSymbols%>/'+aspect)
+                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/enrichment/chart/<%=species%>/<%=geneSymbols%>/'+aspect)
                         .then(response => {
                     this.info.push({name: aspect,
                     value: response.data}),
@@ -276,47 +227,5 @@
 
 </script>
 
-    <script>
-    function compare() {
-        var terms="";
-        var inputs = window.document.getElementsByTagName('input');
-
-        var count=0;
-        for(var i=0; i < inputs.length; i++){ //iterate through all input elements
-            if (inputs[i].type.toLowerCase() == 'checkbox') {
-                if (inputs[i].checked) {
-                    count++;
-                    if (terms == "") {
-                        terms = inputs[i].id;
-                    }else {
-                        terms += "," + inputs[i].id;
-                    }
-                }
-            }
-        }
-
-        if (count < 2) {
-            $("#new-nav").html("Select 2 or more terms below");
-            return;
-        }
-
-        $("#new-nav").html("Loading......  (may take up to 60 seconds for large gene sets)");
-
-        $.ajax({
-            url: "/rgdweb/ga/cross.html",
-            data: {species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>", terms: terms },
-            type: "POST",
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                document.getElementById("new-nav").innerHTML = XMLHttpRequest.status + " " + XMLHttpRequest.statusText + "<br>" + url;
-            },
-            success: function(data) {
-                document.getElementById("new-nav").innerHTML = data;
-                regCrossHeader("cross1");
-
-            }
-        });
-    }
-
-</script>
 </body>
 </html>
