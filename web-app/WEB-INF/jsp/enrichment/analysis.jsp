@@ -143,7 +143,10 @@
             dataLoad: function(aspect,index) {
 
                 axios
-                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/enrichment/chart/<%=species%>/<%=geneSymbols%>/'+aspect)
+                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/data',
+                                {speciesTypeKey: <%=species%>,
+                                genes: <%=geneSymbols%>,
+                                aspect: aspect})
                         .then(response => {
                     this.info.push({name: aspect,
                     value: response.data}),
