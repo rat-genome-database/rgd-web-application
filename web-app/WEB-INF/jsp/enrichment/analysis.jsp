@@ -1,10 +1,12 @@
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
+<%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
 
 
 <html>
 <body>
 <%@ include file="/common/compactHeaderArea.jsp" %>
-<%@ include file="../ga/gaHeader.jsp" %>
+
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -27,7 +29,10 @@
     }
     #t  tr:nth-child(even) {background-color:#e6e6e6}
 </style>
-
+<%
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
+%>
     <div id="new-nav" style="padding: 5px; border: 1px solid black; background-color:#F0F6F9">Cross Analysis: Select terms below from <span style="color:steelblue" >Disease, Pathway, Mammalian Phenotype, Biological Process, Cellular Component, Molecular Function, ChEBI</span> </div>
     <div style="font-size:20px; font-weight:700;"><%=om.getMapped().size()%> Genes in set</div>
     <% if (om.getMapped().size() == 0) {
