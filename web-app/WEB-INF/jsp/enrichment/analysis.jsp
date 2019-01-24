@@ -110,7 +110,7 @@
                     v-for="record in pair.info"
                     class="record"
             >
-<td><img v-bind:id=record.acc src="/rgdweb/common/images/add.png"  /></td>
+
                 <td>{{record.term}} </td>
                 <td>{{record.count}}</td>
                 <td> {{record.pvalue}}</td>

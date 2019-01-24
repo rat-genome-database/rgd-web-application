@@ -14,7 +14,6 @@
     function compare() {
         var terms="";
         var inputs = window.document.getElementsByTagName('input');
-
         var count=0;
         for(var i=0; i < inputs.length; i++){ //iterate through all input elements
             if (inputs[i].type.toLowerCase() == 'checkbox') {
@@ -28,14 +27,11 @@
                 }
             }
         }
-
         if (count < 2) {
             $("#new-nav").html("Select 2 or more terms below");
             return;
         }
-
         $("#new-nav").html("Loading......  (may take up to 60 seconds for large gene sets)");
-
         $.ajax({
             url: "/rgdweb/ga/cross.html",
             data: {species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>", terms: terms },
@@ -46,14 +42,11 @@
             success: function(data) {
                 document.getElementById("new-nav").innerHTML = data;
                 regCrossHeader("cross1");
-
             }
         });
     }
-
     var count=0;
     function load(divId, aspect) {
-
         $.ajax({
             url: "/rgdweb/ga/terms.html",
             data: {aspect: aspect, species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>" },
@@ -70,9 +63,7 @@
             success: function(data) {
                 //alert("success " + aspect);
                 document.getElementById(divId).innerHTML = data
-
                         var imgs = document.getElementById(divId).getElementsByTagName("img");
-
                         for (i=0; i < imgs.length; i++) {
                             if (imgs[i]) {
                                regHeader(imgs[i].id.split("_")[0]);
@@ -81,9 +72,6 @@
             }
         });
     }
-
-
-
 </script>
 
 <br>
@@ -99,7 +87,6 @@
 
 <% if (om.getMapped().size() == 0) {
     return;
-
 }%>
     <%
         String firstId = null;
@@ -123,15 +110,12 @@
 
                 <%
                     int i = 1;
-
                     Iterator symbolIt = om.getMapped().iterator();
                     while (symbolIt.hasNext()) {
                         Object obj = symbolIt.next();
-
                         String symbol = "";
                         int rgdId=-1;
                         String type="";
-
                         if (obj instanceof Gene) {
                             Gene g = (Gene) obj;
                             symbol=g.getSymbol();
@@ -145,7 +129,6 @@
                             symbol=(String) obj;
                             rgdId=-1;
                         }
-
                         if (rgdId==-1) {
                 %>
                 <td><span style="color:red; font-weight:700; margin-left:7px;" class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
@@ -153,7 +136,6 @@
 
                 <%
                 } else {
-
                 %>
 
                 <td><a href="javascript:void(0);" style="font-size:18px;margin-left:7px;" onClick="viewReport(<%=rgdId%>,'<%=type%>')" class="geneList"><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
@@ -168,86 +150,71 @@
 
 
 
-<div style="background-color:#F8F8F8; width:809px; border: 1px solid #346F97;">
+<div style="background-color:#F8F8F8; width:<%=(ontologies.size() * 559)%>px; border: 1px solid #346F97;">
 
 <table style="font-size:13px;">
-
+    <tr>
 
     <%
         for (String asp: ontologies) {
     %>
 
         <% if (asp.equals(Aspect.DISEASE)) { %>
-    <tr>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.DISEASE)%></span>
-            <div id="disease" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="disease" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-
-    </tr>
         <% } %>
 
         <% if (asp.equals(Aspect.PATHWAY)) { %>
-    <tr>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.PATHWAY)%></span>
-            <div id="pathway" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="pathway" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
-    <% } %>
+        <% } %>
 
         <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) { %>
-    <tr>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE)%></span>
-            <div id="pheno" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="pheno" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
-    <% } %>
+        <% } %>
 
         <% if (asp.equals(Aspect.CELLULAR_COMPONENT)) { %>
-    <tr>
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.CELLULAR_COMPONENT)%></span>
-            <div id="cc" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="cc" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
         <% } %>
 
         <% if (asp.equals(Aspect.MOLECULAR_FUNCTION)) { %>
-    <tr>
-    <td valign="top" width=500>
+        <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MOLECULAR_FUNCTION)%></span>
-            <div id="mf" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="mf" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
         <% } %>
 
         <% if (asp.equals(Aspect.BIOLOGICAL_PROCESS)) { %>
-    <tr>
-    <td valign="top" width=500>
+        <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.BIOLOGICAL_PROCESS)%></span>
-            <div id="bp" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="bp" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
         <% } %>
 
         <% if (asp.equals(Aspect.CHEBI)) {
         %>
-    <tr>
+
         <td valign="top" width=500>
             <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.CHEBI)%></span>
-            <div id="chebi" style="font-weight:700; width:800px;"><br><%=loadingMessage%></div>
+            <div id="chebi" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
-    </tr>
         <% } %>
 
      <%
          }
-
      %>
 
-
+    </tr>
 </table>
        </div>
 </div>
@@ -260,7 +227,6 @@
     load("cc","<%=Aspect.CELLULAR_COMPONENT%>") ;
     load("bp","<%=Aspect.BIOLOGICAL_PROCESS%>");
     load("chebi","<%=Aspect.CHEBI%>");
-
 </script>
 
 </body>
