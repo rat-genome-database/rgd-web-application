@@ -145,7 +145,7 @@
                 axios
                         .post('https://dev.rgd.mcw.edu/rgdws/enrichment/data',
                                 {speciesTypeKey: <%=species%>,
-                                genes: <%=geneSymbols%>,
+                                genes: <%=geneSymbols%>, 
                                 aspect: aspect})
                         .then(response => {
                     this.info.push({name: aspect,
