@@ -14,6 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 <style>
     #t{
         border:1px solid #ddd;
@@ -98,9 +99,9 @@
         <div style="overflow-x:auto; height:500px; width:700px; background-color:#F8F8F8; border: 1px solid #346F97;">
 
 
-        <table id="t" >
+        <table id="t" class='sortable'>
             <tr>
-                
+
                 <th> Term </th>
                 <th>Matches</th>
                 <th>pvalue</th>
