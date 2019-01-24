@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
+<%@ page import="java.util.ArrayList" %>
 
 
 <html>
@@ -46,7 +47,7 @@
         String species = req.getParameter("species");
         List symbols = (List) request.getAttribute("symbols");
         Iterator symbolIt = om.getMapped().iterator();
-        String geneSymbols = "";
+        List<String> geneSymbols = new ArrayList<>();
         while (symbolIt.hasNext()) {
             Object obj = symbolIt.next();
 
@@ -57,10 +58,10 @@
             if (obj instanceof Gene) {
                 Gene g = (Gene) obj;
                 symbol = g.getSymbol();
-                if(geneSymbols.equals(""))
-                    geneSymbols = symbol;
+                if(geneSymbols.size() == 0)
+                    geneSymbols.add("\""+symbol+"\"");
                 else
-                    geneSymbols+= ","+symbol;
+                    geneSymbols.add("\""+symbol+"\"");
             }
         }
 
@@ -145,7 +146,7 @@
                 axios
                         .post('https://dev.rgd.mcw.edu/rgdws/enrichment/data',
                                 {speciesTypeKey: <%=species%>,
-                                genes: <%=geneSymbols%>, 
+                                genes: <%=geneSymbols%>,
                                 aspect: aspect})
                         .then(response => {
                     this.info.push({name: aspect,
