@@ -100,7 +100,7 @@
 
         <table id="t" >
             <tr>
-                <th></th>
+                
                 <th> Term </th>
                 <th>Matches</th>
                 <th>pvalue</th>
