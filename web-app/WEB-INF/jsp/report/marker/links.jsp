@@ -40,10 +40,10 @@
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/?data=data_rgd5&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">rn5</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_rgd5&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">rn5</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">rn6</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">rn6</a>
             <% } %>
         </td>
     </tr>
@@ -59,10 +59,10 @@
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_hg19&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">hg19</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_hg19&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">hg19</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_hg38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">hg38</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_hg38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">hg38</a>
             <% } %>
         </td>
     </tr><%
@@ -77,10 +77,10 @@ if(obj.getSpeciesTypeKey()==SpeciesType.MOUSE ){
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/?data=data_mm37&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">mm9</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_mm37&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=SSLP">mm9</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/?data=data_mm38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">mm10</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_mm38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=SSLP">mm10</a>
             <% } %>
         </td>
     </tr><%
