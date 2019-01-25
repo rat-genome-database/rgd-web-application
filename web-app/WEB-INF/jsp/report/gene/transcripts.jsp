@@ -3,6 +3,13 @@
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
+        // sort transcripts by acc id
+        Collections.sort(tlist, new Comparator<Transcript>() {
+            @Override
+            public int compare(Transcript o1, Transcript o2) {
+                return Utils.stringsCompareToIgnoreCase(o1.getAccId(), o2.getAccId());
+            }
+        });
 %>
     <br><span class="highlight"><u>Reference Sequences</u></span><br>
 <%
