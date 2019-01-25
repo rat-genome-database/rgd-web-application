@@ -41,10 +41,10 @@
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_rgd5&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">rn5</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_rgd5&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">rn5</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">rn6</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">rn6</a>
             <% } %>
         </td>
     </tr>
@@ -60,10 +60,10 @@
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_hg19&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">hg19</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_hg19&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">hg19</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_hg38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">hg38</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_hg38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">hg38</a>
             <% } %>
         </td>
     </tr><%
@@ -78,10 +78,10 @@ if(obj.getSpeciesTypeKey()==SpeciesType.MOUSE ){
         </td>
         <td>JBrowse:
             <% if( fu.mapPosIsValid(mdPrev) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_mm37&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">mm9</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_mm37&loc=<%=fu.getJBrowseLoc(mdPrev)%>&tracks=AQTLS">mm9</a>
             <% }
                 if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://jbrowse.rgd.mcw.edu/jbrowse/?data=data_mm38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">mm10</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_mm38&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">mm10</a>
             <% } %>
         </td>
     </tr><%
