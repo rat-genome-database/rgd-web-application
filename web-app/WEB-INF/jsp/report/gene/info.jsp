@@ -186,12 +186,12 @@
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : "";
         String tracks = "ARGD_curated_genes";
-        String jbUrl = "https://jbrowse.rgd.mcw.edu/?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
+        String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
     %>
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="https://jbrowse.rgd.mcw.edu/?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <tr>
