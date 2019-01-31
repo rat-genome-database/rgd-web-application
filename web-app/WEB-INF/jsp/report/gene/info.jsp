@@ -198,6 +198,7 @@
                 : obj.getSpeciesTypeKey()==6 ? "data_dog3_1"
                 : obj.getSpeciesTypeKey()==7 ? "data_squirrel2_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
+                : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
                 : "";
         String tracks = "ARGD_curated_genes";
         String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
