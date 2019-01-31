@@ -18,7 +18,7 @@ $(document).ready(function() {
             $jbrowse.src  = URL + "data_rgd3_4&loc=Chr"+chr;
         }
     }
-    if(species=='Human') {
+    else if(species=='Human') {
         if(mapKey==38)
             $jbrowse.src = URL + "data_hg38&loc=Chr"+chr;
         if(mapKey==17)
@@ -26,27 +26,33 @@ $(document).ready(function() {
         if(mapKey==13)
             $jbrowse.src = URL + "data_hg18&loc=Chr"+chr;
     }
-    if(species=='Mouse') {
+    else if(species=='Mouse') {
         if(mapKey==35)
             $jbrowse.src  = URL + "data_mm38&loc=Chr"+chr;
         if(mapKey==18)
             $jbrowse.src  = URL + "data_mm37&loc=Chr"+chr;
     }
-    if(species=='Chinchilla') {
+    else if(species=='Chinchilla') {
         if(mapKey==44)
             $jbrowse.src = URL + "data_cl1_0&loc=";
     }
-    if(species=='Dog') {
+    else if(species=='Dog') {
         if(mapKey==631)
             $jbrowse.src  = URL + "data_dog3_1&loc=";
     }
-    if(species=='Squirrel') {
+    else if(species=='Squirrel') {
         if(mapKey==720)
             document.getElementById('jbrowseMini').src = URL + "data_squirrel2_0&loc=";
     }
-    if(species=='Bonobo') {
+    else if(species=='Bonobo') {
         if(mapKey=='511')
             document.getElementById('jbrowseMini').src = URL + "data_bonobo1_1&loc=";
+    }
+    else if(species=='Pig') {
+        if(mapKey==911)
+            $jbrowse.src  = URL + "data_pig11_1&loc=Chr"+chr;
+        if(mapKey==910)
+            $jbrowse.src  = URL + "data_pig10_2&loc=Chr"+chr;
     }
 
 });
