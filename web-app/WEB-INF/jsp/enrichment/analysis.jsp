@@ -137,25 +137,29 @@
 
 
         <table id="t">
+            <thead>
             <tr>
 
-                <th> Sort By Term </th>
-                <th>Sort By Matches</th>
-                <th>Sort By pvalue</th>
-                <th>Sort By Bonferroni Correction</th>
+                <th @click="sort('term',pair.ont)"> Sort By Term </th>
+                <th @click="sort('count',pair.ont)">Sort By Matches</th>
+                <th @click="sort('pvalue',pair.ont)">Sort By pvalue</th>
+                <th @click="sort('correctedpvalue',pair.ont)">Sort By Bonferroni Correction</th>
             </tr>
+            </thead>
+            <tbody>
             <tr
                     v-for="record in pair.info"
                     class="record"
             >
 
                 <td>{{record.term}}({{record.acc}}) </td>
-                <td  @click="say(record.acc)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <td  @click="getGenes(record.acc)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                     {{record.count}}
                 </button></td>
                 <td> {{record.pvalue}}</td>
                 <td>{{record.correctedpvalue}}</td>
             </tr>
+            </tbody>
         </table>
 
         </div></td>
@@ -189,11 +193,14 @@
                 pvalues: [0.01,0.05,0.1,0.5,1],
                 pvalueLimit: 0.05,
                 geneData: {},
-                genes: <%=geneSymbols%>
+                genes: <%=geneSymbols%>,
+                currentSort:'pvalue',
+                currentSortDir:'asc',
+                selected: 'D'
             }
         },
         methods: {
-            say: function (accId) {
+            getGenes: function (accId) {
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
 
@@ -206,13 +213,20 @@
 
                     this.geneData = response.data;
 
-
-
             }) .catch(error => {
                     console.log(error)
 
             }) .finally(() => this.geneLoading = false)
             },
+            sort:function(s,ont) {
+                //if s == current sort, reverse
+                if(s === this.currentSort) {
+                    this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                }
+                this.currentSort = s;
+                this.selected = ont;
+            },
+
             explore: function () {
                 params= new Object();
 
@@ -333,7 +347,15 @@
             loadPairs: function(ont) {
                 for(i=0;i<this.info.length;i++){
                     if(this.info[i].name == ont)
-                        return this.info[i].value;
+                    if(this.selected == ont) {
+                    return this.info[i].value.sort((a,b) => {
+                                let modifier = 1;
+                    if(this.currentSortDir === 'desc') modifier = -1;
+                    if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                    if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                    return 0;
+                });}
+                    else return this.info[i].value;
                 }
             }
             },
@@ -345,8 +367,9 @@
                                 ont: ont,
                                 info: this.loadPairs(ont)
                             }
-                        })
+                        });
             }
+
         },
         mounted() {
             for (i=0;i< this.ontologies.length; i++) {
