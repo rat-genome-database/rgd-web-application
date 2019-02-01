@@ -532,7 +532,7 @@ public class OntAnnotController implements Controller {
     static void addJBrowseLink(OntAnnotation a, MapData md, int speciesTypeKey) {
 
         // the map position must have a valid start-stop position
-        if( md.getStartPos()==null || md.getStopPos()==null || speciesTypeKey==SpeciesType.CHINCHILLA )
+        if( md.getStartPos()==null || md.getStopPos()==null )
             return;
 
         StringBuilder buf = new StringBuilder(128);
@@ -551,6 +551,8 @@ public class OntAnnotController implements Controller {
             buf.append("data_bonobo1_1");
         }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
             buf.append("data_squirrel2_0");
+        }else if (speciesTypeKey==SpeciesType.PIG) {
+            buf.append("data_pig11_1");
         }
 
         if( a.isGene() ) {

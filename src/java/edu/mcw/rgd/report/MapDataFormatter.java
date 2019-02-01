@@ -259,6 +259,13 @@ public class MapDataFormatter {
             case 720: // SpeTri2.0
                 db = "data_squirrel2_0"; link = "SpeTri2.0";
                 break;
+
+            case 911: // PIG
+                db = "data_pig11_1"; link = "Sscrofa11.1";
+                break;
+            case 910:
+                db = "data_pig10_2"; link = "Sscrofa10.2";
+                break;
         }
 
         if( db!=null && track!=null ) {
@@ -288,6 +295,10 @@ public class MapDataFormatter {
 
                 case 600: // dog cytomap
                     db = "dog";
+                    break;
+
+                case 900: // pig cytomap
+                    db = "pig";
                     break;
             }
         }
@@ -357,6 +368,13 @@ public class MapDataFormatter {
                 case 631: // dog CanFam3.1
                     db = "canFam3";
                     break;
+
+                case 910: // pig
+                    db = "susScr3";
+                    break;
+                case 911:
+                    db = "susScr11";
+                    break;
             }
         }
         if( db!=null ) {
@@ -417,6 +435,11 @@ public class MapDataFormatter {
                 case 720: // SpeTri2.0
                     db = "http://useast.ensembl.org/Ictidomys_tridecemlineatus/Location/View?r=";
                     link = "SpeTri2.0";
+                    break;
+
+                case 911: // PIG
+                    db = "http://useast.ensembl.org/Sus_scrofa/Location/View?r=";
+                    link = "Sscrofa11.1";
                     break;
             }
         }
