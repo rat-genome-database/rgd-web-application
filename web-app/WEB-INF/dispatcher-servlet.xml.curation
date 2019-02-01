@@ -404,7 +404,7 @@
     <bean id="GeneListController" class="edu.mcw.rgd.carpenovo.GeneListController" />
     <bean id="ConfigController" class="edu.mcw.rgd.carpenovo.ConfigController" />
 
-    <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
+     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
     <bean id="GviewerWelcomeController" class="edu.mcw.rgd.gviewer.WelcomeController" />
     <bean id="GviewerGeneListController" class="edu.mcw.rgd.gviewer.GeneListController" />

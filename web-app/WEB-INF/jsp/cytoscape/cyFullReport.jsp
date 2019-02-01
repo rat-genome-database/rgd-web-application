@@ -14,7 +14,7 @@
         <td style="color:#2865a3; font-size:16px; font-style:italic; font-weight:700;">Protein Interactions Full Report of queried Proteins/Genes </td>
         <td>
             <form action="cy.html?d=true" method="post">
-                <input type="hidden" name="proteins" value='${model.query}'>
+                <input type="hidden" name="identifiers" value='${model.query}'>
                 <input type="hidden" name="species" value='${model.species}'>
                 <input type="hidden" name="browser" value="12">
                 <button>Download</button>
@@ -27,7 +27,7 @@
 </table>
 <div style="padding:20px;">
     <form action="cy.html?d=true" method="post">
-        <input type="hidden" name="proteins" value='${model.query}'>
+        <input type="hidden" name="identifiers" value='${model.query}'>
         <input type="hidden" name="species" value='${model.species}'>
         <input type="hidden" name="browser" value="12">
         <button>Download</button>
