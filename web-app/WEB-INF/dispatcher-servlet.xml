@@ -146,6 +146,7 @@
                 <prop key="pubmed/pubmedDisplay.html">PubmedController</prop>
                 <prop key="pubmed/importReferences.html">pubmedReferenceImport</prop>
 
+
                 <prop key="ga/search.html">GASearchController</prop>
                 <prop key="ga/ui.html">GAUIController</prop>
                 <prop key="ga/report.html">GAReportController</prop>
@@ -160,7 +161,8 @@
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
 
-
+<prop key="enrichment/analysis.html">EnrichmentController</prop>
+<prop key="enrichment/start.html">EnrichmentSelectController</prop>
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
 
@@ -176,6 +178,8 @@
                 <prop key="front/searchType.html">SearchTypeController</prop>
                 <prop key="front/geneList.html">GeneListController</prop>
                 <prop key="front/config.html">ConfigController</prop>
+
+
 
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
@@ -373,7 +377,8 @@
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
     <bean id="CarpenovoSearchController" class="edu.mcw.rgd.carpenovo.CarpenovoSearchController"/>
-
+<bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
+<bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
     <bean id="GASearchController" class="edu.mcw.rgd.ga.GASearchController" />
     <bean id="GAUIController" class="edu.mcw.rgd.ga.GAUIController" />
     <bean id="GAReportController" class="edu.mcw.rgd.ga.GAReportController" />
@@ -403,6 +408,7 @@
     <bean id="SearchTypeController" class="edu.mcw.rgd.carpenovo.SearchTypeController" />
     <bean id="GeneListController" class="edu.mcw.rgd.carpenovo.GeneListController" />
     <bean id="ConfigController" class="edu.mcw.rgd.carpenovo.ConfigController" />
+
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->

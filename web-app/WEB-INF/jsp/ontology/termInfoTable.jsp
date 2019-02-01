@@ -115,11 +115,26 @@
                      .append(syn.getName().substring(5))
                      .append("\" title=\"view term at MESH\">").append(syn.getName()).append("</a>");
               }
+              else if( syn.getName().startsWith("OMIM:PS") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(66).getUrl())
+                     .append(syn.getName().substring(5))
+                     .append("\" title=\"view term at OMIM\">").append(syn.getName()).append("</a>");
+              }
               else if( syn.getName().startsWith("OMIM:") ) {
                   out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl())
                      .append(syn.getName().substring(5))
                      .append("\" title=\"view term at OMIM\">").append(syn.getName()).append("</a>");
               }
+              else if( syn.getName().startsWith("GARD:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(67).getUrl().replace("#ID#",syn.getName().substring(5)))
+                     .append("\" title=\"view term at GARD\">").append(syn.getName()).append("</a>");
+              }
+              else if( syn.getName().startsWith("ORDO:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(62).getUrl())
+                     .append(syn.getName().substring(5))
+                     .append("\" title=\"view term at Orphanet\">").append(syn.getName()).append("</a>");
+              }
+
               // link outs to strain report pages for rat strain ontology terms having assigned rgd ids
               else if( syn.getName().startsWith("RGD ID:") ) {
                   out.append("<a href=\"").append(Link.strain(Integer.parseInt(syn.getName().substring(8))))
