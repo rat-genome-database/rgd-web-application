@@ -618,7 +618,7 @@ function toolSubmit(tool,speciesTypeKey) {
             //alert("saving list");
             saveList();
         }else if (tool == "interviewer") {
-            var url = "/rgdweb/cytoscape/cy.html?browser=12&species=" + speciesTypeKey + "&proteins=" + getResultSet();
+            var url = "/rgdweb/cytoscape/cy.html?browser=12&species=" + speciesTypeKey + "&identifiers=" + getResultSet();
             window.open(url);
         }
 

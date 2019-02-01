@@ -541,7 +541,7 @@ rgdModule.controller('RGDPageController', [
 
                     var i = document.createElement("input"); //input element, text
                     i.setAttribute('type',"hidden");
-                    i.setAttribute('name',"proteins");
+                    i.setAttribute('name',"identifiers");
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
