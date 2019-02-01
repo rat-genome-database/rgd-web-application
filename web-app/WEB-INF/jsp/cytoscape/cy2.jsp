@@ -95,7 +95,7 @@
 <script src="/rgdweb/js/code1.js"></script>
 <!--script src="/rgdweb/js/rgdJquery.js"></script-->
 <div id="container">
-  <form action="cy.html"> <div id="search" style="float:right"><input type="hidden" value="12" name="browser"><label style="font-weight: bold">Enter Search Terms: </label><!--input type="hidden" value="4" name="species"--><input type="text" name="proteins"><label style="font-weight: bold">Species:</label> <select name="species" id="species" >
+  <form action="cy.html"> <div id="search" style="float:right"><input type="hidden" value="12" name="browser"><label style="font-weight: bold">Enter Search Terms: </label><!--input type="hidden" value="4" name="species"--><input type="text" name="identifiers"><label style="font-weight: bold">Species:</label> <select name="species" id="species" >
       <option value="0" SELECTED>ALL</option>
       <option value="3" >Rat</option>
       <option  value="2" >Mouse</option>
@@ -204,7 +204,7 @@
                         <form action="cy.html?d=true" method="post">
                             <div style="float:right">
                                 <button type="submit">Download</button>
-                                <input type="hidden" name="proteins" value='${model.query}'>
+                                <input type="hidden" name="identifiers" value='${model.query}'>
                                 <input type="hidden" name="species" value='${model.species}'>
                                 <input type="hidden" name="browser" value="12">
                             </div>

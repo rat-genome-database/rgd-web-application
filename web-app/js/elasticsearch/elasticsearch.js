@@ -573,7 +573,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
     if(selected!=""){
         var href;
         if(tool=='interviewer') {
-            href = "/rgdweb/cytoscape/cy.html?browser=12&species="+speciesTypeKey+"&proteins=" + selected;
+            href = "/rgdweb/cytoscape/cy.html?browser=12&species="+speciesTypeKey+"&identifiers=" + selected;
             _this.href = href;
         }
         if(tool=='functionalAnnot') {
