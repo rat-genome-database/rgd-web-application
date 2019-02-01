@@ -120,10 +120,10 @@
                             Example: P35900, P26769,Q03343,<br>
                             <c:choose>
                                 <c:when test="${model.symbolList!=null}">
-                                    <textarea id="proteins" name="proteins"  rows="12" cols=70  >${model.symbolList}</textarea>
+                                    <textarea id="identifiers" name="identifiers"  rows="12" cols=70  >${model.symbolList}</textarea>
                                 </c:when>
                                 <c:otherwise>
-                                    <textarea placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="proteins" name="proteins"  rows="12" cols=70  ></textarea>
+                                    <textarea placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="identifiers" name="identifiers"  rows="12" cols=70  ></textarea>
                                 </c:otherwise>
                             </c:choose>
 

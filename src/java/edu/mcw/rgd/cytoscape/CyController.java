@@ -2,12 +2,15 @@ package edu.mcw.rgd.cytoscape;
 
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.NodeManager;
+import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.process.mapping.ObjectMapper;
+
 import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.web.HttpRequestFacade;
 
+import org.bbop.commandline.StringValue;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -34,8 +37,29 @@ public class CyController implements Controller {
         HttpRequestFacade req= new HttpRequestFacade(request);
         System.out.println("StartTime:" + timeStamp);
         String species = request.getParameter("species");
-        String query = request.getParameter("proteins");
+
+        if(species!=null ){
+            boolean flag=false;
+            for(int key:SpeciesType.getSpeciesTypeKeys()){
+                if(species.equals(String.valueOf(key))){
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                if(species.equalsIgnoreCase("all")){
+                    species="0";
+                }else
+               species=String.valueOf(SpeciesType.parse(request.getParameter("species")));
+            }
+        }
+        System.out.println( "SPECIES:"+SpeciesType.parse("rat"));
+
+        String query = request.getParameter("identifiers");
         String browser= request.getParameter("browser");
+        if(browser==null){
+            browser="12";
+        }
         Integer browserVersion= Integer.parseInt(browser);
         ModelMap model = new ModelMap();
 
@@ -44,7 +68,7 @@ public class CyController implements Controller {
             return new ModelAndView("/WEB-INF/jsp/cytoscape/help.jsp");
         }
 
-        if (query.equals("")) {
+        if (query==null || query.equals("")) {
             String msg = "Please enter Search data and submit";
             return new ModelAndView("/WEB-INF/jsp/cytoscape/query.jsp", "msg", msg);
         }
