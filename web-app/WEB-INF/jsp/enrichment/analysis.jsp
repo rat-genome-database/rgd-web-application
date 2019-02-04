@@ -140,10 +140,10 @@
             <thead>
             <tr>
 
-                <th @click="sort('term',pair.ont)"> Sort By Term </th>
-                <th @click="sort('count',pair.ont)">Sort By Matches</th>
-                <th @click="sort('pvalue',pair.ont)">Sort By pvalue</th>
-                <th @click="sort('correctedpvalue',pair.ont)">Sort By Bonferroni Correction</th>
+                <th @click="sort('term',pair.ont)"> Term </th>
+                <th @click="sort('count',pair.ont)">Annotated Genes</th>
+                <th @click="sort('pvalue',pair.ont)">p value</th>
+                <th @click="sort('correctedpvalue',pair.ont)">Bonferroni Correction</th>
             </tr>
             </thead>
             <tbody>
@@ -313,7 +313,7 @@
                 var trace1 = {
                     x: xarray,
                     y: yarray,
-                    name: 'match data',
+                    name: 'No of genes',
                     type: 'bar'
 
                 };
@@ -321,7 +321,7 @@
                 var trace2 = {
                     x: xarray,
                     y: y1array,
-                    name: 'pvalue data',
+                    name: 'p value',
                     yaxis: 'y2',
                     type: 'bar'
                 };

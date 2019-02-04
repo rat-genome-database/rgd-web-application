@@ -183,11 +183,9 @@
 
 <form action="/rgdweb/enrichment/analysis.html" method="POST">
     <table border=0>
-        <tr><td style='background-color:#e6e6e6;' colspan="2"><br><b>Step One: &nbsp;&nbsp;<span style="color:#205080;"></span></b>Define a list of genes to annotate (2000 gene maximum).  The GA Tool will provide counts/percentages of genes from your list based on their annotations.  It does not perform statistical analysis of enrichment.<br><br></td></tr>
-        <tr><td>&nbsp;</td></tr>
 
         <tr>
-            <td class="gaLabel">Select a Species</td>
+            <td style="color: #2865a3; font-size: 16px; font-weight:600;">Select a Species</td>
             <td style="padding-left:30px;">
                 <select name="species" id="species" onChange="setMap(this)">
                     <option value="3" <% if (speciesTypeKey==3) out.print("SELECTED"); %>>Rat</option>
@@ -202,39 +200,7 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td valign="top">
-                <!--<span class="gaLabel" style="margin-right:20px;">Enter Symbols</span><input type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" value="Import" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>-->
-                <span class="gaLabel" style="margin-right:20px;">Enter Symbols</span>
-
-                <br><br>
-                When entering multiple identifiers<br> your list can be separated by commas,<br>spaces, tabs, or line feeds
-                <br><br>
-
-                <table style="border: 1px solid #e6e6e6;">
-                    <tr>
-                        <td colspan=3 style="font-weight:700">Valid identifier types:</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size:11px;">Affymetrix</td>
-                        <td style="font-size:11px;">GenBank Nucleotide</td>
-                        <td style="font-size:11px;">Ontology Term ID</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size:11px;">Ensembl Gene</td>
-                        <td style="font-size:11px;">GenBank Protein</td>
-                        <td style="font-size:11px;"><%=RgdContext.getSiteName(request)%> ID</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size:11px;">Ensembl Protein</td>
-                        <td style="font-size:11px;">Gene Symbol</td>
-                        <td style="font-size:11px;">dbSNP ID</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size:11px;">EntrezGene ID</td>
-                        <td style="font-size:11px;">Kegg Pathway</td>
-                    </tr>
-                </table>
-            </td>
+            <td  style="color: #2865a3; font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
             <td style="padding-left:30px;">
                 Example: a2m,xiap,lepr,tnf<br>
                 <textarea placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="12" cols=70  ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
@@ -246,15 +212,32 @@
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
+        <tr><td style="color: #2865a3; font-size: 16px; font-weight:600;">Select the Ontologies</td>
+            <td style="padding-left:30px;">
+            <table class="gaLabel">
+                <tr>
+                    <td class="gaLabel" colspan=2>Ontology Annotations &nbsp;&nbsp;<a href="javascript:void(0);" style="color:#4088b8;" onclick="toggle('o')">(toggle)</a></td>
 
+                        <%
+                for( java.util.Map.Entry<String,String> aspect: aspects.entrySet() ) {
+                %>
+                <tr>
+                    <td><input type="checkbox" name="o" value="<%=aspect.getKey()%>" <% if (req.isInParameterValues("o",aspect.getKey())) out.print("checked"); %>>
+                    </td>
+                    <td><%=aspect.getValue()%>
+                    </td>
+                </tr>
+
+                <% } %>
+            </table> </td></tr>
         <tr><td colspan="2"><div id="gaPos"><table>
-            <tr><td style='background-color:#e6e6e6;' colspan="2"><b>Enter a genomic region &nbsp;&nbsp;<span style="color:#205080;">(Optional)</span></b></td></tr>
+            <tr><td style="color: #2865a3; font-size: 16px; font-weight:600; background-color:#e6e6e6;" colspan="2"><b>Enter a genomic region &nbsp;&nbsp;<span style="color:#205080;">(Optional)</span></b></td></tr>
             <tr><td>Genes in this region are appended to your gene list</td></tr>
-            <tr><td class="gaLabel">Enter a Position</td>
+            <tr><td style="color: #2865a3; font-size: 16px; font-weight:600;">Enter a Position</td>
                 <td>
                     <table border=0>
                         <tr>
-                            <td>Chr <div id="chroms"></div></td>
+                            <td>Chr</td><td> <div id="chroms"></div></td>
                             <td>Start <input type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
                             <td>Stop <input type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
                             <td>Assembly</td>
@@ -267,23 +250,7 @@
             </tr>
             <tr><td>&nbsp;</td></tr>
         </table></div><!--#gaPos--></td></tr>
-        <tr><td>
-        <table border="0" cellspacing=4 cellpadding=0 class="gaTable">
-            <tr>
-                <td class="gaLabel" colspan=2>Ontology Annotations &nbsp;&nbsp;<a href="javascript:void(0);" style="color:#4088b8;" onclick="toggle('o')">(toggle)</a></td>
 
-                    <%
-                for( java.util.Map.Entry<String,String> aspect: aspects.entrySet() ) {
-                %>
-            <tr>
-                <td><input type="checkbox" name="o" value="<%=aspect.getKey()%>" <% if (req.isInParameterValues("o",aspect.getKey())) out.print("checked"); %>>
-                </td>
-                <td><%=aspect.getValue()%>
-                </td>
-            </tr>
-
-            <% } %>
-        </table> </td></tr>
         <tr>
             <td><input type="submit" value="Submit >>"/></td>
         </tr>
