@@ -12,6 +12,7 @@
 <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <html>
 <body>
 <%@ include file="/common/compactHeaderArea.jsp" %>
@@ -44,8 +45,8 @@
     HttpRequestFacade req = new HttpRequestFacade(request);
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
 %>
-    <div id="new-nav" style="padding: 5px; border: 1px solid black; background-color:#F0F6F9">Cross Analysis: Select terms below from <span style="color:steelblue" >Disease, Pathway, Mammalian Phenotype, Biological Process, Cellular Component, Molecular Function, ChEBI</span> </div>
-    <div style="font-size:20px; font-weight:700;"><%=om.getMapped().size()%> Genes in set</div>
+<h1>Gene Enrichment</h1>
+<div style="font-size:20px; font-weight:700;"><%=om.getMapped().size()%> Genes in set</div>
     <% if (om.getMapped().size() == 0) {
         return;
 
@@ -118,7 +119,7 @@
             </div>
         </div>
     </div>
-    <h1>Gene Enrichment</h1>
+
     <section v-if="errored">
         <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
     </section>
@@ -140,10 +141,10 @@
             <thead>
             <tr>
 
-                <th @click="sort('term',pair.ont)"> Term </th>
-                <th @click="sort('count',pair.ont)">Annotated Genes</th>
-                <th @click="sort('pvalue',pair.ont)">p value</th>
-                <th @click="sort('correctedpvalue',pair.ont)">Bonferroni Correction</th>
+                <th @click="sort('term',pair.ont)"> Term <i class="fa fa-fw fa-sort"></i></th>
+                <th @click="sort('count',pair.ont)">Annotated Genes <i class="fa fa-fw fa-sort"></i></th>
+                <th @click="sort('pvalue',pair.ont)">p value <i class="fa fa-fw fa-sort"></i></th>
+                <th @click="sort('correctedpvalue',pair.ont)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
             </tr>
             </thead>
             <tbody>
