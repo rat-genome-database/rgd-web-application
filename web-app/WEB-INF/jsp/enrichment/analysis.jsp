@@ -134,7 +134,7 @@
 
         <table>
             <tr><td>
-        <div style="overflow-x:auto; height:500px; width:800px; background-color:#F8F8F8; border: 1px solid #346F97;">
+        <div style="overflow-x:auto; height:500px; width:750px; background-color:#F8F8F8; border: 1px solid #346F97;">
 
 
         <table id="t">
