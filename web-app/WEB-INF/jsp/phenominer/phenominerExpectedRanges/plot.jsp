@@ -50,7 +50,7 @@
 <span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE HIGH:</span><strong>${model.phenotypeObject.normalFemale.groupHigh}</strong>
    </c:if>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="/rgdweb/js/expectedRanges/expectedRanges.js"></script>
+<script src="/rgdweb/js/expectedRanges/expectedRangesOld.js"></script>
 
 <script>
 
