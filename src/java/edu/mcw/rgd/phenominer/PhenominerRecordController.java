@@ -280,7 +280,7 @@ public class PhenominerRecordController extends PhenominerController {
 
             rec.append(r.getClinicalMeasurement().getSite());
             rec.append(r.getMeasurementValue());
-            rec.append(r.getMeasurementUnits().equals("null") ? "": r.getMeasurementUnits());
+            rec.append((r.getMeasurementUnits()==null || r.getMeasurementUnits().equals("null")) ? "": r.getMeasurementUnits());
             rec.append(r.getMeasurementSD() != null ? d_f.format(Double.parseDouble(r.getMeasurementSD())) : r.getMeasurementSD());
             rec.append(r.getMeasurementSem() != null ? d_f.format(Double.parseDouble(r.getMeasurementSem())) : r.getMeasurementSem());
             rec.append(r.getMeasurementError());
