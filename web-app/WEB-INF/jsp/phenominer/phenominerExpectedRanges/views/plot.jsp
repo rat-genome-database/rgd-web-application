@@ -51,7 +51,7 @@
 
 <c:if test="${model.normalMale!=null}">
 <span style="font-weight: bold;color:blue;font-size: small">MALE LOW:</span><strong>${model.normalMale.rangeLow}</strong>
-<span style="font-weight: bold;color:blue;font-size: small">MALE HIGH:</span><strong>${model.phenotypeObject.normalMale.rangeHigh}</strong>
+<span style="font-weight: bold;color:blue;font-size: small">MALE HIGH:</span><strong>${model.normalMale.rangeHigh}</strong>
     </c:if>
 <c:if test="${model.normalFemale!=null}">
 <span style="font-weight: bold;color:fuchsia;font-size: small">FEMALE LOW:</span><strong>${model.normalFemale.rangeLow}</strong>
