@@ -40,6 +40,7 @@
     }
     .heading
     {
+        margin-top: 2px;
         text-align: center;
         height: 80px;
         background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
@@ -178,13 +179,16 @@
             }
         },
         methods: {
-            getGenes: function (accId) {
+            getGenes: function (accId,species) {
+                var s = this.species;
+                if(species != 0)
+                      s = v.getSpeciesKey(species);
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
                 axios
                         .post('https://dev.rgd.mcw.edu/rgdws/enrichment/annotatedGenes',
                                 { accId: accId,
-                                    speciesTypeKey: this.species,
+                                    speciesTypeKey: s,
                                     geneSymbols:  <%=geneSymbols%>})
                         .then(response => {
                     this.geneData = response.data;
