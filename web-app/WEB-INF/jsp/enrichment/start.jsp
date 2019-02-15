@@ -4,6 +4,46 @@
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+    .inputstl {
+        padding: 9px;
+        border: solid 1px #4B718B;
+        outline: 0;
+        background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #0062cc), to(#FFFFFF));
+        background: -moz-linear-gradient(top, #FFFFFF, #0062cc 1px, #FFFFFF 25px);
+        box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+        -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+        -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+
+    }
+    .heading
+    {
+        text-align: center;
+        height: 80px;
+        background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
+        color: #fff;
+        font-weight: bold;
+        line-height: 80px;
+    }
+    .btnSubmit
+    {
+        border:none;
+        border-radius:1.5rem;
+        padding: 3%;
+        width: 25%;
+        cursor: pointer;
+        background: #2655c1;
+        color: #fff;
+    }
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 3px solid #372f7f;
+    }
+
+</style>
 
 
 <%
@@ -17,13 +57,7 @@
 
 <%@ include file="../ga/gaHeader.jsp" %>
 
-<%
-
-    //this page is written really poorly and needs to be refactored to use an ajax call to get maps and chromosomes.
-
-
-    MapDAO mdao = new MapDAO();
-
+<%  MapDAO mdao = new MapDAO();
     List<Map> ratMaps= mdao.getMaps(SpeciesType.RAT, "bp");
     List<Map> mouseMaps= mdao.getMaps(SpeciesType.MOUSE, "bp");
     List<Map> humanMaps= mdao.getMaps(SpeciesType.HUMAN, "bp");
@@ -93,101 +127,77 @@
 
 
 <script>
+    var v = new Vue({
+        el: '#app',
+        methods: {
 
-    var ratMapHtml = '<%=fu.buildSelectList("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "")%>';
-    var mouseMapHtml='<%=fu.buildSelectList("mapKey", mouseKeyValues, mdao.getPrimaryRefAssembly(2).getKey() + "")%>';
-    var humanMapHtml='<%=fu.buildSelectList("mapKey", humanKeyValues, mdao.getPrimaryRefAssembly(1).getKey() + "")%>';
-    var chinMapHtml = '<%=fu.buildSelectList("mapKey", chinKeyValues, mdao.getPrimaryRefAssembly(4).getKey() + "")%>';
-    var bonoboMapHtml='<%=fu.buildSelectList("mapKey", bonoboKeyValues, mdao.getPrimaryRefAssembly(5).getKey() + "")%>';
-    var dogMapHtml='<%=fu.buildSelectList("mapKey", dogKeyValues, mdao.getPrimaryRefAssembly(6).getKey() + "")%>';
-    var squirrelMapHtml='<%=fu.buildSelectList("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "")%>';
-
-    var ratChrHtml = '<%=fu.buildChrSelectList("chr", ratChr, "1")%>';
-    var mouseChrHtml = '<%=fu.buildChrSelectList("chr", mouseChr, "1")%>';
-    var humanChrHtml = '<%=fu.buildChrSelectList("chr", humanChr, "1")%>';
-    var chinchillaChrHtml = '<%=fu.buildChrSelectList("chr", chinchillaChr, "1")%>';
-    var bonoboChrHtml = '<%=fu.buildChrSelectList("chr", bonoboChr, "1")%>';
-    var dogChrHtml = '<%=fu.buildChrSelectList("chr", dogChr, "1")%>';
-    var squirrelChrHtml = '<%=fu.buildChrSelectList("chr", squirrelChr, "1")%>';
-
-
-    function toggle(name) {
-        checkboxes = document.getElementsByName(name);
-
-        var checked = "checked";
-        if (checkboxes[0].checked) {
-            checked=false;
-        }
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = checked;
-        }
-    }
-
-    function viewReport(rgdId) {
+        viewReport: function (rgdId) {
         document.report.rgdId.value = rgdId;
         document.report.submit();
+        },
 
-    }
-
-
-    function setMap(obj) {
+        setMap: function (obj) {
         var selected = obj.options[obj.selectedIndex].value;
+        var maps = document.getElementById("maps");
 
-        var maps=document.getElementById("maps");
-
-        if (selected==1) {
-            maps.innerHTML=humanMapHtml;
-            chroms.innerHTML=humanChrHtml;
-        }else if (selected==2) {
-            maps.innerHTML=mouseMapHtml;
-            chroms.innerHTML=mouseChrHtml;
-        }else if (selected==3) {
-            maps.innerHTML=ratMapHtml;
-            chroms.innerHTML=ratChrHtml;
-        }else if (selected==4) {
-            maps.innerHTML=chinMapHtml;
-            chroms.innerHTML=chinchillaChrHtml;
-        }else if (selected==5) {
-            maps.innerHTML = bonoboMapHtml;
-            chroms.innerHTML=bonoboChrHtml;
-        }else if (selected==6) {
-            maps.innerHTML = dogMapHtml;
-            chroms.innerHTML=dogChrHtml;
-        }else if (selected==7) {
-            maps.innerHTML=squirrelMapHtml;
-            chroms.innerHTML=squirrelChrHtml;
-        }else {
-            maps.innerHTML=ratMapHtml;
-            chroms.innerHTML=ratChrHtml;
+        if (selected == 1) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", humanKeyValues, mdao.getPrimaryRefAssembly(1).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", humanChr, "1","form-control inputstl")%>';
+        } else if (selected == 2) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", mouseKeyValues, mdao.getPrimaryRefAssembly(2).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", mouseChr, "1","form-control inputstl")%>';
+        } else if (selected == 3) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
+        } else if (selected == 4) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", chinKeyValues, mdao.getPrimaryRefAssembly(4).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", chinchillaChr, "1","form-control inputstl")%>';
+        } else if (selected == 5) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", bonoboKeyValues, mdao.getPrimaryRefAssembly(5).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", bonoboChr, "1","form-control inputstl")%>';
+        } else if (selected == 6) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", dogKeyValues, mdao.getPrimaryRefAssembly(6).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
+        } else if (selected == 7) {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
+        } else {
+            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "","form-control inputstl")%>';
+            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
+        }
         }
     }
+    })
 </script>
 
 <%
-    String tutorialLink="http://rgd.mcw.edu/wg/home/rgd_rat_community_videos/gene-annotator-tutorial";
     String pageHeader="Gene Enrichment Tool - Generate an enrichment report for a list of genes";
 %>
-<%@ include file="/common/title.jsp" %>
-<br>
+<div class="heading">
+    <p style="font-size:30px; color:white; font-weight:600;"><%=pageHeader%></p>
+</div>
 
+<br>
+</hr>
 <%
-    int speciesTypeKey=3;
+    int speciesTypeKey=0;
     String mapKey=request.getParameter("mapKey");
 
     if (mapKey != null &&  !mapKey.equals("")) {
         speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(Integer.parseInt(mapKey));
     }
 %>
-
-
+<hr></hr>
+<br>
+<div id="app">
 <form action="/rgdweb/enrichment/analysis.html" method="POST">
     <table border=0>
 
         <tr>
-            <td style="color: #2865a3; font-size: 16px; font-weight:600;">Select a Species</td>
+            <td style=" font-size: 16px; font-weight:600;">Select a Species</td>
             <td style="padding-left:30px;">
-                <select name="species" id="species" onChange="setMap(this)">
+                <select  class="form-control inputstl" name="species" id="species" v-on:Change="setMap(this)">
+                    <option value="0" <% if (speciesTypeKey==0) out.print("SELECTED"); %>>All</option>
                     <option value="3" <% if (speciesTypeKey==3) out.print("SELECTED"); %>>Rat</option>
                     <option  value="2" <% if (speciesTypeKey==2) out.print("SELECTED"); %>>Mouse</option>
                     <option  value="1" <% if (speciesTypeKey==1) out.print("SELECTED"); %>>Human</option>
@@ -200,65 +210,64 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td  style="color: #2865a3; font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
+            <td  style=" font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
             <td style="padding-left:30px;">
                 Example: a2m,xiap,lepr,tnf<br>
-                <textarea placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="12" cols=70  ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
-                <!--
-            <textarea name="genes" rows="12" cols=70 ng-model="importTarget" >
-                {{importTarget}}<%=dm.out("genes",req.getParameter("genes"))%>
-            </textarea>
-            -->
+                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 style="border-color: #2865a3;" ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
+             <%=dm.out("genes",req.getParameter("genes"))%>
+
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
-        <tr><td style="color: #2865a3; font-size: 16px; font-weight:600;">Select the Ontologies</td>
-            <td style="padding-left:30px;">
-            <table class="gaLabel">
-                <tr>
-                    <td class="gaLabel" colspan=2>Ontology Annotations &nbsp;&nbsp;<a href="javascript:void(0);" style="color:#4088b8;" onclick="toggle('o')">(toggle)</a></td>
-
-                        <%
-                for( java.util.Map.Entry<String,String> aspect: aspects.entrySet() ) {
-                %>
-                <tr>
-                    <td><input type="checkbox" name="o" value="<%=aspect.getKey()%>" <% if (req.isInParameterValues("o",aspect.getKey())) out.print("checked"); %>>
-                    </td>
-                    <td><%=aspect.getValue()%>
-                    </td>
-                </tr>
-
-                <% } %>
-            </table> </td></tr>
-        <tr><td colspan="2"><div id="gaPos"><table>
-            <tr><td style="color: #2865a3; font-size: 16px; font-weight:600; background-color:#e6e6e6;" colspan="2"><b>Enter a genomic region &nbsp;&nbsp;<span style="color:#205080;">(Optional)</span></b></td></tr>
-            <tr><td>Genes in this region are appended to your gene list</td></tr>
-            <tr><td style="color: #2865a3; font-size: 16px; font-weight:600;">Enter a Position</td>
-                <td>
-                    <table border=0>
-                        <tr>
-                            <td>Chr</td><td> <div id="chroms"></div></td>
-                            <td>Start <input type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
-                            <td>Stop <input type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
-                            <td>Assembly</td>
-                            <td>
-                                <div id="maps"></div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr><td>&nbsp;</td></tr>
-        </table></div><!--#gaPos--></td></tr>
 
         <tr>
-            <td><input type="submit" value="Submit >>"/></td>
+            <td style=" font-size: 16px; font-weight:600;">Select an Ontology</td>
+            <td style="padding-left:30px;">
+                <select  class="form-control inputstl" name="o" id="o">
+                    <option value="D">Disease</option>
+                    <option value="W">Pathway</option>
+                    <option  value="P">Phenotype</option>
+                    <option  value="C">GO: Biological Process</option>
+                    <option  value="F" >GO: Cellular Component</option>
+                    <option  value="N" >GO: Molecular Function</option>
+                    <option  value="E">Chemical Interactions</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td><span style="color:#0062cc; font-size: 30px; font-weight:600;">(Or)</span></td></tr>
+        <tr><td colspan="2">
+
+            <table>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td style="font-size: 16px; font-weight:600;">Enter a Genomic Region</td>
+                    <td style="padding-left:120px;">
+                        <table border=0>
+                            <tr>
+                                <td>Chr</td><td> <div id="chroms"></div></td>
+                                <td>Start <input  class="form-control inputstl" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
+                                <td>Stop <input  class="form-control inputstl" type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
+                                <td>Assembly</td>
+                                <td id="maps">
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+            </table><!--#gaPos--></td></tr>
+
+        <tr>
+            <td><input class="btnSubmit" type="submit" value="Submit"/></td>
         </tr>
     </table>
-
+</div>
     <script>
-        setMap(document.getElementById("species"));
+        v.setMap(document.getElementById("species"));
     </script>
+
 
         <% } catch (Exception e) {
         e.printStackTrace();
