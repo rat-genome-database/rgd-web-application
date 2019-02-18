@@ -1,11 +1,12 @@
 <div style="background-color: white; width:1700px; " v-for="pair in speciesPairs">
 
     <div v-if="loading">Loading...</div>
+    <section v-if="pair.info != 0">
     <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span><br>
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:500px; width:750px; background-color:white; ">
+            <div style="overflow-x:auto; height:600px; width:750px; background-color:white; ">
 
 
                 <table id="t">
@@ -45,5 +46,5 @@
             </td>   </tr>
 
     </table>
-
+</section>
 </div>

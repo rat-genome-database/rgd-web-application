@@ -304,21 +304,22 @@
             },
             getOntologyTitle: function(aspect) {
                 if(aspect == "D")
-                    return "Disease";
+                    return "Disease Ontology";
                 else if(aspect == "W")
-                    return "Pathway";
+                    return "Pathway Ontology";
                 else if(aspect == "P")
-                    return "GO: Biological Process";
+                    return "GO: Biological Process Ontology";
                 else if(aspect == "N")
-                    return "Mammalian Phenotype";
+                    return "Phenotype Ontology";
                 else if(aspect == "C")
-                    return "GO: Cellular Component";
+                    return "GO: Cellular Component Ontology";
                 else if(aspect == "F")
-                    return "GO: Molecular Function";
+                    return "GO: Molecular Function Ontology";
                 else if(aspect == "E")
-                    return "Chemical Interactions"
+                    return "Chemical Interactions Ontology"
             },
             loadChart: function (info,name,value) {
+
                 var arr = info;
                 var xarray = [];
                 var yarray = [];
@@ -345,16 +346,48 @@
                 };
                 var data = [trace1, trace2];
                 var layout = {
+                    autosize: false,
+                    width: 800,
+                    height: 600,
+                    margin: {
+                        l: 100,
+                        r: 100,
+                        b: 175,
+                        t: 25,
+                        pad: 1
+                    },
                     title: 'Gene Enrichment',
-                    yaxis: {title: 'count'},
+                    titlefont:{
+                      size: 18
+                    },
+                    legend: {
+                        x: 0,
+                        y: 1.15,
+                        bgcolor: 'rgba(255, 255, 255, 0)',
+                        bordercolor: 'rgba(255, 255, 255, 0)'
+                    },
+                    yaxis: {
+                        zeroline: true,
+                        zerolinecolor: '#969696',
+                        zerolinewidth: 4,
+                        title: 'Gene Count'
+                    },
                     yaxis2: {
+                        zeroline: true,
+                        zerolinecolor: '#969696',
+                        zerolinewidth: 4,
                         title: 'pvalue',
                         titlefont: {color: 'rgb(148, 103, 189)'},
                         tickfont: {color: 'rgb(148, 103, 189)'},
                         overlaying: 'y',
-                        side: 'right'
+                        side: 'right',
+                        automargin: true,
                     },
                     xaxis: {
+                        tickfont: {
+                            size: 10,
+                            color: 'rgb(107, 107, 107)'
+                        },
                         tickangle: -45
                     }
                 };
@@ -363,18 +396,23 @@
             loadPairs: function(view) {
 
                 for(i=0;i<this.info.length;i++){
-                    if(this.info[i].name == view)
-                        if(this.selected == view) {
-                            return this.info[i].value.sort((a,b) => {
-                                        let modifier = 1;
-                            if(this.currentSortDir === 'desc') modifier = -1;
-                            if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                            if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-                            return 0;
-                        });}
-                        else return this.info[i].value;
+                    if(this.info[i].name == view) {
+                        if(this.info[i].value.length != 0) {
+                            if (this.selected == view) {
+                                return this.info[i].value.sort((a, b) => {
+                                            let modifier = 1;
+                                if (this.currentSortDir === 'desc') modifier = -1;
+                                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                                return 0;
+                            });
+                            }
+                            else return this.info[i].value;
+                        }else return 0;
+                    }
                 }
-            },
+
+            }
 
         },
         computed: {

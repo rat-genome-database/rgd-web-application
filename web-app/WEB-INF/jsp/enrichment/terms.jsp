@@ -1,11 +1,12 @@
 <div style="background-color: white; width:1700px; " v-for="pair in pairs">
 
     <div v-if="loading">Loading...</div>
+    <section v-if="pair.info != 0">
     <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span><br>
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:500px; width:750px; background-color:white; ">
+            <div style="overflow-x:auto; height:600px; width:750px; background-color:white; ">
 
 
                 <table id="t">
@@ -21,7 +22,7 @@
                             class="record"
                     >
 
-                        <td>{{record.term}}({{record.acc}}) </td>
+                        <td>{{record.term}} ({{record.acc}}) </td>
                         <td  @click="getGenes(record.acc,0)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             {{record.count}}
                         </button></td>
@@ -32,7 +33,7 @@
 
             </div></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td>
+            <td align="right">
                 <label><b>Pvalue Limit</b></label>
                 <select v-on:change="loadChart(pair.info,pair.ont,pvalueLimit)" v-model="pvalueLimit">
                     <option v-for="value in pvalues">{{value}}</option>
@@ -41,5 +42,6 @@
             </td>   </tr>
 
     </table>
+    </section>
 
 </div>

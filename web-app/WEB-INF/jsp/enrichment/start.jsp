@@ -4,17 +4,19 @@
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue@2.4.2"></script>
+
 <style>
     .inputstl {
         padding: 9px;
         border: solid 1px #4B718B;
         outline: 0;
-        background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #0062cc), to(#FFFFFF));
-        background: -moz-linear-gradient(top, #FFFFFF, #0062cc 1px, #FFFFFF 25px);
+        background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e6f0ff), to(#FFFFFF));
+        background: -moz-linear-gradient(top, #FFFFFF, #e6f0ff 1px, #FFFFFF 25px);
         box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
         -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
         -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+        font-weight: bold;
 
     }
     .heading
@@ -129,6 +131,9 @@
 <script>
     var v = new Vue({
         el: '#app',
+        data: {
+            selected: 0
+        },
         methods: {
 
         viewReport: function (rgdId) {
@@ -136,11 +141,13 @@
         document.report.submit();
         },
 
-        setMap: function (obj) {
-        var selected = obj.options[obj.selectedIndex].value;
+        setMap: function () {
+            alert(this.selected);
+        var selected = this.selected;
         var maps = document.getElementById("maps");
 
         if (selected == 1) {
+
             maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", humanKeyValues, mdao.getPrimaryRefAssembly(1).getKey() + "","form-control inputstl")%>';
             chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", humanChr, "1","form-control inputstl")%>';
         } else if (selected == 2) {
@@ -166,7 +173,13 @@
             chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
         }
         }
-    }
+    },
+     watch: {
+         selected(){
+             alert("changed");
+             v.setMap();
+         }
+     }
     })
 </script>
 
@@ -178,15 +191,8 @@
 </div>
 
 <br>
-</hr>
-<%
-    int speciesTypeKey=0;
-    String mapKey=request.getParameter("mapKey");
 
-    if (mapKey != null &&  !mapKey.equals("")) {
-        speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(Integer.parseInt(mapKey));
-    }
-%>
+
 <hr></hr>
 <br>
 <div id="app">
@@ -194,35 +200,26 @@
     <table border=0>
 
         <tr>
-            <td style=" font-size: 16px; font-weight:600;">Select a Species</td>
-            <td style="padding-left:30px;">
-                <select  class="form-control inputstl" name="species" id="species" v-on:Change="setMap(this)">
-                    <option value="0" <% if (speciesTypeKey==0) out.print("SELECTED"); %>>All</option>
-                    <option value="3" <% if (speciesTypeKey==3) out.print("SELECTED"); %>>Rat</option>
-                    <option  value="2" <% if (speciesTypeKey==2) out.print("SELECTED"); %>>Mouse</option>
-                    <option  value="1" <% if (speciesTypeKey==1) out.print("SELECTED"); %>>Human</option>
-                    <option  value="4" <% if (speciesTypeKey==4) out.print("SELECTED"); %>>Chinchilla</option>
-                    <option  value="5" <% if (speciesTypeKey==5) out.print("SELECTED"); %>>Bonobo</option>
-                    <option  value="6" <% if (speciesTypeKey==6) out.print("SELECTED"); %>>Dog</option>
-                    <option  value="7" <% if (speciesTypeKey==7) out.print("SELECTED"); %>>Squirrel</option>
+            <td style=" font-size: 16px; font-weight:600;">Select a Species to view enrichment for all RGD ontologies</td>
+            <td >
+                <select  v-model="selected" class="form-control inputstl" name="species" id="species">
+                    <option value="0">All</option>
+                    <option value="3">Rat</option>
+                    <option  value="2">Mouse</option>
+                    <option  value="1">Human</option>
+                    <option  value="4">Chinchilla</option>
+                    <option  value="5">Bonobo</option>
+                    <option  value="6">Dog</option>
+                    <option  value="7">Squirrel</option>
                 </select>
             </td>
         </tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr>
-            <td  style=" font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
-            <td style="padding-left:30px;">
-                Example: a2m,xiap,lepr,tnf<br>
-                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 style="border-color: #2865a3;" ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
-             <%=dm.out("genes",req.getParameter("genes"))%>
 
-            </td>
-        </tr>
-        <tr><td>&nbsp;</td></tr>
-
+        <tr><td>{{selected}}</td></tr>
         <tr>
-            <td style=" font-size: 16px; font-weight:600;">Select an Ontology</td>
-            <td style="padding-left:30px;">
+
+            <td style=" font-size: 16px; font-weight:600;">Select an Ontology to view enrichment in all RGD species</td>
+            <td>
                 <select  class="form-control inputstl" name="o" id="o">
                     <option value="D">Disease</option>
                     <option value="W">Pathway</option>
@@ -234,6 +231,17 @@
                 </select>
             </td>
         </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td  style=" font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
+            <td>
+                <span style="font-weight:bold">Example: a2m,xiap,lepr,tnf</span><br>
+                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 style="border-color: #2865a3;" ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
+                <%=dm.out("genes",req.getParameter("genes"))%>
+
+            </td>
+        </tr>
+
 
         <tr><td>&nbsp;</td></tr>
         <tr><td>&nbsp;</td><td><span style="color:#0062cc; font-size: 30px; font-weight:600;">(Or)</span></td></tr>
@@ -245,10 +253,10 @@
                     <td style="padding-left:120px;">
                         <table border=0>
                             <tr>
-                                <td>Chr</td><td> <div id="chroms"></div></td>
-                                <td>Start <input  class="form-control inputstl" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
-                                <td>Stop <input  class="form-control inputstl" type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
-                                <td>Assembly</td>
+                                <td style="font-weight:bold">Chr</td><td> <div id="chroms"></div></td>
+                                <td style="font-weight:bold">Start <input  class="form-control inputstl" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
+                                <td style="font-weight:bold">Stop <input  class="form-control inputstl" type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
+                                <td style="font-weight:bold">Assembly</td>
                                 <td id="maps">
 
                                 </td>
