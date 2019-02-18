@@ -142,7 +142,7 @@
         },
 
         setMap: function () {
-            alert(this.selected);
+
         var selected = this.selected;
         var maps = document.getElementById("maps");
 
@@ -176,7 +176,6 @@
     },
      watch: {
          selected(){
-             alert("changed");
              v.setMap();
          }
      }
@@ -215,7 +214,7 @@
             </td>
         </tr>
 
-        <tr><td>{{selected}}</td></tr>
+        <tr><td>&nbsp;</td></tr>
         <tr>
 
             <td style=" font-size: 16px; font-weight:600;">Select an Ontology to view enrichment in all RGD species</td>
