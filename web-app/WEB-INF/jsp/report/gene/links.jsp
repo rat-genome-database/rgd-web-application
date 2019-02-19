@@ -31,7 +31,7 @@
     switch( obj.getSpeciesTypeKey() ) {
         case SpeciesType.RAT:
             vistaParams = "rn4&run=80";
-			agrUrl = XDBIndex.getInstance().getXDB(63).getUrl(SpeciesType.RAT)+obj.getRgdId();
+			agrUrl = XDBIndex.getInstance().getXDB(63).getUrl()+"RGD:"+obj.getRgdId();
             break;
         case SpeciesType.HUMAN:
             vistaParams = "hg19&run=4099";
