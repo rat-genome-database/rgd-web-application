@@ -111,12 +111,25 @@
     </section>
 </div>
 <script>
-    var values = {};
+    var host = window.location.protocol + window.location.host;
+
+    if (window.location.host.indexOf('localhost') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host= window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host=window.location.protocol + '//rest.rgd.mcw.edu';
+    }
     var v = new Vue({
         el: '#app',
         data () {
             return {
                 info:[],
+                hostName: host,
                 species: <%=req.getParameter("species")%>,
                 ontology: <%=ontology%>,
                 allSpecies:["Rat","Human","Mouse","Dog","Squirrel","Bonobo","Chinchilla"],
@@ -142,7 +155,7 @@
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
                 axios
-                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/annotatedGenes',
+                        .post(this.hostName+'/rgdws/enrichment/annotatedGenes',
                                 { accId: accId,
                                     speciesTypeKey: s,
                                     geneSymbols:  <%=geneSymbols%>})
@@ -223,22 +236,10 @@
                 form.submit();
             },
             dataLoad: function(aspect,s) {
-                var host = window.location.protocol + window.location.host;
 
-                if (window.location.host.indexOf('localhost') > -1) {
-                    host= window.location.protocol + '//localhost:8080';
-                } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                    host= window.location.protocol + '//dev.rgd.mcw.edu';
-                }else if (window.location.host.indexOf('test.rgd') > -1) {
-                    host= window.location.protocol + '//test.rgd.mcw.edu';
-                }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-                    host= window.location.protocol + '//pipelines.rgd.mcw.edu';
-                }else {
-                    host=window.location.protocol + '//rest.rgd.mcw.edu';
-                }
                 axios
-                        .post(host+'/rgdws/enrichment/data',
-                                {speciesTypeKey: s,
+                        .post(this.hostName+'/rgdws/enrichment/data',
+                                {species: s,
                                     genes: this.genes,
                                     aspect: aspect})
                         .then(response => {
@@ -252,23 +253,10 @@
             })
                 .finally(() => this.loading = false)
             },
-            dataLoadSpecies: function(aspect,s,key) {
-                var host = window.location.protocol + window.location.host;
-
-                if (window.location.host.indexOf('localhost') > -1) {
-                    host= window.location.protocol + '//localhost:8080';
-                } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                    host= window.location.protocol + '//dev.rgd.mcw.edu';
-                }else if (window.location.host.indexOf('test.rgd') > -1) {
-                    host= window.location.protocol + '//test.rgd.mcw.edu';
-                }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-                    host= window.location.protocol + '//pipelines.rgd.mcw.edu';
-                }else {
-                    host=window.location.protocol + '//rest.rgd.mcw.edu';
-                }
+            dataLoadSpecies: function(aspect,s) {
                 axios
-                        .post(host+'/rgdws/enrichment/data',
-                                {speciesTypeKey: key,
+                        .post(this.hostName+'/rgdws/enrichment/data',
+                                {species: s,
                                     genes: this.genes,
                                     aspect: aspect})
                         .then(response => {
@@ -430,8 +418,7 @@
                 this.selectedOne = false;
 
                 for (i = 0; i < this.allSpecies.length; i++) {
-                    var key = this.getSpeciesKey(this.allSpecies[i]);
-                    this.dataLoadSpecies(this.ontology, this.allSpecies[i], key);
+                    this.dataLoadSpecies(this.ontology, this.allSpecies[i]);
                 }
             }
 
