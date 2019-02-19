@@ -6,7 +6,7 @@
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:600px; width:750px; background-color:white; ">
+            <div style="overflow-x:auto; height:600px; width:800px; background-color:white; ">
 
 
                 <table id="t">
@@ -15,7 +15,7 @@
 
                         <th @click="sort('term',pair.spec)"> Term <i class="fa fa-fw fa-sort"></i></th>
                         <th @click="sort('count',pair.spec)">Annotated Genes <i class="fa fa-fw fa-sort"></i></th>
-                        <th @click="sort('pvalue',pair.spec)">p value <i class="fa fa-fw fa-sort"></i></th>
+                        <th @click="sort('pvalue',pair.spec)">P-Value <i class="fa fa-fw fa-sort"></i></th>
                         <th @click="sort('correctedpvalue',pair.spec)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
                     </tr>
                     </thead>
@@ -25,7 +25,7 @@
                             class="record"
                     >
 
-                        <td>{{record.term}}({{record.acc}}) </td>
+                        <td><b>{{record.term}} ({{record.acc}})</b> </td>
                         <td  @click="getGenes(record.acc,pair.spec)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             {{record.count}}
                         </button></td>
@@ -37,7 +37,7 @@
 
             </div></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td>
+            <td>&nbsp;&nbsp;
                 <label><b>Pvalue Limit</b></label>
                 <select v-on:change="loadChart(pair.info,pair.spec,pvalueLimit)" v-model="pvalueLimit">
                     <option v-for="value in pvalues">{{value}}</option>

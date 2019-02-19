@@ -24,15 +24,18 @@
         border:1px solid #ddd;
         margin-top:2px;
         border-radius:2px;
+        width: 100%;
+        text-align: center;
     }
     #t th{
-        height: 1px;
+        max-width: 40px;
         background-color:#2865a3;
         color: white;
-
+        padding: 5px;
     }
-    #t tr{
-        text-align:left;
+    #t td{
+        max-width: 40px;
+        padding: 5px;
     }
     #t  tr:nth-child(even) {background-color:#E6E6FA}
     .modal-body{

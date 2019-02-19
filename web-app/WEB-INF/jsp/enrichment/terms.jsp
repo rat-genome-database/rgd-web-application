@@ -6,7 +6,7 @@
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:600px; width:750px; background-color:white; ">
+            <div style="overflow-x:auto; height:600px; width:800px; background-color:white; ">
 
 
                 <table id="t">
@@ -22,7 +22,7 @@
                             class="record"
                     >
 
-                        <td>{{record.term}} ({{record.acc}}) </td>
+                        <td><b>{{record.term}} ({{record.acc}})</b> </td>
                         <td  @click="getGenes(record.acc,0)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             {{record.count}}
                         </button></td>
@@ -33,8 +33,8 @@
 
             </div></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td align="right">
-                <label><b>Pvalue Limit</b></label>
+            <td>
+                <label>&nbsp;&nbsp;<b>Pvalue Limit</b></label>
                 <select v-on:change="loadChart(pair.info,pair.ont,pvalueLimit)" v-model="pvalueLimit">
                     <option v-for="value in pvalues">{{value}}</option>
                 </select>
