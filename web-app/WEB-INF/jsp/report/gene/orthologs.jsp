@@ -130,7 +130,7 @@
          <TR>
              <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
              <TD style="background-color:#e2e2e2">
-                <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl(gg.getSpeciesTypeKey())+gg.getDescription()%>" title="see this gene at the Alliance">
+                <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
                   <%=gg.getSymbol()%><% if( gg.getName()!=null ) { out.print(" ("+gg.getName()+")"); } %></a>
              </TD>
              <TD style="background-color:#e2e2e2">Alliance</TD>
