@@ -20,7 +20,7 @@
            "Only one assignment per species is made.";
         String note2 = "'Other homologs' lists all HCOP homology assignments other than the consensus orthologs. "+
            "Where no orthologs are known this section may still contain non-orthologous homolog assignments.";
-        String note3 = "'Aliance orthologs' lists all best score orthology assignments as available at Alliance of Genome Resources.";
+        String note3 = "'Aliance orthologs' lists all stringent orthology assignments as available at Alliance of Genome Resources.";
         String buttonCaption;
 %>
 <tr>
@@ -39,7 +39,6 @@
                 XdbId xid = xids.get(0);
         %>
                 &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>">HGNC</a>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>" title="Alliance of Genome Resources">Alliance</a>
         <%
             }
          }else if (gene.getSpeciesTypeKey()==2){
@@ -48,13 +47,18 @@
                 XdbId xid = xids.get(0);
         %>
                 &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>">MGI</a>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>" title="Alliance of Genome Resources">Alliance</a>
          <% }
-         }else if( gene.getSpeciesTypeKey()==3 ) {
          %>
-            &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl(SpeciesType.RAT)+gene.getRgdId()%>" title="Alliance of Genome Resources">Alliance</a><%
-            }
-         %>
+
+        <%-- AGR GENES --%>
+        <%
+            List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,gene.getRgdId());
+            if (xids.size()>0 ) {
+                XdbId xid = xids.get(0);
+            %> &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">Alliance</a>
+            <% } %>
+        %>
+
         <br>
      <% }
          if( homologs.isEmpty() ) {
@@ -131,7 +135,8 @@
              <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
              <TD style="background-color:#e2e2e2">
                 <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
-                  <%=gg.getSymbol()%><% if( gg.getName()!=null ) { out.print(" ("+gg.getName()+")"); } %></a>
+                  <%-- do not print null gene name or gene name same as gene symbol --%>
+                  <%=gg.getSymbol()%><% if( !Utils.NVL(gg.getName(), gg.getSymbol()).equals(gg.getSymbol()) ) { out.print(" ("+gg.getName()+")"); } %></a>
              </TD>
              <TD style="background-color:#e2e2e2">Alliance</TD>
              <TD style="background-color:#e2e2e2">DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
