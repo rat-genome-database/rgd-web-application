@@ -1,0 +1,47 @@
+var v = new Vue({
+    el: '#app',
+    data: {
+        selected: 0
+    },
+    methods: {
+
+        viewReport: function (rgdId) {
+            document.report.rgdId.value = rgdId;
+            document.report.submit();
+        },
+
+        setMap: function (obj) {
+
+            var selected = obj.options[obj.selectedIndex].value;
+
+            var maps = document.getElementById("maps");
+
+            if (selected == 1) {
+
+                maps.innerHTML = humanMaps;
+                chroms.innerHTML = humanChroms;
+            } else if (selected == 2) {
+                maps.innerHTML = mouseMaps;
+                chroms.innerHTML = mouseChroms;
+            } else if (selected == 3) {
+                maps.innerHTML = ratMaps;
+                chroms.innerHTML = ratChroms;
+            } else if (selected == 4) {
+                maps.innerHTML = chinMaps;
+                chroms.innerHTML = chinChroms;
+            } else if (selected == 5) {
+                maps.innerHTML = bonoboMaps;
+                chroms.innerHTML = bonoboChroms;
+            } else if (selected == 6) {
+                maps.innerHTML = dogMaps;
+                chroms.innerHTML = dogChroms;
+            } else if (selected == 7) {
+                maps.innerHTML = squiMaps;
+                chroms.innerHTML = squiChroms;
+            } else {
+                maps.innerHTML = ratMaps;
+                chroms.innerHTML = ratChroms;
+            }
+        }
+    }
+})

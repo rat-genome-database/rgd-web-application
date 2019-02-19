@@ -100,59 +100,27 @@
         squirrelKeyValues.put(m.getKey() + "", m.getName());
     }
 
-
 %>
 
 
 <script>
-    var v = new Vue({
-        el: '#app',
-        data: {
-            selected: 0
-        },
-        methods: {
 
-        viewReport: function (rgdId) {
-        document.report.rgdId.value = rgdId;
-        document.report.submit();
-        },
-
-        setMap: function (obj) {
-
-            var selected = obj.options[obj.selectedIndex].value;
-
-            var maps = document.getElementById("maps");
-
-        if (selected == 1) {
-
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", humanKeyValues, mdao.getPrimaryRefAssembly(1).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", humanChr, "1","form-control inputstl")%>';
-        } else if (selected == 2) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", mouseKeyValues, mdao.getPrimaryRefAssembly(2).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", mouseChr, "1","form-control inputstl")%>';
-        } else if (selected == 3) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
-        } else if (selected == 4) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", chinKeyValues, mdao.getPrimaryRefAssembly(4).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", chinchillaChr, "1","form-control inputstl")%>';
-        } else if (selected == 5) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", bonoboKeyValues, mdao.getPrimaryRefAssembly(5).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", bonoboChr, "1","form-control inputstl")%>';
-        } else if (selected == 6) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", dogKeyValues, mdao.getPrimaryRefAssembly(6).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
-        } else if (selected == 7) {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
-        } else {
-            maps.innerHTML = '<%=fu.buildSelectListWithCss("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "","form-control inputstl")%>';
-            chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
-        }
-        }
-    }
-    })
+       var humanMaps = '<%=fu.buildSelectListWithCss("mapKey", humanKeyValues, mdao.getPrimaryRefAssembly(1).getKey() + "","form-control inputstl")%>';
+       var humanChroms = '<%=fu.buildChrSelectListWithCss("chr", humanChr, "1","form-control inputstl")%>';
+       var mouseMaps = '<%=fu.buildSelectListWithCss("mapKey", mouseKeyValues, mdao.getPrimaryRefAssembly(2).getKey() + "","form-control inputstl")%>';
+       var mouseChroms = '<%=fu.buildChrSelectListWithCss("chr", mouseChr, "1","form-control inputstl")%>';
+       var ratMaps = '<%=fu.buildSelectListWithCss("mapKey", ratKeyValues, mdao.getPrimaryRefAssembly(3).getKey() + "","form-control inputstl")%>';
+       var ratChroms = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
+        var chinMaps = '<%=fu.buildSelectListWithCss("mapKey", chinKeyValues, mdao.getPrimaryRefAssembly(4).getKey() + "","form-control inputstl")%>';
+        var chinChroms = '<%=fu.buildChrSelectListWithCss("chr", chinchillaChr, "1","form-control inputstl")%>';
+        var bonoboMaps = '<%=fu.buildSelectListWithCss("mapKey", bonoboKeyValues, mdao.getPrimaryRefAssembly(5).getKey() + "","form-control inputstl")%>';
+        var bonoboChroms= '<%=fu.buildChrSelectListWithCss("chr", bonoboChr, "1","form-control inputstl")%>';
+        var dogMaps = '<%=fu.buildSelectListWithCss("mapKey", dogKeyValues, mdao.getPrimaryRefAssembly(6).getKey() + "","form-control inputstl")%>';
+        var dogChroms = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
+        var squiMaps = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
+        var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
 </script>
+<script src="/rgdweb/js/enrichment/start.js"></script>
 
 <%
     String pageHeader="Gene Enrichment Tool - Generate an enrichment report for a list of genes";
