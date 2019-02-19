@@ -56,7 +56,7 @@
             if (xids.size()>0 ) {
                 XdbId xid = xids.get(0);
             %> &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">Alliance</a>
-            <% } %>
+            <% }
         %>
 
         <br>
