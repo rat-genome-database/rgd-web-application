@@ -15,57 +15,10 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 <html>
 <body style="background-color: white">
 <%@ include file="/common/compactHeaderArea.jsp" %>
-
-<style>
-    #t{
-        border:1px solid #ddd;
-        margin-top:2px;
-        border-radius:2px;
-        width: 100%;
-        text-align: center;
-    }
-    #t th{
-        max-width: 40px;
-        background-color:#2865a3;
-        color: white;
-        padding: 5px;
-    }
-    #t td{
-        max-width: 40px;
-        padding: 5px;
-    }
-    #t  tr:nth-child(even) {background-color:#E6E6FA}
-    .modal-body{
-        width: 800px;
-    }
-    .heading
-    {
-        margin-top: 2px;
-        text-align: center;
-        height: 80px;
-        background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
-        color: #fff;
-        font-weight: bold;
-        line-height: 80px;
-    }
-    .btnSubmit
-    {
-        border:none;
-        border-radius:1.5rem;
-        padding: 3%;
-        width: 25%;
-        cursor: pointer;
-        background: #2655c1;
-        color: #fff;
-    }
-
-    .btn-primary:active {
-       background-color: green;
-        }
-</style>
 <%
     HttpRequestFacade req = new HttpRequestFacade(request);
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
@@ -270,9 +223,21 @@
                 form.submit();
             },
             dataLoad: function(aspect,s) {
+                var host = window.location.protocol + window.location.host;
 
+                if (window.location.host.indexOf('localhost') > -1) {
+                    host= window.location.protocol + '//localhost:8080';
+                } else if (window.location.host.indexOf('dev.rgd') > -1) {
+                    host= window.location.protocol + '//dev.rgd.mcw.edu';
+                }else if (window.location.host.indexOf('test.rgd') > -1) {
+                    host= window.location.protocol + '//test.rgd.mcw.edu';
+                }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+                    host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+                }else {
+                    host=window.location.protocol + '//rest.rgd.mcw.edu';
+                }
                 axios
-                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/data',
+                        .post(host+'/rgdws/enrichment/data',
                                 {speciesTypeKey: s,
                                     genes: this.genes,
                                     aspect: aspect})
@@ -288,9 +253,21 @@
                 .finally(() => this.loading = false)
             },
             dataLoadSpecies: function(aspect,s,key) {
+                var host = window.location.protocol + window.location.host;
 
+                if (window.location.host.indexOf('localhost') > -1) {
+                    host= window.location.protocol + '//localhost:8080';
+                } else if (window.location.host.indexOf('dev.rgd') > -1) {
+                    host= window.location.protocol + '//dev.rgd.mcw.edu';
+                }else if (window.location.host.indexOf('test.rgd') > -1) {
+                    host= window.location.protocol + '//test.rgd.mcw.edu';
+                }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+                    host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+                }else {
+                    host=window.location.protocol + '//rest.rgd.mcw.edu';
+                }
                 axios
-                        .post('https://dev.rgd.mcw.edu/rgdws/enrichment/data',
+                        .post(host+'/rgdws/enrichment/data',
                                 {speciesTypeKey: key,
                                     genes: this.genes,
                                     aspect: aspect})

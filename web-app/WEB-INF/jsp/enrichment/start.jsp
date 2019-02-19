@@ -4,48 +4,14 @@
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.dao.impl.AnnotationDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
+<%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.datamodel.annotation.TermWrapper" %>
 <script src="https://unpkg.com/vue@2.4.2"></script>
+<link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/start.css">
 
-<style>
-    .inputstl {
-        padding: 9px;
-        border: solid 1px #4B718B;
-        outline: 0;
-        background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e6f0ff), to(#FFFFFF));
-        background: -moz-linear-gradient(top, #FFFFFF, #e6f0ff 1px, #FFFFFF 25px);
-        box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-        -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-        -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-        font-weight: bold;
-
-    }
-    .heading
-    {
-        text-align: center;
-        height: 80px;
-        background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
-        color: #fff;
-        font-weight: bold;
-        line-height: 80px;
-    }
-    .btnSubmit
-    {
-        border:none;
-        border-radius:1.5rem;
-        padding: 3%;
-        width: 25%;
-        cursor: pointer;
-        background: #2655c1;
-        color: #fff;
-    }
-    hr {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        border: 0;
-        border-top: 3px solid #372f7f;
-    }
-
-</style>
 
 
 <%
@@ -56,10 +22,30 @@
 <%@ include file="/common/headerarea.jsp" %>
 
 <% try { %>
+<%
+    //initializations
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
+    FormUtility fu = new FormUtility();
+    UI ui=new UI();
+    AnnotationDAO adao = new AnnotationDAO();
+    GeneDAO gdao = new GeneDAO();
 
-<%@ include file="../ga/gaHeader.jsp" %>
+    ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
+    List termSet= Utils.symbolSplit(req.getParameter("terms"));
+    List<TermWrapper> termWrappers = new ArrayList();
 
-<%  MapDAO mdao = new MapDAO();
+    LinkedHashMap aspects = new LinkedHashMap();
+    aspects.put("D","Disease");
+    aspects.put("W","Pathway");
+    aspects.put("N","Phenotype");
+    aspects.put("P","GO: Biological Process");
+    aspects.put("C","GO: Cellular Component");
+    aspects.put("F","GO: Molecular Function");
+    //aspects.put("B","Neuro Behavioral");
+    aspects.put("E","Chemical Interactions");
+
+    MapDAO mdao = new MapDAO();
     List<Map> ratMaps= mdao.getMaps(SpeciesType.RAT, "bp");
     List<Map> mouseMaps= mdao.getMaps(SpeciesType.MOUSE, "bp");
     List<Map> humanMaps= mdao.getMaps(SpeciesType.HUMAN, "bp");
@@ -174,12 +160,7 @@
             chroms.innerHTML = '<%=fu.buildChrSelectListWithCss("chr", ratChr, "1","form-control inputstl")%>';
         }
         }
-    },
-     watch: {
-         selected(){
-             v.setMap();
-         }
-     }
+    }
     })
 </script>
 
