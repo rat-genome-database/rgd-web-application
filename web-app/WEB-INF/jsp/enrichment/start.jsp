@@ -35,16 +35,6 @@
     List termSet= Utils.symbolSplit(req.getParameter("terms"));
     List<TermWrapper> termWrappers = new ArrayList();
 
-    LinkedHashMap aspects = new LinkedHashMap();
-    aspects.put("D","Disease");
-    aspects.put("W","Pathway");
-    aspects.put("N","Phenotype");
-    aspects.put("P","GO: Biological Process");
-    aspects.put("C","GO: Cellular Component");
-    aspects.put("F","GO: Molecular Function");
-    //aspects.put("B","Neuro Behavioral");
-    aspects.put("E","Chemical Interactions");
-
     MapDAO mdao = new MapDAO();
     List<Map> ratMaps= mdao.getMaps(SpeciesType.RAT, "bp");
     List<Map> mouseMaps= mdao.getMaps(SpeciesType.MOUSE, "bp");
@@ -202,13 +192,13 @@
             <td style=" font-size: 16px; font-weight:600;">Select an Ontology to view enrichment in all RGD species</td>
             <td>
                 <select  class="form-control inputstl" name="o" id="o">
-                    <option value="D">Disease</option>
-                    <option value="W">Pathway</option>
-                    <option  value="P">Phenotype</option>
-                    <option  value="C">GO: Biological Process</option>
-                    <option  value="F" >GO: Cellular Component</option>
-                    <option  value="N" >GO: Molecular Function</option>
-                    <option  value="E">Chemical Interactions</option>
+                    <option value="RDO">Disease</option>
+                    <option value="PW">Pathway</option>
+                    <option  value="MP">Phenotype</option>
+                    <option  value="BP">GO: Biological Process</option>
+                    <option  value="CC" >GO: Cellular Component</option>
+                    <option  value="MF" >GO: Molecular Function</option>
+                    <option  value="CHEBI">Chemical Interactions</option>
                 </select>
             </td>
         </tr>

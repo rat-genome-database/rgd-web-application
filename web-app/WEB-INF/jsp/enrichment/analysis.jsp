@@ -133,7 +133,7 @@
                 species: <%=req.getParameter("species")%>,
                 ontology: <%=ontology%>,
                 allSpecies:["Rat","Human","Mouse","Dog","Squirrel","Bonobo","Chinchilla"],
-                allOntologies:["D","W","P","C","F","N","E"],
+                allOntologies:["RDO","PW","BP","CC","MF","MP","CHEBI"],
                 loading: true,
                 geneLoading: true,
                 errored: false,
@@ -271,19 +271,19 @@
                 .finally(() => this.loading = false)
             },
             getOntologyTitle: function(aspect) {
-                if(aspect == "D")
+                if(aspect == "RDO")
                     return "Disease Ontology";
-                else if(aspect == "W")
+                else if(aspect == "PW")
                     return "Pathway Ontology";
-                else if(aspect == "P")
+                else if(aspect == "BP")
                     return "GO: Biological Process Ontology";
-                else if(aspect == "N")
+                else if(aspect == "MP")
                     return "Phenotype Ontology";
-                else if(aspect == "C")
+                else if(aspect == "CC")
                     return "GO: Cellular Component Ontology";
-                else if(aspect == "F")
+                else if(aspect == "MF")
                     return "GO: Molecular Function Ontology";
-                else if(aspect == "E")
+                else if(aspect == "CHEBI")
                     return "Chemical Interactions Ontology"
             },
             loadChart: function (info,name,value) {
