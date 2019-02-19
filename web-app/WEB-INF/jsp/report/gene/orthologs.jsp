@@ -47,7 +47,7 @@
                 XdbId xid = xids.get(0);
         %>
                 &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>">MGI</a>
-         <% }
+         <% }}
          %>
 
         <%-- AGR GENES --%>
