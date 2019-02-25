@@ -128,6 +128,9 @@ public class TermEditObjectController implements Controller {
         String newTermDef = Utils.defaultString(req.getParameter("def"))
                 .replaceAll("[\\s]+", " ").trim();
 
+        String newComment = Utils.defaultString(req.getParameter("comment"))
+                .replaceAll("[\\s]+", " ").trim();
+
         Term term = odao.getTermByAccId(termAcc);
         if( term==null ) {
             if( !( termAcc.startsWith("DOID:9") || termAcc.startsWith("PW:") || termAcc.startsWith("RS:")
@@ -145,6 +148,7 @@ public class TermEditObjectController implements Controller {
             term.setAccId(termAcc);
             term.setTerm(newTermName);
             term.setDefinition(newTermDef);
+            term.setComment(newComment);
             term.setCreatedBy(createdBy);
 
             term.setCreationDate(new Date());
@@ -173,11 +177,13 @@ public class TermEditObjectController implements Controller {
                 || termAcc.startsWith("CMO:") ||termAcc.startsWith("MMO:") ||termAcc.startsWith("XCO:")
             ) &&
                (!Utils.stringsAreEqual(newTermName, term.getTerm()) ||
-                !Utils.stringsAreEqual(newTermDef, term.getDefinition())) ) {
+                !Utils.stringsAreEqual(newTermDef, term.getDefinition()) ||
+                !Utils.stringsAreEqual(newComment, term.getComment())) ) {
 
                 // update term
                 term.setTerm(newTermName);
                 term.setDefinition(newTermDef);
+                term.setComment(newComment);
                 odao.updateTerm(term);
             }
         }
