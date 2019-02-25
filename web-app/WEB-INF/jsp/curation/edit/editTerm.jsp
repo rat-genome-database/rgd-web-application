@@ -220,6 +220,11 @@
             <% } %>
         </tr></table></td>
     </tr>
+
+    <tr>
+        <td class="label">Comments: (non-public)</td>
+        <td><textarea rows="4" cols="80" name="comment"><%=Utils.defaultString(term.getComment())%></textarea></td>
+    </tr>
     <% } else { %>
     <a href="/rgdweb/ontology/search.html">Search Ontologies</a><p>
     <% } %>
