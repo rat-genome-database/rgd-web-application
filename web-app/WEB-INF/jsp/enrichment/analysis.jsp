@@ -128,7 +128,7 @@
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var geneSymbols = <%=geneSymbols%>;
-    var mapKey = <%=req.getParameter("mapKey")%>;
+   
 
 </script>
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
