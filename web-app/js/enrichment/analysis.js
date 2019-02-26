@@ -108,9 +108,11 @@ var v = new Vue({
                         genes: this.genes,
                         aspect: aspect})
                 .then(response => {
+
                     this.info.push({name: aspect,
-                        value: response.data}),
-                        v.loadChart(response.data,aspect,0.05)
+                        value: response.data});
+                    if(response.data.length != 0)
+                        v.loadChart(response.data,aspect,0.05);
                 })
                 .catch(error => {
                     console.log(error)
@@ -125,9 +127,12 @@ var v = new Vue({
                         genes: this.genes,
                         aspect: aspect})
                 .then(response => {
-                    this.info.push({name: s,
-                        value: response.data}),
-                        v.loadChart(response.data,s,0.05)
+
+                      this.info.push({name: s,
+                            value: response.data});
+                    if(response.data.length != 0)
+                        v.loadChart(response.data,s,0.05);
+
                 })
                 .catch(error => {
                     console.log(error)

@@ -102,6 +102,7 @@
     </section>
 
     <section v-else>
+
         <section v-if="selectedAll" >
              <%@ include file="species.jsp" %>
         </section>
@@ -111,7 +112,7 @@
     </section>
 </div>
 <script>
-   var host = window.location.protocol + window.location.host;
+    var host = window.location.protocol + window.location.host;
     if (window.location.host.indexOf('localhost') > -1) {
         host= window.location.protocol + '//dev.rgd.mcw.edu';
     } else if (window.location.host.indexOf('dev.rgd') > -1) {
@@ -123,8 +124,6 @@
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-
-
 
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
