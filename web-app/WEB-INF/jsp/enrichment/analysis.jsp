@@ -111,7 +111,18 @@
     </section>
 </div>
 <script>
-    var host = 'https://dev.rgd.mcw.edu';
+   var host = window.location.protocol + window.location.host;
+    if (window.location.host.indexOf('localhost') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host= window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host=window.location.protocol + '//rest.rgd.mcw.edu';
+    }
 
 
 
