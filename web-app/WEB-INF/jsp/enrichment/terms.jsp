@@ -23,7 +23,7 @@
                     >
 
                         <td><b>{{record.term}} ({{record.acc}})</b> </td>
-                        <td  @click="getGenes(record.acc,0)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <td  @click="getGenes(record.acc,species[0])"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             {{record.count}}
                         </button></td>
                         <td> {{record.pvalue}}</td>

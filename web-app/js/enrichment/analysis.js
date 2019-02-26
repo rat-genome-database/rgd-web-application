@@ -23,15 +23,13 @@ var v = new Vue({
     },
     methods: {
         getGenes: function (accId,species) {
-            var s = this.species[0];
-            if(species != 0)
-                s = v.getSpeciesKey(species);
+
             var modal = document.getElementById('myModal');
             var span = document.getElementsByClassName("close")[0];
             axios
                 .post(this.hostName+'/rgdws/enrichment/annotatedGenes',
                     { accId: accId,
-                        speciesTypeKey: s,
+                        species: species,
                         geneSymbols:  this.genes})
                 .then(response => {
                     this.geneData = response.data;
