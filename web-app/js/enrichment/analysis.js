@@ -4,8 +4,8 @@ var v = new Vue({
         return {
             info:[],
             hostName: host,
-            species: speciesKey,
-            ontology: ont,
+            species: [speciesKey],
+            ontology: [ont],
             allSpecies:["Rat","Human","Mouse","Dog","Squirrel","Bonobo","Chinchilla"],
             allOntologies:["RDO","PW","BP","CC","MF","MP","CHEBI"],
             loading: true,
@@ -23,7 +23,7 @@ var v = new Vue({
     },
     methods: {
         getGenes: function (accId,species) {
-            var s = this.species;
+            var s = this.species[0];
             if(species != 0)
                 s = v.getSpeciesKey(species);
             var modal = document.getElementById('myModal');
@@ -49,24 +49,18 @@ var v = new Vue({
         },
 
         loadView: function(s) {
-            this.species = v.getSpeciesKey(s);
-            if(this.species == 0) {
-                this.selectedAll = true;
-                this.selectedOne = false;
-            } else {
-                this.selectedAll = false;
-                this.selectedOne = true;
-            }
+            this.species[0] = v.getSpeciesKey(s);
+            v.selectView();
 
 
         },
         loadOntView: function(s) {
             v.loadView(s);
-            v.explore(this.genes);
+            v.selectView();
         },
         loadSpeciesView: function(o){
-            this.ontology = o;
-            v.explore(this.genes);
+            this.ontology[0] = o;
+            v.selectView();
         },
         getSpeciesKey: function(s){
 
@@ -253,12 +247,29 @@ var v = new Vue({
                 }
             }
 
+        },
+        selectView: function() {
+            this.info = [];
+            if(this.species[0] != 0) {
+                this.selectedAll = false;
+                this.selectedOne = true;
+
+                this.dataLoad(this.ontology[0],this.species[0]);
+
+            } else {
+                this.selectedAll = true;
+                this.selectedOne = false;
+
+                for (i = 0; i < this.allSpecies.length; i++) {
+                    this.dataLoadSpecies(this.ontology[0], this.allSpecies[i]);
+                }
+            }
         }
 
     },
     computed: {
         pairs () {
-            return this.allOntologies.map((ont, i) => {
+            return this.ontology.map((ont, i) => {
                 return {
                     ont: ont,
                     info: this.loadPairs(ont)
@@ -277,23 +288,6 @@ var v = new Vue({
 
     },
     mounted() {
-        this.info = [];
-
-        if(this.species != 0) {
-            this.selectedAll = false;
-            this.selectedOne = true;
-            for (i = 0; i < this.allOntologies.length; i++) {
-                console.log(this.allOntologies[i]);
-                this.dataLoad(this.allOntologies[i],this.species);
-            }
-        } else {
-            this.selectedAll = true;
-            this.selectedOne = false;
-
-            for (i = 0; i < this.allSpecies.length; i++) {
-                this.dataLoadSpecies(this.ontology, this.allSpecies[i]);
-            }
-        }
-
+        this.selectView();
     },
 })
