@@ -33,9 +33,10 @@ var v = new Vue({
                         geneSymbols:  this.genes})
                 .then(function(response) {
                     v.geneData = response.data;
+                    this.geneLoading = false;
                 }) .catch(function(error) {
                 console.log(error)
-            }) .finally(function() { this.geneLoading = false})
+            })
         },
 
 
@@ -106,12 +107,14 @@ var v = new Vue({
                         value: response.data});
                     if(response.data.length != 0)
                         v.loadChart(response.data,aspect,0.05);
+
+                    v.loading = false;
                 })
                 .catch(function(error) {
                     console.log(error)
                     v.errored = true
                 })
-                .finally(function(){ v.loading = false})
+
         },
         dataLoadSpecies: function(aspect,s) {
             axios
@@ -125,13 +128,13 @@ var v = new Vue({
                             value: response.data});
                     if(response.data.length != 0)
                         v.loadChart(response.data,s,0.05);
-
+                    v.loading = false;
                 })
                 .catch(function(error) {
                     console.log(error)
                     v.errored = true
                 })
-                .finally(function(){ v.loading = false})
+
         },
         getOntologyTitle: function(aspect) {
             if(aspect == "RDO")
