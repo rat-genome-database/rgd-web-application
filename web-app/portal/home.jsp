@@ -25,47 +25,58 @@
     switch (portal) {
         case 1:
             title = "Aging & Age-Related Disease";
-            filter = "RDO:9000433";
+            //filter = "RDO:9000433";
+            filter = "DOID:9007801";
             break;
         case 2:
             title = "Cancer";
-            filter = "RDO:0005309";
+            //filter = "RDO:0005309";
+            filter = "DOID:145669";
             break;
         case 3:
             title = "Cardiovascular Disease";
-            filter = "RDO:0005134";
+            //filter = "RDO:0005134";
+            filter = "DOID:1287";
             break;
         case 4:
             title = "Diabetes Disease";
-            filter = "RDO:0000249";
+            //filter = "RDO:0000249";
+            filter = "DOID:9351";
             break;
         case 5:
             title = "Hematologic Disease";
-            filter = "RDO:0003591";
+            //filter = "RDO:0003591";
+            filter = "DOID:74";
             break;
         case 6:
             title = "Immune & Inflammatory Disease";
-            filter = "RDO:9001566";
+            //filter = "RDO:9001566";
+            filter = "DOID:9003859";
             break;
         case 7:
             title = "Neurological Disease";
-            filter = "RDO:0001228";
+            //filter = "RDO:0001228";
+            filter = "DOID:863";
             break;
         case 8:
             title = "Obesity/Metabolic Syndrome";
-            filter = "RDO:0006123";
+            //filter = "RDO:0006123";
+            filter = "DOID:9008231";
             break;
         case 9:
             title = "Renal Disease";
-            filter = "RDO:0000692";
+            //filter = "RDO:0000692";
+            filter = "DOID:557";
             break;
         case 10:
             title = "Respiratory Disease";
-            filter = "RDO:0003158";
+            //filter = "RDO:0003158";
+            filter = "DOID:1579";
             break;
         case 11:
             title = "Sensory Organ Disease";
-            filter = "RDO:9001567";
+            //filter = "RDO:9001567";
+            filter = "DOID:0050155";
             break;
     }
 
@@ -363,11 +374,13 @@
 
                 var host = window.location.host;
 
-                $scope.urlString = "http://" + host + "/rgdweb/generator/list.html?a=~" + $scope.rootTermAcc + "|!" + termAcc + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
+                var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
+
+                $scope.urlString = "http://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
                 $http({
                     method: 'GET',
-                    url: "http://" + host + "/rgdweb/generator/list.html?a=~" + $scope.rootTermAcc + "|!" + termAcc + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    url: "http://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                 }).then(function successCallback(response) {
                     //alert(response.data);
                     if (objectKey ==1) {
