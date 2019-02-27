@@ -6,7 +6,7 @@
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:600px; width:800px; background-color:white; ">
+            <div style="overflow:auto; height:600px; width:800px; background-color:white; ">
 
 
                 <table id="t">
