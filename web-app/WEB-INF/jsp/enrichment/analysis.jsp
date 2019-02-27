@@ -9,9 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -102,6 +101,7 @@
     </section>
 
     <section v-else>
+
         <section v-if="selectedAll" >
              <%@ include file="species.jsp" %>
         </section>
@@ -124,8 +124,6 @@
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
 
-
-
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var geneSymbols = <%=geneSymbols%>;
@@ -133,5 +131,6 @@
 
 </script>
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
 </html>
