@@ -1,7 +1,7 @@
 var v = new Vue({
     el: '#app',
-    data () {
-        return {
+    data: {
+
             info:[],
             hostName: host,
             species: [speciesKey],
@@ -19,7 +19,7 @@ var v = new Vue({
             currentSortDir:'asc',
             selectedAll: false,
             selectedOne: false,
-        }
+
     },
     methods: {
         getGenes: function (accId,species) {
@@ -31,20 +31,14 @@ var v = new Vue({
                     { accId: accId,
                         species: species,
                         geneSymbols:  this.genes})
-                .then(response => {
-                    this.geneData = response.data;
-                }) .catch(error => {
+                .then(function(response) {
+                    v.geneData = response.data;
+                    this.geneLoading = false;
+                }) .catch(function(error) {
                 console.log(error)
-            }) .finally(() => this.geneLoading = false)
+            })
         },
-        sort:function(s,ont) {
-            //if s == current sort, reverse
-            if(s === this.currentSort) {
-                this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
-            }
-            this.currentSort = s;
-            this.selected = ont;
-        },
+
 
         loadView: function(s) {
             this.species[0] = v.getSpeciesKey(s);
@@ -107,18 +101,20 @@ var v = new Vue({
                     {species: s,
                         genes: this.genes,
                         aspect: aspect})
-                .then(response => {
+                .then(function(response) {
 
-                    this.info.push({name: aspect,
+                    v.info.push({name: aspect,
                         value: response.data});
                     if(response.data.length != 0)
                         v.loadChart(response.data,aspect,0.05);
+
+                    v.loading = false;
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.log(error)
-                    this.errored = true
+                    v.errored = true
                 })
-                .finally(() => this.loading = false)
+
         },
         dataLoadSpecies: function(aspect,s) {
             axios
@@ -126,19 +122,19 @@ var v = new Vue({
                     {species: s,
                         genes: this.genes,
                         aspect: aspect})
-                .then(response => {
+                .then(function(response) {
 
-                      this.info.push({name: s,
+                      v.info.push({name: s,
                             value: response.data});
                     if(response.data.length != 0)
                         v.loadChart(response.data,s,0.05);
-
+                    v.loading = false;
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.log(error)
-                    this.errored = true
+                    v.errored = true
                 })
-                .finally(() => this.loading = false)
+
         },
         getOntologyTitle: function(aspect) {
             if(aspect == "RDO")
@@ -156,6 +152,7 @@ var v = new Vue({
             else if(aspect == "CHEBI")
                 return "Chemical Interactions Ontology"
         },
+       
         loadChart: function (info,name,value) {
 
             var arr = info;
@@ -163,12 +160,14 @@ var v = new Vue({
             var yarray = [];
             var y1array = [];
             for (i in arr) {
-                if (arr[i].pvalue < value) {
+                var v = arr[i].pvalue;
+                if ( value > Number(v)) {
                     xarray.push(arr[i].term);
                     yarray.push(arr[i].count);
-                    y1array.push((arr[i].pvalue));
+                    y1array.push(arr[i].pvalue);
                 }
             }
+
             var trace1 = {
                 x: xarray,
                 y: yarray,
@@ -229,7 +228,7 @@ var v = new Vue({
                     tickangle: -45
                 }
             };
-            Plotly.newPlot(name, data, layout);
+            Plotly.react(name, data, layout);
         },
         loadPairs: function(view) {
 
@@ -237,11 +236,11 @@ var v = new Vue({
                 if(this.info[i].name == view) {
                     if(this.info[i].value.length != 0) {
                         if (this.selected == view) {
-                            return this.info[i].value.sort((a, b) => {
+                            return this.info[i].value.sort(function(a, b)  {
                                 let modifier = 1;
-                                if (this.currentSortDir === 'desc') modifier = -1;
-                                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                                if (v.currentSortDir === 'desc') modifier = -1;
+                                if (a[v.currentSort] < b[v.currentSort]) return -1 * modifier;
+                                if (a[v.currentSort] > b[v.currentSort]) return 1 * modifier;
                                 return 0;
                             });
                         }
@@ -271,26 +270,25 @@ var v = new Vue({
 
     },
     computed: {
-        pairs () {
-            return this.ontology.map((ont, i) => {
+        pairs: function() {
+            var v = this;
+            return this.ontology.map(function(ont){
                 return {
                     ont: ont,
-                    info: this.loadPairs(ont)
+                    info: v.loadPairs(ont)
                 }
-            });
-        },
-        speciesPairs() {
-            return this.allSpecies.map((spec, i) => {
-                return {
-                    spec: spec,
-                    info: this.loadPairs(spec)
-                }
-            });
-        }
-
-
+            }); },
+        speciesPairs: function() {
+            var v = this;
+                return this.allSpecies.map(function(spec)  {
+                    return {
+                        spec: spec,
+                        info: v.loadPairs(spec)
+                    }
+                });
+            }
     },
-    mounted() {
+    mounted: function() {
         this.selectView();
     },
 })

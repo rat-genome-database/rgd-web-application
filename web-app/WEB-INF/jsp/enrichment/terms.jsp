@@ -7,7 +7,7 @@
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:600px; width:800px; background-color:white; ">
+            <div style="overflow:auto; height:600px; width:800px; background-color:white; ">
 
 
                 <table id="t">
@@ -36,7 +36,7 @@
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td>
                 <label>&nbsp;&nbsp;<b>Pvalue Limit</b></label>
-                <select v-on:change="loadChart(pair.info,pair.ont,pvalueLimit)" v-model="pvalueLimit">
+                <select v-on:change="loadChart(pair.info,pair.ont,pvalueLimit)" v-model.lazy="pvalueLimit">
                     <option v-for="value in pvalues">{{value}}</option>
                 </select>
                 <div v-bind:id=pair.ont style="font-weight:700; width:800px;"></div>
