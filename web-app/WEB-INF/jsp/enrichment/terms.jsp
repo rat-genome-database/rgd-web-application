@@ -1,3 +1,4 @@
+
 <div style="background-color: white; width:1700px; " v-for="pair in pairs">
 
     <div v-if="loading">Loading...</div>
@@ -6,7 +7,7 @@
 
     <table>
         <tr><td>
-            <div style="overflow-x:auto; height:600px; width:800px; background-color:white; ">
+            <div style="overflow:auto; height:600px; width:800px; background-color:white; ">
 
 
                 <table id="t">
@@ -43,5 +44,9 @@
 
     </table>
     </section>
-
+<section v-else>
+    <br>
+    <p style="font-size: large;font-weight: bold"> There are no annotations currently available for this combination</p>
+</section>
 </div>
+</section>
