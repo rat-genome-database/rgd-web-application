@@ -33,7 +33,7 @@ var v = new Vue({
                         geneSymbols:  this.genes})
                 .then(function(response) {
                     v.geneData = response.data;
-                    this.geneLoading = false;
+                    v.geneLoading = false;
                 }) .catch(function(error) {
                 console.log(error)
             })
@@ -152,7 +152,7 @@ var v = new Vue({
             else if(aspect == "CHEBI")
                 return "Chemical Interactions Ontology"
         },
-       
+
         loadChart: function (info,name,value) {
 
             var arr = info;
