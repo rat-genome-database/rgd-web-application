@@ -152,6 +152,10 @@ var v = new Vue({
             else if(aspect == "CHEBI")
                 return "Chemical Interactions Ontology"
         },
+        loadPChart: function(info,name,obj) {
+            var val = obj.options[obj.selectedIndex].value;
+            v.loadChart(info,name,val);
+        },
         loadChart: function (info,name,value) {
 
             var arr = info;
@@ -159,12 +163,14 @@ var v = new Vue({
             var yarray = [];
             var y1array = [];
             for (i in arr) {
-                if (arr[i].pvalue < value) {
+                var v = arr[i].pvalue;
+                if ( value > Number(v)) {
                     xarray.push(arr[i].term);
                     yarray.push(arr[i].count);
-                    y1array.push((arr[i].pvalue));
+                    y1array.push(arr[i].pvalue);
                 }
             }
+
             var trace1 = {
                 x: xarray,
                 y: yarray,
@@ -225,7 +231,7 @@ var v = new Vue({
                     tickangle: -45
                 }
             };
-            Plotly.newPlot(name, data, layout);
+            Plotly.react(name, data, layout);
         },
         loadPairs: function(view) {
 
