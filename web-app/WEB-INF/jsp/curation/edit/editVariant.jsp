@@ -1,14 +1,5 @@
-<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="edu.mcw.rgd.web.FormUtility" %>
-<%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
-<%@ page import="edu.mcw.rgd.report.DaoUtils" %>
-<%@ page import="java.util.*" %>
-<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
-<%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -65,30 +56,30 @@
 
                     <tr>
                         <td class="label">Name:</td>
-                        <td><input name="name" type="text" size="45" value="<%=dm.out("name",variant.getName())%>"/></td>
+                        <td><input name="name" type="text" size="65" value="<%=dm.out("name",variant.getName())%>"/></td>
                     </tr>
                     <tr>
                         <td class="label">Description:</td>
-                        <td><input name="description" type="text" size="45"
+                        <td><input name="description" type="text" size="65"
                                    value="<%=dm.out("description",variant.getDescription())%>"/></td>
                     </tr>
                     <tr>
                     <td class="label">SO ACC ID:</td>
-                    <td><input name="type" type="text" size="30" value="<%=dm.out("type",variant.getType())%>"/></td>
+                    <td><input name="type" type="text" size="25" value="<%=dm.out("type",variant.getType())%>"/></td>
                     </tr>
 
                     <tr>
                         <td class="label">Reference Nucleotide</td>
-                        <td><input name="refNuc" type="text" size="5" value="<%=dm.out("refNuc",variant.getRefNuc())%>"/></td>
+                        <td><input name="refNuc" type="text" size="80" value="<%=dm.out("refNuc",variant.getRefNuc())%>"/></td>
                     </tr>
                     <tr>
                         <td class="label">Variant Nucleotide</td>
-                        <td><input name="varNuc" type="text" size="5" value="<%=dm.out("varNuc",variant.getVarNuc())%>"/>
+                        <td><input name="varNuc" type="text" size="80" value="<%=dm.out("varNuc",variant.getVarNuc())%>"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="label">Notes</td>
-                        <td><input name="notes" type="text" size="100" value="<%=dm.out("notes",variant.getNotes())%>"/></td>
+                        <td><textarea rows="4" cols="70" name="notes"><%=dm.out("notes",variant.getNotes())%></textarea></td>
                     </tr>
 
                     <tr>
