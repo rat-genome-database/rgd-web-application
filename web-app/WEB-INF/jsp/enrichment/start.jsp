@@ -125,9 +125,9 @@
 <%
     String pageHeader="Gene Enrichment Tool - Generate an enrichment report for a list of genes";
 %>
-<div class="heading">
-    <p style="font-size:30px; color:white; font-weight:600;"><%=pageHeader%></p>
-</div>
+
+    <p class="heading" style="font-size:30px; color:white; font-weight:600;"><%=pageHeader%></p>
+
 
 <br>
 

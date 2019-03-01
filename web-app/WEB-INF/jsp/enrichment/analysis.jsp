@@ -55,37 +55,8 @@
 
 <br>
 
-<div id="app" >
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <a @click="explore(geneData.genes);" href="javascript:void(0);">Explore this Gene Set</a>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div v-if="geneLoading">Loading...</div>
-                    <table class="table table-striped">
-                        <tr
-                                v-for="data in geneData.geneData"
-                                class="data"
-                        >
-                            <td>{{data.gene}}</td>
-                            <td>{{data.terms}}</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+<div id="enrichment" >
+    <%@ include file="annotatedGenes.jsp" %>
     <table>
         <tr>
         <td><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': selectedOne, 'btn-success': selectedAll}" @click="loadView('All')">All</button>&nbsp;&nbsp;</td>
@@ -103,34 +74,67 @@
     <section v-else>
 
         <section v-if="selectedAll" >
-             <%@ include file="species.jsp" %>
+
+            <div style="background-color: white; width:1700px; " v-for="pair in speciesPairs">
+
+                <div v-if="loading">Loading...</div>
+                <section v-if="pair.info != 0">
+                    <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span><br>
+                    <table>
+                        <tr><td>
+                            <%@ include file="speciesTable.jsp" %>
+                        </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td v-if="graph">&nbsp;&nbsp;
+                                <%@ include file="speciesChart.jsp" %>
+                            </td>   </tr>
+
+                    </table>
+                </section>
+
+            </div>
+
         </section>
+
         <section v-else>
-            <%@ include file="terms.jsp" %>
+
+
+            <div style="background-color: white; width:1700px; " v-for="pair in pairs">
+
+                <div v-if="loading">Loading...</div>
+                <section v-if="pair.info != 0">
+                    <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span><br>
+
+                    <table>
+                        <tr><td>
+                            <%@ include file="termsTable.jsp" %>
+                        </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td v-if="graph">
+                                <%@ include file="termsChart.jsp" %>
+                            </td>   </tr>
+
+                    </table>
+                </section>
+                <section v-else>
+                    <br>
+                    <p style="font-size: large;font-weight: bold"> There are no annotations currently available for this combination</p>
+                </section>
+            </div>
+
         </section>
     </section>
 </div>
+<script src="/rgdweb/js/enrichment/analysis.js"></script>
 <script>
-    var host = window.location.protocol + window.location.host;
-    if (window.location.host.indexOf('localhost') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
-    } else if (window.location.host.indexOf('dev.rgd') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('test.rgd') > -1) {
-        host= window.location.protocol + '//test.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
-    }else {
-        host=window.location.protocol + '//rest.rgd.mcw.edu';
-    }
 
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
-    var geneSymbols = <%=geneSymbols%>;
-   
-
+    var genes = <%=geneSymbols%>;
+    var graph=true;
+    var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph);
 </script>
-<script src="/rgdweb/js/enrichment/analysis.js"></script>
+
 
 </body>
 </html>
