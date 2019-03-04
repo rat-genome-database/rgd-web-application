@@ -40,9 +40,9 @@
 
                String link=xid.getLinkText()==null?xid.getAccId():xid.getLinkText();
 
-               // HPRD links have placeholder string "[ID_HERE]" to be replaced by actual accession id
-               if( xid.getXdbKey()==XdbId.XDB_KEY_HPRD && lastLink.contains("[ID_HERE]") ) {
-                   fullUrl = lastLink.replace("[ID_HERE]", xid.getAccId()) + xid.getAccId();
+               // some links have placeholder string "[ID_HERE]" to be replaced by actual accession id
+               if( lastLink.contains("[ID_HERE]") ) {
+                   fullUrl = lastLink.replace("[ID_HERE]", xid.getAccId());
                }
                else {
                    fullUrl = lastLink + xid.getAccId();
