@@ -115,8 +115,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             name: aspect,
                             value: response.data
                         });
-                        if (response.data.length != 0 && graph)
-                            v.loadChart(response.data, aspect, 0.05);
+                        if (response.data.length != 0 && (this.graph!=2))
+                        { v.loadChart(response.data, aspect, 0.05);}
 
                         v.loading = false;
                     })
@@ -140,8 +140,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             name: s,
                             value: response.data
                         });
-                        if (response.data.length != 0 && graph)
-                            v.loadChart(response.data, s, 0.05);
+                        if (response.data.length != 0 && this.graph!=2)
+                        {  v.loadChart(response.data, s, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
