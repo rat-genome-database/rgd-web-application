@@ -5,7 +5,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
     var v = new Vue({
         el: div,
         data: {
-            graph: graph,
+            graph: (graph == 3 || graph == 1)? true: false,
+            table: (graph == 3 || graph == 2)? true: false,
             info: [],
             hostName: host,
             species: [speciesKey],

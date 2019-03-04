@@ -74,64 +74,21 @@
     <section v-else>
 
         <section v-if="selectedAll" >
-
-            <div style="background-color: white; width:1700px; " v-for="pair in speciesPairs">
-
-                <div v-if="loading">Loading...</div>
-                <section v-if="pair.info != 0">
-                    <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span><br>
-                    <table>
-                        <tr><td>
-                            <%@ include file="speciesTable.jsp" %>
-                        </td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td v-if="graph">&nbsp;&nbsp;
-                                <%@ include file="speciesChart.jsp" %>
-                            </td>   </tr>
-
-                    </table>
-                </section>
-
-            </div>
-
+            <%@ include file="species.jsp" %>
         </section>
-
         <section v-else>
-
-
-            <div style="background-color: white; width:1700px; " v-for="pair in pairs">
-
-                <div v-if="loading">Loading...</div>
-                <section v-if="pair.info != 0">
-                    <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span><br>
-
-                    <table>
-                        <tr><td>
-                            <%@ include file="termsTable.jsp" %>
-                        </td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td v-if="graph">
-                                <%@ include file="termsChart.jsp" %>
-                            </td>   </tr>
-
-                    </table>
-                </section>
-                <section v-else>
-                    <br>
-                    <p style="font-size: large;font-weight: bold"> There are no annotations currently available for this combination</p>
-                </section>
-            </div>
-
+            <%@ include file="terms.jsp" %>
         </section>
     </section>
 </div>
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script>
+
     var host = window.location.protocol + window.location.host;
     if (window.location.host.indexOf('localhost') > -1) {
         host= window.location.protocol + '//dev.rgd.mcw.edu';
-    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+   } else if (window.location.host.indexOf('dev.rgd') > -1) {
         host= window.location.protocol + '//dev.rgd.mcw.edu';
     }else if (window.location.host.indexOf('test.rgd') > -1) {
         host= window.location.protocol + '//test.rgd.mcw.edu';
@@ -143,8 +100,9 @@
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;
-    var graph=true;
-    var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+    //view = 1 shows only graph, 2 shows only table and 3 shows both
+    var view=3;
+    var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,view,host);
 </script>
 
 
