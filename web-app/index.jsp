@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>	
+<head>
   <meta name="keywords" content="rat genome database,rat genome,rgd">
   <meta name="description" content="The Rat Genome Database houses genomic, genetic, functional, physiological, pathway and disease data for the laboratory rat as well as comparative data for mouse and human.  The site also hosts data mining and analysis tools for rat genomics and physiology." />
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
@@ -22,9 +22,9 @@
 <link rel="SHORTCUT ICON" href="/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="http://rgd.mcw.edu/common/modalDialog/subModal.css" />
 <link rel="stylesheet" type="text/css" href="http://rgd.mcw.edu/common/modalDialog/style.css" />
-<link href="http://rgd.mcw.edu/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/common/rgd_styles-3.css?" rel="stylesheet" type="text/css" />
 <!-- CSS for Tab Menu #4 -->
-<link rel="stylesheet" type="text/css" href="http://rgd.mcw.edu/common/style/ddcolortabs.css" />
+<link rel="stylesheet" type="text/css" href="/rgdweb/common/style/ddcolortabs.css" />
 
 
 <script type="text/javascript" src="http://rgd.mcw.edu/common/modalDialog/common.js"></script>
@@ -111,11 +111,110 @@ font-size: 80%
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 
 
+<style>
+	/* Navbar container */
+	.navbar {
+		overflow: hidden;
+		background-color: #333;
+		font-family: Arial;
+	}
+
+	/* Links inside the navbar */
+	.navbar a {
+		float: left;
+		font-size: 16px;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+
+	/* The dropdown container */
+	.dropdown {
+		float: left;
+		overflow: hidden;
+	}
+
+	/* Dropdown button */
+	.dropdown .dropbtn {
+		font-size: 16px;
+		border: none;
+		outline: none;
+		color: white;
+		padding: 14px 16px;
+		background-color: inherit;
+		font-family: inherit; /* Important for vertical align on mobile phones */
+		margin: 0; /* Important for vertical align on mobile phones */
+	}
+
+	/* Add a red background color to navbar links on hover */
+	.navbar a:hover, .dropdown:hover .dropbtn {
+		background-color: #4584ED;
+	}
+
+	/* Dropdown content (hidden by default) */
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+
+	/* Links inside the dropdown */
+	.dropdown-content a {
+		float: none;
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+		text-align: left;
+	}
+
+	/* Add a grey background color to dropdown links on hover */
+	.dropdown-content a:hover {
+		background-color: #ddd;
+	}
+
+	/* Show the dropdown menu on hover */
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+</style>
+
+
+
+<div class="navbar">
+	<a href="#home">Home</a>
+	<a href="#news">Data</a>
+	<a href="#news">Analysis & Visualization</a>
+	<a href="#news">Diseases</a>
+	<a href="#news">Phenotypes & Models</a>
+	<a href="#news">Genetic Models</a>
+	<a href="#news">Pathways</a>
+	<a href="#news">Community</a>
+	<!--
+	<div class="dropdown">
+		<button class="dropbtn">Dropdown
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+			<a href="#">Link 1</a>
+			<a href="#">Link 2</a>
+			<a href="#">Link 3</a>
+		</div>
+	</div>
+	-->
+</div>
+
+
+
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <td>
-<div class="wrapper">
+<div class="rapper">
 
 <div id="main">
 
@@ -138,14 +237,10 @@ font-size: 80%
 	<input type="hidden" id="speciesType" value="">
 <table width="100%" border=0>
 <tr><td colspan="8">
-	
-			<div>
-			
-<jsp:include page="WEB-INF/jsp/search/elasticsearch/searchBox.jsp"/>
-			</div>
 
 
-		
+
+
 </td>
 </tr>
 <tr>
@@ -160,154 +255,15 @@ font-size: 80%
 <td width=200 align="right"><a href="http://rgd.mcw.edu/wg/gerrc"><img src="http://rgd.mcw.edu/common/images/gerrc/GERRC-35.png" border=0/></a></td>
 <td width=200 align="right"><a href="http://rgd.mcw.edu/wg/physgenknockouts"><img src="http://rgd.mcw.edu/common/images/knockOuts.jpg" border=0/></a></td>
 <td width=200 align="center"><a href="http://pga.mcw.edu"><img src="http://rgd.mcw.edu/common/images/physGen_logo.gif" border=0/></a></td>
-<td align="right">
-
-      <div class="searchBorder">
-      <table border=0 cellpadding=0 cellspacing=0 >
-        <form method="post" action='/rgdweb/search/search.html' onSubmit="return verify(this);">
-          <input type="hidden" name="type" value="nav" />
-          <!--tr>
-	    <td class="searchKeywordLabel">Keyword</td>
-            <td class="atitle" align="right">                <input type=text name=term size=12 value="" onFocus="JavaScript:document.forms[0].term.value=''" class="searchKeywordSmall">
-              </td>
-            <td>
-<input type="image" src="http://rgd.mcw.edu/common/images/searchGlass.gif" class="searchButtonSmall"/>
-</td>
-          </tr-->
-        </form>
-      </table>
-      </div>
-</td>
 <td>&nbsp;&nbsp;</td>
 </tr>
 </table>
 
-<div id="ddtabs4" class="ddcolortabs">
-<ul>
-<li class="current" style="margin-left: 1px"><a href="/"  rel="ct1"><span>Home</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/data-menu" rel="ct2"><span>Data</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/tool-menu" rel="ct3"><span>Genome Tools</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/portals/" rel="ct4"><span>Diseases</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/physiology" rel="ct5"><span>Phenotypes & Models</span></a></li>
-<li><a href="/rgdweb/models/allModels.html" rel="ct6"><span>GENETIC MODELS</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/home/pathway2" rel="ct7"><span>Pathways</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/com-menu" rel="ct8"><span>Community</span></a></li>
-<li id="curation-top" style="visibility: hidden;"><a href="/curation" rel="ct9"><span>Curation Web</span></a></li>
-</ul>
-</div>
-<div class="ddcolortabsline"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" /></div>
+	<div>
 
-<!--<div style="width:100%; height:5px; font-size:1px; background-color: #2865a3">&nbsp;</div>-->
+		<jsp:include page="WEB-INF/jsp/search/elasticsearch/searchBox.jsp"/>
+	</div>
 
-<DIV class="tabcontainer">
-
-<div id="ct1" class="tabcontent">
-<div id="subnav">
-     <ul>
-<li class="first"><a href="http://rgd.mcw.edu/wg/general-search" rel="ct2"><span>Search RGD</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/grants" rel="ct2"><span>Grant Resources</span></a></li>
-<li><a href="http://rgd.mcw.edu/wg/citing-rgd" rel="ct2"><span>Citing RGD</span></a></li>
-<li ><a href="http://rgd.mcw.edu/wg/about-us"  rel="ct1"><span>About Us</span></a></li>
-<li><a href="/contact/index.shtml" rel="ct2"><span>Contact Us</span></a></li>
-     </ul>
-</div>
-</div>
-
-<div id="ct2" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class=first><a href="/rgdweb/search/genes.html?100" rel="ct1"><span>Genes</span></a></li>
-     <li><a href="/rgdweb/search/qtls.html?100" rel="ct2"><span>QTLs</span></a></li>
-     <li><a href="/rgdweb/search/strains.html?100" rel="ct3"><span>Strains</span></a></li>
-     <li><a href="/rgdweb/search/markers.html?100" rel="ct4"><span>Markers</span></a></li>
-     <li><a href="/maps" rel="ct3"><span>Maps</span></a></li>
-     <li><a href="/rgdweb/ontology/search.html" rel="ct5"><span>Ontologies</span></a></li>
-     <li><a href="/sequences" rel="ct6"><span>Sequences</span></a></li>
-     <li><a href="/rgdweb/search/references.html?100" rel="ct7"><span>References</span></a></li>
-     <li><a href="ftp://ftp.rgd.mcw.edu/pub/" rel="ct7"><span>FTP Download</span></a></li>
-     <li><a href="/registration-entry.shtml" rel="ct7"><span>Submit Data</span></a></li>
-     </ul>
-</div>
-</div>
-
-<div id="ct3" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class="first"><a href="/fgb2/gbrowse/rgd_904/" rel="ct4"><span>Rat GBrowse</span></a></li>
-     <li ><a href="http://bioneos.com/VCMap/" rel="ct1"><span>VCMap</span></a></li>
-     <li><a href="/rgdweb/front/select.html" rel="ct9"><span>Variant Visualizer</span></a></li>
-     <li><a href="/rgdweb/gTool/Gviewer.jsp" rel="ct3"><span>GViewer</span></a></li>
-     <li><a href="/ACPHAPLOTYPER" rel="ct7"><span>ACP Haplotyper</span></a></li>
-     <li><a href="/GENOMESCANNER" rel="ct7"><span>Genome Scanner</span></a></li>
-     <li ><a href="/gbreport/gbrowser_error_conflicts.shtml" rel="ct3"><span>Genome Conflicts</span></a></li>
-     <li><a href="http://ratmine.mcw.edu" rel="ct8"><span>RatMine</span></a></li>
-     
-</div>
-</div>
-
-<div id="ct4" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class=first><a href="/rgdCuration/?module=portal&func=show&name=cancer" rel="ct1"><span>Cancer</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=cardio" rel="ct2"><span>Cardiovascular</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=diabetes" rel="ct2"><span>Diabetes</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=immune" rel="ct2"><span></span>Immune and Inflammatory</a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=nuro" rel="ct2"><span>Neurological</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=obesity" rel="ct2"><span>Obesity/Metabolic Syndrome</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=renal" rel="ct2"><span>Renal</span></a></li>
-     <li><a href="/rgdCuration/?module=portal&func=show&name=respir" rel="ct2"><span>Respiratory</span></a></li>
-     </ul>
-</div>
-</div>
-
-<div id="ct5" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class=first><a href="http://rgd.mcw.edu/wg/phenotype-data13" rel="ct1"><span>Phenotypes</span></a></li>
-     <li ><a href="http://rgd.mcw.edu/wg/strains-and-models2" rel="ct3"><span>Strains & Models</span></a></li>
-     <li ><a href="/phenotypes" rel="ct3"><span>PhenoMiner Database</span></a></li>
-     </ul>
-</div>
-</div>
-
-<div id="ct6" class="tabcontent">
-<div id="subnav">
-</div>
-</div>
-
-<div id="ct7" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class=first><a href="http://rgd.mcw.edu/wg/home/pathway2/molecular-pathways2" rel="ct1"><span>Molecular Pathways</span></a></li>
-     <li ><a href="http://rgd.mcw.edu/wg/home/pathway2/physiological-pathways" rel="ct1"><span>Physiological Pathways</span></a></li>
-     </ul>
-</div>
-</div>
-
-
-<div id="ct8" class="tabcontent">
-<div id="subnav">
-     <ul>
-     <li class=first><a href="/nomen/nomen.shtml" rel="ct1"><span>Nomenclature</span></a></li>
-     <li ><a href="http://mailman.mcw.edu/mailman/listinfo/rat-forum" rel="ct1"><span>Rat Community Forum (RCF)</span></a></li>
-     <li ><a href="/registration-entry.shtml" rel="ct2"><span>Submit Data</span></a></li>
-     </ul>
-</div>
-</div>
-
-<div id="ct9" class="tabcontent">
-<div id="subnav">
-
-     <ul>
-         <li class=first><a href="/rgdweb/curation/edit/editObject.html" rel="ct1"><span>Object Edit</span></a></li>
-         <li><a href="http://pipelines.rgd.mcw.edu/rgdCuration/" rel="ct2"><span>Curation Tools</span></a></li>
-         <li><a href="http://pipelines.rgd.mcw.edu/rgdweb/curation/nomen/nomenSearch.html" rel="ct3"><span>Nomenclature</span></a></li>
-         <li><a href="http://pipelines.rgd.mcw.edu/rgdweb/score/board.jsp" rel="ct1"><span>Score Board</span></a></li>
-         <li><a href="http://pipelines.rgd.mcw.edu/rgdweb/curation/pipeline/list.html" rel="ct4"><span>Pipeline Logs</span></a></li>
-         <li><a href="http://pipelines.rgd.mcw.edu/rgdweb/curation/phenominer/home.html" rel="ct5"><span>Phenominer</span></a></li>
-     </ul>
-</div>
-</div>
 
 
 
@@ -323,12 +279,11 @@ if (location.href.indexOf("http://rgd.mcw.edu") == -1 &&
 	location.href.indexOf("owen") == -1 &&
 	location.href.indexOf("hancock") == -1 &&
     location.href.indexOf("preview.rgd.mcw.edu") == -1) {
-	
+
 	document.getElementById("curation-top").style.visibility='visible';
 }
 
 
-ddtabmenu.definemenu("ddtabs4", getTabIndex()) //initialize Tab Menu
 </script>
 
 <table width=98%><tr><td align="right">
@@ -347,7 +302,7 @@ ddtabmenu.definemenu("ddtabs4", getTabIndex()) //initialize Tab Menu
 
 <!--/nav3c19dabf4d34d34d34d34d34d34d34d35 /nav crumbTrail-->
 </div>
-			
+
 			</div>
 </td></tr></table>
 	<div id="mainBody">
@@ -365,10 +320,10 @@ ddtabmenu.definemenu("ddtabs4", getTabIndex()) //initialize Tab Menu
 	<td colspan="3" align="left" valign="top">
 		<!-- begin position 1 -->
 		<div class="layoutColumnPadding">
-		
 
-		
-			
+
+
+
 
 			<div class="content"><script>
 function utmx_section(){}function utmx(){}
@@ -382,9 +337,9 @@ d.write('<sc'+'ript src="'+
 '" type="text/javascript" charset="utf-8"></sc'+'ript>')})();
 </script></div>
 
-			
-		
-			
+
+
+
 
 			<div class="content"><div id="article0708505c4a59bf63e913bb26c69e12c6" class="article default">
 
@@ -416,9 +371,9 @@ d.write('<sc'+'ript src="'+
 </div>
 </div>
 
-			
-		
-			
+
+
+
 
 			<div class="content"><div id="articlea55eac7db151b499602c926a8fbb79b6" class="article default">
 
@@ -462,9 +417,9 @@ d.write('<sc'+'ript src="'+
 </div>
 </div>
 
-			
-		
-			
+
+
+
 
 			<div class="content">				<table align="center" ><tr><td>
 					<div style="float: left;">
@@ -522,7 +477,7 @@ d.write('<sc'+'ript src="'+
 				</td>
 				<td valign="top">
 <div style="float: right;">
-					
+
 					<div class="image_item" id="qtl">
 						<div class="icon"><a href="/rgdweb/search/qtls.html?100" title="QTLs Query Form"><img src="http://rgd.mcw.edu/common/images/qtl_image.jpg" height="50" width="100" border="0"/></a></div>
 						<div class="title"><a href="/rgdweb/search/qtls.html?100" title="QTLs Query Form">QTL</a></div>
@@ -561,25 +516,25 @@ d.write('<sc'+'ript src="'+
                 </div>
             </td>
             </tr>
-				</table>	
+				</table>
 </div>
 
-			
-		
 
-		
+
+
+
 		</div>
-		<!-- end position 1 -->	
+		<!-- end position 1 -->
 	</td>
 </tr>
 <tr>
 	<td class="firstColumn" valign="top"  align="center" width="60%">
 		<!-- begin position 2 -->
 		<div class="layoutColumnPadding">
-		
 
-		
-			
+
+
+
 
 			<div class="content"><div class="strain-article">
 <a name="idiktJiPQiLnH03nTgk29qTA" id="idiktJiPQiLnH03nTgk29qTA"></a>
@@ -626,8 +581,8 @@ d.write('<sc'+'ript src="'+
 
 
 
-	
-	
+
+
 
 
 
@@ -638,9 +593,9 @@ d.write('<sc'+'ript src="'+
 </div>
 </div>
 
-			
-		
-			
+
+
+
 
 			<div class="content"><a name="idW2ED6uBIwfFmp2XZkc2zFQ" id="idW2ED6uBIwfFmp2XZkc2zFQ"></a>
 
@@ -657,137 +612,137 @@ d.write('<sc'+'ript src="'+
 
 
 
-	
-	
-	
 
 
 
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://ascb.org/2015meeting/" 
+
+
+
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://ascb.org/2015meeting/"
 >The 2015 ASCB Annual Meeting, San Diego Convention Center, San Diego, CA, USA - December 12-16, 2015; Abstract Deadline: August 5, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1372" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1372"
 >Keystone Symposia - Cytokine JAK-STAT Signaling in Immunity and Disease, Steamboat Springs, CO, USA - January 10-14, 2016; Abstract Deadline: October 20, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1371" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1371"
 >Keystone Symposia - Purinergic Signaling, Vancouver, British Columbia, Canada - January 24-28, 2016; Abstract Deadline: October 29, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.emedevents.com/conferenceview/united-states-of-america/california/san-diego/medical-conferences-2015/14th-cytokines-and-inflammation-28698" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.emedevents.com/conferenceview/united-states-of-america/california/san-diego/medical-conferences-2015/14th-cytokines-and-inflammation-28698"
 >Global Technology Community 14th Annual Cytokines & Inflammation Conference, San Diego, CA, USA - January 25-26, 2016; Abstract deadline: December 25, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1394" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1394"
 >Keystone Symposia - Genomics and Personalized Medicine, Fairmont Banff Springs, Banff, Alberta, Canada - February 7-11, 2016; Abstract Deadline: November 9, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1374" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1374"
 >Keystone Symposia - The Cancer Genome, Banff, Alberta, Canada - February 7-11, 2016; Abstract Deadline: November 9, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1368" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://keystonesymposia.org/index.cfm?e=web.Meeting.Program&meetingid=1368"
 >Keystone Symposia - G Protein-Coupled Receptors: Structure, Signaling and Drug Discovery, Keystone, CO, USA - February 21-25, 2016; Abstract Deadline: November 19, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.hugo-hgm.org/" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.hugo-hgm.org/"
 >Human Genome Meeting - Translational Genomics, Hilton Americas, Houston, TX, USA - February 28-March 2, 2016; Abstract Deadline: November 20, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://registration.hinxton.wellcome.ac.uk/events/item.aspx?e=568" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://registration.hinxton.wellcome.ac.uk/events/item.aspx?e=568"
 >Evolutionary Systems Biology: From Model Organisms to Human Disease, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK - March 2-4, 2016; Abstract Deadline: January 19, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.toxicology.org/events/am/AM2016/index.asp" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.toxicology.org/events/am/AM2016/index.asp"
 >Society of Toxicology 55th Annual Meeting, New Orleans Ernest N. Morial Convention Center, New Orleans, LA, USA - March 13-17, 2016; Abstract deadline: October 7, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.amia.org/jointsummits2016" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://www.amia.org/jointsummits2016"
 >AMIA Joint Summits on Translational Science, Parc 55 Wyndham Hotel, San Francisco, CA, USA - March 21-24, 2016; Submission deadline: September 24, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://experimentalbiology.org/2016/Home.aspx" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://experimentalbiology.org/2016/Home.aspx"
 >Experimental Biology 2016, San Diego Convention Center, San Diego, CA, USA - April 2-6, 2016; Abstract deadline: November 5, 2015</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.embo-embl-symposia.org/symposia/2016/EES16-02/index.html" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.embo-embl-symposia.org/symposia/2016/EES16-02/index.html"
 >EMBO/EMBL Symposium: Tumour Microenvironment and Signalling, EMBL Heidelberg, Germany - April 3-6, 2016; Abstract Deadline: January 10, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.isb-sib.ch/events/biocuration2016/" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.isb-sib.ch/events/biocuration2016/"
 >9th International Biocuration Conference, Campus Biotech Geneva, Geneva, Switzerland - April 10-14, 2016; Abstract Deadline: February 1, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://meetings.cshl.edu/meetings.aspx?meet=GENOME&year=16" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="https://meetings.cshl.edu/meetings.aspx?meet=GENOME&year=16"
 >The Biology of Genomes, Cold Spring Harbor, NY, USA - May 10-14, 2016; Abstract Deadline: February 19, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.genetics2016.org/mouse/index.shtml" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.genetics2016.org/mouse/index.shtml"
 >The Allied Genetics Conference - Mouse Genetics, Orlando, FL, USA - July 13-17, 2016; Abstract Deadline: March 23, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.genetics2016.org/peq/index.shtml" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://www.genetics2016.org/peq/index.shtml"
 >The Allied Genetics Conference – Population, Evolutionary & Quantitative Genetics, Orlando, FL, USA, July 13-17, 2016; Abstract Deadline: March 23, 2016</a></td></tr></table>
 
-	
-	
-		
 
-<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://icbo.cgrb.oregonstate.edu/" 
+
+
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top"><img src="http://rgd.mcw.edu/common/images/squareBullet.gif" class="bullet" /></td><td><a href="http://icbo.cgrb.oregonstate.edu/"
 >7th International Conference on Biomedical Ontology, Oregon State University, Corvallis, OR, USA – August 1-4, 2016; Submission Deadline: April 15, 2016 (paper), May 15, 2016 (poster)</a></td></tr></table>
 
 
@@ -800,20 +755,20 @@ d.write('<sc'+'ript src="'+
 
 </div>
 
-			
-		
 
-		
+
+
+
 		</div>
-		<!-- end position 2 -->	
+		<!-- end position 2 -->
 	</td>
 	<td class="secondColumn"  valign="top" width="40%">
 		<!-- begin position 3 -->
 		<div class="layoutColumnPadding">
-		
 
-		
-			
+
+
+
 
 			<div class="content"><script type="text/javascript" src="http://rgd.mcw.edu/common/js/tabber.js"></script>
 	<script type="text/javascript" src="http://rgd.mcw.edu/common/js/slideshow.js"></script>
@@ -825,7 +780,7 @@ d.write('<sc'+'ript src="'+
 <a id="start" style="display:none;" href="javascript:start()">slideshow</a><a id="stop" style="display:none;" href="javascript:stop()">stop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a id="next" style="display:none;" href="javascript:next()">next &raquo;</a>
 </center>
-</div>			
+</div>
 		       <table  height=175 border=0 cellpadding=0 cellspacing=0>
 <tr><td valign="top">
 
@@ -1139,9 +1094,9 @@ document.getElementById("cytoscape").onclick=myFunc
 
 </div>
 
-			
-		
-			
+
+
+
 
 			<div class="content"><div class="bordered-article">
 
@@ -1268,9 +1223,9 @@ document.getElementById("cytoscape").onclick=myFunc
 </span>
 </div></div>
 
-			
-		
-			
+
+
+
 
 			<div class="content"><script>
 if(typeof(urchinTracker)!='function')document.write('<sc'+'ript src="'+
@@ -1283,17 +1238,17 @@ urchinTracker("/1110218286/test");
 </script>
 
 <!--script>
-document.forms[0].term.focus();    
+document.forms[0].term.focus();
 </script--></div>
 
-			
-		
 
-		
+
+
+
 		</div>
-		<!-- end position 3 -->	
+		<!-- end position 3 -->
         &nbsp;
-	</td>	
+	</td>
 </tr>
 </table>
 
@@ -1312,11 +1267,12 @@ document.forms[0].term.focus();
 	</div>
 </div>
 
-<!-- end page wrapper -->	
+<!-- end page wrapper -->
 </div>
+	<!-- end dif wrapper-->
 </td></tr>
 </table>
-
+<!--End Table wrapper table-->
 
 <div id="copyright">
 	<p>&copy; <a href="http://www.mcw.edu/bioinformatics.htm">Bioinformatics Program, HMGC</a> at the <a href="http://www.mcw.edu/">Medical
@@ -1339,11 +1295,11 @@ document.forms[0].term.focus();
 		<td><label for="identifier_formId">Password</label></td>
 		<td></td>
 	</tr>
-	</table>             	
+	</table>
                         <a href="http://rgd.mcw.edu/wg/home?op=auth;method=createAccount">Click here to register.</a>
 			</div></form>
 
- 
+
 
 </div>
 

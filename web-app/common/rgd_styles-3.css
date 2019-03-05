@@ -1,0 +1,989 @@
+
+.headerTable {
+}  
+
+a:hover {
+   text-decoration: underline;
+   color: #563804;
+}
+
+h1 {
+        color: #337AB7;
+        font-size: 20px;
+}
+
+h2, h3{
+        color: #2865a3;     
+}
+
+p{
+	font-size: 10.5pt; }
+
+body{
+    margin:0; 
+    argin-left: 20px;
+    argin-right: 25px;
+    argin-top: 1%;
+    argin-bottom: 1%;
+    background-color: #ffffff;
+    ackground-image: url(/common/images/back-gradient.jpg);
+    background-repeat: repeat-x; 
+}
+
+.atitle{
+	font-size: 10pt;
+	font-weight: 700;
+	text-decoration: none;
+        color:#0c1d2e; 
+}
+
+.asubtitle{
+	font-size: 9.5pt;
+	color: #444444;
+	text-decoration: none }
+
+.alink{
+	font-size: 8.5pt;
+	color: #444444;
+	text-decoration: none }
+
+.phome{
+	font-size: 9.5pt }
+
+	
+.alink2{
+    color: #006699 }
+     
+.blue, .blue a
+ {
+    color: white;
+    font-style: italic;
+    font-size: 8pt
+ }
+      
+.title, .header
+ {
+    color: black;
+    font-size: 24px
+ }
+      
+input, select, option{
+    font-size: 9pt }
+      
+#nav1 td{
+    font-size: 9pt }
+      
+.sidebar {
+ background-image: url(/common/images/small-gradient.jpg);
+ background-repeat: repeat-x; 
+ /*border: 1px solid #563804;*/
+ padding: 10px;
+}
+
+.links p, .tools p, .links a, .tools a{
+    font-size: 9pt;
+    color: #0c1d2e;
+    text-decoration: none;
+}
+      
+.submenu{
+    font-size: 9pt }
+      
+.submenu a{
+    text-decoration: none }
+
+.label
+ {
+    font-weight: bold
+ }
+
+.navigation
+ {
+    font-size: 9pt;
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: #333333; 
+    text-decoration: none
+ }
+
+.searchtitletd
+ {  
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 10pt; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: #FFFFFF; 
+    text-decoration: none
+ }
+
+.searchfieldtd
+ {
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 10pt
+ }
+
+.bylinetable
+ {
+    background-color: #666666
+ }
+
+.bylinetd
+ {
+    font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: bold; 
+	color: #FFFFFF; 
+	text-decoration: none; 
+	background-color: #000000
+ }
+
+.bylineanchor
+ {
+    font-weight: bold; 
+	color: #FFFF66; 
+	text-decoration: none
+ }
+
+
+.footer{
+	font-size: 9.5pt;
+	color: #333333;
+	text-decoration: none }
+
+.footertable{
+    background-color: #5B93D3 }
+
+.footertd
+ {
+    font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: normal; 
+	color: #FFFFFF; 
+	text-decoration: none
+ }
+
+.footeranchor
+ {
+    color: #FFFF66; 
+	text-decoration: none
+ }
+
+.headeranchor
+ {
+    color: #FFFFFF; 
+	text-decoration: none
+ }
+
+.direction
+ {
+    font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	font-weight: bold; 
+	color: #004080; 
+	text-decoration: none
+ }
+
+.nobold
+ {
+    font-weight: lighter; 
+	color: #004080
+ }
+
+.dotline{
+	border-width: 1px 0px 0px 0px;
+	border-style: dashed; 
+	border-color: #CCCCCC;
+	}
+
+td.backgOne{
+    background-color: #F3F3F3 }
+
+td.backgTwo{
+    background-color: #E9F3FF }
+
+
+.sectionHead {
+	background-color: #CCCCCC;
+	font-size: 14px;
+}
+
+.subsectionTitle {	
+	color: #0033CC;
+}
+
+.mapDataHeader
+{
+	background-color: #FCC;
+	font-size: 8pt;
+}
+
+.mapDataRow
+{
+	font-size: 10pt;
+	background-color: #eee;
+}
+
+.mapDataRow td {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.noteRow td,
+.ontologyRow td,
+.citationRow td,
+.referenceRow td {
+	background-color: #ffffcc;
+	font-size: 10pt;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+.subheadings td {
+	font-size: 8pt;
+	color: #ccc;
+	border-width: 1px 0px 0px 1px;
+	border-style: dashed; 
+	border-color: #ccc;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.objectSymbol {
+	font-size: 18pt;
+}
+
+.objectName {
+	font-size: 14pt;
+	font-style: italic;
+}
+
+.objectDescription
+{
+	font-size: 12pt;
+
+}
+
+.objectNomenStatus {
+	font-size: 14pt;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #aaa;
+}
+
+.subheadings td:hover {
+	color: #777;
+}
+
+.xdbDataHeader
+{
+	background-color: #9CF;
+	font-size: 8pt;
+}
+
+.xdbRow
+{
+	background-color: #dFF;
+	font-size: 10pt;
+}
+
+.xdbRow td {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.noteRowHeader { 
+	background-color: #FC6;
+	font-size: 8pt;
+}
+
+.ontologyRowHeader
+{
+	background-color: #FF6;
+	font-size: 8pt;
+}
+
+.noteOntologyRow,
+.synonymRow {
+	font-size: 10pt;
+}
+
+.noteOntologyRowDetails {
+	font-size: 8pt;
+}
+
+.poll {
+   	color:black;
+}
+
+.poll_header {
+     	background-color:#BFE3F9;
+     	font-weight:700;
+        color:#555555;
+        font-family:Arial,Helvetica,sans-serif;
+}
+
+.poll_question {
+     	font-weight: 700;
+     	background-color:#F9FCFF;
+        color:#555555;
+        font-family:Arial,Helvetica,sans-serif;
+}
+
+.poll_option {
+     	background-color:#F9FCFF;
+}
+.poll_footer {
+     	background-color:#F9FCFF;
+     	font-size: 12;
+        color:#555555;
+        font-family:Arial,Helvetica,sans-serif;
+}
+.poll_result_bar {
+	height: 15px;
+        background-color:red;	
+}
+.poll_result_bar_description {
+        font-size:10px;
+}
+
+p, a, td, ul, li {
+  font-family: Arial, Helvetica, sans-serif;
+  color:#0c1d2e;
+  font-size: 12px;
+}
+
+/*<group=navigation tabs>*/
+
+#nav, #subnav {height: 22px;}
+
+#nav {margin-left: 5px;}
+
+#subnav {clear: both;} /* force subnav below on some browsers */
+
+#subnav {
+	#background-color: #337AB7;
+        background-image: url(/common/images/gradient.jpg);	
+	border-bottom-width: 1px;
+	border-bottom-style: solid; 
+	border-bottom-color: #563804;
+}
+
+#nav ul, #subnav ul {position: relative; margin: 0; padding: 0; font: normal 11px Arial, sans-serif; list-style-type: none; width: 775px;}
+
+#subnav ul {padding-left: 5px;}
+
+#nav ul li, #subnav ul li {display: block; float: left; margin: 0; padding: 0;}
+
+#nav li {background-image:  url(../images/gh/r_curve.gif); background-repeat: no-repeat; background-position: right top; background-color: #77725C; border-bottom: solid 1px #fff;}
+
+#nav li a {background-image:  url(../images/gh/l_curve.gif); background-repeat: no-repeat; background-position: left top; color: #F4F1D9;}
+
+#subnav ul li {border-left: 1px solid #F4F1D9; margin-top: 3px;}
+
+#subnav .first {border-left: none;}
+
+#nav a {display: block; float: left; color: #000; padding: 3px 10px 2px 10px; text-decoration: none; letter-spacing: 1px;}/* Commented Backslash Hack hides rule from IE5-Mac \*/
+
+#nav a {float: none; padding: 5px 10px 4px 10px;} /* End IE5-Mac hack */
+
+#subnav a {display: block; float: left; color: #000; text-decoration: none; font-weight:700;}/* Commented Backslash Hack hides rule from IE5-Mac \*/
+
+#subnav a {float:none;} /* End IE5-Mac hack */
+
+#subnav a {color: #F4F1D9; padding: 0 8px; font-size:11px; font-weight: 700;}
+
+#subnav a:hover {text-decoration: underline;}
+
+#subnav li#subcurrent a {font-weight: bold; color: #fff;}
+
+#nav a.inactive, #subnav a.inactive, #gh .internal #nav a.inactive {color: #C0747B; font-weight: 700;}
+
+#subnav a.inactive:hover {text-decoration: none;}
+
+#nav li#current {background-color: #9E1B34; border-bottom: solid 1px #9E1B34;}
+
+#nav #current a {font-weight: bold; color: #fff;}
+
+#nav li.int-only, #nav li#current.int-only {background-color: #D5E5BC; border-bottom: none;}
+
+#nav li.int-only a, #subnav li.int-only a {color: #000;}
+
+#nav li#current.int-only a, #subnav li#subcurrent.int-only a {color: #9E1B34;}
+
+/*</group>*/
+
+.top-bar a:hover {
+   color: #ffffff;
+   text-decoration: underline;
+}
+
+.top-bar {
+        ackground-image: url(/common/images/gradient.jpg);
+	background-color:#337AB7;
+    width: 100%;
+      color: #ffffff;
+	border-bottom-width: 1px;
+	border-bottom-style: solid; 
+	border-bottom-color: #563804;
+}
+.headerTable {
+      color: #ffffff;
+}
+
+.hot-links {
+   color: #a32929;   
+   font-weight: 700;
+   font-style: italic;
+}
+
+.top-bar a {
+   color: #ffffff;
+   font-size: 10.5;
+   text-decoration: none;
+   font-weight: 700;
+
+}
+
+.bottom-bar a {
+   color: #ffffff;
+   font-size: 10.5;
+   text-decoration: none;
+   font-weight: 700;
+}
+
+.bottom-bar a:hover {
+   color: #ffffff;
+   text-decoration: underline;
+}
+
+.bottom-bar {
+	#background-color: #337AB7;
+	width: 100%;
+	color: #ffffff;
+        ackground-image: url(/common/images/gradient.jpg);
+    background-color:#337AB7;
+
+}
+
+.bordered-article a {
+text-decoration: none;
+font-size: 12px;
+}
+.bordered-article a:hover {
+text-decoration: underline;
+}
+
+.bordered-article {
+    /*border-top: 1px outset #2865a3;*/
+    border-top: 1px inset #563804;
+    border-left: 1px inset #563804;
+    text-decoration: none; 
+    margin-top: 12px;
+    margin-right: 8px; 
+    ackground-image: url(/common/images/small-gradient.jpg);
+    ackground-color:#D6E5FF;
+    background-repeat: repeat-x;
+    margin-right: 5px;
+    padding-bottom: 8px;
+}
+
+.bordered {
+    border-top: 1px inset #563804;
+    border-left: 1px inset #563804;
+    border-right: 1px inset #563804;
+    border-bottom: 1px inset #563804;
+    
+    margin-top: 12px;
+    margin-right: 8px; 
+    margin-right: 5px;
+    padding-bottom: 8px;
+}
+
+.bordered-article-title {
+    ackground-image: url(/common/images/gradient.jpg);
+    background-color:#337AB7;
+    width:100%;
+    color: #ffffff;
+    font-size: 14;
+    font-weight: 700;
+    border-bottom-width: 1px;
+    border-bottom-style: solid; 
+    border-bottom-color: #563804;
+    margin-bottom: 8px;
+}
+
+.content {
+	width: 100%;
+}
+
+.loginBox {
+}
+
+.default-article {
+	margin-top: 8;
+      margin-left: 8;
+}
+
+.content-area {
+
+}
+
+div#wrapper {
+  border: 1px solid #563804;
+  background-color: #FFFFFF;
+  padding: 5px;
+  width: 100%;
+}
+
+
+.wrapper {
+  border: 1px solid #563804;
+  background-color: #FFFFFF;
+  adding: 5px;
+  width: 100%;
+}
+.wrapperTable {
+  background-color: #FFFFFF;
+  width: 100%;
+}
+
+
+
+div#copyright {
+  text-align: center; 
+  font-size: 12px; 
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.searchButton {
+  position: relative;
+  height: 20px;
+  border: 1px solid #563804;
+  color: #0c1d2e;
+  background-color: #ffcf3e;
+}
+
+.searchKeyword {
+    font-size: 14px;
+    width: 350px;
+    /*background-color: #fff1c7;*/
+    border: 1px inset #563804;
+    margin-right: 2px;
+}
+.searchStart {
+    font-size: 14px;
+    width: 50px;
+    /*background-color: #fff1c7;*/
+    border: 1px inset #563804;
+    margin-right: 2px;
+}
+.searchChr {
+    font-size: 14px;
+    width: 50px;
+    /*background-color: #fff1c7;*/
+    border: 1px solid #563804;
+    margin-right: 10px;
+    
+
+}
+
+.searchLinks {
+  margin-top: -15px;
+
+}
+.searchStop {
+    font-size: 14px;
+    width: 50px;
+    /*background-color: #fff1c7;*/
+    border: 1px inset #563804;
+    margin-right: 2px;
+}
+.searchButtonSmall {
+    position: relative;  
+    left: -10px;
+}
+.searchKeywordSmall {
+        font-size: 10px;
+        width: 125px;
+        border: 1px groove #563804;
+}
+
+.searchBox {
+    border: 1px solid #563804;
+    padding: 7px;
+    margin-bottom: 15px;
+    margin-top: 0px;
+    background-color: #f0f2f1;
+}
+
+.searchKeywordLabel {
+    color: #563804;
+    font-size: 12px; 
+    padding-right: 4px;
+
+}
+
+.searchHeader {
+    font-weight: 700;
+    font-size: 16px;
+    ackground-image: url(/common/images/gradient.jpg);
+    background-color: #337AB7;
+    width:460px;
+    color: #ffffff;
+    font-weight: 700;
+    order-bottom-width: 1px;
+    order-bottom-style: solid;
+    order-bottom-color: #563804;
+    padding-left: 5px;
+    margin-bottom: 5px;
+
+}
+
+.searchExamples, .searchExamples a{
+ font-size: 11px;
+ padding-top: 10px;
+
+}
+
+
+div#contentArea {
+ margin-top: 7px;
+ margin-right: 10px;
+ margin-left: 10px;
+ margin-bottom: 2px;
+ min-height: 400px;
+}
+
+div#headWrapper {
+}
+
+.bullet {
+  margin-top: 5px; 
+  margin-left: 6px;
+  margin-right: 6px;
+
+}
+
+div#ontology_defn { font-size: 9pt; } /* added by Alex Stoddard 16 Nov 2007, 
+		    	       	         for a hack to ontology/ont_annot.cgi */
+.ontology_descendants_link { font-size: 12pt;
+			     font-weight: 700; 
+			   } /* added by Alex Stoddard 16 Nov 2007, 
+			        for a hack to ontology/ont_annot.cgi
+ 				Used on two alternate sections, only one is
+ 				displayed at any one time. */
+
+
+caption {
+  text-align: left;
+  padding: 0.5em;	
+}
+
+table.searchByPositionSummary, 
+table.searchByPositionResults{
+  border-collapse: collapse;
+  background-color: white;
+}
+
+table.searchByPositionSummary th, 
+table.searchByPositionResults th {
+  border: 1px solid #808080; /* gray */
+  padding: 0.1em 1em; 
+  background-color: silver;
+}
+
+table.searchByPositionSummary td, 
+table.searchByPositionResults td {
+  border: 1px solid #808080;
+  padding: 0.1em 1em;
+  text-align: center;
+  
+}
+
+table.searchByPositionSummary td.object_type {
+  text-align: left;
+}
+
+table.searchByPositionSummary td.count {
+  text-align: right;
+}
+
+table.searchByPositionResults td.rgd_id {
+  text-align:center;
+}
+
+table.searchByPositionResults td.name,
+table.searchByPositionResults td.symbol {
+  text-align:left;
+}
+table.searchByPositionResults td.start,
+table.searchByPositionResults td.stop 
+{
+  text-align:right;
+}
+.didyouknow{
+background-color: #1f4e7c;
+/*background-color: #941118;*/
+padding: 5;
+width: 344;
+border: 2px solid #563804;
+margin-top: 12px;
+margin-right: 8px; 
+ }
+
+.didyouknow td{
+font-weight: 700;
+color: #ffffff;
+font-size: 15px;
+}
+
+.didyouknow a{
+color: #ffffff;
+}
+
+
+.didyouknow p{
+color: #ffffff;
+}
+.side-bar a {
+font-size: 12px;
+color: #563804;
+}
+
+
+.side-bar a:hover {
+text-decoration: underline;
+color: #0c1d2e;
+}
+
+.side-bar p, .side-bar td {
+    color: #563804;
+}
+
+.side-bar {
+    border-top: 1px dashed #563804;
+    border-left: 1px dashed #563804;
+    border-right: 1px dashed #563804;
+    border-bottom: 1px dashed #563804;    
+    text-decoration: none; 
+    margin-top: 12px;
+    background-color: #f9f9f9;
+    color: #563804;
+    width: 100%;
+    margin-left: 7px;
+}
+
+.side-bar-padding {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 2px;
+    margin-bottom: 10px;
+}
+
+.side-bar-title {
+    width:100%;
+    color: #563804;
+    font-size: 17;
+    font-weight: 700;
+    border-bottom-width: 1px;
+    border-bottom-style: inset; 
+    border-bottom-color: #563804;
+    margin-bottom: 8px;
+}
+.strain-article {
+     width: 100%;
+     margin-top: 20px;
+     margin-bottom: 35px;
+
+}
+
+.strain-article-title {
+    padding: 2px;
+    font-size: 16px;
+    width:100%;
+    background-color: #0c1d2e;
+    font-weight: 700;
+    /* background-color: #0c1d2e; 
+     color: #0c1d2e; 
+     background: #b6baba url(/common/images/media/color_tabs_left.gif) no-repeat left top;   
+    */
+    ackground: #2865a3 url(/common/images/media/color_tabs_left.gif) no-repeat left top;
+    background-color: #337AB7;
+
+    color: #ffffff;
+
+}
+
+.bordered-image {
+    border: 1px solid #0c1d2e;
+}
+
+#image_buttons {
+		
+    width: 100%;
+    margin-left: 30px;
+    margin-right: 250px;
+    margin-top: 15px;
+}
+	
+ .image_item {
+    border: 1px solid #ccc;
+    margin: 10px;
+    background-image: url(/common/images/small-gradient.jpg);
+    background-repeat: repeat-x; 
+    /*background-image: url(../images/body_back.gif);*/
+    /*background-repeat: repeat-x;*/
+    width: 240px;
+    height: 60px;
+
+}
+
+ .image_item .title a {
+    font-size: 20px; 
+    font-weight: bold;
+}
+
+.image_item .small-title a {
+    font-size: 12px; 
+    font-weight: bold;
+}
+
+.image_item .mid-title a {
+    font-size: 17px; 
+    font-weight: bold;
+}
+
+ .image_item .icon {
+    border: 1px solid #ccc;
+    margin: 3px;
+    float: left;
+}
+	
+.image_item .description {
+    margin: 3px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+.ontology-browser .title a{
+    font-size: 18px; 
+    font-weight: bold;
+}
+.ad-box-item2 {
+padding: 5;
+width: 344;
+cursor: pointer;
+/*background-color: #2865a3;*/
+background-color: #1f4e7c;
+/*background-image: url(/common/images/gradient.jpg);	*/
+/*background-image: url(/common/images/small-gradient.jpg);*/
+background-repeat: repeat-x; 
+    border-bottom-width: 1px;
+    border-bottom-style: solid; 
+    border-bottom-color: #563804;
+}
+
+.ad-box-item2 .title {
+    font-size: 18px;
+    color: #ffffff;
+    #text-decoration: underline;
+}
+
+.ad-box-item2 td{
+color: #ffffff;
+font-size: 15px;
+}
+
+.ad-box-item2 a{
+color: #ffffff;
+font-weight: 700;
+}
+
+
+.ad-box-item2 p{
+font-weight: 700;
+color: #ffffff;
+}
+
+#slideshow .item {
+    display: none;
+}
+
+.controls {
+   margin-top: -5px;
+   margin-bottom: 2px;   
+   font-size:9px;
+}
+
+  .reportSection {
+        font-size:13px;
+        font-weight:700;
+        order-bottom: 2px ridge #fdcf8d;
+        order-top: 1px ridge #fdcf8d;
+        order-left: 25px groove #fdcf8d;
+        order-right: 1px solid #fdcf8d;
+        order-bottom: 1px dashed black;
+        width: 95%;
+        padding-left: 5px;
+        color: #fef0dc;
+        background-color:#7a5835;
+        border-bottom: 4px solid white;
+        cursor: pointer;
+    }
+
+     .label {
+         font-weight:700;
+         padding:3px;
+         ackground-color:#e0e2e1;
+         background-color:#e0e2e1;
+     }
+
+     .highlight {
+         font-weight:700;
+         color:#000000;
+     }
+
+    .subTitle {
+        color:#337AB7;
+        font-size: 16px;
+        font-weight: 700;
+        font-style: italic;
+    }     
+
+    .rgdRightColumnBox {
+         font-size:12px;
+        font-weight:700;
+         border: 1px solid #7a5835;
+         order-bottom: 2px ridge #fdcf8d;
+        order-top: 2px ridge #fdcf8d;
+        order-left: 2px groove #b29163;
+        order-right: 2px solid #fdcf8d;
+        
+       padding-left: 5px;
+     }
+
+     .detailReportLink {
+         font-size:12px;
+
+     }
+
+     .mapDataTable {
+         border: 1px solid black;
+     }
+
+    .mapDataTable td{
+        border: 1px dotted black;
+        padding: 3px;
+        font-size: 11px;
+    }
+
+    .mapDataTable th{
+        padding: 3px;
+        font-size: 11px;
+    }
+
+    .annotationTable {
+        border: 1px outset #7a5835;
+        padding: 2px;
+    }
