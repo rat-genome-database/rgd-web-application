@@ -203,7 +203,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 var data = [trace1, trace2];
                 var layout = {
                     autosize: false,
-                    width: 800,
+                    width: 700,
                     height: 600,
                     margin: {
                         l: 100,

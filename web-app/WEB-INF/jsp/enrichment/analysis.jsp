@@ -65,11 +65,11 @@
     <table >
         <tr>
         <td><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': selectedOne, 'btn-success': selectedAll,'disabled': loading}" @click="loadView('All')">All</button>&nbsp;&nbsp;</td>
-            <td v-for="s in allSpecies"><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': true, 'btn-success': getSpeciesKey(s)== species, 'disabled': loading }" @click="loadOntView(s)">{{s}}</button>&nbsp;&nbsp;</td>
+            <td v-for="s in allSpecies"><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': true, 'btn-success': getSpeciesKey(s)== species[0], 'disabled': loading }" @click="loadOntView(s)">{{s}}</button>&nbsp;&nbsp;</td>
         </tr>
   </table>
-    <table v-if="!loading"><tr>
-        <td v-for="o in allOntologies"><button type="button" v-bind:class="{'btn':true, 'btn-primary':true, 'btn-sm':true, 'btn-success': o==ontology, 'disabled': loading}" @click="loadSpeciesView(o)">{{getOntologyTitle(o)}}</button></td>
+    <table><tr>
+        <td v-for="o in allOntologies"><button type="button" v-bind:class="{ 'btn':true, 'btn-sm':true, 'btn-primary':true,  'btn-success': o==ontology[0],'disabled': loading }" @click="loadSpeciesView(o)">{{getOntologyTitle(o)}}</button></td>
     </tr></table>
 
     <section v-if="errored">
@@ -102,7 +102,7 @@
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-   
+    var host = 'https://dev.rgd.mcw.edu';
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;

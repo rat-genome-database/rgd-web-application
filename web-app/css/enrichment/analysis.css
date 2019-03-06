@@ -1,7 +1,6 @@
 
 #t{
     border:1px solid #ddd;
-    margin-top:2px;
     border-radius:2px;
     width: 100%;
     text-align: center;
@@ -9,14 +8,16 @@
     font-weight: bold;
 }
 #t th{
-    max-width: 30px;
+    max-width: 15px;
+    min-width: 5px;
     background-color:#2865a3;
     color: white;
-    padding: 5px;
+    padding: 2px;
 }
 #t td{
-    max-width: 30px;
-    padding: 5px;
+    max-width: 15px;
+    min-width: 5px;
+    padding: 2px;
 }
 #t  tr:nth-child(odd) {background-color:#E6E6FA}
 .modal-body{
@@ -45,4 +46,7 @@
 
 .btn-primary:active {
     background-color: green;
+}
+.btn.disabled {
+    background-color:#2865a3;
 }
