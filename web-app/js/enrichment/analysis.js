@@ -44,8 +44,15 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     console.log(error)
                 })
             },
-
-
+            sort:function(s,ont) {
+                //if s == current sort, reverse
+                if(s === this.currentSort) {
+                    this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                }
+                this.currentSort = s;
+                this.selected = ont;
+                v.loadPairs(ont);
+            },
             loadView: function (s) {
                 this.species[0] = v.getSpeciesKey(s);
                 v.selectView();

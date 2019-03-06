@@ -3,26 +3,26 @@
     <div v-if="loading">Loading...</div>
     <section v-if="pair.info != 0">
         <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span>
-        <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "> Genes:
+        <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "> Orthologs:
             <span v-for="gene in pair.genes" class="gene">
-              {{gene.symbol}}&nbsp;</span>
+              {{gene.symbol}},&nbsp;</span>
         </div>
         <table>
             <tr><td v-if ="table">
-                <div style="overflow:auto; height:600px; width:800px; background-color:white; ">
+                <div style="overflow:auto; height:600px; width:650px; background-color:white; ">
 
 
                     <table id="t">
-                        <thead>
+
                         <tr>
 
-                            <th @click="sort('term',pair.spec)"> Term <i class="fa fa-fw fa-sort"></i></th>
-                            <th @click="sort('count',pair.spec)">Annotated Genes <i class="fa fa-fw fa-sort"></i></th>
-                            <th @click="sort('pvalue',pair.spec)">P-Value <i class="fa fa-fw fa-sort"></i></th>
-                            <th @click="sort('correctedpvalue',pair.spec)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('term',pair.spec)"> Term <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('count',pair.spec)">Annotated Genes <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('pvalue',pair.spec)">P-Value <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('correctedpvalue',pair.spec)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
                         </tr>
-                        </thead>
-                        <tbody>
+
+
                         <tr
                                 v-for="record in pair.info"
                                 class="record"
@@ -35,7 +35,7 @@
                             <td> {{record.pvalue}}</td>
                             <td>{{record.correctedpvalue}}</td>
                         </tr>
-                        </tbody>
+
                     </table>
 
                 </div>

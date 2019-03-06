@@ -5,18 +5,20 @@
     border-radius:2px;
     width: 100%;
     text-align: center;
+    font-size: 12px;
+    font-weight: bold;
 }
 #t th{
-    max-width: 40px;
+    max-width: 30px;
     background-color:#2865a3;
     color: white;
     padding: 5px;
 }
 #t td{
-    max-width: 40px;
+    max-width: 30px;
     padding: 5px;
 }
-#t  tr:nth-child(even) {background-color:#E6E6FA}
+#t  tr:nth-child(odd) {background-color:#E6E6FA}
 .modal-body{
     width: 800px;
 }
@@ -24,11 +26,11 @@
 {
     margin-top: 2px;
     text-align: center;
-    height: 80px;
+    height: 40px;
     background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
     color: #fff;
     font-weight: bold;
-    line-height: 80px;
+    line-height: 40px;
 }
 .btnSubmit
 {
