@@ -28,7 +28,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         },
         methods: {
             getGenes: function (accId, species) {
-
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
                 axios
@@ -62,7 +61,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 v.selectView();
             },
             getSpeciesKey: function (s) {
-
                 if (s == "Rat")
                     return 3;
                 else if (s == "Human")
@@ -81,8 +79,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     return 0;
             },
             explore: function (genes) {
-
-
                 params = new Object();
                 var form = document.createElement("form");
                 var method = "POST";
@@ -113,10 +109,11 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
                         v.info.push({
                             name: aspect,
-                            value: response.data
+                            value: response.data.enrichment,
+                            genes: response.data.geneSymbols
                         });
                         if (response.data.length != 0 && (this.graph!=2))
-                        { v.loadChart(response.data, aspect, 0.05);}
+                        { v.loadChart(response.data.enrichment, aspect, 0.05);}
 
                         v.loading = false;
                     })
@@ -138,10 +135,11 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
                         v.info.push({
                             name: s,
-                            value: response.data
+                            value: response.data.enrichment,
+                            genes: response.data.geneSymbols
                         });
                         if (response.data.length != 0 && this.graph!=2)
-                        {  v.loadChart(response.data, s, 0.05);}
+                        {  v.loadChart(response.data.enrichment, s, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
@@ -264,8 +262,17 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 }
 
             },
+            loadGenes: function(view){
+                for (i = 0; i < this.info.length; i++) {
+                    if (this.info[i].name == view) {
+                        return this.info[i].genes;
+                    }
+                }
+            },
             selectView: function () {
                 this.info = [];
+                this.loading=true;
+                this.errored = false;
                 if (this.species[0] != 0) {
                     this.selectedAll = false;
                     this.selectedOne = true;
@@ -289,7 +296,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 return this.ontology.map(function (ont) {
                     return {
                         ont: ont,
-                        info: v.loadPairs(ont)
+                        info: v.loadPairs(ont),
+                        genes: v.loadGenes(ont)
                     }
                 });
             },
@@ -298,7 +306,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 return this.allSpecies.map(function (spec) {
                     return {
                         spec: spec,
-                        info: v.loadPairs(spec)
+                        info: v.loadPairs(spec),
+                        genes: v.loadGenes(spec)
                     }
                 });
             }

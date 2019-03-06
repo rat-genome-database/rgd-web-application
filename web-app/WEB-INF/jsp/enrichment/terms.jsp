@@ -2,8 +2,11 @@
 
     <div v-if="loading">Loading...</div>
     <section v-if="pair.info != 0">
-        <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span><br>
-
+        <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span>
+        <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "> Genes:
+            <span v-for="gene in pair.genes" class="gene">
+              {{gene.symbol}}&nbsp;</span>
+        </div>
         <table>
             <tr><td v-if ="table">
                 <div style="overflow:auto; height:600px; width:800px; background-color:white; ">

@@ -6,6 +6,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.reporting.Link" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -23,10 +24,12 @@
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
 %>
 <h1 class="heading">Gene Enrichment</h1>
-<div style="color:#2865a3; font-size:20px; font-weight:700;"><%=om.getMapped().size()%> Genes in set</div>
+
 <% if (om.getMapped().size() == 0) {
     return;
 }%>
+<div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "><%=om.getMapped().size()%> Genes in set:
+
 <%
     String firstId = null;
     String species = req.getParameter("species");
@@ -43,28 +46,30 @@
         if (obj instanceof Gene) {
             Gene g = (Gene) obj;
             symbol = g.getSymbol();
+            rgdId = g.getRgdId();
             if(geneSymbols.size() == 0)
                 geneSymbols.add("\""+symbol+"\"");
             else
-                geneSymbols.add("\""+symbol+"\"");
+                geneSymbols.add("\""+symbol+"\""); %>
+    <a style="color:#2865a3;" href= <%=Link.gene(g.getRgdId())%> \><u><%= g.getSymbol()%></u></a><span style="font-size:11px;">&nbsp;</span>
+<%
         }
     }
 %>
 
 
-
+</div>
 <br>
-
 <div id="enrichment" >
     <%@ include file="annotatedGenes.jsp" %>
-    <table>
+    <table >
         <tr>
-        <td><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': selectedOne, 'btn-success': selectedAll}" @click="loadView('All')">All</button>&nbsp;&nbsp;</td>
-            <td v-for="s in allSpecies"><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': true, 'btn-success': getSpeciesKey(s)== species}" @click="loadOntView(s)">{{s}}</button>&nbsp;&nbsp;</td>
+        <td><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': selectedOne, 'btn-success': selectedAll,'disabled': loading}" @click="loadView('All')">All</button>&nbsp;&nbsp;</td>
+            <td v-for="s in allSpecies"><button type="button" v-bind:class="{'btn':true, 'btn-sm':true, 'btn-primary': true, 'btn-success': getSpeciesKey(s)== species, 'disabled': loading }" @click="loadOntView(s)">{{s}}</button>&nbsp;&nbsp;</td>
         </tr>
   </table>
-    <table><tr>
-        <td v-for="o in allOntologies"><button type="button" v-bind:class="{'btn':true, 'btn-primary':true, 'btn-sm':true, 'btn-success': o==ontology}" @click="loadSpeciesView(o)">{{getOntologyTitle(o)}}</button></td>
+    <table v-if="!loading"><tr>
+        <td v-for="o in allOntologies"><button type="button" v-bind:class="{'btn':true, 'btn-primary':true, 'btn-sm':true, 'btn-success': o==ontology, 'disabled': loading}" @click="loadSpeciesView(o)">{{getOntologyTitle(o)}}</button></td>
     </tr></table>
 
     <section v-if="errored">
@@ -97,7 +102,7 @@
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-    
+   
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;
