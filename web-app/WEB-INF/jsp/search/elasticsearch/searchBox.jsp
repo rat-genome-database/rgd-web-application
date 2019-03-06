@@ -30,7 +30,7 @@
                           <input type=text class="searchgroup" id="term" name=term size="50" placeholder="Enter Search Term..." value="${model.term}">
                        </td>
                        <td>
-                           <input type="image" src="/common/images/searchGlass.gif" class="searchButtonSmall"/>
+                           <input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>
                        </td>
                        <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
                    </tr>
