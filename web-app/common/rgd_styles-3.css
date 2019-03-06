@@ -21,20 +21,14 @@ p{
 
 body{
     margin:0; 
-    argin-left: 20px;
-    argin-right: 25px;
-    argin-top: 1%;
-    argin-bottom: 1%;
     background-color: #ffffff;
-    ackground-image: url(/common/images/back-gradient.jpg);
-    background-repeat: repeat-x; 
 }
 
 .atitle{
 	font-size: 10pt;
 	font-weight: 700;
 	text-decoration: none;
-        color:#0c1d2e; 
+    color:#0c1d2e; 
 }
 
 .asubtitle{
@@ -420,15 +414,17 @@ p, a, td, ul, li {
 
 .top-bar {
         ackground-image: url(/common/images/gradient.jpg);
-	background-color:#337AB7;
+	background-color:#2865A3;
     width: 100%;
       color: #ffffff;
 	border-bottom-width: 1px;
 	border-bottom-style: solid; 
 	border-bottom-color: #563804;
+	margin-top:45px;
 }
 .headerTable {
       color: #ffffff;
+      padding:5px;
 }
 
 .hot-links {
