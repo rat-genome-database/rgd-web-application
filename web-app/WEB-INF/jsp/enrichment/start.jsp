@@ -142,7 +142,6 @@
             <td style=" font-size: 16px; font-weight:600;">Select a Species to view enrichment for all RGD ontologies</td>
             <td >
                 <select class="form-control inputstl" name="species" id="species" onChange="v.setMap(this)">
-                    <option value="0">All</option>
                     <option value="3">Rat</option>
                     <option  value="2">Mouse</option>
                     <option  value="1">Human</option>
