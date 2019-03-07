@@ -6,5 +6,11 @@ String pageDescription = "The Rat Genome Database houses genomic, genetic, funct
 %>
 <%@ include file="/common/headerarea.jsp"%>
 
+<br>
+<br>
+[[ Body Content ]]
+<br>
+<br>
+
 <%@ include file="/common/footerarea.jsp"%>
 

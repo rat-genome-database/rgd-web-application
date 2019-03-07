@@ -22,7 +22,8 @@
     <p>&copy; <a href="http://www.mcw.edu/">Medical
         College of Wisconsin</a></p>
     <p><a href="/wg/home/disclaimer">Legal Disclaimer</a></p>
-    <p align="center">RGD is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"><br><br>
+    <p align="center">RGD is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br>
+        <a href="/wg/wp-admin/post.php?post=15&action=edit"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br>
 
 </div>
 
