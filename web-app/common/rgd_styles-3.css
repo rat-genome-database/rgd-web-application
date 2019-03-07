@@ -8,7 +8,7 @@ a:hover {
 }
 
 h1 {
-        color: #337AB7;
+        color: #2865A3;
         font-size: 20px;
 }
 
@@ -356,7 +356,7 @@ p, a, td, ul, li {
 #subnav {clear: both;} /* force subnav below on some browsers */
 
 #subnav {
-	#background-color: #337AB7;
+	#background-color: #2865A3;
         background-image: url(/common/images/gradient.jpg);	
 	border-bottom-width: 1px;
 	border-bottom-style: solid; 
@@ -413,18 +413,16 @@ p, a, td, ul, li {
 }
 
 .top-bar {
-        ackground-image: url(/common/images/gradient.jpg);
 	background-color:#2865A3;
     width: 100%;
-      color: #ffffff;
+    color: #ffffff;
 	border-bottom-width: 1px;
 	border-bottom-style: solid; 
 	border-bottom-color: #563804;
-	margin-top:45px;
 }
 .headerTable {
       color: #ffffff;
-      padding:5px;
+      padding:1px;
 }
 
 .hot-links {
@@ -454,11 +452,11 @@ p, a, td, ul, li {
 }
 
 .bottom-bar {
-	#background-color: #337AB7;
+	#background-color: #2865A3;
 	width: 100%;
 	color: #ffffff;
         ackground-image: url(/common/images/gradient.jpg);
-    background-color:#337AB7;
+    background-color:#2865A3;
 
 }
 
@@ -471,14 +469,11 @@ text-decoration: underline;
 }
 
 .bordered-article {
-    /*border-top: 1px outset #2865a3;*/
     border-top: 1px inset #563804;
     border-left: 1px inset #563804;
     text-decoration: none; 
     margin-top: 12px;
     margin-right: 8px; 
-    ackground-image: url(/common/images/small-gradient.jpg);
-    ackground-color:#D6E5FF;
     background-repeat: repeat-x;
     margin-right: 5px;
     padding-bottom: 8px;
@@ -489,7 +484,6 @@ text-decoration: underline;
     border-left: 1px inset #563804;
     border-right: 1px inset #563804;
     border-bottom: 1px inset #563804;
-    
     margin-top: 12px;
     margin-right: 8px; 
     margin-right: 5px;
@@ -497,8 +491,7 @@ text-decoration: underline;
 }
 
 .bordered-article-title {
-    ackground-image: url(/common/images/gradient.jpg);
-    background-color:#337AB7;
+    background-color:#2865A3;
     width:100%;
     color: #ffffff;
     font-size: 14;
@@ -624,7 +617,7 @@ div#copyright {
     font-weight: 700;
     font-size: 16px;
     ackground-image: url(/common/images/gradient.jpg);
-    background-color: #337AB7;
+    background-color: #2865A3;
     width:460px;
     color: #ffffff;
     font-weight: 700;
@@ -805,7 +798,7 @@ color: #0c1d2e;
      background: #b6baba url(/common/images/media/color_tabs_left.gif) no-repeat left top;   
     */
     ackground: #2865a3 url(/common/images/media/color_tabs_left.gif) no-repeat left top;
-    background-color: #337AB7;
+    background-color: #2865A3;
 
     color: #ffffff;
 
@@ -941,7 +934,7 @@ color: #ffffff;
      }
 
     .subTitle {
-        color:#337AB7;
+        color:#2865A3;
         font-size: 16px;
         font-weight: 700;
         font-style: italic;
@@ -983,3 +976,77 @@ color: #ffffff;
         border: 1px outset #7a5835;
         padding: 2px;
     }
+
+    
+    /* Navbar container */
+	.navbar {
+		overflow: hidden;
+		background-color: #333;
+		font-family: Arial;
+	}
+
+	/* Links inside the navbar */
+	.navbar a {
+		float: left;
+		font-size: 16px;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+
+	/* The dropdown container */
+	.dropdown {
+		float: left;
+		overflow: hidden;
+	}
+
+	/* Dropdown button */
+	.dropdown .dropbtn {
+		font-size: 16px;
+		border: none;
+		outline: none;
+		color: white;
+		padding: 14px 16px;
+		background-color: inherit;
+		font-family: inherit; /* Important for vertical align on mobile phones */
+		margin: 0; /* Important for vertical align on mobile phones */
+		background-color:#333;
+	}
+
+	/* Add a red background color to navbar links on hover */
+	.navbar a:hover, .dropdown:hover .dropbtn {
+		background-color: #4584ED;
+	}
+
+	/* Dropdown content (hidden by default) */
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+
+	/* Links inside the dropdown */
+	.dropdown-content a {
+		float: none;
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+		text-align: left;
+	}
+
+	/* Add a grey background color to dropdown links on hover */
+	.dropdown-content a:hover {
+		background-color: #ddd;
+	}
+
+	/* Show the dropdown menu on hover */
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+    
+    

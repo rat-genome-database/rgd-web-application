@@ -270,7 +270,7 @@
 
             <script>
                 if (location.href.indexOf("") == -1 &&
-                        location.href.indexOf("http://www.rgd.mcw.edu") == -1 &&
+                        location.href.indexOf("https://www.rgd.mcw.edu") == -1 &&
                         location.href.indexOf("osler") == -1 &&
                         location.href.indexOf("horan") == -1 &&
                         location.href.indexOf("owen") == -1 &&
