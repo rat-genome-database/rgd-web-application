@@ -14,7 +14,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <table align="center">
                         <tr>
-                            <td style="padding:20px;"><img src="/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
+                            <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
                         </tr>
                     </table>
 
@@ -115,7 +115,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <table align="center">
             <tr>
-                <td style="padding:20px;"><img src="http://rgd.mcw.edu/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
+                <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
             </tr>
         </table>
 
