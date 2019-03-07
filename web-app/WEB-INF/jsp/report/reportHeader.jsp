@@ -1,7 +1,4 @@
-<%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
-<%@ page import="edu.mcw.rgd.web.UI" %>
 <%@ page import="edu.mcw.rgd.reporting.SearchReportStrategy" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontology.Annotation" %>
@@ -10,7 +7,7 @@
 <%@ page import="edu.mcw.rgd.process.describe.DescriptionGenerator" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.report.MapDataFormatter" %>
-<%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="edu.mcw.rgd.web.*" %>
 
 <% if (RgdContext.isChinchilla(request)) {%>
 <link href="/rgdweb/common/searchNGC.css" rel="stylesheet" type="text/css" />

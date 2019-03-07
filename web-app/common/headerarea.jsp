@@ -5,6 +5,8 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 
+
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="keywords" content="<%=RgdContext.getLongSiteName(request)%>">
@@ -238,8 +240,8 @@
 
                     </tr></table>
                 </div>
-                <input type="hidden" id="speciesType" value="">
 
+                <input type="hidden" id="speciesType" value="">
                 <table width="100%" border=0>
                     <tr><td colspan="8">
                     </td>
@@ -262,7 +264,7 @@
                     </tr>
                 </table>
                 <div>
-                    <jsp:include page="WEB-INF/jsp/search/elasticsearch/searchBox.jsp"/>
+                    <jsp:include page="/WEB-INF/jsp/search/elasticsearch/searchBox.jsp"/>
                 </div>
             </DIV>
             <!--end headwrapper -->
