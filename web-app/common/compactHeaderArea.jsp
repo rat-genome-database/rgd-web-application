@@ -106,7 +106,7 @@
                 <div class="navbar">
 
                     <div class="dropdown">
-                        <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
+                        <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'"><img src="http://localhost:8080/rgdweb/common/images/rgd_LOGO_small.gif" eight="20"/>
                             <i class="fa fa-caret-down"></i>
                         </button>
 
@@ -226,8 +226,12 @@
                 </div>
 
                 <div class="top-bar">
-                    <table width="100%" border="0" class="headerTable"> <tr><td align="left" style="color:white;"><img src="http://localhost:8080/rgdweb/common/images/rgd_LOGO_small.gif"/>
-                    </td><td align="right" style="color:white;"><a href="/tu">Help</a>&nbsp;|&nbsp;
+                    <table width="100%" border="0" class="headerTable">
+                        <tr>
+                            <td align="left" style="color:white;">
+
+
+                            </td><td align="right" style="color:white;"><a href="/tu">Help</a>&nbsp;|&nbsp;
                         <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
                         <a href="/wg/com-menu/poster_archive/">Poster Archive</a>&nbsp;|&nbsp;
                         <a href="ftp://ftp.rgd.mcw.edu/pub">FTP Download</a>&nbsp;|&nbsp;
@@ -235,7 +239,7 @@
                         <a href="/contact/index.shtml">Contact Us</a>&nbsp;&nbsp;&nbsp;
                     </td>
                         <td width="90">
-                            <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>
+                            <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                         </td>
 
                     </tr></table>

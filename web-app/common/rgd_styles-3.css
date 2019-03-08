@@ -12,7 +12,13 @@ h1 {
         font-size: 20px;
 }
 
-h2, h3{
+h2 {
+	font-size:24px;
+	color: #2865a3;     
+	
+}
+
+h3{
         color: #2865a3;     
 }
 
@@ -599,11 +605,11 @@ div#copyright {
 }
 
 .searchBox {
-    border: 1px solid #563804;
+    order: 1px solid #563804;
     padding: 7px;
     margin-bottom: 15px;
     margin-top: 0px;
-    background-color: #f0f2f1;
+    ackground-color: #f0f2f1;
 }
 
 .searchKeywordLabel {

@@ -3,17 +3,12 @@
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
-
-
-
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="keywords" content="<%=RgdContext.getLongSiteName(request)%>">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE, NO-STORE, MUST-REVALIDATE">
     <meta name="author" content="RGD">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="generator" content="WebGUI 7.9.16" />
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -181,11 +176,11 @@
                         </button>
 
                         <div class="dropdown-content">
+                            <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                             <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                             <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
                             <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">Phenominer Term Comparison</a>
                             <a href="/wg/phenotype-data13/">Phenotypes</a>
-                            <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                             <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
                             <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
                             <a href="/wg/strain-maintenance/">Animal Husbandry</a>
@@ -199,7 +194,6 @@
                         </div>
                     </div>
 
-                    <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                     <a href="/wg/home/pathway2/">Pathways</a>
 
                     <div class="dropdown">
@@ -235,7 +229,7 @@
                         <a href="/contact/index.shtml">Contact Us</a>&nbsp;&nbsp;&nbsp;
                     </td>
                         <td width="90">
-                            <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>
+                            <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                         </td>
 
                     </tr></table>
