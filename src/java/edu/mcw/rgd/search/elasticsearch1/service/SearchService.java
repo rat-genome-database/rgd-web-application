@@ -88,7 +88,9 @@ public class SearchService {
                     int k = 0;
                     for (Terms.Bucket b : subAgg.getBuckets()) {
                         String key = (String) b.getKey();
-                        if(!Objects.equals(key, "") && !key.equalsIgnoreCase("pig")){
+                        if(key.equalsIgnoreCase("Rat") || key.equalsIgnoreCase("Mouse") ||
+                                key.equalsIgnoreCase("Human") || key.equalsIgnoreCase("Chinchilla") || key.equalsIgnoreCase("Dog")
+                                || key.equalsIgnoreCase("Squirrel")){
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
 
