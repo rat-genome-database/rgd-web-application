@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by IntelliJ IDEA.
- * User: pjayaraman
- * Date: 3/5/12
- * Time: 1:07 PM
+ * @author pjayaraman
+ * @since 3/5/12
  */
 public class PubmedImageGenerator implements Controller{
 
@@ -27,12 +25,9 @@ public class PubmedImageGenerator implements Controller{
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         String pmId = req.getParameter("pmid");
-        String type = "";
-        if(!(req.getParameter("type")==null)){
-            type = req.getParameter("type");
-        }
+        String type = req.getParameter("type");
 
-        int refRgdId =  refDao.getMaxReferenceRgdIdByPubmedId(pmId);
+        int refRgdId = refDao.getReferenceRgdIdByPubmedId(pmId);
 
         if((!(pmId.equals(""))) && (type.equals(""))){
             returnImage(refRgdId, response);
@@ -60,10 +55,8 @@ public class PubmedImageGenerator implements Controller{
 
         OntDotController ontDot = new OntDotController();
         ontDot.setTmpFileDir("/rgd/www/common/images/");
+
         String imgId;
-
-        //System.out.println("ref rgdid is:"+refRgdId);
-
         if(refRgdId == 0){
             imgId = "dot_clear.png";
         }else{
@@ -75,9 +68,6 @@ public class PubmedImageGenerator implements Controller{
             }
         }
         ontDot.serveImage(imgId, resp);
-
     }
-
-
 
 }
