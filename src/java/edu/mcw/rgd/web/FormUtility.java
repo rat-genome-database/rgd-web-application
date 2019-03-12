@@ -147,6 +147,18 @@ public class FormUtility {
         return ret.toString();
     }
 
+    public String buildSelectListWithCss(String name, List<String> values, String selectedValue,String className) {
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\" ").append("class=\"").append(className).append("\">");
+        for (String nxt : values) {
+            ret.append("<option ").append(this.optionParams(selectedValue, nxt)).append(">")
+                    .append(nxt).append("</option>");
+        }
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
     public String buildChrSelectList(String name, List<Chromosome> values, String selectedValue) {
         StringBuilder ret = new StringBuilder();
         ret.append("<select name=\"").append(name).append("\">");
@@ -158,7 +170,17 @@ public class FormUtility {
         ret.append("</select>");
         return ret.toString();
     }
+    public String buildChrSelectListWithCss(String name, List<Chromosome> values, String selectedValue,String className) {
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\" ").append("class=\"").append(className).append("\">");
+        for (Chromosome nxt : values) {
+            ret.append("<option ").append(this.optionParams(selectedValue, nxt.getChromosome())).append(">")
+                    .append(nxt.getChromosome()).append("</option>");
+        }
 
+        ret.append("</select>");
+        return ret.toString();
+    }
 
     static public String buildSelectDropDown(String name, List<String> values, String selectedValue) {
         return _instance.buildSelectList(name, values, selectedValue);
@@ -225,6 +247,21 @@ public class FormUtility {
 
         StringBuilder ret = new StringBuilder();
         ret.append("<select name=\"").append(name).append("\">");
+
+        for (String key : values.keySet()) {
+            String value = values.get(key);
+            ret.append("<option ").append(this.optionParams(selectedValue, key)).append(">")
+                    .append(value).append("</option>");
+        }
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
+    public String buildSelectListWithCss(String name, Map<String, String> values, String selectedValue,String className) {
+
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\" ").append("class=\"").append(className).append("\">");
 
         for (String key : values.keySet()) {
             String value = values.get(key);

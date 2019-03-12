@@ -19,7 +19,7 @@ public class RgdContext {
     private static boolean isCurator; // isPipelines() || isDev
     private static boolean isProduction; // true iff host is HANCOCK or OWEN
 	private static boolean isPipelines; // true iff host is REED
-	private static boolean isTest; // true iff host is IRVINE
+	private static boolean isTest; // true iff host is local development machine
 	private static boolean isDev; // true iff host is HASTINGS
     private static String hostname;
 
@@ -62,10 +62,10 @@ public class RgdContext {
 			
             isProduction = hostname.contains("hancock") || hostname.contains("owen");
             isPipelines = hostname.contains("reed");
-            isDev = hostname.contains("hastings") || hostname.contains("rgd-27p8tr1");
+            isDev = hostname.contains("hastings");
             isCurator = isPipelines || isDev;
-            isTest = hostname.contains("irvine");
-			
+            isTest = hostname.contains("rgd-27p8tr1") || hostname.contains("rgd-c6vhv52");
+
             //System.out.println("RgdContext: HOSTNAME="+hostname);
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,12 +110,12 @@ public class RgdContext {
 				return index+"_index_test";
 			}
 			if( isDev() ) {
-				return index+"_index_dev1";
+				return index+"_index_dev";
 			}
 			
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return index+"_index_dev1";
+        return index+"_index_dev";
 	}
 }
