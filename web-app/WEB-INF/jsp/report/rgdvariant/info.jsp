@@ -1,6 +1,13 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
+<style>
+    .wrap660 {
+        display: block;
+        width: 660px;
+        word-break: break-all;
+    }
+</style>
 <%
     String objType = "{unknown object type}";
     String description = null;
@@ -14,15 +21,19 @@
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Variant: <%=obj.getName()!=null?obj.getName():""%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></h3></td></tr>
+    <tr><td colspan="2"><h3>Variant: <%=Utils.NVL(obj.getName(), "")%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%>
+    <% if (RgdContext.isCurator() || RgdContext.isTest()) {%>
+    <span style="margin-left:100px; padding: 5px; border: 1px solid blue; background-color: yellow;"><a href="/rgdweb/curation/edit/editVariant.html?rgdId=<%=obj.getRgdId()%>" style="font-weight:bold;font-size:11px;color:blue" title="go to Object Edit">EDIT</a></span>
+    <% } %>
+    </h3></td></tr>
 
     <tr>
         <td class="label" valign="top">Name:</td>
-        <td><%=obj.getName()==null ? "" : obj.getName()%></td>
+        <td><%=Utils.NVL(obj.getName(), "")%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Description:</td>
-        <td><%=description==null ? "" : description%></td>
+        <td><%=Utils.NVL(description, "")%></td>
     </tr>
 
     <tr>
@@ -54,11 +65,11 @@
     <% }  %>
     <tr>
         <td class="label" valign="top">Reference Nucleotide:</td>
-        <td><%=obj.getRefNuc()==null ? "" : obj.getRefNuc()%></td>
+        <td class="wrap660"><%=Utils.NVL(obj.getRefNuc(), "")%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Variant Nucleotide:</td>
-        <td><%=obj.getVarNuc()==null ? "" : obj.getVarNuc()%></td>
+        <td class="wrap660"><%=Utils.NVL(obj.getVarNuc(), "")%></td>
     </tr>
     <%
 
