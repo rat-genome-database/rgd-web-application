@@ -31,7 +31,7 @@
 
                 <div style="float:right;background:linear-gradient(gainsboro, white);border:1px solid gainsboro; padding:5px"><strong><a href="home.html?trait=${model.traitOntId}#strains">Back to all strains</a></strong></div>
 
-                <h3>PhenoMiner Expected Ranges</h3>
+                <h3>Phenominer Expected Ranges</h3>
                 <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
                     <strong>Analysis Description:</strong>
                     PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
@@ -85,7 +85,27 @@
                     </form>
                 </div>
                 <h4 style="text-transform: capitalize;color:#24609c;">Strain ${model.strainGroup} -  ${model.traitTerm} Measurements</h4-->
+                <div class="optionsHeading" >
+                    Damaging Variants
+                </div>
+                <div class="panel-body" >
+                    <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
+                        <thead><tr><th>Strain</th><th>Assembly</th></tr></thead>
+                        <tbody>
+                        <c:forEach items="${model.damagingVariants.keySet()}" var="strain">
+                                <tr>
+                                    <td>${strain}</td>
+                                    <td>
+                                           <c:forEach items="${model.damagingVariants.get(strain).keySet()}" var="assembly">
+                                               ${assembly}: &nbsp;&nbsp; No of damaging variants = ${model.damagingVariants.get(strain).get(assembly).get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get(assembly).get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get(assembly).get("map")}">Full Report</a></span><br>
+                                            </c:forEach>
 
+                                    </td>
+                                </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    </div>
                 <div>
 
                     <div>
