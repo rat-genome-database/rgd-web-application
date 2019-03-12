@@ -6,6 +6,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.StrainObject;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
 
 import edu.mcw.rgd.reporting.Report;
@@ -29,10 +30,12 @@ public class SelectedStrainController implements Controller{
     VariantDAO vdao = new VariantDAO();
     PhenominerDAO pdao=new PhenominerDAO();
     StrainDAO sdao=new StrainDAO();
+    SampleDAO smdao = new SampleDAO();
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+        smdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
         ModelMap model= new ModelMap();
         String traitOntId= request.getParameter("trait");
         if(traitOntId!=null && traitOntId.equals("")){
@@ -52,21 +55,24 @@ public class SelectedStrainController implements Controller{
 
 
         for(Strain s: strains) {
-            List<edu.mcw.rgd.datamodel.Map> maps = new MapDAO().getMaps(SpeciesType.RAT);
+            List<String> assembly = vdao.getAssemblyOfDamagingVariants(s.getRgdId());
             Map assemblyMap = new HashMap<>();
-            for (edu.mcw.rgd.datamodel.Map map : maps) {
+            List<Sample> samples=smdao.getSamplesByStrainRgdId(s.getRgdId());
+            for(Sample sample:samples) {
+            for (String map : assembly) {
                 Map details = new HashMap<>();
-                int count = vdao.getCountofDamagingVariantsForStrainByAssembly(s.getRgdId(),String.valueOf(map.getKey()));
-                if (count != 0) {
-                    details.put("count",count);
-                    details.put("rgdId",s.getRgdId());
-                    details.put("map",map.getKey());
-                    assemblyMap.put(map.getName(), details);
+                    edu.mcw.rgd.datamodel.Map m = MapManager.getInstance().getMap(Integer.valueOf(map));
+                    int count = vdao.getCountofDamagingVariantsForSample(sample.getId(), String.valueOf(m.getKey()));
+                    if (count != 0) {
+                        details.put("count", count);
+                        details.put("rgdId", s.getRgdId());
+                        details.put("map", m.getKey());
+                        assemblyMap.put(m.getName(), details);
+                    }
                 }
-            }
                 if (assemblyMap.keySet().size() != 0)
-                    damagingVar.put(s.getSymbol(), assemblyMap);
-
+                    damagingVar.put(sample.getAnalysisName(), assemblyMap);
+            }
         }
         Map<String, String> phenotypeIdMap=new TreeMap<>();
         for(String s:cmoIdList){
