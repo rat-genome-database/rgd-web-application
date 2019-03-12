@@ -11,7 +11,9 @@
 
         <c:forEach items="${hits}" var="hit">
 
-                <c:if test="${hit.sourceAsMap.primaryAssembly=='Y'}">
+                <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
+                hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species!='Mouse' || hit.sourceAsMap.species!='Chinchilla' || hit.sourceAsMap.species!='Dog'
+                || hit.sourceAsMap.species!='Bonobo' || hit.sourceAsMap.species!='Squirrel')}">
                <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
                        <div class="panel-heading" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->

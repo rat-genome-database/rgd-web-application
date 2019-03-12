@@ -8,6 +8,7 @@ import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 
@@ -87,7 +88,9 @@ public class SearchService {
                     int k = 0;
                     for (Terms.Bucket b : subAgg.getBuckets()) {
                         String key = (String) b.getKey();
-                        if(!Objects.equals(key, "")){
+                        if(key.equalsIgnoreCase("Rat") || key.equalsIgnoreCase("Mouse") ||
+                                key.equalsIgnoreCase("Human") || key.equalsIgnoreCase("Chinchilla") || key.equalsIgnoreCase("Dog")
+                                || key.equalsIgnoreCase("Squirrel")){
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
 

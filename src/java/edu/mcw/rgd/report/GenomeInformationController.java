@@ -110,14 +110,14 @@ public class GenomeInformationController implements Controller{
 
         SearchResponse sr;
         if( mapkey==0 ) {
-            System.out.println("SPECIES AND MAPKEY 0");
+
             sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
                     .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setSize(100)
                  //   .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")))
                     .get();
-            System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
+
         }else {
             sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
                     .setTypes("genome")
@@ -127,7 +127,7 @@ public class GenomeInformationController implements Controller{
         }
         if(sr!=null) {
             hitsList.add(sr.getHits().getHits());
-            System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+
         }
         return hitsList;
     }
@@ -137,8 +137,8 @@ public class GenomeInformationController implements Controller{
     List<String> speciesList= new ArrayList<>();
 
     for(int key:SpeciesType.getSpeciesTypeKeys()){
-        System.out.println("SPECIES KEY: " + key);
-        if(key!=0)
+
+        if(key==1 || key==2 || key==3 || key==4 || key==5 || key==6 || key==7)
         speciesList.add(SpeciesType.getCommonName(key));
     }
     return speciesList;
