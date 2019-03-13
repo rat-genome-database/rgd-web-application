@@ -85,9 +85,13 @@
                     </form>
                 </div>
                 <h4 style="text-transform: capitalize;color:#24609c;">Strain ${model.strainGroup} -  ${model.traitTerm} Measurements</h4-->
+                <c:if test="${model.damagingVariants.keySet()!=null && fn:length(model.damagingVariants.keySet())>0}">
                 <div class="optionsHeading" >
+
                     Damaging Variants
+
                 </div>
+
                 <div class="panel-body" >
                     <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
                         <thead><tr><th>Strain</th><th>Assembly</th></tr></thead>
@@ -106,8 +110,9 @@
                         </tbody>
                     </table>
                     </div>
-                <div>
+                </c:if>
 
+                <div>
                     <div>
                         <div class="optionsHeading">Options/Filters</div>
 
