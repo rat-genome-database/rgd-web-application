@@ -90,7 +90,8 @@ public class SearchService {
                         String key = (String) b.getKey();
                         if(key.equalsIgnoreCase("Rat") || key.equalsIgnoreCase("Mouse") ||
                                 key.equalsIgnoreCase("Human") || key.equalsIgnoreCase("Chinchilla") || key.equalsIgnoreCase("Dog")
-                                || key.equalsIgnoreCase("Squirrel")){
+                                || key.equalsIgnoreCase("Squirrel")
+                                || key.equalsIgnoreCase("Bonobo")){
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
 
