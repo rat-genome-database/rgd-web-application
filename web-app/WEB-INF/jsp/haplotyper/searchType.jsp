@@ -27,7 +27,7 @@ String pageDescription = "Define Region";
 <form action="annotation.html" name="optionForm">
 
 
-<div class="typerMat">
+<div class="typerMat" style="width:100%;">
     <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
     <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0 border=0>
         <tr>
@@ -105,7 +105,6 @@ String pageDescription = "Define Region";
 
     %>
 
-
     <table border=0 align="center" style="padding:8px; ">
         <% if (!strainSet) {%>
         <tr>
@@ -155,3 +154,5 @@ String pageDescription = "Define Region";
     //e.printStackTrace();
 
 } %>
+
+<%@ include file="/common/footerarea.jsp" %>

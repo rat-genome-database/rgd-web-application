@@ -283,7 +283,7 @@
 
 <div id="mainBody">
     <div id="contentArea" class="content-area">
-        <table cellpadding="5" border=0 align="center">
+        <table cellpadding="5" border=0 align="center" width="100%">
             <tr>
                 <td colspan="3" align="left" valign="top">
 

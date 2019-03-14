@@ -17,6 +17,8 @@
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
 
+<%@ include file="/common/compactHeaderArea.jsp" %>
+
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
@@ -299,3 +301,6 @@
 
 
 </form>
+
+<%@ include file="/common/footerarea.jsp" %>
+

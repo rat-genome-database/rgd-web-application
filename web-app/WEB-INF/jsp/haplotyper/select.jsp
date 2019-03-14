@@ -11,6 +11,8 @@
     String pageDescription = "Analyze variation in next-gen strain sequence";
 %>
 
+<%@ include file="/common/compactHeaderArea.jsp" %>
+
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
@@ -268,6 +270,5 @@ if (req.getParameter("u").equals("394033")) {
 
 
 <%@ include file="/common/footerarea.jsp" %>
-
 
 

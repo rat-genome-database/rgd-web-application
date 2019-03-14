@@ -8,7 +8,7 @@ String headContent = "";
 String pageDescription = "Define Region";
 
 %>
-
+<%@ include file="/common/compactHeaderArea.jsp" %>
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 <%
@@ -113,3 +113,4 @@ String pageDescription = "Define Region";
 
 </div>
 
+<%@ include file="/common/footerarea.jsp" %>
