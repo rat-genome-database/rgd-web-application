@@ -179,6 +179,7 @@
 
             var ctrl = this;
 
+            $scope.wsHost = "https://dev.rgd.mcw.edu"
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
 
@@ -209,7 +210,7 @@
             ctrl.updateCounts = function (ontId, filter) {
                 $http({
                     method: 'GET',
-                    url: "http://dev.rgd.mcw.edu:8080/rgdws/stats/term/" + ontId + "/" + filter,
+                    url: $scope.wsHost + "/rgdws/stats/term/" + ontId + "/" + filter,
                 }).then(function successCallback(response) {
                     $scope.objectCounts = response.data;
 
@@ -390,11 +391,11 @@
 
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
-                $scope.urlString = "http://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
+                $scope.urlString = "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
                 $http({
                     method: 'GET',
-                    url: "http://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    url: "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;
@@ -691,7 +692,7 @@
 <table align="center" border="0">
     <tr>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img height=33 width=35 ng-click="portal.download('geneList',1)" src="http://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img height=33 width=35 ng-click="portal.download('geneList',1)" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
@@ -700,7 +701,7 @@
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b> {{ portalQTLsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('qtlList',portal.speciesTypeKey,portal.mapKey,6,0,'excel')" src="http://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b> {{ portalQTLsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('qtlList',portal.speciesTypeKey,portal.mapKey,6,0,'excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalQTL in portalQTLs" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
                     <a class="qtlList" href="/rgdweb/report/qtl/main.html?id={{portalQTL.rgdId}}">{{portalQTL.symbol}}</a><br />
@@ -709,7 +710,7 @@
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b> {{ portalStrainsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('strainList',rgd.speciesTypeKey,rgd.mapKey,5,0,'excel')" src="http://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b> {{ portalStrainsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('strainList',rgd.speciesTypeKey,rgd.mapKey,5,0,'excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox" style="width:500px;">
                 <div ng-repeat="portalStrain in portalStrains" style="margin-top:3px; padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
                     <a class="strainList" href="/rgdweb/report/strain/main.html?id={{portalStrain.rgdId}}">{{portalStrain.symbol}}</a><br />
