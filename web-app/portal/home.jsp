@@ -10,7 +10,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-
 <%
 
     String filter = "";
@@ -110,11 +109,11 @@
 
     .speciesButton {
         cursor: pointer;
-        border:1px solid white;
+        border:3px solid white;
     }
 
     .speciesButton:hover {
-        border:1px solid #8E0026;
+        border:3px solid #8E0026;
     }
 
     .countTitle {
@@ -130,7 +129,7 @@
 
     .diseasePortalButton {
         color:white;
-        width:130px;
+        width:210px;
         text-align:center;
         padding-top: 8px;
         padding-bottom: 8px;
@@ -224,10 +223,14 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
+
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
                 ctrl.update(1,ontId);
                 ctrl.update(6,ontId);
                 ctrl.update(5,ontId);
+
+
+
             }
 
             ctrl.browse = function (ontId, ont, term) {
@@ -240,6 +243,8 @@
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomLeftRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomRightRadius = "8px";
+                    document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
+
                 }
 
 
@@ -253,24 +258,8 @@
                 document.getElementById($scope.ontology).style.borderBottomLeftRadius = "100px";
                 document.getElementById($scope.ontology).style.borderBottomRightRadius = "100px";
 
+                document.getElementById($scope.ontology).style.border = "5px solid #8E0026";
 
-                if (ont=='d') {
-                    $scope.title="<%=title%>";
-                }else if (ont=='ph') {
-                    $scope.title="<%=title%>: Phenotypes";
-                }else if (ont=='bp') {
-                    $scope.title="<%=title%>: Biological Processes";
-                }else if (ont=='pw') {
-                    $scope.title="<%=title%>: Pathways";
-                }else if (ont=='c') {
-                    $scope.title="<%=title%>: Chemicals and Drugs";
-                }else if (ont=='vt') {
-                    $scope.title="<%=title%>: Vertibrate Traits";
-                }else if (ont=='cm') {
-                    $scope.title="<%=title%>: Clinical Measurements";
-                }else if (ont=='ec') {
-                    $scope.title="<%=title%>: Experimental Conditions";
-                }
 
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
@@ -282,9 +271,9 @@
 
                 ctrl.updateAll(ont, ontId)
 
-                //ctrl.update(1,ontId);
-                //ctrl.update(6,ontId);
-                //ctrl.update(5,ontId);
+
+
+
 
             }
 
@@ -292,10 +281,10 @@
             ctrl.updateSpecies = function (speciesType, map, commonName) {
 
                 for (var i=1; i< 8; i++) {
-                    document.getElementById("speciesButton" + i).style.borderColor = "white";
+                    document.getElementById("speciesButton" + i).style.border = "3px solid white";
                 }
 
-                document.getElementById("speciesButton" + speciesType).style.borderColor = "#8E0026";
+                document.getElementById("speciesButton" + speciesType).style.border = "3px solid #8E0026";
 
                 $scope.speciesTypeKey = speciesType;
                 $scope.mapKey=map;
@@ -336,6 +325,31 @@
                     $scope.portalStrains={};
                     $scope.portalStrainsLen=0;
                 }
+
+            }
+
+            ctrl.download = function() {
+
+                alert("need to implement");
+                /*
+                var data, filename, link;
+                var csv = convertArrayOfObjectsToCSV({
+                    data: stockData
+                });
+                if (csv == null) return;
+
+                filename = args.filename || 'export.csv';
+
+                if (!csv.match(/^data:text\/csv/i)) {
+                    csv = 'data:text/csv;charset=utf-8,' + csv;
+                }
+                data = encodeURI(csv);
+
+                link = document.createElement('a');
+                link.setAttribute('href', data);
+                link.setAttribute('download', filename);
+                link.click();
+*/
 
             }
 
@@ -382,10 +396,20 @@
                     method: 'GET',
                     url: "http://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                 }).then(function successCallback(response) {
-                    //alert(response.data);
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
+
+                        //alert($scope.portalGenes);
+
+
+                        var host='http://dev.rgd.mcw.edu:8080';
+                        var speciesKey = $scope.speciesTypeKey;
+                        var ont = 'RDO';
+                        //var genes = ["lepr","a2m","xiap"];
+                        var genes=Object.keys($scope.portalGenes);
+                        var graph=3;
+                        var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
 
                     }else if (objectKey==6) {
                         $scope.portalQTLs=response.data;
@@ -408,32 +432,49 @@
     ]);
 </script>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
 <div id="portalController" ng-controller="portalController as portal">
+
+
+    <table width="100%" align="center" style="ackground-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:40px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
+            <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
+        </tr>
+    </table>
+
+
+    <div style="margin-left:20px; font-size:14px; color:#24609C">Select a disease category</div>
 
     <table align="center">
         <tr>
+
         <td>
 
-
-<div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('RDO:0005134','d')">Disease</div>
-<div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotype</div>
-<div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Process</div>
-<div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathway</div>
-<div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('CHEBI:59999','c')">Chemical/Drug</div>
-<div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('VT:0000001','vt')">Vertebrate Trait</div>
-<div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('CMO:0000000','cm')">Clinical Measurement</div>
-<div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Experimental Condition</div>
+        <table border="0">
+            <tr>
+                <td align="center">
+                    <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('DOID:1287','d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('VT:0000001','vt')">Vertebrate Traits<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('CMO:0000000','cm')">Clinical Measurements<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Experimental Conditions<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('CHEBI:59999','c')">Chemicals and Drugs<br><span style="font-size:11px;">{{title}}</span></div>
+                </td>
+            </tr>
+        </table>
 
         </td>
     </tr></table>
 
-<table width="95%" align="center">
-    <tr>
-        <td><div style='font-size:30px; clear:left; color:#24609C; font-family:"Old Sans Black;"'>{{title}}&nbsp;Portal</div></td>
-        <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
-    </tr>
-</table>
-
+    <div style="margin-left:20px; font-size:14px; color:#24609C">Select a species</div>
 
 <table align="center" border="0">
     <tr>
@@ -688,7 +729,58 @@
         -->
     </tr>
 </table>
+<br>
+    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Enrichement</div></td>
+        </tr>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
+
+
+
+    <div id="enrichment" >
+        <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
+        <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
+    </div>
+    <script src="/rgdweb/js/enrichment/analysis.js?fff"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script>
+/*
+        var host='http://dev.rgd.mcw.edu:8080';
+        var speciesKey = 3;
+        var ont = 'RDO';
+        var genes = ["lepr","a2m","xiap"];
+        var graph=3;
+        var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+*/
+    </script>
+
+
+<br>
+    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Disease Navigator</div></td>
+        </tr>
+    </table>
+    <table width="100%">
+        <tr>
+            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{rootTermAcc}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
+        </tr>
+    </table>
+
 </div>
+
 
 
 
