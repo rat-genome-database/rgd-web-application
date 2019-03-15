@@ -94,7 +94,7 @@
 
                 <div class="panel-body" >
                     <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
-                        <thead><tr><th>Strain</th><th>Variants</th><th>&nbsp;&nbsp;</th></tr></thead>
+                        <thead><tr><th>Strain</th><th>&nbsp;&nbsp;</th><th>Variants</th><th>&nbsp;&nbsp;</th></tr></thead>
                         <tbody>
                         <c:forEach items="${model.damagingVariants.keySet()}" var="strain">
                                 <tr>
