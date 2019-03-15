@@ -101,7 +101,7 @@
                                     <td>${strain}</td>
                                     <td>
                                            <c:forEach items="${model.damagingVariants.get(strain).keySet()}" var="assembly">
-                                               ${assembly}: &nbsp;&nbsp; No of damaging variants = ${model.damagingVariants.get(strain).get(assembly).get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get(assembly).get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get(assembly).get("map")}">Full Report</a></span><br>
+                                              <td>${assembly}: &nbsp;&nbsp; No of damaging variants = ${model.damagingVariants.get(strain).get(assembly).get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get(assembly).get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get(assembly).get("map")}">Full Report</a></span></td>
                                             </c:forEach>
 
                                     </td>
