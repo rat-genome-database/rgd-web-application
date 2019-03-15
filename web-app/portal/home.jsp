@@ -403,7 +403,8 @@
                         //alert($scope.portalGenes);
 
 
-                        var host='http://dev.rgd.mcw.edu:8080';
+                        //var host='http://dev.rgd.mcw.edu:8080';
+                        var host='https://dev.rgd.mcw.edu';
                         var speciesKey = $scope.speciesTypeKey;
                         var ont = 'RDO';
                         //var genes = ["lepr","a2m","xiap"];
