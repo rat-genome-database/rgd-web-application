@@ -129,8 +129,6 @@
     <p class="heading" style="font-size:30px; color:white; font-weight:600;"><%=pageHeader%></p>
 
 
-<br>
-
 
 <hr></hr>
 <br>
@@ -139,7 +137,7 @@
     <table border=0>
 
         <tr>
-            <td style=" font-size: 16px; font-weight:600;">Select a Species to view enrichment for all RGD ontologies</td>
+            <td style=" font-size: 16px; font-weight:600; color: #24609c;" >Select a Species to view enrichment for all RGD ontologies</td>
             <td >
                 <select class="form-control inputstl" name="species" id="species" onChange="v.setMap(this)">
                     <option value="3">Rat</option>
@@ -156,7 +154,7 @@
         <tr><td>&nbsp;</td></tr>
         <tr>
 
-            <td style=" font-size: 16px; font-weight:600;">Select an Ontology to view enrichment in all RGD species</td>
+            <td style=" font-size: 16px; font-weight:600; color: #24609c;">Select an Ontology to view enrichment in all RGD species</td>
             <td>
                 <select  class="form-control inputstl" name="o" id="o">
                     <option value="RDO">Disease</option>
@@ -171,10 +169,10 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td  style=" font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
+            <td  style=" font-size: 16px; font-weight:600; color: #24609c;">Enter Gene Symbols</td>
             <td>
                 <span style="font-weight:bold">Example: a2m,xiap,lepr,tnf</span><br>
-                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 style="border-color: #2865a3;" ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
+                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
                 <%=dm.out("genes",req.getParameter("genes"))%>
 
             </td>
@@ -187,7 +185,7 @@
 
             <table>
                 <tr><td>&nbsp;</td></tr>
-                <tr><td style="font-size: 16px; font-weight:600;">Enter a Genomic Region</td>
+                <tr><td style="font-size: 16px; font-weight:600; color: #24609c;">Enter a Genomic Region</td>
                     <td style="padding-left:120px;">
                         <table border=0>
                             <tr>

@@ -94,14 +94,14 @@
 
                 <div class="panel-body" >
                     <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
-                        <thead><tr><th>Strain</th><th>Assembly</th></tr></thead>
+                        <thead><tr><th>Strain</th><th>&nbsp;&nbsp;</th><th>Variants</th><th>&nbsp;&nbsp;</th></tr></thead>
                         <tbody>
                         <c:forEach items="${model.damagingVariants.keySet()}" var="strain">
                                 <tr>
                                     <td>${strain}</td>
                                     <td>
                                            <c:forEach items="${model.damagingVariants.get(strain).keySet()}" var="assembly">
-                                               ${assembly}: &nbsp;&nbsp; No of damaging variants = ${model.damagingVariants.get(strain).get(assembly).get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get(assembly).get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get(assembly).get("map")}">Full Report</a></span><br>
+                                              <td>${assembly}: &nbsp;&nbsp; No of damaging variants = ${model.damagingVariants.get(strain).get(assembly).get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get(assembly).get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get(assembly).get("map")}">Full Report</a></span></td>
                                             </c:forEach>
 
                                     </td>
