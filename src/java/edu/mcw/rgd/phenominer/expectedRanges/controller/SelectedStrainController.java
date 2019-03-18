@@ -55,23 +55,26 @@ public class SelectedStrainController implements Controller{
 
 
         for(Strain s: strains) {
-            List<String> assembly = vdao.getAssemblyOfDamagingVariants(s.getRgdId());
-            Map assemblyMap = new HashMap<>();
             List<Sample> samples=smdao.getSamplesByStrainRgdId(s.getRgdId());
             for(Sample sample:samples) {
-            for (String map : assembly) {
+                Map assemblyMap = new HashMap<>();
                 Map details = new HashMap<>();
-                    edu.mcw.rgd.datamodel.Map m = MapManager.getInstance().getMap(Integer.valueOf(map));
-                    int count = vdao.getCountofDamagingVariantsForSample(sample.getId(), String.valueOf(m.getKey()));
+                edu.mcw.rgd.datamodel.Map m = MapManager.getInstance().getMap(sample.getMapKey());
+                    int count = vdao.getCountofDamagingVariantsForSample(sample.getId(), String.valueOf(sample.getMapKey()));
                     if (count != 0) {
                         details.put("count", count);
                         details.put("rgdId", s.getRgdId());
-                        details.put("map", m.getKey());
+                        details.put("map", sample.getMapKey());
+                        if(damagingVar.keySet().contains(sample.getAnalysisName())) {
+                            assemblyMap = (Map) damagingVar.get(sample.getAnalysisName());
+                            assemblyMap.put(m.getName(),details);
+                        } else
                         assemblyMap.put(m.getName(), details);
                     }
-                }
-                if (assemblyMap.keySet().size() != 0)
+
+                if (assemblyMap.keySet().size() != 0) {
                     damagingVar.put(sample.getAnalysisName(), assemblyMap);
+                }
             }
         }
         Map<String, String> phenotypeIdMap=new TreeMap<>();
