@@ -94,19 +94,20 @@
 
                 <div class="panel-body" >
                     <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
-                        <thead><tr><th>Strain</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
+                        <thead><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
+                        <thead><tr><tr><th>Strain</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
                         <tbody>
                         <c:forEach items="${model.damagingVariants.keySet()}" var="strain">
                                 <tr>
                                     <td>${strain}</td>
                                     <td><c:if test="${model.damagingVariants.get(strain).get('Rnor_6.0').get('count') != null}">
-                                    Count: ${model.damagingVariants.get(strain).get("Rnor_6.0").get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_6.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_6.0").get("map")}">Full Report</a></span>
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_6.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_6.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_6.0").get("count")} </a></span>
                                     </c:if></td>
                                     <td> <c:if test="${model.damagingVariants.get(strain).get('Rnor_5.0').get('count') != null}">
-                                    Count: ${model.damagingVariants.get(strain).get("Rnor_5.0").get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_5.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_5.0").get("map")}">Full Report</a></span>
+                                       <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_5.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_5.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_5.0").get("count")}</a></span>
                                    </c:if></td>
                                     <td><c:if test="${model.damagingVariants.get(strain).get('RGSC_v3.4').get('count') != null}">
-                                    Count: ${model.damagingVariants.get(strain).get("RGSC_v3.4").get("count")} &nbsp;&nbsp; <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("map")}">Full Report</a></span>
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("map")}">${model.damagingVariants.get(strain).get("RGSC_v3.4").get("count")}</a></span>
                                     </c:if></td>
                                 </tr>
                         </c:forEach>
