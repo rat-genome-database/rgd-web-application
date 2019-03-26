@@ -31,7 +31,7 @@
 
                 <div style="float:right;background:linear-gradient(gainsboro, white);border:1px solid gainsboro; padding:5px"><strong><a href="home.html?trait=${model.traitOntId}#strains">Back to all strains</a></strong></div>
 
-                <h3>PhenoMiner Expected Ranges</h3>
+                <h3>Phenominer Expected Ranges</h3>
                 <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
                     <strong>Analysis Description:</strong>
                     PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
@@ -85,9 +85,38 @@
                     </form>
                 </div>
                 <h4 style="text-transform: capitalize;color:#24609c;">Strain ${model.strainGroup} -  ${model.traitTerm} Measurements</h4-->
+                <c:if test="${model.damagingVariants.keySet()!=null && fn:length(model.damagingVariants.keySet())>0}">
+                <div class="optionsHeading" >
+
+                    Damaging Variants
+
+                </div>
+
+                <div class="panel-body" >
+                    <table class="table table-sm table-hover table-striped" id="expectedRangesTable">
+                        <thead><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
+                        <thead><tr><tr><th>Strain</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
+                        <tbody>
+                        <c:forEach items="${model.damagingVariants.keySet()}" var="strain">
+                                <tr>
+                                    <td>${strain}</td>
+                                    <td><c:if test="${model.damagingVariants.get(strain).get('Rnor_6.0').get('count') != null}">
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_6.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_6.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_6.0").get("count")} </a></span>
+                                    </c:if></td>
+                                    <td> <c:if test="${model.damagingVariants.get(strain).get('Rnor_5.0').get('count') != null}">
+                                       <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_5.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_5.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_5.0").get("count")}</a></span>
+                                   </c:if></td>
+                                    <td><c:if test="${model.damagingVariants.get(strain).get('RGSC_v3.4').get('count') != null}">
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("map")}">${model.damagingVariants.get(strain).get("RGSC_v3.4").get("count")}</a></span>
+                                    </c:if></td>
+                                </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    </div>
+                </c:if>
 
                 <div>
-
                     <div>
                         <div class="optionsHeading">Options/Filters</div>
 
