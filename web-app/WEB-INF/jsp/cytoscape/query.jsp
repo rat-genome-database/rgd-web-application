@@ -148,6 +148,17 @@
 
 
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               <h1><a href="ftp://ftp.rgd.mcw.edu/pub/data_release/interactions/" target="_blank">Download All Interactions By Species</a></h1>
+            </div>
+            <div class="panel-body">
+
+                   <a href="report.html?species=Rat"><strong>Browse all Rat interactions</strong></a>
+
+
+            </div>
+        </div>
     </div>
 </form>
 <%@ include file="/common/footerarea.jsp"%>
