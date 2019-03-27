@@ -171,8 +171,8 @@ public class InteractionsService {
         return batches;
     }
     public List<Gene> getGeneByProteinRgdId(int proteinRgdId) throws Exception {
-        proteinRgdId=pdao.getRgdId("Q91Y79");
-        System.out.println("PROTEIN RGDID: "+ proteinRgdId);
+    //    proteinRgdId=pdao.getRgdId("Q91Y79");
+    //    System.out.println("PROTEIN RGDID: "+ proteinRgdId);
         List<Gene> genes= new ArrayList<>();
         if(geneProteinMap.get(proteinRgdId)!=null){
             genes=geneProteinMap.get(proteinRgdId);
@@ -180,7 +180,7 @@ public class InteractionsService {
             genes=assocDao.getAssociatedGenesForMasterRgdId(proteinRgdId, "protein_to_gene");
             geneProteinMap.put(proteinRgdId, genes);
         }
-        System.out.println("GENES SIZE:"+genes.size());
+    //    System.out.println("GENES SIZE:"+genes.size());
         return genes;
     }
     public static void main(String[] args) throws Exception {
