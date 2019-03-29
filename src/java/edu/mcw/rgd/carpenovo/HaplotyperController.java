@@ -13,10 +13,13 @@ import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,13 +35,14 @@ public abstract class HaplotyperController implements Controller {
 
     /**
      * Figures out the position information based on a gene symbol or region
+     *
      * @param geneSymbol
      * @param geneStart
      * @param geneStop
      * @return
      * @throws Exception
      */
-    protected Position getPosition(String geneSymbol, String geneStart, String geneStop, int mapKey) throws Exception{
+    protected Position getPosition(String geneSymbol, String geneStart, String geneStop, int mapKey) throws Exception {
 
         MapDAO mdao = new MapDAO();
         GeneDAO gdao = new GeneDAO();
@@ -52,8 +56,8 @@ public abstract class HaplotyperController implements Controller {
                 Gene g1 = gdao.getGenesBySymbol(genes[0], 3);
                 Gene g2 = gdao.getGenesBySymbol(genes[1], 3);
 
-                List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(),mapKey);
-                List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(),mapKey);
+                List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
+                List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
 
                 MapData md1 = mdList1.get(0);
                 MapData md2 = mdList2.get(0);
@@ -61,39 +65,39 @@ public abstract class HaplotyperController implements Controller {
                 p.setChromosome(md1.getChromosome());
                 p.setStart(md1.getStopPos() + 1);
                 p.setStop(md2.getStartPos() - 1);
-            }else if (geneSymbol.indexOf('*') != -1) {
+            } else if (geneSymbol.indexOf('*') != -1) {
                 String[] genes = geneSymbol.split("\\*");
 
-                Gene g1 = gdao.getGenesBySymbol(genes[0],3);
-                Gene g2 = gdao.getGenesBySymbol(genes[1],3);
+                Gene g1 = gdao.getGenesBySymbol(genes[0], 3);
+                Gene g2 = gdao.getGenesBySymbol(genes[1], 3);
 
-                List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(),mapKey);
-                List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(),mapKey);
+                List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
+                List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
 
                 MapData md1 = mdList1.get(0);
                 MapData md2 = mdList2.get(0);
 
                 p.setChromosome(md1.getChromosome());
 
-                int start=0;
-                int stop=0;
+                int start = 0;
+                int stop = 0;
 
                 if (md1.getStartPos() > md2.getStartPos()) {
                     start = md1.getStartPos();
-                }else {
-                    start=md2.getStartPos();
+                } else {
+                    start = md2.getStartPos();
                 }
 
                 if (md1.getStopPos() > md2.getStopPos()) {
                     stop = md2.getStopPos();
-                }else {
-                    stop=md1.getStopPos();
+                } else {
+                    stop = md1.getStopPos();
                 }
 
                 p.setStart(start);
                 p.setStop(stop);
 
-            }else if (Utils.symbolSplit(geneSymbol).size() ==1) {
+            } else if (Utils.symbolSplit(geneSymbol).size() == 1) {
 
                 Map m = MapManager.getInstance().getMap(mapKey);
                 Gene gene = gdao.getGenesBySymbol(geneSymbol, m.getSpeciesTypeKey());
@@ -102,7 +106,7 @@ public abstract class HaplotyperController implements Controller {
                 }
 
                 List<MapData> mdList = mdao.getMapData(gene.getRgdId(), mapKey);
-                if( mdList.isEmpty() ) {
+                if (mdList.isEmpty()) {
                     throw new VVException("Position not found for gene " + geneSymbol + ", map_key=" + mapKey);
                 }
 
@@ -113,10 +117,10 @@ public abstract class HaplotyperController implements Controller {
                 p.setStop(md.getStopPos());
             }
 
-        }else if (!geneStart.equals("") && !geneStop.equals("")) {
+        } else if (!geneStart.equals("") && !geneStop.equals("")) {
 
-            int rgdIdStart=0;
-            int rgdIdStop=0;
+            int rgdIdStart = 0;
+            int rgdIdStop = 0;
 
 
             List geneList = new ArrayList();
@@ -131,19 +135,19 @@ public abstract class HaplotyperController implements Controller {
             //if (mapped.size() == 0) {
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = sdao.getActiveSSLPsByName(geneStart,3);
+                List sList = sdao.getActiveSSLPsByName(geneStart, 3);
 
-                if (sList.size() >0) {
+                if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
                     rgdIdStart = ss.getRgdId();
-                }else {
+                } else {
                     throw new VVException("Symbol 1 not found");
                 }
 
-            }else if (mapped.get(0) instanceof Gene) {
+            } else if (mapped.get(0) instanceof Gene) {
                 Gene g = (Gene) mapped.get(0);
                 rgdIdStart = g.getRgdId();
-            }else {
+            } else {
                 throw new VVException("Symbol 1 not found");
             }
 
@@ -160,30 +164,30 @@ public abstract class HaplotyperController implements Controller {
             //we may have an sslp
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = sdao.getActiveSSLPsByName(geneStop,3);
+                List sList = sdao.getActiveSSLPsByName(geneStop, 3);
 
-                if (sList.size() >0) {
+                if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
                     rgdIdStop = ss.getRgdId();
-                }else {
+                } else {
                     throw new VVException("Symbol 2 not found");
                 }
 
-            }else if (mapped.get(0) instanceof Gene) {
+            } else if (mapped.get(0) instanceof Gene) {
                 Gene g = (Gene) mapped.get(0);
                 rgdIdStop = g.getRgdId();
-            }else {
+            } else {
                 throw new VVException("Symbol 2 not found");
             }
             //System.out.println("he8e");
 
             List<MapData> mdList1 = mdao.getMapData(rgdIdStart, mapKey);
-            List<MapData> mdList2 = mdao.getMapData(rgdIdStop,mapKey);
+            List<MapData> mdList2 = mdao.getMapData(rgdIdStop, mapKey);
 
-            if (mdList1.size()==0) {
+            if (mdList1.size() == 0) {
                 throw new VVException("Symbol 1 not found");
             }
-            if (mdList2.size()==0) {
+            if (mdList2.size() == 0) {
                 throw new VVException("Symbol 2 not found");
             }
 
@@ -191,7 +195,7 @@ public abstract class HaplotyperController implements Controller {
             MapData md2 = mdList2.get(0);
 
             if (!md1.getChromosome().equals(md2.getChromosome())) {
-                throw new VVException ("Symbol 1 and Symbol 2 must be on the same chromosome.");
+                throw new VVException("Symbol 1 and Symbol 2 must be on the same chromosome.");
             }
 
             p.setChromosome(md1.getChromosome());
@@ -206,11 +210,12 @@ public abstract class HaplotyperController implements Controller {
 
     /**
      * initializes a VariantSearchBean based on data supplied in the HTTP Request object
+     *
      * @param req
      * @return
      * @throws Exception
      */
-    protected VariantSearchBean fillBean(HttpRequestFacade req) throws Exception{
+    protected VariantSearchBean fillBean(HttpRequestFacade req) throws Exception {
 
         VariantSearchBean vsb = new VariantSearchBean(0);
 
@@ -224,11 +229,11 @@ public abstract class HaplotyperController implements Controller {
 
             vsb.setMapKey(mapKey);
 
-            for (Sample s: samples) {
+            for (Sample s : samples) {
                 vsb.sampleIds.add(s.getId());
             }
 
-        }else {
+        } else {
 
             // determine mapKey from samples
             for (int i = 0; i < 100; i++) {
@@ -256,13 +261,13 @@ public abstract class HaplotyperController implements Controller {
         }
         // if map key was not explicitly given, set the map key to value determined from sample ids
         int mapKey = vsb.getMapKey();
-        if( vsb.getMapKey()==0 ) {
+        if (vsb.getMapKey() == 0) {
             String mapKeyString = req.getParameter("mapKey");
-            if( !mapKeyString.isEmpty() ) {
+            if (!mapKeyString.isEmpty()) {
                 mapKey = Integer.parseInt(mapKeyString);
             }
             // if map key still not determined, set it to map key of primary reference assembly
-            if( mapKey==0 ) {
+            if (mapKey == 0) {
                 mapKey = MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey();
             }
             vsb.setMapKey(mapKey);
@@ -270,8 +275,8 @@ public abstract class HaplotyperController implements Controller {
 
 
         String chromosome = req.getParameter("chr");
-        String start = URLDecoder.decode(req.getParameter("start"),"UTF-8").replaceAll(",","");
-        String stop = URLDecoder.decode(req.getParameter("stop"),"UTF-8").replaceAll(",","");
+        String start = URLDecoder.decode(req.getParameter("start"), "UTF-8").replaceAll(",", "");
+        String stop = URLDecoder.decode(req.getParameter("stop"), "UTF-8").replaceAll(",", "");
 
         if (chromosome.equals("") || start.equals("") || stop.equals("")) {
 
@@ -281,16 +286,16 @@ public abstract class HaplotyperController implements Controller {
             start = p.getStart() + "";
             stop = p.getStop() + "";
 
-        }else {
+        } else {
             try {
                 Integer.parseInt(start);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new VVException("Start value must be numeric");
             }
 
             try {
                 Integer.parseInt(stop);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new VVException("Stop value must be numeric");
             }
         }
@@ -299,13 +304,21 @@ public abstract class HaplotyperController implements Controller {
         float conHigh = -1;
         switch (req.getParameter("con")) {
             case "n":
-                conLow = 0; conHigh = 0; break;
+                conLow = 0;
+                conHigh = 0;
+                break;
             case "l":
-                conLow = .01f; conHigh = .49f; break;
+                conLow = .01f;
+                conHigh = .49f;
+                break;
             case "m":
-                conLow = .5f; conHigh = .749f; break;
+                conLow = .5f;
+                conHigh = .749f;
+                break;
             case "h":
-                conLow = .75f; conHigh = 1f; break;
+                conLow = .75f;
+                conHigh = 1f;
+                break;
         }
 
         vsb.setPosition(chromosome, start, stop);
@@ -323,13 +336,49 @@ public abstract class HaplotyperController implements Controller {
         vsb.setLocation(req.getParameter("intron"), req.getParameter("3prime"), req.getParameter("5prime"), req.getParameter("proteinCoding"));
         vsb.setPseudoautosomal(req.getParameter("excludePsudoautosomal"), req.getParameter("onlyPsudoautosomal"));
         vsb.setAlleleCount(req.getParameter("alleleCount1"), req.getParameter("alleleCount2"), req.getParameter("alleleCount3"), req.getParameter("alleleCount4"));
-        vsb.setVariantType(req.getParameter("snv"),req.getParameter("ins"),req.getParameter("del"));
+        vsb.setVariantType(req.getParameter("snv"), req.getParameter("ins"), req.getParameter("del"));
         vsb.setIsFrameshift(req.getParameter("frameshift"));
         vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
         vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
         return vsb;
     }
 
+    public boolean checkRegionPositionBounds(HttpServletRequest request) throws Exception {
+        if (request.getParameter("start") != null && request.getParameter("stop") != null) {
+            if (!request.getParameter("start").equals("") && !request.getParameter("stop").equals("")) {
+                int start = Integer.parseInt(request.getParameter("start").replaceAll(",", ""));
+                int stop = Integer.parseInt(request.getParameter("stop").replaceAll(",", ""));
+                int diff = stop - start;
+
+                if (diff >= 30000000) {
+                    return false;
+                }
+            }
+        }
+        if (request.getParameter("geneStart") != null && request.getParameter("geneStop") != null) {
+            if (!request.getParameter("geneStart").equals("") && !request.getParameter("geneStop").equals("")) {
+                Position p=new Position();
+                p = getPosition("", request.getParameter("geneStart"), request.getParameter("geneStop"), Integer.parseInt(request.getParameter("mapKey")));
+                int diff = p.getStop() - p.getStart();
+                if (diff >= 30000000) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public Position getGeneSSLPRegion(HttpServletRequest request) throws Exception {
+        Position p=new Position();
+        if (request.getParameter("geneStart") != null && request.getParameter("geneStop") != null) {
+            if (!request.getParameter("geneStart").equals("") && !request.getParameter("geneStop").equals("")) {
+                 p = getPosition("", request.getParameter("geneStart"), request.getParameter("geneStop"), Integer.parseInt(request.getParameter("mapKey")));
+
+            }
+        }
+        return p;
+
+    }
+
 }
-
-

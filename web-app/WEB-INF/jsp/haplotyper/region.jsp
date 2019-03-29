@@ -11,7 +11,9 @@ String pageDescription = "Define Region";
 <%@ include file="/common/compactHeaderArea.jsp" %>
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
+
 <%
+
    int mapKey = Integer.parseInt(request.getParameter("mapKey"));
 %>
 
@@ -36,17 +38,40 @@ String pageDescription = "Define Region";
                         <tr>
                             <td colspan=3>
                                 <div class="typerSubTitle">Position</div>
-                                <form action="config.html" name="optionForm">
+                                <form action="config.html" id="optionForm1" name="optionForm" >
+                                    <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                                    <% String start = new String();
+                                        String stop= new String();
+                                        if(req.getParameter("start")!=null && !req.getParameter("start").equals("")){
+                                            start=req.getParameter("start");
+                                        }else{
+                                            if(request.getAttribute("start")!=null)
+                                            start= String.valueOf(request.getAttribute("start"));
+                                        }
+                                        if(req.getParameter("stop")!=null && !req.getParameter("stop").equals("")){
+                                            stop=req.getParameter("stop");
+                                        }else{
+                                            if(request.getAttribute("stop")!=null)
+                                            stop= String.valueOf(request.getAttribute("stop"));
+                                        }
+
+                                    %>
+                                    <%
+                                        for (int i=1; i<100; i++) {
+                                            if (request.getParameter("sample" + i) != null) {
+                                    %>
+                                    <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+                                    <%}} %>
                                     <table>
                                         <tr>
                                             <td colspan=2>
                                                 <table>
                                                     <tr>
                                                         <td>Chromosome <select   name="chr" id="chr" ><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="X">X</option><option value="Y">Y</option><option value="MT">MT</option></select></td>
-                                                        <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",req.getParameter("start")))%>" required></td>
-                                                        <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",req.getParameter("stop")))%>" required></td>
+                                                        <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" id="start" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",start))%>" required></td>
+                                                        <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" id="stop" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",stop))%>" required></td>
                                                         <td valign="top" align="left">
-                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white"/></div>
+                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white" onclick="validateRegion()"/></div>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -59,7 +84,14 @@ String pageDescription = "Define Region";
                         </tr>
                         <tr>
                             <td>
-                                <form action="config.html" name="optionForm">
+                                <form action="config.html" id="optionForm2" name="optionForm">
+                                    <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                                    <%
+                                        for (int i=1; i<100; i++) {
+                                            if (request.getParameter("sample" + i) != null) {
+                                    %>
+                                    <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+                                    <%}} %>
                                     <table>
                                         <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3) { %>
                                         <tr>
@@ -88,42 +120,36 @@ String pageDescription = "Define Region";
             </tr>
             </table>
 
-<form>
     <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
         <tr>
             <td><b>Strains Selected</b></td>
         </tr>
     </table>
-
-        <div style="margin-top:12px; margin-bottom:12px;">
-<table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
+    <div style="margin-top:12px; margin-bottom:12px;">
+    <table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
     <tr>
      <td style="font-size:11px;color:white;" >
-    <%
-    for (int i=1; i<100; i++) {
-        if (request.getParameter("sample" + i) != null) {
-            String strain = "";
-            if (i > 1) {
-                strain += ",&nbsp;";
-            }
+        <%
+        for (int i=1; i<100; i++) {
+            if (request.getParameter("sample" + i) != null) {
+                String strain = "";
+                if (i > 1) {
+                    strain += ",&nbsp;";
+                }
 
-            strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
+                strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
 
-    %>
+        %>
         <%=strain%>
-        <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-    <%
-        }
-    }
-    %>
-         <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-        </td>
+     <%}}%>
+
+     </td>
     </tr>
 </table>
 </div>
 
 
-</form>
+
 
 </div>
 
