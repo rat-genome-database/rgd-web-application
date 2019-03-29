@@ -28,53 +28,67 @@ String pageDescription = "Define Region";
 
 <br><br>
 
-<form action="config.html" name="optionForm">
+        <table border=0 align="center" style="padding:8px; ">
+            <tr>
+                <td width=200 style="font-size:14px;color:white;">A region can be defined using a genomic position or 2 gene/SSLP flanks located on the same chromosome</td>
+                <td>
+                    <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable" style="padding: 10px;">
+                        <tr>
+                            <td colspan=3>
+                                <div class="typerSubTitle">Position</div>
+                                <form action="config.html" name="optionForm">
+                                    <table>
+                                        <tr>
+                                            <td colspan=2>
+                                                <table>
+                                                    <tr>
+                                                        <td>Chromosome <select   name="chr" id="chr" ><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="X">X</option><option value="Y">Y</option><option value="MT">MT</option></select></td>
+                                                        <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",req.getParameter("start")))%>" required></td>
+                                                        <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",req.getParameter("stop")))%>" required></td>
+                                                        <td valign="top" align="left">
+                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white"/></div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form action="config.html" name="optionForm">
+                                    <table>
+                                        <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3) { %>
+                                        <tr>
+                                            <td colspan=3 align="center"><div style="background-color:#002752; margin-top:20px; margin-bottom:20px; padding:2px;font-weight:700; color:white;"><< OR >></div></td>
+                                        </tr>
 
-<table border=0 align="center" style="padding:8px; ">
-    <tr>
-        <td width=200 style="font-size:14px;color:white;">A region can be defined using a genomic position or 2 gene/SSLP flanks located on the same chromosome</td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td >
+                                        <tr>
+                                            <td   colspan=3><div class="typerSubTitle" >Gene or SSLP Bounds  <span style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;(must be on same chromosome)</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan=2>Symbol 1: <input type="text" name="geneStart" size=30 value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>" required/> &nbsp;&nbsp;&nbsp;&nbsp;Symbol 2: <input type="text" size="30" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>" required/> </td>
+                                            <td valign="top" align="left">
+                                                <div style="margin-left:10px;color:white;font-weight: bold"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white"/></div>
+                                            </td>
+                                        </tr>
+                                        <% } %>
 
-            <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable" style="padding: 10px;">
-                <tr>
-                <td   colspan=3><div class="typerSubTitle" >Position</div></td>
-                </tr>
-                <tr>
-                    <td colspan=2>
-                        <table>
-                            <tr>
-                                <td>Chromosome <select   name="chr" id="chr" ><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="X">X</option><option value="Y">Y</option><option value="MT">MT</option></select></td>
-                                <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",req.getParameter("start")))%>" required></td>
-                                <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",req.getParameter("stop")))%>" required></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                                    </table>
+                                </form>
 
-                <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3) { %>
-                <tr>
-                    <td colspan=3 align="center"><div style="background-color:#002752; margin-top:20px; margin-bottom:20px; padding:2px;font-weight:700; color:white;"><< OR >></div></td>
-                </tr>
+                            </td>
+                        </tr>
+                    </table>
 
-                <tr>
-                <td   colspan=3><div class="typerSubTitle" >Gene or SSLP Bounds  <span style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;(must be on same chromosome)</span></div></td>
-                </tr>
-                <tr>
-                    <td colspan=2>Symbol 1: <input type="text" name="geneStart" size=30 value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>"/> &nbsp;&nbsp;&nbsp;&nbsp;Symbol 2: <input type="text" size="30" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>"/> </td>
-                </tr>
-                <% } %>
+                </td>
+            </tr>
             </table>
-            </td>
-        <td>&nbsp;</td>
-        <td valign="top" align="left">
-            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..."/></div>
-        </td>
-    </tr>
-</table>
 
-             <br>
+<form>
     <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
         <tr>
             <td><b>Strains Selected</b></td>
