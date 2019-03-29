@@ -3,12 +3,14 @@ package edu.mcw.rgd.carpenovo;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,13 +21,26 @@ import java.util.ArrayList;
 public class ConfigController extends HaplotyperController {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ArrayList errorList = new ArrayList();
+        if(!checkRegionPositionBounds(request)){
+            errorList.addAll(new ArrayList<>(Arrays.asList("Please reduce the region size to below 30000000")));
+            request.setAttribute("error", errorList);
+            Position p=getGeneSSLPRegion(request);
+            if(p!=null){
+                request.setAttribute("error", errorList);
+                request.setAttribute("start", p.getStart());
+                request.setAttribute("stop", p.getStop());
+                request.setAttribute("chr", p.getChromosome());
+               }
+           return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
+        }
+
 
         boolean positionSet=false;
         boolean strainsSet=false;
         boolean genesSet=false;
         boolean regionSet=false;
 
-        ArrayList errorList = new ArrayList();
 
         try {
             HttpRequestFacade req = new HttpRequestFacade(request);
