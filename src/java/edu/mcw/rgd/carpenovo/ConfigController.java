@@ -22,19 +22,28 @@ public class ConfigController extends HaplotyperController {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ArrayList errorList = new ArrayList();
-        if(!checkRegionPositionBounds(request)){
-            errorList.addAll(new ArrayList<>(Arrays.asList("Please reduce the region size to below 30000000")));
+        try{
+        if(!checkRegionPositionBounds(request)) {
+            errorList.addAll(new ArrayList<>(Arrays.asList("Please reduce the region size to below 30MB")));
             request.setAttribute("error", errorList);
-            Position p=getGeneSSLPRegion(request);
-            if(p!=null){
-                request.setAttribute("error", errorList);
-                request.setAttribute("start", p.getStart());
-                request.setAttribute("stop", p.getStop());
-                request.setAttribute("chr", p.getChromosome());
-               }
-           return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
-        }
 
+                Position p = getGeneSSLPRegion(request);
+                if (p != null) {
+                    request.setAttribute("error", errorList);
+                    request.setAttribute("start", p.getStart());
+                    request.setAttribute("stop", p.getStop());
+                    request.setAttribute("chr", p.getChromosome());
+                }
+
+
+                return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
+
+        }
+        }catch (Exception e){
+            errorList.addAll(new ArrayList<>(Arrays.asList(e.getMessage())));
+            request.setAttribute("error", errorList);
+            return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
+        }
 
         boolean positionSet=false;
         boolean strainsSet=false;

@@ -32,7 +32,7 @@ String pageDescription = "Define Region";
 
         <table border=0 align="center" style="padding:8px; ">
             <tr>
-                <td width=200 style="font-size:14px;color:white;">A region can be defined using a genomic position or 2 gene/SSLP flanks located on the same chromosome</td>
+                <td width=200 style="font-size:14px;color:white;">A region can be defined using a genomic position or 2 gene/SSLP flanks located on the same chromosome. The region must be 30 Mb or smaller.</td>
                 <td>
                     <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable" style="padding: 10px;">
                         <tr>
