@@ -29,22 +29,24 @@
 <br>
     <table>
         <tr>
-        <td>
-            <b> Genes in Set: </b><br>
-            <% Iterator itr = geneList.iterator();
-                while(itr.hasNext()) {
-                    String symbol = (String)itr.next();
-            %>
-            <span class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;</span>
+            <td>
+                <b> Genes in Set: </b><br>
+                <div style="overflow: auto; width: 90%; height: 100px; color: #2b669a">
 
-            <% }%>
+                    <% Iterator itr = geneList.iterator();
+                        while(itr.hasNext()) {
+                            String symbol = (String)itr.next();
+                    %>
+                    <span class="geneList"><%=symbol%></span> &nbsp;
 
-        </td>
+                    <% }%>
+                </div>
+            </td>
         <td> <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=species%>,<%=mapKey%>,'<%=1%>','<%=a%>')"/>
             <a  style="font-size:20px;" href="javascript:void(0)"; ng-click="rgd.showTools('geneList',<%=species%>,<%=mapKey%>,'<%=1%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
         </tr>
      </table>
-
+<br>
 <table>
      <tr>
         <td style="color:#2865a3; font-size:16px; font-style:italic; font-weight:700;"><%=title%></td>
