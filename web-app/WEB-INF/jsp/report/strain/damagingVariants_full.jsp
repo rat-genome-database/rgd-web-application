@@ -6,10 +6,17 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/common/compactHeaderArea.jsp" %>
+
 <%
     String strainSymbol = request.getAttribute("strainSymbol").toString();
     String title = "Damaging Variants Report for strain "+strainSymbol;
+    String pageDescription = title;
+    String headContent = "";
+    String pageTitle = title;
+
+
+
+
     Report report = (Report) request.getAttribute("report");
     Set geneList = (Set) request.getAttribute("geneList");
     int RgdId = (int) request.getAttribute("rgdId");
@@ -17,6 +24,7 @@
     int species = (int) request.getAttribute("species");
     String a= new String();
 %>
+<%@ include file="/common/compactHeaderArea.jsp" %>
 <div class="container-fluid" style="background-color: white">
 <br>
     <table>
