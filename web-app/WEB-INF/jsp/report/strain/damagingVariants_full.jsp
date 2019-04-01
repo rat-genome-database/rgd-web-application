@@ -1,28 +1,51 @@
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.Iterator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/common/compactHeaderArea.jsp" %>
 <%
-    String title = "Damaging Variants Report for strain "+request.getAttribute("strainSymbol").toString();
+    String strainSymbol = request.getAttribute("strainSymbol").toString();
+    String title = "Damaging Variants Report for strain "+strainSymbol;
     Report report = (Report) request.getAttribute("report");
+    Set geneList = (Set) request.getAttribute("geneList");
+    int RgdId = (int) request.getAttribute("rgdId");
+    int mapKey = (int) request.getAttribute("mapKey");
+    int species = (int) request.getAttribute("species");
+    String a= new String();
 %>
-<html>
-<head><title><%=title%></title></head>
-<body>
+<div class="container-fluid" style="background-color: white">
+<br>
+    <table>
+        <tr>
+        <td>
+            <b> Genes in Set: </b><br>
+            <% Iterator itr = geneList.iterator();
+                while(itr.hasNext()) {
+                    String symbol = (String)itr.next();
+            %>
+            <span class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;</span>
+
+            <% }%>
+
+        </td>
+        <td> <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=species%>,<%=mapKey%>,'<%=1%>','<%=a%>')"/>
+            <a  style="font-size:20px;" href="javascript:void(0)"; ng-click="rgd.showTools('geneList',<%=species%>,<%=mapKey%>,'<%=1%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
+        </tr>
+     </table>
+
 <table>
-    <tr>
-        <%
-            if (RgdContext.isChinchilla(request)) {
-                out.print("<img src='/common/images/ngcLogo.jpg'/><br><br>");
-            }else {
-                out.print("<img src='/common/images/rgd_LOGO_blue_rgd.gif'/><br><br>");
-            }
-        %>
+     <tr>
         <td style="color:#2865a3; font-size:16px; font-style:italic; font-weight:700;"><%=title%></td>
+        <td><span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=RgdId%>&fmt=csv&map=<%=mapKey%>">Download</a></span></td>
+
     </tr>
     <tr>
         <td colspan="2"><%=report.format(new HTMLTableReportStrategy())%></td>
     </tr>
 </table>
-</body>
-</html>
+</div>
+

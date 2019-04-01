@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  * Created by hsnalabolu on 11/26/2018.
  */
 public class DamagingVariantController implements Controller{
+
+    private Set<String> geneList = new TreeSet<String>();
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -42,8 +47,13 @@ public class DamagingVariantController implements Controller{
         }
         request.setAttribute("strainSymbol", obj.getSymbol());
         request.setAttribute("assembly",m.getName());
+        request.setAttribute("mapKey",m.getKey());
+        request.setAttribute("species",m.getSpeciesTypeKey());
+        request.setAttribute("rgdId",obj.getRgdId());
         Report report = getDamagingVariants(rgdId,assembly, request);
         request.setAttribute("report", report);
+        request.setAttribute("geneList",geneList);
+        System.out.println("In controller");
         return new ModelAndView("/WEB-INF/jsp/report/strain/damagingVariants_"+fmt+".jsp");
     }
     Report getDamagingVariants(int rgdId,int assembly,HttpServletRequest request) throws Exception {
@@ -77,6 +87,7 @@ public class DamagingVariantController implements Controller{
             rec.append(v.getVariantNucleotide());
             rec.append(v.getVariantType());
             rec.append(v.getRegionName());
+            geneList.add(v.getRegionName());
             report.append(rec);
         }
 
