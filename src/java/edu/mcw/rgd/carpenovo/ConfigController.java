@@ -81,7 +81,7 @@ public class ConfigController extends HaplotyperController {
 
         }catch (Exception e) {
             errorList.add(e.getMessage());
-            if (region > 30000000) {
+            if (region > 30000000 || e!=null) {
                 request.setAttribute("error", errorList);
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
             }
@@ -89,7 +89,7 @@ public class ConfigController extends HaplotyperController {
 
         request.setAttribute("error",errorList);
 
-     //   return new ModelAndView("/WEB-INF/jsp/haplotyper/searchType.jsp");
-        return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
+        return new ModelAndView("/WEB-INF/jsp/haplotyper/searchType.jsp");
+
     }
 }
