@@ -343,42 +343,4 @@ public abstract class HaplotyperController implements Controller {
         return vsb;
     }
 
-    public boolean checkRegionPositionBounds(HttpServletRequest request) throws Exception {
-        if (request.getParameter("start") != null && request.getParameter("stop") != null) {
-            if (!request.getParameter("start").equals("") && !request.getParameter("stop").equals("")) {
-                int start = Integer.parseInt(request.getParameter("start").replaceAll(",", ""));
-                int stop = Integer.parseInt(request.getParameter("stop").replaceAll(",", ""));
-                int diff = stop - start;
-
-                if (diff >= 30000000) {
-                    return false;
-                }
-            }
-        }
-        if (request.getParameter("geneStart") != null && request.getParameter("geneStop") != null) {
-            if (!request.getParameter("geneStart").equals("") && !request.getParameter("geneStop").equals("")) {
-                Position p=new Position();
-                p = getPosition("", request.getParameter("geneStart"), request.getParameter("geneStop"), Integer.parseInt(request.getParameter("mapKey")));
-                int diff = p.getStop() - p.getStart();
-                if (diff >= 30000000) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public Position getGeneSSLPRegion(HttpServletRequest request) throws Exception {
-        Position p=new Position();
-        if (request.getParameter("geneStart") != null && request.getParameter("geneStop") != null) {
-            if (!request.getParameter("geneStart").equals("") && !request.getParameter("geneStop").equals("")) {
-                 p = getPosition("", request.getParameter("geneStart"), request.getParameter("geneStop"), Integer.parseInt(request.getParameter("mapKey")));
-
-            }
-        }
-        return p;
-
-    }
-
-}
+   }
