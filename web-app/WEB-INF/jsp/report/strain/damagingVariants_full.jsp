@@ -27,7 +27,7 @@
 <%@ include file="/common/compactHeaderArea.jsp" %>
 <div class="container-fluid" style="background-color: white">
 <br>
-    <table>
+    <table style="margin: 2%">
         <tr>
             <td>
                 <b> Genes in Set: </b><br>
@@ -47,7 +47,7 @@
         </tr>
      </table>
 <br>
-<table>
+<table style="margin: 2%">
      <tr>
         <td style="color:#2865a3; font-size:16px; font-style:italic; font-weight:700;"><%=title%></td>
         <td><span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=RgdId%>&fmt=csv&map=<%=mapKey%>">Download</a></span></td>
