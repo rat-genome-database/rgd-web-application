@@ -28,11 +28,12 @@ public class ConfigController extends HaplotyperController {
         boolean genesSet=false;
         boolean regionSet=false;
         long region=0L;
+        VariantSearchBean vsb=new VariantSearchBean(0);
 
         try {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
-            VariantSearchBean vsb = this.fillBean(req);
+            vsb = this.fillBean(req);
             request.setAttribute("vsb", vsb);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
@@ -82,6 +83,11 @@ public class ConfigController extends HaplotyperController {
         }catch (Exception e) {
             errorList.add(e.getMessage());
             request.setAttribute("error", errorList);
+           if(vsb!=null) {
+               request.setAttribute("start", vsb.getStartPosition());
+               request.setAttribute("stop", vsb.getStopPosition());
+               request.setAttribute("chr", vsb.getChromosome());
+           }
             return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
         }
 
