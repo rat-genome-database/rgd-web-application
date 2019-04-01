@@ -6,22 +6,22 @@
 <html>
 
 
-    <%
+    <%--
 
     ArrayList errorList = (ArrayList) request.getAttribute("error");
 
     if (errorList != null && errorList.size() >0 ) {
 
 
-    %>
-        <br><a style='font-size:20px;' href='javascript:window.history.back();'><<&nbsp;&nbsp;BACK</a><br><br>
-    <%
+    --%>
+        <!--br><a style='font-size:20px;' href='javascript:window.history.back();'><<&nbsp;&nbsp;BACK</a><br><br-->
+    <%--
         //return;
     }
 
 
 
-%>
+--%>
 
 
 
