@@ -32,35 +32,35 @@ public class DamagingVariantController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int rgdId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
+        int sampleId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
         String fmt = Utils.NVL(request.getParameter("fmt"), "full"); // one of 'full','csv','tab','print'
         int assembly = Integer.parseInt(Utils.NVL(request.getParameter("map"),"0"));
-        StrainDAO strainDAO = new StrainDAO();
-        Strain obj;
+        SampleDAO sampleDAO = new SampleDAO();
+        sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+        Sample obj;
         Map m = MapManager.getInstance().getMap(assembly);
         try {
-            obj = strainDAO.getStrain(rgdId);
-
+            obj = sampleDAO.getSampleBySampleId(sampleId);
+            System.out.println(obj.getAnalysisName());
         } catch(Exception e) {
-            obj = new Strain();
-            obj.setSymbol("");
+            obj = new Sample();
+            obj.setAnalysisName("");
         }
-        request.setAttribute("strainSymbol", obj.getSymbol());
+        request.setAttribute("sample", obj.getAnalysisName());
         request.setAttribute("assembly",m.getName());
         request.setAttribute("mapKey",m.getKey());
         request.setAttribute("species",m.getSpeciesTypeKey());
-        request.setAttribute("rgdId",obj.getRgdId());
-        Report report = getDamagingVariants(rgdId,assembly, request);
+        request.setAttribute("sampleId",sampleId);
+        Report report = getDamagingVariants(sampleId,assembly);
         request.setAttribute("report", report);
         request.setAttribute("geneList",geneList);
-        System.out.println("In controller");
+
         return new ModelAndView("/WEB-INF/jsp/report/strain/damagingVariants_"+fmt+".jsp");
     }
-    Report getDamagingVariants(int rgdId,int assembly,HttpServletRequest request) throws Exception {
+    private Report getDamagingVariants(int sampleId,int assembly) throws Exception {
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-        List<Variant> variants = vdao.getDamagingVariantsForStrainByAssembly(rgdId,assembly);
-        HashMap<Long,String> map = new HashMap();
+        List<Variant> variants = vdao.getDamagingVariantsForSampleByAssembly(sampleId,assembly);
         SampleDAO sdao = new SampleDAO();
         sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
@@ -75,8 +75,6 @@ public class DamagingVariantController implements Controller{
         rec.append("GeneSymbol");
         report.append(rec);
 
-        Variant v1 = new Variant();
-        Map m = new Map();
         for (Variant v : variants) {
 
             rec = new edu.mcw.rgd.reporting.Record();
@@ -88,6 +86,7 @@ public class DamagingVariantController implements Controller{
             rec.append(v.getVariantType());
             rec.append(v.getRegionName());
             geneList.add(v.getRegionName());
+
             report.append(rec);
         }
 
