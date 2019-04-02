@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DamagingVariantController implements Controller{
 
-    private Set<String> geneList = new TreeSet<String>();
+
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -51,19 +51,16 @@ public class DamagingVariantController implements Controller{
         request.setAttribute("mapKey",m.getKey());
         request.setAttribute("species",m.getSpeciesTypeKey());
         request.setAttribute("sampleId",sampleId);
-        Report report = getDamagingVariants(sampleId,assembly);
-        request.setAttribute("report", report);
-        request.setAttribute("geneList",geneList);
-
+        getDamagingVariants(sampleId,assembly,request);
         return new ModelAndView("/WEB-INF/jsp/report/strain/damagingVariants_"+fmt+".jsp");
     }
-    private Report getDamagingVariants(int sampleId,int assembly) throws Exception {
+    private void getDamagingVariants(int sampleId,int assembly,HttpServletRequest request) throws Exception {
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
         List<Variant> variants = vdao.getDamagingVariantsForSampleByAssembly(sampleId,assembly);
         SampleDAO sdao = new SampleDAO();
         sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-
+        Set<String> geneList = new TreeSet<String>();
         Report report = new Report();
         edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
         rec.append("Chromosome");
@@ -90,6 +87,7 @@ public class DamagingVariantController implements Controller{
             report.append(rec);
         }
 
-        return report;
+        request.setAttribute("report", report);
+        request.setAttribute("geneList",geneList);
     }
 }
