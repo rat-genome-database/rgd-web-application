@@ -63,7 +63,7 @@ public class SelectedStrainController implements Controller{
                     int count = vdao.getCountofDamagingVariantsForSample(sample.getId(), String.valueOf(sample.getMapKey()));
                     if (count != 0) {
                         details.put("count", count);
-                        details.put("rgdId", s.getRgdId());
+                        details.put("sampleId", sample.getId());
                         details.put("map", sample.getMapKey());
                         if(damagingVar.keySet().contains(sample.getAnalysisName())) {
                             assemblyMap = (Map) damagingVar.get(sample.getAnalysisName());

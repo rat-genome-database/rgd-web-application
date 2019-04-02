@@ -101,13 +101,13 @@
                                 <tr>
                                     <td>${strain}</td>
                                     <td><c:if test="${model.damagingVariants.get(strain).get('Rnor_6.0').get('count') != null}">
-                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_6.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_6.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_6.0").get("count")} </a></span>
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_6.0").get("sampleId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_6.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_6.0").get("count")} </a></span>
                                     </c:if></td>
                                     <td> <c:if test="${model.damagingVariants.get(strain).get('Rnor_5.0').get('count') != null}">
-                                       <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_5.0").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_5.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_5.0").get("count")}</a></span>
+                                       <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("Rnor_5.0").get("sampleId")}&fmt=full&map=${model.damagingVariants.get(strain).get("Rnor_5.0").get("map")}">${model.damagingVariants.get(strain).get("Rnor_5.0").get("count")}</a></span>
                                    </c:if></td>
                                     <td><c:if test="${model.damagingVariants.get(strain).get('RGSC_v3.4').get('count') != null}">
-                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("rgdId")}&fmt=full&map=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("map")}">${model.damagingVariants.get(strain).get("RGSC_v3.4").get("count")}</a></span>
+                                     <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("sampleId")}&fmt=full&map=${model.damagingVariants.get(strain).get("RGSC_v3.4").get("map")}">${model.damagingVariants.get(strain).get("RGSC_v3.4").get("count")}</a></span>
                                     </c:if></td>
                                 </tr>
                         </c:forEach>
