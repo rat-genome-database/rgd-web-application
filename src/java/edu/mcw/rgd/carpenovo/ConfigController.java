@@ -3,12 +3,14 @@ package edu.mcw.rgd.carpenovo;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,20 +21,25 @@ import java.util.ArrayList;
 public class ConfigController extends HaplotyperController {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ArrayList errorList = new ArrayList();
 
         boolean positionSet=false;
         boolean strainsSet=false;
         boolean genesSet=false;
         boolean regionSet=false;
-
-        ArrayList errorList = new ArrayList();
+        long region=0L;
+        VariantSearchBean vsb=new VariantSearchBean(0);
 
         try {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
-            VariantSearchBean vsb = this.fillBean(req);
+            vsb = this.fillBean(req);
             request.setAttribute("vsb", vsb);
+            if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
+                region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
+                throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
 
+            }
 
             if (!req.getParameter("chr").equals("") && !req.getParameter("start").equals("") && !req.getParameter("stop").equals("")) {
                 positionSet = true;
@@ -75,6 +82,13 @@ public class ConfigController extends HaplotyperController {
 
         }catch (Exception e) {
             errorList.add(e.getMessage());
+            request.setAttribute("error", errorList);
+           if(vsb!=null) {
+               request.setAttribute("start", vsb.getStartPosition());
+               request.setAttribute("stop", vsb.getStopPosition());
+               request.setAttribute("chr", vsb.getChromosome());
+           }
+            return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
         }
 
         request.setAttribute("error",errorList);
