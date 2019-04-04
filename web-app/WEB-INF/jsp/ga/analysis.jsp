@@ -1,9 +1,13 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
 <%@ page import="java.net.URI" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
 <html>
 <body>
+<% String pageTitle = "GA Tool: Annotation Search and Export";
+    String headContent = "";
+    String pageDescription = "Generate an annotation report for a list of genes.";%>
 <%@ include file="/common/compactHeaderArea.jsp" %>
 <%@ include file="gaHeader.jsp" %>
 <%--@ include file="rgdHeader.jsp" --%>
@@ -47,6 +51,9 @@
     }
     var count=0;
     function load(divId, aspect) {
+        var species = <%=req.getParameter("species")%>;
+        if(species == <%=SpeciesType.HUMAN%> && aspect == '<%=Aspect.MAMMALIAN_PHENOTYPE%>')
+                aspect = '<%=Aspect.HUMAN_PHENOTYPE%>';
         $.ajax({
             url: "/rgdweb/ga/terms.html",
             data: {aspect: aspect, species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>" },
@@ -173,9 +180,13 @@
         </td>
         <% } %>
 
-        <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) { %>
+        <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) {
+           String aspect;
+           if( Integer.parseInt(req.getParameter("species")) == SpeciesType.HUMAN)
+           aspect = Aspect.getFriendlyName(Aspect.HUMAN_PHENOTYPE);
+           else aspect = Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE);%>
         <td valign="top" width=500>
-            <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE)%></span>
+            <span style="font-size:22px;font-weight:700;"><%=aspect%></span>
             <div id="pheno" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
