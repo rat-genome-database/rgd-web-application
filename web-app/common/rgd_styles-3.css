@@ -439,9 +439,10 @@ p, a, td, ul, li {
 
 .top-bar a {
    color: #ffffff;
-   font-size: 10.5;
+   font-size: 11px;
    text-decoration: none;
    font-weight: 700;
+    font-family: Helvetica;
 
 }
 

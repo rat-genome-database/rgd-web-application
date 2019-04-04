@@ -273,11 +273,11 @@
                                                             <tr>
                                                                 <input type="hidden" name="category" id="category" value="General"/>
                                                                 <td>
-                                                                    <input style="height:30px;" type=text class="searchgroup" id="term" name=term size="40" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
+                                                                    <input style="height:20px;" type=text class="searchgroup" id="term" name=term size="40" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
                                                                 </td>
                                                                 <td>
                                                                     <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
-                                                                    <input class="btn btn-info btn-sm" style="background-color:#2B84C8;" type="button" value="Search RGD"/>
+                                                                    <input class="btn btn-info btn-sm" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="button" value="Search RGD"/>
 
                                                                 </td>
                                                                 <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
