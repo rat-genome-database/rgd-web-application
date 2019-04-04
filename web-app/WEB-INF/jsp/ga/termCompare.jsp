@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
 <link rel="stylesheet" href="/rgdweb/js/javascriptPopUpWindow/GAdhtmlwindow.css" type="text/css" />
 <script type="text/javascript" src="/rgdweb/js/javascriptPopUpWindow/dhtmlwindow.js">
@@ -283,10 +284,12 @@
         </tr>
         <tr>
            <td>
+
               <select id="term1" onChange="termCompare(this.value, '<%=yTerm.getAccId()%>')">
                   <option value="DOID:4">Disease</option>
                   <option value="PW:0000001">Pathway</option>
-                  <option value="MP:0000001">Phenotype</option>
+             <% if(Integer.parseInt(req.getParameter("species")) == SpeciesType.HUMAN) { %>  <option value="HP:0000001">Phenotype</option>
+             <% } else %> <option value="MP:0000001">Phenotype</option>
                   <option value="GO:0008150">GO: Biological Process</option>
                   <option value="GO:0005575">GO: Cellular Component</option>
                   <option value="GO:0003674">GO: Molecular Function</option>
@@ -306,7 +309,8 @@
                 <select id="term2" onChange="termCompare('<%=xTerm.getAccId()%>',this.value);">
                     <option value="DOID:4">Disease</option>
                     <option value="PW:0000001">Pathway</option>
-                    <option value="MP:0000001">Phenotype</option>
+                    <% if(Integer.parseInt(req.getParameter("species")) == SpeciesType.HUMAN) { %>  <option value="HP:0000001">Phenotype</option>
+                    <% } else %> <option value="MP:0000001">Phenotype</option>
                     <option value="GO:0008150">GO: Biological Process</option>
                     <option value="GO:0005575">GO: Cellular Component</option>
                     <option value="GO:0003674">GO: Molecular Function</option>
@@ -326,7 +330,9 @@
     }else if (xOnt.getAspect().equals(Aspect.PATHWAY)) {
         xIndex=1;
     }else if (xOnt.getAspect().equals(Aspect.MAMMALIAN_PHENOTYPE)) {
-        xIndex=2;
+        xIndex = 2;
+    }else if(xOnt.getAspect().equals(Aspect.HUMAN_PHENOTYPE)) {
+        xIndex = 2;
     }else if (xOnt.getAspect().equals(Aspect.BIOLOGICAL_PROCESS)) {
         xIndex=3;
     }else if (xOnt.getAspect().equals(Aspect.CELLULAR_COMPONENT)) {
@@ -343,6 +349,8 @@
     }else if (yOnt.getAspect().equals(Aspect.PATHWAY)) {
         yIndex=1;
     }else if (yOnt.getAspect().equals(Aspect.MAMMALIAN_PHENOTYPE)) {
+        yIndex=2;
+    }else if (yOnt.getAspect().equals(Aspect.HUMAN_PHENOTYPE)) {
         yIndex=2;
     }else if (yOnt.getAspect().equals(Aspect.BIOLOGICAL_PROCESS)) {
         yIndex=3;
