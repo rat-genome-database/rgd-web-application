@@ -273,7 +273,7 @@
                                                             <tr>
                                                                 <input type="hidden" name="category" id="category" value="General"/>
                                                                 <td>
-                                                                    <input style="height:30px;" type=text class="searchgroup" id="term" name=term size="60" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
+                                                                    <input style="height:30px;" type=text class="searchgroup" id="term" name=term size="40" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
                                                                 </td>
                                                                 <td>
                                                                     <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->

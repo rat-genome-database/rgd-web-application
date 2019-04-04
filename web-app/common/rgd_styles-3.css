@@ -994,7 +994,7 @@ color: #ffffff;
 	/* Links inside the navbar */
 	.navbar a {
 		float: left;
-		font-size: 14px;
+		font-size: 13px;
 		color: white;
 		text-align: center;
 		padding: 10px 14px;
@@ -1009,7 +1009,7 @@ color: #ffffff;
 
 	/* Dropdown button */
 	.dropdown .dropbtn {
-		font-size: 14px;
+		font-size: 13px;
 		border: none;
 		outline: none;
 		color: white;
