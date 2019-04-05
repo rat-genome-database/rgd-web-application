@@ -18,7 +18,16 @@
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 <html>
 <body style="background-color: white">
-<%@ include file="/common/compactHeaderArea.jsp" %>
+
+<%
+
+    String pageTitle = "RGD Gene Enrichement";
+    String headContent = "";
+    String pageDescription = "Gene enrichment for multiple ontologies";
+
+%>
+
+<%@ include file="/common/headerarea.jsp" %>
 <%
     HttpRequestFacade req = new HttpRequestFacade(request);
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");

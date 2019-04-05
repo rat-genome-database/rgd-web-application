@@ -5,7 +5,7 @@
 <% String pageTitle = "GA Tool: Annotation Search and Export";
     String headContent = "";
     String pageDescription = "Generate an annotation report for a list of genes.";%>
-<%@ include file="/common/compactHeaderArea.jsp" %>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="gaHeader.jsp" %>
 <%@ include file="menuBar.jsp" %>
 
