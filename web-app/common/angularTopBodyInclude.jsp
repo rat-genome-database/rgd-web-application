@@ -105,7 +105,7 @@
 
 
 <!--  Login box -------------->
-    <div class="container-fluid" >
+    <div class="ontainer-fluid" >
 
         <!-- Modal -->
         <div class="modal fade" id="login-modal" role="dialog">
