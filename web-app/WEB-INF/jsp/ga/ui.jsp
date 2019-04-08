@@ -9,21 +9,6 @@
 <%@ include file="gaHeader.jsp" %>
 <%@ include file="menuBar.jsp" %>
 
-<%
-
-    List error = (List) request.getAttribute("error");
-    if (error.size() > 0) {
-        Iterator eit = error.iterator();
-        while (eit.hasNext()) {
-            String emsg = (String) eit.next();
-            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
-
-        }
-        return;
-    }
-
-%>
-
 <% if (om.getMapped().size()==0) { %>
     <br>
     <div style="font-size:20px; font-weight:700;"><%=om.getMapped().size()%> Genes in set</div>
