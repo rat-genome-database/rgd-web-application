@@ -53,7 +53,7 @@
             if(v1.getStartPos() == v.getStartPos() && v1.getEndPos() == v.getEndPos()
                    && v1.getReferenceNucleotide().equalsIgnoreCase(v.getReferenceNucleotide())
                    && v1.getVariantNucleotide().equalsIgnoreCase(v.getVariantNucleotide())) {
-                String url = "/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey="+m.getKey()+"&geneList="+obj.getSymbol()+"&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1="+s.getId();
+                String url = "/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey="+m.getKey()+"&geneList="+obj.getSymbol()+"&con=&probably=true&possibly=true&depthLowBound=8&depthHighBound=&excludePossibleError=true&sample1="+s.getId();
                 pstrain = pstrain.concat(",\t");
                 pstrain = pstrain.concat("<a href="+url+">");
                 pstrain = pstrain.concat(s.getAnalysisName());
@@ -74,7 +74,7 @@
 <%
          } else
             pstrain = "";
-            String url = "/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey="+m.getKey()+"&geneList="+obj.getSymbol()+"&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1="+s.getId();
+            String url = "/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey="+m.getKey()+"&geneList="+obj.getSymbol()+"&con=&probably=true&possibly=true&depthLowBound=8&depthHighBound=&excludePossibleError=true&sample1="+s.getId();
             pstrain = "<a href="+url+">";
             pstrain = pstrain.concat(s.getAnalysisName());
             pstrain = pstrain.concat("</a>");}

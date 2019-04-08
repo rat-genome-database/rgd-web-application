@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,36 +26,41 @@ import javax.servlet.http.HttpServletResponse;
  * Created by hsnalabolu on 11/26/2018.
  */
 public class DamagingVariantController implements Controller{
+
+
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int rgdId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
+        int sampleId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
         String fmt = Utils.NVL(request.getParameter("fmt"), "full"); // one of 'full','csv','tab','print'
         int assembly = Integer.parseInt(Utils.NVL(request.getParameter("map"),"0"));
-        StrainDAO strainDAO = new StrainDAO();
-        Strain obj;
+        SampleDAO sampleDAO = new SampleDAO();
+        sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+        Sample obj;
         Map m = MapManager.getInstance().getMap(assembly);
         try {
-            obj = strainDAO.getStrain(rgdId);
-
+            obj = sampleDAO.getSampleBySampleId(sampleId);
+            System.out.println(obj.getAnalysisName());
         } catch(Exception e) {
-            obj = new Strain();
-            obj.setSymbol("");
+            obj = new Sample();
+            obj.setAnalysisName("");
         }
-        request.setAttribute("strainSymbol", obj.getSymbol());
+        request.setAttribute("sample", obj.getAnalysisName());
         request.setAttribute("assembly",m.getName());
-        Report report = getDamagingVariants(rgdId,assembly, request);
-        request.setAttribute("report", report);
+        request.setAttribute("mapKey",m.getKey());
+        request.setAttribute("species",m.getSpeciesTypeKey());
+        request.setAttribute("sampleId",sampleId);
+        getDamagingVariants(sampleId,assembly,request);
         return new ModelAndView("/WEB-INF/jsp/report/strain/damagingVariants_"+fmt+".jsp");
     }
-    Report getDamagingVariants(int rgdId,int assembly,HttpServletRequest request) throws Exception {
+    private void getDamagingVariants(int sampleId,int assembly,HttpServletRequest request) throws Exception {
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-        List<Variant> variants = vdao.getDamagingVariantsForStrainByAssembly(rgdId,assembly);
-        HashMap<Long,String> map = new HashMap();
+        List<Variant> variants = vdao.getDamagingVariantsForSampleByAssembly(sampleId,assembly);
         SampleDAO sdao = new SampleDAO();
         sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-
+        Set<String> geneList = new TreeSet<String>();
         Report report = new Report();
         edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
         rec.append("Chromosome");
@@ -65,8 +72,6 @@ public class DamagingVariantController implements Controller{
         rec.append("GeneSymbol");
         report.append(rec);
 
-        Variant v1 = new Variant();
-        Map m = new Map();
         for (Variant v : variants) {
 
             rec = new edu.mcw.rgd.reporting.Record();
@@ -77,9 +82,12 @@ public class DamagingVariantController implements Controller{
             rec.append(v.getVariantNucleotide());
             rec.append(v.getVariantType());
             rec.append(v.getRegionName());
+            geneList.add(v.getRegionName());
+
             report.append(rec);
         }
 
-        return report;
+        request.setAttribute("report", report);
+        request.setAttribute("geneList",geneList);
     }
 }
