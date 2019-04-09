@@ -6,7 +6,7 @@
 
 <div class="container">
 
-    <div id="wrapper" style="border-color: white">
+    <div id="gi-wrapper" style="border-color: white">
     <c:forEach items="${model.hits}" var="hits">
 
         <c:forEach items="${hits}" var="hit">
@@ -14,12 +14,12 @@
                 <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
                 hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species=='Mouse' || hit.sourceAsMap.species=='Chinchilla' || hit.sourceAsMap.species=='Dog'
                 || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel')}">
-               <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
-                       <div class="panel-heading" style="background-color: #24609c">
+               <div class="panel panel-default gi-${hit.sourceAsMap.species}" id="gi-${hit.sourceAsMap.species}">
+                       <div class="panel-heading gi-panel-heading" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->
                            <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" id="headerLink${hit.sourceAsMap.species}" title="click to see more info and other assemblies"><strong style="margin-left:40%;color:white">${hit.sourceAsMap.species}</strong></a>
                        </div>
-                       <div class="panel-body"  style="height:360px;overflow:auto">
+                       <div class="panel-body gi-panel-body"  style="height:360px;overflow:auto">
                            <c:if test="${hit.sourceAsMap.species=='Rat'}">
                            <div><p><small>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</small></p>
                            <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.</small></p></div>
@@ -115,7 +115,7 @@
 
 </div>
 </div>
-</div>
+
 <jsp:include page="genomeInfoFooter.jsp"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
