@@ -18,8 +18,13 @@
 <% boolean includeMapping = false; %>
 <% String title="References"; %>
 
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Reference Search</div>
+</div>
+
+
 <div class="searchBox">
-<h2>Reference Search</h2>
+
 Reference reports provide full citations, abstracts, and links to Pubmed. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
 
 

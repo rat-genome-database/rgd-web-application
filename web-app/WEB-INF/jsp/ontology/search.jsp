@@ -30,6 +30,13 @@
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntSearchBean" />
 <%@ include file="ontHeader.jsp"%>
 
+
+
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Ontology and Annotation</div>
+</div>
+
+
 <div style="border: 1px solid black; margin-top:5px; padding-left:8px; padding-right:8px;padding-top:4px; padding-bottom:4px; background-color:#F0F2F1;">
 
 <% if( !RgdContext.isChinchilla(request) ) { %>

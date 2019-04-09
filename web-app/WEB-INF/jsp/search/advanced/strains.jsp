@@ -18,9 +18,14 @@
 <% boolean includeMapping = false; %>
 <% String title="Strains"; %>
 
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Strain Search</div>
+</div>
+
+
 <div class="searchBox">
-<h2>Strain Search</h2>
-Strain reports include a comprehensive description of strain origin, disease, phenotype, genetics, immunology, behavior with links to related genes, QTLs, sub-strains, and strain sources. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
+
+    Strain reports include a comprehensive description of strain origin, disease, phenotype, genetics, immunology, behavior with links to related genes, QTLs, sub-strains, and strain sources. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
 
 
 <!--form name="adSearch" action="strains.html"-->

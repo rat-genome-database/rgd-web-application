@@ -19,8 +19,13 @@
 <% boolean includeMapping = true; %>
 <% String title="Markers"; %>
 
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Marker Search</div>
+</div>
+
+
 <div class="searchBox">
-<h2>Marker Search</h2>
+
 SSLP and SNP reports provide mapping data, primer information, and size variations among strains.
 <% if( !RgdContext.isChinchilla(request) ) { %>
     <!--a href="/wg/searchHelp">(Search Help)</a--><br>

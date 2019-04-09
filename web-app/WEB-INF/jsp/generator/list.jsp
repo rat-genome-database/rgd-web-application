@@ -172,17 +172,19 @@ $(document).ready(function(){
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 
-<table width="95%" border=0>
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">OLGA - Online List Generator & Analyzer</div>
+</div>
+<!--Build Gene lists using annotations from multiple terms and ontologies-->
+
+<table width="95%" style="border:1px solid #337AB7; background-color:#EBF2FA; ">
     <tr>
-        <td><div style=" font-family: 'Lato', serif; font-size:35; color:#1A456F;margin-top:10px;">OLGA</div></td>
+        <td></td>Options:
         <td align="right">
             <table border=0>
                 <tr>
-                    <td align="center">Select Object Type (Gene, QTL, Strain)</td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" style="font-size:16px; border:2px solid orange;padding:4px; ">
+                    <td align="center">Search:
+                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" >
                         <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
                         <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
                         <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
@@ -194,11 +196,8 @@ $(document).ready(function(){
         <td align="center">
             <table border=0>
                 <tr>
-                    <td align="center">Select Species (Rat, Mouse, Human, Chinchilla, Bonobo, Dog, Squirrel)</td>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()" style="font-size:16px;  border:  2px solid orange;padding:4px;">
+                    <td>Assembly:
+                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary">
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
                             <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>
@@ -218,8 +217,7 @@ $(document).ready(function(){
         </td>
         <td align="right" width=10>
         </td>
-        <td align="right">Clear out all lists</td>
-        <td align="right" width="10"><a href="/rgdweb/generator/list.html" style="font-size:20px; border:3px solid orange;padding:2px; background-color:white;margin-left:17px;">Reset</a>&nbsp;&nbsp;&nbsp;
+        <td align="right" width="10"><a href="/rgdweb/generator/list.html" class="btn btn-primary">Reset</a>&nbsp;&nbsp;&nbsp;
     </tr>
 </table>
 
@@ -227,11 +225,11 @@ $(document).ready(function(){
 
 <div id="selectBox" style="  background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
 
-<table width=100% height=250>
+<table width=100% height=250 border="0" style="background-color:#EBF2FA; border:2px solid #99BFE6; ">
     <tr>
         <td valign="center">
 
-<div id="msgBox" style=" width:700px; font-size:20px;padding-top:5px; padding-bottom:5px;display:none;padding-left:10px;color:#24609C;text-align:center;"></div>
+<div id="msgBox" style=" width:700px; font-size:20px;padding-top:5px; padding-bottom:5px;display:none;padding-left:10px;color:#24609C;text-align:center; "></div>
 
 
 <div id="qtlSelect" align="center" class="roundSelect">
