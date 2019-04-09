@@ -183,7 +183,7 @@ $(document).ready(function(){
         <td align="right">
             <table border=0>
                 <tr>
-                    <td align="center">Search:
+                    <td align="center" style="font-weight:700; color: #2865A3;">List Type:
                         <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" >
                         <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
                         <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
@@ -196,7 +196,7 @@ $(document).ready(function(){
         <td align="center">
             <table border=0>
                 <tr>
-                    <td>Assembly:
+                    <td style="font-weight:700; color: #2865A3;">Assembly Version:
                         <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary">
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
@@ -215,13 +215,14 @@ $(document).ready(function(){
             </table>
 
         </td>
-        <td align="right" width=10>
-        </td>
-        <td align="right" width="10"><a href="/rgdweb/generator/list.html" class="btn btn-primary">Reset</a>&nbsp;&nbsp;&nbsp;
     </tr>
 </table>
 
-<div style="float:right; padding-right:10px; padding-top:10px;"><a href="javascript:back();" style="padding:5px;  border:1px dotted white;font-size:13px;"><< Previous Option</a></div>
+<br>
+<div style="float:right; padding-right:10px; padding-top:10px;">
+    <a href="javascript:back();"  class="btn btn-primary btn-sm">Back</a>
+    <a href="/rgdweb/generator/list.html" class="btn btn-primary btn-sm">Reset</a>
+</div>
 
 <div id="selectBox" style="  background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
 
@@ -324,6 +325,13 @@ $(document).ready(function(){
     </table>
 </div>
 
+            <style>
+                .multibox a {
+                    color:#BE191F;
+                    font-size:16px;
+                }
+            </style>
+
 <div id="actionBox" style="padding-bottom:10px;display:none;position:relative; ">
 <table style="margin-left:auto; margin-right:auto;" border=0>
     <tr>
@@ -339,7 +347,7 @@ $(document).ready(function(){
 
                 <tr>
                     <td width="150" valign="top" style="padding:10px;">
-                        <a href="javascript:showScreen('ontologySelect')">Ontology&nbsp;Annotation</a><br>
+                        <a href="javascript:showScreen('ontologySelect')" class="olgaOption">Ontology&nbsp;Annotation</a><br>
                         Generate a list of <%=objectType.toLowerCase()%>s annotated to a term in one of the RGD Ontologies
                     </td>
                     <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
