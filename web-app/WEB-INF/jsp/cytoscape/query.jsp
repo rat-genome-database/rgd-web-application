@@ -40,10 +40,8 @@
 </table>
 <form id="query"   method="post" action="cy.html">
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3>InterViewer - Protein Interactions - Query Form</h3>
-            </div>
+        <div class="rgd-panel rgd-panel-default">
+            <div class="rgd-panel-heading">InterViewer - Protein Interactions</div>
             <div class="panel-body">
                 <input type="hidden" name="browser" id="browser">
                 <table border=0>

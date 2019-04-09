@@ -27,14 +27,10 @@ String pageDescription = "";
     }
 </script>
 
-                <table width="95%" cellspacing="1px" border="0">
-                    <tr>
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Phenominer - Quantitative Phenotype</div>
+</div>
 
-                        <td style = "color: #2865a3; font-size: 20px; font-weight:700;">PhenoMiner Database </td>
-
-                        <td align="right" style="color:red; font-size: 20px; font-weight: 700;">&nbsp;</td>
-                    </tr>
-                </table>
                 <br>
                 <span style="font-size:18px">Select Species</span>
                 <!--<span style="font-size:16px;">To begin, select a starting point</span> <br>-->

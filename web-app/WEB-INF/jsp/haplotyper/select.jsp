@@ -11,7 +11,7 @@
     String pageDescription = "Analyze variation in next-gen strain sequence";
 %>
 
-<%@ include file="/common/headerarea.jsp" %>
+<%@ include file="/common/headerArea.jsp" %>
 
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>

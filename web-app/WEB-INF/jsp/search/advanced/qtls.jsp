@@ -38,8 +38,13 @@
     }
 </script>
 
-<div class="searchBox">
-<h2>QTL Search</h2>
+ <div class="rgd-panel rgd-panel-default">
+     <div class="rgd-panel-heading">QTL Search</div>
+ </div>
+
+
+ <div class="searchBox">
+
 QTL reports provide phenotype and disease descriptions, mapping, and strain information as well as links to markers and candidate genes. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
 
 <% String title="QTLs"; %>
