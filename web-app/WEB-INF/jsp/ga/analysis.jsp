@@ -1,10 +1,14 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
 <%@ page import="java.net.URI" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
 <html>
 <body>
-<%@ include file="/common/compactHeaderArea.jsp" %>
+<% String pageTitle = "GA Tool: Annotation Search and Export";
+    String headContent = "";
+    String pageDescription = "Generate an annotation report for a list of genes.";%>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="gaHeader.jsp" %>
 <%--@ include file="rgdHeader.jsp" --%>
 <%@ include file="menuBar.jsp" %>
@@ -14,7 +18,6 @@
     function compare() {
         var terms="";
         var inputs = window.document.getElementsByTagName('input');
-
         var count=0;
         for(var i=0; i < inputs.length; i++){ //iterate through all input elements
             if (inputs[i].type.toLowerCase() == 'checkbox') {
@@ -28,14 +31,11 @@
                 }
             }
         }
-
         if (count < 2) {
             $("#new-nav").html("Select 2 or more terms below");
             return;
         }
-
         $("#new-nav").html("Loading......  (may take up to 60 seconds for large gene sets)");
-
         $.ajax({
             url: "/rgdweb/ga/cross.html",
             data: {species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>", terms: terms },
@@ -46,14 +46,14 @@
             success: function(data) {
                 document.getElementById("new-nav").innerHTML = data;
                 regCrossHeader("cross1");
-
             }
         });
     }
-
     var count=0;
     function load(divId, aspect) {
-
+        var species = <%=req.getParameter("species")%>;
+        if(species == <%=SpeciesType.HUMAN%> && aspect == '<%=Aspect.MAMMALIAN_PHENOTYPE%>')
+                aspect = '<%=Aspect.HUMAN_PHENOTYPE%>';
         $.ajax({
             url: "/rgdweb/ga/terms.html",
             data: {aspect: aspect, species:"<%=req.getParameter("species")%>", genes: "<%=om.getMappedAsString()%>" },
@@ -70,9 +70,7 @@
             success: function(data) {
                 //alert("success " + aspect);
                 document.getElementById(divId).innerHTML = data
-
                         var imgs = document.getElementById(divId).getElementsByTagName("img");
-
                         for (i=0; i < imgs.length; i++) {
                             if (imgs[i]) {
                                regHeader(imgs[i].id.split("_")[0]);
@@ -81,9 +79,6 @@
             }
         });
     }
-
-
-
 </script>
 
 <br>
@@ -99,7 +94,6 @@
 
 <% if (om.getMapped().size() == 0) {
     return;
-
 }%>
     <%
         String firstId = null;
@@ -123,15 +117,12 @@
 
                 <%
                     int i = 1;
-
                     Iterator symbolIt = om.getMapped().iterator();
                     while (symbolIt.hasNext()) {
                         Object obj = symbolIt.next();
-
                         String symbol = "";
                         int rgdId=-1;
                         String type="";
-
                         if (obj instanceof Gene) {
                             Gene g = (Gene) obj;
                             symbol=g.getSymbol();
@@ -145,7 +136,6 @@
                             symbol=(String) obj;
                             rgdId=-1;
                         }
-
                         if (rgdId==-1) {
                 %>
                 <td><span style="color:red; font-weight:700; margin-left:7px;" class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
@@ -153,7 +143,6 @@
 
                 <%
                 } else {
-
                 %>
 
                 <td><a href="javascript:void(0);" style="font-size:18px;margin-left:7px;" onClick="viewReport(<%=rgdId%>,'<%=type%>')" class="geneList"><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span></td>
@@ -191,9 +180,13 @@
         </td>
         <% } %>
 
-        <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) { %>
+        <% if (asp.equals(Aspect.MAMMALIAN_PHENOTYPE)) {
+           String aspect;
+           if( Integer.parseInt(req.getParameter("species")) == SpeciesType.HUMAN)
+           aspect = Aspect.getFriendlyName(Aspect.HUMAN_PHENOTYPE);
+           else aspect = Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE);%>
         <td valign="top" width=500>
-            <span style="font-size:22px;font-weight:700;"><%=Aspect.getFriendlyName(Aspect.MAMMALIAN_PHENOTYPE)%></span>
+            <span style="font-size:22px;font-weight:700;"><%=aspect%></span>
             <div id="pheno" style="font-weight:700; width:550px;"><br><%=loadingMessage%></div>
         </td>
         <% } %>
@@ -230,7 +223,6 @@
 
      <%
          }
-
      %>
 
     </tr>
@@ -246,7 +238,6 @@
     load("cc","<%=Aspect.CELLULAR_COMPONENT%>") ;
     load("bp","<%=Aspect.BIOLOGICAL_PROCESS%>");
     load("chebi","<%=Aspect.CHEBI%>");
-
 </script>
 
 </body>

@@ -6,8 +6,12 @@
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 
-
-<%@ include file="/common/compactHeaderArea.jsp" %>
+<%
+String pageTitle = "OLGA - Online List Generator & Analyzer";
+String headContent = "";
+String pageDescription = "Build lists based on RGD annotation";
+%>
+<%@ include file="/common/headerarea.jsp" %>
 
 
 
