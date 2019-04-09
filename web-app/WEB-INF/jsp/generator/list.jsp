@@ -236,7 +236,7 @@ $(document).ready(function(){
 <div id="qtlSelect" align="center" class="roundSelect">
     <table >
         <tr>
-            <td style="color:white;padding-bottom:10px;">Enter a QTL Symbol:</td>
+            <td style="color:black;padding-bottom:10px;">Enter a QTL Symbol:</td>
         </tr>
         <tr>
             <td><input type="text" name="qtl" id="qtl" size=50/></td>
@@ -305,19 +305,19 @@ $(document).ready(function(){
 
 
 <div id="questionBox" class="roundSelect"  >
-    <table align="center" width=500 >
+    <table align="center" width=500 border="0">
         <tr>
             <td valign="top" style="font-size:23px; font-weight:700; color:black;padding-right:25px; ">Next&nbsp;Action:</td>
             <td style="background-color:black; width:1px; padding:3px;"></td>
-            <td align="center" style="font-size:20px;padding-left: 25px; ">
-                <a  href="javascript:showScreen('actionBox');">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
+            <td  style="font-size:20px;padding-left: 25px; " align="center">
+                <a  href="javascript:showScreen('actionBox');" class="btn btn-primary">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
                 <br><br>
 
                 <table>
                     <tr>
 
-                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>
-                        <td><a  style="font-size:20px;" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
+<!--<!                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>-->
+                        <td><a  class="btn btn-primary" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
                     </tr>
                 </table>
             </td>
