@@ -113,6 +113,8 @@ try {
     }
 </script>
 
+
+
 <%@ include file="carpeHeader.jsp"%>
 <%
     geneList=snplotyper.getCommaDelimitedGeneSymbolList();

@@ -11,7 +11,7 @@
     String pageDescription = "Analyze variation in next-gen strain sequence";
 %>
 
-<%@ include file="/common/headerArea.jsp" %>
+<%@ include file="/common/headerarea.jsp" %>
 
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
@@ -129,6 +129,7 @@ if (req.getParameter("u").equals("394033")) {
     <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
 
 <br>
+
 <div class="typerMat">
 
 <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>

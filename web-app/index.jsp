@@ -8,7 +8,15 @@ String pageDescription = "The Rat Genome Database houses genomic, genetic, funct
 
 <br>
 <br>
-[[ Body Content ]]
+
+
+
+
+<div class="container" style="background-color:red;">
+    hello
+</div>
+
+
 <br>
 <br>
 

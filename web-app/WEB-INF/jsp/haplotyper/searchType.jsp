@@ -24,11 +24,15 @@ String pageDescription = "Define Region";
 
 %>
 
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Variant Visualizer</div>
+</div>
+
 <form action="annotation.html" name="optionForm">
 
 
 <div class="typerMat" style="width:100%;">
-    <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
+  <!-- <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>-->
     <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0 border=0>
         <tr>
             <td colspan=2>

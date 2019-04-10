@@ -33,6 +33,14 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
+<%
+    String pageTitle = "Variant Visualizer (Variant Distribution)";
+    String headContent = "";
+    String pageDescription = "Variant Distribution";
+
+
+%>
+<%@ include file="/common/headerarea.jsp" %>
 
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>

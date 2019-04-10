@@ -984,16 +984,16 @@ color: #ffffff;
         padding: 2px;
     }
 
-    
+ /*homepage pulldown menu styles */
     /* Navbar container */
-	.navbar {
+	.rgd-navbar {
 		overflow: hidden;
 		background-color: #333;
 		font-family: Arial;
 	}
 
 	/* Links inside the navbar */
-	.navbar a {
+	.rgd-navbar a {
 		float: left;
 		font-size: 13px;
 		color: white;
@@ -1003,13 +1003,13 @@ color: #ffffff;
 	}
 
 	/* The dropdown container */
-	.dropdown {
+	.rgd-dropdown {
 		float: left;
 		overflow: hidden;
 	}
 
 	/* Dropdown button */
-	.dropdown .dropbtn {
+	.rgd-dropdown .rgd-dropbtn {
 		font-size: 13px;
 		border: none;
 		outline: none;
@@ -1023,12 +1023,12 @@ color: #ffffff;
 	}
 
 	/* Add a red background color to navbar links on hover */
-	.navbar a:hover, .dropdown:hover .dropbtn {
+	.rgd-navbar a:hover, .rgd-dropdown:hover .rgd-dropbtn {
 		background-color: #2B84C8;
 	}
 
 	/* Dropdown content (hidden by default) */
-	.dropdown-content {
+	.rgd-dropdown-content {
 		display: none;
 		position: absolute;
 		background-color: #f9f9f9;
@@ -1038,7 +1038,7 @@ color: #ffffff;
 	}
 
 	/* Links inside the dropdown */
-	.dropdown-content a {
+	.rgd-dropdown-content a {
 		float: none;
 		color: black;
 		padding: 12px 16px;
@@ -1048,14 +1048,16 @@ color: #ffffff;
 	}
 
 	/* Add a grey background color to dropdown links on hover */
-	.dropdown-content a:hover {
+	.rgd-dropdown-content a:hover {
 		background-color: #2B84C8;
 	}
 
 	/* Show the dropdown menu on hover */
-	.dropdown:hover .dropdown-content {
+	.rgd-dropdown:hover .rgd-dropdown-content {
 		display: block;
 	}
+
+    /*  end front page menu */
 
 .rgd-panel-default{
     border-color:#ddd;

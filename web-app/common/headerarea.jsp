@@ -74,9 +74,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/rgdweb/css/elasticsearch/elasticsearch.css">
-    <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
+   <!-- <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>
+    <!--<script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
@@ -137,13 +142,13 @@
 
 
 
-                            <div class="navbar">
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
+                            <div class="rgd-navbar">
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="/wg/general-search/">Search RGD</a>
                                         <a href="/wg/grants/">Grant Resources</a>
                                         <a href="/wg/citing-rgd/">Citing RGD</a>
@@ -151,12 +156,12 @@
                                         <a href="/contact/index.shtml">Contact Us</a>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/data-menu/'">Data
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/data-menu/'">Data
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/search/genes.html?100">Genes</a>
                                         <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                         <a href="/rgdweb/search/strains.html?100">Strains</a>
@@ -169,12 +174,12 @@
                                         <a href="/registration-entry.shtml">Submit Data</a>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/tool-menu/'">Analysis & Visualization
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/tool-menu/'">Analysis & Visualization
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
@@ -188,12 +193,12 @@
                                         <a href="/GENOMESCANNER/">Genome Scanner</a>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="/rgdCuration/?module=portal&func=show&name=aging">Aging & Age-Related Disease</a>
                                         <a href="/rgdCuration/?module=portal&func=show&name=cancer">Cancer</a>
                                         <a href="/rgdCuration/?module=portal&func=show&name=cardio">Cardiovascular Disease</a>
@@ -208,12 +213,12 @@
                                         <a href="/rgdCuration/?module=portal&func=show&name=sensory">Sensory Organ Disease</a>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/physiology/'">Phenotypes & Models
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/physiology/'">Phenotypes & Models
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                                         <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
@@ -234,12 +239,12 @@
 
                                 <a href="/wg/home/pathway2/">Pathways</a>
 
-                                <div class="dropdown">
-                                    <button class="dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/com-menu/'">Community
+                                <div class="rgd-dropdown">
+                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/com-menu/'">Community
                                         <i class="fa fa-caret-down"></i>
                                     </button>
 
-                                    <div class="dropdown-content">
+                                    <div class="rgd-dropdown-content">
                                         <a href="http://mailman.mcw.edu/mailman/listinfo/rat-forum">Rat Community Forum</a>
                                         <a href="/wg/com-menu/directory-of-rat-laboratories2/">Directory of Rat Laboratories</a>
                                         <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>
