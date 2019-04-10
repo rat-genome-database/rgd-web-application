@@ -258,42 +258,35 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
                         </td>
-
                         </tr>
                         <tr>
-                        <td align="center" style="background-color:#2865A3;">
-                            <div id="app" style="padding-top:10px;">
+                        <td align="center" style="background-color:#2865A3;padding-left:20%">
 
-                                            <div class="container-fluid" id="container" tyle="background-color:#d6e5ff;padding-top:13px;padding-bottom:0px;">
-                                                <div class="row">
-                                                    <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
-                                                        <input type="hidden" name="log" value="true" />
-                                                        <table border="0">
-                                                            <tr>
-                                                                <input type="hidden" name="category" id="category" value="General"/>
-                                                                <td>
-                                                                    <input style="height:20px;" type=text class="searchgroup" id="term" name=term size="40" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
-                                                                </td>
-                                                                <td>
-                                                                    <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
-                                                                    <input class="btn btn-info btn-sm" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
 
-                                                                </td>
-                                                                <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
-                                                            </tr>
-                                                        </table>
+                                        <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
+                                            <input type="hidden" name="log" value="true" />
+                                            <table border="0">
+                                                <tr>
 
-                                                    </form>
-                                                </div>
-                                                </div>
+                                                    <td>
+                                                        <input type="hidden" name="category" id="category" value="General"/>
+                                                        <input  type=text class="form-control searchgroup" id="term" name=term size="50" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
+                                                    </td>
+                                                    <td>
+                                                        <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
+                                                        <input class="btn btn-info btn-sm form-control" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
 
-                            </div>
+                                                    </td>
+                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
+                                                </tr>
+                                            </table>
+
+                                        </form>
+
+
+
+
                             </td>
                             <td>
                                 <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>

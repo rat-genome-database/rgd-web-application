@@ -108,9 +108,9 @@
     </c:forEach></h3>
 
 
-    <div class="panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">InterViewer - Cytoscape Graph Visuals
+    <div class="panel-default cy-panel-default">
+        <div class="panel-heading cy-panel-heading">
+            <div class="panel-title cy-panel-title">InterViewer - Cytoscape Graph Visuals
                 <div class="dropdown" style="float: right">
                     <a href="#" onclick="reportFunction()" title="Printable Report">Report</a><span>  ||  </span>
                     <a href="#" onclick="pngFunction()" id="myLink" title="Printable Graph Image">Graph PNG</a>
@@ -127,14 +127,14 @@
         </div>
         <div id="menu">
         </div>
-        <div class="panel-body">
+        <div class="panel-body cy-panel-body">
             <div  id="cy"></div>
             <div id="sidebar">
-                <div class="panel-default" style="height:95%">
-                    <div class="panel-heading">
-                        <div class="panel-title">Details/Controls</div>
+                <div class="panel-default cy-panel-default" style="height:95%">
+                    <div class="panel-heading cy-panel-heading">
+                        <div class="panel-title cy-panel-title">Details/Controls</div>
                     </div>
-                    <div class="panel-body details" style="overflow-y:auto">
+                    <div class="panel-body details cy-panel-body" style="overflow-y:auto">
                             <h4  style="padding-bottom:0">Selected Edge/Node Details</h4>
                             <div id="textDiv">
                                 Click any <span style="color:steelblue; font-weight: bold">Node</span> or <span style="color:steelblue; font-weight: bold">  Edge</span> to see its details.
@@ -178,11 +178,11 @@
                 </div>
             </div>
             <div id="legend">
-                <div class="panel-default" style="height:90%">
-                    <div class="panel-heading">
-                        <div class="panel-title">Legend</div>
+                <div class="panel-default cy-panel-default" style="height:90%">
+                    <div class="panel-heading cy-panel-heading">
+                        <div class="panel-title cy-panel-title">Legend</div>
                     </div>
-                    <div class="panel-body" id="L" style="height:90%;overflow-y:auto">
+                    <div class="panel-body cy-panel-body" id="L" style="height:90%;overflow-y:auto">
                         <c:forEach items="${model.typeColorMap}" var="entry">
                             <div class="legend" style="background-color:<c:out value="${entry.value}"/> "></div> - <c:out value="${entry.key}"/><br>
                         </c:forEach>
@@ -196,11 +196,11 @@
                 </div>
             </div>
             <div id="dataTable">
-                <div class="panel-default">
-                    <div class="panel-heading">
+                <div class="panel-default cy-panel-default">
+                    <div class="panel-heading cy-panel-heading">
                         <div class="panel-title">Data Tables</div>
                     </div>
-                    <div class="panel-body" id="tabsdiv">
+                    <div class="panel-body cy-panel-body" id="tabsdiv">
                         <form action="cy.html?d=true" method="post">
                             <div style="float:right">
                                 <button type="submit">Download</button>
@@ -359,11 +359,11 @@
 
                             </div> <!--End tabcontent 2-->
                             <div id="log" class="tab-content">
-                                <div class="panel-default" style="height:95%" >
-                                    <div class="panel-heading">
-                                        <div class="panel-title">Log</div>
+                                <div class="panel-default cy-panel-default" style="height:95%" >
+                                    <div class="panel-heading cy-panel-heading">
+                                        <div class="panel-title cy-panel-title">Log</div>
                                     </div>
-                                    <div class="panel-body"style="height:99%; background-color:white;overflow: auto" >
+                                    <div class="panel-body cy-panel-body"style="height:99%; background-color:white;overflow: auto" >
                                         <table id="logTable" style="border: 0px">
 
                                             <c:forEach items="${model.log}" var="i">
