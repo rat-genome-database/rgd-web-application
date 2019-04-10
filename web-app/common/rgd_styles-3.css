@@ -1131,3 +1131,6 @@ color: #ffffff;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-text-size-adjust: 100%;
 }
+#search-td{
+    padding-left:20%;
+}
