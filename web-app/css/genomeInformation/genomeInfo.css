@@ -16,56 +16,58 @@
 #subHead{
     background-image:url('../../images/genome1.png')
 }
-#Rat{
-    width:25%;;top:10px;
+#gi-Rat{
+    width:20%;;top:10px;;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#Human{
-    width:25%;margin-left:26%;top:10px;
+#gi-Human{
+    width:20%;margin-left:22%;top:10px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#Mouse {
-    width: 25%;
+#gi-Mouse {
+    width: 20%;
     height:400px;
-    margin-left: 52%;
+    margin-left: 45%;
     top: 10px;
     position:absolute;
     display:inline-block;
 }
-#Chinchilla{
-    width:25%;margin-left:78%;top:10px;
+#gi-Chinchilla{
+    width:20%;margin-left:68%;top:10px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#Dog{
-    width:25%;margin-left:35%;top:450px;
+#gi-Dog{
+    width:20%;margin-left:33%;top:450px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#Bonobo {
-    width: 25%;
+#gi-Bonobo {
+    width: 20%;
     height:400px;
-    margin-left: 64%;
+    margin-left: 58%;
     top: 450px;
     position:absolute;
     display:inline-block;
 }
-#Squirrel{
-    width:25%;margin-left:7%;top:450px;
+#gi-Squirrel{
+    width:20%;margin-left:8%;top:450px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#wrapper{
+#gi-wrapper{
     position:relative;
     width:100%;
     height:1000px;
+    margin-left:5%;
+    margin-right:5%;
 
 }
 
@@ -175,4 +177,10 @@ th.rotate > div > span {
     font-size:small;
     font-weight:100;
     padding:5px
+}
+.gi-panel-heading{
+    padding:10px 0 10px 0;
+}
+.gi-panel-body{
+    border:1px solid gainsboro;
 }
