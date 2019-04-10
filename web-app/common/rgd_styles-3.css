@@ -990,6 +990,7 @@ color: #ffffff;
 		overflow: hidden;
 		background-color: #333;
 		font-family: Arial;
+        z-index:1000;
 	}
 
 	/* Links inside the navbar */
@@ -1000,6 +1001,7 @@ color: #ffffff;
 		text-align: center;
 		padding: 10px 14px;
 		text-decoration: none;
+        z-index:1000;
 	}
 
 	/* The dropdown container */
