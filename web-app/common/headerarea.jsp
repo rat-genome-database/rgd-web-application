@@ -261,7 +261,7 @@
                         </td>
                         </tr>
                         <tr>
-                        <td align="center" style="background-color:#2865A3;padding-left:20%">
+                        <td align="center" id="search-td">
 
 
                                         <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
