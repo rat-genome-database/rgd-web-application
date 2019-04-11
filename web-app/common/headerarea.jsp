@@ -332,22 +332,15 @@
         </td></tr>
 </table>
 
-
-<div id="mainBody">
-    <div id="contentArea" class="content-area">
-        <table cellpadding="5" border=0 align="center" width="100%">
-            <tr>
-                <td colspan="3" align="left" valign="top">
-
-<%
+    <%
     ArrayList error = (ArrayList) request.getAttribute("error");
     if (error != null) {
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
             String err = (String) errorIt.next();
             out.println("<br><span style=\"color:red;\">" + err + "</span>");
-        }
         out.println("<br>");
+        }
     }
 
     ArrayList status = (ArrayList) request.getAttribute("status");
@@ -357,7 +350,15 @@
         while (statusIt.hasNext()) {
             String stat = (String) statusIt.next();
             out.println("<br><span style=\"color:blue;\">" + stat + "</span>");
+        out.println("<br>");
         }
-        out.println("<br><br>");
     }
 %>
+
+<div id="mainBody">
+    <div id="contentArea" class="content-area">
+        <table cellpadding="5" border=0 align="center" width="100%">
+            <tr>
+                <td colspan="3" align="left" valign="top">
+
+
