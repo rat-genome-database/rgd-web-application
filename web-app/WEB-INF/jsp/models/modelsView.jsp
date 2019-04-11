@@ -88,7 +88,7 @@
                                         <td style="display:table-cell"> </td>
                                         <td style="display:table-cell" ></td>
                                         <td style="display:table-cell" >${strain.backgroundStrain}</td>
-                                        <td style="display:table-cell" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                        <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
                                         <td style="width:40px;display:table-cell" title="Alias">
                                             <c:set var="first" value="true"/>
                                             <c:forEach items="${strain.aliases}" var="alias">
@@ -141,7 +141,7 @@
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell">${strain.backgroundStrain}</td>
-                                        <td style="display:table-cell" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                        <td style="display:table-cell;line-height: 26pt"  ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
                                         <td style="width:40px;display:table-cell" title="Alias">
                                             <c:set var="first" value="true"/>
                                             <c:forEach items="${strain.aliases}" var="alias">
@@ -202,7 +202,7 @@
                                 <td title="Gene">${entry.key.gene}</td>
                                 <td style="text-align:center;" title="No. of Models">${fn:length(entry.value)}</td>
                                 <td>${strain.backgroundStrain}</td>
-                                <td><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank" title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                <td style="line-height: 26pt"><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank" title="Strain Symbol">${strain.strainSymbol}</a></td>
                                 <td title="Alias">
                                     <c:set var="first" value="true"/>
                                     <c:forEach items="${strain.aliases}" var="alias">
