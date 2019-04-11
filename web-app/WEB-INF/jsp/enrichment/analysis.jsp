@@ -32,7 +32,9 @@
     HttpRequestFacade req = new HttpRequestFacade(request);
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
 %>
-<h1 class="heading">Gene Enrichment</h1>
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Gene List Enrichement: Result</div>
+</div>
 
 <% if (om.getMapped().size() == 0) {
     return;
@@ -86,7 +88,7 @@
     </section>
 
     <section v-else>
-
+        <br>
         <section v-if="selectedAll" >
             <%@ include file="species.jsp" %>
         </section>
@@ -95,6 +97,7 @@
         </section>
     </section>
 </div>
+
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
 
 <script>

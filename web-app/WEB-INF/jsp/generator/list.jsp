@@ -184,7 +184,7 @@ $(document).ready(function(){
             <table border=0>
                 <tr>
                     <td align="center" style="font-weight:700; color: #2865A3;">List Type:
-                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" >
+                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" style="background-color:#2B84C8;" >
                         <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
                         <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
                         <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
@@ -197,7 +197,7 @@ $(document).ready(function(){
             <table border=0>
                 <tr>
                     <td style="font-weight:700; color: #2865A3;">Assembly Version:
-                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary">
+                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
                             <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>
@@ -220,8 +220,8 @@ $(document).ready(function(){
 
 <br>
 <div style="float:right; padding-right:10px; padding-top:10px;">
-    <a href="javascript:back();"  class="btn btn-primary btn-sm">Back</a>
-    <a href="/rgdweb/generator/list.html" class="btn btn-primary btn-sm">Reset</a>
+    <a href="javascript:back();"  class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Back</a>
+    <a href="/rgdweb/generator/list.html" class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Reset</a>
 </div>
 
 <div id="selectBox" style="  background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
@@ -310,14 +310,14 @@ $(document).ready(function(){
             <td valign="top" style="font-size:23px; font-weight:700; color:black;padding-right:25px; ">Next&nbsp;Action:</td>
             <td style="background-color:black; width:1px; padding:3px;"></td>
             <td  style="font-size:20px;padding-left: 25px; " align="center">
-                <a  href="javascript:showScreen('actionBox');" class="btn btn-primary">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
+                <a  href="javascript:showScreen('actionBox');" class="btn btn-primary" style="background-color:#2B84C8;">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
                 <br><br>
 
                 <table>
                     <tr>
 
 <!--<!                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>-->
-                        <td><a  class="btn btn-primary" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
+                        <td><a  class="btn btn-primary" style="background-color:#2B84C8;" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
                     </tr>
                 </table>
             </td>
