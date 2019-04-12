@@ -125,24 +125,23 @@
 <%
     String pageHeader="Gene Enrichment Tool - Generate an enrichment report for a list of genes";
 %>
-<div class="heading">
-    <p style="font-size:30px; color:white; font-weight:600;"><%=pageHeader%></p>
+
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading"><%=pageHeader%></div>
 </div>
 
-<br>
+    <!--<p class="heading" style="font-size:30px; color:white; font-weight:600;"></p>-->
 
 
-<hr></hr>
 <br>
 <div id="app">
 <form action="/rgdweb/enrichment/analysis.html" method="POST">
     <table border=0>
 
         <tr>
-            <td style=" font-size: 16px; font-weight:600;">Select a Species to view enrichment for all RGD ontologies</td>
+            <td style=" font-size: 16px; ont-weight:600; olor: #24609c;" >Select a Species to view enrichment for all RGD ontologies</td>
             <td >
                 <select class="form-control inputstl" name="species" id="species" onChange="v.setMap(this)">
-                    <option value="0">All</option>
                     <option value="3">Rat</option>
                     <option  value="2">Mouse</option>
                     <option  value="1">Human</option>
@@ -157,7 +156,7 @@
         <tr><td>&nbsp;</td></tr>
         <tr>
 
-            <td style=" font-size: 16px; font-weight:600;">Select an Ontology to view enrichment in all RGD species</td>
+            <td style=" font-size: 16px; ont-weight:600; olor: #24609c;">Select an Ontology to view enrichment in all RGD species</td>
             <td>
                 <select  class="form-control inputstl" name="o" id="o">
                     <option value="RDO">Disease</option>
@@ -172,10 +171,10 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td  style=" font-size: 16px; font-weight:600;">Enter Gene Symbols</td>
+            <td  style=" font-size: 16px; ont-weight:600; olor: #24609c;">Enter Gene Symbols</td>
             <td>
                 <span style="font-weight:bold">Example: a2m,xiap,lepr,tnf</span><br>
-                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 style="border-color: #2865a3;" ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
+                <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
                 <%=dm.out("genes",req.getParameter("genes"))%>
 
             </td>
@@ -186,15 +185,18 @@
         <tr><td>&nbsp;</td><td><span style="color:#0062cc; font-size: 30px; font-weight:600;">(Or)</span></td></tr>
         <tr><td colspan="2">
 
-            <table>
+            <table border="0">
                 <tr><td>&nbsp;</td></tr>
-                <tr><td style="font-size: 16px; font-weight:600;">Enter a Genomic Region</td>
+                <tr><td style="font-size: 16px; ont-weight:600; olor: #24609c;">Enter a Genomic Region</td>
                     <td style="padding-left:120px;">
-                        <table border=0>
+                        <table border=0 width="100%">
                             <tr>
-                                <td style="font-weight:bold">Chr</td><td> <div id="chroms"></div></td>
-                                <td style="font-weight:bold">Start <input  class="form-control inputstl" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
+                                <td style="font-weight:bold">Chr <div id="chroms"></div></td>
+                                <td>&nbsp;</td>
+                                <td style="font-weight:bold">Start<input  class="form-control inputstl" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' /></td>
+                                <td>&nbsp;</td>
                                 <td style="font-weight:bold">Stop <input  class="form-control inputstl" type="text" name="stop" value='<%=dm.out("stop",req.getParameter("stop"))%>' /></td>
+                                <td>&nbsp;</td>
                                 <td style="font-weight:bold">Assembly</td>
                                 <td id="maps">
 
@@ -207,7 +209,7 @@
             </table><!--#gaPos--></td></tr>
 
         <tr>
-            <td><input class="btnSubmit" type="submit" value="Submit"/></td>
+            <td ><input class="btn btn-primary btn-lg" style="background-color:#2B84C8;" type="submit" value="Continue"/></td>
         </tr>
     </table>
 </div>

@@ -141,7 +141,7 @@
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell">${strain.backgroundStrain}</td>
-                                        <td style="display:table-cell;line-height: 26pt"  ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                        <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
                                         <td style="width:40px;display:table-cell" title="Alias">
                                             <c:set var="first" value="true"/>
                                             <c:forEach items="${strain.aliases}" var="alias">

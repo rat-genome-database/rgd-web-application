@@ -74,12 +74,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/rgdweb/css/elasticsearch/elasticsearch.css">
-   <!-- <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!--<script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
@@ -94,6 +90,7 @@
 
     <script type="text/javascript" src="/rgdweb/js/elasticsearch/elasticsearchcommon.js"></script>
 </head>
+
 
 <body  ng-cloak ng-app="rgdPage">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
@@ -222,7 +219,7 @@
                                         <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                                         <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
-                                        <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">Phenominer Term Comparison</a>
+                                        <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
                                         <a href="/wg/phenotype-data13/">Phenotypes</a>
                                         <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
                                         <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
@@ -232,7 +229,7 @@
                                         <a href="/wg/strain-availability/">Strain Availability</a>
                                         <a href="ftp://ftp.rgd.mcw.edu/pub/data_release/Hi-res_Rat_Calendars/">Calendar</a>
                                         <a href="/wg/physiology/rats101/">Rats 101</a>
-                                        <a href="/wg/photos-and-images/community-submissions/">Community</a>
+                                        <a href="/wg/photos-and-images/community-submissions/">Submissions</a>
                                         <a href="/wg/photos-and-images/physgen-photo-archive2/">Photo Archive</a>
                                     </div>
                                 </div>
@@ -258,42 +255,35 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
                         </td>
-
                         </tr>
                         <tr>
                         <td align="center" id="search-td">
-                            <div id="app" style="padding-top:10px;">
 
-                                            <div class="container-fluid" id="container" tyle="background-color:#d6e5ff;padding-top:13px;padding-bottom:0px;">
-                                                <div class="row">
-                                                    <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
-                                                        <input type="hidden" name="log" value="true" />
-                                                        <table border="0">
-                                                            <tr>
-                                                                <input type="hidden" name="category" id="category" value="General"/>
-                                                                <td>
-                                                                    <input style="height:20px;" type=text class="searchgroup" id="term" name=term size="40" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
-                                                                </td>
-                                                                <td>
-                                                                    <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
-                                                                    <input class="btn btn-info btn-sm" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
 
-                                                                </td>
-                                                                <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
-                                                            </tr>
-                                                        </table>
+                                        <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
+                                            <input type="hidden" name="log" value="true" />
+                                            <table border="0">
+                                                <tr>
 
-                                                    </form>
-                                                </div>
-                                                </div>
+                                                    <td>
+                                                        <input type="hidden" name="category" id="category" value="General"/>
+                                                        <input  type=text class="form-control searchgroup" id="term" name=term size="50" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
+                                                    </td>
+                                                    <td>
+                                                        <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
+                                                        <input class="btn btn-info btn-sm form-control" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
 
-                            </div>
+                                                    </td>
+                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
+                                                </tr>
+                                            </table>
+
+                                        </form>
+
+
+
+
                             </td>
                             <td>
                                 <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
@@ -339,22 +329,15 @@
         </td></tr>
 </table>
 
-
-<div id="mainBody">
-    <div id="contentArea" class="content-area">
-        <table cellpadding="5" border=0 align="center" width="100%">
-            <tr>
-                <td colspan="3" align="left" valign="top">
-
-<%
+    <%
     ArrayList error = (ArrayList) request.getAttribute("error");
     if (error != null) {
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
             String err = (String) errorIt.next();
             out.println("<br><span style=\"color:red;\">" + err + "</span>");
-        }
         out.println("<br>");
+        }
     }
 
     ArrayList status = (ArrayList) request.getAttribute("status");
@@ -364,7 +347,15 @@
         while (statusIt.hasNext()) {
             String stat = (String) statusIt.next();
             out.println("<br><span style=\"color:blue;\">" + stat + "</span>");
+        out.println("<br>");
         }
-        out.println("<br><br>");
     }
 %>
+
+<div id="mainBody">
+    <div id="contentArea" class="content-area">
+        <table cellpadding="5" border=0 align="center" width="100%">
+            <tr>
+                <td colspan="3" align="left" valign="top">
+
+
