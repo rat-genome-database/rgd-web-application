@@ -91,6 +91,12 @@
     <script type="text/javascript" src="/rgdweb/js/elasticsearch/elasticsearchcommon.js"></script>
 </head>
 
+<style>
+    a {
+        color:#0000EE;
+    }
+</style>
+
 
 <body  ng-cloak ng-app="rgdPage">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
