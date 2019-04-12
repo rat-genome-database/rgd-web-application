@@ -33,14 +33,6 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
-<%
-    String pageTitle = "Variant Visualizer (Variant Distribution)";
-    String headContent = "";
-    String pageDescription = "Variant Distribution";
-
-
-%>
-<%@ include file="/common/headerarea.jsp" %>
 
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
@@ -179,18 +171,16 @@ if (hasAnnotation) {
             int j = 0;
             int k = 0;
             Iterator it = sampleIds.iterator();
-            SampleManager s = SampleManager.getInstance();
             while (it.hasNext()) {
                 String sample = (String) it.next();
-                String analysisName = s.getSampleName(Integer.parseInt(sample)).getAnalysisName();
         %>
         <tr>
 
             <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
             <td valign="center">
                 <div class="snpLabel"><a style="cursor:default; text-decoration:none;"
-                                         title="<%=analysisName%>"
-                                         href="javascript:void(0);"><%=analysisName%>
+                                         title="<%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
+                                         href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>
                 </a>&nbsp;</div>
             </td>
         </tr>
