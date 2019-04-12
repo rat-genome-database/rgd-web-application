@@ -14,7 +14,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <table align="center">
                         <tr>
-                            <td style="padding:20px;"><img src="/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
+                            <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
                         </tr>
                     </table>
 
@@ -105,7 +105,7 @@
 
 
 <!--  Login box -------------->
-    <div class="container-fluid" >
+    <div class="ontainer-fluid" >
 
         <!-- Modal -->
         <div class="modal fade" id="login-modal" role="dialog">
@@ -115,7 +115,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <table align="center">
             <tr>
-                <td style="padding:20px;"><img src="http://rgd.mcw.edu/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
+                <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
             </tr>
         </table>
 
@@ -274,7 +274,15 @@
                                     <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('olga')"><div ng-if="oKey==1">OLGA</div></td>
                                     <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('excel')">Excel (Download)</td>
                                 </tr>
+                                <tr><td>&nbsp;</td></tr>
+                                <tr>
+                                   <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/common/images/gaTool.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></div><div ng-if="oKey!=1">Gene Enrichment<br>unavailable</div></td>
+                                    </tr>
+                                <tr>
+                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('enrichment')"><div ng-if="oKey==1">Gene Enrichment</div></td>
 
+
+                                </tr>
                             </table>
 
                         </div>

@@ -12,8 +12,12 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Cell Line Directory</div>
+</div>
+
 <div class="searchBox">
-<h2>Cell Line Directory</h2>
+
 All cell lines available in RGD:<br><br>
 
 <table border=1 cellspacing=0 cellpadding=10 style="background-color:white;">

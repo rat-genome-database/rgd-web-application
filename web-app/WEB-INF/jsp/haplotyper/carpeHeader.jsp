@@ -3,33 +3,6 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.util.*" %>
 
-<html>
-
-
-    <%--
-
-    ArrayList errorList = (ArrayList) request.getAttribute("error");
-
-    if (errorList != null && errorList.size() >0 ) {
-
-
-    --%>
-        <!--br><a style='font-size:20px;' href='javascript:window.history.back();'><<&nbsp;&nbsp;BACK</a><br><br-->
-    <%--
-        //return;
-    }
-
-
-
---%>
-
-
-
-<!--%@ include file="/common/angularHeaderInclude.jsp" %>-->
-<body style="background-color:#E8E7E2" g-app="rgdPage">
-<!--%@ include file="/common/angularTopBodyInclude.jsp" %>-->
-
-
 
 <style>
 

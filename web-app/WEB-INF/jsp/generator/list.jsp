@@ -6,8 +6,12 @@
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 
-
-<%@ include file="/common/compactHeaderArea.jsp" %>
+<%
+String pageTitle = "OLGA - Online List Generator & Analyzer";
+String headContent = "";
+String pageDescription = "Build lists based on RGD annotation";
+%>
+<%@ include file="/common/headerarea.jsp" %>
 
 
 
@@ -168,17 +172,19 @@ $(document).ready(function(){
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 
-<table width="95%" border=0>
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">OLGA - Online List Generator & Analyzer</div>
+</div>
+<!--Build Gene lists using annotations from multiple terms and ontologies-->
+
+<table width="95%" style="border:1px solid #337AB7; background-color:#EBF2FA; ">
     <tr>
-        <td><div style=" font-family: 'Lato', serif; font-size:35; color:#1A456F;margin-top:10px;">OLGA</div></td>
+        <td></td>Options:
         <td align="right">
             <table border=0>
                 <tr>
-                    <td align="center">Select Object Type (Gene, QTL, Strain)</td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" style="font-size:16px; border:2px solid orange;padding:4px; ">
+                    <td align="center" style="font-weight:700; color: #2865A3;">List Type:
+                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" style="background-color:#2B84C8;" >
                         <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
                         <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
                         <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
@@ -190,11 +196,8 @@ $(document).ready(function(){
         <td align="center">
             <table border=0>
                 <tr>
-                    <td align="center">Select Species (Rat, Mouse, Human, Chinchilla, Bonobo, Dog, Squirrel)</td>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()" style="font-size:16px;  border:  2px solid orange;padding:4px;">
+                    <td style="font-weight:700; color: #2865A3;">Assembly Version:
+                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
                             <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>
@@ -212,28 +215,28 @@ $(document).ready(function(){
             </table>
 
         </td>
-        <td align="right" width=10>
-        </td>
-        <td align="right">Clear out all lists</td>
-        <td align="right" width="10"><a href="/rgdweb/generator/list.html" style="font-size:20px; border:3px solid orange;padding:2px; background-color:white;margin-left:17px;">Reset</a>&nbsp;&nbsp;&nbsp;
     </tr>
 </table>
 
-<div style="float:right; padding-right:10px; padding-top:10px;"><a href="javascript:back();" style="padding:5px;  border:1px dotted white;font-size:13px;"><< Previous Option</a></div>
+<br>
+<div style="float:right; padding-right:10px; padding-top:10px;">
+    <a href="javascript:back();"  class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Back</a>
+    <a href="/rgdweb/generator/list.html" class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Reset</a>
+</div>
 
 <div id="selectBox" style="  background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
 
-<table width=100% height=250>
+<table width=100% height=250 border="0" style="background-color:#EBF2FA; border:2px solid #99BFE6; ">
     <tr>
         <td valign="center">
 
-<div id="msgBox" style=" width:700px; font-size:20px;padding-top:5px; padding-bottom:5px;display:none;padding-left:10px;color:#24609C;text-align:center;"></div>
+<div id="msgBox" style=" width:700px; font-size:20px;padding-top:5px; padding-bottom:5px;display:none;padding-left:10px;color:#24609C;text-align:center; "></div>
 
 
 <div id="qtlSelect" align="center" class="roundSelect">
     <table >
         <tr>
-            <td style="color:white;padding-bottom:10px;">Enter a QTL Symbol:</td>
+            <td style="color:black;padding-bottom:10px;">Enter a QTL Symbol:</td>
         </tr>
         <tr>
             <td><input type="text" name="qtl" id="qtl" size=50/></td>
@@ -302,25 +305,32 @@ $(document).ready(function(){
 
 
 <div id="questionBox" class="roundSelect"  >
-    <table align="center" width=500 >
+    <table align="center" width=500 border="0">
         <tr>
             <td valign="top" style="font-size:23px; font-weight:700; color:black;padding-right:25px; ">Next&nbsp;Action:</td>
             <td style="background-color:black; width:1px; padding:3px;"></td>
-            <td align="center" style="font-size:20px;padding-left: 25px; ">
-                <a  href="javascript:showScreen('actionBox');">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
+            <td  style="font-size:20px;padding-left: 25px; " align="center">
+                <a  href="javascript:showScreen('actionBox');" class="btn btn-primary" style="background-color:#2B84C8;">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
                 <br><br>
 
                 <table>
                     <tr>
 
-                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>
-                        <td><a  style="font-size:20px;" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
+<!--<!                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>-->
+                        <td><a  class="btn btn-primary" style="background-color:#2B84C8;" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
 </div>
+
+            <style>
+                .multibox a {
+                    color:#BE191F;
+                    font-size:16px;
+                }
+            </style>
 
 <div id="actionBox" style="padding-bottom:10px;display:none;position:relative; ">
 <table style="margin-left:auto; margin-right:auto;" border=0>
@@ -337,7 +347,7 @@ $(document).ready(function(){
 
                 <tr>
                     <td width="150" valign="top" style="padding:10px;">
-                        <a href="javascript:showScreen('ontologySelect')">Ontology&nbsp;Annotation</a><br>
+                        <a href="javascript:showScreen('ontologySelect')" class="olgaOption">Ontology&nbsp;Annotation</a><br>
                         Generate a list of <%=objectType.toLowerCase()%>s annotated to a term in one of the RGD Ontologies
                     </td>
                     <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>

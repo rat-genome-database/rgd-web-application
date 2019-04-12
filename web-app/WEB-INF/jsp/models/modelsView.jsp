@@ -1,8 +1,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<div class="rgd-panel rgd-panel-default">
+    <div class="rgd-panel-heading">Rat Genetic Models</div>
+</div>
+
 <div id="modelsViewContent" >
-    <div style="float:left;color:white;width:100%" >
-        <div><h3>Genetic Models Available</h3></div>
-    </div>
     <div style="margin-bottom:10px;width:50%;float:left">
         <input type="text" class="search searchBox rounded" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey">
         <button type="button" class="btn btn-primary reset" title="Reset table">Reset</button> <!-- targeted by the "filter_reset" option -->
@@ -86,7 +88,7 @@
                                         <td style="display:table-cell"> </td>
                                         <td style="display:table-cell" ></td>
                                         <td style="display:table-cell" >${strain.backgroundStrain}</td>
-                                        <td style="display:table-cell" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                        <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
                                         <td style="width:40px;display:table-cell" title="Alias">
                                             <c:set var="first" value="true"/>
                                             <c:forEach items="${strain.aliases}" var="alias">
@@ -139,7 +141,7 @@
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell"></td>
                                         <td style="display:table-cell">${strain.backgroundStrain}</td>
-                                        <td style="display:table-cell" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                        <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank"  title="Strain Symbol">${strain.strainSymbol}</a></td>
                                         <td style="width:40px;display:table-cell" title="Alias">
                                             <c:set var="first" value="true"/>
                                             <c:forEach items="${strain.aliases}" var="alias">
@@ -200,7 +202,7 @@
                                 <td title="Gene">${entry.key.gene}</td>
                                 <td style="text-align:center;" title="No. of Models">${fn:length(entry.value)}</td>
                                 <td>${strain.backgroundStrain}</td>
-                                <td><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank" title="Strain Symbol">${strain.strainSymbol}</a></td>
+                                <td style="line-height: 26pt"><a href="/rgdweb/report/strain/main.html?id=${strain.strainRgdId}"target="_blank" title="Strain Symbol">${strain.strainSymbol}</a></td>
                                 <td title="Alias">
                                     <c:set var="first" value="true"/>
                                     <c:forEach items="${strain.aliases}" var="alias">
