@@ -1,17 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="v-on" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.datamodel.MappedGene" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
-<%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
-<%@ page import="edu.mcw.rgd.reporting.Report" %>
-<%@ page import="edu.mcw.rgd.reporting.FixedWidthReportStrategy" %>
-<%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
-<%@ page import="java.util.Iterator" %>
+
+<%@ page import="java.util.*" %>
 <%
     String pageTitle = "Gene Ortholog Tool";
     String headContent = "";
@@ -37,6 +29,7 @@
     int inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
     int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
+    List<String> symbolsNotFound = (List)request.getAttribute("notFound");
     Iterator symbolIt = geneSymbols.iterator();
     List symbols = new ArrayList<>();
     while (symbolIt.hasNext()) {
@@ -54,22 +47,27 @@
 
 <div class="container" id="ortholog">
   <div class="container-fluid">
-    <h2 class="text-left" id="title"><%=pageHeader%></h2>
-
+    <div class="row">
+    <div class="col-md-6"><h2 class="text-left" id="title"><%=pageHeader%></h2></div>
+    <div class="col-md-6"><button v-on:click="download()">Download</button></div>
+    </div>
   </div>
-    <button v-on:click="download()">Download</button>
-    <table class="table table-hover">
-    <thead><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chromosome</th><th>Start Pos</th><th>End Pos</th>
-    <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chromosome</th><th>Start Pos</th><th>End Pos</th><th>Strand</th></thead>
+<div style=" font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Symbols Not Found:
+           <span style="color:red;"> <%=symbolsNotFound%></span>
+</div>
+     <br>
+    <table class="table table-bordered table-striped">
+    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
+    <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
 <tbody>
 <%    for (Integer rgdId: genes.keySet()) {
-        if((orthoMap.keySet().contains(rgdId))){
-            if((geneMap.keySet().contains(orthoMap.get(rgdId)))){
+
+
 %>
-<tr>
+<tr align="center">
     <td><%=rgdId%></td>
-    <td><%=genes.get(rgdId).get(0).getGene().getSymbol()%></td>
-    <td colspan="3" ><table class="table table-sm table-borderless ">
+    <td><a href="/rgdweb/report/gene/main.html?id=<%=rgdId%>"><%=genes.get(rgdId).get(0).getGene().getSymbol()%></a></td>
+    <td colspan="4" ><table class="table table-sm table-borderless">
 
 <%
     for(MappedGene inputGene: genes.get(rgdId)) {%>
@@ -77,12 +75,15 @@
     <td><%=inputGene.getChromosome()%></td>
     <td><%=inputGene.getStart()%></td>
     <td><%=inputGene.getStop()%></td>
+    <td><%=inputGene.getStrand()%></td>
     </tr>
 <% } %>
     </table>
     </td>
+<% if((orthoMap.keySet().contains(rgdId))){
+    if((geneMap.keySet().contains(orthoMap.get(rgdId)))){%>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%></td>
-    <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getSymbol()%></td>
+    <td><a href="/rgdweb/report/gene/main.html?id=<%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%>"><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getSymbol()%></a></td>
     <td colspan="4"><table class="table table-sm table-borderless">
 <%                for(MappedGene ortholog: geneMap.get(orthoMap.get(rgdId))) {
 %>
@@ -94,18 +95,23 @@
                     <td><%=ortholog.getStrand()%></td>
     </tr>
 <%             } %>
-
     </table>
     </td>
+</tr>
+
+<%            } }else { %>
+    <td colspan="6"> No ortholog found for this gene</td>
+
     </tr>
-<%            }
-       }
-    }%>
+<%}     }%>
+
 </tbody>
     </table>
+
 </div>
+
 <script>
-    alert(<%=symbols%>);
+
     var v= new OrthologVue("ortholog");
     v.inSpecies = <%=inSpeciesKey%>;
     v.outSpecies = <%=outSpeciesKey%>;

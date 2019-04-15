@@ -5,7 +5,9 @@ import edu.mcw.rgd.dao.impl.OrthologDAO;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Ortholog;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -13,10 +15,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +27,7 @@ public class OrthologController implements Controller {
     int outSpeciesTypeKey=-1;
     int inMapKey=-1;
     int outMapKey=-1;
-    List symbols=null;
+    List<String> symbols=null;
 
     protected void init(HttpServletRequest request, HttpServletResponse response) {
 
@@ -40,11 +39,10 @@ public class OrthologController implements Controller {
             outSpeciesTypeKey = Integer.parseInt(request.getParameter("outSpecies"));
         }
 
-             inMapKey=Integer.parseInt(request.getParameter("inMapKey"));
-        outMapKey=Integer.parseInt(request.getParameter("outMapKey"));
+        inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
+        outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
 
-       symbols = Utils.symbolSplit(request.getParameter("genes"));
-
+        symbols = Utils.symbolSplit(request.getParameter("genes"));
     }
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -73,6 +71,7 @@ public class OrthologController implements Controller {
                 Collectors.groupingBy(MappedGene->MappedGene.getGene().getRgdId()));
         List<Integer> geneRgdIds = geneMap.keySet().stream().collect(Collectors.toList());
 
+
         List<Ortholog> orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds,outSpeciesTypeKey);
         Map<Integer, Integer> orthologMap = orthologs.stream().collect(
                 Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
@@ -83,22 +82,29 @@ public class OrthologController implements Controller {
         Map<Integer, List<MappedGene>> mappedGeneMap = positions.stream().collect(
                 Collectors.groupingBy(MappedGene->MappedGene.getGene().getRgdId()));
 
+        String inSpecies = SpeciesType.getCommonName(inSpeciesTypeKey);
+        String outSpecies = SpeciesType.getCommonName(outSpeciesTypeKey);
+
+        Set<String> symbolsFound = new TreeSet<>();
+
         Report report = new Report();
         edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
-        rec.append("Rgd Id");
-        rec.append("GeneSymbol");
-        rec.append("Chromosome");
-        rec.append("Position Start");
-        rec.append("Position End");
-        rec.append("Rgd Id");
-        rec.append("GeneSymbol");
-        rec.append("Chromosome");
-        rec.append("Position Start");
-        rec.append("Position End");
-        rec.append("Strand");
+        rec.append(inSpecies+"_Rgd Id");
+        rec.append(inSpecies+"_GeneSymbol");
+        rec.append(inSpecies+"_Chromosome");
+        rec.append(inSpecies+"_Position Start");
+        rec.append(inSpecies+"_Position End");
+        rec.append(inSpecies+"_Strand");
+        rec.append(outSpecies+"_Rgd Id");
+        rec.append(outSpecies+"_GeneSymbol");
+        rec.append(outSpecies+"_Chromosome");
+        rec.append(outSpecies+"_Position Start");
+        rec.append(outSpecies+"_Position End");
+        rec.append(outSpecies+"_Strand");
         report.append(rec);
 
         for (Integer rgdId: geneMap.keySet()) {
+            symbolsFound.add(geneMap.get(rgdId).get(0).getGene().getSymbol().toLowerCase());
             if ((orthologMap.keySet().contains(rgdId))) {
                 if ((mappedGeneMap.keySet().contains(orthologMap.get(rgdId)))) {
                     for (MappedGene inputGene : geneMap.get(rgdId)) {
@@ -110,6 +116,7 @@ public class OrthologController implements Controller {
                             rec.append(inputGene.getChromosome());
                             rec.append(String.valueOf(inputGene.getStart()));
                             rec.append(String.valueOf(inputGene.getStop()));
+                            rec.append(inputGene.getStrand());
                             rec.append(String.valueOf(ortholog.getGene().getRgdId()));
                             rec.append(ortholog.getGene().getSymbol());
                             rec.append(ortholog.getChromosome());
@@ -122,8 +129,14 @@ public class OrthologController implements Controller {
                 }
             }
         }
+        List<String> symbolsNotFound = this.symbols;
+        for(Iterator<String> iterator = symbolsNotFound.iterator(); iterator.hasNext();) {
+            String symbol = iterator.next();
+            if(symbolsFound.contains(symbol.toLowerCase())){
+                iterator.remove();
+            }
+        }
 
-        System.out.println(report.format(new DelimitedReportStrategy()));
 
         request.setAttribute("report", report);
 
@@ -134,7 +147,8 @@ public class OrthologController implements Controller {
         request.setAttribute("outSpecies",outSpeciesTypeKey);
         request.setAttribute("inMapKey",inMapKey);
         request.setAttribute("outMapKey",outMapKey);
-        request.setAttribute("genes",symbols);
+        request.setAttribute("genes",this.symbols);
+        request.setAttribute("notFound",symbolsNotFound);
 
     }
 }

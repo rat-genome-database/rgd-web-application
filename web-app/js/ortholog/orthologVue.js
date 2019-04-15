@@ -28,16 +28,15 @@ function OrthologVue(divId) {
             outMaps: [],
             species: ['Rat','Mouse','Human','Chinchilla','Bonobo','Dog','Squirrel'],
             inSpecies: 3,
-            outSpecies: 3,
-            default: 3,
+            outSpecies: 1,
             inMapKey: "Rnor_6.0",
-            outMapKey: "Rnor_6.0",
+            outMapKey: "GRCh38",
             genes: []
         },
         methods: {
             setMaps: function(species,divId) {
 
-                if(species != this.default)
+                if(species != this.inSpecies && species != this.outSpecies )
                     species = species.options[species.selectedIndex].value;
                 v.maps = [];
                 if(divId == 'inMaps')
