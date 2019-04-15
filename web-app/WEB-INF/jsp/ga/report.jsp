@@ -11,6 +11,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.report.DaoUtils" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Aspect" %>
 
 
 <%@ include file="gaHeader.jsp" %>
@@ -161,6 +162,13 @@
             Identifiable ortho = (Identifiable) it.next();
             Speciated spc = (Speciated) ortho;
 
+            if(spc.getSpeciesTypeKey() == SpeciesType.HUMAN
+                    && asp.equalsIgnoreCase(Aspect.MAMMALIAN_PHENOTYPE))
+                asp = Aspect.HUMAN_PHENOTYPE;
+            else if(spc.getSpeciesTypeKey() != SpeciesType.HUMAN
+                    && asp.equalsIgnoreCase(Aspect.HUMAN_PHENOTYPE))
+                asp = Aspect.MAMMALIAN_PHENOTYPE;
+
 
             List<Annotation> annotList=adao.getAnnotationsByAspect(ortho.getRgdId(),asp);
 
@@ -169,6 +177,9 @@
 
 
             for (Annotation annot: annotList) {
+
+                if(annot.getAspect().equalsIgnoreCase(Aspect.HUMAN_PHENOTYPE))
+                    annot.setAspect(Aspect.MAMMALIAN_PHENOTYPE);
 
                 if (seen.contains(spc.getSpeciesTypeKey() + annot.getTermAcc())) {
                     continue;
@@ -179,6 +190,7 @@
                 }
 
                 if (count==0) {
+
     %>
                 <br><div style="font-size:12px; font-weight:700"><%=aspects.get(annot.getAspect())%></div>
 
