@@ -55,8 +55,9 @@
 <div class="container" id="ortholog">
   <div class="container-fluid">
     <h2 class="text-left" id="title"><%=pageHeader%></h2>
-  <button v-on:click="download()">Download</button>
+
   </div>
+    <button v-on:click="download()">Download</button>
     <table class="table table-hover">
     <thead><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chromosome</th><th>Start Pos</th><th>End Pos</th>
     <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chromosome</th><th>Start Pos</th><th>End Pos</th><th>Strand</th></thead>

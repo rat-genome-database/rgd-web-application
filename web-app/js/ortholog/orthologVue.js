@@ -72,7 +72,7 @@ function OrthologVue(divId) {
                 params.inMapKey = v.inMapKey;
                 params.outMapKey = v.outMapKey;
                 params.genes = v.genes;
-                alert(params.genes);
+
                 for (var key in params) {
                     var hiddenField = document.createElement("input");
                     hiddenField.setAttribute("type", "hidden");
