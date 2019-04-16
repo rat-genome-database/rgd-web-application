@@ -114,7 +114,7 @@
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-    var host = 'https://dev.rgd.mcw.edu';
+    
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;
