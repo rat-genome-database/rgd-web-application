@@ -27,10 +27,14 @@
                 <div class="row justify-content-center align-items-center">
 
                     <div class="col-md-5">
-
+                       <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p class="text-uppercase pull-center"> ENTER INPUT DETAILS</p>
                         <fieldset>
                             <br>
-                            <p class="text-uppercase pull-center"> ENTER INPUT DETAILS</p>
+
                             <div class="form-group">
                                 <label for="inSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
                                 <select class="form-control" id="inSpecies" name="inSpecies" v-model="inSpecies" onchange="v.setMaps(inSpecies,'inMaps')">
@@ -41,6 +45,7 @@
                                     <option  value="5">Bonobo</option>
                                     <option  value="6">Dog</option>
                                     <option  value="7">Squirrel</option>
+                                    <option value="9">Pig</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -62,9 +67,10 @@
 
 
                     <div class="col-md-5">
+                        <p class="text-uppercase pull-center"> ENTER OUTPUT DETAILS</p>
                         <fieldset>
                             <br>
-                            <p class="text-uppercase pull-center"> ENTER OUTPUT DETAILS</p>
+
                             <div class="form-group">
                                 <label for="outSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
                                 <select class="form-control" id="outSpecies" name="outSpecies"v-model="outSpecies" onchange="v.setMaps(outSpecies,'outMaps')">
@@ -75,6 +81,7 @@
                                     <option  value="5">Bonobo</option>
                                     <option  value="6">Dog</option>
                                     <option  value="7">Squirrel</option>
+                                    <option value="9">Pig</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -95,7 +102,7 @@
 <script>
     var v= new OrthologVue("ortholog");
     v.setMaps(3,'inMaps');
-    v.setMaps(3,'outMaps');
+    v.setMaps(1,'outMaps');
 </script>
 
  <%@ include file="/common/footerarea.jsp" %>
