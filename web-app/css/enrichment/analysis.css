@@ -1,0 +1,56 @@
+
+#t{
+    border:1px solid #ddd;
+    border-radius:2px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+#t th{
+    background: rgb(246,248,249); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(246,248,249,1) 0%, rgba(229,235,238,1) 50%, rgba(215,222,227,1) 51%, rgba(245,247,249,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 );
+}
+#t td{
+    max-width: 15px;
+    min-width: 5px;
+    padding: 2px;
+
+}
+#t  tr:nth-child(odd) {background-color: #f2f2f2}
+#t tr:hover {
+    background-color: #daeffc;
+}
+.modal-body{
+    width: 800px;
+}
+.heading
+{
+    margin-top: 2px;
+    text-align: center;
+    height: 40px;
+    background: #3583d1;
+    color: #fff;
+    font-weight: bold;
+    line-height: 40px;
+}
+.btnSubmit
+{
+    border:none;
+    border-radius:1.5rem;
+    padding: 3%;
+    width: 25%;
+    cursor: pointer;
+    background: #2655c1;
+    color: #fff;
+}
+
+.btn-primary:active {
+    background-color: green;
+}
+.btn.disabled {
+    background-color:#2865a3;
+}

@@ -1,0 +1,38 @@
+
+.inputstl {
+    padding: 9px;
+    border: solid 1px #4B718B;
+    outline: 0;
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e6f0ff), to(#FFFFFF));
+    background: -moz-linear-gradient(top, #FFFFFF, #e6f0ff 1px, #FFFFFF 25px);
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    font-weight: bold;
+
+}
+.heading
+{
+    text-align: center;
+    height: 80px;
+    background: linear-gradient(135deg,#2655c1,#372f7f,#2655c1,#372f7f);
+    color: #fff;
+    font-weight: bold;
+    line-height: 80px;
+}
+.btnSubmit
+{
+    border:none;
+    border-radius:1.5rem;
+    padding: 3%;
+    width: 25%;
+    cursor: pointer;
+    background: #2655c1;
+    color: #fff;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 3px solid #372f7f;
+}
