@@ -8,6 +8,8 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <%
     String pageTitle = "Term Edit";
     String headContent = "";
@@ -36,6 +38,10 @@
 
     boolean isNewCustomTerm = Utils.isStringEmpty(term.getTerm());
     boolean termIsDeleted = synonyms==null;
+
+    Map<String,String> dagTypes = new HashMap<>();
+    dagTypes.put("IA", "is-a");
+    dagTypes.put("PO", "part-of");
 %>
 <% if( isNewCustomTerm ) { %>
 <h1>New Custom Term:</h1>
@@ -200,7 +206,7 @@
             <tr style="background-color:#d3d3d3">
                 <td><input name="dag_term_acc" readonly value="<%=Utils.defaultString(dag.getParentTermAcc())%>" size="12"></td>
                 <td><%=Utils.defaultString(dag.getParentTermName())%></td>
-                <td><%=Utils.defaultString(dag.getRel().toString())%></td>
+                <td><%=fu.buildSelectList("dag_type",dagTypes, dm.out("dag_type",dag.getRelId()))%></td>
                 <td><%=Utils.defaultString(dag.getCreatedDate().toString())%></td>
                 <td><input name="dag_del_<%=dag.getParentTermAcc().substring(1+colonPos)%>" type="checkbox"></td>
             </tr>
@@ -314,7 +320,7 @@ function addParentEdge() {
     row.appendChild(td);
 
     td = document.createElement("TD");
-    td.innerHTML = 'is-a';
+    td.innerHTML = '<%=fu.buildSelectList("dag_type",dagTypes, dm.out("dag_type","is-a"))%>';
     row.appendChild(td);
 
     td = document.createElement("TD");
