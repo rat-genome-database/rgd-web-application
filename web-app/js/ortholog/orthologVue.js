@@ -26,7 +26,6 @@ function OrthologVue(divId) {
             mapsHtml: "",
             inMaps: [],
             outMaps: [],
-            species: ['Rat','Mouse','Human','Chinchilla','Bonobo','Dog','Squirrel'],
             inSpecies: 3,
             outSpecies: 1,
             inMapKey: "Rnor_6.0",

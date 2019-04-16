@@ -129,11 +129,11 @@ public class OrthologController implements Controller {
                 }
             }
         }
-        List<String> symbolsNotFound = this.symbols;
-        for(Iterator<String> iterator = symbolsNotFound.iterator(); iterator.hasNext();) {
+        List<String> symbolsNotFound = new ArrayList<>();
+        for(Iterator<String> iterator = symbols.iterator(); iterator.hasNext();) {
             String symbol = iterator.next();
-            if(symbolsFound.contains(symbol.toLowerCase())){
-                iterator.remove();
+            if(!symbolsFound.contains(symbol.toLowerCase())){
+                symbolsNotFound.add(symbol);
             }
         }
 
