@@ -5,6 +5,7 @@
 
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
 <%
     String pageTitle = "Gene Ortholog Tool";
     String headContent = "";
@@ -44,6 +45,7 @@
     String inSpecies = SpeciesType.getCommonName(inSpeciesKey);
     String outSpecies = SpeciesType.getCommonName(outSpeciesKey);
     String inMap = MapManager.getInstance().getMap(inMapKey).getName();
+    GeneDAO gdao = new GeneDAO();
 
 %>
 
@@ -101,7 +103,14 @@
     </td>
 </tr>
 
-<%            } }else { %>
+<%            }else{ %>
+<td><%=orthoMap.get(rgdId)%></td>
+<td><a href="/rgdweb/report/gene/main.html?id=<%=orthoMap.get(rgdId)%>"><%=gdao.getGene(orthoMap.get(rgdId)).getSymbol()%></a></td>
+
+<td colspan="4"> No position found for this gene</td>
+
+</tr>
+<%} }else { %>
     <td colspan="6"> No ortholog found for this gene</td>
 
     </tr>
