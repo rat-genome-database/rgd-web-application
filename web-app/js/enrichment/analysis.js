@@ -5,7 +5,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
     var v = new Vue({
         el: div,
         data: {
-            graph: graph,
+            graph: (graph == 3 || graph == 1)? true: false,
+            table: (graph == 3 || graph == 2)? true: false,
             info: [],
             hostName: host,
             species: [speciesKey],
@@ -44,8 +45,15 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     console.log(error)
                 })
             },
-
-
+            sort:function(s,ont) {
+                //if s == current sort, reverse
+                if(s === this.currentSort) {
+                    this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                }
+                this.currentSort = s;
+                this.selected = ont;
+                v.loadPairs(ont);
+            },
             loadView: function (s) {
                 this.species[0] = v.getSpeciesKey(s);
                 v.selectView();
@@ -112,10 +120,11 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
                         v.info.push({
                             name: aspect,
-                            value: response.data
+                            value: response.data.enrichment,
+                            genes: response.data.geneSymbols
                         });
-                        if (response.data.length != 0 && graph)
-                            v.loadChart(response.data, aspect, 0.05);
+                        if (response.data.length != 0 && (this.graph!=2))
+                        { v.loadChart(response.data.enrichment, aspect, 0.05);}
 
                         v.loading = false;
                     })
@@ -137,10 +146,11 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
                         v.info.push({
                             name: s,
-                            value: response.data
+                            value: response.data.enrichment,
+                            genes: response.data.geneSymbols
                         });
-                        if (response.data.length != 0 && graph)
-                            v.loadChart(response.data, s, 0.05);
+                        if (response.data.length != 0 && this.graph!=2)
+                        {  v.loadChart(response.data.enrichment, s, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
@@ -197,7 +207,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 var data = [trace1, trace2];
                 var layout = {
                     autosize: false,
-                    width: 800,
+                    width: 700,
                     height: 600,
                     margin: {
                         l: 100,
@@ -263,8 +273,17 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 }
 
             },
+            loadGenes: function(view){
+                for (i = 0; i < this.info.length; i++) {
+                    if (this.info[i].name == view) {
+                        return this.info[i].genes;
+                    }
+                }
+            },
             selectView: function () {
                 this.info = [];
+                this.loading=true;
+                this.errored = false;
                 if (this.species[0] != 0) {
                     this.selectedAll = false;
                     this.selectedOne = true;
@@ -288,7 +307,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 return this.ontology.map(function (ont) {
                     return {
                         ont: ont,
-                        info: v.loadPairs(ont)
+                        info: v.loadPairs(ont),
+                        genes: v.loadGenes(ont)
                     }
                 });
             },
@@ -297,7 +317,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 return this.allSpecies.map(function (spec) {
                     return {
                         spec: spec,
-                        info: v.loadPairs(spec)
+                        info: v.loadPairs(spec),
+                        genes: v.loadGenes(spec)
                     }
                 });
             }
