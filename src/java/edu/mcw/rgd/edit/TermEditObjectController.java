@@ -444,7 +444,7 @@ public class TermEditObjectController implements Controller {
 
         Principal p = req.getUserPrincipal();
         if( p==null ) {
-            return "ERROR: to add or delete parent terms, you must log in to MY RGD<br>";
+            return "ERROR: to add/update/delete parent terms, you must log in to MY RGD<br>";
         } else {
             if( p.getName().equals("mtutaj@mcw.edu") || p.getName().equals("slaulede@mcw.edu")
                     || p.getName().equals("jrsmith@mcw.edu") || p.getName().equals("gthayman@mcw.edu")
@@ -458,6 +458,7 @@ public class TermEditObjectController implements Controller {
 
         // collect incoming data
         String[] dagTermAcc = req.getParameterValues("dag_term_acc"); // parent term acc
+        String[] dagTypes = req.getParameterValues("dag_type"); // IA = 'is-a', PO = 'part-of'
 
         Ontology ontChild = odao.getOntologyFromAccId(childTermAcc);
 
@@ -467,6 +468,7 @@ public class TermEditObjectController implements Controller {
             // handle dags to be added
             for( int i=0; i<dagTermAcc.length; i++ ) {
                 String parentTermAcc = dagTermAcc[i];
+                String dagType = dagTypes[i];
 
                 // no support for cross-ontology relationships
                 Ontology ontParent = odao.getOntologyFromAccId(parentTermAcc);
@@ -483,10 +485,11 @@ public class TermEditObjectController implements Controller {
                         break;
                     }
                 }
+
                 if( dagInRgd==null ) {
-                    String relName = Relation.getRelIdFromRel(Relation.IS_A);
+                    String relName = dagType;
                     if( odao.upsertDag(parentTermAcc, childTermAcc, relName) !=0 ) {
-                        dagTabMsg += "INSERTED REL to parent "+parentTermAcc+"<br>";
+                        dagTabMsg += "INSERTED REL "+dagType+" to parent "+parentTermAcc+"<br>";
                     }
                 }
                 else {
@@ -498,6 +501,14 @@ public class TermEditObjectController implements Controller {
                         // delete the dag!
                         if( odao.deleteDag(dagInRgd)!=0 ) {
                             dagTabMsg += "DELETED REL to parent "+parentTermAcc+"<br>";
+                        }
+                    } else {
+                        // see if dag type changed
+                        String dagTypeInRgd = dagInRgd.getRelId();
+                        if( !dagTypeInRgd.equals(dagType) ) {
+                            if( odao.upsertDag(parentTermAcc, childTermAcc, dagType) ==0 ) {
+                                dagTabMsg += "UPDATED REL type to "+dagType+" for parent "+parentTermAcc+"<br>";
+                            }
                         }
                     }
                 }
