@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%
     String pageTitle = "Gene Ortholog Tool";
     String headContent = "";
@@ -42,6 +43,7 @@
     }
     String inSpecies = SpeciesType.getCommonName(inSpeciesKey);
     String outSpecies = SpeciesType.getCommonName(outSpeciesKey);
+    String inMap = MapManager.getInstance().getMap(inMapKey).getName();
 
 %>
 
@@ -52,7 +54,7 @@
     <div class="col-md-6"><button v-on:click="download()">Download</button></div>
     </div>
   </div>
-<div style=" font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Symbols Not Found:
+<div style=" font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Symbols Not Found in <%=inMap%>: <br>
            <span style="color:red;"> <%=symbolsNotFound%></span>
 </div>
      <br>
