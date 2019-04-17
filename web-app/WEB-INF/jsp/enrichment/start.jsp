@@ -142,7 +142,7 @@
 
 <br>
 <div id="app">
-<form action="/rgdweb/enrichment/analysis.html" method="POST">
+<form name="enrichment" action="/rgdweb/enrichment/analysis.html" onsubmit="return v.validate()" method="POST">
     <table border=0>
 
         <tr>
@@ -220,6 +220,7 @@
             <td ><input class="btn btn-primary btn-lg" style="background-color:#2B84C8;" type="submit" value="Continue"/></td>
         </tr>
     </table>
+    </form>
 </div>
     <script>
         v.setMap(document.getElementById("species"));
