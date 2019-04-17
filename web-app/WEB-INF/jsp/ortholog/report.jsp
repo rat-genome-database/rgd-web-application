@@ -63,46 +63,66 @@
 <%} %>
      <br>
     <table class="table table-bordered table-striped">
-    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
+    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start Pos</th><th>End Pos</th><th>Strand</th>
     <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
 <tbody>
 <%    for (Integer rgdId: genes.keySet()) {
-
-
+int insize = genes.get(rgdId).size();
+    int outsize = 0;
+    if((orthoMap.keySet().contains(rgdId))){
+        if((geneMap.keySet().contains(orthoMap.get(rgdId)))) {
+ outsize = geneMap.get(orthoMap.get(rgdId)).size(); } }
 %>
 <tr align="center">
     <td><%=rgdId%></td>
     <td><a href="/rgdweb/report/gene/main.html?id=<%=rgdId%>"><%=genes.get(rgdId).get(0).getGene().getSymbol()%></a></td>
+
+
+<% if(insize == 1) { %>
+    <td><%=genes.get(rgdId).get(0).getChromosome()%></td>
+    <td><%=genes.get(rgdId).get(0).getStart()%></td>
+    <td><%=genes.get(rgdId).get(0).getStop()%></td>
+    <td><%=genes.get(rgdId).get(0).getStrand()%></td>
+<%     } else {%>
     <td colspan="4" ><table class="table table-sm table-borderless">
 
-<%
-    for(MappedGene inputGene: genes.get(rgdId)) {%>
+        <%
+            for(MappedGene inputGene: genes.get(rgdId)) {%>
         <tr align="center">
-    <td><%=inputGene.getChromosome()%></td>
-    <td><%=inputGene.getStart()%></td>
-    <td><%=inputGene.getStop()%></td>
-    <td><%=inputGene.getStrand()%></td>
-    </tr>
-<% } %>
+            <td><%=inputGene.getChromosome()%></td>
+            <td><%=inputGene.getStart()%></td>
+            <td><%=inputGene.getStop()%></td>
+            <td><%=inputGene.getStrand()%></td>
+        </tr>
+        <% } %>
     </table>
     </td>
+<% } %>
 <% if((orthoMap.keySet().contains(rgdId))){
     if((geneMap.keySet().contains(orthoMap.get(rgdId)))){%>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%></td>
     <td><a href="/rgdweb/report/gene/main.html?id=<%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%>"><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getSymbol()%></a></td>
+        <% if(outsize == 1) { %>
+    <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getChromosome()%></td>
+    <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStart()%></td>
+    <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStop()%></td>
+    <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStrand()%></td>
+        <%     } else {%>
     <td colspan="4"><table class="table table-sm table-borderless">
-<%                for(MappedGene ortholog: geneMap.get(orthoMap.get(rgdId))) {
-%>
+        <%                for(MappedGene ortholog: geneMap.get(orthoMap.get(rgdId))) {
+        %>
 
         <tr align="center">
-                    <td><%=ortholog.getChromosome()%></td>
-                    <td><%=ortholog.getStart()%></td>
-                    <td><%=ortholog.getStop()%></td>
-                    <td><%=ortholog.getStrand()%></td>
-    </tr>
-<%             } %>
+            <td><%=ortholog.getChromosome()%></td>
+            <td><%=ortholog.getStart()%></td>
+            <td><%=ortholog.getStop()%></td>
+            <td><%=ortholog.getStrand()%></td>
+        </tr>
+        <%             } %>
     </table>
     </td>
+ <% } %>
+
 </tr>
 
 <%            }else{ %>
