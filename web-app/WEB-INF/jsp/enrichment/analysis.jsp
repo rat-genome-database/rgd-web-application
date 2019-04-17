@@ -33,18 +33,14 @@
     ObjectMapper om = (ObjectMapper) request.getAttribute("objectMapper");
 %>
 <div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">Gene List Enrichement: Result</div>
+    <div class="rgd-panel-heading">Gene List Enrichment: Result</div>
 </div>
 
 <% if (om.getMapped().size() == 0) {
     return;
-}%>
-<div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "><%=om.getMapped().size()%> Genes in set:
-
-<%
-    String firstId = null;
+}
     String species = req.getParameter("species");
-    List symbols = (List) request.getAttribute("genes");
+    List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
     Iterator symbolIt = om.getMapped().iterator();
@@ -52,21 +48,41 @@
     while (symbolIt.hasNext()) {
         Object obj = symbolIt.next();
         String symbol = "";
-        int rgdId = -1;
-        String type = "";
         if (obj instanceof Gene) {
             Gene g = (Gene) obj;
             symbol = g.getSymbol();
-            rgdId = g.getRgdId();
+            inSymbols.add(symbol);
             if(geneSymbols.size() == 0)
                 geneSymbols.add("\""+symbol+"\"");
             else
-                geneSymbols.add("\""+symbol+"\""); %>
-    <a style="color:#2865a3;" href= <%=Link.gene(g.getRgdId())%> \><u><%= g.getSymbol()%></u></a><span style="font-size:11px;">&nbsp;</span>
-<%
+                geneSymbols.add("\""+symbol+"\"");
         }
+
     }
 %>
+<div class="modal fade" id="inGenes">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Symbols Found: <%=inSymbols.size()%> <br>
+                <%=inSymbols%> <br>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="color:#2865a3; font-size:14px; font-weight:500;"><%=geneSymbols.size()%> Genes in set:
+
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
 
 
 </div>
@@ -97,7 +113,6 @@
         </section>
     </section>
 </div>
-
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
 
 <script>
