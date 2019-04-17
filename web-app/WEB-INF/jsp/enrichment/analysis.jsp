@@ -97,7 +97,6 @@
         </section>
     </section>
 </div>
-
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
 
 <script>
@@ -114,7 +113,7 @@
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-    var host = 'https://dev.rgd.mcw.edu';
+   
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;

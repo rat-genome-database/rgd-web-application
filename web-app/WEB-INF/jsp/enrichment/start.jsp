@@ -15,7 +15,7 @@
 
 
 <%
-    String pageTitle = "Gene Enrichment Tool";
+    String pageTitle = "Ontology Enrichment";
     String headContent = "";
     String pageDescription = "Generate an enrichment report for a list of genes.";
 %>
@@ -43,7 +43,7 @@
     List<Map> bonoboMaps= mdao.getMaps(SpeciesType.BONOBO, "bp");
     List<Map> dogMaps= mdao.getMaps(SpeciesType.DOG, "bp");
     List<Map> squirrelMaps= mdao.getMaps(SpeciesType.SQUIRREL, "bp");
-
+    List<Map> pigMaps= mdao.getMaps(SpeciesType.PIG, "bp");
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
     List<Chromosome> mouseChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
     List<Chromosome> humanChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.HUMAN).getKey());
@@ -53,7 +53,7 @@
     List<Chromosome> dogChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.DOG).getKey());
     //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
-
+    List<Chromosome> pigChr = new ArrayList<Chromosome>();
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
     LinkedHashMap humanKeyValues= new LinkedHashMap();
@@ -61,6 +61,7 @@
     LinkedHashMap bonoboKeyValues= new LinkedHashMap();
     LinkedHashMap dogKeyValues= new LinkedHashMap();
     LinkedHashMap squirrelKeyValues= new LinkedHashMap();
+    LinkedHashMap pigKeyValues= new LinkedHashMap();
 
     Iterator it = ratMaps.iterator();
     while (it.hasNext()) {
@@ -99,6 +100,11 @@
         Map m = (Map)it.next();
         squirrelKeyValues.put(m.getKey() + "", m.getName());
     }
+    it = pigMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        pigKeyValues.put(m.getKey() + "", m.getName());
+    }
 
 %>
 
@@ -119,18 +125,19 @@
         var dogChroms = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
         var squiMaps = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
         var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
+       var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
+       var pigChroms = '<%=fu.buildChrSelectListWithCss("chr", pigChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>
 
 <%
-    String pageHeader="Gene Enrichment Tool - Generate an enrichment report for a list of genes";
+    String pageHeader="Ontology Enrichment";
 %>
 
 <div class="rgd-panel rgd-panel-default">
     <div class="rgd-panel-heading"><%=pageHeader%></div>
 </div>
 
-    <!--<p class="heading" style="font-size:30px; color:white; font-weight:600;"></p>-->
 
 
 <br>
@@ -139,7 +146,7 @@
     <table border=0>
 
         <tr>
-            <td style=" font-size: 16px; ont-weight:600; olor: #24609c;" >Select a Species to view enrichment for all RGD ontologies</td>
+            <td style=" font-size: 16px; " >Select a Species to view enrichment for all RGD ontologies</td>
             <td >
                 <select class="form-control inputstl" name="species" id="species" onChange="v.setMap(this)">
                     <option value="3">Rat</option>
@@ -149,6 +156,7 @@
                     <option  value="5">Bonobo</option>
                     <option  value="6">Dog</option>
                     <option  value="7">Squirrel</option>
+                    <option value="9">Pig</option>
                 </select>
             </td>
         </tr>
@@ -156,7 +164,7 @@
         <tr><td>&nbsp;</td></tr>
         <tr>
 
-            <td style=" font-size: 16px; ont-weight:600; olor: #24609c;">Select an Ontology to view enrichment in all RGD species</td>
+            <td style=" font-size: 16px; ">Select an Ontology to view enrichment in all RGD species</td>
             <td>
                 <select  class="form-control inputstl" name="o" id="o">
                     <option value="RDO">Disease</option>
@@ -171,7 +179,7 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td  style=" font-size: 16px; ont-weight:600; olor: #24609c;">Enter Gene Symbols</td>
+            <td  style=" font-size: 16px; ">Enter Gene Symbols</td>
             <td>
                 <span style="font-weight:bold">Example: a2m,xiap,lepr,tnf</span><br>
                 <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
@@ -187,7 +195,7 @@
 
             <table border="0">
                 <tr><td>&nbsp;</td></tr>
-                <tr><td style="font-size: 16px; ont-weight:600; olor: #24609c;">Enter a Genomic Region</td>
+                <tr><td style="font-size: 16px; ">Enter a Genomic Region</td>
                     <td style="padding-left:120px;">
                         <table border=0 width="100%">
                             <tr>

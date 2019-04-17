@@ -11,7 +11,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             hostName: host,
             species: [speciesKey],
             ontology: [ont],
-            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla"],
+            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
@@ -82,6 +82,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     return 6;
                 else if (s == "Squirrel")
                     return 7;
+                else if (s == "Pig")
+                    return 9;
                 else
                     return 0;
             },
