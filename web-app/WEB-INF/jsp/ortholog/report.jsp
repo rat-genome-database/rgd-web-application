@@ -63,7 +63,7 @@
 <%} %>
      <br>
     <table class="table table-bordered table-striped">
-    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start Pos</th><th>End Pos</th><th>Strand</th>
+    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
     <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
 <tbody>
 <%    for (Integer rgdId: genes.keySet()) {
