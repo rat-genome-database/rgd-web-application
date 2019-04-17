@@ -11,7 +11,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             hostName: host,
             species: [speciesKey],
             ontology: [ont],
-            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla"],
+            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
@@ -28,7 +28,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         },
         methods: {
             getGenes: function (accId, species) {
-
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
                 axios
@@ -69,7 +68,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 v.selectView();
             },
             getSpeciesKey: function (s) {
-
                 if (s == "Rat")
                     return 3;
                 else if (s == "Human")
@@ -84,12 +82,12 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     return 6;
                 else if (s == "Squirrel")
                     return 7;
+                else if (s == "Pig")
+                    return 9;
                 else
                     return 0;
             },
             explore: function (genes) {
-
-
                 params = new Object();
                 var form = document.createElement("form");
                 var method = "POST";
