@@ -80,7 +80,7 @@
         </div>
     </div>
 </div>
-<div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; "><%=geneSymbols.size()%> Genes in set:
+<div style="color:#2865a3; font-size:14px; font-weight:500;"><%=geneSymbols.size()%> Genes in set:
 
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
 
