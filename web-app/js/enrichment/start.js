@@ -42,6 +42,15 @@ var v = new Vue({
                 maps.innerHTML = ratMaps;
                 chroms.innerHTML = ratChroms;
             }
+        },
+
+        validate: function () {
+
+            var x =  document.forms["enrichment"]["genes"].value;
+            if(x == "") {
+                alert("Please enter genes");
+                return false;
+            }
         }
     }
 })
