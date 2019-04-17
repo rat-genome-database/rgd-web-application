@@ -2,12 +2,10 @@ package edu.mcw.rgd.ortholog;
 
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.OrthologDAO;
-import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Ortholog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -105,9 +103,11 @@ public class OrthologController implements Controller {
 
         for (Integer rgdId: geneMap.keySet()) {
             symbolsFound.add(geneMap.get(rgdId).get(0).getGene().getSymbol().toLowerCase());
+            for (MappedGene inputGene : geneMap.get(rgdId)) {
+
             if ((orthologMap.keySet().contains(rgdId))) {
                 if ((mappedGeneMap.keySet().contains(orthologMap.get(rgdId)))) {
-                    for (MappedGene inputGene : geneMap.get(rgdId)) {
+
                         for (MappedGene ortholog : mappedGeneMap.get(orthologMap.get(rgdId))) {
 
                             rec = new edu.mcw.rgd.reporting.Record();
@@ -125,7 +125,29 @@ public class OrthologController implements Controller {
                             rec.append(ortholog.getStrand());
                             report.append(rec);
                         }
-                    }
+                    }else {
+                    rec = new edu.mcw.rgd.reporting.Record();
+                    rec.append(String.valueOf(rgdId));
+                    rec.append(inputGene.getGene().getSymbol());
+                    rec.append(inputGene.getChromosome());
+                    rec.append(String.valueOf(inputGene.getStart()));
+                    rec.append(String.valueOf(inputGene.getStop()));
+                    rec.append(inputGene.getStrand());
+                    rec.append(String.valueOf(orthologMap.get(rgdId)));
+                    rec.append(gdao.getGene(orthologMap.get(rgdId)).getSymbol());
+                    rec.append("No Position found for this gene");
+                    report.append(rec);
+                }
+                } else {
+                    rec = new edu.mcw.rgd.reporting.Record();
+                    rec.append(String.valueOf(rgdId));
+                    rec.append(inputGene.getGene().getSymbol());
+                    rec.append(inputGene.getChromosome());
+                    rec.append(String.valueOf(inputGene.getStart()));
+                    rec.append(String.valueOf(inputGene.getStop()));
+                    rec.append(inputGene.getStrand());
+                    rec.append("No ortholog found for this gene");
+                    report.append(rec);
                 }
             }
         }

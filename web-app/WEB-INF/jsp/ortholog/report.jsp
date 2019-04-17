@@ -84,7 +84,7 @@ int insize = genes.get(rgdId).size();
     <td><%=genes.get(rgdId).get(0).getStop()%></td>
     <td><%=genes.get(rgdId).get(0).getStrand()%></td>
 <%     } else {%>
-    <td colspan="4" ><table class="table table-sm table-borderless">
+    <td colspan="4" >
 
         <%
             for(MappedGene inputGene: genes.get(rgdId)) {%>
@@ -108,7 +108,7 @@ int insize = genes.get(rgdId).size();
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStop()%></td>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStrand()%></td>
         <%     } else {%>
-    <td colspan="4"><table class="table table-sm table-borderless">
+    <td colspan="4"><table >
         <%                for(MappedGene ortholog: geneMap.get(orthoMap.get(rgdId))) {
         %>
 
