@@ -42,6 +42,7 @@
     Map<String,String> dagTypes = new HashMap<>();
     dagTypes.put("IA", "is-a");
     dagTypes.put("PO", "part-of");
+    dagTypes.put("HC", "has-component");
 %>
 <% if( isNewCustomTerm ) { %>
 <h1>New Custom Term:</h1>
