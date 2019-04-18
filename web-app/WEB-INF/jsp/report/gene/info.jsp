@@ -15,6 +15,20 @@
         <td><%=description==null ? "" : description%></td>
     </tr>
 
+    <% if( obj.getAgrDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">AGR Description:</td>
+        <td><%=obj.getAgrDescription()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getMergedDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">Merged Description:</td>
+        <td><%=obj.getMergedDescription()%></td>
+    </tr>
+     <% } %>
+
     <tr>
         <td class="label" valign="top">Type:</td>
         <td><%=obj.getType()%>
@@ -197,14 +211,26 @@
     </tr>
     <tr>
         <td class="label">Model</td>
-        <td><div style="width:750px; align:left;">
-            <iframe id="jbrowseMini" style="border: 1px solid black" width="660"></iframe>
-        </div></td>
+        <td>
+            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
+
+        </td>
     </tr>
     <script>
+
+        function scrollFrame() {
+            document.getElementById('jbrowseMini').contentWindow.scrollTo(0,0);
+        }
+
+        setTimeout(scrollFrame,5000);
+
+
+
         $(document).ready(function() {
             document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
         });
+
+
     </script>
     <% } %>
 </table>
