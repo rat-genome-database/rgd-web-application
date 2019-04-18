@@ -93,10 +93,10 @@
 
 <style>
     a {
-        color:#2865A3;
+        color:#0C1D2E;
         olor:#073C66;
         text-decoration:underline;
-        font-weight:700;
+        ont-weight:700;
     }
 </style>
 
