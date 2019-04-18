@@ -93,7 +93,10 @@
 
 <style>
     a {
-        color:#0000EE;
+        color:#2865A3;
+        olor:#073C66;
+        text-decoration:underline;
+        font-weight:700;
     }
 </style>
 
@@ -124,10 +127,10 @@
                             </td>
 
                             <td align="right" style="color:white;" valign="center" colspan="3">
-
-                            <a href="/tu">Help</a>&nbsp;|&nbsp;
+                                <a href="/registration-entry.shtml">Submit Data</a>&nbsp;|&nbsp;
+                            <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
                             <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
-                            <a href="/wg/com-menu/poster_archive/">News</a>&nbsp;|&nbsp;
+                            <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
                             <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
 
                             <a href="ftp://ftp.rgd.mcw.edu/pub">FTP Download</a>&nbsp;|&nbsp;
