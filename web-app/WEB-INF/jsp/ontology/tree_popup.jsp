@@ -3,11 +3,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
 <!DOCTYPE html>
-<head>
-    <link href="/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" >
-    <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
-</head>
-<body>
+<link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
 <%
 
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
@@ -51,5 +47,3 @@
                  opener_sel_term="<%=selTerm%>"
                  filter="<%=request.getParameter(\"filter\")%>"
         />
-</body>
-</html>
