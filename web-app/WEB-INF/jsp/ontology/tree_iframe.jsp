@@ -13,12 +13,7 @@
 <%@ page import="java.util.regex.Matcher" %>
 
 <%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
-<!DOCTYPE html>
-<head>
-    <link href="/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" >
     <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
-</head>
-<body>
 <%
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
     // for browsing
@@ -137,5 +132,3 @@
   }
 %>
 
-</body>
-</html>
