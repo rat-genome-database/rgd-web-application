@@ -131,7 +131,7 @@
 <script src="/rgdweb/js/enrichment/start.js"></script>
 
 <%
-    String pageHeader="MOET - Multi Ontology Enrichment tool";
+    String pageHeader="MOET - Multi Ontology Enrichment Tool";
 %>
 
 <div class="rgd-panel rgd-panel-default">
