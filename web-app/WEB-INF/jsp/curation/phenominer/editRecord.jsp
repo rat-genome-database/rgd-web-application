@@ -658,9 +658,9 @@ $("#sAccId").result(function(data, value){
     if( !indRecs.isEmpty() ) { %>
         <h3>Individual Records</h3>
         <table border>
-            <tr><th>ID</th><th>Animal ID</th><th>Value</th></tr>
+            <tr><th>Animal ID</th><th>Value</th></tr>
         <% for( IndividualRecord ir: indRecs ) { %>
-            <tr><td><%=ir.getId()%></td><td><%=ir.getAnimalId()%></td><td><%=ir.getMeasurementValue()%></td></tr>
+            <tr><td><%=ir.getAnimalId()%></td><td><%=ir.getMeasurementValue()%></td></tr>
         <% } %>
         </table>
 <% }} %>
