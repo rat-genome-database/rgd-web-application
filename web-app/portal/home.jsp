@@ -411,7 +411,6 @@
                         //var genes = ["lepr","a2m","xiap"];
                         var genes=Object.keys($scope.portalGenes);
                         var graph=3;
-                        alert(genes);
                         var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
 
                     }else if (objectKey==6) {
