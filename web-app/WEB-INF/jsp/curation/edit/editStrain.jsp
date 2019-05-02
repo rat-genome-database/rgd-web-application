@@ -120,7 +120,7 @@
         </tr>
         <tr>
             <td class="label">Background Strain Rgd ID:</td>
-            <td><input type="text" name="backgroundStrainRgdId" id="backgroundStrainRgdId" size="90" value="<%=dm.out("backgroundStrainRgdId",strain.getBackgroundStrainRgdId())%>" />&nbsp;<a href="javascript:lookup_render('backgroundStrainRgdId', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
+            <td><input type="text" name="backgroundStrainRgdId" id="backgroundStrainRgdId" size="50" value="<%=dm.out("backgroundStrainRgdId",strain.getBackgroundStrainRgdId())%>" />&nbsp;<a href="javascript:lookup_render('backgroundStrainRgdId', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
         </tr>
         <% if(request.getAttribute("submittedBackgroundStrain")!=null && !(request.getAttribute("submittedBackgroundStrain").equals(""))){
             if(!request.getAttribute("submittedBackgroundStrain").equals("null")){%>
@@ -169,7 +169,7 @@
         </tr>
         <tr>
             <td class="label">Source:</td>
-            <td><textarea cols="45" rows="5" name="source"><%=dm.out("source",strain.getSource())%></textarea></td>
+            <td><textarea cols="90" rows="5" name="source"><%=dm.out("source",strain.getSource())%></textarea></td>
         </tr>
         <tr>
             <td class="label">Image URL:</td>
