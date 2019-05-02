@@ -88,19 +88,19 @@
         <% } %>
         <tr>
             <td class="label">Symbol:</td>
-            <td><input type="text" name="symbol" size="45" value="<%=dm.out("symbol",symbol)%>" />&nbsp;<a href="javascript:lookup_render('', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
+            <td><input type="text" name="symbol" size="90" value="<%=dm.out("symbol",symbol)%>" />&nbsp;<a href="javascript:lookup_render('', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
         </tr>
         <tr>
             <td class="label">Name:</td>
-            <td><input type="text" name="name" size="45" value="<%=dm.out("name",strain.getName())%>" /> </td>
+            <td><input type="text" name="name" size="90" value="<%=dm.out("name",strain.getName())%>" /> </td>
         </tr>
         <tr>
             <td class="label">Strain:</td>
-            <td><input type="text" name="strain" size="45" value="<%=dm.out("strain",strain.getStrain())%>" /></td>
+            <td><input type="text" name="strain" size="90" value="<%=dm.out("strain",strain.getStrain())%>" /></td>
         </tr>
         <tr>
             <td class="label">Substrain:</td>
-            <td><input type="text" name="subStrain" size="45" value="<%=dm.out("subStrain",strain.getSubstrain())%>" /></td>
+            <td><input type="text" name="subStrain" size="90" value="<%=dm.out("subStrain",strain.getSubstrain())%>" /></td>
         </tr>
         <tr>
             <td class="label">Type:</td>
@@ -108,7 +108,7 @@
         </tr>
         <tr>
             <td class="label">Genetics:</td>
-            <td><input type="text" name="genetics" size="45" value="<%=dm.out("genetics",strain.getGenetics())%>" /></td>
+            <td><input type="text" name="genetics" size="90" value="<%=dm.out("genetics",strain.getGenetics())%>" /></td>
         </tr>
         <tr>
             <td class="label">Genetic Status:</td>
@@ -116,11 +116,11 @@
         </tr>
         <tr>
             <td class="label">Inbred Generation:</td>
-            <td><input type="text" name="inbredGen" size="45" value="<%=dm.out("inbredGen",strain.getInbredGen())%>" /></td>
+            <td><input type="text" name="inbredGen" size="90" value="<%=dm.out("inbredGen",strain.getInbredGen())%>" /></td>
         </tr>
         <tr>
             <td class="label">Background Strain Rgd ID:</td>
-            <td><input type="text" name="backgroundStrainRgdId" id="backgroundStrainRgdId" size="45" value="<%=dm.out("backgroundStrainRgdId",strain.getBackgroundStrainRgdId())%>" />&nbsp;<a href="javascript:lookup_render('backgroundStrainRgdId', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
+            <td><input type="text" name="backgroundStrainRgdId" id="backgroundStrainRgdId" size="90" value="<%=dm.out("backgroundStrainRgdId",strain.getBackgroundStrainRgdId())%>" />&nbsp;<a href="javascript:lookup_render('backgroundStrainRgdId', 3,'STRAINS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
         </tr>
         <% if(request.getAttribute("submittedBackgroundStrain")!=null && !(request.getAttribute("submittedBackgroundStrain").equals(""))){
             if(!request.getAttribute("submittedBackgroundStrain").equals("null")){%>
@@ -156,16 +156,16 @@
         </tr>
         <tr>
             <td class="label">Origin:</td>
-            <td><textarea rows="4" name="origin" cols="45" ><%=dm.out("origin",strain.getOrigin())%></textarea></td>
+            <td><textarea rows="4" name="origin" cols="90" ><%=dm.out("origin",strain.getOrigin())%></textarea></td>
         </tr>
 
         <tr>
             <td class="label">Color:</td>
-            <td><textarea rows="4" name="color" cols="45" ><%=dm.out("color",strain.getColor())%></textarea></td>
+            <td><textarea rows="4" name="color" cols="90" ><%=dm.out("color",strain.getColor())%></textarea></td>
         </tr>
         <tr>
             <td class="label">Chr Altered:</td>
-            <td><input type="text" name="chrAltered" size="45" value="<%=dm.out("chrAltered",strain.getChrAltered())%>" /></td>
+            <td><input type="text" name="chrAltered" size="90" value="<%=dm.out("chrAltered",strain.getChrAltered())%>" /></td>
         </tr>
         <tr>
             <td class="label">Source:</td>
@@ -176,7 +176,7 @@
             <% if(strain.getImageUrl()!=null){ %>
             <td><a href="/rgdweb/curation/edit/imageDisplay.html?image=<%=strain.getImageUrl()%>" target="_blank"><%=strain.getImageUrl()%></a></td>
             <%}else{%>
-            <td><input type="text" name="imageUrl" size="50" value="<%=dm.out("imageUrl",strain.getImageUrl())%>" /></td>
+            <td><input type="text" name="imageUrl" size="90" value="<%=dm.out("imageUrl",strain.getImageUrl())%>" /></td>
 
           <%  }%>
         </tr>
@@ -210,11 +210,11 @@
 
         <tr>
             <td class="label">Research Use:</td>
-            <td><input type="text" name="researchUse" size="50" value="<%=dm.out("researchUse",strain.getResearchUse())%>" /></td>
+            <td><input type="text" name="researchUse" size="90" value="<%=dm.out("researchUse",strain.getResearchUse())%>" /></td>
         </tr>
         <tr>
             <td class="label">Notes:</td>
-            <td><textarea rows="6" name="notes" cols="45" ><%=dm.out("notes",strain.getNotes())%></textarea></td>
+            <td><textarea rows="6" name="notes" cols="90" ><%=dm.out("notes",strain.getNotes())%></textarea></td>
         </tr>
         <tr>
             <td colspan="2" align="center">
