@@ -253,6 +253,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     }
                 };
                 Plotly.newPlot(name, data, layout);
+                alert(this.pairs[0]);
             },
             loadPairs: function (view) {
 
@@ -260,6 +261,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
                             if (this.selected == view) {
+                                alert(this.info[i].value);
                                 return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
@@ -278,7 +280,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 alert("Load genes " + view);
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
-                        alert(this.info[i].genes);
                         return this.info[i].genes;
                     }
                 }
@@ -307,6 +308,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         computed: {
             pairs: function () {
                 var v = this;
+                alert(this.ontology);
                 return this.ontology.map(function (ont) {
                     return {
                         ont: ont,
