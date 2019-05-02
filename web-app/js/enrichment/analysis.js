@@ -107,7 +107,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-                
+
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -255,7 +255,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 Plotly.newPlot(name, data, layout);
             },
             loadPairs: function (view) {
-                alert("Load pairs " + view);
+
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
@@ -278,6 +278,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 alert("Load genes " + view);
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
+                        alert(this.info[i].genes);
                         return this.info[i].genes;
                     }
                 }
