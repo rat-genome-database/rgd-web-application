@@ -149,7 +149,7 @@
         idth:180px;
         eight:100px;
         ont-size:24px;
-        border: 0px solid #8E0026;
+        border: 2px solid #8E0026;
     }
 
     .diseasePortalListBox {
@@ -388,7 +388,7 @@
                 }
 
                 var host = window.location.host;
-
+                //var host="dev.rgd.mcw.edu";
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
                 $scope.urlString = "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
@@ -404,13 +404,14 @@
                         //alert($scope.portalGenes);
 
 
-                        //var host='http://dev.rgd.mcw.edu:8080';
-                        var host='https://dev.rgd.mcw.edu';
+                        var host='http://dev.rgd.mcw.edu:8080';
+                        //var host='https://dev.rgd.mcw.edu';
                         var speciesKey = $scope.speciesTypeKey;
                         var ont = 'RDO';
                         //var genes = ["lepr","a2m","xiap"];
                         var genes=Object.keys($scope.portalGenes);
                         var graph=3;
+                        alert(genes);
                         var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
 
                     }else if (objectKey==6) {
@@ -438,13 +439,17 @@
 
 <div id="portalController" ng-controller="portalController as portal">
 
+    <div class="rgd-panel rgd-panel-default">
 
-    <table width="100%" align="center" style="ackground-color:#D6E5FF; margin:10px;">
+        <div class="rgd-panel-heading">
+        <table width="100%" align="center" margin:10px;">
         <tr>
-            <td><div style='font-size:40px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
+            <td><div style='font-size:32px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
             <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
         </tr>
-    </table>
+        </table>
+            </div>
+    </div>
 
 
     <div style="margin-left:20px; font-size:14px; color:#24609C">Select a disease category</div>
@@ -478,10 +483,11 @@
 
     <div style="margin-left:20px; font-size:14px; color:#24609C">Select a species</div>
 
-<table align="center" border="0">
+<table align="center" border="0" cellpadding="2" cellspacing="0">
     <tr>
-        <td >
-            <table border="0" id="speciesButton3" class="speciesButton" ng-click="portal.updateSpecies(3,'<%=MapManager.getInstance().getReferenceAssembly(3).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(3)%> (<%=SpeciesType.getCommonName(3)%>)')">
+        <td>
+            <div border="0" id="speciesButton3" class="speciesButton" ng-click="portal.updateSpecies(3,'<%=MapManager.getInstance().getReferenceAssembly(3).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(3)%> (<%=SpeciesType.getCommonName(3)%>)')">
+            <table>
                 <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/ratS.png"></td>
                 </tr>
@@ -507,10 +513,12 @@
                     </td>
                 </tr>
             </table>
+            </div>
         </td>
 
         <td >
-            <table border="0"  id="speciesButton2" class="speciesButton" ng-click="portal.updateSpecies(2,'<%=MapManager.getInstance().getReferenceAssembly(2).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(2)%> (<%=SpeciesType.getCommonName(2)%>)')" >
+            <div border="0"  id="speciesButton2" class="speciesButton" ng-click="portal.updateSpecies(2,'<%=MapManager.getInstance().getReferenceAssembly(2).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(2)%> (<%=SpeciesType.getCommonName(2)%>)')" >
+            <table>
                 <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/mouseS.jpg"></td>
                 </tr>
@@ -533,9 +541,11 @@
                     <td></td>
                 </tr>
             </table>
+            </div>
         </td>
         <td>
-            <table border="0" id="speciesButton1"  class="speciesButton" ng-click="portal.updateSpecies(1,'<%=MapManager.getInstance().getReferenceAssembly(1).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(1)%> (<%=SpeciesType.getCommonName(1)%>)')">
+            <div border="0" id="speciesButton1" class="speciesButton" ng-click="portal.updateSpecies(1,'<%=MapManager.getInstance().getReferenceAssembly(1).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(1)%> (<%=SpeciesType.getCommonName(1)%>)')">
+              <table>
                 <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/humanS.jpg"></td>
                 </tr>
@@ -557,11 +567,13 @@
                         </table>
                     <td></td>
                 </tr>
-            </table>
+                  </table>
+            </div>
         </td>
         <td>
-            <table border="0" id="speciesButton4"  class="speciesButton" ng-click="portal.updateSpecies(4,'<%=MapManager.getInstance().getReferenceAssembly(4).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(4)%> (<%=SpeciesType.getCommonName(4)%>)')">
-                <tr>
+            <div border="0" id="speciesButton4" class="speciesButton" ng-click="portal.updateSpecies(4,'<%=MapManager.getInstance().getReferenceAssembly(4).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(4)%> (<%=SpeciesType.getCommonName(4)%>)')">
+             <table>
+                 <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/chinchillaS.jpg"></td>
                 </tr>
                 <tr>
@@ -582,10 +594,12 @@
                         </table>
                     <td></td>
                 </tr>
-            </table>
+                 </table>
+            </div>
         </td>
         <td>
-            <table border="0" id="speciesButton5"  class="speciesButton" ng-click="portal.updateSpecies(5,'<%=MapManager.getInstance().getReferenceAssembly(5).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(5)%> (<%=SpeciesType.getCommonName(5)%>)')">
+            <div border="0" id="speciesButton5" class="speciesButton"  ng-click="portal.updateSpecies(5,'<%=MapManager.getInstance().getReferenceAssembly(5).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(5)%> (<%=SpeciesType.getCommonName(5)%>)')">
+               <table>
                 <tr>
                     <td  height="150" valign="bottom"><img src="/rgdweb/common/images/species/bonoboS.jpg?"></td>
                 </tr>
@@ -607,11 +621,14 @@
                         </table>
                     <td></td>
                 </tr>
-            </table>
+                   </table>
+            </div>
         </td>
         <td>
-            <table border="0" id="speciesButton6"  class="speciesButton" ng-click="portal.updateSpecies(6,'<%=MapManager.getInstance().getReferenceAssembly(6).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(6)%> (<%=SpeciesType.getCommonName(6)%>)')">
-                <tr>
+
+            <div border="0" id="speciesButton6" class="speciesButton" ng-click="portal.updateSpecies(6,'<%=MapManager.getInstance().getReferenceAssembly(6).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(6)%> (<%=SpeciesType.getCommonName(6)%>)')">
+            <table>
+            <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/dogS.jpg"></td>
                 </tr>
                 <tr>
@@ -632,11 +649,14 @@
                         </table>
                     <td></td>
                 </tr>
-            </table>
+                </table>
+            </div>
         </td>
         <td>
-            <table border="0" id="speciesButton7"  class="speciesButton" ng-click="portal.updateSpecies(7,'<%=MapManager.getInstance().getReferenceAssembly(7).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(7)%> (<%=SpeciesType.getCommonName(7)%>)')">
-                <tr>
+
+            <div border="0" id="speciesButton7" class="speciesButton" ng-click="portal.updateSpecies(7,'<%=MapManager.getInstance().getReferenceAssembly(7).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(7)%> (<%=SpeciesType.getCommonName(7)%>)')">
+            <table>
+            <tr>
                     <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/squirrelS.jpg?3"></td>
                 </tr>
                 <tr>
@@ -657,9 +677,10 @@
                         </table>
                     <td></td>
                 </tr>
-            </table>
-        </td>
+                </table>
+            </div>
 
+        </td>
 
     </tr>
 </table>
@@ -747,6 +768,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 
 
