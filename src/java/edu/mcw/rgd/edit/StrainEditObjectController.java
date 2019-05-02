@@ -200,9 +200,6 @@ public class StrainEditObjectController extends EditObjectController {
 
                  updateStrainStatus(st, req);
              }
-
-
-             this.addNomenEvents(nomenEvents);             
          }
 
         return st;
