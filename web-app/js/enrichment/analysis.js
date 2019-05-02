@@ -107,7 +107,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-                alert("Load " + view);
+                
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -122,6 +122,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
+
                         if (response.data.length != 0 && (this.graph!=2))
                         { v.loadChart(response.data.enrichment, aspect, 0.05);}
 
