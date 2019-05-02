@@ -388,7 +388,7 @@
                 }
 
                 var host = window.location.host;
-
+                //var host="dev.rgd.mcw.edu";
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
                 $scope.urlString = "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
@@ -404,13 +404,14 @@
                         //alert($scope.portalGenes);
 
 
-                        //var host='http://dev.rgd.mcw.edu:8080';
-                        var host='https://dev.rgd.mcw.edu';
+                        var host='http://dev.rgd.mcw.edu:8080';
+                        //var host='https://dev.rgd.mcw.edu';
                         var speciesKey = $scope.speciesTypeKey;
                         var ont = 'RDO';
                         //var genes = ["lepr","a2m","xiap"];
                         var genes=Object.keys($scope.portalGenes);
                         var graph=3;
+                        alert(genes);
                         var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
 
                     }else if (objectKey==6) {
@@ -747,6 +748,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 
 
