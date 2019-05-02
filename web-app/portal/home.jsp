@@ -406,7 +406,7 @@
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
 
-                        //alert($scope.portalGenes);
+                        alert($scope.portalGenes);
 
 
                         //var host='https://dev.rgd.mcw.edu:8080';

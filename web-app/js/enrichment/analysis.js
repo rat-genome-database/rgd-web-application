@@ -107,6 +107,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
+
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -121,6 +122,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
+
                         if (response.data.length != 0 && (this.graph!=2))
                         { v.loadChart(response.data.enrichment, aspect, 0.05);}
 
@@ -133,6 +135,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             dataLoadSpecies: function (aspect, s) {
+                alert("Load species " + view);
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -250,6 +253,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     }
                 };
                 Plotly.newPlot(name, data, layout);
+                alert(this.pairs[0]);
             },
             loadPairs: function (view) {
 
@@ -257,6 +261,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
                             if (this.selected == view) {
+                                alert(this.info[i].value);
                                 return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
@@ -272,6 +277,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             loadGenes: function(view){
+                alert("Load genes " + view);
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         return this.info[i].genes;
@@ -302,6 +308,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         computed: {
             pairs: function () {
                 var v = this;
+                alert(this.ontology);
                 return this.ontology.map(function (ont) {
                     return {
                         ont: ont,
