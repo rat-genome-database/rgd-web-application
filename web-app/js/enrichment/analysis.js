@@ -1,7 +1,7 @@
 function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
     var div = '#'+divId;
-alert(graph);
+
     var v = new Vue({
         el: div,
         data: {
@@ -107,6 +107,7 @@ alert(graph);
                 form.submit();
             },
             dataLoad: function (aspect, s) {
+                alert("Load " + view);
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -133,6 +134,7 @@ alert(graph);
 
             },
             dataLoadSpecies: function (aspect, s) {
+                alert("Load species " + view);
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -252,7 +254,7 @@ alert(graph);
                 Plotly.newPlot(name, data, layout);
             },
             loadPairs: function (view) {
-
+                alert("Load pairs " + view);
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
@@ -272,6 +274,7 @@ alert(graph);
 
             },
             loadGenes: function(view){
+                alert("Load genes " + view);
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         return this.info[i].genes;
