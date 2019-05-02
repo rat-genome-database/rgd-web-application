@@ -1,7 +1,7 @@
 function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
     var div = '#'+divId;
-
+alert(graph);
     var v = new Vue({
         el: div,
         data: {
