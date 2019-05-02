@@ -208,6 +208,7 @@
 
 
             ctrl.updateCounts = function (ontId, filter) {
+                $scope.ontologyId = ontId;
                 $http({
                     method: 'GET',
                     url: $scope.wsHost + "/rgdws/stats/term/" + ontId + "/" + filter,
@@ -330,6 +331,10 @@
             }
 
             ctrl.download = function() {
+
+
+
+
 
                 alert("need to implement");
                 /*
@@ -712,7 +717,7 @@
 <table align="center" border="0">
     <tr>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img height=33 width=35 ng-click="portal.download('geneList',1)" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.toolSubmit('excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
@@ -798,20 +803,12 @@
     </table>
     <table width="100%">
         <tr>
-            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{rootTermAcc}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
+            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
         </tr>
     </table>
 
 </div>
 
-
-
-
-<!--
-<iframe style="border:0px solid black;" id="gviewerWindow" align="center" src="gviewer.jsp" height="400" width="100%">
-
-</iframe>
--->
 
 <% } catch (Exception e) {
     e.printStackTrace();
