@@ -253,8 +253,8 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 };
                 Plotly.newPlot(name, data, layout);
                 alert(this.pairs[0].ont);
-                alert(this.pairs[0].info);
-                alert(this.pairs[0].genes);
+                alert(this.pairs[0].info[0]);
+                alert(this.pairs[0].genes[0]);
             },
             loadPairs: function (view) {
 
