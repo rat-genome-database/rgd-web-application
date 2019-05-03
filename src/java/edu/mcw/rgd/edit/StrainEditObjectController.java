@@ -1,6 +1,5 @@
 package edu.mcw.rgd.edit;
 
-import edu.mcw.rgd.dao.impl.SubmittedStrainAvailablityDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.StrainDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
@@ -11,25 +10,19 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: jdepons
- * Date: Jun 2, 2008
- * Time: 8:59:47 AM
+ * @author jdepons
+ * @since Jun 2, 2008
  */
 public class StrainEditObjectController extends EditObjectController {
 
     StrainDAO dao = new StrainDAO();
     RGDManagementDAO rdao = new RGDManagementDAO();
     SubmittedStrainDao sdao= new SubmittedStrainDao();
-    SubmittedStrainAvailablityDAO adao= new SubmittedStrainAvailablityDAO();
     private SubmittedStrain submittedStrain= new SubmittedStrain();
 
     public SubmittedStrain getSubmittedStrain() {
@@ -43,6 +36,7 @@ public class StrainEditObjectController extends EditObjectController {
     public String getViewUrl() throws Exception {
        return "editStrain.jsp";
     }
+
     public int getObjectTypeKey() {
         return RgdId.OBJECT_KEY_STRAINS;
     }
@@ -50,8 +44,8 @@ public class StrainEditObjectController extends EditObjectController {
     public Object getObject(int rgdId) throws Exception{
         return new StrainDAO().getStrain(rgdId);
     }
+
     public Object getSubmittedObject(int submissionKey) throws Exception {
-        SubmittedStrainDao sdao= new SubmittedStrainDao();
         SubmittedStrain s= sdao.getSubmittedStrainBySubmissionKey(submissionKey);
         this.setSubmittedStrain(s);
 
@@ -122,24 +116,9 @@ public class StrainEditObjectController extends EditObjectController {
              }
 
             if (!isNew) {
-                 if ( !Utils.stringsAreEqual(st.getSymbol(), symbol) ) {
+                 if( !Utils.stringsAreEqual(st.getSymbol(), symbol) || !Utils.stringsAreEqual(st.getName(), name) ) {
                      NomenclatureEvent ne = new NomenclatureEvent();
-                     ne.setDesc("Symbol updated");
-                     ne.setEventDate(new Date());
-                     ne.setName(name);
-                     ne.setSymbol(symbol);
-                     ne.setNomenStatusType("APPROVED");
-                     ne.setOriginalRGDId(st.getRgdId());
-                     ne.setPreviousName(st.getName());
-                     ne.setPreviousSymbol(st.getSymbol());
-                     ne.setRefKey("627");
-                     ne.setRgdId(rgdId);
-                     nomenEvents.add(ne);
-                 }
-
-                 if( !Utils.stringsAreEqual(st.getName(), name) ) {
-                     NomenclatureEvent ne = new NomenclatureEvent();
-                     ne.setDesc("Name updated");
+                     ne.setDesc("Symbol and/or name change");
                      ne.setEventDate(new Date());
                      ne.setName(name);
                      ne.setSymbol(symbol);
@@ -168,7 +147,7 @@ public class StrainEditObjectController extends EditObjectController {
              if(newImageUrl!=null){
                  st.setImageUrl(newImageUrl);
              }else{
-             st.setImageUrl(req.getParameter("imageUrl"));
+                st.setImageUrl(req.getParameter("imageUrl"));
              }
 
              st.setResearchUse(req.getParameter("researchUse"));

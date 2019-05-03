@@ -161,8 +161,10 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             getOntologyTitle: function (aspect) {
-                if (aspect == "RDO")
-                    return "Disease Ontology";
+
+                if (aspect == "RDO"){
+                    alert("In Ont title");
+                    return "Disease Ontology"; }
                 else if (aspect == "PW")
                     return "Pathway Ontology";
                 else if (aspect == "BP")
@@ -306,6 +308,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             pairs: function () {
                 var v = this;
                 return this.ontology.map(function (ont) {
+
                     return {
                         ont: ont,
                         info: v.loadPairs(ont),
