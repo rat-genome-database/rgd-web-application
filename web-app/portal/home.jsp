@@ -179,7 +179,7 @@
 
             var ctrl = this;
 
-            $scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.wsHost = "http://localhost:8080"
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
 
@@ -330,13 +330,17 @@
 
             }
 
-            ctrl.download = function() {
 
+            ctrl.downloadGenes = function() {
+                location.href="downloadGenes.jsp";
+            }
+            ctrl.downloadQTL = function() {
+                location.href="downloadQTL.jsp";
 
+            }
+            ctrl.downloadStrains = function() {
+                location.href="downloadStrains.jsp";
 
-
-
-                alert("need to implement");
                 /*
                 var data, filename, link;
                 var csv = convertArrayOfObjectsToCSV({
@@ -392,31 +396,31 @@
 
                 }
 
-                var host = window.location.host;
-                //var host="dev.rgd.mcw.edu";
+//                var host = window.location.host;
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
-                $scope.urlString = "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
+                $scope.urlString = $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
                 $http({
                     method: 'GET',
-                    url: "https://" + host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    url: $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
 
-                        alert($scope.portalGenes);
-
-
                         //var host='https://dev.rgd.mcw.edu:8080';
-                        var host='https://dev.rgd.mcw.edu';
-                        var speciesKey = $scope.speciesTypeKey;
-                        var ont = 'RDO';
-                        //var genes = ["lepr","a2m","xiap"];
-                        var genes=Object.keys($scope.portalGenes);
-                        var graph=3;
-                        var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+                        //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+                        enrichment.hostName=$scope.wsHost;
+                        enrichment.species=$scope.speciesTypeKey;
+                        enrichment.ont='RDO';
+                        enrichment.graph=true;
+                        enrichment.genes=Object.keys($scope.portalGenes);
+                        enrichment.table=true;
+
+
+                        enrichment.selectView();
+
 
                     }else if (objectKey==6) {
                         $scope.portalQTLs=response.data;
@@ -717,7 +721,7 @@
 <table align="center" border="0">
     <tr>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.toolSubmit('excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
@@ -726,7 +730,7 @@
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b> {{ portalQTLsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('qtlList',portal.speciesTypeKey,portal.mapKey,6,0,'excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b> {{ portalQTLsLen }}</td><td align="right"><img style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadQTL()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalQTL in portalQTLs" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
                     <a class="qtlList" href="/rgdweb/report/qtl/main.html?id={{portalQTL.rgdId}}">{{portalQTL.symbol}}</a><br />
@@ -735,7 +739,7 @@
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b> {{ portalStrainsLen }}</td><td align="right"><img height=33 width=35 ng-click="rgd.showTools('strainList',rgd.speciesTypeKey,rgd.mapKey,5,0,'excel')" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b> {{ portalStrainsLen }}</td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadStrains()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox" style="width:500px;">
                 <div ng-repeat="portalStrain in portalStrains" style="margin-top:3px; padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
                     <a class="strainList" href="/rgdweb/report/strain/main.html?id={{portalStrain.rgdId}}">{{portalStrain.symbol}}</a><br />
@@ -743,17 +747,7 @@
 
             </div>
         </td>
-       <!--
-        <td>
-            <div class="diseasePortalListBoxTitle">Variants</div>
-            <div class="diseasePortalListBox">
-                <div ng-repeat="portalVariant in portalVariants">
-                    {{portalVariant.symbol}}<br />
-                </div>
 
-            </div>
-        </td>
-        -->
     </tr>
 </table>
 <br>
@@ -769,41 +763,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 
-
-
     <div id="enrichment" >
+
         <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
         <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
     </div>
     <script src="/rgdweb/js/enrichment/analysis.js?fff"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
     <script>
-/*
-        var host='http://dev.rgd.mcw.edu:8080';
-        var speciesKey = 3;
-        var ont = 'RDO';
-        var genes = ["lepr","a2m","xiap"];
-        var graph=3;
-        var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
-*/
+        var enrichment = EnrichmentVue('enrichment',3,'RDO',[],1,"loading");
+
     </script>
 
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <br>
-    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+    <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
         <tr>
             <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Disease Navigator</div></td>
         </tr>
     </table>
-    <table width="100%">
+    <table >
         <tr>
-            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
+            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
         </tr>
     </table>
 
