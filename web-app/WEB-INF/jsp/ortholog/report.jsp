@@ -23,15 +23,15 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <%
-    Map<Integer, List<MappedGene>> genes = (Map<Integer, List<MappedGene>>) request.getAttribute("geneMap");
-    Map<Integer, Integer> orthoMap = (Map<Integer, Integer>)request.getAttribute("orthologMap");
-    Map<Integer, List<MappedGene>> geneMap = (Map<Integer, List<MappedGene>>)request.getAttribute("mappedGenes");
+
     int inSpeciesKey = Integer.parseInt(request.getParameter("inSpecies"));
     int outSpeciesKey = Integer.parseInt(request.getParameter("outSpecies"));
     int inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
     int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
     List<String> symbolsNotFound = (List)request.getAttribute("notFound");
+
+
     Iterator symbolIt = geneSymbols.iterator();
     List symbols = new ArrayList<>();
     while (symbolIt.hasNext()) {
@@ -46,7 +46,9 @@
     String outSpecies = SpeciesType.getCommonName(outSpeciesKey);
     String inMap = MapManager.getInstance().getMap(inMapKey).getName();
     GeneDAO gdao = new GeneDAO();
-
+    Map<Integer, List<MappedGene>> genes = (Map<Integer, List<MappedGene>>) request.getAttribute("geneMap");
+    Map<Integer, Integer> orthoMap = (Map<Integer, Integer>)request.getAttribute("orthologMap");
+    Map<Integer, List<MappedGene>> geneMap = (Map<Integer, List<MappedGene>>)request.getAttribute("mappedGenes");
 %>
 
 <div class="container" id="ortholog">
@@ -60,7 +62,7 @@
 <div style=" font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Symbols Not Found in <%=inMap%>: <br>
            <span style="color:red;"> <%=symbolsNotFound%></span>
 </div>
-<%} %>
+<%} if(symbolsNotFound.size() != geneSymbols.size()) {%>
      <br>
     <table class="table table-bordered table-striped">
     <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
@@ -140,7 +142,7 @@ int insize = genes.get(rgdId).size();
 
 </tbody>
     </table>
-
+<% }%>
 </div>
 
 <script>
