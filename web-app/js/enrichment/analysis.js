@@ -160,8 +160,10 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             getOntologyTitle: function (aspect) {
-                if (aspect == "RDO")
-                    return "Disease Ontology";
+
+                if (aspect == "RDO"){
+                    alert("In Ont title");
+                    return "Disease Ontology"; }
                 else if (aspect == "PW")
                     return "Pathway Ontology";
                 else if (aspect == "BP")
@@ -252,9 +254,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     }
                 };
                 Plotly.newPlot(name, data, layout);
-                alert(this.pairs[0].ont);
-                alert(this.pairs[0].info[0]);
-                alert(this.pairs[0].genes[0]);
             },
             loadPairs: function (view) {
 
