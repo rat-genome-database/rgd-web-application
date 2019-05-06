@@ -103,19 +103,13 @@ public class ElasticSearchController implements Controller {
         if (sb.getCategory() != null ) {
             if(sb.getSpecies()!=null){
             if (sb.getCategory().equalsIgnoreCase("general") && sb.getSpecies().equals("") && !sb.isViewAll()) {
-
-                return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResultsSummary.jsp", "model", model);
-            }
-                else
-
-                    return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
+               return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResultsSummary.jsp", "model", model);
+            }else
+              return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
         }}
-
         return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
         }
      }
-
-
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
@@ -164,7 +158,6 @@ public class ElasticSearchController implements Controller {
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
-            //  if (!source.getString("term_acc").contains(":")) {
             if (docId.contains("[0-9]+")) {
                 rgdIdValue = Integer.parseInt(docId);
                 id = rdao.getRgdId2(rgdIdValue);
