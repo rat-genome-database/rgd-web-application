@@ -10,6 +10,7 @@ import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
+import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchResponse;
 
 import org.springframework.ui.ModelMap;
@@ -28,44 +29,46 @@ public class ElasticSearchController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(request!=null){
-            String term = request.getParameter("term") == null ? "" : request.getParameter("term").trim();
+        HttpRequestFacade req=new HttpRequestFacade(request);
+        ModelMap model = new ModelMap();
+        SearchService service = new SearchService();
+
+            String term = req.getParameter("term").trim();
             term=term.replaceAll("\"", "");
+            if(term.length()>100){
+                response.sendRedirect(request.getContextPath());
+                return null;
+            }
             if( term.startsWith("RGD:") || term.startsWith("RGD_") )
                 term = term.substring(4);
             term=term.toLowerCase();
-            ModelMap model = new ModelMap();
-            SearchService service = new SearchService();
-            SearchBean sb= service.getSearchBean(request, term);
-            String objectSearch= request.getParameter("objectSearch");
+            SearchBean sb= service.getSearchBean(req, term);
+            String objectSearch= req.getParameter("objectSearch");
 
-            boolean log= request.getParameter("log") != null && (request.getParameter("log").equals("true"));
-            if(request.getParameter("log")!=null){log=request.getParameter("log").equals("true");}
-     //       boolean redirect=request.getParameter("redirect")!=null && request.getParameter("redirect").equals("true");
+            boolean log= (req.getParameter("log").equals("true"));
+   //       boolean redirect=request.getParameter("redirect")!=null && request.getParameter("redirect").equals("true");
             String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
-            String assembly=(request.getParameter("assembly") != null && !request.getParameter("assembly").equals(""))?request.getParameter("assembly"):null;
-
-
+            String assembly=req.getParameter("assembly");
             if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
                 int speciesKey= SpeciesType.parse(sb.getSpecies());
                 edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
                 defaultAssemblyName=defaultAssembly.getDescription();
-                    if(assembly==null){
+                    if(Objects.equals(assembly, "")){
                         assembly=defaultAssemblyName;
                     }
             }
-           boolean page =request.getParameter("page") != null && (request.getParameter("page").equals("true"));
-           int postCount=request.getParameter("postCount")!=null?Integer.parseInt(request.getParameter("postCount")):0;
+           boolean page =(req.getParameter("page").equals("true"));
+           int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
            postCount= postCount+1;
            if(postCount<=1){
                 cat1=sb.getCategory();
                 sp1=sb.getSpecies();
             }else{
-                cat1=request.getParameter("cat1");
-                sp1=request.getParameter("sp1");
+                cat1=req.getParameter("cat1");
+                sp1=req.getParameter("sp1");
             }
 
             String redirUrl = this.getRedirectUrl(request, term, sb);
@@ -75,8 +78,8 @@ public class ElasticSearchController implements Controller {
                 return null;
             }else{
             int defaultPageSize=(sb.getSize()>0)?sb.getSize():50;
-           SearchResponse sr=service.getSearchResponse(request,term, sb);
-           int totalPages= 0;
+            SearchResponse sr=service.getSearchResponse(request,term, sb);
+            int totalPages= 0;
             if(sr!=null){
                totalPages= (int) ((sr.getHits().getTotalHits()/defaultPageSize)) + (((int) (sr.getHits().getTotalHits())%defaultPageSize>0)?1:0);
                 ModelMap resultsMap=service.getResultsMap(sr,term);
@@ -110,9 +113,7 @@ public class ElasticSearchController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
         }
-        }
-       return null;
-    }
+     }
 
 
 
