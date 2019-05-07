@@ -10,10 +10,37 @@
         <td class="label" valign="top">Name:</td>
         <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
+
+    <%-- GENE DESCRIPTIONS: show merged description on PROD, and RGD, AGR, MERGED descriptions everywhere else--%>
+    <% if( RgdContext.isCurator() ) { %>
     <tr>
         <td class="label" valign="top">Description:</td>
         <td><%=description==null ? "" : description%></td>
     </tr>
+
+    <% if( obj.getAgrDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">AGR Description:</td>
+        <td><%=obj.getAgrDescription()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getMergedDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">Merged Description:</td>
+        <td><%=obj.getMergedDescription()%></td>
+    </tr>
+    <% } %>
+
+    <% } else { %>
+
+    <% if( obj.getMergedDescription()!=null ) { %>
+    <tr>
+        <td class="label" valign="top">Description:</td>
+        <td><%=obj.getMergedDescription()%></td>
+    </tr>
+    <% } %>
+    <% } %><%-- end GENE DESCRIPTIONS --%>
 
     <tr>
         <td class="label" valign="top">Type:</td>
@@ -197,14 +224,18 @@
     </tr>
     <tr>
         <td class="label">Model</td>
-        <td><div style="width:750px; align:left;">
-            <iframe id="jbrowseMini" style="border: 1px solid black" width="660"></iframe>
-        </div></td>
+        <td>
+            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
+
+        </td>
     </tr>
     <script>
+
         $(document).ready(function() {
             document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
         });
+
+
     </script>
     <% } %>
 </table>
