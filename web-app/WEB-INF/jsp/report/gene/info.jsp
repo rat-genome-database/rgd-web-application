@@ -34,12 +34,10 @@
 
     <% } else { %>
 
-    <% if( obj.getMergedDescription()!=null ) { %>
     <tr>
         <td class="label" valign="top">Description:</td>
-        <td><%=obj.getMergedDescription()%></td>
+        <td><%=Utils.NVL(obj.getMergedDescription(), obj.getDescription())%></td>
     </tr>
-    <% } %>
     <% } %><%-- end GENE DESCRIPTIONS --%>
 
     <tr>
