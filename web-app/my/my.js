@@ -623,6 +623,32 @@ rgdModule.controller('RGDPageController', [
   //                  url += "&genes=" + geneList;
 //                    window.open(url);
                 }
+                else if (tool == "enrichment") {
+
+                    params = new Object();
+                    var form = document.createElement("form");
+                    var method = "POST";
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", "/rgdweb/enrichment/analysis.html");
+                    params.species = [$scope.speciesTypeKey];
+                    params.genes = geneList;
+                    params.o = ["RDO"];
+                    for (var key in params) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+                        form.appendChild(hiddenField);
+                    }
+
+                    document.body.appendChild(form);
+                    form.submit();
+
+
+
+                    //                  url += "&genes=" + geneList;
+//                    window.open(url);
+                }
 
                 //location.href=url;
 
