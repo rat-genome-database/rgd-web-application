@@ -268,10 +268,10 @@ function getUserSelectedAccId() {
         var geneStr = "";
         for (var i = 0; i< genes.length; i++) {
             if (i==0) {
-                geneStr += genes[i];
+                geneStr += genes[i].trim();
 
             }else {
-                geneStr += "[" + genes[i];
+                geneStr += "[" + genes[i].trim();
             }
         }
 
