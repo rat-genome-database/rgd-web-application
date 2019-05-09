@@ -175,7 +175,7 @@ public class SearchService {
   //      }
         int matrixResultsExists=0;
 
-        if(nvCount<56){
+        if(nvCount<63){
           matrixResultsExists=1;
         }
         String message=new String();
