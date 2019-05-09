@@ -3,7 +3,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
     var div = '#'+divId;
 
     var v = new Vue({
-        el: '#enrichment',
+        el: div,
         data: {
             graph: (graph == 3 || graph == 1)? true: false,
             table: (graph == 3 || graph == 2)? true: false,
@@ -24,7 +24,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             currentSortDir: 'asc',
             selectedAll: false,
             selectedOne: false,
-            testGene:"bob"
+
         },
         methods: {
             getGenes: function (accId, species) {
@@ -111,7 +111,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
-
                             species: s,
                             genes: this.genes,
                             aspect: aspect
@@ -163,7 +162,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             getOntologyTitle: function (aspect) {
 
                 if (aspect == "RDO"){
-                    alert("In Ont title");
                     return "Disease Ontology"; }
                 else if (aspect == "PW")
                     return "Pathway Ontology";
@@ -277,6 +275,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             loadGenes: function(view){
+
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         return this.info[i].genes;
@@ -307,6 +306,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         computed: {
             pairs: function () {
                 var v = this;
+
                 return this.ontology.map(function (ont) {
 
                     return {
