@@ -46,7 +46,7 @@ public class ElasticSearchController implements Controller {
             String objectSearch= req.getParameter("objectSearch");
 
             boolean log= (req.getParameter("log").equals("true"));
-   
+
             String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
