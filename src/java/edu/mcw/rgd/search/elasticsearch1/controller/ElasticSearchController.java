@@ -164,11 +164,11 @@ public class ElasticSearchController implements Controller {
            if (id != null) {
                redirUrl = Link.it(rgdIdValue, id.getObjectKey());
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
-            } else {
-                if(docId.contains(":"))
-                    redirUrl = Link.ontAnnot(docId);
             }
-        }
+        }else {
+          if(docId.contains(":"))
+              redirUrl = Link.ontAnnot(docId);
+      }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
               redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
