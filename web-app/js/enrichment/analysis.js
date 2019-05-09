@@ -255,16 +255,25 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 Plotly.newPlot(name, data, layout);
             },
             loadPairs: function (view) {
-
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
                             if (this.selected == view) {
-                                return this.info[i].value.sort(function (a, b) {
+                                if(v.currentSort == 'count' || v.currentSort == 'term') {
+                                    return this.info[i].value.sort(function (a, b) {
+                                        let modifier = 1;
+                                        if (v.currentSortDir === 'desc') modifier = -1;
+                                        if (a[v.currentSort] < b[v.currentSort]) return -1 * modifier;
+                                        if (a[v.currentSort] > b[v.currentSort]) return 1 * modifier;
+                                        return 0;
+                                    });
+                                }
+                                else
+                                    return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
-                                    if (a[v.currentSort] < b[v.currentSort]) return -1 * modifier;
-                                    if (a[v.currentSort] > b[v.currentSort]) return 1 * modifier;
+                                    if (parseInt(a[v.currentSort]) < parseInt(b[v.currentSort])) return -1 * modifier;
+                                    if (parseInt(a[v.currentSort]) > parseInt(b[v.currentSort])) return 1 * modifier;
                                     return 0;
                                 });
                             }
