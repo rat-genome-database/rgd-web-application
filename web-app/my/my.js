@@ -632,7 +632,7 @@ rgdModule.controller('RGDPageController', [
                     form.setAttribute("action", "/rgdweb/enrichment/analysis.html");
                     params.species = [$scope.speciesTypeKey];
                     params.genes = geneList;
-                    params.o = [$scope.ortholog1];
+                    params.o = ["RDO"];
                     for (var key in params) {
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("type", "hidden");
