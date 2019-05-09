@@ -366,6 +366,39 @@
                                                 </c:forEach>
 
                                              </c:if>
+                                      <c:if test="${item.key.equalsIgnoreCase('pig')}">
+
+                                          <c:forEach items="${model.aggregations.pig}" var="pigFilterItem">
+                                              <li><button style="border:none;background-color: transparent" onclick="filterClick('${pigFilterItem.key}', '${item.key}','','')"><span>${pigFilterItem.key} (${pigFilterItem.docCount})</span></button>
+
+                                                  <ul>
+                                                      <c:if test="${pigFilterItem.key.equalsIgnoreCase('gene')}">
+                                                          <c:forEach items="${model.aggregations.pigGene}" var="geneType">
+                                                              <li onclick="filterClick('${pigFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${pigFilterItem.key.equalsIgnoreCase('variant')}">
+                                                          <c:forEach items="${model.aggregations.pigVariant}" var="variantType">
+                                                              <li onclick="filterClick('${pigFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${pigFilterItem.key.equalsIgnoreCase('qtl')}">
+                                                          <c:forEach items="${model.aggregations.pigQTL}" var="qtlType">
+
+                                                              <li onclick="filterClick('${pigFilterItem.key}', '${item.key}','', '${qtlType.key}'),'trait'">${qtlType.key} (${qtlType.docCount})</li>
+
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${pigFilterItem.key.equalsIgnoreCase('sslp')}">
+                                                          <c:forEach items="${model.aggregations.pigSSLP}" var="sslpType">
+                                                              <li onclick="filterClick('${pigFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                  </ul>
+                                              </li>
+                                          </c:forEach>
+
+                                      </c:if>
                                   </ul>
                            </li>
                     </c:if>
