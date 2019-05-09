@@ -239,29 +239,18 @@ public class QueryService1 {
                     .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
                     .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
-                    // .add(QueryBuilders.prefixQuery("symbol.symbol", term))
+
                     .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-     
-
-       /*  .add(QueryBuilders.matchQuery("symbol" , term).operator(Operator.AND).boost(500))
-          .add(QueryBuilders.matchQuery("symbol.symbol", term).operator(Operator.AND).boost(1200))
-         
-           .add(QueryBuilders.termQuery("symbol.ngram", term).boost(500))*/
-                    //    .add(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).boost(1200)
-
                     .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
                     .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-                    //    .add(QueryBuilders.prefixQuery("name.name", term))
-
-
-                    .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
+                   .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
                     .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
                     .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
                     .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
                     .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
                     .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-                    //    .add(QueryBuilders.prefixQuery("term.term", term))
+
                     .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
                     .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
 
@@ -270,9 +259,9 @@ public class QueryService1 {
                     .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
                     .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
 
-                    //     .add(QueryBuilders.matchQuery("citation", term).operator(Operator.OR).boost(100))
+
                     .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
-                    //   .add(QueryBuilders.matchQuery("citation", term))
+           
                     .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
                     .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
                     .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))

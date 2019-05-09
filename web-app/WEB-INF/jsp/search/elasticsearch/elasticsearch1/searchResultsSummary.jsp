@@ -84,6 +84,9 @@
                                               <c:set var="species" value="Squirrel"/>
                                           </c:if>
                                           <c:if test="${loop.index==8}">
+                                              <c:set var="species" value="Pig"/>
+                                          </c:if>
+                                          <c:if test="${loop.index==9}">
                                               <c:set var="species" value=""/>
                                           </c:if>
                                            <c:choose>

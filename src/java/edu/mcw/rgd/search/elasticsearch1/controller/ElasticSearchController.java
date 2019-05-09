@@ -46,7 +46,7 @@ public class ElasticSearchController implements Controller {
             String objectSearch= req.getParameter("objectSearch");
 
             boolean log= (req.getParameter("log").equals("true"));
-   //       boolean redirect=request.getParameter("redirect")!=null && request.getParameter("redirect").equals("true");
+
             String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
@@ -134,7 +134,7 @@ public class ElasticSearchController implements Controller {
                 }else{
                     sr = service.getSearchResponse(request, term, null);
                 }
-                    if (sr != null) {
+                if (sr != null) {
                         if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)
                             return getUrl(sr, request, term);
                         else return null;
@@ -151,32 +151,31 @@ public class ElasticSearchController implements Controller {
     public String getUrl(SearchResponse sr, HttpServletRequest request,String term){
         this.logResults(term,request.getParameter("category"), sr.getHits().getTotalHits());
         int rgdIdValue=0;
-        RgdId id = null;
+
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
         String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
-            if (docId.contains("[0-9]+")) {
+      if (docId.matches("[0-9]+") && docId.length() > 2) {
                 rgdIdValue = Integer.parseInt(docId);
-                id = rdao.getRgdId2(rgdIdValue);
-            }
-
-            if (id != null) {
-                redirUrl = Link.it(rgdIdValue, id.getObjectKey());
+                RgdId  id = rdao.getRgdId2(rgdIdValue);
+           if (id != null) {
+               redirUrl = Link.it(rgdIdValue, id.getObjectKey());
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
             } else {
                 if(docId.contains(":"))
                     redirUrl = Link.ontAnnot(docId);
             }
+        }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
               redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
-        System.out.println("REDIRECT URL: "+ redirUrl);
+
         return redirUrl;
     }
 
