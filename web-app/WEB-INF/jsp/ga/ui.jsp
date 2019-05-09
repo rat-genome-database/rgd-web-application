@@ -19,13 +19,14 @@
 
 
 
+
 <%
     String firstId = null;
     List symbols = (List) request.getAttribute("symbols");
 %>
 
 
-<div id="wrap"  style="border: 1px solid #346F97; background-color: #F0F6F9; width:90%; overflow-x: scroll; padding:10px;">
+<div id="wrap"  style="border: 1px solid #346F97; background-color: #F0F6F9; width:1100px; overflow-x: scroll; padding:10px;">
 
 <!--
     <ul id="mycarousel" class="jcarousel-skin-tango">
