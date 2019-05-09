@@ -20,7 +20,7 @@ public class RgdContext {
     private static boolean isProduction; // true iff host is HANCOCK or OWEN
 	private static boolean isPipelines; // true iff host is REED
 	private static boolean isTest; // true iff host is local development machine
-	private static boolean isDev; // true iff host is HASTINGS
+	private static boolean isDev; // true iff host is HANSEN (DEV)
     private static String hostname;
 
 
@@ -62,7 +62,7 @@ public class RgdContext {
 			
             isProduction = hostname.contains("hancock") || hostname.contains("owen");
             isPipelines = hostname.contains("reed");
-            isDev = hostname.contains("hastings");
+            isDev = hostname.contains("hansen");
             isCurator = isPipelines || isDev;
             isTest = hostname.contains("rgd-27p8tr1") || hostname.contains("rgd-c6vhv52");
 
