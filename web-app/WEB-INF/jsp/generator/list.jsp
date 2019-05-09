@@ -205,10 +205,12 @@ $(document).ready(function(){
                             <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
                             <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Genome Assembly GRCm38</option>
                             <option value='18' <% if (mapKey==18) out.print("selected");%>>Mouse Genome Assembly Build 37</option>
-                            <option value='44' <% if (mapKey==44) out.print("selected");%>>Chinchilla ChiLan1.0</option>
+                            <option value='44' <% if (mapKey==44) out.print("selected");%>>Chinchilla ChiLan1.0 Assembly</option>
                             <option value='511' <% if (mapKey==511) out.print("selected");%>>Bonobo panpan1.1 Assembly</option>
                             <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
                             <option value='720' <% if (mapKey==720) out.print("selected");%>>Squirrel SpeTri2.0 Assembly</option>
+                            <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>
+                            <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>
                         </select>
                     </td>
                  </tr>
@@ -777,7 +779,7 @@ for (String gene: objectSymbols.get(i)) {
     while(it.hasNext()) {
         String gene = (String)it.next();
     %>
-      <span class="resultList"><%=gene%></span><br>
+      <span class="resultList"><%=gene.trim()%></span><br>
     <%
     }
 
