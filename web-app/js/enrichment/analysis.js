@@ -1,15 +1,27 @@
-function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
+function EnrichmentVue() {
 
-    var div = '#'+divId;
+    var div = '#enrichment';
+    var host = window.location.protocol + window.location.host;
+    if (window.location.host.indexOf('localhost') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host= window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host=window.location.protocol + '//rest.rgd.mcw.edu';
+    }
 
     var v = new Vue({
         el: div,
         data: {
-            graph: (graph == 3 || graph == 1)? true: false,
-            table: (graph == 3 || graph == 2)? true: false,
+            graph: true,
+            table: true,
             info: [],
             hostName: host,
-            species: [speciesKey],
+            species: [],
             ontology: [ont],
             allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
@@ -19,7 +31,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             pvalues: [0.01, 0.05, 0.1, 0.5, 1],
             pvalueLimit: 0.05,
             geneData: {},
-            genes: geneSymbols,
+            genes: [],
             currentSort: 'pvalue',
             currentSortDir: 'asc',
             selectedAll: false,
@@ -67,9 +79,12 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 this.ontology[0] = o;
                 v.selectView();
             },
-            init: function (ont,species) {
+            init: function (ont,species,graph,table,genes) {
               v.ontology[0] = ont;
               v.species[0] = species;
+              v.genes = genes;
+              v.graph = graph;
+              v.table = table;
               v.selectView();
             },
             getSpeciesKey: function (s) {
@@ -340,9 +355,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     }
                 });
             }
-        },
-        mounted: function () {
-            this.selectView();
         },
     })
 
