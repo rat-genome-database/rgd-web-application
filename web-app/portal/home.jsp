@@ -452,6 +452,10 @@
 
             ctrl.enrich = function(ont) {
 
+
+
+
+
                 //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
                 enrichment.hostName=$scope.wsHost;
                 enrichment.species=$scope.speciesTypeKey;
@@ -461,7 +465,7 @@
                 enrichment.table=true;
 
 
-                enrichment.selectView();
+                enrichment.init(ont,$scope.speciesTypeKey);
                 document.getElementById("enrichment").style.display="block";
 
 

@@ -67,6 +67,11 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 this.ontology[0] = o;
                 v.selectView();
             },
+            init: function (ont,species) {
+              v.ontology[0] = ont;
+              v.species[0] = species;
+              v.selectView();
+            },
             getSpeciesKey: function (s) {
                 if (s == "Rat")
                     return 3;
