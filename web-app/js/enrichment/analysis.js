@@ -3,7 +3,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
     var div = '#'+divId;
 
     var v = new Vue({
-        el: '#enrichment',
+        el: div,
         data: {
             graph: (graph == 3 || graph == 1)? true: false,
             table: (graph == 3 || graph == 2)? true: false,
@@ -24,7 +24,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             currentSortDir: 'asc',
             selectedAll: false,
             selectedOne: false,
-            testGene:"bob"
+
         },
         methods: {
             getGenes: function (accId, species) {
@@ -111,7 +111,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
-
                             species: s,
                             genes: this.genes,
                             aspect: aspect
@@ -163,7 +162,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
             getOntologyTitle: function (aspect) {
 
                 if (aspect == "RDO"){
-                    alert("In Ont title");
                     return "Disease Ontology"; }
                 else if (aspect == "PW")
                     return "Pathway Ontology";
@@ -257,16 +255,25 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 Plotly.newPlot(name, data, layout);
             },
             loadPairs: function (view) {
-
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
                             if (this.selected == view) {
-                                return this.info[i].value.sort(function (a, b) {
+                                if(v.currentSort == 'count' || v.currentSort == 'term') {
+                                    return this.info[i].value.sort(function (a, b) {
+                                        let modifier = 1;
+                                        if (v.currentSortDir === 'desc') modifier = -1;
+                                        if (a[v.currentSort] < b[v.currentSort]) return -1 * modifier;
+                                        if (a[v.currentSort] > b[v.currentSort]) return 1 * modifier;
+                                        return 0;
+                                    });
+                                }
+                                else
+                                    return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
-                                    if (a[v.currentSort] < b[v.currentSort]) return -1 * modifier;
-                                    if (a[v.currentSort] > b[v.currentSort]) return 1 * modifier;
+                                    if (parseInt(a[v.currentSort]) < parseInt(b[v.currentSort])) return -1 * modifier;
+                                    if (parseInt(a[v.currentSort]) > parseInt(b[v.currentSort])) return 1 * modifier;
                                     return 0;
                                 });
                             }
@@ -277,6 +284,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
 
             },
             loadGenes: function(view){
+
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         return this.info[i].genes;
@@ -307,6 +315,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         computed: {
             pairs: function () {
                 var v = this;
+
                 return this.ontology.map(function (ont) {
 
                     return {

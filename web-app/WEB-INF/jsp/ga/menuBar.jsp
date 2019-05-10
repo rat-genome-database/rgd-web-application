@@ -22,7 +22,7 @@
     }
 %>
 
-<div style="width:100%; border: 1px solid #346f97; background-color:#f0f6f9; padding:2px; " >
+<div style="width:1100px; border: 1px solid #346f97; background-color:#f0f6f9; padding:2px; " >
 
     <table width=100% cellpadding=0 cellspacing=0  align="center" id="headerBar" style="border: 1px solid #346f97;">
     <tr>

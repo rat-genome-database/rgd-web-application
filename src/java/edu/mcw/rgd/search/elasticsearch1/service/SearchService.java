@@ -57,7 +57,7 @@ public class SearchService {
                 aggregations.put("species", speciesAgg.getBuckets());
                 categoryAgg = sr.getAggregations().get("category");
                 List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
-             //   System.out.println("CAT BUCKETS SIZE:"+catBuckets.size());
+
                 aggregations.put("category", catBuckets);
                 for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
                    Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
@@ -82,7 +82,6 @@ public class SearchService {
 
                     if(bucketType.equalsIgnoreCase("ontology")){
                         Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
-                     //   ontologyBkts.addAll(ontologySubcatAgg.getBuckets());
                         aggregations.put("ontology", ontologySubcatAgg.getBuckets());
                     }
 
@@ -176,7 +175,7 @@ public class SearchService {
   //      }
         int matrixResultsExists=0;
 
-        if(nvCount<56){
+        if(nvCount<63){
           matrixResultsExists=1;
         }
         String message=new String();

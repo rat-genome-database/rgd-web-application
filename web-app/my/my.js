@@ -625,22 +625,24 @@ rgdModule.controller('RGDPageController', [
                 }
                 else if (tool == "enrichment") {
 
-                    url = "/rgdweb/enrichment/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog=" + $scope.ortholog1+ "&ortholog=" + $scope.ortholog2 + "&species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=";
-                    url += "&mapKey=" + $scope.mapKey + "&a=" +$scope.a
+                    params = new Object();
+                    var form = document.createElement("form");
+                    var method = "POST";
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", "/rgdweb/enrichment/analysis.html");
+                    params.species = [$scope.speciesTypeKey];
+                    params.genes = geneList;
+                    params.o = ["RDO"];
+                    for (var key in params) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+                        form.appendChild(hiddenField);
+                    }
 
-
-                    var f = document.createElement("form");
-                    f.setAttribute('method',"post");
-                    f.setAttribute('action',url);
-
-                    var i = document.createElement("input"); //input element, text
-                    i.setAttribute('type',"hidden");
-                    i.setAttribute('name',"genes");
-                    i.setAttribute('value',geneList);
-
-                    f.appendChild(i);
-                    document.getElementsByTagName('body')[0].appendChild(f);
-                    f.submit();
+                    document.body.appendChild(form);
+                    form.submit();
 
 
 
