@@ -7,7 +7,26 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <div v-if="geneLoading">Loading...</div>
+                <div v-if="geneLoading">Loading... This May take a bit ...
+
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-border text-success" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-border text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-border text-warning" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                    <br>
+                </div>
                 <table class="table table-striped">
                     <tr
                             v-for="data in geneData.geneData"

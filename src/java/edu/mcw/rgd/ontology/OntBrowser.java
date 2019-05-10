@@ -144,10 +144,12 @@ public class OntBrowser extends SimpleTagSupport {
         }
         String html =
         "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n"+
-        "<table border=0 align=\"center\" >\n"+
+        "<table border=0 align=\"center\" width=\"60%\" >\n"+
         "  <tr>\n"+
-        "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">"+termName
+        "<td width=200><input type=\"button\" value=\"<< Back\" onClick=\"browserBack()\"/></td>" +
+                "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">"+termName
                 +" <span style=\"font-size:14px;\">("+bean.getAccId()+")</span></td>\n"+
+                "<td width=200>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
         "  </tr>\n"+
 
         "  <tr>\n";
@@ -219,6 +221,7 @@ public class OntBrowser extends SimpleTagSupport {
             for( OntDagNode node: bean.getSiblingTerms() ) {
 
                 row++; // next row nr for sibling
+
                 if( node.getTermAcc().equals(bean.getAccId())) {
                     selRow = row; // the sibling term is the selected term!!!
                     break;
@@ -226,17 +229,18 @@ public class OntBrowser extends SimpleTagSupport {
             }
             row = 0; // row nr for sibling term
 
+            int skipCount = 0;
             for( OntDagNode node: bean.getSiblingTerms() ) {
 
-                System.out.println(node.getAnnotCountForTermAndChilds());
                 //if term has no annotations don't show
                 if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
+                    skipCount++;
                     continue;
                 }
 
                 row++; // next row nr for sibling
 
-                if( row == selRow ) {
+                if( row == (selRow - skipCount)  ) {
                     out.append("<div id=\"sibling_terms\" >\n");
                 }
 
@@ -267,7 +271,7 @@ public class OntBrowser extends SimpleTagSupport {
                 // show link to pathway diagram, if any
                 generateIcons(out, node);
 
-                if( row == selRow ) {
+                if( row == (selRow - skipCount) ) {
                     // selected term: show link to strain report page, if applicable at the end of the line
                     if( bean.getStrainRgdId()!=0 ) {
                         out.append("&nbsp; &nbsp; <a href=\"").append(Link.strain(bean.getStrainRgdId())).append("\"> (View Strain Report)</a>\n");
@@ -318,6 +322,14 @@ public class OntBrowser extends SimpleTagSupport {
 
         if( nodes!=null ) {
             for( OntDagNode node: nodes ) {
+
+
+                //if term has no annotations don't show
+                if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
+                    //skipCount++;
+                    continue;
+                }
+
 
                 //if term has no annotations don't show
                 //if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {

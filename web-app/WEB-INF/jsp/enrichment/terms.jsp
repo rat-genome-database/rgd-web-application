@@ -1,5 +1,23 @@
 <div style="background-color: white;width:1024px;  " v-for="pair in pairs">
-    <div v-if="loading">Loading...<br></div>
+    <div v-if="loading"><span style="font-size:20px;">Loading...</span>
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <br>
+        <br>
+    </div>
     <section v-if="pair.info != 0">
         <!--
         <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span>

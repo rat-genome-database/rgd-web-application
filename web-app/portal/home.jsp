@@ -94,6 +94,55 @@
 
 
 
+
+<script>
+    function loading(ms) {
+    }
+
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="background-color: rgba(0,0,0,0.4);" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: rgba(0,0,0,0.4);">
+
+                <span style="color:white;font-weight:700;font-size:30px;">Loading...&nbsp;&nbsp;&nbsp;</span>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-warning" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <!--
+                <div class="spinner-border text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-border text-dark" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <style>
     body {
         font-family: verdana;
@@ -139,7 +188,7 @@
         margin-left:5px;
         margin-bottom:5px;
         margin-top:20px;
-        height:65px;
+        height:50px;
         cursor: pointer;
         font-family:Helvetica;
         border: 0px solid white;
@@ -167,6 +216,10 @@
         font-family:Helvetica;
     }
 
+    .dnavCount {
+        font-size:20px;
+        padding-left:8px;
+    }
 
 </style>
 
@@ -179,7 +232,9 @@
 
             var ctrl = this;
 
-            $scope.wsHost = "https://dev.rgd.mcw.edu"
+            //$scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.wsHost = "http://localhost:8080"
+
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
 
@@ -205,6 +260,16 @@
             $scope.ontology ="";
             $scope.ontologyId="";
             $scope.objectCounts={};
+            $scope.previousOntId=[];
+            $scope.previousTerm=[];
+            $scope.previousOnt=[];
+
+/*
+            $scope.portalLinks["DOID:9007801"].tools = "/wg/portals/aging-disease-portal-tools/";
+            $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-tools/";
+            $scope.portalLinks["DOID:9007801"].models = "/wg/portals/aging-disease-portal-tools/";
+*/
+
 
 
             ctrl.updateCounts = function (ontId, filter) {
@@ -216,7 +281,7 @@
                     $scope.objectCounts = response.data;
 
                 }, function errorCallback(response) {
-                    alert("response = " + response.data);
+                    alert("update counts response = " + response.data);
                     // called asynchronously if an error occurs
                     // or server returns response with an error status.
                 });
@@ -224,18 +289,18 @@
 
             }
 
-            ctrl.updateAll = function (ont, ontId) {
+            ctrl.browserBack = function() {
+                this.browse($scope.previousOntId.pop(), $scope.previousOnt.pop(),$scope.ontology,$scope.previousTerm.pop(),1);
+            }
 
+            ctrl.updateAll = function (ont, ontId) {
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
                 ctrl.update(1,ontId);
                 ctrl.update(6,ontId);
                 ctrl.update(5,ontId);
-
-
-
             }
 
-            ctrl.browse = function (ontId, ont, term) {
+            ctrl.browse = function (ontId, ont, term, back) {
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
@@ -248,19 +313,24 @@
                     document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
 
                 }
-
+                if (!back) {
+                    $scope.previousOntId.push($scope.ontologyId);
+                    $scope.previousOnt.push($scope.ontology);
+                    $scope.previousTerm.push($scope.currentTerm);
+                }
 
                 if (ont != null) {
                     $scope.ontology = ont;
                 }
+
                 $scope.onttologyId = ontId;
 
 
                 document.getElementById($scope.ontology).style.height = "80px";
-                document.getElementById($scope.ontology).style.borderBottomLeftRadius = "100px";
-                document.getElementById($scope.ontology).style.borderBottomRightRadius = "100px";
+                document.getElementById($scope.ontology).style.borderBottomLeftRadius = "40px";
+                document.getElementById($scope.ontology).style.borderBottomRightRadius = "40px";
 
-                document.getElementById($scope.ontology).style.border = "5px solid #8E0026";
+                document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
 
 
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
@@ -274,13 +344,12 @@
                 ctrl.updateAll(ont, ontId)
 
 
-
-
-
             }
 
-
             ctrl.updateSpecies = function (speciesType, map, commonName) {
+
+                $("#loadingModal").modal("show");
+                setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
 
                 for (var i=1; i< 8; i++) {
                     document.getElementById("speciesButton" + i).style.border = "3px solid white";
@@ -332,7 +401,24 @@
 
 
             ctrl.downloadGenes = function() {
-                location.href="downloadGenes.jsp";
+
+                var ids="";
+                var first = 1;
+                for(var key in $scope.portalGenes) {
+
+                    if (first) {
+                        ids += $scope.portalGenes[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalGenes[key].rgdId;
+
+                    }
+
+                }
+
+                var url = "downloadGenes.jsp?ids=" + ids;
+
+                location.href=url;
             }
             ctrl.downloadQTL = function() {
                 location.href="downloadQTL.jsp";
@@ -360,6 +446,24 @@
                 link.setAttribute('download', filename);
                 link.click();
 */
+
+            }
+
+
+            ctrl.enrich = function(ont) {
+
+                //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+                enrichment.hostName=$scope.wsHost;
+                enrichment.species=$scope.speciesTypeKey;
+                enrichment.ont=ont;
+                enrichment.graph=true;
+                enrichment.genes=Object.keys($scope.portalGenes);
+                enrichment.table=true;
+
+
+                enrichment.selectView();
+                document.getElementById("enrichment").style.display="block";
+
 
             }
 
@@ -409,18 +513,6 @@
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
 
-                        //var host='https://dev.rgd.mcw.edu:8080';
-                        //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
-                        enrichment.hostName=$scope.wsHost;
-                        enrichment.species=$scope.speciesTypeKey;
-                        enrichment.ont='RDO';
-                        enrichment.graph=true;
-                        enrichment.genes=Object.keys($scope.portalGenes);
-                        enrichment.table=true;
-
-
-                        enrichment.selectView();
-
 
                     }else if (objectKey==6) {
                         $scope.portalQTLs=response.data;
@@ -450,7 +542,7 @@
     <div class="rgd-panel rgd-panel-default">
 
         <div class="rgd-panel-heading">
-        <table width="100%" align="center" margin:10px;">
+        <table width="100%" align="center" >
         <tr>
             <td><div style='font-size:32px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
             <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
@@ -460,7 +552,11 @@
     </div>
 
 
-    <div style="margin-left:20px; font-size:14px; color:#24609C">Select a disease category</div>
+    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a disease category</div></td>
+        </tr>
+    </table>
 
     <table align="center">
         <tr>
@@ -489,7 +585,12 @@
         </td>
     </tr></table>
 
-    <div style="margin-left:20px; font-size:14px; color:#24609C">Select a species</div>
+    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a species</div></td>
+        </tr>
+    </table>
+
 
 <table align="center" border="0" cellpadding="2" cellspacing="0">
     <tr>
@@ -507,15 +608,15 @@
                     <table class="countTable" border="0">
                         <tr>
                             <td class="countTitle">Genes:</td>
-                            <td align="right">{{ objectCounts["annotated_object_count|3|1|1"] }}</td>
+                            <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|3|1|1"] }}</td>
                         </tr>
                         <tr>
                             <td class="countTitle">QTL:</td>
-                            <td align="right">{{ objectCounts["annotated_object_count|3|6|1"] }}</td>
+                            <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|3|6|1"] }}</td>
                         </tr>
                         <tr>
                             <td class="countTitle">Strains:</td>
-                            <td align="right">{{ objectCounts["annotated_object_count|3|5|1"] }}</td>
+                            <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|3|5|1"] }}</td>
                         </tr>
                     </table>
                     </td>
@@ -538,11 +639,11 @@
                         <table  class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|2|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|2|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|2|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|2|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -565,11 +666,11 @@
                         <table  class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|1|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|1|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|1|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|1|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -592,11 +693,11 @@
                         <table class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|4|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|4|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|4|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|4|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -619,11 +720,11 @@
                         <table class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|5|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|5|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|5|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|5|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -647,11 +748,11 @@
                         <table class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|6|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|6|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|6|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|6|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -675,11 +776,11 @@
                         <table class="countTable" >
                             <tr>
                                 <td class="countTitle">Genes:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|7|1|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|7|1|1"] }}</td>
                             </tr>
                             <tr>
                                 <td class="countTitle">QTL:</td>
-                                <td align="right">{{ objectCounts["annotated_object_count|7|6|1"] }}</td>
+                                <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|7|6|1"] }}</td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                         </table>
@@ -701,48 +802,64 @@
 
         angular.element(document.getElementById('portalController')).scope().thisCtrl.browse(id,null,term);
     }
+
+    function browserBack() {
+        angular.element(document.getElementById('portalController')).scope().thisCtrl.browserBack();
+    }
+
+
 </script>
 
+    <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a term</div></td>
+        </tr>
+    </table>
 
-<div id="browser" ng-init="portal.browse('<%=filter%>','d')">
+<!--    <div style="margin-left:20px; padding-bottom:10px; padding-top:10px; font-size:16px; color:#24609C">Select a term</div>-->
+
+    <div id="browser" ng-init="portal.browse('<%=filter%>','d')">
 
 </div>
 
     <br>
     <!--<div>{{ urlString }}</div>-->
 
-<table width="100%"  style="padding:5px; font-size:18px;background-color:#f6f6f6; border:1px solid black; color:#2865A3;">
+<table width="100%" cellpadding="4" style="padding:5px; font-size:18px;background-color:#f6f6f6; border:1px solid black; color:#2865A3;">
     <tr>
-        <td>{{ subTitle }}</td>
-        <td align="right">{{speciesCommonName}}</td>
+        <td style="font-size:20px;">{{ subTitle }}</td>
+        <td style="font-size:16px;" align="right">{{speciesCommonName}}</td>
     </tr>
 </table>
 
 <table align="center" border="0">
     <tr>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b> {{ portalGenesLen }}</td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b><span  class="dnavCount">{{ portalGenesLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
-                    <a class="geneList" href="/rgdweb/report/gene/main.html?id={{ portalGene.rgdId }}">{{portalGene.symbol}}</a><br />
+                    <a class="geneList" target="_blank" href="/rgdweb/report/gene/main.html?id={{ portalGene.rgdId }}">
+                        <span ng-bind-html="portalGene.symbol"></span>
+                    </a>
+                    <br />
                 </div>
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b> {{ portalQTLsLen }}</td><td align="right"><img style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadQTL()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>QTL:</b><span  class="dnavCount">{{ portalQTLsLen }}</span></td><td align="right"><img style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadQTL()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalQTL in portalQTLs" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
-                    <a class="qtlList" href="/rgdweb/report/qtl/main.html?id={{portalQTL.rgdId}}">{{portalQTL.symbol}}</a><br />
+                    <a class="qtlList"  target="_blank" href="/rgdweb/report/qtl/main.html?id={{portalQTL.rgdId}}"><span ng-bind-html="portalQTL.symbol"></span></a><br />
                 </div>
 
             </div>
         </td>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b> {{ portalStrainsLen }}</td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadStrains()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Strains:</b><span  class="dnavCount">{{ portalStrainsLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadStrains()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/></td></tr></table></div>
             <div class="diseasePortalListBox" style="width:500px;">
                 <div ng-repeat="portalStrain in portalStrains" style="margin-top:3px; padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
-                    <a class="strainList" href="/rgdweb/report/strain/main.html?id={{portalStrain.rgdId}}">{{portalStrain.symbol}}</a><br />
+                    <a class="strainList"  target="_blank" href="/rgdweb/report/strain/main.html?id={{portalStrain.rgdId}}"><span ng-bind-html="portalStrain.symbol"></span></a><br />
                 </div>
 
             </div>
@@ -753,9 +870,31 @@
 <br>
     <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
         <tr>
-            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Enrichement</div></td>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Perform Gene Set Enrichment</div></td>
         </tr>
     </table>
+
+    <table border="0" align="center">
+        <tr>
+            <td align="center">
+                <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('RDO')">DO: Diseases Ontology<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('PW')">PW: Pathway Ontology<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('MP')">MP: Phenotype Ontology<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('CC')">GO: Cellular Component<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('MF')">Go: Molecular Function<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('CHEBI')">CHEBI: Chemical/Drug<br><span style="font-size:11px;">Enrichment</span></div>
+                <!--<div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Chemical Interactions<br><span style="font-size:11px;">{{title}}</span></div>-->
+            </td>
+        </tr>
+    </table>
+
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -768,7 +907,7 @@
 
     <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 
-    <div id="enrichment" >
+    <div id="enrichment" style="display:none;">
 
         <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
         <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
@@ -785,16 +924,47 @@
 <br>
     <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
         <tr>
-            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Disease Navigator</div></td>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Additional Resources</div></td>
         </tr>
     </table>
-    <table >
+    <br>
+    <table  align="center">
         <tr>
-            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}"><img src="/rgdweb/common/images/dnavExample.png"/></a></td>
+            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
+                <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png"/><br>View term in Disease Navigator
+            </a>
+            </td>
+            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
+                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Analysis Tools
+
+
+            </a>
+            </td>
+            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
+                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Rat Strain Models
+            </a>
+            </td>
+            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
+                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Related Links
+            </a>
+            </td>
         </tr>
     </table>
 
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 <% } catch (Exception e) {
