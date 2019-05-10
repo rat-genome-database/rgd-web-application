@@ -458,8 +458,8 @@
 
                 //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
                 enrichment.hostName=$scope.wsHost;
-                enrichment.species=$scope.speciesTypeKey;
-                enrichment.ont=ont;
+                enrichment.species=[$scope.speciesTypeKey];
+                enrichment.ont=[ont];
                 enrichment.graph=true;
                 enrichment.genes=Object.keys($scope.portalGenes);
                 enrichment.table=true;
