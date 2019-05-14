@@ -72,10 +72,12 @@ function EnrichmentVue() {
 
             },
             loadOntView: function (s) {
+                document.getElementById(this.ontology[0]).innerHTML = "";
                 v.loadView(s);
                 v.selectView();
             },
             loadSpeciesView: function (o) {
+                document.getElementById(this.ontology[0]).innerHTML = "";
                 this.ontology[0] = o;
                 v.selectView();
             },
@@ -144,9 +146,10 @@ function EnrichmentVue() {
                         });
 
                         if (response.data.length != 0 && (this.graph!=2))
-                        { v.loadChart(response.data.enrichment, aspect, 0.05);}
+                        { v.loading = false;
+                            v.loadChart(response.data.enrichment, aspect, 0.05);}
 
-                        v.loading = false;
+
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -170,8 +173,9 @@ function EnrichmentVue() {
                             genes: response.data.geneSymbols
                         });
                         if (response.data.length != 0 && this.graph!=2)
-                        {  v.loadChart(response.data.enrichment, s, 0.05);}
-                        v.loading = false;
+                        {   v.loading = false;
+                            v.loadChart(response.data.enrichment, s, 0.05);}
+
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -315,6 +319,7 @@ function EnrichmentVue() {
                 this.info = [];
                 this.loading=true;
                 this.errored = false;
+
                 if (this.species[0] != 0) {
                     this.selectedAll = false;
                     this.selectedOne = true;
