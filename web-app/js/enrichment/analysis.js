@@ -153,11 +153,10 @@ function EnrichmentVue(divId, hostname) {
                             genes: response.data.geneSymbols
                         });
 
-                        if (response.data.length != 0 && (this.graph!=2))
-                        { v.loading = false;
+                        if (response.data.length != 0 && (this.graph))
+                        {
                             v.loadChart(response.data.enrichment, aspect, 0.05);}
-
-
+                        v.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -180,10 +179,10 @@ function EnrichmentVue(divId, hostname) {
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
-                        if (response.data.length != 0 && this.graph!=2)
-                        {   v.loading = false;
+                        if (response.data.length != 0 && this.graph)
+                        {
                             v.loadChart(response.data.enrichment, s, 0.05);}
-
+                        v.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error)
