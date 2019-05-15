@@ -235,8 +235,8 @@
 
             var ctrl = this;
 
-            //$scope.wsHost = "https://dev.rgd.mcw.edu"
-            $scope.wsHost = "http://localhost:8080"
+            $scope.wsHost = "https://dev.rgd.mcw.edu"
+            //$scope.wsHost = "http://localhost:8080"
 
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
