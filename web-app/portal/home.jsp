@@ -235,8 +235,8 @@
 
             var ctrl = this;
 
-            $scope.wsHost = "https://dev.rgd.mcw.edu"
-            //$scope.wsHost = "http://localhost:8080"
+            //$scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.wsHost = "http://localhost:8080"
 
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
@@ -540,7 +540,7 @@
 
 
 
-                //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
+                var enrichment = EnrichmentVue();
                 //enrichment.hostName=$scope.wsHost;
                 //enrichment.species=[$scope.speciesTypeKey];
                 //enrichment.ont=[ont];
@@ -548,9 +548,10 @@
                 //enrichment.genes=Object.keys($scope.portalGenes);
                 //enrichment.table=true;
 
+                alert(ont);
 
                 enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
-                document.getElementById("enrichment").style.display="block";
+               // document.getElementById("enrichment").style.display="block";
 
 
             }
@@ -594,13 +595,6 @@
                 $scope.urlString = $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
 
-               // $scope.geneCanceler;
-               // $scope.qtlCanceler;
-               // $scope.strainCancelor;
-
-/*
-                alert($scope.urlString);
-
                 var timeout = "";
                 if (objectKey==1) {
                     if ($scope.geneCanceler) {
@@ -609,14 +603,14 @@
                     $scope.geneCanceler = $q.defer();
                     timeout=$scope.geneCanceler.promise;
 
-                }else if (objectKey=5) {
+                }else if (objectKey==5) {
                     if ($scope.qtlCanceler) {
                         $scope.qtlCanceler.resolve("canceled");
                     }
                     $scope.qtlCanceler = $q.defer();
                     timeout=$scope.qtlCanceler.promise;
 
-                }else if (objectKey=6) {
+                }else if (objectKey==6) {
                     if ($scope.strainCanceler) {
                         $scope.strainCanceler.resolve("canceled");
                     }
@@ -625,11 +619,10 @@
 
                 }
 
-*/
                 $http({
                     method: 'GET',
                     url: $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
-                    //timeout: timeout,
+                    timeout: timeout,
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;

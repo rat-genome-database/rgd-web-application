@@ -1,9 +1,13 @@
-function EnrichmentVue() {
+function EnrichmentVue(divId, hostname) {
 
     var div = '#enrichment';
+    if (divId) {
+        div='#' + divId;
+    }
+
     var host = window.location.protocol + window.location.host;
     if (window.location.host.indexOf('localhost') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
+        host= window.location.protocol + '//localhost:8080';
     } else if (window.location.host.indexOf('dev.rgd') > -1) {
         host= window.location.protocol + '//dev.rgd.mcw.edu';
     }else if (window.location.host.indexOf('test.rgd') > -1) {
@@ -14,6 +18,10 @@ function EnrichmentVue() {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
 
+    if (hostname) {
+        host=hostname;
+    }
+
     var v = new Vue({
         el: div,
         data: {
@@ -22,7 +30,7 @@ function EnrichmentVue() {
             info: [],
             hostName: host,
             species: [],
-            ontology: [ont],
+            ontology: [],
             allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
