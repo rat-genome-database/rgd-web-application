@@ -224,16 +224,19 @@
 </style>
 
 <script>
+
+    var gviewer = null;
+
     rgdModule.controller('portalController', [
-        '$scope','$http',
+        '$scope','$http','$q',
 
 
-        function ($scope, $http) {
+        function ($scope, $http, $q) {
 
             var ctrl = this;
 
-            $scope.wsHost = "https://dev.rgd.mcw.edu"
-            //$scope.wsHost = "http://localhost:8080"
+            //$scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.wsHost = "http://localhost:8080"
 
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
@@ -263,7 +266,10 @@
             $scope.previousOntId=[];
             $scope.previousTerm=[];
             $scope.previousOnt=[];
-
+            $scope.gviewer=null;
+            $scope.geneCanceler;
+            $scope.qtlCanceler;
+            $scope.strainCancelor;
 /*
             $scope.portalLinks["DOID:9007801"].tools = "/wg/portals/aging-disease-portal-tools/";
             $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-tools/";
@@ -301,6 +307,7 @@
             }
 
             ctrl.browse = function (ontId, ont, term, back) {
+                //$("#loadingModal").modal("show");
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
@@ -449,6 +456,83 @@
 
             }
 
+            ctrl.buildGViewer = function() {
+
+                if (gviewer) {
+                    gviewer.reset();
+                    document.getElementById("gviewer").innerHTML="";
+                }
+
+                    gviewer = new Gviewer("gviewer", 250, 1000);
+
+                    gviewer.imagePath = "/rgdweb/gviewer/images";
+                    gviewer.exportURL = "/rgdweb/report/format.html";
+                    gviewer.annotationTypes = new Array("gene","qtl","strain");
+                    gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
+                    //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
+                    gviewer.genomeBrowserName = "JBrowse";
+                    gviewer.regionPadding=2;
+                    gviewer.annotationPadding = 1;
+
+                    gviewer.loadBands("/rgdweb/gviewer/data/portal_" + $scope.speciesTypeKey + "_ideo.xml");
+                    gviewer.addZoomPane("zoomWrapper", 250, 1000);
+
+                var ids="";
+                var first = 1;
+                for(var key in $scope.portalGenes) {
+
+                    if (first) {
+                        ids += $scope.portalGenes[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalGenes[key].rgdId;
+
+                    }
+
+                }
+
+                var first = 1;
+                for(var key in $scope.portalQTLs) {
+
+                    if (first) {
+                        ids += $scope.portalQTLs[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalQTLs[key].rgdId;
+
+                    }
+
+                }
+
+                var first = 1;
+                for(var key in $scope.portalStrains) {
+
+                    if (first) {
+                        ids += $scope.portalStrains[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalStrains[key].rgdId;
+
+                    }
+
+                }
+
+
+                //alert(ids);
+
+
+
+
+                 gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+
+                //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+
+
+                //gviewer.loadAnnotations("/rgdweb/gviewer/data/hypertension.xml");
+               // gviewer.addZoomPane("zoomWrapper", 250, 750);
+
+            }
+
 
             ctrl.enrich = function(ont) {
 
@@ -509,9 +593,43 @@
 
                 $scope.urlString = $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
+
+               // $scope.geneCanceler;
+               // $scope.qtlCanceler;
+               // $scope.strainCancelor;
+
+/*
+                alert($scope.urlString);
+
+                var timeout = "";
+                if (objectKey==1) {
+                    if ($scope.geneCanceler) {
+                        $scope.geneCanceler.resolve("canceled");
+                    }
+                    $scope.geneCanceler = $q.defer();
+                    timeout=$scope.geneCanceler.promise;
+
+                }else if (objectKey=5) {
+                    if ($scope.qtlCanceler) {
+                        $scope.qtlCanceler.resolve("canceled");
+                    }
+                    $scope.qtlCanceler = $q.defer();
+                    timeout=$scope.qtlCanceler.promise;
+
+                }else if (objectKey=6) {
+                    if ($scope.strainCanceler) {
+                        $scope.strainCanceler.resolve("canceled");
+                    }
+                    $scope.strainCanceler = $q.defer();
+                    timeout=$scope.strainCanceler.promise;
+
+                }
+
+*/
                 $http({
                     method: 'GET',
                     url: $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    //timeout: timeout,
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;
@@ -526,6 +644,9 @@
                         $scope.portalStrains=response.data;
                         $scope.portalStrainsLen=Object.keys($scope.portalStrains).length;
                     }
+
+                    $("#loadingModal").modal("hide");
+
 
                 }, function errorCallback(response) {
                     //alert("response = " + response.data);
@@ -839,7 +960,8 @@
 <table align="center" border="0">
     <tr>
         <td>
-            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b><span  class="dnavCount">{{ portalGenesLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/><img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+            <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b><span  class="dnavCount">{{ portalGenesLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/>
+                <!--<img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/>--></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
@@ -911,21 +1033,80 @@
 
     <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 
-    <div id="enrichment" style="display:none;">
+    <table align="center" >
+        <tr>
+            <td>
+                <div id="enrichment" style="display:none; padding-top:20px;">
 
-        <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
-        <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
-    </div>
-    <script src="/rgdweb/js/enrichment/analysis.js?fff"></script>
+                    <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
+                    <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
+                </div>
+                <script src="/rgdweb/js/enrichment/analysis.js?fff"></script>
+
+
+            </td>
+        </tr>
+    </table>
 
     <script>
         var enrichment = EnrichmentVue('enrichment',3,'RDO',[],1,"loading");
 
     </script>
 
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<br>
+
+
+    <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Genome View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Plot On Genome" ng-click="portal.buildGViewer()"/></div> </td>
+        </tr>
+    </table>
+
+
+
+
+    <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
+        // ================================================================
+        //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
+        //  Copyright 2005-2007 Kawasaki Yusuke <u-suke@kawa.net>
+        //  http://www.kawa.net/works/js/jkl/parsexml.html
+        // ================================================================
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
+        /***********************************************
+         * DHTML Window script- � Dynamic Drive (http://www.dynamicdrive.com)
+         * This notice MUST stay intact for legal use
+         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+         ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
+        /***********************************************
+         * Context Menu script- � Dynamic Drive (http://www.dynamicdrive.com)
+         * This notice MUST stay intact for legal use
+         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+         ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
+    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
+
+
+<table align="center">
+    <tr>
+        <td>
+            <div id="gviewer" class="gviewer"></div>
+            <div id="zoomWrapper" class="zoom-pane"></div>
+
+        </td>
+    </tr>
+</table>
+
+
+
+    <br>
     <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
         <tr>
             <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Additional Resources</div></td>
@@ -935,31 +1116,25 @@
     <table  align="center">
         <tr>
             <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
-                <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png"/><br>View term in Disease Navigator
+                <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png" style="margin:10px;" /><div style="font-size:16px;">Disease Navigator</div>
             </a>
             </td>
-            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
-                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Analysis Tools
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-tools/">
+                <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
 
 
             </a>
             </td>
-            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
-                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Rat Strain Models
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-rat-strain-models/">
+                <img height=150 width=200 src="https://rgd.mcw.edu/rgdweb/common/images/geneticModels.png"  style="margin:10px;"/><div style="font-size:16px;">Rat Strain Models</div>
             </a>
             </td>
-            <td ><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
-                <img height=150 width=150 src="/rgdweb/common/images/dnavExample.png"/><br>Related Links
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-related-links/">
+                <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/strainMedicalRecords.png"  style="margin:10px;"/><div style="font-size:16px;">Related Links</div>
             </a>
             </td>
         </tr>
     </table>
-
-
-
-</div>
-
-
 
 
 

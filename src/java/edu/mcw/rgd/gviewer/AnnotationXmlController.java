@@ -1,6 +1,7 @@
 package edu.mcw.rgd.gviewer;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -30,10 +31,50 @@ public class AnnotationXmlController implements Controller {
         out.println("<genome>");
 
         GViewerBean bean = new GViewerBean();
-        bean.loadParametersFromRequest(request);
+        try {
+            bean.loadParametersFromRequest(request);
+        }catch (Exception e) {
 
-        String sql = bean.buildSqlForGViewerAnnotations();
-        //System.out.println(sql);
+        }
+
+        String sql = "";
+
+        String ids = request.getParameter("ids");
+
+        try {
+
+            System.out.println("hello");
+            if (ids != null && !ids.equals("")) {
+                sql = "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
+                        "FROM maps_data m, full_annot fa where m.rgd_id in (";
+
+
+                String[] idArray = ids.split(",");
+
+                for (int i = 0; i < idArray.length; i++) {
+                    if (i > 0) {
+                        sql += ",";
+                    }
+                    sql += idArray[i];
+                }
+
+                sql += ") and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
+
+                sql += MapManager.getInstance().getReferenceAssembly(1).getKey();
+                sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
+                sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
+                sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
+                sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
+                sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
+                sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ")";
+
+            } else {
+                sql = bean.buildSqlForGViewerAnnotations();
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Connection conn = null;
         try {
