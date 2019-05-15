@@ -238,6 +238,21 @@
             $scope.wsHost = "https://dev.rgd.mcw.edu"
             //$scope.wsHost = "http://localhost:8080"
 
+            $scope.wsHost = window.location.protocol + window.location.host;
+            if (window.location.host.indexOf('localhost') > -1) {
+                $scope.wsHost= window.location.protocol + '//localhost:8080';
+            } else if (window.location.host.indexOf('dev.rgd') > -1) {
+                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
+            }else if (window.location.host.indexOf('test.rgd') > -1) {
+                $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';
+            }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
+            }else {
+                $scope.wsHostt=window.location.protocol + '//rest.rgd.mcw.edu';
+            }
+
+
+
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
 
@@ -463,7 +478,7 @@
                     document.getElementById("gviewer").innerHTML="";
                 }
 
-                    gviewer = new Gviewer("gviewer", 250, 1000);
+                    gviewer = new Gviewer("gviewer", 250, 800);
 
                     gviewer.imagePath = "/rgdweb/gviewer/images";
                     gviewer.exportURL = "/rgdweb/report/format.html";
@@ -475,7 +490,7 @@
                     gviewer.annotationPadding = 1;
 
                     gviewer.loadBands("/rgdweb/gviewer/data/portal_" + $scope.speciesTypeKey + "_ideo.xml");
-                    gviewer.addZoomPane("zoomWrapper", 250, 1000);
+                    gviewer.addZoomPane("zoomWrapper", 250, 800);
 
                 var ids="";
                 var first = 1;
@@ -517,43 +532,15 @@
 
                 }
 
-
-                //alert(ids);
-
-
-
-
                  gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
-
-                //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
-
-
-                //gviewer.loadAnnotations("/rgdweb/gviewer/data/hypertension.xml");
-               // gviewer.addZoomPane("zoomWrapper", 250, 750);
 
             }
 
 
             ctrl.enrich = function(ont) {
 
-
-
-
-
-                var enrichment = EnrichmentVue();
-                //enrichment.hostName=$scope.wsHost;
-                //enrichment.species=[$scope.speciesTypeKey];
-                //enrichment.ont=[ont];
-                ///enrichment.graph=true;
-                //enrichment.genes=Object.keys($scope.portalGenes);
-                //enrichment.table=true;
-
-                alert(ont);
-
+                var enrichment = EnrichmentVue("enrichment", $scope.wsHost);
                 enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
-               // document.getElementById("enrichment").style.display="block";
-
-
             }
 
 
@@ -637,6 +624,10 @@
                         $scope.portalStrains=response.data;
                         $scope.portalStrainsLen=Object.keys($scope.portalStrains).length;
                     }
+
+                    ctrl.buildGViewer();
+
+
 
                     $("#loadingModal").modal("hide");
 
@@ -987,6 +978,58 @@
     </tr>
 </table>
 <br>
+
+
+    <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
+        <tr>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Genome View</div> </td>
+        </tr>
+    </table>
+
+    <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Plot On Genome" ng-click="portal.buildGViewer()"/>-->
+
+
+    <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
+        // ================================================================
+        //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
+        //  Copyright 2005-2007 Kawasaki Yusuke <u-suke@kawa.net>
+        //  http://www.kawa.net/works/js/jkl/parsexml.html
+        // ================================================================
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
+        /***********************************************
+         * DHTML Window script- � Dynamic Drive (http://www.dynamicdrive.com)
+         * This notice MUST stay intact for legal use
+         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+         ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
+        /***********************************************
+         * Context Menu script- � Dynamic Drive (http://www.dynamicdrive.com)
+         * This notice MUST stay intact for legal use
+         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
+         ***********************************************/
+    </script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
+    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
+
+
+    <table align="center">
+        <tr>
+            <td>
+                <div id="gviewer" class="gviewer"></div>
+                <div id="zoomWrapper" class="zoom-pane"></div>
+
+            </td>
+        </tr>
+    </table>
+
+
+
     <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
         <tr>
             <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Perform Gene Set Enrichment</div></td>
@@ -1049,53 +1092,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 
-    <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
-        <tr>
-            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Genome View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Plot On Genome" ng-click="portal.buildGViewer()"/></div> </td>
-        </tr>
-    </table>
 
-
-
-
-    <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
-        // ================================================================
-        //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
-        //  Copyright 2005-2007 Kawasaki Yusuke <u-suke@kawa.net>
-        //  http://www.kawa.net/works/js/jkl/parsexml.html
-        // ================================================================
-    </script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
-        /***********************************************
-         * DHTML Window script- � Dynamic Drive (http://www.dynamicdrive.com)
-         * This notice MUST stay intact for legal use
-         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
-         ***********************************************/
-    </script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
-        /***********************************************
-         * Context Menu script- � Dynamic Drive (http://www.dynamicdrive.com)
-         * This notice MUST stay intact for legal use
-         * Visit http://www.dynamicdrive.com/ for this script and 100s more.
-         ***********************************************/
-    </script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
-    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
-
-
-<table align="center">
-    <tr>
-        <td>
-            <div id="gviewer" class="gviewer"></div>
-            <div id="zoomWrapper" class="zoom-pane"></div>
-
-        </td>
-    </tr>
-</table>
 
 
 
