@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import="edu.mcw.rgd.reporting.SearchReportStrategy" %>
-<%@ page import="edu.mcw.rgd.reporting.Report" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -40,7 +38,6 @@
                 <th >Species B</th>
                 <th >Interaction Type</th>
                 <th>Attibutes</th>
-
             </tr>
             </thead>
             <tbody>
@@ -63,16 +60,4 @@
     </div>
     <%@ include file="/common/footerarea.jsp"%>
 </div>
-<%--
-   Report report= (Report) request.getAttribute("report");
-    SearchReportStrategy strat = new SearchReportStrategy();
-    strat.hideColumn(0);
-    strat.setTableProperties("border='0' cellpadding='2' cellspacing='2' width=100%");
-    try {
-        out.println(report.format(strat));
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
---%>
-
 

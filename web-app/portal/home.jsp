@@ -541,15 +541,15 @@
 
 
                 //var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,graph,host);
-                enrichment.hostName=$scope.wsHost;
-                enrichment.species=[$scope.speciesTypeKey];
-                enrichment.ont=[ont];
-                enrichment.graph=true;
-                enrichment.genes=Object.keys($scope.portalGenes);
-                enrichment.table=true;
+                //enrichment.hostName=$scope.wsHost;
+                //enrichment.species=[$scope.speciesTypeKey];
+                //enrichment.ont=[ont];
+                ///enrichment.graph=true;
+                //enrichment.genes=Object.keys($scope.portalGenes);
+                //enrichment.table=true;
 
 
-                enrichment.init(ont,$scope.speciesTypeKey);
+                enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
                 document.getElementById("enrichment").style.display="block";
 
 
@@ -1049,7 +1049,7 @@
     </table>
 
     <script>
-        var enrichment = EnrichmentVue('enrichment',3,'RDO',[],1,"loading");
+        var enrichment = EnrichmentVue();
 
     </script>
 
