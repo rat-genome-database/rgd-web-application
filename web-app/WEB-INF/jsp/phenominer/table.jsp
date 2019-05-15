@@ -29,6 +29,7 @@
     Double maxValue = (Double) request.getAttribute("maxValue");
     String idsWithoutMM = (String) request.getAttribute("idsWithoutMM");
     LinkedHashMap<String,String> conditionSet = (LinkedHashMap<String,String>) request.getAttribute("conditionSet");
+    Integer refRgdId = (Integer) request.getAttribute("refRgdId");
 
     int speciesTypeKey = 3;
 
@@ -632,7 +633,7 @@
     if( !Utils.isStringEmpty(reqTerms) ) {
         tableUrl += "&terms=" + reqTerms;
     }
-    if( refRgdId!=0 ) {
+    if( refRgdId!=null ) {
         tableUrl += "&refRgdId="+refRgdId;
     }
 %>

@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,6 +24,8 @@ import java.util.List;
  * Created by jdepons on 5/11/2017.
  */
 public class PivotTableController implements Controller {
+
+    PhenominerDAO pdao = new PhenominerDAO();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -97,32 +98,6 @@ public class PivotTableController implements Controller {
             re.append("Post Insult Time Value");
             re.append("Post Insult Time Unit");
             re.append("Conditions");
-            /*
-            re.append("Condition 1 Ont ID");
-            re.append("Condition 1 Term");
-            re.append("Condition 1 Ordinality");
-            re.append("Condition 1 Duration");
-            re.append("Condition 1 Value");
-            re.append("Condition 1 Units");
-            re.append("Condition 1 Notes");
-            re.append("Condition 1 Application Method");
-            re.append("Condition 2 Ont ID");
-            re.append("Condition 2 Term");
-            re.append("Condition 2 Ordinality");
-            re.append("Condition 2 Duration");
-            re.append("Condition 2 Value");
-            re.append("Condition 2 Units");
-            re.append("Condition 2 Notes");
-            re.append("Condition 2 Application Method");
-            re.append("Condition 3 Ont ID");
-            re.append("Condition 3 Term");
-            re.append("Condition 3 Ordinality");
-            re.append("Condition 3 Duration");
-            re.append("Condition 3 Value");
-            re.append("Condition 3 Units");
-            re.append("Condition 3 Notes");
-            re.append("Condition 3 Application Method");
-            */
         }else {
             re.append("# of Animals");
             re.append("Phenotype");
@@ -131,9 +106,6 @@ public class PivotTableController implements Controller {
             re.append("Value");
             re.append("Units");
             re.append("Conditions");
-            //re.append("Condition 2");
-            //re.append("Condition 3");
-
         }
 
         re.append("Record ID");
@@ -234,54 +206,6 @@ public class PivotTableController implements Controller {
                 re.append(r.getMeasurementMethod().getPiTypeUnit());
                 re.append(r.getConditionDescription());
 
-                /*
-                for (Condition c : r.getConditions()) {
-                    re.append(c.getOntologyId());
-                    re.append(termResolver.get(c.getOntologyId()).getTerm());
-                    re.append(c.getOrdinality() + "");
-
-                    DecimalFormat df = new DecimalFormat("###.#");
-
-                    if (c.getDurationLowerBound() > 0 || c.getDurationUpperBound() > 0) {
-                        if (c.getDurationLowerBound() == c.getDurationUpperBound()) {
-
-
-                            if ((c.getDurationLowerBound() / 86400) < 1) {
-                                re.append(df.format(c.getDurationLowerBound() / 3600) + "&nbsp;hours");
-
-                            } else {
-                                re.append(df.format(c.getDurationLowerBound() / 86400) + "&nbsp;days");
-
-                            }
-                        } else {
-                            if ((c.getDurationLowerBound() / 86400) < 1 || (c.getDurationUpperBound() / 86400) < 1) {
-                                re.append(df.format(c.getDurationLowerBound() / 3600) + " to " + df.format(c.getDurationUpperBound() / 3600) + "&nbsp;hours");
-
-                            } else {
-                                re.append(df.format(c.getDurationLowerBound() / 86400) + " to " + df.format(c.getDurationUpperBound() / 86400) + "&nbsp;days");
-                            }
-                        }
-                    }else {
-                        re.append("");
-                    }
-
-                    re.append(c.getValue());
-                    re.append(c.getUnits());
-                    re.append(c.getNotes());
-                    re.append(c.getApplicationMethod());
-                }
-
-                for ( int i=0; i< (3 - r.getConditions().size()); i++) {
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                    re.append("&nbsp;");
-                }
-                */
                 re.append(r.getId() + "");
 
             }else {
@@ -292,16 +216,6 @@ public class PivotTableController implements Controller {
                 re.append(r.getSample().getSex());
                 re.append(r.getMeasurementValue());
                 re.append(r.getMeasurementUnits());
-
-                /*
-                for (Condition c : r.getConditions()) {
-                    re.append(termResolver.get(c.getOntologyId()).getTerm());
-                }
-
-                for ( int i=0; i< (3 - r.getConditions().size()); i++) {
-                    re.append("&nbsp;");
-                }
-                */
                 re.append(r.getConditionDescription());
                 re.append(r.getId() + "");
 
@@ -332,6 +246,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("minValue",min);
         request.setAttribute("maxValue",max);
         request.setAttribute("conditionSet", conditionSet);
+        request.setAttribute("refRgdId", refRgdId);
 
         request.setAttribute("idsWithoutMM",idsWithoutMM.toString());
 
@@ -382,13 +297,11 @@ public class PivotTableController implements Controller {
             }
         }
 
-        PhenominerDAO pdao = new PhenominerDAO();
         List<Record> records = pdao.getFullRecords(sampleIds,mmIds,cmIds,ecIds, speciesTypeKey);
         return records;
     }
 
     List<Record> getRecordsByRefRgdId(int refRgdId) throws Exception {
-        PhenominerDAO pdao = new PhenominerDAO();
         return pdao.getFullRecords(refRgdId);
     }
 
