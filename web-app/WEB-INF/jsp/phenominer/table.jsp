@@ -10,6 +10,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 
 <meta name="referrer" content="no-referrer" />
 
@@ -28,15 +29,23 @@
     Double maxValue = (Double) request.getAttribute("maxValue");
     String idsWithoutMM = (String) request.getAttribute("idsWithoutMM");
     LinkedHashMap<String,String> conditionSet = (LinkedHashMap<String,String>) request.getAttribute("conditionSet");
+    Integer refRgdId = (Integer) request.getAttribute("refRgdId");
 
     int speciesTypeKey = 3;
-
     try {
         speciesTypeKey= Integer.parseInt(request.getParameter("species"));
     }catch(Exception e) {
 
     }
 
+    String tableUrl = "/rgdweb/phenominer/table.html?species="+speciesTypeKey;
+    String reqTerms = request.getParameter("terms");
+    if( !Utils.isStringEmpty(reqTerms) ) {
+        tableUrl += "&terms=" + reqTerms;
+    }
+    if( refRgdId!=0 ) {
+        tableUrl += "&refRgdId="+refRgdId;
+    }
 %>
 
 <%
@@ -147,8 +156,6 @@
                 host= window.location.protocol + "//localhost:8080";
             } else if (window.location.host.indexOf("dev.rgd") > -1) {
                 host= window.location.protocol + "//dev.rgd.mcw.edu";
-            }else if (window.location.host.indexOf("test.rgd") > -1) {
-                host= window.location.protocol + "//test.rgd.mcw.edu";
             }else if (window.location.host.indexOf("pipelines.rgd") > -1) {
                 host= window.location.protocol + "//pipelines.rgd.mcw.edu";
             }else {
@@ -409,16 +416,17 @@
 
     }
 
-    .oddRow {
+    tr.oddRow td, tr.oddRow td {
+        padding-top:1px;
         padding-left:5px;
-        padding-bottom:2px;
+        padding-bottom:1px;
     }
-    .evenRow {
+
+    tr.evenRow td, tr.evenRow td {
         background-color:#E2E2E2;
-        width:98%;
+        padding-top:1px;
         padding-left:5px;
-        padding-top:4px;
-        padding-bottom:4px;
+        padding-bottom:1px;
     }
 
     .hoverbox {
@@ -485,12 +493,12 @@
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td><a href="#ViewDataTable">View data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=3&species=<%=speciesTypeKey%>">Download data table</a></td>
+        <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <% if (format ==2) { %>
-            <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=1&species=<%=speciesTypeKey%>">View compact data table</a></td>
+        <% if (format==2) { %>
+            <td><a href="<%=tableUrl%>&fmt=1">View compact data table</a></td>
         <% } else { %>
-            <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=2&species=<%=speciesTypeKey%>">View expanded data table</a></td>
+            <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
         <% } %>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td align="right" colspan="2"><input type="button" value="Edit Query" onClick="location.href='/rgdweb/phenominer/ontChoices.html?terms=<%=request.getParameter("terms")%>&species=<%=speciesTypeKey%>'"/></td>
@@ -621,31 +629,30 @@
 
     <div ng-init="pheno.load()"></div>
 
-
 </div> <!-- end of angular block -->
 
 
 <a name="ViewDataTable"></a>
-
-<table lign="center">
+<table>
     <tr>
         <td><b>Options:&nbsp;</b></td>
         <td><a href="#ViewChart">View chart</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=3&species=<%=speciesTypeKey%>">Download data table</a></td>
+        <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=2&species=<%=speciesTypeKey%>">View expanded data table</a></td>
+        <% if (format==2) { %>
+        <td><a href="<%=tableUrl%>&fmt=1">View compact data table</a></td>
+        <% } else { %>
+        <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
+        <% } %>
     </tr>
 </table>
 
 <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-    <%
-        HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-        strat.setTableProperties(" class='sortable' lign='center' ");
-        out.print(strat.format(report));
-
-
-    %>
-
+<%
+    HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
+    strat.setTableProperties(" class='sortable' lign='center' ");
+    out.print(strat.format(report));
+%>
 
 <%@ include file="/common/compactFooterArea.jsp"%>
