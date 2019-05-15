@@ -2,6 +2,7 @@ package edu.mcw.rgd.ortholog;
 
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.OrthologDAO;
+import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Ortholog;
 import edu.mcw.rgd.datamodel.SpeciesType;
@@ -37,11 +38,13 @@ public class OrthologController implements Controller {
         if (!request.getParameter("outSpecies").equals("")) {
             outSpeciesTypeKey = Integer.parseInt(request.getParameter("outSpecies"));
         }
-
+        if (!request.getParameter("genes").equals("")) {
+            symbols = Utils.symbolSplit(request.getParameter("genes"));
+        }
         inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
         outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
 
-        symbols = Utils.symbolSplit(request.getParameter("genes"));
+
     }
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -68,9 +71,10 @@ public class OrthologController implements Controller {
         Report report = new Report();
         List<String> symbolsNotFound = new ArrayList<>();
 
-        ObjectMapper om = buildMapper(null);
+        ObjectMapper om = buildMapper(null,request,response);
+
         List<Integer> mappedIds = om.getMappedRgdIds();
-        if(mappedIds.size() != 0) {
+        if(mappedIds.size() != 0 ) {
             List<MappedGene> rgdIds = gdao.getActiveMappedGenesByIds(this.inMapKey, mappedIds);
             Map<Integer, List<MappedGene>> geneMap = rgdIds.stream().collect(
                     Collectors.groupingBy(MappedGene -> MappedGene.getGene().getRgdId()));
@@ -161,7 +165,7 @@ public class OrthologController implements Controller {
                     }
                 }
             }
-
+        
             for (Iterator<String> iterator = symbols.iterator(); iterator.hasNext(); ) {
                 String symbol = iterator.next();
                 if (!symbolsFound.contains(symbol.toLowerCase())) {
@@ -186,9 +190,24 @@ public class OrthologController implements Controller {
 
     }
 
-    private ObjectMapper buildMapper(String integerIdType) throws Exception{
+    private ObjectMapper buildMapper(String integerIdType,HttpServletRequest req,HttpServletResponse res) throws Exception{
         ObjectMapper om = new ObjectMapper();
-        om.mapSymbols(symbols, this.inSpeciesTypeKey, integerIdType);
+
+
+        if (symbols == null  ) {
+            om.mapPosition(req.getParameter("chr"), Integer.parseInt(req.getParameter("start")), Integer.parseInt(req.getParameter("stop")), inMapKey);
+            Iterator symbolIt = om.getMapped().iterator();
+            symbols = new ArrayList<>();
+            while (symbolIt.hasNext()) {
+                Object obj = symbolIt.next();
+                if (obj instanceof Gene) {
+                    Gene g = (Gene) obj;
+                    symbols.add(g.getSymbol());
+                }
+            }
+
+        } else
+            om.mapSymbols(symbols, this.inSpeciesTypeKey, integerIdType);
         return om;
     }
 }

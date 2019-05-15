@@ -49,15 +49,39 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
-                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 ></textarea>
-                            </div>
-                            <div class="form-group">
                                 <label for="inMapKey" style="color: #24609c; font-weight: bold;">Assembly:</label><br>
                                 <select id="inMapKey" name="inMapKey" v-model="inMapKey">
                                     <option v-for="value in inMaps" :value="value.key">{{value.name}}</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
+                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 ></textarea>
+                            </div>
+<p style="color:#24609c; font-weight: bold;">Enter Genomic Position (Optional)</p>
+                                <div class="row">
+                                    <div class="form-group">
+                                    <div class="col-md-1">
+                                        <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome:</label><br>
+                                        <select id="chr" name="chr" v-model="chr">
+                                            <option v-for="value in chromosomes" :value="value">{{value}}</option>
+                                        </select>
+                                    </div>
+                                        </div>
+                                    <div class="form-group">
+                                    <div class="col-md-1">
+                                        <label for="start" style="color: #24609c; font-weight: bold;">Start:</label><br>
+                                        <input id="start" type="text" name="start" />
+                                    </div>
+                                        </div>
+                                        <div class="form-group">
+                                    <div class="col-md-1">
+                                        <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
+                                        <input id="stop" type="text" name="stop" />
+                                    </div>
+                                            </div>
+                                </div>
+
                         </fieldset>
                     </div>
 
