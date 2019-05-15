@@ -166,7 +166,11 @@
                 $http({
                     method: 'GET',
                     //url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/3/chart/RS%3A0000029%2CRS%3A0001860%2CRS%3A0001381%2CCMO%3A0000015",
+                    <% if( refRgdId==0 ) { %>
                     url: host + "/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
+                    <% } else { %>
+                    url: host + "/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/<%=refRgdId%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
+                    <% } %>
                 }).then(function successCallback(response) {
 
                     $scope.records = response.data.records;
