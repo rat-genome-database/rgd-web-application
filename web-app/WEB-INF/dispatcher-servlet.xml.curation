@@ -218,11 +218,11 @@
                 <prop key="cytoscape/report.html">cyReportController</prop>
                 <prop key="cytoscape/download.html">cyDownloadController</prop>
 
-                 <prop key="models/upload.html">ImageUploadController</prop>
-                 <prop key="models/getGenes.html">AutocompleteController</prop>
-                 <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
-                 <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
-                 <prop key="models/gerrc.html">GeneticModelsController</prop>
+                <prop key="models/upload.html">ImageUploadController</prop>
+                <prop key="models/getGenes.html">AutocompleteController</prop>
+                <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
+                <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
+                <prop key="models/gerrc.html">GeneticModelsController</prop>
                 <prop key="models/references.html">ReferencesController</prop>
                 <prop key="models/allModels.html">AllModelsController</prop>
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>

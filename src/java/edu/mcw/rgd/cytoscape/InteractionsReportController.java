@@ -1,6 +1,5 @@
 package edu.mcw.rgd.cytoscape;
 
-import edu.mcw.rgd.reporting.Report;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -8,7 +7,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,6 @@ import java.util.Map;
  */
 public class InteractionsReportController implements Controller {
     Map<String, List<InteractionReportRecord>> map= new HashMap<>();
-    //Map<String, Report> reportMap= new HashMap<>();
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {

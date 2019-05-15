@@ -15,6 +15,8 @@ public class InteractionsService {
     InteractionsDAO idao= new InteractionsDAO();
     OntologyXDAO xdao=new OntologyXDAO();
     AssociationDAO assocDao= new AssociationDAO();
+    InteractionAttributesDAO adao= new InteractionAttributesDAO();
+
     Map<String, String> intTypes=new HashMap<>();
     Map<Integer, Protein> proteins=new HashMap<>();
     Map<Integer, List<Gene>> geneProteinMap=new HashMap<>();
@@ -129,12 +131,11 @@ public class InteractionsService {
         }
         return sb.toString();
     }
+
     public Protein getProtein(int rgdId) throws Exception {
-        Protein p= new Protein();
-        if(proteins.get(rgdId)!=null){
-            p=proteins.get(rgdId);
-        }else{
-            p=pdao.getProtein(rgdId);
+        Protein p = proteins.get(rgdId);
+        if( p==null ){
+            p = pdao.getProtein(rgdId);
             proteins.put(rgdId, p);
         }
         return p;
@@ -142,7 +143,6 @@ public class InteractionsService {
 
 
     public String getAttributes(int interactionKey) throws Exception {
-        InteractionAttributesDAO adao= new InteractionAttributesDAO();
         List<InteractionAttribute> attributes=adao.getAttributes(interactionKey);
         StringBuilder sb=new StringBuilder();
         boolean first=true;
@@ -170,19 +170,16 @@ public class InteractionsService {
 
         return batches;
     }
+
     public List<Gene> getGeneByProteinRgdId(int proteinRgdId) throws Exception {
-    //    proteinRgdId=pdao.getRgdId("Q91Y79");
-    //    System.out.println("PROTEIN RGDID: "+ proteinRgdId);
-        List<Gene> genes= new ArrayList<>();
-        if(geneProteinMap.get(proteinRgdId)!=null){
-            genes=geneProteinMap.get(proteinRgdId);
-        }else{
-            genes=assocDao.getAssociatedGenesForMasterRgdId(proteinRgdId, "protein_to_gene");
+        List<Gene> genes = geneProteinMap.get(proteinRgdId);
+        if( genes==null ){
+            genes = assocDao.getAssociatedGenesForMasterRgdId(proteinRgdId, "protein_to_gene");
             geneProteinMap.put(proteinRgdId, genes);
         }
-    //    System.out.println("GENES SIZE:"+genes.size());
         return genes;
     }
+
     public static void main(String[] args) throws Exception {
         InteractionsService service= new InteractionsService();
         service.getGeneByProteinRgdId(0);
