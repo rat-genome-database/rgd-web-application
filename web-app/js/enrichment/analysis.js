@@ -138,7 +138,7 @@ function EnrichmentVue(divId, hostname) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-
+                alert("In data load");
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
