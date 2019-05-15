@@ -32,13 +32,20 @@
     Integer refRgdId = (Integer) request.getAttribute("refRgdId");
 
     int speciesTypeKey = 3;
-
     try {
         speciesTypeKey= Integer.parseInt(request.getParameter("species"));
     }catch(Exception e) {
 
     }
 
+    String tableUrl = "/rgdweb/phenominer/table.html?species="+speciesTypeKey;
+    String reqTerms = request.getParameter("terms");
+    if( !Utils.isStringEmpty(reqTerms) ) {
+        tableUrl += "&terms=" + reqTerms;
+    }
+    if( refRgdId!=0 ) {
+        tableUrl += "&refRgdId="+refRgdId;
+    }
 %>
 
 <%
@@ -486,12 +493,12 @@
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td><a href="#ViewDataTable">View data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=3&species=<%=speciesTypeKey%>">Download data table</a></td>
+        <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <% if (format ==2) { %>
-            <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=1&species=<%=speciesTypeKey%>">View compact data table</a></td>
+        <% if (format==2) { %>
+            <td><a href="<%=tableUrl%>&fmt=1">View compact data table</a></td>
         <% } else { %>
-            <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=2&species=<%=speciesTypeKey%>">View expanded data table</a></td>
+            <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
         <% } %>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td align="right" colspan="2"><input type="button" value="Edit Query" onClick="location.href='/rgdweb/phenominer/ontChoices.html?terms=<%=request.getParameter("terms")%>&species=<%=speciesTypeKey%>'"/></td>
@@ -626,16 +633,6 @@
 
 
 <a name="ViewDataTable"></a>
-<%
-    String tableUrl = "/rgdweb/phenominer/table.html?species="+speciesTypeKey;
-    String reqTerms = request.getParameter("terms");
-    if( !Utils.isStringEmpty(reqTerms) ) {
-        tableUrl += "&terms=" + reqTerms;
-    }
-    if( refRgdId!=0 ) {
-        tableUrl += "&refRgdId="+refRgdId;
-    }
-%>
 <table>
     <tr>
         <td><b>Options:&nbsp;</b></td>
@@ -643,7 +640,11 @@
         <td>&nbsp;|&nbsp;</td>
         <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
         <td>&nbsp;|&nbsp;</td>
+        <% if (format==2) { %>
+        <td><a href="<%=tableUrl%>&fmt=1">View compact data table</a></td>
+        <% } else { %>
         <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
+        <% } %>
     </tr>
 </table>
 
