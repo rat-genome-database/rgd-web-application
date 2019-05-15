@@ -423,7 +423,7 @@
 
                 }
 
-                var url = "downloadGenes.jsp?ids=" + ids;
+                var url = "downloadGenes.jsp?species=" + $scope.speciesTypeKey + "&ids=" + ids;
 
                 location.href=url;
             }
@@ -1115,21 +1115,21 @@
     <br>
     <table  align="center">
         <tr>
-            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}">
+            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}" target="_blank">
                 <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png" style="margin:10px;" /><div style="font-size:16px;">Disease Navigator</div>
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-tools/">
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-tools/" target="_blank">
                 <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
 
 
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-rat-strain-models/">
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-rat-strain-models/" target="_blank">
                 <img height=150 width=200 src="https://rgd.mcw.edu/rgdweb/common/images/geneticModels.png"  style="margin:10px;"/><div style="font-size:16px;">Rat Strain Models</div>
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-related-links/">
+            <td  align="center"><a href="/wg/portals/aging-disease-portal-related-links/" target="_blank">
                 <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/strainMedicalRecords.png"  style="margin:10px;"/><div style="font-size:16px;">Related Links</div>
             </a>
             </td>

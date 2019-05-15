@@ -409,7 +409,13 @@ public class OntBrowser extends SimpleTagSupport {
 
             // show link to annotations, if there are any
         if( !diagramMode && node.getAnnotCountForTermAndChilds()>0 ) {
-            out.append("&nbsp;<a class='annotlnk' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+            if (portalVersion) {
+                out.append("&nbsp;<a class='annotlnk' target='_blank' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+            }else {
+                out.append("&nbsp;<a class='annotlnk' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+
+            }
+
         }
 
         // show link to pathway diagram, if any
