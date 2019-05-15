@@ -149,8 +149,6 @@
                 host= window.location.protocol + "//localhost:8080";
             } else if (window.location.host.indexOf("dev.rgd") > -1) {
                 host= window.location.protocol + "//dev.rgd.mcw.edu";
-            }else if (window.location.host.indexOf("test.rgd") > -1) {
-                host= window.location.protocol + "//test.rgd.mcw.edu";
             }else if (window.location.host.indexOf("pipelines.rgd") > -1) {
                 host= window.location.protocol + "//pipelines.rgd.mcw.edu";
             }else {
@@ -411,16 +409,17 @@
 
     }
 
-    .oddRow {
+    tr.oddRow td, tr.oddRow td {
+        padding-top:1px;
         padding-left:5px;
-        padding-bottom:2px;
+        padding-bottom:1px;
     }
-    .evenRow {
+
+    tr.evenRow td, tr.evenRow td {
         background-color:#E2E2E2;
-        width:98%;
+        padding-top:1px;
         padding-left:5px;
-        padding-top:4px;
-        padding-bottom:4px;
+        padding-bottom:1px;
     }
 
     .hoverbox {
