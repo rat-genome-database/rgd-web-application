@@ -10,6 +10,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 
 <meta name="referrer" content="no-referrer" />
 
@@ -621,31 +622,36 @@
 
     <div ng-init="pheno.load()"></div>
 
-
 </div> <!-- end of angular block -->
 
 
 <a name="ViewDataTable"></a>
-
-<table lign="center">
+<%
+    String tableUrl = "/rgdweb/phenominer/table.html?species="+speciesTypeKey;
+    String reqTerms = request.getParameter("terms");
+    if( !Utils.isStringEmpty(reqTerms) ) {
+        tableUrl += "&terms=" + reqTerms;
+    }
+    if( refRgdId!=0 ) {
+        tableUrl += "&refRgdId="+refRgdId;
+    }
+%>
+<table>
     <tr>
         <td><b>Options:&nbsp;</b></td>
         <td><a href="#ViewChart">View chart</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=3&species=<%=speciesTypeKey%>">Download data table</a></td>
+        <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
         <td>&nbsp;|&nbsp;</td>
-        <td><a href="/rgdweb/phenominer/table.html?terms=<%=request.getParameter("terms")%>&fmt=2&species=<%=speciesTypeKey%>">View expanded data table</a></td>
+        <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
     </tr>
 </table>
 
 <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-    <%
-        HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-        strat.setTableProperties(" class='sortable' lign='center' ");
-        out.print(strat.format(report));
-
-
-    %>
-
+<%
+    HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
+    strat.setTableProperties(" class='sortable' lign='center' ");
+    out.print(strat.format(report));
+%>
 
 <%@ include file="/common/compactFooterArea.jsp"%>
