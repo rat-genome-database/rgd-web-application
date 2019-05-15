@@ -26,15 +26,17 @@ function OrthologVue(divId) {
             mapsHtml: "",
             inMaps: [],
             outMaps: [],
+            chromosomes: [],
             inSpecies: 3,
             outSpecies: 1,
+            chr: 1,
             inMapKey: "Rnor_6.0",
             outMapKey: "GRCh38",
             genes: []
         },
         methods: {
             setMaps: function(species,divId) {
-
+                var mapKey = 0;
                 if(species != this.inSpecies && species != this.outSpecies )
                     species = species.options[species.selectedIndex].value;
                 v.maps = [];
@@ -46,16 +48,22 @@ function OrthologVue(divId) {
                     .get(this.hostName + '/rgdws/maps/'+species)
                     .then(function (response) {
                         v.maps = (response.data);
+
                         for(var i=0;i < v.maps.length;i++){
                             if(divId == 'inMaps') {
+                                mapKey = v.maps[0].key;
                                 v.inMapKey = v.maps[0].key;
                                 v.inMaps.push(v.maps[i]); }
                             else {v.outMapKey = v.maps[0].key;
                                 v.outMaps.push(v.maps[i]); }
                         }
+                        if(divId == 'inMaps' && v.maps.length > 0)
+                            v.setChromosomes(mapKey);
                     }).catch(function (error) {
                     console.log(error)
-                })
+                });
+
+
             },
 
             download: function() {
@@ -82,6 +90,17 @@ function OrthologVue(divId) {
                 form.submit();
             },
 
+            setChromosomes: function(mapKey) {
+                   if(v.inMapKey == 'Rnor_6.0')
+                        mapKey = 360;
+                    axios
+                        .get(this.hostName + '/rgdws/maps/chr/' + mapKey)
+                        .then(function (response) {
+                            v.chromosomes = response.data;
+                        }).catch(function (error) {
+                        console.log(error)
+                    });
+            }
 
 
         },
