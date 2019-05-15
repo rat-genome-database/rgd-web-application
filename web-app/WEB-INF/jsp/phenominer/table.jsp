@@ -633,7 +633,7 @@
     if( !Utils.isStringEmpty(reqTerms) ) {
         tableUrl += "&terms=" + reqTerms;
     }
-    if( refRgdId!=null ) {
+    if( refRgdId!=0 ) {
         tableUrl += "&refRgdId="+refRgdId;
     }
 %>
