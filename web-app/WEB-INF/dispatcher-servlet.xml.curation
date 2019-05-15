@@ -211,12 +211,14 @@
 
                 <prop key="cytoscape/query.html">QueryController</prop>
                 <prop key="cytoscape/cy.html">CyController</prop>
+                <prop key="cytoscape/report.html">cyReportController</prop>
+                <prop key="cytoscape/download.html">cyDownloadController</prop>
 
-                 <prop key="models/upload.html">ImageUploadController</prop>
-                 <prop key="models/getGenes.html">AutocompleteController</prop>
-                 <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
-                 <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
-                 <prop key="models/gerrc.html">GeneticModelsController</prop>
+                <prop key="models/upload.html">ImageUploadController</prop>
+                <prop key="models/getGenes.html">AutocompleteController</prop>
+                <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
+                <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
+                <prop key="models/gerrc.html">GeneticModelsController</prop>
                 <prop key="models/references.html">ReferencesController</prop>
                 <prop key="models/allModels.html">AllModelsController</prop>
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>
@@ -454,6 +456,8 @@
     <bean id="MyManageAlertsController" class="edu.mcw.rgd.my.MyManageAlertsController"/>
     <bean id="QueryController" class="edu.mcw.rgd.cytoscape.QueryController"/>
     <bean id="CyController" class= "edu.mcw.rgd.cytoscape.CyController"/>
+    <bean id="cyReportController" class="edu.mcw.rgd.cytoscape.InteractionsReportController"/>
+    <bean id="cyDownloadController" class="edu.mcw.rgd.cytoscape.DownloadController"/>
 
     <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>
     <bean id="StrainSubmissionHelp" class="edu.mcw.rgd.models.StrainSubmissionHelp"/>
