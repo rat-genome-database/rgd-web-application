@@ -73,113 +73,133 @@ public class StrainEditObjectController extends EditObjectController {
     }
     
     public Object update(HttpServletRequest request, boolean persist) throws Exception {
-         HttpRequestFacade req = new HttpRequestFacade(request);
-         Strain st = null;
-         List<NomenclatureEvent> nomenEvents = new ArrayList<>();
+        HttpRequestFacade req = new HttpRequestFacade(request);
+        if (req.getParameter("key").equals("")) {
+            return null;
+        }
 
-         boolean isNew = false;
+        Strain st;
+        List<NomenclatureEvent> nomenEvents = new ArrayList<>();
+        List<Alias> aliases = new ArrayList<>();
 
-         if (!req.getParameter("key").equals("")) {
+        boolean isNew = false;
 
-             String symbol = req.getParameter("symbol");
-             this.checkSet("Symbol", symbol);
+        String symbol = req.getParameter("symbol");
+        this.checkSet("Symbol", symbol);
 
-             String name = req.getParameter("name");
+        String name = req.getParameter("name");
 
-             int rgdId = Integer.parseInt(req.getParameter("rgdId"));
-             String newImageUrl= null;
-             if (rgdId == -1 ) {
-                 RgdId id = rdao.createRgdId(this.getObjectTypeKey() ,req.getParameter("objectStatus"),SpeciesType.parse(req.getParameter("speciesType")));
-                 rgdId = id.getRgdId();
-                 isNew = true;
-                 st = new Strain();
-                 st.setRgdId(rgdId);
-                 int submissionKey= this.getSubmittedStrain().getSubmittedStrainKey();
+        int rgdId = Integer.parseInt(req.getParameter("rgdId"));
+        String newImageUrl= null;
+        if (rgdId == -1 ) {
+            RgdId id = rdao.createRgdId(this.getObjectTypeKey() ,req.getParameter("objectStatus"),SpeciesType.parse(req.getParameter("speciesType")));
+            rgdId = id.getRgdId();
+            isNew = true;
+            st = new Strain();
+            st.setRgdId(rgdId);
+            int submissionKey= this.getSubmittedStrain().getSubmittedStrainKey();
 
 
-                 /************************UPDATE SUBMITTED STRAIN IMAGE NAME TO RGDID ASSIGNED TO THE STRAIN********************/
+            /************************UPDATE SUBMITTED STRAIN IMAGE NAME TO RGDID ASSIGNED TO THE STRAIN********************/
 
-                if(submissionKey!=0){
-                 sdao.updateStrainRgdId(submissionKey,rgdId);
-                    try{
-                     newImageUrl= this.updateImageFileName(submissionKey, rgdId) ;
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        throw e;
-                    }
-
+            if(submissionKey!=0){
+                sdao.updateStrainRgdId(submissionKey,rgdId);
+                try{
+                    newImageUrl= this.updateImageFileName(submissionKey, rgdId) ;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    throw e;
                 }
-                 /*************************************END UPDATE************************************************/
-
-             }else {
-                 st = dao.getStrain(Integer.parseInt(req.getParameter("rgdId")));
-             }
-
-            if (!isNew) {
-                 if( !Utils.stringsAreEqual(st.getSymbol(), symbol) || !Utils.stringsAreEqual(st.getName(), name) ) {
-                     NomenclatureEvent ne = new NomenclatureEvent();
-                     ne.setDesc("Symbol and/or name change");
-                     ne.setEventDate(new Date());
-                     ne.setName(name);
-                     ne.setSymbol(symbol);
-                     ne.setNomenStatusType("APPROVED");
-                     ne.setOriginalRGDId(st.getRgdId());
-                     ne.setPreviousName(st.getName());
-                     ne.setPreviousSymbol(st.getSymbol());
-                     ne.setRefKey("853");
-                     ne.setRgdId(rgdId);
-                     nomenEvents.add(ne);
-                 }
             }
-             st.setSymbol(req.getParameter("symbol"));
-             st.setName(req.getParameter("name"));
+            /*************************************END UPDATE************************************************/
 
-             st.setStrain(req.getParameter("strain"));
-             st.setSubstrain(req.getParameter("subStrain"));
-             st.setGenetics(req.getParameter("genetics"));
-             st.setGeneticStatus(req.getParameter("geneticStatus"));
-             st.setInbredGen(req.getParameter("inbredGen"));
-             st.setOrigin(req.getParameter("origin"));
-             st.setColor(req.getParameter("color"));
-             st.setChrAltered(req.getParameter("chrAltered"));
-             st.setSource(req.getParameter("source"));
-             st.setNotes(req.getParameter("notes"));
-             if(newImageUrl!=null){
-                 st.setImageUrl(newImageUrl);
-             }else{
-                st.setImageUrl(req.getParameter("imageUrl"));
-             }
+        }else {
+            st = dao.getStrain(Integer.parseInt(req.getParameter("rgdId")));
+        }
 
-             st.setResearchUse(req.getParameter("researchUse"));
-             st.setStrainTypeName(req.getParameter("strainTypeName"));
+        if (!isNew) {
+            if( !Utils.stringsAreEqual(st.getSymbol(), symbol) || !Utils.stringsAreEqual(st.getName(), name) ) {
+                NomenclatureEvent ne = new NomenclatureEvent();
+                ne.setDesc("Symbol and/or name change");
+                ne.setEventDate(new Date());
+                ne.setName(name);
+                ne.setSymbol(symbol);
+                ne.setNomenStatusType("APPROVED");
+                ne.setOriginalRGDId(st.getRgdId());
+                ne.setPreviousName(st.getName());
+                ne.setPreviousSymbol(st.getSymbol());
+                ne.setRefKey("853");
+                ne.setRgdId(rgdId);
+                nomenEvents.add(ne);
 
-             String modificationMethod = req.getParameter("modificationMethod");
-             if( modificationMethod.equals("N/A") ) {
-                 modificationMethod = null;
-             }
-             st.setModificationMethod(modificationMethod);
+                if( !Utils.stringsAreEqual(st.getSymbol(), symbol) ) {
+                    Alias alias = new Alias();
+                    alias.setRgdId(rgdId);
+                    alias.setTypeName("old_strain_symbol");
+                    alias.setValue(st.getSymbol());
+                    alias.setNotes("created by Strain Edit on "+new Date());
+                    aliases.add(alias);
+                }
 
-             String backgroundStrainRgdId = req.getParameter("backgroundStrainRgdId");
-             if( !Utils.isStringEmpty(backgroundStrainRgdId) ) {
-                 st.setBackgroundStrainRgdId(Integer.parseInt(backgroundStrainRgdId));
-             }
+                if( !Utils.stringsAreEqual(st.getName(), name) ) {
+                    Alias alias = new Alias();
+                    alias.setRgdId(rgdId);
+                    alias.setTypeName("old_strain_name");
+                    alias.setValue(st.getName());
+                    alias.setNotes("created by Strain Edit on "+new Date());
+                    aliases.add(alias);
+                }
+            }
+        }
+        st.setSymbol(symbol);
+        st.setName(name);
 
-             if (persist) {
-                 if (isNew) {
-                    try {
-                        dao.insertStrain(st);
-                    }catch (Exception e) {
-                        rdao.deleteRgdId(st.getRgdId());
-                        throw e;
-                    }
-                 } else {
-                    dao.updateStrain(st);
-                    this.addNomenEvents(nomenEvents);
-                 }
+        st.setStrain(req.getParameter("strain"));
+        st.setSubstrain(req.getParameter("subStrain"));
+        st.setGenetics(req.getParameter("genetics"));
+        st.setGeneticStatus(req.getParameter("geneticStatus"));
+        st.setInbredGen(req.getParameter("inbredGen"));
+        st.setOrigin(req.getParameter("origin"));
+        st.setColor(req.getParameter("color"));
+        st.setChrAltered(req.getParameter("chrAltered"));
+        st.setSource(req.getParameter("source"));
+        st.setNotes(req.getParameter("notes"));
+        if(newImageUrl!=null){
+            st.setImageUrl(newImageUrl);
+        }else{
+            st.setImageUrl(req.getParameter("imageUrl"));
+        }
 
-                 updateStrainStatus(st, req);
-             }
-         }
+        st.setResearchUse(req.getParameter("researchUse"));
+        st.setStrainTypeName(req.getParameter("strainTypeName"));
+
+        String modificationMethod = req.getParameter("modificationMethod");
+        if( modificationMethod.equals("N/A") ) {
+            modificationMethod = null;
+        }
+        st.setModificationMethod(modificationMethod);
+
+        String backgroundStrainRgdId = req.getParameter("backgroundStrainRgdId");
+        if( !Utils.isStringEmpty(backgroundStrainRgdId) ) {
+            st.setBackgroundStrainRgdId(Integer.parseInt(backgroundStrainRgdId));
+        }
+
+        if (persist) {
+            if (isNew) {
+                try {
+                    dao.insertStrain(st);
+                }catch (Exception e) {
+                    rdao.deleteRgdId(st.getRgdId());
+                    throw e;
+                }
+            } else {
+                dao.updateStrain(st);
+                this.addNomenEvents(nomenEvents);
+                insertAliases(aliases);
+            }
+
+            updateStrainStatus(st, req);
+        }
 
         return st;
     }

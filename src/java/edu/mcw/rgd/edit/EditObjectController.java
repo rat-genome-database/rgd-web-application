@@ -9,6 +9,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -189,6 +190,26 @@ public abstract class EditObjectController implements Controller {
                 ndao.createNomenEvent(ne);
             }
        }        
+    }
+
+    /// return nr of aliases inserted into db
+    /// Note: duplicate aliases are NOT added
+    int insertAliases(List<Alias> aliases) throws Exception {
+
+        AliasDAO aliasDAO = new AliasDAO();
+
+        int aliasesInserted = 0;
+        for( Alias alias: aliases ) {
+            Alias aliasInRgd = aliasDAO.getAliasByValue(alias.getRgdId(), alias.getValue());
+            if (aliasInRgd == null) {
+                if( alias.getNotes()==null ) {
+                    alias.setNotes("created by Object Edit tool on " + new Date());
+                }
+                aliasDAO.insertAlias(alias);
+                aliasesInserted++;
+            }
+        }
+        return aliasesInserted;
     }
 
     protected boolean isSet(String value) throws Exception{
