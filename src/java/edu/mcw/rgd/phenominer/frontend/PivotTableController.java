@@ -163,6 +163,7 @@ public class PivotTableController implements Controller {
         }
 
         LinkedHashMap conditionSet = new LinkedHashMap();
+        String space = format==3 ? " " : "&nbsp;"; // emit plain spaces in generated CSV file
 
         for (Record r: records) {
 
@@ -180,9 +181,9 @@ public class PivotTableController implements Controller {
                 int ageDaysHighBound = r.getSample().getAgeDaysFromHighBound()==null ? 0 : r.getSample().getAgeDaysFromHighBound();
                 int ageDaysLowBound = r.getSample().getAgeDaysFromLowBound()==null ? 0 : r.getSample().getAgeDaysFromLowBound();
                 if( ageDaysHighBound==ageDaysLowBound ) {
-                    re.append(ageDaysHighBound + "&nbsp;days");
+                    re.append(ageDaysHighBound + space + "days");
                 }else {
-                    re.append(ageDaysHighBound + "&nbsp;days to " + ageDaysLowBound + "&nbsp;days");
+                    re.append(ageDaysHighBound + space + "days to " + ageDaysLowBound + space + "days");
                 }
 
                 re.append(r.getSample().getNumberOfAnimals() + "");
