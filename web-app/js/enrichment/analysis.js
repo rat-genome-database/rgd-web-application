@@ -95,7 +95,6 @@ function EnrichmentVue(divId, hostname) {
               v.genes = genes;
               v.graph = graph;
               v.table = table;
-              alert(ont);
               v.selectView();
             },
             getSpeciesKey: function (s) {
@@ -138,7 +137,7 @@ function EnrichmentVue(divId, hostname) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-                alert("In data load");
+
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -348,7 +347,7 @@ function EnrichmentVue(divId, hostname) {
         computed: {
             pairs: function () {
                 var v = this;
-                alert("In pairs");
+
                 return this.ontology.map(function (ont) {
 
                     return {

@@ -473,6 +473,7 @@
 
             ctrl.buildGViewer = function() {
 
+                return;
                 if (gviewer) {
                     gviewer.reset();
                     document.getElementById("gviewer").innerHTML="";
@@ -539,7 +540,6 @@
 
             ctrl.enrich = function(ont) {
 
-                var enrichment = EnrichmentVue("enrichment", $scope.wsHost);
                 enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
             }
 
@@ -1072,7 +1072,11 @@
     <table align="center" >
         <tr>
             <td>
-                <div id="enrichment" style="display:none; padding-top:20px;">
+                <div id="enrichment" tyle="display:none; padding-top:20px;">
+
+                    {{ontology}}
+                    {{pairs}}
+
 
                     <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
                     <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
@@ -1085,7 +1089,13 @@
     </table>
 
     <script>
-        var enrichment = EnrichmentVue();
+        var enrichment = EnrichmentVue("enrichment","http://localhost:8080");
+
+
+        //enrichment.init("BP",3,true,true,['a2m']);
+
+        //alert(enrichment.ontology)
+
 
     </script>
 
