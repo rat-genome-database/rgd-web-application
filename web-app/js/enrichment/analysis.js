@@ -74,7 +74,7 @@ function EnrichmentVue(divId, hostname) {
                 v.loadPairs(ont);
             },
             loadView: function (s) {
-                this.species[0] = v.getSpeciesKey(s);
+                this.species = [v.getSpeciesKey(s)];
                 v.selectView();
 
 
@@ -86,12 +86,12 @@ function EnrichmentVue(divId, hostname) {
             },
             loadSpeciesView: function (o) {
                 document.getElementById(this.ontology[0]).innerHTML = "";
-                this.ontology[0] = o;
+                this.ontology = [o];
                 v.selectView();
             },
             init: function (ont,species,graph,table,genes) {
-              v.ontology[0] = ont;
-              v.species[0] = species;
+              v.ontology = [ont];
+              v.species = [species];
               v.genes = genes;
               v.graph = graph;
               v.table = table;
@@ -137,7 +137,6 @@ function EnrichmentVue(divId, hostname) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -153,7 +152,7 @@ function EnrichmentVue(divId, hostname) {
                             genes: response.data.geneSymbols
                         });
 
-                        if (response.data.length != 0 && (this.graph))
+                        if (response.data.length != 0 && (v.graph))
                         {
                             v.loadChart(response.data.enrichment, aspect, 0.05);}
                         v.loading = false;
@@ -179,7 +178,7 @@ function EnrichmentVue(divId, hostname) {
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
-                        if (response.data.length != 0 && this.graph)
+                        if (response.data.length != 0 && v.graph)
                         {
                             v.loadChart(response.data.enrichment, s, 0.05);}
                         v.loading = false;
@@ -347,7 +346,6 @@ function EnrichmentVue(divId, hostname) {
         computed: {
             pairs: function () {
                 var v = this;
-
                 return this.ontology.map(function (ont) {
 
                     return {
