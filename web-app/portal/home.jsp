@@ -285,11 +285,63 @@
             $scope.geneCanceler;
             $scope.qtlCanceler;
             $scope.strainCancelor;
-/*
+
+
+            $scope.portalLinks=[];
+            $scope.portalLinks["DOID:9007801"] = {};
             $scope.portalLinks["DOID:9007801"].tools = "/wg/portals/aging-disease-portal-tools/";
-            $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-tools/";
-            $scope.portalLinks["DOID:9007801"].models = "/wg/portals/aging-disease-portal-tools/";
-*/
+            $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-related-links/";
+            $scope.portalLinks["DOID:9007801"].models = "/wg/portals/aging-disease-portal-rat-strain-models/";
+
+            $scope.portalLinks["DOID:145669"] = {};
+            $scope.portalLinks["DOID:145669"].tools = "/wg/cancer_portal_tools/";
+            $scope.portalLinks["DOID:145669"].links = "/wg/cancer_portal_related_links/";
+            $scope.portalLinks["DOID:145669"].models = "/wg/cancer_portal_models/";
+
+            $scope.portalLinks["DOID:1287"] = {};
+            $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
+            $scope.portalLinks["DOID:1287"].links = "/wg/cardio_portal_related_links/";
+            $scope.portalLinks["DOID:1287"].models = "";
+
+            $scope.portalLinks["DOID:9351"] = {};
+            $scope.portalLinks["DOID:9351"].tools = "/wg/diabetes_portal_tools/";
+            $scope.portalLinks["DOID:9351"].links = "/wg/diabetes_portal_related_links/";
+            $scope.portalLinks["DOID:9351"].models = "/wg/diabetes_portal_models/";
+
+            $scope.portalLinks["DOID:74"] = {};
+            $scope.portalLinks["DOID:74"].tools = "/wg/portals/hematologic-disease-portal-tools/";
+            $scope.portalLinks["DOID:74"].links = "/wg/portals/hematologic-disease-portal-related-links/";
+            $scope.portalLinks["DOID:74"].models = "/wg/portals/hematologic-disease-portal-rat-strain-models/";
+
+            $scope.portalLinks["DOID:9003859"] = {};
+            $scope.portalLinks["DOID:9003859"].tools = "/wg/home/immune-inflammatory_portal_tools/";
+            $scope.portalLinks["DOID:9003859"].links = "/wg/home/immune-inflammatory_portal_related_links/";
+            $scope.portalLinks["DOID:9003859"].models = "/wg/home/immune-inflammatory_portal_models/";
+
+            $scope.portalLinks["DOID:863"] = {};
+            $scope.portalLinks["DOID:863"].tools = "/wg/nuro_rat_strain_models/";
+            $scope.portalLinks["DOID:863"].links = "/wg/nuro_portal_tools/";
+            $scope.portalLinks["DOID:863"].models = "/wg/nuro_related_links/";
+
+            $scope.portalLinks["DOID:9008231"] = {};
+            $scope.portalLinks["DOID:9008231"].tools = "/wg/obesity_portal_tools/";
+            $scope.portalLinks["DOID:9008231"].links = "/wg/obesity_portal_related_links/";
+            $scope.portalLinks["DOID:9008231"].models = "";
+
+            $scope.portalLinks["DOID:557"] = {};
+            $scope.portalLinks["DOID:557"].tools = "/wg/portals/renal-disease-portal-tools/";
+            $scope.portalLinks["DOID:557"].links = "/wg/portals/renal-disease-portal-related-links/";
+            $scope.portalLinks["DOID:557"].models = "/wg/portals/renal-disease-portal-rat-strain-models/";
+
+            $scope.portalLinks["DOID:1579"] = {};
+            $scope.portalLinks["DOID:1579"].tools = "/wg/respiratory_portal_tools/";
+            $scope.portalLinks["DOID:1579"].links = "/wg/respiratory_portal_related_links/";
+            $scope.portalLinks["DOID:1579"].models = "/wg/respiratory_portal_models/";
+
+            $scope.portalLinks["DOID:0050155"] = {};
+            $scope.portalLinks["DOID:0050155"].tools = "/wg/portals/sensory-organ-disease-portal-tools/";
+            $scope.portalLinks["DOID:0050155"].links = "/wg/portals/sensory-organ-disease-portal-related-links/";
+            $scope.portalLinks["DOID:0050155"].models = "/wg/portals/sensory-organ-disease-portal-rat-strain-models/";
 
 
 
@@ -1113,22 +1165,23 @@
                 <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png" style="margin:10px;" /><div style="font-size:16px;">Disease Navigator</div>
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-tools/" target="_blank">
+            <td  align="center"><a href="{{portalLinks[rootTermAcc].tools}}" target="_blank">
                 <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
-
-
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-rat-strain-models/" target="_blank">
+            <td  align="center"><a href="{{portalLinks[rootTermAcc].models}}" target="_blank">
                 <img height=150 width=200 src="https://rgd.mcw.edu/rgdweb/common/images/geneticModels.png"  style="margin:10px;"/><div style="font-size:16px;">Rat Strain Models</div>
             </a>
             </td>
-            <td  align="center"><a href="/wg/portals/aging-disease-portal-related-links/" target="_blank">
+            <td  align="center"><a href="{{portalLinks[rootTermAcc].links}}" target="_blank">
                 <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/strainMedicalRecords.png"  style="margin:10px;"/><div style="font-size:16px;">Related Links</div>
             </a>
             </td>
         </tr>
     </table>
+
+
+
 
 
 
