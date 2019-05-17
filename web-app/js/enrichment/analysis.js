@@ -90,8 +90,8 @@ function EnrichmentVue(divId, hostname) {
                 v.selectView();
             },
             init: function (ont,species,graph,table,genes) {
-              if(document.getElementById(ont) != null)
-                document.getElementById(ont).innerHTML = "";
+              if(document.getElementById(v.ontology) != null)
+                document.getElementById(v.ontology[0]).innerHTML = "";
               v.ontology = [ont];
               v.species = [species];
               v.genes = genes;
