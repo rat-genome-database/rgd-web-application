@@ -473,7 +473,6 @@
 
             ctrl.buildGViewer = function() {
 
-                return;
                 if (gviewer) {
                     gviewer.reset();
                     document.getElementById("gviewer").innerHTML="";
@@ -494,19 +493,23 @@
                     gviewer.addZoomPane("zoomWrapper", 250, 800);
 
                 var ids="";
-                var first = 1;
+
+                var cnt = 0;
                 for(var key in $scope.portalGenes) {
 
-                    if (first) {
+                    if (cnt==0) {
                         ids += $scope.portalGenes[key].rgdId;
-                        first=0;
                     }else {
                         ids += "," + $scope.portalGenes[key].rgdId;
 
                     }
+                    cnt++;
 
                 }
 
+                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+
+                ids="";
                 var first = 1;
                 for(var key in $scope.portalQTLs) {
 
@@ -519,7 +522,9 @@
                     }
 
                 }
+                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
 
+                ids="";
                 var first = 1;
                 for(var key in $scope.portalStrains) {
 
@@ -530,10 +535,10 @@
                         ids += "," + $scope.portalStrains[key].rgdId;
 
                     }
-
                 }
 
-                 gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+
 
             }
 
@@ -1032,7 +1037,7 @@
 
     <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
         <tr>
-            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Perform Gene Set Enrichment</div></td>
+            <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Gene Set Enrichment</div></td>
         </tr>
     </table>
 
@@ -1073,11 +1078,6 @@
         <tr>
             <td>
                 <div id="enrichment" tyle="display:none; padding-top:20px;">
-
-                    {{ontology}}
-                    {{pairs}}
-
-
                     <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
                     <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
                 </div>
@@ -1089,14 +1089,8 @@
     </table>
 
     <script>
-        var enrichment = EnrichmentVue("enrichment","http://localhost:8080");
-
-
-        //enrichment.init("BP",3,true,true,['a2m']);
-
-        //alert(enrichment.ontology)
-
-
+        //var enrichment = EnrichmentVue("enrichment","http://localhost:8080");
+        var enrichment = EnrichmentVue();
     </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>

@@ -1,5 +1,5 @@
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %><%@ page import="java.util.List" %><%@ page import="java.util.ArrayList" %><%@ page import="edu.mcw.rgd.datamodel.*" %><%@ page import="edu.mcw.rgd.datamodel.MappedGene" %><%@ page import="edu.mcw.rgd.process.mapping.MapManager" %><%@ page contentType="text/csv;charset=UTF-8" language="java" %><%
-    response.setHeader("Content-disposition","attachment;filename=\"orthologReport.csv\"");
+    response.setHeader("Content-disposition","attachment;filename=\"genes.csv\"");
     //Report report =  (Report)request.getAttribute("report");
     //out.println(report.format(new DelimitedReportStrategy()));
     GeneDAO gdao = new GeneDAO();
@@ -25,8 +25,6 @@
     out.print("Gene Symbol");
     out.print(",");
     out.print("RGD ID");
-    out.print(",");
-    out.println("Description");
 
 
 
@@ -44,9 +42,7 @@
         out.print(",");
         out.print(g.getGene().getSymbol());
         out.print(",");
-        out.print(g.getGene().getRgdId());
-        out.print(",");
-        out.println(g.getGene().getDescription());
+        out.println(g.getGene().getRgdId());
     }
 %>
 

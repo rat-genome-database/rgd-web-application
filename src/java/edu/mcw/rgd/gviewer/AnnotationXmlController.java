@@ -43,7 +43,6 @@ public class AnnotationXmlController implements Controller {
 
         try {
 
-            System.out.println("hello");
             if (ids != null && !ids.equals("")) {
                 sql = "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
                         "FROM maps_data m, full_annot fa where m.rgd_id in (";
@@ -52,7 +51,12 @@ public class AnnotationXmlController implements Controller {
                 String[] idArray = ids.split(",");
 
                 for (int i = 0; i < idArray.length; i++) {
-                    if (i > 0) {
+
+                    if (i==999) {
+                        sql +=") or m.rgd_id in(";
+                    }
+
+                    if (i > 0 && i !=999) {
                         sql += ",";
                     }
                     sql += idArray[i];
