@@ -120,7 +120,7 @@
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;
     var enrichment = EnrichmentVue();
-    enrichment.init(ont,speciesKey,true,true,genes);
+    enrichment.init(ont,speciesKey,true,true,genes,true);
 </script>
 
 
