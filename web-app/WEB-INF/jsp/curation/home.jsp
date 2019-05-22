@@ -106,35 +106,27 @@
     var v = new Vue({
         el: 'curation',
         data: {
-            accessToken:"",
+
             name:""
         },
         methods: {
-            getToken: function (){
-                var requestToken = '<%=request.getParameter("code")%>';
-                axios
-                        .post('https://github.com/login/oauth/access_token?client_id=7de10c5ae2c3e3825007&client_secret=0bf648f790ad12f2be1d54dcb0a9f57972289fd0&code='+requestToken)
-                        .then(function (response) {
-                            v.accessToken = response.data.access_token;
-                            v.getDetails();
-                        });
-            },
 
             getDetails: function(){
                 axios
                         .post('https://api.github.com/user',
                                 {
                                     headers: {
-                                        Authorization: 'token ' + v.accessToken
+                                        Authorization: 'token ' +  '<%=request.getAttribute("accessToken")%>'
                                     }
                                 })
                         .then(function (response) {
                             v.name = response.data.name;
+                            alert(v.name);
                         });
             }
         }
     });
 
-    v.getToken();
+    v.getDetails();
 
 </script>
