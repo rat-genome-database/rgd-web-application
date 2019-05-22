@@ -107,13 +107,21 @@
         el: 'curation',
         data: {
             accessToken:"",
-            name:""
+            name:"",
+            client_id: '7de10c5ae2c3e3825007',
+            requestToken : '<%=request.getParameter("code")%>',
+            client_secret: '0bf648f790ad12f2be1d54dcb0a9f57972289fd0'
         },
         methods: {
             getToken: function (){
-                var requestToken = '<%=request.getParameter("code")%>';
+
                 axios
-                        .post('https://github.com/login/oauth/access_token?client_id=7de10c5ae2c3e3825007&client_secret=0bf648f790ad12f2be1d54dcb0a9f57972289fd0&code='+requestToken)
+                        .post('https://github.com/login/oauth/access_token,' +
+                                {
+                                    client_id: this.client_id,
+                                    client_secret: this.client_secret,
+                                    code: this.requestToken
+                                })
                         .then(function (response) {
                             v.accessToken = response.data.access_token;
                             v.getDetails();
