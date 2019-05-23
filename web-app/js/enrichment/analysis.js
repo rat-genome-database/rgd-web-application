@@ -35,6 +35,7 @@ function EnrichmentVue(divId, hostname) {
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
+            orthologs: false,
             errored: false,
             pvalues: [0.01, 0.05, 0.1, 0.5, 1],
             pvalueLimit: 0.05,
@@ -89,7 +90,7 @@ function EnrichmentVue(divId, hostname) {
                 this.ontology = [o];
                 v.selectView();
             },
-            init: function (ont,species,graph,table,genes) {
+            init: function (ont,species,graph,table,genes,orthologs) {
               if(document.getElementById(v.ontology) != null)
                 document.getElementById(v.ontology[0]).innerHTML = "";
               v.ontology = [ont];
@@ -97,6 +98,7 @@ function EnrichmentVue(divId, hostname) {
               v.genes = genes;
               v.graph = graph;
               v.table = table;
+              v.orthologs=orthologs;
               v.selectView();
             },
             getSpeciesKey: function (s) {

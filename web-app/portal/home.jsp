@@ -613,7 +613,7 @@
                     return;
                 }
 
-                enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
+                enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes),false);
             }
 
 
