@@ -525,9 +525,13 @@
 
             ctrl.buildGViewer = function() {
 
+
+
+
                 if (gviewer) {
                     gviewer.reset();
                     document.getElementById("gviewer").innerHTML="";
+                    document.getElementById("zoomWrapper").innerHTML="";
                 }
 
                     gviewer = new Gviewer("gviewer", 250, 800);
@@ -536,17 +540,19 @@
                     gviewer.exportURL = "/rgdweb/report/format.html";
                     gviewer.annotationTypes = new Array("gene","qtl","strain");
                     gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-                    //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
                     gviewer.genomeBrowserName = "JBrowse";
                     gviewer.regionPadding=2;
                     gviewer.annotationPadding = 1;
 
+
                     gviewer.loadBands("/rgdweb/gviewer/data/portal_" + $scope.speciesTypeKey + "_ideo.xml");
                     gviewer.addZoomPane("zoomWrapper", 250, 800);
+
 
                 var ids="";
 
                 var cnt = 0;
+                //alert("portal genes len = " + JSON.stringify($scope.portalGenes));
                 for(var key in $scope.portalGenes) {
 
                     if (cnt==0) {
@@ -559,8 +565,9 @@
 
                 }
 
-                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
-
+                if (ids != "") {
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                }
                 ids="";
                 var first = 1;
                 for(var key in $scope.portalQTLs) {
@@ -574,7 +581,10 @@
                     }
 
                 }
-                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+
+                if (ids != "") {
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                }
 
                 ids="";
                 var first = 1;
@@ -589,13 +599,19 @@
                     }
                 }
 
-                gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
-
+                if (ids != "") {
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                }
 
             }
 
 
             ctrl.enrich = function(ont) {
+
+                if (Object.keys($scope.portalGenes).length == 0) {
+                    alert("Zero genes in gene set.  Enrichment available for terms with annotated genes.");
+                    return;
+                }
 
                 enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes));
             }
@@ -647,12 +663,16 @@
                     $scope.geneCanceler = $q.defer();
                     timeout=$scope.geneCanceler.promise;
 
+                    //document.getElementById("gviewer").innerHTML="";
+
+
                 }else if (objectKey==5) {
                     if ($scope.qtlCanceler) {
                         $scope.qtlCanceler.resolve("canceled");
                     }
                     $scope.qtlCanceler = $q.defer();
                     timeout=$scope.qtlCanceler.promise;
+                    //document.getElementById("gviewer").innerHTML="";
 
                 }else if (objectKey==6) {
                     if ($scope.strainCanceler) {
@@ -660,6 +680,7 @@
                     }
                     $scope.strainCanceler = $q.defer();
                     timeout=$scope.strainCanceler.promise;
+                    //document.getElementById("gviewer").innerHTML="";
 
                 }
 
@@ -672,7 +693,7 @@
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
 
-
+                        ctrl.buildGViewer();
                     }else if (objectKey==6) {
                         $scope.portalQTLs=response.data;
                         $scope.portalQTLsLen=Object.keys($scope.portalQTLs).length;
@@ -681,9 +702,6 @@
                         $scope.portalStrains=response.data;
                         $scope.portalStrainsLen=Object.keys($scope.portalStrains).length;
                     }
-
-                    ctrl.buildGViewer();
-
 
 
                     $("#loadingModal").modal("hide");
@@ -700,6 +718,11 @@
 
     ]);
 </script>
+
+
+
+
+
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 
@@ -1129,7 +1152,7 @@
     <table align="center" >
         <tr>
             <td>
-                <div id="enrichment" tyle="display:none; padding-top:20px;">
+                <div id="enrichment" style="padding-top:20px;">
                     <%@ include file="../../WEB-INF/jsp/enrichment/annotatedGenes.jsp" %>
                     <%@ include file="../../WEB-INF/jsp/enrichment/terms.jsp" %>
                 </div>

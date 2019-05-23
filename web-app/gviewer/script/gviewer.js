@@ -28,13 +28,13 @@ function Gviewer(viewerId, height, width) {
     //set the color scheme used for the annotations in the viewer. array[0] is the initial color.
     //array[1] is used for added objects
     this.colorScheme = new Array();
-    this.colorScheme["gene"] = ["#7e131d","#f37200"];
-    this.colorScheme["qtl"] = ["#3294d3", "#f37200"];
-    this.colorScheme["sslp"] = ["#76ac1a", "#f37200"];
+    this.colorScheme["gene"] = ["#7e131d","#7e131d"];
+    this.colorScheme["qtl"] = ["#3294d3", "#3294d3"];
+    this.colorScheme["sslp"] = ["#76ac1a", "#76ac1a"];
     this.colorScheme["snp"] = ["purple","#f37200"];
     this.colorScheme["probeset"] = ["#7e131d","#f37200"];
     this.colorScheme["eqtl"] = ["#7e131d","#f37200"];
-    this.colorScheme["strain"] = ["#76ac1a","#f37200"];
+    this.colorScheme["strain"] = ["#76ac1a","#76ac1a"];
     //this line added by JTHOTA
     this.colorScheme["variant"] = ["#f49b42","#f4af41"];
 

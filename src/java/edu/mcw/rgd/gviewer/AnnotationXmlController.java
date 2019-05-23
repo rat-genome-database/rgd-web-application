@@ -64,7 +64,7 @@ public class AnnotationXmlController implements Controller {
 
                 sql += ") and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
 
-                sql += MapManager.getInstance().getReferenceAssembly(1).getKey();
+                sql += MapManager.getInstance().getReferenceAssembly(1).getKey() + ",";
                 sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
                 sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
                 sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
@@ -79,6 +79,8 @@ public class AnnotationXmlController implements Controller {
         }catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println(sql);
 
         Connection conn = null;
         try {
