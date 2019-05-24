@@ -266,7 +266,12 @@ function Gviewer(viewerId, height, width) {
 
         this.loaded[index] = obj;
 
-        var xml = new JKL.ParseXML( url );
+          var parts = url.split("?");
+            //alert(parts[0]);
+            //alert(parts[1]);
+
+
+        var xml = new JKL.ParseXML( parts[0],parts[1],"POST" );
         var func = function ( data ) {                  // define call back function
            gview().loadAnnotationData(data, color);
 
