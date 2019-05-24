@@ -1,5 +1,5 @@
 <div style="background-color: white;width:1024px;  " v-for="pair in pairs">
-    <div v-if="loading"><span style="font-size:20px;">Loading...</span>
+    <div v-if="loading"><span style="font-size:20px;">Building Gene Set Enrichment...</span>
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
