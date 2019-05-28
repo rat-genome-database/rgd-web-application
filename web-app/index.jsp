@@ -45,44 +45,44 @@
         <div class="row">
           <div class="col-sm-8">
                 <div class="row">
-                    <div class="card col"  style="width: 18rem;">
+                    <div class="card col"  style="width: 18rem; height:200px">
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Multi Ontology Enrichment Tool</p>
                         <img src="/rgdweb/images/MOET.png" height="70%"  border="0" />
                     </div>
-                    <div class="card col"  style="width: 18rem;" >
+                    <div class="card col"  style="width: 18rem;height:200px" >
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Pathways</p>
                         <img src="/rgdweb/images/pathway.png" border="0" />
                     </div>
 
-                    <div class="card col" style="width: 18rem;">
+                    <div class="card col" style="width: 18rem;height:200px">
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Phenotype Ranges</p>
                         <img src="/rgdweb/images/expectedRanges.png"  height="70%" border="0" />
                     </div>
                 </div>
               <div class="row">
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Disease Navigator</p>
 
                   </div>
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Protein-Protein Interactions</p>
-                      <img src="/rgdweb/images/cy.png" height="70%" width="70%" border="0" />
+                      <img src="/rgdweb/images/cy_new.png" height="70%" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">JBrowse</p>
 
                   </div>
               </div>
               <div class="row">
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Variant Visualizer</p>
                       <img src="/rgdweb/common/images/variantVisualizer.png"  border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">PhenoMiner</p>
                       <img src="/rgdweb/common/images/phenominerNew.png" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;">
+                  <div class="card col" style="width: 18rem;height:200px">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">OntoMate - Literature Search</p>
                       <img src="/rgdweb/images/logo.png" height="70%" width="70%" border="0" />
                   </div>
