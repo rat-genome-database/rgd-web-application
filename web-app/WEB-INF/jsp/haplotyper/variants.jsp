@@ -512,8 +512,8 @@ if (positions.size()==0) {
 
                     String variantID="";
                     if (varients.size() ==0) {
-                        String base = snplotyper.getRefNuc(pos);
-                        if (base!=null && base.length() > 1) {
+                        String base = Utils.NVL(snplotyper.getRefNuc(pos), "");
+                        if (base.length() > 1) {
                             base = base.length() + "";
                         }
                     %>
@@ -541,8 +541,10 @@ if (positions.size()==0) {
                             var +="/";
                          }
 
-                         if (vr.getVariant().getVariantType().equals("del")) {
+                         if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("del")) {
                             var="-";
+                         //}else if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("ins")) {
+                         //   var="+";
                          }else {
                             var += vr.getVariant().getVariantNucleotide();
                          }
@@ -568,10 +570,11 @@ if (positions.size()==0) {
 
                          if (varients.size()==1 && vr.getVariant().getZygosityStatus() != null ) {
                             if (vr.getVariant().getZygosityStatus().equals(Zygosity.HETEROZYGOUS) ) {
-                               if (snplotyper.getRefNuc(pos).length() > 1) {
-                                    var +="/" + snplotyper.getRefNuc(pos).length();
+                               String refNuc = Utils.NVL(snplotyper.getRefNuc(pos), "");
+                               if (refNuc.length() > 1) {
+                                    var +="/" + refNuc.length();
                                }else {
-                                    var +="/" + snplotyper.getRefNuc(pos);
+                                    var +="/" + refNuc;
                                }
                             }else  if (vr.getVariant().getZygosityStatus().equals(Zygosity.HOMOZYGOUS) || vr.getVariant().getZygosityStatus().equals(Zygosity.POSSIBLY_HOMOZYGOUS) ) {
                                //var += "/" + var;
