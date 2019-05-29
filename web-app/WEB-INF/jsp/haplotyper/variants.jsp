@@ -513,7 +513,7 @@ if (positions.size()==0) {
                     String variantID="";
                     if (varients.size() ==0) {
                         String base = snplotyper.getRefNuc(pos);
-                        if (base.length() > 1) {
+                        if (base!=null && base.length() > 1) {
                             base = base.length() + "";
                         }
                     %>
@@ -541,10 +541,8 @@ if (positions.size()==0) {
                             var +="/";
                          }
 
-                         if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("del")) {
+                         if (vr.getVariant().getVariantType().equals("del")) {
                             var="-";
-                         //}else if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("ins")) {
-                         //   var="+";
                          }else {
                             var += vr.getVariant().getVariantNucleotide();
                          }
