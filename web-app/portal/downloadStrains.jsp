@@ -1,9 +1,9 @@
-<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %><%@ page import="java.util.List" %><%@ page import="java.util.ArrayList" %><%@ page import="edu.mcw.rgd.datamodel.*" %><%@ page import="edu.mcw.rgd.datamodel.MappedGene" %><%@ page import="edu.mcw.rgd.process.mapping.MapManager" %><%@ page contentType="text/csv;charset=UTF-8" language="java" %><%
-    response.setHeader("Content-disposition","attachment;filename=\"genes.csv\"");
+<%@ page import="java.util.List" %><%@ page import="java.util.ArrayList" %><%@ page import="edu.mcw.rgd.datamodel.*" %><%@ page import="edu.mcw.rgd.datamodel.MappedGene" %><%@ page import="edu.mcw.rgd.process.mapping.MapManager" %><%@ page import="edu.mcw.rgd.dao.impl.QTLDAO" %><%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %><%@ page import="edu.mcw.rgd.dao.impl.StrainDAO" %><%@ page contentType="text/csv;charset=UTF-8" language="java" %><%
+    response.setHeader("Content-disposition","attachment;filename=\"strain.csv\"");
     //Report report =  (Report)request.getAttribute("report");
     //out.println(report.format(new DelimitedReportStrategy()));
-    GeneDAO gdao = new GeneDAO();
-
+    StrainDAO sdao = new StrainDAO();
+    MapDAO mdao = new MapDAO();
     String ids = request.getParameter("ids");
     String species= request.getParameter("species");
 
@@ -22,31 +22,38 @@
     out.print(",");
     out.print("Stop");
     out.print(",");
-    out.print("Gene Symbol");
+    out.print("Strain Symbol");
     out.print(",");
-    out.print("RGD ID");
-    out.print(",");
-    out.println("Description");
+    out.println("RGD ID");
 
 
+    for (Integer rgdId: idList) {
 
-    List<MappedGene> genes = gdao.getActiveMappedGenesByIds(MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species)).getKey(),idList);
+        Strain s = sdao.getStrain(rgdId);
+        List<MapData> mdList = mdao.getMapData(s.getRgdId(),MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species)).getKey());
 
+        if (mdList.size() > 0) {
+            MapData g = mdList.get(0);
 
+            out.print(g.getChromosome());
+            out.print(",");
+            out.print(g.getStartPos());
+            out.print(",");
+            out.print(g.getStopPos());
+        }else {
+            out.print("");
+            out.print(",");
+            out.print("");
+            out.print(",");
+            out.print("");
 
+        }
 
-    for (MappedGene g: genes) {
-        out.print(g.getChromosome());
         out.print(",");
-        out.print(g.getStart());
+        out.print(s.getSymbol());
         out.print(",");
-        out.print(g.getStop());
-        out.print(",");
-        out.print(g.getGene().getSymbol());
-        out.print(",");
-        out.print(g.getGene().getRgdId());
-        out.print(",");
-        out.println(g.getGene().getDescription());
+        out.println(s.getRgdId());
+
     }
 %>
 

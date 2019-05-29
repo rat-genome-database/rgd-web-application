@@ -263,14 +263,17 @@
             $scope.rootTerm='';
             $scope.urlString="";
 
-            $scope.portalGenes=[{"name":"a2m", "symbol":"A2m"}];
+            //$scope.portalGenes=[{"name":"a2m", "symbol":"A2m"}];
+            $scope.portalGenes=[];
             $scope.portalGenesLen="";
-            $scope.portalQTLs=[{"name":"a2m", "symbol":"BP100"}];
+            //$scope.portalQTLs=[{"name":"a2m", "symbol":"BP100"}];
+            $scope.portalQTLs=[];
             $scope.portalQTLsLen="";
-            $scope.portalStrains=[{"name":"a2m", "symbol":"SS/JR"}];
+            //$scope.portalStrains=[{"name":"a2m", "symbol":"SS/JR"}];
+            $scope.portalStrains=[];
             $scope.portalStrainsLen="";
-            $scope.portalVariants=[{"name":"a2m", "symbol":"331223"}];
-            $scope.portalVariantsLen="";
+            //$scope.portalVariants=[{"name":"a2m", "symbol":"331223"}];
+            //$scope.portalVariantsLen="";
 
             $scope.speciesTypeKey = "<%=speciesTypeKey%>";
             $scope.mapKey = "<%=MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species)).getKey()%>";
@@ -367,6 +370,9 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
+
+                ctrl.resetGViewer();
+
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
                 ctrl.update(1,ontId);
                 ctrl.update(6,ontId);
@@ -455,6 +461,7 @@
 
                 }
 
+                ctrl.resetGViewer();
 
             }
 
@@ -490,48 +497,81 @@
 
                 }
 
-                var url = "downloadGenes.jsp?species=" + $scope.speciesTypeKey + "&ids=" + ids;
+                var form = document.getElementById("download");
+                download.action="downloadGenes.jsp";
+                download.method="POST"
+                download.ids.value=ids;
+                download.species.value=$scope.speciesTypeKey;
+                download.submit();
 
-                location.href=url;
             }
+
             ctrl.downloadQTL = function() {
-                location.href="downloadQTL.jsp";
+                var ids="";
+                var first = 1;
+                for(var key in $scope.portalQTLs) {
+
+                    if (first) {
+                        ids += $scope.portalQTLs[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalQTLs[key].rgdId;
+
+                    }
+
+                }
+
+                var form = document.getElementById("download");
+                download.action="downloadQTL.jsp";
+                download.method="POST"
+                download.ids.value=ids;
+                download.species.value=$scope.speciesTypeKey;
+                download.submit();
+
 
             }
             ctrl.downloadStrains = function() {
-                location.href="downloadStrains.jsp";
+                var ids="";
+                var first = 1;
+                for(var key in $scope.portalStrains) {
 
-                /*
-                var data, filename, link;
-                var csv = convertArrayOfObjectsToCSV({
-                    data: stockData
-                });
-                if (csv == null) return;
+                    if (first) {
+                        ids += $scope.portalStrains[key].rgdId;
+                        first=0;
+                    }else {
+                        ids += "," + $scope.portalStrains[key].rgdId;
 
-                filename = args.filename || 'export.csv';
+                    }
 
-                if (!csv.match(/^data:text\/csv/i)) {
-                    csv = 'data:text/csv;charset=utf-8,' + csv;
                 }
-                data = encodeURI(csv);
 
-                link = document.createElement('a');
-                link.setAttribute('href', data);
-                link.setAttribute('download', filename);
-                link.click();
-*/
+                var form = document.getElementById("download");
+                download.action="downloadStrains.jsp";
+                download.method="POST"
+                download.ids.value=ids;
+                download.species.value=$scope.speciesTypeKey;
+                download.submit();
 
             }
 
-            ctrl.buildGViewer = function() {
-
-
-
+            ctrl.resetGViewer = function() {
 
                 if (gviewer) {
                     gviewer.reset();
-                    document.getElementById("gviewer").innerHTML="";
-                    document.getElementById("zoomWrapper").innerHTML="";
+                }
+
+                document.getElementById("gviewer").innerHTML="";
+                document.getElementById("zoomWrapper").innerHTML="";
+
+            }
+
+
+            ctrl.buildGViewer = function() {
+
+                ctrl.resetGViewer();
+
+                if ($scope.speciesTypeKey==4 || $scope.speciesTypeKey==7) {
+                    return;
                 }
 
                     gviewer = new Gviewer("gviewer", 250, 800);
@@ -609,9 +649,13 @@
             ctrl.enrich = function(ont) {
 
                 if (Object.keys($scope.portalGenes).length == 0) {
-                    alert("Zero genes in gene set.  Enrichment available for terms with annotated genes.");
+                    alert("Zero genes in gene set above.  Enrichment available when gene set is populated.");
+                    return;
+                }else if ( $scope.portalGenes && $scope.portalGenes["loading"]) {
+                    alert("Gene set still is loading.  Please try again when gene set is loaded above.");
                     return;
                 }
+
 
                 enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes),false);
             }
@@ -640,12 +684,13 @@
                 $scope.currentTermAcc=termAcc;
 
                 if (objectKey ==1) {
-                    $scope.portalGenes = [{"name": "a2m", "symbol": "Searching Genes"}];
+                    $scope.portalGenes = {"loading": {"symbol": "Searching Genes..."}};
+                    //$scope.portalGenes = [];
                 }else if (objectKey==6) {
-                    $scope.portalQTLs = [{"name": "a2m", "symbol": "Searching QTL"}];
+                    $scope.portalQTLs = {"loading": {"symbol": "Searching QTL..."}};
 
                 }else if (objectKey==5) {
-                    $scope.portalStrains = [{"name": "a2m", "symbol": "Searching Strains"}];
+                    $scope.portalStrains = {"loading": {"symbol": "Searching Strains..."}};
 
                 }
 
@@ -692,6 +737,16 @@
                     if (objectKey ==1) {
                         $scope.portalGenes = response.data;
                         $scope.portalGenesLen = Object.keys($scope.portalGenes).length;
+
+
+                        var geneStr = "";
+
+                        for(var key in response.data) {
+                            geneStr += "<span class='geneList'>" + key + "</span>";
+                        }
+                        //alert(geneStr);
+                        document.getElementById("toolGenes").innerHTML = geneStr;
+
 
                         ctrl.buildGViewer();
                     }else if (objectKey==6) {
@@ -1025,11 +1080,11 @@
     <tr>
         <td>
             <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b><span  class="dnavCount">{{ portalGenesLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/>
-                <!--<img ng-click="rgd.showTools('geneList',3,360,1,0)" src="/rgdweb/common/images/tools-white-40.png"/>--></td></tr></table></div>
+                <img ng-click="rgd.showTools('geneList',3,360,1,'')" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
-                    <a class="geneList" target="_blank" href="/rgdweb/report/gene/main.html?id={{ portalGene.rgdId }}">
+                    <a target="_blank" href="/rgdweb/report/gene/main.html?id={{ portalGene.rgdId }}">
                         <span ng-bind-html="portalGene.symbol"></span>
                     </a>
                     <br />
@@ -1205,11 +1260,17 @@
 
 
 
+<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">
+<form id="download" name="download" >
+    <input name="species" value=""/>
+    <input name="ids" value=""/>
+</form>
 
 
+<div id="toolGenes" >
 
-
-
+</div>
+</div>
 
 
 
