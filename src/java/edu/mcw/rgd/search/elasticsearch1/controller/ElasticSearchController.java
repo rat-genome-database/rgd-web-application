@@ -173,7 +173,7 @@ public class ElasticSearchController implements Controller {
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-              redirUrl = request.getScheme() + "://" + request.getServerName()+":8080"  + redirUrl;
+              redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
