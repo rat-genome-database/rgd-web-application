@@ -10,10 +10,12 @@
 <%@ include file="/common/headerarea.jsp" %>
 
 <div id="curation">
+<section v-if="userloggedin == 204">
+
 <table border="0" width="100%" >
     <tbody>
     <tr>
-<h1> Welcome {{name}} !!!</h1>
+<h1 > Welcome {{name}} !!!</h1>
         <hr />
 
         <table border="0" width="100%" cellpadding="4">
@@ -34,7 +36,7 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdCuration/">NEW Curation Tools</a></td>
+                    <a href="/rgdCuration/?accessToken='<%=request.getParameter("accessToken")%>'&userName={{name}}">NEW Curation Tools</a></td>
             </tr>
             <tr valign="top">
                 <td>
@@ -101,32 +103,50 @@
     </tr>
     </tbody>
 </table>
+</section>
+
 </div>
 <script>
     var v = new Vue({
-        el: 'curation',
+        el: '#curation',
         data: {
 
-            name:""
+            name:"",
+            userloggedin:""
         },
         methods: {
-
-            getDetails: function(){
-                axios
-                        .post('https://api.github.com/user',
-                                {
-                                    headers: {
-                                        Authorization: 'token ' +  '<%=request.getAttribute("accessToken")%>'
-                                    }
-                                })
-                        .then(function (response) {
-                            v.name = response.data.name;
-                            alert(v.name);
-                        });
-            }
+          getUser: function(){
+              axios
+                      .get('https://api.github.com/user',
+                              {
+                                  headers: {
+                                      'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
+                                  }
+                              })
+                      .then(function (response) {
+                          v.name = response.data.login;
+                          v.getRepos(v.name);
+                      });
+          },
+          getRepos: function(name){
+              axios
+                      .get('https://api.github.com/orgs/rat-genome-database/members/'+name,
+                              {
+                                  headers: {
+                                      'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
+                                  }
+                              })
+                      .then(function (response) {
+                          v.userloggedin = response.status;
+                      });
+          }
+        },
+        mounted: function(){
+            this.getUser();
         }
+
     });
 
-    v.getDetails();
+
 
 </script>
