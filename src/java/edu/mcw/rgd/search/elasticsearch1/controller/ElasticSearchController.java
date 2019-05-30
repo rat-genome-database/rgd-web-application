@@ -60,6 +60,7 @@ public class ElasticSearchController implements Controller {
                         assembly=defaultAssemblyName;
                     }
             }
+        sb.setAssembly(assembly);
            boolean page =(req.getParameter("page").equals("true"));
            int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
            postCount= postCount+1;
@@ -132,7 +133,7 @@ public class ElasticSearchController implements Controller {
                 if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
                    sr = service.getSearchResponse(request, term, sb);
                 }else{
-                    sr = service.getSearchResponse(request, term, null);
+                    sr = service.getSearchResponse(request, term, sb);
                 }
                 if (sr != null) {
                         if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)

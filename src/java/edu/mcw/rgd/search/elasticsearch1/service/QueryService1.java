@@ -40,7 +40,7 @@ public class QueryService1 {
 
     public SearchResponse getSearchResponse(String term, SearchBean sb){
 
-        if(term!=null) {
+      //  if(term!=null) {
             Map<String, String> filterMap= this.getFilterMap(sb);
             BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
                     //sb.getCategory(),sb.getSpecies(), filterMap,sb.getChr(), sb.getStart(), sb.getStop(), sb.getAssembly() );
@@ -128,9 +128,9 @@ public class QueryService1 {
                    .execute().actionGet();
 
         return sr;
-       }
+    //   }
 
-       return null;
+  //     return null;
     }
     public Map<String, String> getFilterMap(SearchBean sb){
             //String category, String species, String type, String subCat){
@@ -223,76 +223,82 @@ public class QueryService1 {
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
      DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         if(sb!=null) {
-            dqb
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
+            if(!sb.isRedirect()) {
+                if(!term.equals("")){
+                dqb
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
 
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
 
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
 
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
 
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
-
-
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                    .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
-                    .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-                   .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
-                    .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
-                    .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
-                    .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
-
-                    .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
-                    .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-
-                    .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
-                    .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
 
-                    .add(QueryBuilders.matchQuery("title", term).operator(Operator.AND).boost(50))
-                    .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
-                    .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
+                        .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
+                        .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
+                        .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
+                        .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
+                        .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
+                        .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
+
+                        .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
+                        .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+
+                        .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
+                        .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
 
 
-                    .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
-           
-                    .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
-                    .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
-                    .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
-                    .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
-
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-                            .must(QueryBuilders.matchQuery("citation.citation", term)))
-
-                    .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-                            .must(QueryBuilders.matchQuery("citation.cittion", term))
-                            .must(QueryBuilders.matchQuery("author.author", term)))
+                        .add(QueryBuilders.matchQuery("title", term).operator(Operator.AND).boost(50))
+                        .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
+                        .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
 
 
-                    .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND).boost(10))
-                    .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND).boost(50))
-                    .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND).boost(5))
-                    .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND).boost(10))
-                    .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
+                        .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
 
-                    .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
+                        .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
+                        .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
+                        .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
 
-                    .add(QueryBuilders.matchQuery("promoters", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
+                                .must(QueryBuilders.matchQuery("citation.citation", term)))
 
-                    .add(QueryBuilders.matchQuery("protein_acc_ids", term).operator(Operator.AND).boost(1))
-                    .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
-                    .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
-                    .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
-                    .add(QueryBuilders.termQuery("xdata", term).boost(1))
-            ;
-        }else{
-            dqb.add(QueryBuilders.termQuery("term_acc", term));
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
+                                .must(QueryBuilders.matchQuery("citation.cittion", term))
+                                .must(QueryBuilders.matchQuery("author.author", term)))
+
+
+                        .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND).boost(10))
+                        .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND).boost(50))
+                        .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND).boost(5))
+                        .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND).boost(10))
+                        .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
+
+                        .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
+
+                        .add(QueryBuilders.matchQuery("promoters", term).operator(Operator.AND).boost(1))
+
+                        .add(QueryBuilders.matchQuery("protein_acc_ids", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
+                        .add(QueryBuilders.termQuery("xdata", term).boost(1))
+                ;
+            }else{
+                    dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", "Gene")));
+                }
+            }else{
+                dqb.add(QueryBuilders.termQuery("term_acc", term));
+            }
         }
         return dqb;
 
