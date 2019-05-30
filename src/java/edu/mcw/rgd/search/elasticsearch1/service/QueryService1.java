@@ -223,7 +223,7 @@ public class QueryService1 {
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
      DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         if(sb!=null) {
-            if(!sb.isRedirect()) {
+         //   if(!sb.isRedirect()) {
                 if(!term.equals("")){
                 dqb
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
@@ -296,9 +296,13 @@ public class QueryService1 {
             }else{
                     dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
                 }
-            }else{
-                dqb.add(QueryBuilders.termQuery("term_acc", term));
-            }
+        //    }
+
+        } else{
+            if(term.equals("")){
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
+            }else
+            dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
         return dqb;
 
