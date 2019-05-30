@@ -294,7 +294,7 @@ public class QueryService1 {
                         .add(QueryBuilders.termQuery("xdata", term).boost(1))
                 ;
             }else{
-                    dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", "Gene")));
+                    dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
                 }
             }else{
                 dqb.add(QueryBuilders.termQuery("term_acc", term));
