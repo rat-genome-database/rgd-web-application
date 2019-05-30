@@ -116,7 +116,7 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao = new RGDManagementDAO();
 
         try {
-            if(term.matches("[0-9]+") && !sb.isRedirect()) {
+            if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
                 String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
@@ -130,11 +130,12 @@ public class ElasticSearchController implements Controller {
 
                     SearchService service = new SearchService();
                     SearchResponse sr;
-                if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
+             if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
                    sr = service.getSearchResponse(request, term, sb);
                 }else{
-                    sr = service.getSearchResponse(request, term, sb);
+                    sr = service.getSearchResponse(request, term, null);
                 }
+            //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
                         if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)
                             return getUrl(sr, request, term);
@@ -172,7 +173,7 @@ public class ElasticSearchController implements Controller {
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-              redirUrl = request.getScheme() + "://" + request.getServerName()  + redirUrl;
+              redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
