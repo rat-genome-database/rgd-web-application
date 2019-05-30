@@ -36,7 +36,7 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdCuration/?accessToken='<%=request.getParameter("accessToken")%>'&userName={{name}}">NEW Curation Tools</a></td>
+                    <a v-bind:href="/rgdCuration/?accessToken=<%=request.getParameter("accessToken")%>&userName=name">NEW Curation Tools</a></td>
             </tr>
             <tr valign="top">
                 <td>
