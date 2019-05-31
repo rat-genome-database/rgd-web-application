@@ -179,9 +179,37 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <td  style=" font-size: 16px; ">Enter Gene Symbols</td>
+            <td  style=" font-size: 16px; ">Enter Symbols<br>
+             <span style=" font-size: 12px; "><b>Please select an identifier type</b></span>
+
+                <table>
+                        <tr>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value="affy"/>Affymetrix Array ID</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;GenBank Nucleotide</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ontology Term ID</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Gene</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;GenBank Protein</td>
+                            <td style="font-size:11px;"> <input type="radio" name="idType" value="rgd" />&nbsp;RGD ID &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Protein</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Gene Symbol</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;dbSNP ID</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value="entrez"/>&nbsp;EntrezGene ID</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value="kegg"/>&nbsp;Kegg Pathway</td>
+                        </tr>
+                     &nbsp;
+
+
+
+                </table>
+            </td>
             <td>
-                <span style="font-weight:bold">Example: a2m,xiap,lepr,tnf</span><br>
+
                 <textarea  class="form-control inputstl" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="6" cols=35 ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
                 <%=dm.out("genes",req.getParameter("genes"))%>
 
