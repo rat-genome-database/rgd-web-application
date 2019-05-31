@@ -276,7 +276,7 @@
                                 </tr>
                                 <tr><td>&nbsp;</td></tr>
                                 <tr>
-                                   <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/common/images/gaTool.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></div><div ng-if="oKey!=1">Gene Enrichment<br>unavailable</div></td>
+                                   <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/images/MOET.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></div><div ng-if="oKey!=1">Gene Enrichment<br>unavailable</div></td>
                                     </tr>
                                 <tr>
                                     <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('enrichment')"><div ng-if="oKey==1">Gene Enrichment</div></td>
