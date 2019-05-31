@@ -194,7 +194,7 @@
     %>
                 <br><div style="font-size:12px; font-weight:700"><%=aspects.get(annot.getAspect())%></div>
 
-                 <table border=0  class="gaTable" width=100%>
+                 <table border=0  class="gaTable" width=1100px>
                 <tr>
                     <td class="gaLabel">Species</td>
                     <td class="gaLabel">Accession</td>

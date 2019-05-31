@@ -74,6 +74,8 @@ input, select, option{
     font-size: 9pt }
       
 .sidebar {
+ background-image: url(/common/images/small-gradient.jpg);
+ background-repeat: repeat-x; 
  /*border: 1px solid #563804;*/
  padding: 10px;
 }
@@ -350,6 +352,66 @@ p, a, td, ul, li {
   color:#0c1d2e;
   font-size: 12px;
 }
+
+/*<group=navigation tabs>*/
+
+#nav, #subnav {height: 22px;}
+
+#nav {margin-left: 5px;}
+
+#subnav {clear: both;} /* force subnav below on some browsers */
+
+#subnav {
+	#background-color: #2865A3;
+        background-image: url(/common/images/gradient.jpg);	
+	border-bottom-width: 1px;
+	border-bottom-style: solid; 
+	border-bottom-color: #563804;
+}
+
+#nav ul, #subnav ul {position: relative; margin: 0; padding: 0; font: normal 11px Arial, sans-serif; list-style-type: none; width: 775px;}
+
+#subnav ul {padding-left: 5px;}
+
+#nav ul li, #subnav ul li {display: block; float: left; margin: 0; padding: 0;}
+
+#nav li {background-image:  url(../images/gh/r_curve.gif); background-repeat: no-repeat; background-position: right top; background-color: #77725C; border-bottom: solid 1px #fff;}
+
+#nav li a {background-image:  url(../images/gh/l_curve.gif); background-repeat: no-repeat; background-position: left top; color: #F4F1D9;}
+
+#subnav ul li {border-left: 1px solid #F4F1D9; margin-top: 3px;}
+
+#subnav .first {border-left: none;}
+
+#nav a {display: block; float: left; color: #000; padding: 3px 10px 2px 10px; text-decoration: none; letter-spacing: 1px;}/* Commented Backslash Hack hides rule from IE5-Mac \*/
+
+#nav a {float: none; padding: 5px 10px 4px 10px;} /* End IE5-Mac hack */
+
+#subnav a {display: block; float: left; color: #000; text-decoration: none; font-weight:700;}/* Commented Backslash Hack hides rule from IE5-Mac \*/
+
+#subnav a {float:none;} /* End IE5-Mac hack */
+
+#subnav a {color: #F4F1D9; padding: 0 8px; font-size:11px; font-weight: 700;}
+
+#subnav a:hover {text-decoration: underline;}
+
+#subnav li#subcurrent a {font-weight: bold; color: #fff;}
+
+#nav a.inactive, #subnav a.inactive, #gh .internal #nav a.inactive {color: #C0747B; font-weight: 700;}
+
+#subnav a.inactive:hover {text-decoration: none;}
+
+#nav li#current {background-color: #9E1B34; border-bottom: solid 1px #9E1B34;}
+
+#nav #current a {font-weight: bold; color: #fff;}
+
+#nav li.int-only, #nav li#current.int-only {background-color: #D5E5BC; border-bottom: none;}
+
+#nav li.int-only a, #subnav li.int-only a {color: #000;}
+
+#nav li#current.int-only a, #subnav li#subcurrent.int-only a {color: #9E1B34;}
+
+/*</group>*/
 
 .top-bar a:hover {
    color: #ffffff;

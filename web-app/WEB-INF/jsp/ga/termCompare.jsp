@@ -44,6 +44,7 @@
 
     Term xTerm = xdao.getTermByAccId(req.getParameter("term1"));
     Term yTerm = xdao.getTermByAccId(req.getParameter("term2"));
+
     List<TermWithStats> xTerms = xdao.getActiveChildTerms(xTerm.getAccId(),Integer.parseInt(req.getParameter("species")));
     List<TermWithStats> yTerms = xdao.getActiveChildTerms(yTerm.getAccId(),Integer.parseInt(req.getParameter("species")));
 

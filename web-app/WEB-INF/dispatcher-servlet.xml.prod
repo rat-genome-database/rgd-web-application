@@ -54,7 +54,8 @@
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
                 <prop key="report/annotation/table.html">GeneTermAnnotationsController</prop>
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
-                <prop key="report/variant/main.html">VariantReportController</prop>
+                <prop key="report/variant/main.html">ClinVarReportController</prop>
+                <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
@@ -86,6 +87,9 @@
                 <prop key="ga/genome.html">GAGenomeController</prop>
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
+
+                <prop key="enrichment/analysis.html">EnrichmentController</prop>
+                <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
@@ -141,7 +145,10 @@
                 <prop key="phenominer/treeXml.html">TreeXmlController</prop>
 
                 <prop key="cytoscape/query.html">QueryController</prop>
-	            <prop key="cytoscape/cy.html">CyController</prop>
+                <prop key="cytoscape/cy.html">CyController</prop>
+                <prop key="cytoscape/report.html">cyReportController</prop>
+                <prop key="cytoscape/download.html">cyDownloadController</prop>
+
                 <prop key="models/upload.html">ImageUploadController</prop>
                 <prop key="models/getGenes.html">AutocompleteController</prop>
                 <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
@@ -199,6 +206,7 @@
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
+   <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
 	<bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
@@ -246,6 +254,9 @@
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
     <bean id="CarpenovoSearchController" class="edu.mcw.rgd.carpenovo.CarpenovoSearchController"/>
+
+    <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
+    <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
 
     <bean id="GASearchController" class="edu.mcw.rgd.ga.GASearchController" />
     <bean id="GAUIController" class="edu.mcw.rgd.ga.GAUIController" />
@@ -330,7 +341,10 @@
     <bean id="TreeXmlController" class="edu.mcw.rgd.phenominer.frontend.TreeXmlController"/>
 
     <bean id="QueryController" class="edu.mcw.rgd.cytoscape.QueryController"/>
-     <bean id="CyController" class= "edu.mcw.rgd.cytoscape.CyController"/>
+    <bean id="CyController" class= "edu.mcw.rgd.cytoscape.CyController"/>
+    <bean id="cyReportController" class="edu.mcw.rgd.cytoscape.InteractionsReportController"/>
+    <bean id="cyDownloadController" class="edu.mcw.rgd.cytoscape.DownloadController"/>
+
     <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>
      <bean id="StrainSubmissionHelp" class="edu.mcw.rgd.models.StrainSubmissionHelp"/>
      <bean id="StrainSubmissionFormController" class="edu.mcw.rgd.models.StrainSubmissionFormController"/>

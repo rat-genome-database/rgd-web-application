@@ -266,12 +266,15 @@ function getUserSelectedAccId() {
         var genes = document.getElementById("geneSelectList").value.split(/[,\s\|]/);
 
         var geneStr = "";
+
         for (var i = 0; i< genes.length; i++) {
-            if (i==0) {
-                geneStr += genes[i];
+            if(genes[i]=='' || genes[i]==null)
+                continue;
+            if (geneStr=="") {
+                geneStr += genes[i].trim();
 
             }else {
-                geneStr += "[" + genes[i];
+                geneStr += "[" + genes[i].trim();
             }
         }
 
@@ -385,6 +388,7 @@ function saveList() {
 
         urlString += aOperators[i];
         urlString += aAccIds[i];
+
 
         for (var j=1; j < aSubGenes[i].length; j++) {
             urlString += "*" + aSubGenes[i][j];

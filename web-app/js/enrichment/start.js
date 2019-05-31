@@ -47,8 +47,14 @@ var v = new Vue({
         validate: function () {
 
             var x =  document.forms["enrichment"]["genes"].value;
-            if(x == "") {
-                alert("Please enter genes");
+            var y =  document.forms["enrichment"]["start"].value;
+            var z =  document.forms["enrichment"]["idType"].value;
+            if(x == "" && y=="") {
+                alert("Please enter genes or position");
+                return false;
+            }
+            if(z == "") {
+                alert("Please enter idType");
                 return false;
             }
         }

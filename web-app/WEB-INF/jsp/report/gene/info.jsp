@@ -10,6 +10,9 @@
         <td class="label" valign="top">Name:</td>
         <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
+
+    <%-- GENE DESCRIPTIONS: show merged description on PROD, and RGD, AGR, MERGED descriptions everywhere else--%>
+    <% if( RgdContext.isCurator() ) { %>
     <tr>
         <td class="label" valign="top">Description:</td>
         <td><%=description==null ? "" : description%></td>
@@ -27,7 +30,15 @@
         <td class="label" valign="top">Merged Description:</td>
         <td><%=obj.getMergedDescription()%></td>
     </tr>
-     <% } %>
+    <% } %>
+
+    <% } else { %>
+
+    <tr>
+        <td class="label" valign="top">Description:</td>
+        <td><%=Utils.NVL(obj.getMergedDescription(), obj.getDescription())%></td>
+    </tr>
+    <% } %><%-- end GENE DESCRIPTIONS --%>
 
     <tr>
         <td class="label" valign="top">Type:</td>

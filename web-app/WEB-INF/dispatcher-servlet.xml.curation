@@ -146,7 +146,6 @@
                 <prop key="pubmed/pubmedDisplay.html">PubmedController</prop>
                 <prop key="pubmed/importReferences.html">pubmedReferenceImport</prop>
 
-
                 <prop key="ga/search.html">GASearchController</prop>
                 <prop key="ga/ui.html">GAUIController</prop>
                 <prop key="ga/report.html">GAReportController</prop>
@@ -164,8 +163,7 @@
 <prop key="enrichment/analysis.html">EnrichmentController</prop>
 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
-                <prop key="ortholog/start.html">OrthologSelectController</prop>
-                <prop key="ortholog/report.html">OrthologController</prop>
+               
 
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
@@ -182,8 +180,6 @@
                 <prop key="front/searchType.html">SearchTypeController</prop>
                 <prop key="front/geneList.html">GeneListController</prop>
                 <prop key="front/config.html">ConfigController</prop>
-
-
 
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
@@ -218,11 +214,11 @@
                 <prop key="cytoscape/report.html">cyReportController</prop>
                 <prop key="cytoscape/download.html">cyDownloadController</prop>
 
-                 <prop key="models/upload.html">ImageUploadController</prop>
-                 <prop key="models/getGenes.html">AutocompleteController</prop>
-                 <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
-                 <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
-                 <prop key="models/gerrc.html">GeneticModelsController</prop>
+                <prop key="models/upload.html">ImageUploadController</prop>
+                <prop key="models/getGenes.html">AutocompleteController</prop>
+                <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
+                <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
+                <prop key="models/gerrc.html">GeneticModelsController</prop>
                 <prop key="models/references.html">ReferencesController</prop>
                 <prop key="models/allModels.html">AllModelsController</prop>
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>
@@ -415,8 +411,7 @@
     <bean id="GeneListController" class="edu.mcw.rgd.carpenovo.GeneListController" />
     <bean id="ConfigController" class="edu.mcw.rgd.carpenovo.ConfigController" />
 
-
-    <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
+     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
     <bean id="GviewerWelcomeController" class="edu.mcw.rgd.gviewer.WelcomeController" />
     <bean id="GviewerGeneListController" class="edu.mcw.rgd.gviewer.GeneListController" />
@@ -498,8 +493,6 @@
     <bean id="DownloadPivotTableController" class="edu.mcw.rgd.phenominer.frontend.DownloadPivotTableController"/>
     <bean id="TreeXmlController" class="edu.mcw.rgd.phenominer.frontend.TreeXmlController"/>
 
-    <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
-    <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
     </beans>
 
 

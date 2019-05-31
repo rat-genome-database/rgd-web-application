@@ -354,6 +354,8 @@ function filterClick(category, species,subCat, type, filter) {
   
     var gviewer="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'gviewer', \'"+objectType+"\', $('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/gviewer_small.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">See a genome-wide view, i.e. positions relative to the chromosomes, of the objects in your list. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'gviewer', \'"+objectType+"\', $('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Genome Viewer</a></div></p>";
     var damage="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'damage', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/damaging_small.png\"></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send your list of genes to view the strain-specific variants in those genes (SNVs and indels) that are predicted to be possibly or probably damaging.</span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'damage', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Damaging Variants</a></div></p>";
+
+    var moet="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'moet', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/images/MOET.png\"></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send your list of genes to multi ontology enrichment tool.</span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'moet', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">MOET</a></div></p>";
  
     var phenominer= "<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'phenominer',\'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/PhenoMinerSmType.png\"></a>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'phenominer',\'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Phenominer</a><span class=\"tooltiptext\" style=\"font-size: x-small\"> Send selected list of strains to the PhenoMiner tool to explore quantitative phenotype measurement data for those strains.</span></div></p>";
     var annotComparison="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'annotComparison',\'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/annotCompare_small.png\" ></a>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'annotComparison',\'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Annotation Comparison</a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send selected list of genes to explore which of those genes are annotated to terms from any <strong>two</strong> of the ontologies used at RGD (Disease, Pathway, Phenotype, Biological Process, Cellular Component, Molecular Function and ChEBI), for example which genes are annotated to both a disease category and a pathway category.</span></div></p>";
@@ -394,14 +396,14 @@ function filterClick(category, species,subCat, type, filter) {
         $('#viewAll').show();
         $sampleExists=$('#sampleExists').val();
         if(category=="Gene"){
-            var html=toolHeader+annotationDistribution+functionalAnnot + olga+damage+annotComparison+excel ; //+csv;
+            var html=toolHeader+annotationDistribution+functionalAnnot + olga+annotComparison+excel ; //+csv;
 
-            if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo'){
-                html=html+interviewer+gviewer;
+            if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
+                html=html+interviewer+gviewer+moet;
 
             }
             if(species=='Human' || species=='Rat'){
-                html=html+vv;
+                html=html+damage+vv;
             }
             $toolsDiv.html(html);
         }
@@ -444,6 +446,9 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
  var   vv= "<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'vv', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/variantVisualizer_small.png\"></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send your list of genes to the Variant Visualizer tool to view all of the strain-specific variants in those genes (SNVs and indels).</span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'vv', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Variant Visualizer</a></div></p>";
  var   gviewer="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'gviewer', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/gviewer_small.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">See a genome-wide view, i.e. positions relative to the chromosomes, of the objects in your list. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'gviewer', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Genome Viewer</a></div></p>";
  var   damage="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'damage', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/damaging_small.png\"></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send your list of genes to view the strain-specific variants in those genes (SNVs and indels) that are predicted to be possibly or probably damaging.</span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'damage', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Damaging Variants</a></div></p>";
+
+    var   moet="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'moet', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/images/MOET.png\"></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send your list of genes to multi ontology enrichment tool.</span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'moet', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">MOET</a></div></p>";
+    
  var   phenominer= "<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'phenominer',\'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/PhenoMinerSmType.png\"></a>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'phenominer', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Phenominer</a><span class=\"tooltiptext\" style=\"font-size: x-small\"> Send selected list of strains to the PhenoMiner tool to explore quantitative phenotype measurement data for those strains.</span></div></p>";
  var   annotComparison="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'annotComparison',\'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/annotCompare_small.png\" ></a>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'annotComparison', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Annotation Comparison</a><span class=\"tooltiptext\" style=\"font-size: x-small\">Send selected list of genes to explore which of those genes are annotated to terms from any <strong>two</strong> of the ontologies used at RGD (Disease, Pathway, Phenotype, Biological Process, Cellular Component, Molecular Function and ChEBI), for example which genes are annotated to both a disease category and a pathway category.</span></div></p>";
  var   excel="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'excel', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/excel_small.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in EXCEL. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'excel', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Excel Download</a></div></p>";
@@ -451,13 +456,13 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 // var   csv="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'csv', \'"+objectType+"\')\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/csv.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in CSV format. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'csv')\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">CSV Download</a></div></p>";
     var html;
     if(category=="Gene"){
-         html=toolHeader+annotationDistribution+functionalAnnot + olga+damage+annotComparison+excel ; //+csv;
+         html=toolHeader+annotationDistribution+functionalAnnot + olga+annotComparison+excel ; //+csv;
 
-        if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo'){
-            html=html+interviewer+gviewer;
+        if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo' && species!='Pig'){
+            html=html+interviewer+gviewer+moet;
         }
         if(species=='Human' || species=='Rat'){
-            html=html+vv;
+            html=html+damage+vv;
         }
 
     }
@@ -491,7 +496,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 
 function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
-    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6,speciesTypeKey, mapKey, objectkey;
+    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7,speciesTypeKey, mapKey, objectkey;
     objectkey=objectType=='genes'?1:objectType=='strains'?5:objectType=="qtls"?6:objectType=="sslps"?3:objectType=="variants"?7:objectType=="reference"?12:objectType=="ontology"?0:null;
     if(species=='Rat'){
         ortholog1=1;
@@ -500,6 +505,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=6;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=3;
         mapKey=360;
     }
@@ -510,6 +516,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=6;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=1;
        mapKey=38;
     }
@@ -520,6 +527,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=6;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=2;
         mapKey=35;
     }
@@ -530,6 +538,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=2;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=6;
         mapKey=631;
     }
@@ -540,6 +549,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=6;
         ortholog6=2;
+        ortholog7=9;
         speciesTypeKey=7;
         mapKey=720;
     }
@@ -550,6 +560,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=2;
         ortholog5=6;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=5;
         mapKey=511;
     }
@@ -560,8 +571,19 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog4=5;
         ortholog5=6;
         ortholog6=7;
+        ortholog7=9;
         speciesTypeKey=4;
         mapKey=44;
+    } else if(species=='Pig'){
+        ortholog1=1;
+        ortholog2=3;
+        ortholog3=2;
+        ortholog4=5;
+        ortholog5=6;
+        ortholog6=7;
+        ortholog7=4;
+        speciesTypeKey=9;
+        mapKey=911;
     }
     if(mKey!=0){
         mapKey=mKey;
@@ -578,13 +600,13 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         }
         if(tool=='functionalAnnot') {
             href=  "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+
-                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+
+                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey + "&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
             _this.href=href;
         }
         if(tool=='annotDistribution') {
 
-            href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+
+            href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
             _this.href=href;
         }
@@ -657,10 +679,20 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             if (objectType == 'genes') {
 
                 href = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog=" +
-                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +
+                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+
                     "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
             }else{
                 href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;}
+            _this.href=href;
+        }
+        if(tool=='moet') {
+            /*   if(objectType=='sslps'){
+             objectType='markers'
+             }*/
+            if (objectType == 'genes') {
+
+                href = "/rgdweb/enrichment/analysis.html"+"?genes=" + selected+ "&species=" + speciesTypeKey +"&o=RDO";
+            }
             _this.href=href;
         }
         if(tool=='damage') {
@@ -673,7 +705,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         }
         if(tool=='annotComparison') {
             href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
-                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+
+                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
 
             _this.href=href;

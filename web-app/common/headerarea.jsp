@@ -106,7 +106,6 @@
 
 
 
-
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td>
@@ -188,6 +187,7 @@
                                     <div class="rgd-dropdown-content">
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
+                                        <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                         <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
                                         <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>

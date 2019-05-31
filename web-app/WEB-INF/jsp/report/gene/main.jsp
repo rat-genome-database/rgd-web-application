@@ -114,9 +114,10 @@
 
 <%-- handling of RETIRED/WITHDRAWN genes --%>
 <% } else if (isGeneStatusNotActive) { %>
-    <br><br>The gene <%=obj.getSymbol()%> (<%=RgdContext.getSiteName(request)%> ID: <%=obj.getRgdId()%>) has been <%=rgdId.getObjectStatus()%>. <br><br>
+    <br><br>The gene <b><%=obj.getSymbol()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
+      &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
     <% if(newGene!=null ) { %>
-      This gene has been replaced by the gene <a href="<%=edu.mcw.rgd.reporting.Link.gene(newGene.getRgdId())%>" title="click to see the gene report"><%=newGene.getSymbol()%> (RGD ID: <%=newGene.getRgdId()%>)</a>.
+      This gene has been replaced by the gene <a href="<%=edu.mcw.rgd.reporting.Link.gene(newGene.getRgdId())%>" title="click to see the gene report"><b><%=newGene.getSymbol()%></b> (RGD:<%=newGene.getRgdId()%>)</a>.
      <br><br>
     <%}%>
 

@@ -8,7 +8,9 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author jdepons
@@ -46,6 +48,7 @@ public class GeneEditObjectController extends EditObjectController {
     public Object getObject(int rgdId) throws Exception{
         return geneDAO.getGene(rgdId);
     }
+
     public Object getSubmittedObject(int submissionKey) throws Exception {
         SubmittedStrainDao sdao= new SubmittedStrainDao();
         SubmittedStrain s= sdao.getSubmittedStrainBySubmissionKey(submissionKey);
@@ -84,6 +87,9 @@ public class GeneEditObjectController extends EditObjectController {
             gene = createNewGene(req);
         }
         else {
+
+            List<Alias> aliases = new ArrayList<>();
+
             gene = geneDAO.getGene(geneRgdId);
             if (persist) {
                 String newName = req.getParameter("name");
@@ -95,20 +101,18 @@ public class GeneEditObjectController extends EditObjectController {
                     !Utils.stringsAreEqual(newSymbol, gene.getSymbol()) ||
                     !Utils.stringsAreEqual(newType, gene.getType() )) {
 
-                    // generate alias if name or symbol changed
-                    Alias alias = null;
-
                     String whatChanged = "";
                     if( !Utils.stringsAreEqual(newName, gene.getName()) ) {
                         whatChanged = "Name ";
 
                         // create alias for old gene name only if the previous name was not null
                         if( !Utils.isStringEmpty(gene.getName()) ) {
-                            alias = new Alias();
+                            Alias alias = new Alias();
                             alias.setRgdId(gene.getRgdId());
                             alias.setTypeName("old_gene_name");
                             alias.setValue(gene.getName());
-                            addAlias(alias);
+                            alias.setNotes("created by Gene Edit on "+new Date());
+                            aliases.add(alias);
                         }
                     }
 
@@ -123,11 +127,12 @@ public class GeneEditObjectController extends EditObjectController {
                         else
                             whatChanged += "and Symbol ";
 
-                        alias = new Alias();
+                        Alias alias = new Alias();
                         alias.setRgdId(gene.getRgdId());
                         alias.setTypeName("old_gene_symbol");
                         alias.setValue(gene.getSymbol());
-                        addAlias(alias);
+                        alias.setNotes("created by Gene Edit on "+new Date());
+                        aliases.add(alias);
                     }
 
                     if( !Utils.stringsAreEqual(newType, gene.getType()) ) {
@@ -164,20 +169,11 @@ public class GeneEditObjectController extends EditObjectController {
                 gene.setRefSeqStatus(req.getParameter("refseq_status"));
 
                 geneDAO.updateGene(gene);
+
+                insertAliases(aliases);
             }
         }
         return gene;
-    }
-
-    void addAlias(Alias alias) throws Exception {
-
-        AliasDAO aliasDAO = new AliasDAO();
-
-        Alias aliasInRgd = aliasDAO.getAliasByValue(alias.getRgdId(), alias.getValue());
-        if( aliasInRgd==null ) {
-            alias.setNotes("created by GeneMerge tool on "+new Date());
-            aliasDAO.insertAlias(alias);
-        }
     }
 
     Gene createNewGene(HttpRequestFacade req) throws Exception {

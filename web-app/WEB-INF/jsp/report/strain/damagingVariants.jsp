@@ -22,6 +22,7 @@
     <% for(Sample s: samples) {
         int count = vdao.getCountofDamagingVariantsForSample(s.getId(), String.valueOf(s.getMapKey()));
         if(count != 0) {
+
     %>
         <tr>
             <td><%=s.getAnalysisName()%></td>
