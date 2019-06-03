@@ -41,53 +41,120 @@
 <br>
 
 <div class="container content">
+
     <div class="card" style="border-color: transparent;">
         <div class="row">
+
           <div class="col-sm-8">
-                <div class="row">
-                    <div class="card col"  style="width: 18rem;height:200px">
+              <div class="row jumbotron" style="background-color: #EFF3FC  ;  ">
+                  <div class="row" >
+                <p style="color:darkslategrey">The Rat Genome Database (RGD) was established in 1999 and is the premier site for genetic, genomic, phenotype, and disease data generated from rat research. In addition, it provides easy access to corresponding human and mouse data for cross-species comparisons. RGD’s comprehensive data and innovative software tools make it a valuable resource for researchers worldwide.</p>
+                   </div>
+                  <div class="row">
+                  <div class="card col"  style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;">Rat</p>
+                      <img src="/rgdweb/common/images/species/rat.png" height="50%"  border="0" />
+                  </div>
+                  <div class="card col"  style="width: 18rem;height:100px" >
+                      <p style="font-weight: bold;color: #24609c;">Human</p>
+                      <img src="/rgdweb/common/images/species/human.jpg" height="50%"  border="0" />
+                  </div>
+
+                  <div class="card col" style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;">Mouse</p>
+                      <img src="/rgdweb/common/images/species/mouse.jpg" height="50%"  border="0" />
+                  </div>
+                      <div class="card col" style="width: 18rem;height:100px">
+                          <p style="font-weight: bold;color: #24609c;">Chinchilla</p>
+                          <img src="/rgdweb/common/images/species/chinchilla.jpg" height="50%"  border="0" />
+                      </div>
+                      <div class="card col" style="width: 18rem;height:100px">
+                          <p style="font-weight: bold;color: #24609c;">Dog</p>
+                          <img src="/rgdweb/common/images/species/dog.jpg" height="50%"  border="0" />
+                      </div>
+                      <div class="card col" style="width: 18rem;height:100px">
+                          <p style="font-weight: bold;color: #24609c;">Squirrel</p>
+                          <img src="/rgdweb/common/images/species/squirrel.jpg" height="50%"  border="0" />
+                      </div>
+                      <div class="card col" style="width: 18rem;height:100px">
+                          <p style="font-weight: bold;color: #24609c;">Bonobo</p>
+                          <img src="/rgdweb/common/images/species/bonobo.jpg" height="50%"  border="0" />
+                      </div>
+
+                  </div>
+               </div>
+              <div class="card row" style="border-color: transparent;background-color:#EFF3FC">
+                 <h5 style="font-size: medium" class="card-title">Popular tools</h5>
+
+              </div>
+                <br>
+              <div class="row">
+                    <div class="card col"  style="width: 18rem;height:100px;">
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Multi Ontology Enrichment Tool</p>
-                        <img src="/rgdweb/images/MOET.png" height="70%"  border="0" />
+                        <img src="/rgdweb/images/MOET.png" height="70%" width="70%" border="0" />
                     </div>
-                    <div class="card col"  style="width: 18rem;height:200px" >
+                    <div class="card col"  style="width: 18rem;height:100px;" >
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Pathways</p>
-                        <img src="/rgdweb/images/pathway.png" border="0" />
+                        <img src="/rgdweb/images/pathway.png" height="70%" width="70%" border="0" />
                     </div>
 
-                    <div class="card col" style="width: 18rem;height:200px">
+                    <div class="card col" style="width: 18rem;height:100px;">
                         <p style="font-weight: bold;color: #24609c;font-size: 14px">Phenotype Ranges</p>
-                        <img src="/rgdweb/images/expectedRanges.png"  height="70%" border="0" />
+                        <img src="/rgdweb/images/expectedRanges.png"  height="70%" width="70%" border="0" />
                     </div>
                 </div>
               <div class="row">
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Disease Navigator</p>
-                      <img src="/rgdweb/common/images/diseaseNavLogo75.png" height="70%" width="70%" border="0" />
+                      <img src="/rgdweb/common/images/diseaseNavLogo75.png" height="70%"  width="70%" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Protein-Protein Interactions</p>
                       <img src="/rgdweb/images/cy_new.png" height="70%" width="70%" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">JBrowse</p>
 
                   </div>
               </div>
               <div class="row">
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">Variant Visualizer</p>
-                      <img src="/rgdweb/common/images/variantVisualizer.png"  border="0" />
+                      <img src="/rgdweb/common/images/variantVisualizer.png"  height="70%" width="70%" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">PhenoMiner</p>
-                      <img src="/rgdweb/common/images/phenominerNew.png" border="0" />
+                      <img src="/rgdweb/common/images/phenominerNew.png"  height="70%" width="70%" border="0" />
                   </div>
-                  <div class="card col" style="width: 18rem;height:200px">
+                  <div class="card col" style="width: 18rem;height:100px;">
                       <p style="font-weight: bold;color: #24609c;font-size: 14px">OntoMate - Literature Search</p>
-                      <img src="/rgdweb/images/logo.png" height="70%" width="70%" border="0" />
+                      <img src="/rgdweb/images/logo.png" height="70%" width="50%" border="0" />
                   </div>
               </div>
+                <br>
+                <div class="card row" style="background-color: #EFF3FC;border-color: transparent  " >
 
+                    <h5 style="font-size: medium">Popular Searches</h5>
+                </div>
+              <br>
+              <div class="row">
+                  <div class="card col" style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;font-size: 14px"><img src="/rgdweb/common/images/searchGlass.png" height="20px" width="20%"  border="0" />&nbsp;Genes  </p>
+
+                  </div>
+                  <div class="card col" style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;font-size: 14px"><img src="/rgdweb/common/images/searchGlass.png" height="20px" width="20%"  border="0" />&nbsp;Strains</p>
+
+                  </div>
+                  <div class="card col" style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;font-size: 14px"><img src="/rgdweb/common/images/searchGlass.png" height="20px" width="20%"  border="0" />&nbsp;QTLs</p>
+
+                  </div>
+                  <div class="card col" style="width: 18rem;height:100px">
+                      <p style="font-weight: bold;color: #24609c;font-size: 14px"><img src="/rgdweb/common/images/searchGlass.png" height="20px" width="20%"  border="0" />&nbsp;Ontologies</p>
+
+                  </div>
+              </div>
           </div>
             <div class="col-sm-4" >
                 <div class="card" style="border-color: transparent;">
@@ -137,8 +204,8 @@
                     </div>
                 </div>
                 <div class="card" style="border-color: transparent;">
-                    <h5 class="card-title">Featured RGD Video Tutorials</h5>
-                    <div style="height: 280px;overflow-y: auto">
+                    <h5 class="card-title" style="font-size: small">Featured RGD Video Tutorials</h5>
+                    <div style="overflow-y: auto">
                     <div>
                         <p style="font-weight: bold;color: #24609c;">JBrowse Genome Browser <a title="Watch the tutorial video about RGD's JBrowse genome browser" href="/wg/home/rgd_rat_community_videos/jbrowse-genome-browser"><i class="fas fa-play-circle" style="color:royalblue;font-size: 20px"></i></a> </p>
                         <p class="card-text">This video will demonstrate how to use the RGD JBrowse Genome Browser. The JBrowse Genome Browser allows the user to view objects such as genes, variants, QTLs, and so forth in their genomic context. You can view versions for Rat, Human and Mouse.</p>
@@ -186,7 +253,7 @@
                     </div>
       </div>
 
-<!--td class="secondColumn" valign="top" width="40%"--><!-- begin position 3 -->
+
 
         <div class="card col" id="rgd-news" style="background-color: transparent;border-color:transparent">
 
