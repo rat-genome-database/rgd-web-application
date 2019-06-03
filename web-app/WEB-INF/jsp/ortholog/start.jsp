@@ -58,7 +58,8 @@
                                 <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
                                 <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 ></textarea>
                             </div>
-<p style="color:#24609c; font-weight: bold;">Enter Genomic Position (Optional)</p>
+                            <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
+<p style="color:#24609c; font-weight: bold;">Enter Genomic Position </p>
                                 <div class="row">
                                     <div class="form-group">
                                     <div class="col-md-1">
