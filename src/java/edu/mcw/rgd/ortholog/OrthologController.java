@@ -44,6 +44,8 @@ public class OrthologController implements Controller {
         }
         if (!request.getParameter("genes").equals("")) {
             symbols = Utils.symbolSplit(request.getParameter("genes"));
+            symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
+                    Collectors.toList());
         } else symbols = null;
         inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
         outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
@@ -163,10 +165,16 @@ public class OrthologController implements Controller {
 
             for (Iterator<String> iterator = symbols.iterator(); iterator.hasNext(); ) {
                 String symbol = iterator.next();
-                if (!symbolsFound.contains(symbol.toLowerCase())) {
-                    symbolsNotFound.add(symbol);
+                if (!symbolsFound.contains(symbol.toLowerCase()) ) {
+                    for (Iterator<String> itr = om.getLog().iterator(); itr.hasNext(); ) {
+                        String msg = itr.next();
+                        if (!msg.contains(symbol)) {
+                            symbolsNotFound.add(symbol);
+                        }
+                    }
                 }
             }
+
             request.setAttribute("geneMap", geneMap);
             request.setAttribute("orthologMap", orthologMap);
             request.setAttribute("mappedGenes", mappedGeneMap);
