@@ -29,7 +29,11 @@ public class OrthologController implements Controller {
     int outMapKey=-1;
     List<String> symbols=null;
 
-    protected void init(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ArrayList error = new ArrayList();
+        String fmt = Utils.NVL(request.getParameter("fmt"), "full");
+
 
 
         if (!request.getParameter("inSpecies").equals("")) {
@@ -40,19 +44,10 @@ public class OrthologController implements Controller {
         }
         if (!request.getParameter("genes").equals("")) {
             symbols = Utils.symbolSplit(request.getParameter("genes"));
-        }
+        } else symbols = null;
         inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
         outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
 
-
-    }
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ArrayList error = new ArrayList();
-        String fmt = Utils.NVL(request.getParameter("fmt"), "full");
-
-
-        this.init(request,response);
 
         this.setOrthologs(request,response);
          request.setAttribute("error", error);
@@ -165,7 +160,7 @@ public class OrthologController implements Controller {
                     }
                 }
             }
-        
+
             for (Iterator<String> iterator = symbols.iterator(); iterator.hasNext(); ) {
                 String symbol = iterator.next();
                 if (!symbolsFound.contains(symbol.toLowerCase())) {
