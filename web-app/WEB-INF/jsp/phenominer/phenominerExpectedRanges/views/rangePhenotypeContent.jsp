@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ranges" value="${model.records}"/>
 <div>
-    <input type="text" name="normalRange" value="${model.normalRange.mixed.rangeLow}"/>
+    <input type="hidden" name="normalRange" value="${model.normalRange}"/>
 <c:choose>
     <c:when test="${fn:length(ranges)>0}">
 
