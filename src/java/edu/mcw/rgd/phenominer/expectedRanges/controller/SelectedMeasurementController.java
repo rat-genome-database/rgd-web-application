@@ -7,6 +7,7 @@ import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenotypeObject;
 
+import edu.mcw.rgd.phenominer.expectedRanges.model.NormalRange;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
 
@@ -68,22 +69,25 @@ public class SelectedMeasurementController implements Controller {
 
        PhenominerExpectedRange normalRecord=getPhenotypeExpectedRangeRecordNormal(records,"Mixed");
        PhenominerExpectedRange normalMaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Male");
-        PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
+       PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
+        NormalRange normalRange =new NormalRange();
 
 
         records.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getStrainGroupName(), o2.getStrainGroupName()));
 
         session.setAttribute("phenotypes", phenotypes);
+        session.setAttribute("normalRange", normalRange);
         if(normalRecord!=null){
-            model.addAttribute("normalAll", normalRecord);
+            normalRange.setMixed(normalRecord);
             //   System.out.println("NORMAL RECORD:" +object.getNormalAll().getGroupLow()+"\t" +object.getNormalAll().getGroupHigh());
         }
         if(normalMaleRecord!=null) {
-           model.addAttribute("normalMale",normalMaleRecord);
+            normalRange.setMale(normalMaleRecord);
         }
 
         if(normalFemaleRecord!=null) {
-            model.addAttribute("normalFemale",normalFemaleRecord);
+            normalRange.setFemale(normalFemaleRecord);
+
         }
         String unitsStr=records.get(0).getUnits();
         String units=unitsStr.substring(1, unitsStr.length()-1);
@@ -99,6 +103,7 @@ public class SelectedMeasurementController implements Controller {
         model.addAttribute("trait", trait);
         model.addAttribute("strainGroupMap", process.getStrainGroupMap(records));
         model.addAttribute("conditions", Arrays.asList("Control Conditions"));
+        model.addAttribute("normalRange", normalRange);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/phenotype.jsp", "model", model);
     }
 
