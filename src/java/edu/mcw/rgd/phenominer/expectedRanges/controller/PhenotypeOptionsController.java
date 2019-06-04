@@ -3,13 +3,16 @@ package edu.mcw.rgd.phenominer.expectedRanges.controller;
 
 import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
+import edu.mcw.rgd.phenominer.expectedRanges.model.NormalRange;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
+import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +22,7 @@ import java.util.List;
 /**
  * Created by jthota on 5/17/2018.
  */
-public class PhenotypeOptionsController implements Controller {
+public class PhenotypeOptionsController extends SelectedMeasurementController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelMap model= new ModelMap();
@@ -86,7 +89,10 @@ public class PhenotypeOptionsController implements Controller {
         }
 
         List<PhenominerExpectedRange> records=dao.getExpectedRanges(cmoIds, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA, null);
+        HttpSession session= request.getSession();
+        NormalRange normalRange= (NormalRange) session.getAttribute("normalRange");
 
+        session.setAttribute("normalRange", normalRange);
         System.out.println("RECORDS SIZE: " +records.size());
 
 
@@ -97,6 +103,7 @@ public class PhenotypeOptionsController implements Controller {
         String unitsStr=records.get(0).getUnits();
         String units=unitsStr.substring(1, unitsStr.length()-1);
         model.addAttribute("units", units);
+        model.addAttribute("normalRange", normalRange);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/rangePhenotypeContent.jsp", "model", model);
 
     }

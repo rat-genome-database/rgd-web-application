@@ -1,14 +1,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ranges" value="${model.records}"/>
-
+<div>
+    <input type="text" name="normalRange" value="${model.normalRange.mixed.rangeLow}"/>
 <c:choose>
     <c:when test="${fn:length(ranges)>0}">
 
         <div class="panel panel-default">
 
             <div class="panel-body">
-                <input type="hidden" id="units" value="${model.units}"
+                <input type="hidden" id="units" value="${model.units}"/>
                 <jsp:include page="plot.jsp"/>
 
             </div>
@@ -110,3 +111,4 @@
         </div>
     </c:otherwise>
 </c:choose>
+</div>

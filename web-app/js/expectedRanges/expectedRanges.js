@@ -3,7 +3,8 @@ $(function () {
    
     $('.normalRadio').on('click', function () {
         var plotDiv=$('#rangeDiv');
-       // var html= plotDiv.html;
+     //   var html= plotDiv.html;
+     //  console.log(html);
         plotDiv.html("");
         if(this.value=='Both'){ plotDiv.html(normalAll()); }
         if(this.value=='Male'){ plotDiv.html(normalMale());}
@@ -56,7 +57,7 @@ function normalAll(){
     Plotly.newPlot('rangeDiv', data, layout1);
 }
 function normalMale() {
-  
+
     var layout1 = {
         title: phenotype + ' - Expected Ranges',
         // showlegend:false

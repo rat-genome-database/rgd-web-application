@@ -21,50 +21,50 @@
 <div class="container-fluid" style="background-color:#fafafa;margin-top:1%">
     <div class="container-fluid" >
         <div class="panel panel-default">
-            <div class="panel-body " >
+            <div class="panel-body">
                 <div style="float:right;background:linear-gradient(gainsboro, white);border:1px solid gainsboro; padding:5px"><strong><a href="home.html?trait=${model.traitOntId}">Back to all measurements</a></strong></div>
                 <h3>PhenoMiner Expected Ranges</h3>
-                <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
-                 <strong>Analysis Description:</strong>
-                    PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
+                    <div style="width:40%;float:right;margin-right:10%;text-align: justify;border:1px solid gainsboro;padding:5px">
+                     <strong>Analysis Description:</strong>
+                        PhenoMiner's Expected Ranges result from a statistical meta-analysis of PhenoMiner data.  For each rat strain where four or more experiments exist for a single clinical measurement, a meta-analysis is performed using either a random- or fixed-effect model, based on the level of heterogeneity."Zhao et al, in preparation"
 
-                </div>
-                <div style="width:50%;">
-                <table class="table" style="width:90%">
-                <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Clinical Measurement</td><td>
+                    </div>
+                    <div style="width:50%;">
+                    <table class="table" style="width:90%">
+                    <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Clinical Measurement</td><td>
 
-                  <c:set var="ranges" value="${model.records}"/>
-                    <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
-                        <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
-                        <input type="hidden" id="trait" name="trait" value="${model.traitOntId}">
-                              <select id="erPhenotypesSelect" class="form-control form-control-sm " style="z-index: 999">
-                            <c:forEach items="${model.phenotypes}" var="item">
-                                <c:choose>
-                                    <c:when test="${model.phenotype.equals(item.clinicalMeasurement)}">
-                                        <option value="${item.clinicalMeasurementOntId}" selected>${item.clinicalMeasurement}</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option value="${item.clinicalMeasurementOntId}">${item.clinicalMeasurement}</option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+                      <c:set var="ranges" value="${model.records}"/>
+                        <form id="erPhenotypesSelectForm" action="selectedMeasurement.html">
+                            <input type="hidden" id="cmoId" name="cmoId" value="${model.cmo}">
+                            <input type="hidden" id="trait" name="trait" value="${model.traitOntId}">
+                                  <select id="erPhenotypesSelect" class="form-control form-control-sm " style="z-index: 999">
+                                <c:forEach items="${model.phenotypes}" var="item">
+                                    <c:choose>
+                                        <c:when test="${model.phenotype.equals(item.clinicalMeasurement)}">
+                                            <option value="${item.clinicalMeasurementOntId}" selected>${item.clinicalMeasurement}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${item.clinicalMeasurementOntId}">${item.clinicalMeasurement}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
 
-                        </select>
-                    </form>
-                </td>
-                </tr>
-                    <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Ontology Id</td><td>${model.cmo}</td></tr>
-                    <tr><c:if test="${model.trait!=null && model.trait!=''}"><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td>
-                        <td style="text-transform: capitalize">${model.trait}</td> </c:if></tr>
+                            </select>
+                        </form>
+                    </td>
+                    </tr>
+                        <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Ontology Id</td><td>${model.cmo}</td></tr>
+                        <tr><c:if test="${model.trait!=null && model.trait!=''}"><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c; ">Trait</td>
+                            <td style="text-transform: capitalize">${model.trait}</td> </c:if></tr>
 
 
-                <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains</td><td>Inbred </td></tr>
-                </table>
+                    <tr><td style="background-color: #f2f2f2;font-weight: bold;color: #24609c;">Strains</td><td>Inbred </td></tr>
+                    </table>
 
-        </div>
+                 </div>
 
-           <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
-
+                <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
+                <div>
                 <table class="table rangeOptionsTable" id="expectedRangeOptionsTable">
                         <!--caption style="background-color: #eeeeee;padding-left:10px;color:#24609c;font-weight: 100">Options/Filters</caption-->
                         <tr class="rangeOptionsRow">
@@ -142,16 +142,17 @@
 
                     </table>
 
+                </div>
+
+                <div id="mainContent">
+                    <jsp:include page="rangePhenotypeContent.jsp"/>
+                </div>
 
 
-        <div id="mainContent">
-            <jsp:include page="rangePhenotypeContent.jsp"/>
+           </div>
         </div>
-
-
-    </div>
-</div>
-    </div>
+     </div>
+    <input type="hidden" name="normalRange" value="${model.normalRange}"/>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
 

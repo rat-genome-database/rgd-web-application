@@ -2,6 +2,8 @@ package edu.mcw.rgd.phenominer.expectedRanges.controller;
 
 import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
+import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenotypeObject;
+import edu.mcw.rgd.phenominer.expectedRanges.model.NormalRange;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
 
 import org.springframework.ui.ModelMap;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +39,10 @@ public class StrainOptionsController implements Controller{
         List<Integer> ageLow= new ArrayList<>();
         List<Integer> ageHigh=new ArrayList<>();
         List<String> selectedMethods= new ArrayList<>();
+        HttpSession session = request.getSession();
+
+        NormalRange normalRange= (NormalRange) session.getAttribute("normalRange");
+
         boolean isPGA=false;
         if(traitOntId==null){
             isPGA=true;
@@ -63,6 +70,7 @@ public class StrainOptionsController implements Controller{
         model.put("strainGroupId", strainGroupId);
         model.put("ranges", process.addExtraAttributes(records));
         model.addAttribute("plotData",  process.getPlotData(records, "strain"));
+        model.addAttribute("normalRange", normalRange);
         String unitsStr=records.get(0).getUnits();
         String units=unitsStr.substring(1, unitsStr.length()-1);
         model.addAttribute("units", units);
