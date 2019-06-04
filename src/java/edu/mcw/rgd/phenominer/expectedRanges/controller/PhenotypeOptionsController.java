@@ -89,6 +89,8 @@ public class PhenotypeOptionsController extends SelectedMeasurementController im
         }
 
         List<PhenominerExpectedRange> records=dao.getExpectedRanges(cmoIds, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA, null);
+        String unitsStr=records.get(0).getUnits();
+        String units=unitsStr.substring(1, unitsStr.length()-1);
         HttpSession session= request.getSession();
         NormalRange normalRange= (NormalRange) session.getAttribute("normalRange");
 
@@ -100,8 +102,7 @@ public class PhenotypeOptionsController extends SelectedMeasurementController im
         model.addAttribute("records", process.addExtraAttributes(records));
         model.addAttribute("phenotype", phenotype);
         model.addAttribute("phenotypeAccId",phenotypeAccId);
-        String unitsStr=records.get(0).getUnits();
-        String units=unitsStr.substring(1, unitsStr.length()-1);
+
         model.addAttribute("units", units);
         model.addAttribute("normalRange", normalRange);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/rangePhenotypeContent.jsp", "model", model);

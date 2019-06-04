@@ -104,7 +104,7 @@
                                 <table>
                                   <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="0-79">&nbsp;&nbsp;0-79 days</td></tr>
                                     <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="80-99">&nbsp;&nbsp;80-99 days</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="100-999">&nbsp;&nbsp;100-999 days</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="100-998">&nbsp;&nbsp;100-998 days</td></tr>
                                     <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="0-999">&nbsp;&nbsp;0-999 days</td></tr>
 
                                 </table>
