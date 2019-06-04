@@ -163,24 +163,13 @@ public class OrthologController implements Controller {
                 }
             }
 
-            for (Iterator<String> iterator = symbols.iterator(); iterator.hasNext(); ) {
-                String symbol = iterator.next();
-                if (!symbolsFound.contains(symbol.toLowerCase()) ) {
-                    for (Iterator<String> itr = om.getLog().iterator(); itr.hasNext(); ) {
-                        String msg = itr.next();
-                        if (!msg.contains(symbol)) {
-                            symbolsNotFound.add(symbol);
-                        }
-                    }
-                }
-            }
+
 
             request.setAttribute("geneMap", geneMap);
             request.setAttribute("orthologMap", orthologMap);
             request.setAttribute("mappedGenes", mappedGeneMap);
         }
-        else
-                symbolsNotFound = this.symbols;
+
         request.setAttribute("report", report);
 
 
@@ -189,7 +178,7 @@ public class OrthologController implements Controller {
         request.setAttribute("inMapKey",inMapKey);
         request.setAttribute("outMapKey",outMapKey);
         request.setAttribute("genes",this.symbols);
-        request.setAttribute("notFound",symbolsNotFound);
+        request.setAttribute("notFound",om.getLog());
 
     }
 
