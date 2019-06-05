@@ -126,8 +126,10 @@
 
 <script>
     var v= new OrthologVue("ortholog");
-    v.setMaps(3,'inMaps');
-    v.setMaps(1,'outMaps');
+    v.inSpecies = <%=request.getParameter("species")%>;
+    v.setMaps(<%=request.getParameter("species")%>,'inMaps');
+    v.setMaps(1, 'outMaps');
+
 </script>
 
  <%@ include file="/common/footerarea.jsp" %>
