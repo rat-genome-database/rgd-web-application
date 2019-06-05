@@ -30,7 +30,7 @@
         case 2:
             title = "Cancer";
             //filter = "RDO:0005309";
-            filter = "DOID:145669";
+            filter = "DOID:14566";
             break;
         case 3:
             title = "Cardiovascular Disease";
@@ -77,6 +77,11 @@
             //filter = "RDO:9001567";
             filter = "DOID:0050155";
             break;
+        case 12:
+            title = "Developmental Disease";
+            //filter = "RDO:9001567";
+            filter = "DOID:9008582";
+            break;
     }
 
 
@@ -91,9 +96,6 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-
-
-
 
 <script>
     function loading(ms) {
@@ -138,10 +140,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <style>
     body {
@@ -252,7 +250,6 @@
             }
 
 
-
             $scope.title = "<%=title%>";
             $scope.subTitle = "";
 
@@ -345,8 +342,6 @@
             $scope.portalLinks["DOID:0050155"].tools = "/wg/portals/sensory-organ-disease-portal-tools/";
             $scope.portalLinks["DOID:0050155"].links = "/wg/portals/sensory-organ-disease-portal-related-links/";
             $scope.portalLinks["DOID:0050155"].models = "/wg/portals/sensory-organ-disease-portal-rat-strain-models/";
-
-
 
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
@@ -694,7 +689,6 @@
 
                 }
 
-//                var host = window.location.host;
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
                 $scope.urlString = $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
@@ -773,10 +767,6 @@
 
     ]);
 </script>
-
-
-
-
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -1060,14 +1050,11 @@
         </tr>
     </table>
 
-<!--    <div style="margin-left:20px; padding-bottom:10px; padding-top:10px; font-size:16px; color:#24609C">Select a term</div>-->
-
     <div id="browser" ng-init="portal.browse('<%=filter%>','d')">
 
 </div>
 
     <br>
-    <!--<div>{{ urlString }}</div>-->
 
 <table width="100%" cellpadding="4" style="padding:5px; font-size:18px;background-color:#f6f6f6; border:1px solid black; color:#2865A3;">
     <tr>
@@ -1114,15 +1101,11 @@
 </table>
 <br>
 
-
     <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
         <tr>
             <td><div style='font-size:20px; clear:left; padding:10px; color:#24609C;"'>Genome View</div> </td>
         </tr>
     </table>
-
-    <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Plot On Genome" ng-click="portal.buildGViewer()"/>-->
-
 
     <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
         // ================================================================
@@ -1190,9 +1173,6 @@
         </tr>
     </table>
 
-
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -1225,11 +1205,6 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
-
-
-
-
-
     <br>
     <table width="100%"  style="background-color:#D6E5FF; margin:10px;">
         <tr>
@@ -1239,10 +1214,11 @@
     <br>
     <table  align="center">
         <tr>
-            <td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}" target="_blank">
+            <!--<td align="center"><a href="http://navigator.rgd.mcw.edu/navigator/ui/home.jsp?accId={{ontologyId}}" target="_blank">
                 <img height=150 width=200 src="/rgdweb/common/images/dnavExample.png" style="margin:10px;" /><div style="font-size:16px;">Disease Navigator</div>
             </a>
             </td>
+            -->
             <td  align="center"><a href="{{portalLinks[rootTermAcc].tools}}" target="_blank">
                 <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
             </a>
@@ -1258,8 +1234,6 @@
         </tr>
     </table>
 
-
-
 <div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">
 <form id="download" name="download" >
     <input name="species" value=""/>
@@ -1273,14 +1247,9 @@
 </div>
 
 
-
-
-
-
 <% } catch (Exception e) {
     e.printStackTrace();
 %>
-
 
 <% } %>
 <%@ include file="/common/footerarea.jsp"%>
