@@ -1,6 +1,6 @@
 
 <%
-    String pageTitle = "Gene Ortholog Tool";
+    String pageTitle = "GOLF: Gene and Ortholog Location Finder";
     String headContent = "";
     String pageDescription = "Generate an ortholog report for a list of genes.";
 %>
@@ -15,7 +15,7 @@
 
 
 <%
-    String pageHeader="Ortholog Tool - Generate an ortholog report for a list of genes";
+    String pageHeader="GOLF: Gene and Ortholog Location Finder";
 %>
 <br>
 
