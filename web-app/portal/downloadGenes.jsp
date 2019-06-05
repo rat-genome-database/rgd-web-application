@@ -2,11 +2,11 @@
     response.setHeader("Content-disposition","attachment;filename=\"genes.csv\"");
     //Report report =  (Report)request.getAttribute("report");
     //out.println(report.format(new DelimitedReportStrategy()));
+
     GeneDAO gdao = new GeneDAO();
 
     String ids = request.getParameter("ids");
     String species= request.getParameter("species");
-
 
     String[] idArray = ids.split(",");
 
@@ -24,7 +24,7 @@
     out.print(",");
     out.print("Gene Symbol");
     out.print(",");
-    out.print("RGD ID");
+    out.println("RGD ID");
 
 
 
