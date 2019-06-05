@@ -62,7 +62,7 @@
 <div style=" font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Symbols Not Found in <%=inMap%>: <br>
            <span style="color:red;"> <%=symbolsNotFound%></span>
 </div>
-<%} if(symbolsNotFound.size() != geneSymbols.size()) {%>
+<%} if(geneMap.size() != 0) {%>
      <br>
     <table class="table table-bordered table-striped">
     <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
