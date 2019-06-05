@@ -1080,7 +1080,7 @@
     <tr>
         <td>
             <div class="diseasePortalListBoxTitle"><table border="0" width="100%"><tr><td valign="bottom"><b>Genes:</b><span  class="dnavCount">{{ portalGenesLen }}</span></td><td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="portal.downloadGenes()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/>
-                <img ng-click="rgd.showTools('geneList',3,360,1,'')" src="/rgdweb/common/images/tools-white-40.png"/></td></tr></table></div>
+                <!--<img ng-click="rgd.showTools('geneList',3,360,1,'')" src="/rgdweb/common/images/tools-white-40.png"/>--></td></tr></table></div>
             <div class="diseasePortalListBox">
                 <div ng-repeat="portalGene in portalGenes" style="padding:3px;" ng-class-even="'even'" ng-class-odd="'odd'">
 
