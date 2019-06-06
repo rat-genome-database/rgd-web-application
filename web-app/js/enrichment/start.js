@@ -53,7 +53,7 @@ var v = new Vue({
                 alert("Please enter genes or position");
                 return false;
             }
-            if(z == "") {
+            if(x != "" && z == "") {
                 alert("Please enter idType");
                 return false;
             }
