@@ -166,6 +166,8 @@
 
 <%
     int speciesTypeKey=3;
+    if(request.getParameter("species") != null)
+        speciesTypeKey = Integer.parseInt(request.getParameter("species"));
     String mapKey=request.getParameter("mapKey");
     
     if (mapKey != null &&  !mapKey.equals("")) {
