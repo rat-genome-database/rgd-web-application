@@ -39,7 +39,6 @@
         url += "&dia=1";
     }
 %>
-
 <ontbrowser:tree acc_id="<%=accId%>"
                  url="<%=url%>"
                  offset="<%=request.getParameter(\"offset\")%>"

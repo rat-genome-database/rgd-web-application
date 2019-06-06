@@ -1,6 +1,7 @@
 package edu.mcw.rgd.gviewer;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -12,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,10 +33,77 @@ public class AnnotationXmlController implements Controller {
         out.println("<genome>");
 
         GViewerBean bean = new GViewerBean();
-        bean.loadParametersFromRequest(request);
+        try {
+            bean.loadParametersFromRequest(request);
+        }catch (Exception e) {
 
-        String sql = bean.buildSqlForGViewerAnnotations();
-        //System.out.println(sql);
+        }
+
+        String sql = "";
+
+        String ids = request.getParameter("ids");
+        String[] idArray = ids.split(",");
+
+        List<String> idList = new <String>ArrayList();
+
+        //System.out.println("id list = " + ids);
+
+        String idStr = "";
+        for (int i = 0; i < idArray.length; i++) {
+
+            if (idStr.length()==0) {
+                System.out.println("len = 0 ");
+                idStr += idArray[i];
+            }else {
+                idStr += "," + idArray[i];
+            }
+
+            if (i!=0 && i % 999 == 0) {
+                System.out.println("adding " + i + " " + idStr);
+                idList.add(idStr);
+                idStr = "";
+            }
+
+        }
+
+        System.out.println("adding " + idStr);
+        idList.add(idStr);
+        System.out.println("ids list size = " + idList.size());
+
+        try {
+
+            sql ="";
+            if (idList.size() > 0) {
+
+                for (String lst: idList) {
+
+                    if (sql.length() > 0) {
+                        sql += " union ";
+                    }
+
+
+                    sql += " SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
+                            "FROM maps_data m, full_annot fa where m.rgd_id in (" + lst + ") ";
+
+                    sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
+
+                    sql += MapManager.getInstance().getReferenceAssembly(1).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ")";
+                }
+            } else {
+                sql = bean.buildSqlForGViewerAnnotations();
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(sql);
 
         Connection conn = null;
         try {
