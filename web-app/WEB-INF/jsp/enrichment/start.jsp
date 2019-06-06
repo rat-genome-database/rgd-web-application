@@ -251,6 +251,8 @@
     </form>
 </div>
     <script>
+        var species = document.getElementById("species");
+        species.value = <%=request.getParameter("species")%>;
         v.setMap(document.getElementById("species"));
     </script>
 
