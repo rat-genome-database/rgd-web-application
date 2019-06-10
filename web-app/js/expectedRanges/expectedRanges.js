@@ -1,6 +1,5 @@
 $(function () {
-   
-   
+  
     $('.normalRadio').on('click', function () {
         var plotDiv=$('#rangeDiv');
      //   var html= plotDiv.html;

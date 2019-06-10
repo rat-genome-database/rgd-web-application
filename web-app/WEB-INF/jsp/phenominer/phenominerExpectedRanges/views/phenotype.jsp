@@ -64,7 +64,9 @@
                  </div>
 
                 <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
+
                 <div>
+                    <form action="" id="er-options-form" method="post">
                 <table class="table rangeOptionsTable" id="expectedRangeOptionsTable">
                         <!--caption style="background-color: #eeeeee;padding-left:10px;color:#24609c;font-weight: 100">Options/Filters</caption-->
                         <tr class="rangeOptionsRow">
@@ -75,9 +77,8 @@
                                   <c:when test="${fn:length(model.strainGroupMap)>6}">
                                       <div id="colm">
                                           <table>
-
                                               <c:forEach items="${model.strainGroupMap}" var="strain">
-                                                  <tr><td><input type="checkbox" class="form-check-input phenotypestrains" name="phenotypestrains" value="${strain.value}" >&nbsp;&nbsp;${strain.key}</td></tr>
+                                                  <tr><td><input type="checkbox" class="form-check-input phenotypestrains er-options-checkbox" name="phenotypestrains" value="${strain.value}" >&nbsp;&nbsp;${strain.key}</td></tr>
                                               </c:forEach>
 
                                           </table>
@@ -88,7 +89,7 @@
                                           <table>
 
                                               <c:forEach items="${model.strainGroupMap}" var="strain">
-                                                  <tr><td><input type="checkbox" class="form-check-input phenotypestrains" name="phenotypestrains" value="${strain.value}" >&nbsp;&nbsp;${strain.key}</td></tr>
+                                                  <tr><td><input type="checkbox" class="form-check-input phenotypestrains er-options-checkbox" name="phenotypestrains" value="${strain.value}" >&nbsp;&nbsp;${strain.key}</td></tr>
                                               </c:forEach>
 
                                           </table>
@@ -102,10 +103,10 @@
                             <td  class="rangeOptionsColumn">
                                 <h4><!--input class="form-check-input" type="checkbox" onclick="toggle(this, 'phenotypeage')"/-->&nbsp;Age</h4>
                                 <table>
-                                  <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="0-79">&nbsp;&nbsp;0-79 days</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="80-99">&nbsp;&nbsp;80-99 days</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="100-998">&nbsp;&nbsp;100-998 days</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage" name="phenotypeage" value="0-999">&nbsp;&nbsp;0-999 days</td></tr>
+                                  <tr><td><input type="checkbox"  class="form-check-input phenotypeage er-options-checkbox" name="phenotypeage" value="0-79">&nbsp;&nbsp;0-79 days</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage er-options-checkbox" name="phenotypeage" value="80-99">&nbsp;&nbsp;80-99 days</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage er-options-checkbox" name="phenotypeage" value="100-998">&nbsp;&nbsp;100-998 days</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeage er-options-checkbox" name="phenotypeage" value="0-999">&nbsp;&nbsp;0-999 days</td></tr>
 
                                 </table>
                             </td>
@@ -113,9 +114,9 @@
                                 <h4><!--input class="form-check-input" type="checkbox" onclick="toggle(this, 'phenotypesex')"/-->&nbsp;Sex</h4>
 
                                 <table>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex" name="phenotypesex" value="Female">&nbsp;&nbsp;Female</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex" name="phenotypesex" value="Male">&nbsp;&nbsp;Male</td></tr>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex"  name="phenotypesex" value="Mixed">&nbsp;&nbsp;Mixed</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex er-options-checkbox" name="phenotypesex" value="Female">&nbsp;&nbsp;Female</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex er-options-checkbox" name="phenotypesex" value="Male">&nbsp;&nbsp;Male</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypesex er-options-checkbox"  name="phenotypesex" value="Mixed">&nbsp;&nbsp;Mixed</td></tr>
                                  </table>
                             </td>
                             <td class="rangeOptionsColumn">
@@ -123,7 +124,7 @@
                                 <h4><!--input class="form-check-input" type="checkbox" onclick="toggle(this, 'erMethod')"/-->&nbsp;Methods(${fn:length(model.overAllMethods)})</h4>
                                 <table>
                                     <c:forEach items="${model.overAllMethods}" var="method">
-                                        <tr><td><input type="checkbox"   class="form-check-input phenotypemethods" name="phenotypemethods" value="${fn:toLowerCase(method)}">&nbsp;&nbsp;${method}</td></tr>
+                                        <tr><td><input type="checkbox"   class="form-check-input phenotypemethods er-options-checkbox" name="phenotypemethods" value="${fn:toLowerCase(method)}">&nbsp;&nbsp;${method}</td></tr>
                                     </c:forEach>
                                 </table>
                                 </c:if>
@@ -134,14 +135,14 @@
                                 <h4><!--input class="form-check-input" type="checkbox" onclick="toggle(this, 'phenotypesex')"/-->&nbsp;Conditions</h4>
 
                                 <table>
-                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeconditions" checked style="">&nbsp;&nbsp;Control Condition</td></tr>
+                                    <tr><td><input type="checkbox"  class="form-check-input phenotypeconditions er-options-checkbox" checked style="">&nbsp;&nbsp;Control Condition</td></tr>
 
                                 </table>
                             </td>
                         </tr>
 
                     </table>
-
+                    </form>
                 </div>
 
                 <div id="mainContent">

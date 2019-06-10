@@ -1,3 +1,4 @@
+
 function getPhenotypeSelectedOptions(){
     cmo=$('#cmoId').val();
     traitOntId=$('#trait').val();
@@ -35,15 +36,22 @@ function toggle(_this, groupClass){
     }
 }
 $(function () {
+    $('.er-options-checkbox').on('click', function () {
+        var optionsForm=$('#er-options-form');
 
-        $("#erPhenotypesSelect").on('change', function () {
+        getPhenotypeSelectedOptions();
+        var url="/rgdweb/phenominer/phenominerExpectedRanges/views/selectedMeasurement.html?phenotypestrains="+phenotypestrains+"&phenotypeage="+phenotypeage+"&phenotypesex="+phenotypesex+"&cmoId="+cmo+"&trait="+traitOntId+   "&methods="+ phenotypemethods+"&traitExists=true"+"&options=true";
+        optionsForm.attr("action", url );
+        optionsForm.submit();
+    })
+       $("#erPhenotypesSelect").on('change', function () {
             var phenotype=this.value;
             $("#cmoId").val(phenotype);
             $("#erPhenotypesSelectForm").submit();
         });
         $('.phenotypeconditions').attr("disabled", true);
 
-    $("input[name='phenotypestrains']").on('click', function () {
+ /*   $("input[name='phenotypestrains']").on('click', function () {
         var checked=$(this).val();
         getPhenotypeSelectedOptions();
         getPhenotypeRangeData();
@@ -63,5 +71,5 @@ $(function () {
         getPhenotypeSelectedOptions();
         getPhenotypeRangeData();
        
-    });
+    });*/
 });
