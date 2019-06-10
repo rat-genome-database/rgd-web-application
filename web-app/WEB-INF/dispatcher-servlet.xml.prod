@@ -54,7 +54,8 @@
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
                 <prop key="report/annotation/table.html">GeneTermAnnotationsController</prop>
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
-                <prop key="report/variant/main.html">VariantReportController</prop>
+                <prop key="report/variant/main.html">ClinVarReportController</prop>
+                <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
  <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
@@ -86,6 +87,12 @@
                 <prop key="ga/genome.html">GAGenomeController</prop>
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
+
+                <prop key="enrichment/analysis.html">EnrichmentController</prop>
+                <prop key="enrichment/start.html">EnrichmentSelectController</prop>
+
+                <prop key="ortholog/start.html">OrthologSelectController</prop>
+                <prop key="ortholog/report.html">OrthologController</prop>
 
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
@@ -202,6 +209,7 @@
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
+    <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
 	<bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
@@ -345,6 +353,11 @@
      <bean id="ReferencesController" class="edu.mcw.rgd.models.ReferencesController"/>
      <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
 
+    <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
+    <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
+
+    <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
+    <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
 </beans>
 
 
