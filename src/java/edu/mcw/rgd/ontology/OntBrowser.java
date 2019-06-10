@@ -142,17 +142,33 @@ public class OntBrowser extends SimpleTagSupport {
             }
 
         }
-        String html =
-        "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n"+
-        "<table border=0 align=\"center\" width=\"60%\" >\n"+
-        "  <tr>\n"+
-        "<td width=200><input type=\"button\" value=\"<< Back\" style=\"background-color:#FF7B23;\" class=\"btn btn-info btn-lg\" onClick=\"browserBack()\"/></td>" +
-                "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">"+termName
-                +" <span style=\"font-size:14px;\">("+bean.getAccId()+")</span></td>\n"+
-                "<td width=200>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
-        "  </tr>\n"+
 
-        "  <tr>\n";
+        String html="";
+
+        if (!portalVersion) {
+
+            html =
+                    "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n" +
+                            "<table border=0 align=\"center\" width=\"60%\" >\n" +
+                            "  <tr>\n" +
+                            "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">" + termName
+                            + " <span style=\"font-size:14px;\">(" + bean.getAccId() + ")</span></td>\n" +
+                            "  </tr>\n" +
+                            "  <tr>\n";
+        }else {
+            html =
+                    "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n" +
+                            "<table border=0 align=\"center\" width=\"60%\" >\n" +
+                            "  <tr>\n" +
+                            "<td width=200><input type=\"button\" value=\"<< Back\" style=\"background-color:#FF7B23;\" class=\"btn btn-info btn-lg\" onClick=\"browserBack()\"/></td>" +
+                            "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">" + termName
+                            + " <span style=\"font-size:14px;\">(" + bean.getAccId() + ")</span></td>\n" +
+                            "<td width=200>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
+                            "  </tr>\n" +
+
+                            "  <tr>\n";
+
+        }
 
         if (!portalVersion) {
             if (diagramMode) {
