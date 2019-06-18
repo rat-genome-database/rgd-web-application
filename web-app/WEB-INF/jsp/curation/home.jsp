@@ -137,6 +137,7 @@
                                   }
                               })
                       .then(function (response) {
+                          alert(response.status);
                           v.userloggedin = response.status;
                       });
           }
