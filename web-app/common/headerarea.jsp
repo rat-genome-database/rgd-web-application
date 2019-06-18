@@ -111,22 +111,12 @@
         <td>
 
             <div id="headWrapper">
-
-
-
-
-
-                <div class="top-bar">
+                <div class="top-bar" style="background-color: black">
                     <table width="100%" border="0" class="headerTable" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb//common/images/rgd_logo.jpg"></a></div>
-
-                            </td>
-
-                            <td align="right" style="color:white;" valign="center" colspan="3">
-                                <a href="/registration-entry.shtml">Submit Data</a>&nbsp;|&nbsp;
+                           <td align="right" style="color:white;height:40px" valign="center" colspan="3">
+                            <a href="/registration-entry.shtml">Submit Data</a>&nbsp;|&nbsp;
                             <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
                             <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
                             <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
@@ -140,169 +130,162 @@
                             <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                         </td>
 
-                    </tr>
+                         </tr>
+                        <tr style="background-color: white;background-image: linear-gradient(-90deg, #414866,white);">
 
-                    <tr>
-                        <td colspan="2">
+                            <td  style="color:white;" valign="center" colspan="3">
+                                <div class="row">
+                                <div class="input-group col-md-4" ><a class="homeLink" href="/wg/home"><img style="" border="0" src="/rgdweb//common/images/rgd_LOGO_blue_rgd.gif"></a></div>
+                                <div class="input-group col-md-4" style="padding-top:20px" >
+                                    <input  placeholder="Enter Search Term ...." type="search"  class="form-control form-control-lg border-secondary" value=""/>
 
+                                    <div class="input-group-append" style="height: 35px">
 
-
-                            <div class="rgd-navbar">
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/wg/general-search/">Search RGD</a>
-                                        <a href="/wg/grants/">Grant Resources</a>
-                                        <a href="/wg/citing-rgd/">Citing RGD</a>
-                                        <a href="/wg/about-us/">About Us</a>
-                                        <a href="/contact/index.shtml">Contact Us</a>
+                                        <button class="btn btn-outline-primary" type="submit" style="color:white;background-color: #0683F9 ">
+                                            <i class="fa fa-search"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/data-menu/'">Data
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdweb/search/genes.html?100">Genes</a>
-                                        <a href="/rgdweb/search/qtls.html?100">QTLs</a>
-                                        <a href="/rgdweb/search/strains.html?100">Strains</a>
-                                        <a href="/rgdweb/search/markers.html?100">Markers</a>
-                                        <a href="/rgdweb/report/genomeInformation/genomeInformation.html">Genome Information</a>
-                                        <a href="/rgdweb/ontology/search.html">Ontologies</a>
-                                        <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
-                                        <a href="/rgdweb/search/references.html?100">References</a>
-                                        <a href="ftp://ftp.rgd.mcw.edu/pub/">FTP Download</a>
-                                        <a href="/registration-entry.shtml">Submit Data</a>
-                                    </div>
+                                    <div class="col" style="padding-top:20px">
+                                        <a href="/rgdweb/generator/list.html" style="text-decoration: underline">Avanced Search OLGA</a><br>
+                                        <a href="https://dev.rgd.mcw.edu/QueryBuilder" style="text-decoration: underline">OntoMate - Literature Search</a>
+                                        </div>
                                 </div>
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/tool-menu/'">Analysis & Visualization
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
+                            </td>
 
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/jbrowse/">JBrowse (Genome Browser)</a>
-                                        <a href="/rgdweb/front/config.html">Variant Visualizer</a>
-                                        <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
-                                        <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
-                                        <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
-                                        <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
-                                        <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
-                                        <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
-                                        <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
-                                        <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
-                                        <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
-                                        <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                    </div>
-                                </div>
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdCuration/?module=portal&func=show&name=aging">Aging & Age-Related Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cancer">Cancer</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cardio">Cardiovascular Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=develop">Developmental Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=diabetes">Diabetes</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=blood">Hematologic Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=immune">Immune & Inflammatory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=nuro">Neurological Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=obesity">Obesity & Metabolic Syndrome</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=renal">Renal Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=respir">Respiratory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=sensory">Sensory Organ Disease</a>
-                                    </div>
-                                </div>
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/physiology/'">Phenotypes & Models
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdweb/models/allModels.html">Genetic Models</a>
-                                        <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
-                                        <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
-                                        <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
-                                        <a href="/wg/phenotype-data13/">Phenotypes</a>
-                                        <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
-                                        <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
-                                        <a href="/wg/strain-maintenance/">Animal Husbandry</a>
-                                        <a href="/wg/physiology/strain-medical-records/">Strain Medical Records</a>
-                                        <a href="/wg/phylogenetics/">Phylogenetics</a>
-                                        <a href="/wg/strain-availability/">Strain Availability</a>
-                                        <a href="ftp://ftp.rgd.mcw.edu/pub/data_release/Hi-res_Rat_Calendars/">Calendar</a>
-                                        <a href="/wg/physiology/rats101/">Rats 101</a>
-                                        <a href="/wg/photos-and-images/community-submissions/">Submissions</a>
-                                        <a href="/wg/photos-and-images/physgen-photo-archive2/">Photo Archive</a>
-                                    </div>
-                                </div>
-
-                                <a href="/wg/home/pathway2/">Pathways</a>
-
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/com-menu/'">Community
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <div class="rgd-dropdown-content">
-                                        <a href="http://mailman.mcw.edu/mailman/listinfo/rat-forum">Rat Community Forum</a>
-                                        <a href="/wg/com-menu/directory-of-rat-laboratories2/">Directory of Rat Laboratories</a>
-                                        <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>
-                                        <a href="/wg/news2/">News</a>
-                                        <a href="/wg/home/rat-genome-database-publications/">RGD Publications</a>
-                                        <a href="/wg/com-menu/poster_archive/">RGD Poster Archive</a>
-                                        <a href="/nomen/nomen.shtml">Nomenclature Guidelines</a>
-                                        <a href="/wg/resource-links/">Resource Links</a>
-                                        <a href="/wg/resource-links/laboratory-resources/">Laboratory Resources</a>
-                                        <a href="/wg/resource-links/employment-resources/">Employment Resources</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
                         </tr>
                         <tr>
-                        <td align="center" id="search-td">
+                            <td colspan="2"  >
+                                <div class="rgd-navbar" style="background-color:#0683F9 ">
+                                    <div class="rgd-dropdown"  style="background-color:#0683F9 ">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg'">Home
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
 
+                                        <div class="rgd-dropdown-content"  style="background-color:#0683F9 ">
+                                            <a href="/wg/general-search/">Search RGD</a>
+                                            <a href="/wg/grants/">Grant Resources</a>
+                                            <a href="/wg/citing-rgd/">Citing RGD</a>
+                                            <a href="/wg/about-us/">About Us</a>
+                                            <a href="/contact/index.shtml">Contact Us</a>
+                                        </div>
+                                    </div>
+                                    <div class="rgd-dropdown">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg/data-menu/'">Data
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
 
-                                        <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
-                                            <input type="hidden" name="log" value="true" />
-                                            <table border="0">
-                                                <tr>
+                                        <div class="rgd-dropdown-content">
+                                            <a href="/rgdweb/search/genes.html?100">Genes</a>
+                                            <a href="/rgdweb/search/qtls.html?100">QTLs</a>
+                                            <a href="/rgdweb/search/strains.html?100">Strains</a>
+                                            <a href="/rgdweb/search/markers.html?100">Markers</a>
+                                            <a href="/rgdweb/report/genomeInformation/genomeInformation.html">Genome Information</a>
+                                            <a href="/rgdweb/ontology/search.html">Ontologies</a>
+                                            <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
+                                            <a href="/rgdweb/search/references.html?100">References</a>
+                                            <a href="ftp://ftp.rgd.mcw.edu/pub/">FTP Download</a>
+                                            <a href="/registration-entry.shtml">Submit Data</a>
+                                        </div>
+                                    </div>
+                                    <div class="rgd-dropdown">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg/tool-menu/'">Analysis & Visualization
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
 
-                                                    <td>
-                                                        <input type="hidden" name="category" id="category" value="General"/>
-                                                        <input  type=text class="form-control searchgroup" id="term" name=term size="50" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
-                                                    </td>
-                                                    <td>
-                                                        <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
-                                                        <input class="btn btn-info btn-sm form-control" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
+                                        <div class="rgd-dropdown-content">
+                                            <a href="https://dev.rgd.mcw.edu/QueryBuilder/">OntoMate(Literature Search)</a>
+                                            <a href="/jbrowse/">JBrowse (Genome Browser)</a>
+                                            <a href="/rgdweb/front/config.html">Variant Visualizer</a>
+                                            <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
+                                            <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
+                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
+                                            <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
+                                            <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
+                                            <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
+                                            <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
+                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
+                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
+                                            <a href="/GENOMESCANNER/">Genome Scanner</a>
+                                        </div>
+                                    </div>
+                                    <div class="rgd-dropdown">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg/portals/'">Diseases
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
 
-                                                    </td>
-                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
-                                                </tr>
-                                            </table>
+                                        <div class="rgd-dropdown-content">
+                                            <a href="/rgdCuration/?module=portal&func=show&name=aging">Aging & Age-Related Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=cancer">Cancer</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=cardio">Cardiovascular Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=develop">Developmental Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=diabetes">Diabetes</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=blood">Hematologic Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=immune">Immune & Inflammatory Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=nuro">Neurological Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=obesity">Obesity & Metabolic Syndrome</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=renal">Renal Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=respir">Respiratory Disease</a>
+                                            <a href="/rgdCuration/?module=portal&func=show&name=sensory">Sensory Organ Disease</a>
+                                        </div>
+                                    </div>
+                                    <div class="rgd-dropdown">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg/physiology/'">Phenotypes & Models
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
 
-                                        </form>
+                                        <div class="rgd-dropdown-content">
+                                            <a href="/rgdweb/models/allModels.html">Genetic Models</a>
+                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
+                                            <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
+                                            <a href="/wg/phenotype-data13/">Phenotypes</a>
+                                            <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
+                                            <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
+                                            <a href="/wg/strain-maintenance/">Animal Husbandry</a>
+                                            <a href="/wg/physiology/strain-medical-records/">Strain Medical Records</a>
+                                            <a href="/wg/phylogenetics/">Phylogenetics</a>
+                                            <a href="/wg/strain-availability/">Strain Availability</a>
+                                            <a href="ftp://ftp.rgd.mcw.edu/pub/data_release/Hi-res_Rat_Calendars/">Calendar</a>
+                                            <a href="/wg/physiology/rats101/">Rats 101</a>
+                                            <a href="/wg/photos-and-images/community-submissions/">Submissions</a>
+                                            <a href="/wg/photos-and-images/physgen-photo-archive2/">Photo Archive</a>
+                                        </div>
+                                    </div>
 
+                                    <a href="/wg/home/pathway2/">Pathways</a>
+
+                                    <div class="rgd-dropdown">
+                                        <button class="rgd-dropbtn" style="cursor:pointer;background-color: #0683F9" onclick="javascript:location.href='/wg/com-menu/'">Community
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
+
+                                        <div class="rgd-dropdown-content">
+                                            <a href="http://mailman.mcw.edu/mailman/listinfo/rat-forum">Rat Community Forum</a>
+                                            <a href="/wg/com-menu/directory-of-rat-laboratories2/">Directory of Rat Laboratories</a>
+                                            <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>
+                                            <a href="/wg/news2/">News</a>
+                                            <a href="/wg/home/rat-genome-database-publications/">RGD Publications</a>
+                                            <a href="/wg/com-menu/poster_archive/">RGD Poster Archive</a>
+                                            <a href="/nomen/nomen.shtml">Nomenclature Guidelines</a>
+                                            <a href="/wg/resource-links/">Resource Links</a>
+                                            <a href="/wg/resource-links/laboratory-resources/">Laboratory Resources</a>
+                                            <a href="/wg/resource-links/employment-resources/">Employment Resources</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="background-color:  #0683F9">
+
+                                    <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
+                                    <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
+                                    <a href="https://www.linkedin.com/company/ratgenome/about/"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
+                                    <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
 
 
 
                             </td>
-                            <td>
-                                <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
-                                <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
-                                <a href="https://www.linkedin.com/company/ratgenome/about/"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
-                                <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
-
-                        </td>
-                    </tr>
-
+                        </tr>
 
                     </table>
                 </div>
