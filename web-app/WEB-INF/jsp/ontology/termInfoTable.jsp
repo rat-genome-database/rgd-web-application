@@ -134,6 +134,11 @@
                      .append(syn.getName().substring(5))
                      .append("\" title=\"view term at Orphanet\">").append(syn.getName()).append("</a>");
               }
+              else if( syn.getName().startsWith("NCI:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(69).getUrl())
+                     .append(syn.getName().substring(4))
+                     .append("\" title=\"view term at NCI Thesaurus\">").append(syn.getName()).append("</a>");
+              }
 
               // link outs to strain report pages for rat strain ontology terms having assigned rgd ids
               else if( syn.getName().startsWith("RGD ID:") ) {
