@@ -185,6 +185,7 @@
                                     </button>
 
                                     <div class="rgd-dropdown-content">
+                                        <a href="/QueryBuilder" >OntoMate (Literature Search) <img src="/rgdweb/images/logo.png" height="50px" width="50px" border="0" /></a>
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
@@ -271,6 +272,7 @@
 
 
                                         <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
+
                                             <input type="hidden" name="log" value="true" />
                                             <table border="0">
                                                 <tr>
@@ -284,7 +286,7 @@
                                                         <input class="btn btn-info btn-sm form-control" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
 
                                                     </td>
-                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></td>
+                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a><br>&nbsp;&nbsp; <a href="/QueryBuilder" >OntoMate (Literature Search) </a></td>
                                                 </tr>
                                             </table>
 
