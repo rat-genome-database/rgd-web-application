@@ -185,7 +185,7 @@
                                     </button>
 
                                     <div class="rgd-dropdown-content">
-                                        <a href="/QueryBuilder" >OntoMate (Literature Search) <img src="/rgdweb/images/logo.png" height="50px" width="50px" border="0" /></a>
+                                        <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
