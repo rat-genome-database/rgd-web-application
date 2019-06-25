@@ -293,10 +293,10 @@
             $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-related-links/";
             $scope.portalLinks["DOID:9007801"].models = "/wg/portals/aging-disease-portal-rat-strain-models/";
 
-            $scope.portalLinks["DOID:145669"] = {};
-            $scope.portalLinks["DOID:145669"].tools = "/wg/cancer_portal_tools/";
-            $scope.portalLinks["DOID:145669"].links = "/wg/cancer_portal_related_links/";
-            $scope.portalLinks["DOID:145669"].models = "/wg/cancer_portal_models/";
+            $scope.portalLinks["DOID:14566"] = {};
+            $scope.portalLinks["DOID:14566"].tools = "/wg/cancer_portal_tools/";
+            $scope.portalLinks["DOID:14566"].links = "/wg/cancer_portal_related_links/";
+            $scope.portalLinks["DOID:14566"].models = "/wg/cancer_portal_models/";
 
             $scope.portalLinks["DOID:1287"] = {};
             $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
@@ -319,9 +319,9 @@
             $scope.portalLinks["DOID:9003859"].models = "/wg/home/immune-inflammatory_portal_models/";
 
             $scope.portalLinks["DOID:863"] = {};
-            $scope.portalLinks["DOID:863"].tools = "/wg/nuro_rat_strain_models/";
-            $scope.portalLinks["DOID:863"].links = "/wg/nuro_portal_tools/";
-            $scope.portalLinks["DOID:863"].models = "/wg/nuro_related_links/";
+            $scope.portalLinks["DOID:863"].tools = "/wg/nuro_portal_tools/";
+            $scope.portalLinks["DOID:863"].links = "/wg/nuro_related_links/";
+            $scope.portalLinks["DOID:863"].models = "/wg/nuro_rat_strain_models/";
 
             $scope.portalLinks["DOID:9008231"] = {};
             $scope.portalLinks["DOID:9008231"].tools = "/wg/obesity_portal_tools/";
@@ -342,6 +342,11 @@
             $scope.portalLinks["DOID:0050155"].tools = "/wg/portals/sensory-organ-disease-portal-tools/";
             $scope.portalLinks["DOID:0050155"].links = "/wg/portals/sensory-organ-disease-portal-related-links/";
             $scope.portalLinks["DOID:0050155"].models = "/wg/portals/sensory-organ-disease-portal-rat-strain-models/";
+
+            $scope.portalLinks["DOID:9008582"] = {};
+            $scope.portalLinks["DOID:9008582"].tools = "/wg/portals/developmental-disease-portal-tools/";
+            $scope.portalLinks["DOID:9008582"].links = "/wg/portals/developmental-disease-portal-related-links/";
+            $scope.portalLinks["DOID:9008582"].models = "/wg/portals/developmental-disease-portal-rat-strain-models/";
 
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
@@ -788,7 +793,7 @@
 
     <table width="100%" align="center" style="background-color:#D6E5FF; margin:10px;">
         <tr>
-            <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a disease category</div></td>
+            <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a category</div></td>
         </tr>
     </table>
 
