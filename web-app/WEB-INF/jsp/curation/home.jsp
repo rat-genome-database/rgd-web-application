@@ -32,19 +32,30 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/curation/">Curation Web</a></td>
+                    <a href="/rgdCuration/?module=curation&func=contents&token=<%=request.getParameter("accessToken")%>">Curation Tool</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdCuration/?token=<%=request.getParameter("accessToken")%>">NEW Curation Tools</a></td>
+                    <a href="/rgdweb/curation/edit/editObject.html">Object Editor</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/editObject.html">Object Edit</a></td>
+                    <a href="/rgdweb/curation/nomen/nomenSearch.html">Nomenclature Search</a></td>
             </tr>
-            <tr valign="top">
+            <tr>
                 <td>
-                    <a href="/rgdweb/curation/nomen/nomenSearch.html">Nomenclature</a></td>
+                    <a href="/rgdCuration/?module=objectNomen&func=selectObjects&token=<%=request.getParameter("accessToken")%>">Merge/Retire/Split Objects</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/rgdCuration/?module=notesEdit&func=selectObjects&token=<%=request.getParameter("accessToken")%>">Notes Editor</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/rgdCuration/?module=ont&func=obsoleteTerms&token=<%=request.getParameter("accessToken")%>">Obsolete Terms</a>
+                </td>
             </tr>
             <tr valign="top">
                 <td colspan="2"></td>
@@ -137,7 +148,6 @@
                                   }
                               })
                       .then(function (response) {
-                          alert(response.status);
                           v.userloggedin = response.status;
                       });
           }
