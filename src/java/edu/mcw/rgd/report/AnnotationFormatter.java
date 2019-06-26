@@ -252,22 +252,35 @@ public class AnnotationFormatter {
     String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
 
         String uri = null;
-        if( withInfo.startsWith("RGD:") ) {
-            if( objectKey!=0 ) {
+        int colonPos = withInfo.indexOf(":");
+        if( colonPos<=0 ) {
+            return withInfo;
+        }
+
+        String dbName = withInfo.substring(0, colonPos);
+        String accId = withInfo.substring(colonPos+1);
+
+        switch(dbName) {
+            case "RGD":
                 uri = Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
-            } else {
-                uri = Link.it(Integer.parseInt(withInfo.substring(4)));
-            }
-            uri = "<a href='" + uri + "'>" + withInfo + "</a>";
-
-        } else if( withInfo.startsWith("UniProtKB:") ) {
-            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(withInfo.substring(10), withInfo);
-
-        } else if( withInfo.startsWith("MGI:") ) {
-            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_MGD).getALink(withInfo.substring(4), withInfo);
-
-        } else if( withInfo.startsWith("InterPro:") ) {
-            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(withInfo.substring(9), withInfo);
+                uri = "<a href='" + uri + "'>" + withInfo + "</a>";
+                break;
+            case "UniProtKB":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(accId, withInfo);
+                break;
+            case "InterPro":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(accId, withInfo);
+                break;
+            // AGR genes
+            case "MGI": // handle weirdness MGI:MGI:97751
+                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, withInfo);
+                break;
+            case "SGD":
+            case "WB":
+            case "FB":
+            case "ZFIN":
+                uri = XDBIndex.getInstance().getXDB(63).getALink(withInfo, withInfo);
+                break;
         }
 
         return uri==null ? withInfo : uri;
