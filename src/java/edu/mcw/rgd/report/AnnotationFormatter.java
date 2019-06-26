@@ -234,12 +234,15 @@ public class AnnotationFormatter {
             if(withInfo.contains("|")){
                 String[] multipleInfos = withInfo.split("\\|");
                 String withInfoField="";
-                for(String info:multipleInfos){
-                    withInfoField += "<a href='" + getLinkForWithInfoEx(info, objectKey) + "'>" + info + "</a> ";
+                for(String info: multipleInfos) {
+                    if( !withInfoField.isEmpty() ) {
+                        withInfoField += " | ";
+                    }
+                    withInfoField += getLinkForWithInfoEx(info, objectKey);
                 }
                 return withInfoField;
             }else{
-                return "<a href='" + getLinkForWithInfoEx(withInfo, objectKey) + "'>" + withInfo + "</a>";
+                return getLinkForWithInfoEx(withInfo, objectKey);
             }
         } catch (Exception e) {
             return withInfo;
@@ -248,14 +251,26 @@ public class AnnotationFormatter {
 
     String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
 
+        String uri = null;
         if( withInfo.startsWith("RGD:") ) {
-            if( objectKey!=0 )
-                return Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
-            else
-                return Link.it(Integer.parseInt(withInfo.substring(4)));
+            if( objectKey!=0 ) {
+                uri = Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
+            } else {
+                uri = Link.it(Integer.parseInt(withInfo.substring(4)));
+            }
+            uri = "<a href='" + uri + "'>" + withInfo + "</a>";
+
+        } else if( withInfo.startsWith("UniProtKB:") ) {
+            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(withInfo.substring(10), withInfo);
+
+        } else if( withInfo.startsWith("MGI:") ) {
+            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_MGD).getALink(withInfo.substring(4), withInfo);
+
+        } else if( withInfo.startsWith("PANTHER:") ) {
+            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PANTHER).getALink(withInfo.substring(8), withInfo);
         }
-        else
-            return Link.it(withInfo);
+
+        return uri==null ? withInfo : uri;
     }
 
     public String createGridFormatAnnotatedObjects(List<Annotation> annotationList, int columns) throws Exception {
