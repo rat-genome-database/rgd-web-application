@@ -271,6 +271,9 @@ public class AnnotationFormatter {
             case "InterPro":
                 uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(accId, withInfo);
                 break;
+            case "PMID":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(accId, withInfo);
+                break;
             // AGR genes
             case "MGI": // handle weirdness MGI:MGI:97751
                 uri = XDBIndex.getInstance().getXDB(63).getALink(accId, withInfo);
