@@ -191,7 +191,7 @@ public class AnnotationFormatter {
                     if( a.getSpeciesTypeKey()==SpeciesType.HUMAN  &&  a.getAspect().equals("H") ) {
                         notes = makeHPLinks(a.getNotes());
                     } else {
-                        notes = a.getNotes();
+                        notes = getLinkForWithInfo(a.getNotes(), a.getRgdObjectKey());
                     }
                 }
 
@@ -266,8 +266,8 @@ public class AnnotationFormatter {
         } else if( withInfo.startsWith("MGI:") ) {
             uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_MGD).getALink(withInfo.substring(4), withInfo);
 
-        } else if( withInfo.startsWith("PANTHER:") ) {
-            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PANTHER).getALink(withInfo.substring(8), withInfo);
+        } else if( withInfo.startsWith("InterPro:") ) {
+            uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(withInfo.substring(9), withInfo);
         }
 
         return uri==null ? withInfo : uri;
