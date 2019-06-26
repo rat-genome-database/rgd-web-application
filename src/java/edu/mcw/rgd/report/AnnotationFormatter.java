@@ -228,7 +228,7 @@ public class AnnotationFormatter {
         return new HTMLTableReportStrategy().format(report);
     }
 
-    String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
+    static String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
 
         try {
             if(withInfo.contains("|")){
@@ -249,7 +249,7 @@ public class AnnotationFormatter {
         }
     }
 
-    String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
+    static String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
 
         String uri = null;
         int colonPos = withInfo.indexOf(":");
