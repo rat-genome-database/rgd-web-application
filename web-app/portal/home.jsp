@@ -729,7 +729,7 @@
 
                 $http({
                     method: 'GET',
-                    url: $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    url: window.location.protocol + window.location.host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                     timeout: timeout,
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
