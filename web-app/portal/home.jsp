@@ -1225,15 +1225,15 @@
             </td>
             -->
             <td  align="center"><a href="{{portalLinks[rootTermAcc].tools}}" target="_blank">
-                <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
+                <img  src="https://rgd.mcw.edu/rgdweb/common/images/phenotypes.png"  style="margin:10px;"/><div style="font-size:16px;">Analysis Tools</div>
             </a>
             </td>
             <td  align="center"><a href="{{portalLinks[rootTermAcc].models}}" target="_blank">
-                <img height=150 width=200 src="https://rgd.mcw.edu/rgdweb/common/images/geneticModels.png"  style="margin:10px;"/><div style="font-size:16px;">Rat Strain Models</div>
+                <img  src="https://rgd.mcw.edu/rgdweb/common/images/geneticModels.png"  style="margin:10px;"/><div style="font-size:16px;">Rat Strain Models</div>
             </a>
             </td>
             <td  align="center"><a href="{{portalLinks[rootTermAcc].links}}" target="_blank">
-                <img height=150 width=150 src="https://rgd.mcw.edu/rgdweb/common/images/strainMedicalRecords.png"  style="margin:10px;"/><div style="font-size:16px;">Related Links</div>
+                <img  src="https://rgd.mcw.edu/rgdweb/common/images/strainMedicalRecords.png"  style="margin:10px;"/><div style="font-size:16px;">Related Links</div>
             </a>
             </td>
         </tr>
