@@ -246,7 +246,7 @@
             }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
             }else {
-                $scope.wsHostt=window.location.protocol + '//rest.rgd.mcw.edu';
+                $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';
             }
 
 
