@@ -1,25 +1,46 @@
-function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
+function EnrichmentVue(divId, hostname) {
 
-    var div = '#'+divId;
+    var div = '#enrichment';
+    if (divId) {
+        div='#' + divId;
+    }
+
+    var host = window.location.protocol + window.location.host;
+    if (window.location.host.indexOf('localhost') > -1) {
+        host= window.location.protocol + '//localhost:8080';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host= window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host= window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host=window.location.protocol + '//rest.rgd.mcw.edu';
+    }
+
+    if (hostname) {
+        host=hostname;
+    }
 
     var v = new Vue({
         el: div,
         data: {
-            graph: (graph == 3 || graph == 1)? true: false,
-            table: (graph == 3 || graph == 2)? true: false,
+            graph: true,
+            table: true,
             info: [],
             hostName: host,
-            species: [speciesKey],
-            ontology: [ont],
+            species: [],
+            ontology: [],
             allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
+            orthologs: false,
             errored: false,
             pvalues: [0.01, 0.05, 0.1, 0.5, 1],
             pvalueLimit: 0.05,
             geneData: {},
-            genes: geneSymbols,
+            genes: [],
             currentSort: 'pvalue',
             currentSortDir: 'asc',
             selectedAll: false,
@@ -54,18 +75,31 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 v.loadPairs(ont);
             },
             loadView: function (s) {
-                this.species[0] = v.getSpeciesKey(s);
+                this.species = [v.getSpeciesKey(s)];
                 v.selectView();
 
 
             },
             loadOntView: function (s) {
+                document.getElementById(this.ontology[0]).innerHTML = "";
                 v.loadView(s);
                 v.selectView();
             },
             loadSpeciesView: function (o) {
-                this.ontology[0] = o;
+                document.getElementById(this.ontology[0]).innerHTML = "";
+                this.ontology = [o];
                 v.selectView();
+            },
+            init: function (ont,species,graph,table,genes,orthologs) {
+              if(document.getElementById(v.ontology) != null)
+                document.getElementById(v.ontology[0]).innerHTML = "";
+              v.ontology = [ont];
+              v.species = [species];
+              v.genes = genes;
+              v.graph = graph;
+              v.table = table;
+              v.orthologs=orthologs;
+              v.selectView();
             },
             getSpeciesKey: function (s) {
                 if (s == "Rat")
@@ -107,7 +141,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 form.submit();
             },
             dataLoad: function (aspect, s) {
-
                 axios
                     .post(this.hostName + '/rgdws/enrichment/data',
                         {
@@ -123,9 +156,9 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             genes: response.data.geneSymbols
                         });
 
-                        if (response.data.length != 0 && (this.graph!=2))
-                        { v.loadChart(response.data.enrichment, aspect, 0.05);}
-
+                        if (response.data.length != 0 && (v.graph))
+                        {
+                            v.loadChart(response.data.enrichment, aspect, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
@@ -149,8 +182,9 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
-                        if (response.data.length != 0 && this.graph!=2)
-                        {  v.loadChart(response.data.enrichment, s, 0.05);}
+                        if (response.data.length != 0 && v.graph)
+                        {
+                            v.loadChart(response.data.enrichment, s, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
@@ -295,6 +329,7 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                 this.info = [];
                 this.loading=true;
                 this.errored = false;
+
                 if (this.species[0] != 0) {
                     this.selectedAll = false;
                     this.selectedOne = true;
@@ -315,7 +350,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
         computed: {
             pairs: function () {
                 var v = this;
-
                 return this.ontology.map(function (ont) {
 
                     return {
@@ -335,9 +369,6 @@ function EnrichmentVue(divId,speciesKey,ont,geneSymbols,graph,host) {
                     }
                 });
             }
-        },
-        mounted: function () {
-            this.selectView();
         },
     })
 
