@@ -224,7 +224,7 @@
                                         <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
                                         <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=">Developmental Disease</a>
+                                        <a href="/rgdweb/portal/home.jsp?p=12">Developmental Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
                                         <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=6">Immune & Inflammatory Disease</a>
