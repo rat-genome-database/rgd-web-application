@@ -3,7 +3,6 @@ package edu.mcw.rgd.report;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
-import edu.mcw.rgd.ontology.OntAnnotation;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
 import edu.mcw.rgd.reporting.Link;
@@ -16,11 +15,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 4/3/12
- * Time: 2:57 PM
- * <p>used by GeneTermAnnotationsController to pass data to its jsp page(s)</p>
+ * @author mtutaj
+ * @since 4/3/12
+ * used by GeneTermAnnotationsController to pass data to its jsp page(s)
  */
 public class GeneTermAnnotationsBean {
 
@@ -157,23 +154,7 @@ public class GeneTermAnnotationsBean {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                String withInfo = site.equals("RGD")? a.getWithInfo() : a.getWithInfo().replaceAll("RGD", site);
-
-                try {
-                    //System.out.println("adding with Info:\n");
-                    if(withInfo.contains("|")){
-                        String[] multipleInfos = withInfo.split("\\|");
-                        String withInfoField="";
-                        for(String info:multipleInfos){
-                            withInfoField += "<a href='" + Link.it(info) + "'>" + info + "</a> ";
-                        }
-                        rec.append(withInfoField);
-                    }else{
-                        rec.append("<a href='" + Link.it(withInfo) + "'>" + withInfo + "</a>");
-                    }
-                } catch (Exception e) {
-                    rec.append(withInfo);
-                }
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getWithInfo(), a.getRgdObjectKey()));
             }
 
             if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {
@@ -188,13 +169,13 @@ public class GeneTermAnnotationsBean {
             if (a.getNotes() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(a.getNotes().replace("; ", "<br><br>")+"<br><br>");
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
             }
 
             if (a.getXrefSource() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(OntAnnotation.makeHyperlinks(a.getXrefSource()));
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getXrefSource(), a.getRgdObjectKey()));
             }
 
             if( userIsCurator ) {
