@@ -234,19 +234,25 @@
             var ctrl = this;
 
             $scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.olgaHost = "https://dev.rgd.mcw.edu"
             //$scope.wsHost = "http://localhost:8080"
 
             $scope.wsHost = window.location.protocol + window.location.host;
             if (window.location.host.indexOf('localhost') > -1) {
                 $scope.wsHost= window.location.protocol + '//localhost:8080';
+                $scope.olgaHost = $scope.wsHost;
             } else if (window.location.host.indexOf('dev.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
+                $scope.olgaHost = $scope.wsHost;
             }else if (window.location.host.indexOf('test.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';
+                $scope.olgaHost = $scope.wsHost;
             }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
+                $scope.olgaHost = $scope.wsHost;
             }else {
                 $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';
+                $scope.olgaHost = "https://rgd.mcw.edu";
             }
 
 
