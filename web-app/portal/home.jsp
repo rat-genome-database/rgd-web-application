@@ -702,7 +702,7 @@
 
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
-                $scope.urlString = window.location.protocol + window.location.host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
+                $scope.urlString = $scope.olgaHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
                 var timeout = "";
                 if (objectKey==1) {
@@ -735,7 +735,7 @@
 
                 $http({
                     method: 'GET',
-                    url: window.location.protocol + window.location.host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
+                    url: $scope.olgaHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json",
                     timeout: timeout,
                 }).then(function successCallback(response) {
                     if (objectKey ==1) {
