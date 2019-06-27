@@ -696,8 +696,7 @@
 
                 var cmd = "~" + $scope.rootTermAcc + "|!" + termAcc;
 
-                $scope.urlString = $scope.wsHost + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
-
+                $scope.urlString = window.location.protocol + window.location.host + "/rgdweb/generator/list.html?a=" + encodeURI(cmd) + "&mapKey=" + $scope.mapKey + "&oKey=" + objectKey + "&vv=&ga=&act=json";
 
                 var timeout = "";
                 if (objectKey==1) {
