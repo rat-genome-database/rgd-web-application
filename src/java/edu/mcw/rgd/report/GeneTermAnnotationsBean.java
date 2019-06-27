@@ -16,11 +16,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 4/3/12
- * Time: 2:57 PM
- * <p>used by GeneTermAnnotationsController to pass data to its jsp page(s)</p>
+ * @author mtutaj
+ * @since 4/3/12
+ * used by GeneTermAnnotationsController to pass data to its jsp page(s)
  */
 public class GeneTermAnnotationsBean {
 
@@ -157,23 +155,7 @@ public class GeneTermAnnotationsBean {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                String withInfo = site.equals("RGD")? a.getWithInfo() : a.getWithInfo().replaceAll("RGD", site);
-
-                try {
-                    //System.out.println("adding with Info:\n");
-                    if(withInfo.contains("|")){
-                        String[] multipleInfos = withInfo.split("\\|");
-                        String withInfoField="";
-                        for(String info:multipleInfos){
-                            withInfoField += "<a href='" + Link.it(info) + "'>" + info + "</a> ";
-                        }
-                        rec.append(withInfoField);
-                    }else{
-                        rec.append("<a href='" + Link.it(withInfo) + "'>" + withInfo + "</a>");
-                    }
-                } catch (Exception e) {
-                    rec.append(withInfo);
-                }
+                rec.append(AnnotationFormatter.getLinkForWithInfo(a.getWithInfo(), a.getRgdObjectKey()));
             }
 
             if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {

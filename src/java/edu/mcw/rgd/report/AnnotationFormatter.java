@@ -191,7 +191,7 @@ public class AnnotationFormatter {
                     if( a.getSpeciesTypeKey()==SpeciesType.HUMAN  &&  a.getAspect().equals("H") ) {
                         notes = makeHPLinks(a.getNotes());
                     } else {
-                        notes = a.getNotes();
+                        notes = getLinkForWithInfo(a.getNotes(), a.getRgdObjectKey());
                     }
                 }
 
@@ -228,34 +228,65 @@ public class AnnotationFormatter {
         return new HTMLTableReportStrategy().format(report);
     }
 
-    String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
+    static String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
 
         try {
             if(withInfo.contains("|")){
                 String[] multipleInfos = withInfo.split("\\|");
                 String withInfoField="";
-                for(String info:multipleInfos){
-                    withInfoField += "<a href='" + getLinkForWithInfoEx(info, objectKey) + "'>" + info + "</a> ";
+                for(String info: multipleInfos) {
+                    if( !withInfoField.isEmpty() ) {
+                        withInfoField += " | ";
+                    }
+                    withInfoField += getLinkForWithInfoEx(info, objectKey);
                 }
                 return withInfoField;
             }else{
-                return "<a href='" + getLinkForWithInfoEx(withInfo, objectKey) + "'>" + withInfo + "</a>";
+                return getLinkForWithInfoEx(withInfo, objectKey);
             }
         } catch (Exception e) {
             return withInfo;
         }
     }
 
-    String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
+    static String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
 
-        if( withInfo.startsWith("RGD:") ) {
-            if( objectKey!=0 )
-                return Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
-            else
-                return Link.it(Integer.parseInt(withInfo.substring(4)));
+        String uri = null;
+        int colonPos = withInfo.indexOf(":");
+        if( colonPos<=0 ) {
+            return withInfo;
         }
-        else
-            return Link.it(withInfo);
+
+        String dbName = withInfo.substring(0, colonPos);
+        String accId = withInfo.substring(colonPos+1);
+
+        switch(dbName) {
+            case "RGD":
+                uri = Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
+                uri = "<a href='" + uri + "'>" + withInfo + "</a>";
+                break;
+            case "UniProtKB":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(accId, withInfo);
+                break;
+            case "InterPro":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(accId, withInfo);
+                break;
+            case "PMID":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(accId, withInfo);
+                break;
+            // AGR genes
+            case "MGI": // handle weirdness MGI:MGI:97751
+                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, withInfo);
+                break;
+            case "SGD":
+            case "WB":
+            case "FB":
+            case "ZFIN":
+                uri = XDBIndex.getInstance().getXDB(63).getALink(withInfo, withInfo);
+                break;
+        }
+
+        return uri==null ? withInfo : uri;
     }
 
     public String createGridFormatAnnotatedObjects(List<Annotation> annotationList, int columns) throws Exception {
