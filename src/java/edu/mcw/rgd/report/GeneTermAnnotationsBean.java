@@ -3,7 +3,6 @@ package edu.mcw.rgd.report;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
-import edu.mcw.rgd.ontology.OntAnnotation;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
 import edu.mcw.rgd.reporting.Link;
@@ -155,7 +154,7 @@ public class GeneTermAnnotationsBean {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(AnnotationFormatter.getLinkForWithInfo(a.getWithInfo(), a.getRgdObjectKey()));
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getWithInfo(), a.getRgdObjectKey()));
             }
 
             if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {
@@ -170,13 +169,13 @@ public class GeneTermAnnotationsBean {
             if (a.getNotes() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(a.getNotes().replace("; ", "<br><br>")+"<br><br>");
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
             }
 
             if (a.getXrefSource() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(OntAnnotation.makeHyperlinks(a.getXrefSource()));
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getXrefSource(), a.getRgdObjectKey()));
             }
 
             if( userIsCurator ) {
