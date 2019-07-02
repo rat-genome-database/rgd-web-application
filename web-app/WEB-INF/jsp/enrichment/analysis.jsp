@@ -40,6 +40,7 @@
     return;
 }
     String species = req.getParameter("species");
+    int mapKey = Integer.parseInt(req.getParameter("mapKey"));
     List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
@@ -59,6 +60,8 @@
         }
 
     }
+    String symbols = inSymbols.toString();
+    symbols = symbols.substring(1,symbols.length()-1);
 %>
 <div class="modal fade" id="inGenes">
     <div class="modal-dialog modal-lg">
@@ -68,7 +71,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 Symbols Found: <%=inSymbols.size()%> <br>
-                <%=inSymbols%> <br>
+            <span class="geneList"><%=symbols%></span><br>
 
             </div>
 
@@ -83,6 +86,8 @@
 <div style="color:#2865a3; font-size:14px; font-weight:500;"><%=geneSymbols.size()%> Genes in set:
 
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
+    <img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','',1, '')"/>
+    <a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '')">All Analysis Tools</a>
 
 
 </div>
