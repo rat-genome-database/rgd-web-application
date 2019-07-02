@@ -23,10 +23,11 @@ public class CurationLoginController implements Controller {
             request.setAttribute("accessToken",accessToken);
             if(checkAccess(accessToken))
                 return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
-            else return new ModelAndView("/WEB-INF/jsp/curation/login.jsp","hello", null);
+            else response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+            return null;
         } else {
-            System.out.println("In Login block");
-            return new ModelAndView("/WEB-INF/jsp/curation/login.jsp","hello", null);
+             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+             return null;
         }
 
     }
