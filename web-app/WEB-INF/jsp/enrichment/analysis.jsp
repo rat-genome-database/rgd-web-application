@@ -46,6 +46,7 @@
     ontology = "\""+req.getParameter("o")+"\"";
     Iterator symbolIt = om.getMapped().iterator();
     List<String> geneSymbols = new ArrayList<>();
+    String symbols = "";
     while (symbolIt.hasNext()) {
         Object obj = symbolIt.next();
         String symbol = "";
@@ -53,15 +54,15 @@
             Gene g = (Gene) obj;
             symbol = g.getSymbol();
             inSymbols.add(symbol);
+            symbols += symbol;
             if(geneSymbols.size() == 0)
                 geneSymbols.add("\""+symbol+"\"");
             else
                 geneSymbols.add("\""+symbol+"\"");
         }
-
+            symbols += ",";
     }
-    String symbols = inSymbols.toString();
-    symbols = symbols.substring(1,symbols.length()-1);
+   symbols = symbols.substring(0,symbols.length()-1);
 %>
 <div class="modal fade" id="inGenes">
     <div class="modal-dialog modal-lg">
