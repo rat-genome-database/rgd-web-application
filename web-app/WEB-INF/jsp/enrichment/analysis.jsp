@@ -43,10 +43,8 @@
 }
     String species = req.getParameter("species");
     int mapKey = 0;
-    if(req.getParameter("mapKey") != null)
-        mapKey = Integer.parseInt(req.getParameter("mapKey"));
-    else { Map map = MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species));
-        mapKey = map.getKey();}
+    Map map = MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species));
+    mapKey = map.getKey();
     List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
@@ -94,6 +92,7 @@
 
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
     <img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','',1, '')"/>
+
     <a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '')">All Analysis Tools</a>
 
 
