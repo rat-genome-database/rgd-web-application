@@ -7,6 +7,8 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -40,7 +42,11 @@
     return;
 }
     String species = req.getParameter("species");
-    int mapKey = Integer.parseInt(req.getParameter("mapKey"));
+    int mapKey = 0;
+    if(req.getParameter("mapKey") != null)
+        mapKey = Integer.parseInt(req.getParameter("mapKey"));
+    else { Map map = MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species));
+        mapKey = map.getKey();}
     List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
@@ -87,6 +93,8 @@
 <div style="color:#2865a3; font-size:14px; font-weight:500;"><%=geneSymbols.size()%> Genes in set:
 
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
+    <img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','',1, '')"/>
+    <a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '')">All Analysis Tools</a>
 
 
 </div>
