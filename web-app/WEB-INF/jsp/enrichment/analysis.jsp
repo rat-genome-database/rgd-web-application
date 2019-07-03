@@ -40,7 +40,7 @@
     return;
 }
     String species = req.getParameter("species");
-
+    int mapKey = Integer.parseInt(req.getParameter("mapKey"));
     List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
