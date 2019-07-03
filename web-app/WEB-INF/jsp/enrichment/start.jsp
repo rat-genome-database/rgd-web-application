@@ -195,7 +195,7 @@
                         </tr>
                         <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Protein</td>
-                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Gene Symbol</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" " checked="checked"/>&nbsp;Gene Symbol</td>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;dbSNP ID</td>
                         </tr>
                         <tr>
