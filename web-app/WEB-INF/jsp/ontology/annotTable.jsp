@@ -129,6 +129,7 @@
             <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#annot')">Bonobo (<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
             <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#annot')">Dog (<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
             <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#annot')">Squirrel (<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#annot')">Pig (<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
             <c:if test="${bean.showAnnotsForAllSpecies}">
             <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#annot')">All</a></li>
             </c:if>
