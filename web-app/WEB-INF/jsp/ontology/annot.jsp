@@ -140,7 +140,7 @@
                 }
                 // show number of annotations
                 out.append("<td class=\"num\">")
-                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(speciesTypeKey)))
+                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(bean.getSpeciesTypeKey())))
                    .append("</td>\n");
 
                 // show number of annotations
@@ -174,7 +174,7 @@
 
                 // show number of annotations
                 out.append("<td class=\"num\">")
-                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(speciesTypeKey)))
+                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(bean.getSpeciesTypeKey())))
                    .append("</td>\n");
 
                 // show number of annotations

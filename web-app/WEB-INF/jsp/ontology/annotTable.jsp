@@ -166,31 +166,9 @@
     </table>
 
     <%
-        int speciesTypeKey=3;
-        if (request.getParameter("species") != null) {
-            if (request.getParameter("species").equals("Rat")) {
-                speciesTypeKey = 3;
-            } else if (request.getParameter("species").equals("Mouse")) {
-                speciesTypeKey = 2;
-            } else if (request.getParameter("species").equals("Human")) {
-                speciesTypeKey = 1;
-            } else if (request.getParameter("species").equals("Chinchilla")) {
-                speciesTypeKey = 4;
-            } else if (request.getParameter("species").equals("Bonobo")) {
-                speciesTypeKey = 5;
-            } else if (request.getParameter("species").equals("Dog")) {
-                speciesTypeKey = 6;
-            } else if (request.getParameter("species").equals("Squirrel")) {
-                speciesTypeKey = 7;
-            } else if (request.getParameter("species").equals("Pig")) {
-                speciesTypeKey = 9;
-            }
-        }
-        int mapKey= MapManager.getInstance().getReferenceAssembly(speciesTypeKey).getKey();
+        int mapKey = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey()).getKey();
 
-    %>
-
-    <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
+        if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
 
 <br><br>
 <div style="padding:30px; border: 3px solid #FFCF3E; font-size:20px;">
@@ -244,7 +222,7 @@
                          <td align="right">
 
                              <% if (bean.getObjectKey() ==1) { %>
-                                <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=speciesTypeKey%>,<%=mapKey%>,1 , '')"/>
+                                <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=bean.getSpeciesTypeKey()%>,<%=mapKey%>,1 , '')"/>
                             <% } %>
                          </td>
                      </tr>
