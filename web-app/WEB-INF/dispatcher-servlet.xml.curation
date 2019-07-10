@@ -408,8 +408,9 @@
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
 
- <bean id="VariantControllerNew" class="edu.mcw.rgd.carpenovo.VariantControllerNew" />
-    <!--bean id="VariantController" class="edu.mcw.rgd.carpenovo.VariantController" /-->
+
+    <bean id="VariantControllerNew" class="edu.mcw.rgd.carpenovo.VariantControllerNew" />
+    <bean id="VariantController" class="edu.mcw.rgd.carpenovo.VariantController" />
     <bean id="DetailController" class="edu.mcw.rgd.carpenovo.DetailController" />
     <bean id="DistributionController" class="edu.mcw.rgd.carpenovo.DistributionController" />
     <bean id="SelectStrainController" class="edu.mcw.rgd.carpenovo.SelectStrainController" />
