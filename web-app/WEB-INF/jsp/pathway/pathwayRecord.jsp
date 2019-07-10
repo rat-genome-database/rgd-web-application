@@ -208,7 +208,7 @@ function showonlyoneDis(selectedBlock,fld) {
 
 <%--<a href="/rgdweb/curation/pathway/home.html">Back to Pathway Search</a>--%>
 
-<table width="900">
+<table width="950">
 <tr>
     <td></td><td>
         <h5 align="right">
