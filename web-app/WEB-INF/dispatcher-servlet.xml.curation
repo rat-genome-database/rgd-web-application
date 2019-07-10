@@ -171,8 +171,8 @@
 
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
-   <prop key="front/variants.html">VariantControllerNew</prop>
-                <!--prop key="front/variants.html">VariantController</prop-->
+                <prop key="front/variantsNew.html">VariantControllerNew</prop>
+                <prop key="front/variants.html">VariantController</prop>
                 <prop key="front/detail.html">DetailController</prop>
                 <prop key="front/detail_gbrowse.html">DetailController</prop>
                 <prop key="front/dist.html">DistributionController</prop>
