@@ -9,6 +9,7 @@ package edu.mcw.rgd.carpenovo.dao;
 //
 
 import edu.mcw.rgd.datamodel.MappedGene;
+import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.util.Zygosity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,7 @@ import java.util.List;
 
 
 
-public class VariantSearchBeanNew {
+public class VariantSearchBeanNew  extends VariantSearchBean{
     private long variantId = -1L;
     protected final Log log = LogFactory.getLog(this.getClass());
     public List<Integer> sampleIds = new ArrayList();
@@ -93,6 +94,7 @@ public class VariantSearchBeanNew {
     }
 
     public VariantSearchBeanNew(int mapKey) {
+        super(0);
         this.mapKey = mapKey;
     }
 
