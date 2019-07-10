@@ -165,8 +165,8 @@
 
     </table>
 
-    <%
-        int mapKey = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey()).getKey();
+    <%  edu.mcw.rgd.datamodel.Map refMap = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
+        int mapKey = refMap!=null ? refMap.getKey() : 0;
 
         if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
 
@@ -221,7 +221,7 @@
                          </td>
                          <td align="right">
 
-                             <% if (bean.getObjectKey() ==1) { %>
+                             <% if( bean.getObjectKey()==1 && mapKey!=0 ) { %>
                                 <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=bean.getSpeciesTypeKey()%>,<%=mapKey%>,1 , '')"/>
                             <% } %>
                          </td>
