@@ -3,10 +3,11 @@ package edu.mcw.rgd.carpenovo;
 import edu.mcw.rgd.carpenovo.dao.VariantSearchBeanNew;
 import edu.mcw.rgd.carpenovo.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
+import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
-import edu.mcw.rgd.datamodel.Sample;
-import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.dao.impl.TranscriptDAO;
+import edu.mcw.rgd.dao.impl.VariantDAO;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -21,9 +22,11 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * Created by jthota on 7/2/2019.
@@ -65,23 +68,56 @@ public class VariantControllerNew  extends HaplotyperController {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
                 //}
             }
-
+            int count=0;
             VariantSearchBeanNew vsb = fillBeanNew(req);
-            VVService service= new VVService();
-            SearchResponse sr=service.getVariants(vsb);
-            System.out.println("SEARCH HITS: "+ sr.getHits().getTotalHits());
-            SearchHit[] hits= sr.getHits().getHits();
-     /*   for(int i=0;i<hits.length;i++){
-            SearchHit h=hits[i];
-            System.out.println(h.getId()+"\n=============================");
-            for(Map.Entry e:h.getSourceAsMap().entrySet()){
-             System.out.println(e.getKey()+ "\t"+ e.getValue());
+            VariantDAO vdao = new VariantDAO();
+            if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
+                long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
+                throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
+            }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
+                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
-        }*/
-            request.setAttribute("sr", sr);
-            ModelMap model= new ModelMap();
-            model.addAttribute("hitsArray", hits);
-            return new ModelAndView("/WEB-INF/jsp/haplotyper/variantsNew.jsp", "model", model);
+
+            if ((vsb.getStopPosition() - vsb.getStartPosition()) > 250000) {
+                count = vdao.getPositionCount(vsb);
+                System.out.println("position count = " + count);
+            }
+            List<VariantResult> variantResults=new ArrayList<>();
+
+            if (count < 2000 || searchType.equals("GENE")) {
+
+                SNPlotyper snplotyper = new SNPlotyper();
+
+                snplotyper.addSampleIds(vsb.sampleIds);
+                variantResults = this.getVariantResults(vsb);
+
+               for (VariantResult vr: variantResults) {
+                    if (vr.getVariant() != null) {
+                        snplotyper.add(vr);
+                    }
+                }
+
+                List<MappedGene>   mappedGenes=getActiveMappedGenes(vsb);
+                snplotyper.addGeneMappings(mappedGenes);
+                TranscriptDAO tdao = new TranscriptDAO();
+                List<MapData> mapData = tdao.getFeaturesByGenomicPos(vsb.getMapKey(),vsb.getChromosome(), (int) (long) vsb.getStartPosition(), (int) (long) vsb.getStopPosition(),15);
+                snplotyper.addExons(mapData);
+                System.out.println(mapData.size()+"\t mapdata size");
+                System.out.println(mappedGenes.size()+"\tmapped Genes size");
+
+                request.setAttribute("snplotyper",snplotyper);
+                request.setAttribute("vsb",vsb);
+
+                // note: call the methods below to catch 'no-strand' exceptions
+                boolean b1 = snplotyper.hasPlusStrandConflict();
+                boolean b2 = snplotyper.hasMinusStrandConflict();
+
+         //       return new ModelAndView("/WEB-INF/jsp/haplotyper/variants.jsp", "searchResult", searchResult);
+            }else {
+                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
+            }
+
+            return new ModelAndView("/WEB-INF/jsp/haplotyper/variantsNew.jsp");
 
 
         }catch (Exception e) {
@@ -97,6 +133,97 @@ public class VariantControllerNew  extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
         }
 
+    }
+    public List<MappedGene> getActiveMappedGenes(VariantSearchBeanNew vsb) throws Exception {
+        GeneDAO gdao= new GeneDAO();
+        List<MappedGene> mappedGenes= gdao.getActiveMappedGenes(vsb.getChromosome(),vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
+        return mappedGenes;
+    }
+
+    public List<VariantResult> getVariantResults(VariantSearchBeanNew vsb) throws Exception {
+        VVService service= new VVService();
+        SearchResponse sr=service.getVariants(vsb);
+        System.out.println("SEARCH HITS: "+ sr.getHits().getTotalHits());
+        SearchHit[] hits= sr.getHits().getHits();
+        List<VariantResult> variantResults=new ArrayList<>();
+        List<TranscriptResult> tResults= new ArrayList<>();
+
+        for(int i=0;i<hits.length;i++){
+            SearchHit h=hits[i];
+            java.util.Map<String, Object> m=h.getSourceAsMap();
+            VariantResult vr= new VariantResult();
+            Variant v= mapVariant(m);
+            v.conservationScore.add(mapConservation(m));
+            vr.setVariant(v);
+            variantResults.add(vr);
+
+        }
+
+        return variantResults;
+    }
+    public Variant mapVariant(java.util.Map m){
+
+        Variant v = new Variant();
+        v.setId((Integer) m.get("variant_id"));
+        v.setChromosome((String) m.get("chromosome"));
+        v.setSampleId((Integer) m.get("sampleId"));
+        v.setStartPos((Integer) m.get("startPos"));
+        v.setEndPos((Integer) m.get("endPos"));
+        v.setVariantFrequency((Integer) m.get("varFreq"));
+        v.setDepth((Integer) m.get("totalDepth"));
+        v.setQualityScore((Integer) m.get("qualityScore"));
+        v.setReferenceNucleotide((String) m.get("refNuc"));
+        v.setVariantNucleotide((String) m.get("varNuc"));
+        v.setZygosityStatus((String) m.get("zygosityStatus"));
+        v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
+        v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
+        v.setZygosityPercentRead(100);
+        v.setZygosityPossibleError((String) m.get("zygosityPossError"));
+        v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
+        v.setGenicStatus((String) m.get("genicStatus"));
+        v.setHgvsName((String) m.get("hgvsName"));
+        v.setRgdId((Integer) m.get("rgdId"));
+        v.setVariantType((String) m.get("variantType"));
+        v.setPaddingBase((String) m.get("paddingBase"));
+        String geneSymbol=((List<String>) m.get("geneSymbols")).get(0);
+        v.setRegionName(geneSymbol
+        );
+        return v;
+    }
+    public ConservationScore mapConservation(java.util.Map m)  {
+        List conScores= (List) m.get("conScores");
+        ConservationScore  cs = new ConservationScore();
+
+        try{
+            if(conScores.size()>=1) {
+                if(conScores.get(0) instanceof Integer){
+                   BigDecimal score= new BigDecimal((Integer) conScores.get(0));
+                    cs.setScore(score);
+                    cs.setChromosome((String) m.get("chromosome"));
+                    cs.setPosition((Integer) m.get("startPos"));
+                    cs.setNuc((String) m.get("refNuc"));
+                }else{
+                    if(conScores.get(0) instanceof Double){
+                        BigDecimal score= new BigDecimal((Double) conScores.get(0));
+                        cs.setScore(score);
+                        cs.setChromosome((String) m.get("chromosome"));
+                        cs.setPosition((Integer) m.get("startPos"));
+                        cs.setNuc((String) m.get("refNuc"));
+                    }
+                }
+            }
+        }catch (Exception e){
+            System.out.println("CONSCORE:"+conScores.get(0));
+            e.printStackTrace();
+        }
+
+        return cs;
+
+
+
+    }
+    private Object getLast(List list) {
+        return list.size() > 0?list.get(list.size() - 1):null;
     }
     /**
      * initializes a VariantSearchBean based on data supplied in the HTTP Request object
@@ -124,7 +251,7 @@ public class VariantControllerNew  extends HaplotyperController {
             }
 
         } else {
-
+            if(req.getParameter("sample")==null){
             // determine mapKey from samples
             for (int i = 0; i < 100; i++) {
                 String sample = req.getParameter("sample" + i);
@@ -139,7 +266,7 @@ public class VariantControllerNew  extends HaplotyperController {
                     } else {
                         // bean map key already set -- validate it
                         if (sampleObj.getMapKey() == vsb.getMapKey()) {
-                            vsb.sampleIds.add(sampleId);
+
                         } else {
                             // assembly mixup, ignore the sample
                             System.out.println("ERROR: assembly mixup");
@@ -148,6 +275,10 @@ public class VariantControllerNew  extends HaplotyperController {
                 }
             }
 
+        }else{
+             int sampleId= Integer.parseInt(req.getParameter("sample"));
+                                vsb.sampleIds.add(sampleId);
+            }
         }
         // if map key was not explicitly given, set the map key to value determined from sample ids
         int mapKey = vsb.getMapKey();
@@ -232,4 +363,5 @@ public class VariantControllerNew  extends HaplotyperController {
         vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
         return vsb;
     }
+
 }
