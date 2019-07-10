@@ -182,6 +182,8 @@
                 speciesTypeKey = 6;
             } else if (request.getParameter("species").equals("Squirrel")) {
                 speciesTypeKey = 7;
+            } else if (request.getParameter("species").equals("Pig")) {
+                speciesTypeKey = 9;
             }
         }
         int mapKey= MapManager.getInstance().getReferenceAssembly(speciesTypeKey).getKey();
