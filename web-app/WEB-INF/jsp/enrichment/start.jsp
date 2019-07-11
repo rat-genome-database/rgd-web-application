@@ -125,7 +125,7 @@
         var dogChroms = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
         var squiMaps = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
         var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
-       var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
+       var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
        var pigChroms = '<%=fu.buildChrSelectListWithCss("chr", pigChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>
