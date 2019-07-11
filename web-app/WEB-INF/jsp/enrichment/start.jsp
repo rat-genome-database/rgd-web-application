@@ -53,7 +53,7 @@
     List<Chromosome> dogChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.DOG).getKey());
     //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
-    List<Chromosome> pigChr = new ArrayList<Chromosome>();
+    List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
     LinkedHashMap humanKeyValues= new LinkedHashMap();
