@@ -180,10 +180,10 @@
         }
         }
 
-        navigate(firedDiv.gene);
+        navigate(firedDiv.gene, firedDiv.sample);
     }
 
-    function navigate(gene) {
+    function navigate(gene, sample) {
 
         var queryString = "?<%=request.getQueryString()%>";
         queryString = addParam("chr","",queryString);
@@ -192,7 +192,7 @@
         queryString = addParam("geneList",gene,queryString);
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
-
+        queryString=addParam("sample", sample, queryString);
         location.href="variants.html" + queryString;
     }
 

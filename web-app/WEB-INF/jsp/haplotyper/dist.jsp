@@ -303,7 +303,7 @@ if (hasAnnotation) {
                                 <div id="h" class="vert">
 
                                     &nbsp;<a title="<%=region%>"
-                                             href="javascript:navigate('<%=region%>');"><%=displayRegion%>
+                                             href="javascript:navigate('<%=region%>', '');"><%=displayRegion%>
                                 </a>
                                 </div>
                             </div>
@@ -358,6 +358,7 @@ if (hasAnnotation) {
 
             <script>
                 document.getElementById("cell<%=k%>-<%=j%>").gene = "<%=region%>";
+                document.getElementById("cell<%=k%>-<%=j%>").sample = "<%=sample%>";
                 document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
             </script>
             <%k++;%>
