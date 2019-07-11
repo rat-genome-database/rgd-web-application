@@ -1,7 +1,6 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
@@ -17,10 +16,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 10/17/13, Time: 2:25 PM
- * <p>
+ * @author mtutaj
+ * @since 10/17/13
  * ontology tree browser: a header pane + 3 term panes
  * <p>
  * param 'diagramMode': applies only for pathway terms;
@@ -120,15 +117,12 @@ public class OntBrowser extends SimpleTagSupport {
 
     private String generateHeader() {
 
-        int annotCount = 0; // set only in non-diagram mode
         int diagramCount = 0; // set only in diagram mode
         String termName = "";
         TermWithStats ts = (TermWithStats)bean.getTerm();
         String annotMsg = "";
         if( ts!=null) {
             diagramCount = ts.getDiagramCount(1);
-            //annotCount = ts.getAnnotCountForTermAndChildren(this.filter);
-            //annotCount = ts.getAnnotCountForTermAndChildren(this.filter);
             termName = ts.getTerm();
 
             if (!portalVersion) {
@@ -139,11 +133,11 @@ public class OntBrowser extends SimpleTagSupport {
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9) + ")</a>";
             }
-
         }
 
-        String html="";
+        String html;
 
         if (!portalVersion) {
 
@@ -167,7 +161,6 @@ public class OntBrowser extends SimpleTagSupport {
                             "  </tr>\n" +
 
                             "  <tr>\n";
-
         }
 
         if (!portalVersion) {
@@ -268,11 +261,9 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    //if (node.getAnnotCountForTermAndChilds()>0) {
-                        out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
-                                .append(node.getTerm().replace('_', ' '))
-                                .append("</span>");
-                    //}
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
+                            .append(node.getTerm().replace('_', ' '))
+                            .append("</span>");
                 }else {
                     out.append("<span class='sibterm' id='")
                             .append(node.getTermAcc())
@@ -345,12 +336,6 @@ public class OntBrowser extends SimpleTagSupport {
                     //skipCount++;
                     continue;
                 }
-
-
-                //if term has no annotations don't show
-                //if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
-                    //continue;
-                //}
 
                 out.append("<div class='tp'>");
 

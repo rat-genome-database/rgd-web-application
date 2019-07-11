@@ -78,14 +78,14 @@
     </table>
 
     <% if( bean.getAnnotCount()>= OntAnnotBean.MAX_ANNOT_COUNT ) { %>
-<!--
+<%--
     <div style="font-weight:bold; color:brown; margin-top:15px; margin-left:50px; margin-right:50px; padding: 5px; background-color:rgb(235,235,235)">
     Note: RGD's Gviewer shows a maximum of <span style="text-decoration:underline"><%=OntAnnotBean.MAX_ANNOT_COUNT%></span> annotations.
     The number of <%=bean.getSpecies()%> annotations for this term <%=bean.isWithChildren()?"and its children":""%>
     is <span style="text-decoration:underline"><%=bean.getAnnotCount()%></span>.
     Click 'download' to see all annotations in this set.
     </div>
-    -->
+--%>
     <% } %>
 
     <%-- ANNOTATIONS TABLE --%>
@@ -140,7 +140,7 @@
                 }
                 // show number of annotations
                 out.append("<td class=\"num\">")
-                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(speciesTypeKey)))
+                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(bean.getSpeciesTypeKey())))
                    .append("</td>\n");
 
                 // show number of annotations
@@ -174,7 +174,7 @@
 
                 // show number of annotations
                 out.append("<td class=\"num\">")
-                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(speciesTypeKey)))
+                   .append(Integer.toString(term.getAnnotObjectCountForSpecies(bean.getSpeciesTypeKey())))
                    .append("</td>\n");
 
                 // show number of annotations
