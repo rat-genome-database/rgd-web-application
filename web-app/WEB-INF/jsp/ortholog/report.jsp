@@ -64,6 +64,14 @@
 </div>
 <%} if(geneMap.size() != 0) {%>
      <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6"><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=inSpeciesKey%>','<%=inMapKey%>',1, '')"/>&nbsp;&nbsp;<a href="javascript:void(0)" ng-click="rgd.showTools('inGeneList','<%=inSpeciesKey%>','<%=inMapKey%>',1, '')">Analyze <%=inSpecies%> Genes</a></div>
+            <div class="col-md-6"><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=outSpeciesKey%>','<%=outMapKey%>',1, '')"/>&nbsp;&nbsp;<a href="javascript:void(0)" ng-click="rgd.showTools('outGeneList','<%=outSpeciesKey%>','<%=outMapKey%>',1, '')">Analyze <%=outSpecies%> Genes</a></div>
+        </div>
+    </div>
+
+    <br>
     <table class="table table-bordered table-striped">
     <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
     <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
@@ -77,7 +85,7 @@ int insize = genes.get(rgdId).size();
 %>
 <tr align="center">
     <td><%=rgdId%></td>
-    <td><a href="/rgdweb/report/gene/main.html?id=<%=rgdId%>"><%=genes.get(rgdId).get(0).getGene().getSymbol()%></a></td>
+    <td><a class="inGeneList" href="/rgdweb/report/gene/main.html?id=<%=rgdId%>"><%=genes.get(rgdId).get(0).getGene().getSymbol()%></a></td>
 
 
 <% if(insize == 1) { %>
@@ -103,7 +111,7 @@ int insize = genes.get(rgdId).size();
 <% if((orthoMap.keySet().contains(rgdId))){
     if((geneMap.keySet().contains(orthoMap.get(rgdId)))){%>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%></td>
-    <td><a href="/rgdweb/report/gene/main.html?id=<%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%>"><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getSymbol()%></a></td>
+    <td><a class="outGeneList" href="/rgdweb/report/gene/main.html?id=<%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getRgdId()%>"><%=geneMap.get(orthoMap.get(rgdId)).get(0).getGene().getSymbol()%></a></td>
         <% if(outsize == 1) { %>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getChromosome()%></td>
     <td><%=geneMap.get(orthoMap.get(rgdId)).get(0).getStart()%></td>
@@ -129,7 +137,7 @@ int insize = genes.get(rgdId).size();
 
 <%            }else{ %>
 <td><%=orthoMap.get(rgdId)%></td>
-<td><a href="/rgdweb/report/gene/main.html?id=<%=orthoMap.get(rgdId)%>"><%=gdao.getGene(orthoMap.get(rgdId)).getSymbol()%></a></td>
+<td><a class="outGeneList" href="/rgdweb/report/gene/main.html?id=<%=orthoMap.get(rgdId)%>"><%=gdao.getGene(orthoMap.get(rgdId)).getSymbol()%></a></td>
 
 <td colspan="4"> No position found for this gene</td>
 

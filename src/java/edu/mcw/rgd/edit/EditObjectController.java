@@ -1,13 +1,25 @@
 package edu.mcw.rgd.edit;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import edu.mcw.rgd.process.FileDownloader;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +64,7 @@ public abstract class EditObjectController implements Controller {
         String action, objectStatus, sRgdId, submissionKey, geneType, additionalInfo, submittedAvailability, submittedBackgroundStrain,submittedParentGene, submittedAlleleRgdId;
         String references;
         int speciesTypeKey;
+        String accessToken;
         {
             HttpRequestFacade rq = new HttpRequestFacade(request);
             request.setAttribute("requestFacade", rq);
@@ -70,7 +83,12 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
+            accessToken=rq.getParameter("token");
+
         }
+
+        if(!checkToken(accessToken))
+            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
         if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
@@ -278,6 +296,35 @@ public abstract class EditObjectController implements Controller {
             }
         }        
         return true;
+    }
+
+    protected boolean checkToken(String token) throws Exception{
+        if(token.equals(null) || token.isEmpty()){
+            System.out.print(token.equals(""));
+            return false;
+        }else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token "+token);
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                String login = (String)json.get("login");
+                if(!login.equals("")){
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
+                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token "+token);
+                    if(connection.getResponseCode()== 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
     }
 
   }

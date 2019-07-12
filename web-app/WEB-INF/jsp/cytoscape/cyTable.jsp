@@ -39,7 +39,7 @@
                         <tr>
                             <td align="center" valign="center" style="padding-top:20px;">
                                 <form action="cy.html?report=full" method="post">
-                                    <input type="hidden" name="proteins" value='${model.query}'>
+                                    <input type="hidden" name="identifiers" value='${model.query}'>
                                     <input type="hidden" name="species" value='${model.species}'>
                                     <input type="hidden" name="browser" value="12">
                                     <button>View Full Report</button>
@@ -47,7 +47,7 @@
                             </td>
                             <td align="left" valign="center" style="padding-top:20px;">
                                 <form action="cy.html?d=true" method="post">
-                                    <input type="hidden" name="proteins" value='${model.query}'>
+                                    <input type="hidden" name="identifiers" value='${model.query}'>
                                     <input type="hidden" name="species" value='${model.species}'>
                                     <input type="hidden" name="browser" value="12">
                                     <button>Download</button>

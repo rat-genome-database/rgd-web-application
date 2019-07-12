@@ -36,7 +36,7 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/editObject.html">Object Editor</a></td>
+                    <a href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>">Object Editor</a></td>
             </tr>
             <tr valign="top">
                 <td>
