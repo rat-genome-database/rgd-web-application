@@ -198,7 +198,7 @@ public abstract class EditObjectController implements Controller {
             response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&token=" +accessToken);
             return null;
         }else{
-            return new ModelAndView(path + this.getViewUrl()+"&token=" +accessToken);
+            return new ModelAndView(path + this.getViewUrl());
         }
     }
 
