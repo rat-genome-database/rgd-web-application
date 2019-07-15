@@ -15,6 +15,7 @@
     int rgdId = gene.getRgdId();
     int displayRgdId = rgdId;
     int key = gene.getKey();
+    String token = (String) request.getAttribute("token");
     String submittedParentGene= (String) request.getAttribute("submittedParentGene");
     String references= (String) request.getAttribute("references");
 
@@ -48,6 +49,7 @@
         <td valign="top">
 
         <form action="editGene.html" method="get">
+            <input type="hidden" name="token" value="<%=token%>"/>
         <input type="hidden" name="rgdId" value="<%=rgdId%>"/>
         <input type="hidden" name="key" value="<%=key%>" />
         <input type="hidden" name="act" value="<%=key==0?"add":"upd"%>" />
