@@ -84,10 +84,10 @@ public abstract class EditObjectController implements Controller {
             references=rq.getParameter("references");
 
             accessToken=rq.getParameter("token");
-
+System.out.println("found"+accessToken);
         }
 
-        if(!checkToken(accessToken))
+       if(!checkToken(accessToken))
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
         if(geneType!=null)
         {  this.setGeneType(geneType);}
@@ -172,7 +172,7 @@ public abstract class EditObjectController implements Controller {
 
         }
 
-        request.setAttribute("accessToken",accessToken);
+        request.setAttribute("token",accessToken);
         request.setAttribute("editObject", o);
         request.setAttribute("cloneObject", clone);
         request.setAttribute("isClone", isClone);
@@ -195,7 +195,8 @@ public abstract class EditObjectController implements Controller {
         }else if (action.equals("add")) {
             Identifiable id = (Identifiable) o;
             assert id != null;
-            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&accessToken=" +accessToken);
+            System.out.println("Hello:");
+            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&token=" +accessToken);
             return null;
         }else{
             return new ModelAndView(path + this.getViewUrl());
