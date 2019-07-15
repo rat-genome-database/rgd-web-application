@@ -172,7 +172,7 @@ public abstract class EditObjectController implements Controller {
 
         }
 
-        request.setAttribute("token",accessToken);
+        request.setAttribute("accessToken",accessToken);
         request.setAttribute("editObject", o);
         request.setAttribute("cloneObject", clone);
         request.setAttribute("isClone", isClone);
@@ -195,7 +195,7 @@ public abstract class EditObjectController implements Controller {
         }else if (action.equals("add")) {
             Identifiable id = (Identifiable) o;
             assert id != null;
-            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&token=" +accessToken);
+            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&accessToken=" +accessToken);
             return null;
         }else{
             return new ModelAndView(path + this.getViewUrl());
