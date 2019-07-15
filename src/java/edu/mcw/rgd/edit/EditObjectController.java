@@ -195,10 +195,10 @@ public abstract class EditObjectController implements Controller {
         }else if (action.equals("add")) {
             Identifiable id = (Identifiable) o;
             assert id != null;
-            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references);
+            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&token=" +accessToken);
             return null;
         }else{
-            return new ModelAndView(path + this.getViewUrl());
+            return new ModelAndView(path + this.getViewUrl()+"&token=" +accessToken);
         }
     }
 
