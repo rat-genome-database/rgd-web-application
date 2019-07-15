@@ -172,6 +172,7 @@ public abstract class EditObjectController implements Controller {
 
         }
 
+        request.setAttribute("token",accessToken);
         request.setAttribute("editObject", o);
         request.setAttribute("cloneObject", clone);
         request.setAttribute("isClone", isClone);
