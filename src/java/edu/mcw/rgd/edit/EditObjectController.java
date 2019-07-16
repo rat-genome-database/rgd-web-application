@@ -84,12 +84,12 @@ public abstract class EditObjectController implements Controller {
             references=rq.getParameter("references");
 
             accessToken=rq.getParameter("token");
-System.out.println("found"+accessToken);
+
         }
 
-       if(!checkToken(accessToken))
+    /*if(!checkToken(accessToken))
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-        if(geneType!=null)
+    */    if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
         Object o = null;
