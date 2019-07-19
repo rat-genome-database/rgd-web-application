@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class DistributionController extends HaplotyperController {
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+       public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
         List regionList = new ArrayList();
@@ -283,19 +283,10 @@ public class DistributionController extends HaplotyperController {
              vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
              vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
-     // resultHash = vdao.getVariantToGeneCountMap(vsb);
+   //   resultHash = vdao.getVariantToGeneCountMap(vsb);
 
-     resultHash =this.getVariantToGeneCountMap(vsb);
+            resultHash =this.getVariantToGeneCountMap(vsb, req);
 
-            for(Map.Entry e:resultHash.entrySet()){
-                String sampleId= (String) e.getKey();
-                Map<String, Integer> geneCount= (Map<String, Integer>) e.getValue();
-                System.out.println(sampleId+"\t"+ geneCount.size());
-              /*  for(Map.Entry e1: geneCount.entrySet()){
-                    System.out.println(sampleId +"\t"+ e1.getKey()+"\t"+ e1.getValue());
-                }*/
-            }
-    //
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
                 for (Object o : map.keySet()) {
@@ -445,10 +436,10 @@ public class DistributionController extends HaplotyperController {
         return !(req.getParameter("rdo_acc_id").isEmpty() && req.getParameter("pw_acc_id").isEmpty()
                 && req.getParameter("mp_acc_id").isEmpty() && req.getParameter("chebi_acc_id").isEmpty());
     }
-    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb){
+    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req){
         VVService service= new VVService();
-        SearchResponse sr=service.getVariants(vsb);
-        TreeMap tMap= new TreeMap();
+        SearchResponse sr=service.getVariants(vsb, req);
+     //   TreeMap tMap= new TreeMap();
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
         if(sr.getAggregations()!=null){
           Terms samplesAgg = sr.getAggregations().get("sampleId");
@@ -456,17 +447,27 @@ public class DistributionController extends HaplotyperController {
             for(Terms.Bucket b:samplebkts){
                 Map<String, Integer> geneCountMap=new HashMap<>();
           //      System.out.println(b.getKey()+"\t"+b.getDocCount() );
-                Terms geneAggs=b.getAggregations().get("geneSymbols");
+                Terms geneAggs=b.getAggregations().get("region");
                 for(Terms.Bucket gb:geneAggs.getBuckets()){
            //         System.out.println(gb.getKey()+"\t"+ gb.getDocCount());
                     geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
+
                 }
-                tMap.put(String.valueOf(b.getKey()), geneCountMap);
+         //       tMap.put(String.valueOf(b.getKey()), geneCountMap);
+               variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
             }
          //   System.out.println(samplesAgg.getBuckets().size());
         }
 
+      for(Map.Entry e:variantGeneCountMap.entrySet()){
+          String key= (String) e.getKey();
+          Map<String, Integer> valueMap= (Map<String, Integer>) e.getValue();
+          for(Map.Entry e1:valueMap.entrySet()){
+              System.out.println(key+"\t"+ e1.getKey()+"\t"+e1.getValue());
+          }
 
-        return tMap;
+      }
+     //   return tMap;
+        return variantGeneCountMap;
     }
 }

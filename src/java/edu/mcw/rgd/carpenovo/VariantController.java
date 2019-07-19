@@ -87,22 +87,23 @@ public class VariantController extends HaplotyperController {
             return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
         }
 
-        if ((vsb.getStopPosition() - vsb.getStartPosition()) > 250000) {
+      /*  if ((vsb.getStopPosition() - vsb.getStartPosition()) > 250000) {
             count = vdao.getPositionCount(vsb);
             System.out.println("position count = " + count);
-        }
+        }*/
 
         SearchResult searchResult = null;
 
 
-        if (count < 2000 || searchType.equals("GENE")) {
+   //     if (count < 2000 || searchType.equals("GENE")) {
+            if (searchType.equals("GENE")) {
 
             SNPlotyper snplotyper = new SNPlotyper();
 
             snplotyper.addSampleIds(vsb.sampleIds);
 
    //         List<VariantResult> variantResults = vdao.getVariantAndConservation(vsb);
-            List<VariantResult> variantResults = this.getVariantResults(vsb);
+            List<VariantResult> variantResults = this.getVariantResults(vsb, req);
 
             System.out.println(variantResults.size());
 
@@ -149,9 +150,9 @@ public class VariantController extends HaplotyperController {
         return mappedGenes;
     }
 
-    public List<VariantResult> getVariantResults(VariantSearchBean vsb) throws Exception {
+    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req) throws Exception {
         VVService service= new VVService();
-        SearchResponse sr=service.getVariants(vsb);
+        SearchResponse sr=service.getVariants(vsb, req);
         System.out.println("SEARCH HITS: "+ sr.getHits().getTotalHits());
         SearchHit[] hits= sr.getHits().getHits();
         List<VariantResult> variantResults=new ArrayList<>();
@@ -195,10 +196,11 @@ public class VariantController extends HaplotyperController {
         v.setVariantType((String) m.get("variantType"));
         v.setPaddingBase((String) m.get("paddingBase"));
         List<String> geneSymbols= (List<String>) m.get("geneSymbols");
+        if(geneSymbols!=null){
         if(geneSymbols.size()>0) {
             String geneSymbol = (geneSymbols).get(0);
             v.setRegionName(geneSymbol);
-        }
+        }}
         return v;
     }
     public ConservationScore mapConservation(java.util.Map m)  {
@@ -206,7 +208,7 @@ public class VariantController extends HaplotyperController {
         ConservationScore  cs = new ConservationScore();
 
         try{
-            if(conScores.size()>=1) {
+            if(conScores!=null && conScores.size()>=1 ) {
                 if(conScores.get(0) instanceof Integer){
                     BigDecimal score= new BigDecimal((Integer) conScores.get(0));
                     cs.setScore(score);
@@ -220,14 +222,30 @@ public class VariantController extends HaplotyperController {
                         cs.setChromosome((String) m.get("chromosome"));
                         cs.setPosition((Integer) m.get("startPos"));
                         cs.setNuc((String) m.get("refNuc"));
+                    }else{
+                        if(conScores.get(0) instanceof BigDecimal){
+                            BigDecimal score= (BigDecimal) conScores.get(0);
+                            cs.setScore(score);
+                            cs.setChromosome((String) m.get("chromosome"));
+                            cs.setPosition((Integer) m.get("startPos"));
+                            cs.setNuc((String) m.get("refNuc"));
+                        }else{
+                            if(conScores.get(0) ==null){
+                                cs.setScore(BigDecimal.ZERO);
+                                cs.setChromosome((String) m.get("chromosome"));
+                                cs.setPosition((Integer) m.get("startPos"));
+                                cs.setNuc((String) m.get("refNuc"));
+                            }
+                        }
                     }
                 }
             }else{
 
-                cs.setScore(BigDecimal.ZERO);
-                cs.setChromosome((String) m.get("chromosome"));
-                cs.setPosition((Integer) m.get("startPos"));
-                cs.setNuc((String) m.get("refNuc"));
+                    cs.setScore(BigDecimal.ZERO);
+                    cs.setChromosome((String) m.get("chromosome"));
+                    cs.setPosition((Integer) m.get("startPos"));
+                    cs.setNuc((String) m.get("refNuc"));
+
             }
         }catch (Exception e){
             System.out.println("CONSCORE:"+conScores.get(0));
