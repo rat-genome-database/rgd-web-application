@@ -21,6 +21,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by IntelliJ IDEA.
@@ -234,7 +235,7 @@ public abstract class HaplotyperController implements Controller {
             }
 
         } else {
-
+            if(req.getParameter("sample")==null || Objects.equals(req.getParameter("sample"), "")){
             // determine mapKey from samples
             for (int i = 0; i < 100; i++) {
                 String sample = req.getParameter("sample" + i);
@@ -255,6 +256,23 @@ public abstract class HaplotyperController implements Controller {
                             System.out.println("ERROR: assembly mixup");
                         }
                     }
+                }
+            }}else{
+                String sample=req.getParameter("sample");
+                if(sample.equalsIgnoreCase("all")){
+                    SampleDAO sdao = new SampleDAO();
+                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                    int mapKey = Integer.parseInt(req.getParameter("mapKey"));
+                    List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+
+                    vsb.setMapKey(mapKey);
+
+                    for (Sample s : samples) {
+                        vsb.sampleIds.add(s.getId());
+                    }
+                }else {
+                    int sampleId = Integer.parseInt(req.getParameter("sample"));
+                    vsb.sampleIds.add(sampleId);
                 }
             }
 
@@ -342,5 +360,4 @@ public abstract class HaplotyperController implements Controller {
         vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
         return vsb;
     }
-
-   }
+}

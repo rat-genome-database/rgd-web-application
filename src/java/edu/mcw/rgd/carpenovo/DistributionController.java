@@ -1,22 +1,24 @@
 package edu.mcw.rgd.carpenovo;
 
+import edu.mcw.rgd.carpenovo.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.Gene;
-import edu.mcw.rgd.datamodel.MappedGene;
-import edu.mcw.rgd.datamodel.Sample;
-import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +28,7 @@ import java.util.*;
  */
 public class DistributionController extends HaplotyperController {
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+       public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
         List regionList = new ArrayList();
@@ -281,7 +283,9 @@ public class DistributionController extends HaplotyperController {
              vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
              vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
-             resultHash = vdao.getVariantToGeneCountMap(vsb);
+   //   resultHash = vdao.getVariantToGeneCountMap(vsb);
+
+            resultHash =this.getVariantToGeneCountMap(vsb, req);
 
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
@@ -431,5 +435,39 @@ public class DistributionController extends HaplotyperController {
     private boolean hasAnnotation(HttpRequestFacade req) {
         return !(req.getParameter("rdo_acc_id").isEmpty() && req.getParameter("pw_acc_id").isEmpty()
                 && req.getParameter("mp_acc_id").isEmpty() && req.getParameter("chebi_acc_id").isEmpty());
+    }
+    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req){
+        VVService service= new VVService();
+        SearchResponse sr=service.getVariants(vsb, req);
+     //   TreeMap tMap= new TreeMap();
+        Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
+        if(sr.getAggregations()!=null){
+          Terms samplesAgg = sr.getAggregations().get("sampleId");
+            List<Terms.Bucket> samplebkts= (List<Terms.Bucket>) samplesAgg.getBuckets();
+            for(Terms.Bucket b:samplebkts){
+                Map<String, Integer> geneCountMap=new HashMap<>();
+          //      System.out.println(b.getKey()+"\t"+b.getDocCount() );
+                Terms geneAggs=b.getAggregations().get("region");
+                for(Terms.Bucket gb:geneAggs.getBuckets()){
+           //         System.out.println(gb.getKey()+"\t"+ gb.getDocCount());
+                    geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
+
+                }
+         //       tMap.put(String.valueOf(b.getKey()), geneCountMap);
+               variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
+            }
+         //   System.out.println(samplesAgg.getBuckets().size());
+        }
+
+      for(Map.Entry e:variantGeneCountMap.entrySet()){
+          String key= (String) e.getKey();
+          Map<String, Integer> valueMap= (Map<String, Integer>) e.getValue();
+          for(Map.Entry e1:valueMap.entrySet()){
+              System.out.println(key+"\t"+ e1.getKey()+"\t"+e1.getValue());
+          }
+
+      }
+     //   return tMap;
+        return variantGeneCountMap;
     }
 }

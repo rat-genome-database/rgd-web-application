@@ -178,7 +178,7 @@ if (hasAnnotation) {
 
             <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
             <td valign="center">
-                <div class="snpLabel"  id="<%=sample%>"><a style="cursor:default; text-decoration:none;"
+                <div class="snpLabel"><a style="cursor:default; text-decoration:none;"
                                          title="<%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
                                          href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>
                 </a>&nbsp;</div>
@@ -303,7 +303,7 @@ if (hasAnnotation) {
                                 <div id="h" class="vert">
 
                                     &nbsp;<a title="<%=region%>"
-                                             href="javascript:navigate('<%=region%>');"><%=displayRegion%>
+                                             href="javascript:navigate('<%=region%>', '');"><%=displayRegion%>
                                 </a>
                                 </div>
                             </div>
@@ -359,7 +359,7 @@ if (hasAnnotation) {
             <script>
                 document.getElementById("cell<%=k%>-<%=j%>").gene = "<%=region%>";
                 document.getElementById("cell<%=k%>-<%=j%>").sample = "<%=sample%>";
-           document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
+                document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
             </script>
             <%k++;%>
             <% } %>
