@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%
     String pageTitle = "Variant Visualizer (Options)";
     String headContent = "";
@@ -43,8 +44,20 @@
     </tr>
 </table>
 <% } %>
+<%
+    String action=new String();
+    geneList=req.getParameter("geneList");
 
-<form action="variants.html">
+if(!geneList.equals("")&& !geneList.contains("*") && Utils.symbolSplit(geneList).size()>1
+        || (vsb.getStopPosition()>0 && vsb.getStartPosition()>0 )){
+    action="dist.html";
+
+}else{
+    action="variants.html";
+}
+
+%>
+<form action=<%=action%> method="post">
     <input type="hidden" name="start" value="<%=dm.out("start",vsb.getStartPosition() + "")%>"/>
     <input type="hidden" name="stop" size="25" value="<%=dm.out("stop",vsb.getStopPosition() + "")%>"/>
 
@@ -294,8 +307,8 @@
     </table>
     </div>
 
-
+</form>
 </div>
 
 
-</form>
+

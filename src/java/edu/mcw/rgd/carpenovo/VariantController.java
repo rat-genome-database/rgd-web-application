@@ -45,14 +45,10 @@ public class VariantController extends HaplotyperController {
 
         String searchType="";
 
-        if (!req.getParameter("chr").equals("") && !req.getParameter("start").equals("") && !req.getParameter("stop").equals("")) {
-            searchType="CHR";
-
-        }else if (!req.getParameter("geneStart").equals("") && !req.getParameter("geneStop").equals("")) {
-            searchType="REGION";
-        }else if (!geneList.equals("")) {
+        if (!geneList.equals("")) {
             if (!geneList.contains("|") && !geneList.contains("*") && Utils.symbolSplit(geneList).size()>1 ) {
                 //searchType="LIST";
+
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }else {
                 searchType="GENE";
@@ -105,7 +101,7 @@ public class VariantController extends HaplotyperController {
    //         List<VariantResult> variantResults = vdao.getVariantAndConservation(vsb);
             List<VariantResult> variantResults = this.getVariantResults(vsb, req);
 
-            System.out.println(variantResults.size());
+        //    System.out.println(variantResults.size());
 
             for (VariantResult vr: variantResults) {
                 if (vr.getVariant() != null) {

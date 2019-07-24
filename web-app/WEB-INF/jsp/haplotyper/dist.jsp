@@ -321,8 +321,9 @@ if (hasAnnotation) {
                 k = 0;
                 it = sampleIds.iterator();
 
-                while (it.hasNext()) {
-                    String sample = (String) it.next();
+                while (it.hasNext()) {%>
+            <tr>
+              <%      String sample = (String) it.next();
                     Map<String, Integer> results = (Map) resultHash.get(sample);
                     if (results == null) {
                         results = Collections.emptyMap();

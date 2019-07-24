@@ -1,10 +1,12 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
 
 <script>
 
-    function updatePage() {
+ /*   function updatePage() {
 
-        var queryString = "?<%=request.getQueryString()%>";
+        var queryString = "?<-%=request.getQueryString()%>";
         queryString = addParam("chr",document.getElementById("chr").value,queryString);
         queryString = addParam("start",document.getElementById("start").value,queryString);
         queryString = addParam("stop",document.getElementById("stop").value,queryString);
@@ -14,7 +16,7 @@
 
         location.href = "variants.html" + queryString;
 
-    }
+    }*/
 </script>
 <style>
      .updateForm {
@@ -37,7 +39,7 @@
 <%
     int regionSize = (int)(vsb.getStopPosition() - vsb.getStartPosition() +1);
 %>
-<form>
+<form action="dist.html">
 <%
     String chr = vsb.getChromosome();
     if (chr == null) {
@@ -56,6 +58,18 @@
     }
 %>
 
+    <%
+        for (int i=1; i<100; i++) {
+            if (request.getParameter("sample" + i) != null) {
+
+    %>
+
+    <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+    <%
+                }
+            }
+
+    %>
 <table width="100%" class="updateForm" >
     <tr>
         <td>
@@ -67,7 +81,7 @@
                 <td><input type="text" name="start" id="start" size="15" value="<%=start%>"/></td>
                 <td align="center">Stop Position</td>
                 <td><input type="text" name="stop" id="stop"  size="15" value="<%=stop%>"/></td>
-                <td><input type="button" value="Update" onClick="updatePage()"/></td>
+                <td><input type="submit" value="Update"/></td>
             </tr>
             </table>
         </td>

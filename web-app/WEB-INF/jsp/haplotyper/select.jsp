@@ -112,7 +112,7 @@ if (req.getParameter("u").equals("394033")) {
     }
 </script>
 
-<form id="strainBox" action="config.html">
+<form id="strainBox" action="config.html" method="post">
 
     <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
 
@@ -124,7 +124,7 @@ if (req.getParameter("u").equals("394033")) {
     <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
     <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
 
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
+    <!--input type="hidden" name="geneList" value="<--%--=req.getParameter("geneList")%>" /-->
 
 <br>
 <div class="typerMat">
