@@ -48,11 +48,11 @@ public class VariantVisualizerController implements Controller {
                     });
                 }
                 for (Gene g : relatedGenes) {
-                    System.out.println(g);
+                    //System.out.println(g);
                     genes.add(g.getRgdId());
                 }
 
-                System.out.println("+++++++++++++++++++++++++++++++++");
+             //   System.out.println("+++++++++++++++++++++++++++++++++");
             }
         }
         boolean first=true;

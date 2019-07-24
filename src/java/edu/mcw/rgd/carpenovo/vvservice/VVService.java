@@ -2,6 +2,7 @@ package edu.mcw.rgd.carpenovo.vvservice;
 
 import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -31,7 +32,7 @@ public class VVService {
                 .setQuery(builder)
                 .setSize(10000);
         srb.addAggregation(this.buildAggregations("sampleId"));
-        System.out.println("Synonymous:"+req.getParameter("synonymus") +"\tNon-Synonymous: " + req.getParameter("nonSynonymous"));
+
 
         return srb
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
@@ -45,14 +46,15 @@ public class VVService {
      AggregationBuilder aggs= null;
      if(fieldName.equalsIgnoreCase("sampleId")){
          aggs= AggregationBuilders.terms(fieldName).field(fieldName).size(100)
-                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(10000).missing("INTERGENIC"));
+                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(10000).missing("INTERGENIC")
+                 .order(BucketOrder.key(true)));
      }
 
      return aggs;
  }
     public BoolQueryBuilder boolQueryBuilder(VariantSearchBean vsb, HttpRequestFacade req){
         BoolQueryBuilder builder=new BoolQueryBuilder();
-        builder.must(this.getDisMaxQuery(vsb));
+        builder.must(this.getDisMaxQuery(vsb, req));
         List<String> synStats= new ArrayList<>();
         List<String> genicStats= new ArrayList<>();
         List<String> vTypes= new ArrayList<>();
@@ -138,24 +140,30 @@ public class VVService {
         }
         return builder;
     }
-    public QueryBuilder getDisMaxQuery(VariantSearchBean vsb){
+    public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
         BoolQueryBuilder qb=
-                (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
-                        .filter(QueryBuilders.matchQuery("chromosome", chromosome))
-                        .filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()))
-
-                );
-        if(vsb.getStartPosition()!=null && vsb.getStartPosition()>=0 && vsb.getStopPosition()!=null && vsb.getStartPosition()>0){
+                (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
+        if(vsb.getChromosome()!=null){
+           qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
+        }
+        if(sampleIds!=null && sampleIds.size()>0){
+            qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
+        }
+        if(vsb.getStartPosition()!=null && vsb.getStartPosition()>=0 && vsb.getStopPosition()!=null && vsb.getStopPosition()>0){
             qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
         }
-       /* if(vsb.getMappedGenes()!=null){
-            for(MappedGene g:vsb.getMappedGenes()){
-                System.out.println(g.getGene().getSymbol());
-            }
-        }*/
+         if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
+            List<String> symbols= Utils.symbolSplit(req.getParameter("geneList"));
+         //    System.out.println("SYMBOLS SIZE:"+symbols.size());
+           qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+        /*     for(String l:symbols){
+                 qb.filter(QueryBuilders.matchQuery("regionName", l));
+             }*/
+
+        }
 
         dqb.add(qb);
         return dqb;
