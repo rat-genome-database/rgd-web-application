@@ -453,7 +453,7 @@ rgdModule.controller('RGDPageController', [
                         return;
                     }*/
 
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=";
+                    url = "/rgdweb/front/dist.html?start=&stop=&chr=&geneStart=&geneStop=";
 
 
                     if ($scope.speciesTypeKey != 1) {
