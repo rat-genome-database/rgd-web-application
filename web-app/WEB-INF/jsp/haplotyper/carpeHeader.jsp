@@ -193,7 +193,7 @@
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
         queryString=addParam("sample", sample, queryString);
-        queryString=addParam("mapKey",<%=request.getParameter("mapKey")%>, queryString);
+        queryString=addParam("mapKey","<%=request.getParameter("mapKey")%>", queryString);
 
         <%
        for (int i=1; i<100; i++) {
