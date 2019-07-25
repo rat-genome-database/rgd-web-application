@@ -1,6 +1,5 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
 
 <script>
 
