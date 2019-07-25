@@ -4,7 +4,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
-
+<%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 
 <style>
 
@@ -201,8 +201,7 @@
         if(request.getParameter("sample1") != null && request.getParameter("sample1").equals("all")){
           SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-            int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-            List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+            List<Sample> samples = sdao.getSamplesByMapKey(Integer.parseInt(request.getParameter("mapKey")));
 
             int count=1;
             for (Sample s : samples) {%>
