@@ -57,7 +57,7 @@ if(!geneList.equals("")&& !geneList.contains("*") && Utils.symbolSplit(geneList)
 }
 
 %>
-<form action=<%=action%> method="post">
+<form action="<%=action%>" method="post">
     <input type="hidden" name="start" value="<%=dm.out("start",vsb.getStartPosition() + "")%>"/>
     <input type="hidden" name="stop" size="25" value="<%=dm.out("stop",vsb.getStopPosition() + "")%>"/>
 

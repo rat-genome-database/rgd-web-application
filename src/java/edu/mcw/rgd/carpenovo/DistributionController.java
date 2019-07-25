@@ -374,26 +374,38 @@ public class DistributionController extends HaplotyperController {
     List<String> loadSampleIds(HttpServletRequest request) throws Exception{
 
         List<String> sampleIds = new ArrayList<String>();
+        if(request.getParameter("sample1")!=null) {
 
-        if (request.getParameter("sample1").equals("all")) {
+            if (request.getParameter("sample1").equals("all")) {
 
+                SampleDAO sdao = new SampleDAO();
+                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                int mapKey = Integer.parseInt(request.getParameter("mapKey"));
+                List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+
+                for (Sample s : samples) {
+                    sampleIds.add(s.getId() + "");
+                }
+
+            } else {
+
+
+                for (int i = 0; i < 100; i++) {
+                    if (request.getParameter("sample" + i) != null) {
+                        sampleIds.add(request.getParameter("sample" + i));
+                    }
+                }
+            }
+        }else{
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));
             List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
-            for (Sample s: samples) {
-                sampleIds.add(s.getId()+"");
+            for (Sample s : samples) {
+                sampleIds.add(s.getId() + "");
             }
 
-        }else {
-
-
-            for (int i = 0; i < 100; i++) {
-                if (request.getParameter("sample" + i) != null) {
-                    sampleIds.add(request.getParameter("sample" + i));
-                }
-            }
         }
         return sampleIds;
     }
