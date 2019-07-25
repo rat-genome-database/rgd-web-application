@@ -172,16 +172,24 @@ if (hasAnnotation) {
             int k = 0;
             Iterator it = sampleIds.iterator();
             while (it.hasNext()) {
+                j++;
                 String sample = (String) it.next();
         %>
         <tr>
 
             <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
             <td valign="center">
-                <div class="snpLabel"><a style="cursor:default; text-decoration:none;"
-                                         title="<%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
-                                         href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>
-                </a>&nbsp;</div>
+                <div class="snpLabel">
+                    <form action="dist.html" method="post">
+                        <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
+                        <input type="hidden" name="sample1" value="<%=sample%>"/>
+                        <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                        <button class="button" type="submit" style="text-decoration: underline;border:0px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
+                    </form>
+                    <!--a style="cursor:default;"
+                                         title="<--%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
+                                         href="javascript:navigate('<-%=request.getParameter("geneList")%>', <-%=sample%>);"><-%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%-->
+                <!--/a-->&nbsp;</div>
             </td>
         </tr>
         <% } %>
@@ -369,7 +377,7 @@ if (hasAnnotation) {
             <% j++; %>
             <% } %>
         </table>
-
+</div>
 </td>
 </tr>
 </table>
