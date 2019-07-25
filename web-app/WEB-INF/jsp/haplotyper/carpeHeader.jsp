@@ -200,7 +200,7 @@
            if (request.getParameter("sample" + i) != null) {
 
    %>
-        queryString=addParam("sample<%=i%>", <%=request.getParameter("sample" + i)%>, queryString);
+        queryString=addParam("sample<%=i%>", "<%=request.getParameter("sample" + i)%>", queryString);
 
         <%
                     }
