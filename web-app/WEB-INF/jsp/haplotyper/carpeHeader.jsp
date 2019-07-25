@@ -197,17 +197,10 @@
         queryString=addParam("sample", sample, queryString);
         queryString=addParam("mapKey","<%=request.getParameter("mapKey")%>", queryString);
 
-        <%
-        if(request.getParameter("sample1") != null && request.getParameter("sample1").equals("all")){
-          SampleDAO sdao = new SampleDAO();
-            sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-            List<Sample> samples = sdao.getSamplesByMapKey(Integer.parseInt(request.getParameter("mapKey")));
 
-            int count=1;
-            for (Sample s : samples) {%>
-        queryString=addParam("sample<%=count++%>", "<%=request.getParameter("sample" + count)%>", queryString);
-      <%      }
-        }else{
+
+      <%    
+
        for (int i=1; i<100; i++) {
            if (request.getParameter("sample" + i) != null) {
 
@@ -217,7 +210,7 @@
         <%
                     }
                 }
-}
+
         %>
         location.href="variants.html" + queryString;
     }
