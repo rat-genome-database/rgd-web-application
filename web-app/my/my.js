@@ -448,12 +448,12 @@ rgdModule.controller('RGDPageController', [
                 var url="#";
                 if (tool == "vv") {
 
-                    if (geneList.length > 4000) {
+                  /*  if (geneList.length > 4000) {
                         alert("Gene List must be under 4000 Characters.  Variant Visualizer is unavailable for this list.")
                         return;
                     }
-
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=";
+                */
+                    url = "/rgdweb/front/dist.html?start=&stop=&chr=&geneStart=&geneStop=";
 
 
                     if ($scope.speciesTypeKey != 1) {

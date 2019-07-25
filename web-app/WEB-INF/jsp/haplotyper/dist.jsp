@@ -184,6 +184,10 @@ if (hasAnnotation) {
                         <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
                         <input type="hidden" name="sample1" value="<%=sample%>"/>
                         <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                        <input type="hidden" name="start" value="<%=request.getParameter("start")%>"/>
+                        <input type="hidden" name="stop" value="<%=request.getParameter("stop")%>"/>
+                        <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
+
                         <button class="button" type="submit" style="text-decoration: underline;border:0px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
                     </form>
                     <!--a style="cursor:default;"
