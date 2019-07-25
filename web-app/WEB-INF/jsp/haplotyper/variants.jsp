@@ -130,7 +130,7 @@ try {
 <%@ include file="updateForm.jsp"%>
 
 
-<%
+<%--
 Gene gene = (Gene) request.getAttribute("gene");
     DescriptionGenerator dg = new DescriptionGenerator();
     if (gene != null) {
@@ -143,10 +143,8 @@ Gene gene = (Gene) request.getAttribute("gene");
         </div>
     <%
     }
-%>
-    </td>
-    </tr>
-</table>
+--%>
+
 
 <%
 if (positions.size()==0) {
