@@ -80,6 +80,7 @@
                 <td><input type="text" name="start" id="start" size="15" value="<%=start%>"/></td>
                 <td align="center">Stop Position</td>
                 <td><input type="text" name="stop" id="stop"  size="15" value="<%=stop%>"/></td>
+                <td><input type="text" name="mapKey" id="mapKey"  size="15" value="<%=req.getParameter("mapKey")%>"/></td>
                 <td><input type="submit" value="Update"/></td>
             </tr>
             </table>

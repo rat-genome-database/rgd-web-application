@@ -158,6 +158,7 @@ public class VVService {
          if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
             List<String> symbols= Utils.symbolSplit(req.getParameter("geneList"));
          //    System.out.println("SYMBOLS SIZE:"+symbols.size());
+             if(!symbols.get(0).equals("null"))
            qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
         /*     for(String l:symbols){
                  qb.filter(QueryBuilders.matchQuery("regionName", l));
