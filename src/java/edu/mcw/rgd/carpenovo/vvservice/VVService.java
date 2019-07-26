@@ -167,7 +167,7 @@ public class VVService {
         }
 
         dqb.add(qb);
-        System.out.println(qb.toString());
+     //   System.out.println(qb.toString());
         return dqb;
 
     }
