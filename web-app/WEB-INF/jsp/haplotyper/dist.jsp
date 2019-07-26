@@ -181,13 +181,22 @@ if (hasAnnotation) {
             <td valign="center">
                 <div class="snpLabel">
                     <form action="dist.html" method="post">
+                        <%if(request.getParameter("geneList")!=null){%>
                         <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
+                        <%}%>
                         <input type="hidden" name="sample1" value="<%=sample%>"/>
+                        <%if(request.getParameter("mapKey")!=null){%>
                         <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("start")!=null){%>
                         <input type="hidden" name="start" value="<%=request.getParameter("start")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("stop")!=null){%>
                         <input type="hidden" name="stop" value="<%=request.getParameter("stop")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("chr")!=null){%>
                         <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
-
+                        <%}%>
                         <button class="button" type="submit" style="text-decoration: underline;border:0px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
                     </form>
                     <!--a style="cursor:default;"
