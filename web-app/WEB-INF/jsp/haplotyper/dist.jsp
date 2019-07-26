@@ -197,7 +197,7 @@ if (hasAnnotation) {
                         <%if(request.getParameter("chr")!=null){%>
                         <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
                         <%}%>
-                        <button class="button" type="submit" style="text-decoration: underline;border:0px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
+                        <button class="button" type="submit" style="text-decoration: underline;border:0px;font-size: 10px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
                     </form>
                     <!--a style="cursor:default;"
                                          title="<--%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
