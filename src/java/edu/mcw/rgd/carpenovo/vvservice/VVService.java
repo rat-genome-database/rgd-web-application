@@ -156,10 +156,13 @@ public class VVService {
             qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
         }
          if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
-            List<String> symbols= Utils.symbolSplit(req.getParameter("geneList"));
+            List<String> symbols= new ArrayList<>();
+             for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
+                 symbols.add(s.toLowerCase());
+             }
          //    System.out.println("SYMBOLS SIZE:"+symbols.size());
              if(!symbols.get(0).equals("null"))
-           qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+           qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
         /*     for(String l:symbols){
                  qb.filter(QueryBuilders.matchQuery("regionName", l));
              }*/
