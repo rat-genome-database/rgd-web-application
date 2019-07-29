@@ -250,6 +250,8 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
                         .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
+                        .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
+
                         .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
                         .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
 
