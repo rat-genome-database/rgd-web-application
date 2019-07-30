@@ -83,13 +83,15 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
-            accessToken=rq.getParameter("token");
-
+            accessToken = "";
+                if(request.getCookies().length != 0)
+                    if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                        accessToken = request.getCookies()[0].getValue();
         }
 
-    /*if(!checkToken(accessToken))
+    if(!checkToken(accessToken))
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-    */    if(geneType!=null)
+        if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
         Object o = null;
