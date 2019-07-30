@@ -6,20 +6,20 @@
 
 <div class="container">
 
-    <div id="gi-wrapper" style="border-color: white">
+    <div id="wrapper" style="border-color: white">
     <c:forEach items="${model.hits}" var="hits">
 
         <c:forEach items="${hits}" var="hit">
 
                 <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
                 hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species=='Mouse' || hit.sourceAsMap.species=='Chinchilla' || hit.sourceAsMap.species=='Dog'
-                || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel')}">
-               <div class="panel panel-default gi-${hit.sourceAsMap.species}" id="gi-${hit.sourceAsMap.species}">
-                       <div class="panel-heading gi-panel-heading" style="background-color: #24609c">
+                || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel' || hit.sourceAsMap.species=='Pig') }">
+               <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
+                       <div class="panel-heading" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->
                            <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" id="headerLink${hit.sourceAsMap.species}" title="click to see more info and other assemblies"><strong style="margin-left:40%;color:white">${hit.sourceAsMap.species}</strong></a>
                        </div>
-                       <div class="panel-body gi-panel-body"  style="height:360px;overflow:auto">
+                       <div class="panel-body"  style="height:360px;overflow:auto">
                            <c:if test="${hit.sourceAsMap.species=='Rat'}">
                            <div><p><small>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</small></p>
                            <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.</small></p></div>
@@ -58,6 +58,12 @@
                                <div><p><small>Although the bonobo, or pygmy chimpanzee, Pan paniscus and common chimpanzee Pan troglodytes are morphologically similar, <span class="more">studies have found that more than three per cent of the human genome is more closely related to either the bonobo or the chimpanzee genome than these are to each other.</span><a href="#" class="moreLink" title="Click to see more">More...</a>
                                    </small></p>
                                    <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Pan; Pan paniscus.  </small>  </p>
+                               </div>
+                           </c:if>
+                           <c:if test="${hit.sourceAsMap.species=='Pig'}">
+                               <div><p><small>The pig (Sus scrofa) is a member of the artiodactyls, or cloven-hoofed mammals, which are an evolutionary clade distinct from the primates and rodents. <span class="more"> Pigs exist in both feral and domesticated populations that have distinct phenotypes and karyotypes. The haploid genome of the domesticated pig is estimated to be 2800 Mb. The diploid genome is organized in 18 pairs of autosomes and two sex chromosomes.Sus scrofa is an important model organism for health research due to parallels with humans. Swine are omnivores and their digestive physiology is similar to humans. Similarities between humans and pigs also exist in renal function, vascular structure, and respiratory rates. Pigs are used as model organism in many areas of medical research including obesity, cardiovascular disease, endocrinology, alcoholism, diabetes, nephropathy, and organ transplantation. Pigs are also agriculturally important, as pork is a leading source of protein worldwide.</span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                               </small></p>
+                                   <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa  </small>  </p>
                                </div>
                            </c:if>
                            <div>
@@ -115,7 +121,7 @@
 
 </div>
 </div>
-
+</div>
 <jsp:include page="genomeInfoFooter.jsp"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
