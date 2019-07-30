@@ -1,15 +1,11 @@
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Record" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
-<%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
-<%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 
 <meta name="referrer" content="no-referrer" />
@@ -24,11 +20,9 @@
     HashMap<String,String> conditions = (HashMap<String,String>) request.getAttribute("conditions");
     HashMap<String,String> methods = (HashMap<String,String>) request.getAttribute("methods");
     HashMap<String,String> samples = (HashMap<String,String>) request.getAttribute("samples");
-    LinkedHashMap<String,String> ageRanges = (LinkedHashMap<String,String>) request.getAttribute("ageRanges");
     Double minValue = (Double) request.getAttribute("minValue");
     Double maxValue = (Double) request.getAttribute("maxValue");
     String idsWithoutMM = (String) request.getAttribute("idsWithoutMM");
-    LinkedHashMap<String,String> conditionSet = (LinkedHashMap<String,String>) request.getAttribute("conditionSet");
     Integer refRgdId = (Integer) request.getAttribute("refRgdId");
 
     int speciesTypeKey = 3;

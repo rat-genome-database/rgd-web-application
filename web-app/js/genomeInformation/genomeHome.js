@@ -35,6 +35,11 @@ $(function () {
         var $content=$(".BonoboClass");
         changeGenomeData('Bonobo',mapKey, $content);
     });
+    $(".PigAssembly").on('change', function () {
+        var mapKey= this.value;
+        var $content=$(".PigClass");
+        changeGenomeData('Pig',mapKey, $content);
+    });
     $(".more").hide();
     $(".moreLink").on("click", function(e) {
 
