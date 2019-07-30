@@ -575,7 +575,7 @@ rgdModule.controller('RGDPageController', [
 
 //                    window.open(url);
                 }else if (tool == "annotCompare") {
-                    url = "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="+$scope.ortholog1 +"&ortholog=" + $scope.ortholog2+ "&term1=RDO%3A0000001&term2=PW%3A0000001";
+                    url = "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="+$scope.ortholog1 +"&ortholog=" + $scope.ortholog2+ "&term1=DOID%3A4&term2=PW%3A0000001";
                     url +="&species=" + $scope.speciesTypeKey +  "&chr=1&start=&stop=&mapKey=" + $scope.mapKey;
 
                     var f = document.createElement("form");

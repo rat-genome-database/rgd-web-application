@@ -16,58 +16,64 @@
 #subHead{
     background-image:url('../../images/genome1.png')
 }
-#gi-Rat{
-    width:20%;;top:10px;;
+#Rat{
+    width:25%;;top:10px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#gi-Human{
-    width:20%;margin-left:22%;top:10px;
+#Human{
+    width:25%;margin-left:26%;top:10px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#gi-Mouse {
-    width: 20%;
+#Mouse {
+    width: 25%;
     height:400px;
-    margin-left: 45%;
+    margin-left: 52%;
     top: 10px;
     position:absolute;
     display:inline-block;
 }
-#gi-Chinchilla{
-    width:20%;margin-left:68%;top:10px;
+#Chinchilla{
+    width:25%;margin-left:78%;top:10px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#gi-Dog{
-    width:20%;margin-left:33%;top:450px;
+#Dog{
+    width:25%;
+   /* margin-left:35%;*/
+    top:450px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#gi-Bonobo {
-    width: 20%;
+#Bonobo {
+    width: 25%;
     height:400px;
-    margin-left: 58%;
+    margin-left: 26%;
     top: 450px;
     position:absolute;
     display:inline-block;
 }
-#gi-Squirrel{
-    width:20%;margin-left:8%;top:450px;
+#Squirrel{
+    width:25%;margin-left:52%;top:450px;
     height:400px;
     position:absolute;
     display:inline-block;
 }
-#gi-wrapper{
+#Pig{
+    width:25%;margin-left:78%;top:450px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#wrapper{
     position:relative;
     width:100%;
     height:1000px;
-    margin-left:5%;
-    margin-right:5%;
 
 }
 
@@ -177,10 +183,4 @@ th.rotate > div > span {
     font-size:small;
     font-weight:100;
     padding:5px
-}
-.gi-panel-heading{
-    padding:10px 0 10px 0;
-}
-.gi-panel-body{
-    border:1px solid gainsboro;
 }
