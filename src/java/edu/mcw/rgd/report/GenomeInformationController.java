@@ -138,7 +138,7 @@ public class GenomeInformationController implements Controller{
 
     for(int key:SpeciesType.getSpeciesTypeKeys()){
 
-        if(key==1 || key==2 || key==3 || key==4 || key==5 || key==6 || key==7)
+        if(key==1 || key==2 || key==3 || key==4 || key==5 || key==6 || key==7 || key==9)
         speciesList.add(SpeciesType.getCommonName(key));
     }
     return speciesList;
@@ -150,7 +150,7 @@ public class GenomeInformationController implements Controller{
         List<Map> maps= mdao.getMaps(speciesTypeKey, "bp");
         for(Map m: maps){
             int mapKey=m.getKey();
-            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7) {
+            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7 ) {
             assemblyList.add(m.getDescription());
         }
         }
