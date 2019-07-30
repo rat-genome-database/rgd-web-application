@@ -458,14 +458,15 @@ function unselectAllOntologies(obj) {
 $(document).ready(function(){
     setupAutoComplete();
 
-    $("input[name='term[]']")
-            .closest('input')
-            .result(function(data, value){
-
-        $("#dataStatus").html("");
-		selectByTermId(value[1]);
+    $(document).ready(function(){
+        setupAutoComplete();
+        $("input[name='term[]']")
+                .closest('input')
+                .result(function(data, value){
+                    $("#dataStatus").html("");
+                    selectByTermId(value[1]);
+                });
     });
-});
 
 function setupAutoComplete() {
 
