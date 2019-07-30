@@ -9,14 +9,14 @@
         <button type="submit">More</button>
         </form-->
 
-        <a href="genomeInformation.html?species=${hit.source.species}&mapKey=${hit.source.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
+        <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
 
     </td>
 
         </tr>
-    <tr><td>Total Seq Length</td><td>${hit.source.totalLength}</td></tr>
-    <tr><td>Chromosomes</td><td>${hit.source.chromosomes}</td></tr>
-    <tr><td>Genes</td><td>${hit.source.totalGenes}</td></tr>
+    <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
+    <tr><td>Chromosomes</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
+    <tr><td>Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
 
     </c:forEach>
     </c:forEach>

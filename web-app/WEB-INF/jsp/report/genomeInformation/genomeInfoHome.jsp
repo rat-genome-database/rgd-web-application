@@ -13,7 +13,7 @@
 
                 <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
                 hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species=='Mouse' || hit.sourceAsMap.species=='Chinchilla' || hit.sourceAsMap.species=='Dog'
-                || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel')}">
+                || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel' || hit.sourceAsMap.species=='Pig') }">
                <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
                        <div class="panel-heading" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->
@@ -58,6 +58,12 @@
                                <div><p><small>Although the bonobo, or pygmy chimpanzee, Pan paniscus and common chimpanzee Pan troglodytes are morphologically similar, <span class="more">studies have found that more than three per cent of the human genome is more closely related to either the bonobo or the chimpanzee genome than these are to each other.</span><a href="#" class="moreLink" title="Click to see more">More...</a>
                                    </small></p>
                                    <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Pan; Pan paniscus.  </small>  </p>
+                               </div>
+                           </c:if>
+                           <c:if test="${hit.sourceAsMap.species=='Pig'}">
+                               <div><p><small>The pig (Sus scrofa) is a member of the artiodactyls, or cloven-hoofed mammals, which are an evolutionary clade distinct from the primates and rodents. <span class="more"> Pigs exist in both feral and domesticated populations that have distinct phenotypes and karyotypes. The haploid genome of the domesticated pig is estimated to be 2800 Mb. The diploid genome is organized in 18 pairs of autosomes and two sex chromosomes.Sus scrofa is an important model organism for health research due to parallels with humans. Swine are omnivores and their digestive physiology is similar to humans. Similarities between humans and pigs also exist in renal function, vascular structure, and respiratory rates. Pigs are used as model organism in many areas of medical research including obesity, cardiovascular disease, endocrinology, alcoholism, diabetes, nephropathy, and organ transplantation. Pigs are also agriculturally important, as pork is a leading source of protein worldwide.</span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                               </small></p>
+                                   <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa  </small>  </p>
                                </div>
                            </c:if>
                            <div>
