@@ -377,8 +377,8 @@ function runGviewer() {
         }
         gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
 
-        //alert(/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+        //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
+        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
     }
     return false;
 }
@@ -458,15 +458,14 @@ function unselectAllOntologies(obj) {
 $(document).ready(function(){
     setupAutoComplete();
 
-    $(document).ready(function(){
-        setupAutoComplete();
-        $("input[name='term[]']")
-                .closest('input')
-                .result(function(data, value){
-                    $("#dataStatus").html("");
-                    selectByTermId(value[1]);
-                });
+    $("input[name='term[]']")
+            .closest('input')
+            .result(function(data, value){
+
+        $("#dataStatus").html("");
+		selectByTermId(value[1]);
     });
+});
 
 function setupAutoComplete() {
 
