@@ -377,8 +377,8 @@ function runGviewer() {
         }
         gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
 
-        alert(/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+        //alert(/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
+        //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
     }
     return false;
 }
