@@ -212,7 +212,8 @@
                 }
 
         %>
-        location.href="variants.html" + queryString;
+    //    location.href="variants.html" + queryString;
+        window.open("variants.html" + queryString)
     }
 
 
