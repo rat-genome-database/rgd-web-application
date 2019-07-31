@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -21,11 +22,20 @@ public class CurationLoginController implements Controller {
         if (request.getParameter("code") != null) {
             String accessToken = getAccessToken(request.getParameter("code"));
             request.setAttribute("accessToken",accessToken);
-            if(checkAccess(accessToken))
+            if(checkAccess(accessToken)) {
+
                 return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
-            else response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-            return null;
+            }
+            else {
+                response.addHeader("Cache-Control","max-age=5, must-revalidate");
+                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+            }
+                return null;
         } else {
+            Cookie cookie = new Cookie("accessToken", "");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            response.addHeader("Cache-Control","max-age=5, must-revalidate");
              response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
              return null;
         }
@@ -62,8 +72,9 @@ public class CurationLoginController implements Controller {
                     HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
                     connection.setRequestProperty("User-Agent", "Mozilla/5.0");
                     connection.setRequestProperty("Authorization", "Token "+token);
-                    if(connection.getResponseCode()== 204)
+                    if(connection.getResponseCode()== 204) {
                         return true;
+                    }
                 }
             }
 

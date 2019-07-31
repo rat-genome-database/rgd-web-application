@@ -17,7 +17,7 @@
     <tr>
 <h1 > Welcome {{name}} !!!</h1>
         <hr />
-
+<a href="https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html">Logout</a>
         <table border="0" width="100%" cellpadding="4">
             <tbody>
 
@@ -98,15 +98,7 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/pipeline/list.html">Pipeline Logs</a></td>
-            </tr>
-            <tr valign="top">
-                <td>
                     <a href="journals.shtml">Journal List and Links</a></td>
-            </tr>
-            <tr valign="top">
-                <td>
-                    <a href="retrieve.shtml">Import new reference from PubMed</a></td>
             </tr>
             </tbody>
         </table>
