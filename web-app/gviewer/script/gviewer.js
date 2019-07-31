@@ -252,7 +252,7 @@ function Gviewer(viewerId, height, width) {
 
     //retrieves xml file from url and loads objects into the viewer
     this.loadAnnotations = function(url, color, term) {
-
+alert(url);
         try {
 
         show(this.loadingBar);
