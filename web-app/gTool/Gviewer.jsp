@@ -377,8 +377,9 @@ function runGviewer() {
         }
         gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
 
+        //alert(getFormString(document.gviewerForm));
         //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+        //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
     }
     return false;
 }
@@ -386,8 +387,8 @@ function runGviewer() {
 var http_request = false;
 
 function pageRequest(url, divId) {
-    //document.write(url);
-    //return;
+    document.write(url);
+    return;
     http_request = false;
 
     if (window.XMLHttpRequest) // if Mozilla, Safari etc
