@@ -379,7 +379,7 @@ function runGviewer() {
 
         //alert(getFormString(document.gviewerForm));
         //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        //setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
+        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
     }
     return false;
 }
