@@ -387,8 +387,8 @@ function runGviewer() {
 var http_request = false;
 
 function pageRequest(url, divId) {
-    document.write(url);
-    return;
+    //document.write(url);
+    //return;
     http_request = false;
 
     if (window.XMLHttpRequest) // if Mozilla, Safari etc
