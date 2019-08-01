@@ -250,9 +250,52 @@ function Gviewer(viewerId, height, width) {
         }
     }
 
+    this.loadAnnotationsGET = function(url, color, term) {
+
+        try {
+
+            show(this.loadingBar);
+            this.lastLoad = new Array();
+            var index = this.loaded.length;
+
+            var obj = new Object();
+            obj.url = url;
+            obj.color = color;
+            obj.term = term;
+
+            this.loaded[index] = obj;
+
+            var xml = new JKL.ParseXML( url );
+            var func = function ( data ) {                  // define call back function
+                gview().loadAnnotationData(data, color);
+
+                if (term) {
+                    gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
+                }
+
+                if (gview().zoomPaneActive()) {
+                    gview().zoomPane.refresh();
+                }
+                hide(gview().loadingBar);
+            }
+
+            var errorFunc = function(status) {
+                alert("An error occured in fetch of data. Server returned stats code " + status);
+                hide(gview().loadingBar);
+            }
+
+            xml.async( func );
+            xml.onerror( errorFunc );
+            xml.parse();
+        }catch (e) {
+            alert("Error: " + e + " could not load objects");
+        }
+    }
+
+
+
     //retrieves xml file from url and loads objects into the viewer
     this.loadAnnotations = function(url, color, term) {
-alert(url);
         try {
 
         show(this.loadingBar);
