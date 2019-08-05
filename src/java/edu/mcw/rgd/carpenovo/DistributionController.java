@@ -1,7 +1,7 @@
 package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.carpenovo.vvservice.VVService;
-import edu.mcw.rgd.carpenovo.vvservice.VariantObject;
+
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
