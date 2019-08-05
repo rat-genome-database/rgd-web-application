@@ -148,14 +148,14 @@ public class VariantController extends HaplotyperController {
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req) throws Exception {
         VVService service= new VVService();
-        SearchResponse sr=service.getVariants(vsb, req);
-        System.out.println("SEARCH HITS: "+ sr.getHits().getTotalHits());
-        SearchHit[] hits= sr.getHits().getHits();
+      //  SearchResponse sr=service.getVariants(vsb, req);
+
+      //  SearchHit[] hits= sr.getHits().getHits();
+        List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
         List<TranscriptResult> tResults= new ArrayList<>();
 
-        for(int i=0;i<hits.length;i++){
-            SearchHit h=hits[i];
+        for(SearchHit h:hits){
             java.util.Map<String, Object> m=h.getSourceAsMap();
             VariantResult vr= new VariantResult();
             Variant v= mapVariant(m);
