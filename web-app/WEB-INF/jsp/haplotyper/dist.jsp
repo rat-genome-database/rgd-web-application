@@ -197,7 +197,11 @@ if (hasAnnotation) {
                         <%if(request.getParameter("chr")!=null){%>
                         <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
                         <%}%>
+                        <%if(request.getParameter("showDifferences")==null || !request.getParameter("showDifferences").equals("true")){%>
                         <button class="button" type="submit" style="text-decoration: underline;border:0px;font-size: 10px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
+                        <%}else{%>
+                        <p><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></p>
+                        <%}%>
                     </form>
                     <!--a style="cursor:default;"
                                          title="<--%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
@@ -380,7 +384,11 @@ if (hasAnnotation) {
 
             <script>
                 document.getElementById("cell<%=k%>-<%=j%>").gene = "<%=region%>";
+                <%if(req.getParameter("showDifferences")==null || !req.getParameter("showDifferences").equals("true")){%>
                 document.getElementById("cell<%=k%>-<%=j%>").sample = "<%=sample%>";
+                <%}else{%>
+                document.getElementById("cell<%=k%>-<%=j%>").sample = "";
+               <% }%>
                 document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
             </script>
             <%k++;%>

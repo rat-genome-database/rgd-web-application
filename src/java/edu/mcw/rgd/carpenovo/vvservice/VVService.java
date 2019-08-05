@@ -7,39 +7,113 @@ import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import org.biojava.utils.regex.Search;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.common.document.DocumentField;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.script.Script;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jthota on 7/10/2019.
  */
 public class VVService {
-    public SearchResponse getVariants(VariantSearchBean vsb, HttpRequestFacade req){
+
+    public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req){
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
 
         SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("variant"))
                 .setQuery(builder)
                 .setSize(10000);
-        srb.addAggregation(this.buildAggregations("sampleId"));
+
+        if(req.getParameter("showDifferences").equals("true")){
+            SearchResponse sr=srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    .setRequestCache(true)
+                    .setScroll(new TimeValue(60000))
+                    .execute().actionGet();
+
+                return this.excludeCommonVariants(sr, vsb);
+
+        }else {
+
+            SearchResponse sr = srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    .setRequestCache(true)
+                    .setScroll(new TimeValue(60000))
+                    .execute().actionGet();
+            return Arrays.asList(sr.getHits().getHits());
+        }
+
+    }
+    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req){
+        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+
+        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("variant"))
+                .setQuery(builder)
+                .setSize(0);
+
+        if(req.getParameter("showDifferences").equals("true")){
+            srb.addAggregation(this.buildAggregations("regionName"));
+             return       srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    .setRequestCache(true)
+                    .execute().actionGet();
 
 
-        return srb
-                .setSearchType(SearchType.QUERY_THEN_FETCH)
-                .setRequestCache(true)
-                .execute().actionGet();
+        }else
+            srb.addAggregation(this.buildAggregations("sampleId"));
+            return srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    .setRequestCache(true)
+                    .execute().actionGet();
+    }
+    public List<SearchHit> excludeCommonVariants(SearchResponse sr,VariantSearchBean vsb){
+        SearchHit[] searchHits=sr.getHits().getHits();
+        List<SearchHit> searchHitList= Arrays.asList(searchHits);
+        List<SearchHit> nonSharedVariants=new ArrayList<>();
+        List<Integer> verifiedPositions=new ArrayList<>();
+        do {
+            for (SearchHit hit : searchHitList) {
+                List<SearchHit> tempList = new ArrayList<>();
+                String chr = (String) hit.getSourceAsMap().get("chromosome");
+                int startPos = (int) hit.getSourceAsMap().get("startPos");
+                String varNuc = (String) hit.getSourceAsMap().get("varNuc");
 
+                if (!verifiedPositions.contains(startPos)) {
+                    verifiedPositions.add(startPos);
+                    for (SearchHit h : searchHitList) {
+                        String chr1 = (String) h.getSourceAsMap().get("chromosome");
+                        int startPos1 = (int) h.getSourceAsMap().get("startPos");
+                        String varNuc1 = (String) h.getSourceAsMap().get("varNuc");
+                        if (chr1.equals(chr) && startPos1 == startPos && varNuc1.equals(varNuc)) {
+                            tempList.add(h);
+                        }
+                    }
+                    if (tempList.size() > 0 && tempList.size() < vsb.sampleIds.size()) {
+                        nonSharedVariants.addAll(tempList);
+                    }
 
+                }
+            }
+        //    System.out.println("NON SHARED VARIANTS: "+ nonSharedVariants.size());
+            sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+        }while (sr.getHits().getHits().length!=0);
+        return nonSharedVariants;
     }
 
  public AggregationBuilder buildAggregations(String fieldName){
@@ -47,7 +121,15 @@ public class VVService {
      if(fieldName.equalsIgnoreCase("sampleId")){
          aggs= AggregationBuilders.terms(fieldName).field(fieldName).size(100)
                  .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(10000).missing("INTERGENIC")
+
                  .order(BucketOrder.key(true)));
+     }
+     if(fieldName.equalsIgnoreCase("regionName")){
+           aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword").size(10000).missing("INTERGENIC")
+                 .subAggregation(AggregationBuilders.terms("startPos").field("startPos").size(10000)
+                 .subAggregation(AggregationBuilders.terms("varNuc").field("varNuc.keyword").size(10000)
+                 .subAggregation(AggregationBuilders.terms("sample").field("sampleId")
+                         .order(BucketOrder.key(true)))));
      }
 
      return aggs;
@@ -168,6 +250,9 @@ public class VVService {
              }*/
 
         }
+       /* if(req.getParameter("showDifferences").equals("true")){
+            qb.filter();
+        }*/
 
         dqb.add(qb);
         return dqb;

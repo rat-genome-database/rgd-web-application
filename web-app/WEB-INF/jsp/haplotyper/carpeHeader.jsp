@@ -186,8 +186,12 @@
     }
 
     function navigate(gene, sample) {
-
-        var queryString = "?<%=request.getQueryString()%>";
+       var qString="<%=request.getQueryString()%>";
+        var queryString="?";
+        if(qString!=null)
+        {
+         queryString = queryString+"<%=request.getQueryString()%>";
+        }
         queryString = addParam("chr","",queryString);
         queryString = addParam("start","",queryString);
         queryString = addParam("stop","",queryString);
@@ -197,7 +201,7 @@
         queryString=addParam("sample", sample, queryString);
         queryString=addParam("mapKey","<%=request.getParameter("mapKey")%>", queryString);
 
-
+       queryString=addParam("showDifferences","<%=request.getParameter("showDifferences")%>", queryString );
 
       <%    
 
