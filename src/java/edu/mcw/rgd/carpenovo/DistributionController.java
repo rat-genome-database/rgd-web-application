@@ -1,6 +1,7 @@
 package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.carpenovo.vvservice.VVService;
+
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
@@ -440,55 +441,89 @@ public class DistributionController extends HaplotyperController {
     }
     public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req){
         VVService service= new VVService();
-        SearchResponse sr=service.getVariants(vsb, req);
+
         Set<String> geneKeys=new HashSet<>();
+        List<String> symbols = new ArrayList<>();
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
-        Map<String, Map<String, Integer>> variantGeneCountMapSorted=new HashMap<>();
-        if(sr.getAggregations()!=null){
-          Terms samplesAgg = sr.getAggregations().get("sampleId");
-            List<Terms.Bucket> samplebkts= (List<Terms.Bucket>) samplesAgg.getBuckets();
 
-            for(Terms.Bucket b:samplebkts){
-                Map<String, Integer> geneCountMap=new HashMap<>();
-                 Terms geneAggs=b.getAggregations().get("region");
+            if(!req.getParameter("showDifferences").equals("true")){
+            SearchResponse sr=service.getAggregations(vsb, req);
+            Terms samplesAgg = sr.getAggregations().get("sampleId");
+            List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
 
-                for(Terms.Bucket gb:geneAggs.getBuckets()){
-                   geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
+            for (Terms.Bucket b : samplebkts) {
+                Map<String, Integer> geneCountMap = new HashMap<>();
+                Terms geneAggs = b.getAggregations().get("region");
+
+                for (Terms.Bucket gb : geneAggs.getBuckets()) {
+                    geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
                     geneKeys.add((String) gb.getKey());
 
                 }
-              variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-             }
-            List<String> symbols= new ArrayList<>();
-            gene:for(String g:geneKeys){
-                for(Map.Entry e: variantGeneCountMap.entrySet()){
-                    Map<String, Integer> geneDocCount= (Map) e.getValue();
-                    for(Map.Entry e1: geneDocCount.entrySet()){
-                        String g1= (String) e1.getKey();
-                        int docCount= (int) e1.getValue();
-                        if(g1.equals(g)){
-                            if(docCount>0){
-                                 symbols.add(g);
-                                 continue gene;
+                variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
+            }
+
+
+        }  else{
+
+                SearchResponse sr=service.getAggregations(vsb, req);
+                Terms regionAgg = sr.getAggregations().get("regionName");
+
+                List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
+                Map<String, Map<Long, List<String>>> geneVarNucMap=new HashMap<>();
+
+                Map<String, Integer> geneVarCountMap=new HashMap<>();
+                Map<String, Integer> geneCountMap = new HashMap<>();
+                for (Terms.Bucket b : regionbkts) {
+
+                    Map<Long, List<String>> varNucMap=geneVarNucMap.get(b.getKey().toString());
+
+                    geneKeys.add((String) b.getKey());
+
+
+                    Terms posAggs = b.getAggregations().get("startPos");
+                    int count=0;
+                    for(Terms.Bucket pos:posAggs.getBuckets()){
+                        Terms varNucAggs=pos.getAggregations().get("varNuc");
+
+                        for(Terms.Bucket varNuc:varNucAggs.getBuckets()){
+                           if(varNuc.getDocCount()<vsb.sampleIds.size()) {
+                                count= count+(int) (varNuc.getDocCount());
+
                             }
+
+                        }
+
+
+                    }
+                    geneVarCountMap.put( b.getKey().toString(),count);
+                }
+                for(int sampleId:vsb.sampleIds){
+                    for(Map.Entry e:geneVarCountMap.entrySet()){
+                        geneCountMap.put((String)e.getKey(), (int) e.getValue());
+                        variantGeneCountMap.put(String.valueOf(sampleId),geneCountMap );
+                    }
+                }
+
+           }
+        gene:
+        for (String g : geneKeys) {
+            for (Map.Entry e : variantGeneCountMap.entrySet()) {
+                Map<String, Integer> geneDocCount = (Map) e.getValue();
+                for (Map.Entry e1 : geneDocCount.entrySet()) {
+                    String g1 = (String) e1.getKey();
+                    int docCount = (int) e1.getValue();
+                    if (g1.equals(g)) {
+                        if (docCount > 0) {
+                            symbols.add(g);
+                            continue gene;
                         }
                     }
                 }
             }
-            this.setgSymbols(symbols);
-         //   System.out.println(samplesAgg.getBuckets().size());
         }
+        this.setgSymbols(symbols);
 
-      for(Map.Entry e:variantGeneCountMap.entrySet()){
-          String key= (String) e.getKey();
-          Map<String, Integer> valueMap= (Map<String, Integer>) e.getValue();
-          for(Map.Entry e1:valueMap.entrySet()){
-      //        System.out.println(key+"\t"+ e1.getKey()+"\t"+e1.getValue());
-          }
-
-      }
-     //   return tMap;
-     //   return variantGeneCountMap;
-        return variantGeneCountMap;
+       return variantGeneCountMap;
     }
 }
