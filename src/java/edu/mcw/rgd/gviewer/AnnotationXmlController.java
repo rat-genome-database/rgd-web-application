@@ -35,7 +35,6 @@ public class AnnotationXmlController implements Controller {
         String sql = bean.buildSqlForGViewerAnnotations();
         //System.out.println(sql);
 
-        System.out.println("here 1");
         Connection conn = null;
         try {
             conn = DataSourceFactory.getInstance().getDataSource().getConnection();
