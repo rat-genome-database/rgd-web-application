@@ -200,6 +200,7 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
@@ -450,6 +451,7 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
 
 

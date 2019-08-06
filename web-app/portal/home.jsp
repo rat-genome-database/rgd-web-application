@@ -612,7 +612,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
                 ids="";
                 var first = 1;
@@ -629,7 +629,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
 
                 ids="";
@@ -646,7 +646,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
 
             }
