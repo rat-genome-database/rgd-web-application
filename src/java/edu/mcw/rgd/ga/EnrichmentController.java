@@ -23,12 +23,17 @@ public class EnrichmentController implements Controller {
     int speciesTypeKey=-1;
     List symbols=null;
 
-    protected void init(HttpServletRequest request, HttpServletResponse response) {
+
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ArrayList error = new ArrayList();
+        ArrayList warning = new ArrayList();
+        ArrayList status = new ArrayList();
 
         this.request = request;
         this.response = response;
         req=new HttpRequestFacade(request);
-   if (!req.getParameter("species").equals("")) {
+        if (!req.getParameter("species").equals("")) {
             speciesTypeKey = Integer.parseInt(req.getParameter("species"));
         }else {
             int mapKey=Integer.parseInt(request.getParameter("mapKey"));
@@ -38,14 +43,6 @@ public class EnrichmentController implements Controller {
         symbols= Utils.symbolSplit(req.getParameter("genes"));
         request.setAttribute("symbols", this.symbols);
         request.setAttribute("o", req.getParameter("o"));
-    }
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ArrayList error = new ArrayList();
-        ArrayList warning = new ArrayList();
-        ArrayList status = new ArrayList();
-
-        this.init(request,response);
 
         ObjectMapper om = this.buildMapper(req.getParameter("idType"));
 

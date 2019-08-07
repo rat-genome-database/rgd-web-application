@@ -7,6 +7,8 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -40,11 +42,15 @@
     return;
 }
     String species = req.getParameter("species");
+    int mapKey = 0;
+    Map map = MapManager.getInstance().getReferenceAssembly(Integer.parseInt(species));
+    mapKey = map.getKey();
     List inSymbols = new ArrayList<>();
     String ontology = "";
     ontology = "\""+req.getParameter("o")+"\"";
     Iterator symbolIt = om.getMapped().iterator();
     List<String> geneSymbols = new ArrayList<>();
+    String symbols = "";
     while (symbolIt.hasNext()) {
         Object obj = symbolIt.next();
         String symbol = "";
@@ -52,13 +58,15 @@
             Gene g = (Gene) obj;
             symbol = g.getSymbol();
             inSymbols.add(symbol);
+            symbols += symbol;
             if(geneSymbols.size() == 0)
                 geneSymbols.add("\""+symbol+"\"");
             else
                 geneSymbols.add("\""+symbol+"\"");
         }
-
+            symbols += ",";
     }
+   symbols = symbols.substring(0,symbols.length()-1);
 %>
 <div class="modal fade" id="inGenes">
     <div class="modal-dialog modal-lg">
@@ -68,7 +76,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 Symbols Found: <%=inSymbols.size()%> <br>
-                <%=inSymbols%> <br>
+            <span class="geneList"><%=symbols%></span><br>
 
             </div>
 
@@ -83,6 +91,9 @@
 <div style="color:#2865a3; font-size:14px; font-weight:500;"><%=geneSymbols.size()%> Genes in set:
 
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#inGenes"> Symbols Found </button>
+    <img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','',1, '')"/>
+
+    <a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '')">All Analysis Tools</a>
 
 
 </div>
@@ -116,26 +127,11 @@
 <script src="/rgdweb/js/enrichment/analysis.js"></script>
 
 <script>
-
-    var host = window.location.protocol + window.location.host;
-    if (window.location.host.indexOf('localhost') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
-   } else if (window.location.host.indexOf('dev.rgd') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('test.rgd') > -1) {
-        host= window.location.protocol + '//test.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
-    }else {
-        host=window.location.protocol + '//rest.rgd.mcw.edu';
-    }
-
     var speciesKey = <%=req.getParameter("species")%>;
     var ont = <%=ontology%>;
     var genes = <%=geneSymbols%>;
-    //view = 1 shows only graph, 2 shows only table and 3 shows both
-    var view=3;
-    var enrichment = EnrichmentVue('enrichment',speciesKey,ont,genes,view,host);
+    var enrichment = EnrichmentVue();
+    enrichment.init(ont,speciesKey,true,true,genes,true);
 </script>
 
 

@@ -173,7 +173,7 @@ and <span class="highlight"><%=obj.getTerm()%></span> in <%=SpeciesType.getTaxon
 
 %>
     <tr><td><li>Original References(s):
-         <%=OntAnnotation.makeHyperlinks(obj.getXrefSource())%>
+         <%=AnnotationFormatter.formatXdbUrls(obj.getXrefSource(), obj.getRgdObjectKey())%>
     </td><td></td></tr>
     <% } %>
 

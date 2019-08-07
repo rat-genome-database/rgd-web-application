@@ -1,7 +1,6 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
@@ -17,10 +16,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 10/17/13, Time: 2:25 PM
- * <p>
+ * @author mtutaj
+ * @since 10/17/13
  * ontology tree browser: a header pane + 3 term panes
  * <p>
  * param 'diagramMode': applies only for pathway terms;
@@ -120,15 +117,12 @@ public class OntBrowser extends SimpleTagSupport {
 
     private String generateHeader() {
 
-        int annotCount = 0; // set only in non-diagram mode
         int diagramCount = 0; // set only in diagram mode
         String termName = "";
         TermWithStats ts = (TermWithStats)bean.getTerm();
         String annotMsg = "";
         if( ts!=null) {
             diagramCount = ts.getDiagramCount(1);
-            //annotCount = ts.getAnnotCountForTermAndChildren(this.filter);
-            //annotCount = ts.getAnnotCountForTermAndChildren(this.filter);
             termName = ts.getTerm();
 
             if (!portalVersion) {
@@ -139,18 +133,35 @@ public class OntBrowser extends SimpleTagSupport {
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9) + ")</a>";
             }
-
         }
-        String html =
-        "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n"+
-        "<table border=0 align=\"center\" >\n"+
-        "  <tr>\n"+
-        "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">"+termName
-                +" <span style=\"font-size:14px;\">("+bean.getAccId()+")</span></td>\n"+
-        "  </tr>\n"+
 
-        "  <tr>\n";
+        String html;
+
+        if (!portalVersion) {
+
+            html =
+                    "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n" +
+                            "<table border=0 align=\"center\" width=\"60%\" >\n" +
+                            "  <tr>\n" +
+                            "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">" + termName
+                            + " <span style=\"font-size:14px;\">(" + bean.getAccId() + ")</span></td>\n" +
+                            "  </tr>\n" +
+                            "  <tr>\n";
+        }else {
+            html =
+                    "<div style=\"border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; \">\n" +
+                            "<table border=0 align=\"center\" width=\"60%\" >\n" +
+                            "  <tr>\n" +
+                            "<td width=200><input type=\"button\" value=\"<< Back\" style=\"background-color:#FF7B23;\" class=\"btn btn-info btn-lg\" onClick=\"browserBack()\"/></td>" +
+                            "    <td valign=\"top\" align=\"center\"  colspan=2 style=\"font-size:18px; color:#2865A3; font-weight:700;\">" + termName
+                            + " <span style=\"font-size:14px;\">(" + bean.getAccId() + ")</span></td>\n" +
+                            "<td width=200>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
+                            "  </tr>\n" +
+
+                            "  <tr>\n";
+        }
 
         if (!portalVersion) {
             if (diagramMode) {
@@ -219,6 +230,7 @@ public class OntBrowser extends SimpleTagSupport {
             for( OntDagNode node: bean.getSiblingTerms() ) {
 
                 row++; // next row nr for sibling
+
                 if( node.getTermAcc().equals(bean.getAccId())) {
                     selRow = row; // the sibling term is the selected term!!!
                     break;
@@ -226,17 +238,18 @@ public class OntBrowser extends SimpleTagSupport {
             }
             row = 0; // row nr for sibling term
 
+            int skipCount = 0;
             for( OntDagNode node: bean.getSiblingTerms() ) {
 
-                System.out.println(node.getAnnotCountForTermAndChilds());
                 //if term has no annotations don't show
                 if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
+                    skipCount++;
                     continue;
                 }
 
                 row++; // next row nr for sibling
 
-                if( row == selRow ) {
+                if( row == (selRow - skipCount)  ) {
                     out.append("<div id=\"sibling_terms\" >\n");
                 }
 
@@ -248,11 +261,9 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    //if (node.getAnnotCountForTermAndChilds()>0) {
-                        out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
-                                .append(node.getTerm().replace('_', ' '))
-                                .append("</span>");
-                    //}
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
+                            .append(node.getTerm().replace('_', ' '))
+                            .append("</span>");
                 }else {
                     out.append("<span class='sibterm' id='")
                             .append(node.getTermAcc())
@@ -267,7 +278,7 @@ public class OntBrowser extends SimpleTagSupport {
                 // show link to pathway diagram, if any
                 generateIcons(out, node);
 
-                if( row == selRow ) {
+                if( row == (selRow - skipCount) ) {
                     // selected term: show link to strain report page, if applicable at the end of the line
                     if( bean.getStrainRgdId()!=0 ) {
                         out.append("&nbsp; &nbsp; <a href=\"").append(Link.strain(bean.getStrainRgdId())).append("\"> (View Strain Report)</a>\n");
@@ -319,10 +330,12 @@ public class OntBrowser extends SimpleTagSupport {
         if( nodes!=null ) {
             for( OntDagNode node: nodes ) {
 
+
                 //if term has no annotations don't show
-                //if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
-                    //continue;
-                //}
+                if (hideZeroAnnotations && node.getAnnotCountForTermAndChilds()<1) {
+                    //skipCount++;
+                    continue;
+                }
 
                 out.append("<div class='tp'>");
 
@@ -397,7 +410,13 @@ public class OntBrowser extends SimpleTagSupport {
 
             // show link to annotations, if there are any
         if( !diagramMode && node.getAnnotCountForTermAndChilds()>0 ) {
-            out.append("&nbsp;<a class='annotlnk' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+            if (portalVersion) {
+                out.append("&nbsp;<a class='annotlnk' target='_blank' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+            }else {
+                out.append("&nbsp;<a class='annotlnk' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
+
+            }
+
         }
 
         // show link to pathway diagram, if any

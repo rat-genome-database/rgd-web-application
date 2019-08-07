@@ -122,13 +122,14 @@
 
     <div id="searchResultHeader">
         <ul style="border-bottom:2px solid #2865A3;">
-            <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#annot')">Rat (<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#annot')">Mouse (<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==1}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Human','#annot')">Human (<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==4}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Chinchilla','#annot')">Chinchilla (<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#annot')">Bonobo (<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#annot')">Dog (<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#annot')">Squirrel (<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#annot')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#annot')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==1}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Human','#annot')">Human&nbsp;(<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==4}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Chinchilla','#annot')">Chinchilla&nbsp;(<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#annot')">Bonobo&nbsp;(<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#annot')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#annot')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#annot')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
             <c:if test="${bean.showAnnotsForAllSpecies}">
             <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#annot')">All</a></li>
             </c:if>
@@ -164,30 +165,10 @@
 
     </table>
 
-    <%
-        int speciesTypeKey=3;
-        if (request.getParameter("species") != null) {
-            if (request.getParameter("species").equals("Rat")) {
-                speciesTypeKey = 3;
-            } else if (request.getParameter("species").equals("Mouse")) {
-                speciesTypeKey = 2;
-            } else if (request.getParameter("species").equals("Human")) {
-                speciesTypeKey = 1;
-            } else if (request.getParameter("species").equals("Chinchilla")) {
-                speciesTypeKey = 4;
-            } else if (request.getParameter("species").equals("Bonobo")) {
-                speciesTypeKey = 5;
-            } else if (request.getParameter("species").equals("Dog")) {
-                speciesTypeKey = 6;
-            } else if (request.getParameter("species").equals("Squirrel")) {
-                speciesTypeKey = 7;
-            }
-        }
-        int mapKey= MapManager.getInstance().getReferenceAssembly(speciesTypeKey).getKey();
+    <%  edu.mcw.rgd.datamodel.Map refMap = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
+        int mapKey = refMap!=null ? refMap.getKey() : 0;
 
-    %>
-
-    <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
+        if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
 
 <br><br>
 <div style="padding:30px; border: 3px solid #FFCF3E; font-size:20px;">
@@ -240,8 +221,8 @@
                          </td>
                          <td align="right">
 
-                             <% if (bean.getObjectKey() ==1) { %>
-                                <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=speciesTypeKey%>,<%=mapKey%>,1 , '')"/>
+                             <% if( bean.getObjectKey()==1 && mapKey!=0 ) { %>
+                                <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=bean.getSpeciesTypeKey()%>,<%=mapKey%>,1 , '')"/>
                             <% } %>
                          </td>
                      </tr>

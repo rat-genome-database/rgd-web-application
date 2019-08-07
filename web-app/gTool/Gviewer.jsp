@@ -359,7 +359,7 @@ function runGviewer() {
         document.getElementById("loading").innerHTML ="<img src='/common/images/loading_2.gif' />";
 
         if (!gviewer) {
-            gviewer = new Gviewer("gviewer", window.screen.availHeight * .4, window.screen.availWidth * .8);
+            gviewer = new Gviewer("gviewer", 300, 1000);
 
             gviewer.imagePath = "/rgdweb/gviewer/images";
             gviewer.exportURL = "/rgdweb/report/format.html";
@@ -375,9 +375,11 @@ function runGviewer() {
         }else {
             gviewer.reset();
         }
-        gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
+        gviewer.loadAnnotationsGET("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
 
-        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+        //alert(getFormString(document.gviewerForm));
+        //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
+        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
     }
     return false;
 }

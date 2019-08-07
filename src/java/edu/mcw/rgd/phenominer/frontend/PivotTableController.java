@@ -15,10 +15,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jdepons on 5/11/2017.
@@ -121,9 +118,9 @@ public class PivotTableController implements Controller {
 
         double min = 1000000000;
         double max = -1000000000;
+        int aCodePoint = Character.codePointAt("a", 0);
 
-        LinkedHashMap<String,String> ageRanges= new LinkedHashMap<String,String>();
-
+        Set<String> condColNames = new TreeSet<>();
         for (Record r: records) {
             termList.add(r.getSample().getStrainAccId());
             samples.put(r.getSample().getStrainAccId(), null);
@@ -132,9 +129,24 @@ public class PivotTableController implements Controller {
             termList.add(r.getMeasurementMethod().getAccId());
             methods.put(r.getMeasurementMethod().getAccId(), null);
 
+            String condColName = null;
+            int prevOrdinality = 0;
+            int sameOrdCount = 0;
+
             for (Condition c : r.getConditions()) {
                 termList.add(c.getOntologyId());
                 conditions.put(c.getOntologyId(), null);
+
+                if( c.getOrdinality() != prevOrdinality ) {
+                    prevOrdinality = c.getOrdinality();
+                    sameOrdCount = 0;
+                    condColName = "Condition "+c.getOrdinality();
+                } else {
+                    sameOrdCount++;
+                    char suffix = (char)(aCodePoint+sameOrdCount);
+                    condColName = "Condition "+c.getOrdinality()+suffix;
+                }
+                condColNames.add(condColName);
             }
 
             double thisVal = Double.parseDouble(r.getMeasurementValue());
@@ -146,9 +158,10 @@ public class PivotTableController implements Controller {
             if (thisVal > max) {
                 max = thisVal;
             }
-
-            ageRanges.put(r.getSample().getAgeDaysFromLowBound() + " days - " + r.getSample().getAgeDaysFromHighBound() + " days",null);
         }
+
+        // emit cond col names
+        emitConditionNames(re, condColNames);
 
         if( !termList.isEmpty() ) {
             String[] termIds = new String[termList.size()];
@@ -162,7 +175,6 @@ public class PivotTableController implements Controller {
             }
         }
 
-        LinkedHashMap conditionSet = new LinkedHashMap();
         String space = format==3 ? " " : "&nbsp;"; // emit plain spaces in generated CSV file
 
         for (Record r: records) {
@@ -222,6 +234,8 @@ public class PivotTableController implements Controller {
 
             }
 
+            emitConditions(re, condColNames, r);
+
             report.append(re);
         }
 
@@ -243,15 +257,76 @@ public class PivotTableController implements Controller {
         request.setAttribute("conditions", conditions);
         request.setAttribute("samples",samples);
         request.setAttribute("measurements", measurements);
-        request.setAttribute("ageRanges", ageRanges);
+        //request.setAttribute("ageRanges", ageRanges);
         request.setAttribute("minValue",min);
         request.setAttribute("maxValue",max);
-        request.setAttribute("conditionSet", conditionSet);
         request.setAttribute("refRgdId", refRgdId);
 
         request.setAttribute("idsWithoutMM",idsWithoutMM.toString());
 
         return new ModelAndView("/WEB-INF/jsp/phenominer/table.jsp", "", null);
+    }
+
+    void emitConditionNames(edu.mcw.rgd.reporting.Record re, Set<String> condColNames) {
+
+        // condColNames has data like this: 'Condition 1', 'Condition 1b', 'Condition 2', ...
+        // we need to have:
+        // 'Condition 1a', 'Condition 1b', 'Condition 2', ...
+
+        Iterator<String> it = condColNames.iterator();
+        String prev = it.next();
+        String curr = "";
+
+        while( it.hasNext() ) {
+            curr = it.next();
+
+            if( (prev+"b").equals(curr) ) {
+                re.append(prev+"a");
+            } else {
+                re.append(prev);
+            }
+            prev = curr;
+        }
+
+        re.append(curr);
+    }
+
+    void emitConditions(edu.mcw.rgd.reporting.Record re, Set<String> condColNames, Record r ) throws Exception {
+
+        int aCodePoint = Character.codePointAt("a", 0);
+
+        // emit conditions
+        String condColName;
+        int prevOrdinality = 0;
+        int sameOrdCount = 0;
+
+        Iterator<String> it = condColNames.iterator();
+
+        for (Condition c : r.getConditions()) {
+
+            if( c.getOrdinality() != prevOrdinality ) {
+                prevOrdinality = c.getOrdinality();
+                sameOrdCount = 0;
+                condColName = "Condition "+c.getOrdinality();
+            } else {
+                sameOrdCount++;
+                char suffix = (char)(aCodePoint+sameOrdCount);
+                condColName = "Condition "+c.getOrdinality()+suffix;
+            }
+
+            // emit empty cells until condition matches
+            String colName = it.next();
+            while( !colName.equals(condColName) ) {
+                re.append("");
+                colName = it.next();
+            }
+            re.append(c.getConditionDescription2());
+        }
+
+        while( it.hasNext() ) {
+            re.append("");
+            it.next();
+        }
     }
 
     List<Record> getRecordsByTerms(HttpRequestFacade req, int speciesTypeKey, StringBuffer idsWithoutMM) throws Exception {

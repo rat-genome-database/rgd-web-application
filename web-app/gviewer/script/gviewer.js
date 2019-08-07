@@ -28,13 +28,13 @@ function Gviewer(viewerId, height, width) {
     //set the color scheme used for the annotations in the viewer. array[0] is the initial color.
     //array[1] is used for added objects
     this.colorScheme = new Array();
-    this.colorScheme["gene"] = ["#7e131d","#f37200"];
-    this.colorScheme["qtl"] = ["#3294d3", "#f37200"];
-    this.colorScheme["sslp"] = ["#76ac1a", "#f37200"];
+    this.colorScheme["gene"] = ["#7e131d","#7e131d"];
+    this.colorScheme["qtl"] = ["#3294d3", "#3294d3"];
+    this.colorScheme["sslp"] = ["#76ac1a", "#76ac1a"];
     this.colorScheme["snp"] = ["purple","#f37200"];
     this.colorScheme["probeset"] = ["#7e131d","#f37200"];
     this.colorScheme["eqtl"] = ["#7e131d","#f37200"];
-    this.colorScheme["strain"] = ["#76ac1a","#f37200"];
+    this.colorScheme["strain"] = ["#76ac1a","#76ac1a"];
     //this line added by JTHOTA
     this.colorScheme["variant"] = ["#f49b42","#f4af41"];
 
@@ -250,9 +250,52 @@ function Gviewer(viewerId, height, width) {
         }
     }
 
+    this.loadAnnotationsGET = function(url, color, term) {
+
+        try {
+
+            show(this.loadingBar);
+            this.lastLoad = new Array();
+            var index = this.loaded.length;
+
+            var obj = new Object();
+            obj.url = url;
+            obj.color = color;
+            obj.term = term;
+
+            this.loaded[index] = obj;
+
+            var xml = new JKL.ParseXML( url );
+            var func = function ( data ) {                  // define call back function
+                gview().loadAnnotationData(data, color);
+
+                if (term) {
+                    gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
+                }
+
+                if (gview().zoomPaneActive()) {
+                    gview().zoomPane.refresh();
+                }
+                hide(gview().loadingBar);
+            }
+
+            var errorFunc = function(status) {
+                alert("An error occured in fetch of data. Server returned stats code " + status);
+                hide(gview().loadingBar);
+            }
+
+            xml.async( func );
+            xml.onerror( errorFunc );
+            xml.parse();
+        }catch (e) {
+            alert("Error: " + e + " could not load objects");
+        }
+    }
+
+
+
     //retrieves xml file from url and loads objects into the viewer
     this.loadAnnotations = function(url, color, term) {
-
         try {
 
         show(this.loadingBar);
@@ -266,7 +309,12 @@ function Gviewer(viewerId, height, width) {
 
         this.loaded[index] = obj;
 
-        var xml = new JKL.ParseXML( url );
+          var parts = url.split("?");
+            //alert(parts[0]);
+            //alert(parts[1]);
+
+
+        var xml = new JKL.ParseXML( parts[0],parts[1],"POST" );
         var func = function ( data ) {                  // define call back function
            gview().loadAnnotationData(data, color);
 
