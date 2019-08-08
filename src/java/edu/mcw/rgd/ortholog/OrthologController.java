@@ -31,6 +31,9 @@ public class OrthologController implements Controller {
     int outSpeciesTypeKey=-1;
     int inMapKey=-1;
     int outMapKey=-1;
+    String chr="";
+    long start=-1;
+    long stop=-1;
     List<String> symbols=null;
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -39,23 +42,28 @@ public class OrthologController implements Controller {
         String fmt = Utils.NVL(request.getParameter("fmt"), "full");
         this.request = request;
         this.response = response;
-        req=new HttpRequestFacade(request);
+        this.req=new HttpRequestFacade(request);
 
 
         if (!req.getParameter("inSpecies").equals("")) {
-            inSpeciesTypeKey = Integer.parseInt(req.getParameter("inSpecies"));
+            this.inSpeciesTypeKey = Integer.parseInt(req.getParameter("inSpecies"));
         }
         if (!req.getParameter("outSpecies").equals("")) {
-            outSpeciesTypeKey = Integer.parseInt(req.getParameter("outSpecies"));
+            this.outSpeciesTypeKey = Integer.parseInt(req.getParameter("outSpecies"));
         }
         if (!req.getParameter("genes").equals("")) {
-            symbols = Utils.symbolSplit(req.getParameter("genes"));
-            symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
+            this.symbols = Utils.symbolSplit(req.getParameter("genes"));
+            this.symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
                     Collectors.toList());
-        } else symbols = null;
-        inMapKey = Integer.parseInt(req.getParameter("inMapKey"));
-        outMapKey = Integer.parseInt(req.getParameter("outMapKey"));
-
+        } else this.symbols = null;
+        this.inMapKey = Integer.parseInt(req.getParameter("inMapKey"));
+        this.outMapKey = Integer.parseInt(req.getParameter("outMapKey"));
+        if(req.isSet("chr"))
+            this.chr = req.getParameter("chr");
+        if(req.isSet("start"))
+            this.start = Long.valueOf(req.getParameter("start"));
+        if(req.isSet("stop"))
+            this.stop = Long.valueOf(req.getParameter("stop"));
         this.setOrthologs(request,response);
          request.setAttribute("error", error);
 

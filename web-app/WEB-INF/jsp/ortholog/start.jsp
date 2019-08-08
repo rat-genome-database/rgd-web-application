@@ -4,6 +4,8 @@
     String pageTitle = "GOLF: Gene and Ortholog Location Finder";
     String headContent = "";
     String pageDescription = "Generate an ortholog report for a list of genes.";
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
 %>
 <%@ include file="/common/headerarea.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -19,8 +21,7 @@
 
 <%
     String pageHeader="GOLF: Gene and Ortholog Location Finder";
-    HttpRequestFacade req = new HttpRequestFacade(request);
-    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
+
 %>
 <br>
 
