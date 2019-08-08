@@ -1,11 +1,19 @@
-
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
+<%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%
     String pageTitle = "GOLF: Gene and Ortholog Location Finder";
     String headContent = "";
     String pageDescription = "Generate an ortholog report for a list of genes.";
+
 %>
 <%@ include file="/common/headerarea.jsp" %>
+
+<%
+    String pageHeader="GOLF: Gene and Ortholog Location Finder";
+%>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -14,9 +22,6 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-<%
-    String pageHeader="GOLF: Gene and Ortholog Location Finder";
-%>
 <br>
 
     <div class="container-fluid" id="ortholog">
@@ -56,7 +61,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
-                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 ></textarea>
+                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 >
+                                </textarea>
                             </div>
                             <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
 <p style="color:#24609c; font-weight: bold;">Enter Genomic Position </p>
@@ -78,7 +84,7 @@
                                         <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
-                                        <input id="stop" type="text" name="stop" />
+                                        <input id="stop" type="text" name="stop"/>
                                     </div>
                                             </div>
                                 </div>

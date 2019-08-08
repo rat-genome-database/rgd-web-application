@@ -6,6 +6,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%
     String pageTitle = "Gene Ortholog Tool";
     String headContent = "";
@@ -16,6 +17,8 @@
 <%@ include file="/common/headerarea.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script src="/rgdweb/js/ortholog/orthologVue.js"></script>
