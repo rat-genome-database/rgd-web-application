@@ -4,10 +4,13 @@
     String pageTitle = "GOLF: Gene and Ortholog Location Finder";
     String headContent = "";
     String pageDescription = "Generate an ortholog report for a list of genes.";
-    HttpRequestFacade req = new HttpRequestFacade(request);
-    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
+
 %>
 <%@ include file="/common/headerarea.jsp" %>
+
+<%
+    String pageHeader="GOLF: Gene and Ortholog Location Finder";
+%>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
@@ -19,10 +22,6 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-<%
-    String pageHeader="GOLF: Gene and Ortholog Location Finder";
-
-%>
 <br>
 
     <div class="container-fluid" id="ortholog">
@@ -63,7 +62,6 @@
                             <div class="form-group">
                                 <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
                                 <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 >
-                                    <%=dm.out("genes",req.getParameter("genes"))%>
                                 </textarea>
                             </div>
                             <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
@@ -80,13 +78,13 @@
                                     <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="start" style="color: #24609c; font-weight: bold;">Start:</label><br>
-                                        <input id="start" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' />
+                                        <input id="start" type="text" name="start" />
                                     </div>
                                         </div>
                                         <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
-                                        <input id="stop" type="text" name="stop" value='<%=dm.out("start",req.getParameter("stop"))%>'/>
+                                        <input id="stop" type="text" name="stop"/>
                                     </div>
                                             </div>
                                 </div>
