@@ -58,7 +58,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
-                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 ></textarea>
+                                <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 >
+                                    <%=request.getParameter("genes")%>
+                                </textarea>
                             </div>
                             <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
 <p style="color:#24609c; font-weight: bold;">Enter Genomic Position </p>
@@ -74,13 +76,13 @@
                                     <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="start" style="color: #24609c; font-weight: bold;">Start:</label><br>
-                                        <input id="start" type="text" name="start" />
+                                        <input id="start" type="text" name="start" value='<%=request.getParameter("start")%>' />
                                     </div>
                                         </div>
                                         <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
-                                        <input id="stop" type="text" name="stop" />
+                                        <input id="stop" type="text" name="stop" value='<%=request.getParameter("stop")%>'/>
                                     </div>
                                             </div>
                                 </div>
