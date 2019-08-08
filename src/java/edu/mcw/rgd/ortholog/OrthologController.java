@@ -10,6 +10,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
+import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
  */
 public class OrthologController implements Controller {
 
+    HttpServletRequest request = null;
+    HttpServletResponse response = null;
+    HttpRequestFacade req = null;
     int inSpeciesTypeKey=-1;
     int outSpeciesTypeKey=-1;
     int inMapKey=-1;
@@ -33,23 +37,24 @@ public class OrthologController implements Controller {
 
         ArrayList error = new ArrayList();
         String fmt = Utils.NVL(request.getParameter("fmt"), "full");
+        this.request = request;
+        this.response = response;
+        req=new HttpRequestFacade(request);
 
 
-
-        if (!request.getParameter("inSpecies").equals("")) {
-            inSpeciesTypeKey = Integer.parseInt(request.getParameter("inSpecies"));
+        if (!req.getParameter("inSpecies").equals("")) {
+            inSpeciesTypeKey = Integer.parseInt(req.getParameter("inSpecies"));
         }
-        if (!request.getParameter("outSpecies").equals("")) {
-            outSpeciesTypeKey = Integer.parseInt(request.getParameter("outSpecies"));
+        if (!req.getParameter("outSpecies").equals("")) {
+            outSpeciesTypeKey = Integer.parseInt(req.getParameter("outSpecies"));
         }
-        if (!request.getParameter("genes").equals("")) {
-            symbols = Utils.symbolSplit(request.getParameter("genes"));
+        if (!req.getParameter("genes").equals("")) {
+            symbols = Utils.symbolSplit(req.getParameter("genes"));
             symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
                     Collectors.toList());
         } else symbols = null;
-        inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
-        outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
-
+        inMapKey = Integer.parseInt(req.getParameter("inMapKey"));
+        outMapKey = Integer.parseInt(req.getParameter("outMapKey"));
 
         this.setOrthologs(request,response);
          request.setAttribute("error", error);
