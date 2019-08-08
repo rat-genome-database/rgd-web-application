@@ -10,7 +10,6 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
-import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -24,46 +23,34 @@ import java.util.stream.Collectors;
  */
 public class OrthologController implements Controller {
 
-    HttpServletRequest request = null;
-    HttpServletResponse response = null;
-    HttpRequestFacade req = null;
     int inSpeciesTypeKey=-1;
     int outSpeciesTypeKey=-1;
     int inMapKey=-1;
     int outMapKey=-1;
-    String chr="";
-    long start=-1;
-    long stop=-1;
     List<String> symbols=null;
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ArrayList error = new ArrayList();
         String fmt = Utils.NVL(request.getParameter("fmt"), "full");
-        this.request = request;
-        this.response = response;
-        this.req=new HttpRequestFacade(request);
 
 
-        if (!req.getParameter("inSpecies").equals("")) {
-            this.inSpeciesTypeKey = Integer.parseInt(req.getParameter("inSpecies"));
+
+        if (!request.getParameter("inSpecies").equals("")) {
+            inSpeciesTypeKey = Integer.parseInt(request.getParameter("inSpecies"));
         }
-        if (!req.getParameter("outSpecies").equals("")) {
-            this.outSpeciesTypeKey = Integer.parseInt(req.getParameter("outSpecies"));
+        if (!request.getParameter("outSpecies").equals("")) {
+            outSpeciesTypeKey = Integer.parseInt(request.getParameter("outSpecies"));
         }
-        if (!req.getParameter("genes").equals("")) {
-            this.symbols = Utils.symbolSplit(req.getParameter("genes"));
-            this.symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
+        if (!request.getParameter("genes").equals("")) {
+            symbols = Utils.symbolSplit(request.getParameter("genes"));
+            symbols = symbols.stream().map(s-> s.toLowerCase()).collect(
                     Collectors.toList());
-        } else this.symbols = null;
-        this.inMapKey = Integer.parseInt(req.getParameter("inMapKey"));
-        this.outMapKey = Integer.parseInt(req.getParameter("outMapKey"));
-        if(req.isSet("chr"))
-            this.chr = req.getParameter("chr");
-        if(req.isSet("start"))
-            this.start = Long.valueOf(req.getParameter("start"));
-        if(req.isSet("stop"))
-            this.stop = Long.valueOf(req.getParameter("stop"));
+        } else symbols = null;
+        inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
+        outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
+
+
         this.setOrthologs(request,response);
          request.setAttribute("error", error);
 
