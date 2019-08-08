@@ -1,4 +1,5 @@
-
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
+<%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%
     String pageTitle = "GOLF: Gene and Ortholog Location Finder";
     String headContent = "";
@@ -18,6 +19,8 @@
 
 <%
     String pageHeader="GOLF: Gene and Ortholog Location Finder";
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
 %>
 <br>
 
@@ -59,7 +62,7 @@
                             <div class="form-group">
                                 <label for="genes" style="color: #24609c; font-weight: bold;">Enter Gene Symbols:</label><br>
                                 <textarea  class="form-control" placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds. Example: a2m,xiap,lepr,tnf" id="genes" name="genes" rows="6" cols=35 >
-                                    <%=request.getParameter("genes")%>
+                                    <%=dm.out("genes",req.getParameter("genes"))%>
                                 </textarea>
                             </div>
                             <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
@@ -76,13 +79,13 @@
                                     <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="start" style="color: #24609c; font-weight: bold;">Start:</label><br>
-                                        <input id="start" type="text" name="start" value='<%=request.getParameter("start")%>' />
+                                        <input id="start" type="text" name="start" value='<%=dm.out("start",req.getParameter("start"))%>' />
                                     </div>
                                         </div>
                                         <div class="form-group">
                                     <div class="col-md-1">
                                         <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
-                                        <input id="stop" type="text" name="stop" value='<%=request.getParameter("stop")%>'/>
+                                        <input id="stop" type="text" name="stop" value='<%=dm.out("start",req.getParameter("stop"))%>'/>
                                     </div>
                                             </div>
                                 </div>
