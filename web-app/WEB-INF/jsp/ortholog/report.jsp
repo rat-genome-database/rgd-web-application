@@ -6,6 +6,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%
     String pageTitle = "Gene Ortholog Tool";
     String headContent = "";
@@ -25,11 +26,11 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <%
-
-    int inSpeciesKey = Integer.parseInt(request.getParameter("inSpecies"));
-    int outSpeciesKey = Integer.parseInt(request.getParameter("outSpecies"));
-    int inMapKey = Integer.parseInt(request.getParameter("inMapKey"));
-    int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    int inSpeciesKey = Integer.parseInt(req.getParameter("inSpecies"));
+    int outSpeciesKey = Integer.parseInt(req.getParameter("outSpecies"));
+    int inMapKey = Integer.parseInt(req.getParameter("inMapKey"));
+    int outMapKey = Integer.parseInt(req.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
     List<String> symbolsNotFound = (List)request.getAttribute("notFound");
 
