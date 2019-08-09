@@ -17,6 +17,7 @@ function OrthologVue(divId) {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
 
+    
     var v = new Vue({
         el: div,
         data: {
@@ -99,8 +100,17 @@ function OrthologVue(divId) {
                         }).catch(function (error) {
                         console.log(error)
                     });
-            }
+            },
+            validate: function () {
 
+                var x =  document.forms["form"]["genes"].value;
+                var y =  document.forms["form"]["start"].value;
+                var z =  document.forms["form"]["stop"].value;
+                if(x == "" && y=="" && z == "") {
+                    alert("Please enter genes or position");
+                    return false;
+                }
+            }
 
         },
            });

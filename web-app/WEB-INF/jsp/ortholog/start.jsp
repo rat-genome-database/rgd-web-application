@@ -10,6 +10,8 @@
 
 <%
     String pageHeader="GOLF: Gene and Ortholog Location Finder";
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    DisplayMapper dm = new DisplayMapper(req,  new java.util.ArrayList());
 %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
@@ -28,7 +30,7 @@
         <div class="container" >
             <h2 class="text-center" id="title"><%=pageHeader%></h2>
             <hr>
-            <form role="form" method="post" action="/rgdweb/ortholog/report.html">
+            <form role="form" method="get" action="/rgdweb/ortholog/report.html" name="form" onsubmit="return v.validate()">
                 <div class="row justify-content-center align-items-center">
 
                     <div class="col-md-5">
