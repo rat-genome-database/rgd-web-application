@@ -17,7 +17,16 @@ import java.util.List;
  */
 public class OrthologSelectController implements Controller {
 
+    HttpServletRequest request = null;
+    HttpServletResponse response = null;
+    HttpRequestFacade req = null;
+
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.request = request;
+        this.response = response;
+        req=new HttpRequestFacade(request);
+
         if(request.getParameter("species") != null)
          return new ModelAndView("/WEB-INF/jsp/ortholog/start.jsp?species="+request.getParameter("species"), "hello", null);
         else return new ModelAndView("/WEB-INF/jsp/ortholog/start.jsp?species=3", "hello", null);
