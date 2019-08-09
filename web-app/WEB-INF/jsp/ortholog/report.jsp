@@ -33,7 +33,13 @@
     int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
     List<String> symbolsNotFound = (List)request.getAttribute("notFound");
-
+    String chr = request.getParameter("chr");
+    int start = 0;
+    int stop = 0;
+    if(!request.getParameter("start").equals("")) {
+        start = Integer.parseInt(request.getParameter("start"));
+        stop = Integer.parseInt(request.getParameter("stop"));
+    }
 
     Iterator symbolIt = geneSymbols.iterator();
     List symbols = new ArrayList<>();
@@ -52,6 +58,8 @@
     Map<Integer, List<MappedGene>> genes = (Map<Integer, List<MappedGene>>) request.getAttribute("geneMap");
     Map<Integer, Integer> orthoMap = (Map<Integer, Integer>)request.getAttribute("orthologMap");
     Map<Integer, List<MappedGene>> geneMap = (Map<Integer, List<MappedGene>>)request.getAttribute("mappedGenes");
+
+
 %>
 
 <div class="container" id="ortholog">
@@ -153,7 +161,11 @@ int insize = genes.get(rgdId).size();
 
 </tbody>
     </table>
-<% }%>
+<% } else if(stop != 0){%>
+    <div style=" font-size:14px; color: red; font-weight:500; height:55px; width: 1200px; "><br>
+        No genes found in the region between <%=start%> and <%=stop%> positions for <%=inSpecies%> and <%=inMap%>
+    </div>
+<% } %>
 </div>
 
 <script>
