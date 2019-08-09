@@ -68,27 +68,27 @@
                             </div>
                             <p style="color:#24609c; font-weight: bold; font-size: 16px;">(Or)</p>
 <p style="color:#24609c; font-weight: bold;">Enter Genomic Position </p>
-                                <div class="row">
+                            <div class="row justify-content-right align-items-right">
+
                                     <div class="form-group">
-                                    <div class="col-md-1">
-                                        <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome:</label><br>
+<table>
+    <tr><td>
+                                        <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome:</label>
                                         <select id="chr" name="chr" v-model="chr">
                                             <option v-for="value in chromosomes" :value="value">{{value}}</option>
                                         </select>
-                                    </div>
-                                        </div>
-                                    <div class="form-group">
-                                    <div class="col-md-1">
-                                        <label for="start" style="color: #24609c; font-weight: bold;">Start:</label><br>
+
+    </td><td>
+                                        <label for="start" style="color: #24609c; font-weight: bold;">Start:</label>
                                         <input id="start" type="text" name="start" />
-                                    </div>
-                                        </div>
-                                        <div class="form-group">
-                                    <div class="col-md-1">
-                                        <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label><br>
+
+    </td><td>
+                                        <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label>
                                         <input id="stop" type="text" name="stop"/>
-                                    </div>
-                                            </div>
+    </td>  </tr>
+</table>
+</div>
+
                                 </div>
 
                         </fieldset>
