@@ -7,6 +7,7 @@ import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Ortholog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
@@ -125,8 +126,8 @@ public class OrthologController implements Controller {
                 mappedGeneMap = positions.stream().collect(
                         Collectors.groupingBy(MappedGene -> MappedGene.getGene().getRgdId()));
 
-                String inSpecies = SpeciesType.getCommonName(inSpeciesTypeKey);
-                String outSpecies = SpeciesType.getCommonName(outSpeciesTypeKey);
+                String inSpecies = SpeciesType.getCommonName(inSpeciesTypeKey)+"_"+ MapManager.getInstance().getMap(inMapKey).getName();
+                String outSpecies = SpeciesType.getCommonName(outSpeciesTypeKey)+"_"+ MapManager.getInstance().getMap(outMapKey).getName();
 
 
                 edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
