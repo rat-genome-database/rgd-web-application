@@ -105,12 +105,21 @@ public class OrthologController implements Controller {
 
 
             if (geneRgdIds.size() != 0) {
-                List<Ortholog> orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds, outSpeciesTypeKey);
-                orthologMap = orthologs.stream().collect(
-                        Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
+                List<Ortholog> orthologs;
+                List<Integer> orthologIds;
+                if(inSpeciesTypeKey == outSpeciesTypeKey) {
 
-                List<Integer> orthologIds = orthologs.stream().map(Ortholog::getDestRgdId).collect(
-                        Collectors.toList());
+                    orthologIds = mappedIds;
+                    orthologMap = mappedIds.stream().collect(Collectors.toMap(x->x,x->x));
+                }else {
+
+                    orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds, outSpeciesTypeKey);
+                    orthologMap = orthologs.stream().collect(
+                            Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
+                    orthologIds = orthologs.stream().map(Ortholog::getDestRgdId).collect(
+                            Collectors.toList());
+                }
+
 
                 List<MappedGene> positions = gdao.getActiveMappedGenesByIds(outMapKey, orthologIds);
                 mappedGeneMap = positions.stream().collect(
@@ -213,7 +222,7 @@ public class OrthologController implements Controller {
 
 
         if (symbols == null  ) {
-           
+
             om.mapPosition(chr,start,stop, inMapKey);
             Iterator symbolIt = om.getMapped().iterator();
             symbols = new ArrayList<>();
