@@ -39,8 +39,13 @@ public class SelectedMeasurementController implements Controller {
 
         HttpSession session = request.getSession();
         List<PhenotypeObject> phenotypes = (List<PhenotypeObject>) session.getAttribute("phenotypes");
+        Map<String,Integer> strainGroupMap = (Map<String, Integer>) session.getAttribute("strainGroupMap");
+        if(strainGroupMap!=null)
+        System.out.println("straingroupmap size:"+strainGroupMap.size()+"\tphenotypes size: "+ phenotypes.size());
+        NormalRange normalRange= new NormalRange();
 
-        String cmoID = request.getParameter("cmoId");
+        String cmoID = request.getParameter("cmo");
+
         String phenotype = xdao.getTerm(cmoID).getTerm();
         String traitOntId = request.getParameter("trait");
         String traitExists= request.getParameter("traitExists");
@@ -63,34 +68,90 @@ public class SelectedMeasurementController implements Controller {
         } else {
             isPGA = true;
         }
+        String strainsSelected=request.getParameter("phenotypestrains");
+        System.out.println("CMO ID: "+ cmoID +"\tstrains selected: "+ strainsSelected);
+        String conditionsSelected=request.getParameter("selectedConditions");
+        String methodsSelected= request.getParameter("methods");
+        String ageSelected=request.getParameter("phenotypeage");
+        String sexSelected= request.getParameter("phenotypesex");
+        List<String> selectedConditions= new ArrayList<>();
+        List<String> selectedMethods= new ArrayList<>();
+        List<String> selectedSex= new ArrayList<>();
+        List<Integer> selectedAgeLow=new ArrayList<>();
+        List<Integer> selectedAgeHigh= new ArrayList<>();
+        List<Integer> selectedStrains= new ArrayList<>();
 
-        List<PhenominerExpectedRange> records = dao.getExpectedRanges(cmoID, null, null, null, null, null, isPGA);
+        if(conditionsSelected!=null){
+            if(!conditionsSelected.equals("")){
+                selectedConditions=process.getSelectedCondtions(conditionsSelected);
+            }
+        }
+        if(strainsSelected!=null){
+            if(!strainsSelected.equals("")){
+                selectedStrains=process.getSelectedStrainsGroupIds(strainsSelected);
+            }
+        }
+        if(methodsSelected!=null){
+            System.out.println("methods selected: "+ methodsSelected);
+            if(!methodsSelected.equals(""))
+                selectedMethods=process.getSelectedMethods(methodsSelected);
+        }
+        if(sexSelected!=null){
+            if(!sexSelected.equals("")){
+                selectedSex=process.getSelectedSex(sexSelected);
+            }
+        }
+        if(ageSelected!=null){
+            if(!ageSelected.equals("")){
+                selectedAgeLow= process.getSelectedAge(ageSelected, "low");
+                selectedAgeHigh=process.getSelectedAge(ageSelected, "high");
 
+            }
+        }
+        String normalRecordSex=new String();
+        if(selectedSex.size()>1 || selectedSex.size()==0){
+            normalRecordSex="Mixed";
+        }else{
+            normalRecordSex=selectedSex.get(0);
+        }
 
-       PhenominerExpectedRange normalRecord=getPhenotypeExpectedRangeRecordNormal(records,"Mixed");
-       PhenominerExpectedRange normalMaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Male");
-       PhenominerExpectedRange normalFemaleRecord=getPhenotypeExpectedRangeRecordNormal(records,"Female");
-        NormalRange normalRange =new NormalRange();
+        List<PhenominerExpectedRange> records = dao.getExpectedRanges(cmoID, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA);
+        if(request.getParameter("options")!=null && request.getParameter("options").equalsIgnoreCase("true")) {
+            normalRange= (NormalRange) session.getAttribute("normalRange");
 
+            if(strainGroupMap==null ||  strainGroupMap.size()==0){
+                strainGroupMap=process.getStrainGroupMap(records);
+            }
+        }else {
+            PhenominerExpectedRange normalRecord = getPhenotypeExpectedRangeRecordNormal(records, "Mixed");
+            PhenominerExpectedRange normalMaleRecord = getPhenotypeExpectedRangeRecordNormal(records, "Male");
+            PhenominerExpectedRange normalFemaleRecord = getPhenotypeExpectedRangeRecordNormal(records, "Female");
+            if (normalRecord != null) {
+                normalRange.setMixed(normalRecord);
+                //   System.out.println("NORMAL RECORD:" +object.getNormalAll().getGroupLow()+"\t" +object.getNormalAll().getGroupHigh());
+            }
+            if (normalMaleRecord != null) {
+                normalRange.setMale(normalMaleRecord);
+            }
 
+            if (normalFemaleRecord != null) {
+                normalRange.setFemale(normalFemaleRecord);
+
+            }
+           strainGroupMap=process.getStrainGroupMap(records);
+        }
         records.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getStrainGroupName(), o2.getStrainGroupName()));
+        String units=new String();
+        if(records.size()>0){
+            String  unitsStr  =records.get(0).getUnits();
+            units= unitsStr.substring(1, unitsStr.length()-1);
+        }
 
         session.setAttribute("phenotypes", phenotypes);
         session.setAttribute("normalRange", normalRange);
-        if(normalRecord!=null){
-            normalRange.setMixed(normalRecord);
-            //   System.out.println("NORMAL RECORD:" +object.getNormalAll().getGroupLow()+"\t" +object.getNormalAll().getGroupHigh());
-        }
-        if(normalMaleRecord!=null) {
-            normalRange.setMale(normalMaleRecord);
-        }
+        session.setAttribute("strainGroupMap",strainGroupMap );
 
-        if(normalFemaleRecord!=null) {
-            normalRange.setFemale(normalFemaleRecord);
-
-        }
-        String unitsStr=records.get(0).getUnits();
-        String units=unitsStr.substring(1, unitsStr.length()-1);
+        System.out.println("STRAIN GROUP MAP:"+ strainGroupMap.toString());
         model.addAttribute("units", units);
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));
@@ -101,9 +162,10 @@ public class SelectedMeasurementController implements Controller {
         model.addAttribute("plotData", process.getPlotData(records, "phenotype"));
         model.addAttribute("traitOntId", traitOntId);
         model.addAttribute("trait", trait);
-        model.addAttribute("strainGroupMap", process.getStrainGroupMap(records));
+        model.addAttribute("strainGroupMap",strainGroupMap );
         model.addAttribute("conditions", Arrays.asList("Control Conditions"));
         model.addAttribute("normalRange", normalRange);
+        model.addAttribute("selectedStrains", selectedStrains);
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominerExpectedRanges/views/phenotype.jsp", "model", model);
     }
 
