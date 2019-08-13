@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <% String pageTitle = " Phenominer Expected Ranges - " + RgdContext.getLongSiteName(request);
@@ -64,7 +64,7 @@
 
                  </div>
 
-                <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters     Hello ${model.strainGroupMap}</span></div>
+                <div class="optionsHeading"> <!--#9eb1ff;--><span>Options/Filters</span></div>
 
                 <div>
                     <form id="er-options-form" method="post">
