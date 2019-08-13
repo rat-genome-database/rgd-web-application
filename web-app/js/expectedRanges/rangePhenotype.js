@@ -39,8 +39,28 @@ $(function () {
     $('.er-options-checkbox').on('click', function () {
         var optionsForm=$('#er-options-form');
 
-        getPhenotypeSelectedOptions();
-        var url="/rgdweb/phenominer/phenominerExpectedRanges/views/selectedMeasurement.html?phenotypestrains="+phenotypestrains+"&phenotypeage="+phenotypeage+"&phenotypesex="+phenotypesex+"&cmoId="+cmo+"&trait="+traitOntId+   "&methods="+ phenotypemethods+"&traitExists=true"+"&options=true";
+       var cmo=$('#cmoId').val();
+       var traitOntId=$('#trait').val();
+      var  phenotypeage=$('.phenotypeage:checked').map(function () {
+            return this.value;
+        }).get().join(",");
+      var  phenotypesex=$('.phenotypesex:checked').map(function () {
+            return this.value;
+        }).get().join(",");
+     var   phenotypemethods=$('.phenotypemethods:checked').map(function () {
+            return this.value;
+        }).get().join(",");
+
+        var  phenotypestrains=$('.phenotypestrains:checked').map(function () {
+            return this.value;
+        }).get().join(",");
+    
+        $("#phenotypestrains").val(phenotypestrains);
+        $("#phenotypeage").val(phenotypeage);
+        $("#phenotypesex").val(phenotypesex);
+        $("#phenotypemethods").val(phenotypemethods);
+  /*      var url="/rgdweb/phenominer/phenominerExpectedRanges/views/selectedMeasurement.html?phenotypestrains="+phenotypestrains+"&phenotypeage="+phenotypeage+"&phenotypesex="+phenotypesex+"&cmoId="+cmo+"&trait="+traitOntId+   "&methods="+ phenotypemethods+"&traitExists=true"+"&options=true";*/
+        var url="/rgdweb/phenominer/phenominerExpectedRanges/views/selectedOptions.html";
         optionsForm.attr("action", url );
         optionsForm.submit();
     })

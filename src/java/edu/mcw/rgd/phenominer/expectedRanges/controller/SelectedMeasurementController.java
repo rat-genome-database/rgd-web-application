@@ -39,10 +39,13 @@ public class SelectedMeasurementController implements Controller {
 
         HttpSession session = request.getSession();
         List<PhenotypeObject> phenotypes = (List<PhenotypeObject>) session.getAttribute("phenotypes");
-
+        Map<String,Integer> strainGroupMap = (Map<String, Integer>) session.getAttribute("strainGroupMap");
+        if(strainGroupMap!=null)
+        System.out.println("straingroupmap size:"+strainGroupMap.size()+"\tphenotypes size: "+ phenotypes.size());
         NormalRange normalRange= new NormalRange();
-        Map<String,Integer> strainGroupMap=new HashMap<>();
-        String cmoID = request.getParameter("cmoId");
+
+        String cmoID = request.getParameter("cmo");
+
         String phenotype = xdao.getTerm(cmoID).getTerm();
         String traitOntId = request.getParameter("trait");
         String traitExists= request.getParameter("traitExists");
@@ -66,6 +69,7 @@ public class SelectedMeasurementController implements Controller {
             isPGA = true;
         }
         String strainsSelected=request.getParameter("phenotypestrains");
+        System.out.println("CMO ID: "+ cmoID +"\tstrains selected: "+ strainsSelected);
         String conditionsSelected=request.getParameter("selectedConditions");
         String methodsSelected= request.getParameter("methods");
         String ageSelected=request.getParameter("phenotypeage");
@@ -114,7 +118,10 @@ public class SelectedMeasurementController implements Controller {
         List<PhenominerExpectedRange> records = dao.getExpectedRanges(cmoID, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA);
         if(request.getParameter("options")!=null && request.getParameter("options").equalsIgnoreCase("true")) {
             normalRange= (NormalRange) session.getAttribute("normalRange");
-           strainGroupMap= (Map<String, Integer>) session.getAttribute("strainGroupMap");
+
+            if(strainGroupMap==null ||  strainGroupMap.size()==0){
+                strainGroupMap=process.getStrainGroupMap(records);
+            }
         }else {
             PhenominerExpectedRange normalRecord = getPhenotypeExpectedRangeRecordNormal(records, "Mixed");
             PhenominerExpectedRange normalMaleRecord = getPhenotypeExpectedRangeRecordNormal(records, "Male");
@@ -142,11 +149,9 @@ public class SelectedMeasurementController implements Controller {
 
         session.setAttribute("phenotypes", phenotypes);
         session.setAttribute("normalRange", normalRange);
-
-
-
         session.setAttribute("strainGroupMap",strainGroupMap );
 
+        System.out.println("STRAIN GROUP MAP:"+ strainGroupMap.toString());
         model.addAttribute("units", units);
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));
