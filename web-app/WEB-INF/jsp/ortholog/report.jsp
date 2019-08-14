@@ -33,14 +33,15 @@
     int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
     List<String> symbolsNotFound = (List)request.getAttribute("notFound");
-    String chr = request.getParameter("chr");
+
     int start = 0;
     int stop = 0;
-    if(!request.getParameter("start").equals("")) {
+
+    if(request.getParameter("start") != null && request.getParameter("start") != "") {
         start = Integer.parseInt(request.getParameter("start"));
         stop = Integer.parseInt(request.getParameter("stop"));
     }
-
+   
     Iterator symbolIt = geneSymbols.iterator();
     List symbols = new ArrayList<>();
     while (symbolIt.hasNext()) {
