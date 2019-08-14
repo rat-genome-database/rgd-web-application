@@ -470,39 +470,46 @@ public class DistributionController extends HaplotyperController {
                 Terms regionAgg = sr.getAggregations().get("regionName");
 
                 List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
-                Map<String, Map<Long, List<String>>> geneVarNucMap=new HashMap<>();
 
-                Map<String, Integer> geneVarCountMap=new HashMap<>();
-                Map<String, Integer> geneCountMap = new HashMap<>();
                 for (Terms.Bucket b : regionbkts) {
 
-                    Map<Long, List<String>> varNucMap=geneVarNucMap.get(b.getKey().toString());
-
-                    geneKeys.add((String) b.getKey());
+                     geneKeys.add((String) b.getKey());
 
 
                     Terms posAggs = b.getAggregations().get("startPos");
-                    int count=0;
+
                     for(Terms.Bucket pos:posAggs.getBuckets()){
-                        Terms varNucAggs=pos.getAggregations().get("varNuc");
+                         Terms sampleAggs= pos.getAggregations().get("sample");
 
-                        for(Terms.Bucket varNuc:varNucAggs.getBuckets()){
-                           if(varNuc.getDocCount()<vsb.sampleIds.size()) {
-                                count= count+(int) (varNuc.getDocCount());
+                        if(sampleAggs.getBuckets().size()< vsb.sampleIds.size()) {
+                            for (Terms.Bucket samp : sampleAggs.getBuckets()) {
+                                if (samp.getDocCount() < vsb.sampleIds.size()) {
+                                    Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
+                                    if (geneVarCountsOfSample != null) {
+                                        Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(b.getKey());
+                                        if (varNucCountOfGeneOfSample != null) {
+                                            varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
+                                            geneVarCountsOfSample.put(b.getKey().toString(), varNucCountOfGeneOfSample);
 
+                                        } else {
+                                            geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
+                                        }
+                                  //      System.out.print(b.getKey() + "\t" + samp.getKey() + "\t" + samp.getDocCount() + "\t");
+
+                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                    }else{
+                                        geneVarCountsOfSample=new HashMap<>();
+                                        geneVarCountsOfSample.put(b.getKey().toString(),(int) samp.getDocCount());
+                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                    }
+
+                                }
                             }
-
                         }
 
+                    }
 
-                    }
-                    geneVarCountMap.put( b.getKey().toString(),count);
-                }
-                for(int sampleId:vsb.sampleIds){
-                    for(Map.Entry e:geneVarCountMap.entrySet()){
-                        geneCountMap.put((String)e.getKey(), (int) e.getValue());
-                        variantGeneCountMap.put(String.valueOf(sampleId),geneCountMap );
-                    }
+
                 }
 
            }
@@ -519,6 +526,7 @@ public class DistributionController extends HaplotyperController {
                             continue gene;
                         }
                     }
+                    System.out.println(e.getKey()+"\t"+e1.getKey()+"\t"+ e1.getValue());
                 }
             }
         }
