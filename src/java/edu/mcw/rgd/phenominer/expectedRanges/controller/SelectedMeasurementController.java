@@ -40,8 +40,7 @@ public class SelectedMeasurementController implements Controller {
         HttpSession session = request.getSession();
         List<PhenotypeObject> phenotypes = (List<PhenotypeObject>) session.getAttribute("phenotypes");
         Map<String,Integer> strainGroupMap = (Map<String, Integer>) session.getAttribute("strainGroupMap");
-        if(strainGroupMap!=null)
-        System.out.println("straingroupmap size:"+strainGroupMap.size()+"\tphenotypes size: "+ phenotypes.size());
+
         NormalRange normalRange= new NormalRange();
 
         String cmoID = request.getParameter("cmo");
@@ -69,7 +68,7 @@ public class SelectedMeasurementController implements Controller {
             isPGA = true;
         }
         String strainsSelected=request.getParameter("phenotypestrains");
-        System.out.println("CMO ID: "+ cmoID +"\tstrains selected: "+ strainsSelected);
+
         String conditionsSelected=request.getParameter("selectedConditions");
         String methodsSelected= request.getParameter("methods");
         String ageSelected=request.getParameter("phenotypeage");
@@ -92,7 +91,7 @@ public class SelectedMeasurementController implements Controller {
             }
         }
         if(methodsSelected!=null){
-            System.out.println("methods selected: "+ methodsSelected);
+
             if(!methodsSelected.equals(""))
                 selectedMethods=process.getSelectedMethods(methodsSelected);
         }
@@ -151,7 +150,7 @@ public class SelectedMeasurementController implements Controller {
         session.setAttribute("normalRange", normalRange);
         session.setAttribute("strainGroupMap",strainGroupMap );
 
-        System.out.println("STRAIN GROUP MAP:"+ strainGroupMap.toString());
+
         model.addAttribute("units", units);
         model.addAttribute("overAllMethods", process.getMethodOptions(records));
         model.addAttribute("records", process.addExtraAttributes(records));

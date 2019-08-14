@@ -5,6 +5,7 @@ import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenotypeObject;
 import edu.mcw.rgd.phenominer.expectedRanges.model.NormalRange;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
 import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
@@ -68,7 +69,7 @@ public class PhenotypeOptionsController extends SelectedMeasurementController im
             }
         }
         if(methodsSelected!=null){
-            System.out.println("selected methods: "+ methodsSelected);
+
             if(!methodsSelected.equals(""))
                 selectedMethods=process.getSelectedMethods(methodsSelected);
         }
@@ -92,6 +93,7 @@ public class PhenotypeOptionsController extends SelectedMeasurementController im
         }
 
         List<PhenominerExpectedRange> records=dao.getExpectedRanges(cmoIds, selectedStrains, selectedSex, selectedAgeLow,selectedAgeHigh, selectedMethods, isPGA, null);
+        records.sort((o1, o2) -> Utils.stringsCompareToIgnoreCase(o1.getStrainGroupName(), o2.getStrainGroupName()));
         String units=new String();
         if(records.size()>0) {
             String unitsStr = records.get(0).getUnits();
