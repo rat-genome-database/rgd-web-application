@@ -33,14 +33,15 @@
     int outMapKey = Integer.parseInt(request.getParameter("outMapKey"));
     List<String> geneSymbols = (List)request.getAttribute("genes");
     List<String> symbolsNotFound = (List)request.getAttribute("notFound");
-    String chr = request.getParameter("chr");
+
     int start = 0;
     int stop = 0;
-    if(!request.getParameter("start").equals("")) {
+
+    if(request.getParameter("start") != null && request.getParameter("start") != "") {
         start = Integer.parseInt(request.getParameter("start"));
         stop = Integer.parseInt(request.getParameter("stop"));
     }
-
+   
     Iterator symbolIt = geneSymbols.iterator();
     List symbols = new ArrayList<>();
     while (symbolIt.hasNext()) {
@@ -54,6 +55,7 @@
     String inSpecies = SpeciesType.getCommonName(inSpeciesKey);
     String outSpecies = SpeciesType.getCommonName(outSpeciesKey);
     String inMap = MapManager.getInstance().getMap(inMapKey).getName();
+    String outMap = MapManager.getInstance().getMap(outMapKey).getName();
     GeneDAO gdao = new GeneDAO();
     Map<Integer, List<MappedGene>> genes = (Map<Integer, List<MappedGene>>) request.getAttribute("geneMap");
     Map<Integer, Integer> orthoMap = (Map<Integer, Integer>)request.getAttribute("orthologMap");
@@ -84,8 +86,8 @@
 
     <br>
     <table class="table table-bordered table-striped">
-    <thead style="font-size: 12px"><th><%=inSpecies%> Rgd Id</th><th><%=inSpecies%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
-    <th><%=outSpecies%> Rgd Id</th><th><%=outSpecies%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
+    <thead style="font-size: 12px"><th><%=inSpecies%> <%=inMap%> Rgd Id</th><th><%=inSpecies%> <%=inMap%> Gene Symbol</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th>
+    <th><%=outSpecies%> <%=outMap%> Rgd Id</th><th><%=outSpecies%> <%=outMap%> Ortholog</th><th>Chr</th><th>Start</th><th>End</th><th>Strand</th></thead>
 <tbody>
 <%    for (Integer rgdId: genes.keySet()) {
 int insize = genes.get(rgdId).size();

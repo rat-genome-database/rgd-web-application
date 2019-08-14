@@ -7,6 +7,7 @@ import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Ortholog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.*;
 
@@ -105,19 +106,28 @@ public class OrthologController implements Controller {
 
 
             if (geneRgdIds.size() != 0) {
-                List<Ortholog> orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds, outSpeciesTypeKey);
-                orthologMap = orthologs.stream().collect(
-                        Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
+                List<Ortholog> orthologs;
+                List<Integer> orthologIds;
+                if(inSpeciesTypeKey == outSpeciesTypeKey) {
 
-                List<Integer> orthologIds = orthologs.stream().map(Ortholog::getDestRgdId).collect(
-                        Collectors.toList());
+                    orthologIds = mappedIds;
+                    orthologMap = mappedIds.stream().collect(Collectors.toMap(x->x,x->x));
+                }else {
+
+                    orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds, outSpeciesTypeKey);
+                    orthologMap = orthologs.stream().collect(
+                            Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
+                    orthologIds = orthologs.stream().map(Ortholog::getDestRgdId).collect(
+                            Collectors.toList());
+                }
+
 
                 List<MappedGene> positions = gdao.getActiveMappedGenesByIds(outMapKey, orthologIds);
                 mappedGeneMap = positions.stream().collect(
                         Collectors.groupingBy(MappedGene -> MappedGene.getGene().getRgdId()));
 
-                String inSpecies = SpeciesType.getCommonName(inSpeciesTypeKey);
-                String outSpecies = SpeciesType.getCommonName(outSpeciesTypeKey);
+                String inSpecies = SpeciesType.getCommonName(inSpeciesTypeKey)+"_"+ MapManager.getInstance().getMap(inMapKey).getName();
+                String outSpecies = SpeciesType.getCommonName(outSpeciesTypeKey)+"_"+ MapManager.getInstance().getMap(outMapKey).getName();
 
 
                 edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();

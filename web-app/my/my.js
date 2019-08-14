@@ -648,6 +648,39 @@ rgdModule.controller('RGDPageController', [
 
                     //                  url += "&genes=" + geneList;
 //                    window.open(url);
+                } else if (tool == "golf") {
+
+                    params = new Object();
+                    var form = document.createElement("form");
+                    var method = "POST";
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", "/rgdweb/ortholog/report.html");
+                    params.inSpecies = $scope.speciesTypeKey;
+                    params.inMapKey = $scope.mapKey;
+                    params.genes = geneList;
+                    if(params.inSpecies == 1) {
+                        params.outSpecies = 3;
+                        params.outMapKey = 360;
+                    }else {
+                        params.outSpecies = 1;
+                        params.outMapKey = 38;
+                    }
+               
+                    for (var key in params) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+                        form.appendChild(hiddenField);
+                    }
+
+                    document.body.appendChild(form);
+                    form.submit();
+
+
+
+                    //                  url += "&genes=" + geneList;
+//                    window.open(url);
                 }
 
                 //location.href=url;
