@@ -127,9 +127,10 @@ public class VVService {
      if(fieldName.equalsIgnoreCase("regionName")){
            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword").size(10000).missing("INTERGENIC")
                  .subAggregation(AggregationBuilders.terms("startPos").field("startPos").size(10000)
-                 .subAggregation(AggregationBuilders.terms("varNuc").field("varNuc.keyword").size(10000)
-                 .subAggregation(AggregationBuilders.terms("sample").field("sampleId")
-                         .order(BucketOrder.key(true)))));
+                 .subAggregation(AggregationBuilders.terms("sample").field("sampleId"))
+                 .subAggregation(AggregationBuilders.terms("varNuc").field("varNuc.keyword").size(10000))
+
+                         .order(BucketOrder.key(true)));
      }
 
      return aggs;
