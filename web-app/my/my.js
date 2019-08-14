@@ -682,8 +682,13 @@ rgdModule.controller('RGDPageController', [
                     params.inSpecies = $scope.speciesTypeKey;
                     params.inMapKey = $scope.mapKey;
                     params.genes = geneList;
-                    params.outSpecies = 1;
-                    params.outMapKey = 38;
+                    if(params.inSpecies == 1) {
+                        params.outSpecies = 3;
+                        params.outMapKey = 360;
+                    }else {
+                        params.outSpecies = 1;
+                        params.outMapKey = 38;
+                    }
                     for (var key in params) {
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("type", "hidden");
