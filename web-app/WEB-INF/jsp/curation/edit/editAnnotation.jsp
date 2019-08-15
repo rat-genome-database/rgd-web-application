@@ -13,22 +13,33 @@
 <%
     Annotation annot = (Annotation) request.getAttribute("editObject");
     HttpRequestFacade req = (HttpRequestFacade) request.getAttribute("requestFacade");
-    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
     FormUtility fu = new FormUtility();
     DisplayMapper dm = new DisplayMapper(req, error);
-
+    boolean isClone = (Boolean) request.getAttribute("isClone");
+    boolean isNew = (Boolean) request.getAttribute("isNew");
+    if (isClone) {
+        Annotation clone = (Annotation) request.getAttribute("cloneObject");
+        annot = clone;
+    }
 %>
 <h1>Edit Annotation for <%=annot.getObjectSymbol()%></h1>
 
-<form action="editAnnotation.html" method="get">
+<form action="editAnnotation.html">
 <input type="hidden" name="rgdId" value="<%=annot.getKey()%>" />
 <input type="hidden" name="key" value="<%=annot.getKey()%>" />
-<input type="hidden" name="act" value="upd" />
+    <% if (isNew) {%>
+    <input type="hidden" name="act" id="act" value="add"/>
+    <% } else { %>
+    <input type="hidden" name="act" id="act" value="upd"/>
+    <% } %>
 <table >
+    <% if (!isNew) { %>
     <tr>
-        <td class="label">Key:</td>
+        <td class="label" >Key:</td>
         <td><%=fu.chkNull(annot.getKey())%></td>
     </tr>
+    <% } %>
     <tr>
         <td class="label">Annotated Object RGD ID:</td>
         <td><input type="text" name="annotatedObjectRgdId" size="20" value="<%=dm.out("annotatedObjectRgdId",annot.getAnnotatedObjectRgdId())%>" /></td>
@@ -109,10 +120,18 @@
     </tr>
     <tr>
         <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
-        &nbsp; <input type="submit" value="Update" size="10"/></td>
+        &nbsp; <input type="submit" value="Update" size="10" />
+        </td>
+
     </tr>
 </table>
 </form>
+<form action="editAnnotation.html">
+    <input type="hidden" value="clone" name="act" />
 
+    <input type="hidden" name="rgdId" value="<%=annot.getKey()%>" />
+            <input  type="submit" value="Clone" />
+
+</form>
 <%@ include file="/common/footerarea.jsp"%>
 

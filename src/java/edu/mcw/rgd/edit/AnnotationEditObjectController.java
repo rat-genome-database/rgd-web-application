@@ -74,44 +74,54 @@ public class AnnotationEditObjectController extends EditObjectController {
 
         Integer createdBy = annot.getCreatedBy();
 
-        if (req.getParameter("act").equals("upd")) {
-            annot.setKey(Integer.parseInt(req.getParameter("key")));
-            annot.setTerm(term.getTerm());
-            annot.setAnnotatedObjectRgdId(annotatedObjectId);
-            annot.setRgdObjectKey(rgdObjectKey);
-            annot.setDataSrc(req.getParameter("dataSrc"));
-            annot.setObjectSymbol(symbol);
-            if (req.getParameter("refRgdId").length()>0 ) {
-                annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
-            }
-            annot.setWithInfo(req.getParameter("withInfo"));
-            annot.setAspect(req.getParameter("aspect"));
-            annot.setObjectName(name);
-            annot.setNotes(req.getParameter("notes"));
-            annot.setQualifier(req.getParameter("qualifier"));
-            annot.setRelativeTo(req.getParameter("relativeTo"));
 
-            annot.setLastModifiedDate(new Date());
+        System.out.println(req.getParameter("act"));
 
-            annot.setEvidence(req.getParameter("evidence"));
-            annot.setTermAcc(termAcc);
+        annot.setTerm(term.getTerm());
+        annot.setAnnotatedObjectRgdId(annotatedObjectId);
+        annot.setRgdObjectKey(rgdObjectKey);
+        annot.setDataSrc(req.getParameter("dataSrc"));
+        annot.setObjectSymbol(symbol);
+        annot.setWithInfo(req.getParameter("withInfo"));
+        annot.setAspect(req.getParameter("aspect"));
+        annot.setObjectName(name);
+        annot.setNotes(req.getParameter("notes"));
+        annot.setQualifier(req.getParameter("qualifier"));
+        annot.setRelativeTo(req.getParameter("relativeTo"));
 
-            if(createdBy!=null){
-                annot.setCreatedBy(createdBy);
-            }else{
-                annot.setCreatedBy(0);
-            }
-            if (req.getParameter("lastModifiedBy").length()>0) {
-                annot.setLastModifiedBy(Integer.parseInt(req.getParameter(("lastModifiedBy"))));
-            }
-            annot.setXrefSource(req.getParameter(("xrefSource")));
+        annot.setLastModifiedDate(new Date());
 
-            if (persist) {
-                dao.updateAnnotation(annot);
-            }
+        annot.setEvidence(req.getParameter("evidence"));
+        annot.setTermAcc(termAcc);
+
+        if(createdBy!=null){
+            annot.setCreatedBy(createdBy);
+        }else{
+            annot.setCreatedBy(0);
         }
+        if (req.getParameter("lastModifiedBy").length()>0) {
+            annot.setLastModifiedBy(Integer.parseInt(req.getParameter(("lastModifiedBy"))));
+        }
+        annot.setXrefSource(req.getParameter(("xrefSource")));
+          if (req.getParameter("act").equals("add")) {
+              annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+              int key = dao.insertAnnotation(annot);
+              annot.setKey(key);
+              System.out.println(annot.getKey());
+          }
+       else {
+              annot.setKey(Integer.parseInt(req.getParameter("key")));
+
+              if (req.getParameter("refRgdId").length() > 0) {
+                  annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+              }
+              if (persist) {
+                  dao.updateAnnotation(annot);
+              }
+          }
+
 
         return annot;
-    }
+        }
 
 }
