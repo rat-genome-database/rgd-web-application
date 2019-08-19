@@ -494,7 +494,7 @@ public class DistributionController extends HaplotyperController {
                                         } else {
                                             geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
                                         }
-                                  //      System.out.print(b.getKey() + "\t" + samp.getKey() + "\t" + samp.getDocCount() + "\t");
+                                 //      System.out.print(b.getKey() + "\t" + samp.getKey() + "\t" + samp.getDocCount() + "\t");
 
                                         variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                     }else{
@@ -504,6 +504,7 @@ public class DistributionController extends HaplotyperController {
                                     }
 
                                 }
+                               // System.out.print("\n");
                             }
                         }
 
@@ -526,7 +527,7 @@ public class DistributionController extends HaplotyperController {
                             continue gene;
                         }
                     }
-                    System.out.println(e.getKey()+"\t"+e1.getKey()+"\t"+ e1.getValue());
+                 //   System.out.println(e.getKey()+"\t"+e1.getKey()+"\t"+ e1.getValue());
                 }
             }
         }
