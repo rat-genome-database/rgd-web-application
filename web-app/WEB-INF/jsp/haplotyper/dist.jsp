@@ -172,16 +172,41 @@ if (hasAnnotation) {
             int k = 0;
             Iterator it = sampleIds.iterator();
             while (it.hasNext()) {
+                j++;
                 String sample = (String) it.next();
         %>
         <tr>
 
             <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
             <td valign="center">
-                <div class="snpLabel"><a style="cursor:default; text-decoration:none;"
-                                         title="<%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
-                                         href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>
-                </a>&nbsp;</div>
+                <div class="snpLabel">
+                    <form action="dist.html" method="post" target="_blank" >
+                        <%if(request.getParameter("geneList")!=null){%>
+                        <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
+                        <%}%>
+                        <input type="hidden" name="sample1" value="<%=sample%>"/>
+                        <%if(request.getParameter("mapKey")!=null){%>
+                        <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("start")!=null){%>
+                        <input type="hidden" name="start" value="<%=request.getParameter("start")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("stop")!=null){%>
+                        <input type="hidden" name="stop" value="<%=request.getParameter("stop")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("chr")!=null){%>
+                        <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
+                        <%}%>
+                        <%if(request.getParameter("showDifferences")==null || !request.getParameter("showDifferences").equals("true")){%>
+                        <button class="button" type="submit" style="text-decoration: underline;border:0px;font-size: 10px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
+                        <%}else{%>
+                        <p><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></p>
+                        <%}%>
+                    </form>
+                    <!--a style="cursor:default;"
+                                         title="<--%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
+                                         href="javascript:navigate('<-%=request.getParameter("geneList")%>', <-%=sample%>);"><-%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%-->
+                <!--/a-->&nbsp;</div>
             </td>
         </tr>
         <% } %>
@@ -303,7 +328,7 @@ if (hasAnnotation) {
                                 <div id="h" class="vert">
 
                                     &nbsp;<a title="<%=region%>"
-                                             href="javascript:navigate('<%=region%>');"><%=displayRegion%>
+                                             href="javascript:navigate('<%=region%>', '');"><%=displayRegion%>
                                 </a>
                                 </div>
                             </div>
@@ -321,8 +346,9 @@ if (hasAnnotation) {
                 k = 0;
                 it = sampleIds.iterator();
 
-                while (it.hasNext()) {
-                    String sample = (String) it.next();
+                while (it.hasNext()) {%>
+            <tr>
+              <%      String sample = (String) it.next();
                     Map<String, Integer> results = (Map) resultHash.get(sample);
                     if (results == null) {
                         results = Collections.emptyMap();
@@ -358,6 +384,11 @@ if (hasAnnotation) {
 
             <script>
                 document.getElementById("cell<%=k%>-<%=j%>").gene = "<%=region%>";
+                <%if(req.getParameter("showDifferences")==null || !req.getParameter("showDifferences").equals("true")){%>
+                document.getElementById("cell<%=k%>-<%=j%>").sample = "<%=sample%>";
+                <%}else{%>
+                document.getElementById("cell<%=k%>-<%=j%>").sample = "";
+               <% }%>
                 document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
             </script>
             <%k++;%>
@@ -367,7 +398,7 @@ if (hasAnnotation) {
             <% j++; %>
             <% } %>
         </table>
-
+</div>
 </td>
 </tr>
 </table>
