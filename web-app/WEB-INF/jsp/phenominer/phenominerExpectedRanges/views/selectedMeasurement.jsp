@@ -149,6 +149,7 @@
                     <input type="hidden" name="selectedAge" id="selectedAge" value="">
                     <input type="hidden" name="selectedSex" id="selectedSex" value="">
                     <input type="hidden" name="phenotypeObject" value="${model.phenotypeObject}"/>
+                    <input type="hidden" name="normalRange" value="${model.normalRange}"/>
                     <table class="table" id="expectedRangeOptionsTable" style="border: 1px solid white">
                         <caption style="background-color: #eeeeee;padding-left:10px;color:#24609c;font-weight: 100">Options</caption>
                         <tr>
