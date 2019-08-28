@@ -32,10 +32,10 @@ public class DistributionController extends HaplotyperController {
     public List<String> getgSymbols() {
         return gSymbols;
     }
-
     public void setgSymbols(List<String> gSymbols) {
         this.gSymbols = gSymbols;
     }
+    VVService service= new VVService();
 
 
 
@@ -62,6 +62,8 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+        System.out.println("variant_"+SpeciesType.getCommonName(speciesTypeKey));
+        service.setVariantIndex("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
@@ -440,7 +442,7 @@ public class DistributionController extends HaplotyperController {
                 && req.getParameter("mp_acc_id").isEmpty() && req.getParameter("chebi_acc_id").isEmpty());
     }
     public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req){
-        VVService service= new VVService();
+
 
         Set<String> geneKeys=new HashSet<>();
         List<String> symbols = new ArrayList<>();

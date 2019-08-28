@@ -31,12 +31,21 @@ import java.util.Map;
  * Created by jthota on 7/10/2019.
  */
 public class VVService {
+    private static String variantIndex;
+
+    public static String getVariantIndex() {
+        return variantIndex;
+    }
+
+    public static void setVariantIndex(String variantIndex) {
+        VVService.variantIndex = variantIndex;
+    }
 
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req){
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
 
-        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("variant"))
+        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
                 .setQuery(builder)
                 .setSize(10000);
 
@@ -63,7 +72,7 @@ public class VVService {
     public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req){
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
 
-        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("variant"))
+        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
                 .setQuery(builder)
                 .setSize(0);
 
