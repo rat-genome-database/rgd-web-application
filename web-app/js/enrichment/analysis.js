@@ -21,7 +21,7 @@ function EnrichmentVue(divId, hostname) {
     if (hostname) {
         host=hostname;
     }
-
+host = "https://dev.rgd.mcw.edu";
     var v = new Vue({
         el: div,
         data: {
@@ -306,8 +306,8 @@ function EnrichmentVue(divId, hostname) {
                                     return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
-                                    if (parseInt(a[v.currentSort]) < parseInt(b[v.currentSort])) return -1 * modifier;
-                                    if (parseInt(a[v.currentSort]) > parseInt(b[v.currentSort])) return 1 * modifier;
+                                    if (Number(a[v.currentSort]) < Number(b[v.currentSort])) return -1 * modifier;
+                                    if (Number(a[v.currentSort]) > Number(b[v.currentSort])) return 1 * modifier;
                                     return 0;
                                 });
                             }
