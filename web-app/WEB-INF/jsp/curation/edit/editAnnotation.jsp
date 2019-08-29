@@ -130,7 +130,9 @@
     <input type="hidden" value="clone" name="act" />
 
     <input type="hidden" name="rgdId" value="<%=annot.getKey()%>" />
-            <input  type="submit" value="Clone" />
+    <% if (!isNew) { %>
+    <input  type="submit" value="Clone" />
+    <% } %>
 
 </form>
 <%@ include file="/common/footerarea.jsp"%>
