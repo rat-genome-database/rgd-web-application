@@ -10,10 +10,8 @@ import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
-import org.elasticsearch.common.recycler.Recycler;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -182,30 +180,13 @@ public class AnnotationFormatter {
                 }
                 rec.append(a.getEvidence());
 
-                if (a.getWithInfo() == null) {
-                    rec.append("&nbsp;");
-                } else {
-                    int objectKey = a.getRgdObjectKey();
-                    if (Utils.stringsAreEqualIgnoreCase(a.getDataSrc(), "ClinVar")) {
-                        // see comments in ClinVar pipeline annotator
-                        if (a.getSpeciesTypeKey() == SpeciesType.HUMAN)
-                            objectKey = RgdId.OBJECT_KEY_VARIANTS; // ClinVar gene annotations derived from variant annotations
-                        else if (a.getSpeciesTypeKey() == SpeciesType.MOUSE || a.getSpeciesTypeKey() == SpeciesType.RAT)
-                            objectKey = RgdId.OBJECT_KEY_GENES;
-                        else
-                            objectKey = 0; // determine the object type by querying the db
-                    }
+            if (a.getWithInfo() == null) {
+                rec.append("&nbsp;");
+            } else {
+                rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
+            }
 
-                    String val = getLinkForWithInfo(a.getWithInfo(), objectKey);
-
-                    if (!site.equals("RGD")) {
-                        val = val.replaceAll("RGD", site);
-                    }
-
-                    rec.append(val);
-                }
-
-                if (!index.keySet().contains(i)) {
+  if (!index.keySet().contains(i)) {
                     if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
                         rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
                     } else {
@@ -222,49 +203,24 @@ public class AnnotationFormatter {
 
                     rec.append(link);
                 }
-                // notes: some could be as big as 4k of text; every sentence ends with "; ",
-                //  we display only first sentence followed by "..." link
-                if (a.getNotes() == null) {
-                    rec.append("&nbsp;");
-                } else {
-                    String notes;
-                    int pos = a.getNotes().indexOf("; ");
-                    if (pos > 0) {
-                        notes = a.getNotes().substring(0, pos);
-                        notes += "; " + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
-                    } else {
-                        // expand OMIM and ORPHA ids into links for human HPO annotations
-                        if (a.getSpeciesTypeKey() == SpeciesType.HUMAN && a.getAspect().equals("H")) {
-                            notes = makeHPLinks(a.getNotes());
-                        } else {
-                            notes = a.getNotes();
-                        }
-                    }
 
-                    rec.append(notes);
-                }
 
-                if (!site.equals("RGD")) {
-                    rec.append(a.getDataSrc().replaceAll("RGD", site));
+            // notes: some could be as big as 4k of text; every sentence ends with "; ",
+            //  we display only first sentence followed by "..." link
+            if( a.getNotes()==null ) {
+                rec.append("&nbsp;");
+            }
+            else {
+                rec.append(formatXdbUrlsShort(a.getNotes(), a));
+            }
 
-                } else {
-                    rec.append(a.getDataSrc());
-                }
+            rec.append(a.getDataSrc());
 
-                if (a.getXrefSource() == null) {
-                    rec.append("&nbsp;");
-                } else {
-                    // show at most 2 references; if there are more than two, first one is shown and then text 'more ...' is shown
-                    String[] refs = a.getXrefSource().split("\\|");
-                    if (refs.length == 1) {
-                        rec.append(makeRefLink(refs[0]));
-                    } else if (refs.length == 2) {
-                        rec.append(makeRefLink(refs[0]) + " " + makeRefLink(refs[1]));
-                    } else {
-                        // more than 2 links: display only 1st and then link 'more ...'
-                        rec.append(makeRefLink(refs[0]) + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore"));
-                    }
-                }
+            if (a.getXrefSource() == null) {
+                rec.append("&nbsp;");
+            } else {
+                rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
+            }
 
                 report.append(rec);
 
@@ -276,33 +232,120 @@ public class AnnotationFormatter {
         return new HTMLTableReportStrategy().format(report);
     }
 
-    String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
+    public static String formatXdbUrls(String info, int objectKey) throws Exception {
 
         try {
-            if (withInfo.contains("|")) {
-                String[] multipleInfos = withInfo.split("\\|");
-                String withInfoField = "";
-                for (String info : multipleInfos) {
-                    withInfoField += "<a href='" + getLinkForWithInfoEx(info, objectKey) + "'>" + info + "</a> ";
+            String[] multipleInfos = info.split("(,\\b)|([|;])");
+            String infoField="";
+            for(String inf: multipleInfos) {
+                if( !infoField.isEmpty() ) {
+                    infoField += ", ";
                 }
-                return withInfoField;
-            } else {
-                return "<a href='" + getLinkForWithInfoEx(withInfo, objectKey) + "'>" + withInfo + "</a>";
+                infoField += formatXdbUrl(inf, objectKey);
             }
+            return infoField;
         } catch (Exception e) {
-            return withInfo;
+            return info;
         }
     }
 
-    String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
+    // show at most 2 links; if there are more than two, show the first one followed by link 'more ...' leading to detail page
+    public static String formatXdbUrlsShort(String info, Annotation a) throws Exception {
 
-        if (withInfo.startsWith("RGD:")) {
-            if (objectKey != 0)
-                return Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
+        if( info==null ) {
+            return "";
+        }
+
+        int objectKey = a.getRgdObjectKey();
+        if( Utils.stringsAreEqualIgnoreCase(a.getDataSrc(), "ClinVar") ) {
+            // see comments in ClinVar pipeline annotator
+            if( a.getSpeciesTypeKey()==SpeciesType.HUMAN )
+                objectKey = RgdId.OBJECT_KEY_VARIANTS; // ClinVar gene annotations derived from variant annotations
+            else if( a.getSpeciesTypeKey()==SpeciesType.MOUSE ||  a.getSpeciesTypeKey()==SpeciesType.RAT )
+                objectKey = RgdId.OBJECT_KEY_GENES;
             else
-                return Link.it(Integer.parseInt(withInfo.substring(4)));
-        } else
-            return Link.it(withInfo);
+                objectKey = 0; // determine the object type by querying the db
+        }
+
+        String[] multipleInfos = info.split("(,\\b)|([|;])");
+        String infoField;
+        if( multipleInfos.length==1 ) {
+            infoField = formatXdbUrl(multipleInfos[0], objectKey);
+        }
+        else if( multipleInfos.length==2 ) {
+            infoField = formatXdbUrl(multipleInfos[0], objectKey)+", "+ formatXdbUrl(multipleInfos[1], objectKey);
+        } else {
+            infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
+        }
+        return infoField;
+    }
+
+    static String formatXdbUrl(String info, int objectKey) throws Exception {
+
+        String uri = null;
+        int colonPos = info.indexOf(":");
+        if( colonPos<=0 ) {
+            return info;
+        }
+
+        String dbName = info.substring(0, colonPos);
+        String accId = info.substring(colonPos+1);
+
+        switch(dbName) {
+            case "RGD":
+                try {
+                    uri = Link.it(Integer.parseInt(info.substring(4)), objectKey);
+                    uri = "<a href='" + uri + "'>" + info + "</a>";
+                }catch(Exception e) {
+                    uri = null;
+                }
+                break;
+            case "UniProtKB":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(accId, info);
+                break;
+            case "InterPro":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(accId, info);
+                break;
+            case "PANTHER":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PANTHER).getALink(accId, info);
+                break;
+            case "Ensembl":
+                if( accId.startsWith("ENSRNOP") ) {
+                    uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ENSEMBL_PROTEIN).getALink(accId, info, SpeciesType.RAT);
+                } else if( accId.startsWith("ENSMUSP") ) {
+                    uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ENSEMBL_PROTEIN).getALink(accId, info, SpeciesType.MOUSE);
+                }
+                break;
+            case "SP_KW":
+            case "UniProtKB-KW":
+                uri = "<a href='http://www.uniprot.org/keywords/"+accId+"'>" + info + "</a>";
+                break;
+            case "PMID":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(accId, info);
+                break;
+            case "OMIM":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getALink(accId, info);
+                break;
+            case "ORPHA":
+                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ORPHANET).getALink(accId, info);
+                break;
+            case "REF_RGD_ID":
+                uri = "<a href=\""+Link.ref(Integer.parseInt(accId))+"\">"+info+"</a>";
+                break;
+
+            // AGR genes
+            case "MGI": // handle weirdness MGI:MGI:97751
+                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, info);
+                break;
+            case "SGD":
+            case "WB":
+            case "FB":
+            case "ZFIN":
+                uri = XDBIndex.getInstance().getXDB(63).getALink(info, info);
+                break;
+        }
+
+        return uri==null ? info : uri;
     }
 
     public String createGridFormatAnnotatedObjects(List<Annotation> annotationList, int columns) throws Exception {
@@ -330,31 +373,13 @@ public class AnnotationFormatter {
     static public String makeRefLink(String id) throws Exception {
         if (id.startsWith("PMID:")) {
             return XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(id.substring(5), id);
-        } else if (id.startsWith("REF_RGD_ID:")) {
-            return "<a href=\"" + Link.ref(Integer.parseInt(id.substring(11))) + "\">" + id + "</a>";
-        } else {
+        }
+        else if( id.startsWith("REF_RGD_ID:") ) {
+            return "<a href=\""+Link.ref(Integer.parseInt(id.substring(11)))+"\">"+id+"</a>";
+        }
+        else {
             return id;
         }
-    }
-
-    static String makeHPLinks(String ids) throws Exception {
-
-        StringBuilder result = new StringBuilder();
-        for (String id : ids.split("[\\s+]")) {
-            String url;
-            if (id.startsWith("OMIM:")) {
-                url = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getALink(id.substring(5), id);
-            } else if (id.startsWith("ORPHA:")) {
-                url = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ORPHANET).getALink(id.substring(6), id);
-            } else {
-                url = id;
-            }
-            if (result.length() > 0) {
-                result.append(" ");
-            }
-            result.append(url);
-        }
-        return result.toString();
     }
 
     static String makeGeneTermAnnotLink(int rgdId, String termAcc, String aclass) {
