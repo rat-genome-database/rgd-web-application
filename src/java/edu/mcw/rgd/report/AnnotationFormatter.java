@@ -10,8 +10,10 @@ import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
+import org.elasticsearch.common.recycler.Recycler;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,16 +25,16 @@ public class AnnotationFormatter {
 
     public String buildTable(List<String> records, int columns) {
 
-        int rowCount=(int) Math.ceil(records.size() / columns) + 1;
+        int rowCount = (int) Math.ceil(records.size() / columns) + 1;
 
         StringBuilder table = new StringBuilder("<table class=\"annotationTable\" width='95%' border=0><tr>");
 
-        for (int i=0; i< records.size(); i++) {
+        for (int i = 0; i < records.size(); i++) {
             String str = records.get(i);
 
-            if (i==0) {
+            if (i == 0) {
                 table.append("<td valign='top'><table>");
-            }else if ((i % rowCount == 0)) {
+            } else if ((i % rowCount == 0)) {
                 table.append("</table></td><td valign='top'><table>");
             }
 
@@ -49,10 +51,10 @@ public class AnnotationFormatter {
 
         List<String> records = new ArrayList<String>();
 
-        String evidence= "";
-        String termAcc="";
-        String annotatedRgdId="";
-        String term="";
+        String evidence = "";
+        String termAcc = "";
+        String annotatedRgdId = "";
+        String term = "";
 
         // by default, CHEBI annots link to new tabular report
         // other annots link to default list-like report
@@ -61,8 +63,8 @@ public class AnnotationFormatter {
         for (Annotation a : annotationList) {
 
             // compute url based on first term on the list
-            if( annotUrl==null ) {
-                if( !a.getTermAcc().startsWith("CHEBI") ) {
+            if (annotUrl == null) {
+                if (!a.getTermAcc().startsWith("CHEBI")) {
                     annotUrl = "/rgdweb/report/annotation/main.html";
                 } else {
                     annotUrl = "/rgdweb/report/annotation/table.html";
@@ -77,7 +79,7 @@ public class AnnotationFormatter {
             } else {
 
                 if (!term.equals("")) {
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>"+
+                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
@@ -101,6 +103,9 @@ public class AnnotationFormatter {
 
     }
 
+    public static boolean compare(String str1, String str2) {
+        return (str1 == null ? str2 == null : str1.equals(str2));
+    }
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site) throws Exception {
 
@@ -122,179 +127,182 @@ public class AnnotationFormatter {
 
         report.append(rec);
 
-        for (Annotation a : annotationList) {
+        Map<Integer,List> index = new HashMap<>();
 
-            // compute url based on first term on the list
-            if( annotUrl==null ) {
-                if( !a.getTermAcc().startsWith("CHEBI") ) {
-                    annotUrl = "/rgdweb/report/annotation/main.html";
-                } else {
-                    annotUrl = "/rgdweb/report/annotation/table.html";
+        //Find the annotations that are same with multiple references.
+        for(int i = 0; i < annotationList.size(); i++){
+            Annotation current = annotationList.get(i);
+            List val = new ArrayList<>();
+
+            for(int j = 0; j < annotationList.size(); j++) {
+                if(i != j){
+                    Annotation a = annotationList.get(j);
+
+                    if(a.getTerm().equalsIgnoreCase(current.getTerm()) &&
+                       a.getEvidence().equalsIgnoreCase(current.getEvidence())){
+
+                        if(compare(a.getQualifier(),current.getQualifier()) && compare(a.getWithInfo(),current.getWithInfo())
+                                && compare(a.getNotes(),current.getNotes()) && compare(a.getXrefSource(),current.getXrefSource())) {
+                            val.add(j);
+                        }
+                    }
                 }
+
             }
-
-            rec = new Record();
-
-            String termString = "<a href='" + annotUrl + "?term=" + a.getTermAcc() + "&id=" + a.getAnnotatedObjectRgdId() + "'>" + a.getTerm() + " </a>";
-            rec.append(termString);
-
-            if (a.getQualifier() == null) {
-                rec.append("&nbsp;");
-            } else {
-                rec.append(a.getQualifier());
+            if(val.size() != 0) {
+                index.put(i, val);
             }
-            rec.append(a.getEvidence());
-
-            if (a.getWithInfo() == null) {
-                rec.append("&nbsp;");
-            } else {
-                rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
-            }
-
-            if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {
-                rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
-            }
-            else {
-                rec.append("&nbsp;");
-            }
-
-            // notes: some could be as big as 4k of text; every sentence ends with "; ",
-            //  we display only first sentence followed by "..." link
-            if( a.getNotes()==null ) {
-                rec.append("&nbsp;");
-            }
-            else {
-                rec.append(formatXdbUrlsShort(a.getNotes(), a));
-            }
-
-            rec.append(a.getDataSrc());
-
-            if (a.getXrefSource() == null) {
-                rec.append("&nbsp;");
-            } else {
-                rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
-            }
-
-            report.append(rec);
         }
+
+        List repeat = new ArrayList<>();
+        for (int i = 0;i < annotationList.size() ; i++) {
+
+            //Check for annotations with multiple references and remove them from display to avoid duplicate rows
+            if (repeat.size() == 0 || !repeat.contains(i)) {
+                Annotation a = annotationList.get(i);
+
+                rec = new Record();
+
+                // compute url based on first term on the list
+                if (annotUrl == null) {
+                    if (!a.getTermAcc().startsWith("CHEBI")) {
+                        annotUrl = "/rgdweb/report/annotation/main.html";
+                    } else {
+                        annotUrl = "/rgdweb/report/annotation/table.html";
+                    }
+                }
+
+                String termString = "<a href='" + annotUrl + "?term=" + a.getTermAcc() + "&id=" + a.getAnnotatedObjectRgdId() + "'>" + a.getTerm() + " </a>";
+                rec.append(termString);
+
+                if (a.getQualifier() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    rec.append(a.getQualifier());
+                }
+                rec.append(a.getEvidence());
+
+                if (a.getWithInfo() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    int objectKey = a.getRgdObjectKey();
+                    if (Utils.stringsAreEqualIgnoreCase(a.getDataSrc(), "ClinVar")) {
+                        // see comments in ClinVar pipeline annotator
+                        if (a.getSpeciesTypeKey() == SpeciesType.HUMAN)
+                            objectKey = RgdId.OBJECT_KEY_VARIANTS; // ClinVar gene annotations derived from variant annotations
+                        else if (a.getSpeciesTypeKey() == SpeciesType.MOUSE || a.getSpeciesTypeKey() == SpeciesType.RAT)
+                            objectKey = RgdId.OBJECT_KEY_GENES;
+                        else
+                            objectKey = 0; // determine the object type by querying the db
+                    }
+
+                    String val = getLinkForWithInfo(a.getWithInfo(), objectKey);
+
+                    if (!site.equals("RGD")) {
+                        val = val.replaceAll("RGD", site);
+                    }
+
+                    rec.append(val);
+                }
+
+                if (!index.keySet().contains(i)) {
+                    if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
+                        rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
+                    } else {
+                        rec.append("&nbsp;");
+                    }
+                } else {
+                    List<Integer> values = index.get(i);
+                    String link = "<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>";
+                    repeat.addAll(values);
+                    for (int j : values) {
+                        Annotation current = annotationList.get(j);
+                        link += "; <a href='" + Link.ref(current.getRefRgdId()) + "' title='show reference'>" + current.getRefRgdId() + "</a>";
+                    }
+
+                    rec.append(link);
+                }
+                // notes: some could be as big as 4k of text; every sentence ends with "; ",
+                //  we display only first sentence followed by "..." link
+                if (a.getNotes() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    String notes;
+                    int pos = a.getNotes().indexOf("; ");
+                    if (pos > 0) {
+                        notes = a.getNotes().substring(0, pos);
+                        notes += "; " + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
+                    } else {
+                        // expand OMIM and ORPHA ids into links for human HPO annotations
+                        if (a.getSpeciesTypeKey() == SpeciesType.HUMAN && a.getAspect().equals("H")) {
+                            notes = makeHPLinks(a.getNotes());
+                        } else {
+                            notes = a.getNotes();
+                        }
+                    }
+
+                    rec.append(notes);
+                }
+
+                if (!site.equals("RGD")) {
+                    rec.append(a.getDataSrc().replaceAll("RGD", site));
+
+                } else {
+                    rec.append(a.getDataSrc());
+                }
+
+                if (a.getXrefSource() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    // show at most 2 references; if there are more than two, first one is shown and then text 'more ...' is shown
+                    String[] refs = a.getXrefSource().split("\\|");
+                    if (refs.length == 1) {
+                        rec.append(makeRefLink(refs[0]));
+                    } else if (refs.length == 2) {
+                        rec.append(makeRefLink(refs[0]) + " " + makeRefLink(refs[1]));
+                    } else {
+                        // more than 2 links: display only 1st and then link 'more ...'
+                        rec.append(makeRefLink(refs[0]) + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore"));
+                    }
+                }
+
+                report.append(rec);
+
+            }
+
+        }
+
 
         return new HTMLTableReportStrategy().format(report);
     }
 
-    public static String formatXdbUrls(String info, int objectKey) throws Exception {
+    String getLinkForWithInfo(String withInfo, int objectKey) throws Exception {
 
         try {
-            String[] multipleInfos = info.split("(,\\b)|([|;])");
-            String infoField="";
-            for(String inf: multipleInfos) {
-                if( !infoField.isEmpty() ) {
-                    infoField += ", ";
+            if (withInfo.contains("|")) {
+                String[] multipleInfos = withInfo.split("\\|");
+                String withInfoField = "";
+                for (String info : multipleInfos) {
+                    withInfoField += "<a href='" + getLinkForWithInfoEx(info, objectKey) + "'>" + info + "</a> ";
                 }
-                infoField += formatXdbUrl(inf, objectKey);
+                return withInfoField;
+            } else {
+                return "<a href='" + getLinkForWithInfoEx(withInfo, objectKey) + "'>" + withInfo + "</a>";
             }
-            return infoField;
         } catch (Exception e) {
-            return info;
+            return withInfo;
         }
     }
 
-    // show at most 2 links; if there are more than two, show the first one followed by link 'more ...' leading to detail page
-    public static String formatXdbUrlsShort(String info, Annotation a) throws Exception {
+    String getLinkForWithInfoEx(String withInfo, int objectKey) throws Exception {
 
-        if( info==null ) {
-            return "";
-        }
-
-        int objectKey = a.getRgdObjectKey();
-        if( Utils.stringsAreEqualIgnoreCase(a.getDataSrc(), "ClinVar") ) {
-            // see comments in ClinVar pipeline annotator
-            if( a.getSpeciesTypeKey()==SpeciesType.HUMAN )
-                objectKey = RgdId.OBJECT_KEY_VARIANTS; // ClinVar gene annotations derived from variant annotations
-            else if( a.getSpeciesTypeKey()==SpeciesType.MOUSE ||  a.getSpeciesTypeKey()==SpeciesType.RAT )
-                objectKey = RgdId.OBJECT_KEY_GENES;
+        if (withInfo.startsWith("RGD:")) {
+            if (objectKey != 0)
+                return Link.it(Integer.parseInt(withInfo.substring(4)), objectKey);
             else
-                objectKey = 0; // determine the object type by querying the db
-        }
-
-        String[] multipleInfos = info.split("(,\\b)|([|;])");
-        String infoField;
-        if( multipleInfos.length==1 ) {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey);
-        }
-        else if( multipleInfos.length==2 ) {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey)+", "+ formatXdbUrl(multipleInfos[1], objectKey);
-        } else {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
-        }
-        return infoField;
-    }
-
-    static String formatXdbUrl(String info, int objectKey) throws Exception {
-
-        String uri = null;
-        int colonPos = info.indexOf(":");
-        if( colonPos<=0 ) {
-            return info;
-        }
-
-        String dbName = info.substring(0, colonPos);
-        String accId = info.substring(colonPos+1);
-
-        switch(dbName) {
-            case "RGD":
-                try {
-                    uri = Link.it(Integer.parseInt(info.substring(4)), objectKey);
-                    uri = "<a href='" + uri + "'>" + info + "</a>";
-                }catch(Exception e) {
-                    uri = null;
-                }
-                break;
-            case "UniProtKB":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_UNIPROT).getALink(accId, info);
-                break;
-            case "InterPro":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_INTERPRO).getALink(accId, info);
-                break;
-            case "PANTHER":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PANTHER).getALink(accId, info);
-                break;
-            case "Ensembl":
-                if( accId.startsWith("ENSRNOP") ) {
-                    uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ENSEMBL_PROTEIN).getALink(accId, info, SpeciesType.RAT);
-                } else if( accId.startsWith("ENSMUSP") ) {
-                    uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ENSEMBL_PROTEIN).getALink(accId, info, SpeciesType.MOUSE);
-                }
-                break;
-            case "SP_KW":
-            case "UniProtKB-KW":
-                uri = "<a href='http://www.uniprot.org/keywords/"+accId+"'>" + info + "</a>";
-                break;
-            case "PMID":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(accId, info);
-                break;
-            case "OMIM":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getALink(accId, info);
-                break;
-            case "ORPHA":
-                uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ORPHANET).getALink(accId, info);
-                break;
-            case "REF_RGD_ID":
-                uri = "<a href=\""+Link.ref(Integer.parseInt(accId))+"\">"+info+"</a>";
-                break;
-
-            // AGR genes
-            case "MGI": // handle weirdness MGI:MGI:97751
-                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, info);
-                break;
-            case "SGD":
-            case "WB":
-            case "FB":
-            case "ZFIN":
-                uri = XDBIndex.getInstance().getXDB(63).getALink(info, info);
-                break;
-        }
-
-        return uri==null ? info : uri;
+                return Link.it(Integer.parseInt(withInfo.substring(4)));
+        } else
+            return Link.it(withInfo);
     }
 
     public String createGridFormatAnnotatedObjects(List<Annotation> annotationList, int columns) throws Exception {
@@ -306,9 +314,9 @@ public class AnnotationFormatter {
             String objSymbol = Utils.NVL(a.getObjectSymbol(), "NA");
             String objName = Utils.NVL(a.getObjectName(), "NA");
 
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>"+
-                        "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
-                        " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
+            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
+                    " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
         }
 
         return this.buildTable(records, columns);
@@ -320,29 +328,48 @@ public class AnnotationFormatter {
      * otherwise just show the link
      */
     static public String makeRefLink(String id) throws Exception {
-        if( id.startsWith("PMID:") ) {
+        if (id.startsWith("PMID:")) {
             return XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(id.substring(5), id);
-        }
-        else if( id.startsWith("REF_RGD_ID:") ) {
-            return "<a href=\""+Link.ref(Integer.parseInt(id.substring(11)))+"\">"+id+"</a>";
-        }
-        else {
+        } else if (id.startsWith("REF_RGD_ID:")) {
+            return "<a href=\"" + Link.ref(Integer.parseInt(id.substring(11))) + "\">" + id + "</a>";
+        } else {
             return id;
         }
+    }
+
+    static String makeHPLinks(String ids) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        for (String id : ids.split("[\\s+]")) {
+            String url;
+            if (id.startsWith("OMIM:")) {
+                url = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getALink(id.substring(5), id);
+            } else if (id.startsWith("ORPHA:")) {
+                url = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ORPHANET).getALink(id.substring(6), id);
+            } else {
+                url = id;
+            }
+            if (result.length() > 0) {
+                result.append(" ");
+            }
+            result.append(url);
+        }
+        return result.toString();
     }
 
     static String makeGeneTermAnnotLink(int rgdId, String termAcc, String aclass) {
 
         String text = aclass.equals("imore") ? "&nbsp;&nbsp;&nbsp;" : "more ...";
-        String str = " <a class=\""+aclass+"\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
-        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">"+text+"</a>";
+        String str = " <a class=\"" + aclass + "\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
+        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">" + text + "</a>";
         return str;
     }
 
     /**
      * return a subset of annotations matching given aspect
+     *
      * @param annotationList list of annotations
-     * @param aspect aspect
+     * @param aspect         aspect
      * @return a subset of annotations matching given aspect; could be empty list
      */
     public List<Annotation> filterList(List<Annotation> annotationList, String aspect) {
