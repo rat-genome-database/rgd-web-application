@@ -1,6 +1,7 @@
 package edu.mcw.rgd.edit;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.process.FileDownloader;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
@@ -83,13 +84,17 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
-            accessToken=rq.getParameter("token");
+           accessToken = "";
+                if(request.getCookies() != null && request.getCookies().length != 0)
+                    if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                        accessToken = request.getCookies()[0].getValue();
+
 
         }
 
-    /*if(!checkToken(accessToken))
+    if(!checkToken(accessToken))
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
-    */    if(geneType!=null)
+        if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
         Object o = null;
@@ -172,7 +177,7 @@ public abstract class EditObjectController implements Controller {
 
         }
 
-        request.setAttribute("token",accessToken);
+    //    request.setAttribute("token",accessToken);
         request.setAttribute("editObject", o);
         request.setAttribute("cloneObject", clone);
         request.setAttribute("isClone", isClone);
@@ -188,16 +193,19 @@ public abstract class EditObjectController implements Controller {
         request.setAttribute("submittedParentGene", submittedParentGene);
         request.setAttribute("submittedAlleleRgdId", submittedAlleleRgdId);
         request.setAttribute("references", references);
-      
 
         if (action.equals("upd") || error.size() > 0) {
             return new ModelAndView(path + "status.jsp");
         }else if (action.equals("add")) {
-            Identifiable id = (Identifiable) o;
-            assert id != null;
-            System.out.println("Hello:");
-            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references+"&token=" +accessToken);
-            return null;
+            if(o instanceof Annotation) {
+                response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp", ".html") + "?rgdId=" + ((Annotation) o).getKey());
+                return null;
+            }else {
+                Identifiable id = (Identifiable) o;
+                assert id != null;
+                response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp", ".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene=" + submittedParentGene + "&submittedAlleleRgdId=" + submittedAlleleRgdId + "&references=" + references);
+                return null;
+            }
         }else{
             return new ModelAndView(path + this.getViewUrl());
         }
