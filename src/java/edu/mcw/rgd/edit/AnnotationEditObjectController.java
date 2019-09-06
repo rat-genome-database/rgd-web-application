@@ -8,6 +8,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author jdepons
@@ -46,27 +47,31 @@ public class AnnotationEditObjectController extends EditObjectController {
         int rgdObjectKey = 0;
         String symbol = "";
         String name = "";
-
+        int speciesKey = 0;
         if (obj instanceof Gene) {
             Gene gene = (Gene) obj;
             symbol = gene.getSymbol();
             name = gene.getName();
             rgdObjectKey = RgdId.OBJECT_KEY_GENES;
+            speciesKey = gene.getSpeciesTypeKey();
         }else if (obj instanceof SSLP) {
             SSLP sslp = (SSLP) obj;
             symbol = "";
             name = sslp.getName();
             rgdObjectKey = RgdId.OBJECT_KEY_SSLPS;
+            speciesKey = sslp.getSpeciesTypeKey();
         }else if (obj instanceof Strain) {
             Strain strain = (Strain) obj;
             symbol = strain.getSymbol();
             name = strain.getName();
             rgdObjectKey = RgdId.OBJECT_KEY_STRAINS;
+            speciesKey = strain.getSpeciesTypeKey();
         }else if (obj instanceof QTL) {
             QTL qtl = (QTL) obj;
             symbol = qtl.getSymbol();
             name = qtl.getName();
             rgdObjectKey = RgdId.OBJECT_KEY_QTLS;
+            speciesKey = qtl.getSpeciesTypeKey();
         }
 
         String termAcc = req.getParameter("termAcc");
@@ -104,10 +109,50 @@ public class AnnotationEditObjectController extends EditObjectController {
         }
         annot.setXrefSource(req.getParameter(("xrefSource")));
           if (req.getParameter("act").equals("add")) {
-              annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+             annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
               int key = dao.insertAnnotation(annot);
               annot.setKey(key);
-              System.out.println(annot.getKey());
+              System.out.println(req.getParameter("clone1"));
+              System.out.println(req.getParameter("clone2"));
+              System.out.println(req.getParameter("clone3"));
+
+              GeneDAO gdao = new GeneDAO();
+
+              if(req.getParameter("clone1") != null && Integer.valueOf(req.getParameter("clone1")) != speciesKey) {
+                  List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.RAT);
+                  if(ortholog.size() != 0) {
+                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot.setObjectName(ortholog.get(0).getName());
+                      annot.setWithInfo("RGD:"+annotatedObjectId);
+                      annot.setEvidence("ISO");
+                      key = dao.insertAnnotation(annot);
+
+                  }
+              }else if(req.getParameter("clone2") != null && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
+                  List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
+                  if(ortholog.size() != 0) {
+                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot.setObjectName(ortholog.get(0).getName());
+                      annot.setWithInfo("RGD:"+annotatedObjectId);
+                      annot.setEvidence("ISO");
+                      key = dao.insertAnnotation(annot);
+
+                  }
+              }else if(req.getParameter("clone3") != null && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
+                  List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
+                  if(ortholog.size() != 0) {
+                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot.setObjectName(ortholog.get(0).getName());
+                      annot.setWithInfo("RGD:"+annotatedObjectId);
+                      annot.setEvidence("ISO");
+                      key = dao.insertAnnotation(annot);
+
+                  }
+              }
+
           }
        else {
               annot.setKey(Integer.parseInt(req.getParameter("key")));
