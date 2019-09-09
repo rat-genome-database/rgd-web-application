@@ -151,7 +151,7 @@ Date today = new Date();
     </tr>
     <tr>
        <% if (isNew && (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI"))) {  %>
-        <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and forward to curation tool"/>
+        <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and return to curation tool"/>
             &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
             <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
             <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;

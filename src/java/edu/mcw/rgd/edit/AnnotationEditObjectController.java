@@ -109,9 +109,10 @@ public class AnnotationEditObjectController extends EditObjectController {
         annot.setXrefSource(req.getParameter(("xrefSource")));
           if (req.getParameter("act").equals("add")) {
              annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+             annot.setCreatedBy(id);
+             annot.setLastModifiedBy(id);
               int key = dao.insertAnnotation(annot);
               annot.setKey(key);
-
 
               GeneDAO gdao = new GeneDAO();
 
@@ -124,7 +125,8 @@ public class AnnotationEditObjectController extends EditObjectController {
                       annot1.setObjectName(ortholog.get(0).getName());
                       annot1.setWithInfo("RGD:"+annotatedObjectId);
                       annot1.setEvidence("ISO");
-                      dao.insertAnnotation(annot1);
+                      int key1= dao.insertAnnotation(annot1);
+                      annot1.setKey(key1);
 
                   }
               }
@@ -137,8 +139,8 @@ public class AnnotationEditObjectController extends EditObjectController {
                       annot2.setObjectName(ortholog.get(0).getName());
                       annot2.setWithInfo("RGD:"+annotatedObjectId);
                       annot2.setEvidence("ISO");
-                      dao.insertAnnotation(annot2);
-
+                      int key2 = dao.insertAnnotation(annot2);
+                      annot2.setKey(key2);
                   }
               }
 
@@ -151,15 +153,15 @@ public class AnnotationEditObjectController extends EditObjectController {
                       annot3.setObjectName(ortholog.get(0).getName());
                       annot3.setWithInfo("RGD:"+annotatedObjectId);
                       annot3.setEvidence("ISO");
-                      dao.insertAnnotation(annot3);
-
+                      int key3= dao.insertAnnotation(annot3);
+                      annot3.setKey(key3);
                   }
               }
 
+                annot.setKey(key);
           }
        else {
               annot.setKey(Integer.parseInt(req.getParameter("key")));
-
               if (req.getParameter("refRgdId").length() > 0) {
                   annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
               }
