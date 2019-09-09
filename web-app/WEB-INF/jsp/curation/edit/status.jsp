@@ -7,10 +7,13 @@
     // if no error and 'update_and_curate' parameter is available, automatically redirect to curation tool
     if( noError ) {
         String param = request.getParameter("update_and_curate");
+
         if( param!=null && !param.isEmpty() ) {
             redirectToCurationTool = true;
-        }
+        } else if(request.getParameter("clone_and_curate") != null)
+            redirectToCurationTool = true;
     }
+    System.out.print(redirectToCurationTool);
     if( redirectToCurationTool ) {
 %><head><META http-equiv="refresh" content="0;URL=/rgdCuration/?module=curation&func=linkAnnotation#title"></head><%
     }

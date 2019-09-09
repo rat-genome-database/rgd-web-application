@@ -195,7 +195,7 @@ public abstract class EditObjectController implements Controller {
         request.setAttribute("submittedAlleleRgdId", submittedAlleleRgdId);
         request.setAttribute("references", references);
 
-        if (action.equals("upd") || error.size() > 0) {
+        if (action.equals("upd") || error.size() > 0 || request.getParameter("clone_and_curate") !=null) {
             return new ModelAndView(path + "status.jsp");
         }else if (action.equals("add")) {
             if(o instanceof Annotation) {

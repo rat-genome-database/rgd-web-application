@@ -118,24 +118,26 @@ public class AnnotationEditObjectController extends EditObjectController {
               if(req.getParameter("clone1") != null && Integer.valueOf(req.getParameter("clone1")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.RAT);
                   if(ortholog.size() != 0) {
-                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
-                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
-                      annot.setObjectName(ortholog.get(0).getName());
-                      annot.setWithInfo("RGD:"+annotatedObjectId);
-                      annot.setEvidence("ISO");
-                      dao.insertAnnotation(annot);
+                      Annotation annot1 = annot;
+                      annot1.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot1.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot1.setObjectName(ortholog.get(0).getName());
+                      annot1.setWithInfo("RGD:"+annotatedObjectId);
+                      annot1.setEvidence("ISO");
+                      dao.insertAnnotation(annot1);
 
                   }
               }
               if(req.getParameter("clone2") != null && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
                   if(ortholog.size() != 0) {
-                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
-                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
-                      annot.setObjectName(ortholog.get(0).getName());
-                      annot.setWithInfo("RGD:"+annotatedObjectId);
-                      annot.setEvidence("ISO");
-                      dao.insertAnnotation(annot);
+                      Annotation annot2 = annot;
+                      annot2.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot2.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot2.setObjectName(ortholog.get(0).getName());
+                      annot2.setWithInfo("RGD:"+annotatedObjectId);
+                      annot2.setEvidence("ISO");
+                      dao.insertAnnotation(annot2);
 
                   }
               }
@@ -143,12 +145,13 @@ public class AnnotationEditObjectController extends EditObjectController {
               if(req.getParameter("clone3") != null && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.HUMAN);
                   if(ortholog.size() != 0) {
-                      annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
-                      annot.setObjectSymbol(ortholog.get(0).getSymbol());
-                      annot.setObjectName(ortholog.get(0).getName());
-                      annot.setWithInfo("RGD:"+annotatedObjectId);
-                      annot.setEvidence("ISO");
-                      dao.insertAnnotation(annot);
+                      Annotation annot3 = annot;
+                      annot3.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
+                      annot3.setObjectSymbol(ortholog.get(0).getSymbol());
+                      annot3.setObjectName(ortholog.get(0).getName());
+                      annot3.setWithInfo("RGD:"+annotatedObjectId);
+                      annot3.setEvidence("ISO");
+                      dao.insertAnnotation(annot3);
 
                   }
               }

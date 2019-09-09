@@ -150,15 +150,18 @@ Date today = new Date();
         <td><input type="text" name="xrefSource" size="45" value="<%=dm.out("xrefSource",annot.getXrefSource())%>" /></td>
     </tr>
     <tr>
-        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
-        &nbsp; <input type="submit" value="Update" size="10" />
-            <% if (isNew && (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI"))) {  %>
-            <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked> Clone Rat&nbsp;
-            <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked> Clone Mouse&nbsp;
-            <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked> Clone Human&nbsp;
-            <% }%>
+       <% if (isNew && (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI"))) {  %>
+        <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and forward to curation tool"/>
+            &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
+            <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
+            <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;
+            <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked>  Human&nbsp;
         </td>
-
+            <% } else {%>
+        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
+            &nbsp; <input type="submit" value="Update" size="10" />
+        </td>
+<%} %>
     </tr>
 </table>
 </form>
