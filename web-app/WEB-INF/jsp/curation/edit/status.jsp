@@ -27,7 +27,7 @@
     ArrayList status = (ArrayList) request.getAttribute("status");
     if (status !=null) {
         for (Object stat: status) {
-            out.println("<span style=\"color:blue;\">" + stat + "</span><br>");
+            out.println("<span style=\"color:blue;\">" + stat + "</span><br><a href=/rgdCuration/?module=curation&func=linkAnnotation#title>Curation Tool</a>");
         }
     }
 

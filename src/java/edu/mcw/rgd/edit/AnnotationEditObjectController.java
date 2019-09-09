@@ -116,7 +116,7 @@ public class AnnotationEditObjectController extends EditObjectController {
 
               GeneDAO gdao = new GeneDAO();
 
-              if(req.getParameter("clone1") != null && Integer.valueOf(req.getParameter("clone1")) != speciesKey) {
+              if(req.getParameter("clone1") != null && !req.getParameter("clone1").isEmpty() && Integer.valueOf(req.getParameter("clone1")) != speciesKey  ) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.RAT);
                   if(ortholog.size() != 0) {
                       Annotation annot1 = annot;
@@ -130,7 +130,7 @@ public class AnnotationEditObjectController extends EditObjectController {
 
                   }
               }
-              if(req.getParameter("clone2") != null && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
+              if(req.getParameter("clone2") != null && !req.getParameter("clone2").isEmpty() && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
                   if(ortholog.size() != 0) {
                       Annotation annot2 = annot;
@@ -144,7 +144,7 @@ public class AnnotationEditObjectController extends EditObjectController {
                   }
               }
 
-              if(req.getParameter("clone3") != null && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
+              if(req.getParameter("clone3") != null && !req.getParameter("clone3").isEmpty() && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.HUMAN);
                   if(ortholog.size() != 0) {
                       Annotation annot3 = annot;

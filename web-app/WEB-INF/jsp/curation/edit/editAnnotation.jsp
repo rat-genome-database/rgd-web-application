@@ -158,8 +158,9 @@ Date today = new Date();
             <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked>  Human&nbsp;
         </td>
             <% } else {%>
-        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
+        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and return to curation tool"/>
             &nbsp; <input type="submit" value="Update" size="10" />
+            &nbsp; <a href=/rgdCuration/?module=curation&func=linkAnnotation#title>Curation Tool</a>
         </td>
 <%} %>
     </tr>
