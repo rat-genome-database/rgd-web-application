@@ -41,6 +41,7 @@ public abstract class EditObjectController implements Controller {
     public abstract Object newObject() throws Exception;
 
     public String geneType;
+    public String login = "";
     public String getGeneType() {
         return geneType;
     }
@@ -321,7 +322,7 @@ public abstract class EditObjectController implements Controller {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
                 String line = in.readLine();
                 JSONObject json = new JSONObject(line);
-                String login = (String)json.get("login");
+                login = (String)json.get("login");
                 if(!login.equals("")){
                     URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
                     HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();

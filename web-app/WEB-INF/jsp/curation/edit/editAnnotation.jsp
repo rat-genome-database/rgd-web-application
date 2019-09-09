@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontology.Annotation" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="edu.mcw.rgd.dao.impl.RGDUserDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 
 
 <%
@@ -29,6 +31,8 @@ Date today = new Date();
         Annotation clone = (Annotation) request.getAttribute("cloneObject");
         annot = clone;
     }
+    RGDUserDAO udao = new RGDUserDAO();
+
 %>
 
 
@@ -128,7 +132,7 @@ Date today = new Date();
         <% if (isNew) {%>
         <td> </td>
         <% } else { %>
-        <td><%=fu.chkNull(annot.getCreatedBy())%></td>
+        <td><%=udao.getCurationUser(annot.getCreatedBy())%></td>
         <% } %>
 
     </tr>
@@ -137,7 +141,7 @@ Date today = new Date();
         <% if (isNew) {%>
         <td> </td>
         <% } else { %>
-        <td><%=fu.chkNull(annot.getLastModifiedBy())%></td>
+        <td><%=udao.getCurationUser(annot.getLastModifiedBy())%></td>
         <% } %>
 
     </tr>
@@ -149,9 +153,9 @@ Date today = new Date();
         <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
         &nbsp; <input type="submit" value="Update" size="10" />
             <% if (isNew && (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI"))) {  %>
-            <input type="checkbox" name="clone1" value="Rat" checked> Clone Rat&nbsp;
-            <input type="checkbox" name="clone2" value="Mouse" checked> Clone Mouse&nbsp;
-            <input type="checkbox" name="clone3" value="Human" checked> Clone Human&nbsp;
+            <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked> Clone Rat&nbsp;
+            <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked> Clone Mouse&nbsp;
+            <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked> Clone Human&nbsp;
             <% }%>
         </td>
 

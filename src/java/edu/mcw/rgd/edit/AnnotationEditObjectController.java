@@ -37,7 +37,9 @@ public class AnnotationEditObjectController extends EditObjectController {
     public Object update(HttpServletRequest request, boolean persist) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-
+        String username = login;
+        RGDUserDAO udao = new RGDUserDAO();
+        int id = udao.getCurationId(username);
         AnnotationDAO dao = new AnnotationDAO();
         Annotation annot = dao.getAnnotation(Integer.parseInt(req.getParameter("key")));
 
@@ -80,8 +82,6 @@ public class AnnotationEditObjectController extends EditObjectController {
         Integer createdBy = annot.getCreatedBy();
 
 
-        System.out.println(req.getParameter("act"));
-
         annot.setTerm(term.getTerm());
         annot.setAnnotatedObjectRgdId(annotatedObjectId);
         annot.setRgdObjectKey(rgdObjectKey);
@@ -99,22 +99,19 @@ public class AnnotationEditObjectController extends EditObjectController {
         annot.setEvidence(req.getParameter("evidence"));
         annot.setTermAcc(termAcc);
 
-        if(createdBy!=null){
+        if(createdBy!=null && createdBy != 0){
             annot.setCreatedBy(createdBy);
-        }else{
-            annot.setCreatedBy(0);
-        }
+        }else annot.setCreatedBy(id);
+
         if (req.getParameter("lastModifiedBy").length()>0) {
             annot.setLastModifiedBy(Integer.parseInt(req.getParameter(("lastModifiedBy"))));
-        }
+        }else annot.setLastModifiedBy(id);
         annot.setXrefSource(req.getParameter(("xrefSource")));
           if (req.getParameter("act").equals("add")) {
              annot.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
               int key = dao.insertAnnotation(annot);
               annot.setKey(key);
-              System.out.println(req.getParameter("clone1"));
-              System.out.println(req.getParameter("clone2"));
-              System.out.println(req.getParameter("clone3"));
+
 
               GeneDAO gdao = new GeneDAO();
 
@@ -126,10 +123,11 @@ public class AnnotationEditObjectController extends EditObjectController {
                       annot.setObjectName(ortholog.get(0).getName());
                       annot.setWithInfo("RGD:"+annotatedObjectId);
                       annot.setEvidence("ISO");
-                      key = dao.insertAnnotation(annot);
+                      dao.insertAnnotation(annot);
 
                   }
-              }else if(req.getParameter("clone2") != null && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
+              }
+              if(req.getParameter("clone2") != null && Integer.valueOf(req.getParameter("clone2")) != speciesKey) {
                   List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
                   if(ortholog.size() != 0) {
                       annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
@@ -137,18 +135,20 @@ public class AnnotationEditObjectController extends EditObjectController {
                       annot.setObjectName(ortholog.get(0).getName());
                       annot.setWithInfo("RGD:"+annotatedObjectId);
                       annot.setEvidence("ISO");
-                      key = dao.insertAnnotation(annot);
+                      dao.insertAnnotation(annot);
 
                   }
-              }else if(req.getParameter("clone3") != null && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
-                  List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.MOUSE);
+              }
+
+              if(req.getParameter("clone3") != null && Integer.valueOf(req.getParameter("clone3")) != speciesKey) {
+                  List<Gene> ortholog = gdao.getActiveOrthologs(annotatedObjectId,SpeciesType.HUMAN);
                   if(ortholog.size() != 0) {
                       annot.setAnnotatedObjectRgdId(ortholog.get(0).getRgdId());
                       annot.setObjectSymbol(ortholog.get(0).getSymbol());
                       annot.setObjectName(ortholog.get(0).getName());
                       annot.setWithInfo("RGD:"+annotatedObjectId);
                       annot.setEvidence("ISO");
-                      key = dao.insertAnnotation(annot);
+                      dao.insertAnnotation(annot);
 
                   }
               }
