@@ -20,13 +20,15 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String loggedIn="";
+
         if(request.getCookies() != null && request.getCookies().length != 0)
             if(request.getCookies()[0].getName().equalsIgnoreCase("loggedIn"))
                 loggedIn = request.getCookies()[0].getValue();
 
         if(loggedIn.equals("")) {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-        }
+        } else
+            filterChain.doFilter(request,response);
     }
 
     public void destroy() {
