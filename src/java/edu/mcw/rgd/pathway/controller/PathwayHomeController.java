@@ -2,11 +2,16 @@ package edu.mcw.rgd.pathway.controller;
 
 import edu.mcw.rgd.dao.impl.PathwayDAO;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -30,6 +35,16 @@ public class PathwayHomeController implements Controller {
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
+
+        String loggedIn = "";
+        if(request.getCookies() != null && request.getCookies().length != 0)
+            if(request.getCookies()[0].getName().equalsIgnoreCase("loggedIn"))
+                loggedIn = request.getCookies()[0].getValue();
+
+        if(loggedIn.equals("")) {
+            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+            return null;
+        }
 
         Map<String, String> pwAccMap = makePathwayListsMap();
 
@@ -58,4 +73,6 @@ public class PathwayHomeController implements Controller {
 
         return pathwayMap;
     }
+
+
 }
