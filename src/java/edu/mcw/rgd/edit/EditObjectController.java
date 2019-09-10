@@ -86,15 +86,19 @@ public abstract class EditObjectController implements Controller {
             references=rq.getParameter("references");
 
            login = request.getParameter("login");
+            accessToken = "";
+            if(request.getCookies() != null && request.getCookies().length != 0)
+                if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                    accessToken = request.getCookies()[0].getValue();
 
 
 
         }
 
- //  if(!checkToken(accessToken)) {
-//       response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
- //       return null;
- //  }
+   if(!checkToken(accessToken)) {
+      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+        return null;
+   }
     if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
@@ -308,7 +312,34 @@ public abstract class EditObjectController implements Controller {
         }        
         return true;
     }
+    protected boolean checkToken(String token) throws Exception{
+        if(token.equals(null) || token.isEmpty()){
+            System.out.print(token.equals(""));
+            return false;
+        }else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token "+token);
 
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                login = (String)json.get("login");
+                if(!login.equals("")){
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
+                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token "+token);
+                    if(connection.getResponseCode()== 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
+    }
 
 
 

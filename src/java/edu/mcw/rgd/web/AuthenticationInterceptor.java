@@ -27,18 +27,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     String login = "";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
-        String loggedIn="";
-
-        HttpSession session = request.getSession();
-        loggedIn = (String)session.getAttribute("loggedIn");
+        
         String token = request.getParameter("token");
         if(checkToken(token))
             return true;
-        System.out.println(loggedIn);
-        if(loggedIn == null || loggedIn.equals("")) {
+        else {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
             return false;
-        }else { return true;}
+        }
     }
 
     @Override

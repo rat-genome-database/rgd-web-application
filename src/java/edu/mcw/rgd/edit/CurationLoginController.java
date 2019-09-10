@@ -24,8 +24,9 @@ public class CurationLoginController implements Controller {
             String accessToken = getAccessToken(request.getParameter("code"));
             request.setAttribute("accessToken",accessToken);
             if(checkAccess(accessToken)) {
-                HttpSession session = request.getSession();
-                session.setAttribute("loggedIn", "true");
+                Cookie cookie1 = new Cookie("loggedIn", "true");
+                cookie1.setMaxAge(24*60*60);
+                response.addCookie(cookie1);
                 return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
             }
             else {
