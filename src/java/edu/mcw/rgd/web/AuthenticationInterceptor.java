@@ -7,6 +7,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -22,16 +23,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
         String loggedIn="";
 
-        if(request.getCookies() != null && request.getCookies().length != 0)
-            if(request.getCookies()[0].getName().equalsIgnoreCase("loggedIn"))
-                loggedIn = request.getCookies()[0].getValue();
+        HttpSession session = request.getSession();
+        loggedIn = (String)session.getAttribute("loggedIn");
 
         System.out.println(loggedIn);
-        if(loggedIn.equals("")) {
-            System.out.println("Sendinf");
+        if(loggedIn == null || loggedIn.equals("")) {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
             return false;
-        }else {System.out.println("logged"); return true;}
+        }else { return true;}
     }
 
     @Override
