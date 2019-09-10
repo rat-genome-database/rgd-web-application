@@ -57,7 +57,7 @@
 
     <filter-mapping>
         <filter-name>authFilterChain</filter-name>
-        <url-pattern>/curation/*</url-pattern>
+        <url-pattern>/curation/edit/*</url-pattern>
     </filter-mapping>
 
     <listener>
