@@ -33,29 +33,29 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdCuration/?module=curation&func=contents&token=<%=request.getParameter("accessToken")%>">Curation Tool</a></td>
+                    <a v-bind:href="'/rgdCuration/?module=curation&func=contents&token='+token">Curation Tool</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a :href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Object Editor</a></td>
+                    <a v-bind:href="'/rgdweb/curation/edit/editObject.html?token='+token+'&login='+name">Object Editor</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a :href="/rgdweb/curation/nomen/nomenSearch.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Nomenclature Search</a></td>
+                    <a v-bind:href="'/rgdweb/curation/nomen/nomenSearch.html?token='+token+'&login='+name">Nomenclature Search</a></td>
             </tr>
             <tr>
                 <td>
-                    <a href="/rgdCuration/?module=objectNomen&func=selectObjects&token=<%=request.getParameter("accessToken")%>">Merge/Retire/Split Objects</a>
+                    <a v-bind:href="'/rgdCuration/?module=objectNomen&func=selectObjects&'+token">Merge/Retire/Split Objects</a>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a href="/rgdCuration/?module=notesEdit&func=selectObjects&token=<%=request.getParameter("accessToken")%>">Notes Editor</a>
+                    <a v-bind:href="'/rgdCuration/?module=notesEdit&func=selectObjects&token='+token">Notes Editor</a>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a href="/rgdCuration/?module=ont&func=obsoleteTerms&token=<%=request.getParameter("accessToken")%>">Obsolete Terms</a>
+                    <a v-bind:href="'/rgdCuration/?module=ont&func=obsoleteTerms&token='+token">Obsolete Terms</a>
                 </td>
             </tr>
             <tr valign="top">
@@ -91,11 +91,11 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/phenominer/home.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Phenominer</a></td>
+                    <a v-bind:href="'/rgdweb/curation/phenominer/home.html?token='+token+'&login='+name">Phenominer</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/submittedStrains/editStrains.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Submitted Strains</a></td>
+                    <a v-bind:href="'/rgdweb/curation/edit/submittedStrains/editStrains.html?token='+token+'&login='+name">Submitted Strains</a></td>
             </tr>
             <tr valign="top">
                 <td>
@@ -116,10 +116,12 @@
         data: {
 
             name:"",
-            userloggedin:""
+            userloggedin:"",
+            token:""
         },
         methods: {
           getUser: function(){
+
               axios
                       .get('https://api.github.com/user',
                               {
@@ -130,6 +132,7 @@
                       .then(function (response) {
                           v.name = response.data.login;
                           v.getRepos(v.name);
+                          v.token = "<%=request.getParameter("accessToken")%>";
                       });
           },
           getRepos: function(name){
