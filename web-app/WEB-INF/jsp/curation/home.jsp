@@ -17,7 +17,8 @@
     <tr>
 <h1 > Welcome {{name}} !!!</h1>
         <hr />
-<a href="https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html">Logout</a>
+        <a href="https://dev.rgd.mcw.edu">Logout</a>
+
         <table border="0" width="100%" cellpadding="4">
             <tbody>
 
