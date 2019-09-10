@@ -37,11 +37,11 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>">Object Editor</a></td>
+                    <a href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Object Editor</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/nomen/nomenSearch.html">Nomenclature Search</a></td>
+                    <a href="/rgdweb/curation/nomen/nomenSearch.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Nomenclature Search</a></td>
             </tr>
             <tr>
                 <td>
@@ -91,11 +91,11 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/phenominer/home.html">Phenominer</a></td>
+                    <a href="/rgdweb/curation/phenominer/home.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Phenominer</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/submittedStrains/editStrains.html">Submitted Strains</a></td>
+                    <a href="/rgdweb/curation/edit/submittedStrains/editStrains.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Submitted Strains</a></td>
             </tr>
             <tr valign="top">
                 <td>

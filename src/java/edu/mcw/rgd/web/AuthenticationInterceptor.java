@@ -24,6 +24,7 @@ import java.net.URL;
 
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
+    String login = "";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
         String loggedIn="";
@@ -66,7 +67,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String line = in.readLine();
                 JSONObject json = new JSONObject(line);
-                String login = (String) json.get("login");
+                login = (String) json.get("login");
                 if (!login.equals("")) {
                     URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/" + login);
                     HttpURLConnection connection = (HttpURLConnection) checkUrl.openConnection();
