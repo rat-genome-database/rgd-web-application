@@ -17,7 +17,7 @@
     <tr>
 <h1 > Welcome {{name}} !!!</h1>
         <hr />
-        <a href="https://dev.rgd.mcw.edu/rgdweb/curation/edit/logout.html">Logout</a>
+        <a href="https://dev.rgd.mcw.edu/rgdweb/curation/logout.html">Logout</a>
 
         <table border="0" width="100%" cellpadding="4">
             <tbody>
