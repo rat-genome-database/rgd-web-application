@@ -55,7 +55,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
 
     protected boolean checkToken(String token) throws Exception {
-        if (token.equals(null) || token.isEmpty())
+        if (token == null || token.isEmpty())
             return false;
         else {
             URL url = new URL("https://api.github.com/user");
