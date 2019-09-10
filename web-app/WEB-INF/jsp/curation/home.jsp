@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>
-                    <a v-bind:href="'/rgdCuration/?module=objectNomen&func=selectObjects&'+token">Merge/Retire/Split Objects</a>
+                    <a v-bind:href="'/rgdCuration/?module=objectNomen&func=selectObjects&token='+token">Merge/Retire/Split Objects</a>
                 </td>
             </tr>
             <tr>
