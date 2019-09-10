@@ -15,9 +15,9 @@
 %>
 <%@ include file="/common/headerarea.jsp"%>
 
-<link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
+<!--link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>
+<script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script-->
 <link href="/rgdweb/css/cyStyle.css" rel="stylesheet" type="text/css">
 
 <div class="rgd-panel rgd-panel-default">
