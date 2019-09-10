@@ -1,5 +1,6 @@
 package edu.mcw.rgd.web;
 
+import org.json.JSONObject;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -8,7 +9,11 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +30,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
         loggedIn = (String)session.getAttribute("loggedIn");
-
+        String token = request.getParameter("token");
+        if(checkToken(token))
+            return true;
         System.out.println(loggedIn);
         if(loggedIn == null || loggedIn.equals("")) {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
@@ -44,5 +51,34 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest req, HttpServletResponse res,
                            Object handler, ModelAndView model)  throws Exception {
         //do nothing
+    }
+
+
+    protected boolean checkToken(String token) throws Exception {
+        if (token.equals(null) || token.isEmpty())
+            return false;
+        else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token " + token);
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                String login = (String) json.get("login");
+                if (!login.equals("")) {
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/" + login);
+                    HttpURLConnection connection = (HttpURLConnection) checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token " + token);
+                    if (connection.getResponseCode() == 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
     }
 }
