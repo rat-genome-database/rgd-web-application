@@ -37,11 +37,11 @@
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Object Editor</a></td>
+                    <a :href="/rgdweb/curation/edit/editObject.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Object Editor</a></td>
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/nomen/nomenSearch.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Nomenclature Search</a></td>
+                    <a :href="/rgdweb/curation/nomen/nomenSearch.html?token=<%=request.getParameter("accessToken")%>&login={{name}}">Nomenclature Search</a></td>
             </tr>
             <tr>
                 <td>
