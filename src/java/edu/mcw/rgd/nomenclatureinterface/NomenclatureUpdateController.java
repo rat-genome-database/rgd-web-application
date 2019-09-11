@@ -48,15 +48,7 @@ public class NomenclatureUpdateController implements Controller {
             warning = new ArrayList();
             status = new ArrayList();
 
-            String loggedIn = "";
-            if(request.getCookies() != null && request.getCookies().length != 0)
-                if(request.getCookies()[0].getName().equalsIgnoreCase("loggedIn"))
-                    loggedIn = request.getCookies()[0].getValue();
-
-            if(loggedIn.equals("")) {
-                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-                return null;
-            }
+           
             XmlWebApplicationContext ctx = new XmlWebApplicationContext();
             ctx.setServletContext(request.getSession().getServletContext());
             ctx.refresh();
