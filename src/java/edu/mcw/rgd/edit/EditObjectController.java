@@ -91,9 +91,6 @@ public abstract class EditObjectController implements Controller {
                 if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
                     accessToken = request.getCookies()[0].getValue();
 
-            //This is for requests entering through Php curation tool. Cookie is not available and token is passed in request
-            if(accessToken == null)
-                accessToken = request.getParameter("token");
 
 
 
@@ -317,8 +314,7 @@ public abstract class EditObjectController implements Controller {
         return true;
     }
     protected boolean checkToken(String token) throws Exception{
-        if(token.equals(null) || token.isEmpty()){
-            System.out.print(token.equals(""));
+        if(token == null || token.isEmpty()){
             return false;
         }else {
             URL url = new URL("https://api.github.com/user");

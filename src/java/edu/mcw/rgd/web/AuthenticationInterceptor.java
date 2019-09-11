@@ -34,7 +34,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
                 token = request.getCookies()[0].getValue();
 
+
         if(checkToken(token)) {
+            Cookie cookie1 = new Cookie("accessToken", token);
+            cookie1.setMaxAge(24*60*60);
+            response.addCookie(cookie1);
             return true;
         }
         else {
