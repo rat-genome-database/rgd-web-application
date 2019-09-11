@@ -16,7 +16,7 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/curation/edit/*" />
+            <mvc:mapping path="/curation/*" />
             <beans:bean id="authInterceptor" class="edu.mcw.rgd.web.AuthenticationInterceptor"></beans:bean>
         </mvc:interceptor>
     </mvc:interceptors>
