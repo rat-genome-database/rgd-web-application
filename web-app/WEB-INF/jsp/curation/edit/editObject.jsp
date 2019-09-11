@@ -57,7 +57,6 @@
                 <option value="editSSLP.html">SSLP</option>
                 <option value="editVariant.html">Variant</option>
                 <option value="editReference.html">Reference</option>
-                <option value="editAnnotation.html?">Annotation</option>
                 <option value="editCellLine.html">Cell Line</option>
                 <option value="editTerm.html">Term</option>
             </select>
