@@ -20,9 +20,13 @@ public class CurationLogoutController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Cookie cookie = new Cookie("accessToken", "");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+            cookie.setValue(null);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
 
             response.addHeader("Cache-Control","max-age=5, must-revalidate");
             return new ModelAndView("/WEB-INF/jsp/curation/logout.jsp", "hello", null);
