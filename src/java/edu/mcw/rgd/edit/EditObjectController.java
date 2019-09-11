@@ -85,11 +85,15 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
-           
-            accessToken = "";
+
+            accessToken = null;
             if(request.getCookies() != null && request.getCookies().length != 0)
                 if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
                     accessToken = request.getCookies()[0].getValue();
+
+            //This is for requests entering through Php curation tool. Cookie is not available and token is passed in request
+            if(accessToken == null)
+                accessToken = request.getParameter("token");
 
 
 
