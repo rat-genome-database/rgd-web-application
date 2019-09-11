@@ -20,6 +20,11 @@ public class CurationLogoutController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Cookie cookie1 = new Cookie("accessToken", "");
+        cookie1.setMaxAge(0);
+        cookie1.setPath("/");
+        response.addCookie(cookie1);
+
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             cookie.setMaxAge(0);
