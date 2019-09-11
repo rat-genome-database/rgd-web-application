@@ -30,7 +30,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
 
         String token = request.getParameter("token");
-        if(request.getCookies().length > 0 && request.getCookies()[0].getName().equals("accessToken"))
+        if(request.getCookies() != null && request.getCookies().length != 0)
+            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
                 token = request.getCookies()[0].getValue();
 
         if(checkToken(token)) {
