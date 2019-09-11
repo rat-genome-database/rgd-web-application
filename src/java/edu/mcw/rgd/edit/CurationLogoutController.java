@@ -32,7 +32,10 @@ public class CurationLogoutController implements Controller {
             cookie.setPath("/");
             response.addCookie(cookie);
         }
-
+        HttpSession session = request.getSession(false);
+        if (request.isRequestedSessionIdValid() && session != null) {
+            session.invalidate();
+        }
             response.addHeader("Cache-Control","max-age=5, must-revalidate");
             return new ModelAndView("/WEB-INF/jsp/curation/logout.jsp", "hello", null);
         }
