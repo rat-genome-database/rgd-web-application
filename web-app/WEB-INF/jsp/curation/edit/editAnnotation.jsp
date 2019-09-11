@@ -150,16 +150,18 @@ Date today = new Date();
         <td><input type="text" name="xrefSource" size="45" value="<%=dm.out("xrefSource",annot.getXrefSource())%>" /></td>
     </tr>
     <tr>
-       <% if (isNew && (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) &&
-               (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
-               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI"))) {  %>
+        <% if(isNew) { %>
         <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and return to curation tool"/>
             &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
+       <% if ( (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) &&
+               (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
+               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI"))) {  %>
+
             <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
             <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;
             <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked>  Human&nbsp;
         </td>
-            <% } else {%>
+            <% }} else {%>
         <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and return to curation tool"/>
             &nbsp; <input type="submit" value="Update" size="10" />
             &nbsp; <a href=/rgdCuration/?module=curation&func=linkAnnotation#title>Curation Tool</a>
