@@ -85,7 +85,7 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
-           login = request.getParameter("login");
+           
             accessToken = "";
             if(request.getCookies() != null && request.getCookies().length != 0)
                 if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))

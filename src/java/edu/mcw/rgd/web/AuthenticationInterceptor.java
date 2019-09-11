@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,10 +28,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     String login = "";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
-        
+
         String token = request.getParameter("token");
-        if(checkToken(token))
+        if(request.getCookies().length > 0 && request.getCookies()[0].getName().equals("accessToken"))
+                token = request.getCookies()[0].getValue();
+
+        if(checkToken(token)) {
             return true;
+        }
         else {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
             return false;
@@ -52,6 +57,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
 
     protected boolean checkToken(String token) throws Exception {
+
         if (token == null || token.isEmpty())
             return false;
         else {
