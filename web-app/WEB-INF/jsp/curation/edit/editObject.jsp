@@ -47,7 +47,6 @@
 <h3>Add an RGD Object</h3>
 <form action="">
 <input type="hidden" value="new" name="act" />
-    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
 <table>
     <tr>
         <td>
@@ -58,6 +57,7 @@
                 <option value="editSSLP.html">SSLP</option>
                 <option value="editVariant.html">Variant</option>
                 <option value="editReference.html">Reference</option>
+                <option value="editAnnotation.html?">Annotation</option>
                 <option value="editCellLine.html">Cell Line</option>
                 <option value="editTerm.html">Term</option>
             </select>
@@ -75,7 +75,6 @@
 
 <form action="">
 <input type="hidden" value="new" name="edit" />
-    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
 <table>
     <tr>
         <td>
@@ -104,7 +103,6 @@
 <h3>Clone an RGD Object</h3>
 <form action="">
 <input type="hidden" value="clone" name="act" />
-    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
 <table>
     <tr>
         <td>
