@@ -155,7 +155,7 @@ Date today = new Date();
             &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
        <% if ( (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) &&
                (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
-               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI"))) {  %>
+               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI")) || annot.getEvidence().equals("EXP")) {  %>
 
             <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
             <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;
