@@ -28,12 +28,14 @@ public class CurationLoginController implements Controller {
             }
             else {
                 response.addHeader("Cache-Control","max-age=5, must-revalidate");
+                response.setHeader("Access-Control-Allow-Credentials", "true");
                 response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
                 return null;
             }
 
         } else {
             response.addHeader("Cache-Control","max-age=5, must-revalidate");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
              response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
              return null;
         }
