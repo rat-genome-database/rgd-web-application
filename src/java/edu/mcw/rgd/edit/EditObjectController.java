@@ -41,6 +41,7 @@ public abstract class EditObjectController implements Controller {
     public abstract Object newObject() throws Exception;
 
     public String geneType;
+    public String login = "";
     public String getGeneType() {
         return geneType;
     }
@@ -84,17 +85,22 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
-           accessToken = "";
-                if(request.getCookies().length != 0)
-                    if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
-                        accessToken = request.getCookies()[0].getValue();
+
+            accessToken = null;
+            if(request.getCookies() != null && request.getCookies().length != 0)
+                if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                    accessToken = request.getCookies()[0].getValue();
+
+
 
 
         }
 
-    if(!checkToken(accessToken))
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-        if(geneType!=null)
+   if(!checkToken(accessToken)) {
+      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+        return null;
+   }
+    if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
         Object o = null;
@@ -194,7 +200,7 @@ public abstract class EditObjectController implements Controller {
         request.setAttribute("submittedAlleleRgdId", submittedAlleleRgdId);
         request.setAttribute("references", references);
 
-        if (action.equals("upd") || error.size() > 0) {
+        if (action.equals("upd") || error.size() > 0 || request.getParameter("clone_and_curate") !=null) {
             return new ModelAndView(path + "status.jsp");
         }else if (action.equals("add")) {
             if(o instanceof Annotation) {
@@ -307,10 +313,8 @@ public abstract class EditObjectController implements Controller {
         }        
         return true;
     }
-
     protected boolean checkToken(String token) throws Exception{
-        if(token.equals(null) || token.isEmpty()){
-            System.out.print(token.equals(""));
+        if(token == null || token.isEmpty()){
             return false;
         }else {
             URL url = new URL("https://api.github.com/user");
@@ -321,7 +325,7 @@ public abstract class EditObjectController implements Controller {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
                 String line = in.readLine();
                 JSONObject json = new JSONObject(line);
-                String login = (String)json.get("login");
+                login = (String)json.get("login");
                 if(!login.equals("")){
                     URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
                     HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
@@ -336,5 +340,7 @@ public abstract class EditObjectController implements Controller {
             return false;
         }
     }
+
+
 
   }

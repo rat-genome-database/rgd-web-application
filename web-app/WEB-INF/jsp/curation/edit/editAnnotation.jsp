@@ -3,27 +3,40 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontology.Annotation" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="edu.mcw.rgd.dao.impl.RGDUserDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+
+
 <%
-    String pageTitle = "Edit Annotation";
+    String pageTitle;
+    boolean isClone = (Boolean) request.getAttribute("isClone");
+    boolean isNew = (Boolean) request.getAttribute("isNew");
+    if (isNew)
+        pageTitle = "Create Annotation";
+    else pageTitle = "Edit Annotation";
     String headContent = "";
     String pageDescription = "";
-    
+
 %>
 <%@ include file="/common/headerarea.jsp"%>
 <%
     Annotation annot = (Annotation) request.getAttribute("editObject");
     HttpRequestFacade req = (HttpRequestFacade) request.getAttribute("requestFacade");
-    SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     FormUtility fu = new FormUtility();
     DisplayMapper dm = new DisplayMapper(req, error);
-    boolean isClone = (Boolean) request.getAttribute("isClone");
-    boolean isNew = (Boolean) request.getAttribute("isNew");
+Date today = new Date();
     if (isClone) {
         Annotation clone = (Annotation) request.getAttribute("cloneObject");
         annot = clone;
     }
+    RGDUserDAO udao = new RGDUserDAO();
+
 %>
-<h1>Edit Annotation for <%=annot.getObjectSymbol()%></h1>
+
+
+<h1><%=pageTitle%> for <%=annot.getObjectSymbol()%></h1>
 
 <form action="editAnnotation.html">
 <input type="hidden" name="rgdId" value="<%=annot.getKey()%>" />
@@ -100,29 +113,60 @@
     </tr>
     <tr>
         <td class="label">Created Date:</td>
+        <% if (isNew) {%>
+        <td><%=sdf.format(today)%></td>
+        <% } else { %>
         <td><%=annot.getCreatedDate()==null ? "" : sdf.format(annot.getCreatedDate())%></td>
+        <% } %>
     </tr>
     <tr>
         <td class="label">Last Modified Date:</td>
+        <% if (isNew) {%>
+        <td><%=sdf.format(today)%></td>
+        <% } else { %>
         <td><%=annot.getLastModifiedDate()==null ? "" : sdf.format(annot.getLastModifiedDate())%></td>
+        <% } %>
     </tr>
     <tr>
         <td class="label">Created By:</td>
-        <td><%=fu.chkNull(annot.getCreatedBy())%></td>
+        <% if (isNew) {%>
+        <td> </td>
+        <% } else { %>
+        <td><%=udao.getCurationUser(annot.getCreatedBy())%></td>
+        <% } %>
+
     </tr>
     <tr>
         <td class="label">Last Modified By:</td>
-        <td><%=fu.chkNull(annot.getLastModifiedBy())%></td>
+        <% if (isNew) {%>
+        <td> </td>
+        <% } else { %>
+        <td><%=udao.getCurationUser(annot.getLastModifiedBy())%></td>
+        <% } %>
+
     </tr>
     <tr>
         <td class="label">XRef Source:</td>
         <td><input type="text" name="xrefSource" size="45" value="<%=dm.out("xrefSource",annot.getXrefSource())%>" /></td>
     </tr>
     <tr>
-        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and forward to curation tool"/>
-        &nbsp; <input type="submit" value="Update" size="10" />
-        </td>
+        <% if(isNew) { %>
+        <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and return to curation tool"/>
+            &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
+       <% if ( (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) &&
+               (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
+               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI")) || annot.getEvidence().equals("EXP")) {  %>
 
+            <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
+            <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;
+            <input type="checkbox" name="clone3" value=<%=SpeciesType.HUMAN%> checked>  Human&nbsp;
+        </td>
+            <% }} else {%>
+        <td colspan="2"><br><input type="submit" name="update_and_curate" value="Update and return to curation tool"/>
+            &nbsp; <input type="submit" value="Update" size="10" />
+            &nbsp; <a href=/rgdCuration/?module=curation&func=linkAnnotation#title>Curation Tool</a>
+        </td>
+<%} %>
     </tr>
 </table>
 </form>
