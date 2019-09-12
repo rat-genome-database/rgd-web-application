@@ -1034,6 +1034,35 @@
             </div>
 
         </td>
+        <td>
+
+            <div border="0" id="speciesButton8" class="speciesButton" ng-click="portal.updateSpecies(9,'<%=MapManager.getInstance().getReferenceAssembly(9).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(9)%> (<%=SpeciesType.getCommonName(9)%>)')">
+                <table>
+                    <tr>
+                        <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/pig.png"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><%=SpeciesType.getCommonName(9)%></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <table class="countTable" >
+                                <tr>
+                                    <td class="countTitle">Genes:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|9|1|1"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="countTitle">QTL:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|9|6|1"] }}</td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                            </table>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
 
     </tr>
 </table>
