@@ -440,6 +440,7 @@
                 for (var i=1; i< 8; i++) {
                     document.getElementById("speciesButton" + i).style.border = "3px solid white";
                 }
+                document.getElementById("speciesButton9").style.border = "3px solid white";
 
                 document.getElementById("speciesButton" + speciesType).style.border = "3px solid #8E0026";
 
@@ -1036,7 +1037,7 @@
         </td>
         <td>
 
-            <div border="0" id="speciesButton8" class="speciesButton" ng-click="portal.updateSpecies(9,'<%=MapManager.getInstance().getReferenceAssembly(9).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(9)%> (<%=SpeciesType.getCommonName(9)%>)')">
+            <div border="0" id="speciesButton9" class="speciesButton" ng-click="portal.updateSpecies(9,'<%=MapManager.getInstance().getReferenceAssembly(9).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(9)%> (<%=SpeciesType.getCommonName(9)%>)')">
                 <table>
                     <tr>
                         <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/pig.png"></td>
