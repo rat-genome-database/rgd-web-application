@@ -153,9 +153,7 @@ Date today = new Date();
         <% if(isNew) { %>
         <td colspan="2"><br><input type="submit" name="clone_and_curate" value="Add and return to curation tool"/>
             &nbsp; <input type="submit" value="Add" size="10" /> &nbsp;
-       <% if ( (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) &&
-               (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
-               || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI")) || annot.getEvidence().equals("EXP")) {  %>
+       <% if ( (annot.getTermAcc().startsWith("DO") || annot.getTermAcc().startsWith("PW") || annot.getTermAcc().startsWith("CHEBI")) ) {  %>
 
             <input type="checkbox" name="clone1" value=<%=SpeciesType.RAT%> checked>  Rat&nbsp;
             <input type="checkbox" name="clone2" value=<%=SpeciesType.MOUSE%> checked>  Mouse&nbsp;
@@ -174,7 +172,9 @@ Date today = new Date();
     <input type="hidden" value="clone" name="act" />
 
     <input type="hidden" name="rgdId" value="<%=annot.getKey()%>" />
-    <% if (!isNew) { %>
+    <% if (!isNew &&
+            (annot.getEvidence().equals("IAGP") || annot.getEvidence().equals("IDA") || annot.getEvidence().equals("IEP") || annot.getEvidence().equals("IGI")
+                    || annot.getEvidence().equals("IMP") || annot.getEvidence().equals("IPI")) || annot.getEvidence().equals("EXP") ) { %>
     <input  type="submit" value="Clone" />
     <% } %>
 
