@@ -104,7 +104,7 @@
 
 
 
-<svg height="60000" width="800" id="map-svg"  viewBox="0 0 800 60000" style="border:1px solid black;">
+<svg height="60000" width="1800" id="map-svg"  viewBox="0 0 1800 60000" style="border:1px solid black;">
     <g class="genes" id="genes">
     </g>
 </svg>
@@ -227,7 +227,7 @@
             text.setAttributeNS(null,"y",parseInt(i * (step * scale)) + 3 + topY);
             text.setAttributeNS(null,"fill","black");
             text.setAttributeNS(null,"style","font-size:14px;");
-            text.innerHTML=i * step;
+            text.innerHTML=commaFormat(i * step);
 
             document.getElementById('genes').appendChild(text);
 
@@ -237,52 +237,6 @@
 
         }
     }
-
-    function mapSyntenyBlocks() {
-        for (i = 0; i < synMap.length; i++) {
-
-            var obj = rec = synMap[i];
-            var title = document.createElementNS(svgns, 'title');
-            title.innerHTML = "Species: " + rec.fromSpecies + "Chr" + rec.chr + ":" + rec.start + ".." + rec.stop + " Mapped to Species: " + rec.toSpecies + " chr" + rec.synChr + ":" + rec.synStart + ".." + rec.synStop;
-
-            var rect = document.createElementNS(svgns, 'rect');
-            rect.setAttributeNS(null, 'x', 170 + topX);
-            rect.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY);
-            rect.setAttributeNS(null, 'height', parseInt(((rec.stop - rec.start) * scale)));
-            rect.setAttributeNS(null, 'width', 25);
-            rect.setAttributeNS(null, 'fill', "green");
-            rect.appendChild(title);
-
-            document.getElementById('genes').appendChild(rect);
-
-
-            var ortho = document.createElementNS(svgns, 'rect');
-            ortho.setAttributeNS(null, 'x', 370 + topX);
-            ortho.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY);
-            ortho.setAttributeNS(null, 'height', parseInt(((rec.stop - rec.start) * scale)));
-            ortho.setAttributeNS(null, 'width', 25);
-            ortho.setAttributeNS(null, 'fill', "green");
-            ortho.appendChild(title);
-
-            document.getElementById('genes').appendChild(ortho);
-
-
-            var text = document.createElementNS(svgns, 'text');
-            text.setAttributeNS(null, 'x', 370 + topX);
-            text.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY + 15);
-            text.setAttributeNS(null, 'fill', "#FECF10");
-            text.setAttributeNS(null, 'style', "font-size:16px;");
-            text.innerHTML=rec.synChr;
-            document.getElementById('genes').appendChild(text);
-
-
-
-
-        }
-    }
-
-
-
 
 
     function mapGenes() {
@@ -309,13 +263,222 @@
             document.getElementById('genes').appendChild(polygon);
 
         }
+    }
+
+    function mapSyntenyBlocks() {
+
+/*
+        for (i = 0; i < synMap.length; i++) {
+
+            var obj = rec = synMap[i];
+            alert(JSON.stringify(obj));
+            if (i=3) break;
+        }
+*/
+
+        for (i = 0; i < synMap.length; i++) {
+
+            var obj = rec = synMap[i];
+            var title = document.createElementNS(svgns, 'title');
+            title.innerHTML = "Species: " + rec.fromSpecies + "Chr" + rec.chr + ": " + commaFormat(rec.start) + " .. " + commaFormat(rec.stop) + " Mapped to Species: " + rec.toSpecies + " chr" + rec.synChr + ": " + commaFormat(rec.synStart) + ".." + commaFormat(rec.synStop);
+
+            var rect = document.createElementNS(svgns, 'rect');
+            rect.setAttributeNS(null, 'x', 170 + topX);
+            rect.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY);
+            rect.setAttributeNS(null, 'height', parseInt(((rec.stop - rec.start) * scale)));
+            rect.setAttributeNS(null, 'width', 25);
+            rect.setAttributeNS(null, 'fill', "green");
+            rect.appendChild(title);
+
+            document.getElementById('genes').appendChild(rect);
+
+/*
+            var ortho = document.createElementNS(svgns, 'rect');
+            ortho.setAttributeNS(null, 'x', 370 + topX);
+            ortho.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY);
+            ortho.setAttributeNS(null, 'height', parseInt(((rec.stop - rec.start) * scale)));
+            ortho.setAttributeNS(null, 'width', 25);
+            ortho.setAttributeNS(null, 'fill', "green");
+            ortho.appendChild(title);
+
+            document.getElementById('genes').appendChild(ortho);
+
+            var text = document.createElementNS(svgns, 'text');
+            text.setAttributeNS(null, 'x', 370 + topX);
+            text.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY + 15);
+            text.setAttributeNS(null, 'fill', "#FECF10");
+            text.setAttributeNS(null, 'style', "font-size:16px;");
+            text.innerHTML=rec.synChr;
+            document.getElementById('genes').appendChild(text);
+ */
+
+        }
+    }
+
+
+    sortedSynMap=[];
+
+    function orderSyn() {
+
+        var chunk = [];
+        //var sortedSynMap = [];
+
+        var currentChr = synMap[0].synChr;
+        for (i = 0; i < synMap.length; i++) {
+            var obj = synMap[i];
+            if (obj.synChr==currentChr) {
+                chunk[chunk.length] = obj;
+            }else {
+                var sorted = mergeSort(chunk);
+
+                for (j=0; j<sorted.length; j++) {
+                    sortedSynMap[sortedSynMap.length] = sorted[j];
+
+                }
+
+                chunk=[];
+                chunk[0] = obj;
+                currentChr=obj.synChr;
+            }
+        }
+
+        //console.log("total map 1" + JSON.stringify(sortedSynMap));
+        var sorted = mergeSort(chunk);
+
+        sortedSynMap.concat(sorted);
+
+        console.log("total map " + JSON.stringify(sortedSynMap));
 
     }
+
+    function mergeSort(list) {
+        const len = list.length
+        // an array of length == 1 is technically a sorted list
+        if (len == 1) {
+            return list
+        }
+
+        // get mid item
+        const middleIndex = Math.ceil(len / 2)
+
+        // split current list into two: left and right list
+        let leftList = list.slice(0, middleIndex)
+        let rightList = list.slice(middleIndex, len)
+
+        leftList = mergeSort(leftList)
+        rightList = mergeSort(rightList)
+
+        return merge(leftList, rightList)
+    }
+
+    // Solve the sub-problems and merge them together
+    function merge(leftList, rightList) {
+        const sorted = []
+        while (leftList.length > 0 && rightList.length > 0) {
+            const leftItem = leftList[0]
+            const rightItem = rightList[0]
+            if (leftItem.synStart > rightItem.synStart) {
+                sorted.push(rightItem)
+                rightList.shift()
+            } else {
+                sorted.push(leftItem);
+                leftList.shift()
+            }
+        }
+
+        // if left list has items, add what is left to the results
+        while (leftList.length !== 0) {
+            sorted.push(leftList[0])
+            leftList.shift()
+        }
+
+        // if right list has items, add what is left to the results
+        while (rightList.length !== 0) {
+            sorted.push(rightList[0])
+            rightList.shift()
+        }
+
+        // merge the left and right list
+        return sorted
+    }
+
+
+        function commaFormat(str) {
+            var num = str + "";
+            var formatedNum = "";
+
+            for (var i = 0; i < num.length + 1; i++) {
+
+                if (i==4 || i==7 || i==10) {
+                    formatedNum = "," + formatedNum;
+                }
+
+                formatedNum = num.charAt(num.length - i) + formatedNum;
+            }
+
+            return formatedNum;
+
+
+        }
+
+
+        function mapNextBlocks(lst) {
+
+            console.log("lst passed in " + JSON.stringify(lst));
+
+        /*
+         for (i = 0; i < synMap.length; i++) {
+
+         var obj = rec = synMap[i];
+         alert(JSON.stringify(obj));
+         if (i=3) break;
+         }
+         */
+
+
+            yVal = 0
+
+        for (i = 0; i < lst.length; i++) {
+
+            var rec = lst[i];
+
+            var msg = "Species: " + rec.fromSpecies + "Chr" + rec.chr + ": " + commaFormat(rec.start) + " .. " + commaFormat(rec.stop) + " Mapped to Species: " + rec.toSpecies + " chr" + rec.synChr + ": " + commaFormat(rec.synStart) + " .. " + commaFormat(rec.synStop);
+
+            var title = document.createElementNS(svgns, 'title');
+            title.innerHTML = "Species: " + rec.fromSpecies + "Chr" + rec.chr + ":" + rec.start + ".." + rec.stop + " Mapped to Species: " + rec.toSpecies + " chr" + rec.synChr + ":" + rec.synStart + ".." + rec.synStop;
+
+
+            var ortho = document.createElementNS(svgns, 'rect');
+            ortho.setAttributeNS(null, 'x', 370 + topX);
+            ortho.setAttributeNS(null, 'y', parseInt((yVal * scale)) + topY);
+            ortho.setAttributeNS(null, 'height', parseInt(((rec.synStop - rec.synStart) * scale)));
+            ortho.setAttributeNS(null, 'width', 25);
+            ortho.setAttributeNS(null, 'fill', "green");
+            ortho.appendChild(title);
+
+
+            document.getElementById('genes').appendChild(ortho);
+
+
+            var text = document.createElementNS(svgns, 'text');
+            text.setAttributeNS(null, 'x', 370 + topX);
+            text.setAttributeNS(null, 'y', parseInt((yVal * scale)) + topY + 15);
+            text.setAttributeNS(null, 'fill', "black");
+            text.setAttributeNS(null, 'style', "font-size:16px;");
+            text.innerHTML=rec.synChr + " " + msg;
+            document.getElementById('genes').appendChild(text);
+
+            yVal = yVal + (rec.synStop - rec.synStar);
+        }
+    }
+
 
     buildChr();
     buildScale();
     mapSyntenyBlocks();
     mapGenes();
+    orderSyn();
+    mapNextBlocks(sortedSynMap);
 
 
 </script>
