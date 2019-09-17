@@ -36,7 +36,7 @@
 
     <tr>
         <td class="label" valign="top">Description:</td>
-        <td><%=Utils.NVL(obj.getMergedDescription(), obj.getDescription())%></td>
+        <td><%=Utils.NVL(obj.getMergedDescription(), description==null ? "" : description)%></td>
     </tr>
     <% } %><%-- end GENE DESCRIPTIONS --%>
 
