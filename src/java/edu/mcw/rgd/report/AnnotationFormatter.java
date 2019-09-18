@@ -23,16 +23,16 @@ public class AnnotationFormatter {
 
     public String buildTable(List<String> records, int columns) {
 
-        int rowCount=(int) Math.ceil(records.size() / columns) + 1;
+        int rowCount = (int) Math.ceil(records.size() / columns) + 1;
 
         StringBuilder table = new StringBuilder("<table class=\"annotationTable\" width='95%' border=0><tr>");
 
-        for (int i=0; i< records.size(); i++) {
+        for (int i = 0; i < records.size(); i++) {
             String str = records.get(i);
 
-            if (i==0) {
+            if (i == 0) {
                 table.append("<td valign='top'><table>");
-            }else if ((i % rowCount == 0)) {
+            } else if ((i % rowCount == 0)) {
                 table.append("</table></td><td valign='top'><table>");
             }
 
@@ -49,10 +49,10 @@ public class AnnotationFormatter {
 
         List<String> records = new ArrayList<String>();
 
-        String evidence= "";
-        String termAcc="";
-        String annotatedRgdId="";
-        String term="";
+        String evidence = "";
+        String termAcc = "";
+        String annotatedRgdId = "";
+        String term = "";
 
         // by default, CHEBI annots link to new tabular report
         // other annots link to default list-like report
@@ -61,8 +61,8 @@ public class AnnotationFormatter {
         for (Annotation a : annotationList) {
 
             // compute url based on first term on the list
-            if( annotUrl==null ) {
-                if( !a.getTermAcc().startsWith("CHEBI") ) {
+            if (annotUrl == null) {
+                if (!a.getTermAcc().startsWith("CHEBI")) {
                     annotUrl = "/rgdweb/report/annotation/main.html";
                 } else {
                     annotUrl = "/rgdweb/report/annotation/table.html";
@@ -77,7 +77,7 @@ public class AnnotationFormatter {
             } else {
 
                 if (!term.equals("")) {
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>"+
+                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
@@ -101,6 +101,9 @@ public class AnnotationFormatter {
 
     }
 
+    public static boolean compare(String str1, String str2) {
+        return (str1 == null ? str2 == null : str1.equals(str2));
+    }
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site) throws Exception {
 
@@ -122,28 +125,60 @@ public class AnnotationFormatter {
 
         report.append(rec);
 
-        for (Annotation a : annotationList) {
+        Map<Integer,List> index = new HashMap<>();
 
-            // compute url based on first term on the list
-            if( annotUrl==null ) {
-                if( !a.getTermAcc().startsWith("CHEBI") ) {
-                    annotUrl = "/rgdweb/report/annotation/main.html";
-                } else {
-                    annotUrl = "/rgdweb/report/annotation/table.html";
+        //Find the annotations that are same with multiple references.
+        for(int i = 0; i < annotationList.size(); i++){
+            Annotation current = annotationList.get(i);
+            List val = new ArrayList<>();
+
+            for(int j = 0; j < annotationList.size(); j++) {
+                if(i != j){
+                    Annotation a = annotationList.get(j);
+
+                    if(a.getTerm().equalsIgnoreCase(current.getTerm()) &&
+                       a.getEvidence().equalsIgnoreCase(current.getEvidence())){
+
+                        if(compare(a.getQualifier(),current.getQualifier()) && compare(a.getWithInfo(),current.getWithInfo())
+                                && compare(a.getNotes(),current.getNotes()) && compare(a.getXrefSource(),current.getXrefSource())) {
+                            val.add(j);
+                        }
+                    }
                 }
+
             }
-
-            rec = new Record();
-
-            String termString = "<a href='" + annotUrl + "?term=" + a.getTermAcc() + "&id=" + a.getAnnotatedObjectRgdId() + "'>" + a.getTerm() + " </a>";
-            rec.append(termString);
-
-            if (a.getQualifier() == null) {
-                rec.append("&nbsp;");
-            } else {
-                rec.append(a.getQualifier());
+            if(val.size() != 0) {
+                index.put(i, val);
             }
-            rec.append(a.getEvidence());
+        }
+
+        List repeat = new ArrayList<>();
+        for (int i = 0;i < annotationList.size() ; i++) {
+
+            //Check for annotations with multiple references and remove them from display to avoid duplicate rows
+            if (repeat.size() == 0 || !repeat.contains(i)) {
+                Annotation a = annotationList.get(i);
+
+                rec = new Record();
+
+                // compute url based on first term on the list
+                if (annotUrl == null) {
+                    if (!a.getTermAcc().startsWith("CHEBI")) {
+                        annotUrl = "/rgdweb/report/annotation/main.html";
+                    } else {
+                        annotUrl = "/rgdweb/report/annotation/table.html";
+                    }
+                }
+
+                String termString = "<a href='" + annotUrl + "?term=" + a.getTermAcc() + "&id=" + a.getAnnotatedObjectRgdId() + "'>" + a.getTerm() + " </a>";
+                rec.append(termString);
+
+                if (a.getQualifier() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    rec.append(a.getQualifier());
+                }
+                rec.append(a.getEvidence());
 
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
@@ -151,12 +186,24 @@ public class AnnotationFormatter {
                 rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
             }
 
-            if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {
-                rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
-            }
-            else {
-                rec.append("&nbsp;");
-            }
+  if (!index.keySet().contains(i)) {
+                    if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
+                        rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
+                    } else {
+                        rec.append("&nbsp;");
+                    }
+                } else {
+                    List<Integer> values = index.get(i);
+                    String link = "<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>";
+                    repeat.addAll(values);
+                    for (int j : values) {
+                        Annotation current = annotationList.get(j);
+                        link += "; <a href='" + Link.ref(current.getRefRgdId()) + "' title='show reference'>" + current.getRefRgdId() + "</a>";
+                    }
+
+                    rec.append(link);
+                }
+
 
             // notes: some could be as big as 4k of text; every sentence ends with "; ",
             //  we display only first sentence followed by "..." link
@@ -175,8 +222,12 @@ public class AnnotationFormatter {
                 rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
             }
 
-            report.append(rec);
+                report.append(rec);
+
+            }
+
         }
+
 
         return new HTMLTableReportStrategy().format(report);
     }
@@ -306,9 +357,9 @@ public class AnnotationFormatter {
             String objSymbol = Utils.NVL(a.getObjectSymbol(), "NA");
             String objName = Utils.NVL(a.getObjectName(), "NA");
 
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>"+
-                        "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
-                        " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
+            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
+                    " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
         }
 
         return this.buildTable(records, columns);
@@ -320,7 +371,7 @@ public class AnnotationFormatter {
      * otherwise just show the link
      */
     static public String makeRefLink(String id) throws Exception {
-        if( id.startsWith("PMID:") ) {
+        if (id.startsWith("PMID:")) {
             return XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(id.substring(5), id);
         }
         else if( id.startsWith("REF_RGD_ID:") ) {
@@ -334,15 +385,16 @@ public class AnnotationFormatter {
     static String makeGeneTermAnnotLink(int rgdId, String termAcc, String aclass) {
 
         String text = aclass.equals("imore") ? "&nbsp;&nbsp;&nbsp;" : "more ...";
-        String str = " <a class=\""+aclass+"\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
-        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">"+text+"</a>";
+        String str = " <a class=\"" + aclass + "\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
+        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">" + text + "</a>";
         return str;
     }
 
     /**
      * return a subset of annotations matching given aspect
+     *
      * @param annotationList list of annotations
-     * @param aspect aspect
+     * @param aspect         aspect
      * @return a subset of annotations matching given aspect; could be empty list
      */
     public List<Annotation> filterList(List<Annotation> annotationList, String aspect) {
