@@ -15,7 +15,7 @@
 
         </tr>
     <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
-    <tr><td>Chromosomes</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
+    <tr><td>Chromosomes(haploid)</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
     <tr><td>Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
 
     </c:forEach>
