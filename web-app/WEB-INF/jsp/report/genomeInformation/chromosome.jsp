@@ -163,6 +163,9 @@
                 <c:if test="${hit.sourceAsMap.squirrelOrthologs!=0}">
                     <tr><td>Squirrel</td><td>${hit.sourceAsMap.squirrelOrthologs}</td></tr>
                 </c:if>
+                <c:if test="${hit.sourceAsMap.pigOrthologs!=0}">
+                    <tr><td>Pig</td><td>${hit.sourceAsMap.pigOrthologs}</td></tr>
+                </c:if>
             </table>
 
         </div>
