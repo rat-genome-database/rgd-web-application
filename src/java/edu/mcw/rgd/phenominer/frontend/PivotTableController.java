@@ -2,11 +2,9 @@ package edu.mcw.rgd.phenominer.frontend;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
-import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
-import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.DelimitedReportStrategy;
 import edu.mcw.rgd.reporting.Report;
@@ -25,7 +23,6 @@ import java.util.*;
 public class PivotTableController implements Controller {
 
     PhenominerDAO pdao = new PhenominerDAO();
-    PhenominerExpectedRangeDao pedao = new PhenominerExpectedRangeDao();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -86,10 +83,6 @@ public class PivotTableController implements Controller {
             re.append("Clinical Measurement Notes");
             re.append("Average Type");
             re.append("Value");
-            re.append("Expected Range Mean");
-            re.append("Expected Range Low");
-            re.append("Expected Range High");
-            re.append("Expected Range SD");
             re.append("Units");
             re.append("SEM");
             re.append("SD");
@@ -102,17 +95,12 @@ public class PivotTableController implements Controller {
             re.append("Post Insult Time Value");
             re.append("Post Insult Time Unit");
             re.append("Conditions");
-
         }else {
             re.append("# of Animals");
             re.append("Phenotype");
             re.append("Strain");
             re.append("Sex");
             re.append("Value");
-            re.append("Expected Range Mean");
-            re.append("Expected Range Low");
-            re.append("Expected Range High");
-            re.append("Expected Range SD");
             re.append("Units");
             re.append("Conditions");
         }
@@ -130,11 +118,9 @@ public class PivotTableController implements Controller {
 
         double min = 1000000000;
         double max = -1000000000;
-
         int aCodePoint = Character.codePointAt("a", 0);
 
         Set<String> condColNames = new TreeSet<>();
-
         for (Record r: records) {
             termList.add(r.getSample().getStrainAccId());
             samples.put(r.getSample().getStrainAccId(), null);
@@ -162,6 +148,7 @@ public class PivotTableController implements Controller {
                 }
                 condColNames.add(condColName);
             }
+
             double thisVal = Double.parseDouble(r.getMeasurementValue());
 
             if (thisVal < min) {
@@ -171,9 +158,10 @@ public class PivotTableController implements Controller {
             if (thisVal > max) {
                 max = thisVal;
             }
-        
-            emitConditionNames(re, condColNames);
         }
+
+        // emit cond col names
+        emitConditionNames(re, condColNames);
 
         if( !termList.isEmpty() ) {
             String[] termIds = new String[termList.size()];
@@ -192,21 +180,8 @@ public class PivotTableController implements Controller {
         for (Record r: records) {
 
             re = new edu.mcw.rgd.reporting.Record();
-            String rangeValue = "";
-            String rangeLow = "";
-            String rangeHigh = "";
-            String rangeSD = "";
-            List<PhenominerExpectedRange> expectedRanges = pedao.getExpectedRangesByCMIdNStrainOntId(r.getClinicalMeasurement().getAccId(),r.getSample().getStrainAccId(),r.getSample().getSex().toLowerCase());
-            if(expectedRanges.size() != 0) {
-               rangeValue = String.valueOf(expectedRanges.get(0).getRangeValue());
-               rangeLow = String.valueOf(expectedRanges.get(0).getRangeLow());
-               rangeHigh = String.valueOf(expectedRanges.get(0).getRangeHigh());
-               rangeSD = String.valueOf(expectedRanges.get(0).getRangeSD());
-            }
 
             if (format > 1) {
-
-
                 re.append(r.getStudyId() + "");
                 re.append(r.getStudyName());
                 re.append(r.getExperimentName());
@@ -231,10 +206,6 @@ public class PivotTableController implements Controller {
                 re.append(r.getClinicalMeasurement().getNotes());
                 re.append(r.getClinicalMeasurement().getAverageType());
                 re.append(r.getMeasurementValue());
-                re.append(rangeValue);
-                re.append(rangeLow);
-                re.append(rangeHigh);
-                re.append(rangeSD);
                 re.append(r.getMeasurementUnits());
                 re.append(this.round(r.getMeasurementSem(),4));
                 re.append(this.round(r.getMeasurementSD(),4));
@@ -248,7 +219,6 @@ public class PivotTableController implements Controller {
                 re.append(r.getMeasurementMethod().getPiTypeUnit());
                 re.append(r.getConditionDescription());
 
-
                 re.append(r.getId() + "");
 
             }else {
@@ -258,16 +228,14 @@ public class PivotTableController implements Controller {
                 re.append(termResolver.get(r.getSample().getStrainAccId()).getTerm());
                 re.append(r.getSample().getSex());
                 re.append(r.getMeasurementValue());
-                re.append(rangeValue);
-                re.append(rangeLow);
-                re.append(rangeHigh);
-                re.append(rangeSD);
                 re.append(r.getMeasurementUnits());
                 re.append(r.getConditionDescription());
                 re.append(r.getId() + "");
 
             }
+
             emitConditions(re, condColNames, r);
+
             report.append(re);
         }
 
