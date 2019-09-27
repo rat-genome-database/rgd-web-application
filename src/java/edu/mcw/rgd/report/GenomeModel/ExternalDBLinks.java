@@ -168,6 +168,31 @@ public class ExternalDBLinks {
               xdbs.setUcsc(ucscTracksURL+"panPan1"+"&position=chr"+chr);
       }
       }
+
+      if(mapKey==911){  //pig
+          if(chr==null) {
+              xdbs.setNcbiGenome(ncbiGenomeURL+"?term=Pig Sscrofa11.1");
+              xdbs.setNcbiAssembly(ncbiAssemblyURL+"GCF_000003025.6");
+              xdbs.setUcsc(ucscURL+"susScr11");
+              xdbs.setEnsembl("http://www.ensembl.org/Sus_scrofa/Info/Index");
+          }else{
+              xdbs.setNcbiChr(ncbinuccore+locus);
+              xdbs.setEnsembl("http://www.ensembl.org/Sus_scrofa/Location/Chromosome?r="+chr);
+              xdbs.setUcsc(ucscTracksURL+"susScr11"+"&position=chr"+chr);
+          }
+      }
+      if(mapKey==910){  //pig
+          if(chr==null) {
+              xdbs.setNcbiGenome(ncbiGenomeURL+"?term=Pig Sscrofa10.2");
+              xdbs.setNcbiAssembly(ncbiAssemblyURL+"GCF_000003025.5");
+              xdbs.setUcsc(ucscURL+"susScr3");
+              xdbs.setEnsembl("https://may2017.archive.ensembl.org/Sus_scrofa/Info/Index");
+          }else{
+              xdbs.setNcbiChr(ncbinuccore+locus);
+              xdbs.setEnsembl("https://may2017.archive.ensembl.org/Sus_scrofa/Location/Chromosome?r="+chr);
+              xdbs.setUcsc(ucscTracksURL+"susScr3"+"&position=chr"+chr);
+          }
+      }
       return xdbs;
   }
 
