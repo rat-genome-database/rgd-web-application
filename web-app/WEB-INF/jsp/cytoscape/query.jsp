@@ -85,6 +85,7 @@
                                         <option value="2" >Mouse</option>
                                         <option value="1" >Human</option>
                                         <option value="6" >Dog</option>
+                                        <option value="9" >Pig</option>
                                     </c:otherwise>
                                 </c:choose>
 
