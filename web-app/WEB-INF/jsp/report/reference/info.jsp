@@ -66,7 +66,7 @@
     <%
         if(req.getParameter("abstract")!=null){
             if(!(req.getParameter("abstract").equals("0"))){
-                if(!RgdContext.isProduction() || !RgdContext.isDev() ){
+
     %>
                 <tr>
                     <td colspan="2"><br>
@@ -79,8 +79,12 @@
                        %>
                     </td>
                 </tr>
-    <%
-            }else{%>
+
+
+         <%
+        }else{
+            if(!RgdContext.isProduction() || !RgdContext.isDev() ){%>
+
     <tr>
         <td colspan="2"><br>
             <%
@@ -93,7 +97,7 @@
         </td>
     </tr>
 
-         <%   }
+   <%         }
         }
         }else{
     %>
