@@ -70,6 +70,9 @@
                                             <c:if test="${val==6 && val!=model.species}">
                                                 <option value="${val}">Dog</option>
                                             </c:if>
+                                            <c:if test="${val==9 && val!=model.species}">
+                                                <option value="${val}">Pig</option>
+                                            </c:if>
                                             <c:if test="${val==0 && val!=model.species}">
                                                 <option value="${val}">ALL</option>
                                             </c:if>
