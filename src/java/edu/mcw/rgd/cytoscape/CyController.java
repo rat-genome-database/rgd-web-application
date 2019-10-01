@@ -138,7 +138,7 @@ public class CyController implements Controller {
                }
            } else {
                String sb = Utils.concatenate(symbolList, ", ");
-               List<String> speciesList= new ArrayList<>(Arrays.asList("1","2","3","0","6"));
+               List<String> speciesList= new ArrayList<>(Arrays.asList("1","2","3","0","6","9"));
                model.put("speciesType", SpeciesType.getCommonName(Integer.parseInt(species)));
                model.put("log", nodeManager.getLog());
                model.put("msg", "0 binary interactions found for selected species");
