@@ -98,16 +98,23 @@
                                    <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
                                </td></tr>
                                <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
-                               <tr><td>Chromosomes</td><td>
-                                   <c:choose>
-                                       <c:when test="${hit.sourceAsMap.chromosomes<=1}">
-                                           -
-                                       </c:when>
-                                       <c:otherwise>
-                                           ${hit.sourceAsMap.chromosomes}
-                                       </c:otherwise>
-                                   </c:choose>
-                             </td></tr>
+                               <c:choose>
+                               <c:when test="${hit.sourceAsMap.species!='Squirrel' && hit.sourceAsMap.species!='Chinchilla'}">
+                                     <tr><td>Chromosomes(haploid)</td><td>
+                                         <c:choose>
+                                             <c:when test="${hit.sourceAsMap.chromosomes<=1}">
+                                                 -
+                                             </c:when>
+                                             <c:otherwise>
+                                                 ${hit.sourceAsMap.chromosomes}
+                                             </c:otherwise>
+                                         </c:choose>
+                                     </td></tr>
+                                 </c:when>
+                                   <c:otherwise>
+                                       <tr><td>Scaffolds</td><td></td></tr>
+                                   </c:otherwise>
+                               </c:choose>
                                <tr><td>Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
 
                            </table>

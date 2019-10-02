@@ -66,6 +66,7 @@
     <%
         if(req.getParameter("abstract")!=null){
             if(!(req.getParameter("abstract").equals("0"))){
+
     %>
                 <tr>
                     <td colspan="2"><br>
@@ -78,8 +79,26 @@
                        %>
                     </td>
                 </tr>
-    <%
-            }
+
+
+         <%
+        }else{
+            if(!RgdContext.isProduction() || !RgdContext.isDev() ){%>
+
+    <tr>
+        <td colspan="2"><br>
+            <%
+                if (obj.getRefAbstract() != null) {
+                    out.print(obj.getRefAbstract());
+                } else {
+                    out.print("Abstract for this paper unavailable");
+                }
+            %>
+        </td>
+    </tr>
+
+   <%         }
+        }
         }else{
     %>
             <tr>
