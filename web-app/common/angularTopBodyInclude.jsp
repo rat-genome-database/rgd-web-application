@@ -233,8 +233,16 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" >
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="font-size:16px;" class="modal-title">Analyze <span ng-if="oKey==1">Gene</span><span ng-if="oKey==5">Strain</span><span ng-if="oKey==6">QTL</span>  List</h4>
+                            <table width="100%">
+                                <tr>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><h4 style="font-size:16px;" class="modal-title">Analyze <span ng-if="oKey==1">Gene</span><span ng-if="oKey==5">Strain</span><span ng-if="oKey==6">QTL</span>  List</h4></td>
+                                    <td align="right"><button type="button" class="close" data-dismiss="modal">&times;</button></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                </tr>
+                            </table>
+
+
 
                         </div>
                         <div class="modal-body">
