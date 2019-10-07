@@ -623,10 +623,15 @@ $("input[name='intType']").click(function(){
     var $lir = $('<li style="padding:0"><input type="checkbox" name="species" value="Rat" checked="checked">' + "Rat" + '</li>');
     var $lim = $('<li><input type="checkbox" name="species" value="Mouse" checked="checked">' + "Mouse" + '</li>');
     var $lih = $('<li><input type="checkbox" name="species" value="Human" checked="checked">' + "Human" + '</li>');
+    var $lid = $('<li><input type="checkbox" name="species" value="Dog" checked="checked">' + "Dog" + '</li>');
+    var $lip = $('<li><input type="checkbox" name="species" value="Pig" checked="checked">' + "Pig" + '</li>');
+
 
     $uls.append($lir);
     $uls.append($lim);
     $uls.append($lih);
+    $uls.append($lid);
+    $uls.append($lip);
     $config1.append($uls);
     $("input[name='species']").click(function(){
         var _this= this;
@@ -644,12 +649,16 @@ $("input[name='intType']").click(function(){
                 var elesRat= cy.nodes().filter('.rat');
                 var elesMouse=cy.nodes().filter('.mouse');
                 var elesHuman=cy.nodes().filter('.human');
+            var elesDog=cy.nodes().filter('.dog');
+            var elesPig=cy.nodes().filter('.pig');
                 var elesfaded=cy.nodes().filter('.faded');
 
                 cy.elements().addClass('faded');
                 elesRat.removeClass('faded');
                 elesMouse.removeClass('faded');
                 elesHuman.removeClass('faded');
+            elesDog.removeClass('faded');
+            elesPig.removeClass('faded');
                 elesfaded.addClass('faded');
 
                    var nodes = cy.nodes().filter('.' + clas);

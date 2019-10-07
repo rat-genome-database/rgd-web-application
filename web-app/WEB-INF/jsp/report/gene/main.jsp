@@ -146,7 +146,6 @@
         </div>
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
-        <%@ include file="../portal.jsp"%>
 
         <a name="genomics"></a>
         <br>

@@ -53,7 +53,7 @@ public class CyController implements Controller {
                species=String.valueOf(SpeciesType.parse(request.getParameter("species")));
             }
         }
-        System.out.println( "SPECIES:"+SpeciesType.parse("rat"));
+
 
         String query = request.getParameter("identifiers");
         String browser= request.getParameter("browser");
@@ -78,9 +78,10 @@ public class CyController implements Controller {
             return new ModelAndView("/WEB-INF/jsp/cytoscape/query.jsp", "msg", msg);
         }
         Set<Object> resultSet= this.objectMapper(symbolList,species);
+
         int interactionCount= this.getInteractionsCount(resultSet);
         List<String> nodes= nodeManager.getNodes(resultSet);
-
+        System.out.println("nodes SIZE:"+nodes.size());
         if(nodes!=null) {
            if (nodes.size() > 0) {
                List<String> edges = nodeManager.getEdges();
@@ -137,7 +138,7 @@ public class CyController implements Controller {
                }
            } else {
                String sb = Utils.concatenate(symbolList, ", ");
-               List<String> speciesList= new ArrayList<>(Arrays.asList("1","2","3","0","6"));
+               List<String> speciesList= new ArrayList<>(Arrays.asList("1","2","3","0","6","9"));
                model.put("speciesType", SpeciesType.getCommonName(Integer.parseInt(species)));
                model.put("log", nodeManager.getLog());
                model.put("msg", "0 binary interactions found for selected species");
@@ -181,7 +182,7 @@ public class CyController implements Controller {
         System.out.println("OM Start time: " + new Date());
         switch (species) {
             case "0":
-                List<String> speciesList = new ArrayList<>(Arrays.asList("1", "2", "3", "6"));
+                List<String> speciesList = new ArrayList<>(Arrays.asList("1", "2", "3", "6" ,"9"));
 
                 for (String s : speciesList) {
                     om.mapProteinSymbols(symbolList, SpeciesType.parse(s), "rgd");
