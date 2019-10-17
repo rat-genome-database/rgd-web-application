@@ -6,7 +6,7 @@
 <%
     MapData md50 = null;
     if( obj.getSpeciesTypeKey() == SpeciesType.RAT ) {
-        List<MapData> mds = mapDAO.getMapData(obj.getRgdId(), 70);
+        List<MapData> mds = mapDAO.getMapData(obj.getRgdId(), 360);
         if( !mds.isEmpty() ) {
             md50 = mds.get(0);
         }
