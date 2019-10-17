@@ -100,7 +100,6 @@
 
             <%@ include file="../references.jsp"%>
             <%@ include file="../pubMedReferences.jsp"%>
-            <%@ include file="../portal.jsp"%>
 
             <br>
             <div class="subTitle">Region</div>
