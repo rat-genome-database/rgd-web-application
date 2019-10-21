@@ -38,7 +38,8 @@ public class VVService {
     }
 
     public static void setVariantIndex(String variantIndex) {
-        VVService.variantIndex = variantIndex;
+     //   VVService.variantIndex = variantIndex;
+        VVService.variantIndex = "variant";
     }
 
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req){
@@ -52,7 +53,7 @@ public class VVService {
         if(req.getParameter("showDifferences").equals("true")){
             SearchResponse sr=srb
                     .setSearchType(SearchType.QUERY_THEN_FETCH)
-                    .setRequestCache(true)
+                //    .setRequestCache(true)
                     .setScroll(new TimeValue(60000))
                     .execute().actionGet();
 
@@ -62,7 +63,7 @@ public class VVService {
 
             SearchResponse sr = srb
                     .setSearchType(SearchType.QUERY_THEN_FETCH)
-                    .setRequestCache(true)
+             //       .setRequestCache(true)
                     .setScroll(new TimeValue(60000))
                     .execute().actionGet();
             return Arrays.asList(sr.getHits().getHits());

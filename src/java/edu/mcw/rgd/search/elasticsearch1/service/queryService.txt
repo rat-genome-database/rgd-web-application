@@ -1,0 +1,52 @@
+  public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
+     DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
+        List<String> fields= new ArrayList<>(Arrays.asList("symbol","name", "description", "synonyms", "term", "term_def",
+                "title", "author", "citation", "refAbstract",
+                "origin", "source", "trait", "subTrait",
+                "promoters", "protein_acc_ids", "trancriptIds",
+                "xdbIdentifiers", "xdata", "type"));
+        Map<String, Float> boostMap=new HashMap<>();
+        boostMap.put("symbol",10F);
+        boostMap.put("title", 10F);
+        boostMap.put("term", 10f);
+        boostMap.put("author", 10F);
+        boostMap.put("name", 7F);
+        boostMap.put("description", 7F);
+        boostMap.put("synonyms",8F);
+        boostMap.put("term_def", 7F);
+        boostMap.put("citation", 7F);
+        boostMap.put("refAbstract",7F);
+        boostMap.put("origin",1F);
+        boostMap.put("source", 1F);
+        boostMap.put("trait", 1F);
+        boostMap.put("subTrait", 1F);
+        boostMap.put("promoters", 1F);
+        boostMap.put("protein_acc_ids", 2F);
+        boostMap.put("transcriptIds", 2F);
+        boostMap.put("xdbIdentifiers", 2F);
+        boostMap.put("xdata", 1F);
+        boostMap.put("type", 1F);
+
+        List<String> cats= new ArrayList<>(Arrays.asList("Gene","Strian", "QTL", "SSLP", "Variant"));
+        Map<String, Float> catBoost= new HashMap<>();
+        catBoost.put("Gene", 300F);
+        catBoost.put("Strain", 250F);
+        catBoost.put("QTL",200F );
+        catBoost.put("SSLP", 150F);
+        catBoost.put("Variant", 100F);
+        if(sb!=null) {
+            dqb.add(QueryBuilders.multiMatchQuery(term, fields.toArray(new String[fields.size()])));
+            for(Map.Entry e:boostMap.entrySet()){
+                String field= (String) e.getKey();
+                Float fBoost= (Float) e.getValue();
+              //  if(field.equalsIgnoreCase("symbol")) {
+                   /* for (Map.Entry e1:catBoost.entrySet()) {
+                        String cat= (String) e1.getKey();
+                        Float cBoost= (Float) e1.getValue();
+                        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery(field, term)).filter(QueryBuilders.termQuery("category", cat)));
+                    }*/
+               // }else{
+                //    dqb.add(QueryBuilders.multiMatchQuery(fields, term).operator(Operator.AND));
+               // }
+            }
+            System.out.println(dqb);

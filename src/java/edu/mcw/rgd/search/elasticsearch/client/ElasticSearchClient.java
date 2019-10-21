@@ -23,8 +23,8 @@ public class ElasticSearchClient {
         TransportClient client=null;
 
             Settings settings = Settings.builder()
-                     .put("client.transport.sniff", true)
-                      .put("cluster.name", "erika")
+                   //  .put("client.transport.sniff", true)
+                      .put("cluster.name", "green")
 
                     .build();
 
