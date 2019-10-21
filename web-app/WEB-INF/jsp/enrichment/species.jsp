@@ -1,6 +1,24 @@
 <div style="background-color: white; width:1024px; " v-for="pair in speciesPairs">
 
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading"><span style="font-size:20px;">Loading...</span>
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <br>
+        <br>
+    </div>
     <section v-if="pair.info != 0">
         <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span>
         <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px;width: 1200px; "> Orthologs:
@@ -28,7 +46,7 @@
                                 class="record"
                         >
 
-                            <td><b>{{record.term}} ({{record.acc}})</b> </td>
+                            <td>{{record.term}} ({{record.acc}}) </td>
                             <td  @click="getGenes(record.acc,pair.spec)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 {{record.count}}
                             </button></td>

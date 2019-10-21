@@ -81,6 +81,14 @@
     }
 %>
 
+<table width="180" style="margin-bottom:15px;">
+    <tr>
+        <td align="center"><img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/></td>
+    </tr>
+
+</table>
+
+
 <table class="rgdRightColumnBox" width="180" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="2"><b>More on <%=obj.getSymbol()%></b></td>

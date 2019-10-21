@@ -375,10 +375,11 @@ function runGviewer() {
         }else {
             gviewer.reset();
         }
-        gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
+        gviewer.loadAnnotationsGET("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
 
+        //alert(getFormString(document.gviewerForm));
         //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",10);
+        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
     }
     return false;
 }

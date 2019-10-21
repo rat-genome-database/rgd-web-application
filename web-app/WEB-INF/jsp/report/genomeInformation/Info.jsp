@@ -132,9 +132,9 @@
     <div class="panel-body" >
 
         <div style="float:left;width:40%">
-
+            <h4>Summary</h4>
             <table class="table table-striped" style="border:1px solid gainsboro;">
-                <caption>Summary</caption>
+
 
                 <tr><td>Assembly</td><td>${model.assembly}<br><a href="${hit.sourceAsMap.ncbiLink}" target="_blank">${hit.sourceAsMap.refSeqAssemblyAccession} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
                 <tr><td>Base Pairs</td><td>${hit.sourceAsMap.basePairs}</td></tr>
@@ -149,8 +149,9 @@
                 <tr><td>Contig L50</td><td>${hit.sourceAsMap.contigL50}</td></tr>
                 <tr><td>No. of NCBI chromosome records</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
             </table>
+            <h4>Gene Counts</h4>
             <table class="table table-striped" style="border:1px solid gainsboro;">
-                <caption>Gene Counts</caption>
+
                 <c:if test="${hit.sourceAsMap.totalGenes!=0}">
                 <tr><td>Total Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
                 </c:if>
@@ -188,8 +189,9 @@
                 <tr><td>Genes with Orthologs</td><td>${hit.sourceAsMap.genesWithOrthologs}</td></tr>
                 </c:if>
             </table>
+            <h4>#${model.species} Genes with Orthologs in...</h4>
                 <table class="table table-striped" style="border:1px solid gainsboro;">
-                    <caption>#${model.species} Genes with Orthologs in...</caption>
+
                     <c:if test="${hit.sourceAsMap.humanOrthologs!=0}">
                     <tr><td>Human</td><td>${hit.sourceAsMap.humanOrthologs}</td></tr>
                     </c:if>
@@ -211,12 +213,16 @@
                     <c:if test="${hit.sourceAsMap.squirrelOrthologs!=0}">
                     <tr><td>Squirrel</td><td>${hit.sourceAsMap.squirrelOrthologs}</td></tr>
                     </c:if>
+                    <c:if test="${hit.sourceAsMap.pigOrthologs!=0}">
+                        <tr><td>Pig</td><td>${hit.sourceAsMap.pigOrthologs}</td></tr>
+                    </c:if>
 
 
 
                 </table>
+            <h4>Other</h4>
             <table class="table table-striped" style="border:1px solid gainsboro;">
-                <caption>Other</caption>
+
                 <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
                 <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
                 <!--/c:if>

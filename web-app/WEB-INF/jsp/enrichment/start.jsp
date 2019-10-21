@@ -53,7 +53,7 @@
     List<Chromosome> dogChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.DOG).getKey());
     //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
-    List<Chromosome> pigChr = new ArrayList<Chromosome>();
+    List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
     LinkedHashMap humanKeyValues= new LinkedHashMap();
@@ -125,7 +125,7 @@
         var dogChroms = '<%=fu.buildChrSelectListWithCss("chr", dogChr, "1","form-control inputstl")%>';
         var squiMaps = '<%=fu.buildSelectListWithCss("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
         var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
-       var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "","form-control inputstl")%>';
+       var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
        var pigChroms = '<%=fu.buildChrSelectListWithCss("chr", pigChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>
@@ -195,7 +195,7 @@
                         </tr>
                         <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Protein</td>
-                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Gene Symbol</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" " checked="checked"/>&nbsp;Gene Symbol</td>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;dbSNP ID</td>
                         </tr>
                         <tr>

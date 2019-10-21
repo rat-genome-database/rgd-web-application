@@ -131,9 +131,10 @@
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
- <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
+                <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
+                <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
 
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="carpe/search.html">CarpenovoSearchController</prop>
@@ -171,7 +172,7 @@
 
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
-
+                <!--prop key="front/variantsNew.html">VariantControllerNew</prop-->
                 <prop key="front/variants.html">VariantController</prop>
                 <prop key="front/detail.html">DetailController</prop>
                 <prop key="front/detail_gbrowse.html">DetailController</prop>
@@ -199,6 +200,7 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
@@ -258,6 +260,8 @@
             </props>
         </property>
     </bean>
+
+
     <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
@@ -307,10 +311,11 @@
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
 
-<bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
+    <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
-    
+    <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+
 
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
@@ -407,6 +412,7 @@
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
 
 
+    <!--bean id="VariantControllerNew" class="edu.mcw.rgd.carpenovo.VariantControllerNew" /-->
     <bean id="VariantController" class="edu.mcw.rgd.carpenovo.VariantController" />
     <bean id="DetailController" class="edu.mcw.rgd.carpenovo.DetailController" />
     <bean id="DistributionController" class="edu.mcw.rgd.carpenovo.DistributionController" />
@@ -445,6 +451,7 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
 
 

@@ -88,7 +88,7 @@ public class ExpectedRangeHomeController implements Controller {
 
             }
         }
-        System.out.println("FACETCOUNTS SIZE: "+ facetCounts.size());
+
         if(facetCounts.size()==0) {
             facetCounts.putAll(process.getAggregationByTraitCounts());
         }

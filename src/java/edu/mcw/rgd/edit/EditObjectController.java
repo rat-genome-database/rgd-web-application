@@ -1,13 +1,26 @@
 package edu.mcw.rgd.edit;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import edu.mcw.rgd.datamodel.ontology.Annotation;
+import edu.mcw.rgd.process.FileDownloader;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +41,7 @@ public abstract class EditObjectController implements Controller {
     public abstract Object newObject() throws Exception;
 
     public String geneType;
+    public String login = "";
     public String getGeneType() {
         return geneType;
     }
@@ -52,6 +66,7 @@ public abstract class EditObjectController implements Controller {
         String action, objectStatus, sRgdId, submissionKey, geneType, additionalInfo, submittedAvailability, submittedBackgroundStrain,submittedParentGene, submittedAlleleRgdId;
         String references;
         int speciesTypeKey;
+        String accessToken;
         {
             HttpRequestFacade rq = new HttpRequestFacade(request);
             request.setAttribute("requestFacade", rq);
@@ -70,8 +85,22 @@ public abstract class EditObjectController implements Controller {
             submittedAlleleRgdId=rq.getParameter("submittedAlleleRgdId");
             references=rq.getParameter("references");
 
+
+            accessToken = null;
+            if(request.getCookies() != null && request.getCookies().length != 0)
+                if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                    accessToken = request.getCookies()[0].getValue();
+
+
+
+
         }
-        if(geneType!=null)
+
+   if(!checkToken(accessToken)) {
+      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+        return null;
+   }
+    if(geneType!=null)
         {  this.setGeneType(geneType);}
         /**************************************************************************************/
         Object o = null;
@@ -154,6 +183,7 @@ public abstract class EditObjectController implements Controller {
 
         }
 
+    //    request.setAttribute("token",accessToken);
         request.setAttribute("editObject", o);
         request.setAttribute("cloneObject", clone);
         request.setAttribute("isClone", isClone);
@@ -169,15 +199,19 @@ public abstract class EditObjectController implements Controller {
         request.setAttribute("submittedParentGene", submittedParentGene);
         request.setAttribute("submittedAlleleRgdId", submittedAlleleRgdId);
         request.setAttribute("references", references);
-      
 
-        if (action.equals("upd") || error.size() > 0) {
+        if (action.equals("upd") || error.size() > 0 || request.getParameter("clone_and_curate") !=null) {
             return new ModelAndView(path + "status.jsp");
         }else if (action.equals("add")) {
-            Identifiable id = (Identifiable) o;
-            assert id != null;
-            response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp",".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene="+submittedParentGene+"&submittedAlleleRgdId=" +submittedAlleleRgdId +"&references=" + references);
-            return null;
+            if(o instanceof Annotation) {
+                response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp", ".html") + "?rgdId=" + ((Annotation) o).getKey());
+                return null;
+            }else {
+                Identifiable id = (Identifiable) o;
+                assert id != null;
+                response.sendRedirect(request.getContextPath() + "/curation/edit/" + this.getViewUrl().replaceAll(".jsp", ".html") + "?rgdId=" + id.getRgdId() + "&submittedParentGene=" + submittedParentGene + "&submittedAlleleRgdId=" + submittedAlleleRgdId + "&references=" + references);
+                return null;
+            }
         }else{
             return new ModelAndView(path + this.getViewUrl());
         }
@@ -279,5 +313,34 @@ public abstract class EditObjectController implements Controller {
         }        
         return true;
     }
+    protected boolean checkToken(String token) throws Exception{
+        if(token == null || token.isEmpty()){
+            return false;
+        }else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token "+token);
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                login = (String)json.get("login");
+                if(!login.equals("")){
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
+                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token "+token);
+                    if(connection.getResponseCode()== 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
+    }
+
+
 
   }

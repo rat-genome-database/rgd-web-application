@@ -440,6 +440,7 @@
                 for (var i=1; i< 8; i++) {
                     document.getElementById("speciesButton" + i).style.border = "3px solid white";
                 }
+                document.getElementById("speciesButton9").style.border = "3px solid white";
 
                 document.getElementById("speciesButton" + speciesType).style.border = "3px solid #8E0026";
 
@@ -612,7 +613,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
                 ids="";
                 var first = 1;
@@ -629,7 +630,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
 
                 ids="";
@@ -646,7 +647,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXml.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
 
             }
@@ -1034,6 +1035,35 @@
             </div>
 
         </td>
+        <td>
+
+            <div border="0" id="speciesButton9" class="speciesButton" ng-click="portal.updateSpecies(9,'<%=MapManager.getInstance().getReferenceAssembly(9).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(9)%> (<%=SpeciesType.getCommonName(9)%>)')">
+                <table>
+                    <tr>
+                        <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/pig.png"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><%=SpeciesType.getCommonName(9)%></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <table class="countTable" >
+                                <tr>
+                                    <td class="countTitle">Genes:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|9|1|1"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="countTitle">QTL:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|9|6|1"] }}</td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                            </table>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
 
     </tr>
 </table>
@@ -1183,7 +1213,7 @@
         </tr>
     </table>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -1262,4 +1292,5 @@
 %>
 
 <% } %>
+
 <%@ include file="/common/footerarea.jsp"%>

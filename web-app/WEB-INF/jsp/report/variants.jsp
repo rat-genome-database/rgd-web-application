@@ -6,7 +6,7 @@
 <%
     MapData md50 = null;
     if( obj.getSpeciesTypeKey() == SpeciesType.RAT ) {
-        List<MapData> mds = mapDAO.getMapData(obj.getRgdId(), 70);
+        List<MapData> mds = mapDAO.getMapData(obj.getRgdId(), 360);
         if( !mds.isEmpty() ) {
             md50 = mds.get(0);
         }
@@ -19,7 +19,7 @@
 
         SampleDAO sampleDAO = new SampleDAO();
         sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-        List<Sample> samples = sampleDAO.getSamplesOrderedByName(500);
+        List<Sample> samples = sampleDAO.getSamplesOrderedByName(600);
 
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -28,7 +28,7 @@
 
 <%@ include file="sectionHeader.jsp"%>
 
-<%=ui.dynOpen("varAssociation", "Strain Sequence Variants (Rnor 5.0)")%>
+<%=ui.dynOpen("varAssociation", "Strain Sequence Variants (Rnor 6.0)")%>
 <table border=0  width="100%" >
 <%
     for (Sample samp: samples) {
@@ -38,11 +38,11 @@
            <td valign="left">
                <table border=0 id="table<%=samp.getId()%>" width="100%" style="border-bottom: 2px solid #eeeeee;" >
                    <tr>
-                       <td colspan=0 width=200 valign="top"><a href="/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey=70&geneList=<%=obj.getSymbol()%>&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=<%=samp.getId()%>"><%=samp.getAnalysisName()%></a><br></td>
+                       <td colspan=0 width=200 valign="top"><a href="/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey=360&geneList=<%=obj.getSymbol()%>&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=<%=samp.getId()%>"><%=samp.getAnalysisName()%></a><br></td>
                        <td valign=top width=250>
                            <table>
                                <tr>
-                                   <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey=70&geneList=<%=obj.getSymbol()%>&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=<%=samp.getId()%>" style="font-size:10px;">Visual</a>
+                                   <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="/rgdweb/front/variants.html?chr=&start=&stop=&geneStart=&geneStop=&mapKey=360&geneList=<%=obj.getSymbol()%>&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=<%=samp.getId()%>" style="font-size:10px;">Visual</a>
                                    <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="<%=url%>&fmt=2" style="font-size:10px;">CSV</a>
                                    <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="<%=url%>&fmt=3" style="font-size:10px;">TAB</a>
                                    <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="<%=url%>&fmt=4" style="font-size:10px;">Printer</a>
