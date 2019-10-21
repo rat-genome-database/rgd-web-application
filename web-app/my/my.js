@@ -689,7 +689,6 @@ rgdModule.controller('RGDPageController', [
                         params.outSpecies = 1;
                         params.outMapKey = 38;
                     }
-               
                     for (var key in params) {
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("type", "hidden");

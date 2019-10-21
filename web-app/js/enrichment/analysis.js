@@ -21,7 +21,7 @@ function EnrichmentVue(divId, hostname) {
     if (hostname) {
         host=hostname;
     }
-
+host = "https://dev.rgd.mcw.edu";
     var v = new Vue({
         el: div,
         data: {

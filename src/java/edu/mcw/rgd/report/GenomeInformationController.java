@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,7 +150,7 @@ public class GenomeInformationController implements Controller{
         List<Map> maps= mdao.getMaps(speciesTypeKey, "bp");
         for(Map m: maps){
             int mapKey=m.getKey();
-            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7) {
+            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7 ) {
             assemblyList.add(m.getDescription());
         }
         }

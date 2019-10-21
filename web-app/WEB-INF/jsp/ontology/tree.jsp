@@ -122,6 +122,8 @@
               <a href="<%=XDBIndex.getInstance().getXDB(67).getUrl().replace("#ID#",syn.getName().substring(5))%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("ORDO:") ) { %>
               <a href="<%=XDBIndex.getInstance().getXDB(62).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("NCI:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(69).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
           <% } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {

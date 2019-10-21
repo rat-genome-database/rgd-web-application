@@ -48,6 +48,7 @@ public class NomenclatureUpdateController implements Controller {
             warning = new ArrayList();
             status = new ArrayList();
 
+           
             XmlWebApplicationContext ctx = new XmlWebApplicationContext();
             ctx.setServletContext(request.getSession().getServletContext());
             ctx.refresh();

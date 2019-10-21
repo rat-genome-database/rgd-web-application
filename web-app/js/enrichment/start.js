@@ -38,7 +38,10 @@ var v = new Vue({
             } else if (selected == 7) {
                 maps.innerHTML = squiMaps;
                 chroms.innerHTML = squiChroms;
-            } else {
+            } else if (selected == 9) {
+                maps.innerHTML = pigMaps;
+                chroms.innerHTML = pigChroms;
+            }else {
                 maps.innerHTML = ratMaps;
                 chroms.innerHTML = ratChroms;
             }

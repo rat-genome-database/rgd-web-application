@@ -37,6 +37,7 @@
 <script type="text/javascript">
     function navigatePage(form) {
         form.action = form.objectType.options[form.objectType.options.selectedIndex].value;
+
         form.submit();
     }
 </script>
@@ -132,6 +133,7 @@
 
 <h3>Gene Merge</h3>
 <form action="geneMerge.html">
+
 <TABLE>
     <TR>
         <td class="label">Gene RGD ID From:</td><td><input type="text" name="rgdIdFrom" value="" /></td>
@@ -143,6 +145,7 @@
 
 <h3>Drop Manual Orthologs</h3>
 <form action="dropManualOrthologs.html">
+
 <TABLE>
     <TR>
         <td><input type="submit" name="Submit" value="Go to Drop Manual Orthologs Tool"/></td>
@@ -152,6 +155,7 @@
 
 <h3>RDO Term Merge</h3>
 <form action="termMerge.html">
+
 <TABLE>
     <TR>
         <td class="label">RDO Term Acc From:</td><td><input type="text" name="termAccFrom" value="" /></td>
