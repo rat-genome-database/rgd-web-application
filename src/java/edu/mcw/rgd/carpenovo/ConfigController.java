@@ -2,6 +2,7 @@ package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.SampleDAO;
+import edu.mcw.rgd.datamodel.Sample;
 import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -69,9 +71,9 @@ public class ConfigController extends HaplotyperController {
 
                 SampleDAO sampleDAO = new SampleDAO();
                 sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-
-                request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(vsb.getMapKey()));
-
+                List<Sample> samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey());
+                request.setAttribute("sampleList",samples );
+System.out.println("SAMPLE LSIT SIZE IN CONFIG CONTROLLER: "+ samples.size());
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
             }
 

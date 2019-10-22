@@ -49,13 +49,13 @@ public abstract class HaplotyperController implements Controller {
         GeneDAO gdao = new GeneDAO();
 
         Position p = new Position();
-
+        Map m = MapManager.getInstance().getMap(mapKey);
         if (!geneSymbol.equals("")) {
             if (geneSymbol.indexOf('|') != -1) {
                 String[] genes = geneSymbol.split("\\|");
 
-                Gene g1 = gdao.getGenesBySymbol(genes[0], 3);
-                Gene g2 = gdao.getGenesBySymbol(genes[1], 3);
+                Gene g1 = gdao.getGenesBySymbol(genes[0], m.getSpeciesTypeKey());
+                Gene g2 = gdao.getGenesBySymbol(genes[1], m.getSpeciesTypeKey());
 
                 List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
                 List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
@@ -69,8 +69,8 @@ public abstract class HaplotyperController implements Controller {
             } else if (geneSymbol.indexOf('*') != -1) {
                 String[] genes = geneSymbol.split("\\*");
 
-                Gene g1 = gdao.getGenesBySymbol(genes[0], 3);
-                Gene g2 = gdao.getGenesBySymbol(genes[1], 3);
+                Gene g1 = gdao.getGenesBySymbol(genes[0], m.getSpeciesTypeKey());
+                Gene g2 = gdao.getGenesBySymbol(genes[1], m.getSpeciesTypeKey());
 
                 List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
                 List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
@@ -100,7 +100,7 @@ public abstract class HaplotyperController implements Controller {
 
             } else if (Utils.symbolSplit(geneSymbol).size() == 1) {
 
-                Map m = MapManager.getInstance().getMap(mapKey);
+
                 Gene gene = gdao.getGenesBySymbol(geneSymbol, m.getSpeciesTypeKey());
                 if (gene == null) {
                     throw new VVException("Gene not found for symbol " + geneSymbol);
@@ -128,7 +128,7 @@ public abstract class HaplotyperController implements Controller {
             geneList.add(geneStart);
 
             ObjectMapper om = new ObjectMapper();
-            om.mapSymbols(geneList, 3);
+            om.mapSymbols(geneList, m.getSpeciesTypeKey());
 
             List mapped = om.getMapped();
 
@@ -136,7 +136,7 @@ public abstract class HaplotyperController implements Controller {
             //if (mapped.size() == 0) {
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = sdao.getActiveSSLPsByName(geneStart, 3);
+                List sList = sdao.getActiveSSLPsByName(geneStart, m.getSpeciesTypeKey());
 
                 if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
@@ -157,7 +157,7 @@ public abstract class HaplotyperController implements Controller {
             geneList.add(geneStop);
 
             om = new ObjectMapper();
-            om.mapSymbols(geneList, 3);
+            om.mapSymbols(geneList, m.getSpeciesTypeKey());
 
             mapped = om.getMapped();
 
@@ -165,7 +165,7 @@ public abstract class HaplotyperController implements Controller {
             //we may have an sslp
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = sdao.getActiveSSLPsByName(geneStop, 3);
+                List sList = sdao.getActiveSSLPsByName(geneStop, m.getSpeciesTypeKey());
 
                 if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
@@ -237,12 +237,12 @@ public abstract class HaplotyperController implements Controller {
         } else {
             if(req.getParameter("sample")==null || Objects.equals(req.getParameter("sample"), "")){
             // determine mapKey from samples
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
                 String sample = req.getParameter("sample" + i);
-                if (!sample.isEmpty()) {
+                if (sample!=null && !sample.isEmpty()) {
                     int sampleId = Integer.parseInt(sample);
                     Sample sampleObj = SampleManager.getInstance().getSampleName(sampleId);
-
+                    if(sampleObj!=null){
                     // if bean map key not set, derive it from sample
                     if (vsb.getMapKey() == 0) {
                         vsb.setMapKey(sampleObj.getMapKey());
@@ -257,7 +257,9 @@ public abstract class HaplotyperController implements Controller {
                         }
                     }
                 }
-            }}else{
+                }
+            }
+            }else{
                 String sample=req.getParameter("sample");
                 if(sample.equalsIgnoreCase("all")){
                     SampleDAO sdao = new SampleDAO();
@@ -299,10 +301,14 @@ public abstract class HaplotyperController implements Controller {
         if (chromosome.equals("") || start.equals("") || stop.equals("")) {
 
             // class logger
-            Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
-            chromosome = p.getChromosome();
-            start = p.getStart() + "";
-            stop = p.getStop() + "";
+            try {
+                Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
+                chromosome = p.getChromosome();
+                start = p.getStart() + "";
+                stop = p.getStop() + "";
+            }catch (Exception e){
+                System.out.println(req.getParameter("geneList")+"\t"+req.getParameter("geneStart")+"\t"+req.getParameter("geneStop")+"\t"+mapKey);
+            }
 
         } else {
             try {

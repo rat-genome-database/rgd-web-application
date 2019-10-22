@@ -41,8 +41,44 @@ public class VVService {
      //   VVService.variantIndex = variantIndex;
         VVService.variantIndex = "variant";
     }
-
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req){
+
+        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+
+        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
+                .setQuery(builder)
+                .setSize(10000);
+        List<SearchHit> searchHits= new ArrayList<>();
+        if(req.getParameter("showDifferences").equals("true")){
+            SearchResponse sr=srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    //    .setRequestCache(true)
+                    .setScroll(new TimeValue(60000))
+                    .execute().actionGet();
+            searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+            do {
+                sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+                searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+            } while (sr.getHits().getHits().length != 0);
+            return this.excludeCommonVariants(searchHits, vsb);
+
+        }else {
+
+            SearchResponse sr = srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    //       .setRequestCache(true)
+                    .setScroll(new TimeValue(60000))
+                    .execute().actionGet();
+            searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+            do {
+                sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+                searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+            } while (sr.getHits().getHits().length != 0);
+            return searchHits;
+        }
+
+    }
+ /*   public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req){
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
 
@@ -69,8 +105,56 @@ public class VVService {
             return Arrays.asList(sr.getHits().getHits());
         }
 
-    }
-    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req){
+    }*/
+  /*  public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) {
+        BoolQueryBuilder builder = this.boolQueryBuilder(vsb, req);
+
+        SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
+                .setQuery(builder)
+                .setScroll(new TimeValue(60000))
+                .setSize(10000);
+
+        if (req.getParameter("showDifferences").equals("true")) {
+            srb.addAggregation(this.buildAggregations("regionName"));
+
+            SearchResponse sr = srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    // .setRequestCache(true)
+                    .execute().actionGet();
+            do {
+                System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+              //  sr = client.prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+
+            } while (sr.getHits().getHits().length != 0);
+
+
+        } else {
+         //   srb.addAggregation(this.buildAggregations("sampleId"));
+
+            SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    .setQuery(builder)
+                    .addAggregation(this.buildAggregations("sampleId"))
+                    // .setRequestCache(true)
+                    .setScroll(new TimeValue(60000))
+                    .setSize(10000)
+                    .execute().actionGet();
+            int totalhits=0;
+            do {
+                System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+
+                sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+
+
+            } while (sr.getHits().getTotalHits().value != 0);
+            return srb
+                    .setSearchType(SearchType.QUERY_THEN_FETCH)
+                    // .setRequestCache(true)
+                    .execute().actionGet();
+        }
+        return null;
+    }*/
+   public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req){
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
 
         SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
@@ -92,12 +176,11 @@ public class VVService {
                     .setRequestCache(true)
                     .execute().actionGet();
     }
-    public List<SearchHit> excludeCommonVariants(SearchResponse sr,VariantSearchBean vsb){
-        SearchHit[] searchHits=sr.getHits().getHits();
-        List<SearchHit> searchHitList= Arrays.asList(searchHits);
+    public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
+
         List<SearchHit> nonSharedVariants=new ArrayList<>();
         List<Integer> verifiedPositions=new ArrayList<>();
-        do {
+
             for (SearchHit hit : searchHitList) {
                 List<SearchHit> tempList = new ArrayList<>();
                 String chr = (String) hit.getSourceAsMap().get("chromosome");
@@ -120,9 +203,7 @@ public class VVService {
 
                 }
             }
-        //    System.out.println("NON SHARED VARIANTS: "+ nonSharedVariants.size());
-            sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
-        }while (sr.getHits().getHits().length!=0);
+
         return nonSharedVariants;
     }
 

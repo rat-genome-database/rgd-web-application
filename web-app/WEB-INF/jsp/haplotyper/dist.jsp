@@ -33,7 +33,7 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
-
+<h1>Sample IDS SIZE: <%=sampleIds.size()%></h1>
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 

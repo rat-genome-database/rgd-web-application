@@ -188,7 +188,7 @@
     function navigate(gene, sample) {
        var qString="<%=request.getQueryString()%>";
         var queryString="?";
-        if(qString!=null)
+        if(qString!=null && qString!="null")
         {
          queryString = queryString+"<%=request.getQueryString()%>";
         }

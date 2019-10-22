@@ -393,7 +393,7 @@ public class DistributionController extends HaplotyperController {
             } else {
 
 
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 1000; i++) {
                     if (request.getParameter("sample" + i) != null) {
                         sampleIds.add(request.getParameter("sample" + i));
                     }
@@ -422,15 +422,19 @@ public class DistributionController extends HaplotyperController {
             // try to guess map key from sample ids
             mapKey = 0;
             for( String sampleId: sampleIds ) {
-                int sampleMapKey = SampleManager.getInstance().getSampleName(Integer.parseInt(sampleId)).getMapKey();
-                if( sampleMapKey>0 ) {
-                    if( mapKey==0 ) {
-                        mapKey = sampleMapKey;
-                    } else if( mapKey!=sampleMapKey ) {
-                        throw new Exception("Map Key Required. Samples having multiple map keys.");
+                if (sampleId != null) {
+                    Sample s=SampleManager.getInstance().getSampleName(Integer.parseInt(sampleId));
+                    if(s!=null){
+                    int sampleMapKey = s.getMapKey();
+                    if (sampleMapKey > 0) {
+                        if (mapKey == 0) {
+                            mapKey = sampleMapKey;
+                        } else if (mapKey != sampleMapKey) {
+                            throw new Exception("Map Key Required. Samples having multiple map keys.");
+                        }
                     }
                 }
-            }
+            }}
             if( mapKey==0 )
                 throw new Exception("Map Key Required.  Please choose an assembly.");
         }
@@ -450,6 +454,7 @@ public class DistributionController extends HaplotyperController {
 
             if(!req.getParameter("showDifferences").equals("true")){
             SearchResponse sr=service.getAggregations(vsb, req);
+
             Terms samplesAgg = sr.getAggregations().get("sampleId");
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
 
@@ -469,6 +474,7 @@ public class DistributionController extends HaplotyperController {
         }  else{
 
                 SearchResponse sr=service.getAggregations(vsb, req);
+
                 Terms regionAgg = sr.getAggregations().get("regionName");
 
                 List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
