@@ -181,7 +181,6 @@
             firedDiv = firedDiv.parentElement;
         }
         }
-
         navigate(firedDiv.gene, firedDiv.sample);
     }
 
@@ -205,7 +204,7 @@
 
       <%    
 
-       for (int i=1; i<100; i++) {
+       for (int i=1; i<1000; i++) {
            if (request.getParameter("sample" + i) != null) {
 
    %>
@@ -217,7 +216,7 @@
 
         %>
     //    location.href="variants.html" + queryString;
-        window.open("variants.html" + queryString)
+        window.open("variants.html" + queryString);
     }
 
 

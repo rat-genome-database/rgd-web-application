@@ -38,7 +38,7 @@
 <%
     int regionSize = (int)(vsb.getStopPosition() - vsb.getStartPosition() +1);
 %>
-<form action="dist.html">
+<form action="dist.html" method="post">
 <%
     String chr = vsb.getChromosome();
     if (chr == null) {
