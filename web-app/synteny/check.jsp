@@ -8,7 +8,13 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
-<script src="https://cdn.jsdelivr.net/vue/1.0.28/vue.min.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+
+
 
 
 
@@ -35,6 +41,37 @@
     }
 
 %>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!'
+        }
+    })
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+
+
+
+
 <a href="javascript:zoom(.5)">click</a>
 
 
@@ -504,7 +541,6 @@
                     }
                 }
 
-                sout(regionChr + " : " + regionStart + " - " + regionStop);
 
 
 
@@ -585,8 +621,6 @@
 
             var title = document.createElementNS(svgns, 'title');
             title.innerHTML = "Species: " + rec.fromMap + " Chr" + rec.chr + ":" + rec.start + ".." + rec.stop + " Mapped to Species: " + rec.toMap + " chr" + rec.synChr + ":" + rec.synStart + ".." + rec.synStop;
-
-            sout("synStart = " + rec.synStart + " synStop = " + rec.synStop);
 
             var yPx =  parseInt(yStart + topY);
             var yHeight = parseInt(((rec.synStop - rec.synStart) * scale));
