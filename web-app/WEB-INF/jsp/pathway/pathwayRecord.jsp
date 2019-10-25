@@ -207,8 +207,8 @@ function showonlyoneDis(selectedBlock,fld) {
 </script>
 
 <%--<a href="/rgdweb/curation/pathway/home.html">Back to Pathway Search</a>--%>
-
-<table width="950">
+<div class="container-fluid">
+<table width="900">
 <tr>
     <td></td><td>
         <h5 align="right">
@@ -781,5 +781,5 @@ function showonlyoneDis(selectedBlock,fld) {
     </td>
 </tr>
 </table>
-
+</div>
 <%@ include file="/common/footerarea.jsp"%>
