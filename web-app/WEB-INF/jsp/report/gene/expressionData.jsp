@@ -42,8 +42,7 @@
         <th>Age High Bound</th>
         <th>Age Low Bound</th>
         <th>Value</th>
-        <th>Unit</th>
-        <th>MapKey</th>
+        <th>Assembly</th>
     </tr>
     <%
         for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
@@ -79,13 +78,12 @@
         <td><%=s.getAgeDaysFromHighBound()%></td>
         <td><%=s.getAgeDaysFromLowBound()%></td>
         <td><%=rec.getExpressionValue()%></td>
-        <td><%=rec.getExpressionUnit()%></td>
         <td><%=MapManager.getInstance().getMap(rec.getMapKey()).getName()%></td>
     </tr>
     <% }} %>
 </table>
         </td>
-        <td style="vertical-align: top;">
+        <td style="vertical-align: top">
             <h3> FPKM Values </h3>
             <table class="exprData">
                 <tr>
@@ -96,8 +94,7 @@
                     <th>Age High Bound</th>
                     <th>Age Low Bound</th>
                     <th>Value</th>
-                    <th>Unit</th>
-                    <th>MapKey</th>
+                    <th>Assembly</th>
                 </tr>
                 <%
                     for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
@@ -135,7 +132,6 @@
                     <td><%=s.getAgeDaysFromHighBound()%></td>
                     <td><%=s.getAgeDaysFromLowBound()%></td>
                     <td><%=rec.getExpressionValue()%></td>
-                    <td><%=rec.getExpressionUnit()%></td>
                     <td><%=MapManager.getInstance().getMap(rec.getMapKey()).getName()%></td>
                 </tr>
                 <%} } %>
