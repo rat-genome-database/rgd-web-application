@@ -78,13 +78,21 @@
             edu.mcw.rgd.datamodel.pheno.Sample s = sampleMap.get(geneExpRec.getSampleId());
             Study study = studyMap.get(e.getStudyId());
             String age;
+
             if(s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
-                 age = String.valueOf(s.getAgeDaysFromLowBound() + 21);
-                age+= "-";
-                age+= String.valueOf(s.getAgeDaysFromHighBound() + 23);
-                age+= " embryonic days";
+                String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 21);
+                String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 23);
+                if(ageLow.equalsIgnoreCase(ageLow))
+                    age= ageLow + " embryonic days";
+                else {
+                            age=ageLow + " - " + ageHigh;
+                            age+= " embryonic days";
+                    }
             }
-            else age = String.valueOf(s.getAgeDaysFromLowBound()) + "-" + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+            else { if(s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0 )
+                        age = s.getAgeDaysFromLowBound() + " days";
+                    else age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+            }
             if(s.getTissueAccId().equalsIgnoreCase(tissue)) {
     %>
     <tr>
