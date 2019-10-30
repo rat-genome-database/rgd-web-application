@@ -3,17 +3,13 @@
 <style>
     .exprData {
         border:1px solid black;
-        font-size:small;
-        margin-top:5px;
-        padding:20px;
-        margin-left:2%;
-        margin-right:2%;
         border-radius:2px;
         border-spacing: 5px;
     }
-    .exprData tr{
-        font-size:small;
-        text-align:center;
+    .exprData td,th{
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
     .exprData  tr:nth-child(even) {background-color:#e2e2e2}
 </style>
@@ -21,127 +17,94 @@
     GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
 
-    List<GeneExpressionRecordValue> geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId());
+    List<GeneExpressionRecordValue> geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
     HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
     HashMap<Integer,Experiment> experimentMap = new HashMap<>();
+    Set<String> tissues = new TreeSet<>();
     HashMap<Integer, edu.mcw.rgd.datamodel.pheno.Sample> sampleMap = new HashMap<>();
-    if( !geneExpressionRecordValues.isEmpty() ) {
-%>
-
-<%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
-<table >
-    <tr>
-        <td style="vertical-align: top;">
-<h3> TPM Values </h3>
-<table class="exprData">
-    <tr>
-
-        <th>Strain</th>
-        <th>Tissue</th>
-        <th>sex</th>
-        <th>Age High Bound</th>
-        <th>Age Low Bound</th>
-        <th>Value</th>
-        <th>Assembly</th>
-    </tr>
-    <%
-        for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
-            if(rec.getExpressionUnit().equalsIgnoreCase("TPM")) {
+    HashMap<Integer,Study> studyMap = new HashMap<>();
+    for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
             GeneExpressionRecord geneExpRec;
             Experiment e;
             edu.mcw.rgd.datamodel.pheno.Sample s;
-          if(geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())){
-               geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
-              geneExprRecMap.put(rec.getGeneExpressionRecordId(),geneExpRec);
-          }
-            else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
+            Study study;
+            if (geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())) {
+                geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
+                geneExprRecMap.put(rec.getGeneExpressionRecordId(), geneExpRec);
+            } else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
 
-            if(experimentMap.isEmpty() || !experimentMap.keySet().contains(geneExpRec.getExperimentId())){
+            if (experimentMap.isEmpty() || !experimentMap.keySet().contains(geneExpRec.getExperimentId())) {
                 e = phenominerDAO.getExperiment(geneExpRec.getExperimentId());
-                experimentMap.put(e.getId(),e);
-            }
-            else e = experimentMap.get(geneExpRec.getExperimentId());
+                study = phenominerDAO.getStudy(e.getStudyId());
+                experimentMap.put(e.getId(), e);
+                studyMap.put(e.getStudyId(), study);
 
-            if(sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())){
+            }
+
+            if (sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())) {
                 s = phenominerDAO.getSample(geneExpRec.getSampleId());
-                sampleMap.put(s.getId(),s);
+                sampleMap.put(s.getId(), s);
+                tissues.add(s.getTissueAccId());
             }
-            else s = sampleMap.get(geneExpRec.getSampleId());
 
+
+    }
+
+            if( !geneExpressionRecordValues.isEmpty() ) {
+%>
+
+<%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
+<%
+    for(String tissue: tissues) {
+%>
+<h3><%=xdao.getTerm(tissue).getTerm()%></h3>
+<table class="exprData">
+
+    <tr>
+
+        <td><b>Strain</b></td>
+        <td><b>sex</b></td>
+        <td><b>Age</b></td>
+        <td><b>Value</b></td>
+        <td><b>Unit</b></td>
+        <td><b>Assembly</b></td>
+        <td><b>Reference</b></td>
+    </tr>
+    <%
+        for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
+
+            GeneExpressionRecord geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
+            Experiment e = experimentMap.get(geneExpRec.getExperimentId());
+            edu.mcw.rgd.datamodel.pheno.Sample s = sampleMap.get(geneExpRec.getSampleId());
+            Study study = studyMap.get(e.getStudyId());
+            String age;
+            if(s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
+                 age = String.valueOf(s.getAgeDaysFromLowBound() + 21);
+                age+= "-";
+                age+= String.valueOf(s.getAgeDaysFromHighBound() + 23);
+                age+= " embryonic days";
+            }
+            else age = String.valueOf(s.getAgeDaysFromLowBound()) + "-" + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+            if(s.getTissueAccId().equalsIgnoreCase(tissue)) {
     %>
     <tr>
 
 
         <td><%=xdao.getTerm(s.getStrainAccId()).getTerm()%></td>
-        <td><%=xdao.getTerm(s.getTissueAccId()).getTerm()%></td>
         <td><%=s.getSex()%></td>
-        <td><%=s.getAgeDaysFromHighBound()%></td>
-        <td><%=s.getAgeDaysFromLowBound()%></td>
+        <td><%=age%></td>
         <td><%=rec.getExpressionValue()%></td>
+        <td>TPM</td>
         <td><%=MapManager.getInstance().getMap(rec.getMapKey()).getName()%></td>
+        <td><a href="<%=Link.ref(study.getRefRgdId())%>"><%=study.getRefRgdId()%></a></td>
     </tr>
-    <% }} %>
+    <% } }  %>
 </table>
-        </td>
-        <td style="vertical-align: top">
-            <h3> FPKM Values </h3>
-            <table class="exprData">
-                <tr>
 
-                    <th>Strain</th>
-                    <th>Tissue</th>
-                    <th>sex</th>
-                    <th>Age High Bound</th>
-                    <th>Age Low Bound</th>
-                    <th>Value</th>
-                    <th>Assembly</th>
-                </tr>
-                <%
-                    for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
-                        if(rec.getExpressionUnit().equalsIgnoreCase("FPKM")) {
-                        GeneExpressionRecord geneExpRec;
-                        Experiment e;
-                        edu.mcw.rgd.datamodel.pheno.Sample s;
-                        if(geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())){
-                            geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
-                            geneExprRecMap.put(rec.getGeneExpressionRecordId(),geneExpRec);
-                        }
-                        else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
-
-                        if(experimentMap.isEmpty() || !experimentMap.keySet().contains(geneExpRec.getExperimentId())){
-                            e = phenominerDAO.getExperiment(geneExpRec.getExperimentId());
-                            experimentMap.put(e.getId(),e);
-                        }
-                        else e = experimentMap.get(geneExpRec.getExperimentId());
-
-                        if(sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())){
-                            s = phenominerDAO.getSample(geneExpRec.getSampleId());
-                            sampleMap.put(s.getId(),s);
-                        }
-                        else s = sampleMap.get(geneExpRec.getSampleId());
-
-
-
-                %>
-                <tr>
-
-
-                    <td><%=xdao.getTerm(s.getStrainAccId()).getTerm()%></td>
-                    <td><%=xdao.getTerm(s.getTissueAccId()).getTerm()%></td>
-                    <td><%=s.getSex()%></td>
-                    <td><%=s.getAgeDaysFromHighBound()%></td>
-                    <td><%=s.getAgeDaysFromLowBound()%></td>
-                    <td><%=rec.getExpressionValue()%></td>
-                    <td><%=MapManager.getInstance().getMap(rec.getMapKey()).getName()%></td>
-                </tr>
-                <%} } %>
-            </table>
-        </td>
-    </tr>
-</table>
 <br>
+<%}}%>
+
 <%=ui.dynClose("rna-seq")%>
 
-<% } %>
 
 <%@ include file="../sectionFooter.jsp"%>
