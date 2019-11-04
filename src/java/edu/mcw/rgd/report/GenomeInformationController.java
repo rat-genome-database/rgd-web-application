@@ -119,7 +119,7 @@ public class GenomeInformationController implements Controller{
 
     //    SearchResponse sr;
         if( mapkey==0 ) {
-
+            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")));
         /*    sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
                     .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
