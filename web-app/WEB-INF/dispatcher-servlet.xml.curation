@@ -134,7 +134,7 @@
                 <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
-                <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <!--prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop-->
 
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="carpe/search.html">CarpenovoSearchController</prop>
@@ -314,7 +314,7 @@
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
-    <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <!--bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/-->
 
 
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
