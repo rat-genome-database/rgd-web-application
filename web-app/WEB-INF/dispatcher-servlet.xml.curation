@@ -117,6 +117,7 @@
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
+                 <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
@@ -307,7 +308,7 @@
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-
+ <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>

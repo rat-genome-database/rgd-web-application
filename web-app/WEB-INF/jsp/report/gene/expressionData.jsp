@@ -1,4 +1,5 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
+<%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .exprData {
@@ -12,40 +13,66 @@
         padding: 8px;
     }
     .exprData  tr:nth-child(even) {background-color:#e2e2e2}
+
+     .popup {
+         position: relative;
+         display: inline-block;
+         cursor: pointer;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+     }
+
+    /* The actual popup */
+    .popup .popuptext {
+        visibility: hidden;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+
+    }
+
+
+
+    /* Toggle this class - hide and show the popup */
+    .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+
+
 </style>
 <%
     GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
-
+    Set<String> tissues = new TreeSet<>();
     List<GeneExpressionRecordValue> geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
     HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
-    HashMap<Integer,Experiment> experimentMap = new HashMap<>();
-    Set<String> tissues = new TreeSet<>();
     HashMap<Integer, edu.mcw.rgd.datamodel.pheno.Sample> sampleMap = new HashMap<>();
-    HashMap<Integer,Study> studyMap = new HashMap<>();
+
     for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
-            GeneExpressionRecord geneExpRec;
-            Experiment e;
-            edu.mcw.rgd.datamodel.pheno.Sample s;
-            Study study;
-            if (geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())) {
-                geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
-                geneExprRecMap.put(rec.getGeneExpressionRecordId(), geneExpRec);
-            } else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
 
-            if (experimentMap.isEmpty() || !experimentMap.keySet().contains(geneExpRec.getExperimentId())) {
-                e = phenominerDAO.getExperiment(geneExpRec.getExperimentId());
-                study = phenominerDAO.getStudy(e.getStudyId());
-                experimentMap.put(e.getId(), e);
-                studyMap.put(e.getStudyId(), study);
+        GeneExpressionRecord geneExpRec;
+        edu.mcw.rgd.datamodel.pheno.Sample s;
 
-            }
+        if (geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())) {
+            geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
+            geneExprRecMap.put(rec.getGeneExpressionRecordId(), geneExpRec);
+        } else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
 
-            if (sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())) {
-                s = phenominerDAO.getSample(geneExpRec.getSampleId());
-                sampleMap.put(s.getId(), s);
-                tissues.add(s.getTissueAccId());
-            }
+        if (sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())) {
+            s = phenominerDAO.getSample(geneExpRec.getSampleId());
+            sampleMap.put(s.getId(), s);
+
+        } else s = sampleMap.get(geneExpRec.getSampleId());
+
+        tissues.add(s.getTissueAccId());
 
 
     }
@@ -54,65 +81,79 @@
 %>
 
 <%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
-<%
-    for(String tissue: tissues) {
-%>
-<h3><%=xdao.getTerm(tissue).getTerm()%></h3>
-<table class="exprData">
 
-    <tr>
-
-        <td><b>Strain</b></td>
-        <td><b>sex</b></td>
-        <td><b>Age</b></td>
-        <td><b>Value</b></td>
-        <td><b>Unit</b></td>
-        <td><b>Assembly</b></td>
-        <td><b>Reference</b></td>
-    </tr>
-    <%
-        for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
-
-            GeneExpressionRecord geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
-            Experiment e = experimentMap.get(geneExpRec.getExperimentId());
-            edu.mcw.rgd.datamodel.pheno.Sample s = sampleMap.get(geneExpRec.getSampleId());
-            Study study = studyMap.get(e.getStudyId());
-            String age;
-
-            if(s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
-                String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 21);
-                String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 23);
-                if(ageLow.equalsIgnoreCase(ageLow))
-                    age= ageLow + " embryonic days";
-                else {
-                            age=ageLow + " - " + ageHigh;
-                            age+= " embryonic days";
-                    }
-            }
-            else { if(s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0 )
-                        age = s.getAgeDaysFromLowBound() + " days";
-                    else age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
-            }
-            if(s.getTissueAccId().equalsIgnoreCase(tissue)) {
-    %>
-    <tr>
-
-
-        <td><%=xdao.getTerm(s.getStrainAccId()).getTerm()%></td>
-        <td><%=s.getSex()%></td>
-        <td><%=age%></td>
-        <td><%=rec.getExpressionValue()%></td>
-        <td>TPM</td>
-        <td><%=MapManager.getInstance().getMap(rec.getMapKey()).getName()%></td>
-        <td><a href="<%=Link.ref(study.getRefRgdId())%>"><%=study.getRefRgdId()%></a></td>
-    </tr>
-    <% } }  %>
-</table>
-
+<span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=&tissue="> Download expanded table </a></span>
 <br>
-<%}}%>
+<table class="exprData">
+    <tr>
+        <th></th>
+    <% for(String tissue:tissues) {%>
+        <th><%=xdao.getTerm(tissue).getTerm()%></th>
+        <% } %>
+    </tr>
+    <tr>
+        <th>High</th>
+        <% for(String tissue:tissues) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","high",tissue);
+            if( val.size() != 0) {
+        %>
+        <td>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        </td>
+
+        <% } else {%>
+        <td></td>
+        <%}}  %>
+    </tr>
+    <tr>
+        <th>Medium</th>
+        <% for(String tissue:tissues) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","medium",tissue);
+            if(val.size() != 0) {
+        %>
+        <td>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        </td>
+
+        <% } else {%>
+        <td></td>
+        <% }} %>
+    </tr>
+    <tr>
+        <th>Low</th>
+        <% for(String tissue:tissues) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","low",tissue);
+            if(val.size() != 0) {
+        %>
+        <td>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        </td>
+
+        <% } else {%>
+        <td></td>
+        <% }} %>
+    </tr>
+    <tr>
+        <th>Below cutoff</th>
+
+        <% for(String tissue:tissues) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","below cutoff",tissue);
+            if(val.size() != 0) {
+        %>
+        <td>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        </td>
+
+        <% } else{ %>
+        <td></td>
+        <%} } %>
+    </tr>
+
+</table>
+<br>
+
+<%}%>
 
 <%=ui.dynClose("rna-seq")%>
-
 
 <%@ include file="../sectionFooter.jsp"%>
