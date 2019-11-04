@@ -9,6 +9,7 @@ import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
@@ -165,8 +166,8 @@ public class SearchService {
                 typeAgg = sr.getAggregations().get("type");
                 aggregations.put("type", typeAgg.getBuckets());
             }
-
-           totalHits = sr.getHits().getTotalHits();
+       TotalHits hits= sr.getHits().getTotalHits();
+           totalHits =hits.value ;
             searchHits.add(sr.getHits().getHits());
           /*  SearchHit[] hitsarray= sr.getHits().getHits();
         for(SearchHit h:hitsarray){

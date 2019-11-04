@@ -1,6 +1,10 @@
 package edu.mcw.rgd.search.elasticsearch.client;
 
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.settings.Settings;
@@ -19,12 +23,23 @@ public class ElasticSearchClient {
     private static List<String> hosts;
 
     private ElasticSearchClient(){}
-    public static TransportClient getInstance() {
-        TransportClient client=null;
+    public static RestHighLevelClient getInstance() {
+
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                      new HttpHost("green.rgd.mcw.edu", 9200, "http")
+                     /*  new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
+                        new HttpHost( "erika02.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika03.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika04.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika05.rgd.mcw.edu",9200,"http")*/
+                       ));
+        return client;
+    /*    TransportClient client=null;
 
             Settings settings = Settings.builder()
-                     .put("client.transport.sniff", true)
-                      .put("cluster.name", "erika")
+                   //  .put("client.transport.sniff", true)
+                      .put("cluster.name", "green")
 
                     .build();
 
@@ -38,7 +53,7 @@ public class ElasticSearchClient {
                 e.printStackTrace();
     }
 
-        return client;
+        return client;*/
     }
 
     public static List<String> getHosts() {

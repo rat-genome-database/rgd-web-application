@@ -7,15 +7,19 @@ import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,15 +54,21 @@ public class ChromosomeController implements Controller {
 
     }
 
-    public List<SearchHit[]> getChromosome(int mapKey, String chr){
-        List<SearchHit[]> hitsList= new ArrayList<>();
+    public List<SearchHit[]> getChromosome(int mapKey, String chr) throws IOException {
+       List<SearchHit[]> hitsList= new ArrayList<>();
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(QueryBuilders.matchAllQuery());
+        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("chromosome.keyword", chr)).filter(QueryBuilders.matchQuery("mapKey", mapKey)));
 
-        SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("chromosome"))
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("chromosome"));
+        searchRequest.source(srb);
+        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+      /*  SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("chromosome"))
                 .setTypes("chromosome")
                 .setQuery(QueryBuilders.matchAllQuery())
                 .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("chromosome.keyword", chr)).filter(QueryBuilders.matchQuery("mapKey", mapKey)))
                 .get();
-
+*/
         if(sr!=null) {
             System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());

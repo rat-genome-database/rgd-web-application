@@ -7,18 +7,21 @@ import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,26 +109,35 @@ public class GenomeInformationController implements Controller{
         return assemblyListsMap;
     }
 
-    public List<SearchHit[]> getGenome(int mapkey){
+    public List<SearchHit[]> getGenome(int mapkey) throws IOException {
         List<SearchHit[]> hitsList= new ArrayList<>();
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(QueryBuilders.matchAllQuery());
 
-        SearchResponse sr;
+
+
+
+    //    SearchResponse sr;
         if( mapkey==0 ) {
 
-            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
+        /*    sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
                     .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setSize(100)
                  //   .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")))
                     .get();
-
+*/
         }else {
-            sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
+            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)));
+           /* sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
                     .setTypes("genome")
                     .setQuery(QueryBuilders.matchAllQuery())
                     .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
-                    .get();
+                    .get();*/
         }
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("genome"));
+        searchRequest.source(srb);
+        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
             hitsList.add(sr.getHits().getHits());
 
@@ -151,7 +163,7 @@ public class GenomeInformationController implements Controller{
         List<Map> maps= mdao.getMaps(speciesTypeKey, "bp");
         for(Map m: maps){
             int mapKey=m.getKey();
-            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7) {
+            if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7 ) {
             assemblyList.add(m.getDescription());
         }
         }
