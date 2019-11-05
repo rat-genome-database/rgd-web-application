@@ -97,12 +97,12 @@
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","high",tissue);
             if( val.size() != 0) {
         %>
-        <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        <td style="background-color: SteelBlue ">
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else {%>
-        <td></td>
+        <td style="background-color: SteelBlue "></td>
         <%}}  %>
     </tr>
     <tr>
@@ -111,12 +111,12 @@
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","medium",tissue);
             if(val.size() != 0) {
         %>
-        <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=tissue%>"><%=val.size()%> </a></span>
-        </td>
+        <td style="background-color: LightSteelBlue ">
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=tissue%>"><b><%=val.size()%></b>  </a></span>
+        </td >
 
         <% } else {%>
-        <td></td>
+        <td style="background-color: LightSteelBlue "></td>
         <% }} %>
     </tr>
     <tr>
@@ -125,12 +125,12 @@
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","low",tissue);
             if(val.size() != 0) {
         %>
-        <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        <td style="background-color: LightBlue">
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else {%>
-        <td></td>
+        <td style="background-color: LightBlue"></td>
         <% }} %>
     </tr>
     <tr>
@@ -140,12 +140,12 @@
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","below cutoff",tissue);
             if(val.size() != 0) {
         %>
-        <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=tissue%>"><%=val.size()%> </a></span>
+        <td style="background-color: DarkSeaGreen ">
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else{ %>
-        <td></td>
+        <td style="background-color: DarkSeaGreen "></td>
         <%} } %>
     </tr>
 
