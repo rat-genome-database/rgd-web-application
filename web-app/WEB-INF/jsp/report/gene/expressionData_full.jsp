@@ -22,7 +22,7 @@
     String level = request.getParameter("level");
     String tissueId = request.getParameter("tissue");
 %>
-<%@ include file="/common/compactHeaderArea.jsp" %>
+<%@ include file="/common/headerarea.jsp"%>
 <div class="container-fluid" style="background-color: white ">
 
 <table style="margin: 2%">
