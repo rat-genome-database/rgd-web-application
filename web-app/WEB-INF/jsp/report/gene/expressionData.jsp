@@ -82,8 +82,14 @@
 
 <%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
 
-<span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=&tissue="> Download expanded table </a></span>
-<br>
+<span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=&tissue="> View expanded table </a></span>
+<br><br>
+
+<b ><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;
+<b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>
+<b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;
+<b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>
+
 <table class="exprData">
     <tr>
         <th></th>
