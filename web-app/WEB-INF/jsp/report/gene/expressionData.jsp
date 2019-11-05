@@ -113,12 +113,12 @@
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","below cutoff",tissue);
             if(val.size() != 0) {
         %>
-        <td style="background-color: DarkSeaGreen ">
+        <td>
             <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else{ %>
-        <td style="background-color: DarkSeaGreen "></td>
+        <td></td>
         <%} } %>
     </tr>
 

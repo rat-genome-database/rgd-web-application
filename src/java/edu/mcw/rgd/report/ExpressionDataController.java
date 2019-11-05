@@ -76,6 +76,7 @@ public class ExpressionDataController implements Controller {
         recHeader.append("Strain");
         recHeader.append("Sex");
         recHeader.append("Age");
+        recHeader.append("Tissue");
         recHeader.append("Value");
         recHeader.append("Unit");
         recHeader.append("Assembly");
@@ -131,6 +132,7 @@ public class ExpressionDataController implements Controller {
                 record.append(xdao.getTerm(s.getStrainAccId()).getTerm());
                 record.append(s.getSex());
                 record.append(age);
+                record.append(xdao.getTerm(s.getTissueAccId()).getTerm());
                 record.append(rec.getExpressionValue().toString());
                 record.append("TPM");
                 record.append(MapManager.getInstance().getMap(rec.getMapKey()).getName());
