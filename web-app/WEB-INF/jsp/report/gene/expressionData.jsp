@@ -12,39 +12,6 @@
         text-align: left;
         padding: 8px;
     }
-    .exprData  tr:nth-child(even) {background-color:#e2e2e2}
-
-     .popup {
-         position: relative;
-         display: inline-block;
-         cursor: pointer;
-         -webkit-user-select: none;
-         -moz-user-select: none;
-         -ms-user-select: none;
-         user-select: none;
-     }
-
-    /* The actual popup */
-    .popup .popuptext {
-        visibility: hidden;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px 0;
-        position: absolute;
-        z-index: 1;
-
-    }
-
-
-
-    /* Toggle this class - hide and show the popup */
-    .popup .show {
-        visibility: visible;
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s;
-    }
 
 
 </style>
