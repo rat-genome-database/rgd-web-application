@@ -67,7 +67,8 @@ public class ClientInit {
 
     public List<String> getNodeURLs() {
         ArrayList hostNames = new ArrayList();
-        List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200"));
+      List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200","http://green.rgd.mcw.edu:9200"));
+   //     List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://green.rgd.mcw.edu:9200"));
         Iterator var2 = nodeUrls.iterator();
 
         while(var2.hasNext()) {
