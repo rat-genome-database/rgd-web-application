@@ -5,18 +5,22 @@ import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -38,7 +42,7 @@ public class QueryService1 {
     }
 
 
-    public SearchResponse getSearchResponse(String term, SearchBean sb){
+    public SearchResponse getSearchResponse(String term, SearchBean sb) throws IOException {
 
       //  if(term!=null) {
             Map<String, String> filterMap= this.getFilterMap(sb);
@@ -47,28 +51,29 @@ public class QueryService1 {
 
 
             String sortField=null;
-            SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
-                    .setQuery(builder);
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+       //     SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
+                    srb.query(builder);
             if(sb != null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance")) {
-                    srb.addSort(SortBuilders.scoreSort().order(SortOrder.DESC));
+                    srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
                 } else {
                     if (sb.getSortBy().equalsIgnoreCase("symbol")) {
                         sortField = sb.getSortBy() + ".keyword";
                         if (sb.getSortOrder().equalsIgnoreCase("asc")) {
-                            srb.addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
+                            srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
                         } else {
-                            srb.addSort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
+                            srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
                         }
                     } else {
                         sortField = "mapDataList." + sb.getSortBy();
                         if (sb.getSortOrder().equalsIgnoreCase("asc")) {
                             //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
+                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
                             );
                         } else {
                             //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.addSort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
+                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
                         }
                     }
                 }
@@ -80,53 +85,56 @@ public class QueryService1 {
                     for (String field : aggFields) {
                         AggregationBuilder aggs = this.buildAggregations(field);
                         if (aggs != null)
-                            srb.addAggregation(aggs);
+                            srb.aggregation(aggs);
                     }
                 }
 
                 srb
                         .highlighter(this.buildHighlights())
-                        .setFrom(sb.getFrom())
-                        .setSize(sb.getSize());
+                        .from(sb.getFrom())
+                        .size(sb.getSize());
 
                 if (!Objects.equals(sb.getSpecies(), "") && !sb.getCategory().equalsIgnoreCase("general")) {
                     if (sb.getType() != null && !Objects.equals(sb.getType(), "")) {
                         if (!Objects.equals(sb.getType(), "null")) {
-                            srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("type.keyword", sb.getType())));
+                            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("type.keyword", sb.getType())));
                         }
 
                     }
 
                     if (!sb.getTrait().equals("")) {
-                        srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
+                        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
                     }
                     if (sb.getType() != null && sb.getType().equals("") && sb.getTrait().equalsIgnoreCase("")) {
-                        srb.setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
                     }
                 } else {
                     if (!Objects.equals(sb.getSpecies(), "")) {
-                        srb.setPostFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
+                        srb.postFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
 
                     }
                     if (!sb.getCategory().equalsIgnoreCase("general")) {
                         if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
 
                             if (sb.getSubCat() != null && sb.getSubCat() != "") {
-                                srb.setPostFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat()))));
+                                srb.postFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat()))));
                             } else {
-                                srb.setPostFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                                srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
                             }
                         } else
-                            srb.setPostFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                            srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
 
                     }
                 }
             }
-        SearchResponse sr=srb
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
+        searchRequest.source(srb);
+        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+     /*   SearchResponse sr=srb
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
                 .setRequestCache(true)
                    .execute().actionGet();
-
+*/
         return sr;
     //   }
 
@@ -372,9 +380,18 @@ public class QueryService1 {
     }
 
     public SearchResponse getSearchResponse(String term, String category) throws Exception {
-        return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
+
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(QueryBuilders.termQuery("term_acc", term));
+
+
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
+        searchRequest.source(srb);
+        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
+       /* return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                          .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                            .setQuery(QueryBuilders.termQuery("term_acc", term))
-                           .get();
+                           .get();*/
     }
 }

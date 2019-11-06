@@ -5,8 +5,10 @@ package edu.mcw.rgd.search.elasticsearch.client;
 import edu.mcw.rgd.process.search.ElasticNode;
 
 import io.netty.util.internal.InternalThreadLocalMap;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.transport.TransportClient;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,36 +21,35 @@ import java.util.List;
  * Created by jthota on 8/9/2017.
  */
 public class ClientInit {
-    private static TransportClient client=null;
+    private static RestHighLevelClient client=null;
     private static List<String> hosts;
     public void init(){
         System.out.println("Initializing Elasticsearch Client...");
         if(client==null){
             hosts=this.getHostNames();
             ElasticSearchClient.setHosts(hosts);
-
             System.out.println("CLIENT IS NULL, CREATING NEW CLIENT...");
             client=ElasticSearchClient.getInstance();
             System.out.println("Initialized elasticsearch client ...");
         }
     }
 
-    public static void setClient(TransportClient client) {
+    public static void setClient(RestHighLevelClient client) {
         ClientInit.client = client;
     }
 
-    public synchronized void destroy(){
+    public synchronized void destroy() throws IOException {
         System.out.println("destroying Elasticsearch Client...");
         if(client!=null) {
             client.close();
-            client.threadPool().shutdownNow();
+         //   client.threadPool().shutdownNow();
             InternalThreadLocalMap.remove();
             client=null;
 
 
         }
     }
-    public static TransportClient getClient() {
+    public static RestHighLevelClient getClient() {
         return client;
     }
 
@@ -66,7 +67,8 @@ public class ClientInit {
 
     public List<String> getNodeURLs() {
         ArrayList hostNames = new ArrayList();
-        List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200"));
+      List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200","http://green.rgd.mcw.edu:9200"));
+   //     List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://green.rgd.mcw.edu:9200"));
         Iterator var2 = nodeUrls.iterator();
 
         while(var2.hasNext()) {
@@ -88,7 +90,7 @@ public class ClientInit {
 
         return hostNames;
     }
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         ClientInit c= new ClientInit();
         c.init();
         c.destroy();
