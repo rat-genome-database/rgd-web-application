@@ -2,9 +2,7 @@
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.util.*" %>
-<%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
-<%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
-<%@ page import="edu.mcw.rgd.datamodel.Sample" %>
+
 
 <style>
 
@@ -182,42 +180,20 @@
         }
         }
 
-        navigate(firedDiv.gene, firedDiv.sample);
+        navigate(firedDiv.gene);
     }
 
-    function navigate(gene, sample) {
-       var qString="<%=request.getQueryString()%>";
-        var queryString="?";
-        if(qString!=null)
-        {
-         queryString = queryString+"<%=request.getQueryString()%>";
-        }
+    function navigate(gene) {
+
+        var queryString = "?<%=request.getQueryString()%>";
         queryString = addParam("chr","",queryString);
         queryString = addParam("start","",queryString);
         queryString = addParam("stop","",queryString);
         queryString = addParam("geneList",gene,queryString);
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
-        queryString=addParam("sample", sample, queryString);
-        queryString=addParam("mapKey","<%=request.getParameter("mapKey")%>", queryString);
 
-       queryString=addParam("showDifferences","<%=request.getParameter("showDifferences")%>", queryString );
-
-      <%    
-
-       for (int i=1; i<100; i++) {
-           if (request.getParameter("sample" + i) != null) {
-
-   %>
-        queryString=addParam("sample<%=i%>", "<%=request.getParameter("sample" + i)%>", queryString);
-
-        <%
-                    }
-                }
-
-        %>
-    //    location.href="variants.html" + queryString;
-        window.open("variants.html" + queryString)
+        location.href="variants.html" + queryString;
     }
 
 

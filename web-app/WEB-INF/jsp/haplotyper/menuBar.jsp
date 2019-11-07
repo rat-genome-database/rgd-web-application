@@ -81,76 +81,16 @@
                 <td>&nbsp;</td>
                 <td><a href="config.html" class="classname">Home</a></td></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td>
-                    <!--a href="select.html?<-%=request.getQueryString()%>" class="classname">Edit&nbsp;Strains</a-->
-                    <form action="select.html" method="post">
-                        <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
-                        <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-                        <%
-                            for (int i=1; i<100; i++) {
-                                if (request.getParameter("sample" + i) != null) {
-
-                        %>
-
-                        <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-                        <%
-                                }
-                            }
-
-                        %>
-                        <button type="submit" class="button form-input" style="width:200px">Edit&nbsp;Strains</button>
-                    </form>
-                </td>
+                <td><a href="select.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Strains</a></td></td>
 
                     <% if (positionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><!--a href="region.html?<-%=request.getQueryString()%>" class="classname">Region</a></td-->
-                            <form action="region.html" method="post">
-                                <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
-                                <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-                                <input type="hidden" name="start" value="<%=request.getParameter("start")%>"/>
-                                <input type="hidden" name="stop" value="<%=request.getParameter("stop")%>"/>
-                                <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
-                                <%
-                                    for (int i=1; i<100; i++) {
-                                        if (request.getParameter("sample" + i) != null) {
-
-                                %>
-
-                                <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-                                <%
-                                        }
-                                    }
-
-                                %>
-                                <button type="submit" class="button form-input" style="width:200px">Region</button>
-                            </form>
-                        </td>
+                        <td><a href="region.html?<%=request.getQueryString()%>" class="classname">Region</a></td></td>
                     <% } %>
 
                      <% if (geneSearch) { %>
                           <td>&nbsp;&nbsp;&nbsp;</td>
-                          <td>
-                              <!--a  href="geneList.html?<-%=request.getQueryString()%>" class="classname">Edit&nbsp;Gene&nbsp;List</a-->
-                                <form action="geneList.html" method="post">
-                                    <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
-                                    <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-                                    <%
-                                        for (int i=1; i<100; i++) {
-                                            if (request.getParameter("sample" + i) != null) {
-
-                                    %>
-
-                                    <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-                                    <%
-                                            }
-                                        }
-
-                                    %>
-                                    <button type="submit" class="button form-input" style="width:200px">Edit&nbsp;Gene&nbsp;List</button>
-                                </form>
-
-                          </td>
+                          <td><a  href="geneList.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Gene&nbsp;List</a></td></td>
                      <% } %>
 
 
@@ -161,29 +101,7 @@
 
                     <% if (resultsRendered) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><!--a href="options.html?<%=request.getQueryString()%>" class="classname">Sequence&nbsp;Annotation</a></td-->
-                            <form action="options.html" method="post">
-                                <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
-                                <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-                                <input type="hidden" name="start" value="<%=request.getParameter("start")%>"/>
-                                <input type="hidden" name="stop" value="<%=request.getParameter("stop")%>"/>
-                                <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
-                                <%
-                                    for (int i=1; i<100; i++) {
-                                        if (request.getParameter("sample" + i) != null) {
-
-                                %>
-
-                                <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-                                <%
-                                        }
-                                    }
-
-                                %>
-                                <button type="submit" class="button form-input" style="width:200px">Sequence&nbsp;Annotation</button>
-                            </form>
-
-                        </td>
+                        <td><a href="options.html?<%=request.getQueryString()%>" class="classname">Sequence&nbsp;Annotation</a></td></td>
                     <% }%>
             </tr>
             </table>

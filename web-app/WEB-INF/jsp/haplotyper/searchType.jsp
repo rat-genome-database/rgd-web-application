@@ -52,7 +52,6 @@ String pageDescription = "Define Region";
                 <option value='60' <% if (mapKey==60) out.print("selected");%>>RGSC Genome Assembly v3.4</option>
                     <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
                     <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
-                    <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog Genome Assembly CanFam3.1</option>
                 </select>
             </td>
 

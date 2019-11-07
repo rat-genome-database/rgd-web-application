@@ -29,19 +29,19 @@ String pageDescription = "Define Gene Symbol List";
     <br><br>
 
 <script>
-   function checkGeneList() {
-            console.log(document.getElementById("geneList").value);
-    //   if (document.getElementById("geneList").value.length > 2000) {
-    //      alert("Gene List input must be under 2000 characters.  Your current list is " + document.getElementById("geneList").value.length + ". Please reduce the size of your list.");
-    //   }else {
+    function checkGeneList() {
+
+       if (document.getElementById("geneList").value.length > 2000) {
+          alert("Gene List input must be under 2000 characters.  Your current list is " + document.getElementById("geneList").value.length + ". Please reduce the size of your list.");
+       }else {
           document.optionForm.submit();
-    //   }
+       }
     }
 
 
 </script>
 
-<form action="config.html" name="optionForm" method="post">
+<form action="config.html" name="optionForm">
 
     <!--<input type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" value="Import" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>-->
 
@@ -62,7 +62,7 @@ String pageDescription = "Define Gene Symbol List";
             </table>
             </td>
         <td valign="top" align="left">
-            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..."/></div>
+            <div style="margin-left:10px;"><input  class="continueButton"  type="button" onClick="checkGeneList();" value="Continue..."/></div>
         </td>
     </tr>
 </table>
