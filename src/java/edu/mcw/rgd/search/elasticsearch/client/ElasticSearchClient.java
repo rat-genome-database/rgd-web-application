@@ -1,13 +1,10 @@
 package edu.mcw.rgd.search.elasticsearch.client;
 
 
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.cluster.node.DiscoveryNode;
-import org.elasticsearch.common.settings.Settings;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import java.net.InetAddress;
 
 import java.util.List;
 
@@ -19,26 +16,18 @@ public class ElasticSearchClient {
     private static List<String> hosts;
 
     private ElasticSearchClient(){}
-    public static TransportClient getInstance() {
-        TransportClient client=null;
+    public static RestHighLevelClient getInstance() {
 
-            Settings settings = Settings.builder()
-                     .put("client.transport.sniff", true)
-                      .put("cluster.name", "erika")
+      return new RestHighLevelClient(
+                RestClient.builder(
+                   //   new HttpHost("green.rgd.mcw.edu", 9200, "http")
+                      new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
+                        new HttpHost( "erika02.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika03.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika04.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika05.rgd.mcw.edu",9200,"http")
+                       ));
 
-                    .build();
-
-        try {
-                client = new PreBuiltTransportClient(settings);
-               for(String host:hosts){
-                 client.addTransportAddress(new TransportAddress(InetAddress.getByName(host), 9300));
-               }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-    }
-
-        return client;
     }
 
     public static List<String> getHosts() {

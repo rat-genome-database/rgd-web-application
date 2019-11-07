@@ -11,6 +11,7 @@ import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 
 import org.springframework.ui.ModelMap;
@@ -82,8 +83,10 @@ public class ElasticSearchController implements Controller {
             SearchResponse sr=service.getSearchResponse(request,term, sb);
             int totalPages= 0;
             if(sr!=null){
-               totalPages= (int) ((sr.getHits().getTotalHits()/defaultPageSize)) + (((int) (sr.getHits().getTotalHits())%defaultPageSize>0)?1:0);
+               TotalHits hits=sr.getHits().getTotalHits();
+                       totalPages= (int)((hits.value/defaultPageSize)) + (((int) (hits.value)%defaultPageSize>0)?1:0);
                 ModelMap resultsMap=service.getResultsMap(sr,term);
+                if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), hits.value);}
                 model.putAll(resultsMap);
             }
 
@@ -98,7 +101,7 @@ public class ElasticSearchController implements Controller {
             model.addAttribute("searchBean", sb);
 
             if(objectSearch!=null){model.addAttribute("objectSearch", objectSearch);}
-            if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), sr.getHits().getTotalHits());}
+
             if (page) { return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);}
 
         if (sb.getCategory() != null ) {
@@ -137,7 +140,8 @@ public class ElasticSearchController implements Controller {
                 }
             //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
-                        if (sr.getHits() != null && sr.getHits().getTotalHits() == 1)
+                    TotalHits hits=sr.getHits().getTotalHits();
+                        if (sr.getHits() != null && hits.value == 1)
                             return getUrl(sr, request, term);
                         else return null;
                     }
@@ -151,7 +155,7 @@ public class ElasticSearchController implements Controller {
         return null;
     }
     public String getUrl(SearchResponse sr, HttpServletRequest request,String term){
-        this.logResults(term,request.getParameter("category"), sr.getHits().getTotalHits());
+        this.logResults(term,request.getParameter("category"), sr.getHits().getTotalHits().value);
         int rgdIdValue=0;
 
         RGDManagementDAO rdao= new RGDManagementDAO();

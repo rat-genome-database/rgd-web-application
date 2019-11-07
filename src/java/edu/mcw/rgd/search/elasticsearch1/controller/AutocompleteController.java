@@ -4,14 +4,17 @@ package edu.mcw.rgd.search.elasticsearch1.controller;
 import com.google.gson.Gson;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -88,21 +91,31 @@ public class AutocompleteController implements Controller {
 
 
             List<String> autocompleteList = new ArrayList<>();
-            SearchResponse sr;
+
+       SearchSourceBuilder srb=new SearchSourceBuilder();
+       srb.query(dqb);
+       srb.from(0).size(20);
+
+
+
             if(!category.equalsIgnoreCase("general") && !category.equalsIgnoreCase("reference") && !category.equalsIgnoreCase("ontology")){
-                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
+                srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)));
+              /*  sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                     .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                     .setQuery(dqb)
                         .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", category)))
                         .setFrom(0).setSize(20)
-                    .get();
+                    .get();*/
             }else {
-                sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
+              /*  sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
                         .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                         .setQuery(dqb)
                         .setFrom(0).setSize(20)
-                        .get();
+                        .get();*/
             }
+       SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
+       searchRequest.source(srb);
+       SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
             for (SearchHit h : sr.getHits().getHits()) {
                 if(h.getSourceAsMap().get("symbol")!=null){
