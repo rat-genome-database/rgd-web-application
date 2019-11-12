@@ -27,7 +27,7 @@
 
 <table style="margin: 2%">
      <tr>
-        <td style="color:#2865a3; font-size:16px; font-style:italic; font-weight:700;"><%=title%></td>
+         <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=title%></td>
          </tr>
     <tr>
         <td><span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=geneId%>&fmt=csv&level=<%=level%>&tissue=<%=tissueId%>">Download Expression Data</a></span></td>
