@@ -57,10 +57,11 @@
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
- <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
+				<prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
-
+				<prop key="report/gene/expressionData.html">ExpressionDataController</prop>
+				
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="carpe/search.html">CarpenovoSearchController</prop>
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
@@ -214,8 +215,8 @@
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
 	<bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-
-<bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
+	<bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
+	<bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
 
