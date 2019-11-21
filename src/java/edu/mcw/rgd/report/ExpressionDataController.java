@@ -124,9 +124,16 @@ public class ExpressionDataController implements Controller {
                         age+= " embryonic days";
                     }
                 }
-                else { if(s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0 )
-                    age = s.getAgeDaysFromLowBound() + " days";
-                else age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+                else {
+                    if (s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0) {
+                        if (s.getAgeDaysFromLowBound() > 365)
+                            age = (s.getAgeDaysFromLowBound() / 365) + " years";
+                        else age = s.getAgeDaysFromLowBound() + " days";
+                    }else {
+                        if (s.getAgeDaysFromLowBound() > 365 || s.getAgeDaysFromHighBound() > 365)
+                            age = String.valueOf(s.getAgeDaysFromLowBound()/365) + " - " + String.valueOf(s.getAgeDaysFromHighBound()/365) + " years";
+                        else    age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+                    }
                 }
 
                 if(s.getStrainAccId() != null && !s.getStrainAccId().isEmpty())
