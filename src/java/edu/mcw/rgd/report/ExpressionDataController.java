@@ -129,7 +129,9 @@ public class ExpressionDataController implements Controller {
                 else age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
                 }
 
-                record.append(xdao.getTerm(s.getStrainAccId()).getTerm());
+                if(s.getStrainAccId() != null && !s.getStrainAccId().isEmpty())
+                    record.append(xdao.getTerm(s.getStrainAccId()).getTerm());
+                else record.append("");
                 record.append(s.getSex());
                 record.append(age);
                 record.append(xdao.getTerm(s.getTissueAccId()).getTerm());
