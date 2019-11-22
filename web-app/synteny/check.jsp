@@ -12,13 +12,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
-
-
-
-
-
-
-
 <%
     GeneDAO geneDAO = new GeneDAO();
 
@@ -43,28 +36,9 @@
 %>
 
 
-<script>
-    new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue.js!'
-        }
-    })
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
 <div id="app">
+    <div style="background-color:red;" v-on:click='testIt()'>lakjsdfljasd</div>
+
     <p>{{ message }}</p>
     <input v-model="message">
 </div>
@@ -72,16 +46,12 @@
 
 
 
+
+
+
 <a href="javascript:zoom(.5)">click</a>
 
 
-<path class="button" onclick="pan(0, 25)" d="M25 5 l6 10 a20 35 0 0 0 -12 0z" />
-<path class="button" onclick="pan(25, 0)" d="M5 25 l10 -6 a35 20 0 0 0 0 12z" />
-<path class="button" onclick="pan(0,-25)" d="M25 45 l6 -10 a20, 35 0 0,1 -12,0z" />
-<path class="button" onclick="pan(-25, 0)" d="M45 25 l-10 -6 a35 20 0 0 1 0 12z" />
-
-<circle class="button" cx="25" cy="20.5" r="4" onclick="zoom(0.8)"/>
-<circle class="button" cx="25" cy="29.5" r="4" onclick="zoom(1.25)"/>
 
 <form action="check.jsp">
 <table style="border: 1px solid black;">
@@ -210,7 +180,7 @@
 
 <script>
 
-    var chrLen = 282763074;
+    var chrLen = 112626471;
     var svgns = "http://www.w3.org/2000/svg";
     var scale=<%=zoom%>;
     var step = 1000000;
@@ -218,16 +188,87 @@
     var topY=30;
 
 
-    function buildChr() {
-        var chrBacking = document.createElementNS(svgns, 'rect');
-        chrBacking.setAttributeNS(null,"fill","#E0E0E0");
-        chrBacking.setAttributeNS(null,"x",170 + topX);
-        chrBacking.setAttributeNS(null,"y",topY);
-        chrBacking.setAttributeNS(null,"width",'25');
-        chrBacking.setAttributeNS(null,"height",10000);
-        document.getElementById('genes').appendChild(chrBacking);
+
+    function plot() {
+
+
     }
 
+
+    function plotGenes(rec,yPx, yHeight, xPx) {
+        console.log(yHeight);
+
+
+        console.log("red = " + JSON.stringify(rec));
+
+        axios
+                .get("https://dev.rgd.mcw.edu/rgdws/genes/region/" + rec.synChr + "/" + rec.synStart + "/" + rec.synStop + "/" + rec.toMap)
+                .then(function (response) {
+                    for (var key in response.data) {
+                        //alert(response.data[key].key);
+                    }
+
+                   //console.log(JSON.stringify(response["data"]))
+
+                    var data = response["data"];
+
+                    var synStart = rec.synStart;
+                    var synStop = rec.synStop;
+
+
+                    var yStart = yPx
+                    var yStop = yPx + yHeight;
+
+                    var visibleLen=parseInt(yHeight);
+                    var bpRegionLen=rec.synStop-rec.synStart;
+
+                    console.log("visible Len = " + visibleLen);
+                    console.log("bpRegionLen = " + bpRegionLen);
+
+                    var localScale = (parseInt(visibleLen) / parseInt(bpRegionLen));
+
+                    var x = topX + 700;
+
+                    for (var key in response["data"]) {
+                            console.log(JSON.stringify(data[key]));
+
+                       // for (i=0; i<genes.length; i++) {
+                            //var topX=100;
+                            //var y = topY + (data.start * scale);
+                            var barLen= x + 20;
+
+                        console.log("yStart = " + yStart);
+                        console.log("yStop = " + yStop);
+                        console.log("localScale = " + localScale);
+
+
+                        var geneLen = (data[key].stop - data[key].start) * scale;
+
+                            var y =100 + (data[key].start - synStart) * localScale;
+
+                            console.log("data key start " + data[key].start);
+                            console.log("synStart " + synStart);
+                            console.log((data[key].start - synStart));
+                           console.log(" times local scale " + (data[key].start - synStart) * localScale);
+
+                            console.log("local scale " + localScale);
+                            var text = document.createElementNS(svgns, 'text');
+                            text.setAttributeNS(null, 'x', xPx);
+                            text.setAttributeNS(null, 'y', yPx + ((100 + (data[key].start - synStart)) * localScale) );
+                            text.setAttributeNS(null, 'fill', "#2865A3");
+                            text.setAttributeNS(null, 'style', "font-size:10px;");
+                            text.innerHTML="<a target='_blank' href='https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=" + data[key].rgdId + "'>" + data[key].symbol + "</a>";
+
+                            document.getElementById('genes').appendChild(text);
+
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    v.errored = true
+                })
+    }
     function buildScale() {
         for (i=0; i<chrLen; i++) {
 
@@ -300,15 +341,6 @@
 
     function mapSyntenyBlocks() {
 
-/*
-        for (i = 0; i < synMap.length; i++) {
-
-            var obj = rec = synMap[i];
-            alert(JSON.stringify(obj));
-            if (i=3) break;
-        }
-*/
-
         for (i = 0; i < synMap.length; i++) {
 
             var obj = rec = synMap[i];
@@ -336,7 +368,6 @@
                 text.innerHTML=rec.chr;
                 document.getElementById('genes').appendChild(text);
             }
-
 
 
             /*
@@ -628,19 +659,13 @@
                 yHeight=1;
             }
 
-           // alert("ystart = " + yStart + " yHeight = " + yHeight);
-
-
+            xPx = 470 + topX
 
             yStart = yStart + yHeight + 2;
 
-           // alert("ystart = " + yStart + " yPx = " + yPx + " - yHeight = " + yHeight);
-
-
-          //  alert("yStart = " + yStart);
 
             var ortho = document.createElementNS(svgns, 'rect');
-            ortho.setAttributeNS(null, 'x', 470 + topX  );
+            ortho.setAttributeNS(null, 'x',  xPx );
             //ortho.setAttributeNS(null, 'y', yPx);
             ortho.setAttributeNS(null, 'y', yPx);
             ortho.setAttributeNS(null, 'height', yHeight);
@@ -677,13 +702,12 @@
                 document.getElementById('genes').appendChild(text);
 
 
+                plotGenes(rec, yPx, yHeight, xPx-70);
+
+
+
 
             }
-/*
-            rect.setAttributeNS(null, 'x', 170 + topX);
-            rect.setAttributeNS(null, 'y', parseInt((rec.start * scale)) + topY);
-            rect.setAttributeNS(null, 'height', parseInt(((rec.stop - rec.start) * scale)));
-*/
 
             var topLine = document.createElementNS(svgns, 'line');
             topLine.setAttributeNS(null,'x1',170 + topX + 25);
@@ -694,134 +718,82 @@
 
             document.getElementById('genes').appendChild(topLine);
 
-            /*
-            var bottomLine = document.createElementNS(svgns, 'line');
-            bottomLine.setAttributeNS(null,'x1',0);
-            bottomLine.setAttributeNS(null,'y1',100);
-            bottomLine.setAttributeNS(null,'x2',300);
-            bottomLine.setAttributeNS(null,'y2',300);
-            bottomLine.setAttributeNS(null,'style',"stroke:rgb(255,0,0);stroke-width:2");
-
-            document.getElementById('genes').appendChild(bottomLine);
-            */
-
-            /*
-                    <svg height="210" width="500">
-                                <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
-                        </svg>
-              */
-
-         //   alert(document.getElementById('genes').innerHTML);
-
-            /*
-            var text = document.createElementNS(svgns, 'text');
-            text.setAttributeNS(null, 'x', 370 + topX);
-            text.setAttributeNS(null, 'y', parseInt((yVal * scale)) + topY + 15);
-            text.setAttributeNS(null, 'fill', "black");
-            text.setAttributeNS(null, 'style', "font-size:16px;");
-            text.innerHTML=rec.synChr + " " + msg;
-            document.getElementById('genes').appendChild(text);
-            */
-            //yStart = yPx + yHeight + 10;
         }
     }
 
 
-    buildChr();
-    buildScale();
+    //buildScale();
     mapSyntenyBlocks();
-    mapRootGenes();
-    var sortedChr = orderBySynChr(synMap);
-    var orderedMap = orderSyn(sortedChr);
-
-   // var regions = buildRegions(orderedMap);
-
-    //oout(regions);
-
-    //drawRegions
-
-
-
-
-    mapNextBlocks(orderedMap);
+    //mapRootGenes();
+    //var sortedChr = orderBySynChr(synMap);
+    //var orderedMap = orderSyn(sortedChr);
+    //mapNextBlocks(orderedMap);
 
 
 </script>
 
 
 <script>
-    //plot genes
-/*
-    for (i=0; i<genes.length; i++) {
 
-        var y = genes[i].start * scale;
+    var v = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!',
+            chromosomeLen: 0,
+            svgns: "http://www.w3.org/2000/svg",
+            scale: <%=zoom%>,
+            step: 1000000,
+            topX : 20,
+            topY: 30,
+            chromosomeWidth: 25
+        },
+        methods: {
+            init: function () {
 
-        var geneLen = (genes[i].stop - genes[i].start) * scale;
+                this.getChromosomeLength();
+                this.getSyntenyBlocks();
 
-        var text = document.createElementNS(svgns, 'text');
-        text.setAttributeNS(null, 'x', 0);
-        text.setAttributeNS(null, 'y', y);
-        text.setAttributeNS(null, 'fill', "#2865A3");
-        text.setAttributeNS(null, 'style', "font-size:10px;");
-        text.innerHTML=genes[i].symbol;
+            },
+            getChromosomeLength:function() {
+                axios
+                        .get("https://dev.rgd.mcw.edu/rgdws/maps/chr/10/360")
+                        .then(function (response) {
+                            v.chromosomeLen=response['data'].seqLength;
+                        })
+                        .catch(function (error) {
+                            alert(error);
+                            console.log(error)
+                            v.errored = true
+                        })
+            },
+            getSyntenyBlocks: function () {
+                axios
+                .get("https://dev.rgd.mcw.edu/rgdws/orthology/synteny/10/360/38")
+                        .then(function (response) {
+                            alert(JSON.stringify(response));
+                        })
+                        .catch(function (error) {
+                            alert(error);
+                            console.log(error)
+                            v.errored = true
+                        })
+            },
+            layoutBackbone: function () {
+                var chrBacking = document.createElementNS(svgns, 'rect');
+                chrBacking.setAttributeNS(null,"fill","#E0E0E0");
+                chrBacking.setAttributeNS(null,"x",170 + this.topX);
+                chrBacking.setAttributeNS(null,"y",this.topY);
+                chrBacking.setAttributeNS(null,"width",this.chromosomeWidth);
+                chrBacking.setAttributeNS(null,"height",parseInt(this.chromosomeLen * this.scale));
+                document.getElementById('genes').appendChild(chrBacking);
 
-        var polygon = document.createElementNS(svgns, 'polygon');
-        polygon.setAttributeNS(null, 'points',"100," + y + " 120," + y + " 120," + (parseInt(y+geneLen)));
-        polygon.setAttributeNS(null, 'style', 'fill:lime;stroke:purple;stroke-width:1;');
+            },
+            getOrthology: function() {
 
-
-        document.getElementById('genes').appendChild(text);
-        document.getElementById('genes').appendChild(polygon);
-
-    }
-*/
-
-</script>
-
-
-<script>
-
-    var transformMatrix = [1, 0, 0, 1, 0, 0];
-
-    var svg = document.querySelector('svg');
-    var box = svg.getAttribute('viewBox');
-
-    var viewbox = box.split(" ");
-    var centerX = parseFloat(viewbox[2]) / 2;
-    var centerY = parseFloat(viewbox[3]) / 2;
-    var matrixGroup = svg.getElementById("genes");
-
-    function zoom(zoomScale) {
-       // alert(zoomScale);
-        return true;
-        for (var i = 0; i < 4; i++) {
-            transformMatrix[i] *= zoomScale;
+            }
         }
-        transformMatrix[4] += (1 - zoomScale) * centerX;
-        transformMatrix[5] += (1 - zoomScale) * centerY;
+    })
 
-        var newMatrix = "matrix(" +  transformMatrix.join(' ') + ")";
-        matrixGroup.setAttributeNS(null, "transform", newMatrix);
-    }
-
-    function pan(dx, dy) {
-        transformMatrix[4] += dx;
-        return true;
-        transformMatrix[5] += dy;
-
-        var newMatrix = "matrix(" +  transformMatrix.join(' ') + ")";
-        matrixGroup.setAttributeNS(null, "transform", newMatrix);
-    }
-
-    function hey() {
-        alert("yo");
-    }
-
-
-    document.body.addEventListener('wheel',function(event){
-        mouseController.wheel(event);
-        alert("hello");
-        return false;
-    }, false);
+    v.init();
 </script>
 
