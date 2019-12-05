@@ -14,25 +14,24 @@
 
     List<Gene> genes = geneDAO.getGenesForProteinDomain(obj.getRgdId());
 
-    // organize genes per species
-    Map<Integer, List<Gene>> geneBuckets = new HashMap<>();
-    for( Gene g: genes ) {
-        List<Gene> list = geneBuckets.get(g.getSpeciesTypeKey());
-        if( list==null ) {
-            list = new ArrayList<>();
-            geneBuckets.put(g.getSpeciesTypeKey(), list);
-        }
-        list.add(g);
+    // organize genes per lower-case gene symbol: for that symbol an array with genes with all species is provided;
+    //  in that array, species type key is an array index
+    List emptyListOfTenElements = new ArrayList<>(10);
+    for( int i=0; i<10; i++ ) {
+        emptyListOfTenElements.add(null);
     }
 
-    // sort gene list by gene symbol
-    for( List<Gene> geneList: geneBuckets.values() ) {
-        Collections.sort(geneList, new Comparator<Gene>() {
-            @Override
-            public int compare(Gene o1, Gene o2) {
-                return o1.getSymbol().compareToIgnoreCase(o2.getSymbol());
-            }
-        });
+    // species 
+    Map<String, List<Gene>> geneSymbolsMap = new TreeMap<>();
+    for( Gene g: genes ) {
+        String geneSymbolLC = g.getSymbol().toLowerCase();
+        List<Gene> bucket = geneSymbolsMap.get(geneSymbolLC);
+        if( bucket==null ) {
+            bucket = new ArrayList<>();
+            bucket.addAll(emptyListOfTenElements);
+            geneSymbolsMap.put(geneSymbolLC, bucket);
+        }
+        bucket.set(g.getSpeciesTypeKey(), g);
     }
 
     // print header with species names
@@ -40,28 +39,28 @@
     edu.mcw.rgd.reporting.Record re = new edu.mcw.rgd.reporting.Record();
     Collection<Integer> speciesTypeKeys = SpeciesType.getSpeciesTypeKeys();
     for( int sp: speciesTypeKeys ) {
-        if( SpeciesType.isSearchable(sp) && geneBuckets.get(sp)!=null ) {
+        if( SpeciesType.isSearchable(sp) ) {
             re.append(SpeciesType.getCommonName(sp)+" &nbsp; ");
         }
     }
     report.append(re);
 
+
     // print genes
-    re = new edu.mcw.rgd.reporting.Record();
-    for( int sp: speciesTypeKeys ) {
-        if( SpeciesType.isSearchable(sp) ) {
-            List<Gene> geneList = geneBuckets.get(sp);
-            if( geneList==null ) {
-                continue;
+    for( List<Gene> bucket: geneSymbolsMap.values() ) {
+        re = new edu.mcw.rgd.reporting.Record();
+        for( int sp: speciesTypeKeys ) {
+            if( SpeciesType.isSearchable(sp) ) {
+                Gene g = bucket.size()>sp ? bucket.get(sp) : null;
+                if( g!=null ) {
+                    re.append("<a href='" + Link.gene(g.getRgdId()) + "'>" + g.getSymbol() + "</a>");
+                } else {
+                    re.append("");
+                }
             }
-            String content = "";
-            for( Gene g: geneList ) {
-                content += "<a href='"+ Link.gene(g.getRgdId())+"'>"+g.getSymbol()+"</a> &nbsp; <br>";
-            }
-            re.append(content);
         }
+        report.append(re);
     }
-    report.append(re);
 
     String description = displayName;
     String pageTitle = obj.getSymbol() + " (" + obj.getName() + ") - " + RgdContext.getLongSiteName(request);
@@ -113,13 +112,13 @@
                 strat.setTdProperties(tdProps);
                 out.print(strat.format(report));
             %>
-    </td>
-    <td>&nbsp;</td>
-    <td valign="top">
-        <%@ include file="../idInfo.jsp" %>
-    </td>
+        </td>
+        <td>&nbsp;</td>
+        <td valign="top">
+            <%@ include file="../idInfo.jsp" %>
+        </td>
     </tr>
- </table>
+</table>
 
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
