@@ -21,7 +21,7 @@ function EnrichmentVue(divId, hostname) {
     if (hostname) {
         host=hostname;
     }
-host = "https://dev.rgd.mcw.edu";
+
     var v = new Vue({
         el: div,
         data: {
@@ -81,12 +81,14 @@ host = "https://dev.rgd.mcw.edu";
 
             },
             loadOntView: function (s) {
-                document.getElementById(this.ontology[0]).innerHTML = "";
+                if(this.ontology[0] != null)
+                    document.getElementById(this.ontology[0]).innerHTML = "";
                 v.loadView(s);
                 v.selectView();
             },
             loadSpeciesView: function (o) {
-                document.getElementById(this.ontology[0]).innerHTML = "";
+                if(this.ontology[0] != null)
+                    document.getElementById(this.ontology[0]).innerHTML = "";
                 this.ontology = [o];
                 v.selectView();
             },
