@@ -911,8 +911,8 @@
             <div border="0" id="speciesButton1" class="speciesButton" ng-click="portal.updateSpecies(1,'<%=MapManager.getInstance().getReferenceAssembly(1).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(1)%> (<%=SpeciesType.getCommonName(1)%>)')">
               <table>
                 <tr>
-                    <!--<td height="150" valign="bottom"><img src="/rgdweb/common/images/species/humanS.jpg"></td>-->
-                    <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/baby.jpg"></td>
+                    <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/humanS.jpg"></td>
+                    <!--<td height="150" valign="bottom"><img src="/rgdweb/common/images/species/baby.jpg"></td>-->
                 </tr>
                 <tr>
                     <td align="center"><%=SpeciesType.getCommonName(1)%></td>
