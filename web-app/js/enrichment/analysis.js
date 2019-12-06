@@ -22,6 +22,7 @@ function EnrichmentVue(divId, hostname) {
         host=hostname;
     }
 
+  
     var v = new Vue({
         el: div,
         data: {
@@ -81,14 +82,17 @@ function EnrichmentVue(divId, hostname) {
 
             },
             loadOntView: function (s) {
-                if(this.ontology[0] != null)
+                if(document.getElementById(this.ontology[0]) != null) {
                     document.getElementById(this.ontology[0]).innerHTML = "";
+                }
                 v.loadView(s);
                 v.selectView();
             },
             loadSpeciesView: function (o) {
-                if(this.ontology[0] != null)
+                if(document.getElementById(this.ontology[0]) != null) {
+                    alert(this.ontology);
                     document.getElementById(this.ontology[0]).innerHTML = "";
+                }
                 this.ontology = [o];
                 v.selectView();
             },
