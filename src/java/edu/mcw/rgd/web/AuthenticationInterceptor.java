@@ -37,7 +37,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         if(checkToken(token)) {
             Cookie cookie1 = new Cookie("accessToken", token);
-            cookie1.setMaxAge(24*60*60);
             response.addCookie(cookie1);
             return true;
         }
