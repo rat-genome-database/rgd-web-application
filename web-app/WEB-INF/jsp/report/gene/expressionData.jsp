@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
 <%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .exprData {
@@ -39,7 +40,8 @@
 
         } else s = sampleMap.get(geneExpRec.getSampleId());
 
-        tissues.add(s.getTissueAccId());
+        if(s.getTissueAccId() != null)
+            tissues.add(s.getTissueAccId());
 
 
     }
@@ -59,13 +61,21 @@
 <table class="exprData">
     <tr>
         <td></td>
-    <% for(String tissue:tissues) {%>
+    <% for(String tissue:tissues) {
+        Term term = xdao.getTermByAccId(tissue);
+        if( term != null) {
+    %>
         <td><%=xdao.getTerm(tissue).getTerm()%></td>
-        <% } %>
+        <% } else{  %>
+        <td><%=tissue%></td>
+        <%
+
+        } } %>
     </tr>
     <tr>
         <td>High</td>
         <% for(String tissue:tissues) {
+
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","high",tissue);
             if( val.size() != 0) {
         %>

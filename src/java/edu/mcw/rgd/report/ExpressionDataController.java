@@ -4,6 +4,7 @@ import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.MiRnaTarget;
 import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Experiment;
 import edu.mcw.rgd.datamodel.pheno.GeneExpressionRecord;
 import edu.mcw.rgd.datamodel.pheno.GeneExpressionRecordValue;
@@ -75,7 +76,9 @@ public class ExpressionDataController implements Controller {
 
         Report report = new Report();
         Record recHeader = new Record();
-        recHeader.append("Strain");
+        if(obj.getSpeciesTypeKey() == SpeciesType.HUMAN) {
+            recHeader.append("Cell line");
+        }else recHeader.append("Strain");
         recHeader.append("Sex");
         recHeader.append("Age");
         recHeader.append("Tissue");
@@ -153,12 +156,22 @@ public class ExpressionDataController implements Controller {
                     }
                 }
 
-                if(s.getStrainAccId() != null && !s.getStrainAccId().isEmpty())
-                    record.append(xdao.getTerm(s.getStrainAccId()).getTerm());
+                if(s.getStrainAccId() != null && !s.getStrainAccId().isEmpty()) {
+                    Term term = xdao.getTermByAccId(s.getStrainAccId());
+                    if(term != null)
+                        record.append(term.getTerm());
+                    else record.append(s.getStrainAccId());
+                }
                 else record.append("");
                 record.append(s.getSex());
                 record.append(age);
-                record.append(xdao.getTerm(s.getTissueAccId()).getTerm());
+                if(s.getTissueAccId() != null && !s.getTissueAccId().isEmpty()) {
+                    Term term = xdao.getTermByAccId(s.getTissueAccId());
+                    if(term != null)
+                        record.append(term.getTerm());
+                    else record.append(s.getTissueAccId());
+                }
+                else record.append("");
                 record.append(rec.getExpressionValue().toString());
                 record.append("TPM");
                 record.append(MapManager.getInstance().getMap(rec.getMapKey()).getName());
