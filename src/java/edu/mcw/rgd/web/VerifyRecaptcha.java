@@ -25,9 +25,10 @@ public class VerifyRecaptcha {
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
+            System.out.println("RECAPTCHA RESPONSE NULL OR EMPTY: " +gRecaptchaResponse);
             return false;
         }
-
+        System.out.println("RECAPTCHA RESPONSE NOT NULL OR EMPTY: " +gRecaptchaResponse);
         try{
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
