@@ -50,13 +50,13 @@ public class StrainSubmissionFormController implements Controller {
             if("submit".equals(action)){
                     //need to verify recaptcha response
                 try{
-                    String capcha = request.getParameter("g-recaptcha-response");
+                 /*   String capcha = request.getParameter("g-recaptcha-response");
                     boolean recaptchaSuccess=VerifyRecaptcha.verify(capcha);
                   
                     if (!recaptchaSuccess) {
                         throw new Exception("Validation Failed.  Please try again.");
                     }
-
+                */
                 SubmittedStrain s= new SubmittedStrain();
                 List<SubmittedStrainAvailabiltiy> availList= new ArrayList<>();
                 String symbolName= request.getParameter("symbol");

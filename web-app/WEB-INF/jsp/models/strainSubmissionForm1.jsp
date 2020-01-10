@@ -20,10 +20,10 @@
     Strain strain= new Strain();%>
 
 <%@ include file="/common/headerarea.jsp"%>
-<!--link rel="stylesheet" href="/rgdweb/css/bootstrap.min.css">
-<script src="/rgdweb/js/bootstrap.min.js"></script-->
-<!--link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
-<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script-->
+<link rel="stylesheet" href="/rgdweb/css/bootstrap.min.css">
+<script src="/rgdweb/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
+<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 <link href="/rgdweb/css/geneticModels.css" rel="stylesheet" type="text/css"/>
 <script src="/rgdweb/js/submission.js"></script>
 
@@ -37,7 +37,7 @@
     <div style="background:#eee;margin-top:20px">
         <legend>Strain Information</legend>
     </div>
-    <form id="myForm"  method="post"><!--  onsubmit="return verify(this)" -->
+    <form id="myForm"  method="post" onsubmit="return verify(this)" >
         <input type="hidden" id="action" name="action" />
         <div class="form-group">
             <label for="symbol">Strain Symbol</label>&nbsp;&nbsp;<span style="color:red">*</span>
@@ -233,22 +233,20 @@
         </div>
         <fieldset class="form-group">
             <legend style="font-size:small">Please let us know if you want this strain to be displayed on the RGD website. If not, check Non Public (we can hold a strain until instructed by you to release it).</legend>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="public" id="optionsRadios1" value="Public" >
-                   Public
-                </label>
+            <div class="form-check form-check-inline">
 
-                   <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="public" id="optionsRadios1" value="Public" >
+                    <label class="form-check-label" for="optionsRadios1"> Public</label>
+            </div>
+            <div class="form-check form-check-inline" >
                     <input type="radio" class="form-check-input" name="public" id="optionsRadios2" value="nonPublic" checked>
-                   Non Public
-                </label>
+                <label class="form-check-label" for="optionsRadios2">Non Public </label>
             </div>
 
         </fieldset>
-        <p id="test" style="color:red"></p>
+        <!--p id="test" style="color:red"></p>
 
-                <div style="margin-top:5px;margin-bottom:10px" class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW"></div>
+                <div style="margin-top:5px;margin-bottom:10px" class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW"></div-->
 
 
         <button type="submit" id="formSubmit" class="btn btn-primary" style="margin-bottom:20px">Submit</button>
