@@ -37,7 +37,7 @@
     <div style="background:#eee;margin-top:20px">
         <legend>Strain Information</legend>
     </div>
-    <form id="myForm"  method="post"  onsubmit="return verify(this)"  >
+    <form id="myForm"  method="post"><!--  onsubmit="return verify(this)" -->
         <input type="hidden" id="action" name="action" />
         <div class="form-group">
             <label for="symbol">Strain Symbol</label>&nbsp;&nbsp;<span style="color:red">*</span>
