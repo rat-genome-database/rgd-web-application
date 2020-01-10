@@ -51,8 +51,9 @@ public class StrainSubmissionFormController implements Controller {
                     //need to verify recaptcha response
                 try{
                     String capcha = request.getParameter("g-recaptcha-response");
-
-                    if (!VerifyRecaptcha.verify(capcha)) {
+                    boolean recaptchaSuccess=VerifyRecaptcha.verify(capcha);
+                    System.out.println("RECAPTCHA SUCCESS VALUE IN SUBMISSION CONTROLLER:"+recaptchaSuccess);;
+                    if (!recaptchaSuccess) {
                         throw new Exception("ReCaptcha Validation Failed.  Please try again.");
                     }
 
