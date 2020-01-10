@@ -20,10 +20,10 @@
     Strain strain= new Strain();%>
 
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" href="/rgdweb/css/bootstrap.min.css">
-<script src="/rgdweb/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
-<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
+<!--link rel="stylesheet" href="/rgdweb/css/bootstrap.min.css">
+<script src="/rgdweb/js/bootstrap.min.js"></script-->
+<!--link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">
+<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script-->
 <link href="/rgdweb/css/geneticModels.css" rel="stylesheet" type="text/css"/>
 <script src="/rgdweb/js/submission.js"></script>
 
@@ -259,7 +259,6 @@
 
 </div>
 
-<%@ include file="/common/footerarea.jsp"%>
 
 
 <script>
@@ -411,9 +410,10 @@
 
 
 </script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
-
+<%@ include file="/common/footerarea.jsp"%>
 
 
 
