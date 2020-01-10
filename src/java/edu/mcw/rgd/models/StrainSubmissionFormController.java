@@ -38,7 +38,7 @@ public class StrainSubmissionFormController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String error= new String();
-        ModelMap model= new ModelMap();
+
         if(request.getParameter("new")!=null){
             if(request.getParameter("new").equals("true")){
                 return new ModelAndView("/WEB-INF/jsp/models/strainSubmissionForm1.jsp");
@@ -52,9 +52,9 @@ public class StrainSubmissionFormController implements Controller {
                 try{
                     String capcha = request.getParameter("g-recaptcha-response");
                     boolean recaptchaSuccess=VerifyRecaptcha.verify(capcha);
-                    System.out.println("RECAPTCHA SUCCESS VALUE IN SUBMISSION CONTROLLER:"+recaptchaSuccess);;
+                  
                     if (!recaptchaSuccess) {
-                        throw new Exception("ReCaptcha Validation Failed.  Please try again.");
+                        throw new Exception("Validation Failed.  Please try again.");
                     }
 
                 SubmittedStrain s= new SubmittedStrain();

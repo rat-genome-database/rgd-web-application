@@ -25,11 +25,9 @@ public class VerifyRecaptcha {
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
-            System.out.println("RECAPTCHA RESPONSE NULL OR EMPTY: " +gRecaptchaResponse);
-            return false;
+               return false;
         }
-        System.out.println("RECAPTCHA RESPONSE NOT NULL OR EMPTY: " +gRecaptchaResponse);
-        try{
+         try{
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -49,7 +47,7 @@ public class VerifyRecaptcha {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            System.out.println("\nRECAPTCHA Sending 'POST' request to URL : " + url +"\tResponse Code : " + responseCode);
+
             //System.out.println("Post parameters : " + postParams);
             //System.out.println("Response Code : " + responseCode);
 
@@ -68,7 +66,6 @@ public class VerifyRecaptcha {
             JsonParser parser = new JsonParser();
             JsonObject jobj = (JsonObject) parser.parse(new BufferedReader(new InputStreamReader(con.getInputStream())));
             JsonElement elm = jobj.get("success");
-            System.out.println("RECAPTCHA: IS SUCCESS: "+elm.toString());
             return Boolean.parseBoolean(elm.toString());
 
 
