@@ -27,7 +27,7 @@
 <link href="/rgdweb/css/geneticModels.css" rel="stylesheet" type="text/css"/>
 <script src="/rgdweb/js/submission.js"></script>
 
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<!--script src='https://www.google.com/recaptcha/api.js'></script-->
 <div style="background:#eee;text-align: center" >
     <h3>Strain Submission</h3>
 </div>
@@ -258,7 +258,7 @@
     </form>
 
 </div>
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 <script>
@@ -410,7 +410,7 @@
 
 
 </script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+
 
 
 <%@ include file="/common/footerarea.jsp"%>
