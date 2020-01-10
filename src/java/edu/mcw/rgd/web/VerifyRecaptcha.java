@@ -49,7 +49,7 @@ public class VerifyRecaptcha {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            //System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("\nRECAPTCHA Sending 'POST' request to URL : " + url +"\tResponse Code : " + responseCode);
             //System.out.println("Post parameters : " + postParams);
             //System.out.println("Response Code : " + responseCode);
 
@@ -68,7 +68,7 @@ public class VerifyRecaptcha {
             JsonParser parser = new JsonParser();
             JsonObject jobj = (JsonObject) parser.parse(new BufferedReader(new InputStreamReader(con.getInputStream())));
             JsonElement elm = jobj.get("success");
-
+            System.out.println("RECAPTCHA: IS SUCCESS: "+elm.toString());
             return Boolean.parseBoolean(elm.toString());
 
 
