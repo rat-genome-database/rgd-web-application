@@ -244,9 +244,9 @@
             </div>
 
         </fieldset>
-        <p id="test" style="color:red"></p>
+        <!--p id="test" style="color:red"></p>
 
-                <div style="margin-top:5px;margin-bottom:10px" class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW"></div>
+                <div style="margin-top:5px;margin-bottom:10px" class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW"></div-->
 
 
         <button type="submit" id="formSubmit" class="btn btn-primary" style="margin-bottom:20px">Submit</button>
