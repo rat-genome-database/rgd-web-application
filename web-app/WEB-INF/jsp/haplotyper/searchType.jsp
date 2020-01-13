@@ -52,10 +52,11 @@ String pageDescription = "Define Region";
                 <option value='60' <% if (mapKey==60) out.print("selected");%>>RGSC Genome Assembly v3.4</option>
                     <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
                     <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
+                    <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
                 </select>
             </td>
 
-            </td>
+
         </tr>
 
         <tr>
@@ -75,7 +76,7 @@ String pageDescription = "Define Region";
 <br>
 
 
-    <!--<input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />-->
+    <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
     <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
     <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
     <input type="hidden" name="start" value="<%=req.getParameter("start")%>" />
@@ -85,7 +86,17 @@ String pageDescription = "Define Region";
     <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
 
     <%
-    for (int i=1; i<100; i++) {
+    int samplesSize=0;
+    if(mapKey==360 || mapKey==70 || mapKey==60){
+       samplesSize=100;
+    }
+    if(mapKey==17 || mapKey==38){
+        samplesSize=2510;
+    }
+    if(mapKey==631 || mapKey==600){
+    samplesSize=250;
+    }
+    for (int i=1; i<samplesSize; i++) {
         if (request.getParameter("sample" + i) != null) {
             String strain = "";
             if (i > 1) {
@@ -103,7 +114,8 @@ String pageDescription = "Define Region";
 
     <%
         String selectTitle="Select Strains";
-        if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
+       // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
+       if (mapKey==37 || mapKey==38) {
             selectTitle="Select Sequences";
         }
 

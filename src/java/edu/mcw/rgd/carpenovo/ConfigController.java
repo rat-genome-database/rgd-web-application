@@ -2,6 +2,7 @@ package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.SampleDAO;
+import edu.mcw.rgd.datamodel.Sample;
 import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,6 +36,12 @@ public class ConfigController extends HaplotyperController {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
             vsb = this.fillBean(req);
+            System.out.println("MapKey KEY: " + vsb.getMapKey());
+            int strainSize=0;
+            if(vsb.getMapKey()==38 || vsb.getMapKey()==37){
+               strainSize=2500;
+
+            }
             request.setAttribute("vsb", vsb);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
@@ -69,8 +77,8 @@ public class ConfigController extends HaplotyperController {
 
                 SampleDAO sampleDAO = new SampleDAO();
                 sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-
-                request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(vsb.getMapKey()));
+                List<Sample> samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey());
+                request.setAttribute("sampleList",samples );
 
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
             }

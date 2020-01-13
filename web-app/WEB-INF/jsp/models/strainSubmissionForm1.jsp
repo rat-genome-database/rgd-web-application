@@ -236,12 +236,12 @@
             <div class="form-check">
                 <label class="form-check-label">
                     <input type="radio" class="form-check-input" name="public" id="optionsRadios1" value="Public" >
-                   Public
+                   &nbsp;&nbsp;Public
                 </label>
 
                    <label class="form-check-label">
                     <input type="radio" class="form-check-input" name="public" id="optionsRadios2" value="nonPublic" checked>
-                   Non Public
+                       &nbsp;&nbsp;Non Public
                 </label>
             </div>
 
@@ -412,7 +412,6 @@
 
 </script>
 
-</html>
 
 
 

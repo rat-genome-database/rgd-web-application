@@ -25,6 +25,7 @@ public class VerifyRecaptcha {
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
+            System.out.println("RECAPTCHA RESPONSE: NULL or EMPTY: "+ gRecaptchaResponse);
             return false;
         }
 
