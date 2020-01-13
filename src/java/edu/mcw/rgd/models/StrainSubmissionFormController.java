@@ -177,8 +177,8 @@ public class StrainSubmissionFormController implements Controller {
                     return null;
                 }catch (Exception e){
                     error=e.getMessage();
-                    response.getWriter().write("false");
-                    return null;
+                    response.getWriter().write(error);
+                 //   return null;
 
                 }
             }
