@@ -50,7 +50,7 @@ public class StrainSubmissionFormController implements Controller {
           if(action!=null){
             if("submit".equals(action)){
                     //need to verify recaptcha response
-                try{
+           //     try{
              /*   String capcha = request.getParameter("g-recaptcha-response");
                     boolean recaptchaSuccess=VerifyRecaptcha.verify(capcha);
                   
@@ -175,12 +175,12 @@ public class StrainSubmissionFormController implements Controller {
                   msg="Strain Submission is failed";
                     response.getWriter().write(msg);
                     return null;
-                }catch (Exception e){
+             /*   }catch (Exception e){
                     error=e.getMessage();
                     response.getWriter().write(error);
                  //   return null;
 
-                }
+                }*/
             }
 
         }
