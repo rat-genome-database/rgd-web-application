@@ -82,7 +82,7 @@ public class StrainSubmissionFormController implements Controller {
                 s.setBackgroundStrain(request.getParameter("backgroundstrain"));
 
                 String method= new String();
-                if(!request.getParameter("method").equals("") ){
+                if(request.getParameter("method")!=null && !request.getParameter("method").equals("") ){
                  method=request.getParameter("method");
                 if(method.equalsIgnoreCase("other")){
                     method= request.getParameter("methodOther");
@@ -110,11 +110,11 @@ public class StrainSubmissionFormController implements Controller {
                 s.setImageUrl(fileLocation);
 
 
-                if(!request.getParameter("geneRgdid").equals(""))
+                if(request.getParameter("geneRgdid")!=null && !request.getParameter("geneRgdid").equals(""))
                 {   s.setGeneRgdId(Integer.parseInt(request.getParameter("geneRgdid")));}else{
                     s.setGeneRgdId(this.getGeneOrAlleleRgdId(gene));
                 }
-                if(!request.getParameter("alleleRgdid").equals(""))
+                if(request.getParameter("alleleRgdid")!=null && !request.getParameter("alleleRgdid").equals(""))
                 {   s.setAlleleRgdId(Integer.parseInt(request.getParameter("alleleRgdid")));}else{
                     s.setAlleleRgdId(this.getGeneOrAlleleRgdId(allele));
                 }
