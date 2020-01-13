@@ -38,21 +38,24 @@ public class StrainSubmissionFormController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String error= new String();
-        ModelMap model= new ModelMap();
+
         if(request.getParameter("new")!=null){
             if(request.getParameter("new").equals("true")){
                 return new ModelAndView("/WEB-INF/jsp/models/strainSubmissionForm1.jsp");
             }
         }
         String action=request.getParameter("action");
+        System.out.println("ACTION:"+action);
         String fileLocation=request.getParameter("fileLocation");
           if(action!=null){
             if("submit".equals(action)){
                     //need to verify recaptcha response
-                try{
-                    String capcha = request.getParameter("g-recaptcha-response");
-                    if (!VerifyRecaptcha.verify(capcha)) {
-                        throw new Exception("ReCaptcha Validation Failed.  Please try again.");
+           //     try{
+                String capcha = request.getParameter("g-recaptcha-response");
+                    boolean recaptchaSuccess=VerifyRecaptcha.verify(capcha);
+                  
+                    if (!recaptchaSuccess) {
+                        throw new Exception("Validation Failed.  Please try again.");
                     }
 
                 SubmittedStrain s= new SubmittedStrain();
@@ -79,7 +82,7 @@ public class StrainSubmissionFormController implements Controller {
                 s.setBackgroundStrain(request.getParameter("backgroundstrain"));
 
                 String method= new String();
-                if(!request.getParameter("method").equals("") ){
+                if(request.getParameter("method")!=null && !request.getParameter("method").equals("") ){
                  method=request.getParameter("method");
                 if(method.equalsIgnoreCase("other")){
                     method= request.getParameter("methodOther");
@@ -107,11 +110,11 @@ public class StrainSubmissionFormController implements Controller {
                 s.setImageUrl(fileLocation);
 
 
-                if(!request.getParameter("geneRgdid").equals(""))
+                if(request.getParameter("geneRgdid")!=null && !request.getParameter("geneRgdid").equals(""))
                 {   s.setGeneRgdId(Integer.parseInt(request.getParameter("geneRgdid")));}else{
                     s.setGeneRgdId(this.getGeneOrAlleleRgdId(gene));
                 }
-                if(!request.getParameter("alleleRgdid").equals(""))
+                if(request.getParameter("alleleRgdid")!=null && !request.getParameter("alleleRgdid").equals(""))
                 {   s.setAlleleRgdId(Integer.parseInt(request.getParameter("alleleRgdid")));}else{
                     s.setAlleleRgdId(this.getGeneOrAlleleRgdId(allele));
                 }
@@ -126,7 +129,14 @@ public class StrainSubmissionFormController implements Controller {
                 s.setAvailList(availList);
                 String msg=new String();
                 SubmittedStrain submittedStrain= new SubmittedStrain();
-                List<SubmittedStrain> submittedStrains= dao.getSubmittedStrainByStrainSymbolLC(symbolName.toLowerCase());
+                List<SubmittedStrain> submittedStrains= new ArrayList<>();
+                    try {
+                        submittedStrains = dao.getSubmittedStrainByStrainSymbolLC(symbolName.toLowerCase());
+                    }catch (Exception e){
+                        System.out.println("SUBMITTED STRAINS DB CONNECTION ERROR WHILE GETTING STRAIN INFO FROM REED");
+                        throw new Exception("SUBMITTED STRAINS DB CONNECTION ERROR WHILE GETTING STRAIN INFO FROM REED\n"+e);
+                    }
+                    System.out.println("SUBMITTED STRAINS SIZE: "+ submittedStrains.size());
                 if(submittedStrains.size()>0){
                     submittedStrain=submittedStrains.get(0);
 
@@ -136,7 +146,12 @@ public class StrainSubmissionFormController implements Controller {
                         return null;
 
                     }}
-                int insertedCount=this.insert(s);
+                int insertedCount=0;
+                    try {
+                        insertedCount = this.insert(s);
+                    }catch (Exception e){
+                        throw new Exception("SUBNITTED STRAIN INSERTION TO REED ERROR\n"+e);
+                    }
                 if(insertedCount>0)  {
                     if(genes!=null) {
                         if(genes.size()==0) {
@@ -160,12 +175,12 @@ public class StrainSubmissionFormController implements Controller {
                   msg="Strain Submission is failed";
                     response.getWriter().write(msg);
                     return null;
-                }catch (Exception e){
+             /*   }catch (Exception e){
                     error=e.getMessage();
-                    response.getWriter().write("false");
-                    return null;
+                    response.getWriter().write(error);
+                 //   return null;
 
-                }
+                }*/
             }
 
         }
@@ -173,6 +188,7 @@ public class StrainSubmissionFormController implements Controller {
     }
     public int insert(SubmittedStrain s) throws Exception {
         int key= dao.getNextKey("submitted_strain_seq");
+        System.out.println("SUBMITTED STRAIN SEQUENCY KEY: " + key);
         List<SubmittedStrainAvailabiltiy> saList= s.getAvailList();
         s.setSubmittedStrainKey(key);
         int inserted=dao.insert(s);

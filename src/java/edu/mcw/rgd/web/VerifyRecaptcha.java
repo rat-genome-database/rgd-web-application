@@ -25,10 +25,9 @@ public class VerifyRecaptcha {
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
-            return false;
+               return false;
         }
-
-        try{
+         try{
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -48,7 +47,7 @@ public class VerifyRecaptcha {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            //System.out.println("\nSending 'POST' request to URL : " + url);
+
             //System.out.println("Post parameters : " + postParams);
             //System.out.println("Response Code : " + responseCode);
 
@@ -67,7 +66,6 @@ public class VerifyRecaptcha {
             JsonParser parser = new JsonParser();
             JsonObject jobj = (JsonObject) parser.parse(new BufferedReader(new InputStreamReader(con.getInputStream())));
             JsonElement elm = jobj.get("success");
-
             return Boolean.parseBoolean(elm.toString());
 
 

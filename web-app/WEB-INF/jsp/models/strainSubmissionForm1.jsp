@@ -27,7 +27,7 @@
 <link href="/rgdweb/css/geneticModels.css" rel="stylesheet" type="text/css"/>
 <script src="/rgdweb/js/submission.js"></script>
 
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<!--script src='https://www.google.com/recaptcha/api.js'></script-->
 <div style="background:#eee;text-align: center" >
     <h3>Strain Submission</h3>
 </div>
@@ -37,7 +37,7 @@
     <div style="background:#eee;margin-top:20px">
         <legend>Strain Information</legend>
     </div>
-    <form id="myForm"  method="post"  onsubmit="return verify(this)"  >
+    <form id="myForm"  method="post"  onsubmit="return verify(this)">
         <input type="hidden" id="action" name="action" />
         <div class="form-group">
             <label for="symbol">Strain Symbol</label>&nbsp;&nbsp;<span style="color:red">*</span>
@@ -233,16 +233,14 @@
         </div>
         <fieldset class="form-group">
             <legend style="font-size:small">Please let us know if you want this strain to be displayed on the RGD website. If not, check Non Public (we can hold a strain until instructed by you to release it).</legend>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="public" id="optionsRadios1" value="Public" >
-                   Public
-                </label>
+            <div class="form-check form-check-inline">
 
-                   <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="public" id="optionsRadios1" value="Public" >
+                    <label class="form-check-label" for="optionsRadios1"> Public</label>
+            </div>
+            <div class="form-check form-check-inline" >
                     <input type="radio" class="form-check-input" name="public" id="optionsRadios2" value="nonPublic" checked>
-                   Non Public
-                </label>
+                <label class="form-check-label" for="optionsRadios2">Non Public </label>
             </div>
 
         </fieldset>
@@ -258,8 +256,7 @@
     </form>
 
 </div>
-
-<%@ include file="/common/footerarea.jsp"%>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 <script>
@@ -412,8 +409,9 @@
 
 </script>
 
-</html>
 
+
+<%@ include file="/common/footerarea.jsp"%>
 
 
 
