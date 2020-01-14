@@ -283,13 +283,13 @@ public class VVService {
          if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
             List<String> symbols= new ArrayList<>();
              for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
-                symbols.add(s.toLowerCase());
-             //    symbols.add(s);
+            //    symbols.add(s.toLowerCase());
+              symbols.add(s);
              }
 
              if(!symbols.get(0).equals("null"))
-          qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-         // qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+       //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+          qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
 
         }
        /* if(req.getParameter("showDifferences").equals("true")){

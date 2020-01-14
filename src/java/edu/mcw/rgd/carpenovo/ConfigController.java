@@ -36,7 +36,6 @@ public class ConfigController extends HaplotyperController {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
             vsb = this.fillBean(req);
-            System.out.println("MapKey KEY: " + vsb.getMapKey());
             int strainSize=0;
             if(vsb.getMapKey()==38 || vsb.getMapKey()==37){
                strainSize=2500;

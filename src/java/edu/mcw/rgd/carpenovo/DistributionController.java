@@ -95,10 +95,12 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-        System.out.println("MAPKEY:"+ mapKey);
+        System.out.println("MAPKEY:"+ mapKey +"\t CHROMOSOME: "+ chromosome);
         String index=new String();
         if(mapKey==17) {
-            index = "variants_human_chr21_test1";
+            if(!chromosome.equals(""))
+            index = "variants_human_chr"+chromosome+"_dev1";
+            else index="variants_human_*_dev1";
         }
    //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
         if(mapKey==360 || mapKey==70 || mapKey==60)

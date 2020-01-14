@@ -43,7 +43,8 @@ scroll-top:0;
    for (VariantResult result: resultList) {
 
        Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
-       boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
+  //     boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
+       boolean isClinVar = false;
 %>
 
 
@@ -149,10 +150,10 @@ scroll-top:0;
                    <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
                    </tr>
                    <% } else { %>
-                   <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
+                   <!--tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%--=result.getClinvarInfo().getClinicalSignificance()--%></td>
                    </tr>
-                   <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%=result.getClinvarInfo().getTraitName()%></td>
-                   </tr>
+                   <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%--=result.getClinvarInfo().getTraitName()--%></td>
+                   </tr-->
                    <% } %>
 
                    <tr>
@@ -310,9 +311,7 @@ scroll-top:0;
 %>
 </div>
 
-</td>
-    </tr>
-</table>
+
 
 <br><br>
 
