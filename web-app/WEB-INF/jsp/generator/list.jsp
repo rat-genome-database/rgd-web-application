@@ -318,7 +318,7 @@ $(document).ready(function(){
                 <table>
                     <tr>
 
-<!--<!                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>-->
+                        <td><img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')"/></td>
                         <td><a  class="btn btn-primary" style="background-color:#2B84C8;" href="javascript:void(0)"; ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">Analyze&nbsp;Result&nbsp;Set</a></td>
                     </tr>
                 </table>

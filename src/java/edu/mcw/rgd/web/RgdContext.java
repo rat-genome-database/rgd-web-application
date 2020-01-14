@@ -100,11 +100,12 @@ public class RgdContext {
 	public static String getESIndexName(String index) {
 		try {
 			if( isProduction() ) {
-				return index+"_index_prod";
+			//	return index+"_index_prod";
+                return index+"_index_prod";
 			}
 			if( isPipelines() ) {
 				//return "rgd_index_cur";
-                return index+"_index_cur";
+                return index+"_index_prod";
 			}
 			if( isTest() ) {
 				return index+"_index_test";

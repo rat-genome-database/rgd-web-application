@@ -2,7 +2,8 @@
 <%@ include file="sectionHeader.jsp"%>
 <%
     List<XdbId> pei = DaoUtils.getInstance().getProteinSequences(obj.getRgdId(), obj.getSpeciesTypeKey());
-    if( !pei.isEmpty() ) {
+    List<GenomicElement> pdomains = geDAO.getProteinDomainsForGene(obj.getRgdId());
+    if( pei.size()+pdomains.size()>0 ) {
 %>
     <%=ui.dynOpen("protAssociation", "Protein Sequences")%>
     <table border="0" >
@@ -118,6 +119,18 @@
 </table>
 <% } %>
 <% } %>
+
+<%  // PROTEIN DOMAINS
+    if (pdomains.size() > 0) {
+%>
+<br><span class="highlight"><u>Protein Domains</u></span><br><br>
+  <% for( int z=0; z<pdomains.size(); z++ ) {
+        GenomicElement el = pdomains.get(z); %>
+
+     <% if(z>0 ) { out.print(" &nbsp; "); } %>
+     <a href="/rgdweb/report/proteinDomain/main.html?id=<%=el.getRgdId()%>" title="see protein domain report page"><%=el.getSymbol()%></a>
+  <% } %>
+<% } %><p>
 
     <%=ui.dynClose("protAssociation")%>
 <% } %>

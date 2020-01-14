@@ -135,7 +135,7 @@
                             <a href="ftp://ftp.rgd.mcw.edu/pub">FTP Download</a>&nbsp;|&nbsp;
                             <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui.html">REST API</a>&nbsp;|&nbsp;
                             <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
-                            <a href="/wg/contact/">Contact</a>&nbsp;&nbsp;&nbsp;
+                            <a href="/contact/index.shtml">Contact</a>&nbsp;&nbsp;&nbsp;
 
                             <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                         </td>
@@ -158,7 +158,7 @@
                                         <a href="/wg/grants/">Grant Resources</a>
                                         <a href="/wg/citing-rgd/">Citing RGD</a>
                                         <a href="/wg/about-us/">About Us</a>
-                                        <a href="/wg/contact/">Contact Us</a>
+                                        <a href="/contact/index.shtml">Contact Us</a>
                                     </div>
                                 </div>
                                 <div class="rgd-dropdown">
@@ -189,6 +189,7 @@
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
+                                        <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                         <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
                                         <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
@@ -246,6 +247,7 @@
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                                         <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
                                         <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
+                                        <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                         <a href="/wg/phenotype-data13/">Phenotypes</a>
                                         <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
                                         <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>

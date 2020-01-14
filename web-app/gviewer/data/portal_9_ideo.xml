@@ -1,0 +1,172 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+    <chromosome index="1" number="1" length="315321322">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>315321322</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="2" number="2" length="162569375">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>162569375</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="3" number="3" length="144787322">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>144787322</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="4" number="4" length="143465943">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>143465943</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="5" number="5" length="111506441">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>111506441</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="6" number="6" length="157765593">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>157765593</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="7" number="7" length="134764511">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>134764511</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="8" number="8" length="148491826">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>148491826</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="9" number="9" length="153670197">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>153670197</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="10" number="10" length="79102373">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>79102373</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="11" number="11" length="87690581">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>87690581</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="12" number="12" length="63588571">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>63588571</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="13" number="13" length="218635234">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>218635234</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="14" number="14" length="153851969">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>153851969</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="15" number="15" length="157681621">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>157681621</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="16" number="16" length="86898991">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>86898991</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="17" number="17" length="69701581">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>69701581</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="18" number="18" length="61220071">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>61220071</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="19" number="X" length="144288218">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>144288218</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="20" number="Y" length="1637716">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>1637716</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+    <chromosome index="21" number="MT" length="16613">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>16613</end>
+            <stain>gvar</stain>
+
+        </band>
+    </chromosome>
+
+</genome>

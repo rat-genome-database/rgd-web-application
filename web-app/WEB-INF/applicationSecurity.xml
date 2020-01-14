@@ -1,15 +1,28 @@
 <beans:beans
     xmlns="http://www.springframework.org/schema/security"
     xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security-3.1.xsd"
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
     >
 
     <debug/>
 
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/curation/edit/*" />
+            <mvc:mapping path="/curation/nomen/*" />
+            <mvc:mapping path="/curation/pathway/*" />
+            <mvc:mapping path="/curation/phenominer/*" />
+            <beans:bean id="authInterceptor" class="edu.mcw.rgd.web.AuthenticationInterceptor"></beans:bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <http use-expressions="true" authentication-manager-ref="ldapAuthenticationManager">
 	        <intercept-url pattern="/login.jsp" access="permitAll" />
@@ -105,5 +118,6 @@
             </beans:map>
         </beans:property>
     </beans:bean>
+
 
 </beans:beans>

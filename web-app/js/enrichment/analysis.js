@@ -22,6 +22,7 @@ function EnrichmentVue(divId, hostname) {
         host=hostname;
     }
 
+  
     var v = new Vue({
         el: div,
         data: {
@@ -81,12 +82,16 @@ function EnrichmentVue(divId, hostname) {
 
             },
             loadOntView: function (s) {
-                document.getElementById(this.ontology[0]).innerHTML = "";
+                if(document.getElementById(this.ontology[0]) != null) {
+                    document.getElementById(this.ontology[0]).innerHTML = "";
+                }
                 v.loadView(s);
                 v.selectView();
             },
             loadSpeciesView: function (o) {
-                document.getElementById(this.ontology[0]).innerHTML = "";
+                if(document.getElementById(this.ontology[0]) != null) {
+                    document.getElementById(this.ontology[0]).innerHTML = "";
+                }
                 this.ontology = [o];
                 v.selectView();
             },
@@ -306,8 +311,8 @@ function EnrichmentVue(divId, hostname) {
                                     return this.info[i].value.sort(function (a, b) {
                                     let modifier = 1;
                                     if (v.currentSortDir === 'desc') modifier = -1;
-                                    if (parseInt(a[v.currentSort]) < parseInt(b[v.currentSort])) return -1 * modifier;
-                                    if (parseInt(a[v.currentSort]) > parseInt(b[v.currentSort])) return 1 * modifier;
+                                    if (Number(a[v.currentSort]) < Number(b[v.currentSort])) return -1 * modifier;
+                                    if (Number(a[v.currentSort]) > Number(b[v.currentSort])) return 1 * modifier;
                                     return 0;
                                 });
                             }

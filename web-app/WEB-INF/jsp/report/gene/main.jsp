@@ -146,7 +146,6 @@
         </div>
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
-        <%@ include file="../portal.jsp"%>
 
         <a name="genomics"></a>
         <br>
@@ -167,6 +166,12 @@
       <%@ include file="../geneticModels.jsp"%>
     <%@ include file="../miRnaTargets.jsp"%>
 
+            <a name="expression"></a>
+            <br>
+            <div class="subTitle">Expression</div>
+            <br>
+
+            <%@ include file="expressionData.jsp"%>
         <a name="sequence"></a>
         <br>
         <div class="subTitle">Sequence</div>
