@@ -130,7 +130,8 @@
                 <exclude name="**/WEB-XML/*.curation"/>
                 <exclude name="**/jsp-api.jar"/>
                 <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <!--exclude name="**/ojdbc6.jar" /--><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <!--in TUCKER ojdbc6.jar is not found in TOMCAT -->
             </fileset>
         </war>
     </target>
@@ -163,7 +164,7 @@
                 <exclude name="**/WEB-XML/*.curation"/>
                 <exclude name="**/jsp-api.jar"/>
                 <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <!--exclude name="**/ojdbc6.jar" /--><!--oracle jdbc driver is always present on tomcat server in common lib -->
                 <exclude name="**/mysql.jar" />
             </fileset>
         </war>
