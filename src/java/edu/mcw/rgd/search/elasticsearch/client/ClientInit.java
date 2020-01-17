@@ -4,13 +4,12 @@ package edu.mcw.rgd.search.elasticsearch.client;
 import io.netty.util.internal.InternalThreadLocalMap;
 import org.elasticsearch.client.RestHighLevelClient;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -57,8 +56,22 @@ public class ClientInit {
         ClientInit.hosts = hosts;
     }
     public List<String> getHostNames(){
-          return this.getNodeURLs();
+      //    return this.getNodeURLs();
+        List<String> hostNames=new ArrayList<>();
+        Properties props= new Properties();
+      try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
+    //    try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+            props.load(input);
+            hostNames.add(props.get("HOST1").toString());
+            hostNames.add(props.get("HOST2").toString());
+            hostNames.add(props.get("HOST3").toString());
+            hostNames.add(props.get("HOST4").toString());
+            hostNames.add(props.get("HOST5").toString());
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    return hostNames;
     }
 
     public List<String> getNodeURLs() {

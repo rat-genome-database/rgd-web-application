@@ -73,7 +73,7 @@ public class DistributionController extends HaplotyperController {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
-        ModelMap model=new ModelMap();
+
         List regionList = new ArrayList();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
         StringBuilder sb=new StringBuilder();
@@ -296,7 +296,9 @@ public class DistributionController extends HaplotyperController {
                     conHigh = 1f;
                     break;
             }
-
+            if(symbols.size()>0){
+                vsb.setGenes(symbols);
+            }
              vsb.setConnective(req.getParameter("connective"));
              vsb.setAAChange(req.getParameter("synonymous"), req.getParameter("nonSynonymous"));
              vsb.setGenicStatus(req.getParameter("genic"), req.getParameter("intergenic"));
@@ -346,7 +348,7 @@ public class DistributionController extends HaplotyperController {
             sb.append("]");
             this.sb=sb;
       //      System.out.println(sb.toString());
-            System.out.println("SYMBOLS SIZE: "+ gSymbols.size());
+            System.out.println("SYMBOLS SIZE: "+ symbols.size());
             System.out.println("GSYMBOLS SIZE: "+ gSymbols.size());
             if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
@@ -465,7 +467,15 @@ public class DistributionController extends HaplotyperController {
                 SampleDAO sdao = new SampleDAO();
                 sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-                List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+                List<Sample> samples=new ArrayList<>();
+                if(mapKey==17){
+                    List<String> populations= new ArrayList<>(Arrays.asList("GBR"));
+                    for(String p:populations){
+                        samples .addAll(sdao.getSamplesByMapKey(mapKey, p));
+                    }
+                }else {
+                    samples= sdao.getSamplesByMapKey(mapKey);
+                }
 
                 for (Sample s : samples) {
                     sampleIds.add(s.getId() + "");

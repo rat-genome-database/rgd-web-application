@@ -22,10 +22,7 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by jthota on 7/10/2019.
@@ -50,24 +47,14 @@ public class VVService {
         SearchRequest searchRequest=new SearchRequest(variantIndex);
         searchRequest.source(srb);
         searchRequest.scroll(TimeValue.timeValueMinutes(1L));
-      /*  SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName(variantIndex))
-                .setQuery(builder)
-                .setSize(10000);*/
+
         List<SearchHit> searchHits= new ArrayList<>();
         if(req.getParameter("showDifferences").equals("true")){
-         /*   SearchResponse sr=srb
-                    .setSearchType(SearchType.QUERY_THEN_FETCH)
-                    //    .setRequestCache(true)
-                    .setScroll(new TimeValue(60000))
-                    .execute().actionGet();*/
-         //   SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
             SearchResponse sr=VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
             String scrollId=sr.getScrollId();
             searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-         /*   do {
-                sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
-                searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-            } while (sr.getHits().getHits().length != 0);*/
+
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                 scrollRequest.scroll(TimeValue.timeValueSeconds(30));
@@ -80,16 +67,9 @@ public class VVService {
         }else {
             SearchResponse sr=VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
             String scrollId=sr.getScrollId();
-          /*  SearchResponse sr = srb
-                    .setSearchType(SearchType.QUERY_THEN_FETCH)
-                    //       .setRequestCache(true)
-                    .setScroll(new TimeValue(60000))
-                    .execute().actionGet();*/
+
             searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-         /*   do {
-                sr = ClientInit.getClient().prepareSearchScroll(sr.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
-                searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-            } while (sr.getHits().getHits().length != 0);*/
+
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                 scrollRequest.scroll(TimeValue.timeValueSeconds(30));
@@ -266,12 +246,14 @@ public class VVService {
         return builder;
     }
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
+        System.out.println("Building dismax query...");
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
         BoolQueryBuilder qb=
                 (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-        if(vsb.getChromosome()!=null){
+        if(vsb.getChromosome()!=null && !Objects.equals(vsb.getChromosome(), "")){
+            System.out.println("CHROMOSOME IN VV SERVICE: "+ vsb.getChromosome());
            qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
         }
         if(sampleIds!=null && sampleIds.size()>0){
@@ -297,6 +279,7 @@ public class VVService {
         }*/
 
         dqb.add(qb);
+
         return dqb;
 
     }

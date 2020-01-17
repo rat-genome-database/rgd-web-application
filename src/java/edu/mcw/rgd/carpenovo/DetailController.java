@@ -140,11 +140,11 @@ public class DetailController extends HaplotyperController {
         // srb.query(QueryBuilders.termQuery("startPos", startPos));
         System.out.println("CHROMOSOME: "+ chr+"\tSTARTPOS:"+startPos);
         srb.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("chromosome", chr))
-                       // .filter(QueryBuilders.termQuery("startPos", startPos))
+                        .filter(QueryBuilders.termQuery("startPos", startPos))
                 //  .filter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("refNuc", refNuc)).must(QueryBuilders.termQuery("varNuc", varNuc)))
 
         );
-        srb.size(100);
+        srb.size(10000);
         //    SearchRequest request=new SearchRequest("transcripts_human_dev1"); //chr 21 transcripts
         SearchRequest request=new SearchRequest("transcripts_human_test2"); // chr 1 transcripts
         request.source(srb);
@@ -153,8 +153,8 @@ public class DetailController extends HaplotyperController {
         //   RestHighLevelClient client=ESClient.getInstance();
         SearchResponse sr= VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
         List<TranscriptResult> tds= new ArrayList<>();
-        System.out.println("TRANSCRIPT HITS SIZE: "+sr.getHits().getTotalHits());
-        if(sr.getHits().getTotalHits()>0) {
+        System.out.println("TRANSCRIPT HITS SIZE: "+sr.getHits().getTotalHits().value);
+        if(sr.getHits().getTotalHits().value >0) {
             for (SearchHit h : sr.getHits().getHits()) {
                 TranscriptResult tr = new TranscriptResult();
                 AminoAcidVariant aa = new AminoAcidVariant();
@@ -174,13 +174,15 @@ public class DetailController extends HaplotyperController {
                     aa.setAASequence(source.get("fullRefAA").toString());
                 if (source.get("fullRefNuc") != null)
                     aa.setDNASequence(source.get("fullRefNuc").toString());
+                if(source.get("fullRefAAPos")!=null)
                 aa.setAaPosition((Integer) source.get("fullRefAAPos"));
+                if(source.get("fullRefNucPos")!=null)
                 aa.setDnaPosition((Integer) source.get("fullRefNucPos"));
                 tr.setAminoAcidVariant(aa);
                 tds.add(tr);
 
             }
-        }
+       }
     //    VariantIndexClient.getClient().close();
         // System.out.println("TRANSCIPTS SIZE: "+tds.size());
         return tds;

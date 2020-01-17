@@ -1,12 +1,12 @@
 package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.carpenovo.vvservice.VVService;
-import edu.mcw.rgd.carpenovo.vvservice.VariantIndexClient;
+
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
-import edu.mcw.rgd.dao.impl.VariantDAO;
+
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
@@ -14,15 +14,9 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.lucene.search.Query;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,8 +34,6 @@ import java.util.*;
  */
 public class VariantController extends HaplotyperController {
 
-    // class logger
-    Log log = LogFactory.getLog(VariantController.class);
     VVService service= new VVService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -54,29 +46,19 @@ public class VariantController extends HaplotyperController {
 
             if (!geneList.equals("")) {
                 if (!geneList.contains("|") && !geneList.contains("*") && Utils.symbolSplit(geneList).size()>1 ) {
-                    //searchType="LIST";
-
-                    return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
+                   return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
                 }else {
                     searchType="GENE";
                 }
             }
-
-            if (!geneList.equals("") && !geneList.contains("|") && !geneList.contains("*")) {
-                if (Utils.symbolSplit(geneList).size()>1) {
-                    return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
-                }
-            }
-
             if (geneList.equals("") && !req.getParameter("rdo_term").equals("")) {
-                //if (Utils.symbolSplit(geneList).size()>1) {
-                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
-                //}
+               return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
 
             GeneDAO gdao = new GeneDAO();
 
             VariantSearchBean vsb = this.fillBean(req);
+
             String index=new String();
             if(vsb.getMapKey()==17) {
                index="variants_human_*_dev1";
@@ -87,12 +69,6 @@ public class VariantController extends HaplotyperController {
             if(mapKey==631 || mapKey==600 )
                 index= "variant_dog_index_dev2";*/
             service.setVariantIndex(index);
-
-     //       VariantDAO vdao = new VariantDAO();
-    //        vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-
-            int count=0;
-
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
@@ -105,10 +81,7 @@ public class VariantController extends HaplotyperController {
             System.out.println("position count = " + count);
         }*/
 
-            SearchResult searchResult = null;
-
-
-            //     if (count < 2000 || searchType.equals("GENE")) {
+     //     if (count < 2000 || searchType.equals("GENE")) {
             if (searchType.equals("GENE")) {
 
                 SNPlotyper snplotyper = new SNPlotyper();
@@ -139,7 +112,7 @@ public class VariantController extends HaplotyperController {
                 boolean b1 = snplotyper.hasPlusStrandConflict();
                 boolean b2 = snplotyper.hasMinusStrandConflict();
 
-                return new ModelAndView("/WEB-INF/jsp/haplotyper/variants.jsp", "searchResult", searchResult);
+                return new ModelAndView("/WEB-INF/jsp/haplotyper/variants.jsp");
             }else {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }

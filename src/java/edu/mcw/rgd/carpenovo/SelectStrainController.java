@@ -28,7 +28,7 @@ public class SelectStrainController extends HaplotyperController {
         sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
         List<Sample> sampleList= new ArrayList<>();
         String strainRgdIds=request.getParameter("rgdIds");
-
+        String population="GBR";
         if(strainRgdIds!=null){
             if(strainRgdIds!=""){
                 List<Integer> strainIds= new ArrayList<>();
@@ -64,9 +64,10 @@ public class SelectStrainController extends HaplotyperController {
         }catch (Exception ignored) {
         }
         request.setAttribute("mapKey", mapKey);
-
-		request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey));
-
+        if(mapKey==17)
+		request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey, population));
+        else
+            request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey));
         return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
     }
 }
