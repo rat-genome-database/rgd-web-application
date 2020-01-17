@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
 <%@ page import="edu.mcw.rgd.reporting.DelimitedReportStrategy" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .exprData {
@@ -39,7 +40,8 @@
 
         } else s = sampleMap.get(geneExpRec.getSampleId());
 
-        tissues.add(s.getTissueAccId());
+        if(s.getTissueAccId() != null)
+            tissues.add(s.getTissueAccId());
 
 
     }
@@ -58,14 +60,22 @@
 <br><br>
 <table class="exprData">
     <tr>
-        <th></th>
-    <% for(String tissue:tissues) {%>
-        <th><%=xdao.getTerm(tissue).getTerm()%></th>
-        <% } %>
+        <td></td>
+    <% for(String tissue:tissues) {
+        Term term = xdao.getTermByAccId(tissue);
+        if( term != null) {
+    %>
+        <td><%=xdao.getTerm(tissue).getTerm()%></td>
+        <% } else{  %>
+        <td><%=tissue%></td>
+        <%
+
+        } } %>
     </tr>
     <tr>
-        <th>High</th>
+        <td>High</td>
         <% for(String tissue:tissues) {
+
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","high",tissue);
             if( val.size() != 0) {
         %>
@@ -78,7 +88,7 @@
         <%}}  %>
     </tr>
     <tr>
-        <th>Medium</th>
+        <td>Medium</td>
         <% for(String tissue:tissues) {
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","medium",tissue);
             if(val.size() != 0) {
@@ -92,7 +102,7 @@
         <% }} %>
     </tr>
     <tr>
-        <th>Low</th>
+        <td>Low</td>
         <% for(String tissue:tissues) {
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","low",tissue);
             if(val.size() != 0) {
@@ -106,7 +116,7 @@
         <% }} %>
     </tr>
     <tr>
-        <th>Below cutoff</th>
+        <td>Below cutoff</td>
 
         <% for(String tissue:tissues) {
             List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","below cutoff",tissue);

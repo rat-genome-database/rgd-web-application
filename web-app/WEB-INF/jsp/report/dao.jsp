@@ -10,7 +10,6 @@
     NotesDAO noteDAO = new NotesDAO();
     OntologyXDAO ontologyDAO = new OntologyXDAO();
     PhenominerDAO phenominerDAO = new PhenominerDAO();
-    PortalDAO dao = new PortalDAO();
     QTLDAO qtlDAO = new QTLDAO();
     ReferenceDAO referenceDAO = associationDAO.getReferenceDAO();
     RGDManagementDAO managementDAO = new RGDManagementDAO();

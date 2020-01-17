@@ -90,6 +90,7 @@ function EnrichmentVue(divId, hostname) {
             },
             loadSpeciesView: function (o) {
                 if(document.getElementById(this.ontology[0]) != null) {
+                    alert(this.ontology);
                     document.getElementById(this.ontology[0]).innerHTML = "";
                 }
                 this.ontology = [o];

@@ -16,7 +16,6 @@ public class CurationController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
             if(request.getParameter("accessToken") != null) {
                 Cookie cookie1 = new Cookie("accessToken", request.getParameter("accessToken"));
-                cookie1.setMaxAge(24*60*60);
                 response.addCookie(cookie1);
                 return new ModelAndView("/WEB-INF/jsp/curation/home.jsp", "hello", null);
             }
@@ -26,7 +25,7 @@ public class CurationController implements Controller {
                 response.addCookie(cookie);
                 response.addHeader("Cache-Control","max-age=5, must-revalidate");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
-                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
                 return null;
             }
 

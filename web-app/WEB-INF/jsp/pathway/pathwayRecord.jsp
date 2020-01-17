@@ -207,7 +207,7 @@ function showonlyoneDis(selectedBlock,fld) {
 </script>
 
 <%--<a href="/rgdweb/curation/pathway/home.html">Back to Pathway Search</a>--%>
-
+<div class="container-fluid">
 <table width="900">
 <tr>
     <td></td><td>
@@ -242,11 +242,12 @@ function showonlyoneDis(selectedBlock,fld) {
     <td rowspan="100" valign="top" >
         <img style="border:white;" alt="" hspace="10" vspace="20" src="/common/images/pathwayDiagramLegend.jpg"/>
     </td>
-    <td valign="top" width="780">
-        <h3 align="justify"><%=pwName.toUpperCase()+"  ("+pwId+")"%></h3>
-        <h4><a href="/rgdweb/ontology/annot.html?species=Rat&acc_id=<%=pwId%>" target="_blank">View Ontology Report</a></h4>
+    <h3 align="justify"><%=pwName.toUpperCase()+"  ("+pwId+")"%></h3>
+    <h4><a href="/rgdweb/ontology/annot.html?species=Rat&acc_id=<%=pwId%>" target="_blank">View Ontology Report</a></h4>
 
-        <h3 align="justify">Description</h3><%
+    <h3 align="justify">Description</h3>
+    <td valign="top" width="780">
+        <%
         if( !Utils.isStringEmpty(pwDesc) ){
             if(pwDesc.length()>500){
                 String start = pwDesc.substring(0, 500);
@@ -255,14 +256,11 @@ function showonlyoneDis(selectedBlock,fld) {
                 String div = "<div id='pw_desc' style='display:none;'>"+last+"<a href='javascript:document.getElementById(\"pw_descA\").style.display=\"inline\";document.getElementById(\"pw_desc\").style.display=\"none\";void(0);' >...(less)</a></div>";
                 pwDesc = start+div;
             }
-            else if(pwDesc.length()<500){
-                out.println(pwDesc);
-            }
-            out.println(pwDesc);
         }else{
-            out.println("(no description added)");
+            pwDesc = "(no description added)";
         }
         %>
+        <%=pwDesc%>
     </td>
 </tr>
 <tr>
@@ -322,7 +320,7 @@ function showonlyoneDis(selectedBlock,fld) {
     </td>
 </tr>
 <tr>
-    <td style="padding-top:2%">
+    <td style="padding-top:2%" width="780">
         <a name="GenesInPathway"><h3><b>Genes in Pathway:</b></h3></a>
             <%@ include file="../ontology/annotTable.jsp" %>
     </td>
@@ -406,8 +404,9 @@ function showonlyoneDis(selectedBlock,fld) {
                 }
 
                 pathwayObjReport.sort(2,Report.ASCENDING_SORT,true);
-                out.print(strat.format(pathwayObjReport));
+
             %>
+                <%= strat.format(pathwayObjReport)%>
             </c:if>
         </td>
     </tr>
@@ -763,7 +762,7 @@ function showonlyoneDis(selectedBlock,fld) {
 <tr>
     <td>
         <a name="PathwayGraph"><h3>Ontology Path Diagram:</h3></a>
-        <table>
+        <table width="780">
             <tr>
                 <td align="justify">
                 <%=OntDotController.generateResponse(pwId, "/rgdweb/ontology/annot.html?acc_id=", 30)%>
@@ -781,5 +780,5 @@ function showonlyoneDis(selectedBlock,fld) {
     </td>
 </tr>
 </table>
-
+</div>
 <%@ include file="/common/footerarea.jsp"%>
