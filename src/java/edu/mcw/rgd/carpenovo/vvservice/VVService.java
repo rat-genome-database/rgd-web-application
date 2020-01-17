@@ -57,7 +57,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -72,7 +72,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -250,36 +250,51 @@ public class VVService {
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
-        BoolQueryBuilder qb=
-                (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-        if(vsb.getChromosome()!=null && !Objects.equals(vsb.getChromosome(), "")){
-            System.out.println("CHROMOSOME IN VV SERVICE: "+ vsb.getChromosome());
-           qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
-        }
-        if(sampleIds!=null && sampleIds.size()>0){
-            qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
-        }
-        if(vsb.getStartPosition()!=null && vsb.getStartPosition()>=0 && vsb.getStopPosition()!=null && vsb.getStopPosition()>0){
-            qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
-        }
-         if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
+        if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
+            System.out.println("GENELIST NOT EMPTY");
             List<String> symbols= new ArrayList<>();
-             for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
-            //    symbols.add(s.toLowerCase());
-              symbols.add(s);
-             }
+            for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
+                //    symbols.add(s.toLowerCase());
+                symbols.add(s);
+            }
 
-             if(!symbols.get(0).equals("null"))
-       //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-          qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+            if(!symbols.get(0).equals("null"))
+                //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+              dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()))
+              .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
-        }
+        }else {
+
+            BoolQueryBuilder qb =
+                    (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
+            if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {
+                System.out.println("CHROMOSOME IN VV SERVICE: " + vsb.getChromosome());
+                qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
+            }
+            if (sampleIds != null && sampleIds.size() > 0) {
+                qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
+            }
+            if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0) {
+                qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+            }
+            if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+                List<String> symbols = new ArrayList<>();
+                for (String s : Utils.symbolSplit(req.getParameter("geneList"))) {
+                    //    symbols.add(s.toLowerCase());
+                    symbols.add(s);
+                }
+
+                if (!symbols.get(0).equals("null"))
+                    //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+                    qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+
+            }
        /* if(req.getParameter("showDifferences").equals("true")){
             qb.filter();
         }*/
 
-        dqb.add(qb);
-
+            dqb.add(qb);
+        }
         return dqb;
 
     }
