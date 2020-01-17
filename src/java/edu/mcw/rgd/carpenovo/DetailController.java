@@ -3,6 +3,7 @@ package edu.mcw.rgd.carpenovo;
 import edu.mcw.rgd.carpenovo.vvservice.VVService;
 import edu.mcw.rgd.carpenovo.vvservice.VariantIndexClient;
 import edu.mcw.rgd.dao.DataSourceFactory;
+import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
@@ -178,6 +179,7 @@ public class DetailController extends HaplotyperController {
                 aa.setAaPosition((Integer) source.get("fullRefAAPos"));
                 if(source.get("fullRefNucPos")!=null)
                 aa.setDnaPosition((Integer) source.get("fullRefNucPos"));
+                aa.setTranscriptSymbol(this.getTranscriptSymbol(tr.getTranscriptId()));
                 tr.setAminoAcidVariant(aa);
                 tds.add(tr);
 
@@ -187,6 +189,16 @@ public class DetailController extends HaplotyperController {
         // System.out.println("TRANSCIPTS SIZE: "+tds.size());
         return tds;
         //   return null;
+    }
+    public String getTranscriptSymbol(String transcriptId){
+        TranscriptDAO tdao=new TranscriptDAO();
+        Transcript tr= null;
+        try {
+            tr = tdao.getTranscript(Integer.parseInt(transcriptId));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tr.getAccId();
     }
     public static void main(String[] args){
         DetailController controller=new DetailController();
