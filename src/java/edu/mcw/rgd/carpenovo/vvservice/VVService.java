@@ -264,7 +264,9 @@ public class VVService {
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
-
+            if(chromosome!=null ){
+                
+            }
             BoolQueryBuilder qb =
                     (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
             if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {

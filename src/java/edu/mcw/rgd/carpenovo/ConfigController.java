@@ -73,10 +73,15 @@ public class ConfigController extends HaplotyperController {
 
 
             if ((positionSet || genesSet || regionSet) && !strainsSet) {
-
+                List<Sample> samples=new ArrayList<>();
                 SampleDAO sampleDAO = new SampleDAO();
                 sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-                List<Sample> samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey());
+                if(vsb.getMapKey()==17){
+                    String population="FIN";
+                   samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey(), population);
+                }else {
+                    samples = sampleDAO.getSamplesByMapKey(vsb.getMapKey());
+                }
                 request.setAttribute("sampleList",samples );
 
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");

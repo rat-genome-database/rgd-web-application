@@ -28,7 +28,9 @@ public class SelectStrainController extends HaplotyperController {
         sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
         List<Sample> sampleList= new ArrayList<>();
         String strainRgdIds=request.getParameter("rgdIds");
-        String population="GBR";
+        String map=request.getParameter("mapKey");
+        System.out.println("MAPKEY IN SELECT STRAIN CONTROLLER: "+ map);
+        String population="FIN";
         if(strainRgdIds!=null){
             if(strainRgdIds!=""){
                 List<Integer> strainIds= new ArrayList<>();
