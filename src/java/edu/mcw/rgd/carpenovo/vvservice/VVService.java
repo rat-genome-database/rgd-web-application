@@ -250,7 +250,7 @@ public class VVService {
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
-        if(!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
+        if((chromosome==null || chromosome.equals("")) && !req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
             System.out.println("GENELIST NOT EMPTY");
             List<String> symbols= new ArrayList<>();
             for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
@@ -264,11 +264,11 @@ public class VVService {
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
-            if(chromosome!=null ){
-                
-            }
-            BoolQueryBuilder qb =
-                    (QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
+            if(chromosome!=null && !chromosome.equals("") ){
+                BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
+                        QueryBuilders.termQuery("chromosome", chromosome)
+                );
+
             if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {
                 System.out.println("CHROMOSOME IN VV SERVICE: " + vsb.getChromosome());
                 qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
@@ -296,6 +296,7 @@ public class VVService {
         }*/
 
             dqb.add(qb);
+        }
         }
         return dqb;
 
