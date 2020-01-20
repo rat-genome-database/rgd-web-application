@@ -99,8 +99,8 @@ public class DistributionController extends HaplotyperController {
         String index=new String();
         if(mapKey==17) {
             if(!chromosome.equals(""))
-            index = "variants_human_chr"+chromosome+"_dev1";
-            else index="variants_human_*_dev1";
+            index = "variants_human_chr"+chromosome+"_dev";
+            else index="variants_human_*_dev";
         }
    //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
         if(mapKey==360 || mapKey==70 || mapKey==60)

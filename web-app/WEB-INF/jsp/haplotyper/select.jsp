@@ -144,7 +144,12 @@ if (req.getParameter("u").equals("394033")) {
 <table border=0  style="padding:4px;" align="center" width="95%">
     <tr>
         <td width=500 valign="top" align="right">
-            <div style="padding-left:8px;top:30px;"><table><tr><td><a href="javascript:selectAll()"><img id="imageAll" border="0" src="/rgdweb/common/images/add.png" /></a></td><td><a href="javascript:selectAll()" style="color:white;">Select All</a></td></tr></table> </div>
+            <div style="padding-left:8px;top:30px;">
+                <%if(mapKey!=17){%>
+                <table><tr><td><a href="javascript:selectAll()"><img id="imageAll" border="0" src="/rgdweb/common/images/add.png" /></a></td><td><a href="javascript:selectAll()" style="color:white;">Select All</a></td></tr>
+                </table>
+                <%}%>
+            </div>
 
             <div style="height:400px; overflow:  auto; background-color:white; ackground-color:#F6F6F6; border: 3px outset #eeeeee;">
             <table border=0  width="100%" >

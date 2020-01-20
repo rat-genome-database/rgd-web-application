@@ -57,7 +57,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -72,7 +72,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -169,7 +169,7 @@ public class VVService {
         if(req.getParameter("nonSynonymous").equals("true")){ synStats.add("nonsynonymous");}
         if(req.getParameter("synonymous").equals("true")){synStats.add("synonymous");}
         if(synStats.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("synStatus.keyword", synStats.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.synStatus", synStats.toArray())));
         }
         if(req.getParameter("genic").equals("true")){genicStats.add("GENIC");}
         if(req.getParameter("intergenic").equals("true")){genicStats.add("INTERGENIC");}
@@ -188,25 +188,25 @@ public class VVService {
         if(locs.size()>0){
             BoolQueryBuilder qb=new BoolQueryBuilder();
             for(String l:locs){
-                qb.should(QueryBuilders.matchQuery("locationName", l));
+                qb.should(QueryBuilders.matchQuery("variantTranscripts.locationName", l));
             }
             builder.filter(qb);
         }
         if(req.getParameter("nearSpliceSite").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("nearSpliceSite.keyword")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.nearSpliceSite.keyword")));
         }
         if(req.getParameter("proteinCoding").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("refAA")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword")));
         }
         if(req.getParameter("frameshift").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("frameShift.keyword")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.frameShift.keyword")));
         }
         List<String> pPredictions=new ArrayList<>();
         if(req.getParameter("benign").equals("true")){pPredictions.add("benign");}
         if(req.getParameter("possibly").equals("true")){pPredictions.add("possibly damaging");}
         if(req.getParameter("probably").equals("true")){pPredictions.add("probably damaging");}
         if(pPredictions.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("polyphenPrediction.keyword", pPredictions.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenPrediction.keyword", pPredictions.toArray())));
         }
 
         /***************************zygosity************************************/
@@ -232,15 +232,15 @@ public class VVService {
 
         if(req.getParameter("prematureStopCodon").equals("true")){
             builder
-                   .filter(QueryBuilders.boolQuery().must(QueryBuilders.scriptQuery(new Script("doc['refAA.keyword'].value != doc['varAA.keyword'].value")))
-                .filter(QueryBuilders.termQuery("varAA.keyword", "*"))
+                   .filter(QueryBuilders.boolQuery().must(QueryBuilders.scriptQuery(new Script("doc['variantTranscripts.refAA.keyword'].value != doc['variantTranscripts.varAA.keyword'].value")))
+                .filter(QueryBuilders.termQuery("variantTranscripts.varAA.keyword", "*"))
            );
         }
 
         if(req.getParameter("readthroughMutation").equals("true")){
             builder
-                    .filter(QueryBuilders.boolQuery().must(QueryBuilders.scriptQuery(new Script("doc['refAA.keyword'].value != doc['varAA.keyword'].value")))
-                            .filter(QueryBuilders.termQuery("refAA.keyword", "*"))
+                    .filter(QueryBuilders.boolQuery().must(QueryBuilders.scriptQuery(new Script("doc['variantTranscripts.refAA.keyword'].value != doc['variantTranscripts.varAA.keyword'].value")))
+                            .filter(QueryBuilders.termQuery("variantTranscripts.refAA.keyword", "*"))
                     );
         }
         return builder;

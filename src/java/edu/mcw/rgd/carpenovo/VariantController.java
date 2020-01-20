@@ -61,7 +61,7 @@ public class VariantController extends HaplotyperController {
 
             String index=new String();
             if(vsb.getMapKey()==17) {
-               index="variants_human_*_dev1";
+               index="variants_human_*_dev";
             }
             //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
           /*  if(mapKey==360 || mapKey==70 || mapKey==60)
@@ -138,13 +138,8 @@ public class VariantController extends HaplotyperController {
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req) throws Exception {
         VVService service= new VVService();
-        //  SearchResponse sr=service.getVariants(vsb, req);
-
-        //  SearchHit[] hits= sr.getHits().getHits();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
-
-
         for(SearchHit h:hits){
             java.util.Map<String, Object> m=h.getSourceAsMap();
             VariantResult vr= new VariantResult();
@@ -251,13 +246,18 @@ public class VariantController extends HaplotyperController {
 
         VariantSearchBean vsb = new VariantSearchBean(0);
 
-        if (req.getParameter("sample1").equals("all")) {
+        if (req.getParameter("sample1").equals("all") && req.getParameter("sample").equals("")) {
             //get all the samples
 
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(req.getParameter("mapKey"));
-            List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+            List<Sample> samples =new ArrayList<>();
+            if(mapKey==17){
+                String population="FIN";
+               samples= sdao.getSamplesByMapKey(mapKey, population);
+            }else
+                samples=    sdao.getSamplesByMapKey(mapKey);
 
             vsb.setMapKey(mapKey);
 
@@ -317,10 +317,10 @@ public class VariantController extends HaplotyperController {
         if (chromosome.equals("") || start.equals("") || stop.equals("")) {
 
             // class logger
-            Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
+         /*   Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
             chromosome = p.getChromosome();
             start = p.getStart() + "";
-            stop = p.getStop() + "";
+            stop = p.getStop() + "";*/
 
         } else {
             try {

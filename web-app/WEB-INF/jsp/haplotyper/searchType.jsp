@@ -91,7 +91,7 @@ String pageDescription = "Define Region";
        samplesSize=100;
     }
     if(mapKey==17 || mapKey==38){
-        samplesSize=2510;
+        samplesSize=2504;
     }
     if(mapKey==631 || mapKey==600){
     samplesSize=250;
@@ -115,7 +115,7 @@ String pageDescription = "Define Region";
     <%
         String selectTitle="Select Strains";
        // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
-       if (mapKey==37 || mapKey==38) {
+       if (mapKey==37 || mapKey==38 || mapKey==17) {
             selectTitle="Select Sequences";
         }
 
