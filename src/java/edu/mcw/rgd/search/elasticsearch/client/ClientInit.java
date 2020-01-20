@@ -59,8 +59,8 @@ public class ClientInit {
       //    return this.getNodeURLs();
         List<String> hostNames=new ArrayList<>();
         Properties props= new Properties();
-    try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
-  //   try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+//    try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
+    try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
             props.load(input);
             hostNames.add(props.get("HOST1").toString());
             hostNames.add(props.get("HOST2").toString());
