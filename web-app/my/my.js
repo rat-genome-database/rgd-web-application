@@ -452,16 +452,19 @@ rgdModule.controller('RGDPageController', [
                         alert("Gene List must be under 4000 Characters.  Variant Visualizer is unavailable for this list.")
                         return;
                     }
-                */
+                */ console.log("MapKey:"+$scope.mapKey +"\tSpeciesTypeKey:"+ $scope.speciesTypeKey);
                     if($scope.mapKey==17) {
+                        console.log("INSIDE the scope of MapKey:"+$scope.mapKey +"\tSpeciesTypeKey:"+ $scope.speciesTypeKey);
                         url = "/rgdweb/front/geneList.html?";
-                    }
-                    else url="/rgdweb/front/dist.html?";
+                    }else {
+                        url="/rgdweb/front/dist.html?";
 
+                    }
 
                     if ($scope.speciesTypeKey != 1) {
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
+                    console.log("URL: "+ url);
                     var f = document.createElement("form");
                     f.setAttribute('method',"post");
                     f.setAttribute('action',url);
