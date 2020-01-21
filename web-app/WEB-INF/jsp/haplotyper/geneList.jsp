@@ -75,12 +75,12 @@ String pageDescription = "Define Gene Symbol List";
    </table>
 
         <div style="margin-top:12px; margin-bottom:12px;">
-<table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
+        <table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
     <tr>
      <td style="font-size:11px;color:white;" >
     <%
 
-        if (request.getParameter("sample1") != null && request.getParameter("sample1").equals("all")) {
+        if (request.getParameter("sample1") != null && request.getParameter("sample1").equals("all") && !request.getParameter("mapKey").equals(String.valueOf(17))) {
 
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -108,8 +108,7 @@ String pageDescription = "Define Gene Symbol List";
              }
 
          } else {
-
-
+          if(!request.getParameter("mapKey").equals(String.valueOf(17)))  {
         for (int i=1; i<100; i++) {
         if (request.getParameter("sample" + i) != null) {
             String strain = "";
@@ -126,6 +125,7 @@ String pageDescription = "Define Gene Symbol List";
         }
             }
     }
+        }
     %>
          <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
         </td>
