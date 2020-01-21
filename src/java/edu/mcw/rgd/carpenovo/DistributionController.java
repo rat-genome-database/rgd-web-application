@@ -95,7 +95,7 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-        System.out.println("MAPKEY:"+ mapKey +"\t CHROMOSOME: "+ chromosome);
+
         String index=new String();
         if(mapKey==17) {
             if(!chromosome.equals(""))
@@ -347,9 +347,7 @@ public class DistributionController extends HaplotyperController {
             }
             sb.append("]");
             this.sb=sb;
-      //      System.out.println(sb.toString());
-            System.out.println("SYMBOLS SIZE: "+ symbols.size());
-            System.out.println("GSYMBOLS SIZE: "+ gSymbols.size());
+
             if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
             }
@@ -371,7 +369,7 @@ public class DistributionController extends HaplotyperController {
         String first = "";
 
         //need to be different for functional search
-        System.out.println("GENES SIZE IN VSB:"+vsb.genes.size());
+
         if (vsb.genes.size()==0) {
 
             List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
@@ -545,7 +543,7 @@ public class DistributionController extends HaplotyperController {
 
             if(!req.getParameter("showDifferences").equals("true")){
             SearchResponse sr=service.getAggregations(vsb, req);
-            System.out.println("TOOK: "+ sr.getTook());
+
             Terms samplesAgg = sr.getAggregations().get("sampleId");
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
             List<String> sampleIdsFromResultSet= new ArrayList<>();

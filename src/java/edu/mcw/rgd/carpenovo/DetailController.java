@@ -35,7 +35,6 @@ public class DetailController extends HaplotyperController {
          try {
              return handle(request);
          }catch (Exception e) {
-
             // do not print stack trace for Exceptions that are 'expected' by us
             if( !(e instanceof VVException) ) {
                 e.printStackTrace();
@@ -56,8 +55,7 @@ public class DetailController extends HaplotyperController {
         String mapKeyStr = request.getParameter("mapKey");
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
            mapKey = Integer.parseInt(mapKeyStr);
-        System.out.println("VID:"+ vid);
-        List<SearchResult> allResults = new ArrayList<SearchResult>();
+           List<SearchResult> allResults = new ArrayList<SearchResult>();
         if( vid.isEmpty() || vid.equals("0")) {
 
             VariantSearchBean vsb = new VariantSearchBean(mapKey);
@@ -75,8 +73,6 @@ public class DetailController extends HaplotyperController {
                 throw new VVException("variant detail: missing chr or start or stop");
             }
 
-         //   VariantDAO vdao = new VariantDAO();
-         //   vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
          //   List<VariantResult> vr = vdao.getVariantResults(vsb);
@@ -86,22 +82,15 @@ public class DetailController extends HaplotyperController {
                     index = "variants_human_chr"+vsb.getChromosome()+"_dev1";
                 else index="variants_human_*_dev1";
             }
-            System.out.println("VARIANTS INDEX: "+ index);
+
             service.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
             List<TranscriptResult> tResults=new ArrayList<>();
-
-            System.out.println("VARIANT RESULT SIZE :"+ vr.size());
-
             for(VariantResult r:vr){
                 Variant v=r.getVariant();
                 tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
                 r.setTranscriptResults(tResults);
-                System.out.println("VARIANT TRANSCRIPT RESULTS SIZE: "+r.getTranscriptResults().size());
-                System.out.println(r.getVariant().getChromosome()+"\t"+r.getVariant().getStartPos()+"\t"+ r.getVariant().getReferenceNucleotide()+
-                        "\t"+r.getVariant().getVariantNucleotide());
-
-            }
+             }
             sr.setVariantResults(vr);
 
 
@@ -139,7 +128,7 @@ public class DetailController extends HaplotyperController {
     public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
         SearchSourceBuilder srb=new SearchSourceBuilder();
         // srb.query(QueryBuilders.termQuery("startPos", startPos));
-        System.out.println("CHROMOSOME: "+ chr+"\tSTARTPOS:"+startPos);
+
         srb.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("chromosome", chr))
                         .filter(QueryBuilders.termQuery("startPos", startPos))
                 //  .filter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("refNuc", refNuc)).must(QueryBuilders.termQuery("varNuc", varNuc)))
@@ -150,11 +139,9 @@ public class DetailController extends HaplotyperController {
         SearchRequest request=new SearchRequest("transcripts_human_test2"); // chr 1 transcripts
         request.source(srb);
 
-
-        //   RestHighLevelClient client=ESClient.getInstance();
         SearchResponse sr= VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
         List<TranscriptResult> tds= new ArrayList<>();
-        System.out.println("TRANSCRIPT HITS SIZE: "+sr.getHits().getTotalHits().value);
+
         if(sr.getHits().getTotalHits().value >0) {
             for (SearchHit h : sr.getHits().getHits()) {
                 TranscriptResult tr = new TranscriptResult();
@@ -185,10 +172,8 @@ public class DetailController extends HaplotyperController {
 
             }
        }
-    //    VariantIndexClient.getClient().close();
-        // System.out.println("TRANSCIPTS SIZE: "+tds.size());
         return tds;
-        //   return null;
+
     }
     public String getTranscriptSymbol(String transcriptId){
         TranscriptDAO tdao=new TranscriptDAO();
@@ -200,13 +185,5 @@ public class DetailController extends HaplotyperController {
         }
         return tr.getAccId();
     }
-    public static void main(String[] args){
-        DetailController controller=new DetailController();
-        try {
-            List<TranscriptResult> results= controller.getTranscriptResults("13",  19748024,19748025, "", "" );
-            System.out.println("TRANSCRIPT RESULTS SIZE in main: "+results.size());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

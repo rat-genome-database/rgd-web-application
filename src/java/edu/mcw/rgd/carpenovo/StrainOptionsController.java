@@ -25,7 +25,7 @@ public class StrainOptionsController extends HaplotyperController {
         try {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
-            System.out.println("im in options controller");
+
             boolean hasPos = false;
             boolean hasBounds=false;
             boolean hasList=false;
@@ -82,8 +82,6 @@ public class StrainOptionsController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
         }
 
-        System.out.println("returning options page");
-
-        return new ModelAndView("/WEB-INF/jsp/haplotyper/options.jsp");
+             return new ModelAndView("/WEB-INF/jsp/haplotyper/options.jsp");
     }
 }

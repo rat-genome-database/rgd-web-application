@@ -29,7 +29,7 @@ public class SelectStrainController extends HaplotyperController {
         List<Sample> sampleList= new ArrayList<>();
         String strainRgdIds=request.getParameter("rgdIds");
         String map=request.getParameter("mapKey");
-        System.out.println("MAPKEY IN SELECT STRAIN CONTROLLER: "+ map);
+
         String population="FIN";
         if(strainRgdIds!=null){
             if(strainRgdIds!=""){
