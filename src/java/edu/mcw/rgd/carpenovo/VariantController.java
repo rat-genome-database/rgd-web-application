@@ -385,10 +385,6 @@ public class VariantController extends HaplotyperController {
         vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
         return vsb;
     }
-    public static void main(String[] args) throws IOException {
-        VariantController ctrl= new VariantController();
-      //  List<TranscriptResult> results=ctrl.getTranscriptResults("13",19748024, 19748025,"A","T");
-      //  System.out.println("DONE TRANSCRIPTS :"+ results.size());
-    }
+
 
 }

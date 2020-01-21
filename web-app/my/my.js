@@ -453,7 +453,9 @@ rgdModule.controller('RGDPageController', [
                         return;
                     }
                 */
-                    url = "/rgdweb/front/dist.html?";
+                    if(mapKey==17)
+                    url = "/rgdweb/front/geneList.html?";
+                    else url="/rgdweb/front/dist.html?";
 
 
                     if ($scope.speciesTypeKey != 1) {
