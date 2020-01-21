@@ -21,6 +21,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by IntelliJ IDEA.
@@ -234,9 +235,50 @@ public abstract class HaplotyperController implements Controller {
             }
 
         } else {
+            if(req.getParameter("sample")==null || Objects.equals(req.getParameter("sample"), "")){
+                // determine mapKey from samples
+                for (int i = 0; i < 1000; i++) {
+                    String sample = req.getParameter("sample" + i);
+                    if (sample!=null && !sample.isEmpty()) {
+                        int sampleId = Integer.parseInt(sample);
+                        Sample sampleObj = SampleManager.getInstance().getSampleName(sampleId);
+                        if(sampleObj!=null){
+                            // if bean map key not set, derive it from sample
+                            if (vsb.getMapKey() == 0) {
+                                vsb.setMapKey(sampleObj.getMapKey());
+                                vsb.sampleIds.add(sampleId);
+                            } else {
+                                // bean map key already set -- validate it
+                                if (sampleObj.getMapKey() == vsb.getMapKey()) {
+                                    vsb.sampleIds.add(sampleId);
+                                } else {
+                                    // assembly mixup, ignore the sample
+                                    System.out.println("ERROR: assembly mixup");
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{
+                String sample=req.getParameter("sample");
+                if(sample.equalsIgnoreCase("all")){
+                    SampleDAO sdao = new SampleDAO();
+                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                    int mapKey = Integer.parseInt(req.getParameter("mapKey"));
+                    List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
+                    vsb.setMapKey(mapKey);
+
+                    for (Sample s : samples) {
+                        vsb.sampleIds.add(s.getId());
+                    }
+                }else {
+                    int sampleId = Integer.parseInt(req.getParameter("sample"));
+                    vsb.sampleIds.add(sampleId);
+                }
+            }
             // determine mapKey from samples
-            for (int i = 0; i < 100; i++) {
+        /*    for (int i = 0; i < 100; i++) {
                 String sample = req.getParameter("sample" + i);
                 if (!sample.isEmpty()) {
                     int sampleId = Integer.parseInt(sample);
@@ -256,7 +298,7 @@ public abstract class HaplotyperController implements Controller {
                         }
                     }
                 }
-            }
+            }*/
 
         }
         // if map key was not explicitly given, set the map key to value determined from sample ids

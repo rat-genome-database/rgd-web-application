@@ -37,7 +37,7 @@ public class ConfigController extends HaplotyperController {
 
             vsb = this.fillBean(req);
             int strainSize=0;
-            if(vsb.getMapKey()==38 || vsb.getMapKey()==37){
+            if(vsb.getMapKey()==17){
                strainSize=2500;
 
             }
@@ -73,15 +73,15 @@ public class ConfigController extends HaplotyperController {
 
 
             if ((positionSet || genesSet || regionSet) && !strainsSet) {
-                List<Sample> samples=new ArrayList<>();
+
                 SampleDAO sampleDAO = new SampleDAO();
                 sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                List<Sample> samples=new ArrayList<>();
                 if(vsb.getMapKey()==17){
                     String population="FIN";
-                   samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey(), population);
-                }else {
-                    samples = sampleDAO.getSamplesByMapKey(vsb.getMapKey());
-                }
+                    samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey(), population);
+                }else
+                      samples=  sampleDAO.getSamplesByMapKey(vsb.getMapKey());
                 request.setAttribute("sampleList",samples );
 
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");

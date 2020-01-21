@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.elasticsearch.search.SearchHit;
 
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ public class VariantController extends HaplotyperController {
 
             HttpRequestFacade req = new HttpRequestFacade(request);
             String geneList=req.getParameter("geneList");
+            ModelMap model=new ModelMap();
 
             String searchType="";
 
@@ -60,8 +62,13 @@ public class VariantController extends HaplotyperController {
             VariantSearchBean vsb = this.fillBean(req);
 
             String index=new String();
-            if(vsb.getMapKey()==17) {
-               index="variants_human_*_dev";
+            if(vsb.getMapKey()==17 ) {
+                if ((vsb.getChromosome() == null && vsb.getChromosome().equals(""))){
+                    index = "variants_human_*_dev";
+                }else{
+
+                    index="variants_human_chr"+vsb.getChromosome()+"_dev";
+                }
             }
             //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
           /*  if(mapKey==360 || mapKey==70 || mapKey==60)

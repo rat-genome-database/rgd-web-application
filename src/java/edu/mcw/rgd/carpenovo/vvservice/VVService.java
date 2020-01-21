@@ -136,7 +136,7 @@ public class VVService {
                 .size(100000)
                  .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
                         .size(100000)
-                         .missing("INTERGENIC")
+                       //  .missing("INTERGENIC")
 
                  .order(BucketOrder.key(true)));
      }
@@ -144,7 +144,7 @@ public class VVService {
      if(fieldName.equalsIgnoreCase("regionName")){
            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                   .size(100000)
-                   .missing("INTERGENIC")
+                 //  .missing("INTERGENIC")
                  .subAggregation(AggregationBuilders.terms("startPos").field("startPos")
                         .size(100000)
                  .subAggregation(AggregationBuilders.terms("sample").field("sampleId"))
@@ -246,21 +246,21 @@ public class VVService {
         return builder;
     }
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
-        System.out.println("Building dismax query...");
+
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
         if((chromosome==null || chromosome.equals("")) && !req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
-            System.out.println("GENELIST NOT EMPTY");
+
             List<String> symbols= new ArrayList<>();
             for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
-                //    symbols.add(s.toLowerCase());
-                symbols.add(s);
+                   symbols.add(s.toLowerCase());
+            //    symbols.add(s);
             }
 
             if(!symbols.get(0).equals("null"))
                 //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-              dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()))
+              dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
@@ -269,11 +269,12 @@ public class VVService {
                         QueryBuilders.termQuery("chromosome", chromosome)
                 );
 
-            if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {
+           /* if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {
                 System.out.println("CHROMOSOME IN VV SERVICE: " + vsb.getChromosome());
                 qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
-            }
+            }*/
             if (sampleIds != null && sampleIds.size() > 0) {
+
                 qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0) {
@@ -282,13 +283,13 @@ public class VVService {
             if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 List<String> symbols = new ArrayList<>();
                 for (String s : Utils.symbolSplit(req.getParameter("geneList"))) {
-                    //    symbols.add(s.toLowerCase());
-                    symbols.add(s);
+                  symbols.add(s.toLowerCase());
+                 //   symbols.add(s);
                 }
 
                 if (!symbols.get(0).equals("null"))
-                    //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-                    qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
+                      qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+                   // qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
 
             }
        /* if(req.getParameter("showDifferences").equals("true")){

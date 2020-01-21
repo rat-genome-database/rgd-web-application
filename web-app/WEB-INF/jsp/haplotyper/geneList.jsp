@@ -85,7 +85,12 @@ String pageDescription = "Define Gene Symbol List";
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-            List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+            List<Sample> samples =new ArrayList<>();
+            if(mapKey==17){
+                String population="FIN";
+                samples=sdao.getSamplesByMapKey(mapKey, population);
+            }else
+                 samples=   sdao.getSamplesByMapKey(mapKey);
 
             int count=1;
             for (Sample s : samples) {
@@ -128,10 +133,10 @@ String pageDescription = "Define Gene Symbol List";
 </table>
 </div>
 
-
+</form>
 </div>
 
-</form>
+
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
 
