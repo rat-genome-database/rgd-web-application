@@ -2,6 +2,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.VariantSearchBean" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -24,6 +25,7 @@ if (req.getParameter("u").equals("394033")) {
 <% try { %>
 
 <%
+    VariantSearchBean vsb= (VariantSearchBean) request.getAttribute("vsb");
     List<Sample> samples = (List<Sample>) request.getAttribute("sampleList");
     int mapKey = (Integer) request.getAttribute("mapKey");
 %>
@@ -133,6 +135,9 @@ if (req.getParameter("u").equals("394033")) {
 
 
 <table width="100%" class="stepLabel" border=0>
+    <% if(request.getParameter("msg")!=null){%>
+    <tr><td style="color:red"><%=request.getParameter("msg")%></td></tr>
+    <%}%>
     <tr>
         <td align="left"><b>Step 1:</b> Select strains to compare</td>
         <td align="right"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>

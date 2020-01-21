@@ -36,12 +36,8 @@ public class ConfigController extends HaplotyperController {
             HttpRequestFacade req = new HttpRequestFacade(request);
 
             vsb = this.fillBean(req);
-            int strainSize=0;
-            if(vsb.getMapKey()==17){
-               strainSize=2500;
-
-            }
             request.setAttribute("vsb", vsb);
+
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
@@ -86,9 +82,16 @@ public class ConfigController extends HaplotyperController {
 
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
             }
+            if ((vsb.sampleIds.size()>50)) {
+                String msg="Maximum samples size should be less than 50. You selected  " +vsb.getSampleIds().size()+". Please <span style='color:grey;font-weight:bold'>EDIT STRAINS</span> to reduce the number of samples.";
 
+            //    throw new Exception("Maximum samples size should be less than 50. You selected  " +vsb.getSampleIds().size()+". Please <span style='color:blue;font-weight:bold'>EDIT STRAINS</span> to reduce the number of samples.");
+                response.sendRedirect("select.html?"+request.getQueryString()+"&msg="+msg);
+
+            }
 
             if ((positionSet || genesSet || regionSet) && strainsSet) {
+
                 return new ModelAndView("/WEB-INF/jsp/haplotyper/options.jsp");
             }
 
@@ -100,6 +103,9 @@ public class ConfigController extends HaplotyperController {
                request.setAttribute("stop", vsb.getStopPosition());
                request.setAttribute("chr", vsb.getChromosome());
            }
+            if(vsb.getSampleIds().size()>50){
+                return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
+            }
             return new ModelAndView("/WEB-INF/jsp/haplotyper/region.jsp");
         }
 
