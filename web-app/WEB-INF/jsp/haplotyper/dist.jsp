@@ -358,7 +358,7 @@ if (hasAnnotation) {
                     while (pit.hasNext()) {
                         String region = (String) pit.next();
 
-                        Integer count = results.get(region);
+                        Integer count = results.get(region.toUpperCase());
 
                         if (count == null) {
                             count = 0;

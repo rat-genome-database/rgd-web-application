@@ -134,8 +134,8 @@ public class VVService {
      if(fieldName.equalsIgnoreCase("sampleId")){
          aggs= AggregationBuilders.terms(fieldName).field(fieldName)
                 .size(100000)
-                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
-                        .size(100000)
+                .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
+                 .size(100000)
                        //  .missing("INTERGENIC")
 
                  .order(BucketOrder.key(true)));
@@ -268,11 +268,6 @@ public class VVService {
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome", chromosome)
                 );
-
-           /* if (vsb.getChromosome() != null && !Objects.equals(vsb.getChromosome(), "")) {
-                System.out.println("CHROMOSOME IN VV SERVICE: " + vsb.getChromosome());
-                qb.filter(QueryBuilders.matchQuery("chromosome", chromosome));
-            }*/
             if (sampleIds != null && sampleIds.size() > 0) {
 
                 qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
