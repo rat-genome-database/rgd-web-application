@@ -67,7 +67,7 @@ public class VariantController extends HaplotyperController {
                     index = "variants_human_*_dev";
                 }else{
 
-                    index="variants_human_chr"+vsb.getChromosome()+"_dev";
+                    index="variants_human_chr"+vsb.getChromosome().toLowerCase()+"_dev";
                 }
             }
             //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());

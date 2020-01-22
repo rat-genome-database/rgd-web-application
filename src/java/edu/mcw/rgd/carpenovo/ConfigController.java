@@ -74,8 +74,10 @@ public class ConfigController extends HaplotyperController {
                 sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 List<Sample> samples=new ArrayList<>();
                 if(vsb.getMapKey()==17){
-                    String population="FIN";
-                    samples=sampleDAO.getSamplesByMapKey(vsb.getMapKey(), population);
+                    List<String> populations=new ArrayList<> (Arrays.asList("FIN", "GBR"));
+                    for(String population:populations) {
+                        samples.addAll(sampleDAO.getSamplesByMapKey(vsb.getMapKey(), population));
+                    }
                 }else
                       samples=  sampleDAO.getSamplesByMapKey(vsb.getMapKey());
                 request.setAttribute("sampleList",samples );
@@ -84,8 +86,6 @@ public class ConfigController extends HaplotyperController {
             }
             if ((vsb.sampleIds.size()>50)) {
                 String msg="Maximum samples size should be less than 50. You selected  " +vsb.getSampleIds().size()+". Please <span style='color:grey;font-weight:bold'>EDIT STRAINS</span> to reduce the number of samples.";
-
-            //    throw new Exception("Maximum samples size should be less than 50. You selected  " +vsb.getSampleIds().size()+". Please <span style='color:blue;font-weight:bold'>EDIT STRAINS</span> to reduce the number of samples.");
                 response.sendRedirect("select.html?"+request.getQueryString()+"&msg="+msg);
 
             }

@@ -99,10 +99,9 @@ public class DistributionController extends HaplotyperController {
         String index=new String();
         if(mapKey==17) {
             if(!chromosome.equals(""))
-            index = "variants_human_chr"+chromosome+"_dev";
+            index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
             else index="variants_human_*_dev";
         }
-   //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
         if(mapKey==360 || mapKey==70 || mapKey==60)
                 index= "variant_rat_index_dev1";
         if(mapKey==631 || mapKey==600 )
@@ -467,7 +466,7 @@ public class DistributionController extends HaplotyperController {
                 int mapKey = Integer.parseInt(request.getParameter("mapKey"));
                 List<Sample> samples=new ArrayList<>();
                 if(mapKey==17){
-                    List<String> populations= new ArrayList<>(Arrays.asList("GBR"));
+                    List<String> populations= new ArrayList<>(Arrays.asList("FIN","GBR"));
                     for(String p:populations){
                         samples .addAll(sdao.getSamplesByMapKey(mapKey, p));
                     }
@@ -482,7 +481,7 @@ public class DistributionController extends HaplotyperController {
             } else {
 
 
-                for (int i = 0; i < 1000; i++) {
+                for (int i = 0; i < 100; i++) {
                     if (request.getParameter("sample" + i) != null) {
                         sampleIds.add(request.getParameter("sample" + i));
                     }

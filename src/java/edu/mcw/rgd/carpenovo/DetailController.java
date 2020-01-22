@@ -62,8 +62,7 @@ public class DetailController extends HaplotyperController {
 
             if( !sid.isEmpty() )
                vsb.sampleIds.add(Integer.parseInt(sid));
-
-            vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
+               vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
 
             // there must be start and stop position
             if( Utils.isStringEmpty(vsb.getChromosome()) ||
@@ -79,9 +78,13 @@ public class DetailController extends HaplotyperController {
             String index= new String();
             if(mapKey==17) {
                 if(!vsb.getChromosome().equals(""))
-                    index = "variants_human_chr"+vsb.getChromosome()+"_dev1";
+                    index = "variants_human_chr"+vsb.getChromosome().toLowerCase()+"_dev1";
                 else index="variants_human_*_dev1";
             }
+            if(mapKey==360 || mapKey==70 || mapKey==60)
+                index= "variant_rat_index_dev1";
+            if(mapKey==631 || mapKey==600 )
+                index= "variant_dog_index_dev2";
 
             service.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
@@ -92,8 +95,6 @@ public class DetailController extends HaplotyperController {
                 r.setTranscriptResults(tResults);
              }
             sr.setVariantResults(vr);
-
-
             allResults.add(sr);
             request.setAttribute("searchResults",allResults);
             return new ModelAndView("/WEB-INF/jsp/haplotyper/detail.jsp", "searchResult", sr);

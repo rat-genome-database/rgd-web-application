@@ -57,7 +57,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -72,7 +72,7 @@ public class VVService {
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(30));
+                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                 sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));

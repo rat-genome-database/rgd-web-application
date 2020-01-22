@@ -7,10 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,8 +26,8 @@ public class SelectStrainController extends HaplotyperController {
         List<Sample> sampleList= new ArrayList<>();
         String strainRgdIds=request.getParameter("rgdIds");
         String map=request.getParameter("mapKey");
+        List<String> populations= new ArrayList<>(Arrays.asList("FIN", "GBR"));
 
-        String population="FIN";
         if(strainRgdIds!=null){
             if(strainRgdIds!=""){
                 List<Integer> strainIds= new ArrayList<>();
@@ -66,8 +63,13 @@ public class SelectStrainController extends HaplotyperController {
         }catch (Exception ignored) {
         }
         request.setAttribute("mapKey", mapKey);
-        if(mapKey==17)
-		request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey, population));
+        if(mapKey==17) {
+            List<Sample> samples= new ArrayList<>();
+            for(String population :populations){
+                samples.addAll(sampleDAO.getSamplesByMapKey(mapKey, population));
+            }
+            request.setAttribute("sampleList", samples);
+        }
         else
             request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey));
         return new ModelAndView("/WEB-INF/jsp/haplotyper/select.jsp");
