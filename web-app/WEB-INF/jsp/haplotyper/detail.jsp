@@ -148,7 +148,7 @@ scroll-top:0;
                    <tr>
                    <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
                    </tr>
-                   <% } else { %>
+                   <% } else if(sample.getMapKey()!=17){ %>
                    <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
                    </tr>
                    <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%=result.getClinvarInfo().getTraitName()%></td>
