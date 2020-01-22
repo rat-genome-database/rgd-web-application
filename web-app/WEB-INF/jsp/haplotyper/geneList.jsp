@@ -108,7 +108,7 @@ String pageDescription = "Define Gene Symbol List";
              }
 
          } else {
-          if(!request.getParameter("mapKey").equals(String.valueOf(17)))  {
+     //     if(!request.getParameter("mapKey").equals(String.valueOf(17)))  {
         for (int i=1; i<100; i++) {
         if (request.getParameter("sample" + i) != null) {
             String strain = "";
@@ -124,7 +124,7 @@ String pageDescription = "Define Gene Symbol List";
     <%
         }
             }
-    }
+  //  }
         }
     %>
          <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
