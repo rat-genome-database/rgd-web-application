@@ -348,7 +348,13 @@ $("#sAccId").result(function(data, value){
 
 });
 
+    function addUnit() {
+        document.getElementById("addUnit").style.display = "block";
+    }
 
+    function close() {
+        document.getElementById("addUnit").style.display = "none";
+    }
 </script>
 
 
@@ -383,8 +389,15 @@ $("#sAccId").result(function(data, value){
                                            value="<%=dm.out("cmAccId", rec.getClinicalMeasurement().getAccId())%>"/>
 <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
 <span id="cmTerm" class="highlight"><%=cmTerm%></span>
+    <button onclick="addUnit()">Add Unit</button>
+    <div class="form-popup" id="addUnit">
+        <form class="form-container">
+            <h1>Add Unit</h1>
 
-<table>
+            <button type="button" onclick="close()">Close</button>
+        </form>
+    </div>
+    <table>
     <tr>
         <td>Value</td>
         <td><%=requiredFieldIndicator%>Unit</td>
