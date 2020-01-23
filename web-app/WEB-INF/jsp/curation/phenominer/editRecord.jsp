@@ -94,6 +94,8 @@
             <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
             <td><a href="javascript:addCondition()">Add Condition</a></td>
             <% } %>
+            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
+            <td><a href="javascript:addUnit()">Add Unit</a></td>
             <% if (req.getParameter("studyId") != null && req.getParameter("studyId").length() > 0) {
             if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) {  %>
             <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
@@ -652,8 +654,10 @@ $("#sAccId").result(function(data, value){
 
 
 </form>
-<div id="unit">
-    <form class="form-container">
+<div id="unit" style="display:none;">
+    <form action="records.html" method="get">
+
+        <input type="hidden" name="act" value="addUnit"/>>
         <b>Add Unit</b>
         <input type="unitType" placeholder="Unit Type" required>
         <input type="unitValue" placeholder="Unit Value" required>
