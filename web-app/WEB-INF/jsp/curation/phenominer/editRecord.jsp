@@ -19,16 +19,6 @@
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/ont_util.js"></script>
 
-<style>
-    .form-popup {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        right: 15px;
-        border: 3px solid #f1f1f1;
-        z-index: 9;
-    }
-</style>
 <%
 
 
@@ -357,13 +347,7 @@ $("#sAccId").result(function(data, value){
 
 });
 
-    function addUnit() {
-        document.getElementById("addUnit").style.display = "block";
-    }
 
-    function close() {
-        document.getElementById("addUnit").style.display = "none";
-    }
 </script>
 
 
@@ -398,14 +382,6 @@ $("#sAccId").result(function(data, value){
                                            value="<%=dm.out("cmAccId", rec.getClinicalMeasurement().getAccId())%>"/>
 <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
 <span id="cmTerm" class="highlight"><%=cmTerm%></span>
-    <button onclick="addUnit()">Add Unit</button>
-    <div class="form-popup" id="addUnit">
-        <form class="form-container">
-            <h1>Add Unit</h1>
-
-            <button type="button" onclick="close()">Close</button>
-        </form>
-    </div>
     <table>
     <tr>
         <td>Value</td>
@@ -550,7 +526,10 @@ $("#sAccId").result(function(data, value){
         thisCondition.style.display = "block";
         cCount++;
     }
-
+    function addUnit() {
+        var unit = document.getElementById("unit");
+        unit.style.display = "block";
+    }
 </script>
 
 <%
@@ -673,7 +652,14 @@ $("#sAccId").result(function(data, value){
 
 
 </form>
-
+<div id="unit">
+    <form class="form-container">
+        <b>Add Unit</b>
+        <input type="unitType" placeholder="Unit Type" required>
+        <input type="unitValue" placeholder="Unit Value" required>
+        <button type="submit" class="btn">Save</button>
+    </form>
+</div>
 <% if( !multiEdit ) {
     String recId = idList.get(0);
     List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
