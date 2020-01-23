@@ -1,6 +1,7 @@
 package edu.mcw.rgd.phenominer;
 
 import edu.mcw.rgd.datamodel.HistogramRecord;
+import edu.mcw.rgd.datamodel.pheno.Enumerable;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
@@ -167,7 +168,20 @@ public class PhenominerRecordController extends PhenominerController {
                 status.add("Record Delete Successful");
 
                 report = buildReport(this.getRecords(req, dao), dao, true);
-            } else {
+            } else if (action.equals("addUnit")) {
+
+                Enumerable e = new Enumerable();
+                String unitType = request.getParameter("unitType");
+                e.setType(Integer.parseInt(unitType));
+                String unitValue = request.getParameter("unitValue");
+                String description = request.getParameter("description");
+                e.setValue(unitValue);
+                e.setDescription(description);
+                dao.insertEnumerable(e);
+                status.add("Unit added");
+
+                viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
+            }else {
                 report = buildReport(this.getRecords(req, dao), dao, true);
             }
 
