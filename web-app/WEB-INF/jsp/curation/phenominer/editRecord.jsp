@@ -657,7 +657,7 @@ $("#sAccId").result(function(data, value){
 <div id="unit" style="display:none;">
     <form action="records.html" method="get">
 
-        <input type="hidden" name="act" value="addUnit"/>>
+        <input type="hidden" name="act" value="addUnit"/>
         <b>Add Unit</b>
         <select name="unitType" id="unitType">
             <option value="3">CMO Unit</option>
