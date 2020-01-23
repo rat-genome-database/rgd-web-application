@@ -176,6 +176,7 @@ public class PhenominerRecordController extends PhenominerController {
                 String unitValue = request.getParameter("unitValue");
                 String description = request.getParameter("description");
                 e.setValue(unitValue);
+                e.setLabel(unitValue);
                 e.setDescription(description);
                 dao.insertEnumerable(e);
                 status.add("Unit added");
