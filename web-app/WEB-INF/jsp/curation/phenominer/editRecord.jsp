@@ -660,8 +660,8 @@ $("#sAccId").result(function(data, value){
         <input type="hidden" name="act" value="addUnit"/>>
         <b>Add Unit</b>
         <select name="unitType" id="unitType">
-            <option value="2">CMO Unit</option>
-            <option value="3">Experiment Unit</option>
+            <option value="3">CMO Unit</option>
+            <option value="2">Experiment Unit</option>
         </select>
         <input name="unitValue" placeholder="Unit Value" required>
         <input name="description" placeholder="Description">
