@@ -659,11 +659,16 @@ $("#sAccId").result(function(data, value){
 
         <input type="hidden" name="act" value="addUnit"/>>
         <b>Add Unit</b>
-        <input type="unitType" placeholder="Unit Type" required>
-        <input type="unitValue" placeholder="Unit Value" required>
+        <select name="species" id="unitValue">
+            <option value="2">CMO Unit</option>
+            <option value="3">Experiment Unit</option>
+        </select>
+        <input name="unitValue" placeholder="Unit Value" required>
+        <input name="description" placeholder="Description">
         <button type="submit" class="btn">Save</button>
     </form>
 </div>
+
 <% if( !multiEdit ) {
     String recId = idList.get(0);
     List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
