@@ -21,7 +21,6 @@
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/ont_util.js"></script>
 
-
 <%
 
 
@@ -98,6 +97,8 @@
             <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
             <td><a href="javascript:addCondition()">Add Condition</a></td>
             <% } %>
+            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
+            <td><a href="javascript:addUnit()">Add Unit</a></td>
             <% if (req.getParameter("studyId") != null && req.getParameter("studyId").length() > 0) {
             if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) {  %>
             <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
@@ -148,8 +149,30 @@
     }
 %>
 <br>
+<script>
+    function addUnit() {
+        var unit = document.getElementById("unit");
+        unit.style.display = "block";
+    }
+   </script>
+<div id="unit" style="display:none;">
+    <form action="records.html" method="get">
 
-
+        <input type="hidden" name="act" value="addUnit"/>
+        <b>Add Unit</b>
+        <select name="unitType" id="unitType">
+            <option value="3">CMO Unit</option>
+            <option value="2">Experiment Unit</option>
+        </select>
+        <input type="text" id="accId" name="accId" size="40"
+               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>"/>
+        <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+        <input name="unitValue" placeholder="Unit Value" required>
+        <input name="description" placeholder="Description">
+        <input name="standardUnit" placeholder="standard Unit" value="<%=dm.out("cmAccId", rec.getMeasurementSD())%>">
+        <button type="submit" class="btn">Save</button>
+    </form>
+</div>
 <form action="records.html" method="get">
 
 <input type="hidden" name="act" value="save"/>
@@ -207,6 +230,7 @@ function lockField(fieldID) {
     $(fieldID).css('background-color', '#dddddd');
 }
 </script>
+
 
 <b>Curation Status: </b>
 <%=fu.buildSelectList("sStatus", dao.getEnumerableMap(6, 0, multiEdit), dm.out("sStatus", rec.getCurationStatus()))%>
@@ -386,8 +410,7 @@ $("#sAccId").result(function(data, value){
                                            value="<%=dm.out("cmAccId", rec.getClinicalMeasurement().getAccId())%>"/>
 <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
 <span id="cmTerm" class="highlight"><%=cmTerm%></span>
-
-<table>
+    <table>
     <tr>
         <td>Value</td>
         <td><%=requiredFieldIndicator%>Unit</td>
