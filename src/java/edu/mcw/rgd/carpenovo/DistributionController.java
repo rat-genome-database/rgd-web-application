@@ -113,19 +113,7 @@ public class DistributionController extends HaplotyperController {
 
         try {
 
-            if ((start.isEmpty() || stop.isEmpty()) && !this.hasAnnotation(req)) {
-
-                if (req.getParameter("geneList").equals("") && req.getParameter("geneStart").equals("") && req.getParameter("geneStop").equals("")) {
-                    throw new Exception("Please define a region");
-                }
-
-                Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
-                chromosome = p.getChromosome();
-                start = p.getStart() + "";
-                stop = p.getStop() + "";
-            }
-
-            Set<String> masterKeySet = new HashSet<String>();
+             Set<String> masterKeySet = new HashSet<String>();
 
             VariantDAO vdao = new VariantDAO();
             vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -134,7 +122,7 @@ public class DistributionController extends HaplotyperController {
 
             GeneDAO gdao = new GeneDAO();
 
-        if (this.hasAnnotation(req)) {
+    /*    if (this.hasAnnotation(req)) {
 
             String rdoTerm =  req.getParameter("rdo_acc_id");
             String pwTerm = req.getParameter("pw_acc_id");
@@ -258,7 +246,7 @@ public class DistributionController extends HaplotyperController {
                mgs = gdao.getActiveMappedGenes(mapKey,geneSymbols);
             }
 
-        } else if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+        } else*/ if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
         }
 

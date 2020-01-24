@@ -1,21 +1,20 @@
 package edu.mcw.rgd.carpenovo.vvservice;
 
-import edu.mcw.rgd.datamodel.MappedGene;
+
 import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.process.Utils;
 
 
 import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.web.RgdContext;
-import org.biojava.utils.regex.Search;
+
 import org.elasticsearch.action.search.*;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.common.document.DocumentField;
+
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
+
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
@@ -43,7 +42,7 @@ public class VVService {
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-      //  srb.size(10000);
+        srb.size(10000);
         SearchRequest searchRequest=new SearchRequest(variantIndex);
         searchRequest.source(srb);
         searchRequest.scroll(TimeValue.timeValueMinutes(1L));
