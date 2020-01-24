@@ -180,8 +180,7 @@ public class PhenominerRecordController extends PhenominerController {
                 e.setDescription(description);
                 dao.insertEnumerable(e);
                 status.add("Unit added");
-
-                viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
+                
             }else {
                 report = buildReport(this.getRecords(req, dao), dao, true);
             }
