@@ -15,6 +15,8 @@
 
 %>
 
+
+
 <%@ include file="editHeader.jsp" %>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/ont_util.js"></script>
@@ -75,6 +77,7 @@
 <link rel="stylesheet" href="/rgdweb/js/windowfiles/dhtmlwindow.css" type="text/css"/>
 <script type="text/javascript" src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
+
 
 
 <span class="phenominerPageHeader"><%=title%></span>
@@ -146,6 +149,7 @@
 %>
 <br>
 
+
 <form action="records.html" method="get">
 
 <input type="hidden" name="act" value="save"/>
@@ -162,7 +166,6 @@
         }
     }
 %>
-
 
 <%
 
@@ -554,7 +557,8 @@ $("#sAccId").result(function(data, value){
     <% if (!multiEdit || enabledConditionInsDel) {%>
         &nbsp;&nbsp;Delete?<input name="cDelete" value="<%=cond.getId()>0?cond.getId():-conditionCount-1%>" type="checkbox"/>
     <% } %>
-    
+
+
     <table>
         <tr>
             <td>Min Value</td>
@@ -603,7 +607,9 @@ $("#sAccId").result(function(data, value){
 <% conditionCount++; %>
 <% } %>
 
-<% for (int i = conditionCount; i < 15; i++) { %>
+
+
+    <% for (int i = conditionCount; i < 15; i++) { %>
 
 <div id="condition<%=i%>" style="display:none;">
     <b>Experimental Condition <%=i+1%></b> *ACC ID: <input type="text" id="cAccId<%=i%>" name="cAccId" value=""/>
@@ -640,9 +646,6 @@ $("#sAccId").result(function(data, value){
 
 
 
-
-
-
 <table width="80%">
     <tr>
         <td align="left"><input type="submit" value="Save"/></td>
@@ -651,18 +654,24 @@ $("#sAccId").result(function(data, value){
 
 
 </form>
+<%=idList.size()%>
 
-<% if( !multiEdit ) {
+<!-- added check for id list zero or else page CRASHES! -->
+<% if( !multiEdit && idList.size() > 0 ) {
     String recId = idList.get(0);
     List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
     if( !indRecs.isEmpty() ) { %>
         <h3>Individual Records</h3>
         <table border>
             <tr><th>Animal ID</th><th>Value</th></tr>
-        <% for( IndividualRecord ir: indRecs ) { %>
+            <% for( IndividualRecord ir: indRecs ) { %>
             <tr><td><%=ir.getAnimalId()%></td><td><%=ir.getMeasurementValue()%></td></tr>
         <% } %>
         </table>
-<% }} %>
+<% }
+
+} %>
+
+
 
 <%@ include file="editFooter.jsp" %>
