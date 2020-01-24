@@ -179,8 +179,13 @@ public class PhenominerRecordController extends PhenominerController {
                 e.setLabel(unitValue);
                 e.setDescription(description);
                 dao.insertEnumerable(e);
-                status.add("Unit added");
-                
+
+                String termAcc = request.getParameter("accId");
+                String msg = dao.checkUnitConversion(termAcc,unitValue);
+                if(msg.equals(""))
+                    status.add("Unit added");
+                else error.add(msg);
+                viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             }else {
                 report = buildReport(this.getRecords(req, dao), dao, true);
             }

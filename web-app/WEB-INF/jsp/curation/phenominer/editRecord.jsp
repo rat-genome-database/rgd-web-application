@@ -146,6 +146,23 @@
     }
 %>
 <br>
+<div id="unit" style="display:none;">
+    <form action="records.html" method="get">
+
+        <input type="hidden" name="act" value="addUnit"/>
+        <b>Add Unit</b>
+        <select name="unitType" id="unitType">
+            <option value="3">CMO Unit</option>
+            <option value="2">Experiment Unit</option>
+        </select>
+		<input type="text" id="accId" name="accId" size="40"
+               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>"/>
+        <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+        <input name="unitValue" placeholder="Unit Value" required>
+        <input name="description" placeholder="Description">
+        <button type="submit" class="btn">Save</button>
+    </form>
+</div>
 
 <form action="records.html" method="get">
 
@@ -654,20 +671,6 @@ $("#sAccId").result(function(data, value){
 
 
 </form>
-<div id="unit" style="display:none;">
-    <form action="records.html" method="get">
-
-        <input type="hidden" name="act" value="addUnit"/>
-        <b>Add Unit</b>
-        <select name="unitType" id="unitType">
-            <option value="3">CMO Unit</option>
-            <option value="2">Experiment Unit</option>
-        </select>
-        <input name="unitValue" placeholder="Unit Value" required>
-        <input name="description" placeholder="Description">
-        <button type="submit" class="btn">Save</button>
-    </form>
-</div>
 
 <% if( !multiEdit ) {
     String recId = idList.get(0);
