@@ -680,7 +680,7 @@ $("#sAccId").result(function(data, value){
 <%=idList.size()%>
 
 <!-- added check for id list zero or else page CRASHES! -->
-<% if( !multiEdit && idList.size() > 0 ) {
+<% if( !multiEdit  ) {
     String recId = idList.get(0);
     List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
     if( !indRecs.isEmpty() ) { %>
