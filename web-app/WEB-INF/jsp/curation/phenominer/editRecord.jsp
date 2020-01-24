@@ -146,6 +146,12 @@
     }
 %>
 <br>
+<script>
+    function addUnit() {
+        var unit = document.getElementById("unit");
+        unit.style.display = "block";
+    }
+   </script>
 <div id="unit" style="display:none;">
     <form action="records.html" method="get">
 
@@ -155,15 +161,15 @@
             <option value="3">CMO Unit</option>
             <option value="2">Experiment Unit</option>
         </select>
-		<input type="text" id="accId" name="accId" size="40"
+        <input type="text" id="accId" name="accId" size="40"
                value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
         <input name="unitValue" placeholder="Unit Value" required>
         <input name="description" placeholder="Description">
+        <input name="standardUnit" placeholder="standard Unit" value="<%=dm.out("cmAccId", rec.getMeasurementSD())%>">
         <button type="submit" class="btn">Save</button>
     </form>
 </div>
-
 <form action="records.html" method="get">
 
 <input type="hidden" name="act" value="save"/>
@@ -222,6 +228,7 @@ function lockField(fieldID) {
     $(fieldID).css('background-color', '#dddddd');
 }
 </script>
+
 
 <b>Curation Status: </b>
 <%=fu.buildSelectList("sStatus", dao.getEnumerableMap(6, 0, multiEdit), dm.out("sStatus", rec.getCurationStatus()))%>
@@ -545,10 +552,7 @@ $("#sAccId").result(function(data, value){
         thisCondition.style.display = "block";
         cCount++;
     }
-    function addUnit() {
-        var unit = document.getElementById("unit");
-        unit.style.display = "block";
-    }
+
 </script>
 
 <%
