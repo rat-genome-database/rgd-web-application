@@ -155,7 +155,7 @@
     function addSD() {
         var ontId = document.getElementById("accId").value;
 
-        $.ajax({url: "/rgdweb/lookup/standardUnit/" + ontId, success: function(result){
+        $.ajax({url: "/rgdweb/lookup/standardUnit/" + ontId.replace(":","%3A"), success: function(result){
            $("#unitSD").html(result);
             alert(result);
         }});
