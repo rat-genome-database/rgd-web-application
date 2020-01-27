@@ -155,11 +155,17 @@
     function addSD() {
         var ontId = document.getElementById("accId").value;
 
-        $.ajax({url: "/rgdweb/lookup/standardUnit/" + ontId.replace(":","%3A"), success: function(result){
-           $("#unitSD").html(result);
+        $.ajax({url: "/rgdws/lookup/standardUnit/" + ontId.replace(":","%3A"), success: function(result){
+           document.getElementById("unitSD").value = result;
             alert(result);
         }});
 
+    }
+    function checkUnitConversion() {
+        var SD = document.getElementById("unitSD").value;
+        var unitValue = document.getElementById("unitValue").value;
+        if(SD != null && SD != unitValue)
+            document.getElementById("unitConversion").style.display = "block";
     }
 
    </script>
@@ -176,8 +182,12 @@
                value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
-        <input name="unitValue" placeholder="Unit Value" required>
+        <input name="unitValue" id="unitValue" placeholder="Unit Value" required onchange="checkUnitConversion()">
         <input name="description" placeholder="Description">
+        <div id="unitConversion">
+            <input name="termScale" placeholder="Term Specific Scale" required>
+        </div>
+
         <button type="submit" class="btn">Save</button>
     </form>
 </div>

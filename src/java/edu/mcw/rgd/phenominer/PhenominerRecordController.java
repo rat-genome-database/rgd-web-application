@@ -10,6 +10,7 @@ import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.process.pheno.SearchBean;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -168,7 +169,7 @@ public class PhenominerRecordController extends PhenominerController {
                 status.add("Record Delete Successful");
 
                 report = buildReport(this.getRecords(req, dao), dao, true);
-            } else if (action.equals("addUnit")) {
+            }else if (action.equals("addUnit")) {
 
                 Enumerable e = new Enumerable();
                 String unitType = request.getParameter("unitType");
@@ -179,12 +180,14 @@ public class PhenominerRecordController extends PhenominerController {
                 e.setLabel(unitValue);
                 e.setDescription(description);
                 dao.insertEnumerable(e);
+                if(Integer.parseInt(unitType) == 3) {
+                    String termAcc = request.getParameter("accId");
+                    if(request.getParameterMap().containsKey("termScale")) {
+                        String termScale = request.getParameter("termScale");
+                        dao.insertUnitConversion(termAcc,unitValue,termScale);
+                    } else dao.checkUnitConversion(termAcc,unitValue);
 
-                String termAcc = request.getParameter("accId");
-                String msg = dao.checkUnitConversion(termAcc,unitValue);
-                if(msg.equals(""))
-                    status.add("Unit added");
-                else error.add(msg);
+                }
                 viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             }else {
                 report = buildReport(this.getRecords(req, dao), dao, true);
