@@ -15,8 +15,6 @@
 
 %>
 
-
-
 <%@ include file="editHeader.jsp" %>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/ont_util.js"></script>
@@ -76,7 +74,6 @@
 <link rel="stylesheet" href="/rgdweb/js/windowfiles/dhtmlwindow.css" type="text/css"/>
 <script type="text/javascript" src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
-
 
 
 <span class="phenominerPageHeader"><%=title%></span>
@@ -154,6 +151,17 @@
         var unit = document.getElementById("unit");
         unit.style.display = "block";
     }
+
+    function addSD() {
+        var ontId = document.getElementById("accId").value;
+
+        $.ajax({url: "/rgdweb/lookup/standardUnit/" + ontId, success: function(result){
+           $("#unitSD").html(result);
+            alert(result);
+        }});
+
+    }
+
    </script>
 <div id="unit" style="display:none;">
     <form action="records.html" method="get">
@@ -165,11 +173,11 @@
             <option value="2">Experiment Unit</option>
         </select>
         <input type="text" id="accId" name="accId" size="40"
-               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>"/>
+               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+        <input id="unitSD" name="unitSD" placeholder="Standard Unit">
         <input name="unitValue" placeholder="Unit Value" required>
         <input name="description" placeholder="Description">
-        <input name="standardUnit" placeholder="standard Unit" value="<%=dm.out("cmAccId", rec.getMeasurementSD())%>">
         <button type="submit" class="btn">Save</button>
     </form>
 </div>
@@ -189,6 +197,7 @@
         }
     }
 %>
+
 
 <%
 
@@ -230,7 +239,6 @@ function lockField(fieldID) {
     $(fieldID).css('background-color', '#dddddd');
 }
 </script>
-
 
 <b>Curation Status: </b>
 <%=fu.buildSelectList("sStatus", dao.getEnumerableMap(6, 0, multiEdit), dm.out("sStatus", rec.getCurationStatus()))%>
@@ -374,8 +382,6 @@ $("#sAccId").result(function(data, value){
     });
 
 });
-
-
 </script>
 
 
@@ -509,10 +515,6 @@ $("#sAccId").result(function(data, value){
                    value="<%=dm.out("mmNotes", rec.getMeasurementMethod().getNotes())%>"/></td>
     </tr>
 </table>
-
-
-
-
 <br>
 
 <%
@@ -581,7 +583,6 @@ $("#sAccId").result(function(data, value){
         &nbsp;&nbsp;Delete?<input name="cDelete" value="<%=cond.getId()>0?cond.getId():-conditionCount-1%>" type="checkbox"/>
     <% } %>
 
-
     <table>
         <tr>
             <td>Min Value</td>
@@ -630,9 +631,7 @@ $("#sAccId").result(function(data, value){
 <% conditionCount++; %>
 <% } %>
 
-
-
-    <% for (int i = conditionCount; i < 15; i++) { %>
+<% for (int i = conditionCount; i < 15; i++) { %>
 
 <div id="condition<%=i%>" style="display:none;">
     <b>Experimental Condition <%=i+1%></b> *ACC ID: <input type="text" id="cAccId<%=i%>" name="cAccId" value=""/>
@@ -669,6 +668,9 @@ $("#sAccId").result(function(data, value){
 
 
 
+
+
+
 <table width="80%">
     <tr>
         <td align="left"><input type="submit" value="Save"/></td>
@@ -677,24 +679,18 @@ $("#sAccId").result(function(data, value){
 
 
 </form>
-<%=idList.size()%>
 
-<!-- added check for id list zero or else page CRASHES! -->
-<% if( !multiEdit && idList.size() > 0 ) {
+<% if( !multiEdit && idList.size() > 0) {
     String recId = idList.get(0);
     List<IndividualRecord> indRecs = dao.getIndividualRecords(Integer.parseInt(recId));
     if( !indRecs.isEmpty() ) { %>
         <h3>Individual Records</h3>
         <table border>
             <tr><th>Animal ID</th><th>Value</th></tr>
-            <% for( IndividualRecord ir: indRecs ) { %>
+        <% for( IndividualRecord ir: indRecs ) { %>
             <tr><td><%=ir.getAnimalId()%></td><td><%=ir.getMeasurementValue()%></td></tr>
         <% } %>
         </table>
-<% }
-
-} %>
-
-
+<% }} %>
 
 <%@ include file="editFooter.jsp" %>
