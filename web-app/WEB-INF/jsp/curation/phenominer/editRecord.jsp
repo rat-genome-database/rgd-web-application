@@ -167,7 +167,7 @@
         if(SD != null && SD != unitValue)
             document.getElementById("unitConversion").style.display = "block";
 
-        document.getElementById("cmUnits").value = unitValue;
+        document.getElementByName("cmUnits")[0].value = unitValue;
     }
 
    </script>
@@ -439,7 +439,7 @@ $("#sAccId").result(function(data, value){
     </tr>
     <tr>
         <td><input type="text" name="cmValue" size="7" value="<%=dm.out("cmValue", rec.getMeasurementValue())%>"/></td>
-        <td id="cmUnits"><%=fu.buildSelectListLabelsNewValue("cmUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=3 ", "concat(LABEL,concat('|', VALUE))", true), dm.out("cmUnits", rec.getMeasurementUnits()))%>
+        <td><%=fu.buildSelectListLabelsNewValue("cmUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=3 ", "concat(LABEL,concat('|', VALUE))", true), dm.out("cmUnits", rec.getMeasurementUnits()))%>
         </td>
         <td><input type="text" name="cmSD" size="7" value="<%=dm.out("cmSD", rec.getMeasurementSD())%>"/></td>
         <td><input type="text" name="cmSEM" size="7" value="<%=dm.out("cmSEM", rec.getMeasurementSem())%>"/></td>
