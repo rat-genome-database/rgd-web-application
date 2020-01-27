@@ -154,11 +154,14 @@
 
     function addSD() {
         var ontId = document.getElementById("accId").value;
+        if (ontId != null) {
 
-        $.ajax({url: "/rgdws/lookup/standardUnit/" + ontId.replace(":","%3A"), success: function(result){
-           document.getElementById("unitSD").value = result;
-        }});
-
+        $.ajax({
+            url: "/rgdws/lookup/standardUnit/" + ontId.replace(":", "%3A"), success: function (result) {
+                document.getElementById("unitSD").value = result;
+            }
+        });
+        }
     }
     function checkUnitConversion() {
         var SD = document.getElementById("unitSD").value;
@@ -166,9 +169,12 @@
         if(SD != null && SD != unitValue)
             document.getElementById("unitConversion").style.display = "block";
         var unitType = document.getElementById("unitType").value;
-        if(unitType == 3)
+        alert(unitType);
+        if(unitType == 3) {
             document.getElementsByName("cmUnits")[0].value = unitValue;
-        else document.getElementsByName("cUnits")[0].value = unitValue;
+        }else {
+            document.getElementsByName("cUnits")[0].value = unitValue;
+        }
     }
 
    </script>
