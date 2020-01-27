@@ -169,7 +169,7 @@
         updateUnits();
 
         if(SD != null && SD != unitValue)
-            document.getElementById("termScale").style.display = "block";
+            document.getElementById("unitConversion").style.display = "block";
 
     }
 function updateUnits(){
@@ -202,7 +202,7 @@ function updateUnits(){
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
         <input name="unitValue" id="unitValue" placeholder="Unit Value" onchange="checkUnitConversion()">
         <input name="description" placeholder="Description">
-        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
+        <input id="unitConversion" style="display:none;" name="termScale" placeholder="Term Specific Scale">
 
     </div>
 <%
