@@ -12,6 +12,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
@@ -93,6 +94,27 @@ public class PhenominerRecordController extends PhenominerController {
             } else if (action.equals("new")) {
                 viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             } else if (action.equals("save")) {
+                String mode = req.getParameter("mode");
+                if(mode != null && mode.equals("addUnit")) {
+
+                    Enumerable e = new Enumerable();
+                    String unitType = request.getParameter("unitType");
+                    e.setType(Integer.parseInt(unitType));
+                    String unitValue = request.getParameter("unitValue");
+                    String description = request.getParameter("description");
+                    e.setValue(unitValue);
+                    e.setLabel(unitValue);
+                    e.setDescription(description);
+                    dao.insertEnumerable(e);
+                    if(Integer.parseInt(unitType) == 3) {
+                        String termAcc = request.getParameter("accId");
+                        if(request.getParameterMap().containsKey("termScale")) {
+                            String termScale = request.getParameter("termScale");
+                            dao.insertUnitConversion(termAcc,unitValue,termScale);
+                        } else dao.checkUnitConversion(termAcc,unitValue);
+
+                    }
+                }
                 List<String> ids = req.getParameterValues("id");
 
                 if (ids.size() == 0) {
@@ -169,26 +191,6 @@ public class PhenominerRecordController extends PhenominerController {
                 status.add("Record Delete Successful");
 
                 report = buildReport(this.getRecords(req, dao), dao, true);
-            }else if (action.equals("addUnit")) {
-
-                Enumerable e = new Enumerable();
-                String unitType = request.getParameter("unitType");
-                e.setType(Integer.parseInt(unitType));
-                String unitValue = request.getParameter("unitValue");
-                String description = request.getParameter("description");
-                e.setValue(unitValue);
-                e.setLabel(unitValue);
-                e.setDescription(description);
-                dao.insertEnumerable(e);
-                if(Integer.parseInt(unitType) == 3) {
-                    String termAcc = request.getParameter("accId");
-                    if(request.getParameterMap().containsKey("termScale")) {
-                        String termScale = request.getParameter("termScale");
-                        dao.insertUnitConversion(termAcc,unitValue,termScale);
-                    } else dao.checkUnitConversion(termAcc,unitValue);
-
-                }
-                viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             }else {
                 report = buildReport(this.getRecords(req, dao), dao, true);
             }

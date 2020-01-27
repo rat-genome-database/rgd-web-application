@@ -165,8 +165,10 @@
         var unitValue = document.getElementById("unitValue").value;
         if(SD != null && SD != unitValue)
             document.getElementById("unitConversion").style.display = "block";
-
-        document.getElementsByName("cmUnits")[0].value = unitValue;
+        var unitType = document.getElementById("unitType").value;
+        if(unitType == 3)
+            document.getElementsByName("cmUnits")[0].value = unitValue;
+        else document.getElementsByName("cUnits")[0].value = unitValue;
     }
 
    </script>
