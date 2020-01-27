@@ -304,9 +304,17 @@ public class ReferenceImport implements Controller {
         String paramPmidList = Utils.defaultString(request.getParameter("pmid_list"));
         String[] pmids = paramPmidList.split("[,]");
         Set<String> incomingPubmedIds = new HashSet<>();
-        for(String pmid: pmids ) {
-            if( !pmid.isEmpty() ) {
-                incomingPubmedIds.add(pmid);
+        for( String pmid: pmids ) {
+            // PMID should be only digits; strip any non-digit character from the input
+            StringBuffer pmidBuf = new StringBuffer();
+            for( int i=0; i<pmid.length(); i++ ) {
+                char c = pmid.charAt(i);
+                if( Character.isDigit(c) ) {
+                    pmidBuf.append(c);
+                }
+            }
+            if( pmidBuf.length() > 0 ) {
+                incomingPubmedIds.add(pmidBuf.toString());
             }
         }
         return incomingPubmedIds;
