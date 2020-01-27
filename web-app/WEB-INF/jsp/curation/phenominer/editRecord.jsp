@@ -157,7 +157,6 @@
 
         $.ajax({url: "/rgdws/lookup/standardUnit/" + ontId.replace(":","%3A"), success: function(result){
            document.getElementById("unitSD").value = result;
-            alert(result);
         }});
 
     }
@@ -167,14 +166,19 @@
         if(SD != null && SD != unitValue)
             document.getElementById("unitConversion").style.display = "block";
 
-        document.getElementByName("cmUnits")[0].value = unitValue;
+        document.getElementsByName("cmUnits")[0].value = unitValue;
     }
 
    </script>
-<div id="unit" style="display:none;">
-    <form action="records.html" method="get">
 
-        <input type="hidden" name="act" value="addUnit"/>
+<form action="records.html" method="get">
+
+<input type="hidden" name="act" value="save"/>
+<input type="hidden" name="studyId" value="<%=req.getParameter("studyId")%>"/>
+
+    <div id="unit" style="display:none;">
+
+        <input type="hidden" name="mode" value="addUnit"/>
         <b>Add Unit</b>
         <select name="unitType" id="unitType">
             <option value="3">CMO Unit</option>
@@ -188,16 +192,7 @@
         <input name="description" placeholder="Description">
         <input id="unitConversion" style="display:none;" name="termScale" placeholder="Term Specific Scale" required>
 
-
-        <button type="submit" class="btn">Save</button>
-    </form>
-</div>
-<form action="records.html" method="get">
-
-<input type="hidden" name="act" value="save"/>
-<input type="hidden" name="studyId" value="<%=req.getParameter("studyId")%>"/>
-
-
+    </div>
 <%
 
     if (!isNew) {
