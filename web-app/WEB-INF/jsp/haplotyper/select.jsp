@@ -114,7 +114,7 @@ if (req.getParameter("u").equals("394033")) {
     }
 </script>
 
-<form id="strainBox" action="config.html">
+<form id="strainBox" action="config.html" method="post">
 
     <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
 
