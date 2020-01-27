@@ -166,17 +166,21 @@
     function checkUnitConversion() {
         var SD = document.getElementById("unitSD").value;
         var unitValue = document.getElementById("unitValue").value;
-        if(SD != null && SD != unitValue)
-            document.getElementById("unitConversion").style.display = "block";
-        var unitType = document.getElementById("unitType").value;
-        alert(unitType);
-        if(unitType == 3) {
-            document.getElementsByName("cmUnits")[0].value = unitValue;
-        }else {
-            document.getElementsByName("cUnits")[0].value = unitValue;
-        }
-    }
+        updateUnits();
 
+        if(SD != null && SD != unitValue)
+            document.getElementById("termScale").style.display = "block";
+
+    }
+function updateUnits(){
+    var unitType = document.getElementById("unitType").value;
+    var unitValue = document.getElementById("unitValue").value;
+    if(unitType == 3) {
+        document.getElementsByName("cmUnits")[0].value = unitValue;
+    }else {
+        document.getElementsByName("cUnits")[0].value = unitValue;
+    }
+}
    </script>
 
 <form action="records.html" method="get">
@@ -196,9 +200,9 @@
                value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
-        <input name="unitValue" id="unitValue" placeholder="Unit Value" required onchange="checkUnitConversion()">
+        <input name="unitValue" id="unitValue" placeholder="Unit Value" onchange="checkUnitConversion()">
         <input name="description" placeholder="Description">
-        <input id="unitConversion" style="display:none;" name="termScale" placeholder="Term Specific Scale" required>
+        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
 
     </div>
 <%
