@@ -2,7 +2,9 @@ package edu.mcw.rgd.carpenovo.vvservice;
 
 import io.netty.util.internal.InternalThreadLocalMap;
 import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.FileInputStream;
@@ -17,8 +19,8 @@ public class VariantIndexClient {
     private static RestHighLevelClient client=null;
     public static RestHighLevelClient init(){
         if(client==null) {
-        //  try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
-               try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+       //  try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
+            try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
                 Properties props= new Properties();
                 props.load(input);
                String VARIANTS_HOST= (String) props.get("VARIANTS_HOST");
@@ -27,9 +29,21 @@ public class VariantIndexClient {
                 client = new RestHighLevelClient(
                         RestClient.builder(
                               new HttpHost(VARIANTS_HOST, port, "http")
+                        ).setRequestConfigCallback(
+                                new RestClientBuilder.RequestConfigCallback(){
+                                    @Override
+                                    public RequestConfig.Builder customizeRequestConfig(
+                                            RequestConfig.Builder requestConfigBuilder) {
+                                        return requestConfigBuilder
+                                                .setConnectTimeout(5000)
+                                                .setSocketTimeout(120000)
+                                        .setConnectionRequestTimeout(0);
+                                    }
 
+                                }
+                        )
+                );
 
-                        ));
                 input.close();
             }catch (Exception e){
                 e.printStackTrace();
