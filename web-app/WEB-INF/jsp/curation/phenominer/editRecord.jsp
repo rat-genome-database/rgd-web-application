@@ -184,9 +184,8 @@
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
         <input name="unitValue" id="unitValue" placeholder="Unit Value" required onchange="checkUnitConversion()">
         <input name="description" placeholder="Description">
-        <div id="unitConversion">
-            <input name="termScale" placeholder="Term Specific Scale" required>
-        </div>
+        <input id="unitConversion" style="display:none;" name="termScale" placeholder="Term Specific Scale" required>
+
 
         <button type="submit" class="btn">Save</button>
     </form>
