@@ -31,17 +31,17 @@ String pageDescription = "Define Gene Symbol List";
 <script>
     function checkGeneList() {
 
-       if (document.getElementById("geneList").value.length > 2000) {
+     /*  if (document.getElementById("geneList").value.length > 2000) {
           alert("Gene List input must be under 2000 characters.  Your current list is " + document.getElementById("geneList").value.length + ". Please reduce the size of your list.");
-       }else {
+       }else {*/
           document.optionForm.submit();
-       }
+     //  }
     }
 
 
 </script>
 
-<form action="config.html" name="optionForm">
+<form action="config.html" name="optionForm" method="post">
 
     <!--<input type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" value="Import" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>-->
 
