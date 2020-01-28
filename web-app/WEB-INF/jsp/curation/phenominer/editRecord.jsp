@@ -186,19 +186,21 @@
 
         <input type="hidden" name="mode" value="addUnit"/>
         <b>Add Unit</b>
-        <select name="unitType" id="unitType">
+        Unit Type: <select name="unitType" id="unitType">
             <option value="3">CMO Unit</option>
             <option value="2">Experiment Unit</option>
         </select>
-        <input type="text" id="accId" name="accId" size="40"
+        *ACC ID<input type="text" id="accId" name="accId" size="40"
                value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png"
                                                                                    border="0"/></a>
-        <input id="unitSD" name="unitSD" placeholder="Standard Unit">
-        <input name="unitValue" id="unitValue" placeholder="Unit Value" onchange="checkUnitConversion()">
-        <input name="description" placeholder="Description">
-        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
-        <button onclick="updateUnits()">Add</button>
+        Standard Unit<input id="unitSD" name="unitSD"  style="background-color: #dddddd"
+               readonly="true">
+        *New Unit<input name="unitValue" id="unitValue"  onchange="checkUnitConversion()">
+        Description <input name="description" >
+        <br>
+        Term Specific Scale <input id="termScale" style="display:none;" name="termScale">
+        <button type="button" onclick="updateUnits()">Add</button>
     </div>
     <%
         if (!isNew) {
