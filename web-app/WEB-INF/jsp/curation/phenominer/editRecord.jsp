@@ -137,6 +137,7 @@
     function addUnit() {
         var unit = document.getElementById("unit");
         unit.style.display = "block";
+        addSD();
     }
     function addSD() {
         var ontId = document.getElementById("accId").value;
@@ -176,6 +177,7 @@
         var unit = document.getElementById("unit");
         unit.style.display = "none";
     }
+
 </script>
 
 <form action="records.html" method="get">
