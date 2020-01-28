@@ -67,7 +67,7 @@ public class DistributionController extends HaplotyperController {
         this.gSymbols = gSymbols;
     }
     VVService service= new VVService();
-
+    GeneLociDAO geneLociDAO=new GeneLociDAO();
 
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -75,6 +75,7 @@ public class DistributionController extends HaplotyperController {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         List regionList = new ArrayList();
+        List<String> regionList1=new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
         StringBuilder sb=new StringBuilder();
         VariantSearchBean vsb = null;
@@ -122,131 +123,7 @@ public class DistributionController extends HaplotyperController {
 
             GeneDAO gdao = new GeneDAO();
 
-    /*    if (this.hasAnnotation(req)) {
-
-            String rdoTerm =  req.getParameter("rdo_acc_id");
-            String pwTerm = req.getParameter("pw_acc_id");
-            String mpTerm = req.getParameter("mp_acc_id");
-            String chebiTerm = req.getParameter("chebi_acc_id");
-
-            List<String> rdoGenes = new ArrayList<String>();
-            List<String> pwGenes = new ArrayList<String>();
-            List<String> mpGenes = new ArrayList<String>();
-            List<String> chebiGenes = new ArrayList<String>();
-
-            if (req.getParameter("chr").equals("")) {
-                throw new Exception("Chromosome can not be empty.  Please select a chromosome.");
-            }
-
-            AnnotationDAO adao = new AnnotationDAO();
-            ArrayList accIds = new ArrayList();
-            OntologyXDAO xdao = new OntologyXDAO();
-
-            int geneCount = 0;
-            int rdoCount=0;
-            int pwCount=0;
-            int mpCount=0;
-            int chebiCount=0;
-
-            if (!rdoTerm.equals("")) {
-                TermWithStats tws = xdao.getTermWithStatsCached(rdoTerm, null);
-
-                rdoCount = tws.getRatGeneCountForTermAndChildren();
-                geneCount += rdoCount;
-                accIds.add(rdoTerm);
-            }
-            if (!pwTerm.equals("")) {
-                TermWithStats tws = xdao.getTermWithStatsCached(pwTerm, null);
-
-                pwCount = tws.getRatGeneCountForTermAndChildren();
-                geneCount += pwCount;
-                accIds.add(pwTerm);
-            }
-            if (!mpTerm.equals("")) {
-                TermWithStats tws = xdao.getTermWithStatsCached(mpTerm, null);
-
-                mpCount = tws.getRatGeneCountForTermAndChildren();
-                geneCount += mpCount;
-                accIds.add(mpTerm);
-            }
-            if (!chebiTerm.equals("")) {
-                TermWithStats tws = xdao.getTermWithStatsCached(chebiTerm, null);
-
-                chebiCount = tws.getRatGeneCountForTermAndChildren();
-                geneCount += chebiCount;
-                accIds.add(chebiTerm);
-            }
-
-            if (geneCount > 200000) {
-
-                errors.add("Total gene count can not be greater than 2000.  Please select a child term to limit annotated genes.<br><br>Disease:&nbsp;&nbsp;" + rdoCount + "<br>Pathway:&nbsp;&nbsp;" + pwCount + "<br>Phenotype:&nbsp;&nbsp;" + mpCount + "<br>Drug/Chemical:&nbsp;&nbsp;" + chebiCount);
-                request.setAttribute("error", errors);
-
-                return new ModelAndView("/WEB-INF/jsp/haplotyper/annotation.jsp");
-            }
-
-            Integer startPos=null;
-            Integer stopPos=null;
-
-            try {
-                startPos=Integer.parseInt(start);
-            }catch (Exception e) {
-
-            }
-
-            try {
-                stopPos=Integer.parseInt(stop);
-            }catch (Exception e) {
-
-            }
-
-            Iterator it = accIds.iterator();
-            while (it.hasNext()) {
-                String acc = (String) it.next();
-            }
-
-            //why is gene symbols list size zero.
-
-            List<String> geneSymbols = adao.getAnnotatedGeneSymbols(accIds, mapKey, chromosome, startPos, stopPos);
-
-            if (geneSymbols.size() > 0) {
-
-                if (!rdoTerm.equals("")) {
-                    accIds = new ArrayList();
-                    accIds.add(rdoTerm);
-                    rdoGenes = adao.getAnnotatedGeneSymbols(accIds,mapKey,chromosome, startPos, stopPos);
-                }
-
-                request.setAttribute("rdoGenes", rdoGenes);
-                if (!pwTerm.equals("")) {
-                    accIds = new ArrayList();
-                    accIds.add(pwTerm);
-                    pwGenes = adao.getAnnotatedGeneSymbols(accIds,mapKey,chromosome, startPos, stopPos);
-                }
-
-                request.setAttribute("pwGenes", pwGenes);
-                if (!mpTerm.equals("")) {
-                    accIds = new ArrayList();
-                    accIds.add(mpTerm);
-                    mpGenes = adao.getAnnotatedGeneSymbols(accIds,mapKey,chromosome, startPos, stopPos);
-                }
-
-                request.setAttribute("mpGenes", mpGenes);
-                if (!chebiTerm.equals("")) {
-                    accIds = new ArrayList();
-                    accIds.add(chebiTerm);
-                    chebiGenes = adao.getAnnotatedGeneSymbols(accIds,mapKey,chromosome, startPos, stopPos);
-
-                }
-
-                request.setAttribute("chebiGenes", chebiGenes);
-                HashMap termMap =  new HashMap();
-                termMap.put(req.getParameter("rdo_acc_id"), req.getParameter("rdo_term"));
-
-               mgs = gdao.getActiveMappedGenes(mapKey,geneSymbols);
-            }
-
-        } else*/ if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+     if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
         }
 
@@ -308,7 +185,7 @@ public class DistributionController extends HaplotyperController {
      // resultHash = vdao.getVariantToGeneCountMap(vsb);
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
-
+            System.out.println("RESULT HASH SIZE: "+ resultHash.size());
             sb.append("[");
             boolean first=true;
             for(Map.Entry e:resultHash.entrySet()){
@@ -404,6 +281,7 @@ public class DistributionController extends HaplotyperController {
         }else {
             regionList = vsb.genes;
 
+
             if (req.getParameter("geneList").indexOf("|") != -1) {
                 regionList.add(req.getParameter("geneList"));
             }
@@ -412,11 +290,16 @@ public class DistributionController extends HaplotyperController {
             if (!errors.isEmpty()) {
                 request.setAttribute("error", errors);
             }
-
-
-
+            if(chromosome!=null && !chromosome.equals("")) {
+                List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
+                for (GeneLoci l : loci) {
+                    if (!regionList1.contains(l.getGeneSymbols())) {
+                        regionList1.add(l.getGeneSymbols());
+                    }
+                }
+            }
             request.setAttribute("json", this.sb.toString());
-            request.setAttribute("regionList", regionList);
+            request.setAttribute("regionList", regionList1);
         //    request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("sampleIds", sampleIdsFromResultSet);
             request.setAttribute("resultHash", resultHash);
@@ -621,12 +504,12 @@ public class DistributionController extends HaplotyperController {
                 }
             }
         }
-        Collections.sort(symbols, new Comparator<String>() {
+     /*   Collections.sort(symbols, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 return Utils.stringsCompareToIgnoreCase(o1, o2);
             }
-        });
+        });*/
         this.setgSymbols(symbols);
 
 
