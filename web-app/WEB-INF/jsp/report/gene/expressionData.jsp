@@ -19,29 +19,30 @@
 <%
     GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
-    Set<String> tissues = new TreeSet<>();
+    Set<String> traits = new TreeSet<>();
     List<GeneExpressionRecordValue> geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
     HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
-    HashMap<Integer, edu.mcw.rgd.datamodel.pheno.Sample> sampleMap = new HashMap<>();
+    HashMap<Integer, Experiment> experimentMap = new HashMap<>();
 
     for (GeneExpressionRecordValue rec : geneExpressionRecordValues) {
 
         GeneExpressionRecord geneExpRec;
         edu.mcw.rgd.datamodel.pheno.Sample s;
+        Experiment e;
 
         if (geneExprRecMap.isEmpty() || !geneExprRecMap.keySet().contains(rec.getGeneExpressionRecordId())) {
             geneExpRec = geneExpressionDAO.getGeneExpressionRecordById(rec.getGeneExpressionRecordId());
             geneExprRecMap.put(rec.getGeneExpressionRecordId(), geneExpRec);
         } else geneExpRec = geneExprRecMap.get(rec.getGeneExpressionRecordId());
 
-        if (sampleMap.isEmpty() || !sampleMap.keySet().contains(geneExpRec.getSampleId())) {
-            s = phenominerDAO.getSample(geneExpRec.getSampleId());
-            sampleMap.put(s.getId(), s);
+        if (experimentMap.isEmpty() || !experimentMap.keySet().contains(geneExpRec.getExperimentId())) {
+            e = phenominerDAO.getExperiment(geneExpRec.getExperimentId());
+            experimentMap.put(e.getId(), e);
 
-        } else s = sampleMap.get(geneExpRec.getSampleId());
+        } else e = experimentMap.get(geneExpRec.getExperimentId());
 
-        if(s.getTissueAccId() != null)
-            tissues.add(s.getTissueAccId());
+        if(e.getTraitOntId() != null)
+            traits.add(e.getTraitOntId());
 
 
     }
@@ -61,26 +62,26 @@
 <table class="exprData">
     <tr>
         <td></td>
-    <% for(String tissue:tissues) {
-        Term term = xdao.getTermByAccId(tissue);
+    <% for(String trait:traits) {
+        Term term = xdao.getTermByAccId(trait);
         if( term != null) {
     %>
-        <td><%=xdao.getTerm(tissue).getTerm()%></td>
+        <td><%=xdao.getTerm(trait).getTerm()%></td>
         <% } else{  %>
-        <td><%=tissue%></td>
+        <td><%=trait%></td>
         <%
 
         } } %>
     </tr>
     <tr>
         <td>High</td>
-        <% for(String tissue:tissues) {
+        <% for(String trait:traits) {
 
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","high",tissue);
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTrait(obj.getRgdId(),"TPM","high",trait);
             if( val.size() != 0) {
         %>
         <td style="background-color: SteelBlue ">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=trait%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else {%>
@@ -89,12 +90,12 @@
     </tr>
     <tr>
         <td>Medium</td>
-        <% for(String tissue:tissues) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","medium",tissue);
+        <% for(String trait:traits) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTrait(obj.getRgdId(),"TPM","medium",trait);
             if(val.size() != 0) {
         %>
         <td style="background-color: LightSteelBlue ">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=tissue%>"><b><%=val.size()%></b>  </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=trait%>"><b><%=val.size()%></b>  </a></span>
         </td >
 
         <% } else {%>
@@ -103,12 +104,12 @@
     </tr>
     <tr>
         <td>Low</td>
-        <% for(String tissue:tissues) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","low",tissue);
+        <% for(String trait:traits) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTrait(obj.getRgdId(),"TPM","low",trait);
             if(val.size() != 0) {
         %>
         <td style="background-color: LightBlue">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=trait%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else {%>
@@ -118,12 +119,12 @@
     <tr>
         <td>Below cutoff</td>
 
-        <% for(String tissue:tissues) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM","below cutoff",tissue);
+        <% for(String trait:traits) {
+            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneByTrait(obj.getRgdId(),"TPM","below cutoff",trait);
             if(val.size() != 0) {
         %>
         <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=tissue%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=trait%>"><b><%=val.size()%></b> </a></span>
         </td>
 
         <% } else{ %>
