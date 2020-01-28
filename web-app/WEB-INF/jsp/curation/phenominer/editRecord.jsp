@@ -152,7 +152,6 @@
         var SD = document.getElementById("unitSD").value;
         var unitValue = document.getElementById("unitValue").value;
 
-        updateUnits();
         if (SD != null && SD != unitValue)
             document.getElementById("termScale").style.display = "block";
     }
@@ -172,6 +171,9 @@
             if (existing[i].value.equalsIgnoreCase(unitValue))
                 alert("Unit exists in the database - Only conversion will be added");
         }
+
+        var unit = document.getElementById("unit");
+        unit.style.display = "none";
     }
 </script>
 
@@ -189,14 +191,14 @@
             <option value="2">Experiment Unit</option>
         </select>
         <input type="text" id="accId" name="accId" size="40"
-               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
+               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onshow="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png"
                                                                                    border="0"/></a>
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
-        <input name="unitValue" id="unitValue" placeholder="Unit Value" onchange="checkUnitConversion()">
+        <input name="unitValue" id="unitValue" placeholder="Unit Value" onselect="checkUnitConversion()">
         <input name="description" placeholder="Description">
         <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
-
+        <button onclick="updateUnits()">Add</button>
     </div>
     <%
         if (!isNew) {
