@@ -191,11 +191,11 @@
             <option value="2">Experiment Unit</option>
         </select>
         <input type="text" id="accId" name="accId" size="40"
-               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onshow="addSD()"/>
+               value="<%=dm.out("accId", rec.getClinicalMeasurement().getAccId())%>" onchange="addSD()"/>
         <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png"
                                                                                    border="0"/></a>
         <input id="unitSD" name="unitSD" placeholder="Standard Unit">
-        <input name="unitValue" id="unitValue" placeholder="Unit Value" onselect="checkUnitConversion()">
+        <input name="unitValue" id="unitValue" placeholder="Unit Value" onchange="checkUnitConversion()">
         <input name="description" placeholder="Description">
         <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
         <button onclick="updateUnits()">Add</button>
