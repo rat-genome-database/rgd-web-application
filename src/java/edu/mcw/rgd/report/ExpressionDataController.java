@@ -68,7 +68,8 @@ public class ExpressionDataController implements Controller {
         if(level.equals("") || tissueId.equals("")) {
             geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
         }
-        else geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGeneByTrait(obj.getRgdId(),"TPM",level,tissueId);
+        else geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM",level,tissueId);
+
         HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
         HashMap<Integer,Experiment> experimentMap = new HashMap<>();
         HashMap<Integer, edu.mcw.rgd.datamodel.pheno.Sample> sampleMap = new HashMap<>();
