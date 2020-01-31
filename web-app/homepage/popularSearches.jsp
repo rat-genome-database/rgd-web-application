@@ -1,37 +1,11 @@
-<style>
-.searchCard {
-    line-height:63px;
-    text-align: center;
-    height:63px;
-z-index:30;
-opacity:1;
-    font-size:14px;
-    text-decoration:none;
-    padding-left:6px;
-    padding-right:6px;
-}
 
-.searchCard p {
-    line-height: 1.3;
-    display: inline-block;
-    ertical-align: middle;
-}
+<div style="padding-bottom:10px;border:0px solid black;">
+    <!-- <h5  style="font-family: 'freshbotregular', serif;font-size:26px;" lass="card-title">Tools</h5>-->
+    <span style="font-family: 'Source Code Pro', monospace; font-size: 20px; margin-top:15px;">Search</span>
+</div>
+<div style="visibility:hidden">hello</div>
 
-.searchCard:hover p {
-    color:white;
-}
-
-.searchCard:hover {
-opacity:.5;
-cursor:pointer;
-    background-color:#2865a3;
-    color:white;
-
-}
-</style>
-
-<div style="font-family: 'Source Code Pro', monospace; font-size: 20px;">Search</div>
-<div style="background-color:#eaf2f8; order:2px solid #c5c9cf" >
+<div style="background-color:#eaf2f8;"  >
     <table align="center" border="0">
         <tr>
             <td>

@@ -48,9 +48,40 @@
 
 
 
+
 </style>
 
+<style>
+    .searchCard {
+        line-height:63px;
+        text-align: center;
+        height:63px;
+        z-index:30;
+        opacity:1;
+        font-size:14px;
+        text-decoration:none;
+        padding-left:10px;
+        padding-right:10px;
+    }
 
+    .searchCard p {
+        line-height: 1.3;
+        display: inline-block;
+        ertical-align: middle;
+    }
+
+    .searchCard:hover p {
+        color:white;
+    }
+
+    .searchCard:hover {
+        opacity:.5;
+        cursor:pointer;
+        background-color:#2865a3;
+        color:white;
+
+    }
+</style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC&display=swap" rel="stylesheet">
 
