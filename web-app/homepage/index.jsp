@@ -60,13 +60,14 @@
         opacity:1;
         font-size:14px;
         text-decoration:none;
-        padding-left:10px;
-        padding-right:10px;
+        padding-left:11px;
+        padding-right:11px;
     }
 
     .searchCard p {
         line-height: 1.3;
         display: inline-block;
+        font-size:14px;
         ertical-align: middle;
     }
 

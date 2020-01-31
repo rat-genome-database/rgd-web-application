@@ -11,13 +11,13 @@
             <td>
                 <div class="searchCard" onclick="location.href='/rgdweb/search/genes.html'">Genes</div>
             </td>
-            <td><img src="/rgdweb/common/images/dnaSep.png" border="0"  /></td>
+            <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0"  /></td>
             <td>
                 <div class="searchCard" onclick="location.href='/rgdweb/search/strains.html'">Strains</div>
             </td>
-            <td><img src="/rgdweb/common/images/dnaSep.png" border="0" /></td>
+            <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='/rgdweb/ontology/search.html'"><p style="margin-top:10px;">Ontology<br>&<br> Annotation</p></div>
+                <div class="searchCard" onclick="location.href='/rgdweb/ontology/search.html'"><p style="margin-top:5px;">Ontology<br>&<br> Annotation</p></div>
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
