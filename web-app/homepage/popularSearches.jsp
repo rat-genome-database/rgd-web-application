@@ -30,7 +30,7 @@ cursor:pointer;
 }
 </style>
 
-<span style="font-family: 'Source Code Pro', monospace; font-size: 20px;">Search</span>
+<div style="font-family: 'Source Code Pro', monospace; font-size: 20px;">Search</div>
 <div style="background-color:#eaf2f8; order:2px solid #c5c9cf" >
     <table align="center" border="0">
         <tr>
