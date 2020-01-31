@@ -98,7 +98,26 @@
         text-decoration:underline;
         ont-weight:700;
     }
+
+     .speciesCardOverlay {
+         position:absolute;
+         background-color:#2865a3;
+         minWidth:63px;
+         width:63px;
+         height:63px;
+         z-index:30;
+         opacity:0;
+     }
+
+    .speciesCardOverlay:hover {
+        opacity:.5;
+        cursor:pointer;
+
+    }
+
 </style>
+
+<link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
 
 <body  ng-cloak ng-app="rgdPage">
@@ -205,22 +224,6 @@
                                     <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
                                         <i class="fa fa-caret-down"></i>
                                     </button>
-<!--
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdCuration/?module=portal&func=show&name=aging">Aging & Age-Related Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cancer">Cancer</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cardio">Cardiovascular Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=develop">Developmental Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=diabetes">Diabetes</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=blood">Hematologic Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=immune">Immune & Inflammatory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=nuro">Neurological Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=obesity">Obesity & Metabolic Syndrome</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=renal">Renal Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=respir">Respiratory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=sensory">Sensory Organ Disease</a>
-                                    </div>
--->
                                     <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
@@ -355,7 +358,57 @@
                 }
             </script>
 
-        </td></tr>
+        </td>
+    </tr>
+    <tr>
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
+        <td colspan=1 align="right" width="100%">
+
+            <table>
+                <tr>
+                    <td valign="center">
+                        <table border="0">
+                            <tr>
+                                <!--<td><span style="font-family: 'Marcellus SC', serif;font-size:14px;">Species Specific Portals</span></td>-->
+                                <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px;">Species Specific Portals</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/rgdweb/common/images/blueArrow.png" border=0></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/'"></div>
+                        <img src="/rgdweb/common/images/species/humanI.png"  border="0"  class="speciesIcon"/>
+                    </td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/mouse'"></div>
+                        <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/chinchilla'"></div>
+                        <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/dog'"></div>
+                        <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/squirrel'"></div>
+                        <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/bonobo'"></div>
+                        <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/pig'"></div>
+                        <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/mole-rat'"></div>
+                        <img src="/rgdweb/common/images/species/mole-ratI.png"  border="0" class="speciesIcon" /></td>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/human/green-monkey'"></div>
+                        <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 
     <%
