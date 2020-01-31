@@ -382,28 +382,28 @@
                         <img src="/rgdweb/common/images/species/humanI.png"  border="0"  class="speciesIcon"/>
                     </td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/mouse'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mouse'"></div>
                         <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/chinchilla'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/chinchilla'"></div>
                         <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/dog'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/dog'"></div>
                         <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/squirrel'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'"></div>
                         <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/bonobo'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/bonobo'"></div>
                         <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/pig'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/pig'"></div>
                         <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/mole-rat'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mole-rat'"></div>
                         <img src="/rgdweb/common/images/species/mole-ratI.png"  border="0" class="speciesIcon" /></td>
                     <td>
-                        <div class="speciesCardOverlay" onclick="'http://rgd.mcw.edu/wg/species/human/green-monkey'"></div>
+                        <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/green-monkey'"></div>
                         <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
                 </tr>
             </table>
