@@ -168,8 +168,6 @@
             option.value = unitValue;
             option.selected = "true";
             document.getElementsByName("cmUnits")[0].add(option,0);
-
-            alert("unit set");
         } else {
             existing = document.getElementsByName("cUnits")[0].options;
             var option = document.createElement("option");
@@ -177,8 +175,6 @@
             option.value = unitValue;
             option.selected = "true";
             document.getElementsByName("cUnits")[0].add(option,0);
-
-
         }
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
@@ -211,6 +207,7 @@
                                                                                    border="0"/></a>
         Standard Unit <input id="unitSD" name="unitSD"  style="background-color: #dddddd"
                readonly="true">
+        <br>
         *New Unit <input name="unitValue" id="unitValue"  onchange="checkUnitConversion()">
         Description <input name="description" >
         <br>
