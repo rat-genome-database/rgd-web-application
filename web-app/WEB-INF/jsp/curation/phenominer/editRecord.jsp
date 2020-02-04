@@ -141,7 +141,7 @@
     }
     function addSD() {
         var ontId = document.getElementById("accId").value;
-        if (ontId != null) {
+        if (ontId != null && ontId != "") {
             $.ajax({
                 url: "/rgdws/lookup/standardUnit/" + ontId.replace(":", "%3A"), success: function (result) {
                     document.getElementById("unitSD").value = result;
