@@ -153,13 +153,14 @@
         var SD = document.getElementById("unitSD").value;
         var unitValue = document.getElementById("unitValue").value;
 
-        if (SD != null && SD != unitValue)
+        if (SD != null && SD != unitValue && SD != "")
             document.getElementById("termScale").style.display = "block";
     }
     function updateUnits() {
         var unitType = document.getElementById("unitType").value;
         var unitValue = document.getElementById("unitValue").value;
         var existing;
+
         if (unitType == 3) {
             existing = document.getElementsByName("cmUnits")[0].options;
 
