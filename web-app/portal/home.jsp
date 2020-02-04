@@ -1217,7 +1217,7 @@
         <tr>
             <td align="center">
                 <div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('CC')">GO: Cellular Component<br><span style="font-size:11px;">Enrichment</span></div>
-                <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('MF')">Go: Molecular Function<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('MF')">GO: Molecular Function<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('CHEBI')">CHEBI: Chemical/Drug<br><span style="font-size:11px;">Enrichment</span></div>
                 <!--<div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Chemical Interactions<br><span style="font-size:11px;">{{title}}</span></div>-->
             </td>
