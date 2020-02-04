@@ -163,7 +163,10 @@
 
         if (unitType == 3) {
             existing = document.getElementsByName("cmUnits")[0].options;
-            document.getElementsByName("cmUnits")[0].value = unitValue;
+            var option = document.createElement("option");
+            option.text = unitValue;
+            option.value = unitValue;
+            document.getElementsByName("cmUnits")[0].add(option,0);
             document.getElementsByName("cmUnits")[0].style.readOnly = "true";
             alert("unit set");
         } else {
