@@ -398,7 +398,13 @@ rgdModule.controller('RGDPageController', [
         ctrl.showTools = function(listId, speciesType, map, oKey, a, tool) {
             $scope.activeList=listId;
             $scope.speciesTypeKey=speciesType;
-
+            var speciesKeys = [1,2,3,4,5,6,7,8,9];
+            var text = "";
+            for(i=0;i < speciesKeys.length;i++){
+                if($scope.speciesTypeKey != speciesKeys[i])
+                text += 'ortholog='+speciesKeys[i]+'&';
+            }
+            $scope.ortholog = text;
             if($scope.speciesTypeKey==3){
                 $scope.ortholog1=1;
                 $scope.ortholog2=2
@@ -448,25 +454,49 @@ rgdModule.controller('RGDPageController', [
                 var url="#";
                 if (tool == "vv") {
 
-                    if (geneList.length > 4000) {
+                  /*  if (geneList.length > 4000) {
                         alert("Gene List must be under 4000 Characters.  Variant Visualizer is unavailable for this list.")
                         return;
                     }
-
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=";
+                */
+                    url = "/rgdweb/front/dist.html?";
 
 
                     if ($scope.speciesTypeKey != 1) {
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
+                    var f = document.createElement("form");
+                    f.setAttribute('method',"post");
+                    f.setAttribute('action',url);
 
-                    url += "&sample1=all";
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"hidden");
+                    i.setAttribute('name',"geneList");
+                    i.setAttribute('value',geneList);
+
+                    f.appendChild(i);
+                    var i2 = document.createElement("input"); //input element, text
+                    i2.setAttribute('type',"hidden");
+                    i2.setAttribute('name',"sample1");
+                    i2.setAttribute('value',"all");
+
+                    f.appendChild(i2);
+                    var i3 = document.createElement("input"); //input element, text
+                    i3.setAttribute('type',"hidden");
+                    i3.setAttribute('name',"mapKey");
+                    i3.setAttribute('value',$scope.mapKey);
+
+                    f.appendChild(i3);
+                    document.getElementsByTagName('body')[0].appendChild(f);
+                    f.submit();
+
+             /*       url += "&sample1=all";
                     url += "&mapKey=" + $scope.mapKey;
 
                     url += "&geneList=" + geneList;
-                    location.href=url;
+                    location.href=url;*/
                 }else if (tool == "ga") {
-                   url = "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ $scope.ortholog1 +"&ortholog=" + $scope.ortholog2+ "&species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=";
+                   url = "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&"+ $scope.ortholog +"species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=";
                     url += "&mapKey=" + $scope.mapKey;
 
                     var f = document.createElement("form");
@@ -509,7 +539,7 @@ rgdModule.controller('RGDPageController', [
 
                    // processList("excel");
                 }else if (tool == "gviewer") {
-                    url = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog="+$scope.ortholog1+"&ortholog="+ $scope.ortholog2 +"&species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + $scope.mapKey;
+                    url = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&"+$scope.ortholog+"species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + $scope.mapKey;
 
                     var f = document.createElement("form");
                     f.setAttribute('method',"post");
@@ -551,7 +581,7 @@ rgdModule.controller('RGDPageController', [
 
 //                    window.open(url);
                 }else if (tool == "annotCompare") {
-                    url = "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="+$scope.ortholog1 +"&ortholog=" + $scope.ortholog2+ "&term1=DOID%3A4&term2=PW%3A0000001";
+                    url = "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&"+$scope.ortholog +"term1=DOID%3A4&term2=PW%3A0000001";
                     url +="&species=" + $scope.speciesTypeKey +  "&chr=1&start=&stop=&mapKey=" + $scope.mapKey;
 
                     var f = document.createElement("form");
@@ -601,7 +631,7 @@ rgdModule.controller('RGDPageController', [
                 }
                 else if (tool == "distribution") {
 
-                    url = "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog=" + $scope.ortholog1+ "&ortholog=" + $scope.ortholog2 + "&species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=";
+                    url = "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&" + $scope.ortholog+ "species=" + $scope.speciesTypeKey + "&chr=1&start=&stop=";
                     url += "&mapKey=" + $scope.mapKey + "&a=" +$scope.a
 
 
@@ -665,7 +695,6 @@ rgdModule.controller('RGDPageController', [
                         params.outSpecies = 1;
                         params.outMapKey = 38;
                     }
-               
                     for (var key in params) {
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("type", "hidden");

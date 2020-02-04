@@ -1,6 +1,7 @@
 package edu.mcw.rgd.phenominer;
 
 import edu.mcw.rgd.datamodel.HistogramRecord;
+import edu.mcw.rgd.datamodel.pheno.Enumerable;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
@@ -12,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ import java.util.List;
  */
 public class PhenominerRecordController extends PhenominerController {
 
-    static String TERM_REQUEST="00:0000000";
-    static String VALUE_REQUEST="REQUEST NEW VALUE";
+    static String TERM_REQUEST = "00:0000000";
+    static String VALUE_REQUEST = "REQUEST NEW VALUE";
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -91,6 +91,38 @@ public class PhenominerRecordController extends PhenominerController {
             } else if (action.equals("new")) {
                 viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             } else if (action.equals("save")) {
+                String mode = req.getParameter("mode");
+                if (mode != null && mode.equals("addUnit")) {
+
+                    Enumerable e = new Enumerable();
+                    String unitType = request.getParameter("unitType");
+                    e.setType(Integer.parseInt(unitType));
+                    String unitValue = request.getParameter("unitValue");
+                    String description = request.getParameter("description");
+                    e.setValue(unitValue);
+                    e.setLabel(unitValue);
+                    e.setDescription(description);
+
+                    if (Integer.parseInt(unitType) == 3) {
+                        List<String> existingCMO = dao.getDistinct("PHENOMINER_ENUMERABLES where type=3  ", "label", true);
+                        if (!existingCMO.contains(unitValue)) {
+                            if (unitValue != null && unitValue != "")
+                                dao.insertEnumerable(e);
+                        }
+                        String termAcc = request.getParameter("accId");
+                        if (request.getParameterMap().containsKey("termScale")) {
+                            String termScale = request.getParameter("termScale");
+                            dao.insertUnitConversion(termAcc, unitValue, termScale);
+                        } else dao.checkUnitConversion(termAcc, unitValue);
+
+                    } else {
+                        List<String> existingXCO = dao.getDistinct("PHENOMINER_ENUMERABLES where type=2  ", "label", true);
+                        if (!existingXCO.contains(unitValue)) {
+                            if (unitValue != null && unitValue != "")
+                                dao.insertEnumerable(e);
+                        }
+                    }
+                }
                 List<String> ids = req.getParameterValues("id");
 
                 if (ids.size() == 0) {
@@ -138,7 +170,7 @@ public class PhenominerRecordController extends PhenominerController {
                                     dao.deleteExperimentCondition(cId);
                                 } else {
                                     List<Condition> rCond = r.getConditions();
-                                    Integer cIdReal = rCond.get(-1-cId).getId();
+                                    Integer cIdReal = rCond.get(-1 - cId).getId();
                                     dao.deleteExperimentCondition(cIdReal);
                                 }
                             }
@@ -239,7 +271,7 @@ public class PhenominerRecordController extends PhenominerController {
 
         List<String> ids = new ArrayList<String>();
         for (Record record : records) {
-          ids.add(Integer.toString(record.getId()));
+            ids.add(Integer.toString(record.getId()));
         }
         if (ids.size() > 999) {
             ids = ids.subList(0, 999);
@@ -267,10 +299,10 @@ public class PhenominerRecordController extends PhenominerController {
         for (Record r : records) {
             edu.mcw.rgd.reporting.Record rec = new edu.mcw.rgd.reporting.Record();
             if (edit) rec.append("<input name='id' value='" + r.getId() + "' type='checkbox'/>");
-            rec.append("<a href='studies.html?act=edit"+"&studyId=" + r.getStudyId() + "'>" + r.getStudyId() + "</a>");
-            rec.append("<a href='experiments.html?act=edit&expId=" + r.getExperimentId() +"&studyId=" + r.getStudyId() + "'>" + r.getExperimentId() + "</a>");
-            rec.append("<a href='records.html?act=edit&expId=" + r.getExperimentId() + "&id=" + r.getId() +"&studyId=" + r.getStudyId() + "'>" + r.getId() + "</a>");
-            rec.append(""+ dao.getEnumerableLabel(6, r.getCurationStatus()));
+            rec.append("<a href='studies.html?act=edit" + "&studyId=" + r.getStudyId() + "'>" + r.getStudyId() + "</a>");
+            rec.append("<a href='experiments.html?act=edit&expId=" + r.getExperimentId() + "&studyId=" + r.getStudyId() + "'>" + r.getExperimentId() + "</a>");
+            rec.append("<a href='records.html?act=edit&expId=" + r.getExperimentId() + "&id=" + r.getId() + "&studyId=" + r.getStudyId() + "'>" + r.getId() + "</a>");
+            rec.append("" + dao.getEnumerableLabel(6, r.getCurationStatus()));
 
             try {
                 rec.append(ontDao.getTermByAccId(r.getClinicalMeasurement().getAccId()).getTerm() + "(" + r.getClinicalMeasurement().getAccId() + ")");
@@ -280,7 +312,7 @@ public class PhenominerRecordController extends PhenominerController {
 
             rec.append(r.getClinicalMeasurement().getSite());
             rec.append(r.getMeasurementValue());
-            rec.append((r.getMeasurementUnits()==null || r.getMeasurementUnits().equals("null")) ? "": r.getMeasurementUnits());
+            rec.append((r.getMeasurementUnits() == null || r.getMeasurementUnits().equals("null")) ? "" : r.getMeasurementUnits());
             rec.append(r.getMeasurementSD() != null ? d_f.format(Double.parseDouble(r.getMeasurementSD())) : r.getMeasurementSD());
             rec.append(r.getMeasurementSem() != null ? d_f.format(Double.parseDouble(r.getMeasurementSem())) : r.getMeasurementSem());
             rec.append(r.getMeasurementError());
@@ -294,8 +326,8 @@ public class PhenominerRecordController extends PhenominerController {
             }
 
             try {
-            rec.append(r.getMeasurementMethod().getDuration() == null ? null :
-                    Condition.convertDurationBoundToString(Double.parseDouble(r.getMeasurementMethod().getDuration())) + "");
+                rec.append(r.getMeasurementMethod().getDuration() == null ? null :
+                        Condition.convertDurationBoundToString(Double.parseDouble(r.getMeasurementMethod().getDuration())) + "");
             } catch (Exception e) {
                 rec.append(r.getMeasurementMethod().getDuration());
             }
@@ -315,7 +347,7 @@ public class PhenominerRecordController extends PhenominerController {
             rec.append(r.getSample().getSex());
 
             List<Condition> conditions =
-                    dao!=null ? dao.getConditions(r.getId()) : r.getConditions();
+                    dao != null ? dao.getConditions(r.getId()) : r.getConditions();
 
             for (Condition cond : conditions) {
                 try {
@@ -357,10 +389,11 @@ public class PhenominerRecordController extends PhenominerController {
         if (rsAccID.equals("")) {
             if (!bulkMode) throw new Exception("Strain ACC ID is required");
         } else {
-            if (!rsAccID.equals(TERM_REQUEST))
-            {
-                if (!rsAccID.startsWith("RS:") || dao.getTermByAccId(rsAccID) == null) throw new Exception("Strain ACC ID: " + rsAccID + " not found!");
-                if (!dao.isForCuration(rsAccID)) throw new Exception("Strain ACC ID: " + rsAccID + " is not for curation!");
+            if (!rsAccID.equals(TERM_REQUEST)) {
+                if (!rsAccID.startsWith("RS:") || dao.getTermByAccId(rsAccID) == null)
+                    throw new Exception("Strain ACC ID: " + rsAccID + " not found!");
+                if (!dao.isForCuration(rsAccID))
+                    throw new Exception("Strain ACC ID: " + rsAccID + " is not for curation!");
             }
         }
         if (req.getParameter("sAnimalCount").equals("")) {
@@ -380,43 +413,51 @@ public class PhenominerRecordController extends PhenominerController {
             if (!bulkMode) throw new Exception("Clinical Measurement ACC ID is required");
         } else {
             if (!cmAccID.equals(TERM_REQUEST)) {
-                if (!cmAccID.startsWith("CMO") || dao.getTermByAccId(cmAccID) == null) throw new Exception("Clinical Measurement ACC ID: " + cmAccID + " not found!");
-                if (!dao.isForCuration(cmAccID)) throw new Exception("Clinical Measurement ACC ID: " + cmAccID + " is not for curation!");
+                if (!cmAccID.startsWith("CMO") || dao.getTermByAccId(cmAccID) == null)
+                    throw new Exception("Clinical Measurement ACC ID: " + cmAccID + " not found!");
+                if (!dao.isForCuration(cmAccID))
+                    throw new Exception("Clinical Measurement ACC ID: " + cmAccID + " is not for curation!");
             }
         }
 
         if (cmUnits.equals("")) {
             if (!bulkMode) throw new Exception("Clinical measurement unit is required");
-        } else if ((!cmAccID.equals("") && !cmAccID.equals(TERM_REQUEST))&& !cmUnits.equals(VALUE_REQUEST)) {
-                String unitConversion = pdao.checkUnitConversion(cmAccID, cmUnits);
-                if (!unitConversion.equals("")) throw new Exception(unitConversion);
+        } else if ((!cmAccID.equals("") && !cmAccID.equals(TERM_REQUEST)) && !cmUnits.equals(VALUE_REQUEST)) {
+            String unitConversion = pdao.checkUnitConversion(cmAccID, cmUnits);
+            if (!unitConversion.equals("")) throw new Exception(unitConversion);
         }
 
         if (mmAccId.equals("")) {
             if (!bulkMode) throw new Exception("Measurement Method ACC ID is required");
         } else {
-                if (!mmAccId.equals(TERM_REQUEST)) {
-                    if (!mmAccId.startsWith("MMO:") || dao.getTermByAccId(mmAccId) == null) throw new Exception("Measurement Method ACC ID: " + mmAccId + " not found!");
-                    if (!dao.isForCuration(mmAccId)) throw new Exception("Measurement Method ACC ID: " + mmAccId + " is not for curation!");
-                }
+            if (!mmAccId.equals(TERM_REQUEST)) {
+                if (!mmAccId.startsWith("MMO:") || dao.getTermByAccId(mmAccId) == null)
+                    throw new Exception("Measurement Method ACC ID: " + mmAccId + " not found!");
+                if (!dao.isForCuration(mmAccId))
+                    throw new Exception("Measurement Method ACC ID: " + mmAccId + " is not for curation!");
+            }
         }
 
         if (!req.getParameter("mmSiteAccID").equals("") && !req.getParameter("mmSiteAccID").equals("\\")) {
             String[] mmIds = req.getParameter("mmSiteAccID").split("\\|");
-            for (String mmId: mmIds) {
-                if (!mmId.equals(TERM_REQUEST)){
-                    if (!mmId.startsWith("UBERON:") || dao.getTermByAccId(mmId) == null) throw new Exception("Measurement Method Site ACC ID: " + mmId + " not found!");
-                    if (!dao.isForCuration(mmId)) throw new Exception("Measurement Method Site ACC ID: " + mmId + " is not for curation!");
+            for (String mmId : mmIds) {
+                if (!mmId.equals(TERM_REQUEST)) {
+                    if (!mmId.startsWith("UBERON:") || dao.getTermByAccId(mmId) == null)
+                        throw new Exception("Measurement Method Site ACC ID: " + mmId + " not found!");
+                    if (!dao.isForCuration(mmId))
+                        throw new Exception("Measurement Method Site ACC ID: " + mmId + " is not for curation!");
                 }
             }
         }
 
         if (!req.getParameter("cmSiteAccID").equals("") && !req.getParameter("cmSiteAccID").equals("\\")) {
             String[] cmIds = req.getParameter("cmSiteAccID").split("\\|");
-            for (String cmId: cmIds) {
-                if (!cmId.equals(TERM_REQUEST)){
-                    if (!(cmId.startsWith("UBERON:") || cmId.startsWith("CL:")) || dao.getTermByAccId(cmId) == null) throw new Exception("Clinical Measurement Site ACC ID: " + cmId + " not found!");
-                    if (!dao.isForCuration(cmId)) throw new Exception("Clinical Measurement Site ACC ID: " + cmId + " is not for curation!");
+            for (String cmId : cmIds) {
+                if (!cmId.equals(TERM_REQUEST)) {
+                    if (!(cmId.startsWith("UBERON:") || cmId.startsWith("CL:")) || dao.getTermByAccId(cmId) == null)
+                        throw new Exception("Clinical Measurement Site ACC ID: " + cmId + " not found!");
+                    if (!dao.isForCuration(cmId))
+                        throw new Exception("Clinical Measurement Site ACC ID: " + cmId + " is not for curation!");
                 }
             }
         }
@@ -431,22 +472,23 @@ public class PhenominerRecordController extends PhenominerController {
         if (!bulkMode) {
             for (int i = 0; i < ord.length; i++) {
                 if (ord[i].equals("") && !acc[i].equals("")) {
-                    throw new Exception("Condition Ordinality is required for Condition " + (i+1));
+                    throw new Exception("Condition Ordinality is required for Condition " + (i + 1));
                 }
             }
         }
 
         for (int i = 0; i < ord.length; i++) {
             if (acc[i].trim().length() > 0 && !acc[i].equals(TERM_REQUEST)) {
-                if (!acc[i].startsWith("XCO:") || dao.getTermByAccId(acc[i]) == null) throw new Exception("Experimental Condition ACC ID: " + acc[i] + " not found!");
-                if (!dao.isForCuration(acc[i])) throw new Exception("Experimental Condition ACC ID: " + acc[i] + " is not for curation!");
+                if (!acc[i].startsWith("XCO:") || dao.getTermByAccId(acc[i]) == null)
+                    throw new Exception("Experimental Condition ACC ID: " + acc[i] + " not found!");
+                if (!dao.isForCuration(acc[i]))
+                    throw new Exception("Experimental Condition ACC ID: " + acc[i] + " is not for curation!");
             }
 
-            if (!bulkMode &&((minValues[i] + maxValues[i]
+            if (!bulkMode && ((minValues[i] + maxValues[i]
                     + minDura[i] + maxDura[i]).trim().length()
-                    > 0) && acc[i].trim().length()  == 0)
-            {
-                throw new Exception("Experiment Condition ACC ID is required for Condition " + (i+1));
+                    > 0) && acc[i].trim().length() == 0) {
+                throw new Exception("Experiment Condition ACC ID is required for Condition " + (i + 1));
             }
         }
 
@@ -456,7 +498,7 @@ public class PhenominerRecordController extends PhenominerController {
 
 
         try {
-            if (req.getParameter("expId") != null  && req.getParameter("expId").length() > 0)
+            if (req.getParameter("expId") != null && req.getParameter("expId").length() > 0)
                 r.setExperimentId(Integer.parseInt(req.getParameter("expId")));
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -497,25 +539,25 @@ public class PhenominerRecordController extends PhenominerController {
             r.getMeasurementMethod().setAccId(req.getParameter("mmAccId"));
         }
 
-        String mm_units=req.getParameter("mmDurationUnits");
+        String mm_units = req.getParameter("mmDurationUnits");
         if (!req.getParameter("mmDuration").equals("")) {
             if (checkForDeletion(req.getParameter("mmDuration")) == null) {
-               r.getMeasurementMethod().setDuration(null);
-            }  else{
-                r.getMeasurementMethod().setDuration("" + this.convertToSeconds(Double.parseDouble(req.getParameter("mmDuration")),req.getParameter("mmDurationUnits")));
+                r.getMeasurementMethod().setDuration(null);
+            } else {
+                r.getMeasurementMethod().setDuration("" + this.convertToSeconds(Double.parseDouble(req.getParameter("mmDuration")), req.getParameter("mmDurationUnits")));
             }
-        } else if (!multiEdit || Condition.convertStringToDurationBound(mm_units)<0)
-        {
+        } else if (!multiEdit || Condition.convertStringToDurationBound(mm_units) < 0) {
             r.getMeasurementMethod().setDuration("" + Condition.convertStringToDurationBound(mm_units));
         } else if (multiEdit && !mm_units.equals("secs")) {
-            r.getMeasurementMethod().setDuration("" + this.convertToSeconds(Long.parseLong(r.getMeasurementMethod().getDuration()),req.getParameter("mmDurationUnits")));
+            r.getMeasurementMethod().setDuration("" + this.convertToSeconds(Long.parseLong(r.getMeasurementMethod().getDuration()), req.getParameter("mmDurationUnits")));
         }
 
         if (!req.getParameter("mmSite").equals("")) {
             r.getMeasurementMethod().setSite(checkForDeletion(req.getParameter("mmSite")));
         }
         if (!req.getParameter("mmSiteAccID").equals("")) {
-            if (req.getParameter("mmSiteAccID").equals("\\") && req.getParameter("mmSite").equals("")) r.getMeasurementMethod().setSite(null);
+            if (req.getParameter("mmSiteAccID").equals("\\") && req.getParameter("mmSite").equals(""))
+                r.getMeasurementMethod().setSite(null);
             r.getMeasurementMethod().setSiteOntIds(checkForDeletion(req.getParameter("mmSiteAccID")));
         }
 
@@ -523,7 +565,8 @@ public class PhenominerRecordController extends PhenominerController {
             r.getClinicalMeasurement().setSite(checkForDeletion(req.getParameter("cmSite")));
         }
         if (!req.getParameter("cmSiteAccID").equals("")) {
-            if (req.getParameter("cmSiteAccID").equals("\\") && req.getParameter("cmSite").equals("")) r.getClinicalMeasurement().setSite(null);
+            if (req.getParameter("cmSiteAccID").equals("\\") && req.getParameter("cmSite").equals(""))
+                r.getClinicalMeasurement().setSite(null);
             r.getClinicalMeasurement().setSiteOntIds(checkForDeletion(req.getParameter("cmSiteAccID")));
         }
 
@@ -532,7 +575,7 @@ public class PhenominerRecordController extends PhenominerController {
         }
         if (!req.getParameter("mmPostInsultTime").equals("")) {
             if (checkForDeletion(req.getParameter("mmPostInsultTime")) == null) {
-                   r.getMeasurementMethod().setPiTimeValue(null);
+                r.getMeasurementMethod().setPiTimeValue(null);
             } else {
                 r.getMeasurementMethod().setPiTimeValue(Integer.parseInt(req.getParameter("mmPostInsultTime")));
             }
@@ -560,12 +603,12 @@ public class PhenominerRecordController extends PhenominerController {
             if (minAge.equalsIgnoreCase("\\") || minAge.equalsIgnoreCase("NA") ||
                     minAge.equalsIgnoreCase("N/A")) {
                 r.getSample().setAgeDaysFromLowBound(null);
-            } else  r.getSample().setAgeDaysFromLowBound(Integer.parseInt(minAge));
+            } else r.getSample().setAgeDaysFromLowBound(Integer.parseInt(minAge));
         }
         if (!maxAge.equals("")) {
             if (maxAge.equalsIgnoreCase("\\") || maxAge.equalsIgnoreCase("NA") ||
                     maxAge.equalsIgnoreCase("N/A")) {
-               r.getSample().setAgeDaysFromHighBound(null);
+                r.getSample().setAgeDaysFromHighBound(null);
             } else r.getSample().setAgeDaysFromHighBound(Integer.parseInt(maxAge));
         }
         if (!req.getParameter("sSex").equals("")) {
@@ -599,8 +642,7 @@ public class PhenominerRecordController extends PhenominerController {
             if (cDelete != null) {
                 boolean toDelete = false;
                 for (String cDelId : cDelete) {
-                    if (cDelId.equals(cId[j]))
-                    {
+                    if (cDelId.equals(cId[j])) {
                         toDelete = true;
                         break;
                     }
@@ -610,8 +652,8 @@ public class PhenominerRecordController extends PhenominerController {
 
             if (activeCondition >= r.getConditions().size() && !cAccId[j].equals("")) {
                 r.getConditions().add(new Condition());
-            }else if (activeCondition >= r.getConditions().size()){
-               continue;
+            } else if (activeCondition >= r.getConditions().size()) {
+                continue;
             }
 
             Condition c = r.getConditions().get(activeCondition);
@@ -634,22 +676,20 @@ public class PhenominerRecordController extends PhenominerController {
 
             if (!cMinDuration[j].equals("")) {
                 r.getConditions().get(activeCondition).setDurationLowerBound(cMinDuration[j].equals("\\") ? 0
-                  : this.convertToSeconds(Double.parseDouble(cMinDuration[j]),cMinDurationUnits[j]));
-            } else if (!multiEdit || Condition.convertStringToDurationBound(cMinDurationUnits[j])<0)
-            {
+                        : this.convertToSeconds(Double.parseDouble(cMinDuration[j]), cMinDurationUnits[j]));
+            } else if (!multiEdit || Condition.convertStringToDurationBound(cMinDurationUnits[j]) < 0) {
                 r.getConditions().get(activeCondition).setDurationLowerBound(Condition.convertStringToDurationBound(cMinDurationUnits[j]));
             } else if (multiEdit && !cMinDurationUnits[j].equals("secs")) {
-                r.getConditions().get(activeCondition).setDurationLowerBound(this.convertToSeconds(r.getConditions().get(activeCondition).getDurationLowerBound(),cMinDurationUnits[j]));
+                r.getConditions().get(activeCondition).setDurationLowerBound(this.convertToSeconds(r.getConditions().get(activeCondition).getDurationLowerBound(), cMinDurationUnits[j]));
             }
 
             if (!cMaxDuration[j].equals("")) {
                 r.getConditions().get(activeCondition).setDurationUpperBound(cMaxDuration[j].equals("\\") ? 0 :
-                        this.convertToSeconds(Double.parseDouble(cMaxDuration[j]),cMaxDurationUnits[j]));
-            } else if (!multiEdit || Condition.convertStringToDurationBound(cMaxDurationUnits[j])<0)
-            {
+                        this.convertToSeconds(Double.parseDouble(cMaxDuration[j]), cMaxDurationUnits[j]));
+            } else if (!multiEdit || Condition.convertStringToDurationBound(cMaxDurationUnits[j]) < 0) {
                 r.getConditions().get(activeCondition).setDurationUpperBound(Condition.convertStringToDurationBound(cMaxDurationUnits[j]));
             } else if (multiEdit && !cMaxDurationUnits[j].equals("secs")) {
-                r.getConditions().get(activeCondition).setDurationUpperBound(this.convertToSeconds(r.getConditions().get(activeCondition).getDurationUpperBound(),cMaxDurationUnits[j]));
+                r.getConditions().get(activeCondition).setDurationUpperBound(this.convertToSeconds(r.getConditions().get(activeCondition).getDurationUpperBound(), cMaxDurationUnits[j]));
             }
 
             if (!cApplicationMethod[j].equals("")) {
@@ -675,22 +715,21 @@ public class PhenominerRecordController extends PhenominerController {
 
         if (units.equals("secs")) {
             return value;
-        }else if (units.equals("mins")) {
+        } else if (units.equals("mins")) {
             return value * 60;
-        }else if (units.equals("hours")) {
+        } else if (units.equals("hours")) {
             return value * 60 * 60;
-        }else if (units.equals("days")) {
+        } else if (units.equals("days")) {
             return value * 60 * 60 * 24;
-        }else if (units.equals("weeks")) {
+        } else if (units.equals("weeks")) {
             return value * 60 * 60 * 24 * 7;
-        }else if (units.equals("months")) {
+        } else if (units.equals("months")) {
             return value * 60 * 60 * 24 * (365 / 12);
-        }else if (units.equals("years")) {
-            return value * 60 * 60 * 24 * 365;            
+        } else if (units.equals("years")) {
+            return value * 60 * 60 * 24 * 365;
         }
 
         return Condition.convertStringToDurationBound(units);
     }
 
 }
-
