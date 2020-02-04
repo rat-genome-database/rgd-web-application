@@ -166,13 +166,19 @@
             var option = document.createElement("option");
             option.text = unitValue;
             option.value = unitValue;
+            option.selected = "true";
             document.getElementsByName("cmUnits")[0].add(option,0);
-            document.getElementsByName("cmUnits")[0].style.readOnly = "true";
+
             alert("unit set");
         } else {
             existing = document.getElementsByName("cUnits")[0].options;
-            document.getElementsByName("cUnits")[0].value = unitValue;
-            document.getElementsByName("cUnits")[0].style.readOnly = "true";
+            var option = document.createElement("option");
+            option.text = unitValue;
+            option.value = unitValue;
+            option.selected = "true";
+            document.getElementsByName("cUnits")[0].add(option,0);
+
+
         }
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
