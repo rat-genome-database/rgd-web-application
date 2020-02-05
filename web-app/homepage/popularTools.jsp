@@ -83,41 +83,11 @@
 
 
 
-<table border="0">
+<div class="" style="border-color: transparent;margin-top:25px;">
+    <h5 class="card-title">Analysis and Visualization</h5>
+</div>
 
-    <tr>
-        <td colspan="3">
-            <div style="padding-top:20px;padding-bottom:10px;">
-                <!-- <h5  style="font-family: 'freshbotregular', serif;font-size:26px;" lass="card-title">Tools</h5>-->
-                <span style="font-family: 'Source Code Pro', monospace; font-size: 20px; margin-top:15px;">Analysis_and_Visualization</span>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="headerCard"  style="width: 200px;;margin-right: 2%;;text-align: center;padding-top:1%;" >
-                <div class="headerCardOverlay" onclick="location.href='/wg/home/pathway2/'">.</div>
-                <div class="headerCardTitle">Pathway Explorer<br><span class="headerSubTitle">Interactive Diagrams</span></div>
-                <img class="headerCardImage" src="/rgdweb/common/images/pathwayScreen.png" style="border:1px solid black;" border="0" />
-            </div>
-
-        </td>
-        <td>
-            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/home.jsp'">.</div>
-                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Quantitative Phenotypes</span></div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/phenominerScreen.png"  border="0" /></span>
-            </div>
-
-        </td>
-        <td>
-            <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/phenominerExpectedRanges/views/home.html'">.</div>
-                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Expected Ranges</span></div>
-                <img class="headerCardImage" src="/rgdweb/common/images/expected.png"  border="0" />
-            </div>
-        </td>
-    </tr>
+<table border="0" cellpadding="7">
     <tr>
         <td>
             <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
@@ -178,6 +148,32 @@
                 <div class="headerCardOverlay" onclick="location.href='/rgdweb/generator/list.html'">.</div>
                 <div class="headerCardTitle">OLGA<br><span class="headerSubTitle">Gene List Generator</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/olgaScreen.png"  border="0" /></span>
+            </div>
+
+        </td>
+
+        <td>
+            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/home.jsp'">.</div>
+                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Quantitative Phenotypes</span></div>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/phenominerScreen.png"  border="0" /></span>
+            </div>
+
+        </td>
+        <td>
+            <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/phenominerExpectedRanges/views/home.html'">.</div>
+                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Expected Ranges</span></div>
+                <img class="headerCardImage" src="/rgdweb/common/images/expected.png"  border="0" />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="headerCard"  style="width: 200px;;margin-right: 2%;;text-align: center;padding-top:1%;" >
+                <div class="headerCardOverlay" onclick="location.href='/wg/home/pathway2/'">.</div>
+                <div class="headerCardTitle">Pathway Explorer<br><span class="headerSubTitle">Interactive Diagrams</span></div>
+                <img class="headerCardImage" src="/rgdweb/common/images/pathwayScreen.png" style="border:1px solid black;" border="0" />
             </div>
 
         </td>

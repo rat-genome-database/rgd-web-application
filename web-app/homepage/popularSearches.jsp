@@ -1,9 +1,10 @@
 
-<div style="padding-bottom:10px;border:0px solid black;">
-    <!-- <h5  style="font-family: 'freshbotregular', serif;font-size:26px;" lass="card-title">Tools</h5>-->
-    <span style="font-family: 'Source Code Pro', monospace; font-size: 20px; margin-top:15px;">Search</span>
+
+<div class="" style="border-color: transparent;">
+    <h5 class="card-title">Search</h5>
 </div>
-<div style="visibility:hidden">hello</div>
+
+
 
 <div style="background-color:#eaf2f8;"  >
     <table align="center" border="0">

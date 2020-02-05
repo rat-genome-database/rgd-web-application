@@ -149,82 +149,21 @@
               <div class="row">
 
               <jsp:include page="popularSearches.jsp"/>
-
-
               <jsp:include page="popularTools.jsp"/>
+                  <jsp:include page="conferences.jsp"/>
+                  <jsp:include page="news.jsp"/>
             </div>
           </div>
-           <div class="col-sm">
+           <div class="col" >
                <jsp:include page="carosel.jsp"/>
                <jsp:include page="twitter.jsp"/>
-
+               <jsp:include page="tutorials.jsp"/>
            </div>
         </div>
     </div>
 
 
-    <div  style="background-color: #F5F8FF;height:auto">
-        <div class="container">
-            <div class="row">
-                <jsp:include page="tutorials.jsp"/>
-            </div>
-        </div>
-
-    </div>
-
-    <div  style="background-color: #F5F8FF;height:auto">
-        <div class="container">
-            <div class="row">
-                <div class="card col" style="background-color: transparent;border-color: transparent;padding:0">
-                    <div class="card-body" style="background-color: transparent;padding-left:0" id="rgd-conf">
-                        <h5 class="card-title">Conference Watch</h5>
-                            <jsp:include page="conferences.jsp"/>
-                    </div>
-                </div>
-                <div class="card col" id="rgd-news" style="background-color: transparent;border-color:transparent;padding:0">
-                    <div class="card-body" style="background-color: transparent">
-                        <h5 class="card-title">Latest News</h5>
-                            <jsp:include page="news.jsp"/>
-                    </div>
-                </div>
-                <div class="card col" id="rgd-news" style="background-color: transparent;border-color:transparent;padding:0">
-                    <div class="card-body" style="background-color: transparent">
-
-                <div class="card col" style="background-color: transparent;border-color: transparent;padding:0" >
-                    <div class="card-body">
 
 
-
-                            <div class="card" style="border-color: transparent;background-color:#EFF3FC">
-                                <h5 style="font-size: medium;padding:5px 0 0 5px" class="card-title">Useful Links</h5>
-                            </div>
-                            <br>
-                            <div>
-                                <p><a href="https://rgd.mcw.edu/registration-entry.shtml" style="font-weight: bold;color: #24609c;font-size: 12px"><img src="/rgdweb/common/images/submit.png" width="30px" height="30px"/>&nbsp;Submit Data </a></p>
-
-
-
-                                <p><a href="https://rgd.mcw.edu/rgdweb/report/genomeInformation/genomeInformation.html" style="font-weight: bold;color: #24609c;font-size: 12px"><img src="/rgdweb/common/images/dna.png" width="30px" height="30px"/>Genome Information</a></p>
-
-
-
-
-                                <p><a href="http://ratmine.mcw.edu/ratmine/begin.do" style="font-weight: bold;color: #24609c;font-size: 12px"><img src="/rgdweb/common/images/ratMine.png"/>&nbsp;RatMine</a></p>
-                                <p><a href="https://rgd.mcw.edu/wg/gerrc/" style="font-weight: bold;color: #24609c;font-size: 12px"><img src="/rgdweb/common/images/GERRC-35.png"></a></p>
-
-                            </div>
-
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-    </div>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

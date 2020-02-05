@@ -1,32 +1,24 @@
-<div class="bd-example">
-    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+<div style="width:270px; border:1px solid black;">
+    <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="10000">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
             <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://rgd.mcw.edu/common/images/bonobobanner.png" height="250px" class="d-block w-100" alt="...">
-                <a style="text-decoration: none;" href="https://rgd.mcw.edu/wg/bonobo/">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Bonobo</h5>
-                        <p>RGD has included genes for the Bonobo. Click here to find out more details...</p>
-                    </div>
-                </a>
-            </div>
-            <div class="carousel-item">
-                <img src="https://rgd.mcw.edu/common/images/devdisease_150x163.png" height="250px" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Developmental Diseases</h5>
-                    <p>RGD announces the release of the Developmental Disease Potal. Click here to learn more</p>
+            <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/common/images/bonobobanner.png'">
+                <div style="height:200px;width:270px; background-color:dodgerblue; font-size:20px;padding:30px;">
+                    Place 200 x 270 <br>pixel image here
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://rgd.mcw.edu/common/images/boxerbanner.png" height="250px" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Dog Genes</h5>
-                    <p>RGD has added dog genes to the database. More details ...</p>
+                <div style="height:200px;width:300px; background-color:red; font-size:20px; font-size:20px;padding:30px;"">
+                    Place another 200 x 270 <br>pixel image here
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div style="height:200px;width:300px; background-color:orange; font-size:20px; font-size:20px;padding:30px;"">
+                    Another 200 x 270 <br>pixel image
                 </div>
             </div>
         </div>
