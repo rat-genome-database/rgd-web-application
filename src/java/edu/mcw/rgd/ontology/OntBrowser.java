@@ -264,7 +264,7 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
                 }else {
@@ -355,7 +355,7 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm() + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
 
@@ -468,7 +468,7 @@ public class OntBrowser extends SimpleTagSupport {
     private String generateSelectButton(OntDagNode node) {
 
         if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 ) {
-            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+node.getTerm().replace("'", "\\'")+"')\">select</span>&nbsp;";
+            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+node.getTerm().replaceAll("'s","")+"')\">select</span>&nbsp;";
         } else {
             return "<span class='term_select_disabled'>select</span>&nbsp;";
         }
