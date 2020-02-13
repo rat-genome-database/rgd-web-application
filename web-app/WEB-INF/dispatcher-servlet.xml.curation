@@ -107,6 +107,7 @@
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
                 <prop key="search/search.html">searchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -115,6 +116,7 @@
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                  <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
@@ -386,6 +388,7 @@
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
+    <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
