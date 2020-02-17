@@ -19,12 +19,30 @@
 <%
     GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
-    Set<String> traits = new TreeSet<>();
-    List<GeneExpressionRecordValue> geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
-    HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
-    HashMap<Integer, Experiment> experimentMap = new HashMap<>();
+    //int count = geneExpressionDAO.getCountOfGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
     List<String> terms = xdao.getAllSlimTerms("UBERON","AGR");
-    if( !geneExpressionRecordValues.isEmpty() ) {
+    HashMap<String,Integer> high = new HashMap();
+    HashMap<String,Integer> medium = new HashMap();
+    HashMap<String,Integer> low = new HashMap();
+    HashMap<String,Integer> belowcutOff = new HashMap();
+
+    for(String t: terms){
+
+        String highCount = geneExpressionDAO.getGeneExprReValCountForGeneBySlim(obj.getRgdId(),"TPM","high",t);
+        String lowCount = geneExpressionDAO.getGeneExprReValCountForGeneBySlim(obj.getRgdId(),"TPM","low",t);
+        String mediumCount = geneExpressionDAO.getGeneExprReValCountForGeneBySlim(obj.getRgdId(),"TPM","medium",t);
+        String belowCount = geneExpressionDAO.getGeneExprReValCountForGeneBySlim(obj.getRgdId(),"TPM","below cutoff",t);
+        if(highCount != null)
+            high.put(t,Integer.parseInt(highCount));
+        if(lowCount != null)
+            low.put(t,Integer.parseInt(lowCount));
+        if(mediumCount != null)
+            medium.put(t,Integer.parseInt(mediumCount));
+        if(belowCount != null)
+            belowcutOff.put(t,Integer.parseInt(belowCount));
+    }
+    System.out.println(high);
+    if( high.size() !=  0 || low.size() != 0 || medium.size() != 0 || belowcutOff.size() != 0  ) {
 %>
 
 <%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
@@ -53,12 +71,10 @@
     <tr>
         <td>High</td>
         <% for(String t:terms) {
-
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM","high",t);
-            if( val.size() != 0) {
+            if( high.containsKey(t)) {
         %>
         <td style="background-color: SteelBlue ">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=t%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=high&tissue=<%=t%>"><b><%=high.get(t)%></b> </a></span>
         </td>
 
         <% } else {%>
@@ -68,11 +84,10 @@
     <tr>
         <td>Medium</td>
         <% for(String t:terms) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM","medium",t);
-            if(val.size() != 0) {
+            if( medium.containsKey(t)) {
         %>
         <td style="background-color: LightSteelBlue ">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=t%>"><b><%=val.size()%></b>  </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=medium&tissue=<%=t%>"><b><%=medium.get(t)%></b>  </a></span>
         </td >
 
         <% } else {%>
@@ -82,11 +97,10 @@
     <tr>
         <td>Low</td>
         <% for(String t:terms) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM","low",t);
-            if(val.size() != 0) {
+            if( low.containsKey(t)) {
         %>
         <td style="background-color: LightBlue">
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=t%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=low&tissue=<%=t%>"><b><%=low.get(t)%></b> </a></span>
         </td>
 
         <% } else {%>
@@ -97,11 +111,10 @@
         <td>Below cutoff</td>
 
         <% for(String t:terms) {
-            List<GeneExpressionRecordValue> val = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM","below cutoff",t);
-            if(val.size() != 0) {
+            if( belowcutOff.containsKey(t)) {
         %>
         <td>
-            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=t%>"><b><%=val.size()%></b> </a></span>
+            <span class="detailReportLink"><a href="/rgdweb/report/gene/expressionData.html?id=<%=obj.getRgdId()%>&fmt=full&level=below cutoff&tissue=<%=t%>"><b><%=belowcutOff.get(t)%></b> </a></span>
         </td>
 
         <% } else{ %>
