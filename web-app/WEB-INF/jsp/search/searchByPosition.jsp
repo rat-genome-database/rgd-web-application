@@ -314,9 +314,16 @@ host = 'https://dev.rgd.mcw.edu';
                 var method = "POST";
                 form.setAttribute("method", method);
                 form.setAttribute("action", "/rgdweb/search/searchByPosition.html?fmt=csv");
+
+                var txt = document.getElementById('start').value;
+                var start = txt.replace(/,/g,"");
+                txt =document.getElementById('stop').value;
+                var stop = txt.replace(/,/g,"");
+
+
                 params.chr = document.getElementById('chr').value;
-                params.start = document.getElementById('start').value;
-                params.stop = document.getElementById('stop').value;
+                params.start = Number(start);
+                params.stop = Number(stop);
                 params.mapKey = document.getElementById('mapKey').value;
                 params.objType = objType;
                 for (var key in params) {
