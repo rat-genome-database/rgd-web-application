@@ -308,7 +308,7 @@ host = 'https://dev.rgd.mcw.edu';
                 });
             },
             download: function(objType) {
-                alert(objType);
+              
                 params = new Object();
                 var form = document.createElement("form");
                 var method = "POST";
