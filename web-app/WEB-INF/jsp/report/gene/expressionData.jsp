@@ -10,8 +10,8 @@
     }
     .exprData td,th{
         border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
+        text-align: center;
+        padding: 4px;
     }
 
 
@@ -25,7 +25,7 @@
     HashMap<String,Integer> medium = new HashMap();
     HashMap<String,Integer> low = new HashMap();
     HashMap<String,Integer> belowcutOff = new HashMap();
-
+    List<String> exclude = new ArrayList<>();
     for(String t: terms){
 
         String highCount = geneExpressionDAO.getGeneExprReValCountForGeneBySlim(obj.getRgdId(),"TPM","high",t);
@@ -40,8 +40,11 @@
             medium.put(t,Integer.parseInt(mediumCount));
         if(belowCount != null)
             belowcutOff.put(t,Integer.parseInt(belowCount));
+
+        if(highCount == null && lowCount == null && mediumCount == null && belowCount == null)
+            exclude.add(t);
     }
-    System.out.println(high);
+  terms.removeAll(exclude);
     if( high.size() !=  0 || low.size() != 0 || medium.size() != 0 || belowcutOff.size() != 0  ) {
 %>
 
