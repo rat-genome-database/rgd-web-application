@@ -108,9 +108,9 @@ background-color: #daeffc;
     <h3>Total Objects in the selected region: </h3>
     <table  class="t">
         <tr>
-    <th>Genes - {{geneCount}}</th></tr>
-   <tr> <th>QTLs - {{qtlCount}}</th></tr>
-   <tr> <th>SSLPs - {{sslpCount}}</th></tr>
+    <th @click="download('gene')">Genes - {{geneCount}}</th></tr>
+   <tr> <th @click="download('qtl')">QTLs - {{qtlCount}}</th></tr>
+   <tr> <th @click="download('sslp')">SSLPs - {{sslpCount}}</th></tr>
     <button @click="download('all')">Download All Objects</button>
 
         </table>
@@ -237,9 +237,14 @@ host = 'https://dev.rgd.mcw.edu';
         methods: {
             getData: function () {
                 var chr = document.getElementById('chr').value;
-                var start = document.getElementById('start').value;
-                var stop = document.getElementById('stop').value;
+                var txt = document.getElementById('start').value;
+                var start = txt.replace(/,/g,"");
+                start = Number(start);
+                txt =document.getElementById('stop').value;
+                var stop = txt.replace(/,/g,"");
+                stop = Number(stop);
                 var mapKey = document.getElementById('mapKey').value;
+
                 axios
                         .get(this.hostName + '/rgdws/genes/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
