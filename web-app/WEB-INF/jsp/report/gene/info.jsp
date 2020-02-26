@@ -211,7 +211,10 @@
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
                 : "";
-        String tracks = "ARGD_curated_genes";
+        String tracks;
+        if(obj.getGeneSource().equals("Ensembl"))
+            tracks = "Ensembl_genes";
+        else tracks = "ARGD_curated_genes";
         String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
     %>
     <tr>

@@ -37,7 +37,7 @@
     String objectType="gene";
     String displayName=obj.getSymbol();
 
-    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(),obj.getGeneSource());
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
 
     MapData md = new MapData();
