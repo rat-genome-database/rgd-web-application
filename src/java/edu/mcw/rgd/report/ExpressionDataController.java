@@ -68,7 +68,8 @@ public class ExpressionDataController implements Controller {
         if(level.equals("") || tissueId.equals("")) {
             geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");
         }
-        else geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGeneByTissue(obj.getRgdId(),"TPM",level,tissueId);
+        else geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGeneBySlim(obj.getRgdId(),"TPM",level,tissueId);
+
         HashMap<Integer,GeneExpressionRecord> geneExprRecMap = new HashMap<>();
         HashMap<Integer,Experiment> experimentMap = new HashMap<>();
         HashMap<Integer, edu.mcw.rgd.datamodel.pheno.Sample> sampleMap = new HashMap<>();
@@ -119,43 +120,46 @@ public class ExpressionDataController implements Controller {
                 Record record = new Record();
 
                 String age;
-                if(s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
-                     if(obj.getSpeciesTypeKey() == SpeciesType.HUMAN) {
-                        String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 280);
-                        String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 280);
-                        if (ageLow.equalsIgnoreCase(ageLow))
-                            age = ageLow + " days post conception";
-                        else {
-                            age = ageLow + " - " + ageHigh;
-                            age += " days post conception";
-                        }
-                    }else {
-                         String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 21);
-                         String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 23);
-                         if (ageLow.equalsIgnoreCase(ageLow))
-                             age = ageLow + " embryonic days";
-                         else {
-                             age = ageLow + " - " + ageHigh;
-                             age += " embryonic days";
-                         }
-                     }
-                }
+                if(s.getAgeDaysFromLowBound() == 0 && s.getAgeDaysFromHighBound() == 0)
+                    age = "not available";
                 else {
-                    if (s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0) {
-                        if (s.getAgeDaysFromLowBound() > 365)
-                            age = (s.getAgeDaysFromLowBound() / 365) + " years";
-                        else if (s.getAgeDaysFromLowBound() < 365 && s.getAgeDaysFromLowBound() > 30)
-                            age = (s.getAgeDaysFromLowBound() / 30) + " months";
-                        else age = s.getAgeDaysFromLowBound() + " days";
-                    }else {
-                        if (s.getAgeDaysFromLowBound() > 365 || s.getAgeDaysFromHighBound() > 365)
-                            age = String.valueOf(s.getAgeDaysFromLowBound()/365) + " - " + String.valueOf(s.getAgeDaysFromHighBound()/365) + " years";
-                        else if( (s.getAgeDaysFromLowBound() < 365 || s.getAgeDaysFromHighBound() < 365) && (s.getAgeDaysFromHighBound() > 30 || s.getAgeDaysFromLowBound() > 30))
-                            age = String.valueOf(s.getAgeDaysFromLowBound()/30) + " - " + String.valueOf(s.getAgeDaysFromHighBound()/30) + " months";
-                        else    age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+                    if (s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
+                        if (obj.getSpeciesTypeKey() == SpeciesType.HUMAN) {
+                            String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 280);
+                            String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 280);
+                            if (ageLow.equalsIgnoreCase(ageLow))
+                                age = ageLow + " days post conception";
+                            else {
+                                age = ageLow + " - " + ageHigh;
+                                age += " days post conception";
+                            }
+                        } else {
+                            String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 21);
+                            String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 23);
+                            if (ageLow.equalsIgnoreCase(ageLow))
+                                age = ageLow + " embryonic days";
+                            else {
+                                age = ageLow + " - " + ageHigh;
+                                age += " embryonic days";
+                            }
+                        }
+                    } else {
+                        if (s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0) {
+                            if (s.getAgeDaysFromLowBound() > 365)
+                                age = (s.getAgeDaysFromLowBound() / 365) + " years";
+                            else if (s.getAgeDaysFromLowBound() < 365 && s.getAgeDaysFromLowBound() > 30)
+                                age = (s.getAgeDaysFromLowBound() / 30) + " months";
+                            else age = s.getAgeDaysFromLowBound() + " days";
+                        } else {
+                            if (s.getAgeDaysFromLowBound() > 365 || s.getAgeDaysFromHighBound() > 365)
+                                age = String.valueOf(s.getAgeDaysFromLowBound() / 365) + " - " + String.valueOf(s.getAgeDaysFromHighBound() / 365) + " years";
+                            else if ((s.getAgeDaysFromLowBound() < 365 || s.getAgeDaysFromHighBound() < 365) && (s.getAgeDaysFromHighBound() > 30 || s.getAgeDaysFromLowBound() > 30))
+                                age = String.valueOf(s.getAgeDaysFromLowBound() / 30) + " - " + String.valueOf(s.getAgeDaysFromHighBound() / 30) + " months";
+                            else
+                                age = String.valueOf(s.getAgeDaysFromLowBound()) + " - " + String.valueOf(s.getAgeDaysFromHighBound()) + " days";
+                        }
                     }
                 }
-
                 if(s.getStrainAccId() != null && !s.getStrainAccId().isEmpty()) {
                     Term term = xdao.getTermByAccId(s.getStrainAccId());
                     if(term != null)
