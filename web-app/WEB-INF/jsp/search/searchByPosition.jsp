@@ -65,7 +65,7 @@ background-color: #daeffc;
         <table>
             <tr><td>
             <label for="species" style="color: #24609c; font-weight: bold;">Select a species:</label>
-            <select id="species" name="species" v-model="species" onchange="v.setMaps(species)">
+            <select id="species" name="species" v-model="species" onchange="v.setMaps(species,source)">
                 <option value="3" selected="true">Rat</option>
                 <option  value="2">Mouse</option>
                 <option  value="1">Human</option>
@@ -77,11 +77,19 @@ background-color: #daeffc;
             </select>
             </td>
                 <td>
-                <label for="mapKey" style="color: #24609c; font-weight: bold;">Assembly:</label>
-                <select id="mapKey" name="mapKey" v-model="mapKey">
-                    <option v-for="value in maps" :value="value.key">{{value.name}}</option>
-                </select>
+                    <label for="source" style="color: #24609c; font-weight: bold;">Source:</label>
+                    <select id="source" name="source" v-model="source" onchange="v.setMaps(species,source)">
+                        <option>NCBI</option>
+                        <option>Ensembl</option>
+                    </select>
                 </td>
+                <td>
+                    <label for="mapKey" style="color: #24609c; font-weight: bold;">Assembly:</label>
+                    <select id="mapKey" name="mapKey" v-model="mapKey">
+                        <option v-for="value in maps" :value="value.key">{{value.name}}</option>
+                    </select>
+                </td>
+
     <td>
 
         <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome:</label>
@@ -221,6 +229,7 @@ host = 'https://dev.rgd.mcw.edu';
             maps: [],
             chromosomes: [],
             species: 3,
+            source: "NCBI",
             chr: 1,
             mapKey: "Rnor_6.0",
             geneData: {},
@@ -245,11 +254,14 @@ host = 'https://dev.rgd.mcw.edu';
                 stop = Number(stop);
                 var mapKey = document.getElementById('mapKey').value;
 
+                v.qtls = false;
+                v.sslps = false;
+                v.genes= false;
                 axios
                         .get(this.hostName + '/rgdws/genes/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
                             v.geneData = response.data;
-                            if(v.geneData.size != 0) {
+                            if(v.geneData.length != 0) {
                                 v.geneCount = v.geneData.length;
                                 v.genes = true;
                             }
@@ -260,7 +272,7 @@ host = 'https://dev.rgd.mcw.edu';
                         .get(this.hostName + '/rgdws/qtls/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
                             v.qtlData = response.data;
-                            if(v.qtlData.size != 0) {
+                            if(v.qtlData.length != 0) {
                                 v.qtlCount = v.qtlData.length;
                                 v.qtls = true;
                             }
@@ -271,7 +283,7 @@ host = 'https://dev.rgd.mcw.edu';
                         .get(this.hostName + '/rgdws/sslps/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
                             v.sslpData = response.data;
-                            if(v.sslpData.size != 0) {
+                            if(v.sslpData.length != 0) {
                                 v.sslpCount = v.sslpData.length;
                                 v.sslps = true;
                             }
@@ -279,13 +291,15 @@ host = 'https://dev.rgd.mcw.edu';
                     console.log(error)
                 });
             },
-            setMaps: function(species) {
+            setMaps: function(species,source) {
                 var mapKey = 0;
                 v.maps = [];
                 if(species != this.species )
                     species = species.options[species.selectedIndex].value;
+                if(source != this.source )
+                    source = source.options[source.selectedIndex].value;
                 axios
-                        .get(this.hostName + '/rgdws/maps/'+species)
+                        .get(this.hostName + '/rgdws/maps/'+species+'/'+source)
                         .then(function (response) {
                             v.maps = (response.data);
                             mapKey = v.maps[0].key;
@@ -306,6 +320,10 @@ host = 'https://dev.rgd.mcw.edu';
                         }).catch(function (error) {
                     console.log(error)
                 });
+            },
+            setSource: function(mapKey) {
+                if(mapKey != this.mapKey )
+                    mapKey = mapKey.options[mapKey.selectedIndex].value;
             },
             download: function(objType) {
               
@@ -339,7 +357,8 @@ host = 'https://dev.rgd.mcw.edu';
         }
     });
     v.species = 3;
-    v.setMaps(3);
+    v.source='NCBI';
+    v.setMaps(3,"NCBI");
 </script>
 <%@ include file="/common/footerarea.jsp"%>
 
