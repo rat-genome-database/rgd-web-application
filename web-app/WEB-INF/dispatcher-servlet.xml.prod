@@ -162,6 +162,7 @@
                  <prop key="models/references.html">ReferencesController</prop>
                  <prop key="models/allModels.html">AllModelsController</prop>
 
+                    <prop key="models/findModels.html">findModelsController</prop>
 
                  <prop key="elasticResults.html">ElasticSearchController</prop>
                     <prop key="autocompleteList.html">AutocompleteListController</prop>
@@ -354,6 +355,8 @@
      <bean id="GeneticModelsController" class="edu.mcw.rgd.models.GeneticModelsController"/>
      <bean id="ReferencesController" class="edu.mcw.rgd.models.ReferencesController"/>
      <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
+
+    <bean id="findModelsController" class="edu.mcw.rgd.models.FindModelsController"/>
 
     <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
     <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
