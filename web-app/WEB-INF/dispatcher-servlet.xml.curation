@@ -230,6 +230,8 @@
                 <prop key="models/allModels.html">AllModelsController</prop>
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>
 
+                <prop key="models/findModels.html">findModelsController</prop>
+
                 <prop key="phenominer/table.html">PivotTableController</prop>
                 <prop key="phenominer/ontChoices.html">OntChoicesController</prop>
                 <prop key="phenominer/selectTerms.html">SelectTermsController</prop>
@@ -477,6 +479,8 @@
     <bean id="ReferencesController" class="edu.mcw.rgd.models.ReferencesController"/>
     <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
 <bean id="gerrcModelsDownloadController" class="edu.mcw.rgd.models.DownloadController"/>
+
+ <bean id="findModelsController" class="edu.mcw.rgd.models.FindModelsController"/>
 
     <bean id="EditHomePageController" class="edu.mcw.rgd.edit.submittedStrains.EditHomePageController"/>
     <bean id="SubmittedStrainsPage" class="edu.mcw.rgd.edit.submittedStrains.SubmittedStrainsPageController"/>
