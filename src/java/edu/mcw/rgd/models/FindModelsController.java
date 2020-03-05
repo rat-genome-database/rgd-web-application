@@ -37,7 +37,7 @@ public class FindModelsController implements Controller {
         String aspect=req.getParameter("models-aspect");
         String qualifier=req.getParameter("qualifier");
         String term=req.getParameter("models-search-term");
-        System.out.println("ASPECT:"+aspect);
+    //    System.out.println("ASPECT:"+aspect);
         if(!Objects.equals(term, "")){
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
@@ -70,7 +70,7 @@ public class FindModelsController implements Controller {
             query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
         if(!qualifier.equals("") && !qualifier.equals("all")){
-            System.out.print("QUALIFIER:"+ qualifier);
+          //  System.out.print("QUALIFIER:"+ qualifier);
             query.filter(QueryBuilders.termQuery("qualifier.keyword", qualifier));
         }
 
@@ -88,7 +88,7 @@ public class FindModelsController implements Controller {
                 aggregations.put("qualifiers", modelsAgg.getBuckets());
             }
             hitsCount= (int) sr.getHits().getTotalHits().value;
-            System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
+         //   System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());
 
         }
