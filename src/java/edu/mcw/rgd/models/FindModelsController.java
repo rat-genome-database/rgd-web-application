@@ -61,8 +61,9 @@ public class FindModelsController implements Controller {
         SearchSourceBuilder srb=new SearchSourceBuilder();
 
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
-        qb.add(QueryBuilders.termQuery("term", term).boost(100));
-        qb.add(QueryBuilders.termQuery("parentTerms.term", term));
+        qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
+        qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
+        qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
         BoolQueryBuilder query= new BoolQueryBuilder();
         query.must(qb);
         if(!aspect.equals("")){
