@@ -96,7 +96,6 @@
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/jbrowseScreen.png" border="0" /></span>
             </div>
         </td>
-
         <td>
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
                 <div class="headerCardOverlay" onclick="location.href='/rgdweb/front/config.html'">.</div>
@@ -106,17 +105,25 @@
 
         </td>
 
-
         <td>
-            <div class="headerCard" style="width: 200px;;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/cytoscape/query.html'">.</div>
-                <div class="headerCardTitle">Interviewer<br><span class="headerSubTitle">Protein-Protein Interactions</span></div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/interviewerScreen.png"  border="0" /></span>
+            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/genomeInformation/genomeInformation.html'">.</div>
+                <div class="headerCardTitle">Genome Information</div>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/genomeInformationScreen.png"   border="0" /></span>
             </div>
 
         </td>
+
     </tr>
     <tr>
+        <td>
+            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/generator/list.html'">.</div>
+                <div class="headerCardTitle">OLGA<br><span class="headerSubTitle">Gene List Generator</span></div>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/olgaScreen.png"  border="0" /></span>
+            </div>
+
+        </td>
         <td>
             <div class="headerCard" style="width: 200px;margin-right: 2%;text-align: center;padding-top:1%">
                 <div class="headerCardOverlay" onclick="location.href='/wg/portals/'">.</div>
@@ -125,6 +132,15 @@
             </div>
 
         </td>
+        <td>
+            <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/phenominerExpectedRanges/views/home.html'">.</div>
+                <div class="headerCardTitle">Phenotypes and Models</div>
+                <img class="headerCardImage" src="/rgdweb/common/images/expected.png"  border="0" />
+            </div>
+        </td>
+    </tr>
+    <tr>
         <td>
             <div class="headerCard"  style="width: 200px;;margin-right: 2%;;text-align: center;padding-top:1%;">
                 <div class="headerCardOverlay" onclick="location.href='/rgdweb/enrichment/start.html'">.</div>
@@ -141,33 +157,17 @@
             </div>
 
         </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/generator/list.html'">.</div>
-                <div class="headerCardTitle">OLGA<br><span class="headerSubTitle">Gene List Generator</span></div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/olgaScreen.png"  border="0" /></span>
-            </div>
-
-        </td>
-
         <td>
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
                 <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/home.jsp'">.</div>
-                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Quantitative Phenotypes</span></div>
+                <div class="headerCardTitle">GA Tool<br><span class="headerSubTitle">Gene Annotator</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/phenominerScreen.png"  border="0" /></span>
             </div>
 
         </td>
-        <td>
-            <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/phenominerExpectedRanges/views/home.html'">.</div>
-                <div class="headerCardTitle">PhenoMiner<br><span class="headerSubTitle">Expected Ranges</span></div>
-                <img class="headerCardImage" src="/rgdweb/common/images/expected.png"  border="0" />
-            </div>
-        </td>
     </tr>
+
+
     <tr>
         <td>
             <div class="headerCard"  style="width: 200px;;margin-right: 2%;;text-align: center;padding-top:1%;" >
@@ -178,13 +178,13 @@
 
         </td>
         <td>
-            <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/genomeInformation/genomeInformation.html'">.</div>
-                <div class="headerCardTitle">Genome Information</div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/genomeInformationScreen.png"   border="0" /></span>
+            <div class="headerCard" style="width: 200px;;margin-right: 2%;text-align: center;padding-top:1%">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/cytoscape/query.html'">.</div>
+                <div class="headerCardTitle">Interviewer<br><span class="headerSubTitle">Protein-Protein Interactions</span></div>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/interviewerScreen.png"  border="0" /></span>
             </div>
-
         </td>
+
         <td>
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
                 <div class="headerCardOverlay" onclick="location.href='http://ratmine.mcw.edu/ratmine/begin.do'">.</div>

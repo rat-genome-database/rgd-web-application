@@ -95,20 +95,6 @@
     }
 </style>
 
-<!--
-<style>
-    @font-face{
-        font-family: 'freshbotregular';
-        src: url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.eot');
-        src: url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont?#iefix') format('embedded-opentype'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.woff') format('woff'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.ttf') format('truetype'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.svg#webfont') format('svg');
-    }
-</style>
--->
-<!--<link rel="stylesheet" href="/rgdweb/common/font/freshbot/stylesheet.css" type="text/css" charset="utf-8" />-->
-
 <style>
     @font-face {
         font-family: 'freshbotregular';
@@ -140,30 +126,94 @@
 
 
 
-
-
-<div class=container-fluid" >
-    <div class="container" >
-        <div class="row">
-          <div class="col-sm"  style="background-color: white;margin-bottom:5px">
-              <div class="row">
-
-              <jsp:include page="popularSearches.jsp"/>
-              <jsp:include page="popularTools.jsp"/>
-                  <jsp:include page="conferences.jsp"/>
-                  <jsp:include page="news.jsp"/>
+<table align="center">
+    <tr>
+        <td valign="center">
+            <table border="0">
+                <tr>
+                    <!--<td><span style="font-family: 'Marcellus SC', serif;font-size:14px;">Species Specific Portals</span></td>-->
+                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px;">Species Specific Portals</span></td>
+                </tr>
+                <tr>
+                    <td><img src="/rgdweb/common/images/blueArrow.png" border=0></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/'">
+                <div style="margin:5px; font-weight:700;">Human</div>
             </div>
-          </div>
-           <div class="col" >
-               <jsp:include page="carosel.jsp"/>
-               <jsp:include page="twitter.jsp"/>
-               <jsp:include page="tutorials.jsp"/>
-           </div>
-        </div>
-    </div>
+            <img src="/rgdweb/common/images/species/humanI.png"  border="0"  class="speciesIcon"/>
+        </td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mouse'">
+                <div style="margin:5px; font-weight:700;">Mouse</div>
+            </div>
+            <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/chinchilla'">
+                <div style="margin:3px; font-weight:700;">Chinchilla</div>
+
+            </div>
+            <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/dog'">
+                <div style="margin:5px; font-weight:700;">Domestic Dog</div>
+            </div>
+            <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/>
+
+        </td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'">
+                <div style="margin:5px; font-weight:700;">Thirteen Lined Ground Squirrel</div>
+            </div>
+            <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/>
+        </td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/bonobo'">
+                <div style="margin:5px; font-weight:700;">Bonobo</div>
+            </div>
+            <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/pig'">
+                <div style="margin:5px; font-weight:700;">Domestic Pig</div>
+            </div>
+            <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mole-rat'">
+                <div style="margin:5px; font-weight:700;">Naked Mole Rat</div>
+            </div>
+            <img src="/rgdweb/common/images/species/mole-ratI.png"  border="0" class="speciesIcon" /></td>
+        <td>
+            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/green-monkey'">
+                <div style="margin:5px; font-weight:700;">African Green Monkey</div>
+            </div>
+            <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
+    </tr>
+</table>
 
 
 
 
-</div>
+
+<table align="center" cellspacing="5" cellpadding="5">
+    <tr>
+        <td width="780">
+            <jsp:include page="popularSearches.jsp"/>
+            <jsp:include page="popularTools.jsp"/>
+            <jsp:include page="news.jsp"/>
+            <jsp:include page="conferences.jsp"/>
+
+        </td>
+        <td valign="top">
+            <br>
+            <jsp:include page="carosel.jsp"/>
+            <jsp:include page="twitter.jsp"/>
+            <jsp:include page="tutorials.jsp"/>
+
+        </td>
+    </tr>
+</table>
+
+
 <%@ include file="/common/footerarea.jsp"%>

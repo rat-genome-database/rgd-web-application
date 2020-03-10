@@ -6,8 +6,8 @@
 
 
 
-<div style="background-color:#eaf2f8;"  >
-    <table align="center" border="0">
+<div style="background-color:#eaf2f8;margin:12px;"  >
+    <table align="center" border="0" width="650">
         <tr>
             <td>
                 <div class="searchCard" onclick="location.href='/rgdweb/search/genes.html'">Genes</div>
@@ -36,7 +36,7 @@
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='/wg/data-menu/'"><p style="margin-top:15px;">Genetic<br>Models</p></div>
+                <div class="searchCard" onclick="location.href='/plf/plfRGD/?module=searchByPosition&func=form'"><p style="margin-top:15px;">Genomic<br>Region</p></div>
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
