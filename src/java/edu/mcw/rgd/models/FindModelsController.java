@@ -44,7 +44,7 @@ public class FindModelsController implements Controller {
             searchHits= this.getModels(term, aspect,qualifier);
             model.put("term", term);
             model.put("aspect", aspect);
-            model.put("qualfiier", qualifier);
+            model.put("qualifier", qualifier);
             model.put("aggregations", aggregations);
             model.put("searchHits", searchHits);
             model.put("hitsCount", hitsCount);
@@ -82,10 +82,18 @@ public class FindModelsController implements Controller {
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
-            Terms modelsAgg;
+            System.out.println(sr.getHits().getTotalHits());
+            Terms aspectAgg;
             if(sr.getAggregations()!=null){
-                modelsAgg=sr.getAggregations().get("qualifier");
-                aggregations.put("qualifiers", modelsAgg.getBuckets());
+                aspectAgg=sr.getAggregations().get("aspect");
+                aggregations.put("aspectAgg", aspectAgg.getBuckets());
+                for( Terms.Bucket bkt: aspectAgg.getBuckets()){
+                    Terms modelsAgg=   bkt.getAggregations().get("qualifier");
+                    System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
+                    aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
+                }
+              /*  modelsAgg=sr.getAggregations().get("qualifier");
+                aggregations.put("qualifiers", modelsAgg.getBuckets());*/
             }
             hitsCount= (int) sr.getHits().getTotalHits().value;
          //   System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
@@ -95,7 +103,10 @@ public class FindModelsController implements Controller {
         return hitsList;
     }
     public AggregationBuilder getAggregations(){
-        return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
+      //  return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
+
+        return AggregationBuilders.terms("aspect").field("aspect.keyword")
+                .subAggregation(AggregationBuilders.terms("qualifier").field("qualifier.keyword"));
 
     }
 }
