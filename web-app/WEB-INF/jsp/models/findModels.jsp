@@ -131,26 +131,6 @@
     </div>
 </div>
 
-<script>
-    $(function () {
-        var qbinput=$('#qb-ac-input');
-        $(qbinput).autocomplete();
-        /*$(qbinput).autocomplete('https://rgd.mcw.edu/OntoSolr/select', {
-         extraParams:{
-         'qf': 'term_en^5 term_str^3 term^3 term_ws^2 synonym_en^4.5  synonym_str^2 synonym^2 def^1',
-         'fq': 'NOT cat:(CUSTOM HP MP)',
-         'wt': 'velocity',
-         'bf': 'term_len_l^.01',
-         'v.template': 'termmatch1',
-         'cacheLength': 0
-         },
-         max:20
-         });*/
-        $(qbinput).focus(function(){$(qbinput).attr("autocomplete","off");});
-        $(qbinput).focusout(function(){$(qbinput).attr("autocomplete","on");});
-    });
 
-
-</script>
 
 <%@ include file="/common/footerarea.jsp"%>
