@@ -13,6 +13,7 @@
         <th>Model</th>
         <th>Model RGD ID</th>
         <th>Species</th>
+        <th>Model Type</th>
         <th>Evidence Code</th>
         <th>Disease/Phenotype</th>
     </tr>
@@ -24,6 +25,7 @@
                 <td><a href="/rgdweb/report/strain/main.html?id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().annotatedObjectSymbol}</a></td>
                 <td>${hit.getSourceAsMap().annotatedObjectRgdId}</td>
                 <td>${hit.getSourceAsMap().species}</td>
+                <td>${hit.getSourceAsMap().qualifier}</td>
                 <td>${hit.getSourceAsMap().evidenceCode}</td>
                 <td>${hit.getSourceAsMap().term} &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                 </td>
