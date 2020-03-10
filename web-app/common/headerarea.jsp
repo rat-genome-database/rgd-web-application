@@ -98,7 +98,27 @@
         text-decoration:underline;
         ont-weight:700;
     }
+
+     .speciesCardOverlay {
+         position:absolute;
+         background-color:#2865a3;
+         minWidth:63px;
+         width:63px;
+         height:63px;
+         z-index:30;
+         opacity:0;
+     }
+
+    .speciesCardOverlay:hover {
+        opacity:.9;
+        cursor:pointer;
+        color:white;
+
+    }
+
 </style>
+
+<link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
 
 <body  ng-cloak ng-app="rgdPage">
@@ -205,22 +225,6 @@
                                     <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
                                         <i class="fa fa-caret-down"></i>
                                     </button>
-<!--
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdCuration/?module=portal&func=show&name=aging">Aging & Age-Related Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cancer">Cancer</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=cardio">Cardiovascular Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=develop">Developmental Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=diabetes">Diabetes</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=blood">Hematologic Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=immune">Immune & Inflammatory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=nuro">Neurological Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=obesity">Obesity & Metabolic Syndrome</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=renal">Renal Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=respir">Respiratory Disease</a>
-                                        <a href="/rgdCuration/?module=portal&func=show&name=sensory">Sensory Organ Disease</a>
-                                    </div>
--->
                                     <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
@@ -355,7 +359,14 @@
                 }
             </script>
 
-        </td></tr>
+        </td>
+    </tr>
+    <tr>
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
+        <td colspan=1 align="right" width="100%">
+
+        </td>
+    </tr>
 </table>
 
     <%
