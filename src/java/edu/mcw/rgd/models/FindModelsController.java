@@ -44,7 +44,7 @@ public class FindModelsController implements Controller {
             searchHits= this.getModels(term, aspect,qualifier);
             model.put("term", term);
             model.put("aspect", aspect);
-            model.put("qualfiier", qualifier);
+            model.put("qualifier", qualifier);
             model.put("aggregations", aggregations);
             model.put("searchHits", searchHits);
             model.put("hitsCount", hitsCount);

@@ -1,5 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h1>${model.hitsCount} Results</h1>
+<h1>${model.hitsCount} results for term "${model.term}
+    <c:if test="${model.aspect=='D'}">
+Disease
+    </c:if>
+    <c:if test="${model.aspect=='N'}">
+       Phenotype
+    </c:if>
+    ${model.qualifier}"</h1>
 <table class="table">
     <thead>
     <tr>
