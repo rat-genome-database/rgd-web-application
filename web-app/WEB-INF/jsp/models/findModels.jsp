@@ -46,7 +46,7 @@
                                 </button>
                             </div>
                         </div>
-                        <small class="form-text text-muted">Examples: <a href="" target="_blank">Hypertension</a>, <a href="" target="_blank">Cancer</a></small>
+                        <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a></small>
                     </div>
                 </div>
             </div>
