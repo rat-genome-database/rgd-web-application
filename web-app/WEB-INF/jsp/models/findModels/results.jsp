@@ -10,9 +10,28 @@
         <p>&nbsp;</p>
         <p><a onclick="searchByQualifier('${model.term}','${model.aspect}', 'all')" style="cursor: hand;text-decoration: underline">All (${model.hitsCount})</a></p>
         <ul>
-        <c:forEach items="${model.aggregations.qualifiers}" var="qualifier">
+        <c:forEach items="${model.aggregations.aspectAgg}" var="aspect">
 
-            <li style="padding: 5px"><a  onclick="searchByQualifier('${model.term}','${model.aspect}', '${qualifier.key}')" style="cursor: hand;text-decoration: underline">${qualifier.key} (${qualifier.docCount})</a></li>
+            <li style="padding: 5px"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
+            <c:if test="${aspect.key=='D'}">
+            Disease (${aspect.docCount})</a>
+                <ul>
+                <c:forEach items="${model.aggregations.D}" var="dm">
+                    <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
+                </c:forEach>
+                </ul>
+            </c:if>
+
+            <c:if test="${aspect.key=='N'}">
+                Phenotype (${aspect.docCount})</a>
+                <ul>
+                    <c:forEach items="${model.aggregations.N}" var="pm">
+                        <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
+                    </c:forEach>
+                </ul>
+            </c:if>
+            </li>
+
             <!--href="findModels.html?qualifier=$-{qualifier.key}&models-search-term=$-{model.term}&models-aspect=$-{model.aspect}"-->
         </c:forEach>
         </ul>
