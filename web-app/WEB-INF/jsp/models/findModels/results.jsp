@@ -6,7 +6,7 @@
 
 <div class="container-fluid row">
     <div class="col-md-2" style="border-right: 1px solid gainsboro">
-      <div class="container-fluid" style="background-color: dodgerblue; width:100%;color:white;font-size: medium;font-weight: bold">Filter by Qualifier</div>
+      <div class="container-fluid" style="background-color: dodgerblue; width:100%;color:white;font-size: medium;font-weight: bold">Filter by Model Type</div>
         <p>&nbsp;</p>
         <p><a onclick="searchByQualifier('${model.term}','${model.aspect}', 'all')" style="cursor: hand;text-decoration: underline">All (${model.hitsCount})</a></p>
         <ul>
