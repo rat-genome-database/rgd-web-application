@@ -6,7 +6,7 @@
     <hr>
     <p>
         <a href="https://www.youtube.com/watch?v=cONcdQr4OmY"><img src="http://localhost:8080/rgdweb/common/images/social/youtube-20.png" /></a>
-        &nbsp;&nbsp;<a href="http://localhost:8080/rgdweb/common/images/social/youtube-20.png" style="font-weight: bold;color: #24609c;text-decoration:none;">JBrowse Genome Browser</a>
+        &nbsp;&nbsp;<a href="https://www.youtube.com/watch?v=cONcdQr4OmY" style="font-weight: bold;color: #24609c;text-decoration:none;">JBrowse Genome Browser</a>
     </p>
     <p>
         <a href="https://www.youtube.com/watch?v=3EUaurjK7u8&list=PLBD6hGqefQVkBpf1YCQDFxjhLHssro_6a"><img src="http://localhost:8080/rgdweb/common/images/social/youtube-20.png" /></a>
