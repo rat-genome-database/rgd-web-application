@@ -5,6 +5,7 @@ import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 
@@ -178,7 +179,7 @@ public class  MapDataFormatter {
                 // NCBI links
                 ret.append("<td>");
                // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
-                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map.getName());
+                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map!=null ? map.getName() : "?");
                 ret.append("</td>");
 
                 // UCSC links
@@ -305,7 +306,7 @@ public class  MapDataFormatter {
                 db = "data_pig11_1"; link = "Sscrofa11.1";
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
-                break;
+                break;g
             case 910:
                 db = "data_pig10_2"; link = "Sscrofa10.2";
                 break;
@@ -357,8 +358,7 @@ public class  MapDataFormatter {
     }
     static void generateNcbiGDVLink(StringBuilder buf, int objectKey, MapData md, String objectSymbol, java.util.Map<Integer, String> refSeqAccIdsMap, String mapName) {
         int mapKey= md.getMapKey();
-        String refSeqAccId= refSeqAccIdsMap.get(mapKey);
-        String url=refSeqAccId+"&cpmtext=genome&chr="+md.getChromosome()+"&q="+ objectSymbol;
+        String refSeqAccId = refSeqAccIdsMap.get(mapKey);
         if(refSeqAccId!=null) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId).append("&chr=").append(md.getChromosome())
