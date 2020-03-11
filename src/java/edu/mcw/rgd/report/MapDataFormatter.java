@@ -5,7 +5,6 @@ import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 
@@ -306,7 +305,7 @@ public class  MapDataFormatter {
                 db = "data_pig11_1"; link = "Sscrofa11.1";
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
-                break;g
+                break;
             case 910:
                 db = "data_pig10_2"; link = "Sscrofa10.2";
                 break;
