@@ -117,13 +117,10 @@ public class OntBrowser extends SimpleTagSupport {
 
     private String generateHeader() {
 
-        System.out.println("in generate Header");
-
         int diagramCount = 0; // set only in diagram mode
         String termName = "";
         TermWithStats ts = (TermWithStats)bean.getTerm();
         String annotMsg = "";
-        System.out.println("TermWithStats = " + ts);
         if( ts!=null) {
             diagramCount = ts.getDiagramCount(1);
             termName = ts.getTerm();
