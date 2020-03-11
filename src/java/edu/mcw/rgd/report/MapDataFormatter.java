@@ -175,7 +175,7 @@ public class MapDataFormatter {
                 // NCBI links
                 ret.append("<td>");
                 // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
-                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map.getName());
+                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, (map!=null ? map.getName() : ""));
                 ret.append("</td>");
 
                 // UCSC links
