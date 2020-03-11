@@ -79,6 +79,31 @@
         color:white;
 
     }
+
+     a {
+         color:#0C1D2E;
+         olor:#073C66;
+         text-decoration:underline;
+         ont-weight:700;
+     }
+
+    .speciesCardOverlay {
+        position:absolute;
+        background-color:#2865a3;
+        minWidth:63px;
+        width:63px;
+        height:63px;
+        z-index:30;
+        opacity:0;
+    }
+
+    .speciesCardOverlay:hover {
+        opacity:.9;
+        cursor:pointer;
+        color:white;
+
+    }
+
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC&display=swap" rel="stylesheet">
