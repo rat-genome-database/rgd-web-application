@@ -111,6 +111,9 @@ public class  MapDataFormatter {
         }
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
+            if( map==null ) {
+                map = new MapDAO().getMap(mdObj.getMapKey());
+            }
 			if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
