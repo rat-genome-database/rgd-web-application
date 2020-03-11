@@ -46,9 +46,6 @@
         padding-bottom:3px;
     }
 
-
-
-
 </style>
 
 <style>
@@ -165,7 +162,7 @@
         </td>
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'">
-                <div style="margin:5px; font-weight:700;">Thirteen Lined Ground Squirrel</div>
+                <div style="margin:5px; font-weight:700;font-size:11px;">Thirteen Lined Ground Squirrel</div>
             </div>
             <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/>
         </td>
