@@ -18,7 +18,7 @@ import java.util.List;
  * User: jdepons
  * Date: Jun 9, 2011
  */
-public class  MapDataFormatter {
+public class MapDataFormatter {
 
     public static String buildTable(int rgdId, int speciesTypeKey) throws Exception{
         return buildTable(rgdId, speciesTypeKey, 0);
@@ -55,7 +55,7 @@ public class  MapDataFormatter {
         final MapManager mm = MapManager.getInstance();
 
         Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-       java.util.Map refSeqAccMap=mm.getReqSeqAccIdMap();
+        java.util.Map refSeqAccMap=mm.getReqSeqAccIdMap();
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
         // sort map data by order specified in the database
@@ -96,7 +96,7 @@ public class  MapDataFormatter {
             }
             ret.append("</tr>");
         }
-      List<String> activeMapChr=new ArrayList<>();
+        List<String> activeMapChr=new ArrayList<>();
         for(MapData mdObj: mapData){
             Map map= mm.getMap(mdObj.getMapKey());
             if( map==null ) {
@@ -112,7 +112,7 @@ public class  MapDataFormatter {
         }
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-			if( map==null ) {
+            if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
             }
@@ -144,9 +144,9 @@ public class  MapDataFormatter {
 
             if (map!=null && map.getUnit().equals("bp")) {
                 ret.append("<td>")
-                   .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                   .append("&nbsp;-&nbsp;")
-                   .append(FormUtility.formatThousands(mdObj.getStopPos()));
+                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                        .append("&nbsp;-&nbsp;")
+                        .append(FormUtility.formatThousands(mdObj.getStopPos()));
                 if( mdObj.getStrand()!=null ) {
                     ret.append(" (").append(mdObj.getStrand()).append(")");
                 }
@@ -167,18 +167,15 @@ public class  MapDataFormatter {
             ret.append("<td>").append(src).append("</td>");
 
             // JBrowse links
-            if( objectKey==RgdId.OBJECT_KEY_QTLS ||
-                    objectKey==RgdId.OBJECT_KEY_SSLPS ||
-                    objectKey==RgdId.OBJECT_KEY_STRAINS || objectKey==RgdId.OBJECT_KEY_GENES ) {
-                ret.append("<td>");
-                generateJBrowseLink(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
+            ret.append("<td>");
+            generateJBrowseLink(ret, objectKey, mdObj);
+            ret.append("</td>");
+
             if( objectKey==RgdId.OBJECT_KEY_GENES ) {
                 // NCBI links
                 ret.append("<td>");
-               // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
-                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map!=null ? map.getName() : "?");
+                // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
+                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map.getName());
                 ret.append("</td>");
 
                 // UCSC links
@@ -229,22 +226,12 @@ public class  MapDataFormatter {
             case 38: // human build 38
                 db = "data_hg38"; link = "GRCh38";
                 break;
-            case 40: // human build 38
-                db = "data_hg38"; link = "GRCh38";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
-                break;
 
             case 18: // mouse build 37
                 db = "data_mm37"; link = "GRCm37";
                 break;
             case 35: // mouse build 38
                 db = "data_mm38"; link = "GRCm38";
-                break;
-            case 39: // mouse build 38
-                db = "data_mm38"; link = "GRCm38";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
                 break;
 
             case 60: // RGSC 3.4
@@ -256,55 +243,25 @@ public class  MapDataFormatter {
             case 360: // Rnor6.0
                 db = "data_rgd6"; link = "Rnor6.0";
                 break;
-            case 361: // Rnor6.0
-                db = "data_rgd6"; link = "Rnor6.0";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
-                break;
 
             case 44: // chinchilla
                 db = "data_cl1_0"; link = "ChiLan1.0";
-                break;
-            case 45: // chinchilla
-                db = "data_cl1_0"; link = "ChiLan1.0";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
                 break;
 
             case 511: // panpan1.1
                 db = "data_bonobo1_1"; link = "panpan1.1";
                 break;
-            case 512: // panpan1.1
-                db = "data_bonobo1_1"; link = "panpan1.1";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
-                break;
 
             case 631: // CanFam3.1
                 db = "data_dog3_1"; link = "CanFam3.1";
-                break;
-            case 632: // CanFam3.1
-                db = "data_dog3_1"; link = "CanFam3.1";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
                 break;
 
             case 720: // SpeTri2.0
                 db = "data_squirrel2_0"; link = "SpeTri2.0";
                 break;
-            case 721: // SpeTri2.0
-                db = "data_squirrel2_0"; link = "SpeTri2.0";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
-                break;
 
             case 911: // PIG
                 db = "data_pig11_1"; link = "Sscrofa11.1";
-                break;
-            case 912: // PIG
-                db = "data_pig11_1"; link = "Sscrofa11.1";
-                if( track != null && track.equals("ARGD_curated_genes"))
-                    track = "Ensembl_genes";
                 break;
             case 910:
                 db = "data_pig10_2"; link = "Sscrofa10.2";
@@ -313,9 +270,9 @@ public class  MapDataFormatter {
 
         if( db!=null && track!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse/index.html?data=")
-                .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
-                .append(FormUtility.getJBrowseLoc(md))
-            .append("\">").append(link).append("</a>");
+                    .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
+                    .append(FormUtility.getJBrowseLoc(md))
+                    .append("\">").append(link).append("</a>");
         }
     }
 
@@ -357,7 +314,8 @@ public class  MapDataFormatter {
     }
     static void generateNcbiGDVLink(StringBuilder buf, int objectKey, MapData md, String objectSymbol, java.util.Map<Integer, String> refSeqAccIdsMap, String mapName) {
         int mapKey= md.getMapKey();
-        String refSeqAccId = refSeqAccIdsMap.get(mapKey);
+        String refSeqAccId= refSeqAccIdsMap.get(mapKey);
+        String url=refSeqAccId+"&cpmtext=genome&chr="+md.getChromosome()+"&q="+ objectSymbol;
         if(refSeqAccId!=null) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId).append("&chr=").append(md.getChromosome())
@@ -379,7 +337,6 @@ public class  MapDataFormatter {
                 case 17: // human build 37
                     db = "hg19";
                     break;
-                case 40:
                 case 38: // human build 38
                     db = "hg38";
                     break;
@@ -390,8 +347,7 @@ public class  MapDataFormatter {
                 case 18: // mouse build 37
                     db = "mm9";
                     break;
-                case 35:
-                case 39:// mouse build 38
+                case 35: // mouse build 38
                     db = "mm10";
                     break;
 
@@ -401,21 +357,15 @@ public class  MapDataFormatter {
                 case 70: // Rnor5.0
                     db = "rn5";
                     break;
-                case 360:
-                case 361: // Rnor6.0
+                case 360: // Rnor6.0
                     db = "rn6";
                     break;
 
-                case 511:
-                case 512:// bonobo
-                    db = "panPan2";
-                    break;
                 case 510: // bonobo
                     db = "panPan1";
                     break;
 
-                case 631:
-                case 632:// dog CanFam3.1
+                case 631: // dog CanFam3.1
                     db = "canFam3";
                     break;
 
@@ -423,7 +373,6 @@ public class  MapDataFormatter {
                     db = "susScr3";
                     break;
                 case 911:
-                case 912:
                     db = "susScr11";
                     break;
             }
@@ -451,8 +400,7 @@ public class  MapDataFormatter {
                     db = "http://grch37.ensembl.org/Homo_sapiens/Location/View?r=";
                     link = "GRCh37";
                     break;
-                case 38:
-                case 40:// human build 38
+                case 38: // human build 38
                     db = "http://useast.ensembl.org/Homo_sapiens/Location/View?r=";
                     link = "GRCh38";
                     break;
@@ -461,8 +409,7 @@ public class  MapDataFormatter {
                     db = "http://may2012.archive.ensembl.org/Mus_musculus/Location/View?r=";
                     link = "NCBIm37";
                     break;
-                case 35:
-                case 39: // mouse build 38
+                case 35: // mouse build 38
                     db = "http://useast.ensembl.org/Mus_musculus/Location/View?r=";
                     link = "GRCm38";
                     break;
@@ -475,14 +422,12 @@ public class  MapDataFormatter {
                     db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link = "Rnor5.0";
                     break;
-                case 360:
-                case 361:// Rnor6.0
+                case 360: // Rnor6.0
                     db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link = "Rnor6.0";
                     break;
 
-                case 631:
-                case 632:// CanFam3.1
+                case 631: // CanFam3.1
                     db = "http://useast.ensembl.org/Canis_familiaris/Location/View?r=";
                     link = "CanFam3.1";
                     break;
@@ -492,8 +437,7 @@ public class  MapDataFormatter {
                     link = "SpeTri2.0";
                     break;
 
-                case 911:
-                case 912:// PIG
+                case 911: // PIG
                     db = "http://useast.ensembl.org/Sus_scrofa/Location/View?r=";
                     link = "Sscrofa11.1";
                     break;
