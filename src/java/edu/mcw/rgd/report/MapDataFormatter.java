@@ -101,17 +101,19 @@ public class  MapDataFormatter {
             Map map= mm.getMap(mdObj.getMapKey());
             if( map==null ) {
                 // map not known
-                ret.append("<td>&nbsp;</td>");
+                //ret.append("<td>&nbsp;</td>");
                 continue;
             }
 
             if (map.getKey() == activeMap.getKey()) {
                 activeMapChr.add(mdObj.getChromosome());
-
             }
         }
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
+            if( map==null ) {
+                map = new MapDAO().getMap(mdObj.getMapKey());
+            }
 			if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
@@ -178,7 +180,7 @@ public class  MapDataFormatter {
                 // NCBI links
                 ret.append("<td>");
                // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
-                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map.getName());
+                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map==null ? "" : map.getName());
                 ret.append("</td>");
 
                 // UCSC links
