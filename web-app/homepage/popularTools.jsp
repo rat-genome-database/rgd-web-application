@@ -134,7 +134,7 @@
         </td>
         <td>
             <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/phenominerExpectedRanges/views/home.html'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/wg/physiology/'">.</div>
                 <div class="headerCardTitle">Phenotypes and Models</div>
                 <img class="headerCardImage" src="/rgdweb/common/images/expected.png"  border="0" />
             </div>
@@ -159,7 +159,7 @@
         </td>
         <td>
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/phenominer/home.jsp'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/ga/start.jsp'">.</div>
                 <div class="headerCardTitle">GA Tool<br><span class="headerSubTitle">Gene Annotator</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/phenominerScreen.png"  border="0" /></span>
             </div>
