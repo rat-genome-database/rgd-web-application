@@ -27,8 +27,6 @@ if (req.getParameter("u").equals("394033")) {
     List<Sample> samples = (List<Sample>) request.getAttribute("sampleList");
     int mapKey = (Integer) request.getAttribute("mapKey");
 %>
-
-
 <style>
 	#sortable { list-style-type: none; margin: 0; padding: 0; width: 200; }
 	#sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
@@ -138,6 +136,229 @@ if (req.getParameter("u").equals("394033")) {
         <td align="right"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>
     </tr>
 </table>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">                                                                                                                                                                                                                                                                                                                                                                                       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<style>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</style>
+
+
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-4" >
+                    <div style="color:white; float:left;">
+                        <input type="checkbox"/>
+                        HDRP Strains
+
+                    </div>
+
+                </div>
+                <div class="col-sm-4" >
+                    <div style="color:white; float:left;">
+                        <input type="checkbox"/>
+                        HS Founder Strains
+
+                    </div>
+
+                </div>
+
+            <div class="row">
+
+            <%
+            for (Sample samp: samples) {
+                if (samp.getId() == 900 || samp.getId() == 901)   {
+                    if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
+                        continue;
+                    }
+                }
+
+        %>
+
+            <div class="col-sm-4" >
+
+
+
+    <div style="color:white; float:left;">
+                <input type="checkbox"/>
+        <%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%>
+        <!--
+        <%=samp.getId()%>
+        <% if( samp.getStrainRgdId()!=0 ) { %>
+            <a style="color:white;" href="<%=Link.strain(samp.getStrainRgdId())%>">see strain report</a>
+        <%}%>
+        -->
+        <div style="position:absolute; opacity:0; padding:10px;" id="<%=samp.getId()%>">
+            <table style="background-color:#063968;border:2px solid white;">
+                <tr>
+                    <td>RGD Sample ID:</td>
+                    <td><%=samp.getId()%></td>
+                </tr>
+
+                <% if (samp.getSequencedBy() != null) { %>
+                <tr>
+                    <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
+                    <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
+                </tr>
+                <% } %>
+                <% if (samp.getSequencer() != null) { %>
+                <tr>
+                    <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
+                    <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
+                </tr>
+                <% } %>
+                <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
+                <tr>
+                    <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
+                    <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
+                </tr>
+                <% } %>
+                <% if (samp.getWhereBred() != null) { %>
+                <tr>
+                    <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
+                    <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
+                </tr>
+                <% } %>
+                <% if (samp.getGrantNumber() != null) { %>
+                <tr>
+                    <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
+                    <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
+                </tr>
+                <% } %>
+            </table>
+</div>
+
+
+
+
+        </div>
+
+                </div>
+
+    <% } %>
+            </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <table border=0  width="100%" style="background-color:#001439;">
+        <%
+            for (Sample samp: samples) {
+                if (samp.getId() == 900 || samp.getId() == 901)   {
+                    if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
+                        continue;
+                    }
+                }
+
+        %>
+        <tr>
+            <td valign="left">
+                <table border=0 id="table<%=samp.getId()%>"  style="border-bottom: 2px solid #eeeeee;color:white;" >
+                    <tr>
+                        <!--<td width=20><a href="javascript:selectIt('<%=samp.getAnalysisName()%>', '<%=samp.getId()%>')"><img id="image<%=samp.getId()%>" border="0" src="/rgdweb/common/images/add.png" /></a></td>-->
+                        <td width=20><input type="checkbox"/></td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" width="100%"><tr>
+                            <td style="color:white; font-size:12px;"><%=samp.getAnalysisName()%></td>
+                            <td align="right">
+                                <% if( samp.getStrainRgdId()!=0 ) { %>
+                                    <a style="color:white;" href="<%=Link.strain(samp.getStrainRgdId())%>">see strain report</a>
+                                <%}%>
+                            </td>
+                            <td style="color:white;">
+                                <div onclick="document.getElementById('<%=samp.getId()%>').style.display='block';">
+                                Track Details
+                                </div>
+                                <div style="position:absolute; display:none; padding:10px;" id="<%=samp.getId()%>">
+                                    <table style="background-color:#063968;border:2px solid white;">
+
+                                        <% if (samp.getSequencedBy() != null) { %>
+                                        <tr>
+                                            <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getSequencer() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getWhereBred() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getGrantNumber() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
+                                        </tr>
+                                        <% } %>
+                                    </table>
+
+                                </div>
+                                </div>
+                            </td>
+
+                            </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <% } %>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
