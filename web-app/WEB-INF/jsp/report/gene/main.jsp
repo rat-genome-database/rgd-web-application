@@ -12,7 +12,7 @@
 <% boolean includeMapping = true;
     String title = "Genes";
     Gene obj = (Gene) request.getAttribute("reportObject");
-    String ref_seq_acc_id= new String();
+    String ref_seq_acc_id="";
     if(obj.getSpeciesTypeKey()==3){
         ref_seq_acc_id="GCF_000001895.5";
     }
@@ -37,14 +37,8 @@
     String objectType="gene";
     String displayName=obj.getSymbol();
 
-    // first try NCBI primary ref assembly
-    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), "NCBI");
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), Utils.NVL(obj.getGeneSource(),"NCBI"));
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
-    if( mapDataList.isEmpty() ) {
-        // no positions: try Ensembl primary ref assembly
-        refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), "Ensembl");
-        mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
-    }
 
     MapData md = new MapData();
     if (mapDataList.size() > 0) {
