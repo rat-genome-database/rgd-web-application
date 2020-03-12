@@ -37,8 +37,14 @@
     String objectType="gene";
     String displayName=obj.getSymbol();
 
-    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
+    // first try NCBI primary ref assembly
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), "NCBI");
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
+    if( mapDataList.isEmpty() ) {
+        // no positions: try Ensembl primary ref assembly
+        refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), "Ensembl");
+        mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
+    }
 
     MapData md = new MapData();
     if (mapDataList.size() > 0) {
