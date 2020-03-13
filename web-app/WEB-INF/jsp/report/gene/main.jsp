@@ -37,7 +37,11 @@
     String objectType="gene";
     String displayName=obj.getSymbol();
 
-    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), Utils.NVL(obj.getGeneSource(),"NCBI"));
+    String geneSource = Utils.NVL(obj.getGeneSource(),"NCBI");
+    if( !(geneSource.equals("NCBI") || geneSource.equals("Ensembl")) ) {
+        geneSource = "NCBI";
+    }
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), geneSource);
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
 
     MapData md = new MapData();
