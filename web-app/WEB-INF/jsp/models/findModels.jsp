@@ -20,17 +20,18 @@
         <p class="lead" style="color:#2865A3">Find models by disease or phenotype of your intereste</p>
     </div>
     <hr>
-    <form id="models-form" action="findModels.html" method="post"   target="_blank">
+    <form id="models-form" action="findModels.html" method="post">
         <div class="jumbotron">
             <div class="container">
 
                 <div class="form-row row">
-                    <div class="form-group col-md-4" id="selOnt0">
+                    <div class="form-group col-md-4">
 
-                        <select class="form-control form-control-lg" id="models-aspect" name="models-aspect">
-                            <option value="all">All</option>
-                            <option value="D">Disease</option>
-                            <option value="N">Phenotype</option>
+                        <select class="form-control form-control-lg selectpicker" id="models-aspect" name="models-aspect">
+                            <option value="all">Find by Model/Disease/Phenotype</option>
+                            <option value="D">Find by Disease</option>
+                            <option value="N">Find by Phenotype</option>
+                            <option value="MODEL">Find By Model/Strain</option>
 
                         </select>
 
@@ -46,7 +47,9 @@
                                 </button>
                             </div>
                         </div>
-                        <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a></small>
+                        <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a>,
+                            <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=MHS/Gib&models-aspect=MODEL" target="_blank">MHS/Gib</a>
+                        </small>
                     </div>
                 </div>
             </div>
