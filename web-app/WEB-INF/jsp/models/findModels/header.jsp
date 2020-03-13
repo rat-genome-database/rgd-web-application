@@ -4,6 +4,14 @@
     String headContent = "";%>
 
 <%@ include file="/common/headerarea.jsp"%>
+<style>
+    .jumbotron{
+        /*	background:linear-gradient(to bottom, white 0%, #D6EAF8 100%); */
+        background:linear-gradient(to bottom, white 0%, #D6EAF8 100%);
+        background-color: #D1F2EB;
+    }
+</style>
+
 <div class="jumbotron">
 <form id="models-form" action="findModels.html" method="post"   target="_blank">
     <div class="" >
@@ -16,24 +24,32 @@
                 <!--/div-->
                 <div class="form-group col-md-4">
 
-                    <select class="form-control form-control-lg" id="models-aspect" name="models-aspect">
+                    <select class="form-control form-control-lg selectpicker" id="models-aspect" name="models-aspect">
                         <c:if test="${model.aspect==''}">
-                        <option class="form-control" value="all" selected>All Models</option>
-                            <option class="form-control" value="D">Models by Disease </option>
-                            <option class="form-control" value="N">Models by Phenotype</option>
+                        <option class="form-control" value="all" selected>Find By Model/Disease/Phenotype</option>
+                            <option  value="D">Find by Disease </option>
+                            <option value="N">Find by Phenotype </option>
+                            <option value="MODEL">Anotations By Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='D'}">
-                            <option class="form-control" value="all" selected>All Models</option>
-                            <option class="form-control" value="D" selected>Models by Disease </option>
-                            <option class="form-control" value="N">Models by Phenotype</option>
+                            <option value="all">Find By Model/Disease/Phenotype</option>
+                            <option  value="D" selected>Find by Disease </option>
+                            <option value="N">Find by Phenotype </option>
+                            <option value="MODEL">Find By Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='N'}">
-                            <option class="form-control" value="all" selected>All Models</option>
-                            <option class="form-control" value="D">Models by Disease </option>
-                            <option class="form-control" value="N" selected>Models by Phenotype</option>
+                            <option  value="all" >All Models</option>
+                            <option  value="D">Find by Disease </option>
+                            <option  value="N" selected>Find by Phenotype </option>
+                            <option value="MODEL">Anotations By Model/Strain</option>
                         </c:if>
 
-
+                        <c:if test="${model.aspect=='MODEL'}">
+                            <option value="all" >All Models</option>
+                            <option  value="D">Find by Disease </option>
+                            <option  value="N">Find by Phenotype </option>
+                            <option value="MODEL" selected>Find By Model/Strain</option>
+                        </c:if>
                     </select>
 
                 </div>
@@ -48,7 +64,9 @@
                             </button>
                         </div>
                     </div>
-                    <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a></small>
+                    <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a>,
+                        <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=MHS/Gib&models-aspect=MODEL" target="_blank">MHS/Gib</a>
+                    </small>
                 </div>
             </div>
         </div>

@@ -11,10 +11,11 @@
         <p><a onclick="searchByQualifier('${model.term}','${model.aspect}', 'all')" style="cursor: hand;text-decoration: underline">All (${model.hitsCount})</a></p>
         <ul>
         <c:forEach items="${model.aggregations.aspectAgg}" var="aspect">
+        <c:if test="${model.aspect!='MODEL'}">
+            <li style="padding: 5px">
 
-            <li style="padding: 5px"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
             <c:if test="${aspect.key=='D'}">
-            Disease (${aspect.docCount})</a>
+                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">Disease (${aspect.docCount})</a>
                 <ul>
                 <c:forEach items="${model.aggregations.D}" var="dm">
                     <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
@@ -23,15 +24,41 @@
             </c:if>
 
             <c:if test="${aspect.key=='N'}">
-                Phenotype (${aspect.docCount})</a>
+                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline"> Phenotype (${aspect.docCount})</a>
                 <ul>
                     <c:forEach items="${model.aggregations.N}" var="pm">
                         <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
                     </c:forEach>
                 </ul>
             </c:if>
+                <c:if test="${aspect.key!='N' && aspect.key!='D'}">
+                    <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">${aspect.key} (${aspect.docCount})</a>
+                    <ul>
+                        <c:forEach items="${model.aggregations.N}" var="pm">
+                            <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
+                        </c:forEach>
+                    </ul>
+                </c:if>
             </li>
+            </c:if>
+            <c:if test="${model.aspect=='MODEL'}">
+                <li style="padding: 5px"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline">
+                    <c:if test="${aspect.key=='D'}">
+                    Disease (${aspect.docCount})
 
+                    </c:if>
+
+                    <c:if test="${aspect.key=='N'}">
+                        Phenotype (${aspect.docCount})
+
+                    </c:if>
+                    <c:if test="${aspect.key!='N' && aspect.key!='D'}">
+                        ${aspect.key} (${aspect.docCount})
+
+                    </c:if>
+                </a>
+                </li>
+            </c:if>
             <!--href="findModels.html?qualifier=$-{qualifier.key}&models-search-term=$-{model.term}&models-aspect=$-{model.aspect}"-->
         </c:forEach>
         </ul>
@@ -43,10 +70,13 @@
 </div>
 <script>
 
-      function searchByQualifier(term, aspect, qualifier) {
+      function searchByQualifier(term, aspect, qualifier, searchType) {
         var  $contentDiv=$('#resultsTable');
         var  $tmp=$contentDiv.html();
-         var url= "findModels.html?qualifier="+qualifier+"&models-search-term="+term+"&models-aspect="+aspect;
+         var url;
+          if(searchType!="MODEL")
+                 url= "findModels.html?qualifier="+qualifier+"&models-search-term="+term+"&models-aspect="+aspect;
+          else url="findModels.html?qualifier="+qualifier+"&models-search-term="+term+"&models-aspect="+aspect+"&searchType=model";
           $.get(url, function (data, status) {
               $contentDiv.html(data);
           })

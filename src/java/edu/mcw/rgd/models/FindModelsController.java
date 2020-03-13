@@ -30,6 +30,8 @@ import java.util.*;
 public class FindModelsController implements Controller {
     Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
     int hitsCount=0;
+
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ModelMap model= new ModelMap();
@@ -37,11 +39,12 @@ public class FindModelsController implements Controller {
         String aspect=req.getParameter("models-aspect");
         String qualifier=req.getParameter("qualifier");
         String term=req.getParameter("models-search-term");
-    //    System.out.println("ASPECT:"+aspect);
+        String searchType=req.getParameter("searchType");
+
         if(!Objects.equals(term, "")){
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
-            searchHits= this.getModels(term, aspect,qualifier);
+            searchHits= this.getSearchResults(term, aspect,qualifier, searchType);
             model.put("term", term);
             model.put("aspect", aspect);
             model.put("qualifier", qualifier);
@@ -56,22 +59,43 @@ public class FindModelsController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
     }
-    public List<SearchHit[]> getModels(String term, String aspect, String qualifier) throws IOException {
+
+    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType) throws IOException {
+        System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
-
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
-        qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
-        qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
-        qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+        if(aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")){
+            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+            qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
+            qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
+            qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
+            qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+        }else {
+            if (aspect.equalsIgnoreCase("model") || searchType.equalsIgnoreCase("model")) {
+                term = term.replaceAll("/", "\\/");
+                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+                qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
+                if (searchType.equalsIgnoreCase("model")) {
+                    qb.add(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("aspect", aspect)));
+                }
+            } else {
+
+                qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
+                qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
+                qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+
+            }
+        }
+
         BoolQueryBuilder query= new BoolQueryBuilder();
         query.must(qb);
-        if(!aspect.equals("")){
-            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
+        if(!aspect.equals("") && !aspect.equalsIgnoreCase("model")){
+           query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
-        if(!qualifier.equals("") && !qualifier.equals("all")){
+        if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
           //  System.out.print("QUALIFIER:"+ qualifier);
-            query.filter(QueryBuilders.termQuery("qualifier.keyword", qualifier));
+          query.filter(QueryBuilders.termQuery("qualifier.keyword", qualifier));
         }
 
        // srb.query(QueryBuilders.matchAllQuery());
