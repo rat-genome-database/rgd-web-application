@@ -337,27 +337,18 @@ public class NomenclatureManager {
         Gene newGeneNomen=null;
         String ratGeneSymbol=ratGene.getSymbol();
         String orthologGeneSymbol=orthologGene.getSymbol();
-        if (ratGeneSymbol==null || orthologGeneSymbol==null)
+        if( ratGeneSymbol==null || orthologGeneSymbol==null ) {
             return newGeneNomen;
-
-        // remove _predicted, _mapped from gene symbol
-        ratGeneSymbol=ratGeneSymbol.replaceAll("_predicted", "");
-        orthologGeneSymbol=orthologGeneSymbol.replaceAll("_predicted", "");
-        ratGeneSymbol=ratGeneSymbol.replaceAll("_mapped", "");
-        orthologGeneSymbol=orthologGeneSymbol.replaceAll("_mapped", "");
+        }
 
         //comparing gene symbol, the gene symbol equals, check the gene name
         if (ratGeneSymbol.equalsIgnoreCase(orthologGeneSymbol)) {
             String ratGeneName=ratGene.getName();
             String orthologGeneName=orthologGene.getName();
-            if (ratGeneName==null || orthologGeneName ==null)
+            if( ratGeneName==null || orthologGeneName==null ) {
                 return newGeneNomen;
+            }
 
-            // before comparing name, remove (predicted) ......
-            ratGeneName=ratGeneName.replaceAll("(predicted)", "");
-            ratGeneName=ratGeneName.replaceAll("(mapped)", "");
-            orthologGeneName=orthologGeneName.replaceAll("(predicted)", "");
-            orthologGeneName=orthologGeneName.replaceAll("(mapped)", "");
             ratGeneName=ratGeneName.replaceAll("[ !@#\\$%\\^&\\*\\(\\)_\\+\\-={}\\|:\"<>\\?\\-=\\[\\];',\\./`~']","").toLowerCase();
             orthologGeneName=orthologGeneName.replaceAll("[ !@#\\$%\\^&\\*\\(\\)_\\+\\-={}\\|:\"<>\\?\\-=\\[\\];',\\./`~']","").toLowerCase();
             
@@ -365,20 +356,10 @@ public class NomenclatureManager {
             if (!ratGeneName.equals(orthologGeneName)) {
                 // get the proposed new gene symbol
                 String proposedGeneSymbol=orthologGene.getSymbol();
-                if (ratGene.getSymbol().endsWith("_predicted") ) {
-                    proposedGeneSymbol=proposedGeneSymbol+"_predicted";
-                } else if (ratGene.getSymbol().endsWith("_mapped")) {
-                    proposedGeneSymbol=proposedGeneSymbol+"_mapped";
-                }
-                proposedGeneSymbol=proposedGeneSymbol.substring(0,1).toUpperCase() + proposedGeneSymbol.substring(1).toLowerCase();           
+                proposedGeneSymbol=proposedGeneSymbol.substring(0,1).toUpperCase() + proposedGeneSymbol.substring(1).toLowerCase();
                 // get the proposed new gene name
                 String proposedGeneName=orthologGene.getName();
-                if (ratGene.getName().endsWith("(predicted)") ) {
-                    proposedGeneName=proposedGeneName+" (predicted)";
-                } else if (ratGene.getName().endsWith("(mapped)")) {
-                    proposedGeneName=proposedGeneName+" (mapped)";
-                }                        
-                
+
                 //process.info("GeneName: "+ ratGeneName+"\t"+orthologGeneName);
                 newGeneNomen=new Gene();
                 newGeneNomen.setName(proposedGeneName);
@@ -392,21 +373,10 @@ public class NomenclatureManager {
         if (!ratGeneSymbol.equalsIgnoreCase(orthologGeneSymbol)) {
             // get the proposed new gene symbol
             String proposedGeneSymbol = orthologGene.getSymbol();
-            if (ratGene.getSymbol().endsWith("_predicted") ) {
-                proposedGeneSymbol += "_predicted";
-            } else if (ratGene.getSymbol().endsWith("_mapped")) {
-                proposedGeneSymbol += "_mapped";
-            }
-            proposedGeneSymbol=proposedGeneSymbol.substring(0,1).toUpperCase() + proposedGeneSymbol.substring(1).toLowerCase();           
+            proposedGeneSymbol=proposedGeneSymbol.substring(0,1).toUpperCase() + proposedGeneSymbol.substring(1).toLowerCase();
 
             // get the proposed new gene name
             String proposedGeneName = orthologGene.getName();
-            String ratGeneName = Utils.defaultString(ratGene.getName());
-            if (ratGeneName.endsWith("(predicted)") ) {
-                proposedGeneName += " (predicted)";
-            } else if (ratGeneName.endsWith("(mapped)")) {
-                proposedGeneName += " (mapped)";
-            }
 
             newGeneNomen=new Gene();
             newGeneNomen.setName(proposedGeneName);
