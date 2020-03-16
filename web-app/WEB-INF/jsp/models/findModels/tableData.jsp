@@ -33,7 +33,7 @@
                 </td>
                 <td>
                 <c:forEach items="${hit.getSourceAsMap().references}" var="refRgdId">
-                    <a href="/rgdweb/report/reference/main.html?id=${refRgdId}">${refRgdId}</a>
+                    <a href="/rgdweb/report/reference/main.html?id=${refRgdId}">${refRgdId}</a>|
                 </c:forEach></td>
             </tr>
         </c:forEach>

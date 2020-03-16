@@ -31,7 +31,7 @@
                             <option value="all">Find by Model/Disease/Phenotype</option>
                             <option value="D">Find by Disease</option>
                             <option value="N">Find by Phenotype</option>
-                            <option value="MODEL">Find By Model/Strain</option>
+                            <option value="MODEL">Find by Model/Strain</option>
 
                         </select>
 

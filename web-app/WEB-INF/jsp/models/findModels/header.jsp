@@ -26,29 +26,29 @@
 
                     <select class="form-control form-control-lg selectpicker" id="models-aspect" name="models-aspect">
                         <c:if test="${model.aspect==''}">
-                        <option class="form-control" value="all" selected>Find By Model/Disease/Phenotype</option>
+                        <option class="form-control" value="all" selected>Find by Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option value="N">Find by Phenotype </option>
-                            <option value="MODEL">Anotations By Model/Strain</option>
+                            <option value="MODEL">Anotations by Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='D'}">
-                            <option value="all">Find By Model/Disease/Phenotype</option>
+                            <option value="all">Find by Model/Disease/Phenotype</option>
                             <option  value="D" selected>Find by Disease </option>
                             <option value="N">Find by Phenotype </option>
-                            <option value="MODEL">Find By Model/Strain</option>
+                            <option value="MODEL">Find by Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='N'}">
-                            <option  value="all" >Find By Model/Disease/Phenotype</option>
+                            <option  value="all" >Find by Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option  value="N" selected>Find by Phenotype </option>
-                            <option value="MODEL">Anotations By Model/Strain</option>
+                            <option value="MODEL">Anotations by Model/Strain</option>
                         </c:if>
 
                         <c:if test="${model.aspect=='MODEL'}">
-                            <option value="all" >Find By Model/Disease/Phenotype</option>
+                            <option value="all" >Find by Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option  value="N">Find by Phenotype </option>
-                            <option value="MODEL" selected>Find By Model/Strain</option>
+                            <option value="MODEL" selected>Find by Model/Strain</option>
                         </c:if>
                     </select>
 
