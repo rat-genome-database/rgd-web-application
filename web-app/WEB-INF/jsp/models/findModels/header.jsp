@@ -38,14 +38,14 @@
                             <option value="MODEL">Find By Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='N'}">
-                            <option  value="all" >All Models</option>
+                            <option  value="all" >Find By Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option  value="N" selected>Find by Phenotype </option>
                             <option value="MODEL">Anotations By Model/Strain</option>
                         </c:if>
 
                         <c:if test="${model.aspect=='MODEL'}">
-                            <option value="all" >All Models</option>
+                            <option value="all" >Find By Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option  value="N">Find by Phenotype </option>
                             <option value="MODEL" selected>Find By Model/Strain</option>
