@@ -100,13 +100,13 @@
 
                                 <ul>
 
-                                    <li style="color:grey">RGD Disease Portals</li>
-                                    <li style="color:grey">Phenominer </li>
-                                    <li style="color:grey">Expected Ranges</li>
-                                    <li style="color:grey">GERRC</li>
-                                    <li style="color:grey">Genetic Models</li>
-                                    <li style="color:grey">Strain Availability</li>
-                                    <li style="color:grey">Phenotypes in other animal models</li>
+                                    <li style="color:grey"><a href="/wg/portals/">RGD Disease Portals</a></li>
+                                    <li style="color:grey"><a href="/rgdweb/phenominer/home.jsp">Phenominer</a> </li>
+                                    <li style="color:grey"><a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges</a></li>
+                                    <li style="color:grey"><a href="/wg/gerrc/">GERRC</a></li>
+                                    <li style="color:grey"><a href="/rgdweb/models/allModels.html">Genetic Models</a></li>
+                                    <li style="color:grey"><a href="/wg/strain-availability/">Strain Availability</a></li>
+                                    <li style="color:grey"><a href="/wg/physiology/additionalmodels/">Phenotypes in other animal models</a></li>
 
                                 </ul>
 
