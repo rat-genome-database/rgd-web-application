@@ -84,8 +84,8 @@
                 <div class="card" style="width: 25rem;border:0">
 
                     <div class="card-body">
-                        <h5 class="card-title" style="font-weight: bold;font-size: 20px;color:#24619c;">About</h5>
-                        <p class="card-text" style="color:grey;text-align: justify">The Find Models will help you search strain models specific to the disease or phenotype searched for.</p>
+                        <h5 class="card-title" style="font-weight: bold;font-size: 20px;color:#24619c;">The Find Models will ...</h5>
+                        <p class="card-text" style="color:grey;text-align: justify"> Help you search strain models specific to a disease or phenotype that is searched for.Also help you search model annotations.</p>
                         <!--a href="#" class="btn btn-primary">Go somewhere</a-->
                     </div>
                 </div>
