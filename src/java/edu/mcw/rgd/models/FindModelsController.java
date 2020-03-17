@@ -102,7 +102,7 @@ public class FindModelsController implements Controller {
         srb.query(query);
         srb.aggregation(getAggregations());
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_dev");
+        SearchRequest searchRequest=new SearchRequest("models_index_test");
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
