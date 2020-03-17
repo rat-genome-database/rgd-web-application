@@ -84,7 +84,10 @@ public class FindModelsController implements Controller {
                 qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
                 qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
                 qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
-
+                if(!qualifier.equals("")  && (aspect.equals("D") || aspect.equals("N"))){
+                    qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+                    qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
+                }
             }
         }
 
