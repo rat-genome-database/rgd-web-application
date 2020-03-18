@@ -1,9 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%  String pageTitle =  "Find Models";
-    String pageDescription ="Find Models";
-    String headContent = "";%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="/common/headerarea.jsp"%>
 <style>
     .jumbotron{
         /*	background:linear-gradient(to bottom, white 0%, #D6EAF8 100%); */
@@ -25,11 +22,11 @@
                 <div class="form-group col-md-4">
 
                     <select class="form-control form-control-lg selectpicker" id="models-aspect" name="models-aspect">
-                        <c:if test="${model.aspect==''}">
+                        <c:if test="${model.aspect==null || model.aspect==''}">
                         <option class="form-control" value="all" selected>Find By Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option value="N">Find by Phenotype </option>
-                            <option value="MODEL">Anotations By Model/Strain</option>
+                            <option value="MODEL">Find By Model/Strain</option>
                         </c:if>
                         <c:if test="${model.aspect=='D'}">
                             <option value="all">Find By Model/Disease/Phenotype</option>
@@ -41,7 +38,7 @@
                             <option  value="all" >Find By Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
                             <option  value="N" selected>Find by Phenotype </option>
-                            <option value="MODEL">Anotations By Model/Strain</option>
+                            <option value="MODEL">Find By Model/Strain</option>
                         </c:if>
 
                         <c:if test="${model.aspect=='MODEL'}">

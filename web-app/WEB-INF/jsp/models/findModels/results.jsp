@@ -1,5 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% String pageTitle =  "Find Models";
+    String pageDescription ="Find Models";
+    String headContent = "";%>
+
+<%@ include file="/common/headerarea.jsp"%>
 <%@ include file="header.jsp"%>
 
 <div class="container-fluid wrapper" style="border:1px solid gainsboro;">
@@ -33,11 +38,7 @@
             </c:if>
                 <c:if test="${aspect.key!='N' && aspect.key!='D'}">
                     <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">${aspect.key} (${aspect.docCount})</a>
-                    <ul>
-                        <c:forEach items="${model.aggregations.N}" var="pm">
-                            <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
-                        </c:forEach>
-                    </ul>
+                   
                 </c:if>
             </li>
             </c:if>
