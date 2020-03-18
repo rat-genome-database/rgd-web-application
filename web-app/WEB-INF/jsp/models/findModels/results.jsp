@@ -37,7 +37,15 @@
                 </ul>
             </c:if>
                 <c:if test="${aspect.key!='N' && aspect.key!='D'}">
-                    <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">${aspect.key} (${aspect.docCount})</a>
+                    <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
+                    <c:if test="${aspect.key=='V'}">
+                         Vertebrate Trait Ontology (${aspect.docCount})
+                    </c:if>
+                        <c:if test="${aspect.key=='B'}">
+                            Neuro Behavioral Ontology (${aspect.docCount})
+                        </c:if>
+
+                    </a>
                    
                 </c:if>
             </li>

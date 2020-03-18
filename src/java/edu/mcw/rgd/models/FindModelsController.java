@@ -44,6 +44,7 @@ public class FindModelsController implements Controller {
         if(!Objects.equals(term, "")){
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
+
             searchHits= this.getSearchResults(term, aspect,qualifier, searchType);
             model.put("term", term);
             model.put("aspect", aspect);
