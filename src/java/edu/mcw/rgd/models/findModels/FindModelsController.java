@@ -1,4 +1,4 @@
-package edu.mcw.rgd.models;
+package edu.mcw.rgd.models.findModels;
 
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -38,7 +38,7 @@ public class FindModelsController implements Controller {
         HttpRequestFacade req= new HttpRequestFacade(httpServletRequest);
         String aspect=req.getParameter("models-aspect");
         String qualifier=req.getParameter("qualifier");
-        String term=req.getParameter("models-search-term");
+        String term=req.getParameter("modelsSearchTerm");
         String searchType=req.getParameter("searchType");
 
         if(!Objects.equals(term, "")){

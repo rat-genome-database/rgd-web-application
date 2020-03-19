@@ -356,7 +356,7 @@
      <bean id="ReferencesController" class="edu.mcw.rgd.models.ReferencesController"/>
      <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
 
-    <bean id="findModelsController" class="edu.mcw.rgd.models.FindModelsController"/>
+    <bean id="findModelsController" class="edu.mcw.rgd.models.findModels.FindModelsController"/>
 
     <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
     <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />

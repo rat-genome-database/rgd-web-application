@@ -5,6 +5,8 @@
     String headContent = "";%>
 
 <%@ include file="/common/headerarea.jsp"%>
+
+
 <%@ include file="header.jsp"%>
 
 <div class="container-fluid wrapper" style="border:1px solid gainsboro;">
@@ -39,14 +41,15 @@
                 <c:if test="${aspect.key!='N' && aspect.key!='D'}">
                     <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
                     <c:if test="${aspect.key=='V'}">
-                         Vertebrate Trait Ontology (${aspect.docCount})
-                    </c:if>
-                        <c:if test="${aspect.key=='B'}">
-                            Neuro Behavioral Ontology (${aspect.docCount})
-                        </c:if>
+                        Vertebrate Trait Ontology (${aspect.docCount})
 
-                    </a>
-                   
+                    </c:if>
+                    <c:if test="${aspect.key=='B'}">
+                        Neuro Behavioral Ontology (${aspect.docCount})
+
+                    </c:if>
+                        </a>
+
                 </c:if>
             </li>
             </c:if>
@@ -84,8 +87,8 @@
         var  $tmp=$contentDiv.html();
          var url;
           if(searchType!="MODEL")
-                 url= "findModels.html?qualifier="+qualifier+"&models-search-term="+term+"&models-aspect="+aspect;
-          else url="findModels.html?qualifier="+qualifier+"&models-search-term="+term+"&models-aspect="+aspect+"&searchType=model";
+                 url= "findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect;
+          else url="findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect+"&searchType=model";
           $.get(url, function (data, status) {
               $contentDiv.html(data);
           })
