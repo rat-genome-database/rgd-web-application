@@ -231,6 +231,7 @@
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>
 
                 <prop key="models/findModels.html">findModelsController</prop>
+                 <prop key="models/autocomplete.html">findModelsAutocomplete</prop>
 
                 <prop key="phenominer/table.html">PivotTableController</prop>
                 <prop key="phenominer/ontChoices.html">OntChoicesController</prop>
@@ -481,6 +482,8 @@
 <bean id="gerrcModelsDownloadController" class="edu.mcw.rgd.models.DownloadController"/>
 
  <bean id="findModelsController" class="edu.mcw.rgd.models.findModels.FindModelsController"/>
+  <bean id="findModelsAutocomplete" class="edu.mcw.rgd.models.findModels.AutocompleteController"/>
+
 
     <bean id="EditHomePageController" class="edu.mcw.rgd.edit.submittedStrains.EditHomePageController"/>
     <bean id="SubmittedStrainsPage" class="edu.mcw.rgd.edit.submittedStrains.SubmittedStrainsPageController"/>
