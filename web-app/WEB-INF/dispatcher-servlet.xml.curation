@@ -480,7 +480,7 @@
     <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
 <bean id="gerrcModelsDownloadController" class="edu.mcw.rgd.models.DownloadController"/>
 
- <bean id="findModelsController" class="edu.mcw.rgd.models.FindModelsController"/>
+ <bean id="findModelsController" class="edu.mcw.rgd.models.findModels.FindModelsController"/>
 
     <bean id="EditHomePageController" class="edu.mcw.rgd.edit.submittedStrains.EditHomePageController"/>
     <bean id="SubmittedStrainsPage" class="edu.mcw.rgd.edit.submittedStrains.SubmittedStrainsPageController"/>

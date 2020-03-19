@@ -8,6 +8,36 @@
         background-color: #D1F2EB;
     }
 </style>
+<style>
+    .ui-autocomplete {
+        height: 200px; overflow-y: scroll; overflow-x: hidden;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+</style>
+<script>
+
+    $(function () {
+
+        $("#modelsSearchTerm").autocomplete({
+
+            delay:500,
+            source: function(request, response) {
+                var aspect=$("#modelsAspect").val();
+                $.ajax({
+                    url:"/rgdweb/models/autocomplete.html",
+                    type: "POST",
+                    data: {term: request.term,
+                    aspect: aspect},
+                    max: 100,
+                    dataType: "json",
+                    success: function(data) {
+
+                        response(data);
+                    }
+                });
+            }
+
+        });
+    })
+</script>
 
 <div class="jumbotron">
 <form id="models-form" action="findModels.html" method="post"   target="_blank">
@@ -21,7 +51,7 @@
                 <!--/div-->
                 <div class="form-group col-md-4">
 
-                    <select class="form-control form-control-lg selectpicker" id="models-aspect" name="models-aspect">
+                    <select class="form-control form-control-lg selectpicker" id="modelsAspect" name="modelsAspect">
                         <c:if test="${model.aspect==null || model.aspect==''}">
                         <option class="form-control" value="all" selected>Find By Model/Disease/Phenotype</option>
                             <option  value="D">Find by Disease </option>
@@ -52,7 +82,7 @@
                 </div>
                 <div class="form-group col-md-8">
                     <div class="input-group" >
-                        <input id="models-search-term" name="models-search-term" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value="${model.term}"/>
+                        <input id="modelsSearchTerm" name="modelsSearchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value="${model.term}"/>
 
                         <div class="input-group-append">
 
@@ -61,8 +91,8 @@
                             </button>
                         </div>
                     </div>
-                    <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=cancer" target="_blank">Cancer</a>,
-                        <a href="/rgdweb/models/findModels.html?qualifier=&models-search-term=MHS/Gib&models-aspect=MODEL" target="_blank">MHS/Gib</a>
+                    <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=hypertension" target="_blank">Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=cancer" target="_blank">Cancer</a>,
+                        <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=MHS/Gib&models-aspect=MODEL" target="_blank">MHS/Gib</a>
                     </small>
                 </div>
             </div>
