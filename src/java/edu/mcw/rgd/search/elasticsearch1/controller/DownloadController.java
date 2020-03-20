@@ -102,7 +102,7 @@ public class DownloadController implements Controller {
                 }
 
             }
-
+System.out.println("MAPKEY in downloader: "+ mapKey);
                 if (objectKey.equals("1")) {
                     GeneDAO geneDAO=new GeneDAO();
                     for (int rgdId : rgdidsList) {
@@ -131,7 +131,7 @@ public class DownloadController implements Controller {
                             cell = row.createCell(cellnum++);
                             cell.setCellValue(rgdId);
                             cell = row.createCell(cellnum++);
-                            cell.setCellValue(g.getName());
+                            cell.setCellValue(g.getSymbol());
                             cell = row.createCell(cellnum++);
                             cell.setCellValue("");
                             cell = row.createCell(cellnum++);
