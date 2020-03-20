@@ -41,6 +41,7 @@ public class DownloadController implements Controller {
             StringTokenizer tokenizer = new StringTokenizer(rgdIds, ",");
             List<Integer> rgdidsList = new ArrayList<>();
             List<String> accIds = new ArrayList<>();
+
             if (!objectKey.equals("0")) {
 
                 while (tokenizer.hasMoreTokens()) {
@@ -54,7 +55,7 @@ public class DownloadController implements Controller {
             }
 
 
-            String obj = objectKey.equals("5") ? "Strains" : objectKey.equals("3") ? "SSLPs" : objectKey.equals("6") ? "QTLs" : objectKey.equals("7") ? "Variants" : objectKey.equals("12") ? "Reference" : objectKey.equals("0") ? "Ontology" : null;
+            String obj = objectKey.equals("5") ? "Strains" : objectKey.equals("3") ? "SSLPs" : objectKey.equals("6") ? "QTLs" : objectKey.equals("7") ? "Variants" : objectKey.equals("12") ? "Reference" : objectKey.equals("0") ? "Ontology" : objectKey.equals("1") ? "Genes":null;
 
         if(format!=null){
             if(format.equalsIgnoreCase("excel")) {
@@ -102,6 +103,50 @@ public class DownloadController implements Controller {
 
             }
 
+                if (objectKey.equals("1")) {
+                    GeneDAO geneDAO=new GeneDAO();
+                    for (int rgdId : rgdidsList) {
+                       Gene g= geneDAO.getGene(rgdId);
+                        List<MapData> m = mdao.getMapData(rgdId, Integer.parseInt(mapKey));
+                        cellnum = 0;
+                        if (m.size() > 0) {
+                            MapData md = m.get(0);
+
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(rgdId);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(g.getSymbol());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getChromosome());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStartPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStopPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
+
+                        } else {
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(rgdId);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(g.getName());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+
+                        }
+
+                    }
+
+
+                }
 
             if (objectKey.equals("5")) {
                 StrainDAO sdao = new StrainDAO();
