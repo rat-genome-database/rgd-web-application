@@ -1,5 +1,6 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
+import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
 import edu.mcw.rgd.datamodel.RgdId;
@@ -200,11 +201,13 @@ public class ElasticSearchController implements Controller {
     public int getMapKey(String assembly, String species) throws Exception {
 
         int mapKey=0;
+
        List<edu.mcw.rgd.datamodel.Map> maps= MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
             for(edu.mcw.rgd.datamodel.Map m:maps){
                 if(m.getDescription().equalsIgnoreCase(assembly)){
                     mapKey=m.getKey();
-}
+                    break;
+                    }
             }
         return mapKey;
     }
