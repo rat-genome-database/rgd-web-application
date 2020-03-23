@@ -85,6 +85,34 @@
     </tr>
     <% } %>
 
+    <% if( obj.getGenomicAlteration()!=null ) { %>
+    <tr>
+        <td class="label">Genomic Alteration:</td>
+        <td><%=fu.chkNull(obj.getGenomicAlteration())%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getCaution()!=null ) { %>
+    <tr>
+        <td class="label">Caution:</td>
+        <td><%=fu.chkNull(obj.getCaution())%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getGroups()!=null ) { %>
+    <tr>
+        <td class="label">Groups:</td>
+        <td><%=fu.chkNull(obj.getGroups())%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getDescription()!=null ) { %>
+    <tr>
+        <td class="label">Description:</td>
+        <td><%=fu.chkNull(obj.getDescription())%></td>
+    </tr>
+    <% } %>
+
     <% if( obj.getNotes()!=null ) { %>
     <tr>
         <td class="label">Notes:</td>

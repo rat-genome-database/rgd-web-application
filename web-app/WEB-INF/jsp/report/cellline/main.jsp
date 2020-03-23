@@ -30,6 +30,7 @@
         <br>
         <div class="subTitle">Additional Information</div>
         <br>
+        <%@ include file="../xdbs.jsp"%>
         <%@ include file="../curatorNotes.jsp"%>
 
     </td>
