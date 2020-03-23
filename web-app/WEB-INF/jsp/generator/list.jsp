@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
@@ -777,9 +778,9 @@ for (String gene: objectSymbols.get(i)) {
 
     Iterator it = resultSet.keySet().iterator();
     while(it.hasNext()) {
-        String gene = (String)it.next();
+        Integer gene = (Integer)it.next();
     %>
-      <span class="resultList"><%=gene.trim()%></span><br>
+      <span class="resultList"><%=((Gene)resultSet.get(gene)).getSymbol()%></span><br>
     <%
     }
 
