@@ -7,7 +7,7 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/squirrel/'">
-                    <img src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
+                    <img style="cursor:pointer;" src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
             </div>
             <!--
             <div class="carousel-item">
