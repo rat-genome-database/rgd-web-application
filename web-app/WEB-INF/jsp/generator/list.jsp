@@ -779,10 +779,20 @@ for (String gene: objectSymbols.get(i)) {
     Iterator it = resultSet.keySet().iterator();
     while(it.hasNext()) {
         Integer gene = (Integer)it.next();
+    if(objectType.equals("Gene")) {
     %>
-      <span class="resultList"><%=gene%></span><br>
+      <span class="resultList"><%=((Gene)resultSet.get(gene)).getSymbol()%></span><br>
+    <%
+            }else if(objectType.equals("Strain")) {
+    %>
+    <span class="resultList"><%=((Strain)resultSet.get(gene)).getSymbol()%></span><br>
+    <%
+            } else{
+    %>
+    <span class="resultList"><%=((QTL)resultSet.get(gene)).getSymbol()%></span><br>
     <%
     }
+        }
 
 %>
 
