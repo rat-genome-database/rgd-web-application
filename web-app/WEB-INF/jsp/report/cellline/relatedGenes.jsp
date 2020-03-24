@@ -6,7 +6,7 @@
 <%@ page import="java.util.Collections" %>
 <%-- to be included as a line in info.jsp --%>
 <%
-    List<Gene> relatedGenes = associationDAO.getAssociatedGenesForMasterRgdId(obj.getRgdId(), "cellline_to_gene");
+    List<Gene> relatedGenes = associationDAO.getAssociatedGenesForMasterRgdId(obj.getRgdId(), "cell_line_to_gene");
     if( relatedGenes.size() > 0 ) {
 
         // sort by gene symbol
@@ -16,12 +16,13 @@
             }
         });
 %>
-        <tr>
-            <td class="label">Related Genes:</td>
-            <td><%
-            for( Gene ge: relatedGenes ) {
-            %>
-                <a href="<%=Link.gene(ge.getRgdId())%>"><%=ge.getSymbol()%></a> &nbsp;<%
-         }%></td>
-        </tr>
+    <tr>
+        <td class="label">Related Genes:</td>
+        <td><%
+        for( Gene ge: relatedGenes ) {
+        %>
+            <a href="<%=Link.gene(ge.getRgdId())%>"><%=ge.getSymbol()%></a> &nbsp;<%
+     }%></td>
+    </tr>
 <%}%>
+
