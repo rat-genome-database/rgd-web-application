@@ -8,7 +8,7 @@
 
 
 <%@ include file="header.jsp"%>
-
+<h1 style="text-align: center">Rat Models Results</h1>
 <div class="container-fluid wrapper" style="border:1px solid gainsboro;">
 
 <div class="container-fluid row">
