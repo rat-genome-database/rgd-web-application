@@ -30,7 +30,6 @@ public class GeneTermAnnotationsController implements Controller {
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/report/annotation/table.jsp");
 
         GeneTermAnnotationsBean bean = new GeneTermAnnotationsBean();
-        mv.addObject("bean", bean);
 
         // parameter handling: we expect 'rgdId' - geneRgdId and 'accId' - term acc id
         RGDManagementDAO managementDAO = new RGDManagementDAO();
@@ -77,8 +76,10 @@ public class GeneTermAnnotationsController implements Controller {
         AnnotationDAO annotationDAO = new AnnotationDAO();
         List<Annotation> annotationList = annotationDAO.getAnnotations(rgdId,bean.getAccId());
         if(annotationList.size() == 0)
-            annotationList = annotationDAO.getAnnotationsByReference(rgdId,bean.getAccId());
+            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,bean.getAccId());
         bean.setAnnotations(annotationList);
+        
+        mv.addObject("bean", bean);
 
         return mv;
     }
