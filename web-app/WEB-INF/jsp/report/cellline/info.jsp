@@ -18,82 +18,111 @@
     <% if( obj.getName()!=null ) { %>
     <tr>
         <td class="label">Name:</td>
-        <td><%=fu.chkNull(obj.getName())%></td>
+        <td><%=obj.getName()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getObjectType()!=null ) { %>
     <tr>
         <td class="label">Cell Line Type:</td>
-        <td><%=fu.chkNull(obj.getObjectType())%></td>
+        <td><%=obj.getObjectType()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getOrigin()!=null ) { %>
     <tr>
         <td class="label">Origin:</td>
-        <td><%=fu.chkNull(obj.getOrigin())%></td>
+        <td><%=obj.getOrigin()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getGender()!=null ) { %>
     <tr>
         <td class="label">Gender:</td>
-        <td><%=fu.chkNull(obj.getGender())%></td>
+        <td><%=obj.getGender()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getGermlineCompetent()!=null ) { %>
     <tr>
         <td class="label">Germline Competent:</td>
-        <td><%=fu.chkNull(obj.getGermlineCompetent())%></td>
+        <td><%=obj.getGermlineCompetent()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getSource()!=null ) { %>
     <tr>
         <td class="label">Source:</td>
-        <td><%=fu.chkNull(obj.getSource())%></td>
+        <td><%=obj.getSource()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getResearchUse()!=null ) { %>
     <tr>
         <td class="label">Research Use:</td>
-        <td><%=fu.chkNull(obj.getResearchUse())%></td>
+        <td><%=obj.getResearchUse()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getAvailability()!=null ) { %>
     <tr>
         <td class="label">Availability:</td>
-        <td><%=fu.chkNull(obj.getAvailability())%></td>
+        <td><%=obj.getAvailability()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getCharacteristics()!=null ) { %>
     <tr>
         <td class="label">Characteristics:</td>
-        <td><%=fu.chkNull(obj.getCharacteristics())%></td>
+        <td><%=obj.getCharacteristics()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getPhenotype()!=null ) { %>
     <tr>
         <td class="label">Phenotype:</td>
-        <td><%=fu.chkNull(obj.getPhenotype())%></td>
+        <td><%=obj.getPhenotype()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getGenomicAlteration()!=null ) { %>
+    <tr>
+        <td class="label">Genomic Alteration:</td>
+        <td><%=obj.getGenomicAlteration()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getCaution()!=null ) { %>
+    <tr>
+        <td class="label">Caution:</td>
+        <td><%=obj.getCaution()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getGroups()!=null ) { %>
+    <tr>
+        <td class="label">Groups:</td>
+        <td><%=obj.getGroups()%></td>
+    </tr>
+    <% } %>
+
+    <% if( obj.getDescription()!=null ) { %>
+    <tr>
+        <td class="label">Description:</td>
+        <td><%=obj.getDescription()%></td>
     </tr>
     <% } %>
 
     <% if( obj.getNotes()!=null ) { %>
     <tr>
         <td class="label">Notes:</td>
-        <td><%=fu.chkNull(obj.getNotes())%></td>
+        <td><%=obj.getNotes()%></td>
     </tr>
     <% } %>
 
     <%@ include file="relatedGenes.jsp"%>
     <%@ include file="relatedStrains.jsp"%>
+    <%@ include file="relatedCellLines.jsp"%>
 
     <%
         List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
