@@ -787,7 +787,7 @@ for (String gene: objectSymbols.get(i)) {
     <% }else {
     %>  <span class="resultList"><%=((QTL)resultSet.get(gene)).getSymbol()%></span><br>
 <%}
-    }}
+    }
 
 %>
 
