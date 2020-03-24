@@ -1,11 +1,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
-<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
-<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
-<%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
+<%@ page import="edu.mcw.rgd.datamodel.*" %>
 
 <%
 String pageTitle = "OLGA - Online List Generator & Analyzer";
@@ -779,10 +777,17 @@ for (String gene: objectSymbols.get(i)) {
     Iterator it = resultSet.keySet().iterator();
     while(it.hasNext()) {
         Integer gene = (Integer)it.next();
+        if(resultSet.get(gene) instanceof Gene) {
     %>
       <span class="resultList"><%=((Gene)resultSet.get(gene)).getSymbol()%></span><br>
     <%
-    }
+        } else if(resultSet.get(gene) instanceof Strain) {
+       %>  <span class="resultList"><%=((Strain)resultSet.get(gene)).getSymbol()%></span><br>
+
+    <% }else {
+    %>  <span class="resultList"><%=((QTL)resultSet.get(gene)).getSymbol()%></span><br>
+<%}
+    }}
 
 %>
 
