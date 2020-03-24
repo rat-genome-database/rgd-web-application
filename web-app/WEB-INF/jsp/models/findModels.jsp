@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div style="text-align: center">
-        <p><span style="color:#24619c;font-size: 40px;text-decoration: none;"><img src="/rgdweb/common/images/searchGlass.png" width="100px; height:100px"/>Find Models </span> </p>
+        <p><span style="color:#24619c;font-size: 40px;text-decoration: none;"><img src="/rgdweb/common/images/searchGlass.png" width="100px; height:100px"/>Find Rat Models </span> </p>
         <p class="lead" style="color:#2865A3">Find models by disease or phenotype of your interest</p>
     </div>
     <hr>
