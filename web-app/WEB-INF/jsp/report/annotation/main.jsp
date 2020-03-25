@@ -13,12 +13,18 @@
 <%  boolean includeMapping = true;
     String title = "Ontology";
     String objectType = "";
-
+    int isReferenceRgd=0;
     String termAcc = request.getParameter("term");
-    int rgdId = Integer.parseInt(request.getParameter("id"));
+   int rgdId = Integer.parseInt(request.getParameter("id"));
     int speciesTypeKey = SpeciesType.ALL;
+    System.out.println(termAcc);
 
     List<Annotation> annotList = annotationDAO.getAnnotations(rgdId, termAcc);
+
+    if (annotList.size() == 0) {
+        annotList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,termAcc);
+        isReferenceRgd = 1;
+    }
 
     String term = termAcc;
     Annotation obj = null;
@@ -54,7 +60,7 @@
     while (it.hasNext()) {
         obj = (Annotation) it.next();
 
-
+System.out.println(obj.getTerm());
     RgdId annotatedObjRGDId = managementDAO.getRgdId(obj.getAnnotatedObjectRgdId());
     speciesTypeKey = annotatedObjRGDId.getSpeciesTypeKey();
     objectType = annotatedObjRGDId.getObjectTypeName().toUpperCase();

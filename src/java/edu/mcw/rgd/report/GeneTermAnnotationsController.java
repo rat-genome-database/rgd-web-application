@@ -4,10 +4,12 @@ import edu.mcw.rgd.dao.impl.AnnotationDAO;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.TermSynonym;
 import edu.mcw.rgd.process.Utils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +30,6 @@ public class GeneTermAnnotationsController implements Controller {
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/report/annotation/table.jsp");
 
         GeneTermAnnotationsBean bean = new GeneTermAnnotationsBean();
-        mv.addObject("bean", bean);
 
         // parameter handling: we expect 'rgdId' - geneRgdId and 'accId' - term acc id
         RGDManagementDAO managementDAO = new RGDManagementDAO();
@@ -73,7 +74,12 @@ public class GeneTermAnnotationsController implements Controller {
         }
 
         AnnotationDAO annotationDAO = new AnnotationDAO();
-        bean.setAnnotations(annotationDAO.getAnnotations(rgdId, bean.getAccId()));
+        List<Annotation> annotationList = annotationDAO.getAnnotations(rgdId,bean.getAccId());
+        if(annotationList.size() == 0)
+            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,bean.getAccId());
+        bean.setAnnotations(annotationList);
+        
+        mv.addObject("bean", bean);
 
         return mv;
     }

@@ -90,6 +90,7 @@ public class GeneTermAnnotationsBean {
         Report report = new Report();
 
         Record rec = new Record();
+        rec.append("Object Symbol");
         rec.append("Qualifier");
         rec.append("Evidence");
         rec.append("With");
@@ -143,6 +144,12 @@ public class GeneTermAnnotationsBean {
         for (Annotation a : getAnnotations()) {
 
             rec = new Record();
+
+            if(a.getObjectSymbol() == null) {
+                rec.append("&nbsp;");
+            }else {
+                rec.append(a.getObjectSymbol());
+            }
             if (a.getQualifier() == null) {
                 rec.append("&nbsp;");
             } else {
@@ -181,6 +188,8 @@ public class GeneTermAnnotationsBean {
             if( userIsCurator ) {
                 rec.append("<a href=\"/rgdweb/curation/edit/editAnnotation.html?rgdId="+a.getKey()+"\">(Edit Me!)</a>");
             }
+
+            System.out.println(rec);
             report.append(rec);
         }
 
