@@ -720,7 +720,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
             }else{
                 if(objectType=='genes')
-                    href = "/rgdweb/generator/process.html?&mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=excel&a=" + "~lst:" + selected.replace(/\,/g, '[');
+                    href="search/excelDownload.html?rgdIds=" +selected +"&oKey=" +objectkey +"&mapKey=" + mapKey+"&format="+"excel";
+              //      href = "/rgdweb/generator/process.html?&mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=excel&a=" + "~lst:" + selected.replace(/\,/g, '[');
                 if(objectType=='ontology')
                     href="search/excelDownload.html?rgdIds=" +selected +"&oKey=" +objectkey+"&format=excel" ;
             } _this.href=href;
