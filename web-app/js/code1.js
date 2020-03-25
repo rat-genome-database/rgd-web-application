@@ -307,6 +307,7 @@ $(function() {
                     url: gUrl
                 }
             ].map(function (link) {
+                if(typeof(link.url)!='undefined')
                 return '<a target="_blank" href="' + link.url + '">' + link.name + '</a>';
             }).join('<br />\n'),
             position: {
