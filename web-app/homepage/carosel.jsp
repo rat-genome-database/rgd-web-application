@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <div style="width:270px; border:1px solid black;">
     <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="10000">
         <ol class="carousel-indicators">
