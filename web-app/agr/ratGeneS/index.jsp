@@ -485,28 +485,28 @@
                                     <td class="cell"><a href="allele/">D</a> <a href="allele/">P</a></td>
                                 </tr>
                                 <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo2</sup></a></td>
+                                    <td class="cell"><a href="allele/indexU.jsp">Cit<sup>fhJjlo2</sup></a></td>
                                     <td class="cell">allele with unknown variant</td>
                                     <td class="cell"></td>
                                     <td class="cell"></td>
                                     <td class="cell"></td>
-                                    <td class="cell"><a href="allele/">D</a></td>
+                                    <td class="cell"><a href="allele/indexU.jsp">D</a></td>
                                 </tr>
                                 <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo3</sup></a></td>
+                                    <td class="cell"><a href="allele/index2.jsp">Cit<sup>fhJjlo3</sup></a></td>
                                     <td class="cell" valign="top">allele with multiple known variant</td>
                                     <td class="cell" style="padding-top:8px;padding-bottom:8px;">Chr23:29630700_29630700del<br>Chr23:29630700_29630700del</td>
                                     <td class="cell">insertion<br>point mutation</td>
                                     <td class="cell">frameshift<br>point mutation</td>
-                                    <td class="cell"><a href="allele/">D</a> <a href="allele/">P</a></td>
+                                    <td class="cell"><a href="allele/index2.jsp">D</a> <a href="allele/">P</a></td>
                                 </tr>
                                 <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo4</sup></a></td>
+                                    <td class="cell"><a href="allele/indexT.jsp">Cit<sup>fhJjlo4</sup></a></td>
                                     <td class="cell">transgenic allele</td>
                                     <td class="cell"></td>
                                     <td class="cell">insertion</td>
                                     <td class="cell"></td>
-                                    <td class="cell"><a href="allele/">P</a></td>
+                                    <td class="cell"><a href="allele/indexT.jsp">P</a></td>
                                 </tr>
 
                                 <%
@@ -523,7 +523,7 @@
 
                                 %>
                                 <tr>
-                                    <td class="cell"><a href="allele/"><%=cols[5]%></a></td>
+                                    <td class="cell"><a href="alleleV/"><%=cols[5]%></a></td>
                                     <!--<td class="cell"><a href="variant/">HGVS Name</a></td>-->
                                     <td class="cell">variant</td>
                                     <td class="cell">Chr<%=cols[0]%>:<%=cols[1]%></td>
@@ -534,7 +534,7 @@
                                     <% } else if (i==4 || i==9) { %>
                                         <td class="cell">stop gain</td>
                                     <% } else { %>
-                                        <td class="cell">point mutation</td>
+                                        <td class="cell">intergenic variant</td>
                                     <% }  %>
 
                                     <!--

@@ -59,11 +59,11 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Symbol</td>
-                                            <td class="cell">Cit<sup>fhJjlo</sup></td>
+                                            <td class="cell">Cit<sup>fhJjlo2</sup></td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Type</td>
-                                            <td class="cell">allele with 1 known variant</td>
+                                            <td class="cell">allele with unknown variant</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Affected Region</td>
@@ -75,12 +75,12 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Genomic Variation Type</td>
-                                            <td class="cell">deletion</td>
+                                            <td class="cell"></td>
                                         </tr>
 
                                         <tr>
                                             <td class="subHeader" width="300">Synonyms</td>
-                                            <td class="cell">CitfhJjlo</td>
+                                            <td class="cell">CitfhJjlo2</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Description</td>
@@ -92,7 +92,7 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Variation Pathogenicity</td>
-                                            <td class="cell">Pathogenic</td>
+                                            <td class="cell"></td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Reference/Literature</td>
@@ -111,45 +111,7 @@
                         </table>
                     </td>
                 </tr>
-                <tr>
-                    <td><img src="variants.png"/></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div style="margin-left:10px;height: 200px; overflow: auto;">
 
-                        <table width="100%" cellpadding="0" cellspacin="0">
-                            <tr>
-                                <td class="header"><br>Variants</td>
-                            </tr>
-                            </table>
-
-                            <table width="100%" cellpadding="0" cellspacin="0">
-                            <tr>
-                                <td class="subHeader">Genomic Variation</td>
-                                <td class="subHeader">Variantion Type</td>
-                                <td class="subHeader">Genomic Location</td>
-                                <td class="subHeader">Nucleotide Change</td>
-                                <td class="subHeader">Most Severe<br>Consequence</td>
-                                <td class="subHeader">HGVS names</td>
-                                <td class="subHeader">Xreference,Provenance</td>
-                            </tr>
-
-                                <tr>
-                                    <td class="cell"><a href="../variant/">HGVS Name</a></td>
-                                    <td class="cell">deletion</td>
-                                    <td class="cell">12:46493042..46493043</td>
-                                    <td class="cell">C/-</td>
-                                    <td class="cell">stop gain</td>
-                                    <td class="cell"><a href="../variant/">HGVS Name</a></td>
-                                    <td class="cell"></td>
-
-
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
                 <tr>
                     <td><img src="pheno.png"/></td>
                 </tr>

@@ -47,7 +47,7 @@
                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-left:10px;">
                             <tr><td style="color:#919796;font-family: Lato,Helvetica, sans-serif;">ALLELE/VARIANT</td></tr>
                             <tr style="border:1px solid black;">
-                                <td class="header" >Cit<sup>fhJjlo</sup></td>
+                                <td class="header" >rs106165986</sup></td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr>
@@ -59,11 +59,11 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Symbol</td>
-                                            <td class="cell">Cit<sup>fhJjlo</sup></td>
+                                            <td class="cell">rs106165986</sup></td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Type</td>
-                                            <td class="cell">allele with 1 known variant</td>
+                                            <td class="cell">variant</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Affected Region</td>
@@ -80,7 +80,7 @@
 
                                         <tr>
                                             <td class="subHeader" width="300">Synonyms</td>
-                                            <td class="cell">CitfhJjlo</td>
+                                            <td class="cell"></td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Description</td>

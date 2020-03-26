@@ -47,7 +47,7 @@
                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-left:10px;">
                             <tr><td style="color:#919796;font-family: Lato,Helvetica, sans-serif;">ALLELE/VARIANT</td></tr>
                             <tr style="border:1px solid black;">
-                                <td class="header" >Cit<sup>fhJjlo</sup></td>
+                                <td class="header" >Cit<sup>fhJjlo3</sup></td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr>
@@ -59,11 +59,11 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Symbol</td>
-                                            <td class="cell">Cit<sup>fhJjlo</sup></td>
+                                            <td class="cell">Cit<sup>fhJjlo3</sup></td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Type</td>
-                                            <td class="cell">allele with 1 known variant</td>
+                                            <td class="cell">allele with multiple known variant</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Affected Region</td>
@@ -75,12 +75,12 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Genomic Variation Type</td>
-                                            <td class="cell">deletion</td>
+                                            <td class="cell">deletion,point mutation</td>
                                         </tr>
 
                                         <tr>
                                             <td class="subHeader" width="300">Synonyms</td>
-                                            <td class="cell">CitfhJjlo</td>
+                                            <td class="cell">CitfhJjlo2</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Description</td>
@@ -92,7 +92,7 @@
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Variation Pathogenicity</td>
-                                            <td class="cell">Pathogenic</td>
+                                            <td class="cell">pathogenic, benign</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Reference/Literature</td>
@@ -141,6 +141,17 @@
                                     <td class="cell">12:46493042..46493043</td>
                                     <td class="cell">C/-</td>
                                     <td class="cell">stop gain</td>
+                                    <td class="cell"><a href="../variant/">HGVS Name</a></td>
+                                    <td class="cell"></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="cell"><a href="../variant/">HGVS Name</a></td>
+                                    <td class="cell">point mutation</td>
+                                    <td class="cell">12:46493047..46493048</td>
+                                    <td class="cell">T/G</td>
+                                    <td class="cell"></td>
                                     <td class="cell"><a href="../variant/">HGVS Name</a></td>
                                     <td class="cell"></td>
 

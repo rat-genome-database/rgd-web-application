@@ -25,6 +25,11 @@
 
 
  }
+ .searchCell {
+     color:#247bbd;
+     font-size: 14.4px;
+     font-family: Lato,Helvetica, sans-serif;
+ }
 
  <%
   String vars = "12,46334855,46334855,C,T,rs197758291,SNV,Rat/Rnor_6.0,\n" +
@@ -377,83 +382,221 @@
     </tr>
     <tr>
         <td valign="top">
+
+            <table border="0" width="400">
+                <tr>
+                    <td width="20">&nbsp;</td>
+                    <td  width="15"class="cell">Allele</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td  width="15"colspan=3 class="searchCell">< Show all Categories</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="subHeader" colspan="2">Species</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">Mus Musculus</td>
+                    <td class="searchCell">16</td>
+                 </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">Danio rerio</td>
+                    <td class="searchCell">15</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">Rattus norvegicus</td>
+                    <td class="searchCell">1</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="subHeader" colspan="2"><br>Variant Types</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">unreported</td>
+                    <td class="searchCell">20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">point mutation</td>
+                    <td class="searchCell">11</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">deletion</td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="subHeader" colspan="2"><br>Molecular Consequence</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">frameshift variant</td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">stop gained</td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="subHeader" colspan="2"><br>Disease</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">cardiovascular system disease
+                    </td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">central nervous system disease
+                    </td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">physical disorder
+
+                    </td>
+                    <td class="searchCell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="subHeader" colspan="2"><br>Genes</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">Cited2 (Mmu)
+                    </td>
+                    <td class="searchCell">12</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">cita
+                    </td>
+                    <td class="searchCell">8</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="15">&nbsp;</td>
+                    <td class="searchCell">cited4b (Dre)
+
+                    </td>
+                    <td class="searchCell">4</td>
+                </tr>
+
+
+            </table>
+
             <img src="left.png"/>
         </td>
         <td>
             <table>
                 <tr>
-                    <td><img src="search.png"/></td>
+                    <td><img src="head.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="sequence.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="go.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="ortho.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="pheno.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="do1.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="do2.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="expression.png"/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" cellpadding="0" cellspacin="0">
+                            <tr style="border:1px solid black;">
+                                <td class="header" >Alleles</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <table width="100%"  cellpadding="0" cellspacin="0">
+                                    <tr>
+                                        <td class="subHeader">Allele Symbol</td>
+                                        <td class="subHeader">Allele Synonyms</td>
+                                        <td class="subHeader">Associated Human Disease</td>
+                                        <td class="subHeader">Associated phenotypes</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell"><a href="allele/">Cit<sup>fhJjlo</sup></a></td>
+                                        <td class="cell">CitfhjJlo</td>
+                                        <td class="cell"><li><a href="https://build.alliancegenome.org/disease/DOID:10907">microcephaly</a></li><li><a href="https://build.alliancegenome.org/disease/DOID:11832">visual epilepsy</a></li></td>
+                                        <td class="cell"><li>binucleate<br>
+                                            <li>decreased forebrain size<br>
+                                            <li>flat head
+                                        </td>
+                                    </tr>
+                                </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <table width="100%" cellpadding="0" cellspacin="0">
-                            <tr>
-                                <td class="header"><br>Variants/Alleles&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a style="font-size:14px;" href="variantList">Analyze Variants/Alleles</a></td>
-                            </tr>
-                        </table>
+
+                            <table width="100%" cellpadding="0" cellspacin="0">
+                                <tr>
+                                    <td class="header"><br>Variants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a style="font-size:14px;" href="variantList">Analyze variants</a></td>
+                                </tr>
+                            </table>
 
 
                         <div style="height: 600px; overflow: auto;">
 
 
-                            <table width="100%" cellpadding="6" cellspacing="0">
+                            <table width="100%" cellpadding="0" cellspacin="0">
                                 <tr>
 
-                                    <td class="subHeader">Variant/allele symbol</td>
-                                    <td class="subHeader">Type</td>
-                                    <td class="subHeader">Genomic alteration</td>
-                                    <td class="subHeader">Genomic alteration type</td>
-                                    <td class="subHeader">Molecular consequence</td>
-                                    <td class="subHeader">Has phenotype/Disease annotations</td>
-
-                                    <!--
+                                    <td class="subHeader">Variant Name</td>
                                     <td class="subHeader">ID</td>
-                                    <td class="subHeader">Variant/allele symbol</td>
                                     <td class="subHeader">Variant Type</td>
                                     <td class="subHeader">Chromosome:position</td>
                                     <td class="subHeader">Nucleotide Change</td>
                                     <td class="subHeader">Most Severe<br>Consequence</td>
                                     <td class="subHeader">Most Severe<br>Protein Consequence</td>
-                                    -->
                                     <!--
                                     <td class="subHeader">Disease<br> Association</td>
                                     <td class="subHeader">Phenotype<br> Association</td>
                                     -->
                                 </tr>
 
-                                <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo</sup></a></td>
-                                    <td class="cell">allele with 1 known variant</td>
-                                    <td class="cell">Chr23:29630700_29630700del</td>
-                                    <td class="cell">deletion</td>
-                                    <td class="cell">frameshift</td>
-                                    <td class="cell"><a href="allele/">D</a> <a href="allele/">P</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo2</sup></a></td>
-                                    <td class="cell">allele with unknown variant</td>
-                                    <td class="cell"></td>
-                                    <td class="cell"></td>
-                                    <td class="cell"></td>
-                                    <td class="cell"><a href="allele/">D</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo3</sup></a></td>
-                                    <td class="cell" valign="top">allele with multiple known variant</td>
-                                    <td class="cell" style="padding-top:8px;padding-bottom:8px;">Chr23:29630700_29630700del<br>Chr23:29630700_29630700del</td>
-                                    <td class="cell">insertion<br>point mutation</td>
-                                    <td class="cell">frameshift<br>point mutation</td>
-                                    <td class="cell"><a href="allele/">D</a> <a href="allele/">P</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="cell"><a href="allele/">Cit<sup>fhJjlo4</sup></a></td>
-                                    <td class="cell">transgenic allele</td>
-                                    <td class="cell"></td>
-                                    <td class="cell">insertion</td>
-                                    <td class="cell"></td>
-                                    <td class="cell"><a href="allele/">P</a></td>
-                                </tr>
 
                                 <%
                                     BufferedReader br = new BufferedReader(new StringReader(vars));
@@ -461,29 +604,17 @@
                                 %>
 
 
-                                <%
-                                    int i=0;
-                                    while ((line=br.readLine()) != null) {
-                                        i++;
-                                        String[] cols = line.split(",");
+                                <% while ((line=br.readLine()) != null) {
+                                    String[] cols = line.split(",");
 
                                 %>
                                 <tr>
-                                    <td class="cell"><a href="alleleV/"><%=cols[5]%></a></td>
-                                    <!--<td class="cell"><a href="variant/">HGVS Name</a></td>-->
-                                    <td class="cell">variant</td>
-                                    <td class="cell">Chr<%=cols[0]%>:<%=cols[1]%></td>
+                                    <td class="cell"><a href="variant/">HGVS Name</a></td>
+                                    <td class="cell"><%=cols[5]%></td>
                                     <td class="cell"><%=cols[6]%></td>
+                                    <td class="cell"><%=cols[0]%>:<%=cols[1]%></td>
+                                    <td class="cell"><%=cols[3]%>/<%=cols[4]%></td>
 
-                                    <% if (i==3 || i==5 || i==15 || i==25) { %>
-                                    <td class="cell">missense</td>
-                                    <% } else if (i==4 || i==9) { %>
-                                    <td class="cell">stop gain</td>
-                                    <% } else { %>
-                                    <td class="cell">intergenic variant</td>
-                                    <% }  %>
-
-                                    <!--
                                     <% if (cols.length >=9) {%>
                                     <td class="cell"><%=cols[8]%></td>
                                     <% } else {%>
@@ -495,8 +626,11 @@
                                     <% } else {%>
                                     <td class="cell"></td>
                                     <% } %>
-                                    -->
+
+<!--
                                     <td class="cell"></td>
+                                    <td class="cell"></td>
+    -->
                                 </tr>
                                 <% } %>
                             </table>
@@ -504,14 +638,19 @@
 
                     </td>
                 </tr>
+                <tr>
+                    <td><img src="models.png"/></td>
+                </tr>
+                <tr>
+                    <td><img src="interactions.png"/></td>
+                </tr>
 
 
             </table>
 
 
 
+
         </td>
     </tr>
 </table>
-
-<br><br><br><br>
