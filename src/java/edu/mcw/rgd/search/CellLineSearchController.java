@@ -71,8 +71,8 @@ public class CellLineSearchController extends RGDSearchController {
             report.append(row);
         }
 
-        report.sort(6, Report.ASCENDING_SORT, true);
-        report.removeColumn(6);
+        report.sort(7, Report.ASCENDING_SORT, true);
+        report.removeColumn(7);
 
         return report;
     }
