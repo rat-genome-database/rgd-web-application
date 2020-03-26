@@ -6,7 +6,7 @@
 
 
 
-<div style="background-color:#eaf2f8;margin:12px;"  >
+<div style="background-color:#eaf2f8;margin-left:14px;margin-right:22px;"  >
     <table align="center" border="0" width="650">
         <tr>
             <td>
@@ -40,7 +40,7 @@
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='/wg/data-menu/'">More..</div>
+                <div class="searchCard" onclick="location.href='/wg/data-menu/'">All...</div>
             </td>
         </tr>
     </table>

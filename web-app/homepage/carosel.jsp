@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div style="width:270px; border:1px solid black;">
     <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="10000">
         <ol class="carousel-indicators">
@@ -7,7 +8,7 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/squirrel/'">
-                    <img src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
+                    <img style="cursor:pointer;" src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
             </div>
             <!--
             <div class="carousel-item">
