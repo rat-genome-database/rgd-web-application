@@ -45,7 +45,8 @@ public class CellLineSearchController extends RGDSearchController {
         Report report = new Report();
 
         Record header = new Record();
-        header.append("Cell Line Symbol");
+        header.append("Symbol");
+        header.append("Name");
         header.append("Type");
         header.append("Gender");
         header.append("Germline Competent");
@@ -60,6 +61,7 @@ public class CellLineSearchController extends RGDSearchController {
             String url = "<a href=\""+ Link.cellLine(cl.getRgdId())+"\" title=\"go to cell line report page\">"+
                     cl.getSymbol()+"</a>";
             row.append(url);
+            row.append(cl.getName());
             row.append(cl.getObjectType());
             row.append(cl.getGender());
             row.append(cl.getGermlineCompetent());
