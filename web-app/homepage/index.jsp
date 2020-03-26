@@ -154,13 +154,14 @@
             <table border="0">
                 <tr>
                     <!--<td><span style="font-family: 'Marcellus SC', serif;font-size:14px;">Species Specific Portals</span></td>-->
-                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px;">Species Specific Portals</span></td>
+                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px;">Other Species Portals</span></td>
                 </tr>
                 <tr>
                     <td><img src="/rgdweb/common/images/blueArrow.png" border=0></td>
                 </tr>
             </table>
         </td>
+<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/'">
                 <div style="margin:5px; font-weight:700;">Human</div>
@@ -172,12 +173,13 @@
                 <div style="margin:5px; font-weight:700;">Mouse</div>
             </div>
             <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
+-->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/chinchilla'">
                 <div style="margin:3px; font-weight:700;">Chinchilla</div>
-
             </div>
             <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
+<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/dog'">
                 <div style="margin:5px; font-weight:700;">Domestic Dog</div>
@@ -185,12 +187,14 @@
             <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/>
 
         </td>
+-->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'">
                 <div style="margin:5px; font-weight:700;font-size:11px;">Thirteen Lined Ground Squirrel</div>
             </div>
             <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/>
         </td>
+<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/bonobo'">
                 <div style="margin:5px; font-weight:700;">Bonobo</div>
@@ -211,6 +215,7 @@
                 <div style="margin:5px; font-weight:700;">African Green Monkey</div>
             </div>
             <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
+ -->
     </tr>
 </table>
 
