@@ -8,6 +8,8 @@
     boolean includeMapping = false;
     String title="Cell Lines";
     Report report = (Report) request.getAttribute("report");
+    int pageNr = (Integer) request.getAttribute("pageNr");
+    int pageSize = (Integer) request.getAttribute("pageSize");
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
@@ -26,6 +28,12 @@ All cell lines available in RGD:<br><br>
         <%=new HTMLTableReportStrategy().format(report)%>
     </table>
   </td></tr>
+
+  <tr><td><table width="600" cellspacing="0" cellpadding="0"><tr><td align="right">
+      <% if( pageNr>1 ) { %><a href="cellLines.html?p=<%=pageNr-1%>">Previous Page</a> &nbsp; &nbsp; <% } %>
+      Page <%=pageNr%> &nbsp; &nbsp;
+      <% if( report.records.size()>0 ) { %><a href="cellLines.html?p=<%=pageNr+1%>">Next Page</a> &nbsp; &nbsp; <% } %>
+   </td></tr></table></td></tr>
 </table>
 
 </div>

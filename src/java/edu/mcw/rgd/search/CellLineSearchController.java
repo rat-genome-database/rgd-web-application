@@ -32,6 +32,16 @@ public class CellLineSearchController extends RGDSearchController {
      */
     public Report getReport(SearchBean search, HttpRequestFacade req) throws Exception {
 
+        // page nr
+        String p = req.getParameter("p");
+        int pageNr = p.isEmpty() ? 1 : Integer.parseInt(p);
+        req.getRequest().setAttribute("pageNr", pageNr);
+
+        // page size
+        p = req.getParameter("psize");
+        int pageSize = p.isEmpty() ? 30 : Integer.parseInt(p);
+        req.getRequest().setAttribute("pageSize", pageSize);
+
         Report report = new Report();
 
         Record header = new Record();
@@ -44,7 +54,7 @@ public class CellLineSearchController extends RGDSearchController {
         header.append("--Symbol--"); // column used only for sorting
         report.append(header);
 
-        for( CellLine cl: new CellLineDAO().getActiveCellLines() ) {
+        for( CellLine cl: new CellLineDAO().getActiveCellLines(pageNr-1, pageSize) ) {
 
             Record row = new Record();
             String url = "<a href=\""+ Link.cellLine(cl.getRgdId())+"\" title=\"go to cell line report page\">"+
