@@ -139,6 +139,27 @@
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
+
+    <%
+        List<Annotation> doAnnots = annotationDAO.getAnnotationsForOntology(obj.getRgdId(), "DOID:");
+        if (doAnnots.size() > 0 ) {
+            // sort annots alphabetically by term name
+            Collections.sort(doAnnots, new Comparator<Annotation>() {
+                public int compare(Annotation o1, Annotation o2) {
+                    return Utils.stringsCompareToIgnoreCase(o1.getTerm(), o2.getTerm());
+                }
+            });
+    %>
+    <tr>
+        <td class="label" valign="top">Disease(s):</td>
+        <td>
+            <% for( Annotation doAnnot: doAnnots ) { %>
+            <%=doAnnot.getTerm()%> (<%=doAnnot.getTermAcc()%>) [<%=doAnnot.getNotes()%>] <br>
+            <% } %>
+        </td>
+    </tr>
+    <% } %>
+
 </table>
 <br>
 
