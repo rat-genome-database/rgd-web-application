@@ -15,6 +15,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -95,14 +96,15 @@ public class FindModelsController implements Controller {
         }
         if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
           //  System.out.print("QUALIFIER:"+ qualifier);
-          query.filter(QueryBuilders.termQuery("qualifier.keyword", qualifier));
+          query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier));
         }
 
        // srb.query(QueryBuilders.matchAllQuery());
         srb.query(query);
         srb.aggregation(getAggregations());
+        srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_prod");
+        SearchRequest searchRequest=new SearchRequest("models_index_test");
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
@@ -112,7 +114,7 @@ public class FindModelsController implements Controller {
                 aspectAgg=sr.getAggregations().get("aspect");
                 aggregations.put("aspectAgg", aspectAgg.getBuckets());
                 for( Terms.Bucket bkt: aspectAgg.getBuckets()){
-                    Terms modelsAgg=   bkt.getAggregations().get("qualifier");
+                    Terms modelsAgg=   bkt.getAggregations().get("qualifiers");
                     System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
                     aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
                 }
@@ -130,7 +132,7 @@ public class FindModelsController implements Controller {
       //  return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
 
         return AggregationBuilders.terms("aspect").field("aspect.keyword")
-                .subAggregation(AggregationBuilders.terms("qualifier").field("qualifier.keyword"));
+                .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
 
     }
 }

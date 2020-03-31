@@ -1,4 +1,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+
+
+<script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
+<link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
+
+<link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+<script>
+    $(function () {
+        $("#findModelsTable").tablesorter({
+            theme: 'blue',
+            widthFixed: false,
+            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
+
+        })
+    })
+
+
+</script>
+
 <h3>${model.hitsCount} results for term "${model.term}
     <c:if test="${model.aspect=='D'}">
         Disease
@@ -7,16 +30,18 @@
         Phenotype
     </c:if>
     ${model.qualifier}"</h3>
-<table class="table">
+<table id="findModelsTable" class="tablesorter">
     <thead>
     <tr>
-        <th>Model</th>
+        <th class="tablesorter-header" >Strain</th>
         <!--th>Model RGD ID</th>
         <th>Species</th-->
-        <th>Model Type</th>
-        <th>Evidence Code</th>
-        <th>Disease/Phenotype</th>
-        <th>Reference</th>
+        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Considered as type ...</th>
+        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">With Info</th>
+        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Disease/Phenotype</th>
+
+        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Evidence Code</th>
+        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Reference</th>
 
     </tr>
     </thead>
@@ -27,17 +52,35 @@
                 <td><a href="/rgdweb/report/strain/main.html?id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().annotatedObjectSymbol}</a></td>
                 <!--td>$-{hit.getSourceAsMap().annotatedObjectRgdId}</td>
                 <td>$-{hit.getSourceAsMap().species}</td-->
-                <td>${hit.getSourceAsMap().qualifier}</td>
-                <td>${hit.getSourceAsMap().evidenceCode}</td>
+                <td>
+                    <c:forEach items="${hit.getSourceAsMap().qualifiers}" var="q">
+                        <c:out value="${q}"/>&nbsp;
+                    </c:forEach>
+             </td>
+
+
+                <td>${hit.getSourceAsMap().withInfoTerms}</td>
                 <td>${hit.getSourceAsMap().term} &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                 </td>
-                <td><a href="/rgdweb/report/reference/main.html?id=${hit.getSourceAsMap().refRgdId}">${hit.getSourceAsMap().refRgdId}</a></td>
-                <!--td>
-                <!--c:forEach items="$-{hit.getSourceAsMap().references}" var="refRgdId">
-                    <a href="/rgdweb/report/reference/main.html?id=$-{refRgdId}">$-{refRgdId}</a>
-                <!--/c:forEach></td-->
+                <td>
+                    <c:forEach items="${hit.getSourceAsMap().evidenceCodes}" var="e">
+                        ${e}&nbsp;
+                    </c:forEach>
+                </td>
+                <td>
+                    <c:forEach items="${hit.getSourceAsMap().refRgdIds}" var="ref">
+                        <a href="/rgdweb/report/reference/main.html?id=${ref}">${ref}</a>&nbsp;
+                    </c:forEach>
+
+                </td>
+
             </tr>
         </c:forEach>
     </c:forEach>
     </tbody>
 </table>
+
+
+
+
+

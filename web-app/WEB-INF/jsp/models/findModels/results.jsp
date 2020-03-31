@@ -6,8 +6,9 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 
-
 <%@ include file="header.jsp"%>
+
+
 <h1 style="text-align: center">Rat Models Results</h1>
 <div class="container-fluid wrapper" style="border:1px solid gainsboro;">
 
@@ -16,25 +17,25 @@
       <div class="container-fluid" style="background-color: dodgerblue; width:100%;color:white;font-size: medium;font-weight: bold">Filter by ...</div>
         <p>&nbsp;</p>
         <p><a onclick="searchByQualifier('${model.term}','${model.aspect}', 'all')" style="cursor: hand;text-decoration: underline">All (${model.hitsCount})</a></p>
-        <ul>
+        <ul class="list-group">
         <c:forEach items="${model.aggregations.aspectAgg}" var="aspect">
         <c:if test="${model.aspect!='MODEL'}">
-            <li style="padding: 5px">
+            <li class="list-group-item">
 
             <c:if test="${aspect.key=='D'}">
-                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">Disease (${aspect.docCount})</a>
-                <ul>
+                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="font-weight: bold;color:steelblue">Disease (${aspect.docCount})</a>
+                <ul class="list-group">
                 <c:forEach items="${model.aggregations.D}" var="dm">
-                    <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
+                    <li class="list-group-item"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
                 </c:forEach>
                 </ul>
             </c:if>
 
             <c:if test="${aspect.key=='N'}">
-                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline"> Phenotype (${aspect.docCount})</a>
-                <ul>
+                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="font-weight: bold;color:steelblue"> Phenotype (${aspect.docCount})</a>
+                <ul class="list-group">
                     <c:forEach items="${model.aggregations.N}" var="pm">
-                        <li><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
+                        <li class="list-group-item"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
                     </c:forEach>
                 </ul>
             </c:if>
@@ -54,7 +55,7 @@
             </li>
             </c:if>
             <c:if test="${model.aspect=='MODEL'}">
-                <li style="padding: 5px"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline">
+                <li class="list-group-item"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline">
                     <c:if test="${aspect.key=='D'}">
                     Disease (${aspect.docCount})
 
@@ -80,6 +81,7 @@
     </div>
 </div>
 </div>
+
 <script>
 
       function searchByQualifier(term, aspect, qualifier, searchType) {

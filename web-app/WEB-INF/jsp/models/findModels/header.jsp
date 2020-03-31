@@ -46,9 +46,7 @@
         <div class="container">
 
             <div class="form-row row">
-                <!--div class="form-group col-md-2">
-                <span style="color:#24619c;font-size: 20px;text-decoration: none;"><!--img src="/rgdweb/common/images/searchGlass.png" width="50px; height:50px"/>Find Models By: </span>
-                <!--/div-->
+
                 <div class="form-group col-md-4">
 
                     <select class="form-control form-control-lg selectpicker" id="modelsAspect" name="modelsAspect">
