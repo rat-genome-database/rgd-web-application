@@ -116,10 +116,20 @@ public class GeneTermAnnotationsBean {
                 "valign='top'", // orig refer
         });
 
-        // sort annotations by evidence,qualifier,with_info,reference,source,notes
+        // sort annotations by evidence,qualifier,with_info,reference,notes
         Collections.sort(getAnnotations(), new Comparator<Annotation>() {
             public int compare(Annotation o1, Annotation o2) {
-                int r = o1.getEvidence().compareTo(o2.getEvidence());
+
+                // SORT ORDER
+                // 1. data_source: 'RGD','OMIM','CTD',...
+                // 2. evidence
+                // 3. with_info
+                // 4. xrefs
+                int r = getDataSourceRank(o1.getDataSrc()) - getDataSourceRank(o2.getDataSrc());
+                if( r!=0 ) {
+                    return r;
+                }
+                r = o1.getEvidence().compareTo(o2.getEvidence());
                 if( r!=0 )
                     return r;
                 r = Utils.stringsCompareTo(o1.getQualifier(), o2.getQualifier());
@@ -131,13 +141,19 @@ public class GeneTermAnnotationsBean {
                 r = Utils.intsCompareTo(o1.getRefRgdId(), o2.getRefRgdId());
                 if( r!=0 )
                     return r;
-                r = Utils.stringsCompareTo(o1.getDataSrc(), o2.getDataSrc());
-                if( r!=0 )
-                    return r;
                 r = Utils.stringsCompareToIgnoreCase(o1.getNotes(), o2.getNotes());
                 if( r!=0 )
                     return r;
                 return Utils.stringsCompareTo(o1.getXrefSource(), o2.getXrefSource());
+            }
+
+            int getDataSourceRank(String dataSrc) {
+                switch(dataSrc) {
+                    case "RGD": return -10;
+                    case "OMIM": return -9;
+                    case "CTD": return -8;
+                    default: return Character.codePointAt(dataSrc, 0);
+                }
             }
         });
 
