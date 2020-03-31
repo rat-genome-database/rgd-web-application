@@ -9,19 +9,18 @@ import edu.mcw.rgd.datamodel.ontologyx.TermSynonym;
 import edu.mcw.rgd.process.Utils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 4/3/12
- * Time: 2:55 PM
- * <p>
- *     shows all annotations for given gene and ontology term
- * </p>
+ * @author mtutaj
+ * @since 4/3/12
+ * shows all annotations for given gene and ontology term
  */
 public class GeneTermAnnotationsController implements Controller {
 
@@ -75,8 +74,44 @@ public class GeneTermAnnotationsController implements Controller {
 
         AnnotationDAO annotationDAO = new AnnotationDAO();
         List<Annotation> annotationList = annotationDAO.getAnnotations(rgdId,bean.getAccId());
-        if(annotationList.size() == 0)
-            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,bean.getAccId());
+        if(annotationList.isEmpty() ) {
+            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId, bean.getAccId());
+        }
+
+        // sort annotations
+        Collections.sort(annotationList, new Comparator<Annotation>() {
+            @Override
+            public int compare(Annotation o1, Annotation o2) {
+                // SORT ORDER
+                // 1. data_source: 'RGD','OMIM','CTD',...
+                // 2. evidence
+                // 3. with_info
+                // 4. xrefs
+                int r = getDataSourceRank(o1.getDataSrc()) - getDataSourceRank(o2.getDataSrc());
+                if( r!=0 ) {
+                    return r;
+                }
+                r = Utils.stringsCompareTo(o1.getEvidence(), o2.getEvidence());
+                if( r!=0 ) {
+                    return r;
+                }
+                r = Utils.stringsCompareTo(o1.getWithInfo(), o2.getWithInfo());
+                if( r!=0 ) {
+                    return r;
+                }
+                return Utils.stringsCompareTo(o1.getXrefSource(), o2.getXrefSource());
+            }
+
+            int getDataSourceRank(String dataSrc) {
+                switch(dataSrc) {
+                    case "RGD": return -10;
+                    case "OMIM": return -9;
+                    case "CTD": return -8;
+                    default: return Character.codePointAt(dataSrc, 0);
+                }
+            }
+        });
+
         bean.setAnnotations(annotationList);
         
         mv.addObject("bean", bean);
