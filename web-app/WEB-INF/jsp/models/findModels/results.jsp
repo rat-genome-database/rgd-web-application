@@ -55,7 +55,7 @@
             </li>
             </c:if>
             <c:if test="${model.aspect=='MODEL'}">
-                <li class="list-group-item"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline">
+                <li class="list-group-item"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline;font-weight: bold;color:steelblue">
                     <c:if test="${aspect.key=='D'}">
                     Disease (${aspect.docCount})
 

@@ -63,8 +63,8 @@
                 <td>${hit.getSourceAsMap().term} &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                 </td>
                 <td>
-                    <c:forEach items="${hit.getSourceAsMap().evidenceCodes}" var="e">
-                        ${e}&nbsp;
+                    <c:forEach items="${hit.getSourceAsMap().evidences}" var="e">
+                        <span title="${e.name}" >${e.evidence}</span>&nbsp;
                     </c:forEach>
                 </td>
                 <td>
