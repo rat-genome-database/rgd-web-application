@@ -9,19 +9,16 @@ import edu.mcw.rgd.datamodel.ontologyx.TermSynonym;
 import edu.mcw.rgd.process.Utils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 4/3/12
- * Time: 2:55 PM
- * <p>
- *     shows all annotations for given gene and ontology term
- * </p>
+ * @author mtutaj
+ * @since 4/3/12
+ * shows all annotations for given gene and ontology term
  */
 public class GeneTermAnnotationsController implements Controller {
 
@@ -75,8 +72,9 @@ public class GeneTermAnnotationsController implements Controller {
 
         AnnotationDAO annotationDAO = new AnnotationDAO();
         List<Annotation> annotationList = annotationDAO.getAnnotations(rgdId,bean.getAccId());
-        if(annotationList.size() == 0)
-            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,bean.getAccId());
+        if(annotationList.isEmpty() ) {
+            annotationList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId, bean.getAccId());
+        }
         bean.setAnnotations(annotationList);
         
         mv.addObject("bean", bean);
