@@ -21,7 +21,9 @@
 
 
 </script>
-
+<style>
+    .tablesorter thead .disabled {display: none}
+</style>
 <h3>${model.hitsCount} results for term "${model.term}
     <c:if test="${model.aspect=='D'}">
         Disease
@@ -33,15 +35,15 @@
 <table id="findModelsTable" class="tablesorter">
     <thead>
     <tr>
-        <th class="tablesorter-header" >Strain</th>
+        <th class="tablesorter-header"data-placeholder="Search for strain..." >Strain</th>
         <!--th>Model RGD ID</th>
         <th>Species</th-->
-        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Considered as type ...</th>
-        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">With Info</th>
-        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Disease/Phenotype</th>
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Considered as type ...</th>
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">With Info</th>
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Disease/Phenotype</th>
 
-        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Evidence Code</th>
-        <th class="tablesorter-header" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Reference</th>
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Evidence Code</th>
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Reference</th>
 
     </tr>
     </thead>
