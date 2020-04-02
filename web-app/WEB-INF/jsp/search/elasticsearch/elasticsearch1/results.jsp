@@ -68,7 +68,7 @@
                             ${model.aggregations.species[0].key}
                         </c:if>
                           </span>
-                          <c:if test="${model.searchBean.chr!=0 && model.searchBean.chr!=''}">
+                          <c:if test="${model.searchBean.chr!='0' && model.searchBean.chr!=''}">
                            on chromosome <span style="font-weight:bold;font-size: 15px">${model.searchBean.chr}</span>
                           </c:if>
         </c:if>
