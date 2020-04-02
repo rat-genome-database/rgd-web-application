@@ -150,14 +150,18 @@
 
 <table align="center">
     <tr>
+        <td>
+            <img style="margin-right:10px;" src="/rgdweb/common/images/species/ratI.png"   border="0"  class="speciesIcon"/>
+        </td>
+
         <td valign="center">
             <table border="0">
                 <tr>
                     <!--<td><span style="font-family: 'Marcellus SC', serif;font-size:14px;">Species Specific Portals</span></td>-->
-                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px;">Other Species Portals</span></td>
+                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px; margin-right:8px;">Other Species Portals</span></td>
                 </tr>
                 <tr>
-                    <td><img src="/rgdweb/common/images/blueArrow.png" border=0></td>
+                    <td><img src="/rgdweb/common/images/blueArrow.png" border=0 ></td>
                 </tr>
             </table>
         </td>
