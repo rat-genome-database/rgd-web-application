@@ -104,7 +104,7 @@ public class FindModelsController implements Controller {
         srb.aggregation(getAggregations());
         srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_test");
+        SearchRequest searchRequest=new SearchRequest("models_index_prod");
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
