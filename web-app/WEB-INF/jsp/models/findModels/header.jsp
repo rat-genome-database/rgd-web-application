@@ -40,7 +40,7 @@
 </script>
 
 <div class="jumbotron">
-<form id="models-form" action="findModels.html" method="post"   target="_blank">
+<form id="models-form" action="findModels.html" method="post">
     <div class="" >
 
         <div class="container">
