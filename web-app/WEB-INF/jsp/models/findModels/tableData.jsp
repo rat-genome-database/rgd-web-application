@@ -61,8 +61,13 @@
              </td>
 
 
-                <td>${hit.getSourceAsMap().withInfoTerms}</td>
-                <td>${hit.getSourceAsMap().term} &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+                <!--td>$-{hit.getSourceAsMap().withInfoTerms}</td-->
+                <td>
+                    <c:forEach items="${hit.getSourceAsMap().infoTerms}" var="xco">
+                        <a href="/rgdweb/ontology/annot.html?acc_id=${xco.accId}">${xco.term}</a>
+                    </c:forEach>
+                </td>
+                <td><a href="/rgdweb/report/annotation/main.html?term=${hit.getSourceAsMap().termAcc}&id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().term}</a> &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                 </td>
                 <td>
                     <c:forEach items="${hit.getSourceAsMap().evidences}" var="e">
