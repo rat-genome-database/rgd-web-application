@@ -1,4 +1,6 @@
 <%@ page import="java.util.LinkedHashMap" %>
+
+
 <%
     String pageTitle = "Rat Genome Database";
     String headContent = "";
@@ -106,9 +108,6 @@
 
 </style>
 
-<link href="https://fonts.googleapis.com/css?family=Marcellus+SC&display=swap" rel="stylesheet">
-
-
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC&display=swap" rel="stylesheet">
 <style>
@@ -150,6 +149,11 @@
 
 <table align="center">
     <tr>
+        <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
+        <td>
+            <a style="font-size:26px;padding-right:40px;" href="https://pipelines.rgd.mcw.edu/rgdweb/curation/home.html">Enter Curation Portal</a>
+        </td>
+        <%}%>
         <td>
             <img style="margin-right:10px;" src="/rgdweb/common/images/species/ratI.png"   border="0"  class="speciesIcon"/>
         </td>
@@ -223,10 +227,6 @@
     </tr>
 </table>
 
-
-
-
-
 <table align="center" cellspacing="5" cellpadding="5">
     <tr>
         <td width="780">
@@ -246,5 +246,7 @@
     </tr>
 </table>
 
+    <%@ include file="/common/footerarea.jsp"%>
 
-<%@ include file="/common/footerarea.jsp"%>
+
+
