@@ -9,6 +9,7 @@
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
+<%@ page import="java.sql.Blob" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
@@ -139,7 +140,13 @@
         <td><%=obj.getResearchUse()%></td>
     </tr>
     <% } %>
-
+<% Blob genotype = strainDAO.getStrainAttachment(obj.getRgdId(),"Genotype");
+    if(genotype != null) {
+%> <tr>
+    <td class="label">Genotype</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">View Genotype Information </a></td>
+</tr>
+    <% } %>
     <%
         List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
         if( !mapData.isEmpty() ) {
