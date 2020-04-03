@@ -149,7 +149,11 @@
 
 <table align="center">
     <tr>
-        <td><%=request.getServerName()%></td>
+        <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
+        <td>
+            <a style="font-size:26px;padding-right:40px;" href="https://pipelines.rgd.mcw.edu/rgdweb/curation/home.html">Enter Curation Portal</a>
+        </td>
+        <%}%>
         <td>
             <img style="margin-right:10px;" src="/rgdweb/common/images/species/ratI.png"   border="0"  class="speciesIcon"/>
         </td>
