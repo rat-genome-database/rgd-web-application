@@ -39,7 +39,7 @@
     })
 </script>
 
-<div class="jumbotron">
+<div class="">
 <form id="models-form" action="findModels.html" method="post">
     <div class="" >
 
@@ -47,39 +47,15 @@
 
             <div class="form-row row">
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
+                    <input type="hidden" id="modelsAspect" value="all">
 
-                    <select class="form-control form-control-lg selectpicker" id="modelsAspect" name="modelsAspect">
-                        <c:if test="${model.aspect==null || model.aspect==''}">
-                        <option class="form-control" value="all" selected>Find By Model/Disease/Phenotype</option>
-                            <option  value="D">Find by Disease </option>
-                            <option value="N">Find by Phenotype </option>
-                            <option value="MODEL">Find By Model/Strain</option>
-                        </c:if>
-                        <c:if test="${model.aspect=='D'}">
-                            <option value="all">Find By Model/Disease/Phenotype</option>
-                            <option  value="D" selected>Find by Disease </option>
-                            <option value="N">Find by Phenotype </option>
-                            <option value="MODEL">Find By Model/Strain</option>
-                        </c:if>
-                        <c:if test="${model.aspect=='N'}">
-                            <option  value="all" >Find By Model/Disease/Phenotype</option>
-                            <option  value="D">Find by Disease </option>
-                            <option  value="N" selected>Find by Phenotype </option>
-                            <option value="MODEL">Find By Model/Strain</option>
-                        </c:if>
-
-                        <c:if test="${model.aspect=='MODEL'}">
-                            <option value="all" >Find By Model/Disease/Phenotype</option>
-                            <option  value="D">Find by Disease </option>
-                            <option  value="N">Find by Phenotype </option>
-                            <option value="MODEL" selected>Find By Model/Strain</option>
-                        </c:if>
-                    </select>
 
                 </div>
                 <div class="form-group col-md-8">
+                    <small class="form-text text-muted" style="font-size: 14px">Enter a Disease or Phenotype or Strain or Condition to find the rat models</small>
                     <div class="input-group" >
+
                         <input id="modelsSearchTerm" name="modelsSearchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value="${model.term}"/>
 
                         <div class="input-group-append">
