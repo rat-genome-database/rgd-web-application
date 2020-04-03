@@ -53,7 +53,7 @@ public class AnnotationFormatter {
         String termAcc = "";
         String annotatedRgdId = "";
         String term = "";
-        String refRgdId="";
+        int refRgdId=0;
         // by default, CHEBI annots link to new tabular report
         // other annots link to default list-like report
         String annotUrl = null;
@@ -74,13 +74,15 @@ public class AnnotationFormatter {
                 if (!evidence.contains(a.getEvidence())) {
                     evidence += "," + a.getEvidence();
                 }
-                if(!annotatedRgdId.contains(String.valueOf(a.getAnnotatedObjectRgdId())))
-                    annotatedRgdId += "," + a.getAnnotatedObjectRgdId();
             } else {
 
-                if (!term.equals("")) {
+                if (!term.equals("") && objectId != refRgdId) {
                     records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
+                            " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
+                } else if(!term.equals("")){
+                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                            "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
 
@@ -88,16 +90,17 @@ public class AnnotationFormatter {
                 annotatedRgdId = a.getAnnotatedObjectRgdId() + "";
                 term = a.getTerm();
                 evidence = a.getEvidence();
-                refRgdId = a.getRefRgdId()+"";
+                refRgdId = a.getRefRgdId();
 
             }
         }
 
-        if(!annotatedRgdId.contains(","))
+        if(objectId != refRgdId) {
             records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
                     "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
 
+        }
         else records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
                 "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                 " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
