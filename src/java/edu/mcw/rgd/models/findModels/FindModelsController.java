@@ -41,12 +41,12 @@ public class FindModelsController implements Controller {
         String qualifier=req.getParameter("qualifier");
         String term=req.getParameter("modelsSearchTerm");
         String searchType=req.getParameter("searchType");
-
+        String strainType=req.getParameter("strainType");
+        String condition=req.getParameter("condition");
         if(!Objects.equals(term, "")){
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
-
-            searchHits= this.getSearchResults(term, aspect,qualifier, searchType);
+            searchHits= this.getSearchResults(term, aspect,qualifier, searchType,strainType, condition);
             model.put("term", term);
             model.put("aspect", aspect);
             model.put("qualifier", qualifier);
@@ -62,34 +62,71 @@ public class FindModelsController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
     }
 
-    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType) throws IOException {
+    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
         System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
         if(aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")){
-            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
-            qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
-            qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
-            qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
-            qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term))
+                            .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(900)
+                            );
+
+           qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(10)
+                    );
+
+            //************************************************************************//
+            qb.add(QueryBuilders.termQuery("term.keyword", term).boost(500));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.termQuery("term.keyword", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(900)
+            );
+          qb.add(QueryBuilders.matchPhraseQuery("term", term));
+           qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("term", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(10)
+            );
+
+           qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("parentTerms.term", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                    .boost(10)
+            );
+
         }else {
             if (aspect.equalsIgnoreCase("model") || searchType.equalsIgnoreCase("model")) {
                 term = term.replaceAll("/", "\\/");
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(900));
+                qb.add(QueryBuilders.boolQuery().must(
+                        QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term))
+                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                        .boost(1000)
+                );
                 qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
                 if (searchType.equalsIgnoreCase("model")) {
                     qb.add(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("aspect", aspect)));
                 }
             } else {
 
-                qb.add(QueryBuilders.termQuery("term.keyword", term).boost(1000));
+                qb.add(QueryBuilders.termQuery("term.keyword", term).boost(900));
+                qb.add(QueryBuilders.boolQuery().must(
+                        QueryBuilders.termQuery("term.keyword", term))
+                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                        .boost(1000)
+                );
                 qb.add(QueryBuilders.matchPhraseQuery("term", term).boost(100));
                 qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
-                if(!qualifier.equals("")  && (aspect.equals("D") || aspect.equals("N"))){
-                    qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
-                    qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
-                }
+
             }
         }
 
@@ -102,18 +139,27 @@ public class FindModelsController implements Controller {
           //  System.out.print("QUALIFIER:"+ qualifier);
           query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier));
         }
-
+        if(!strainType.equals("")){
+            query.filter(QueryBuilders.termQuery("annotatedObjectType.keyword", strainType));
+        }
+        if(!condition.equals("")){
+            query.filter(QueryBuilders.termQuery("infoTerms.term.keyword", condition));
+        }
        // srb.query(QueryBuilders.matchAllQuery());
         srb.query(query);
-        srb.aggregation(getAggregations());
-        srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
+        srb.aggregation(getAggregations("aspect"));
+        srb.aggregation(getAggregations("annotatedObjectType"));
+        srb.aggregation(getAggregations("infoTerms.term"));
+    //    srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_prod");
+        SearchRequest searchRequest=new SearchRequest("models_index_test");
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
             System.out.println(sr.getHits().getTotalHits());
             Terms aspectAgg;
+            Terms typeAgg;
+            Terms conditionsAgg;
             if(sr.getAggregations()!=null){
                 aspectAgg=sr.getAggregations().get("aspect");
                 aggregations.put("aspectAgg", aspectAgg.getBuckets());
@@ -122,8 +168,10 @@ public class FindModelsController implements Controller {
                     System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
                     aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
                 }
-              /*  modelsAgg=sr.getAggregations().get("qualifier");
-                aggregations.put("qualifiers", modelsAgg.getBuckets());*/
+            typeAgg=sr.getAggregations().get("annotatedObjectType");
+                aggregations.put("typeAgg", typeAgg.getBuckets());
+            conditionsAgg=sr.getAggregations().get("infoTerms");
+            aggregations.put("conditionsAgg", conditionsAgg.getBuckets());
             }
             hitsCount= (int) sr.getHits().getTotalHits().value;
          //   System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
@@ -132,11 +180,20 @@ public class FindModelsController implements Controller {
         }
         return hitsList;
     }
-    public AggregationBuilder getAggregations(){
+    public AggregationBuilder getAggregations(String field){
       //  return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
 
+       if(field.equalsIgnoreCase("aspect"))
         return AggregationBuilders.terms("aspect").field("aspect.keyword")
                 .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
-
+       if(field.equalsIgnoreCase("annotatedObjectType")){
+           return AggregationBuilders.terms("annotatedObjectType").field("annotatedObjectType.keyword");
+                  // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
+       }
+        if(field.equalsIgnoreCase("infoTerms.term")){
+            return AggregationBuilders.terms("infoTerms").field("infoTerms.term.keyword");
+            // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
+        }
+        return null;
     }
 }

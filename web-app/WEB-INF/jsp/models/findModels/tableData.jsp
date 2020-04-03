@@ -39,8 +39,9 @@
         <!--th>Model RGD ID</th>
         <th>Species</th-->
         <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Considered as type ...</th>
-        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">With Info</th>
         <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Disease/Phenotype</th>
+
+        <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">With conditions</th>
 
         <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Evidence Code</th>
         <th class="tablesorter-header" data-filter="false" style=" cursor: pointer; width:6%;text-align:left" title="Click to Sort">Reference</th>
@@ -59,7 +60,8 @@
                         <c:out value="${q}"/>&nbsp;
                     </c:forEach>
              </td>
-
+                <td><a href="/rgdweb/report/annotation/main.html?term=${hit.getSourceAsMap().termAcc}&id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().term}</a> &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+                </td>
 
                 <!--td>$-{hit.getSourceAsMap().withInfoTerms}</td-->
                 <td>
@@ -78,8 +80,7 @@
 
                     </c:forEach>
                 </td>
-                <td><a href="/rgdweb/report/annotation/main.html?term=${hit.getSourceAsMap().termAcc}&id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().term}</a> &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
-                </td>
+
                 <td>
                     <c:forEach items="${hit.getSourceAsMap().evidences}" var="e">
                         <span title="${e.name}" >${e.evidence}</span>&nbsp;
