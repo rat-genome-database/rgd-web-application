@@ -41,11 +41,12 @@ public class FindModelsController implements Controller {
         String qualifier=req.getParameter("qualifier");
         String term=req.getParameter("modelsSearchTerm");
         String searchType=req.getParameter("searchType");
-
+        String strainType=req.getParameter("strainType");
+        String condition=req.getParameter("condition");
         if(!Objects.equals(term, "")){
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
-            searchHits= this.getSearchResults(term, aspect,qualifier, searchType);
+            searchHits= this.getSearchResults(term, aspect,qualifier, searchType,strainType, condition);
             model.put("term", term);
             model.put("aspect", aspect);
             model.put("qualifier", qualifier);
@@ -61,7 +62,7 @@ public class FindModelsController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
     }
 
-    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType) throws IOException {
+    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
         System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -138,10 +139,17 @@ public class FindModelsController implements Controller {
           //  System.out.print("QUALIFIER:"+ qualifier);
           query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier));
         }
-
+        if(!strainType.equals("")){
+            query.filter(QueryBuilders.termQuery("annotatedObjectType.keyword", strainType));
+        }
+        if(!condition.equals("")){
+            query.filter(QueryBuilders.termQuery("infoTerms.term.keyword", condition));
+        }
        // srb.query(QueryBuilders.matchAllQuery());
         srb.query(query);
-        srb.aggregation(getAggregations());
+        srb.aggregation(getAggregations("aspect"));
+        srb.aggregation(getAggregations("annotatedObjectType"));
+        srb.aggregation(getAggregations("infoTerms.term"));
     //    srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
         srb.size(1000);
         SearchRequest searchRequest=new SearchRequest("models_index_test");
@@ -150,6 +158,8 @@ public class FindModelsController implements Controller {
         if(sr!=null) {
             System.out.println(sr.getHits().getTotalHits());
             Terms aspectAgg;
+            Terms typeAgg;
+            Terms conditionsAgg;
             if(sr.getAggregations()!=null){
                 aspectAgg=sr.getAggregations().get("aspect");
                 aggregations.put("aspectAgg", aspectAgg.getBuckets());
@@ -158,8 +168,10 @@ public class FindModelsController implements Controller {
                     System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
                     aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
                 }
-              /*  modelsAgg=sr.getAggregations().get("qualifier");
-                aggregations.put("qualifiers", modelsAgg.getBuckets());*/
+            typeAgg=sr.getAggregations().get("annotatedObjectType");
+                aggregations.put("typeAgg", typeAgg.getBuckets());
+            conditionsAgg=sr.getAggregations().get("infoTerms");
+            aggregations.put("conditionsAgg", conditionsAgg.getBuckets());
             }
             hitsCount= (int) sr.getHits().getTotalHits().value;
          //   System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
@@ -168,11 +180,20 @@ public class FindModelsController implements Controller {
         }
         return hitsList;
     }
-    public AggregationBuilder getAggregations(){
+    public AggregationBuilder getAggregations(String field){
       //  return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
 
+       if(field.equalsIgnoreCase("aspect"))
         return AggregationBuilders.terms("aspect").field("aspect.keyword")
                 .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
-
+       if(field.equalsIgnoreCase("annotatedObjectType")){
+           return AggregationBuilders.terms("annotatedObjectType").field("annotatedObjectType.keyword");
+                  // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
+       }
+        if(field.equalsIgnoreCase("infoTerms.term")){
+            return AggregationBuilders.terms("infoTerms").field("infoTerms.term.keyword");
+            // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
+        }
+        return null;
     }
 }
