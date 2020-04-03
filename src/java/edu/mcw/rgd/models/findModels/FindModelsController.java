@@ -68,18 +68,18 @@ public class FindModelsController implements Controller {
         SearchSourceBuilder srb=new SearchSourceBuilder();
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
         if(aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")){
-            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(500));
-         //   qb.add(QueryBuilders.matchPhraseQuery("qualifiers.keyword","MODEL*").boost(200));
-
+            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
             qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(500))
-                            .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*").boost(100))
+                    QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term))
+                            .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(900)
                             );
 
-            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol", term).boost(500));
+           qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
             qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("annotatedObjectSymbol", term).boost(500))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*").boost(100))
+                    QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(10)
                     );
 
             //************************************************************************//
