@@ -255,6 +255,9 @@ host = 'https://dev.rgd.mcw.edu';
                 var mapKey = document.getElementById('mapKey').value;
 
                 v.qtls = false;
+                v.geneCount = 0;
+                v.qtlCount = 0;
+                v.sslpCount = 0;
                 v.sslps = false;
                 v.genes= false;
                 axios
