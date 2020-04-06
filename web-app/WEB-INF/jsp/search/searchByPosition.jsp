@@ -221,7 +221,6 @@ background-color: #daeffc;
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-
     var v = new Vue({
         el: div,
         data: {
@@ -255,6 +254,9 @@ background-color: #daeffc;
                 var mapKey = document.getElementById('mapKey').value;
 
                 v.qtls = false;
+                v.geneCount = 0;
+                v.qtlCount = 0;
+                v.sslpCount = 0;
                 v.sslps = false;
                 v.genes= false;
                 axios
