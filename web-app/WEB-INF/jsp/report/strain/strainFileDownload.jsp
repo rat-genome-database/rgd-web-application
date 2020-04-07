@@ -3,14 +3,19 @@
 <%@ page import="edu.mcw.rgd.dao.impl.StrainDAO" %><%
 
     StrainDAO dao =new StrainDAO();
-    System.out.println(request.getParameter("id"));
     int id = Integer.parseInt(request.getParameter("id"));
     String type = request.getParameter("type");
     Blob data =  dao.getStrainAttachment(id,type);
 
-    String contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    String contentType = dao.getContentType(id,type);
+    String ext;
    response.setHeader("Content-Type", contentType);
-    response.setHeader("Content-disposition","attachment;filename=\""+id+"Genotype.docx\"");
+   if(contentType.endsWith("document"))
+       ext = "docx";
+   else {
+       ext = "."+contentType.substring(contentType.indexOf("/")+1);
+   }
+    response.setHeader("Content-disposition","attachment;filename=\""+id+type+ext+"\"");
    InputStream is = data.getBinaryStream();
 
 

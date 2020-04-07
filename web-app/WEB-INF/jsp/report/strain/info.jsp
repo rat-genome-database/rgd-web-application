@@ -140,11 +140,25 @@
         <td><%=obj.getResearchUse()%></td>
     </tr>
     <% } %>
-<% Blob genotype = strainDAO.getStrainAttachment(obj.getRgdId(),"Genotype");
-    if(genotype != null) {
+<% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
+    if(content != null) {
 %> <tr>
     <td class="label">Genotype</td>
     <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">View Genotype Information </a></td>
+</tr>
+    <% } %>
+    <% String supp = strainDAO.getContentType(obj.getRgdId(),"Supplemental");
+        if(supp != null) {
+    %> <tr>
+    <td class="label">Supplemental Information</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Supplemental" download="true">View Supplemental Information </a></td>
+</tr>
+    <% } %>
+    <% String highlights = strainDAO.getContentType(obj.getRgdId(),"Highlights");
+        if(highlights != null) {
+    %> <tr>
+    <td class="label">Highlights</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Highlights" download="true">View Highlights Information </a></td>
 </tr>
     <% } %>
     <%

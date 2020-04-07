@@ -17,11 +17,13 @@
             <input type="file" id="file" name="file"  />
 <br><br>
            <label for="fileType" style="color: #24609c; font-weight: bold;">Select FileType:</label>
-                <input type="text" id = "fileType" name="fileType" />
+    <select id="fileType" name="fileType">
+    <option  value="Genotype">Genotype</option>
+    <option  value="Highlights">Highlights</option>
+    <option  value="Supplemental">Supplemental</option>
+    </select>
 <br><br>
-                <label for="description" style="color: #24609c; font-weight: bold;"> Description:</label>
-                <input type="text" id="description" name="description" size="100" />
- <br><br>
+
             <input type="submit" value="Upload" />
 
 </form>
