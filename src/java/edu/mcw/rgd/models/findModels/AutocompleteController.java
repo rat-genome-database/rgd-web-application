@@ -7,17 +7,20 @@ import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Highlighter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,25 +41,27 @@ public class AutocompleteController implements Controller {
         DisMaxQueryBuilder qb = new DisMaxQueryBuilder();
         BoolQueryBuilder query= new BoolQueryBuilder();
         query.must(qb);
-        System.out.println("ASPECT: "+ aspect);
-        switch(aspect){
-            case "all":
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+     //   System.out.println("ASPECT: "+ aspect + "\t TERM:"+term);
+     /*   switch(aspect){
+            case "all":*/
+             qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
                 qb.add(QueryBuilders.matchPhrasePrefixQuery("annotatedObjectSymbol", term));
 
-          case "D":
-            case "N":
+       //   case "D":
+       //     case "N":
 
                 qb.add(QueryBuilders.matchPhrasePrefixQuery("term", term));
                 qb.add(QueryBuilders.termQuery("term.keyword", term).boost(100));
-              //  qb.add(QueryBuilders.matchQuery("parentTerms.term", term));
-                break;
-            case "MODEL":
+              //  qb.add(QueryBuilders.matchQuery("parentTerms.term", term));*/
+                qb.add(QueryBuilders.matchQuery("infoTerms.term", term));
+               qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(100));
+         //       break;
+           /* case "MODEL":
                 qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
                 qb.add(QueryBuilders.matchPhrasePrefixQuery("annotatedObjectSymbol", term));
-                break;
-            default:
-        }
+                break;*/
+      /*      default:
+        }*/
         query.must(qb);
         if(aspect.equals("D") || aspect.equals("N")){
             query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
@@ -86,7 +91,7 @@ public class AutocompleteController implements Controller {
                 if(aspect.equals("all")){
 
                    for(Map.Entry e: h.getHighlightFields().entrySet()) {
-                       System.out.println(e.getKey()+"\t"+e.getValue());
+                //       System.out.println(e.getKey()+"\t"+e.getValue());
                        if(e.getKey().toString().equals("term") || e.getKey().toString().equals("term.keyword")){
                            if(!autocompleteList.contains(h.getSourceAsMap().get("term").toString()))
                            autocompleteList.add(h.getSourceAsMap().get("term").toString());
@@ -96,6 +101,19 @@ public class AutocompleteController implements Controller {
                            if(!autocompleteList.contains(h.getSourceAsMap().get("annotatedObjectSymbol").toString()))
                                autocompleteList.add(h.getSourceAsMap().get("annotatedObjectSymbol").toString());
 
+                       }
+                      if(e.getKey().toString().equals("infoTerms.term") || e.getKey().toString().equals("infoTerms.term")){
+                          /* if(!autocompleteList.contains(h.getSourceAsMap().get("infoTerms.term").toString()))
+                               autocompleteList.add(h.getSourceAsMap().get("infoTerms.term").toString());*/
+
+                          HighlightField field= (HighlightField) e.getValue();
+                          for(Text s : field.fragments()){
+                         //     System.out.println(s);
+                             String str= s.toString().replace("<em>"," ")
+                              .replace("</em>", " ");
+                              if(!autocompleteList.contains(str))
+                                  autocompleteList.add(str);
+                          }
                        }
 
                    }
@@ -113,7 +131,8 @@ public class AutocompleteController implements Controller {
     public HighlightBuilder buildHighlights(){
         List<String> fields=new ArrayList<>(Arrays.asList(
                 "term", "term.keyword",
-                "annotatedObjectSymbol", "annotatedObjectSymbol.keyword"
+                "annotatedObjectSymbol", "annotatedObjectSymbol.keyword",
+                "infoTerms.term", "infoTerms.term.keyword"
         ));
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){
