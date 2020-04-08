@@ -161,7 +161,7 @@
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
                 <div class="headerCardOverlay" onclick="location.href='/rgdweb/ga/start.jsp'">.</div>
                 <div class="headerCardTitle">GA Tool<br><span class="headerSubTitle">Gene Annotator</span></div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/phenominerScreen.png"  border="0" /></span>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/gaTool.png"  border="0" /></span>
             </div>
 
         </td>
