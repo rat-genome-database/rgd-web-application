@@ -102,7 +102,7 @@ public class AutocompleteController implements Controller {
                                autocompleteList.add(h.getSourceAsMap().get("annotatedObjectSymbol").toString());
 
                        }
-                      if(e.getKey().toString().equals("infoTerms.term") || e.getKey().toString().equals("infoTerms.term")
+                      if(e.getKey().toString().equals("infoTerms.term.keyword") || e.getKey().toString().equals("infoTerms.term")
                       || e.getKey().toString().equals("termSynonyms.keyword") || e.getKey().toString().equals("termSynonyms")
                               ||e.getKey().toString().equals("aliases.keyword") || e.getKey().toString().equals("aliases")
                               ||e.getKey().toString().equals("associations.keyword") || e.getKey().toString().equals("associations")
