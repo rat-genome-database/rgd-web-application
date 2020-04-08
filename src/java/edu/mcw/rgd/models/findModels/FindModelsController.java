@@ -63,7 +63,7 @@ public class FindModelsController implements Controller {
     }
 
     public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
-        System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
+     //   System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
@@ -96,12 +96,28 @@ public class FindModelsController implements Controller {
                     .boost(10)
             );
 
+           /*******************Parent Terms***********************/
            qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
             qb.add(QueryBuilders.boolQuery().must(
                     QueryBuilders.matchPhraseQuery("parentTerms.term", term))
                     .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
                     .boost(10)
             );
+            /********************Experimental Condition***********************/
+            qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(500));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.termQuery("infoTerms.term.keyword", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(900)
+            );
+            qb.add(QueryBuilders.matchPhraseQuery("infoTerms.term", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("infoTerms.term", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
+                    .boost(10)
+            );
+
+
 
         }else {
             if (aspect.equalsIgnoreCase("model") || searchType.equalsIgnoreCase("model")) {
@@ -131,7 +147,7 @@ public class FindModelsController implements Controller {
                     qb.add(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("aspect", aspect)));
                 }
             } else {
-                term = term.replaceAll("/", "\\/");
+            //    term = term.replaceAll("/", "\\/");
                 qb.add(QueryBuilders.termQuery("term.keyword", term).boost(500));
                 qb.add(QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("term.keyword", term))
@@ -176,8 +192,8 @@ public class FindModelsController implements Controller {
            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
         if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
-       //    System.out.println("QUALIFIER:"+ qualifier);
-          query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
+   //      System.out.println("QUALIFIER:"+ qualifier);
+         query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
         }
         if(!strainType.equals("")){
             query.filter(QueryBuilders.termQuery("annotatedObjectType.keyword", strainType));
@@ -205,7 +221,7 @@ public class FindModelsController implements Controller {
                 aggregations.put("aspectAgg", aspectAgg.getBuckets());
                 for( Terms.Bucket bkt: aspectAgg.getBuckets()){
                     Terms modelsAgg=   bkt.getAggregations().get("qualifiers");
-                    System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
+                 //   System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
                     aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
                 }
             typeAgg=sr.getAggregations().get("annotatedObjectType");
@@ -214,7 +230,7 @@ public class FindModelsController implements Controller {
             aggregations.put("conditionsAgg", conditionsAgg.getBuckets());
             }
             hitsCount= (int) sr.getHits().getTotalHits().value;
-         //   System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
+        //  System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());
 
         }
