@@ -118,7 +118,7 @@
           if(condition!=null && typeof condition!='undefined')
               url=url+"&condition="+condition;
           $.get(url, function (data, status) {
-              $contentDiv.autocomplete(data);
+              $contentDiv.html(data);
           })
 
       }
