@@ -103,6 +103,27 @@ public class FindModelsController implements Controller {
                     .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
                     .boost(10)
             );
+            /*******************synonyms***********************/
+            qb.add(QueryBuilders.matchPhraseQuery("termSynonyms", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("termSynonyms", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                    .boost(10)
+            );
+            /*******************aliases***********************/
+            qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("aliases", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                    .boost(10)
+            );
+            /*******************associations***********************/
+            qb.add(QueryBuilders.matchPhraseQuery("associations", term));
+            qb.add(QueryBuilders.boolQuery().must(
+                    QueryBuilders.matchPhraseQuery("associations", term))
+                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                    .boost(10)
+            );
             /********************Experimental Condition***********************/
             qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(500));
             qb.add(QueryBuilders.boolQuery().must(
