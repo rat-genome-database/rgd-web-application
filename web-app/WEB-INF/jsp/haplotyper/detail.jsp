@@ -3,6 +3,9 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.TranscriptDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -20,6 +23,7 @@ scroll-top:0;
 
 <%
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
+    XdbIdDAO xDao = new XdbIdDAO();
 
     for (SearchResult searchResult: searchResults) {
 
@@ -190,7 +194,19 @@ scroll-top:0;
 
                    <% for (TranscriptResult tr: result.getTranscriptResults()) { %>
 
+                       <%
+
+                       %>
+
+
                        <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
+                       <% try { %>
+                           <tr>
+                           <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
+                       </tr>
+                       <% } catch (Exception e) { %>
+
+                       <% } %>
                        <tr>
                            <td class="carpeLabel" width=200>Accession:</td><td width=70%><%=tr.getAminoAcidVariant().getTranscriptSymbol()%></td>
                        </tr>

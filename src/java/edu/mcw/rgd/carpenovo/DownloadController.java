@@ -124,6 +124,7 @@ public class DownloadController extends HaplotyperController {
 
             if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
             if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
+            if (!req.getParameter("aap").equals("")) out.print("Amino Acid Position" + delim);
             if (!req.getParameter("tai").equals("")) out.print("Transcript Accession IDs" + delim);
             if (!req.getParameter("raa").equals("")) out.print("Reference Amino Acid" + delim);
             if (!req.getParameter("vaa").equals("")) out.print("Variant Amino Acid" + delim);
@@ -185,6 +186,7 @@ public class DownloadController extends HaplotyperController {
             LinkedHashMap polyMap = new LinkedHashMap();
             LinkedHashMap transcriptMap = new LinkedHashMap();
             LinkedHashMap aaChangeMap = new LinkedHashMap();
+            LinkedHashMap aaPosMap = new LinkedHashMap();
 
 
             //hack to ensure the last one is printed.
@@ -230,6 +232,7 @@ public class DownloadController extends HaplotyperController {
 
                             if (trr.getAminoAcidVariant().getSynonymousFlag() != null) {
                                 aaChangeMap.put(trr.getAminoAcidVariant().getSynonymousFlag(), null);
+                                aaPosMap.put(trr.getAminoAcidVariant().getAaPosition() + "",null);
                             }
 
                             transcriptMap.put(trr.getAminoAcidVariant().getTranscriptSymbol(), null);
@@ -315,6 +318,16 @@ public class DownloadController extends HaplotyperController {
                             out.print(delim);
                         }
 
+                        if (!req.getParameter("aap").equals("")) {
+                            it = aaPosMap.keySet().iterator();
+                            while (it.hasNext()) {
+                                out.print((String) it.next());
+                                if (it.hasNext()) {
+                                    out.print("|");
+                                }
+                            }
+                            out.print(delim);
+                        }
 
                         if (!req.getParameter("pp").equals("")) {
                             it = polyMap.keySet().iterator();
@@ -334,6 +347,7 @@ public class DownloadController extends HaplotyperController {
                         }
                         locationMap = new LinkedHashMap();
                         varAAMap = new LinkedHashMap();
+                        aaPosMap = new LinkedHashMap();
                         polyMap = new LinkedHashMap();
                         transcriptMap = new LinkedHashMap();
                         aaChangeMap = new LinkedHashMap();
