@@ -202,11 +202,16 @@ scroll-top:0;
                            <tr>
                                <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getReferenceAminoAcid()%> to  <%=tr.getAminoAcidVariant().getVariantAminoAcid()%> (<%=tr.getAminoAcidVariant().getSynonymousFlag()%>)</td>
                            </tr>
-                        <% }else{%>
+                        <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
                            <tr>
                                <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getSynonymousFlag()%></td>
                            </tr>
                            <%}%>
+                           <% if (tr.getAminoAcidVariant().getAaPosition() > 0) { %>
+                           <td class="carpeLabel">Amino Acid Position:</td><td> <%=tr.getAminoAcidVariant().getAaPosition()%></td>
+
+                           <% } %>
+
 
                       <% if (tr.getAminoAcidVariant().getTripletError().equals("T") || tr.getAminoAcidVariant().getLocation().equals("Unknown")) { %>
                       <tr>
