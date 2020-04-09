@@ -166,6 +166,8 @@ if (req.getParameter("u").equals("394033")) {
     }
 </script>
 
+    <% if (mapKey==360 || mapKey==70 || mapKey==60) { %>
+
 <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Strain Group</div>
 
         <table style="margin-left:50px;">
@@ -175,7 +177,7 @@ if (req.getParameter("u").equals("394033")) {
                 <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
             </tr>
         </table>
-
+<% } %>
 
             <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Strains</div>
 
