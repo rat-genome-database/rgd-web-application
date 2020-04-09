@@ -41,27 +41,27 @@ public class AutocompleteController implements Controller {
         DisMaxQueryBuilder qb = new DisMaxQueryBuilder();
         BoolQueryBuilder query= new BoolQueryBuilder();
         query.must(qb);
-     //   System.out.println("ASPECT: "+ aspect + "\t TERM:"+term);
-     /*   switch(aspect){
-            case "all":*/
-             qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
-                qb.add(QueryBuilders.matchPhrasePrefixQuery("annotatedObjectSymbol", term));
+        qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
+        qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(1000));
+        qb.add(QueryBuilders.matchPhrasePrefixQuery("annotatedObjectSymbol", term));
 
-       //   case "D":
-       //     case "N":
+        qb.add(QueryBuilders.termQuery("term.keyword", term).boost(100));
+        qb.add(QueryBuilders.matchPhrasePrefixQuery("term", term));
 
-                qb.add(QueryBuilders.matchPhrasePrefixQuery("term", term));
-                qb.add(QueryBuilders.termQuery("term.keyword", term).boost(100));
-              //  qb.add(QueryBuilders.matchQuery("parentTerms.term", term));*/
-                qb.add(QueryBuilders.matchQuery("infoTerms.term", term));
-               qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(100));
-         //       break;
-           /* case "MODEL":
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(1000));
-                qb.add(QueryBuilders.matchPhrasePrefixQuery("annotatedObjectSymbol", term));
-                break;*/
-      /*      default:
-        }*/
+        //  qb.add(QueryBuilders.matchQuery("parentTerms.term", term));*/
+        qb.add(QueryBuilders.matchPhraseQuery("infoTerms.term", term));
+        qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(100));
+
+        qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
+        qb.add(QueryBuilders.termQuery("aliases.keyword", term).boost(100));
+
+        qb.add(QueryBuilders.matchPhraseQuery("termSynonyms", term));
+        qb.add(QueryBuilders.termQuery("termSynonyms.keyword", term).boost(100));
+
+        qb.add(QueryBuilders.matchPhraseQuery("associations", term));
+        qb.add(QueryBuilders.termQuery("associations.keyword", term).boost(100));
+
+
         query.must(qb);
         if(aspect.equals("D") || aspect.equals("N")){
             query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
@@ -102,7 +102,11 @@ public class AutocompleteController implements Controller {
                                autocompleteList.add(h.getSourceAsMap().get("annotatedObjectSymbol").toString());
 
                        }
-                      if(e.getKey().toString().equals("infoTerms.term") || e.getKey().toString().equals("infoTerms.term")){
+                      if(e.getKey().toString().equals("infoTerms.term.keyword") || e.getKey().toString().equals("infoTerms.term")
+                      || e.getKey().toString().equals("termSynonyms.keyword") || e.getKey().toString().equals("termSynonyms")
+                              ||e.getKey().toString().equals("aliases.keyword") || e.getKey().toString().equals("aliases")
+                              ||e.getKey().toString().equals("associations.keyword") || e.getKey().toString().equals("associations")
+                              ){
                           /* if(!autocompleteList.contains(h.getSourceAsMap().get("infoTerms.term").toString()))
                                autocompleteList.add(h.getSourceAsMap().get("infoTerms.term").toString());*/
 
@@ -132,7 +136,10 @@ public class AutocompleteController implements Controller {
         List<String> fields=new ArrayList<>(Arrays.asList(
                 "term", "term.keyword",
                 "annotatedObjectSymbol", "annotatedObjectSymbol.keyword",
-                "infoTerms.term", "infoTerms.term.keyword"
+                "infoTerms.term", "infoTerms.term.keyword",
+                "termSynonyms.keyword", "termSynonyms",
+                "aliases.keyword", "aliases",
+                "assoications.keyword", "associations"
         ));
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){
