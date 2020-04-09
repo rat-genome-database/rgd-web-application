@@ -113,17 +113,54 @@ if (req.getParameter("u").equals("394033")) {
 </style>
 <%
    VariantSampleGroupDAO vsgd = new VariantSampleGroupDAO();
-   //List<Integer> founders = vsgd.getVariantSamples("HS Founder");
-   //String founderArr = "[";
-   //for (Integer f: founders) {
-   //    founderArr += f + ",";
-   //}
-   //founderArr += "]";
+   List<Integer> founders = vsgd.getVariantSamples("HS Founder");
+   String founderArr = "[";
+   for (Integer f: founders) {
+       founderArr += f + ",";
+   }
+   founderArr += "]";
+
+   List<Integer> hdrp = vsgd.getVariantSamples("HDRP");
+   String hdrpArr = "[";
+   for (Integer f: hdrp) {
+       hdrpArr += f + ",";
+   }
+   hdrpArr += "]";
+
+
 %>
 
 
 <script>
+
+
     function selectGroup(name) {
+
+        var strainGroups = {};
+        strainGroups["hsfounders"] = <%=founderArr%>;
+        strainGroups["hdrp"] = <%=hdrpArr%>;
+
+
+        var group = document.getElementById(name);
+
+        var founders = strainGroups[name];
+        var checkboxes = document.getElementsByName('strain[]');
+
+        for (var i in checkboxes) {
+            if (!checkboxes[i].id) continue;
+            var strainId = checkboxes[i].id.split("_");
+            for (j=0; j< founders.length; j++) {
+                if (strainId[0] == founders[j]) {
+
+                    if (group.checked) {
+                        checkboxes[i].checked = true;
+                    }else {
+                        checkboxes[i].checked = false;
+                    }
+
+                }
+            }
+        }
 
 
     }
@@ -133,9 +170,9 @@ if (req.getParameter("u").equals("394033")) {
 
         <table style="margin-left:50px;">
             <tr>
-                <td style="color:white;">  <input name="hdrp" type="checkbox" onChange="selectGroup('hdrp')"/> HDRP Strains</td>
+                <td style="color:white;">  <input id="hdrp" name="hdrp" type="checkbox" onChange="selectGroup('hdrp')"/> HDRP Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td style="color:white;"><input name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
+                <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
             </tr>
         </table>
 
@@ -161,7 +198,7 @@ if (req.getParameter("u").equals("394033")) {
        <td>
         <table>
             <tr>
-                <td><input type="checkbox" name="strain[]" value="<%=samp.getId()%>"/></td>
+                <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>"/></td>
                 <td style="color:white;"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></td>
                 <td>
                     <img onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="15" width="15"/>
