@@ -52,6 +52,9 @@ Select annotation to include in your download.
                         <td><input type='checkbox' name="aac" checked>Amino Acid Change</td>
                     </tr>
                     <tr>
+                        <td><input type='checkbox' name="aap" checked>Amino Acid Position</td>
+                    </tr>
+                    <tr>
                         <td><input type='checkbox' name="tai" checked>Transcript Accession IDs</td>
                     </tr>
                     <tr>
