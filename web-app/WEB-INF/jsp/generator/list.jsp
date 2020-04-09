@@ -768,35 +768,23 @@ for (String gene: objectSymbols.get(i)) {
    <tr>
        <td>
 
-<div id="resultSet" style="border:0px solid black; float:left; padding:7px; margin-left:5px;">
-<%
-    if (resultSet.keySet().size() == 0) {
-        %>
-      Empty&nbsp;Set
-    <%
-    }
+           <div id="resultSet" style="border:0px solid black; float:left; padding:7px; margin-left:5px;">
+               <%
+                   if (resultSet.keySet().size() == 0) {
+               %>
+               Empty&nbsp;Set
+               <%
+                   }
+                   Iterator it = resultSet.keySet().iterator();
+                   while(it.hasNext()) {
+                       String gene = (String)it.next();
+               %>
+               <span class="resultList"><%=gene.trim()%></span><br>
+               <%
+                   }
+               %>
 
-    Iterator it = resultSet.keySet().iterator();
-    while(it.hasNext()) {
-        Integer gene = (Integer)it.next();
-    if(objectType.equals("Gene")) {
-    %>
-      <span class="resultList"><%=((Gene)resultSet.get(gene)).getSymbol()%></span><br>
-    <%
-            }else if(objectType.equals("Strain")) {
-    %>
-    <span class="resultList"><%=((Strain)resultSet.get(gene)).getSymbol()%></span><br>
-    <%
-            } else{
-    %>
-    <span class="resultList"><%=((QTL)resultSet.get(gene)).getSymbol()%></span><br>
-    <%
-    }
-        }
-
-%>
-
-</div>
+           </div>
 </td>
 
 
