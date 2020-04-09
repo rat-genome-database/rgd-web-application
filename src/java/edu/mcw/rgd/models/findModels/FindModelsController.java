@@ -104,21 +104,21 @@ public class FindModelsController implements Controller {
                     .boost(10)
             );
             /*******************synonyms***********************/
-            qb.add(QueryBuilders.matchPhraseQuery("termSynonyms", term));
+            qb.add(QueryBuilders.termQuery("termSynonyms.keyword", term));
             qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("termSynonyms", term))
+                    QueryBuilders.termQuery("termSynonyms.keyword", term))
                     .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
                     .boost(10)
             );
             /*******************aliases***********************/
-            qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
+           qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
             qb.add(QueryBuilders.boolQuery().must(
                     QueryBuilders.matchPhraseQuery("aliases", term))
                     .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
                     .boost(10)
             );
             /*******************associations***********************/
-            qb.add(QueryBuilders.matchPhraseQuery("associations", term));
+           qb.add(QueryBuilders.matchPhraseQuery("associations", term));
             qb.add(QueryBuilders.boolQuery().must(
                     QueryBuilders.matchPhraseQuery("associations", term))
                     .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
@@ -202,7 +202,27 @@ public class FindModelsController implements Controller {
                         .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
                         .boost(10)
                 );
-
+                /*******************synonyms***********************/
+                qb.add(QueryBuilders.termQuery("termSynonyms.keyword", term));
+                qb.add(QueryBuilders.boolQuery().must(
+                        QueryBuilders.termQuery("termSynonyms.keyword", term))
+                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                        .boost(10)
+                );
+                /*******************aliases***********************/
+                qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
+                qb.add(QueryBuilders.boolQuery().must(
+                        QueryBuilders.matchPhraseQuery("aliases", term))
+                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                        .boost(10)
+                );
+                /*******************associations***********************/
+                qb.add(QueryBuilders.matchPhraseQuery("associations", term));
+                qb.add(QueryBuilders.boolQuery().must(
+                        QueryBuilders.matchPhraseQuery("associations", term))
+                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
+                        .boost(10)
+                );
 
             }
         }
@@ -213,7 +233,7 @@ public class FindModelsController implements Controller {
            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
         if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
-   //      System.out.println("QUALIFIER:"+ qualifier);
+        System.out.println("QUALIFIER:"+ qualifier);
          query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
         }
         if(!strainType.equals("")){

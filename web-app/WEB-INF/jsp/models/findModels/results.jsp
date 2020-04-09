@@ -112,7 +112,7 @@
           if(searchType!=="MODEL" || typeof searchType == 'undefined')
                  url= "findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect;
           else url="findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect+"&searchType=model";
-        //   alert("URL: "+ url);
+       //   alert("URL: "+ url);
          if(strainType!=null && typeof strainType!='undefined')
              url=url+"&strainType="+strainType;
           if(condition!=null && typeof condition!='undefined')
