@@ -70,7 +70,7 @@ public class AutocompleteController implements Controller {
         srb.query(query);
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_test");
+        SearchRequest searchRequest=new SearchRequest("models_index_prod");
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
     //    List<String> autocompleteList=new ArrayList<>(Arrays.asList("Hello", "Jyothi", "How", "are"));
