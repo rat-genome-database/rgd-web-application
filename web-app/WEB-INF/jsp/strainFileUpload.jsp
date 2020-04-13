@@ -1,4 +1,5 @@
-
+<%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
+<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%
     String pageTitle = "Upload Strain Files";
     String headContent = "";
@@ -24,25 +25,34 @@
 <body>
 
 <h2>Upload Files</h2>
+<%
+    HttpRequestFacade req = (HttpRequestFacade) request.getAttribute("requestFacade");
 
+    DisplayMapper dm = new DisplayMapper(req,error);
+%>
 <div class="container-fluid">
 <form method="POST" action="strainFileUpload.html" enctype="multipart/form-data">
 
             <label for="rgdId1" style="color: #24609c; font-weight: bold;">Select a Strain Id:</label>
-            <input type="text" id="rgdId1" name="strainId" />
+            <input type="text" id="rgdId1" name="strainId" value="<%=dm.out("strainId",request.getParameter("strainId"))%>"/>
      <a href="javascript:lookup_render('rgdId1')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a>
 <br><br>
-            <label for="file" style="color: #24609c; font-weight: bold;">Select file to upload:</label>
-            <input type="file" id="file" name="file"  />
-<br><br>
-           <label for="fileType" style="color: #24609c; font-weight: bold;">Select FileType:</label>
-    <select id="fileType" name="fileType">
-    <option  value="Genotype">Genotype</option>
-    <option  value="Highlights">Highlights</option>
-    <option  value="Supplemental">Supplemental</option>
-    </select>
-<br><br>
+    <% if(request.getParameter("strainId") != null) {
+    %>
+    <span> Genotype File: <%=request.getAttribute("genotypeFile")%></span> <br><br>
+    <span> Highlights File: <%=request.getAttribute("highlightsFile")%></span> <br><br>
+    <span> Supplemental File: <%=request.getAttribute("supplementalFile")%></span> <br><br>
 
+    <label for="Genotype" style="color: #24609c; font-weight: bold;">Genotype: Select file to upload:</label>
+            <input type="file" id="Genotype" name="Genotype"  />
+<br><br>
+    <label for="Highlights" style="color: #24609c; font-weight: bold;">Highlights: Select file to upload:</label>
+    <input type="file" id="Highlights" name="Highlights"  />
+    <br><br>
+    <label for="Supplemental" style="color: #24609c; font-weight: bold;">Supplemental: Select file to upload:</label>
+    <input type="file" id="Supplemental" name="Supplemental"  />
+    <br><br>
+<% } %>
             <input type="submit" value="Upload" />
 
 </form>
