@@ -42,8 +42,8 @@ String pageDescription = "Define Region";
             </td>
         </tr>
         <tr>
-            <td style="padding:10px;">
-                Select an Assembly
+            <td style="padding:10px; font-size:20px;">
+                Select Assembly
             </td>
             <td align="left">
                 <select style="height:26px; font-size:16px; width: 300px" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
@@ -52,6 +52,7 @@ String pageDescription = "Define Region";
                 <option value='60' <% if (mapKey==60) out.print("selected");%>>RGSC Genome Assembly v3.4</option>
                     <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
                     <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
+                    <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
                 </select>
             </td>
 
@@ -102,7 +103,7 @@ String pageDescription = "Define Region";
     %>
 
     <%
-        String selectTitle="Select Strains";
+        String selectTitle="Select Sequences";
         if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
             selectTitle="Select Sequences";
         }
@@ -121,7 +122,7 @@ String pageDescription = "Define Region";
         </tr>
         <tr>
             <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Select Sequence Tracks</td>
-            <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Search for strain variation based on an individual gene or gene list</td>
+            <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Search for variation based on an individual gene or gene list</td>
         </tr>
         <% }else { %>
         <tr><td>&nbsp;&nbsp;&nbsp;<br><br></td></tr>

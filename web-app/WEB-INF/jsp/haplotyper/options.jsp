@@ -123,7 +123,7 @@
                     <td colspan=3><div class="typerSubTitle" >Protein</div></td>
                 </tr>
 
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT ) { %>
+                <% if( currentMap.getSpeciesTypeKey()!=SpeciesType.HUMAN ) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Amino Acid Change</td>
@@ -131,9 +131,7 @@
                         <%=dm.makeCheckBox("nonSynonymous", "Non-Synonymous")%>
                     </td>
                 </tr>
-                <% } %>
 
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT ) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Polyphen&nbsp;Prediction</td>
@@ -159,7 +157,7 @@
                     <td>&nbsp;</td>
                 </tr>
 
-                <% if (currentMap.getSpeciesTypeKey()==SpeciesType.RAT) { %>
+                <% if (currentMap.getSpeciesTypeKey()!=SpeciesType.HUMAN) { %>
                 <tr>
                     <td   colspan=3 ><div class="typerSubTitle" >Call Statistics</div></td>
                 </tr>
