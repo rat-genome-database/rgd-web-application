@@ -62,11 +62,12 @@ public class FindModelsController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
     }
 
-    public List<SearchHit[]> getSearchResults(String term, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
+    public List<SearchHit[]> getSearchResults(String term1, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
      //   System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
+        String term=term1.toLowerCase();
         if(aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")){
             qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
             qb.add(QueryBuilders.boolQuery().must(
