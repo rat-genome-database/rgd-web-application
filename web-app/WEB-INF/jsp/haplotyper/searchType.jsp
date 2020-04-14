@@ -122,7 +122,8 @@ String pageDescription = "Define Region";
         </tr>
         <tr>
             <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Select Sequence Tracks</td>
-            <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Search for variation based on an individual gene or gene list</td>
+            <td  width=250 valign="top" style="font-size:14px;color:white;padding:10px;">Search for
+                variation based on an individual gene or gene list</td>
         </tr>
         <% }else { %>
         <tr><td>&nbsp;&nbsp;&nbsp;<br><br></td></tr>
