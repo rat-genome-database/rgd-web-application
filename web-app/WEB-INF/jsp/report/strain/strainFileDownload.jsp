@@ -8,14 +8,9 @@
     Blob data =  dao.getStrainAttachment(id,type);
 
     String contentType = dao.getContentType(id,type);
-    String ext;
+    String fileName = dao.getFileName(id,type);
    response.setHeader("Content-Type", contentType);
-   if(contentType.endsWith("document"))
-       ext = "docx";
-   else {
-       ext = "."+contentType.substring(contentType.indexOf("/")+1);
-   }
-    response.setHeader("Content-disposition","attachment;filename=\""+id+type+ext+"\"");
+    response.setHeader("Content-disposition","attachment;filename=\""+fileName+"\"");
    InputStream is = data.getBinaryStream();
 
 
