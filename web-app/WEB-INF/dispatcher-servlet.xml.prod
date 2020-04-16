@@ -43,6 +43,7 @@
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
+				<prop key="search/searchByPosition.html">searchByPosController</prop>
 				
 				<prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                 <prop key="report/format.html">FormatController</prop>
@@ -330,6 +331,8 @@
     <bean id="MyRGDShowMessageController" class="edu.mcw.rgd.my.MyRGDShowMessageController"/>
     <bean id="MyRGDLookupController" class="edu.mcw.rgd.my.MyRGDLookupController"/>
     <bean id="MyManageAlertsController" class="edu.mcw.rgd.my.MyManageAlertsController"/>
+
+	<bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
 	<bean id="ElasticSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.ElasticSearchController"/>
     <bean id="AutocompleteListController" class="edu.mcw.rgd.search.elasticsearch1.controller.AutocompleteController"/>
