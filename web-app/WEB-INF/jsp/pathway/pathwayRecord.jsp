@@ -762,10 +762,12 @@ function showonlyoneDis(selectedBlock,fld) {
 <tr>
     <td>
         <a name="PathwayGraph"><h3>Ontology Path Diagram:</h3></a>
-        <table width="780">
+        <table align="center">
             <tr>
-                <td align="justify">
+                <td colspan="3" align="center">
+                    <div id="browser_graph" style="width:800px;overflow:auto">
                 <%=OntDotController.generateResponse(pwId, "/rgdweb/ontology/annot.html?acc_id=", 30)%>
+                    </div>
                 </td>
             </tr>
         </table>
