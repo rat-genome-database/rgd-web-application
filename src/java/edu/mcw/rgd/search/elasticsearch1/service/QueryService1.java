@@ -233,6 +233,7 @@ public class QueryService1 {
         if(sb!=null) {
          //   if(!sb.isRedirect()) {
                 if(!term.equals("")){
+                    System.out.println("TERM IN DISMAXQUERY: "+ term);
                 dqb
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
@@ -249,6 +250,8 @@ public class QueryService1 {
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
 
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
                         .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
