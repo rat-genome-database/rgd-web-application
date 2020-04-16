@@ -107,6 +107,11 @@ boolean hasAnnots = (Boolean) request.getAttribute("hasAnnotations");
       width: 800px;
 	  border: solid 1px blue;
     }
+    .img-responsive {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
 </style>
 
 <script type="text/javascript">
