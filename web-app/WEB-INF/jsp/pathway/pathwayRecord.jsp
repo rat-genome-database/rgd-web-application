@@ -213,7 +213,7 @@ function showonlyoneDis(selectedBlock,fld) {
 
 <%--<a href="/rgdweb/curation/pathway/home.html">Back to Pathway Search</a>--%>
 <div class="container-fluid">
-<table width="900">
+<table>
 <tr>
     <td></td><td>
         <h5 align="right">
@@ -282,7 +282,7 @@ function showonlyoneDis(selectedBlock,fld) {
 </tr>
 <tr>
     <td>
-    <table style="border-style:ridge;padding-top:1.2%;" width="780"><b>GO TO:</b>
+    <table style="border-style:ridge;padding-top:1.2%;"><b>GO TO:</b>
         <tr>
             <td>
                 <ul>
@@ -325,14 +325,14 @@ function showonlyoneDis(selectedBlock,fld) {
     </td>
 </tr>
 <tr>
-    <td style="padding-top:2%" width="780">
+    <td style="padding-top:2%">
         <a name="GenesInPathway"><h3><b>Genes in Pathway:</b></h3></a>
             <%@ include file="../ontology/annotTable.jsp" %>
     </td>
 </tr>
 <tr>
     <td>
-    <table width="780">
+    <table>
     <c:if test='<%=pwAlt.equals("Y")%>'>
     <tr>
         <td>
@@ -419,7 +419,7 @@ function showonlyoneDis(selectedBlock,fld) {
     <c:if test="<%=!(oneDiseaseManyGenes.isEmpty())%>">
     <tr>
         <td>
-        <table width="780" align="center">
+        <table align="center">
            <tr>
                <td colspan="2">
                    <a name="Disease"><b style="font-size:115%;">Disease Annotations Associated with Genes in the <%=pwName%></b></a>
@@ -530,7 +530,7 @@ function showonlyoneDis(selectedBlock,fld) {
     <c:if test="<%=!(onePathManyGenes.isEmpty())%>">
     <tr>
         <td>
-        <table style="padding-top:2%" width="780" align="center">
+        <table style="padding-top:2%" align="center">
            <tr>
                <td colspan="2">
                    <a name="Pathway"><b style="font-size:115%">Pathway Annotations Associated with Genes in the <%=pwName%></b></a>
@@ -640,7 +640,7 @@ function showonlyoneDis(selectedBlock,fld) {
     <c:if test="<%=!(onePheManyGenes.isEmpty())%>">
     <tr>
         <td>
-        <table style="padding-top:2%" width="780">
+        <table style="padding-top:2%" >
            <tr>
                <td colspan="2">
                    <a name="Phenotype"><b style="font-size:115%;">Phenotype Annotations Associated with Genes in the <%=pwName%></b></a>
