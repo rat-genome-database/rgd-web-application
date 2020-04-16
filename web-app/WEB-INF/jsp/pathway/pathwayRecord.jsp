@@ -765,7 +765,7 @@ function showonlyoneDis(selectedBlock,fld) {
         <table align="center">
             <tr>
                 <td colspan="3" align="center">
-                    <div id="browser_graph" style="width:800px;overflow:auto">
+                    <div class="container-fluid">
                 <%=OntDotController.generateResponse(pwId, "/rgdweb/ontology/annot.html?acc_id=", 30)%>
                     </div>
                 </td>

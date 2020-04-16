@@ -219,7 +219,7 @@ public class OntDotController implements Controller {
                     .append(files[0])
                     .append("\"/>\n");
             } else {
-                buf.append("<img id=\"termHierarchy\" border=\"0\" usemap=\"#go_graph\" alt=\"paths to the root\" src=\"/rgdweb/ontology/dot.html?img_id=")
+                buf.append("<img class=\"img-responsive\" id=\"termHierarchy\" border=\"0\" usemap=\"#go_graph\" alt=\"paths to the root\" src=\"/rgdweb/ontology/dot.html?img_id=")
                     .append(files[0])
                     .append("\"/>\n");
                 // read the contents of map file and show it
