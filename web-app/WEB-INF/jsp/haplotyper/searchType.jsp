@@ -133,7 +133,7 @@ String pageDescription = "Define Region";
                <input value ="Limit by Genomic Position" type="button" onClick="this.form.action='region.html';this.form.submit();" style="border-radius:50px;font-size:18px; height:60px; width:250px" name="chr" size="6" />
             </td>
             <td style="padding:5px;" >
-               <input value ="Search by Function" type="button" onClick="location.href='/rgdweb/generator/list.html?vv=1'"  style="border-radius:50px; font-size:18px; height:60px; width:250px" name="chr" size="6" />
+               <input value ="Search by Function" type="button" onClick="location.href='/rgdweb/generator/list.html?vv=1&mapKey=<%=req.getParameter("mapKey")%>'"  style="border-radius:50px; font-size:18px; height:60px; width:250px" name="chr" size="6" />
             </td>
             <% if (strainSet) { %>
                 <td style="padding:5px;" >
