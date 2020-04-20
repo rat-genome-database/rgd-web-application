@@ -156,26 +156,7 @@
     <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Supplemental" download="true">View Supplemental Information </a></td>
 </tr>
     <% } %>
-    <% String highlights = strainDAO.getContentType(obj.getRgdId(),"Highlights");
-        if(highlights != null) {
-            Blob data =  strainDAO.getStrainAttachment(obj.getRgdId(),"Highlights");
-            InputStream is = data.getBinaryStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            byte[] bytes = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = is.read(bytes)) != -1) {
-                outputStream.write(bytes);
-            }
-            byte[] imageBytes = outputStream.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            is.close();
-            outputStream.close();
-    %> <tr>
-    <td class="label">Highlights</td>
-    <td><img src="data:image/jpg;base64,<%=base64Image%>" width="95%"/></td>
-</tr>
-    <% } %>
     <%
         List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
         if( !mapData.isEmpty() ) {
