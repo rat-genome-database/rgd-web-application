@@ -32,9 +32,7 @@ public class DownloadController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
            String format=request.getParameter("format");
-
             String objectKey = request.getParameter("oKey");
-
             String rgdIds = request.getParameter("rgdIds");
             String mapKey = request.getParameter("mapKey");
 
@@ -55,7 +53,9 @@ public class DownloadController implements Controller {
             }
 
 
-            String obj = objectKey.equals("5") ? "Strains" : objectKey.equals("3") ? "SSLPs" : objectKey.equals("6") ? "QTLs" : objectKey.equals("7") ? "Variants" : objectKey.equals("12") ? "Reference" : objectKey.equals("0") ? "Ontology" : objectKey.equals("1") ? "Genes":null;
+            String obj = objectKey.equals("5") ? "Strains" : objectKey.equals("3") ? "SSLPs" : objectKey.equals("6") ? "QTLs" : objectKey.equals("7") ? "Variants" : objectKey.equals("12") ? "Reference" : objectKey.equals("0") ? "Ontology"
+                    : objectKey.equals("1") ? "Genes":objectKey.equals("11")?"cell_lines":objectKey.equals("16")?"Promoters":"unknown";
+
 
         if(format!=null){
             if(format.equalsIgnoreCase("excel")) {
@@ -73,13 +73,19 @@ public class DownloadController implements Controller {
                 cell = row.createCell(cellnum++);
                 cell.setCellValue("Symbol");
                 cell = row.createCell(cellnum++);
-                cell.setCellValue("Chromosome");
-                cell = row.createCell(cellnum++);
-                cell.setCellValue("Start Position");
-                cell = row.createCell(cellnum++);
-                cell.setCellValue("Stop Position");
+                if(objectKey.equals("11") || objectKey.equals("16")){
+                   
+                    cell.setCellValue("Name");
+                }
+                if(!objectKey.equals("11")) {
+                    cell.setCellValue("Chromosome");
+                    cell = row.createCell(cellnum++);
+                    cell.setCellValue("Start Position");
+                    cell = row.createCell(cellnum++);
+                    cell.setCellValue("Stop Position");
                     cell = row.createCell(cellnum);
-                cell.setCellValue("Assembly");
+                    cell.setCellValue("Assembly");
+                }
             } else {
                 if (!(objectKey.equals("0"))) {
                     cell.setCellValue("RGD ID");
@@ -102,7 +108,7 @@ public class DownloadController implements Controller {
                 }
 
             }
-System.out.println("MAPKEY in downloader: "+ mapKey);
+
                 if (objectKey.equals("1")) {
                     GeneDAO geneDAO=new GeneDAO();
                     for (int rgdId : rgdidsList) {
@@ -194,6 +200,59 @@ System.out.println("MAPKEY in downloader: "+ mapKey);
 
                 }
             }
+            //=====================================================
+                if (objectKey.equals("11") || objectKey.equals("16")) {
+
+                    GenomicElementDAO genomicElementDAO = new GenomicElementDAO();
+                    List<GenomicElement> elements = genomicElementDAO.getElementsByRgdIds(rgdidsList);
+
+                    for (GenomicElement s : elements) {
+                        String strain = s.getSymbol();
+                        String htmlStripped = Jsoup.parse(strain).text();
+                        List<MapData> m = mdao.getMapData(s.getRgdId(), Integer.parseInt(mapKey));
+                        cellnum = 0;
+                        if (m.size() > 0) {
+                            MapData md = m.get(0);
+
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getRgdId());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getSymbol());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getName());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getChromosome());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStartPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStopPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
+
+                        } else {
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getRgdId());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(htmlStripped);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getName());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+
+                        }
+
+
+                    }
+                }
+                //=======================================================
             if (objectKey.equals("3")) {
                 SSLPDAO sslpdao = new SSLPDAO();
                 List<SSLP> sslps = new ArrayList<>();
@@ -399,14 +458,6 @@ System.out.println("MAPKEY in downloader: "+ mapKey);
                 }
             }
         }
-
-
-
-
-
-
-
-
                 response.getWriter().write(header);
         }
         }
