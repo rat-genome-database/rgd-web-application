@@ -7,6 +7,7 @@ import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,6 +90,15 @@ public class DownloadController extends HaplotyperController {
     void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
                         boolean printHeader, boolean isHuman) throws Exception {
 
+
+        String assembly = "";
+        try {
+            assembly = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
+        }catch (Exception e) {
+            throw e;
+        }
+
+
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
@@ -111,6 +121,7 @@ public class DownloadController extends HaplotyperController {
         if( printHeader ) {
             if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
             if (!req.getParameter("p").equals("")) out.print("Position" + delim);
+            if (!req.getParameter("a").equals("")) out.print("Assembly" + delim);
             if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
             if (!req.getParameter("gs").equals("")) out.print("Gene Symbol" + delim);
             if (!req.getParameter("st").equals("")) out.print("Gene Strand" + delim);
@@ -259,6 +270,7 @@ public class DownloadController extends HaplotyperController {
                     if (!first ) {
                         if (!req.getParameter("c").equals(""))  out.print(chr + delim);
                         if (!req.getParameter("p").equals("")) out.print(pos + delim);
+                        if (!req.getParameter("a").equals("")) out.print(assembly + delim);
                         if (!req.getParameter("cs").equals("")) out.print(score + delim);
                         if (!req.getParameter("gs").equals("")) out.print(gene + delim);
                         if (!req.getParameter("st").equals("")) out.print(strand + delim);
@@ -294,6 +306,17 @@ public class DownloadController extends HaplotyperController {
                             out.print(delim);
                         }
 
+                        if (!req.getParameter("aap").equals("")) {
+                            it = aaPosMap.keySet().iterator();
+                            while (it.hasNext()) {
+                                out.print((String) it.next());
+                                if (it.hasNext()) {
+                                    out.print("|");
+                                }
+                            }
+                            out.print(delim);
+                        }
+
                         if (!req.getParameter("tai").equals("")) {
                             it = transcriptMap.keySet().iterator();
                             while (it.hasNext()) {
@@ -318,16 +341,6 @@ public class DownloadController extends HaplotyperController {
                             out.print(delim);
                         }
 
-                        if (!req.getParameter("aap").equals("")) {
-                            it = aaPosMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                            out.print(delim);
-                        }
 
                         if (!req.getParameter("pp").equals("")) {
                             it = polyMap.keySet().iterator();

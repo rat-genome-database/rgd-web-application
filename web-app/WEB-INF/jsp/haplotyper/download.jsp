@@ -25,6 +25,9 @@ Select annotation to include in your download.
                         <td><input type='checkbox' name="p" checked>Position</td>
                     </tr>
                     <tr>
+                        <td><input type='checkbox' name="a" checked>Assembly</td>
+                    </tr>
+                    <tr>
                         <td><input type='checkbox' name="cs" checked>Conservation Score</td>
                     </tr>
                     <tr>

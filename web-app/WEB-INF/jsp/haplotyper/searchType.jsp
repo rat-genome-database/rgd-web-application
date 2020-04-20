@@ -43,7 +43,7 @@ String pageDescription = "Define Region";
         </tr>
         <tr>
             <td style="padding:10px; font-size:20px;">
-                Select Assembly
+                Select Species/Assembly
             </td>
             <td align="left">
                 <select style="height:26px; font-size:16px; width: 300px" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
@@ -103,9 +103,9 @@ String pageDescription = "Define Region";
     %>
 
     <%
-        String selectTitle="Select Sequences";
+        String selectTitle="Select Samples";
         if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
-            selectTitle="Select Sequences";
+            selectTitle="Select Samples";
         }
 
     %>
@@ -133,7 +133,7 @@ String pageDescription = "Define Region";
                <input value ="Limit by Genomic Position" type="button" onClick="this.form.action='region.html';this.form.submit();" style="border-radius:50px;font-size:18px; height:60px; width:250px" name="chr" size="6" />
             </td>
             <td style="padding:5px;" >
-               <input value ="Search by Function" type="button" onClick="location.href='/rgdweb/generator/list.html?vv=1'"  style="border-radius:50px; font-size:18px; height:60px; width:250px" name="chr" size="6" />
+               <input value ="Search by Function" type="button" onClick="location.href='/rgdweb/generator/list.html?vv=1&mapKey=<%=req.getParameter("mapKey")%>'"  style="border-radius:50px; font-size:18px; height:60px; width:250px" name="chr" size="6" />
             </td>
             <% if (strainSet) { %>
                 <td style="padding:5px;" >

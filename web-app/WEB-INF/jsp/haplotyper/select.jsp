@@ -89,7 +89,7 @@ if (req.getParameter("u").equals("394033")) {
 
 <table width="100%" class="stepLabel" border=0>
     <tr>
-        <td align="left"><b>Step 1:</b> Select sequences to compare</td>
+        <td align="left">Select samples to compare</td>
         <td align="right"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>
     </tr>
 </table>
@@ -108,9 +108,9 @@ if (req.getParameter("u").equals("394033")) {
    }
    founderArr += "]";
 
-   List<Integer> hdrp = vsgd.getVariantSamples("HDRP");
+   List<Integer> hrdp = vsgd.getVariantSamples("HRDP");
    String hdrpArr = "[";
-   for (Integer f: hdrp) {
+   for (Integer f: hrdp) {
        hdrpArr += f + ",";
    }
    hdrpArr += "]";
@@ -120,7 +120,7 @@ if (req.getParameter("u").equals("394033")) {
     function selectGroup(name) {
         var strainGroups = {};
         strainGroups["hsfounders"] = <%=founderArr%>;
-        strainGroups["hdrp"] = <%=hdrpArr%>;
+        strainGroups["hrdp"] = <%=hdrpArr%>;
         var group = document.getElementById(name);
         var founders = strainGroups[name];
         var checkboxes = document.getElementsByName('strain[]');
@@ -151,12 +151,12 @@ if (req.getParameter("u").equals("394033")) {
     }
 </script>
 
-<div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
+    <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
 
 <table style="margin-left:50px;">
     <tr>
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
-            <td style="color:white;">  <input id="hdrp" name="hdrp" type="checkbox" onChange="selectGroup('hdrp')"/> HDRP Strains</td>
+            <td style="color:white;">  <input id="hrdp" name="hrdp" type="checkbox" onChange="selectGroup('hrdp')"/> HRDP Strains</td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -165,13 +165,53 @@ if (req.getParameter("u").equals("394033")) {
     </tr>
 </table>
 
-    <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequences</div>
+    <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Samples</div>
+
+    <table width="90%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
+        </tr>
+    </table>
 
     <table border="0" style="margin-left:50px;">
         <tr>
         <%
         int count=0;
-        for (Sample samp: samples) {
+
+
+        ArrayList<Sample> sampList1 = new ArrayList<Sample>();
+        ArrayList<Sample> sampList2 = new ArrayList<Sample>();
+        ArrayList<Sample> sampList3 = new ArrayList<Sample>();
+
+       int num = 0;
+       for (Sample samp: samples) {
+            if (num < ((samples.size() / 3) + 1)) {
+                sampList1.add(samp);
+            }else if (num < (((samples.size() / 3) + 1) * 2 )) {
+                sampList2.add(samp);
+
+            }else {
+                sampList3.add(samp);
+            }
+            num++;
+       }
+
+
+        ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
+        try {
+            for (int i = 0; i < sampList1.size(); i++) {
+                sortedSamples.add(sampList1.get(i));
+                sortedSamples.add(sampList2.get(i));
+                sortedSamples.add(sampList3.get(i));
+            }
+        }catch (Exception e) {
+            out.print(e.getMessage());
+
+        }
+
+
+
+        for (Sample samp: sortedSamples) {
             if (samp.getId() == 900 || samp.getId() == 901)   {
                 if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
                     continue;
