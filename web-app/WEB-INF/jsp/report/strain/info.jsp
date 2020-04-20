@@ -10,6 +10,8 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
 <%@ page import="java.sql.Blob" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
@@ -156,9 +158,22 @@
     <% } %>
     <% String highlights = strainDAO.getContentType(obj.getRgdId(),"Highlights");
         if(highlights != null) {
+            Blob data =  strainDAO.getStrainAttachment(obj.getRgdId(),"Highlights");
+            InputStream is = data.getBinaryStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            byte[] bytes = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(bytes)) != -1) {
+                outputStream.write(bytes);
+            }
+            byte[] imageBytes = outputStream.toByteArray();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            is.close();
+            outputStream.close();
     %> <tr>
     <td class="label">Highlights</td>
-    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Highlights" download="true">View Highlights Information </a></td>
+    <td><img src="data:image/jpg;base64,<%=base64Image%>" width="240" height="300"/></td>
 </tr>
     <% } %>
     <%
