@@ -173,7 +173,7 @@
             outputStream.close();
     %> <tr>
     <td class="label">Highlights</td>
-    <td><img src="data:image/jpg;base64,<%=base64Image%>" width="240" height="300"/></td>
+    <td><img src="data:image/jpg;base64,<%=base64Image%>" width="95%"/></td>
 </tr>
     <% } %>
     <%
