@@ -39,17 +39,19 @@
 <br><br>
     <% if(request.getParameter("strainId") != null) {
     %>
-    <span> Genotype File: <%=request.getAttribute("genotypeFile")%></span> <br><br>
-    <span> Highlights File: <%=request.getAttribute("highlightsFile")%></span> <br><br>
-    <span> Supplemental File: <%=request.getAttribute("supplementalFile")%></span> <br><br>
+    <span style="font-weight: bold; "><u>EXISTING FILES</u></span> <br><br>
+    <span style="color: green; font-weight: bold;"> Genotype File: </span> <%=request.getAttribute("genotypeFile")%> <br><br>
+    <span style="color: green; font-weight: bold;"> Highlights File: </span> <%=request.getAttribute("highlightsFile")%> <br><br>
+    <span style="color: green; font-weight: bold;"> Supplemental File: </span><%=request.getAttribute("supplementalFile")%> <br><br>
 
-    <label for="Genotype" style="color: #24609c; font-weight: bold;">Genotype: Select file to upload:</label>
+    <span style="font-weight: bold;"><u>ADD FILES</u></span> <br><br>
+    <label for="Genotype" style="color: #24609c; font-weight: bold;">Genotype: </label>
             <input type="file" id="Genotype" name="Genotype"  />
 <br><br>
-    <label for="Highlights" style="color: #24609c; font-weight: bold;">Highlights: Select file to upload:</label>
+    <label for="Highlights" style="color: #24609c; font-weight: bold;">Highlights: </label>
     <input type="file" id="Highlights" name="Highlights"  />
     <br><br>
-    <label for="Supplemental" style="color: #24609c; font-weight: bold;">Supplemental: Select file to upload:</label>
+    <label for="Supplemental" style="color: #24609c; font-weight: bold;">Supplemental: </label>
     <input type="file" id="Supplemental" name="Supplemental"  />
     <br><br>
 <% } %>
