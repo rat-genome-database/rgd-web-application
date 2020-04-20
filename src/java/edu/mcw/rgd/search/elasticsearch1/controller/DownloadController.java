@@ -73,13 +73,19 @@ public class DownloadController implements Controller {
                 cell = row.createCell(cellnum++);
                 cell.setCellValue("Symbol");
                 cell = row.createCell(cellnum++);
-                cell.setCellValue("Chromosome");
-                cell = row.createCell(cellnum++);
-                cell.setCellValue("Start Position");
-                cell = row.createCell(cellnum++);
-                cell.setCellValue("Stop Position");
+                if(objectKey.equals("11") || objectKey.equals("16")){
+                   
+                    cell.setCellValue("Name");
+                }
+                if(!objectKey.equals("11")) {
+                    cell.setCellValue("Chromosome");
+                    cell = row.createCell(cellnum++);
+                    cell.setCellValue("Start Position");
+                    cell = row.createCell(cellnum++);
+                    cell.setCellValue("Stop Position");
                     cell = row.createCell(cellnum);
-                cell.setCellValue("Assembly");
+                    cell.setCellValue("Assembly");
+                }
             } else {
                 if (!(objectKey.equals("0"))) {
                     cell.setCellValue("RGD ID");
@@ -214,6 +220,8 @@ public class DownloadController implements Controller {
                             cell = row.createCell(cellnum++);
                             cell.setCellValue(s.getSymbol());
                             cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getName());
+                            cell = row.createCell(cellnum++);
                             cell.setCellValue(md.getChromosome());
                             cell = row.createCell(cellnum++);
                             cell.setCellValue(md.getStartPos());
@@ -228,6 +236,8 @@ public class DownloadController implements Controller {
                             cell.setCellValue(s.getRgdId());
                             cell = row.createCell(cellnum++);
                             cell.setCellValue(htmlStripped);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(s.getName());
                             cell = row.createCell(cellnum++);
                             cell.setCellValue("");
                             cell = row.createCell(cellnum++);
