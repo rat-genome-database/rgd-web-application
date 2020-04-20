@@ -98,7 +98,7 @@
             outputStream.close();
     %>
             <br>
-            <div class="subTitle">HighLights</div>
+            <div class="subTitle">Highlights</div>
             <br>
     <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
             <br><br>
