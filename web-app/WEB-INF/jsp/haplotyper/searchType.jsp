@@ -43,7 +43,7 @@ String pageDescription = "Define Region";
         </tr>
         <tr>
             <td style="padding:10px; font-size:20px;">
-                Select Assembly
+                Select Species/Assembly
             </td>
             <td align="left">
                 <select style="height:26px; font-size:16px; width: 300px" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
@@ -103,9 +103,9 @@ String pageDescription = "Define Region";
     %>
 
     <%
-        String selectTitle="Select Sequences";
+        String selectTitle="Select Samples";
         if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
-            selectTitle="Select Sequences";
+            selectTitle="Select Samples";
         }
 
     %>

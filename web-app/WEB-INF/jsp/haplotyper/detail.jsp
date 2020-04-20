@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.TranscriptDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -30,6 +31,15 @@ scroll-top:0;
     //SearchResult searchResult = searchResults.get(0);
     List<VariantResult> resultList = searchResult.getVariantResults();
     String dbSnpUrl = XDBIndex.getInstance().getXDB(48).getUrl();
+
+    String mapName = "";
+    try {
+        mapName = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
+    }catch (Exception e) {
+        throw e;
+    }
+
+
 %>
 
 
@@ -63,7 +73,10 @@ scroll-top:0;
                    <td><%=sample.getAnalysisName()%></td>
                </tr>
                 <tr>
-                   <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
+                    <td class="carpeLabel">Assembly:</td><td><%=mapName%></td>
+                </tr>
+                <tr>
+                    <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                 </tr>
                  <tr>
                    <td class="carpeLabel">Reference Nucleotide:</td><td><%=result.getVariant().getReferenceNucleotide()%></td>
