@@ -100,7 +100,8 @@
             <br>
             <div class="subTitle">HighLights</div>
             <br>
-    <img src="data:image/jpg;base64,<%=base64Image%>" width="95%"/>
+    <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
+            <br><br>
     <% } %>
             <%@ include file="substrains.jsp"%>
             <%@ include file="congenics.jsp"%>
