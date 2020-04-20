@@ -19,7 +19,7 @@
     while ((bytesRead = is.read(bytes)) != -1) {
          response.getOutputStream().write(bytes);
     }
-
+    is.close();
     response.getOutputStream().flush();
     response.getOutputStream().close();
 %>
