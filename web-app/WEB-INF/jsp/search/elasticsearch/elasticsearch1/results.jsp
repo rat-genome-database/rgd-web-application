@@ -856,6 +856,36 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>
+                            <c:if test="${hf.key=='associations'}">
+                                <c:choose>
+                                    <c:when test="${first=='true'}" >
+
+                                        <span>Related Genes</span>
+
+                                        <c:set value="false" var="first"/>
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>, Related Genes</span>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                            <c:if test="${hf.key=='genomicAlteration'}">
+                                <c:choose>
+                                    <c:when test="${first=='true'}" >
+
+                                        <span>Genomic Alteration</span>
+
+                                        <c:set value="false" var="first"/>
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>, Genomic Alteration</span>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
                         </c:forEach>
                         <!--a href="#" class="moreLink" style="color:dodgerblue" title="Matched fragments">Show Matches...</a>
                         <div  class="more hideContent" style="overflow-y: auto">

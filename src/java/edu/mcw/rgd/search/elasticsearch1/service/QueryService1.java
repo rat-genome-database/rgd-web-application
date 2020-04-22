@@ -262,6 +262,7 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
                         .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
+                        .add(QueryBuilders.matchPhraseQuery("genomicAlteration", term).boost(5))
 
                         .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
                         .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
@@ -365,7 +366,8 @@ public class QueryService1 {
                 "origin","origin.origin",
                 "trait","subTrait",
                 "type","transcripts", "promoters",
-                "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers"
+                "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers",
+                "associations","genomicAlteration"
         ));
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){
