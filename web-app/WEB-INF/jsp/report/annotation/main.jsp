@@ -20,11 +20,11 @@
     System.out.println(termAcc);
 
     List<Annotation> annotList = annotationDAO.getAnnotations(rgdId, termAcc);
-
     if (annotList.size() == 0) {
         annotList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,termAcc);
         isReferenceRgd = 1;
     }
+
 
     String term = termAcc;
     Annotation obj = null;
@@ -185,11 +185,7 @@ and <span class="highlight"><%=obj.getTerm()%></span> in <%=SpeciesType.getTaxon
 
 </table>
 
-<% if (obj.getLastModifiedDate() != null && obj.getLastModifiedBy() != null) { %>
-    <br>This annotation was curated on <%=obj.getLastModifiedDate()%> by <%=RgdContext.getSiteName(request)%>
-    <% if( RgdContext.isCurator() ) { out.print("curator number "+obj.getLastModifiedBy()); } %>.
-    For more information <a href="/contact/index.shtml">contact us</a>
-<% } %>
+
 
 <br><br>
 <%
