@@ -64,10 +64,15 @@
                     <td><input type="image" src="/common/images/searchGlass.gif" class="searchButtonSmall"/></td>
                     </tr>
         </table>
-                </form>
+            </form>
         </div>
         </c:if>
-        <p><strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}"</p>
+        <p>
+            <c:if test="${model.totalHits == 10000}">
+        <span style="font-weight: bold">Showing Top</span>
+        </c:if>
+            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}"
+        </p>
 
     </div>
     <hr>
