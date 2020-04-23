@@ -1211,13 +1211,13 @@
                 <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('RDO')">DO: Diseases Ontology<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('PW')">PW: Pathway Ontology<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('MP')">MP: Phenotype Ontology<br><span style="font-size:11px;">Enrichment</span></div>
-                <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="pw" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
             </td>
         </tr>
         <tr>
             <td align="center">
                 <div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('CC')">GO: Cellular Component<br><span style="font-size:11px;">Enrichment</span></div>
-                <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('MF')">Go: Molecular Function<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('MF')">GO: Molecular Function<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('CHEBI')">CHEBI: Chemical/Drug<br><span style="font-size:11px;">Enrichment</span></div>
                 <!--<div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Chemical Interactions<br><span style="font-size:11px;">{{title}}</span></div>-->
             </td>
