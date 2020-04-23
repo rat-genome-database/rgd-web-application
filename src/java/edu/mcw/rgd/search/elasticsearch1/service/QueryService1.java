@@ -233,6 +233,7 @@ public class QueryService1 {
         if(sb!=null) {
          //   if(!sb.isRedirect()) {
                 if(!term.equals("")){
+                    System.out.println("TERM IN DISMAXQUERY: "+ term);
                 dqb
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
@@ -249,6 +250,8 @@ public class QueryService1 {
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)))
+                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
 
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
                         .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
@@ -259,6 +262,7 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
                         .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
+                        .add(QueryBuilders.matchPhraseQuery("genomicAlteration", term).boost(5))
 
                         .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
                         .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
@@ -362,7 +366,8 @@ public class QueryService1 {
                 "origin","origin.origin",
                 "trait","subTrait",
                 "type","transcripts", "promoters",
-                "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers"
+                "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers",
+                "associations","genomicAlteration"
         ));
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){

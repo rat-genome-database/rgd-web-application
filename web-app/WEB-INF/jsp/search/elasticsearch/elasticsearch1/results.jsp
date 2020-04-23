@@ -39,8 +39,10 @@
 
 <tr><td>
 <div>
-
-                        <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
+    <c:if test="${model.totalHits == 10000}">
+        <span style="font-weight: bold">Showing Top</span>
+    </c:if>
+    <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
                             <c:if test="${model.searchBean.category!='General' && model.searchBean.category!='general' && model.searchBean.category!='Ontology'}">
                                 <c:if test="${model.searchBean.type!='null'}">
                              <span style="color:blue">${model.searchBean.type}</span>
@@ -852,6 +854,36 @@
                                     </c:when>
                                     <c:otherwise>
                                         <span>, Abstract</span>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                            <c:if test="${hf.key=='associations'}">
+                                <c:choose>
+                                    <c:when test="${first=='true'}" >
+
+                                        <span>Related Genes</span>
+
+                                        <c:set value="false" var="first"/>
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>, Related Genes</span>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                            <c:if test="${hf.key=='genomicAlteration'}">
+                                <c:choose>
+                                    <c:when test="${first=='true'}" >
+
+                                        <span>Genomic Alteration</span>
+
+                                        <c:set value="false" var="first"/>
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>, Genomic Alteration</span>
 
                                     </c:otherwise>
                                 </c:choose>
