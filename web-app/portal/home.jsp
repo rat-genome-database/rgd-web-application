@@ -1211,7 +1211,7 @@
                 <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('RDO')">DO: Diseases Ontology<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('PW')">PW: Pathway Ontology<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('MP')">MP: Phenotype Ontology<br><span style="font-size:11px;">Enrichment</span></div>
-                <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="pw" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
             </td>
         </tr>
         <tr>
