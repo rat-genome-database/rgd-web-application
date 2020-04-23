@@ -39,6 +39,9 @@
 
 <tr><td>
 <div>
+    <c:if test="${model.totalHits == 10000}">
+        <span style="font-weight: bold">Showing Top</span>
+    </c:if>
     <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
                             <c:if test="${model.searchBean.category!='General' && model.searchBean.category!='general' && model.searchBean.category!='Ontology'}">
                                 <c:if test="${model.searchBean.type!='null'}">
