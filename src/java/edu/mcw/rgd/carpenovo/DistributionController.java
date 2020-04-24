@@ -400,7 +400,7 @@ public class DistributionController extends HaplotyperController {
             for (int i = 0; i < 999; i++) {
                 String sample = req.getParameter("sample" + i);
                 if (!sample.isEmpty()) {
-                    al.add(Integer.parseInt(sample));
+                    al.add(new Integer(sample));
                 }
             }
 
