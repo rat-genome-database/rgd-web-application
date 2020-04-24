@@ -196,6 +196,7 @@ public class OntAnnotation  {
             this.rgdObjectKey== RgdId.OBJECT_KEY_QTLS ? "qtl" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS ? "strain" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_VARIANTS ? "variant" :
+            this.rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ? "cellline" :
             "unknown";
     }
 
