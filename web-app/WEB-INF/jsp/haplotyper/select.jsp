@@ -114,6 +114,15 @@ if (req.getParameter("u").equals("394033")) {
        hdrpArr += f + ",";
    }
    hdrpArr += "]";
+
+    int sampNum = 1;
+    String sampVal = "";
+    HashMap<String,String> sampleMap = new HashMap<String,String>();
+    while ((sampVal = request.getParameter("sample" + sampNum)) != null) {
+        sampleMap.put(request.getParameter("sample" + sampNum), "found");
+        sampNum++;
+    }
+
 %>
 
 <script>
@@ -209,7 +218,7 @@ if (req.getParameter("u").equals("394033")) {
 
         }
 
-
+        String checked="";
 
         for (Sample samp: sortedSamples) {
             if (samp.getId() == 900 || samp.getId() == 901)   {
@@ -226,7 +235,13 @@ if (req.getParameter("u").equals("394033")) {
    <td>
     <table>
         <tr>
-            <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>"/></td>
+            <% if (sampleMap.get(samp.getId() + "") != null) {
+                checked = " checked ";
+            }else {
+                checked=" ";
+            }
+            %>
+            <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/></td>
             <td style="color:white;"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></td>
             <td>
                 <img onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="15" width="15"/>
