@@ -81,6 +81,7 @@ public class ConfigController extends HaplotyperController {
             }
 
         }catch (Exception e) {
+            e.printStackTrace();
             errorList.add(e.getMessage());
             request.setAttribute("error", errorList);
            if(vsb!=null) {
