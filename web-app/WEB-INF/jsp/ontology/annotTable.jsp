@@ -158,7 +158,9 @@
                         <li <c:if test="${bean.objectKey==7}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','7','#annot')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
                         <% } %>
 
-
+                        <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids) > 0) { %>
+                        <li <c:if test="${bean.objectKey==11}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','11','#annot')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
+                        <% } %>
                     </ul>
                 </div>
             </td></tr>

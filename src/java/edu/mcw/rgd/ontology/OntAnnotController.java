@@ -160,6 +160,8 @@ public class OntAnnotController implements Controller {
                 bean.setObjectKey(5);
             }else  if (ts.getStat("annotated_object_count",speciesTypeKey,7,withKids) > 0){
                 bean.setObjectKey(7);
+            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,11,withKids) > 0){
+                bean.setObjectKey(11);
             }
         }
 
