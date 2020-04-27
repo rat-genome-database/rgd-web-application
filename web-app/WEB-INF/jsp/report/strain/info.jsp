@@ -145,15 +145,15 @@
 <% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
     if(content != null) {
 %> <tr>
-    <td class="label">Genotype</td>
-    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">View Genotype Information </a></td>
+    <td class="label">Genotyping Protocol</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">Download Genotyping Protocol </a></td>
 </tr>
     <% } %>
     <% String supp = strainDAO.getContentType(obj.getRgdId(),"Supplemental");
         if(supp != null) {
     %> <tr>
-    <td class="label">Supplemental Information</td>
-    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Supplemental" download="true">View Supplemental Information </a></td>
+    <td class="label">Strain Phenotyping</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Supplemental" download="true">View Strain Phenotyping </a></td>
 </tr>
     <% } %>
 
