@@ -191,6 +191,13 @@ public class OntAnnotation  {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS;
     }
 
+    public String getObjectTypeInitial() {
+        if( rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ) {
+            return "CL";
+        }
+        return getRgdObjectName().substring(0,1).toUpperCase();
+    }
+
     public String getRgdObjectName() {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_GENES ? "gene" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_QTLS ? "qtl" :

@@ -258,7 +258,7 @@
                   else
                     out.print("<tr class='evenRow'>"); %>
 
-                <td class="objtag_<%=annot.getRgdObjectName()%>" title=" <%=annot.getRgdObjectName()%> "><%=annot.getRgdObjectName().substring(0,1).toUpperCase()%></td>
+                <td class="objtag_<%=annot.getRgdObjectName()%>" title=" <%=annot.getRgdObjectName()%> "><%=annot.getObjectTypeInitial()%></td>
                 <c:if test="${bean.speciesTypeKey==0}"><td title="<%=speciesName%>"><%=speciesName.substring(0, 1)%></td></c:if>
 
                 <% //check to see if symbol should be used by tool submit logic
