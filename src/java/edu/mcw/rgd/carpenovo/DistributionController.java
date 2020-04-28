@@ -364,6 +364,7 @@ public class DistributionController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/haplotyper/dist.jsp");
 
         }catch (Exception e) {
+            e.printStackTrace();
             errors.add(e.getMessage());
             request.setAttribute("error", errors);
 
@@ -411,11 +412,12 @@ public class DistributionController extends HaplotyperController {
 
                 int cnt = 0;
                 for (Sample sampleObj: samples)  {
-                    sampleIds.add(request.getParameter("sample" + cnt));
+                    sampleIds.add(sampleObj.getId() + "");
                     cnt++;
                 }
             }
         }
+
         return sampleIds;
     }
 
