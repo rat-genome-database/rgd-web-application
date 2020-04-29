@@ -95,7 +95,7 @@ public class VariantController extends HaplotyperController {
                 //         List<VariantResult> variantResults = vdao.getVariantAndConservation(vsb);
                 List<VariantResult> variantResults = this.getVariantResults(vsb, req);
 
-                //    System.out.println(variantResults.size());
+                  System.out.println("VARIANT RESULTS SIZE:"+variantResults.size());
 
                 for (VariantResult vr: variantResults) {
                     if (vr.getVariant() != null) {
@@ -146,80 +146,47 @@ public class VariantController extends HaplotyperController {
         List<VariantResult> variantResults=new ArrayList<>();
         System.out.println("VARIANT SEARCH HITS: "+ hits.size());
 
-        for(SearchHit h:hits){
-            java.util.Map<String, Object> m=h.getSourceAsMap();
-            VariantResult vr= new VariantResult();
-        //    Variant v= mapVariant(m);
-            Variant v=new Variant();
-            Map vd= (Map) m.get("variant");
-            v.setChromosome((String) vd.get("chromosome"));
-            v.setStartPos((Integer) vd.get("startPos"));
-            v.setEndPos((Integer) vd.get("endPos"));
-            v.setReferenceNucleotide((String) vd.get("referenceNucleotide"));
-            v.setVariantNucleotide((String) vd.get("variantNucleotide"));
-            v.setGenicStatus((String) vd.get("genicStatus"));
-            v.setPaddingBase((String) vd.get("paddingBase"));
-            v.setRegionName( m.get("regionName").toString());
-            v.setVariantType((String) vd.get("variantType"));
-          List samples= (List) m.get("samples");
-            for(Object e:samples) {
-                Map s= (Map) e;
-                boolean flag = false;
-                for (int id : vsb.sampleIds) {
-                    if ((Integer)(s.get("sampleId")) == id) {
-                        flag = true;
-                    }
-                }
-                if (flag) {
-                    v.setSampleId((Integer) s.get("sampleId"));
-                    v.setVariantFrequency((Integer) s.get("variantFrequency"));
-                    v.setDepth((Integer) s.get("depth"));
-                    v.setQualityScore((Integer) s.get("qualityScore"));
-                    v.setZygosityStatus((String) s.get("zygosityStatus"));
-                    v.setZygosityInPseudo((String) s.get("zygosityInPseudo"));
-                    v.setZygosityNumberAllele((Integer) s.get("zygosityNumberAllele"));
-                    v.setZygosityPercentRead(100);
-                    v.setZygosityPossibleError((String) s.get("zygosityPossibleError"));
-                    v.setZygosityRefAllele((String) s.get("zygosityRefAllele"));
-                    vr.setVariant(v);
-             //       v.conservationScore.add(mapConservation(m));
+        for(int id:vsb.sampleIds) {
+            for (SearchHit h : hits) {
+                java.util.Map<String, Object> m = h.getSourceAsMap();
+                List<Map> samples = (List<Map>) m.get("samples");
+                for (Map e : samples) {
+                    int sId = (Integer) (e.get("sampleId"));
 
-                variantResults.add(vr);
-                }
+                    if (id==sId) {
+                        VariantResult vr = new VariantResult();
+                        //    Variant v= mapVariant(m);
 
-            }
-          /*  for(Map.Entry e: m.entrySet()){
-                System.out.println(e.getKey() + "\t"+ e.getValue());
-
-            }*/
-        /*    VariantResult vr= new VariantResult();
-            Variant v= mapVariant(m);
-            List<VariantSampleDetail>samples= (List<VariantSampleDetail>) m.get("samples");
-            for(VariantSampleDetail s:samples){
-                boolean flag=false;
-                for(int id:vsb.sampleIds){
-                    if(s.getSampleId()==id){
-                        flag=true;
-                    }
-                }
-                if(flag){
-                     v.setSampleId(s.getSampleId());
-                    v.setVariantFrequency(s.getVariantFrequency());
-                      v.setDepth(s.getDepth());
-                       v.setQualityScore(s.getQualityScore());
-                    v.setZygosityStatus(s.getZygosityStatus());
-                      v.setZygosityInPseudo(s.getZygosityInPseudo());
-                          v.setZygosityNumberAllele(s.getZygosityNumberAllele());
+                        Map vd = (Map) m.get("variant");
+                        Variant v = new Variant();
+                        v.setChromosome((String) vd.get("chromosome"));
+                        v.setStartPos((Integer) vd.get("startPos"));
+                        v.setEndPos((Integer) vd.get("endPos"));
+                        v.setReferenceNucleotide((String) vd.get("referenceNucleotide"));
+                        v.setVariantNucleotide((String) vd.get("variantNucleotide"));
+                        v.setGenicStatus((String) vd.get("genicStatus"));
+                        v.setPaddingBase((String) vd.get("paddingBase"));
+                        v.setRegionName(m.get("regionName").toString());
+                        v.setVariantType((String) vd.get("variantType"));
+                        v.setSampleId(sId);
+                        v.setVariantFrequency((Integer) e.get("variantFrequency"));
+                        v.setDepth((Integer) e.get("depth"));
+                        v.setQualityScore((Integer) e.get("qualityScore"));
+                        v.setZygosityStatus((String) e.get("zygosityStatus"));
+                        v.setZygosityInPseudo((String) e.get("zygosityInPseudo"));
+                        v.setZygosityNumberAllele((Integer) e.get("zygosityNumberAllele"));
                         v.setZygosityPercentRead(100);
-                        v.setZygosityPossibleError((s.getZygosityPossibleError()));
-                        v.setZygosityRefAllele(s.getZygosityRefAllele());
+                        v.setZygosityPossibleError((String) e.get("zygosityPossibleError"));
+                        v.setZygosityRefAllele((String) e.get("zygosityRefAllele"));
+                        vr.setVariant(v);
+                        //       v.conservationScore.add(mapConservation(m));
+
+                        variantResults.add(vr);
+                    }
+
                 }
-                vr.setVariant(v);
+
             }
-      //      v.conservationScore.add(mapConservation(m));
-
-        /*    variantResults.add(vr);*/
-
         }
 
         return variantResults;
