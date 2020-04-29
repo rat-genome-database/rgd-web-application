@@ -176,7 +176,7 @@ public class DistributionController extends HaplotyperController {
      // resultHash = vdao.getVariantToGeneCountMap(vsb);
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
-            System.out.println("RESULT HASH SIZE: "+ resultHash.size());
+          //  System.out.println("RESULT HASH SIZE: "+ resultHash.size());
             sb.append("[");
             boolean first=true;
             for(Map.Entry e:resultHash.entrySet()){
@@ -288,7 +288,7 @@ public class DistributionController extends HaplotyperController {
                     }
                 }
             }
-            System.out.println("REGION LIST: "+ regionList1.toString());
+        //    System.out.println("REGION LIST: "+ regionList1.toString());
             request.setAttribute("json", this.sb.toString());
             request.setAttribute("regionList", regionList1);
         //    request.setAttribute("sampleIds", sampleIds);

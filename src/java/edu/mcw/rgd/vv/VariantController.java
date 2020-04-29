@@ -1,7 +1,6 @@
 package edu.mcw.rgd.vv;
 
-import edu.mcw.rgd.datamodel.variants.VariantMapData;
-import edu.mcw.rgd.datamodel.variants.VariantSampleDetail;
+
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
@@ -12,7 +11,6 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.search.SearchHit;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +37,6 @@ public class VariantController extends HaplotyperController {
 
             HttpRequestFacade req = new HttpRequestFacade(request);
             String geneList=req.getParameter("geneList");
-            ModelMap model=new ModelMap();
 
             String searchType="";
 
@@ -72,7 +69,7 @@ public class VariantController extends HaplotyperController {
                 index= "variants_rat"+vsb.getMapKey()+"_test";
            /*  if(mapKey==631 || mapKey==600 )
                 index= "variant_dog_index_dev2";*/
-            service.setVariantIndex(index);
+            VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
@@ -95,7 +92,7 @@ public class VariantController extends HaplotyperController {
                 //         List<VariantResult> variantResults = vdao.getVariantAndConservation(vsb);
                 List<VariantResult> variantResults = this.getVariantResults(vsb, req);
 
-                  System.out.println("VARIANT RESULTS SIZE:"+variantResults.size());
+             //     System.out.println("VARIANT RESULTS SIZE:"+variantResults.size());
 
                 for (VariantResult vr: variantResults) {
                     if (vr.getVariant() != null) {
@@ -144,7 +141,7 @@ public class VariantController extends HaplotyperController {
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
-        System.out.println("VARIANT SEARCH HITS: "+ hits.size());
+    //    System.out.println("VARIANT SEARCH HITS: "+ hits.size());
 
         for(int id:vsb.sampleIds) {
             for (SearchHit h : hits) {
@@ -192,40 +189,7 @@ public class VariantController extends HaplotyperController {
         return variantResults;
     }
 
-    public Variant mapVariant(java.util.Map m){
 
-        Variant v = new Variant();
-        VariantMapData vmd= (VariantMapData) m.get("variant");
-
-   //     v.setId((Integer) m.get("variant.id"));
-        v.setChromosome(vmd.getChromosome());
-      //  v.setSampleId((Integer) m.get("samples.sampleId"));
-        v.setStartPos(vmd.getStartPos());
-        v.setEndPos(vmd.getEndPos());
-    //    v.setVariantFrequency((Integer) m.get("variantFrequency"));
-    //    v.setDepth((Integer) m.get("totalDepth"));
-    //    v.setQualityScore((Integer) m.get("qualityScore"));
-        v.setReferenceNucleotide(vmd.getReferenceNucleotide());
-        v.setVariantNucleotide(vmd.getVariantNucleotide());
-    //    v.setZygosityStatus((String) m.get("zygosityStatus"));
-    //    v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
-    //    v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
-    //    v.setZygosityPercentRead(100);
-    //    v.setZygosityPossibleError((String) m.get("zygosityPossError"));
-    //    v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
-        v.setGenicStatus(vmd.getGenicStatus());
-   //     v.setHgvsName((String) m.get("hgvsName"));
-        v.setRgdId((int) vmd.getId());
-        v.setVariantType(vmd.getVariantType());
-        v.setPaddingBase(vmd.getPaddingBase());
-        List<String> geneSymbols= (List<String>) m.get("regionName");
-        if(geneSymbols!=null){
-            if(geneSymbols.size()>0) {
-                String geneSymbol = (geneSymbols).get(0);
-                v.setRegionName(geneSymbol);
-            }}
-        return v;
-    }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");
         ConservationScore  cs = new ConservationScore();
