@@ -211,6 +211,7 @@ if (positions.size()==0) {
                         <%if (mapKey==70) out.print("Rnor 5.0");%>
                         <%if (mapKey==360) out.print("Rnor 6.0");%>
                         <%if (mapKey==17) out.print("GRCh37");%>
+                        <%if (mapKey==631) out.print("CanFam 3.1");%>
                      &nbsp;</div></td>
                 </tr>
             <tr>
