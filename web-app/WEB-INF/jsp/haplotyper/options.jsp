@@ -96,6 +96,7 @@
                         <%=dm.makeCheckBox("readthroughMutation", "Readthrough")%>
                     </td>
                 </tr>
+                <% if( currentMap.getSpeciesTypeKey()!=SpeciesType.DOG ) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Conservation</td>
@@ -109,6 +110,7 @@
                         </select>
                     </td>
                 </tr>
+               <% } %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Novelty</td>

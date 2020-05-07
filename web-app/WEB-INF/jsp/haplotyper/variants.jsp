@@ -175,10 +175,12 @@ if (positions.size()==0) {
 <tr>
         <td valign=top>
             <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white;">
+             <%   if(mapKey != 631) { %>
             <tr>
                 <td><img src="/rgdweb/common/images/dot_clear.png" height=25 /></td>
                 <td width="<%=xMenuWidth%>" ><div style="border-top:1px solid #E8E4D5;" class="snpLabel">Conservation&nbsp;</div></td>
             </tr>
+             <%   } %>
             <tr>
                 <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                 <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
@@ -271,6 +273,7 @@ if (positions.size()==0) {
 <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
     <tr>
 <%
+    if(mapKey != 631) {
     cit = snplotyper.getPositions().iterator();
     while (cit.hasNext()) {
         long pos = (Long) cit.next();
@@ -285,7 +288,7 @@ if (positions.size()==0) {
 
         String con =score.toString().replace("0.",".");
 
-        if (con.equals("-1")) {
+        if (con.equals("-1") ) {
             con = "--";
 
         }
@@ -295,6 +298,7 @@ if (positions.size()==0) {
         <td style="font-size:10px;"><div class="conCell" style="color:<%=fontColor%>;background-color:<%=UI.getRGBValue(colorVal, 1000)%>"><%=con%></div></td>
 
     <%
+            }
     }
     %>
 
