@@ -395,7 +395,7 @@
                                     <table >
                                         <tr>
                                             <td class="subHeader" width="300">Species</td>
-                                            <td class="cell">Rattus norvegicus</td>
+                                            <td class="cell">Homo Sapiens</td>
                                         </tr>
                                         <tr>
                                             <td class="subHeader" width="300">Symbol</td>
