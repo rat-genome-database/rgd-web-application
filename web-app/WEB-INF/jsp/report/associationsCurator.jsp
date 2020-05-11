@@ -1,5 +1,6 @@
 <%@ include file="sectionHeader.jsp"%>
 <%
+    String siteName = RgdContext.getSiteName(request);
     AnnotationFormatter af = new AnnotationFormatter();
     List<Annotation> annotList = annotationDAO.getAnnotations(obj.getRgdId());
     int isReferenceRgd=0;
@@ -14,18 +15,20 @@
 
     List<Annotation> filteredList = af.filterList(annotList, "D");
     if (filteredList.size() > 0) {
-        // split annotations into 5 buckets
+        // split annotations into buckets
         List<Annotation> listClinVar = new ArrayList<>(filteredList.size());
         List<Annotation> listCTD = new ArrayList<>(filteredList.size());
         List<Annotation> listOmim = new ArrayList<>(filteredList.size());
         List<Annotation> listGAD = new ArrayList<>(filteredList.size());
         List<Annotation> listManual = new ArrayList<>(filteredList.size());
-        List<Annotation> listMGI = new ArrayList<>(filteredList.size());
+        List<Annotation> listMGI = new ArrayList<>();
+        List<Annotation> listOmia = new ArrayList<>();
 
         for( Annotation ax: filteredList ) {
             switch(ax.getDataSrc()) {
                 case "ClinVar": listClinVar.add(ax); break;
                 case "CTD": listCTD.add(ax); break;
+                case "OMIA": listOmia.add(ax); break;
                 case "OMIM": listOmim.add(ax); break;
                 case "GAD": listGAD.add(ax); break;
                 case "MouseDO": listMGI.add(ax); break;
@@ -35,23 +38,26 @@
 %>
 <%=ui.dynOpen("diseaseAsscociationC", "Disease Annotations")%>
 <% if( !listManual.isEmpty() ) { %>
-  <h4><%=RgdContext.getSiteName(request)%> Manual Annotations</h4>
-  <%=af.createGridFormatAnnotationsTable(listManual,RgdContext.getSiteName(request))%>
+  <h4><%=siteName%> Manual Annotations</h4>
+  <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
 <% } if( !listClinVar.isEmpty() ) { %>
   <h4>Imported Annotations - ClinVar </h4>
-  <%=af.createGridFormatAnnotationsTable(listClinVar,RgdContext.getSiteName(request))%>
+  <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
 <% } if( !listCTD.isEmpty() ) { %>
   <h4>Imported Annotations - CTD </h4>
-  <%=af.createGridFormatAnnotationsTable(listCTD,RgdContext.getSiteName(request))%>
+  <%=af.createGridFormatAnnotationsTable(listCTD, siteName)%>
 <% } if( !listGAD.isEmpty() ) { %>
   <h4>Imported Annotations - Genetic Association Database </h4>
-  <%=af.createGridFormatAnnotationsTable(listGAD,RgdContext.getSiteName(request))%>
+  <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
 <% } if( !listMGI.isEmpty() ) { %>
   <h4>Imported Annotations - MGI </h4>
-  <%=af.createGridFormatAnnotationsTable(listMGI,RgdContext.getSiteName(request))%>
+  <%=af.createGridFormatAnnotationsTable(listMGI, siteName)%>
+<% } if( !listOmia.isEmpty() ) { %>
+  <h4>Imported Annotations - OMIA </h4>
+  <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
 <% } if( !listOmim.isEmpty() ) { %>
-  <h4>Imported Annotations - OMIM </h4>
-  <%=af.createGridFormatAnnotationsTable(listOmim,RgdContext.getSiteName(request))%>
+<h4>Imported Annotations - OMIM </h4>
+<%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
 <% } %>
 <br>
 <%=ui.dynClose("diseaseAsscociationC")%>
@@ -63,7 +69,7 @@
     if (filteredList.size() > 0) {
 %>
 <%=ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
-    <%=af.createGridFormatAnnotationsTable(filteredList,RgdContext.getSiteName(request))%><br>
+    <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
 <%=ui.dynClose("chemiAssociationC")%>
 <% } %>
 
@@ -79,15 +85,15 @@
 
 <% if (bpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
-       <%=af.createGridFormatAnnotationsTable(bpList,RgdContext.getSiteName(request))%>
+       <%=af.createGridFormatAnnotationsTable(bpList, siteName)%>
 <% } %>
 <% if (ccList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
-       <%=af.createGridFormatAnnotationsTable(ccList,RgdContext.getSiteName(request))%>
+       <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
 <% } %>
 <% if (mfList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
-       <%=af.createGridFormatAnnotationsTable(mfList,RgdContext.getSiteName(request))%>
+       <%=af.createGridFormatAnnotationsTable(mfList, siteName)%>
 <% } %>
 
 <br>
@@ -123,20 +129,20 @@
 <%=ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
 
 <% if( !listManual.isEmpty() ) { %>
-    <h4><%=RgdContext.getSiteName(request)%> Manual Annotations</h4>
-    <%=af.createGridFormatAnnotationsTable(listManual, RgdContext.getSiteName(request))%>
+    <h4><%=siteName%> Manual Annotations</h4>
+    <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     <% } if( !listImportedSMPDB.isEmpty() ) { %>
     <h4>Imported Annotations - SMPDB</h4>
-    <%=af.createGridFormatAnnotationsTable(listImportedSMPDB, RgdContext.getSiteName(request))%>
+    <%=af.createGridFormatAnnotationsTable(listImportedSMPDB, siteName)%>
     <% } if( !listImportedKEGG.isEmpty() ) { %>
     <h4>Imported Annotations - KEGG (archival)</h4>
-    <%=af.createGridFormatAnnotationsTable(listImportedKEGG, RgdContext.getSiteName(request))%>
+    <%=af.createGridFormatAnnotationsTable(listImportedKEGG, siteName)%>
     <% } if( !listImportedPID.isEmpty() ) { %>
     <h4>Imported Annotations - PID (archival)</h4>
-    <%=af.createGridFormatAnnotationsTable(listImportedPID, RgdContext.getSiteName(request))%>
+    <%=af.createGridFormatAnnotationsTable(listImportedPID, siteName)%>
     <% } if( !listImported.isEmpty() ) { %>
     <h4>Imported Annotations - Other</h4>
-    <%=af.createGridFormatAnnotationsTable(listImported, RgdContext.getSiteName(request))%>
+    <%=af.createGridFormatAnnotationsTable(listImported, siteName)%>
     <% }
 
     if( xdbKeggPathways.size()>0 ) { %>
@@ -154,11 +160,11 @@
 
 <% if (mpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
-       <%=af.createGridFormatAnnotationsTable(mpList,RgdContext.getSiteName(request))%>
+       <%=af.createGridFormatAnnotationsTable(mpList, siteName)%>
 <% } %>
 <% if (hpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
-       <%=af.createGridFormatAnnotationsTable(hpList,RgdContext.getSiteName(request))%>
+       <%=af.createGridFormatAnnotationsTable(hpList, siteName)%>
 <% } %>
 
 <%=ui.dynClose("phenoAssociationC")%>
@@ -199,19 +205,19 @@
     }else if(isReferenceRgd==0){
        if (clList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(clList,RgdContext.getSiteName(request))%>
+           <%=af.createGridFormatAnnotationsTable(clList, siteName)%>
     <% } %>
     <% if (cmoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(cmoList,RgdContext.getSiteName(request))%>
+           <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
     <% } %>
     <% if (xcoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(xcoList,RgdContext.getSiteName(request))%>
+           <%=af.createGridFormatAnnotationsTable(xcoList, siteName)%>
     <% } %>
     <% if (mmoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(mmoList,RgdContext.getSiteName(request))%>
+           <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
     <% } %>
     <% if (maList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
@@ -231,6 +237,5 @@
 <br>
 <%=ui.dynClose("expAssociationC")%>
 <% } %>
-
 
 <%@ include file="sectionFooter.jsp"%>
