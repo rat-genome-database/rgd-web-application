@@ -466,7 +466,7 @@ rgdModule.controller('RGDPageController', [
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
                     var f = document.createElement("form");
-                    f.setAttribute('method',"post");
+                    f.setAttribute('method',"get");
                     f.setAttribute('action',url);
 
                     var i = document.createElement("input"); //input element, text
