@@ -29,7 +29,7 @@ public class SelectStrainController extends HaplotyperController {
         List<Sample> sampleList= new ArrayList<>();
         String strainRgdIds=request.getParameter("rgdIds");
         String map=request.getParameter("mapKey");
-        List<String> populations= new ArrayList<>(Arrays.asList("FIN", "GBR"));
+
 
         if(strainRgdIds!=null){
             if(strainRgdIds!=""){
@@ -67,9 +67,14 @@ public class SelectStrainController extends HaplotyperController {
         }
         request.setAttribute("mapKey", mapKey);
         if(mapKey==17) {
+            List<String> populations=new ArrayList<>(Arrays.asList("ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN",
+                    "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "pop", "PUR",
+                    "STU", "TSI", "YRI"
+            ));
             List<Sample> samples= new ArrayList<>();
             for(String population :populations){
-                samples.addAll(sampleDAO.getSamplesByMapKey(mapKey, population));
+               samples.addAll(sampleDAO.getLimitedSamplesByPopulation(mapKey, population, 5));
+
             }
             request.setAttribute("sampleList", samples);
         }

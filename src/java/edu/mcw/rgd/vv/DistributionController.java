@@ -92,18 +92,20 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-
+      System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey);
         String index=new String();
         if(mapKey==17) {
-            if(!chromosome.equals(""))
-            index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
-            else index="variants_human_*_dev";
+           // if(!chromosome.equals(""))
+           /* index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
+            else index="variants_human_*_dev";*/
+            index = "variants_human"+mapKey+"_dev1";
+
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_test";
+                index= "variants_rat"+mapKey+"_dev1";
         if(mapKey==631 || mapKey==600 )
-            index= "variant_dog_index_dev2";
-     //   System.out.println("INDEX NAME: "+ index);
+            index= "variants_dog"+mapKey+"_dev";
+      System.out.println("INDEX NAME: "+ index);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);

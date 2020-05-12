@@ -56,19 +56,18 @@ public class VariantController extends HaplotyperController {
             VariantSearchBean vsb = this.fillBean(req);
 
             String index=new String();
-            if(vsb.getMapKey()==17 ) {
-                if ((vsb.getChromosome() == null && vsb.getChromosome().equals(""))){
-                    index = "variants_human_*_dev";
-                }else{
+            if(vsb.getMapKey()==17) {
+              /*   if(!vsb.getChromosome().equals(""))
+           index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
+            else index="variants_human_*_dev";*/
+                    index = "variants_human"+vsb.getMapKey()+"_dev1";
 
-                    index="variants_human_chr"+vsb.getChromosome().toLowerCase()+"_dev";
-                }
             }
-            //   index= RgdContext.getESIndexName("variant_"+SpeciesType.getCommonName(speciesTypeKey).toLowerCase());
-           if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_test";
-           /*  if(mapKey==631 || mapKey==600 )
-                index= "variant_dog_index_dev2";*/
+            if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
+                index= "variants_rat"+vsb.getMapKey()+"_dev";
+            if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
+                index= "variants_dog"+vsb.getMapKey()+"_dev";
+            //   System.out.println("INDEX NAME: "+ index);
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;

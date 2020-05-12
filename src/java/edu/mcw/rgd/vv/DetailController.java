@@ -76,15 +76,14 @@ public class DetailController extends HaplotyperController {
             SearchResult sr = new SearchResult();
          //   List<VariantResult> vr = vdao.getVariantResults(vsb);
             String index= new String();
-            if(mapKey==17) {
-                if(!vsb.getChromosome().equals(""))
-                    index = "variants_human_chr"+vsb.getChromosome().toLowerCase()+"_dev1";
-                else index="variants_human_*_dev1";
-            }
+            if(mapKey==17)
+                    index = "variants_human"+mapKey+"_dev1";
             if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_test";
+                index= "variants_rat"+mapKey+"_dev";
             if(mapKey==631 || mapKey==600 )
-                index= "variant_dog_index_dev2";
+                index= "variants_dog"+mapKey+"_dev";
+            //   System.out.println("INDEX NAME: "+ index);
+                index= "variants_dog_index_dev2";
 
             service.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
