@@ -233,6 +233,7 @@
                                         <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
                                         <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=6">Immune & Inflammatory Disease</a>
+                                        <a href="/rgdweb/portal/home.jsp?p=13">Liver Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=7">Neurological Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=8">Obesity & Metabolic Syndrome</a>
                                         <a href="/rgdweb/portal/home.jsp?p=9">Renal Disease</a>
