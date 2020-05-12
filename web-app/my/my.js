@@ -462,12 +462,34 @@ rgdModule.controller('RGDPageController', [
                     url = "/rgdweb/front/dist.html?";
 
 
-                    if ($scope.speciesTypeKey != 1) {
-                        url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
-                    }
+                    //if ($scope.speciesTypeKey != 1) {
+                    //    url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
+                   // }
                     var f = document.createElement("form");
                     f.setAttribute('method',"get");
                     f.setAttribute('action',url);
+
+                    var j = document.createElement("input"); //input element, text
+                    j.setAttribute('type',"hidden");
+                    j.setAttribute('name',"con");
+                    j.setAttribute('value','');
+
+                    var j1 = document.createElement("input"); //input element, text
+                    j1.setAttribute('type',"hidden");
+                    j1.setAttribute('name',"depthLowBound");
+                    j1.setAttribute('value','8');
+
+                    var j2 = document.createElement("input"); //input element, text
+                    j2.setAttribute('type',"hidden");
+                    j2.setAttribute('name',"depthHighBound");
+                    j2.setAttribute('value','');
+
+                    var j3 = document.createElement("input"); //input element, text
+                    j3.setAttribute('type',"hidden");
+                    j3.setAttribute('name',"excludePossibleError");
+                    j3.setAttribute('value','true');
+
+
 
                     var i = document.createElement("input"); //input element, text
                     i.setAttribute('type',"hidden");
