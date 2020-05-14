@@ -465,8 +465,11 @@ rgdModule.controller('RGDPageController', [
                     if ($scope.speciesTypeKey != 1) {
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
-                    alert(location.href);
+                    queryString =location.href.split("?")[1];
+                    alert(queryString);
 
+                    url = url + "&" + queryString;
+                    alert(url);
 
 
                     var f = document.createElement("form");
