@@ -70,7 +70,7 @@ String pageDescription = "Define Gene Symbol List";
     <br><br>
    <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
    <tr>
-   <td><b>Strains Selected</b></td>
+   <td><b>Samples Selected</b></td>
    </tr>
    </table>
 

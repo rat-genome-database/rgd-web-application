@@ -7,6 +7,7 @@ import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,6 +90,15 @@ public class DownloadController extends HaplotyperController {
     void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
                         boolean printHeader, boolean isHuman) throws Exception {
 
+
+        String assembly = "";
+        try {
+            assembly = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
+        }catch (Exception e) {
+            throw e;
+        }
+
+
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
@@ -111,6 +121,7 @@ public class DownloadController extends HaplotyperController {
         if( printHeader ) {
             if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
             if (!req.getParameter("p").equals("")) out.print("Position" + delim);
+            if (!req.getParameter("a").equals("")) out.print("Assembly" + delim);
             if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
             if (!req.getParameter("gs").equals("")) out.print("Gene Symbol" + delim);
             if (!req.getParameter("st").equals("")) out.print("Gene Strand" + delim);
@@ -124,6 +135,7 @@ public class DownloadController extends HaplotyperController {
 
             if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
             if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
+            if (!req.getParameter("aap").equals("")) out.print("Amino Acid Position" + delim);
             if (!req.getParameter("tai").equals("")) out.print("Transcript Accession IDs" + delim);
             if (!req.getParameter("raa").equals("")) out.print("Reference Amino Acid" + delim);
             if (!req.getParameter("vaa").equals("")) out.print("Variant Amino Acid" + delim);
@@ -185,6 +197,7 @@ public class DownloadController extends HaplotyperController {
             LinkedHashMap polyMap = new LinkedHashMap();
             LinkedHashMap transcriptMap = new LinkedHashMap();
             LinkedHashMap aaChangeMap = new LinkedHashMap();
+            LinkedHashMap aaPosMap = new LinkedHashMap();
 
 
             //hack to ensure the last one is printed.
@@ -230,6 +243,7 @@ public class DownloadController extends HaplotyperController {
 
                             if (trr.getAminoAcidVariant().getSynonymousFlag() != null) {
                                 aaChangeMap.put(trr.getAminoAcidVariant().getSynonymousFlag(), null);
+                                aaPosMap.put(trr.getAminoAcidVariant().getAaPosition() + "",null);
                             }
 
                             transcriptMap.put(trr.getAminoAcidVariant().getTranscriptSymbol(), null);
@@ -256,6 +270,7 @@ public class DownloadController extends HaplotyperController {
                     if (!first ) {
                         if (!req.getParameter("c").equals(""))  out.print(chr + delim);
                         if (!req.getParameter("p").equals("")) out.print(pos + delim);
+                        if (!req.getParameter("a").equals("")) out.print(assembly + delim);
                         if (!req.getParameter("cs").equals("")) out.print(score + delim);
                         if (!req.getParameter("gs").equals("")) out.print(gene + delim);
                         if (!req.getParameter("st").equals("")) out.print(strand + delim);
@@ -282,6 +297,17 @@ public class DownloadController extends HaplotyperController {
 
                         if (!req.getParameter("aac").equals("")){
                             it = aaChangeMap.keySet().iterator();
+                            while (it.hasNext()) {
+                                out.print((String) it.next());
+                                if (it.hasNext()) {
+                                    out.print("|");
+                                }
+                            }
+                            out.print(delim);
+                        }
+
+                        if (!req.getParameter("aap").equals("")) {
+                            it = aaPosMap.keySet().iterator();
                             while (it.hasNext()) {
                                 out.print((String) it.next());
                                 if (it.hasNext()) {
@@ -334,6 +360,7 @@ public class DownloadController extends HaplotyperController {
                         }
                         locationMap = new LinkedHashMap();
                         varAAMap = new LinkedHashMap();
+                        aaPosMap = new LinkedHashMap();
                         polyMap = new LinkedHashMap();
                         transcriptMap = new LinkedHashMap();
                         aaChangeMap = new LinkedHashMap();

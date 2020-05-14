@@ -77,7 +77,7 @@
     .typerMat {
         background-image: url(/rgdweb/common/images/bg3.png);
         padding: 5px;
-        height:100%;
+        height:1000%;
     }
 
     .typerTitle {

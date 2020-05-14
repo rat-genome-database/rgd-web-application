@@ -40,6 +40,19 @@ String pageDescription = "Build lists based on RGD annotation";
     <input type="hidden" name="ga" id="ga" value="" />
     <input type="hidden" name="act" id="act" value="" />
 
+    <%
+        int count = 1;
+        String val = "";
+        while ((val = request.getParameter("sample" + count)) != null) {
+    %>
+            <input type="hidden" name="sample<%=count%>" value="<%=val%>"/>
+
+        <%
+            count++;
+        }
+    %>
+
+
 </form>
 
 <%

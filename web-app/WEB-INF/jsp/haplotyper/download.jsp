@@ -25,6 +25,9 @@ Select annotation to include in your download.
                         <td><input type='checkbox' name="p" checked>Position</td>
                     </tr>
                     <tr>
+                        <td><input type='checkbox' name="a" checked>Assembly</td>
+                    </tr>
+                    <tr>
                         <td><input type='checkbox' name="cs" checked>Conservation Score</td>
                     </tr>
                     <tr>
@@ -50,6 +53,9 @@ Select annotation to include in your download.
 
                     <tr>
                         <td><input type='checkbox' name="aac" checked>Amino Acid Change</td>
+                    </tr>
+                    <tr>
+                        <td><input type='checkbox' name="aap" checked>Amino Acid Position</td>
                     </tr>
                     <tr>
                         <td><input type='checkbox' name="tai" checked>Transcript Accession IDs</td>

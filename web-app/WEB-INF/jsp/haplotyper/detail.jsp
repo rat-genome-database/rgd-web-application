@@ -3,6 +3,10 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.TranscriptDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -20,12 +24,22 @@ scroll-top:0;
 
 <%
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
+    XdbIdDAO xDao = new XdbIdDAO();
 
     for (SearchResult searchResult: searchResults) {
 
     //SearchResult searchResult = searchResults.get(0);
     List<VariantResult> resultList = searchResult.getVariantResults();
     String dbSnpUrl = XDBIndex.getInstance().getXDB(48).getUrl();
+
+    String mapName = "";
+    try {
+        mapName = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
+    }catch (Exception e) {
+        throw e;
+    }
+
+
 %>
 
 
@@ -59,7 +73,10 @@ scroll-top:0;
                    <td><%=sample.getAnalysisName()%></td>
                </tr>
                 <tr>
-                   <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
+                    <td class="carpeLabel">Assembly:</td><td><%=mapName%></td>
+                </tr>
+                <tr>
+                    <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                 </tr>
                  <tr>
                    <td class="carpeLabel">Reference Nucleotide:</td><td><%=result.getVariant().getReferenceNucleotide()%></td>
@@ -148,7 +165,7 @@ scroll-top:0;
                    <tr>
                    <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
                    </tr>
-                   <% } else { %>
+                   <% } else if(sample.getMapKey()!=17){ %>
                    <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
                    </tr>
                    <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%=result.getClinvarInfo().getTraitName()%></td>
@@ -190,7 +207,19 @@ scroll-top:0;
 
                    <% for (TranscriptResult tr: result.getTranscriptResults()) { %>
 
+                       <%
+
+                       %>
+
+
                        <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
+                       <% try { %>
+                           <tr>
+                           <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
+                       </tr>
+                       <% } catch (Exception e) { %>
+
+                       <% } %>
                        <tr>
                            <td class="carpeLabel" width=200>Accession:</td><td width=70%><%=tr.getAminoAcidVariant().getTranscriptSymbol()%></td>
                        </tr>
@@ -202,11 +231,16 @@ scroll-top:0;
                            <tr>
                                <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getReferenceAminoAcid()%> to  <%=tr.getAminoAcidVariant().getVariantAminoAcid()%> (<%=tr.getAminoAcidVariant().getSynonymousFlag()%>)</td>
                            </tr>
-                        <% }else{%>
+                        <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
                            <tr>
                                <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getSynonymousFlag()%></td>
                            </tr>
                            <%}%>
+                           <% if (tr.getAminoAcidVariant().getAaPosition() > 0) { %>
+                           <td class="carpeLabel">Amino Acid Position:</td><td> <%=tr.getAminoAcidVariant().getAaPosition()%></td>
+
+                           <% } %>
+
 
                       <% if (tr.getAminoAcidVariant().getTripletError().equals("T") || tr.getAminoAcidVariant().getLocation().equals("Unknown")) { %>
                       <tr>
