@@ -636,7 +636,7 @@ rgdModule.controller('RGDPageController', [
                     }
 
                     var damaging = $scope.speciesTypeKey == 1 ? "&cs_pathogenic=true" : "&probably=true&possibly=true&excludePossibleError=true";
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&con=&depthLowBound=8&depthHighBound=" + damaging;
+                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&mapKey=" + $scope.mapKey + "&con=&depthLowBound=8&depthHighBound=" + damaging;
 
                     if (location.href.indexOf("sample1") == -1) {
                         url += "&sample1=all"
