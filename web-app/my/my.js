@@ -476,20 +476,20 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('type',"hidden");
                     i.setAttribute('name',"geneList");
                     i.setAttribute('value',geneList);
-
                     f.appendChild(i);
+                    /*
                     var i2 = document.createElement("input"); //input element, text
                     i2.setAttribute('type',"hidden");
                     i2.setAttribute('name',"sample1");
                     i2.setAttribute('value',"all");
-
                     f.appendChild(i2);
+
                     var i3 = document.createElement("input"); //input element, text
                     i3.setAttribute('type',"hidden");
                     i3.setAttribute('name',"mapKey");
                     i3.setAttribute('value',$scope.mapKey);
-
                     f.appendChild(i3);
+                    */
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
