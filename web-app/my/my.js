@@ -463,7 +463,7 @@ rgdModule.controller('RGDPageController', [
 
 
                     if ($scope.speciesTypeKey != 1) {
-                        url += "con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
+                        url += "con=&depthLowBound=8&depthHighBound=&excludePossibleError=true&mapKey=" + $scope.mapKey ;
                     }
 
                     if (location.href.indexOf("sample1") == -1) {
