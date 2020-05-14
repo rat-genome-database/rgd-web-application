@@ -48,6 +48,7 @@ String pageDescription = "Build lists based on RGD annotation";
             <input type="hidden" name="sample<%=count%>" value="<%=val%>"/>
 
         <%
+            count++;
         }
     %>
 
