@@ -463,7 +463,7 @@ rgdModule.controller('RGDPageController', [
 
 
                     if ($scope.speciesTypeKey != 1) {
-                        url += "con=&depthLowBound=8&depthHighBound=&excludePossibleError=true&mapKey=" + $scope.mapKey ;
+                        url += "con=&depthLowBound=8&depthHighBound=&excludePossibleError=true&mapKey=" + $scope.mapKey + "&geneList=" + geneList ;
                     }
 
                     if (location.href.indexOf("sample1") == -1) {
@@ -479,12 +479,13 @@ rgdModule.controller('RGDPageController', [
                     f.setAttribute('method',"post");
                     f.setAttribute('action',url);
 
+                    /*
                     var i = document.createElement("input"); //input element, text
                     i.setAttribute('type',"hidden");
                     i.setAttribute('name',"geneList");
                     i.setAttribute('value',geneList);
                     f.appendChild(i);
-                    /*
+                    
                     var i2 = document.createElement("input"); //input element, text
                     i2.setAttribute('type',"hidden");
                     i2.setAttribute('name',"sample1");
@@ -636,7 +637,7 @@ rgdModule.controller('RGDPageController', [
                     }
 
                     var damaging = $scope.speciesTypeKey == 1 ? "&cs_pathogenic=true" : "&probably=true&possibly=true&excludePossibleError=true";
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&con=&depthLowBound=8&depthHighBound=" + damaging;
+                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&mapKey=" + $scope.mapKey + "&con=&depthLowBound=8&depthHighBound=" + damaging;
 
                     if (location.href.indexOf("sample1") == -1) {
                         url += "&sample1=all"
