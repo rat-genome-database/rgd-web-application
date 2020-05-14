@@ -465,7 +465,7 @@ rgdModule.controller('RGDPageController', [
                     if ($scope.speciesTypeKey != 1) {
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
-                    alert(location.href.split("?")[1]);
+                    alert(location.href);
 
 
 
