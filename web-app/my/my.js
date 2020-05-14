@@ -476,20 +476,20 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('type',"hidden");
                     i.setAttribute('name',"geneList");
                     i.setAttribute('value',geneList);
-
                     f.appendChild(i);
+                    /*
                     var i2 = document.createElement("input"); //input element, text
                     i2.setAttribute('type',"hidden");
                     i2.setAttribute('name',"sample1");
                     i2.setAttribute('value',"all");
-
                     f.appendChild(i2);
+
                     var i3 = document.createElement("input"); //input element, text
                     i3.setAttribute('type',"hidden");
                     i3.setAttribute('name',"mapKey");
                     i3.setAttribute('value',$scope.mapKey);
-
                     f.appendChild(i3);
+                    */
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -629,7 +629,11 @@ rgdModule.controller('RGDPageController', [
                     }
 
                     var damaging = $scope.speciesTypeKey == 1 ? "&cs_pathogenic=true" : "&probably=true&possibly=true&excludePossibleError=true";
-                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&mapKey=" + $scope.mapKey + "&con=&depthLowBound=8&depthHighBound=&sample1=all" + damaging;
+                    url = "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=" + geneList + "&con=&depthLowBound=8&depthHighBound=&sample1=all" + damaging;
+
+                    queryString =location.href.split("?")[1];
+                    url = url + "&" + queryString;
+
                     location.href=url;
                 }
                 else if (tool == "distribution") {
