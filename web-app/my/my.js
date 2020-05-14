@@ -466,11 +466,7 @@ rgdModule.controller('RGDPageController', [
                         url += "&con=&depthLowBound=8&depthHighBound=&excludePossibleError=true";
                     }
                     queryString =location.href.split("?")[1];
-                    alert(queryString);
-
                     url = url + "&" + queryString;
-                    alert(url);
-
 
                     var f = document.createElement("form");
                     f.setAttribute('method',"post");
