@@ -5,7 +5,6 @@ import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
-import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.GeneLoci;
 import edu.mcw.rgd.datamodel.MappedGene;
 import edu.mcw.rgd.datamodel.Sample;
@@ -32,36 +31,6 @@ public class DistributionController extends HaplotyperController {
     private List<String> sampleIdsFromResultSet;
     private StringBuilder sb;
 
-    public StringBuilder getSb() {
-        return sb;
-    }
-
-    public void setSb(StringBuilder sb) {
-        this.sb = sb;
-    }
-
-    public VVService getService() {
-        return service;
-    }
-
-    public void setService(VVService service) {
-        this.service = service;
-    }
-
-    public List<String> getSampleIdsFromResultSet() {
-        return sampleIdsFromResultSet;
-    }
-
-    public void setSampleIdsFromResultSet(List<String> sampleIdsFromResultSet) {
-        this.sampleIdsFromResultSet = sampleIdsFromResultSet;
-    }
-
-    public List<String> getgSymbols() {
-        return gSymbols;
-    }
-    public void setgSymbols(List<String> gSymbols) {
-        this.gSymbols = gSymbols;
-    }
     VVService service= new VVService();
     GeneLociDAO geneLociDAO=new GeneLociDAO();
 
@@ -88,24 +57,20 @@ public class DistributionController extends HaplotyperController {
 
         // load map_key; if not given, derive it from sample ids
         int mapKey = loadMapKey(req, sampleIds);
-        request.setAttribute("mapKey", mapKey);
+        request.setAttribute("mapKey", mapKey );
 
         // derive species from mapKey
        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-      System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey);
+      System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         if(mapKey==17) {
-           // if(!chromosome.equals(""))
-           /* index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
-            else index="variants_human_*_dev";*/
-            index = "variants_human"+mapKey+"_dev1";
-
+            index = "variants_human"+mapKey+"_dev";
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_dev1";
+                index= "variants_rat"+mapKey+"_dev";
         if(mapKey==631 || mapKey==600 )
             index= "variants_dog"+mapKey+"_dev";
-      System.out.println("INDEX NAME: "+ index);
+        System.out.println("INDEX NAME: "+ index);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
@@ -178,7 +143,8 @@ public class DistributionController extends HaplotyperController {
      // resultHash = vdao.getVariantToGeneCountMap(vsb);
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
-          //  System.out.println("RESULT HASH SIZE: "+ resultHash.size());
+
+         System.out.println("RESULT HASH SIZE: "+ resultHash.size());
             sb.append("[");
             boolean first=true;
             for(Map.Entry e:resultHash.entrySet()){
@@ -203,7 +169,7 @@ public class DistributionController extends HaplotyperController {
             }
             sb.append("]");
             this.sb=sb;
-
+            System.out.println("SYMBOLS SIZE: "+ symbols.size()+"\nGSYMBOLS SIZE: "+ gSymbols.size());
             if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
             }
@@ -227,47 +193,48 @@ public class DistributionController extends HaplotyperController {
         //need to be different for functional search
 
         if (vsb.genes.size()==0) {
+            if(resultHash.size()>0) {
+                List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
+                System.out.println("ACTIVE MAPPED GENES SIZE: " + mappedGenes.size());
+                lastGene = "";
+                for (MappedGene mg : mappedGenes) {
 
-            List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
+                    symbol = mg.getGene().getSymbol();
 
-            lastGene="";
-            for (MappedGene mg: mappedGenes) {
-
-                symbol = mg.getGene().getSymbol();
-
-                if (first.equals("")) {
-                    first=symbol;
-                }
-
-                if (!lastGene.equals(""))  {
-                    if (masterKeySet.contains(lastGene + "|" + mg.getGene().getSymbol())) {
-                        regionList.add(lastGene + "|" + mg.getGene().getSymbol());
-                        masterKeySet.remove(lastGene + "|" + mg.getGene().getSymbol());
+                    if (first.equals("")) {
+                        first = symbol;
                     }
-                }
 
-                if (vsb.getGeneMap().size() > 0) {
-                    if (vsb.getGeneMap().containsKey(symbol)) {
+                    if (!lastGene.equals("")) {
+                        if (masterKeySet.contains(lastGene + "|" + mg.getGene().getSymbol())) {
+                            regionList.add(lastGene + "|" + mg.getGene().getSymbol());
+                            masterKeySet.remove(lastGene + "|" + mg.getGene().getSymbol());
+                        }
+                    }
+
+                    if (vsb.getGeneMap().size() > 0) {
+                        if (vsb.getGeneMap().containsKey(symbol)) {
+                            regionList.add(symbol);
+                        }
+                    } else {
                         regionList.add(symbol);
                     }
-                }else {
-                    regionList.add(symbol);
+
+                    masterKeySet.remove(symbol);
+                    lastGene = symbol;
+
                 }
 
-                masterKeySet.remove(symbol);
-                lastGene=symbol;
+                Iterator masterIt = masterKeySet.iterator();
+                while (masterIt.hasNext()) {
 
-            }
+                    String key = (String) masterIt.next();
 
-            Iterator masterIt = masterKeySet.iterator();
-            while (masterIt.hasNext()) {
-
-                String key = (String) masterIt.next();
-
-                if (key.startsWith(symbol + "|")) {
-                    regionList.add(key);
-                }else if (key.endsWith("|" + first)){
-                    regionList.add(0,key);
+                    if (key.startsWith(symbol + "|")) {
+                        regionList.add(key);
+                    } else if (key.endsWith("|" + first)) {
+                        regionList.add(0, key);
+                    }
                 }
             }
         }else {
@@ -282,11 +249,13 @@ public class DistributionController extends HaplotyperController {
             if (!errors.isEmpty()) {
                 request.setAttribute("error", errors);
             }
-            if(chromosome!=null && !chromosome.equals("")) {
-                List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
-                for (GeneLoci l : loci) {
-                    if (!regionList1.contains(l.getGeneSymbols())) {
-                        regionList1.add(l.getGeneSymbols());
+            if(chromosome!=null && !chromosome.equals("") ) {
+                if(resultHash.size()>0) {
+                    List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
+                    for (GeneLoci l : loci) {
+                        if (!regionList1.contains(l.getGeneSymbols())) {
+                            regionList1.add(l.getGeneSymbols());
+                        }
                     }
                 }
             }
@@ -507,15 +476,41 @@ public class DistributionController extends HaplotyperController {
                 }
             }
         }
-     /*   Collections.sort(symbols, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Utils.stringsCompareToIgnoreCase(o1, o2);
-            }
-        });*/
+
         this.setgSymbols(symbols);
 
 
        return variantGeneCountMap;
     }
+    public StringBuilder getSb() {
+        return sb;
+    }
+
+    public void setSb(StringBuilder sb) {
+        this.sb = sb;
+    }
+
+    public VVService getService() {
+        return service;
+    }
+
+    public void setService(VVService service) {
+        this.service = service;
+    }
+
+    public List<String> getSampleIdsFromResultSet() {
+        return sampleIdsFromResultSet;
+    }
+
+    public void setSampleIdsFromResultSet(List<String> sampleIdsFromResultSet) {
+        this.sampleIdsFromResultSet = sampleIdsFromResultSet;
+    }
+
+    public List<String> getgSymbols() {
+        return gSymbols;
+    }
+    public void setgSymbols(List<String> gSymbols) {
+        this.gSymbols = gSymbols;
+    }
+
 }

@@ -50,7 +50,7 @@
     boolean geneSearch=false;
     boolean positionSearch=false;
     boolean resultsRendered = false;
-
+    List<Integer> sampleList=(List<Integer>)request.getAttribute("sampleIds");
     geneList=req2.getParameter("geneList").replaceAll("\\s",",");
 
     if (!req2.getParameter("rdo_acc_id").equals("") || !req2.getParameter("pw_acc_id").equals("") ||
@@ -68,7 +68,25 @@
     if (uri.equals("variants.jsp") || uri.equals("dist.jsp")) {
         resultsRendered= true;
     }
-
+    String parameters=request.getQueryString();
+if(parameters==null){
+     StringBuffer sb=new StringBuffer();
+     sb.append("chr=");
+     sb.append(req.getParameter("chr"));
+     sb.append("&mapKey=");
+     sb.append(req.getParameter("mapKey"));
+    sb.append("&start=");
+    sb.append(req.getParameter("start"));
+    sb.append("&stop=");
+    sb.append(req.getParameter("stop"));
+    int i=1;
+    for(int id:sampleList){
+        sb.append("&sample"+i+"=");
+        sb.append(id);
+        i=i+1;
+    }
+    parameters=sb.toString();
+}
 %>
 
 <div class="snpMenuBarOuterBorder" >
@@ -81,27 +99,27 @@
                 <td>&nbsp;</td>
                 <td><a href="config.html" class="classname">Home</a></td></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="select.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Strains</a></td></td>
+                <td><a href="select.html?<%=parameters%>" class="classname">Edit&nbsp;Strains</a></td></td>
 
                     <% if (positionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a href="region.html?<%=request.getQueryString()%>" class="classname">Region</a></td></td>
+                        <td><a href="region.html?<%=parameters%>" class="classname">Region</a></td></td>
                     <% } %>
 
                      <% if (geneSearch) { %>
                           <td>&nbsp;&nbsp;&nbsp;</td>
-                          <td><a  href="geneList.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Gene&nbsp;List</a></td></td>
+                          <td><a  href="geneList.html?<%=parameters%>" class="classname">Edit&nbsp;Gene&nbsp;List</a></td></td>
                      <% } %>
 
 
                     <% if (functionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a  href="annotation.html?<%=request.getQueryString()%>" class="classname">Functional&nbsp;Annotation</a></td></td>
+                        <td><a  href="annotation.html?<%=parameters%>" class="classname">Functional&nbsp;Annotation</a></td></td>
                     <% } %>
 
                     <% if (resultsRendered) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a href="options.html?<%=request.getQueryString()%>" class="classname">Sequence&nbsp;Annotation</a></td></td>
+                        <td><a href="options.html?<%=parameters%>" class="classname">Sequence&nbsp;Annotation</a></td></td>
                     <% }%>
             </tr>
             </table>

@@ -36,7 +36,7 @@ public class ConfigController extends HaplotyperController {
 
             vsb = this.fillBean(req);
             request.setAttribute("vsb", vsb);
-
+            System.out.println("IN CONFIG CONTRL: MAPKEY: "+vsb.getMapKey()+"\tstart: "+vsb.getStartPosition()+"\tstp:"+vsb.getStopPosition() );
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
@@ -65,12 +65,12 @@ public class ConfigController extends HaplotyperController {
             request.setAttribute("genesSet", genesSet);
 
             request.setAttribute("mapKey", vsb.getMapKey());
-
+            request.setAttribute("sampleIds", vsb.sampleIds);
 
             if ((positionSet || genesSet || regionSet) && !strainsSet) {
 
                 SampleDAO sampleDAO = new SampleDAO();
-                sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("Variant"));
                 List<Sample> samples=new ArrayList<>();
                 if(vsb.getMapKey()==17){
                     List<String> populations=new ArrayList<> (Arrays.asList("FIN", "GBR"));

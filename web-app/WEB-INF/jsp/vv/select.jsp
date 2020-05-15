@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.VariantSearchBean" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -15,7 +16,11 @@
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
-
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
 <%
 if (req.getParameter("u").equals("394033")) {
     session.setAttribute("showHidden","1");
@@ -25,22 +30,21 @@ if (req.getParameter("u").equals("394033")) {
 <% try { %>
 
 <%
-    VariantSearchBean vsb= (VariantSearchBean) request.getAttribute("vsb");
     List<Sample> samples = (List<Sample>) request.getAttribute("sampleList");
     int mapKey = (Integer) request.getAttribute("mapKey");
 %>
 
 
 <style>
-	#sortable { list-style-type: none; margin: 0; padding: 0; width: 200; }
+	#sortable { list-style-type: none; margin: 0; padding: 0; width: 200px; }
 	#sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
 	#sortable li span { cursor:pointer; position: absolute; margin-left: 2px; }
 	</style>
 	<script>
-	$(function() {
+/*	$(function() {
 		$( "#sortable" ).sortable();
 		$( "#sortable" ).disableSelection();
-	});
+	});*/
 
     function selectAll() {
         <% for (Sample samp: samples) { %>
@@ -88,7 +92,6 @@ if (req.getParameter("u").equals("394033")) {
 
     function submitPage() {
         var count=1;
-        var url = "searchType.html?a=1";
         for (i=0; i< document.getElementById("sortable").childNodes.length; i++) {
 
             if (document.getElementById("sortable").childNodes[i].sampleId) {
@@ -101,11 +104,9 @@ if (req.getParameter("u").equals("394033")) {
             }
         }
 
-       // url = url + "&mapKey=" + document.getElementById("mapKey").options[document.getElementById("mapKey").selectedIndex].value;
 
         if (count > 1) {
-           //location.href=url;
-           // document.getElementById("strainBox").action=url;
+
             document.getElementById("strainBox").submit();
 
         }else {
@@ -114,27 +115,27 @@ if (req.getParameter("u").equals("394033")) {
     }
 </script>
 
-<form id="strainBox" action="config.html" method="post">
 
-    <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
-
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
-    <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
-    <input type="hidden" name="start" value="<%=req.getParameter("start")%>" />
-    <input type="hidden" name="stop" value="<%=req.getParameter("stop")%>" />
-
-    <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
-    <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
-
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
 
 <br>
 <div class="typerMat">
+    <form id="strainBox" action="config.html" method="post">
 
-<div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
+        <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
+
+        <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
+        <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
+        <input type="hidden" name="start" value="<%=req.getParameter("start")%>" />
+        <input type="hidden" name="stop" value="<%=req.getParameter("stop")%>" />
+
+        <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
+        <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
+
+        <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
+        <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
 
 
-<table width="100%" class="stepLabel" border=0>
+<table class="stepLabel" border=0>
     <% if(request.getParameter("msg")!=null){%>
     <tr><td style="color:red"><%=request.getParameter("msg")%></td></tr>
     <%}%>
@@ -146,110 +147,133 @@ if (req.getParameter("u").equals("394033")) {
 
 
 
-<table border=0  style="padding:4px;" align="center" width="95%">
+<table border=0  style="padding:4px;" align="center">
     <tr>
-        <td width=500 valign="top" align="right">
+        <td  valign="top" align="right">
             <div style="padding-left:8px;top:30px;">
                 <%if(mapKey!=17){%>
                 <table><tr><td><a href="javascript:selectAll()"><img id="imageAll" border="0" src="/rgdweb/common/images/add.png" /></a></td><td><a href="javascript:selectAll()" style="color:white;">Select All</a></td></tr>
                 </table>
                 <%}%>
             </div>
-
-            <div style="height:400px; overflow:  auto; background-color:white; ackground-color:#F6F6F6; border: 3px outset #eeeeee;">
-            <table border=0  width="100%" >
             <%
+             int columns=3;
+             int rows=samples.size()/columns;
+           //  String[][] matrix=new String[rows][columns];
+                Sample[][] matrix=new Sample[rows][columns];
+                int k = 0;
+                int i = 0;
                 for (Sample samp: samples) {
-                    if (samp.getId() == 900 || samp.getId() == 901)   {
-                        if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
-                            continue;
+
+                    if (i < rows && k<columns) {
+                            matrix[i][k] = samp;
+                            i = i + 1;
+                        }
+
+                        if (i >=rows && k < columns) {
+                            k = k + 1;
+                            i = 0;
                         }
                     }
-
                 %>
-                   <tr>
-                       <td valign="left">
-                           <table border=0 id="table<%=samp.getId()%>" width="100%" style="border-bottom: 2px solid #eeeeee;" >
-                               <tr>
-                                   <td width=20><a href="javascript:selectIt('<%=samp.getAnalysisName()%>', '<%=samp.getId()%>')"><img id="image<%=samp.getId()%>" border="0" src="/rgdweb/common/images/add.png" /></a></td>
-                                   <td><table cellpadding="0" cellspacing="0" width="100%"><tr>
-                                       <td><a href="javascript:selectIt('<%=samp.getAnalysisName()%>','<%=samp.getId()%>')"><%=samp.getAnalysisName()%></a></td>
-                                       <td align="right"><% if( samp.getStrainRgdId()!=0 ) { %>
-                                         <a href="<%=Link.strain(samp.getStrainRgdId())%>">see strain report</a>
-                                       <%}%></td>
-                                   </tr></table></td>
-                               </tr>
-                               <tr>
-                                   <td>&nbsp;</td>
-                                   <td style="font-size:11px;">
-                                       <table>
+            <div style="; overflow:  auto; background-color:white; border: 3px outset #eeeeee;">
+            <table>
+            <%
+                for(int r=0;r<rows;r++) {
+                    %>
+                <tr>
 
-                                           <% if (samp.getSequencedBy() != null) { %>
-                                           <tr>
-                                               <td valign="top" style="font-size:10px; font-weight:700;">Sequenced By:</td>
-                                               <td style="font-size:10px;"><%=samp.getSequencedBy()%></td>
-                                           </tr>
-                                           <% } %>
-                                           <% if (samp.getSequencer() != null) { %>
-                                           <tr>
-                                               <td style="font-size:10px; font-weight:700;">Platform:</td>
-                                               <td style="font-size:10px;"><%=samp.getSequencer()%></td>
-                                           </tr>
-                                           <% } %>
-                                           <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
-                                           <tr>
-                                               <td style="font-size:10px; font-weight:700;">Secondary Analysis:</td>
-                                               <td style="font-size:10px;"><%=samp.getSecondaryAnalysisSoftware()%></td>
-                                           </tr>
-                                           <% } %>
-                                           <% if (samp.getWhereBred() != null) { %>
-                                           <tr>
-                                               <td style="font-size:10px; font-weight:700;">Breeder:</td>
-                                               <td style="font-size:10px;"><%=samp.getWhereBred()%></td>
-                                           </tr>
-                                           <% } %>
-                                           <% if (samp.getGrantNumber() != null) { %>
-                                           <tr>
-                                               <td style="font-size:10px; font-weight:700;">Grant Information:</td>
-                                               <td style="font-size:10px;"><%=samp.getGrantNumber()%></td>
-                                           </tr>
-                                           <% } %>
-                                       </table>
-                                   </td>
-                               </tr>
-                           </table>
-                       </td>
-                   </tr>
+                  <%  for(int c=0;c<columns;c++){
+                       Sample samp=matrix[r][c];
+                        %>
+                    <td>  <table  id="table<%=samp.getId()%>" style="border-bottom: 2px solid #eeeeee;" >
+                          <tr>
+                    <td ><a href="javascript:selectIt('<%=samp.getAnalysisName()%>', '<%=samp.getId()%>')"><img id="image<%=samp.getId()%>" border="0" src="/rgdweb/common/images/add.png" /></a></td>
+                    <td><a href="javascript:selectIt('<%=samp.getAnalysisName()%>','<%=samp.getId()%>')"><%=samp.getAnalysisName()%></a></td>
+                    <td>
+                        <a onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" style="cursor: help" >
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        </a>                        <div style="margin:10px; position:absolute; z-index:100; visibility:hidden; padding:10px;" id="div_<%=samp.getId()%>">
+                            <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700; color:white;">Sample ID:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getId()%></td>
+                                </tr>
 
-                <% } %>
+                                <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700; color:white;">Strain RGD ID</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getStrainRgdId()%></td>
+                                </tr>
+                                <% } %>
+
+                                <% if (samp.getSequencedBy() != null) { %>
+                                <tr>
+                                    <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
+                                </tr>
+                                <% } %>
+                                <% if (samp.getSequencer() != null) { %>
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
+                                </tr>
+                                <% } %>
+                                <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
+                                </tr>
+                                <% } %>
+                                <% if (samp.getWhereBred() != null) { %>
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
+                                </tr>
+                                <% } %>
+                                <% if (samp.getGrantNumber() != null) { %>
+                                <tr>
+                                    <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
+                                    <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
+                                </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                    </td>
+                          </tr>
+                         </table>
+                    </td>
+                    <%
+                    }
+                    %>
+                </tr>
+                    <%
+                }
+               %>
+
             </table>
+
             </div>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td  valign="top" align="center" width=225>
-            <div style="padding-left:8px;top:30px;"><table><tr><td>&nbsp;</td></tr></table> </div>
-            <div style="height:400px; overflow:  auto;background-color:#F1FBFC; border:3px outset #eeeeee;">
-                <br>
-                        <div class="demo">
-                        <ul id="sortable">
-                            <!--
-                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-                             -->
-                        </ul>
-                        </div><!-- End demo -->
-                <br>
-                </div>
-        </td>
-        <td>&nbsp;</td>
+
+
         <td valign="top">
             <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/>
         </td>
 
     </tr>
 </table>
+    <ul id="sortable" style="visibility: hidden">
+        <!--
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+         -->
+    </ul>
+</form>
+    <%@ include file="/common/footerarea.jsp" %>
 </div>
 
-</form>
+
 
 <script>
 <% for (Sample samp: samples) {
@@ -277,7 +301,7 @@ if (req.getParameter("u").equals("394033")) {
 
 
 
-<%@ include file="/common/footerarea.jsp" %>
+
 
 
 
