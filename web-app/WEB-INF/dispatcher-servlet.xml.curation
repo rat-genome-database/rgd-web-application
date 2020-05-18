@@ -292,7 +292,7 @@
  <bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
 <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
 
-<bean id="GeoExperimentController" class="edu.rgd.mcw.expression.GeoExperimentController" />
+<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
 
     <bean id="PathwayHomeController" class="edu.mcw.rgd.pathway.controller.PathwayHomeController" />
     <bean id="PathwayRecordController" class="edu.mcw.rgd.pathway.controller.PathwayRecordController" parent="wwwDir"> <!-- the parent attribute is being used here to refer to comon property with bean id "uploadingDir"
