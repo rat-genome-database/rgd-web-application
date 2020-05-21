@@ -1,12 +1,7 @@
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
-<%@ page import="edu.mcw.rgd.datamodel.Map" %>
-<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 
 <script type="text/javascript">
     function addParam(name, value) {
@@ -47,7 +42,9 @@
             <td width="10%"><span class="searchLabel" >Species:</span></td>
             <td colspan=2>
                 <select style="font-size:16px;" name="species")>
-                    <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                    <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
+                          if( !SpeciesType.isSearchable(speciesTypeKey) ) { continue; } // skip non-searchable species
+                        %>
                         <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                     <% }%>
                 </select>
@@ -75,11 +72,9 @@
     </td>
     </tr>
 <% } %>
-
-
+        
 <% } %>
 </table>
 </td></tr>
 </table>
-
 
