@@ -260,7 +260,7 @@ public abstract class HaplotyperController implements Controller {
                 String sample=req.getParameter("sample");
                 if(sample.equalsIgnoreCase("all")){
                     SampleDAO sdao = new SampleDAO();
-                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                    sdao.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
                     int mapKey = Integer.parseInt(req.getParameter("mapKey"));
                     List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
@@ -308,7 +308,7 @@ public abstract class HaplotyperController implements Controller {
             // if map key still not determined, set it to map key of primary reference assembly
             if (mapKey == 0) {
            //     mapKey = MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey();
-                mapKey=17;
+                mapKey=360;
             }
             vsb.setMapKey(mapKey);
         }

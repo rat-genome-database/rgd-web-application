@@ -30,9 +30,8 @@ public class SelectStrainController extends HaplotyperController {
         String strainRgdIds=request.getParameter("rgdIds");
         String map=request.getParameter("mapKey");
 
-
-        if(strainRgdIds!=null){
-            if(strainRgdIds!=""){
+        if(strainRgdIds!=null && Integer.parseInt(map)==360 ){
+            if(!strainRgdIds.equals("")){
                 List<Integer> strainIds= new ArrayList<>();
                 StringTokenizer tokens= new StringTokenizer(strainRgdIds, ",");
                 while (tokens.hasMoreTokens()){
@@ -49,7 +48,7 @@ public class SelectStrainController extends HaplotyperController {
                   }
                }
                 if(sampleList.size()>0){
-                    request.setAttribute("mapKey",360);
+                    request.setAttribute("mapKey",Integer.parseInt(map));
                     request.setAttribute("sampleList", sampleList);
                     return new ModelAndView("/WEB-INF/jsp/vv/select.jsp");
                 }else{

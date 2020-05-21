@@ -57,7 +57,7 @@ String pageDescription = "Define Region";
 
                                     %>
                                     <%
-                                        for (int i=1; i<100; i++) {
+                                        for (int i=1; i<1000; i++) {
                                             if (request.getParameter("sample" + i) != null) {
                                     %>
                                     <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
@@ -71,7 +71,7 @@ String pageDescription = "Define Region";
                                                         <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" id="start" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",start))%>" required></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" id="stop" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",stop))%>" required></td>
                                                         <td valign="top" align="left">
-                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white" onclick="validateRegion()"/></div>
+                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white" /></div>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -87,7 +87,7 @@ String pageDescription = "Define Region";
                                 <form action="config.html" id="optionForm2" name="optionForm">
                                     <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
                                     <%
-                                        for (int i=1; i<100; i++) {
+                                        for (int i=1; i<1000; i++) {
                                             if (request.getParameter("sample" + i) != null) {
                                     %>
                                     <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
@@ -130,7 +130,7 @@ String pageDescription = "Define Region";
     <tr>
      <td style="font-size:11px;color:white;" >
         <%
-        for (int i=1; i<100; i++) {
+        for (int i=1; i<1000; i++) {
             if (request.getParameter("sample" + i) != null) {
                 String strain = "";
                 if (i > 1) {

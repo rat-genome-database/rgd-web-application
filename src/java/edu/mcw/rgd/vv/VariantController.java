@@ -57,9 +57,6 @@ public class VariantController extends HaplotyperController {
 
             String index=new String();
             if(vsb.getMapKey()==17) {
-              /*   if(!vsb.getChromosome().equals(""))
-           index = "variants_human_chr"+chromosome.toLowerCase()+"_dev";
-            else index="variants_human_*_dev";*/
                     index = "variants_human"+vsb.getMapKey()+"_dev1";
 
             }

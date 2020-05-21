@@ -134,23 +134,24 @@ public class VVService {
      AggregationBuilder aggs= null;
      if(fieldName.equalsIgnoreCase("sampleId")){
          aggs= AggregationBuilders.terms(fieldName).field("samples."+fieldName)
-                .size(100000)
+               .size(1000).order(BucketOrder.key(true))
                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
-                 .size(100000)
+                 .size(10000)
                        //  .missing("INTERGENIC")
 
-                 .order(BucketOrder.key(true)));
+                // .order(BucketOrder.key(true))
+                        );
      }
 
-     if(fieldName.equalsIgnoreCase("regionName")){
+  if(fieldName.equalsIgnoreCase("regionName")){
            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                   .size(100000)
                  //  .missing("INTERGENIC")
                  .subAggregation(AggregationBuilders.terms("startPos").field("variant.startPos")
-                        .size(100000)
+                     .size(100000)
                  .subAggregation(AggregationBuilders.terms("sample").field("samples.sampleId"))
                  .subAggregation(AggregationBuilders.terms("varNuc").field("variant.varNuc.keyword")
-                        .size(100000)
+                       .size(100000)
                          )
 
                          .order(BucketOrder.key(true)));

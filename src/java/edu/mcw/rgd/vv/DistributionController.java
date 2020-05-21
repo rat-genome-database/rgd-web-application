@@ -259,6 +259,7 @@ public class DistributionController extends HaplotyperController {
                     }
                 }
             }
+            Collections.sort(sampleIdsFromResultSet);
         //    System.out.println("REGION LIST: "+ regionList1.toString());
             request.setAttribute("json", this.sb.toString());
             request.setAttribute("regionList", regionList1);
@@ -296,7 +297,7 @@ public class DistributionController extends HaplotyperController {
             if (request.getParameter("sample1").equals("all")) {
 
                 SampleDAO sdao = new SampleDAO();
-                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                sdao.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
                 int mapKey = Integer.parseInt(request.getParameter("mapKey"));
                 List<Sample> samples=new ArrayList<>();
                 if(mapKey==17){
@@ -315,7 +316,7 @@ public class DistributionController extends HaplotyperController {
             } else {
 
 
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 1000; i++) {
                     if (request.getParameter("sample" + i) != null) {
                         sampleIds.add(request.getParameter("sample" + i));
                     }
@@ -323,7 +324,7 @@ public class DistributionController extends HaplotyperController {
             }
         }else{
             SampleDAO sdao = new SampleDAO();
-            sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+            sdao.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));
             List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 

@@ -51,7 +51,7 @@ public class DetailController extends HaplotyperController {
         String vid = req.getParameter("vid");
         String sid = req.getParameter("sid");
 
-        int mapKey = 60; // map key defaults to rat assembly 3.4
+        int mapKey = 360; // map key defaults to rat assembly 6.0
         String mapKeyStr = request.getParameter("mapKey");
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
            mapKey = Integer.parseInt(mapKeyStr);
@@ -83,7 +83,7 @@ public class DetailController extends HaplotyperController {
             if(mapKey==631 || mapKey==600 )
                 index= "variants_dog"+mapKey+"_dev";
             //   System.out.println("INDEX NAME: "+ index);
-                index= "variants_dog_index_dev2";
+            //    index= "variants_dog_index_dev2";
 
             service.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
@@ -109,8 +109,6 @@ public class DetailController extends HaplotyperController {
 
                SearchResult sr = new SearchResult();
                VariantSearchBean vsb = new VariantSearchBean(mapKey);
-
-
                vsb.setVariantId(Long.parseLong(vids[i]));
 
                vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -135,8 +133,8 @@ public class DetailController extends HaplotyperController {
 
         );
         srb.size(10000);
-        //    SearchRequest request=new SearchRequest("transcripts_human_dev1"); //chr 21 transcripts
-        SearchRequest request=new SearchRequest("transcripts_human_test2"); // chr 1 transcripts
+        SearchRequest request=new SearchRequest("transcripts_human_dev");
+
         request.source(srb);
 
         SearchResponse sr= VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);

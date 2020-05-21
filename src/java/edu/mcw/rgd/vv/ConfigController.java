@@ -70,7 +70,7 @@ public class ConfigController extends HaplotyperController {
             if ((positionSet || genesSet || regionSet) && !strainsSet) {
 
                 SampleDAO sampleDAO = new SampleDAO();
-                sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("Variant"));
+                sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
                 List<Sample> samples=new ArrayList<>();
                 if(vsb.getMapKey()==17){
                     List<String> populations=new ArrayList<> (Arrays.asList("FIN", "GBR"));
@@ -83,11 +83,11 @@ public class ConfigController extends HaplotyperController {
 
                 return new ModelAndView("/WEB-INF/jsp/vv/select.jsp");
             }
-            if ((vsb.sampleIds.size()>50)) {
+          /*  if ((vsb.sampleIds.size()>50)) {
                 String msg="Maximum samples size should be less than 50. You selected  " +vsb.getSampleIds().size()+". Please <span style='color:grey;font-weight:bold'>EDIT STRAINS</span> to reduce the number of samples.";
                 response.sendRedirect("select.html?"+request.getQueryString()+"&msg="+msg);
 
-            }
+            }*/
 
             if ((positionSet || genesSet || regionSet) && strainsSet) {
 
@@ -102,9 +102,9 @@ public class ConfigController extends HaplotyperController {
                request.setAttribute("stop", vsb.getStopPosition());
                request.setAttribute("chr", vsb.getChromosome());
            }
-            if(vsb.getSampleIds().size()>50){
+         /*   if(vsb.getSampleIds().size()>50){
                 return new ModelAndView("/WEB-INF/jsp/vv/select.jsp");
-            }
+            }*/
             return new ModelAndView("/WEB-INF/jsp/vv/region.jsp");
         }
 

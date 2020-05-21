@@ -273,7 +273,7 @@
 
             } else {
 
-                for (int i=1; i<100; i++) {
+                for (int i=1; i<1000; i++) {
                 if (request.getParameter("sample" + i) != null) {
                     String strain = "";
                     if (i > 1) {

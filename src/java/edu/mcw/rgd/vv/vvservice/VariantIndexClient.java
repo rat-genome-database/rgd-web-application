@@ -44,7 +44,7 @@ public class VariantIndexClient {
                         )
                 );
 
-                input.close();
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -56,7 +56,7 @@ public class VariantIndexClient {
         System.out.println("destroying Variants Elasticsearch Client...");
         if(client!=null) {
             client.close();
-            //   client.threadPool().shutdownNow();
+            //  client.threadPool().shutdownNow();
             InternalThreadLocalMap.remove();
             client=null;
 

@@ -38,7 +38,7 @@ public class SampleManager {
         Sample sample = samples.get(sampleId);
         if( sample==null ) {
             SampleDAO sampleDAO = new SampleDAO();
-            sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("Variant"));
+            sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
 
             sample = sampleDAO.getSample(sampleId);
             this.samples.put(sampleId, sample);
