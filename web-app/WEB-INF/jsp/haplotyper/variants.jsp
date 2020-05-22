@@ -213,7 +213,6 @@ if (positions.size()==0) {
                         <%if (mapKey==70) out.print("Rnor 5.0");%>
                         <%if (mapKey==360) out.print("Rnor 6.0");%>
                         <%if (mapKey==17) out.print("GRCh37");%>
-                        <%if (mapKey==631) out.print("CanFam 3.1");%>
                      &nbsp;</div></td>
                 </tr>
             <tr>
@@ -522,7 +521,7 @@ if (positions.size()==0) {
                             base = base.length() + "";
                         }
                     %>
-                         <td  width=24 height=10><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle;"><%=base%></div></td>
+                         <td  width=24 height=10><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle;">-</div></td>
                     <%
                     }  else {
                     %>
