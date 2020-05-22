@@ -770,11 +770,11 @@ function showonlyoneDis(selectedBlock,fld) {
         <table align="center">
             <tr>
                 <td colspan="3" align="center">
-                    <div lass="container-fluid" style="position:absolute; top:0; left:0;">
+                    <div style="position:absolute; left:0;">
                 <%=OntDotController.generateResponse(pwId, "/rgdweb/ontology/annot.html?acc_id=", 30)%>
                     </div>
 
-                    <div lass="container-fluid" style="width:20px; overflow:scroll;">
+                    <div style="width:20px; overflow:scroll;">
                         <%=OntDotController.generateResponse(pwId, "/rgdweb/ontology/annot.html?acc_id=", 30)%>
                     </div>
 
