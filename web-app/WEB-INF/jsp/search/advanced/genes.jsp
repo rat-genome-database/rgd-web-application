@@ -3,10 +3,8 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: jdepons
+  Created by jdepons
   Date: May 5, 2008
-  Time: 9:18:22 AM
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -46,12 +44,10 @@
 
 <div class="searchBox">
 
-
     <div class="searchExamples">
     </div>
 
     <form name="adSearch" action="/rgdweb/elasticResults.html">
-
 
                 <table border='0' >
 
@@ -59,7 +55,8 @@
                         <td width="10%"><span class="searchLabel" >Species:</span></td>
                         <td colspan=2>
                             <select style="font-size:16px;" name="species")>
-                                <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                                <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
+                                     if( !SpeciesType.isSearchable(speciesTypeKey) ) continue; %>
                                 <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                                 <% }%>
                             </select>
@@ -72,7 +69,6 @@
                         </td>
                         <td>
                             <b>Examples:</b> <a href="javascript:document.adSearch.term.value='A2m';document.adSearch.chr.value='0';document.adSearch.submit();" >A2m</a>,<a href="javascript:document.adSearch.term.value='2004';document.adSearch.chr.value='0';document.adSearch.submit();" >2004</a> <a href="javascript:document.adSearch.term.value='serine threonine kinase';document.adSearch.chr.value='0';document.adSearch.submit();" > serine threonine kinase</a>, <a href="javascript:document.adSearch.term.value='NM_012488';document.adSearch.chr.value='0';document.adSearch.submit();" >NM_012488n</a>, <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.chr.value='0';document.adSearch.submit();" >Adora2a</a>
-
                         </td>
                     </tr>
                     <tr>
