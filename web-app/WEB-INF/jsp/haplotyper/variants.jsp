@@ -237,7 +237,7 @@ if (positions.size()==0) {
 
                       <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                       <td  valign="center">
-                          <div class="snpLabel"><a style="text-decoration:none;" title="<%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%>" href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%></a>&nbsp;</div>
+                          <div class="snpLabel"><a style="text-decoration:none;" title="<%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%>" href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(sample).getAnalysisName().replaceAll("\\s","&nbsp;")%></a>&nbsp;</div>
                       </td>
                    </tr>
                  <% } %>
