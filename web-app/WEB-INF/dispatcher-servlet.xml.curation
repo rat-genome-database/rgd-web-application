@@ -21,6 +21,7 @@
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
+				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 
@@ -374,6 +375,7 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+	 <bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
 
     <bean id="pathwayDiagramController" class="edu.mcw.rgd.pathway.PathwayDiagramController" parent="wwwDir"/>
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
