@@ -148,13 +148,14 @@
                 }
             });
         }
+
     }
     function checkUnitConversion() {
         var SD = document.getElementById("unitSD").value;
         var unitValue = document.getElementById("unitValue").value;
 
         if (SD != null && SD != unitValue && SD != "")
-            document.getElementById("termScale").style.display = "block";
+            document.getElementById("scale").style.display = "block";
     }
     function updateUnits() {
         var unitType = document.getElementById("unitType").value;
@@ -211,8 +212,8 @@
         *New Unit <input name="unitValue" id="unitValue"  onchange="checkUnitConversion()">
         Description <input name="description" >
         <br>
-
-        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
+<br>
+        <span id="scale" style="display:none;">New Unit * <input id="termScale" name="termScale" placeholder="Term Specific Scale"> = Standard Unit </span>
         <button type="button" onclick="updateUnits()">Add</button>
     </div>
     <%
