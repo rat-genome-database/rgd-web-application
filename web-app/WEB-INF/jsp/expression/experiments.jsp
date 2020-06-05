@@ -39,13 +39,7 @@
     }
 
 </style>
-<script>
 
-    $(document).ready(function(){
-        $('#t').dataTable();
-    });
-
-</script>
 <%
     String pageHeader="Create GEO Samples";
     String pageTitle="Create GEO Samples";
@@ -109,12 +103,12 @@
                     <th>PubMed Id</th>
                     <th>Study</th>
                     <th>Curation Status</th>
-                    <th>Link to Edit</th>
+                    <th>Link to edit</th>
                 </tr>
     <%
             for(String gse: records.keySet()) {
                 GeoRecord rec = records.get(gse);
-                String link = "<a href=/rgdweb/expression/experiments.html?gse="+gse+" >Edit</a>";
+                String link = "<a href=/rgdweb/expression/experiments.html?gse="+gse+"&species="+species+" >Edit</a>";
     %>
 
             <tr>

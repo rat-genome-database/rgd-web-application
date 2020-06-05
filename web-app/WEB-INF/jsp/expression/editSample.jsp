@@ -1,10 +1,9 @@
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.*" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -59,11 +58,18 @@
     String species = request.getParameter("species");
     PhenominerDAO pdao = new PhenominerDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
-    HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
-    HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
-    HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
-    HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
+    HashMap<String,String> tissueMap = new HashMap<>();
+    HashMap<String,String> strainMap = new HashMap<>();
+    Set<String> ages = new TreeSet<>();
+    for(GeoRecord s:samples){
+        if(s.getSampleTissue() != null)
+            tissueMap.put(s.getSampleTissue(),s.getRgdTissueTermAcc());
+        if(s.getSampleStrain() != null)
+            strainMap.put(s.getSampleStrain(),s.getRgdStrainTermAcc());
+        if(s.getSampleAge() != null)
+            ages.add(s.getSampleAge());
 
+    }
 %>
 
 
@@ -75,11 +81,11 @@
         <form action="experiments.html" method="POST">
             <table  class="t">
                 <tr>
-                    <input type="text" id="geoId" name="geoId" value=<%=gse%> />
-                    <td><b>Geo Accession Id: </b></td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
-                    <td><b>Study Title: </b></td><td><%=samples.get(0).getStudyTitle()%></td>
-                    <td><b>PubMed Id: </b></td><td><%=samples.get(0).getPubmedId()%></td>
-                    <td><b>Select status: </b></td>
+                    <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
+                    <td style="color: #24609c; font-weight: bold;">Geo Accession Id: </td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
+                    <td style="color: #24609c; font-weight: bold;">Study Title: </td><td><%=samples.get(0).getStudyTitle()%></td>
+                    <td style="color: #24609c; font-weight: bold;">PubMed Id: </td><td><%=samples.get(0).getPubmedId()%></td>
+                    <td style="color: #24609c; font-weight: bold;">Select status: </td>
                     <td><select id="status" name="status" >
                         <option value="loaded">Loaded</option>
                         <option  value="not4Curation">Not For Curation</option>
@@ -98,59 +104,56 @@
     %>
 
 
-    <table class="table table-striped">
 
         <form action="experiments.html" method="POST">
 
-            <tr>
-                <td align="left"><input type="submit" value="Load Samples"/></td>
-            </tr>
-                <%
-            if(samples.size() != 0) {
-        %>
-            <tr>
-                <th>Sample ID: </th>
-                <th>Sample Organism</th>
-                <th>Strain ID: </th>
-                <th>Strain: </th>
-                <th>Cell ID: </th>
-                <th>Cell: </th>
-                <th>Tissue ID: </th>
-                <th>Tissue: </th>
-                <th>Sex: </th>
-                <th>Age: </th>
-                <th>Age Low: </th>
-                <th>Age High: </th>
-            </tr>
-                <%
-            }
+            <input type="submit" value="Create Samples"/> <br><br>
+            <table class="table table-striped">
 
-      int count = 1;
-     for(GeoRecord s: samples){
+            <%
+      int tcount = 1;
+
+     for(String tissue: tissueMap.keySet()){
   %>
             <tr>
-                <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=s.getSampleAccessionId()%>" readonly> </td>
-                <td><%=s.getSampleOrganism()%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=strainMap.get(s.getSampleStrain())%>"> </td>
-                <td><%=s.getSampleStrain()%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=s.getRgdCellTermAcc()%>"> </td>
-                <td><%=s.getSampleCellType()%></td>
-                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=tissueMap.get(s.getSampleTissue())%>"> </td>
-                <td><%=s.getSampleTissue()%></td>
-                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=s.getSampleGender()%>"> </td>
-                <td><%=s.getSampleAge()%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=ageLow.get(s.getSampleAge())%>"> </td>
-                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=ageHigh.get(s.getSampleAge())%>"> </td>
-
+                <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
+                <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
+                <td></td>
             </tr>
 
-                <%
-      count++;
+        <%
+      tcount++;
       }
-  %>
+                    int scount = 1;
+                    for(String strain: strainMap.keySet()){
+                %>
+            <tr>
+                <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
+                <td><label for="strainId<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
+                <td></td>
+            </tr>
 
+        <%
+                    scount++;
+                }
+                  int ageCount = 1;
+                    for(String age: ages){
+                %>
+            <tr>
+                <td><label for="age<%=tcount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
+                <td><label for="ageLow<%=tcount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                <td><label for="ageHigh<%=tcount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+
+            </tr>
+
+                <%
+                    ageCount++;
+                }
+                %>
     </table>
-    <input type="hidden" id="count" name="count" value="<%=count%>" />
+    <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
+    <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
+    <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
     <input type="hidden" id="species" name="species" value="<%=species%>" />
     </form>
