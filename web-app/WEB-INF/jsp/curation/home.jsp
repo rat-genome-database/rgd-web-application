@@ -58,7 +58,7 @@
                 </td>
             </tr>
 			    <td>
-                    <a v-bind:href="'/rgdweb/curation/strainFileUpload.html?token='+token+'&login='+name">Strain Files Upload</a></td>
+                    <a v-bind:href="/rgdweb/strainFileUpload.html">Strain Files Upload</a></td>
             </tr>
             <tr valign="top">
                 <td colspan="2"></td>

@@ -22,8 +22,7 @@ public class StrainFileUploadController implements Controller {
 
         try{
         if(request.getParameter("strainId") != null){
-            System.out.println("In the loop");
-            int strainId = Integer.parseInt(request.getParameter("strainId"));
+           int strainId = Integer.parseInt(request.getParameter("strainId"));
 
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
@@ -82,7 +81,7 @@ public class StrainFileUploadController implements Controller {
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
 
-        return new ModelAndView("/WEB-INF/jsp/curation/strainFileUpload.jsp");
+        return new ModelAndView("/WEB-INF/jsp/strainFileUpload.jsp");
     }
 
 }
