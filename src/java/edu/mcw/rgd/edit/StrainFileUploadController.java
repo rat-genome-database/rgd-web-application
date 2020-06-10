@@ -22,7 +22,8 @@ public class StrainFileUploadController implements Controller {
 
         try{
         if(request.getParameter("strainId") != null){
-           int strainId = Integer.parseInt(request.getParameter("strainId"));
+            System.out.println("In the loop");
+            int strainId = Integer.parseInt(request.getParameter("strainId"));
 
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
