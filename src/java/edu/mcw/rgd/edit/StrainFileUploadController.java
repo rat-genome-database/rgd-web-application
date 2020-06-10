@@ -22,7 +22,6 @@ public class StrainFileUploadController implements Controller {
         System.out.println("Debug check");
         try{
         if(request.getParameter("strainId") != null){
-            System.out.println("In the loop");
             int strainId = Integer.parseInt(request.getParameter("strainId"));
 
             String[] types = {"Genotype","Highlights","Supplemental"};
@@ -32,15 +31,12 @@ public class StrainFileUploadController implements Controller {
                         Part file = request.getPart(type);
                         isSet = true;
                         if (isSet) {
-                            System.out.println(type);
                             String fileName = file.getHeader("content-disposition");
-                            System.out.println(fileName);
                             int index = fileName.lastIndexOf("=");
                             fileName = fileName.substring(index+1);
 
                             if (!fileName.isEmpty() && fileName != "") {
                                 fileName = fileName.replace("\"", "");
-                                System.out.println(fileName);
                                     InputStream data = file.getInputStream();
                                     String contentType = dao.getContentType(strainId, type);
                                     if (contentType == null) {
