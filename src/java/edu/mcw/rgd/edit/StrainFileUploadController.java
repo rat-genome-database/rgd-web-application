@@ -19,7 +19,7 @@ public class StrainFileUploadController implements Controller {
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         StrainDAO dao =new StrainDAO();
-
+        System.out.println("Debug check");
         try{
         if(request.getParameter("strainId") != null){
             System.out.println("In the loop");
