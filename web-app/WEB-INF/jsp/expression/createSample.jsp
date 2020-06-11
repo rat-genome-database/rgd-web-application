@@ -148,8 +148,8 @@
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=ageLow.get(s.getSampleAge())%>"> </td>
-                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=ageHigh.get(s.getSampleAge())%>"> </td>
+                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
 
             </tr>
 
