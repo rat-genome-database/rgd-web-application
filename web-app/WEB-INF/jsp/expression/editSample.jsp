@@ -61,6 +61,8 @@
     HashMap<String,String> tissueMap = new HashMap<>();
     HashMap<String,String> strainMap = new HashMap<>();
     Set<String> ages = new TreeSet<>();
+    HashMap<String,String> cellTypeMap = new HashMap<>();
+    HashMap<String,String> cellLineMap = new HashMap<>();
     for(GeoRecord s:samples){
         if(s.getSampleTissue() != null)
             tissueMap.put(s.getSampleTissue(),s.getRgdTissueTermAcc());
@@ -68,6 +70,10 @@
             strainMap.put(s.getSampleStrain(),s.getRgdStrainTermAcc());
         if(s.getSampleAge() != null)
             ages.add(s.getSampleAge());
+        if(s.getSampleCellLine() != null)
+            cellLineMap.put(s.getSampleCellLine(),s.getRgdCellTermAcc());
+        if(s.getSampleCellType() != null)
+            cellTypeMap.put(s.getSampleCellType(),s.getRgdCellTermAcc());
 
     }
 %>
@@ -136,6 +142,30 @@
         <%
                     scount++;
                 }
+            int clcount = 1;
+            for(String cellLine: cellLineMap.keySet()){
+        %>
+                <tr>
+                    <td><label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label><input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="<%=cellLine%>" readonly></td>
+                    <td><label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label><input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value="<%=cellLineMap.get(cellLine)%>"> </td>
+                    <td></td>
+                </tr>
+
+                <%
+                        clcount++;
+                    }
+                    int cTcount = 1;
+                    for(String cellType: cellTypeMap.keySet()){
+                %>
+                <tr>
+                    <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" readonly></td>
+                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label><input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=cellTypeMap.get(cellType)%>"> </td>
+                    <td></td>
+                </tr>
+
+                <%
+                        cTcount++;
+                    }
                   int ageCount = 1;
                     for(String age: ages){
                 %>
@@ -153,6 +183,8 @@
     </table>
     <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
     <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
+    <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
+    <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
     <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
     <input type="hidden" id="species" name="species" value="<%=species%>" />

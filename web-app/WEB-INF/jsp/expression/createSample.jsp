@@ -57,13 +57,16 @@
 
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
+    HttpRequestFacade req = new HttpRequestFacade(request);
+    DisplayMapper dm = new DisplayMapper(req,error);
     PhenominerDAO pdao = new PhenominerDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
     HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
-
+    HashMap<String,String> cellType = (HashMap)request.getAttribute("cellType");
+    HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
 %>
 
 
@@ -129,12 +132,14 @@
      for(GeoRecord s: samples){
   %>
             <tr>
-                <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=s.getSampleAccessionId()%>" readonly> </td>
+                <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
                 <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=strainMap.get(s.getSampleStrain())%>"> </td>
                 <td><%=s.getSampleStrain()%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=s.getRgdCellTermAcc()%>"> </td>
+                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=cellType.get(s.getSampleCellType())%>"> </td>
                 <td><%=s.getSampleCellType()%></td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=cellLine.get(s.getSampleCellLine())%>"> </td>
+                <td><%=s.getSampleCellLine()%></td>
                 <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=tissueMap.get(s.getSampleTissue())%>"> </td>
                 <td><%=s.getSampleTissue()%></td>
                 <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=s.getSampleGender()%>"> </td>
