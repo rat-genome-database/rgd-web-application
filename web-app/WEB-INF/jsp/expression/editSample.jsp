@@ -61,19 +61,22 @@
     HashMap<String,String> tissueMap = new HashMap<>();
     HashMap<String,String> strainMap = new HashMap<>();
     Set<String> ages = new TreeSet<>();
+    Set<String> gender = new TreeSet<>();
     HashMap<String,String> cellTypeMap = new HashMap<>();
     HashMap<String,String> cellLineMap = new HashMap<>();
     for(GeoRecord s:samples){
         if(s.getSampleTissue() != null)
-            tissueMap.put(s.getSampleTissue(),s.getRgdTissueTermAcc());
+            tissueMap.put(s.getSampleTissue(),Objects.toString(s.getRgdTissueTermAcc(),""));
         if(s.getSampleStrain() != null)
-            strainMap.put(s.getSampleStrain(),s.getRgdStrainTermAcc());
+            strainMap.put(s.getSampleStrain(),Objects.toString(s.getRgdStrainTermAcc(),""));
         if(s.getSampleAge() != null)
             ages.add(s.getSampleAge());
+        if(s.getSampleGender() != null)
+            gender.add(s.getSampleGender());
         if(s.getSampleCellLine() != null)
-            cellLineMap.put(s.getSampleCellLine(),s.getRgdCellTermAcc());
+            cellLineMap.put(s.getSampleCellLine(),Objects.toString(s.getRgdCellTermAcc(),""));
         if(s.getSampleCellType() != null)
-            cellTypeMap.put(s.getSampleCellType(),s.getRgdCellTermAcc());
+            cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
 
     }
 %>
@@ -179,9 +182,27 @@
                 <%
                     ageCount++;
                 }
+                    int gcount = 1;
+                    for(String g: gender){
                 %>
+                <tr>
+                    <td><label for="gender<%=gcount%>" style="color: #24609c; font-weight: bold;">Sex: &nbsp&nbsp </label><input type="text" name="gender<%=gcount%>" id="gender<%=gcount%>" value="<%=g%>" readonly></td>
+                    <td><label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label><select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="mixed">Mixed</option>
+                        <option value="not specified">Not Specified</option>
+                    </select></td>
+                 </tr>
+
+                <%
+                        gcount++;
+                    }
+                %>
+
     </table>
     <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
+            <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
     <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
     <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
     <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />

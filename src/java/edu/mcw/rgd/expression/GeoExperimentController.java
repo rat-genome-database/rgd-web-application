@@ -52,9 +52,9 @@ public class GeoExperimentController implements Controller {
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
 
-                    if (request.getParameter("ageHigh" + i) != null )
+                    if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
-                    if (request.getParameter("ageLow" + i) != null )
+                    if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() )
                         s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));
 
                     s.setNumberOfAnimals(1);
@@ -105,6 +105,7 @@ public class GeoExperimentController implements Controller {
                 int ctcount = Integer.parseInt(request.getParameter("ctcount"));
                 int clcount = Integer.parseInt(request.getParameter("clcount"));
                 int ageCount = Integer.parseInt(request.getParameter("agecount"));
+                int gcount = Integer.parseInt(request.getParameter("gcount"));
                 String gse = request.getParameter("gse");
                 String species = request.getParameter("species");
                 HashMap<String,String> tissueMap = new HashMap();
@@ -113,6 +114,7 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> cellLine = new HashMap();
                 HashMap<String,String> ageLow = new HashMap<>();
                 HashMap<String,String> ageHigh = new HashMap<>();
+                HashMap<String,String> gender = new HashMap<>();
                 for(int i = 1; i < tcount;i++){
                     tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
                 }
@@ -129,10 +131,14 @@ public class GeoExperimentController implements Controller {
                 for(int i = 1; i < clcount;i++){
                     cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
                 }
+                for(int i = 1; i < gcount;i++){
+                    gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
+                }
                 request.setAttribute("tissueMap",tissueMap);
                 request.setAttribute("strainMap",strainMap);
                 request.setAttribute("cellLine",cellLine);
                 request.setAttribute("cellType",cellType);
+                request.setAttribute("gender",gender);
                 request.setAttribute("ageLow",ageLow);
                 request.setAttribute("ageHigh",ageHigh);
                 request.setAttribute("species",species);

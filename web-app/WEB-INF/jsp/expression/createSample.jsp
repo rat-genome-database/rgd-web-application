@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Objects" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -67,6 +68,7 @@
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
     HashMap<String,String> cellType = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
+    HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
 %>
 
 
@@ -78,7 +80,7 @@
         <form action="experiments.html" method="POST">
             <table  class="t">
                 <tr>
-                    <input type="text" id="geoId" name="geoId" value=<%=gse%> />
+                    <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td><b>Geo Accession Id: </b></td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
                     <td><b>Study Title: </b></td><td><%=samples.get(0).getStudyTitle()%></td>
                     <td><b>PubMed Id: </b></td><td><%=samples.get(0).getPubmedId()%></td>
@@ -116,8 +118,10 @@
                 <th>Sample Organism</th>
                 <th>Strain ID: </th>
                 <th>Strain: </th>
-                <th>Cell ID: </th>
-                <th>Cell: </th>
+                <th>Cell Type ID: </th>
+                <th>Cell Type: </th>
+                <th>Cell Line ID: </th>
+                <th>Cell Line: </th>
                 <th>Tissue ID: </th>
                 <th>Tissue: </th>
                 <th>Sex: </th>
@@ -134,16 +138,16 @@
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=strainMap.get(s.getSampleStrain())%>"> </td>
-                <td><%=s.getSampleStrain()%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=cellType.get(s.getSampleCellType())%>"> </td>
-                <td><%=s.getSampleCellType()%></td>
-                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=cellLine.get(s.getSampleCellLine())%>"> </td>
-                <td><%=s.getSampleCellLine()%></td>
-                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=tissueMap.get(s.getSampleTissue())%>"> </td>
-                <td><%=s.getSampleTissue()%></td>
-                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=s.getSampleGender()%>"> </td>
-                <td><%=s.getSampleAge()%> </td>
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
+                <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
+                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
+                <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
+                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>"> </td>
+                <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
+                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
+                <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=ageLow.get(s.getSampleAge())%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=ageHigh.get(s.getSampleAge())%>"> </td>
 
