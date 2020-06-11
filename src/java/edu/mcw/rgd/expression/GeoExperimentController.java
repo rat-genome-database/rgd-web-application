@@ -65,6 +65,7 @@ public class GeoExperimentController implements Controller {
                         sampleId = pdao.insertSample(s);
                     else {
                         s.setId(sample.getId());
+                        sampleId = sample.getId();
                         pdao.updateSample(s);
                     }
 
