@@ -51,8 +51,9 @@ public class OntViewController implements Controller {
 
             // redirect to general search
             OntGeneralSearchController searchController = new OntGeneralSearchController();
-            if( bean.getAccId()!=null )
+            if( bean.getAccId()!=null && bean.getAccId().length()<20 ) {
                 request.setAttribute("term", bean.getAccId());
+            }
             return searchController.handleRequest(request, response);
         }
 
