@@ -175,7 +175,7 @@ if(mapKey == 631){
             }
         }
     }
-    function selectGroup(name,value) {
+    function selectBreed(name,value) {
         var group = document.getElementById(name);
         value = value.substring(1,value.length-1);
 
@@ -223,7 +223,7 @@ if(mapKey == 631){
                 for(int j = 0;j < 5;j++) {
         %>
 
-        <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectGroup('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
+        <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectBreed('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
         <% }
         %>
     </tr>
