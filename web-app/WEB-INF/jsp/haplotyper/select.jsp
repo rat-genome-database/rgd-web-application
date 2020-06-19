@@ -122,9 +122,26 @@ if (req.getParameter("u").equals("394033")) {
         sampleMap.put(request.getParameter("sample" + sampNum), "found");
         sampNum++;
     }
+HashMap<String,List<Integer>> breedMap = new HashMap<>();
+ List<String> breeds = new ArrayList<>();
+if(mapKey == 631){
 
+    List<Integer> breedsArr = new ArrayList<>();
+    for(Sample s:samples){
+        String name = s.getAnalysisName();
+        int index = name.indexOf("(");
+        String breed = name.substring(0,index-1);
+        breedsArr = breedMap.get(breed);
+        if(breedsArr == null)
+            breedsArr = new ArrayList<>();
+        breedsArr.add(s.getId());
+        breedMap.put(breed,breedsArr);
+    }
+
+            breeds.addAll(breedMap.keySet());
+            Collections.sort(breeds);
+}
 %>
-
 <script>
     function selectGroup(name) {
         var strainGroups = {};
@@ -158,6 +175,28 @@ if (req.getParameter("u").equals("394033")) {
             }
         }
     }
+    function selectGroup(name,value) {
+        var group = document.getElementById(name);
+        value = value.substring(1,value.length-1);
+
+        var samples = value.split(",");
+
+        var checkboxes = document.getElementsByName('strain[]');
+        for (var i in checkboxes) {
+            if (!checkboxes[i].id) continue;
+            var strainId = checkboxes[i].id.split("_");
+
+            for (j = 0; j < samples.length; j++) {
+                    if (strainId[1] == (samples[j].trim())) {
+                        if (group.checked) {
+                            checkboxes[i].checked = true;
+                        } else {
+                            checkboxes[i].checked = false;
+                        }
+                    }
+            }
+        }
+    }
 </script>
 
     <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
@@ -169,9 +208,29 @@ if (req.getParameter("u").equals("394033")) {
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <% } %>
+        <% } if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6) { %>
         <td style="color:white;"><input id="all" name="all" type="checkbox" onChange="selectGroup('all')"/> All Available</td>
+        <%}%>
+
     </tr>
+
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == SpeciesType.DOG) {
+
+            for(int i=0; i < breeds.size(); i=i+5) {
+    %>
+    <tr>
+    <%
+                for(int j = 0;j < 5;j++) {
+        %>
+
+        <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectGroup('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
+        <% }
+        %>
+    </tr>
+            <%
+        }
+        } %>
+
 </table>
 
     <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Samples</div>
