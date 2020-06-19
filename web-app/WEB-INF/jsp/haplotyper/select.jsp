@@ -223,8 +223,7 @@ if(mapKey == 631){
                 for(int j = 0;j < 5;j++) {
         %>
 
-        <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectGroup('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%></td>
-
+        <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectGroup('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
         <% }
         %>
     </tr>
