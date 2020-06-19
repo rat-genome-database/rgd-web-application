@@ -216,11 +216,11 @@ if(mapKey == 631){
 
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == SpeciesType.DOG) {
 
-            for(int i=0; i < breeds.size(); i=i+8) {
+            for(int i=0; i < breeds.size(); i=i+5) {
     %>
     <tr>
     <%
-                for(int j = 0;j < 8;j++) {
+                for(int j = 0;j < 5;j++) {
         %>
 
         <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectGroup('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%></td>
