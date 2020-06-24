@@ -1518,4 +1518,12 @@
 <link></link>
 </band>
 </chromosome>
+<chromosome index="22" number="Y" length="null">
+<band index="1" name="q11">
+<start>1</start>
+<end>3310458</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+</chromosome>
 </genome>
