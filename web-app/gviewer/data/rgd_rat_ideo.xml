@@ -1518,18 +1518,18 @@
 		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:149291610..160775580</link>
 	</band>
 </chromosome>
-<chromosome index="22" number="Y" length="71246413">
+<chromosome index="22" number="Y" length="3310458">
 	<band index="1" name="q11">
 		<start>0</start>
-		<end>53434809</end>
+		<end>2482844</end>
 		<stain>gpos</stain>
-		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:0..53434809</link>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:0..2482844</link>
 	</band>
 	<band index="2" name="q12">
-		<start>53434809</start>
-		<end>71246413</end>
+		<start>2482844</start>
+		<end>3310458</end>
 		<stain>gneg</stain>
-		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:53434809..71246413</link>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:2482844..3310458</link>
 	</band>
 </chromosome>
 </genome>
