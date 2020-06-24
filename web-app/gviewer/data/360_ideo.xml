@@ -1521,15 +1521,15 @@
 <chromosome index="22" number="Y" length="3310458">
     <band index="1" name="q11">
         <start>0</start>
-        <end>2482843</end>
+        <end>2482844</end>
         <stain>gpos</stain>
-        <link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:1-2482843</link>
+        <link></link>
     </band>
     <band index="2" name="q12">
-        <start>2482843</start>
+        <start>2482844</start>
         <end>3310458</end>
         <stain>gneg</stain>
-        <link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:2482843-3310458</link>
+        <link></link>
     </band>
 </chromosome>
 </genome>
