@@ -1518,4 +1518,18 @@
 <link></link>
 </band>
 </chromosome>
+<chromosome index="22" number="Y" length="3310458">
+    <band index="1" name="q11">
+        <start>0</start>
+        <end>2482844</end>
+        <stain>gpos</stain>
+        <link></link>
+    </band>
+    <band index="2" name="q12">
+        <start>2482844</start>
+        <end>3310458</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
 </genome>
