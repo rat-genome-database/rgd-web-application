@@ -175,7 +175,10 @@
             option.text = unitValue;
             option.value = unitValue;
             option.selected = "true";
-            document.getElementsByName("cUnits")[0].add(option,0);
+            var size = document.getElementsByName("cUnits").length;
+            for(i = 0;i< size;i++) {
+                document.getElementsByName("cUnits")[i].add(option, 0);
+            }
         }
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
