@@ -19,7 +19,6 @@ public class StrainFileUploadController implements Controller {
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         StrainDAO dao =new StrainDAO();
-
         try{
         if(request.getParameter("strainId") != null){
             int strainId = Integer.parseInt(request.getParameter("strainId"));
@@ -48,6 +47,7 @@ public class StrainFileUploadController implements Controller {
                                         status.add("File Replaced Successfully for strain " + strainId + " and "+ type);
                                     }
                                 }
+                            return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
                             }
 
                     }catch(Exception e) {
