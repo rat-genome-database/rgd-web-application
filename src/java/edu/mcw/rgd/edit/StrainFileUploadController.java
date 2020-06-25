@@ -19,6 +19,7 @@ public class StrainFileUploadController implements Controller {
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         StrainDAO dao =new StrainDAO();
+        boolean report = false;
         try{
         if(request.getParameter("strainId") != null){
             int strainId = Integer.parseInt(request.getParameter("strainId"));
@@ -41,10 +42,12 @@ public class StrainFileUploadController implements Controller {
                                     if (contentType == null) {
                                         dao.insertStrainAttachment(strainId, type, data, file.getContentType(), fileName);
                                         status.add("File Uploaded Successfully for strain " + strainId + " and " + type);
+                                        report = true;
                                     } else {
                                         dao.updateStrainAttachment(strainId, type, data, file.getContentType(), fileName);
                                         warning.add("File already Exists for strain " + strainId + " and " + type);
                                         status.add("File Replaced Successfully for strain " + strainId + " and "+ type);
+                                        report = true;
                                     }
                                 }
                              }
@@ -69,8 +72,8 @@ public class StrainFileUploadController implements Controller {
             else request.setAttribute("supplementalFile",Supplemental);
             request.setAttribute("strainId",strainId);
 
-            return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
-
+            if(report)
+                return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
         }
         }catch(Exception e){
             error.add(e.getMessage());
@@ -79,6 +82,7 @@ public class StrainFileUploadController implements Controller {
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
+
 
         return new ModelAndView("/WEB-INF/jsp/curation/strainFileUpload.jsp");
     }
