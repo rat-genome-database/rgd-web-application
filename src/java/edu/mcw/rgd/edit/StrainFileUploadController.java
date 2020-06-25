@@ -47,8 +47,7 @@ public class StrainFileUploadController implements Controller {
                                         status.add("File Replaced Successfully for strain " + strainId + " and "+ type);
                                     }
                                 }
-                            return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
-                            }
+                             }
 
                     }catch(Exception e) {
                         isSet = false;
@@ -69,6 +68,9 @@ public class StrainFileUploadController implements Controller {
                 request.setAttribute("supplementalFile","");
             else request.setAttribute("supplementalFile",Supplemental);
             request.setAttribute("strainId",strainId);
+
+            return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
+
         }
         }catch(Exception e){
             error.add(e.getMessage());
