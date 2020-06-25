@@ -20,7 +20,7 @@
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
 
-                <prop key="strainFileUpload.html">StrainFileUploadController</prop>
+                <prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
                 <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
 				<prop key="expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/home.html">CurationController</prop>

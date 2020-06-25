@@ -31,7 +31,7 @@
     DisplayMapper dm = new DisplayMapper(req,error);
 %>
 <div class="container-fluid">
-<form method="POST" action="strainFileUpload.html" enctype="multipart/form-data">
+<form method="POST" action="curation/strainFileUpload.html" enctype="multipart/form-data">
 
             <label for="rgdId1" style="color: #24609c; font-weight: bold;">Select a Strain Id:</label>
             <input type="text" id="rgdId1" name="strainId" value="<%=dm.out("strainId",request.getParameter("strainId"))%>"/>

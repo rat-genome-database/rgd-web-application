@@ -17,7 +17,6 @@
     <tr>
 <h1 > Welcome {{name}} !!!</h1>
         <hr />
-        <a href="https://dev.rgd.mcw.edu/rgdweb/curation/logout.html">Logout</a>
 
         <table border="0" width="100%" cellpadding="4">
             <tbody>
@@ -57,6 +56,9 @@
                 <td>
                     <a v-bind:href="'/rgdCuration/?module=ont&func=obsoleteTerms&token='+token">Obsolete Terms</a>
                 </td>
+            </tr>
+			    <td>
+                    <a v-bind:href="'/rgdweb/strainFileUpload.html?token='+token">Strain Files Upload</a></td>
             </tr>
             <tr valign="top">
                 <td colspan="2"></td>
