@@ -83,7 +83,7 @@
 				return "dbSNP";
 			else if( source.match( /^[eE]nsemblSNP.*/ ) != null )
 				return "ensemblSNP";
-			else if( source.match( /^RGD_Ontology_RDO[0-9]*/i ) != null && type.match( /^gene_ont.*/i ) != null )
+			else if( source.match( /^RGD_Ontology_DOID[0-9]*/i ) != null && type.match( /^gene_ont.*/i ) != null )
 				return "diseaseOntology";
 			else if( source.match( /^RGD_Ontology_CHEBI[0-9]*/i ) != null && type.match( /^gene_ont.*/i ) != null )
 				return "drugGeneOntology";
@@ -93,9 +93,9 @@
 				return "congenicStrains";
 			else if( type.match( /^SSLPS/i ) != null )
 				return "microSatellite";
-			else if( source.match( /^RGD_Ontology_RDO[0-9]*/i ) != null && type.match( /^qtl_ont.*/i ) != null )
+			else if( source.match( /^RGD_Ontology_DOID[0-9]*/i ) != null && type.match( /^qtl_ont.*/i ) != null )
 				return "diseaseQTLontology";
-			else if( source.match( /^RGD_Ontology_RDO[0-9]*/i ) != null && type.match( /^strain_ont.*/i ) != null )
+			else if( source.match( /^RGD_Ontology_DOID[0-9]*/i ) != null && type.match( /^strain_ont.*/i ) != null )
 				return "diseaseStrainOntology";
 			else if( source == "miRBase" && type == "miRNA" )
 				return "miRNA";
@@ -723,14 +723,12 @@
 	{
 		if( ( ( ontologyTerms != null && ontologyNameset != null ) && ( fieldSeparator != null && subFieldSeparator != null ) ) && ( secondarySeparator != null && backupSecondarySeparator != null ) )
 		{
-			var i, subOntologyTerms, RDO_id, RDO_termBlock, RDO_term;
+			var i, subOntologyTerms, DOID_id, DOID_termBlock, DOID_term;
 
-			if( testEmpty( ontologyTerms ) == "NA" )
-			{
+			if( testEmpty( ontologyTerms ) == "NA" ) {
 				writeRow( ontologyNameset, "none", 1, null, null );
 			}
-			else
-			{
+			else {
 				writeSpannedRow( ontologyNameset, 1, null, null );
 
 				ontologyTerms = ontologyTerms.split( fieldSeparator );
@@ -741,19 +739,19 @@
 
 					if( subOntologyTerms.length == 1 ) continue;
 
-					RDO_id = subOntologyTerms[ 0 ];
+					DOID_id = subOntologyTerms[ 0 ];
 					// Initialize like this because IntelliJ is picky
-					RDO_term = decodeURIComponent( subOntologyTerms[ 1 ] );
+					DOID_term = decodeURIComponent( subOntologyTerms[ 1 ] );
 
-					RDO_termBlock = RDO_term.split( secondarySeparator );
+					DOID_termBlock = DOID_term.split( secondarySeparator );
 
-					if( RDO_termBlock.length == 1 ) RDO_termBlock = RDO_term.split( backupSecondarySeparator );
+					if( DOID_termBlock.length == 1 ) DOID_termBlock = DOID_term.split( backupSecondarySeparator );
 
-					if( RDO_termBlock.length == 1 ) RDO_term = RDO_termBlock[ 0 ];
-					else RDO_term = RDO_termBlock[ 0 ] + " (" + RDO_termBlock[ 1 ] + ")";
+					if( DOID_termBlock.length == 1 ) DOID_term = DOID_termBlock[ 0 ];
+					else DOID_term = DOID_termBlock[ 0 ] + " (" + DOID_termBlock[ 1 ] + ")";
 
-					if( testEmpty( htmlPrefix ) != "NA" ) writeRow( RDO_term, RDO_id, 0, htmlPrefix, RDO_id );
-					else writeRow( RDO_term, RDO_id, 0, null, null );
+					if( testEmpty( htmlPrefix ) != "NA" ) writeRow( DOID_term, DOID_id, 0, htmlPrefix, DOID_id );
+					else writeRow( DOID_term, DOID_id, 0, null, null );
 				}
 			}
 		}
@@ -766,12 +764,10 @@
 	{
 		if( ( ( ontologyTerms != null && ontologyNameset != null ) && ( fieldSeparator != null && subFieldSeparator != null ) ) && ( ( secondarySeparator != null && backup_secondarySeparator != null ) && ( baseHtmlPrefix != null && tableHtmlPrefix != null ) ) )
 		{
-			if( ( ontologyTerms == "" || ontologyTerms == "null" ) || ontologyTerms == "NA" )
-			{
+			if( ( ontologyTerms == "" || ontologyTerms == "null" ) || ontologyTerms == "NA" ) {
 				writeRow( ontologyNameset, "none", 1, null, null );
 			}
-			else
-			{
+			else {
 				var subOntologyTerms, subOntologyTerms_ontoEntry,
 					subOntologySet, subOntologySet_name, subOntologySet_value;
 
