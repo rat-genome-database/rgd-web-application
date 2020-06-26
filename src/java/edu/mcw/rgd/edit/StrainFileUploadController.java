@@ -19,9 +19,11 @@ public class StrainFileUploadController implements Controller {
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         StrainDAO dao =new StrainDAO();
+        int strainId = 0;
+        boolean report = false;
         try{
         if(request.getParameter("strainId") != null){
-            int strainId = Integer.parseInt(request.getParameter("strainId"));
+            strainId = Integer.parseInt(request.getParameter("strainId"));
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
                     boolean isSet = false;
@@ -40,10 +42,12 @@ public class StrainFileUploadController implements Controller {
                                     if (contentType == null) {
                                         dao.insertStrainAttachment(strainId, type, data, file.getContentType(), fileName);
                                         status.add("File Uploaded Successfully for strain " + strainId + " and " + type);
+                                        report = true;
                                     } else {
                                         dao.updateStrainAttachment(strainId, type, data, file.getContentType(), fileName);
                                         warning.add("File already Exists for strain " + strainId + " and " + type);
                                         status.add("File Replaced Successfully for strain " + strainId + " and "+ type);
+                                        report = true;
                                     }
                                 }
                              }
@@ -79,6 +83,8 @@ public class StrainFileUploadController implements Controller {
         request.setAttribute("warn", warning);
 
 
+        if(report)
+            return new ModelAndView("/WEB-INF/jsp/report/strain/main.html?id="+strainId);
         return new ModelAndView("/WEB-INF/jsp/curation/strainFileUpload.jsp");
     }
 
