@@ -226,18 +226,9 @@
     <tr>
         <td class="label">Model</td>
         <td>
-            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
-
+            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no" src="<%=jbUrl%>"></iframe>
         </td>
     </tr>
-    <script>
-
-        $(document).ready(function() {
-            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
-        });
-
-
-    </script>
     <% } %>
 </table>
 
