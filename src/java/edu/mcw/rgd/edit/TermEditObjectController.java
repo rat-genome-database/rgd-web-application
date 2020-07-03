@@ -341,6 +341,8 @@ public class TermEditObjectController implements Controller {
             // xref value must be non-empty
             if( Utils.isStringEmpty(xref.getXrefValue()) ) {
                 xrefTabMsg += "ERROR: can't insert an empty xref!<br>";
+            } else if( !xref.getXrefValue().contains(":") ) {
+                xrefTabMsg += "ERROR: xref must contain a colon ':' !<br>";
             } else {
                 odao.insertTermXRef(xref);
                 xrefTabMsg += "inserted xref ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
