@@ -380,6 +380,8 @@ public class TermEditObjectController implements Controller {
 
                         if( Utils.isStringEmpty(xref.getXrefValue()) ) {
                             xrefTabMsg += "ERROR: can't update xref with empty value!<br>";
+                        } else if( !xref.getXrefValue().contains(":") ) {
+                            xrefTabMsg += "ERROR: xref must contain a colon ':' !<br>";
                         } else {
                             xrefTabMsg += "updated xref NEW ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
                             xrefTabMsg += "             OLD ["+xrefInRgd.getXrefValue()+"] {"+xrefInRgd.getXrefDescription()+"}<br>";
