@@ -97,7 +97,7 @@
     </tr>
     <tr>
         <td class="label">Definition:</td>
-        <td><textarea rows="5" cols="80" name="def"><%=Utils.defaultString(term.getDefinition())%></textarea></td>
+        <td><textarea rows="5" cols="120" name="def"><%=Utils.defaultString(term.getDefinition())%></textarea></td>
     </tr>
     <% } else { // cannot edit term name for non-RDO terms %>
     <tr>
@@ -121,8 +121,7 @@
             <% } %>
             <table id="xrefTab" width="800" border="1" cellpadding="1" cellspacing="1">
                 <tr style="background-color:blue;color:white;font-size:10pt;">
-                    <th>Type</th>
-                    <th>Value</th>
+                    <th>Xref</th>
                     <th>Description</th>
                     <th>Del</th>
                 </tr>
@@ -132,10 +131,8 @@
                 %>
                 <tr style="background-color:#d3d3d3">
                     <td><input name="xref_key" type="hidden" value="<%=xref.getKey()%>">
-                        <input name="xref_type" value="<%=Utils.defaultString(xref.getXrefType())%>" size="10" style="font-size:10pt">
-                        <b>:</b>
+                        <input name="xref_value" value="<%=Utils.defaultString(xref.getXrefValue())%>" size="100"></td>
                     </td>
-                    <td><input name="xref_value" value="<%=Utils.defaultString(xref.getXrefValue())%>" size="50"></td>
                     <td><input name="xref_info" value="<%=Utils.defaultString(xref.getXrefDescription())%>" size="20"></td>
                     <td><input name="xref_del<%=itx%>" type="checkbox"></td>
                 </tr>
@@ -230,7 +227,7 @@
 
     <tr>
         <td class="label">Comments: (non-public)</td>
-        <td><textarea rows="4" cols="80" name="comment"><%=Utils.defaultString(term.getComment())%></textarea></td>
+        <td><textarea rows="4" cols="120" name="comment"><%=Utils.defaultString(term.getComment())%></textarea></td>
     </tr>
     <% } else { %>
     <a href="/rgdweb/ontology/search.html">Search Ontologies</a><p>
@@ -247,11 +244,7 @@ function addXref() {
     var row = document.createElement("TR");
     var td = document.createElement("TD");
     td.innerHTML = '<input name="xref_key" type="hidden" value="'+xkey+'">'+
-                '<input name="xref_type" size="10" style="font-size:10pt"> <b>:</b>';
-    row.appendChild(td);
-
-    td = document.createElement("TD");
-    td.innerHTML = '<input name="xref_value" size="40">';
+        '<input name="xref_value" size="100">';
     row.appendChild(td);
 
     td = document.createElement("TD");
