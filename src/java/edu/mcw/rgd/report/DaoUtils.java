@@ -219,6 +219,10 @@ public class DaoUtils {
                             .append(":")
                             .append(formattedXrefValue);
                 }
+
+                if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
+                    buf.append(" \"").append(xref.getXrefDescription()).append("\"");
+                }
             }
             xrefs = buf.toString();
         }
