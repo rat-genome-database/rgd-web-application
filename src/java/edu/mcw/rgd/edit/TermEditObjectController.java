@@ -376,8 +376,8 @@ public class TermEditObjectController implements Controller {
                     if( !xrefInRgd.equals(xref) ||
                         !Utils.stringsAreEqual(xrefInRgd.getXrefDescription(), xref.getXrefDescription()) ) {
 
-                        if( Utils.isStringEmpty(xref.getXrefType()) || Utils.isStringEmpty(xref.getXrefValue()) ) {
-                            xrefTabMsg += "ERROR: can't update xref with empty type or value!<br>";
+                        if( Utils.isStringEmpty(xref.getXrefValue()) ) {
+                            xrefTabMsg += "ERROR: can't update xref with empty value!<br>";
                         } else {
                             xrefTabMsg += "updated xref NEW ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
                             xrefTabMsg += "             OLD ["+xrefInRgd.getXrefValue()+"] {"+xrefInRgd.getXrefDescription()+"}<br>";

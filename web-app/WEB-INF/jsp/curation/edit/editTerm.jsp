@@ -121,7 +121,7 @@
             <% } %>
             <table id="xrefTab" width="800" border="1" cellpadding="1" cellspacing="1">
                 <tr style="background-color:blue;color:white;font-size:10pt;">
-                    <th>Xref</th>
+                    <th>Xref &nbsp; f.e. 'CMO:0000286' or 'https://rgd.mcw.edu'</th>
                     <th>Description</th>
                     <th>Del</th>
                 </tr>
