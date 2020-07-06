@@ -196,15 +196,15 @@ public class DaoUtils {
                     String xrefAcc = formattedXrefValue.substring(colonPos+1);
                     if( xrefType.equals("PMID") ) {
                         // hyperlinked PMID content
-                        buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xrefAcc);
+                        buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("OMIM") ) {
                         // hyperlinked OMIM content
-                        buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xrefAcc);
+                        buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("MESH") && !xrefAcc.contains(".") ) {
                         // hyperlinked MESH content
-                        buildHyperlink(buf, 47, xrefAcc);
+                        buildHyperlink(buf, 47, xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("HTTP") || xrefType.equals("HTTPS") ) {
                         // just a hyperlink
@@ -226,11 +226,11 @@ public class DaoUtils {
         return xrefs;
     }
 
-    private void buildHyperlink(StringBuilder buf, int xdbKey, String value) throws Exception {
+    private void buildHyperlink(StringBuilder buf, int xdbKey, String acc, String value) throws Exception {
 
         buf.append("<a href=\"")
             .append(XDBIndex.getInstance().getXDB(xdbKey).getUrl())
-            .append(value).append("\">")
+            .append(acc).append("\">")
             .append(value)
             .append("</a>");
     }
