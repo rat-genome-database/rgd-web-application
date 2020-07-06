@@ -87,6 +87,11 @@
             //filter = "RDO:9001567";
             filter = "DOID:409";
             break;
+        case 14:
+            title = "COVID-19 Disease";
+            //filter = "RDO:9001567";
+            filter = "DOID:0080599";
+            break;
     }
 
 
@@ -363,6 +368,11 @@
             $scope.portalLinks["DOID:409"].tools = "/wg/portals/liver-disease-portal-tools/";
             $scope.portalLinks["DOID:409"].links = "/wg/portals/liver-disease-portal-related-links/";
             $scope.portalLinks["DOID:409"].models = "/wg/portals/liver-disease-portal-rat-strain-models/";
+
+            $scope.portalLinks["DOID:0080599"] = {};
+            $scope.portalLinks["DOID:0080599"].tools = "/wg/portals/covid-19-disease-portal-tools/";
+            $scope.portalLinks["DOID:0080599"].links = "/wg/portals/covid-19-disease-portal-related-links/";
+            $scope.portalLinks["DOID:0080599"].models = "/wg/portals/covid-19-disease-portal-rat-strain-models/";
 
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
