@@ -190,20 +190,21 @@ public class DaoUtils {
                     buf.append(", ");
 
                 String formattedXrefValue = Utils.NVL(xref.getXrefValue(), xref.getXrefDescription()).replace("\\:",":").replace("\\,",",");
-                int colonPos = formattedXrefValue.indexOf(':');
+                int colonPos = xref.getXrefValue().indexOf(':');
                 if( colonPos>0 ) {
                     String xrefType = formattedXrefValue.substring(0, colonPos).toUpperCase();
+                    String xrefAcc = formattedXrefValue.substring(colonPos+1);
                     if( xrefType.equals("PMID") ) {
                         // hyperlinked PMID content
-                        buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, formattedXrefValue);
+                        buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xrefAcc);
                     }
                     else if( xrefType.equals("OMIM") ) {
                         // hyperlinked OMIM content
-                        buildHyperlink(buf, XdbId.XDB_KEY_OMIM, formattedXrefValue);
+                        buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xrefAcc);
                     }
-                    else if( xrefType.equals("MESH") && !formattedXrefValue.contains(".") ) {
+                    else if( xrefType.equals("MESH") && !xrefAcc.contains(".") ) {
                         // hyperlinked MESH content
-                        buildHyperlink(buf, 47, formattedXrefValue);
+                        buildHyperlink(buf, 47, xrefAcc);
                     }
                     else if( xrefType.equals("HTTP") || xrefType.equals("HTTPS") ) {
                         // just a hyperlink
