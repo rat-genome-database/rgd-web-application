@@ -56,7 +56,7 @@
     <input type="file" id="Supplemental" name="Supplemental"  />
     <br><br>
 
-    <a href="/rgdweb/report/strain/main.html?id=<%=strainId%>" >Strain Report</a>
+    <a href="/rgdweb/report/strain/main.html?id=<%=strainId%>" >Strain Report</a><br><br>
 <% } %>
             <input type="submit" value="Upload" />
 

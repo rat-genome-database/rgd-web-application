@@ -77,9 +77,9 @@
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
     <select id="status" name="status" >
+        <option  value="pending">Pending</option>
         <option value="loaded">Loaded</option>
         <option  value="not4Curation">Not For Curation</option>
-        <option  value="pending">Pending</option>
     </select>
 <br><br>
 
