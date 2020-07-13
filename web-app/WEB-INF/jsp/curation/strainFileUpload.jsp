@@ -38,6 +38,7 @@
      <a href="javascript:lookup_render('rgdId1')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a>
 <br><br>
     <% if(request.getParameter("strainId") != null) {
+        String strainId = request.getParameter("strainId");
     %>
     <span style="font-weight: bold; "><u>EXISTING FILES</u></span> <br><br>
     <span style="color: green; font-weight: bold;"> Genotype File: </span> <%=request.getAttribute("genotypeFile")%> <br><br>
@@ -54,10 +55,14 @@
     <label for="Supplemental" style="color: #24609c; font-weight: bold;">Supplemental: </label>
     <input type="file" id="Supplemental" name="Supplemental"  />
     <br><br>
+
+    <a href="/rgdweb/report/strain/main.html?id=<%=strainId%>" >Strain Report</a><br><br>
 <% } %>
             <input type="submit" value="Upload" />
 
 </form>
+
 </div>
+
 </body>
 </html>
