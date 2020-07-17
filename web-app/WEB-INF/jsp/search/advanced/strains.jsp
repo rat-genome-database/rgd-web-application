@@ -145,6 +145,11 @@
 
 <table width="80%">
     <tr>
+        <td><div class="geneSearchToolTitle"><a href="/rgdweb/models/findModels.html">Find models</a> &nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span> </div></td>
+        <td>&nbsp;</td>
+        <td>Find models by disease or phenotype</td>
+    </tr>
+    <tr>
         <td><div class="geneSearchToolTitle">Region Search</div></td>
         <td>&nbsp;</td>
         <td>Search for genes in a genomic region</td>
