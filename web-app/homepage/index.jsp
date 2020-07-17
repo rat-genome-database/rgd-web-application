@@ -144,9 +144,10 @@
         margin-left: auto;
     }
 </style>
-
-
-
+<!--
+<table align=center ><tr><td style="color:red;"> NOTICE: Ratmine will be unavailable for maintenance June 19th</td></tr></table>
+<br><br>
+-->
 <table align="center">
     <tr>
         <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
