@@ -45,6 +45,7 @@
 
 
 </form>
+    <a href="/rgdweb/models/findModels.html" style="font-weight: bold">Find Models by Disease or Phenotype </a>&nbsp;&nbsp;&nbsp;<span style="color:red;font-weight: bold">new</span> <br><br>
     <a href="/strains/">Switch to classic strain search</a><br>
     <!--a href="/wg/searchHelp">View all search features</a-->
     
