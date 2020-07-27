@@ -153,12 +153,12 @@
         location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
     }
 </script>
-<table style="border:2px; background-color:#FFCECC; solid: #990600;margin-bottom:10px;cursor:pointer;" align="center" width="80%" onClick="covidPortal();">
+<table style="border:2px; background-color:#f9dede; solid: #8A0000;margin-bottom:10px;cursor:pointer;" align="center" width="80%" onClick="covidPortal();">
     <tr>
     <td style="padding:8px;">
         <table align="center">
             <td><img height="20" width="20" src="/rgdweb/common/images/alert.png"/></td>
-            <td style="font-size:20px;color:#990600; ">&nbsp;RGD COVID-19 Resources</td>
+            <td style="font-size:20px;color:#8A0000; ">&nbsp;RGD COVID-19 Resources</td>
         </table>
     </td>
     </tr>
