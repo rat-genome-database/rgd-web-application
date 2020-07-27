@@ -7,6 +7,9 @@
             <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
+            <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/chinchilla/'">
+                <img style="cursor:pointer;" src="https://rgd.mcw.edu/common/images/ChinchillaBanner.png" border="0"/>
+            </div>
             <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/squirrel/'">
                     <img style="cursor:pointer;" src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
             </div>
