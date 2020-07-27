@@ -1,6 +1,6 @@
 
 <div style="width:270px; border:1px solid black;">
-    <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="5000">
+    <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="7000">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>ß
             <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
