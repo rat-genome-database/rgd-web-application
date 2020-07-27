@@ -6,7 +6,7 @@
                                 <h5 class="card-title">RGD News</h5>
                         </div>
 
-                        <p><a href="https://rgd.mcw.edu/wg/news/07-24-updated-chinchilla-resource-page/">07/24 – *Updated* Chinchilla Resource Page</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/07-24-updated-chinchilla-resource-page/">07/24 - *Updated* Chinchilla Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-10-introducing-squirrel-resource-page/">07/10 - Introducing Squirrel Resource Page</a></p>
                         <p><a href="/wg/news/remembering-dr-mary-shimoyama/">02/28 - Remembering Dr. Mary Shimoyama</a></p>
                         <p><a href="/wg/news/12-03-rgds-2020-year-of-the-rat-calendar-is-now-available/">01/31 - RGD's 2020 Year of the Rat Calendar is still available</a></p>
