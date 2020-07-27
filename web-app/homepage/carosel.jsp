@@ -1,13 +1,16 @@
 
 <div style="width:270px; border:1px solid black;">
-    <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="10000">
+    <div id="carouselExampleCaptions" class="carousel lide" data-ride="carousel" data-interval="7000">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>ß
             <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
             <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/squirrel/'">
+            <div class="carousel-item active" onclick="location.href='https://rgd.mcw.edu/wg/species/chinchilla/'">
+                <img style="cursor:pointer;" src="https://rgd.mcw.edu/rgdweb/common/images/ChinchillaBanner.png" border="0"/>
+            </div>
+            <div class="carousel-item " onclick="location.href='https://rgd.mcw.edu/wg/species/squirrel/'">
                     <img style="cursor:pointer;" src="https://rgd.mcw.edu/common/images/Squirrel_page_pic.png" border="0"/>
             </div>
             <!--
