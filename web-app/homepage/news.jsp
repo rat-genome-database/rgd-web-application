@@ -6,6 +6,8 @@
                                 <h5 class="card-title">RGD News</h5>
                         </div>
 
+                        <p><a href="https://rgd.mcw.edu/wg/news/07-31-introducing-dog-resource-page/">07/31 – Introducing Dog Resource Page</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/07-29-rgd-releases-covid-19-resources-and-disease-portal-pages/">07/29 – RGD Releases COVID-19 Resources and Disease Portal Pages</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-24-updated-chinchilla-resource-page/">07/24 - *Updated* Chinchilla Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-10-introducing-squirrel-resource-page/">07/10 - Introducing Squirrel Resource Page</a></p>
                         <p><a href="/wg/news/remembering-dr-mary-shimoyama/">02/28 - Remembering Dr. Mary Shimoyama</a></p>

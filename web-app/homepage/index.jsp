@@ -206,7 +206,6 @@
                 <div style="margin:3px; font-weight:700;">Chinchilla</div>
             </div>
             <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
-<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/dog'">
                 <div style="margin:5px; font-weight:700;">Domestic Dog</div>
@@ -214,7 +213,6 @@
             <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/>
 
         </td>
--->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'">
                 <div style="margin:5px; font-weight:700;font-size:11px;">Thirteen Lined Ground Squirrel</div>
