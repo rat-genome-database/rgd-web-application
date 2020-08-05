@@ -16,7 +16,7 @@ String pageDescription = "Build lists based on RGD annotation";
 
 
 
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.12.4.min.js"></script>
 <script>
     var jq14 = jQuery.noConflict(true);
 </script>

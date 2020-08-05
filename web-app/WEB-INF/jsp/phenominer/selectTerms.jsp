@@ -85,7 +85,7 @@
 <% } %>
 
 
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.12.4.min.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 
 <script>
