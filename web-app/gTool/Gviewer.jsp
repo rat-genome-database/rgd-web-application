@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
 
 <script src="/common/js/sorttable.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.12.4.min.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 
 
