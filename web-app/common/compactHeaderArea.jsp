@@ -35,7 +35,7 @@
     <link href="/rgdweb/common/rgd_styles-3.css" rel="stylesheet" type="text/css" />
 
     <!-- adding link for OntoSolr (Pushkala) -->
-    <link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+    <link rel="stylesheet" href="/QueryBuilder/css/jquery.autocomplete.css" type="text/css" />
 
 
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>

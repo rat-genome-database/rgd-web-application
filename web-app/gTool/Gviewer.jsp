@@ -36,8 +36,8 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
 
 <script src="/common/js/sorttable.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.12.4.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
+<script type="text/javascript"  src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"  src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
 
 <!--#F0F6FF    #E3EEFF -->
