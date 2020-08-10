@@ -15,8 +15,8 @@
 %>
 
 <%@ include file="editHeader.jsp" %>
-<script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script>
-<script type="text/javascript" src="/OntoSolr/files/ont_util.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.jss"></script>
+<script type="text/javascript" src="/QueryBuilder/js/ont_util.js"></script>
 
 <%
     OntologyXDAO ontDao = new OntologyXDAO();
