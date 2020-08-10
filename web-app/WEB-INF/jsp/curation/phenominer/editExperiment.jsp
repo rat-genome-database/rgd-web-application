@@ -58,9 +58,9 @@ if (idList.size() > 0) {
 
 %>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
-<script type="text/javascript" src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script>
-<script type="text/javascript" src="/OntoSolr/files/ont_util.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/ont_util.js"></script>
 
 <script>
 $(document).ready(function(){

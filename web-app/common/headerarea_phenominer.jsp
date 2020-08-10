@@ -23,8 +23,7 @@
 <link rel="stylesheet" type="text/css" href="/common/modalDialog/style.css" />
 <link href="/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" />
 
-    <!-- adding link for OntoSolr (Pushkala) -->
-<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="/QueryBuilder/css/jquery.autocomplete.css" type="text/css" />
 
 <!-- CSS for Tab Menu #4 -->
 <link rel="stylesheet" type="text/css" href="/common/style/ddcolortabs.css" />
@@ -32,8 +31,8 @@
 <script type="text/javascript" src="/common/modalDialog/common.js"></script>
 <script type="text/javascript" src="/common/modalDialog/subModal.js"></script>
 <script type="text/javascript" src="/common/js/poll.js"></script>
-    <script src="/rgdweb/js/jquery/jquery-1.7.1.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
+    <script src="/QueryBuilder/js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script>
 
 

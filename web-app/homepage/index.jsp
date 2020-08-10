@@ -148,8 +148,26 @@
 <table align=center ><tr><td style="color:red;"> NOTICE: Ratmine will be unavailable for maintenance June 19th</td></tr></table>
 <br><br>
 -->
+<script>
+    function covidPortal() {
+        location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
+    }
+</script>
+<table style="border:2px; background-color:#f9dede; solid: #8A0000;margin-bottom:10px;cursor:pointer;" align="center" width="80%" onClick="covidPortal();">
+    <tr>
+    <td style="padding:8px;">
+        <table align="center">
+            <td><img height="20" width="20" src="/rgdweb/common/images/alert.png"/></td>
+            <td style="font-size:20px;color:#8A0000; ">&nbsp;RGD COVID-19 Resources</td>
+        </table>
+    </td>
+    </tr>
+    </table>
+
+
 <table align="center">
     <tr>
+
         <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
         <td>
             <a style="font-size:26px;padding-right:40px;" href="https://pipelines.rgd.mcw.edu/rgdweb/curation/home.html">Enter Curation Portal</a>
@@ -188,7 +206,6 @@
                 <div style="margin:3px; font-weight:700;">Chinchilla</div>
             </div>
             <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
-<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/dog'">
                 <div style="margin:5px; font-weight:700;">Domestic Dog</div>
@@ -196,7 +213,6 @@
             <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/>
 
         </td>
--->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/squirrel'">
                 <div style="margin:5px; font-weight:700;font-size:11px;">Thirteen Lined Ground Squirrel</div>

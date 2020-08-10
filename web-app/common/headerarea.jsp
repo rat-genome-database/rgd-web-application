@@ -29,8 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
     <link href="/rgdweb/common/rgd_styles-3.css" rel="stylesheet" type="text/css" />
 
-    <!-- adding link for OntoSolr (Pushkala) -->
-    <link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+    <link rel="stylesheet" href="/QueryBuilder/css/jquery.autocomplete.css" type="text/css" />
 
 
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
@@ -229,6 +228,7 @@
                                         <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
                                         <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
+                                        <a href="/rgdweb/portal/home.jsp?p=14">COVID-19</a>
                                         <a href="/rgdweb/portal/home.jsp?p=12">Developmental Disease</a>
                                         <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
                                         <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
