@@ -16,7 +16,7 @@ String pageDescription = "Build lists based on RGD annotation";
 
 
 
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
 <script>
     var jq14 = jQuery.noConflict(true);
 </script>
@@ -26,9 +26,9 @@ String pageDescription = "Build lists based on RGD annotation";
 <script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
 
 
-<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
-<link rel="stylesheet" href="/rgdweb/generator/generator.css" type="text/css" />
+<!--link rel="stylesheet" href="/rgdweb/generator/generator.css" type="text/css" /-->
 <script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
 
 
