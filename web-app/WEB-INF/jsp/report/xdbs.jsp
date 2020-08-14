@@ -6,8 +6,8 @@
     if (ei.size() > 0) {
 %>
 
-<%=ui.dynOpen("xdbAssociation", "External Database Links")%>
-
+<%//ui.dynOpen("xdbAssociation", "External Database Links")%>
+<div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
 <table border="0" >
     <tr>
         <td style="background-color:#a2a2a2;"><b>Database</b></td>

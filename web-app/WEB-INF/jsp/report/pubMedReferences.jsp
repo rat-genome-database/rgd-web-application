@@ -22,25 +22,27 @@
     if (ei.size() > 0) {
 %>
 
-<%=ui.dynOpen("otherPubmed", "References - uncurated")%>
+<%//ui.dynOpen("otherPubmed", "References - uncurated")%>
 
-<table border="0" >
-<tr>
-    <td style="background-color:#e2e2e2; vertical-align:top"><b>PubMed</b></td>
-    <td style="background-color:#e2e2e2;">
-<%
-    String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
-    for (XdbId xid: ei) {
-        String link=xid.getLinkText()==null ? xid.getAccId() : xid.getLinkText();
+<div class="sectionHeading" id="pubMedReferences">PubMed References</div>
+    <table border="0" >
+    <tr>
+        <td style="background-color:#e2e2e2; vertical-align:top"><b>PubMed</b></td>
+        <td style="background-color:#e2e2e2;">
+    <%
+        String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
+        for (XdbId xid: ei) {
+            String link=xid.getLinkText()==null ? xid.getAccId() : xid.getLinkText();
 
-%>
-    <a href="<%=pubmedLink%><%=xid.getAccId()%>"><%=link%></a> &nbsp;
-<% } %>
-    </td>
-</tr>
-</table>
+    %>
+        <a href="<%=pubmedLink%><%=xid.getAccId()%>"><%=link%></a> &nbsp;
+    <% } %>
+        </td>
+    </tr>
+    </table>
+
 <br>
-<%=ui.dynClose("otherPubmed")%>
+<%//ui.dynClose("otherPubmed")%>
 
 <% } %>
 <%@ include file="sectionFooter.jsp"%>

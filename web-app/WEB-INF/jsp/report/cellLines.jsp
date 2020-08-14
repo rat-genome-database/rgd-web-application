@@ -15,8 +15,7 @@
         });
 %>
 <%@ include file="sectionHeader.jsp"%>
-<%=ui.dynOpen("cellLineAssociations", "Cell Lines")%>
-
+<div class="sectionHeading" id="cellLines">Cell Lines</div>
 <table cellpadding="3" cellspacing="1" border="1">
   <tr class="headerRow">
     <td><b>Symbol</b></td>
@@ -28,6 +27,5 @@
 <% } %>
 </table>
  <p>
-<%=ui.dynClose("cellLineAssociations")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

@@ -5,7 +5,8 @@
     List<GenomicElement> pdomains = geDAO.getProteinDomainsForGene(obj.getRgdId());
     if( pei.size()+pdomains.size()>0 ) {
 %>
-    <%=ui.dynOpen("protAssociation", "Protein Sequences")%>
+    <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
+    <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
     <table border="0" >
 <%
     int row = 0;
@@ -132,7 +133,7 @@
   <% } %>
 <% } %><p>
 
-    <%=ui.dynClose("protAssociation")%>
+    <%//ui.dynClose("protAssociation")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

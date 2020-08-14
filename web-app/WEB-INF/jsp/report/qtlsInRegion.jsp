@@ -17,9 +17,8 @@
 
 %>
 
-
-<%=ui.dynOpen("qtlAsscociation", qtlAssotitle)%>    <br>
-
+<br>
+<div class="sectionHeading" id="qtlAssociation"><%=qtlAssotitle%></div>
 <table>
     <tr>
         <td>The following <b>QTLs</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -56,7 +55,7 @@
                     }
                 %>
 <br>
-<%=ui.dynClose("qtlAsscociation")%>
+
 
 <% } %>
 

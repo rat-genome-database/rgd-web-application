@@ -43,8 +43,8 @@
     if( confirmedCount+predictedCount > 0 ) {
 %>
 <%@ include file="sectionHeader.jsp"%>
-<%=ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
-
+<%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
+<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status</div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
@@ -156,6 +156,6 @@
     </tr>
     </table>
 <% } %>
-<%=ui.dynClose("miRnaTargets")%>
+<%//ui.dynClose("miRnaTargets")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

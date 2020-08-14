@@ -35,10 +35,11 @@
     List<Annotation> filteredList = af.filterList(annotList, "D");
     if (filteredList.size() > 0) {
 %>
-<%=ui.dynOpen("diseaseAsscociation", "Disease Annotations")%>
- <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
+<%//ui.dynOpen("diseaseAsscociation", "Disease Annotations")%>
+<div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
+<%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
 <br>
-<%=ui.dynClose("diseaseAsscociation")%>
+<%//ui.dynClose("diseaseAsscociation")%>
 <% } %>
 
 
@@ -46,9 +47,10 @@
     filteredList = af.filterList(annotList, "E");
     if (filteredList.size() > 0) {
 %>
-<%=ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
-    <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
-<%=ui.dynClose("chemiAssociation")%>
+<%//ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
+<div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
+<%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
+<%//ui.dynClose("chemiAssociation")%>
 <% } %>
 
 
@@ -59,23 +61,23 @@
     if ((bpList.size() + ccList.size() + mfList.size()) > 0 ) {
 %>
 
-<%=ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>    
-
+<%//ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>
+<div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
 <% if (bpList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
-       <%=af.createGridFormatAnnotations(bpList, obj.getRgdId(),2)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+<%=af.createGridFormatAnnotations(bpList, obj.getRgdId(),2)%>
 <% } %>
 <% if (ccList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
-       <%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
+<%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
 <% } %>
 <% if (mfList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
-       <%=af.createGridFormatAnnotations(mfList, obj.getRgdId(),3)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+<%=af.createGridFormatAnnotations(mfList, obj.getRgdId(),3)%>
 <% } %>
 
 <br>
-<%=ui.dynClose("goAsscociation")%>
+<%//ui.dynClose("goAsscociation")%>
 <% } %>
 
 
@@ -86,14 +88,15 @@
     filteredList = af.filterList(annotList, "W");
     if(!filteredList.isEmpty() || xdbKeggPathways.size()>0) {
 %>
-<%=ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
-      <% if( !filteredList.isEmpty() ) { %>
-      <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),2)%><br>
-      <% }
-      if( xdbKeggPathways.size()>0 ) { %>
-      <%@ include file="xdbs_pathways.jsp"%>
-      <% } %>
-<%=ui.dynClose("pathwayAssociation")%>
+<%//ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
+<div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
+<% if( !filteredList.isEmpty() ) { %>
+<%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),2)%><br>
+<% }
+    if( xdbKeggPathways.size()>0 ) { %>
+<%@ include file="xdbs_pathways.jsp"%>
+<% } %>
+<%//ui.dynClose("pathwayAssociation")%>
 <% } %>
 
 
@@ -102,17 +105,18 @@
     List<Annotation> hpList = af.filterList(annotList,"H");
     if (mpList.size()+hpList.size() > 0) {
 %>
-<%=ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
+<%//ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
+<div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations</div>
 <% if (mpList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
-       <%=af.createGridFormatAnnotations(mpList, obj.getRgdId(),3)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+<%=af.createGridFormatAnnotations(mpList, obj.getRgdId(),3)%>
 <% } %>
 <% if (hpList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
-       <%=af.createGridFormatAnnotations(hpList, obj.getRgdId(),3)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+<%=af.createGridFormatAnnotations(hpList, obj.getRgdId(),3)%>
 <% } %>
 
-<%=ui.dynClose("phenoAssociation")%>
+<%//ui.dynClose("phenoAssociation")%>
 <% } %>
 
 
@@ -131,39 +135,39 @@
             ((isReferenceRgd==1) && (rgdid>0)) || hasPhenoMinerAnn) {
 %>
 
-<%=ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
-
-    <%
+<%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
+<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations</div>
+<%
     if(hasPhenoMinerAnn){
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
-    %>
-        <table>
-        <tr>
-            <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
-            <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
-        </tr>
-        <br />
-        </table>
+%>
+<table>
+    <tr>
+        <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+    </tr>
+    <br />
+</table>
 <%  }else if(isReferenceRgd==0){
-        if (clList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
-       <%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
+    if (clList.size() > 0) { %>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
+<%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
 <% } %>
 <% if (cmoList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
-       <%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
+<%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
 <% } %>
 <% if (xcoList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
-       <%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
+<%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
 <% } %>
 <% if (mmoList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
-       <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
+<%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
 <% } %>
 <% if (rsList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
-       <%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
+<%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
 <% } %>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
@@ -172,14 +176,14 @@
        <%=af.createGeoAnnotationsTable(maList, rsList)%>
 <% } --%>
 <% if (vtList.size() > 0) { %>
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
-       <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
-    <% }
-    }
-    %>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
+<%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
+<% }
+}
+%>
 
 <br>
-<%=ui.dynClose("expAssociation")%>
+<%//ui.dynClose("expAssociation")%>
 <% } %>
 
 

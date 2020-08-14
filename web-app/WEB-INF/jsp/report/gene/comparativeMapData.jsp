@@ -21,7 +21,8 @@
 */
     if (compareHomologs.size() > 0) {
 %>
-<%=ui.dynOpen("mapAssociation", "Comparative Map Data")%>
+<%//ui.dynOpen("mapAssociation", "Comparative Map Data")%>
+<div class="sectionHeading" id="comparativeMapData">Comparative Map Data</div>
 <%
     compareHomologs.add(0,obj);
     List<Map> primaryAssemblies = mapDAO.getPrimaryRefAssemblies();
@@ -45,7 +46,7 @@ for (Object thisObject: compareHomologs) {
 
 </table>
 </br>
-<%=ui.dynClose("mapAssociation")%>
+<%//ui.dynClose("mapAssociation")%>
 
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

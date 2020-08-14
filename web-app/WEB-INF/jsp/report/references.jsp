@@ -12,7 +12,8 @@
 %>
 
 
-<%=ui.dynOpen("refAssociation", "References - curated")%>    <br>
+<%//ui.dynOpen("refAssociation", "References - curated")%>    <br>
+<div class="sectionHeading" id="referencesCurated">References - curated</div>
 
     <table>
     <%
@@ -27,7 +28,7 @@
         }
     %>
     </table>
-    <%=ui.dynClose("refAssociation")%>
+    <%//ui.dynClose("refAssociation")%>
 
 <% } %>
 <%@ include file="sectionFooter.jsp"%>
