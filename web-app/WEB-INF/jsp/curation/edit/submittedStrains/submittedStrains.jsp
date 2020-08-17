@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script src="/rgdweb/jquery/jquery-1.7.1.min.js"></script>
+<script src="/rgdweb/jquery/jquery-1.12.4.min.js"></script>
 <script src="/rgdweb/js/lookup.js"></script>
 <script src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
 
