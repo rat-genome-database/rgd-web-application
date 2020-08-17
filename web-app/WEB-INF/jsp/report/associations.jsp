@@ -30,30 +30,38 @@
     });
 %>
 
-
+<div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
+<div class="reportTable">
 <%
     List<Annotation> filteredList = af.filterList(annotList, "D");
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("diseaseAsscociation", "Disease Annotations")%>
-<div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
+
+
 <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
 <br>
 <%//ui.dynClose("diseaseAsscociation")%>
 <% } %>
+</div>
 
 
+<div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
+<div class="reportTable">
 <%
     filteredList = af.filterList(annotList, "E");
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
-<div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
+
 <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
 <%//ui.dynClose("chemiAssociation")%>
 <% } %>
+</div>
 
 
+
+<div class="reportTable">
 <%
     List<Annotation> bpList = af.filterList(annotList,"P");
     List<Annotation> ccList = af.filterList(annotList,"C");
@@ -62,7 +70,7 @@
 %>
 
 <%//ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>
-<div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
+    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
 <% if (bpList.size() > 0) { %>
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
 <%=af.createGridFormatAnnotations(bpList, obj.getRgdId(),2)%>
@@ -79,8 +87,10 @@
 <br>
 <%//ui.dynClose("goAsscociation")%>
 <% } %>
+</div>
 
 
+<div class="reportTable">
 
 <%
     List<XdbId> xdbKeggPathways = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_KEGGPATHWAY, obj.getRgdId());
@@ -89,7 +99,7 @@
     if(!filteredList.isEmpty() || xdbKeggPathways.size()>0) {
 %>
 <%//ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
-<div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
+    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
 <% if( !filteredList.isEmpty() ) { %>
 <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),2)%><br>
 <% }
@@ -98,7 +108,7 @@
 <% } %>
 <%//ui.dynClose("pathwayAssociation")%>
 <% } %>
-
+</div>
 
 <%
     List<Annotation> mpList = af.filterList(annotList,"N");

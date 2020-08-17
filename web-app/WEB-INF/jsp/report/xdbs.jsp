@@ -57,7 +57,7 @@
 %>
 </table>
 <br>
-<%=ui.dynClose("xdbAssociation")%>
+<%//ui.dynClose("xdbAssociation")%>
 <%
     }
 %>

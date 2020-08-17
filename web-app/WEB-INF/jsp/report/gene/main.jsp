@@ -117,13 +117,19 @@
 
     /* The side navigation menu */
     #reportMainSidebar {
-        margin-bottom: 0px;
-        padding: 0;
         width: 200px;
         background-color: #f1f1f1;
         position: fixed;
-        height: auto;
-        overflow: auto;
+        height: 58vh;
+        overflow-y: auto;
+        margin-bottom: 0px;
+        padding-bottom: 2.5rem;
+        overflow-x: hidden;
+    }
+
+    #left-side-wrap{
+        width: 200px;
+        float: left;
     }
 
     #reportMainSidebar ul {
@@ -147,14 +153,20 @@
     }
 
     li a{
-        font-size: 13pt;
+        font-size: 10pt;
         font-family:Arial,Helvetica,sans-serif;
+        line-height: 90%;
+        padding-top: 1px;
+    }
 
-
-    ;
+    .sub-nav-item > a{
+        font-size: 8pt;
+        margin-left: 15px;
     }
 
 </style>
+
+
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/rgd-s-gene-report-pages-tutorial";
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
@@ -162,56 +174,47 @@
 %>
 
 
+<div id="left-side-wrap">
+    <div id="species-image">
+     <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+    </div>
 <nav id="reportMainSidebar" class="navbar">
     <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link active" href="#top">Summary</a></li>
         <li class="nav-item"><a class="nav-link" href="#annotation">Annotation</a></li>
-        <%--        <li class="nav-item"><a class="nav-links" href="#diseaseAnnotations">Disease Annotations</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#geneChemicalInteraction">Gene-Chemical Interaction Annotations</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#geneOntologyAnnotations">Gene Ontology Annotations</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#molecularPathwayAnnotations">Molecular Pathway Annotations</a></li>--%>
-        <!--Needed?-->
-        <%--        <li class="nav-item"><a class="nav-link" href="#phenotypeAnnotations">Phenotype Annotations</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#experimentalDataAnnotations">Experimental Data Annotations</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#cellLines"> Cell Lines</a></li>--%>
-        <!--Needed?-->
-        <!-- Add references here-->
-
-        <%--        <li class="nav-item"><a class="nav-link" href="#pubMedReferences">PubMed References</a></li>--%>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#diseaseAnnotations">Disease Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneChemicalInteraction">Gene-Chemical Interaction Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneOntologyAnnotations">Gene Ontology Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#molecularPathwayAnnotations">Molecular Pathway Annotations</a></li>
+        <li class="nav-item"><a class="nav-link" href="#references">References</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#referencesCurated"> References Curated</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#pubMedReferences">PubMed References</a></li>
         <li class="nav-item"><a class="nav-link" href="#genomics">Genomics</a></li>
-        <%--        <li class="nav-item"><a class="nav-link" href="#candidateGeneStatus"> Candidate Gene Status</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#comparativeMapData">Comparative Map Data</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#positionMarkers">Position Markers</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#qtlAssociation"> QTL Association</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#miRnaTargetStatus"> miRNA Target Status</a></li>--%>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#candidateGeneStatus"> Candidate Gene Status</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#comparativeMapData">Comparative Map Data</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#positionMarkers">Position Markers</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#qtlAssociation"> QTL Association</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#miRnaTargetStatus"> miRNA Target Status</a></li>
         <li class="nav-item"><a class="nav-link" href="#expression">Expression</a></li>
-        <%--        <li class="nav-item"><a class="nav-link" href="#rnaSeqExpression"> RNA-SEQ Expression</a></li>--%>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rnaSeqExpression"> RNA-SEQ Expression</a></li>
         <li class="nav-item"><a class="nav-link" href="#sequence">Sequence</a></li>
-        <%--        <li class="nav-item"><a class="nav-link" href="#nucleotideSequences"> Nucleotide Sequences</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#proteinSequences"> Protein Sequences</a></li>--%>
-        <%--        <li class="nav-item"><a class="nav-link" href="#transcriptome"> Transcriptome</a></li>--%>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nucleotideSequences"> Nucleotide Sequences</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#proteinSequences"> Protein Sequences</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#transcriptome"> Transcriptome</a></li>
 
         <li class="nav-item"><a class="nav-link" href="#strainVariation">Strain Variation</a></li>
-        <%--        <li class="nav-item"><a class="nav-link" href="#strainSequenceVariants">Strain Sequence Variants</a></li>--%>
-        <!--damaging variants goes here-->
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#strainSequenceVariants">Strain Sequence Variants</a></li>
+
         <li class="nav-item"><a class="nav-link" href="#additionalInformation">Additional Information</a></li>
-        <!--External Database links goes here-->
-        <!--Nomenclature history goes here-->
-        <!--RGD curation notes goes here-->
-
-
-
-
-
-<%--        <li class="nav-item"><a class="nav-link" href="#geneticModels"> Genetic Models</a></li>--%>
-
-
-
-
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#externalDatabaseLinks">External Database Links</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nomenclatureHistory">Nomenclature History</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rgdCurationNotes">Rgd Curation Notes</a></li>
 
 
     </ul>
 </nav>
+</div>
+
 
 <div id="top"></div>
 <div id="page-container">
@@ -278,6 +281,7 @@
                         <%@ include file="../associations.jsp"%>
                     </div>
 
+                    <div class = "subheadings" id="references">References</div>
                     <%@ include file="../references.jsp"%>
                     <%@ include file="../pubMedReferences.jsp"%>
                     <!--above genomics table--->
@@ -346,13 +350,13 @@
     </table>
     </table>
     </div>
+</div>
 
     <footer id="footer">
         <%@ include file="../reportFooter.jsp"%>
         <%@ include file="/common/footerarea.jsp"%>
 
 </body>
-</div>
 
 
 
