@@ -98,7 +98,7 @@
 <script>
     $(document).ready(function(){
 
-    //    $.get("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>", {}, function(data){
+       $.get("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>", {}, function(data){
             //$("#extra").html(data);
             //alert("x:"+data);
           //  console.log(data);
@@ -124,7 +124,7 @@
                     'termSeparator': ' OR '
                 }
             );
-      //  }) ;
+       }) ;
 
         $('#termSearch').focus(function()
         {
