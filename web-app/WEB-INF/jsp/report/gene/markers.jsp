@@ -4,8 +4,8 @@
     if (sslps.size() > 0 ) {
 %>
 
-<%=ui.dynOpen("markerAssociation", "Position Markers")%>
-
+<%//ui.dynOpen("markerAssociation", "Position Markers")%>
+<div class="sectionHeading" id="positionMarkers">Position Markers</div>
 <table border="0">
 <% for (SSLP ss: sslps) { %>
     <tr >
@@ -17,7 +17,7 @@
 </table>
 <br>
 
-<%=ui.dynClose("markerAssociation")%>
+<%//ui.dynClose("markerAssociation")%>
 
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

@@ -25,7 +25,9 @@
     Map m = new Map();
     if(assemblies.size() != 0) { %>
     <%=ui.dynOpen("damagingVar", "Damaging Variants") %>
-    <br> <%
+
+    <br>
+<%
     for(String a: assemblies){
         List<Variant> assembly = vdao.getDamagingVariantsForGeneByAssembly(obj.getRgdId(),a);
         m = MapManager.getInstance().getMap(Integer.valueOf(a));

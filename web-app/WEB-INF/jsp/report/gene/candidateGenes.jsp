@@ -4,8 +4,8 @@
 List<QTL> qtls = associationDAO.getQtlAssociationsByGene(obj.getKey());
 if( !qtls.isEmpty() ) {
 %>
+<div class="sectionHeading" id="candidateGeneStatus">Candidate Gene Status</div>
 
-<%=ui.dynOpen("candAsscociation", "Candidate Gene Status")%>    <br>
 <table>
 <%
     for (QTL q : qtls) {
@@ -19,7 +19,6 @@ if( !qtls.isEmpty() ) {
     <% } %>
 </table>
 <br>
-    <%=ui.dynClose("candAsscociation")%>
 
 <% } %>    
 

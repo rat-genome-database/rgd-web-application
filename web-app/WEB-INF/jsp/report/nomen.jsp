@@ -3,8 +3,8 @@
     List<NomenclatureEvent> events = nomenclatureDAO.getNomenclatureEvents(obj.getRgdId());
     if (events.size() > 0) {
 %>
-<%=ui.dynOpen("nomenAssociation", "Nomenclature History")%><br>
-
+<%//ui.dynOpen("nomenAssociation", "Nomenclature History")%><br>
+<div class="sectionHeading" id="nomenclatureHistory">Nomenclature History</div>
 <table border="1" cellspacing="0" width="95%">
     <tr>
         <th>Date</th>
@@ -34,7 +34,7 @@
 </table>
 
 <br>
-<%=ui.dynClose("nomenAssociation")%>
+<%//ui.dynClose("nomenAssociation")%>
 
 <% } %>
 

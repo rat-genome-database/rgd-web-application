@@ -24,11 +24,12 @@
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 %>
-<br><div class="subTitle">Strain Variation</div><br>
+<br><div class="subTitle" id="strainVariation">Strain Variation</div><br>
 
 <%@ include file="sectionHeader.jsp"%>
 
-<%=ui.dynOpen("varAssociation", "Strain Sequence Variants (Rnor 6.0)")%>
+
+<div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (Rnor 6.0)</div>
 <table border=0  width="100%" >
 <%
     for (Sample samp: samples) {
@@ -110,7 +111,7 @@
     <% } %>
 </table>
 
-<%=ui.dynClose("varAssociation")%>
+
 
 <%@ include file="sectionFooter.jsp"%>
 

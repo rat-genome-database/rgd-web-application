@@ -1,7 +1,7 @@
 <%@ include file="sectionHeader.jsp"%>
 
-<%=ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
-
+<%//ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
+<div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
 <table border="0" >
 <%
     List<XdbId> nei = DaoUtils.getInstance().getNucleotideSequences(obj.getRgdId(), obj.getSpeciesTypeKey());
@@ -47,6 +47,6 @@
 <%@ include file="gene/transcripts.jsp"%>
 <% } %>
 
-<%=ui.dynClose("nucAssociation")%>
+<%//ui.dynClose("nucAssociation")%>
 
 <%@ include file="sectionFooter.jsp"%>
