@@ -50,6 +50,8 @@
             String OntPrefix = ontologyAbr[0];
             if(OntPrefix.equals("DOID"))
                 OntPrefix = "RDO";
+            else if(OntPrefix.equals("BP") || OntPrefix.equals("CC") || OntPrefix.equals("P"))
+                OntPrefix = "GO";
             String ontology = "ONTOLOGY REPORT", source = null;
             OntologyXDAO dao = new OntologyXDAO();
             Ontology onto = dao.getOntology(OntPrefix);
@@ -67,9 +69,8 @@
         <tr>
             <td>
                 <%if(source != null){
-                    out.print(source);%>
-
-                <%}%>
+                    out.print(source);
+                }%>
             </td>
         </tr>
     </table>

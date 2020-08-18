@@ -228,21 +228,33 @@
                             <% } %>
                          </td>
                      </tr>
+
                  </table>
              </tr>
              <tr class='headerRow'>
-                 <td></td>
+                 <colgroup>
+                     <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
+                     <col span="1" style="width: 5%;"> <%-- Symbol --%>
+                     <col span="1" style="width: 5%;"> <%-- Obj name --%>
+                     <col span="1" style="width: 5%;"> <%-- Qualifiers --%>
+                     <col span="1" style="width: 2%;"> <%-- Evidence --%>
+                     <col span="1" style="width: 17%;"><%-- Position --%>
+                     <col span="1" style="width: 5%;"><%-- Jbrowse link --%>
+                     <col span="1" style="width: 10%;"><%-- Reference --%>
+                     <col span="1" style="width: 5%;"><%-- source --%>
+                     <col span="1" style="width: 30%;"><%-- original references/ xref --%>
+                     <col span="1" style="width: 10%;"><%-- notes --%>
+                 </colgroup>
+                 <td 10%></td>
                  <c:if test="${bean.speciesTypeKey==0}"><td></td></c:if>
                  <td><b>Symbol</b></td>
                  <td><b>Object Name</b></td>
-                 <td><b>JBrowse</b></td>
 
                  <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
                  <td><b>Evidence</b></td>
 
-                 <td><b>Chr</b></td>
-                 <td><b>Start</b></td>
-                 <td><b>Stop</b></td>
+                 <td><b>Position</b></td>
+                 <td> </td>
                  <td><b>Reference</b></td>
                  <td><b>Source</b></td>
                  <td><b>Original Reference(s)</b></td>
@@ -267,31 +279,22 @@
                 %>
                 <td><a <%=toolSubmitClass%> href="/rgdweb/report/<%=annot.getRgdObjectName()%>/main.html?id=<%=annot.getRgdId()%>"><%=annot.getSymbol()%></a></td>
                 <td><%=annot.getName()%></td>
-                <td><% String jbrowseLink = annot.getJBrowseLink();
-                    if( jbrowseLink!=null ) {%>
-                      <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="80" src="/rgdweb/common/images/jbrowse.png"/></a>
-                <%}%></td>
-
                     <td><%=annot.getQualifier()%></td>
                 <td><a href="/rgdweb/report/annotation/<%
                     if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
                    %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
 
-                <td class="mid"><%=annot.getChr()%>
+                <td class="mid"><%="NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos()%>
                     <% if(annot.getChrEns()!=null){%>
-                        <br><%=annot.getChrEns()%></br>
+                        <br><%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%></br>
                     <%}%>
                 </td>
-                <td class="num"><%=annot.getStartPos()%>
-                        <% if(annot.getChrEns()!=null){%>
-                    <br><%=annot.getStartPosEns()%></br>
-                        <%}%>
-                <td class="num"><%=annot.getStopPos()%>
-                <% if(annot.getChrEns()!=null){%>
-            <br><%=annot.getStopPosEns()%></br>
-                <%}%>
+            <td><% String jbrowseLink = annot.getJBrowseLink();
+                if( jbrowseLink!=null ) {%>
+                <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
+                <%}%></td>
                 <td><%=annot.getReference()%></td>
-                <td><%=annot.getDataSource()%></td>
+                <td><%=annot.getDataSource()%></td> <%-- maybe limit PMID 5 || 10 --%>
                 <td><%=annot.getXrefSource()%></td>
                 <td><%=annot.getNotes()%></td>
               </tr>

@@ -35,9 +35,9 @@ public class OntAnnotation  {
     private String xrefSource = "";
     private String notes;
 
-    private String chrEns = "";
-    private String startPosEns = "";
-    private String stopPosEns = "";
+    private String chrEns = null;
+    private String startPosEns = null;
+    private String stopPosEns = null;
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
         @Override
@@ -270,11 +270,6 @@ public class OntAnnotation  {
             startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
             stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
 
-        }
-        else if (ensemblData.isEmpty()) {
-            chrEns = null;
-            startPosEns = null;
-            stopPosEns = null;
         }
         /*switch (speciesTypeKey){
             default:
