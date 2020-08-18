@@ -1,10 +1,13 @@
 package edu.mcw.rgd.ontology;
 
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
 import edu.mcw.rgd.reporting.Link;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 
@@ -31,6 +34,10 @@ public class OntAnnotation  {
     private String dataSource;
     private String xrefSource = "";
     private String notes;
+
+    private String chrEns = null;
+    private String startPosEns = null;
+    private String stopPosEns = null;
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
         @Override
@@ -254,4 +261,28 @@ public class OntAnnotation  {
     public void setNotes(String notes) {
         this.notes = notes==null ? "" : notes;
     }
+
+    public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
+        edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
+        List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
+        if(ensemblData.size()==1) {
+            chrEns = ensemblData.get(0).getChromosome();
+            startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
+            stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
+
+        }
+        /*switch (speciesTypeKey){
+            default:
+                ensemblSource = "https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+
+//                https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=4:154309426-154359137
+//                https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=4%3A154309426-154359137
+        }*/
+    }
+    public String getChrEns()   { return chrEns;  }
+
+    public String getStartPosEns()  {   return startPosEns; }
+
+    public String getStopPosEns()   {  return stopPosEns;    }
+
 }
