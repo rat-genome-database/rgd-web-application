@@ -7,6 +7,7 @@
 %>
 <%@ include file="../common/headerarea.jsp" %>
 
+
     <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
     // ================================================================
     //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
@@ -35,10 +36,9 @@
     <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
     <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
 
-<script src="/common/js/sorttable.js"></script>
-<script type="text/javascript"  src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript"  src="/QueryBuilder/js/jquery.autocomplete.js"></script>
-
+<script src="/rgdweb/common/sorttable.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
 <!--#F0F6FF    #E3EEFF -->
 
@@ -324,7 +324,7 @@ function checkForm(theform) {
         alert("Please select an ontology");
         return false;
     }
-    
+
     return atLeastOneTerm;
 }//end PostAform function
 
@@ -341,7 +341,7 @@ function getFormString(theform) {
                 if (theform.elements[i].checked) {
                     formStr += amp+theform.elements[i].name+"="+encodeURIComponent(theform.elements[i].value);
                 }else {
-                    formStr += amp+theform.elements[i].name+"=-1";                
+                    formStr += amp+theform.elements[i].name+"=-1";
                 }
             } else if (theform.elements[i].type == "select-one") {
                 formStr += amp+theform.elements[i].name+"="+theform.elements[i].options[theform.elements[i].selectedIndex].value;
@@ -369,7 +369,7 @@ function runGviewer() {
             gviewer.genomeBrowserName = "JBrowse";
             gviewer.regionPadding=2;
             gviewer.annotationPadding = 1;
-                        
+
             gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
             gviewer.addZoomPane("zoomWrapper", 250, window.screen.availWidth * .8);
         }else {
@@ -402,7 +402,7 @@ function pageRequest(url, divId) {
             } catch (e){}
         }
     }
-    
+
     if (http_request.overrideMimeType) {
         http_request.overrideMimeType('text/xml');
     }
@@ -458,14 +458,14 @@ function unselectAllOntologies(obj) {
 
 $(document).ready(function(){
     setupAutoComplete();
-
     $("input[name='term[]']")
-            .closest('input')
-            .result(function(data, value){
+        .closest('input')
+        .result(function(data, value){
 
-        $("#dataStatus").html("");
-		selectByTermId(value[1]);
-    });
+            $("#dataStatus").html("");
+            selectByTermId(value[1]);
+        });
+
 });
 
 function setupAutoComplete() {
@@ -489,21 +489,22 @@ function setupAutoComplete() {
 <label title="Chemical Entities of Biological Interest Ontology">&nbsp; &nbsp;ChEBI&nbsp;<input name="chebi[]" type="checkbox" value="CHEBI" checked></label>
         -->
   */
-
     $("input[name='term[]']").autocomplete('/OntoSolr/select', {
-      extraParams:{
-          'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
-          'bf': 'term_len_l^.02',
-          'fq': 'cat:(BP CC MF RDO NBO MP PW CMO MMO XCO VT CHEBI)',
-          //'fq': cats,
-          'wt': 'velocity',
-          //'v.template': 'termidterm'
-          'v.template': 'termidselect'
-      },
-      max: 100,
-      'termSeparator': ' OR '
-    }
+            extraParams:{
+                'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
+                'bf': 'term_len_l^.02',
+                'fq': 'cat:(BP CC MF RDO NBO MP PW CMO MMO XCO VT CHEBI)',
+                //'fq': cats,
+                'wt': 'velocity',
+                //'v.template': 'termidterm'
+                'v.template': 'termidselect'
+            },
+            max: 100,
+            'termSeparator': ' OR '
+        }
     );
+
+
 }
 </script>
 
