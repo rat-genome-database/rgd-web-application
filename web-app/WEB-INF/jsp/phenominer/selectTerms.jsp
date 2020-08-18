@@ -89,10 +89,14 @@
 <!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
 <!--script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script-->
-<script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
+<script type="text/javascript"  src="https://rgd.mcw.edu/OntoSolr/files/jquery.autocomplete.js"></script>
+
+<!--script>
   var jq14 = jQuery.noConflict(true);
 </script>
-<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
+<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script-->
 <!--script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script-->
 
 <script>
