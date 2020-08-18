@@ -120,7 +120,7 @@
                         'wt': 'velocity',
                         'v.template': 'termidselect'
                     },
-                    max: 10000,
+                    max: 100,
                     'termSeparator': ' OR '
                 }
             );
