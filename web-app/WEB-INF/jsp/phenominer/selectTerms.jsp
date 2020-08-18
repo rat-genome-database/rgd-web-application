@@ -105,10 +105,10 @@
             $("#termSearch").autocomplete('/OntoSolr/select', {
                     extraParams:{
                         <% if( ont.equals("RS") ) { %>
-                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1  synonym_str^2 synonym^1 def^1 anc^20',
+                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3 synonym_str^2 synonym^1 def^1 anc^20',
                         'bf': 'term_len_l^8',
                         <% } else { %>
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1',
+                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5 synonym_str^2 synonym^2 def^1',
                         'bf': 'term_len_l^2',
                         <% } %>
 
