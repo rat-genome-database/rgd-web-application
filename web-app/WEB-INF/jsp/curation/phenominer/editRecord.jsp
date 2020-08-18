@@ -15,8 +15,10 @@
 %>
 
 <%@ include file="editHeader.jsp" %>
-<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.jss"></script>
-<script type="text/javascript" src="/QueryBuilder/js/ont_util.js"></script>
+<!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+
+<script type="text/javascript" src="/rgdweb/OntoSolr/ont_util.js"></script>
 
 <%
     OntologyXDAO ontDao = new OntologyXDAO();
@@ -148,14 +150,13 @@
                 }
             });
         }
-
     }
     function checkUnitConversion() {
         var SD = document.getElementById("unitSD").value;
         var unitValue = document.getElementById("unitValue").value;
 
         if (SD != null && SD != unitValue && SD != "")
-            document.getElementById("scale").style.display = "block";
+            document.getElementById("termScale").style.display = "block";
     }
     function updateUnits() {
         var unitType = document.getElementById("unitType").value;
@@ -175,10 +176,7 @@
             option.text = unitValue;
             option.value = unitValue;
             option.selected = "true";
-            var size = document.getElementsByName("cUnits").length;
-            for(i = 0;i< size;i++) {
-                document.getElementsByName("cUnits")[i].add(option, 0);
-            }
+            document.getElementsByName("cUnits")[0].add(option,0);
         }
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
@@ -215,8 +213,8 @@
         *New Unit <input name="unitValue" id="unitValue"  onchange="checkUnitConversion()">
         Description <input name="description" >
         <br>
-<br>
-        <span id="scale" style="display:none;">New Unit * <input id="termScale" name="termScale" placeholder="Term Specific Scale"> = Standard Unit </span>
+
+        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
         <button type="button" onclick="updateUnits()">Add</button>
     </div>
     <%

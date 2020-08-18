@@ -17,6 +17,7 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 
+
 <script type="text/javascript" src="/rgdweb/js/dhtmlxTree/dhtmlxcommon.js"></script>
 <script type="text/javascript" src="/rgdweb/js/dhtmlxTree/dhtmlxtree.js"></script>
 <link rel="stylesheet" type="text/css" href="/rgdweb/js/dhtmlxTree/dhtmlxtree.css"/>
@@ -85,23 +86,33 @@
 <% } %>
 
 
-<script type="text/javascript"  src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript"  src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+<!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
+<!--script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script-->
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
+<script type="text/javascript"  src="https://rgd.mcw.edu/OntoSolr/files/jquery.autocomplete.js"></script>
+
+<!--script>
+  var jq14 = jQuery.noConflict(true);
+</script>
+<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script-->
+<!--script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script-->
 
 <script>
     $(document).ready(function(){
 
-        $.get("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>", {}, function(data){
+       $.get("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>", {}, function(data){
             //$("#extra").html(data);
             //alert("x:"+data);
-            console.log(data);
+          //  console.log(data);
             $("#termSearch").autocomplete('/OntoSolr/select', {
                     extraParams:{
                         <% if( ont.equals("RS") ) { %>
-                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20',
+                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3 synonym_str^2 synonym^1 def^1 anc^20',
                         'bf': 'term_len_l^8',
                         <% } else { %>
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1',
+                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5 synonym_str^2 synonym^2 def^1',
                         'bf': 'term_len_l^2',
                         <% } %>
 
@@ -113,11 +124,11 @@
                         'wt': 'velocity',
                         'v.template': 'termidselect'
                     },
-                    max: 10000,
+                    max: 100,
                     'termSeparator': ' OR '
                 }
             );
-        }) ;
+       }) ;
 
         $('#termSearch').focus(function()
         {
@@ -152,7 +163,7 @@
     function selectByTermId(termId) {
         var patt1=/(.+):(\d+)/;
         var matched = termId.match(patt1);
-        if (matched[2] != null) {
+        if (matched != null) {
             tree.closeAllItems();
             var ontId = termId;
             var list = tree.getAllSubItems("0");

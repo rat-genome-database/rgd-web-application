@@ -103,7 +103,7 @@
         <tr>
             <td colspan="2"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
                 show annotations for term's descendants
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" <c:if test="${bean.extendedView}">checked="checked"</c:if> onclick="addParamToLocHref('x','<%=bean.isExtendedView()?0:1%>','#annot')" title="show more details"> view all columns</li>
+<%--            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" <c:if test="${bean.extendedView}">checked="checked"</c:if> onclick="addParamToLocHref('x','<%=bean.isExtendedView()?0:1%>','#annot')" title="show more details"> view all columns</li>--%>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:<%=fu.buildSelectList("sort_by\" onChange=\"addParamToLocHref('sort_by',this.options[selectedIndex].text,'#annot')", bean.getSortByChoices(), bean.getSortBy())%>
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
                         value="0" <c:if test="${bean.sortDesc==false}">selected="selected"</c:if>>&uarr; asc</option><option
@@ -228,27 +228,37 @@
                             <% } %>
                          </td>
                      </tr>
+
                  </table>
              </tr>
              <tr class='headerRow'>
-                 <td></td>
+                 <colgroup>
+                     <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
+                     <col span="1" style="width: 5%;"> <%-- Symbol --%>
+                     <col span="1" style="width: 5%;"> <%-- Obj name --%>
+                     <col span="1" style="width: 5%;"> <%-- Qualifiers --%>
+                     <col span="1" style="width: 2%;"> <%-- Evidence --%>
+                     <col span="1" style="width: 17%;"><%-- Position --%>
+                     <col span="1" style="width: 5%;"><%-- Jbrowse link --%>
+                     <col span="1" style="width: 10%;"><%-- Reference --%>
+                     <col span="1" style="width: 5%;"><%-- source --%>
+                     <col span="1" style="width: 30%;"><%-- original references/ xref --%>
+                     <col span="1" style="width: 10%;"><%-- notes --%>
+                 </colgroup>
+                 <td 10%></td>
                  <c:if test="${bean.speciesTypeKey==0}"><td></td></c:if>
                  <td><b>Symbol</b></td>
                  <td><b>Object Name</b></td>
-                 <td><b>JBrowse</b></td>
-                 <c:if test="${bean.extendedView}">
+
                  <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
                  <td><b>Evidence</b></td>
-                 </c:if>
-                 <td><b>Chr</b></td>
-                 <td><b>Start</b></td>
-                 <td><b>Stop</b></td>
+
+                 <td><b>Position</b></td>
+                 <td> </td>
                  <td><b>Reference</b></td>
-                 <c:if test="${bean.extendedView}">
                  <td><b>Source</b></td>
                  <td><b>Original Reference(s)</b></td>
                  <td><b>Notes</b></td>
-                 </c:if>
              </tr>
             <% int row=0;
                   for( OntAnnotation annot: entry.getValue() ) {
@@ -269,27 +279,26 @@
                 %>
                 <td><a <%=toolSubmitClass%> href="/rgdweb/report/<%=annot.getRgdObjectName()%>/main.html?id=<%=annot.getRgdId()%>"><%=annot.getSymbol()%></a></td>
                 <td><%=annot.getName()%></td>
-                <td><% String jbrowseLink = annot.getJBrowseLink();
-                    if( jbrowseLink!=null ) {%>
-                      <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="80" src="/rgdweb/common/images/jbrowse.png"/></a>
-                <%}%></td>
-                <c:if test="${bean.extendedView}">
                     <td><%=annot.getQualifier()%></td>
                 <td><a href="/rgdweb/report/annotation/<%
                     if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
                    %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
-                </c:if>
-                <td class="mid"><%=annot.getChr()%></td>
-                <td class="num"><%=annot.getStartPos()%></td>
-                <td class="num"><%=annot.getStopPos()%></td>
+
+                <td class="mid"><%="NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos()%>
+                    <% if(annot.getChrEns()!=null){%>
+                        <br><%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%></br>
+                    <%}%>
+                </td>
+            <td><% String jbrowseLink = annot.getJBrowseLink();
+                if( jbrowseLink!=null ) {%>
+                <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
+                <%}%></td>
                 <td><%=annot.getReference()%></td>
-                <c:if test="${bean.extendedView}">
-                <td><%=annot.getDataSource()%></td>
+                <td><%=annot.getDataSource()%></td> <%-- maybe limit PMID 5 || 10 --%>
                 <td><%=annot.getXrefSource()%></td>
                 <td><%=annot.getNotes()%></td>
-                </c:if>
               </tr>
-            <% }} %>
+            <% }    } %>
 
             </tr>
         </table>

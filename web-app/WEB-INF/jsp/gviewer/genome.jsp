@@ -13,7 +13,9 @@
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 
 
+<!--script src="/rgdweb/js/jquery/jquery-1.7.1.min.js"></script-->
 <script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+
   <script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
   <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script>
 
