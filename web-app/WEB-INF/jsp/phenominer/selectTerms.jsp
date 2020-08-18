@@ -91,9 +91,9 @@
 <!--script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
 <script>
 //  var jq14 = jQuery.noConflict(true);
-</script>
-<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script-->
-<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+</script-->
+<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
+<!--script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script-->
 
 <script>
     $(document).ready(function(){
