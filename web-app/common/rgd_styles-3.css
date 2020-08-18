@@ -885,13 +885,6 @@ table.searchByPositionResults td.stop
     font-style: italic;
 }
 
-.sectionHeading {
-    color: #0d10a3;
-    font-size: 14px;
-    font-weight: 700;
-    font-style: italic;
-    margin-top: 2.5rem;
-}
 
 .rgdRightColumnBox {
     font-size:12px;
@@ -1081,8 +1074,4 @@ table.searchByPositionResults td.stop
     padding-left:20%;
 }
 
-.reportTable{
-    overflow: auto;
-    height: 55vh
-}
 

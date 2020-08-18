@@ -10,9 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+
 <% boolean includeMapping = true;
     String title = "Genes";
     Gene obj = (Gene) request.getAttribute("reportObject");
@@ -162,6 +160,13 @@
     .sub-nav-item > a{
         font-size: 8pt;
         margin-left: 15px;
+    }
+
+    .sectionHeading {
+        color: #0d10a3;
+        font-size: 14px;
+        font-weight: 700;
+        font-style: italic;
     }
 
 </style>
@@ -355,6 +360,8 @@
     <footer id="footer">
         <%@ include file="../reportFooter.jsp"%>
         <%@ include file="/common/footerarea.jsp"%>
+    </footer>
+
 
 </body>
 
