@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%-- requires the following declarations in the master file:
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -253,7 +254,7 @@
                  <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
                  <td><b>Evidence</b></td>
 
-                 <td><b>Position</b></td>
+                 <td align="right"><b>Position</b></td>
                  <td> </td>
                  <td><b>Reference</b></td>
                  <td><b>Source</b></td>
@@ -284,9 +285,16 @@
                     if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
                    %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
 
-                <td class="mid"><%="NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos()%>
-                    <% if(annot.getChrEns()!=null){%>
+                <td align="right">
+                    <%if(!annot.getChr().trim().isEmpty()){
+                        out.print("NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos());
+                    if(annot.getChrEns()!=null){%>
                         <br><%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%></br>
+                    <% }
+                     } // end if NCBI is whitespace
+                     else
+                    if(annot.getChrEns()!=null){%>
+                        <%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%>
                     <%}%>
                 </td>
             <td><% String jbrowseLink = annot.getJBrowseLink();
