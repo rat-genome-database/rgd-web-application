@@ -24,6 +24,7 @@ if (req.getParameter("u").equals("394033")) {
 
 <% try {
         List<Sample> samples = (List<Sample>) request.getAttribute("sampleList");
+
         int mapKey = (Integer) request.getAttribute("mapKey");
 %>
 
@@ -253,9 +254,9 @@ if(mapKey == 631){
 
        int num = 0;
        for (Sample samp: samples) {
-            if (num < ((samples.size() / 3) + 1)) {
+            if (num < ((samples.size() / 3) )) {
                 sampList1.add(samp);
-            }else if (num < (((samples.size() / 3) + 1) * 2 )) {
+            }else if (num < (((samples.size() / 3) ) * 2 )) {
                 sampList2.add(samp);
 
             }else {
