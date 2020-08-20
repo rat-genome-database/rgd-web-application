@@ -81,7 +81,7 @@
                 <td>&nbsp;</td>
                 <td><a href="config.html" class="classname">Home</a></td></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="select.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Strains</a></td></td>
+                <td><a href="select.html?<%=request.getQueryString()%>" class="classname">Edit&nbsp;Samples</a></td></td>
 
                     <% if (positionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
@@ -218,6 +218,10 @@
 if (request.getAttribute("error") != null ) {
     ArrayList errors = (ArrayList) request.getAttribute("error");
     if( !errors.isEmpty() ) {
+
 %>
-    <br><div style="color:red;"><% for( Object o: errors ) { %>Error: <%=o.toString()%><br><% } %></div>
+    <br><div style="color:red;"><% for( Object o: errors ) {
+        %>
+        Error: <%=o.toString()%><br>
+    <% } %></div>
 <% }} %>

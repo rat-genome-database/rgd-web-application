@@ -81,6 +81,28 @@
         <td>
             <%@ include file="info.jsp"%>
 
+                    <% String highlights = strainDAO.getContentType(obj.getRgdId(),"Highlights");
+        if(highlights != null) {
+            Blob data =  strainDAO.getStrainAttachment(obj.getRgdId(),"Highlights");
+            InputStream is = data.getBinaryStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            byte[] bytes = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(bytes)) != -1) {
+                outputStream.write(bytes);
+            }
+            byte[] imageBytes = outputStream.toByteArray();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            is.close();
+            outputStream.close();
+    %>
+            <br>
+            <div class="subTitle">Highlights</div>
+            <br>
+    <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
+            <br><br>
+    <% } %>
             <%@ include file="substrains.jsp"%>
             <%@ include file="congenics.jsp"%>
             <%@ include file="mutants.jsp"%>

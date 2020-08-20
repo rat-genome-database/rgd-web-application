@@ -82,27 +82,25 @@
 <tr>
     <td width="10%"><b>Species:</b></td>
     <td colspan=2>
-        <!--select name="speciesType" onChange='addParam("speciesType",this.value)'-->
+        <%--select name="speciesType" onChange='addParam("speciesType",this.value)'--%>
             <select name="species")>
             <% if (request.getServletPath().endsWith("markers.jsp")) { %>
-                <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
-                    <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
+                <% for( int speciesTypeKey: new int[]{1,2,3} ) {
                     if(speciesTypeKey==3){%>
                         <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                      <%}else%>  <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                    <% } %>
-            <% } %>
-            <% } else { %>
-                 <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
-
-                 if(speciesTypeKey==3){%>
+                    <%}else{%>  <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                <% }}
+               } else {
+                   for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
+                      if( !SpeciesType.isSearchable(speciesTypeKey) ) { continue; } // skip non-searchable species
+                      if(speciesTypeKey==3){%>
                          <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                <%}else{ if(speciesTypeKey==0){%>
+                     <%}else if(speciesTypeKey==0){%>
                    
-                <%}else{%>
+                    <%}else{%>
                     <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                 <% }}} %>
-            <% } %>
+                 <% }}
+               } %>
         </select>
     </td>
 </tr>

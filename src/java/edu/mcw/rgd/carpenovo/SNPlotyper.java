@@ -1,6 +1,7 @@
 package edu.mcw.rgd.carpenovo;
 
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.process.mapping.MapManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -126,7 +127,7 @@ public class SNPlotyper {
         return null;
     }
 
-    public boolean hasPlusStrandConflict() throws VVException {
+    public boolean hasPlusStrandConflict() throws Exception {
         for (Long pos: getPositions()) {
             if (getPlusStrandGene(pos).size() > 1) {
                 return true;
@@ -135,7 +136,7 @@ public class SNPlotyper {
         return false;
     }
 
-    public boolean hasMinusStrandConflict() throws VVException {
+    public boolean hasMinusStrandConflict() throws Exception {
         for (Long pos: getPositions()) {
             if (getMinusStrandGene(pos).size() > 1) {
                 return true;
@@ -144,12 +145,13 @@ public class SNPlotyper {
         return false;
     }
 
-    public List<MappedGene> getPlusStrandGene(long position) throws VVException {
+    public List<MappedGene> getPlusStrandGene(long position) throws Exception {
         List <MappedGene> retList = new ArrayList<MappedGene>();
 
         for (MappedGene mg: genes) {
             if( mg.getStrand()==null ) {
-                throw new VVException("no strand for gene RGD:"+mg.getGene().getRgdId()+" "+mg.getGene().getSymbol());
+                String assembly = MapManager.getInstance().getMap(mg.getMapKey()).getName();
+                throw new VVException("no strand for gene RGD:"+mg.getGene().getRgdId()+" "+mg.getGene().getSymbol() +" in "+assembly+" assembly");
             }
 
             if (mg.getStrand().equals("+") && position >= mg.getStart() && position <=mg.getStop()) {
@@ -160,12 +162,13 @@ public class SNPlotyper {
     }
 
 
-    public List<MappedGene> getMinusStrandGene(long position) throws VVException {
+    public List<MappedGene> getMinusStrandGene(long position) throws Exception {
         List <MappedGene> retList = new ArrayList<MappedGene>();
 
         for (MappedGene mg: genes) {
             if( mg.getStrand()==null ) {
-                throw new VVException("no strand for gene RGD:"+mg.getGene().getRgdId()+" "+mg.getGene().getSymbol());
+                String assembly = MapManager.getInstance().getMap(mg.getMapKey()).getName();
+                throw new VVException("no strand for gene RGD:"+mg.getGene().getRgdId()+" "+mg.getGene().getSymbol()+" in "+assembly+" assembly");
             }
 
             if (mg.getStrand().equals("-") && position >= mg.getStart() && position <=mg.getStop()) {

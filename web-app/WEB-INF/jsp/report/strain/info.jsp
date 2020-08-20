@@ -9,6 +9,9 @@
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
+<%@ page import="java.sql.Blob" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
@@ -138,6 +141,20 @@
         <td class="label">Research Usage</td>
         <td><%=obj.getResearchUse()%></td>
     </tr>
+    <% } %>
+<% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
+    if(content != null) {
+%> <tr>
+    <td class="label">Genotyping Protocol</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">Download Genotyping Protocol </a></td>
+</tr>
+    <% } %>
+    <% String supp = strainDAO.getContentType(obj.getRgdId(),"Supplemental");
+        if(supp != null) {
+    %> <tr>
+    <td class="label">Strain Phenotyping</td>
+    <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Supplemental" download="true">View Strain Phenotyping </a></td>
+</tr>
     <% } %>
 
     <%

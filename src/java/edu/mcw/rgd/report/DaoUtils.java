@@ -173,14 +173,9 @@ public class DaoUtils {
         if( term.getXRefs() == null) {
             term.setXRefs(ontologyDAO.getTermXRefs(term.getAccId()));
 
-            // sort xrefs first by type then by value
+            // sort xrefs by value
             Collections.sort(term.getXRefs(), new Comparator<TermXRef>() {
                 public int compare(TermXRef o1, TermXRef o2) {
-                    // sort by type
-                    int r = Utils.stringsCompareToIgnoreCase(o1.getXrefType(), o2.getXrefType());
-                    if( r!=0 )
-                        return r;
-                    // type the same, sort by name
                     return Utils.stringsCompareToIgnoreCase(o1.getXrefValue(), o2.getXrefValue());
                 }
             });
@@ -195,29 +190,35 @@ public class DaoUtils {
                     buf.append(", ");
 
                 String formattedXrefValue = Utils.NVL(xref.getXrefValue(), xref.getXrefDescription()).replace("\\:",":").replace("\\,",",");
-                if( Utils.stringsAreEqual(xref.getXrefType(), "PMID") ) {
-                    // hyperlinked PMID content
-                    buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xref.getXrefType(), formattedXrefValue);
-                }
-                else if( Utils.stringsAreEqual(xref.getXrefType(), "OMIM") ) {
-                    // hyperlinked OMIM content
-                    buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xref.getXrefType(), formattedXrefValue);
-                }
-                else if( Utils.stringsAreEqual(xref.getXrefType(), "MESH") && !formattedXrefValue.contains(".") ) {
-                    // hyperlinked MESH content
-                    buildHyperlink(buf, 47, xref.getXrefType(), formattedXrefValue);
-                }
-                else if( Utils.stringsAreEqual(xref.getXrefType(), "url") ) {
-                    // hyperlink
-                    buf.append("<a href=\"").append(formattedXrefValue).append("\">").append(formattedXrefValue).append("</a>");
-                }
-                else { // non-hyperlinked content
-                    if(xref.getXrefType()==null)
+                int colonPos = xref.getXrefValue().indexOf(':');
+                if( colonPos>0 ) {
+                    String xrefType = formattedXrefValue.substring(0, colonPos).toUpperCase();
+                    String xrefAcc = formattedXrefValue.substring(colonPos+1);
+                    if( xrefType.equals("PMID") ) {
+                        // hyperlinked PMID content
+                        buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xrefAcc, formattedXrefValue);
+                    }
+                    else if( xrefType.equals("OMIM") ) {
+                        // hyperlinked OMIM content
+                        buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xrefAcc, formattedXrefValue);
+                    }
+                    else if( xrefType.equals("MESH") && !xrefAcc.contains(".") ) {
+                        // hyperlinked MESH content
+                        buildHyperlink(buf, 47, xrefAcc, formattedXrefValue);
+                    }
+                    else if( xrefType.equals("HTTP") || xrefType.equals("HTTPS") ) {
+                        // just a hyperlink
+                        buf.append("<a href=\"").append(xref.getXrefValue()).append("\">")
+                                .append(xref.getXrefValue())
+                                .append("</a>");
+                    }
+                    else { // non-hyperlinked content
                         buf.append(formattedXrefValue);
-                    else
-                        buf.append(xref.getXrefType())
-                            .append(":")
-                            .append(formattedXrefValue);
+                    }
+                }
+
+                if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
+                    buf.append(" \"").append(xref.getXrefDescription()).append("\"");
                 }
             }
             xrefs = buf.toString();
@@ -225,18 +226,12 @@ public class DaoUtils {
         return xrefs;
     }
 
-    private void buildHyperlink(StringBuilder buf, int xdbKey, String type, String value) throws Exception {
-
-        String typeAndValue;
-        if( type==null )
-            typeAndValue = value;
-        else
-            typeAndValue = type+":"+value;
+    private void buildHyperlink(StringBuilder buf, int xdbKey, String acc, String value) throws Exception {
 
         buf.append("<a href=\"")
             .append(XDBIndex.getInstance().getXDB(xdbKey).getUrl())
-            .append(value).append("\">")
-            .append(typeAndValue)
+            .append(acc).append("\">")
+            .append(value)
             .append("</a>");
     }
 

@@ -298,7 +298,6 @@ public class TermEditObjectController implements Controller {
         //
         // collect incoming data
         String[] xrefKey = req.getParameterValues("xref_key");
-        String[] xrefType = req.getParameterValues("xref_type");
         String[] xrefValue = req.getParameterValues("xref_value");
         String[] xrefInfo = req.getParameterValues("xref_info");
 
@@ -316,7 +315,7 @@ public class TermEditObjectController implements Controller {
             // and it must be checked for delete
             String name = "xref_del"+i;
             if( !Utils.isStringEmpty(req.getParameter(name)) ) {
-                xrefTabMsg += "deleted xref ["+xrefType[i]+":"+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
+                xrefTabMsg += "deleted xref ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
                 TermXRef xref = new TermXRef();
                 xref.setKey(key);
                 odao.deleteTermXRef(xref);
@@ -336,16 +335,17 @@ public class TermEditObjectController implements Controller {
 
             TermXRef xref = new TermXRef();
             xref.setTermAcc(termAcc);
-            xref.setXrefType(xrefType[i].trim());
             xref.setXrefValue(xrefValue[i].trim());
             xref.setXrefDescription(xrefInfo[i].trim());
 
-            // xref type and value
-            if( Utils.isStringEmpty(xref.getXrefType()) || Utils.isStringEmpty(xref.getXrefValue()) ) {
-                xrefTabMsg += "ERROR: can't insert xref with empty type or value!<br>";
+            // xref value must be non-empty
+            if( Utils.isStringEmpty(xref.getXrefValue()) ) {
+                xrefTabMsg += "ERROR: can't insert an empty xref!<br>";
+            } else if( !xref.getXrefValue().contains(":") ) {
+                xrefTabMsg += "ERROR: xref must contain a colon ':' !<br>";
             } else {
                 odao.insertTermXRef(xref);
-                xrefTabMsg += "inserted xref ["+xrefType[i]+":"+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
+                xrefTabMsg += "inserted xref ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
             }
         }
 
@@ -365,7 +365,6 @@ public class TermEditObjectController implements Controller {
             TermXRef xref = new TermXRef();
             xref.setKey(key);
             xref.setTermAcc(termAcc);
-            xref.setXrefType(xrefType[i].trim());
             xref.setXrefValue(xrefValue[i].trim());
             xref.setXrefDescription(xrefInfo[i].trim());
 
@@ -379,11 +378,13 @@ public class TermEditObjectController implements Controller {
                     if( !xrefInRgd.equals(xref) ||
                         !Utils.stringsAreEqual(xrefInRgd.getXrefDescription(), xref.getXrefDescription()) ) {
 
-                        if( Utils.isStringEmpty(xref.getXrefType()) || Utils.isStringEmpty(xref.getXrefValue()) ) {
-                            xrefTabMsg += "ERROR: can't update xref with empty type or value!<br>";
+                        if( Utils.isStringEmpty(xref.getXrefValue()) ) {
+                            xrefTabMsg += "ERROR: can't update xref with empty value!<br>";
+                        } else if( !xref.getXrefValue().contains(":") ) {
+                            xrefTabMsg += "ERROR: xref must contain a colon ':' !<br>";
                         } else {
-                            xrefTabMsg += "updated xref NEW ["+xrefType[i]+":"+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
-                            xrefTabMsg += "             OLD ["+xrefInRgd.getXrefType()+":"+xrefInRgd.getXrefValue()+"] {"+xrefInRgd.getXrefDescription()+"}<br>";
+                            xrefTabMsg += "updated xref NEW ["+xrefValue[i]+"] {"+xrefInfo[i]+"}<br>";
+                            xrefTabMsg += "             OLD ["+xrefInRgd.getXrefValue()+"] {"+xrefInRgd.getXrefDescription()+"}<br>";
 
                             odao.updateTermXRef(xref);
                         }

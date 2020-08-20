@@ -235,26 +235,39 @@ public abstract class HaplotyperController implements Controller {
 
         } else {
 
-            // determine mapKey from samples
-            for (int i = 0; i < 100; i++) {
+            ArrayList<Integer> al = new ArrayList<Integer>();
+            for (int i = 0; i < 999; i++) {
                 String sample = req.getParameter("sample" + i);
-                if (!sample.isEmpty()) {
-                    int sampleId = Integer.parseInt(sample);
-                    Sample sampleObj = SampleManager.getInstance().getSampleName(sampleId);
-
-                    // if bean map key not set, derive it from sample
-                    if (vsb.getMapKey() == 0) {
-                        vsb.setMapKey(sampleObj.getMapKey());
-                        vsb.sampleIds.add(sampleId);
-                    } else {
-                        // bean map key already set -- validate it
-                        if (sampleObj.getMapKey() == vsb.getMapKey()) {
-                            vsb.sampleIds.add(sampleId);
-                        } else {
-                            // assembly mixup, ignore the sample
-                            System.out.println("ERROR: assembly mixup");
-                        }
+                    if (!sample.isEmpty()) {
+                        al.add(new Integer(sample));
                     }
+            }
+
+            if (al.size() > 0) {
+                SampleDAO sdao = new SampleDAO();
+                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                List<Sample> samples = sdao.getSampleBySampleId(al);
+
+                System.out.println("samples.len = " + samples.size());
+                // determine mapKey from samples
+                int cnt = 0;
+                for (Sample sampleObj: samples)  {
+                    cnt++;
+
+                        // if bean map key not set, derive it from sample
+                        if (vsb.getMapKey() == 0) {
+                            vsb.setMapKey(sampleObj.getMapKey());
+                            vsb.sampleIds.add(sampleObj.getId());
+                        } else {
+                            // bean map key already set -- validate it
+                            if (sampleObj.getMapKey() == vsb.getMapKey()) {
+                                vsb.sampleIds.add(sampleObj.getId());
+                            } else {
+                                // assembly mixup, ignore the sample
+                                System.out.println("ERROR: assembly mixup");
+                            }
+                        }
+
                 }
             }
 

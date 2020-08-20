@@ -1,6 +1,8 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.carpenovo.SampleManager" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 
 <%
 String pageTitle = "Variant Visualizer (Define Region)";
@@ -15,6 +17,8 @@ String pageDescription = "Define Region";
 <%
 
    int mapKey = Integer.parseInt(request.getParameter("mapKey"));
+    MapDAO mdao = new MapDAO();
+    List<Chromosome> chromosomes = mdao.getChromosomes(mapKey);
 %>
 
    <br>
@@ -67,7 +71,7 @@ String pageDescription = "Define Region";
                                             <td colspan=2>
                                                 <table>
                                                     <tr>
-                                                        <td>Chromosome <select   name="chr" id="chr" ><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="X">X</option><option value="Y">Y</option><option value="MT">MT</option></select></td>
+                                                        <td>Chromosome <%=fu.buildChrSelectList("chr", chromosomes, "1")%></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" id="start" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",start))%>" required></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" id="stop" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",stop))%>" required></td>
                                                         <td valign="top" align="left">

@@ -364,6 +364,7 @@ public class DistributionController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/haplotyper/dist.jsp");
 
         }catch (Exception e) {
+            e.printStackTrace();
             errors.add(e.getMessage());
             request.setAttribute("error", errors);
 
@@ -380,6 +381,7 @@ public class DistributionController extends HaplotyperController {
     List<String> loadSampleIds(HttpServletRequest request) throws Exception{
 
         List<String> sampleIds = new ArrayList<String>();
+        HttpRequestFacade req = new HttpRequestFacade(request);
 
         if (request.getParameter("sample1").equals("all")) {
 
@@ -395,12 +397,27 @@ public class DistributionController extends HaplotyperController {
         }else {
 
 
-            for (int i = 0; i < 100; i++) {
-                if (request.getParameter("sample" + i) != null) {
-                    sampleIds.add(request.getParameter("sample" + i));
+            ArrayList<Integer> al = new ArrayList<Integer>();
+            for (int i = 0; i < 999; i++) {
+                String sample = req.getParameter("sample" + i);
+                if (!sample.isEmpty()) {
+                    al.add(new Integer(sample));
+                }
+            }
+
+            if (al.size() > 0) {
+                SampleDAO sdao = new SampleDAO();
+                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                List<Sample> samples = sdao.getSampleBySampleId(al);
+
+                int cnt = 0;
+                for (Sample sampleObj: samples)  {
+                    sampleIds.add(sampleObj.getId() + "");
+                    cnt++;
                 }
             }
         }
+
         return sampleIds;
     }
 

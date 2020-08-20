@@ -40,6 +40,19 @@ String pageDescription = "Build lists based on RGD annotation";
     <input type="hidden" name="ga" id="ga" value="" />
     <input type="hidden" name="act" id="act" value="" />
 
+    <%
+        int count = 1;
+        String val = "";
+        while ((val = request.getParameter("sample" + count)) != null) {
+    %>
+            <input type="hidden" name="sample<%=count%>" value="<%=val%>"/>
+
+        <%
+            count++;
+        }
+    %>
+
+
 </form>
 
 <%
@@ -187,8 +200,12 @@ $(document).ready(function(){
                     <td align="center" style="font-weight:700; color: #2865A3;">List Type:
                         <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" style="background-color:#2B84C8;" >
                         <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
-                        <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
-                        <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
+                        <% if (speciesTypeKey == 3 || speciesTypeKey==2 || speciesTypeKey==1) { %>
+                            <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
+                            <% } %>
+                        <% if (speciesTypeKey == 3) { %>
+                            <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
+                            <% } %>
                         </select>
                     </td>
                 </tr>

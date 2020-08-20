@@ -25,7 +25,6 @@ public class PivotTableController implements Controller {
     PhenominerDAO pdao = new PhenominerDAO();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         ArrayList error = new ArrayList();
@@ -106,7 +105,6 @@ public class PivotTableController implements Controller {
         }
 
         re.append("Record ID");
-
         report.append(re);
 
         HashMap<String, Term> termResolver = new HashMap<String, Term>();
@@ -147,8 +145,8 @@ public class PivotTableController implements Controller {
                     condColName = "Condition "+c.getOrdinality()+suffix;
                 }
                 condColNames.add(condColName);
-            }
 
+            }
             double thisVal = Double.parseDouble(r.getMeasurementValue());
 
             if (thisVal < min) {
@@ -272,24 +270,27 @@ public class PivotTableController implements Controller {
         // condColNames has data like this: 'Condition 1', 'Condition 1b', 'Condition 2', ...
         // we need to have:
         // 'Condition 1a', 'Condition 1b', 'Condition 2', ...
+    Iterator<String> it = condColNames.iterator();
+        String prev = "";
+        if(it.hasNext())
+            prev = it.next();
+    String curr = "";
 
-        Iterator<String> it = condColNames.iterator();
-        String prev = it.next();
-        String curr = "";
+    while (it.hasNext()) {
+        curr = it.next();
 
-        while( it.hasNext() ) {
-            curr = it.next();
-
-            if( (prev+"b").equals(curr) ) {
-                re.append(prev+"a");
-            } else {
-                re.append(prev);
-            }
-            prev = curr;
+        if ((prev + "b").equals(curr)) {
+            re.append(prev + "a");
+        } else {
+            re.append(prev);
         }
-
-        re.append(curr);
+        prev = curr;
     }
+
+    re.append(curr);
+
+    }
+
 
     void emitConditions(edu.mcw.rgd.reporting.Record re, Set<String> condColNames, Record r ) throws Exception {
 
