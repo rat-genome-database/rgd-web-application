@@ -61,7 +61,7 @@
     $(document).ready(function () {
         var not4Curation = ' AND NOT Not4Curation';
         <% for (int i = 0; i < 15; i++) { %>
-        $("#strainId").autocomplete('/OntoSolr/select', {
+        $("#strainId<%=i%>").autocomplete('/OntoSolr/select', {
                     extraParams: {
                         'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
                         'bf': 'term_len_l^8',
@@ -72,13 +72,13 @@
                     max: 10000
                 }
         );
-        $("#strainId").result(function (data, value) {
-            $("#strainId").val(value[1]);
-            $("#strainTerm").html(value[0]);
+        $("#strainId<%=i%>").result(function (data, value) {
+            $("#strainId<%=i%>").val(value[1]);
+            $("#strainTerm<%=i%>").html(value[0]);
         });
         <%}%>
         <% for (int i = 0; i < 15; i++) { %>
-        $("#tissueId").autocomplete('/OntoSolr/select', {
+        $("#tissueId<%=i%>").autocomplete('/OntoSolr/select', {
                     extraParams: {
                         'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                         'bf': 'term_len_l^2',
@@ -91,9 +91,9 @@
                     multipleSeparator: '|'
                 }
         );
-        $("#tissueId").result(function (data, value) {
-            $("#tissueId").val(value[1]);
-            $("#tissueTerm").html(value[0]);
+        $("#tissueId<%=i%>").result(function (data, value) {
+            $("#tissueId<%=i%>").val(value[1]);
+            $("#tissueTerm<%=i%>").html(value[0]);
         });
         <%}%>
     });
@@ -174,7 +174,7 @@
             <tr>
                 <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
                 <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
-                <td><span id="tissueTerm" class="highlight"></span></td>
+                <td><span id="tissueTerm<%=tcount%>" class="highlight"></span></td>
             </tr>
 
         <%
@@ -186,7 +186,7 @@
             <tr>
                 <td><label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
                 <td><label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
-                <td><span id="strainTerm" class="highlight"></span></td>
+                <td><span id="strainTerm<%=scount%>" class="highlight"></span></td>
             </tr>
 
         <%
