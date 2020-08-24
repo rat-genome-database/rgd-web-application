@@ -2,6 +2,7 @@ package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.pheno.Sample;
+import edu.mcw.rgd.datamodel.pheno.Study;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,8 +41,10 @@ public class GeoExperimentController implements Controller {
                     header.append("Age High");
                     header.append("Age Low");
                     header.append("Sex");
+                    header.append("Stage");
                     r.append(header);
-                for (int i = 1; i < count; i++) {
+
+                    for (int i = 1; i < count; i++) {
                     Sample s = new Sample();
                     Record rec = new Record();
                     s.setSex(request.getParameter("sex" + i));
@@ -51,11 +54,15 @@ public class GeoExperimentController implements Controller {
                     s.setGeoSampleAcc(request.getParameter("sampleId" + i));
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
+                    s.setDevelopmentalStage(request.getParameter("stage" + i));
 
-                    if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
+
+                    if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty()) {
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
-                    if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() )
+                    }
+                    if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() ) {
                         s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));
+                    }
 
                     s.setNumberOfAnimals(1);
                     int sampleId = 0;
@@ -78,6 +85,7 @@ public class GeoExperimentController implements Controller {
                     rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
                     rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
                     rec.append(s.getSex());
+                    rec.append(s.getDevelopmentalStage());
                     r.append(rec);
                 }
 
@@ -146,8 +154,9 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("gse",gse);
                 return new ModelAndView("/WEB-INF/jsp/expression/createSample.jsp");
             }
+
+
             if (request.getParameter("gse") != null) {
-                System.out.println("In the block");
 
                 return new ModelAndView("/WEB-INF/jsp/expression/editSample.jsp");
             } else return new ModelAndView("/WEB-INF/jsp/expression/" + "experiments.jsp");
