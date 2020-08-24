@@ -199,7 +199,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager1')
+            container: $('#annotationPager1'),
+            size: 10
         });
 
     $('#annotationTable2')
@@ -208,7 +209,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager2')
+            container: $('#annotationPager2'),
+            size: 10
         });
 
     $('#annotationTable3')
@@ -217,7 +219,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager3')
+            container: $('#annotationPager3'),
+            size: 10
         });
 
     $('#annotationTable4')
@@ -226,7 +229,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager4')
+            container: $('#annotationPager4'),
+            size: 10
         });
 
     $('#annotationTable5')
@@ -235,7 +239,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager5')
+            container: $('#annotationPager5'),
+            size: 10
         });
 
     $('#annotationTable6')
@@ -244,7 +249,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager6')
+            container: $('#annotationPager6'),
+            size: 10
         });
 
     $('#annotationTable7')
@@ -253,7 +259,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager7')
+            container: $('#annotationPager7'),
+            size: 10
         });
 
     $('#referencesCuratedTable')
@@ -262,7 +269,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#referencesCuratedPager')
+            container: $('#referencesCuratedPager'),
+            size: 10
         });
     $('#pubMedReferencesTable')
         .tablesorter({
@@ -279,7 +287,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#comparativeMapDataPager')
+            container: $('#comparativeMapDataPager'),
+            size: 3
         });
 
     $('#qtlAssociationTable')
@@ -288,7 +297,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#qtlAssociationPager')
+            container: $('#qtlAssociationPager'),
+            size: 10
         });
 
     $('#strainSequenceVariantsTable')
@@ -297,7 +307,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#strainSequenceVariantsPager')
+            container: $('#strainSequenceVariantsPager'),
+            size: 5
         });
 
     $('#positionMarkersTable')
@@ -306,7 +317,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#positionMarkersPager')
+            container: $('#positionMarkersPager'),
+            size: 3
         });
 
     $('#nucleotideReferenceSequencesTable')
@@ -315,7 +327,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#nucleotideReferenceSequencesPager')
+            container: $('#nucleotideReferenceSequencesPager'),
+            size: 3
         });
 
     $('#proteinReferenceSequencesTable')
@@ -324,7 +337,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#proteinReferenceSequencesPager')
+            container: $('#proteinReferenceSequencesPager'),
+            size: 3
         });
 
     $('#nucleotideSequencesTable')
@@ -333,7 +347,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#nucleotideSequencesPager')
+            container: $('#nucleotideSequencesPager'),
+            size: 10
         });
 
     $('#proteinSequencesTable')
@@ -342,7 +357,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#proteinSequencesPager')
+            container: $('#proteinSequencesPager'),
+            size: 10
         });
 
     $('#externalDatabaseLinksTable')
