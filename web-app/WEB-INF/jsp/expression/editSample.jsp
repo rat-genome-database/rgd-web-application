@@ -6,15 +6,10 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Study" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Experiment" %>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 <html>
 <body style="background-color: white">
 <style>
@@ -45,6 +40,15 @@
     }
 
 </style>
+<%
+
+    String pageTitle = "Create Geo Sample";
+    String headContent = "";
+    String pageDescription = "Create Geo Sample";
+
+%>
+
+<%@ include file="/common/headerarea.jsp" %>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
 <script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
@@ -94,15 +98,7 @@
         <%}%>
     });
 </script>
-<%
 
-    String pageTitle = "Create Geo Sample";
-    String headContent = "";
-    String pageDescription = "Create Geo Sample";
-
-%>
-
-<%@ include file="/common/headerarea.jsp" %>
 <%
 
     String gse = request.getParameter("gse");
