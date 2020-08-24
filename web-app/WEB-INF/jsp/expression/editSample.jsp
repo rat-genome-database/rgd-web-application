@@ -48,7 +48,6 @@
 
 %>
 
-<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="/common/headerarea_phenominer.jsp"%>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
