@@ -4,15 +4,12 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.*" %>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Study" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Experiment" %>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 <html>
 <body style="background-color: white">
 <style>
@@ -51,7 +48,57 @@
 
 %>
 
-<%@ include file="/common/headerarea.jsp" %>
+<%@ include file="/common/headerarea_phenominer.jsp"%>
+<script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
+<!--script type="text/javascript" src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+
+<script type="text/javascript" src="/rgdweb/OntoSolr/ont_util.js"></script>
+<script>
+    var justLoaded = true;
+    var lastIndex = 0;
+    $(document).ready(function () {
+        var not4Curation = ' AND NOT Not4Curation';
+        <% for (int i = 0; i < 15; i++) { %>
+        $("#strainId<%=i%>").autocomplete('/OntoSolr/select', {
+                    extraParams: {
+                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
+                        'bf': 'term_len_l^8',
+                        'fq': 'cat:RS AND synonym:(+RGD +ID)' + not4Curation,
+                        'wt': 'velocity',
+                        'v.template': 'curtermselect'
+                    },
+                    max: 10000
+                }
+        );
+        $("#strainId<%=i%>").result(function (data, value) {
+            $("#strainId<%=i%>").val(value[1]);
+            $("#strainTerm<%=i%>").html(value[0]);
+        });
+        <%}%>
+        <% for (int i = 0; i < 15; i++) { %>
+        $("#tissueId<%=i%>").autocomplete('/OntoSolr/select', {
+                    extraParams: {
+                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
+                        'bf': 'term_len_l^2',
+                        'fq': 'cat:UBERON' + not4Curation,
+                        'wt': 'velocity',
+                        'v.template': 'termidsel_cur'
+                    },
+                    max: 10000,
+                    multiple: true,
+                    multipleSeparator: '|'
+                }
+        );
+        $("#tissueId<%=i%>").result(function (data, value) {
+            $("#tissueId<%=i%>").val(value[1]);
+            $("#tissueTerm<%=i%>").html(value[0]);
+        });
+        <%}%>
+    });
+</script>
+
 <%
 
     String gse = request.getParameter("gse");
@@ -127,7 +174,7 @@
             <tr>
                 <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
                 <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
-                <td></td>
+                <td><span id="tissueTerm<%=tcount%>" class="highlight"></span></td>
             </tr>
 
         <%
@@ -137,9 +184,9 @@
                     for(String strain: strainMap.keySet()){
                 %>
             <tr>
-                <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
-                <td><label for="strainId<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
-                <td></td>
+                <td><label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
+                <td><label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
+                <td><span id="strainTerm<%=scount%>" class="highlight"></span></td>
             </tr>
 
         <%
@@ -176,7 +223,14 @@
                 <td><label for="age<%=tcount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
                 <td><label for="ageLow<%=tcount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
                 <td><label for="ageHigh<%=tcount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-
+                <td><label for="stage<%=tcount%>" style="color: #24609c; font-weight: bold;">Developmental Stage</label><select name="stage<%=tcount%>" id="stage<%=tcount%>">
+                    <option value="embryonic">embryonic (< 0 days)</option>
+                    <option value="neonatal">neonatal (0 - 20 days)</option>
+                    <option value="weanling">weanling (21 – 34 days)</option>
+                    <option value="juvenile">juvenile (35 – 55 days)</option>
+                    <option value="adult">adult (56 – 719 days)</option>
+                    <option value="aged">aged (>=720 days)</option>
+                </select></td>
             </tr>
 
                 <%

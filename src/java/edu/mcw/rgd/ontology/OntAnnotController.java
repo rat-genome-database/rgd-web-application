@@ -559,7 +559,7 @@ public class OntAnnotController implements Controller {
         }
 
         if( a.isGene() ) {
-            buf.append("&tracks=ARGD_curated_genes");
+            buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
         } else if( a.isQtl() ) {
             buf.append("&tracks=AQTLS");
         } else if( a.isStrain() ) {

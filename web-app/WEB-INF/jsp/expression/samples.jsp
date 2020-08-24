@@ -62,7 +62,7 @@
 
 <h2>View GEO Samples</h2>
 
-<a href="/rgdweb/expression/experiments.html">View Geo Experiments</a><br><br>
+<a href="/rgdweb/expression/experiments.html">View Geo Samples</a><br><br>
 <div class="container-fluid">
     <%
         Report report = (Report) request.getAttribute("report");

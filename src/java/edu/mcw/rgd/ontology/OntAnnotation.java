@@ -3,9 +3,11 @@ package edu.mcw.rgd.ontology;
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
 import edu.mcw.rgd.reporting.Link;
+import edu.mcw.rgd.web.FormUtility;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -266,18 +268,51 @@ public class OntAnnotation  {
         edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
         List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
         if(ensemblData.size()==1) {
-            chrEns = ensemblData.get(0).getChromosome();
+            chrEns = ensemblData.get(0).getChromosome().toUpperCase();
+            if( chrEns.length()==1 )
+                chrEns = " "+chrEns;
+            if( chrEns.endsWith("X")||chrEns.endsWith("Y")||chrEns.endsWith("T") )
+                chrEns = " "+chrEns;
+
             startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
             stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
 
-        }
-        /*switch (speciesTypeKey){
-            default:
-                ensemblSource = "https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+            if(JBrowseLink == null){
+                StringBuilder buf = new StringBuilder(128);
+                buf.append("/jbrowse/?highlight=&data=");
+                if( speciesTypeKey== SpeciesType.RAT ){
+                    buf.append("data_rgd6");
+                }else if( speciesTypeKey==SpeciesType.MOUSE ){
+                    buf.append("data_mm37");
+                }else if( speciesTypeKey==SpeciesType.HUMAN ){
+                    buf.append("data_hg19");
+                }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
+                    buf.append("data_cl1_0");
+                }else if (speciesTypeKey==SpeciesType.DOG) {
+                    buf.append("data_dog3_1");
+                }else if (speciesTypeKey==SpeciesType.BONOBO) {
+                    buf.append("data_bonobo1_1");
+                }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
+                    buf.append("data_squirrel2_0");
+                }else if (speciesTypeKey==SpeciesType.PIG) {
+                    buf.append("data_pig11_1");
+                }
 
-//                https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=4:154309426-154359137
-//                https://useast.ensembl.org/Rattus_norvegicus/Location/View?r=4%3A154309426-154359137
-        }*/
+                if( isGene() ) {
+                    buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
+                } else if( isQtl() ) {
+                    buf.append("&tracks=AQTLS");
+                } else if( isStrain() ) {
+                    buf.append("&tracks=CongenicStrains,MutantStrains");
+                }
+
+                buf.append("&loc=");
+                buf.append(FormUtility.getJBrowseLoc(ensemblData.get(0)));
+
+                JBrowseLink = buf.toString();
+            }
+
+        }
     }
     public String getChrEns()   { return chrEns;  }
 
