@@ -2,9 +2,11 @@ package edu.mcw.rgd.phenominer.frontend;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.dao.impl.PhenominerExpectedRangeDao;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
+import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.DelimitedReportStrategy;
 import edu.mcw.rgd.reporting.Report;
@@ -23,6 +25,7 @@ import java.util.*;
 public class PivotTableController implements Controller {
 
     PhenominerDAO pdao = new PhenominerDAO();
+    PhenominerExpectedRangeDao pedao = new PhenominerExpectedRangeDao();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -113,6 +116,7 @@ public class PivotTableController implements Controller {
         HashMap<String,String> methods = new HashMap<String,String>();
         HashMap<String,String> samples = new HashMap<String,String>();
         HashMap<String,String> conditions =  new HashMap<String,String>();
+        HashMap<String,List> ranges = new HashMap<>();
 
         double min = 1000000000;
         double max = -1000000000;
@@ -158,6 +162,10 @@ public class PivotTableController implements Controller {
             }
         }
 
+        for(String measurement:measurements.keySet()){
+            List<PhenominerExpectedRange> normalRanges = pedao.getNormalRangesByCMId(measurement);
+            ranges.put(measurement,normalRanges);
+        }
         // emit cond col names
         emitConditionNames(re, condColNames);
 
@@ -237,15 +245,39 @@ public class PivotTableController implements Controller {
             report.append(re);
         }
 
+        edu.mcw.rgd.reporting.Record normalRange = new edu.mcw.rgd.reporting.Record();
+        Report rangeReport = new Report();
+        normalRange.append("Phenotype");
+        normalRange.append("Sex");
+        normalRange.append("Normal Low");
+        normalRange.append("Normal High");
+        normalRange.append("Units");
+        rangeReport.append(normalRange);
+        for(String range: ranges.keySet()){
+              if(ranges.get(range).size() != 0) {
+                  List<PhenominerExpectedRange> result = ranges.get(range);
+                  for(PhenominerExpectedRange r: result) {
+                      normalRange = new edu.mcw.rgd.reporting.Record();
+                      normalRange.append(termResolver.get(range).getTerm());
+                      normalRange.append(r.getSex());
+                      normalRange.append(String.valueOf(r.getRangeLow()));
+                      normalRange.append(String.valueOf(r.getRangeHigh()));
+                      normalRange.append(r.getUnits());
+                      rangeReport.append(normalRange);
+                  }
+              }
+        }
         if (format == 3) {
             response.setContentType("application/csv");
             response.setHeader("Content-Disposition","filename=phenominer.csv");
             DelimitedReportStrategy drs = new DelimitedReportStrategy();
             drs.setDelimiter(",");
             response.getWriter().print(drs.format(report));
+            response.getWriter().print(drs.format(rangeReport));
             return null;
         }
 
+        System.out.println(ranges);
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
@@ -255,7 +287,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("conditions", conditions);
         request.setAttribute("samples",samples);
         request.setAttribute("measurements", measurements);
-        //request.setAttribute("ageRanges", ageRanges);
+        request.setAttribute("normalRanges", rangeReport);
         request.setAttribute("minValue",min);
         request.setAttribute("maxValue",max);
         request.setAttribute("refRgdId", refRgdId);

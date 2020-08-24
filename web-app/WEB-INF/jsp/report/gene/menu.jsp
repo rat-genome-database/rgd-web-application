@@ -18,6 +18,6 @@
         <% } %>
     </ul>
 </div>
-<div style="clear:both" />
+<div  />
 
 <%@ include file="../sectionFooter.jsp"%>

@@ -57,6 +57,9 @@
                     <a v-bind:href="'/rgdCuration/?module=ont&func=obsoleteTerms&token='+token">Obsolete Terms</a>
                 </td>
             </tr>
+			    <td>
+                    <a v-bind:href="'/rgdweb/curation/strainFileUpload.html?token='+token">Strain Files Upload</a></td>
+            </tr>
             <tr valign="top">
                 <td colspan="2"></td>
             </tr>

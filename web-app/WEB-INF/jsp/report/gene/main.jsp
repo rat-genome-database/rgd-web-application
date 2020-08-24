@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -8,6 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
+
 
 <% boolean includeMapping = true;
     String title = "Genes";
@@ -66,9 +68,13 @@
     String pageDescription = description;
 %>
 
+
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -86,6 +92,105 @@
 "license": "Creative Commons CC BY 4.0"
 }
 </script>
+<script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+
+
+    <script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
+    <link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
+
+<link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+
+<style>
+
+    body{
+
+        /*overflow-x: hidden;*/
+    }
+
+
+    #content-wrap {
+        margin-left: 20rem;
+        position: relative;
+        max-width: 75vw;
+    }
+
+
+    #info-table {
+        background-color: rgb(249, 249, 249);
+    }
+
+
+    #footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25vh;            /* Footer height */
+    }
+
+
+
+
+    /* The side navigation menu */
+    #reportMainSidebar {
+        width: 200px;
+        background-color: #f1f1f1;
+        position: fixed;
+        height: 58vh;
+        overflow-y: auto;
+        margin-bottom: 0px;
+        padding-bottom: 2.5rem;
+        overflow-x: hidden;
+    }
+
+    #left-side-wrap{
+        width: 200px;
+        float: left;
+    }
+
+    #reportMainSidebar ul {
+        padding-top-top: 10px;
+    }
+
+    #reportMainSidebar a {
+        display: block;
+        color: black;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    #reportMainSidebar a.active {
+        background-color: #2865A3;
+        color: white;
+    }
+    ul li {
+        margin: 1px 0;
+        padding: 0;
+    }
+
+    li a{
+        font-size: 10pt;
+        font-family:Arial,Helvetica,sans-serif;
+        line-height: 90%;
+        padding-top: 1px;
+    }
+
+    .sub-nav-item > a{
+        font-size: 8pt;
+        margin-left: 15px;
+    }
+
+    .sectionHeading {
+        color: #0d10a3;
+        font-size: 14px;
+        font-weight: 700;
+        font-style: italic;
+
+    }
+
+</style>
 
 
 <%
@@ -93,121 +198,203 @@
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
 
 %>
-<table width="95%" style="padding-top:10px;" border="0">
-    <tr>
-        <% if( RgdContext.isChinchilla(request) ) { %>
-        <td style="font-size:20px; color:#96151d; font-weight:700;"><%=pageHeader%></td>
-        <% } else { %>
-        <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
-        <% } %>
-        <td align="center" valign="bottom"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
-        <td align="center" valign="bottom"><img src="/rgdweb/common/images/tools-white-40.png" style="cursor:hand; border: 0px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')"/><br><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')">Analyze</a></td>
 
-        <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
-        <td align="right">
-            <a  href="<%=tutorialLink%>"><img src="http://rgd.mcw.edu/common/images/tutorial.png" border=0/></a>
-        </td>
-        <% } %>
-    </tr>
-</table>
+<div id="page-container">
+<div id="left-side-wrap">
+    <div id="species-image">
+     <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+    </div>
+<nav id="reportMainSidebar" class="navbar">
+    <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" href="#top">Summary</a></li>
+        <li class="nav-item"><a class="nav-link" href="#annotation">Annotation</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#diseaseAnnotations">Disease Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneChemicalInteraction">Gene-Chemical Interaction Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneOntologyAnnotations">Gene Ontology Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#molecularPathwayAnnotations">Molecular Pathway Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#phenotypeAnnotations">Phenotype Annotations</a></li>
+        <li class="nav-item"><a class="nav-link" href="#references">References</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#referencesCurated"> References Curated</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#pubMedReferences">PubMed References</a></li>
+        <li class="nav-item"><a class="nav-link" href="#genomics">Genomics</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#candidateGeneStatus"> Candidate Gene Status</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#comparativeMapData">Comparative Map Data</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#positionMarkers">Position Markers</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#qtlAssociation"> QTL Association</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#miRnaTargetStatus"> miRNA Target Status</a></li>
+        <li class="nav-item"><a class="nav-link" href="#expression">Expression</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rnaSeqExpression"> RNA-SEQ Expression</a></li>
+        <li class="nav-item"><a class="nav-link" href="#sequence">Sequence</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nucleotideSequences"> Nucleotide Sequences</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#proteinSequences"> Protein Sequences</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#promoters"> Promoters</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#transcriptome"> Transcriptome</a></li>
 
+        <li class="nav-item"><a class="nav-link" href="#strainVariation">Strain Variation</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#strainSequenceVariants">Strain Sequence Variants</a></li>
 
-<%@ include file="menu.jsp"%>
-
-<% if (view.equals("2")) { %>
-
-<%-- handling of RETIRED/WITHDRAWN genes --%>
-<% } else if (isGeneStatusNotActive) { %>
-    <br><br>The gene <b><%=obj.getSymbol()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
-      &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
-    <% if(newGene!=null ) { %>
-      This gene has been replaced by the gene <a href="<%=edu.mcw.rgd.reporting.Link.gene(newGene.getRgdId())%>" title="click to see the gene report"><b><%=newGene.getSymbol()%></b> (RGD:<%=newGene.getRgdId()%>)</a>.
-     <br><br>
-    <%}%>
-
-    <% if (true) return; %>
-
-<% } else if (view.equals("4")) { %><table width="95%"><tr><td valign="top">
-<%@ include file="../arrayIds.jsp"%>
-<% } else if (view.equals("5")) { %><table width="95%"><tr><td valign="top">
-<%@ include file="../referencesTab.jsp"%>
-<% } else { %>
-
-
-<table width="95%" border="0">
-    <tr>
-        <td>
-
-            <%@ include file="info.jsp"%>
-        <a name="annotation"></a>
-        <br><div class="subTitle">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
-
-        <div id="associationsCurator" style="display:none;">
-            <%@ include file="../associationsCurator.jsp"%>
-        </div>
-        <div id="associationsStandard" style="display:block;">
-            <%@ include file="../associations.jsp"%>
-        </div>
-        <%@ include file="../references.jsp"%>
-        <%@ include file="../pubMedReferences.jsp"%>
-
-        <a name="genomics"></a>
-        <br>
-        <div class="subTitle">Genomics</div>
-        <br>
-
-<%
-    SearchBean sb = new SearchBean();
-    sb.setTerm(obj.getSymbol() + "[gene]");
-    sb.setSpeciesType(obj.getSpeciesTypeKey());
-%>
-    <%@ include file="candidateGenes.jsp"%>
-    <%@ include file="../cellLines.jsp"%>
-    <%@ include file="comparativeMapData.jsp"%>
-    <%@ include file="markers.jsp"%>
-    <%@ include file="../qtlsInRegion.jsp"%>
-    <%@ include file="../relatedStrains.jsp"%>
-      <%@ include file="../geneticModels.jsp"%>
-    <%@ include file="../miRnaTargets.jsp"%>
-
-            <a name="expression"></a>
-            <br>
-            <div class="subTitle">Expression</div>
-            <br>
-
-            <%@ include file="expressionData.jsp"%>
-        <a name="sequence"></a>
-        <br>
-        <div class="subTitle">Sequence</div>
-        <br>
-        <%@ include file="../nucleotide.jsp"%>
-        <%@ include file="../proteins.jsp"%>
-        <%@ include file="proteinStructures.jsp"%>
-
-        <%@ include file="../transcriptome.jsp"%>
-        <%@ include file="../promoters.jsp"%>
-        <%@ include file="clinicalVariants.jsp"%>
-        <%@ include file="../variants.jsp"%>
-        <%@ include file="damagingVariants.jsp"%>
+        <li class="nav-item"><a class="nav-link" href="#additionalInformation">Additional Information</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#externalDatabaseLinks">External Database Links</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nomenclatureHistory">Nomenclature History</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rgdCurationNotes">Rgd Curation Notes</a></li>
 
 
-        <a name="additional"></a>
-        <br><div  class="subTitle">Additional Information</div><br>
+    </ul>
+</nav>
+</div>
 
-        <%@ include file="../xdbs.jsp"%>
-        <%@ include file="../nomen.jsp"%>
-        <%@ include file="../curatorNotes.jsp"%>
-    <%}%>
-    </td>
-    <td>&nbsp;</td>
-    <td valign="top">
 
-        <%@ include file="links.jsp" %>
-        <br>
-        <%@ include file="../idInfo.jsp" %>
-    </td>
-    </tr>
- </table>
+<div id="top"></div>
 
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
+    <div id="content-wrap">
+        <table width="95%" style="padding-top:10px;" border="0">
+            <tr>
+                <% if( RgdContext.isChinchilla(request) ) { %>
+                <td style="font-size:20px; color:#96151d; font-weight:700;"><%=pageHeader%></td>
+                <% } else { %>
+                <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
+                <% } %>
+                <td align="center" valign="bottom"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
+                <td align="center" valign="bottom"><img src="/rgdweb/common/images/tools-white-40.png" style="cursor:hand; border: 0px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')"/><br><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')">Analyze</a></td>
+
+                <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
+                <td align="right">
+                    <a  href="<%=tutorialLink%>"><img src="http://rgd.mcw.edu/common/images/tutorial.png" border=0/></a>
+                </td>
+                <% } %>
+            </tr>
+        </table>
+
+
+
+
+        <%@ include file="menu.jsp"%>
+
+        <% if (view.equals("2")) { %>
+
+        <%-- handling of RETIRED/WITHDRAWN genes --%>
+        <% } else if (isGeneStatusNotActive) { %>
+        <br><br>The gene <b><%=obj.getSymbol()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
+        &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
+        <% if(newGene!=null ) { %>
+        This gene has been replaced by the gene <a href="<%=edu.mcw.rgd.reporting.Link.gene(newGene.getRgdId())%>" title="click to see the gene report"><b><%=newGene.getSymbol()%></b> (RGD:<%=newGene.getRgdId()%>)</a>.
+        <br><br>
+        <%}%>
+
+        <% if (true) return; %>
+
+        <% } else if (view.equals("4")) { %><table width="95%"><tr><td valign="top">
+        <%@ include file="../arrayIds.jsp"%>
+            <% } else if (view.equals("5")) { %><table width="95%"><tr><td valign="top">
+        <%@ include file="../referencesTab.jsp"%>
+            <% } else { %>
+
+
+
+        <!-- above symbol, name description table--->
+        <table width="95%" border="0">
+            <tr>
+                <td>
+
+                    <%@ include file="info.jsp"%>
+
+                    <a name="annotation"></a>
+                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+
+                    <div id="associationsCurator" style="display:none;">
+                        <%@ include file="../associationsCurator.jsp"%>
+                    </div>
+
+                    <div id="associationsStandard" style="display:block;">
+                        <%@ include file="../associations.jsp"%>
+                    </div>
+
+                    <div class ="subTitle" id="references">References</div>
+                    <%@ include file="../references.jsp"%>
+                    <%@ include file="../pubMedReferences.jsp"%>
+                    <!--above genomics table--->
+
+                    <a name="genomics"></a>
+                    <br>
+                    <div class="subTitle" id="genomics">Genomics</div>
+                    <br>
+
+                    <%
+                        SearchBean sb = new SearchBean();
+                        sb.setTerm(obj.getSymbol() + "[gene]");
+                        sb.setSpeciesType(obj.getSpeciesTypeKey());
+
+                    %>
+
+                    <%@ include file="candidateGenes.jsp"%>
+                    <%@ include file="../cellLines.jsp"%>
+                    <%@ include file="comparativeMapData.jsp"%>
+                    <%@ include file="markers.jsp"%>
+                    <%@ include file="../qtlsInRegion.jsp"%>
+                    <%@ include file="../relatedStrains.jsp"%>
+                    <%@ include file="../geneticModels.jsp"%>
+                    <%@ include file="../miRnaTargets.jsp"%>
+                    <!---Above expression table-->
+                    <a name="expression"></a>
+                    <br>
+                    <div class="subTitle" id="expression">Expression</div>
+                    <br>
+
+                    <%@ include file="expressionData.jsp"%>
+
+                    <!--above sequence table--->
+                    <a name="sequence"></a>
+                    <br>
+                    <div class="subTitle" id="sequence">Sequence</div>
+                    <br>
+                    <%@ include file="../nucleotide.jsp"%>
+                    <%@ include file="../proteins.jsp"%>
+                    <%@ include file="proteinStructures.jsp"%>
+
+                    <%@ include file="../transcriptome.jsp"%>
+                    <%@ include file="../promoters.jsp"%>
+                    <%@ include file="clinicalVariants.jsp"%>
+                    <%@ include file="../variants.jsp"%>
+                    <%@ include file="damagingVariants.jsp"%>
+
+                    <!--above additional information--->
+                    <a name="additional"></a>
+                    <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+
+                    <%@ include file="../xdbs.jsp"%>
+                    <%@ include file="../nomen.jsp"%>
+                    <%@ include file="../curatorNotes.jsp"%>
+                    <%}%>
+                </td>
+                <td>&nbsp;</td>
+<%--                <td valign="top">--%>
+
+<%--                    <%@ include file="links.jsp" %>--%>
+<%--                    <br>--%>
+<%--                    <%@ include file="../idInfo.jsp" %>--%>
+<%--                </td>--%>
+            </tr>
+        </table>
+    </table>
+    </table>
+    </div>
+</div>
+
+    <footer id="footer">
+        <%@ include file="../reportFooter.jsp"%>
+        <%@ include file="/common/footerarea.jsp"%>
+    </footer>
+
+
+
+<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+
+
+
+
+
+
+
+
+
+

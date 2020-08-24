@@ -17,7 +17,7 @@ function OrthologVue(divId) {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
 
-
+    
     var v = new Vue({
         el: div,
         data: {
@@ -45,7 +45,7 @@ function OrthologVue(divId) {
                 else v.outMaps=[];
 
                 axios
-                    .get(this.hostName + '/rgdws/maps/'+species)
+                    .get(this.hostName + '/rgdws/maps/'+species+'/'+'NCBI')
                     .then(function (response) {
                         v.maps = (response.data);
 

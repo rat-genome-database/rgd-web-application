@@ -48,8 +48,8 @@
     if( high.size() !=  0 || low.size() != 0 || medium.size() != 0 || belowcutOff.size() != 0  ) {
 %>
 
-<%=ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
-
+<%//ui.dynOpen("rna-seq", "RNA-SEQ Expression")%>    <br>
+<div class="sectionHeading" id="rnaSeqExpression">RNA-SEQ Expression</div>
 
 
 <b ><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;
@@ -133,6 +133,6 @@
 <%}%>
 
 
-<%=ui.dynClose("rna-seq")%>
+<%//ui.dynClose("rna-seq")%>
 
 <%@ include file="../sectionFooter.jsp"%>

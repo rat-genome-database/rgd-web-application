@@ -160,6 +160,8 @@ public class OntAnnotController implements Controller {
                 bean.setObjectKey(5);
             }else  if (ts.getStat("annotated_object_count",speciesTypeKey,7,withKids) > 0){
                 bean.setObjectKey(7);
+            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,11,withKids) > 0){
+                bean.setObjectKey(11);
             }
         }
 
@@ -237,6 +239,7 @@ public class OntAnnotController implements Controller {
         }
 
         AnnotationDAO dao = new AnnotationDAO();
+        MapDAO mdao = new MapDAO();
         List<Annotation> annots;
         if( bean.getSpeciesTypeKey()==SpeciesType.ALL ) {
             annots = dao.getAnnotationsGroupedByGene(accId, withChildren, 0, maxAnnotCount+1, bean.getObjectKey());
@@ -311,7 +314,7 @@ public class OntAnnotController implements Controller {
 
                 a.setSpeciesTypeKey(annot.getSpeciesTypeKey());
                 a.setNotes(annot.getNotes());
-
+                a.setEnsemblData(mdao,_numFormat);
                 annotList.add(a);
             } else {
                 // merge data from multiple annotations (for the same term and object)
@@ -556,7 +559,7 @@ public class OntAnnotController implements Controller {
         }
 
         if( a.isGene() ) {
-            buf.append("&tracks=ARGD_curated_genes");
+            buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
         } else if( a.isQtl() ) {
             buf.append("&tracks=AQTLS");
         } else if( a.isStrain() ) {

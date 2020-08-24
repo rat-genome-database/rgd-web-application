@@ -11,7 +11,8 @@
     if (modelList.size() > 0) {
 %>
 
-<%=ui.dynOpen("geneticModels", "Genetic Models")%>    <br>
+<%//ui.dynOpen("geneticModels", "Genetic Models")%>    <br>
+<div class="sectionHeading" id="geneticModels">Genetic Models</div>
 This gene  <span class="highlight"><%=displayName%></span> is modified in the following models/strains
 
 
@@ -24,7 +25,7 @@ This gene  <span class="highlight"><%=displayName%></span> is modified in the fo
 %>
 <br>
 
-<%=ui.dynClose("geneticModels")%>
+<%//ui.dynClose("geneticModels")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

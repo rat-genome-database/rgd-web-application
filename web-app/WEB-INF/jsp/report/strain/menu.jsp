@@ -8,6 +8,7 @@
             -->
         <% if (RgdContext.isCurator()) {%>
            <li ><a href="/rgdweb/curation/edit/editStrain.html?rgdId=<%=obj.getRgdId()%>">Edit Me!</a></li>
+        <li ><a href="/rgdweb/curation/strainFileUpload.html?strainId=<%=obj.getRgdId()%>">Upload Files!</a></li>
         <% } %>
     </ul>
 </div>

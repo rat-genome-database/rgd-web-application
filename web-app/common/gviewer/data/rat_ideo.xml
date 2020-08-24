@@ -1518,18 +1518,18 @@
 		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:149291610-160775580</link>
 	</band>
 </chromosome>
-<chromosome index="22" number="Y" length="71246413">
+<chromosome index="22" number="Y" length="3310458">
 	<band index="1" name="q11">
 		<start>0</start>
-		<end>53434809</end>
+		<end>2482843</end>
 		<stain>gpos</stain>
-		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:0-53434809</link>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:1-2482843</link>
 	</band>
 	<band index="2" name="q12">
-		<start>53434809</start>
-		<end>71246413</end>
+		<start>2482843</start>
+		<end>3310458</end>
 		<stain>gneg</stain>
-		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:53434809-71246413</link>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:2482843-3310458</link>
 	</band>
 </chromosome>
 </genome>

@@ -19,6 +19,11 @@
         <property name="mappings">
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
+
+                <prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+                <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
+				<prop key="expression/experiments.html">GeoExperimentController</prop>
+				<prop key="expression/study.html">GeoStudyController</prop>
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
@@ -106,6 +111,7 @@
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
                 <prop key="search/search.html">searchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -114,6 +120,7 @@
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                  <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
@@ -283,6 +290,11 @@
     <property name="primerInpDir" value="/rgd/data/primer3/createPrimerInp/"/>
 </bean>
 
+ <bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
+<bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
+
+<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
+<bean id="GeoStudyController" class="edu.mcw.rgd.expression.GeoStudyController" />
     <bean id="PathwayHomeController" class="edu.mcw.rgd.pathway.controller.PathwayHomeController" />
     <bean id="PathwayRecordController" class="edu.mcw.rgd.pathway.controller.PathwayRecordController" parent="wwwDir"> <!-- the parent attribute is being used here to refer to comon property with bean id "uploadingDir"
            that is being shared by a number of beans with different classes. Refer: 3.1.2. Abstracting common properties in SpringInAction
@@ -314,7 +326,7 @@
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
-    <!--bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/-->
+    <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
 
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
@@ -387,6 +399,7 @@
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
+    <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>

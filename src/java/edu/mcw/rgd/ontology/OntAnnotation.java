@@ -1,10 +1,15 @@
 package edu.mcw.rgd.ontology;
 
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
 import edu.mcw.rgd.reporting.Link;
+import edu.mcw.rgd.web.FormUtility;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 
@@ -31,6 +36,10 @@ public class OntAnnotation  {
     private String dataSource;
     private String xrefSource = "";
     private String notes;
+
+    private String chrEns = null;
+    private String startPosEns = null;
+    private String stopPosEns = null;
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
         @Override
@@ -191,11 +200,19 @@ public class OntAnnotation  {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS;
     }
 
+    public String getObjectTypeInitial() {
+        if( rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ) {
+            return "CL";
+        }
+        return getRgdObjectName().substring(0,1).toUpperCase();
+    }
+
     public String getRgdObjectName() {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_GENES ? "gene" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_QTLS ? "qtl" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS ? "strain" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_VARIANTS ? "variant" :
+            this.rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ? "cellline" :
             "unknown";
     }
 
@@ -246,4 +263,61 @@ public class OntAnnotation  {
     public void setNotes(String notes) {
         this.notes = notes==null ? "" : notes;
     }
+
+    public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
+        edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
+        List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
+        if(ensemblData.size()==1) {
+            chrEns = ensemblData.get(0).getChromosome().toUpperCase();
+            if( chrEns.length()==1 )
+                chrEns = " "+chrEns;
+            if( chrEns.endsWith("X")||chrEns.endsWith("Y")||chrEns.endsWith("T") )
+                chrEns = " "+chrEns;
+
+            startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
+            stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
+
+            if(JBrowseLink == null){
+                StringBuilder buf = new StringBuilder(128);
+                buf.append("/jbrowse/?highlight=&data=");
+                if( speciesTypeKey== SpeciesType.RAT ){
+                    buf.append("data_rgd6");
+                }else if( speciesTypeKey==SpeciesType.MOUSE ){
+                    buf.append("data_mm37");
+                }else if( speciesTypeKey==SpeciesType.HUMAN ){
+                    buf.append("data_hg19");
+                }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
+                    buf.append("data_cl1_0");
+                }else if (speciesTypeKey==SpeciesType.DOG) {
+                    buf.append("data_dog3_1");
+                }else if (speciesTypeKey==SpeciesType.BONOBO) {
+                    buf.append("data_bonobo1_1");
+                }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
+                    buf.append("data_squirrel2_0");
+                }else if (speciesTypeKey==SpeciesType.PIG) {
+                    buf.append("data_pig11_1");
+                }
+
+                if( isGene() ) {
+                    buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
+                } else if( isQtl() ) {
+                    buf.append("&tracks=AQTLS");
+                } else if( isStrain() ) {
+                    buf.append("&tracks=CongenicStrains,MutantStrains");
+                }
+
+                buf.append("&loc=");
+                buf.append(FormUtility.getJBrowseLoc(ensemblData.get(0)));
+
+                JBrowseLink = buf.toString();
+            }
+
+        }
+    }
+    public String getChrEns()   { return chrEns;  }
+
+    public String getStartPosEns()  {   return startPosEns; }
+
+    public String getStopPosEns()   {  return stopPosEns;    }
+
 }
