@@ -68,11 +68,13 @@
     String pageDescription = description;
 %>
 
-<body data-spy="scroll" data-target=".navbar" data-offset="100" style="position: relative;">
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -90,27 +92,45 @@
 "license": "Creative Commons CC BY 4.0"
 }
 </script>
+<script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 
+
+    <script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
+    <link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
+
+<link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
 <style>
-    #page-container {
-        margin-left: 200px;
-        padding: 1px 16px;
-        position: relative;
-        min-height: 100vh;
 
-    }
-    #footer{
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 2.5rem;            /* Footer height */
+    body{
+
+        /*overflow-x: hidden;*/
     }
 
 
     #content-wrap {
-        padding-bottom: 2.5rem;    /* Footer height */
+        margin-left: 20rem;
+        position: relative;
+        max-width: 75vw;
     }
+
+
+    #info-table {
+        background-color: rgb(249, 249, 249);
+    }
+
+
+    #footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25vh;            /* Footer height */
+    }
+
+
 
 
     /* The side navigation menu */
@@ -167,6 +187,7 @@
         font-size: 14px;
         font-weight: 700;
         font-style: italic;
+
     }
 
 </style>
@@ -178,7 +199,7 @@
 
 %>
 
-
+<div id="page-container">
 <div id="left-side-wrap">
     <div id="species-image">
      <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
@@ -191,6 +212,7 @@
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneChemicalInteraction">Gene-Chemical Interaction Annotations</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneOntologyAnnotations">Gene Ontology Annotations</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#molecularPathwayAnnotations">Molecular Pathway Annotations</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#phenotypeAnnotations">Phenotype Annotations</a></li>
         <li class="nav-item"><a class="nav-link" href="#references">References</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#referencesCurated"> References Curated</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#pubMedReferences">PubMed References</a></li>
@@ -205,6 +227,7 @@
         <li class="nav-item"><a class="nav-link" href="#sequence">Sequence</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#nucleotideSequences"> Nucleotide Sequences</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#proteinSequences"> Protein Sequences</a></li>
+        <li class="nav-item sub-nav-item"><a class="nav-link" href="#promoters"> Promoters</a></li>
         <li class="nav-item sub-nav-item"><a class="nav-link" href="#transcriptome"> Transcriptome</a></li>
 
         <li class="nav-item"><a class="nav-link" href="#strainVariation">Strain Variation</a></li>
@@ -222,7 +245,7 @@
 
 
 <div id="top"></div>
-<div id="page-container">
+
     <div id="content-wrap">
         <table width="95%" style="padding-top:10px;" border="0">
             <tr>
@@ -286,7 +309,7 @@
                         <%@ include file="../associations.jsp"%>
                     </div>
 
-                    <div class = "subheadings" id="references">References</div>
+                    <div class ="subTitle" id="references">References</div>
                     <%@ include file="../references.jsp"%>
                     <%@ include file="../pubMedReferences.jsp"%>
                     <!--above genomics table--->
@@ -344,12 +367,12 @@
                     <%}%>
                 </td>
                 <td>&nbsp;</td>
-                <td valign="top">
+<%--                <td valign="top">--%>
 
-                    <%@ include file="links.jsp" %>
-                    <br>
-                    <%@ include file="../idInfo.jsp" %>
-                </td>
+<%--                    <%@ include file="links.jsp" %>--%>
+<%--                    <br>--%>
+<%--                    <%@ include file="../idInfo.jsp" %>--%>
+<%--                </td>--%>
             </tr>
         </table>
     </table>
@@ -363,7 +386,11 @@
     </footer>
 
 
-</body>
+
+<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+
+
+
 
 
 

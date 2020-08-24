@@ -25,7 +25,30 @@
 <%//ui.dynOpen("otherPubmed", "References - uncurated")%>
 
 <div class="sectionHeading" id="pubMedReferences">PubMed References</div>
-    <table border="0" >
+<div id="pubMedReferencesTableDiv">
+
+    <div id="modelsViewContent" >
+        <div id="pubMedReferencesPager" class="pager" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <table border="0"  class="tablesorter" id="pubMedReferencesTable">
+        <thead></thead>
+        <tbody>
     <tr>
         <td style="background-color:#e2e2e2; vertical-align:top"><b>PubMed</b></td>
         <td style="background-color:#e2e2e2;">
@@ -39,10 +62,12 @@
     <% } %>
         </td>
     </tr>
+        </tbody>
     </table>
 
 <br>
 <%//ui.dynClose("otherPubmed")%>
 
 <% } %>
+</div>
 <%@ include file="sectionFooter.jsp"%>

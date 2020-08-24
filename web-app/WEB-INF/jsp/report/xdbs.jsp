@@ -8,12 +8,39 @@
 
 <%//ui.dynOpen("xdbAssociation", "External Database Links")%>
 <div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
-<table border="0" >
-    <tr>
-        <td style="background-color:#a2a2a2;"><b>Database</b></td>
-        <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
-        <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
-    </tr>
+
+<div id="externalDatabaseLinksTableDiv">
+
+    <div id="modelsViewContent" >
+        <div id="externalDatabaseLinksPager" class="pager" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+<table border="0" id="externalDatabaseLinksTable" class="tablesorter">
+    <thead>
+        <tr>
+            <td style="background-color:#a2a2a2;"><b>Database</b></td>
+            <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
+            <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
+        </tr>
+    </thead>
+    <tbody>
 <%
     int lastXdbKey=0;
     String lastLink="", fullUrl;
@@ -55,7 +82,9 @@
 <%
     }
 %>
+    </tbody>
 </table>
+</div>
 <br>
 <%//ui.dynClose("xdbAssociation")%>
 <%

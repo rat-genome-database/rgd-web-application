@@ -7,7 +7,31 @@
 %>
     <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
-    <table border="0" >
+<div id="proteinSequencesTableDiv">
+    <div id="modelsViewContent2" >
+        <div id="proteinSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+    <table border="0" id="proteinSequencesTable" class = 'tablesorter'>
+        <thead></thead>
 <%
     int row = 0;
     int prevRefSeqCode = -1;
@@ -40,12 +64,38 @@
     </tr>
 <% } %>
 </table>
-
+</div>
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
 %>
     <br><span class="highlight"><u>Reference Sequences</u></span><br>
+
+<div id="proteinReferenceSequencesTableDiv">
+
+    <div id="modelsViewContent" >
+        <div id="proteinReferenceSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+
 <%
 
     for (Transcript t : tlist) {
@@ -77,7 +127,7 @@
     %>
 <br>
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
     <tr>
         <td class="label" valign="top" width="110">RefSeq Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=t.getProteinAccId()%> &nbsp; &xlArr; &nbsp; <%=t.getAccId()%></td>
@@ -120,7 +170,7 @@
 </table>
 <% } %>
 <% } %>
-
+</div>
 <%  // PROTEIN DOMAINS
     if (pdomains.size() > 0) {
 %>
@@ -135,5 +185,6 @@
 
     <%//ui.dynClose("protAssociation")%>
 <% } %>
+
 
 <%@ include file="sectionFooter.jsp"%>

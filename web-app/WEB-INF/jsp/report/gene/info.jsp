@@ -1,7 +1,17 @@
 <%@ page import="java.util.TreeMap" %>
 <%@ include file="../sectionHeader.jsp"%>
+<%
+    RgdId id = null;
+    try {
+        id = managementDAO.getRgdId(obj.getRgdId());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+%>
+<table width="100%" border="0" id="info-table">
+
+    <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
     <tr>
         <td class="label" valign="top">Symbol:</td>
         <td class="geneList"><%=obj.getSymbol()%></td>
@@ -11,11 +21,16 @@
         <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
 
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=id.getRgdId()%></td>
+    </tr>
+
     <%-- GENE DESCRIPTIONS: show merged description on PROD, and RGD, AGR, MERGED descriptions everywhere else--%>
     <% if( RgdContext.isCurator() ) { %>
     <tr>
         <td class="label" valign="top">Description:</td>
-        <td><%=description==null ? "" : description%></td>
+        <td style="overflow: auto"><%=description==null ? "" : description%></td>
     </tr>
 
     <% if( obj.getAgrDescription()!=null ) { %>
@@ -38,6 +53,7 @@
         <td class="label" valign="top">Description:</td>
         <td><%=Utils.NVL(obj.getMergedDescription(), description==null ? "" : description)%></td>
     </tr>
+
     <% } %><%-- end GENE DESCRIPTIONS --%>
 
     <tr>

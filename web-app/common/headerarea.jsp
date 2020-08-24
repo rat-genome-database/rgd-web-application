@@ -119,7 +119,7 @@
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
 
-<body  ng-cloak ng-app="rgdPage">
+<body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="100" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 
 
