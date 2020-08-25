@@ -235,24 +235,7 @@ function calculateScrollPercentage(currentPosition){
     return percentScrolled;
 }
 
-function calculateElementsTopDistance(element){
-    // Set our distance placeholder
-    let distance = 0;
 
-    // Loop up the DOM
-    if (element.offsetParent) {
-        do {
-            distance += element.offsetTop;
-            element = element.offsetParent;
-        } while (element);
-    } else {
-        distance = element.offsetTop;
-    }
-
-    // Return our distance
-    return distance < 0 ? 0 : distance;
-
-}
 
 
 
