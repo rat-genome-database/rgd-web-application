@@ -1,4 +1,3 @@
-
 let tableArray = Array.from(
     document.getElementsByClassName("annotationTable"));
 
@@ -20,9 +19,17 @@ addClassAndId(proteinRefTable, 'tablesorter' ,'proteinReferenceSequencesTable');
 appendTableToDiv(proteinRefTable, 'proteinReferenceSequencesTableDiv');
 removeBreaks('proteinReferenceSequencesTableDiv');
 
+let sidebar = document.getElementById("reportMainSidebar");
+
+// sidebar.style.position = "relative";
+window.addEventListener("scroll", (event) =>{
+    stickifySideBar(sidebar);
+});
+
+
 
 function removeBreaks(divId){
-    let div = document.getElementById(divId)
+    let div = document.getElementById(divId);
     let breaks = div.getElementsByTagName('br');
 
     for (let i = 0; i < breaks.length; i++) {
@@ -64,7 +71,7 @@ function iterateOverAndAppendNewTables(tableArray){
         let parentIdString = table.parentNode.id;
         if(pager !== undefined){
             addIdToPagerDiv(pager, i + 1);
-        };
+        }
 
         let newTable = tableBreakdownAndCreation(table);
         appendTable(addClassAndIdToAnnotationTable(newTable, i + 1), parentIdString);
@@ -153,7 +160,6 @@ function buildReferenceTable(rowArray){
     return newTable;
 }
 
-
 function buildAnnotationTable(rowArray){
 
     let newTable = document.createElement('table');
@@ -189,6 +195,65 @@ function addIdToPagerDiv(pager, pagerNumber){
     pager.id = "annotationPager" + pagerNumber.toString();
     return pager;
 }
+
+
+
+
+function stickifySideBar(sidebar){
+    //get element
+    let scrollPosition = pageYOffset;
+    let percentScrolled = calculateScrollPercentage(scrollPosition);
+    console.log(percentScrolled);
+
+    if(scrollPosition >= 275){
+        sidebar.style.position = "fixed";
+        sidebar.style.top = "0";
+    }else{
+        sidebar.style.position = "relative";
+    }
+
+    if(percentScrolled >= 50){
+        sidebar.style.top = "-200";
+    }
+
+    if(percentScrolled >= 75){
+        sidebar.style.top = "-300";
+    }
+
+    if(percentScrolled >= 85){
+        sidebar.style.top = "-500";
+    }
+
+}
+
+function calculateScrollPercentage(currentPosition){
+    let documentHeight = document.documentElement.clientHeight;
+    let windowHeight = window.innerHeight;
+    let scrollableHeight = documentHeight - windowHeight;
+    let percentScrolled = Math.floor((currentPosition * 100) / scrollableHeight);
+
+    return percentScrolled;
+}
+
+function calculateElementsTopDistance(element){
+    // Set our distance placeholder
+    let distance = 0;
+
+    // Loop up the DOM
+    if (element.offsetParent) {
+        do {
+            distance += element.offsetTop;
+            element = element.offsetParent;
+        } while (element);
+    } else {
+        distance = element.offsetTop;
+    }
+
+    // Return our distance
+    return distance < 0 ? 0 : distance;
+
+}
+
 
 
 $(function () {

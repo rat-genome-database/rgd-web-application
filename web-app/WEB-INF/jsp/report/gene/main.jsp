@@ -137,9 +137,8 @@
     #reportMainSidebar {
         width: 200px;
         background-color: #f1f1f1;
-        position: fixed;
-        height: 58vh;
-        overflow-y: auto;
+        /*height: 100vh;*/
+        /*overflow-y: auto;*/
         margin-bottom: 0px;
         padding-bottom: 2.5rem;
         overflow-x: hidden;
