@@ -286,15 +286,15 @@
 
                 <td align="right">
                     <%if(!annot.getChr().trim().isEmpty()){
-                        out.print("NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos());
+                        out.print(annot.getFullNcbiPos());
                         if(annot.getChrEns()!=null){%>
                         <%=annot.getFullEnsPos()%>
                     <% }
-                     } // end if NCBI is whitespace
+                     } // end if NCBI is not whitespace
                      else
-                        if(annot.getChrEns()!=null){%>
-                            <%=annot.getFullEnsPos()%>
-                        <%}%>
+                    if(annot.getChrEns()!=null){
+                        out.print(annot.getFullEnsPos().substring(4) );
+                    }%>
                 </td>
             <td><% String jbrowseLink = annot.getJBrowseLink();
                 if( jbrowseLink!=null ) {%>

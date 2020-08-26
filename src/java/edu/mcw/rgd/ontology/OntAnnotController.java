@@ -523,9 +523,11 @@ public class OntAnnotController implements Controller {
             a.setChr(chr);
             a.setStartPos(_numFormat.format(md.getStartPos()));
             a.setStopPos(_numFormat.format(md.getStopPos()));
+            a.setFullNcbiPos();
         }
         else {
             // concatenate chromosomes and positions
+            a.addToNcbiPos(chr,_numFormat.format(md.getStartPos()),_numFormat.format(md.getStopPos()));
             a.setChr(a.getChr()+"<br/>"+chr);
             a.setStartPos(a.getStartPos()+"<br/>"+_numFormat.format(md.getStartPos()));
             a.setStopPos(a.getStopPos()+"<br/>"+_numFormat.format(md.getStopPos()));

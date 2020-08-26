@@ -41,6 +41,7 @@ public class OntAnnotation  {
     private String startPosEns = null;
     private String stopPosEns = null;
     private String fullEnsPos = "";
+    private String fullNcbiPos = "";
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
         @Override
@@ -319,12 +320,23 @@ public class OntAnnotation  {
 
         }
     }
+
+    public void setFullNcbiPos(){
+        fullNcbiPos = "NCBI\tchr"+chr+":"+startPos+"..."+stopPos;
+    }
+
+    public void addToNcbiPos(String newChr, String newStartPos, String newStopPos){
+        fullNcbiPos += "<br>NCBI\tchr"+newChr+":"+newStartPos+"..."+newStopPos;
+    }
+
     public String getChrEns()   { return chrEns;  }
 
     public String getStartPosEns()  {   return startPosEns; }
 
-    public String getStopPosEns()   {  return stopPosEns;    }
+    public String getStopPosEns()   {   return stopPosEns;    }
 
-    public String getFullEnsPos() { return fullEnsPos;  }
+    public String getFullEnsPos()   {   return fullEnsPos;  }
+
+    public String getFullNcbiPos()  {   return fullNcbiPos; }
 
 }
