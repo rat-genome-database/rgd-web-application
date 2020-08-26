@@ -104,7 +104,6 @@
         <tr>
             <td colspan="2"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
                 show annotations for term's descendants
-<%--            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" <c:if test="${bean.extendedView}">checked="checked"</c:if> onclick="addParamToLocHref('x','<%=bean.isExtendedView()?0:1%>','#annot')" title="show more details"> view all columns</li>--%>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:<%=fu.buildSelectList("sort_by\" onChange=\"addParamToLocHref('sort_by',this.options[selectedIndex].text,'#annot')", bean.getSortByChoices(), bean.getSortBy())%>
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
                         value="0" <c:if test="${bean.sortDesc==false}">selected="selected"</c:if>>&uarr; asc</option><option
@@ -288,14 +287,14 @@
                 <td align="right">
                     <%if(!annot.getChr().trim().isEmpty()){
                         out.print("NCBI\tchr"+annot.getChr()+":"+annot.getStartPos()+"..."+annot.getStopPos());
-                    if(annot.getChrEns()!=null){%>
-                        <br><%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%></br>
+                        if(annot.getChrEns()!=null){%>
+                        <%=annot.getFullEnsPos()%>
                     <% }
                      } // end if NCBI is whitespace
                      else
-                    if(annot.getChrEns()!=null){%>
-                        <%="Ensembl\tchr"+annot.getChrEns()+":"+annot.getStartPosEns()+"..."+annot.getStopPosEns()%>
-                    <%}%>
+                        if(annot.getChrEns()!=null){%>
+                            <%=annot.getFullEnsPos()%>
+                        <%}%>
                 </td>
             <td><% String jbrowseLink = annot.getJBrowseLink();
                 if( jbrowseLink!=null ) {%>
