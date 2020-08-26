@@ -32,13 +32,14 @@ scroll-top:0;
     List<VariantResult> resultList = searchResult.getVariantResults();
     String dbSnpUrl = XDBIndex.getInstance().getXDB(48).getUrl();
 
-    String mapName = "";
+   /* String mapName = "";
+
     try {
         mapName = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
     }catch (Exception e) {
         throw e;
     }
-
+*/
 
 %>
 
@@ -73,7 +74,7 @@ scroll-top:0;
                    <td><%=sample.getAnalysisName()%></td>
                </tr>
                 <tr>
-                    <td class="carpeLabel">Assembly:</td><td><%=mapName%></td>
+                    <td class="carpeLabel">Assembly:</td><td><%=MapManager.getInstance().getMap(sample.getMapKey()).getName()%></td>
                 </tr>
                 <tr>
                     <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
