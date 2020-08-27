@@ -12,7 +12,7 @@
     Map resultHash = (Map) request.getAttribute("resultHash");
     Integer maxValue = (Integer) request.getAttribute("maxValue");
     List<String> sampleIds = (List<String>) request.getAttribute("sampleIds");
-    List regionList = (List) request.getAttribute("regionList");
+    List<String> regionList = (List<String>) request.getAttribute("regionList");
 
     int cellWidth = 24;
     int xMenuWidth = 135;
@@ -76,7 +76,7 @@ if (!(req.getParameter("rdo_acc_id").equals("") && req.getParameter("pw_acc_id")
 
 <% } %>
 
-
+<h1>REGION LIST:<%=regionList.size()%></h1>
 <% if (regionList.size() == 0) { %>
     <br>
     <table align="center">

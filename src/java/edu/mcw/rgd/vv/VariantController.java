@@ -1,6 +1,13 @@
 package edu.mcw.rgd.vv;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import edu.mcw.rgd.dao.impl.SequenceDAO;
+import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
@@ -15,12 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,7 +67,7 @@ public class VariantController extends HaplotyperController {
 
             }
             if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_dev";
+                index= "variants_rat"+vsb.getMapKey()+"_test";
             if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
                 index= "variants_dog"+vsb.getMapKey()+"_dev";
             //   System.out.println("INDEX NAME: "+ index);
@@ -137,55 +143,127 @@ public class VariantController extends HaplotyperController {
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
-    //    System.out.println("VARIANT SEARCH HITS: "+ hits.size());
+     System.out.println("VARIANT SEARCH HITS: "+ hits.size());
 
-        for(int id:vsb.sampleIds) {
+   //     for(int id:vsb.sampleIds) {
             for (SearchHit h : hits) {
                 java.util.Map<String, Object> m = h.getSourceAsMap();
-                List<Map> samples = (List<Map>) m.get("samples");
-                for (Map e : samples) {
-                    int sId = (Integer) (e.get("sampleId"));
+             //   List<Map> samples = (List<Map>) m.get("samples");
+             //   for (Map e : samples) {
+                //    int sId = (Integer) (e.get("sampleId"));
 
-                    if (id==sId) {
+                //    if (id==sId) {
                         VariantResult vr = new VariantResult();
                         //    Variant v= mapVariant(m);
 
-                        Map vd = (Map) m.get("variant");
+                   //     Map vd = (Map) m.get("variant");
                         Variant v = new Variant();
-                        v.setChromosome((String) vd.get("chromosome"));
-                        v.setStartPos((Integer) vd.get("startPos"));
-                        v.setEndPos((Integer) vd.get("endPos"));
-                        v.setReferenceNucleotide((String) vd.get("referenceNucleotide"));
-                        v.setVariantNucleotide((String) vd.get("variantNucleotide"));
-                        v.setGenicStatus((String) vd.get("genicStatus"));
-                        v.setPaddingBase((String) vd.get("paddingBase"));
+                        v.setChromosome((String) m.get("chromosome"));
+                        v.setStartPos((Integer) m.get("startPos"));
+                        v.setEndPos((Integer) m.get("endPos"));
+                        v.setReferenceNucleotide((String) m.get("refNuc"));
+                        v.setVariantNucleotide((String) m.get("varNuc"));
+                        v.setGenicStatus((String) m.get("genicStatus"));
+                        v.setPaddingBase((String) m.get("paddingBase"));
                         v.setRegionName(m.get("regionName").toString());
-                        v.setVariantType((String) vd.get("variantType"));
-                        v.setSampleId(sId);
-                        v.setVariantFrequency((Integer) e.get("variantFrequency"));
-                        v.setDepth((Integer) e.get("depth"));
-                        v.setQualityScore((Integer) e.get("qualityScore"));
-                        v.setZygosityStatus((String) e.get("zygosityStatus"));
-                        v.setZygosityInPseudo((String) e.get("zygosityInPseudo"));
-                        v.setZygosityNumberAllele((Integer) e.get("zygosityNumberAllele"));
+                        v.setVariantType((String) m.get("variantType"));
+                       // v.setSampleId(sId);
+                        v.setSampleId((Integer) m.get("sampleId"));
+                        v.setVariantFrequency((Integer) m.get("varFreq"));
+                        v.setDepth((Integer) m.get("totalDepth"));
+                        v.setQualityScore((Integer) m.get("qualityScore"));
+                        v.setZygosityStatus((String) m.get("zygosityStatus"));
+                        v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
+                        v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
                         v.setZygosityPercentRead(100);
-                        v.setZygosityPossibleError((String) e.get("zygosityPossibleError"));
-                        v.setZygosityRefAllele((String) e.get("zygosityRefAllele"));
+                        v.setZygosityPossibleError((String) m.get("zygosityPossError"));
+                        v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
                         vr.setVariant(v);
+                        System.out.println(m.get("variantTranscripts").toString());
+
+                        List<TranscriptResult> trs=this.getTranscriptResults( m.get("variantTranscripts"));
+                        vr.setTranscriptResults(trs);
                         //       v.conservationScore.add(mapConservation(m));
 
                         variantResults.add(vr);
-                    }
+               //     }
 
-                }
+             //   }
 
             }
-        }
+     //   }
 
         return variantResults;
     }
 
+   List<TranscriptResult> getTranscriptResults(Object object) throws IOException {
+        List<TranscriptResult> trs=new ArrayList<>();
+        List list=(List)object;
 
+       for(Object o: list){
+           Gson g=new Gson();
+           String json=g.toJson(o);
+           ObjectMapper mapper= new ObjectMapper();
+           VariantTranscript t= mapper.readValue(json, VariantTranscript.class);
+           TranscriptResult tr = new TranscriptResult();
+           AminoAcidVariant aa = new AminoAcidVariant();
+           aa.setTripletError(t.getTripletError());
+             aa.setSynonymousFlag(t.getSynStatus());
+             aa.setPolyPhenStatus(t.getPolyphenStatus());
+             aa.setNearSpliceSite(t.getNearSpliceSite());
+           //  aa.setGeneSpliceStatus(t.get("genespliceStatus"));
+             // tr.set.setFrameShift((String) source.get("frameShift"));
+             tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
+             aa.setLocation(t.getLocationName());
+             aa.setReferenceAminoAcid(t.getRefAA());
+             aa.setVariantAminoAcid(t.getVarAA());
+       /*  if (source.get("fullRefAA") != null)
+             aa.setAASequence(source.get("fullRefAA").toString());
+         if (source.get("fullRefNuc") != null)
+             aa.setDNASequence(source.get("fullRefNuc").toString());*/
+        if(t.getFullRefAASeqKey()!=0){
+            aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+        }
+         if(t.getFullRefNucSeqKey()!=0){
+             aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
+         }
+         if (t.getFullRefAAPos() != null) {
+             System.out.println("FULL REF AA PSOTION:"+t.getFullRefAAPos());
+             aa.setAaPosition(t.getFullRefAAPos());
+         }
+         if (t.getFullRefNucPos() != null) {
+             System.out.println("FULL REF AA PSOTION:"+t.getFullRefNucPos());
+             aa.setDnaPosition(t.getFullRefNucPos());
+         }
+         aa.setTranscriptSymbol(getTranscriptSymbol(tr.getTranscriptId()));
+         tr.setAminoAcidVariant(aa);
+         trs.add(tr);
+     }
+        return  trs;
+   }
+   public String getSequence(int seqKey){
+       SequenceDAO sequenceDAO=new SequenceDAO();
+       List<Sequence>  sequences=new ArrayList<>();
+       try {
+          sequences= sequenceDAO.getObjectSequencesBySeqKey(seqKey);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+        if(sequences!=null){
+            return sequences.get(0).getSeqData();
+        }
+       return null;
+   }
+    public String getTranscriptSymbol(String transcriptId){
+        TranscriptDAO tdao=new TranscriptDAO();
+        Transcript tr= null;
+        try {
+            tr = tdao.getTranscript(Integer.parseInt(transcriptId));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tr.getAccId();
+    }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");
         ConservationScore  cs = new ConservationScore();

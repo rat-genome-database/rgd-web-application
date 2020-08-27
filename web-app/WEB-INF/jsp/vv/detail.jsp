@@ -267,7 +267,7 @@ scroll-top:0;
                                 String aaSequence="";
                                 StringBuilder sb = new StringBuilder(tr.getAminoAcidVariant().getAASequence());
 
-                                if (tr.getAminoAcidVariant().getAaPosition() != -1) {
+                                if (tr.getAminoAcidVariant().getAaPosition() != -1 && sb.length()>tr.getAminoAcidVariant().getAaPosition()) {
                                     sb.replace(tr.getAminoAcidVariant().getAaPosition()-1, tr.getAminoAcidVariant().getAaPosition(), "=");
                                 }
 

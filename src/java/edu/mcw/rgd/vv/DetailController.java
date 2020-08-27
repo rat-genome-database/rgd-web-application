@@ -79,7 +79,7 @@ public class DetailController extends HaplotyperController {
             if(mapKey==17)
                     index = "variants_human"+mapKey+"_dev1";
             if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_dev";
+                index= "variants_rat"+mapKey+"_test";
             if(mapKey==631 || mapKey==600 )
                 index= "variants_dog"+mapKey+"_dev";
             //   System.out.println("INDEX NAME: "+ index);
@@ -89,8 +89,15 @@ public class DetailController extends HaplotyperController {
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
             List<TranscriptResult> tResults=new ArrayList<>();
             for(VariantResult r:vr){
+
                 Variant v=r.getVariant();
-                tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
+              //  tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
+                if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
+                    tResults=r.getTranscriptResults();
+                    System.out.println("transcripts size: "+ tResults.size());
+                }else
+                tResults=getTranscriptResults(v, mapKey);
+
                 r.setTranscriptResults(tResults);
              }
             sr.setVariantResults(vr);
@@ -123,53 +130,59 @@ public class DetailController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp");
         }
     }
-    public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        // srb.query(QueryBuilders.termQuery("startPos", startPos));
 
-        srb.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("chromosome", chr))
-                        .filter(QueryBuilders.termQuery("startPos", startPos))
-                //  .filter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("refNuc", refNuc)).must(QueryBuilders.termQuery("varNuc", varNuc)))
+ //   public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
+        public List<TranscriptResult> getTranscriptResults(Variant v, int mapKey) throws IOException {
+        int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(mapKey);
+            List<TranscriptResult> tds = new ArrayList<>();
 
-        );
-        srb.size(10000);
-        SearchRequest request=new SearchRequest("transcripts_human_dev");
+            SearchSourceBuilder srb = new SearchSourceBuilder();
+            // srb.query(QueryBuilders.termQuery("startPos", startPos));
 
-        request.source(srb);
+            srb.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("chromosome", v.getChromosome()))
+                            .filter(QueryBuilders.termQuery("startPos", v.getStartPos()))
+                    //  .filter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("refNuc", refNuc)).must(QueryBuilders.termQuery("varNuc", varNuc)))
 
-        SearchResponse sr= VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
-        List<TranscriptResult> tds= new ArrayList<>();
+            );
+            srb.size(10000);
+            SearchRequest request = new SearchRequest("transcripts_human_dev");
 
-        if(sr.getHits().getTotalHits().value >0) {
-            for (SearchHit h : sr.getHits().getHits()) {
-                TranscriptResult tr = new TranscriptResult();
-                AminoAcidVariant aa = new AminoAcidVariant();
-                java.util.Map source = h.getSourceAsMap();
+            request.source(srb);
 
-                aa.setTripletError((String) source.get("tripletError"));
-                aa.setSynonymousFlag((String) source.get("synStatus"));
-                aa.setPolyPhenStatus((String) source.get("polyphenStatus"));
-                aa.setNearSpliceSite((String) source.get("nearSpliceSite"));
-                aa.setGeneSpliceStatus((String) source.get("genespliceStatus"));
-                // tr.set.setFrameShift((String) source.get("frameShift"));
-                tr.setTranscriptId(source.get("transcriptRgdId").toString());
-                aa.setLocation((String) source.get("locationName"));
-                aa.setReferenceAminoAcid((String) source.get("refAA"));
-                aa.setVariantAminoAcid((String) source.get("varAA"));
-                if (source.get("fullRefAA") != null)
-                    aa.setAASequence(source.get("fullRefAA").toString());
-                if (source.get("fullRefNuc") != null)
-                    aa.setDNASequence(source.get("fullRefNuc").toString());
-                if(source.get("fullRefAAPos")!=null)
-                aa.setAaPosition((Integer) source.get("fullRefAAPos"));
-                if(source.get("fullRefNucPos")!=null)
-                aa.setDnaPosition((Integer) source.get("fullRefNucPos"));
-                aa.setTranscriptSymbol(this.getTranscriptSymbol(tr.getTranscriptId()));
-                tr.setAminoAcidVariant(aa);
-                tds.add(tr);
+            SearchResponse sr = VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
 
+
+            if (sr.getHits().getTotalHits().value > 0) {
+                for (SearchHit h : sr.getHits().getHits()) {
+                    TranscriptResult tr = new TranscriptResult();
+                    AminoAcidVariant aa = new AminoAcidVariant();
+                    java.util.Map source = h.getSourceAsMap();
+
+                    aa.setTripletError((String) source.get("tripletError"));
+                    aa.setSynonymousFlag((String) source.get("synStatus"));
+                    aa.setPolyPhenStatus((String) source.get("polyphenStatus"));
+                    aa.setNearSpliceSite((String) source.get("nearSpliceSite"));
+                    aa.setGeneSpliceStatus((String) source.get("genespliceStatus"));
+                    // tr.set.setFrameShift((String) source.get("frameShift"));
+                    tr.setTranscriptId(source.get("transcriptRgdId").toString());
+                    aa.setLocation((String) source.get("locationName"));
+                    aa.setReferenceAminoAcid((String) source.get("refAA"));
+                    aa.setVariantAminoAcid((String) source.get("varAA"));
+                    if (source.get("fullRefAA") != null)
+                        aa.setAASequence(source.get("fullRefAA").toString());
+                    if (source.get("fullRefNuc") != null)
+                        aa.setDNASequence(source.get("fullRefNuc").toString());
+                    if (source.get("fullRefAAPos") != null)
+                        aa.setAaPosition((Integer) source.get("fullRefAAPos"));
+                    if (source.get("fullRefNucPos") != null)
+                        aa.setDnaPosition((Integer) source.get("fullRefNucPos"));
+                    aa.setTranscriptSymbol(this.getTranscriptSymbol(tr.getTranscriptId()));
+                    tr.setAminoAcidVariant(aa);
+                    tds.add(tr);
+
+                }
             }
-       }
+
         return tds;
 
     }

@@ -72,7 +72,7 @@ public class SelectStrainController extends HaplotyperController {
             ));
             List<Sample> samples= new ArrayList<>();
             for(String population :populations){
-               samples.addAll(sampleDAO.getLimitedSamplesByPopulation(mapKey, population, 5));
+             //  samples.addAll(sampleDAO.getLimitedSamplesByPopulation(mapKey, population, 5));
 
             }
             request.setAttribute("sampleList", samples);

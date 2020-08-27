@@ -106,16 +106,16 @@ public class VVService {
 
             for (SearchHit hit : searchHitList) {
                 List<SearchHit> tempList = new ArrayList<>();
-                String chr = (String) hit.getSourceAsMap().get("variant.chromosome");
-                int startPos = (int) hit.getSourceAsMap().get("variant.startPos");
-                String varNuc = (String) hit.getSourceAsMap().get("variant.varNuc");
+                String chr = (String) hit.getSourceAsMap().get("chromosome");
+                int startPos = (int) hit.getSourceAsMap().get("startPos");
+                String varNuc = (String) hit.getSourceAsMap().get("varNuc");
 
                 if (!verifiedPositions.contains(startPos)) {
                     verifiedPositions.add(startPos);
                     for (SearchHit h : searchHitList) {
-                        String chr1 = (String) h.getSourceAsMap().get("variant.chromosome");
-                        int startPos1 = (int) h.getSourceAsMap().get("variant.startPos");
-                        String varNuc1 = (String) h.getSourceAsMap().get("variant.varNuc");
+                        String chr1 = (String) h.getSourceAsMap().get("chromosome");
+                        int startPos1 = (int) h.getSourceAsMap().get("startPos");
+                        String varNuc1 = (String) h.getSourceAsMap().get("varNuc");
                         if (chr1.equals(chr) && startPos1 == startPos && varNuc1.equals(varNuc)) {
                             tempList.add(h);
                         }
@@ -133,7 +133,7 @@ public class VVService {
  public AggregationBuilder buildAggregations(String fieldName){
      AggregationBuilder aggs= null;
      if(fieldName.equalsIgnoreCase("sampleId")){
-         aggs= AggregationBuilders.terms(fieldName).field("samples."+fieldName)
+         aggs= AggregationBuilders.terms(fieldName).field(fieldName)
                .size(1000).order(BucketOrder.key(true))
                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
                  .size(10000)
@@ -147,10 +147,10 @@ public class VVService {
            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                   .size(100000)
                  //  .missing("INTERGENIC")
-                 .subAggregation(AggregationBuilders.terms("startPos").field("variant.startPos")
+                 .subAggregation(AggregationBuilders.terms("startPos").field("startPos")
                      .size(100000)
-                 .subAggregation(AggregationBuilders.terms("sample").field("samples.sampleId"))
-                 .subAggregation(AggregationBuilders.terms("varNuc").field("variant.varNuc.keyword")
+                 .subAggregation(AggregationBuilders.terms("sample").field("sampleId"))
+                 .subAggregation(AggregationBuilders.terms("varNuc").field("varNuc.keyword")
                        .size(100000)
                          )
 
@@ -162,12 +162,12 @@ public class VVService {
     public BoolQueryBuilder boolQueryBuilder(VariantSearchBean vsb, HttpRequestFacade req){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(vsb, req));
-     List<String> synStats= new ArrayList<>();
+   List<String> synStats= new ArrayList<>();
         List<String> genicStats= new ArrayList<>();
         List<String> vTypes= new ArrayList<>();
         List<String> locs=new ArrayList<>();
         List<String> zygosity=new ArrayList<>();
-
+        List<Integer> alleleCount= new ArrayList<>();
         if(req.getParameter("nonSynonymous").equals("true")){ synStats.add("nonsynonymous");}
         if(req.getParameter("synonymous").equals("true")){synStats.add("synonymous");}
         if(synStats.size()>0){
@@ -176,13 +176,13 @@ public class VVService {
         if(req.getParameter("genic").equals("true")){genicStats.add("GENIC");}
         if(req.getParameter("intergenic").equals("true")){genicStats.add("INTERGENIC");}
         if(genicStats.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variant.genicStatus.keyword", genicStats.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("genicStatus.keyword", genicStats.toArray())));
         }
         if(req.getParameter("snv").equals("true")){ vTypes.add("snv");}
         if(req.getParameter("ins").equals("true")){ vTypes.add("ins");}
         if(req.getParameter("del").equals("true")){ vTypes.add("del");}
         if(vTypes.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variant.variantType.keyword", vTypes.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantType.keyword", vTypes.toArray())));
         }
         if(req.getParameter("intron").equals("true")){locs.add("INTRON");}
         if(req.getParameter("3prime").equals("true")){locs.add("3UTRS"); }
@@ -201,14 +201,15 @@ public class VVService {
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword")));
         }
         if(req.getParameter("frameshift").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.frameShift.keyword")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.frameShift.keyword","T")));
+
         }
         List<String> pPredictions=new ArrayList<>();
         if(req.getParameter("benign").equals("true")){pPredictions.add("benign");}
         if(req.getParameter("possibly").equals("true")){pPredictions.add("possibly damaging");}
         if(req.getParameter("probably").equals("true")){pPredictions.add("probably damaging");}
         if(pPredictions.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("polyPhenPredictions.prediction.keyword", pPredictions.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray())));
         }
 
         /***************************zygosity************************************/
@@ -222,17 +223,27 @@ public class VVService {
             zygosity.add("possibly homozygous");
         }
         if(zygosity.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("samples.zygosityStatus.keyword", zygosity.toArray())));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityStatus.keyword", zygosity.toArray())));
         }
+        /**********************alleleCount********************************/
+        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount1")));
+        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount2")));
+        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount3")));
+        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount4")));
+        if(alleleCount.size()>0){
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityNumAllele", alleleCount.toArray())));
+
+        }
+        /********exclude possible error not working because new table structure doesn't have this data in the DB******/
      if(req.getParameter("excludePossibleError").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("samples.zygosityPossError.keyword","N")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("zygosityPossError.keyword","N")));
         }
         if(req.getParameter("hetDiffFromRef").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("samples.zygosityRefAllele.keyword","N")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("zygosityRefAllele.keyword","N")));
         }
         /**************************************LIMIT TO**********************************************/
 
-      if(req.getParameter("prematureStopCodon").equals("true")){
+     if(req.getParameter("prematureStopCodon").equals("true")){
             builder
                    .filter(QueryBuilders.boolQuery().must(QueryBuilders.scriptQuery(new Script("doc['variantTranscripts.refAA.keyword'].value != doc['variantTranscripts.varAA.keyword'].value")))
                 .filter(QueryBuilders.termQuery("variantTranscripts.varAA.keyword", "*"))
@@ -245,6 +256,10 @@ public class VVService {
                             .filter(QueryBuilders.termQuery("variantTranscripts.refAA.keyword", "*"))
                     );
         }
+        /***********************readDepth****************************************/
+       int depthLowBound=Integer.parseInt(req.getParameter("depthLowBound"));
+        int depthHighBound=Integer.parseInt( req.getParameter("depthHighBound"));
+        builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).to(depthHighBound).includeLower(true).includeUpper(true));
         return builder;
     }
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
@@ -264,20 +279,20 @@ public class VVService {
                 //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
             //  dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("variantTranscripts.regionNameLc.keyword", symbols.toArray()))
                       dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()))
-              .filter(QueryBuilders.termsQuery("samples.sampleId", vsb.getSampleIds())));
+              .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
             if(chromosome!=null && !chromosome.equals("") ){
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("variant.chromosome", chromosome)
+                        QueryBuilders.termQuery("chromosome", chromosome)
                 );
                 System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
             if ( sampleIds.size() > 0) {
 
-                qb.filter(QueryBuilders.termsQuery("samples.sampleId", sampleIds.toArray()));
+                qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0) {
-                qb.filter(QueryBuilders.rangeQuery("variant.startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+                qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
             }
             if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 List<String> symbols = new ArrayList<>();

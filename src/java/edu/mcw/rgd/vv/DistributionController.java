@@ -67,7 +67,8 @@ public class DistributionController extends HaplotyperController {
             index = "variants_human"+mapKey+"_dev";
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_dev";
+              //  index= "variants_rat"+mapKey+"_dev";
+            index= "variants_rat"+mapKey+"_test";
         if(mapKey==631 || mapKey==600 )
             index= "variants_dog"+mapKey+"_dev";
         System.out.println("INDEX NAME: "+ index);
@@ -79,7 +80,7 @@ public class DistributionController extends HaplotyperController {
      //   try {
 
              Set<String> masterKeySet = new HashSet<String>();
-            GeneDAO gdao = new GeneDAO();
+           GeneDAO gdao = new GeneDAO();
 
      if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
@@ -239,8 +240,7 @@ public class DistributionController extends HaplotyperController {
             }
         }else {
             regionList = vsb.genes;
-
-
+            System.out.println("GENELIST: "+ regionList.size());
             if (req.getParameter("geneList").indexOf("|") != -1) {
                 regionList.add(req.getParameter("geneList"));
             }
@@ -258,11 +258,14 @@ public class DistributionController extends HaplotyperController {
                         }
                     }
                 }
+            }else{
+                regionList1=gSymbols;
             }
             Collections.sort(sampleIdsFromResultSet);
         //    System.out.println("REGION LIST: "+ regionList1.toString());
             request.setAttribute("json", this.sb.toString());
             request.setAttribute("regionList", regionList1);
+        //request.setAttribute("regionList", regionList);
         //    request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("sampleIds", sampleIdsFromResultSet);
             request.setAttribute("resultHash", resultHash);
