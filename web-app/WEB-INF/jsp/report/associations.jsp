@@ -44,7 +44,7 @@
 
 
     <div id="modelsViewContent" >
-        <div id="" class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+        <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -78,7 +78,7 @@
 <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
 <div class="reportTable" id="geneChemicalInteractionTable">
     <div id="modelsViewContent" >
-        <div id="" class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+        <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -119,7 +119,7 @@
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
 <div class="reportTable" id="biologicalProcessAnnotationsTable">
     <div id="modelsViewContent" >
-        <div id="" class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+        <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>

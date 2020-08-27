@@ -1,7 +1,6 @@
 let tableArray = Array.from(
     document.getElementsByClassName("annotationTable"));
 
-
 iterateOverAndAppendNewTables(tableArray);
 addHeadAndIdToQtlTable();
 removeOldAnnotationTables(tableArray);
@@ -21,9 +20,12 @@ removeBreaks('proteinReferenceSequencesTableDiv');
 
 let sidebar = document.getElementById("reportMainSidebar");
 
+
 // sidebar.style.position = "relative";
 window.addEventListener("scroll", (event) =>{
     stickifySideBar(sidebar);
+    let domRect = sidebar.getBoundingClientRect();
+    let top = domRect.top + document.body.scrollTop;
 });
 
 
@@ -67,16 +69,20 @@ function addHeadAndIdToQtlTable(){
 function iterateOverAndAppendNewTables(tableArray){
     for(let i = 0; i < tableArray.length; i++){
         let table = tableArray[i];
-        let pager = table.parentNode.getElementsByClassName('annotationPagerClass')[0];
         let parentIdString = table.parentNode.id;
-        if(pager !== undefined){
-            addIdToPagerDiv(pager, i + 1);
-        }
-
-        let newTable = tableBreakdownAndCreation(table);
-        appendTable(addClassAndIdToAnnotationTable(newTable, i + 1), parentIdString);
+        linkTableWithPager(table, i + 1);
+        let newTable = extractRowsAndBuildAnnotationTable(table);
+        appendTableToDiv(addClassAndIdToAnnotationTable(newTable, i + 1), parentIdString);
     }
 }
+
+function linkTableWithPager(table, pagerNumber){
+    let pager = table.parentNode.getElementsByClassName('annotationPagerClass')[0];
+    if(pager !== undefined){
+        addIdToPagerDiv(pager, pagerNumber);
+    }
+}
+
 
 function removeOldAnnotationTables(tableArray){
     tableArray.forEach(table => {
@@ -84,17 +90,11 @@ function removeOldAnnotationTables(tableArray){
     })
 }
 
-function appendTable(table, parentIdString){
-    document.getElementById(parentIdString)
-        .appendChild(table);
-}
 
-
-function tableBreakdownAndCreation(table){
+function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
     return buildAnnotationTable(rowArray);
 }
-
 
 function extractRows(parentTable){
 
@@ -114,6 +114,20 @@ function extractRows(parentTable){
     return rowArray;
 }
 
+function buildRowArrayFromTableArray(tableArray){
+    let rowArray = [];
+
+    //iterate over tables
+    tableArray.forEach(table => {
+        let tr = document.createElement('tr');
+        let td = document.createElement('td');
+        td.append(table);
+        tr.append(td);
+        rowArray.push(tr);
+    });
+    return rowArray;
+}
+
 function buildProteinReferenceSequencesTable(){
     let tableArray = Array.from(
         document.getElementsByClassName('proteinReferenceSequencesInnerTable'));
@@ -129,39 +143,42 @@ function buildNucleotideReferenceSequencesTable(){
     return buildReferenceTable(rowArray);
 }
 
-function buildRowArrayFromTableArray(tableArray){
-    let rowArray = [];
-
-
-    //iterate over tables
-    tableArray.forEach(table => {
-        let tr = document.createElement('tr');
-        let td = document.createElement('td');
-        td.append(table);
-        tr.append(td);
-        rowArray.push(tr);
-    });
-    return rowArray;
-}
-
 function buildReferenceTable(rowArray){
-    let newTable = document.createElement('table');
-    let tHead = document.createElement('thead');
-    let tBody = document.createElement('tbody');
-
-    newTable.appendChild(tHead);
-    newTable.appendChild(tBody);
+    let newTable = buildEmptyTable();
 
     rowArray.forEach(row => {
-        tBody.appendChild(row);
+        newTable.tBodies[0].appendChild(row);
     });
-
 
     return newTable;
 }
 
 function buildAnnotationTable(rowArray){
 
+    let newTable = buildEmptyTable();
+
+    for(let i = 0; i < rowArray.length; i += 2){
+        if(rowArray[i].hasChildNodes()){
+            let tr = document.createElement('tr');
+            newTable.tBodies[0].appendChild(tr);
+            tr.appendChild(rowArray[i].childNodes[0]);
+            if(rowArray[i].hasChildNodes()){
+                tr.appendChild(rowArray[i].childNodes[0]);
+            }
+
+            if((i + 1) !== rowArray.length){
+                tr.appendChild(rowArray[i + 1].childNodes[0]);
+                if(rowArray[i + 1].hasChildNodes()){
+                    tr.appendChild(rowArray[i + 1].childNodes[0]);
+                }
+
+            }
+        }
+    }
+    return newTable;
+}
+
+function buildEmptyTable(){
     let newTable = document.createElement('table');
     let tHead = document.createElement('thead');
     let tBody = document.createElement('tbody');
@@ -169,21 +186,9 @@ function buildAnnotationTable(rowArray){
     newTable.appendChild(tHead);
     newTable.appendChild(tBody);
 
-
-    for(let i = 0; i < rowArray.length; i += 2){
-        let tr = document.createElement('tr');
-        tBody.appendChild(tr);
-        tr.appendChild(rowArray[i].childNodes[0]);
-        tr.appendChild(rowArray[i].childNodes[0]);
-        if((i + 1) !== rowArray.length){
-            tr.appendChild(rowArray[i + 1].childNodes[0]);
-            tr.appendChild(rowArray[i + 1].childNodes[0]);
-        }
-
-
-    }
     return newTable;
 }
+
 //add classes and ids to that new table
 function addClassAndIdToAnnotationTable(table, tableNumber){
     table.className = 'tablesorter';
@@ -196,14 +201,10 @@ function addIdToPagerDiv(pager, pagerNumber){
     return pager;
 }
 
-
-
-
 function stickifySideBar(sidebar){
     //get element
-    let scrollPosition = pageYOffset;
+    let scrollPosition = window.pageYOffset;
     let percentScrolled = calculateScrollPercentage(scrollPosition);
-    console.log(percentScrolled);
 
     if(scrollPosition >= 275){
         sidebar.style.position = "fixed";
@@ -227,11 +228,11 @@ function stickifySideBar(sidebar){
 }
 
 function calculateScrollPercentage(currentPosition){
-    let documentHeight = document.documentElement.clientHeight;
+    let documentHeight = $( document ).height();
     let windowHeight = window.innerHeight;
+
     let scrollableHeight = documentHeight - windowHeight;
     let percentScrolled = Math.floor((currentPosition * 100) / scrollableHeight);
-
     return percentScrolled;
 }
 
@@ -416,6 +417,15 @@ $(function () {
         })
         .tablesorterPager({
             container: $('#externalDatabaseLinksPager')
+        });
+
+    $('#clinicalVariantsTable')
+        .tablesorter({
+            theme: 'dropbox',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('#clinicalVariantsPager')
         });
 
 

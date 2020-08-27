@@ -13,6 +13,7 @@
 
 <%//ui.dynOpen("geneticModels", "Genetic Models")%>    <br>
 <div class="sectionHeading" id="geneticModels">Genetic Models</div>
+<div class="reportTable" id="geneticModelsTable">
 This gene  <span class="highlight"><%=displayName%></span> is modified in the following models/strains
 
 
@@ -27,5 +28,5 @@ This gene  <span class="highlight"><%=displayName%></span> is modified in the fo
 
 <%//ui.dynClose("geneticModels")%>
 <% } %>
-
+</div>
 <%@ include file="sectionFooter.jsp"%>

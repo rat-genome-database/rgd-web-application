@@ -5,21 +5,49 @@
     if( !clinvars.isEmpty() ) {
         java.util.Map<Integer,List<MapData>> positionsForClinVars = getPositionsForClinVar(clinvars, mapDAO);
 %>
-<%=ui.dynOpen("clinicalVariants", "Clinical Variants")%><br>
+<%//ui.dynOpen("clinicalVariants", "Clinical Variants")%><br>
+
+<div class="sectionHeading" id="clinicalVariants">Clinical Variants</div>
+
+<div id="clinicalVariantsTableDiv">
+
+    <div id="modelsViewContent" >
+        <div id="clinicalVariantsPager" class="pager" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
 <script>
-$('.headerRow').live('click', function(){
-    $('#clinVarTab tr:nth-child(even)').removeClass('evenRow').addClass('oddRow');
-    $('#clinVarTab tr:nth-child(odd)').removeClass('oddRow').addClass('evenRow');
- });
+    $('#clinicalVariantsTable').on('click', '.headerRow', function(){
+        $('#clinicalVariantsTable tr:nth-child(even)').removeClass('evenRow').addClass('oddRow');
+        $('#clinicalVariantsTable tr:nth-child(odd)').removeClass('oddRow').addClass('evenRow');
+    });
+
+
 </script>
-<table border="1" cellpadding="1" cellspacing="1" class="sortable" id="clinVarTab">
-    <tr class="headerRow">
-        <td title="click to sort by name">Name</td>
-        <td title="click to sort by type">Type</td>
-        <td title="click to sort by condition">Condition(s)</td>
-        <td title="click to sort by position">Position(s)</td>
-        <td title="click to sort by clinical significance">Clinical significance</td>
-    </tr>
+<table border="1" cellpadding="1" cellspacing="1" class="sortable" id="clinicalVariantsTable">
+    <thead>
+        <tr class="headerRow">
+            <td title="click to sort by name">Name</td>
+            <td title="click to sort by type">Type</td>
+            <td title="click to sort by condition">Condition(s)</td>
+            <td title="click to sort by position">Position(s)</td>
+            <td title="click to sort by clinical significance">Clinical significance</td>
+        </tr>
+    </thead>
 <%
     String rowClass="oddRow";
     for (VariantInfo var : clinvars) {
@@ -63,8 +91,9 @@ $('.headerRow').live('click', function(){
     </tr>
     <% } %>
 </table>
+</div>
 <br>
-    <%=ui.dynClose("clinicalVariants")%>
+    <%//ui.dynClose("clinicalVariants")%>
 
 <% } %>
 
