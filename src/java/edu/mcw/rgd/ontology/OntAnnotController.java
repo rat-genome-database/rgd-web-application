@@ -523,9 +523,11 @@ public class OntAnnotController implements Controller {
             a.setChr(chr);
             a.setStartPos(_numFormat.format(md.getStartPos()));
             a.setStopPos(_numFormat.format(md.getStopPos()));
+            a.setFullNcbiPos();
         }
         else {
             // concatenate chromosomes and positions
+            a.addToNcbiPos(chr,_numFormat.format(md.getStartPos()),_numFormat.format(md.getStopPos()));
             a.setChr(a.getChr()+"<br/>"+chr);
             a.setStartPos(a.getStartPos()+"<br/>"+_numFormat.format(md.getStartPos()));
             a.setStopPos(a.getStopPos()+"<br/>"+_numFormat.format(md.getStopPos()));
@@ -543,9 +545,9 @@ public class OntAnnotController implements Controller {
         if( speciesTypeKey==SpeciesType.RAT ){
             buf.append("data_rgd6");
         }else if( speciesTypeKey==SpeciesType.MOUSE ){
-            buf.append("data_mm37");
+            buf.append("data_mm38"); // was mm37
         }else if( speciesTypeKey==SpeciesType.HUMAN ){
-            buf.append("data_hg19");
+            buf.append("data_hg38"); // was hg19
         }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
             buf.append("data_cl1_0");
         }else if (speciesTypeKey==SpeciesType.DOG) {

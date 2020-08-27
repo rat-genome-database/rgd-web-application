@@ -40,6 +40,8 @@ public class OntAnnotation  {
     private String chrEns = null;
     private String startPosEns = null;
     private String stopPosEns = null;
+    private String fullEnsPos = "";
+    private String fullNcbiPos = "";
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
         @Override
@@ -267,8 +269,9 @@ public class OntAnnotation  {
     public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
         edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
         List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
-        if(ensemblData.size()==1) {
-            chrEns = ensemblData.get(0).getChromosome().toUpperCase();
+
+        for (int i = 0 ; i < ensemblData.size() ; i++) { //MapData ensData : ensemblData) {
+            chrEns = ensemblData.get(i).getChromosome().toUpperCase();
             if( chrEns.length()==1 )
                 chrEns = " "+chrEns;
             if( chrEns.endsWith("X")||chrEns.endsWith("Y")||chrEns.endsWith("T") )
@@ -277,15 +280,18 @@ public class OntAnnotation  {
             startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
             stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
 
+            fullEnsPos += "<br>Ensembl\tchr"+chrEns+":"+startPosEns+"..."+stopPosEns;
+
+
             if(JBrowseLink == null){
                 StringBuilder buf = new StringBuilder(128);
                 buf.append("/jbrowse/?highlight=&data=");
                 if( speciesTypeKey== SpeciesType.RAT ){
                     buf.append("data_rgd6");
                 }else if( speciesTypeKey==SpeciesType.MOUSE ){
-                    buf.append("data_mm37");
+                    buf.append("data_mm38"); // was mm37
                 }else if( speciesTypeKey==SpeciesType.HUMAN ){
-                    buf.append("data_hg19");
+                    buf.append("data_hg38"); // was hg19
                 }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
                     buf.append("data_cl1_0");
                 }else if (speciesTypeKey==SpeciesType.DOG) {
@@ -314,10 +320,23 @@ public class OntAnnotation  {
 
         }
     }
+
+    public void setFullNcbiPos(){
+        fullNcbiPos = "NCBI\tchr"+chr+":"+startPos+"..."+stopPos;
+    }
+
+    public void addToNcbiPos(String newChr, String newStartPos, String newStopPos){
+        fullNcbiPos += "<br>NCBI\tchr"+newChr+":"+newStartPos+"..."+newStopPos;
+    }
+
     public String getChrEns()   { return chrEns;  }
 
     public String getStartPosEns()  {   return startPosEns; }
 
-    public String getStopPosEns()   {  return stopPosEns;    }
+    public String getStopPosEns()   {   return stopPosEns;    }
+
+    public String getFullEnsPos()   {   return fullEnsPos;  }
+
+    public String getFullNcbiPos()  {   return fullNcbiPos; }
 
 }
