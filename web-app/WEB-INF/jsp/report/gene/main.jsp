@@ -137,8 +137,8 @@
     #reportMainSidebar {
         width: 200px;
         background-color: #f1f1f1;
-        /*height: 100vh;*/
-        /*overflow-y: auto;*/
+        height: 90vh;
+        overflow-y: hidden;
         margin-bottom: 0px;
         padding-bottom: 2.5rem;
         overflow-x: hidden;
@@ -179,6 +179,7 @@
     .sub-nav-item > a{
         font-size: 8pt;
         margin-left: 15px;
+        margin-top: -10px;
     }
 
     .sectionHeading {
@@ -206,38 +207,6 @@
 <nav id="reportMainSidebar" class="navbar">
     <ul class="navbar-nav" id="navbarUlId">
         <li class="nav-item"><a class="nav-link active" href="#top">Summary</a></li>
-<%--        <li class="nav-item"><a class="nav-link" href="#annotation">Annotation</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#diseaseAnnotations">Disease Annotations</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneChemicalInteraction">Gene-Chemical Interaction Annotations</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#geneOntologyAnnotations">Gene Ontology Annotations</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#molecularPathwayAnnotations">Molecular Pathway Annotations</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#phenotypeAnnotations">Phenotype Annotations</a></li>--%>
-<%--        <li class="nav-item"><a class="nav-link" href="#references">References</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#referencesCurated"> References Curated</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#pubMedReferences">PubMed References</a></li>--%>
-<%--        <li class="nav-item"><a class="nav-link" href="#genomics">Genomics</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#candidateGeneStatus"> Candidate Gene Status</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#comparativeMapData">Comparative Map Data</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#positionMarkers">Position Markers</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#qtlAssociation"> QTL Association</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#miRnaTargetStatus"> miRNA Target Status</a></li>--%>
-<%--        <li class="nav-item"><a class="nav-link" href="#expression">Expression</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rnaSeqExpression"> RNA-SEQ Expression</a></li>--%>
-<%--        <li class="nav-item"><a class="nav-link" href="#sequence">Sequence</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nucleotideSequences"> Nucleotide Sequences</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#proteinSequences"> Protein Sequences</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#promoters"> Promoters</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#transcriptome"> Transcriptome</a></li>--%>
-
-<%--        <li class="nav-item"><a class="nav-link" href="#strainVariation">Strain Variation</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#strainSequenceVariants">Strain Sequence Variants</a></li>--%>
-
-<%--        <li class="nav-item"><a class="nav-link" href="#additionalInformation">Additional Information</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#externalDatabaseLinks">External Database Links</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#nomenclatureHistory">Nomenclature History</a></li>--%>
-<%--        <li class="nav-item sub-nav-item"><a class="nav-link" href="#rgdCurationNotes">Rgd Curation Notes</a></li>--%>
-
-
     </ul>
 </nav>
 </div>
@@ -387,33 +356,6 @@
 
 <script src="/rgdweb/js/reportPages/geneReport.js"> </script>
 
-<script>
-$(function () {
-    //add to classlist a name all elements of class subTitle and sectionHeading
-    $('.subTitle').addClass("sidebar-item");
-    $('.sectionHeading').addClass("sidebar-item");
-
-
-    $('.sidebar-item').each(function(index, value){
-        let text = value.innerHTML;
-        let li = document.createElement('li');
-        let a  = document.createElement('a');
-        li.classList.add('nav-item');
-        if(value.classList.contains('sectionHeading')) {
-            li.classList.add('sub-nav-item');
-        }
-        a.classList.add('nav-link');
-        a.setAttribute('href', '#' + value.id);
-        a.innerText = text;
-        li.appendChild(a);
-        $('#navbarUlId').append(li);
-    })
-
-
-})
-
-
-</script>
 
 
 

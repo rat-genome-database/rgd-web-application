@@ -27,16 +27,29 @@ window.addEventListener("scroll", (event) =>{
     let domRect = sidebar.getBoundingClientRect();
     let top = domRect.top + document.body.scrollTop;
 });
+addItemsToSideBar();
+
+sidebar.addEventListener("mouseover", (event) => {
+    sidebar.style.overflowY = "auto";
+});
+
+sidebar.addEventListener("mouseout", (event) => {
+    sidebar.style.overflowY = "hidden";
+});
+
 
 
 
 function removeBreaks(divId){
     let div = document.getElementById(divId);
-    let breaks = div.getElementsByTagName('br');
-
-    for (let i = 0; i < breaks.length; i++) {
-        breaks[i].parentNode.removeChild(breaks[i]);
+    if(div != null){
+        let breaks = div.getElementsByTagName('br');
+        for (let i = 0; i < breaks.length; i++) {
+            console.log(breaks[i].parentNode.removeChild(breaks[i]) );
+        }
     }
+
+
 }
 
 function addClassAndId(table, className, idName){
@@ -47,7 +60,9 @@ function addClassAndId(table, className, idName){
 
 function appendTableToDiv(table, divId){
     let div = document.getElementById(divId);
-    div.append(table);
+    if(div != null){
+        div.append(table);
+    }
 }
 
 
@@ -161,17 +176,18 @@ function buildAnnotationTable(rowArray){
         if(rowArray[i].hasChildNodes()){
             let tr = document.createElement('tr');
             newTable.tBodies[0].appendChild(tr);
-            tr.appendChild(rowArray[i].childNodes[0]);
-            if(rowArray[i].hasChildNodes()){
+            if(rowArray[i].childNodes.length > 1){
+                tr.appendChild(rowArray[i].childNodes[1]);
+            }else{
                 tr.appendChild(rowArray[i].childNodes[0]);
             }
 
             if((i + 1) !== rowArray.length){
-                tr.appendChild(rowArray[i + 1].childNodes[0]);
-                if(rowArray[i + 1].hasChildNodes()){
+                if(rowArray[i + 1].childNodes.length > 1){
+                    tr.appendChild(rowArray[i + 1].childNodes[1]);
+                }else{
                     tr.appendChild(rowArray[i + 1].childNodes[0]);
                 }
-
             }
         }
     }
@@ -213,16 +229,8 @@ function stickifySideBar(sidebar){
         sidebar.style.position = "relative";
     }
 
-    if(percentScrolled >= 50){
-        sidebar.style.top = "-200";
-    }
-
-    if(percentScrolled >= 75){
-        sidebar.style.top = "-300";
-    }
-
-    if(percentScrolled >= 85){
-        sidebar.style.top = "-500";
+    if(percentScrolled >= 99){
+        sidebar.style.top = "-15vh";
     }
 
 }
@@ -236,7 +244,43 @@ function calculateScrollPercentage(currentPosition){
     return percentScrolled;
 }
 
+function addItemsToSideBar(){
+    $('.subTitle').addClass("sidebar-item");
+    $('.sectionHeading').addClass("sidebar-item");
 
+
+    $('.sidebar-item').each(function(index, value){
+        let text = value.childNodes[0].textContent;
+        if(text === "Gene-Chemical Interaction Annotations"){
+            text = "Gene-Chemical Interaction";
+        }
+
+        if(text === "Molecular Pathway Annotations"){
+            text = "Molecular Pathway";
+        }
+
+        if(text === "QTLs in Region (Rnor_6.0)"){
+            text = "QTLs in Region";
+        }
+
+        if(text === "Strain Sequence Variants (Rnor 6.0)"){
+            text = "Strain Sequence Variants";
+        }
+
+
+        let li = document.createElement('li');
+        let a  = document.createElement('a');
+        li.classList.add('nav-item');
+        if(value.classList.contains('sectionHeading')) {
+            li.classList.add('sub-nav-item');
+        }
+        a.classList.add('nav-link');
+        a.setAttribute('href', '#' + value.id);
+        a.innerText = text;
+        li.appendChild(a);
+        $('#navbarUlId').append(li);
+    });
+}
 
 
 
