@@ -37,7 +37,6 @@ public class VVService {
 
     public static void setVariantIndex(String variantIndex) {
         VVService.variantIndex = variantIndex;
-     //   VVService.variantIndex = "variant";
     }
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
 
@@ -85,16 +84,12 @@ public class VVService {
 
    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
-
-       SearchSourceBuilder srb=new SearchSourceBuilder();
-       srb.query(builder);
-       //srb.size(10000);
-
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(builder);
         if(req.getParameter("showDifferences").equals("true")){
              srb.aggregation(this.buildAggregations("regionName"));
           }else
             srb.aggregation(this.buildAggregations("sampleId"));
-    //  SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName(variantIndex));
        SearchRequest searchRequest=new SearchRequest(variantIndex);
        searchRequest.source(srb);
        return VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -136,25 +131,17 @@ public class VVService {
          aggs= AggregationBuilders.terms(fieldName).field(fieldName)
                .size(1000).order(BucketOrder.key(true))
                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
-                 .size(10000)
-                       //  .missing("INTERGENIC")
-
-                // .order(BucketOrder.key(true))
-                        );
+                 .size(10000));
      }
 
   if(fieldName.equalsIgnoreCase("regionName")){
            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                   .size(100000)
-                 //  .missing("INTERGENIC")
                  .subAggregation(AggregationBuilders.terms("startPos").field("startPos")
                      .size(100000)
                  .subAggregation(AggregationBuilders.terms("sample").field("sampleId"))
                  .subAggregation(AggregationBuilders.terms("varNuc").field("varNuc.keyword")
-                       .size(100000)
-                         )
-
-                         .order(BucketOrder.key(true)));
+                       .size(100000)).order(BucketOrder.key(true)));
      }
 
      return aggs;
@@ -168,6 +155,8 @@ public class VVService {
         List<String> locs=new ArrayList<>();
         List<String> zygosity=new ArrayList<>();
         List<Integer> alleleCount= new ArrayList<>();
+        int depthLowBound=0;
+        int depthHighBound=0;
         if(req.getParameter("nonSynonymous").equals("true")){ synStats.add("nonsynonymous");}
         if(req.getParameter("synonymous").equals("true")){synStats.add("synonymous");}
         if(synStats.size()>0){
@@ -226,10 +215,14 @@ public class VVService {
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityStatus.keyword", zygosity.toArray())));
         }
         /**********************alleleCount********************************/
-        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount1")));
-        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount2")));
-        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount3")));
-        alleleCount.add(Integer.parseInt(req.getParameter("alleleCount4")));
+        if(req.getParameter("alleleCount1").equals("true"))
+        alleleCount.add(1);
+        if(req.getParameter("alleleCount2").equals("true"))
+        alleleCount.add(2);
+        if(req.getParameter("alleleCount3").equals("true"))
+        alleleCount.add(3);
+        if(req.getParameter("alleleCount4").equals("true"))
+        alleleCount.add(4);
         if(alleleCount.size()>0){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityNumAllele", alleleCount.toArray())));
 
@@ -257,9 +250,17 @@ public class VVService {
                     );
         }
         /***********************readDepth****************************************/
-       int depthLowBound=Integer.parseInt(req.getParameter("depthLowBound"));
-        int depthHighBound=Integer.parseInt( req.getParameter("depthHighBound"));
-        builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).to(depthHighBound).includeLower(true).includeUpper(true));
+        if(!req.getParameter("depthLowBound").equals(""))
+        depthLowBound=Integer.parseInt(req.getParameter("depthLowBound"));
+        if(!req.getParameter("depthHighBound").equals(""))
+         depthHighBound=Integer.parseInt( req.getParameter("depthHighBound"));
+        if((depthLowBound>0 && depthHighBound>0) || (depthLowBound==0 && depthHighBound>0 )) {
+            builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).to(depthHighBound).includeLower(true).includeUpper(true));
+
+        }else if(depthLowBound>0){
+            builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).includeLower(true));
+
+        }
         return builder;
     }
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
@@ -272,12 +273,9 @@ public class VVService {
             List<String> symbols= new ArrayList<>();
             for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
                    symbols.add(s.toLowerCase());
-            //    symbols.add(s);
             }
 
             if(!symbols.get(0).equals("null"))
-                //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-            //  dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("variantTranscripts.regionNameLc.keyword", symbols.toArray()))
                       dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
@@ -298,18 +296,12 @@ public class VVService {
                 List<String> symbols = new ArrayList<>();
                 for (String s : Utils.symbolSplit(req.getParameter("geneList"))) {
                   symbols.add(s.toLowerCase());
-                 //   symbols.add(s);
                 }
 
                 if (!symbols.get(0).equals("null"))
-                   //   qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
                 qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-                   // qb.filter(QueryBuilders.termsQuery("regionName.keyword", symbols.toArray()));
 
             }
-       /* if(req.getParameter("showDifferences").equals("true")){
-            qb.filter();
-        }*/
 
             dqb.add(qb);
         }

@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import edu.mcw.rgd.dao.impl.SequenceDAO;
+import edu.mcw.rgd.dao.impl.variants.PolyphenDAO;
+import edu.mcw.rgd.dao.spring.variants.PolyphenQuery;
+import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
@@ -158,6 +161,7 @@ public class VariantController extends HaplotyperController {
 
                    //     Map vd = (Map) m.get("variant");
                         Variant v = new Variant();
+                     //   v.setId((Integer) m.get("variant_id"));
                         v.setChromosome((String) m.get("chromosome"));
                         v.setStartPos((Integer) m.get("startPos"));
                         v.setEndPos((Integer) m.get("endPos"));
@@ -181,7 +185,7 @@ public class VariantController extends HaplotyperController {
                         vr.setVariant(v);
                         System.out.println(m.get("variantTranscripts").toString());
 
-                        List<TranscriptResult> trs=this.getTranscriptResults( m.get("variantTranscripts"));
+                        List<TranscriptResult> trs=this.getTranscriptResults( m.get("variantTranscripts"), (Integer) m.get("variant_id"));
                         vr.setTranscriptResults(trs);
                         //       v.conservationScore.add(mapConservation(m));
 
@@ -196,7 +200,7 @@ public class VariantController extends HaplotyperController {
         return variantResults;
     }
 
-   List<TranscriptResult> getTranscriptResults(Object object) throws IOException {
+   List<TranscriptResult> getTranscriptResults(Object object, int variantId) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List list=(List)object;
 
@@ -207,6 +211,7 @@ public class VariantController extends HaplotyperController {
            VariantTranscript t= mapper.readValue(json, VariantTranscript.class);
            TranscriptResult tr = new TranscriptResult();
            AminoAcidVariant aa = new AminoAcidVariant();
+           List<PolyPhenPrediction> pp=new ArrayList<>();
            aa.setTripletError(t.getTripletError());
              aa.setSynonymousFlag(t.getSynStatus());
              aa.setPolyPhenStatus(t.getPolyphenStatus());
@@ -237,9 +242,26 @@ public class VariantController extends HaplotyperController {
          }
          aa.setTranscriptSymbol(getTranscriptSymbol(tr.getTranscriptId()));
          tr.setAminoAcidVariant(aa);
+         //********************************************Polyphenprediction********//
+           List<PolyPhenPrediction> polyPhenPredictions=getPolphenPredictionByVariantId(variantId);
+           if(polyPhenPredictions!=null && polyPhenPredictions.size()>0)
+           tr.setPolyPhenPrediction(polyPhenPredictions);
          trs.add(tr);
      }
         return  trs;
+   }
+   public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId)
+   {
+       PolyphenDAO pdao=new PolyphenDAO();
+
+       try {
+        //   return pdao.getPloyphenDataByVariantId(86880133);
+       //    System.out.println("VARIANT_ID: "+ variantId);
+           return pdao.getPloyphenDataByVariantId(variantId);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       return null;
    }
    public String getSequence(int seqKey){
        SequenceDAO sequenceDAO=new SequenceDAO();
