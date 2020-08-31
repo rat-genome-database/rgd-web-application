@@ -209,7 +209,7 @@ scroll-top:0;
                            </tr>
                            <%}%>
 
-                      <% if (tr.getAminoAcidVariant().getTripletError().equals("T") || tr.getAminoAcidVariant().getLocation().equals("Unknown")) { %>
+                      <% if ( tr.getAminoAcidVariant()!=null && ((tr.getAminoAcidVariant().getTripletError()!=null && tr.getAminoAcidVariant().getTripletError().equals("T")) ||(tr.getAminoAcidVariant().getLocation()!=null && tr.getAminoAcidVariant().getLocation().equals("Unknown")))) { %>
                       <tr>
                           <td colspan=2 align="center" style="font-weight:700; color:red;"><br>TRANSCRIPT MAY BE FAULTY.  PLEASE CHECK WITH NCBI FOR CORRECTIONS</td>
                       </tr>

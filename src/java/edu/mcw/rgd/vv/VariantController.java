@@ -1,21 +1,15 @@
 package edu.mcw.rgd.vv;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import edu.mcw.rgd.dao.impl.SequenceDAO;
+
+import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.dao.impl.variants.PolyphenDAO;
-import edu.mcw.rgd.dao.spring.variants.PolyphenQuery;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
-import edu.mcw.rgd.dao.impl.GeneDAO;
-import edu.mcw.rgd.dao.impl.SampleDAO;
-import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -29,7 +23,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.*;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -70,10 +63,9 @@ public class VariantController extends HaplotyperController {
 
             }
             if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_test";
+                index= "variants_rat"+vsb.getMapKey()+"_prod";
             if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
                 index= "variants_dog"+vsb.getMapKey()+"_dev";
-            //   System.out.println("INDEX NAME: "+ index);
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
@@ -81,23 +73,13 @@ public class VariantController extends HaplotyperController {
             }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
-
-      /*  if ((vsb.getStopPosition() - vsb.getStartPosition()) > 250000) {
-            count = vdao.getPositionCount(vsb);
-            System.out.println("position count = " + count);
-        }*/
-
-     //     if (count < 2000 || searchType.equals("GENE")) {
-            if (searchType.equals("GENE")) {
-
+            long count=service.getVariantsCount(vsb,req);
+            if (count < 2000 || searchType.equals("GENE")) {
+                System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
-
-                //         List<VariantResult> variantResults = vdao.getVariantAndConservation(vsb);
-                List<VariantResult> variantResults = this.getVariantResults(vsb, req);
-
-             //     System.out.println("VARIANT RESULTS SIZE:"+variantResults.size());
+                List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
 
                 for (VariantResult vr: variantResults) {
                     if (vr.getVariant() != null) {
@@ -142,26 +124,16 @@ public class VariantController extends HaplotyperController {
         return mappedGenes;
     }
 
-    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req) throws Exception {
+    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
-     System.out.println("VARIANT SEARCH HITS: "+ hits.size());
-
-   //     for(int id:vsb.sampleIds) {
             for (SearchHit h : hits) {
                 java.util.Map<String, Object> m = h.getSourceAsMap();
-             //   List<Map> samples = (List<Map>) m.get("samples");
-             //   for (Map e : samples) {
-                //    int sId = (Integer) (e.get("sampleId"));
-
-                //    if (id==sId) {
                         VariantResult vr = new VariantResult();
-                        //    Variant v= mapVariant(m);
 
-                   //     Map vd = (Map) m.get("variant");
                         Variant v = new Variant();
-                     //   v.setId((Integer) m.get("variant_id"));
+                     //   v.setId((Integer) m.get(""));
                         v.setChromosome((String) m.get("chromosome"));
                         v.setStartPos((Integer) m.get("startPos"));
                         v.setEndPos((Integer) m.get("endPos"));
@@ -171,7 +143,6 @@ public class VariantController extends HaplotyperController {
                         v.setPaddingBase((String) m.get("paddingBase"));
                         v.setRegionName(m.get("regionName").toString());
                         v.setVariantType((String) m.get("variantType"));
-                       // v.setSampleId(sId);
                         v.setSampleId((Integer) m.get("sampleId"));
                         v.setVariantFrequency((Integer) m.get("varFreq"));
                         v.setDepth((Integer) m.get("totalDepth"));
@@ -183,19 +154,15 @@ public class VariantController extends HaplotyperController {
                         v.setZygosityPossibleError((String) m.get("zygosityPossError"));
                         v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
                         vr.setVariant(v);
-                        System.out.println(m.get("variantTranscripts").toString());
-
-                        List<TranscriptResult> trs=this.getTranscriptResults( m.get("variantTranscripts"), (Integer) m.get("variant_id"));
-                        vr.setTranscriptResults(trs);
-                        //       v.conservationScore.add(mapConservation(m));
+                        if(requiredTranscripts) {
+                            List<TranscriptResult> trs = this.getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
+                            vr.setTranscriptResults(trs);
+                        }
+                            v.conservationScore.add(mapConservation(m));
 
                         variantResults.add(vr);
-               //     }
-
-             //   }
 
             }
-     //   }
 
         return variantResults;
     }
@@ -209,44 +176,48 @@ public class VariantController extends HaplotyperController {
            String json=g.toJson(o);
            ObjectMapper mapper= new ObjectMapper();
            VariantTranscript t= mapper.readValue(json, VariantTranscript.class);
-           TranscriptResult tr = new TranscriptResult();
-           AminoAcidVariant aa = new AminoAcidVariant();
-           List<PolyPhenPrediction> pp=new ArrayList<>();
-           aa.setTripletError(t.getTripletError());
-             aa.setSynonymousFlag(t.getSynStatus());
-             aa.setPolyPhenStatus(t.getPolyphenStatus());
-             aa.setNearSpliceSite(t.getNearSpliceSite());
-           //  aa.setGeneSpliceStatus(t.get("genespliceStatus"));
-             // tr.set.setFrameShift((String) source.get("frameShift"));
-             tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
-             aa.setLocation(t.getLocationName());
-             aa.setReferenceAminoAcid(t.getRefAA());
-             aa.setVariantAminoAcid(t.getVarAA());
+           if(t.getTranscriptRgdId()!=0) {
+               TranscriptResult tr = new TranscriptResult();
+               AminoAcidVariant aa = new AminoAcidVariant();
+               aa.setTripletError(t.getTripletError());
+               aa.setSynonymousFlag(t.getSynStatus());
+               aa.setPolyPhenStatus(t.getPolyphenStatus());
+               aa.setNearSpliceSite(t.getNearSpliceSite());
+               ;
+               //  aa.setGeneSpliceStatus(t.get("genespliceStatus"));
+               // tr.set.setFrameShift((String) source.get("frameShift"));
+               tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
+               aa.setLocation(t.getLocationName());
+               aa.setReferenceAminoAcid(t.getRefAA());
+               aa.setVariantAminoAcid(t.getVarAA());
        /*  if (source.get("fullRefAA") != null)
              aa.setAASequence(source.get("fullRefAA").toString());
          if (source.get("fullRefNuc") != null)
              aa.setDNASequence(source.get("fullRefNuc").toString());*/
-        if(t.getFullRefAASeqKey()!=0){
-            aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
-        }
-         if(t.getFullRefNucSeqKey()!=0){
-             aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
-         }
-         if (t.getFullRefAAPos() != null) {
-             System.out.println("FULL REF AA PSOTION:"+t.getFullRefAAPos());
-             aa.setAaPosition(t.getFullRefAAPos());
-         }
-         if (t.getFullRefNucPos() != null) {
-             System.out.println("FULL REF AA PSOTION:"+t.getFullRefNucPos());
-             aa.setDnaPosition(t.getFullRefNucPos());
-         }
-         aa.setTranscriptSymbol(getTranscriptSymbol(tr.getTranscriptId()));
-         tr.setAminoAcidVariant(aa);
-         //********************************************Polyphenprediction********//
-           List<PolyPhenPrediction> polyPhenPredictions=getPolphenPredictionByVariantId(variantId);
-           if(polyPhenPredictions!=null && polyPhenPredictions.size()>0)
-           tr.setPolyPhenPrediction(polyPhenPredictions);
-         trs.add(tr);
+               if (t.getFullRefAASeqKey() != 0) {
+                   aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+               }
+               if (t.getFullRefNucSeqKey() != 0) {
+                   aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
+               }
+               if (t.getFullRefAAPos() != null) {
+               //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
+                   aa.setAaPosition(t.getFullRefAAPos());
+               }
+               if (t.getFullRefNucPos() != null) {
+               //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
+                   aa.setDnaPosition(t.getFullRefNucPos());
+               }
+               String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
+               if (trSymbol != null)
+                   aa.setTranscriptSymbol(trSymbol);
+               tr.setAminoAcidVariant(aa);
+               //********************************************Polyphenprediction********//
+               List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId);
+               if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
+                   tr.setPolyPhenPrediction(polyPhenPredictions);
+               trs.add(tr);
+           }
      }
         return  trs;
    }
@@ -256,7 +227,6 @@ public class VariantController extends HaplotyperController {
 
        try {
         //   return pdao.getPloyphenDataByVariantId(86880133);
-       //    System.out.println("VARIANT_ID: "+ variantId);
            return pdao.getPloyphenDataByVariantId(variantId);
        } catch (Exception e) {
            e.printStackTrace();
@@ -284,7 +254,9 @@ public class VariantController extends HaplotyperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(tr!=null)
         return tr.getAccId();
+        return null;
     }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");

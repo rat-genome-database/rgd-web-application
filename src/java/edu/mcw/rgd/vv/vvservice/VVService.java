@@ -38,6 +38,21 @@ public class VVService {
     public static void setVariantIndex(String variantIndex) {
         VVService.variantIndex = variantIndex;
     }
+    public long getVariantsCount(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
+
+        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(builder);
+        srb.size(0);
+        SearchRequest searchRequest=new SearchRequest(variantIndex);
+        searchRequest.source(srb);
+     //   searchRequest.scroll(TimeValue.timeValueMinutes(1L));
+
+        SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        return sr.getHits().getTotalHits().value;
+
+    }
+
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
@@ -284,7 +299,7 @@ public class VVService {
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome", chromosome)
                 );
-                System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
+           //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
             if ( sampleIds.size() > 0) {
 
                 qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));

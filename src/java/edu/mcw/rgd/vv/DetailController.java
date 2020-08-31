@@ -79,14 +79,14 @@ public class DetailController extends HaplotyperController {
             if(mapKey==17)
                     index = "variants_human"+mapKey+"_dev1";
             if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_test";
+                index= "variants_rat"+mapKey+"_prod";
             if(mapKey==631 || mapKey==600 )
                 index= "variants_dog"+mapKey+"_dev";
             //   System.out.println("INDEX NAME: "+ index);
             //    index= "variants_dog_index_dev2";
 
             service.setVariantIndex(index);
-            List<VariantResult> vr = ctrl.getVariantResults(vsb,req);
+            List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
             List<TranscriptResult> tResults=new ArrayList<>();
             for(VariantResult r:vr){
 
@@ -94,7 +94,7 @@ public class DetailController extends HaplotyperController {
               //  tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
                 if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
                     tResults=r.getTranscriptResults();
-                    System.out.println("transcripts size: "+ tResults.size());
+                 //   System.out.println("transcripts size: "+ tResults.size());
                 }else
                 tResults=getTranscriptResults(v, mapKey);
 
