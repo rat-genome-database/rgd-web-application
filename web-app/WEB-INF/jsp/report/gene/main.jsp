@@ -212,7 +212,7 @@
 </div>
 
 
-<div id="top" class="subTitle">Summary</div>
+<div id="top" ></div>
 
     <div id="content-wrap">
         <table width="95%" style="padding-top:10px;" border="0">

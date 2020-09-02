@@ -3,9 +3,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
-    #exprTableWrapper{
-        height: 90vh;
-    }
+    /*#exprTableWrapper{*/
+    /*    height: 90vh;*/
+    /*}*/
 
     #exprData {
         border-radius:2px;
@@ -16,16 +16,16 @@
         border: 1px solid #dddddd;
         text-align: center;
         padding: 4px;
-        display: block;
-        height: 40px;
+        /*display: block;*/
+        /*height: 40px;*/
 
     }
 
-    #exprData tr{
-        display: block;
-        float: left;
-        height: 40px;
-    }
+    /*#exprData tr{*/
+    /*    display: block;*/
+    /*    float: left;*/
+    /*    height: 40px;*/
+    /*}*/
 
 
 </style>
@@ -145,7 +145,6 @@
                 Term term = xdao.getTermByAccId(t);
                 if( term != null) {
             %>
-            <script>console.log(<%=term%>)</script>
             <td><%=xdao.getTerm(t).getTerm()%></td>
             <% } else{  %>
             <td><%=t%></td>
