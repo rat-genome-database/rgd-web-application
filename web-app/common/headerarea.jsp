@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
     <link href="/rgdweb/common/rgd_styles-3.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
-
+    <link rel="stylesheet" href="/rgdweb/css/normalize.css" type="text/css" />
 
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>

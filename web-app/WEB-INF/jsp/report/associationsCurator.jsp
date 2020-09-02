@@ -36,13 +36,57 @@
             }
         }
 %>
-<%=ui.dynOpen("diseaseAsscociationC", "Disease Annotations")%>
+<%//ui.dynOpen("diseaseAsscociationC", "Disease Annotations")%>
 <% if( !listManual.isEmpty() ) { %>
-  <h4><%=siteName%> Manual Annotations</h4>
+
+<div class="sectionHeading" id="manualAnnotations"><h4><%=siteName%> Manual Annotations</h4></div>
+<div class="reportTable" id="manualAnnotationsTable">
+
+    <div id="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
   <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
+</div>
 <% } if( !listClinVar.isEmpty() ) { %>
-  <h4>Imported Annotations - ClinVar </h4>
+<div class="sectionHeading" id="importedAnnotations"><h4>Imported Annotations - ClinVar </h4></div>
+    <div class="reportTable" id="importedAnnotationsTable">
+        <div id="modelsViewContent" >
+            <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+                <form>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="9999">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
   <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
+    </div>
 <% } if( !listCTD.isEmpty() ) { %>
   <h4>Imported Annotations - CTD </h4>
   <%=af.createGridFormatAnnotationsTable(listCTD, siteName)%>
@@ -60,7 +104,7 @@
 <%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
 <% } %>
 <br>
-<%=ui.dynClose("diseaseAsscociationC")%>
+<%//ui.dynClose("diseaseAsscociationC")%>
 <% } %>
 
 
@@ -68,9 +112,9 @@
     filteredList = af.filterList(annotList, "E");
     if (filteredList.size() > 0) {
 %>
-<%=ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
+<%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
     <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
-<%=ui.dynClose("chemiAssociationC")%>
+<%//ui.dynClose("chemiAssociationC")%>
 <% } %>
 
 
@@ -81,7 +125,7 @@
     if ((bpList.size() + ccList.size() + mfList.size()) > 0 ) {
 %>
 
-<%=ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
+<%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
 
 <% if (bpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
@@ -97,7 +141,7 @@
 <% } %>
 
 <br>
-<%=ui.dynClose("goAsscociationC")%>
+<%//ui.dynClose("goAsscociationC")%>
 <% } %>
 
 <%
@@ -126,7 +170,7 @@
             }
         }
 %>
-<%=ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
+<%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
 
 <% if( !listManual.isEmpty() ) { %>
     <h4><%=siteName%> Manual Annotations</h4>
@@ -148,7 +192,7 @@
     if( xdbKeggPathways.size()>0 ) { %>
     <%@ include file="xdbs_pathways.jsp"%>
     <% } %>
-<%=ui.dynClose("pathwayAssociationC")%>
+<%//ui.dynClose("pathwayAssociationC")%>
 <% } %>
 
 <%
@@ -156,7 +200,7 @@
     List<Annotation> hpList = af.filterList(annotList,"H");
     if (mpList.size()+hpList.size() > 0) {
 %>
-<%=ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
+<%//ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
 
 <% if (mpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
@@ -167,7 +211,7 @@
        <%=af.createGridFormatAnnotationsTable(hpList, siteName)%>
 <% } %>
 
-<%=ui.dynClose("phenoAssociationC")%>
+<%//ui.dynClose("phenoAssociationC")%>
 <% } %>
 
 
@@ -187,7 +231,7 @@
             ((isReferenceRgd==1) && (rgdid>0)) || hasPhenoMinerAnn) {
 %>
 
-<%=ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
+<%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
 
 
     <%
@@ -235,7 +279,7 @@
     %>
 
 <br>
-<%=ui.dynClose("expAssociationC")%>
+<%//ui.dynClose("expAssociationC")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

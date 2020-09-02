@@ -38,6 +38,9 @@ sidebar.addEventListener("mouseout", (event) => {
 });
 
 
+document.getElementById("associationsToggle").addEventListener("click",(event) =>{
+   addItemsToSideBar();
+});
 
 
 function removeBreaks(divId){
@@ -45,7 +48,7 @@ function removeBreaks(divId){
     if(div != null){
         let breaks = div.getElementsByTagName('br');
         for (let i = 0; i < breaks.length; i++) {
-            console.log(breaks[i].parentNode.removeChild(breaks[i]) );
+            breaks[i].parentNode.removeChild(breaks[i]);
         }
     }
 
@@ -247,41 +250,54 @@ function calculateScrollPercentage(currentPosition){
 function addItemsToSideBar(){
     $('.subTitle').addClass("sidebar-item");
     $('.sectionHeading').addClass("sidebar-item");
-
-
+    let sidebar = document.getElementById('navbarUlId');
+    removeAllChildNodes(sidebar);
     $('.sidebar-item').each(function(index, value){
-        let text = value.childNodes[0].textContent;
-        if(text === "Gene-Chemical Interaction Annotations"){
-            text = "Gene-Chemical Interaction";
+
+        if(value.parentNode.style.display !== "none"){
+
+            let text = value.childNodes[0].textContent;
+
+            if(text === "Gene-Chemical Interaction Annotations"){
+                text = "Gene-Chemical Interaction";
+            }
+
+            if(text === "Molecular Pathway Annotations"){
+                text = "Molecular Pathway";
+            }
+
+            if(text === "QTLs in Region (Rnor_6.0)"){
+                text = "QTLs in Region";
+            }
+
+            if(text === "Strain Sequence Variants (Rnor 6.0)"){
+                text = "Strain Sequence Variants";
+            }
+
+
+            let li = document.createElement('li');
+            let a  = document.createElement('a');
+            li.classList.add('nav-item');
+            if(value.classList.contains('sectionHeading')) {
+                li.classList.add('sub-nav-item');
+            }
+            a.classList.add('nav-link');
+            a.setAttribute('href', '#' + value.id);
+            a.innerText = text;
+            li.appendChild(a);
+
+            sidebar.append(li);
         }
 
-        if(text === "Molecular Pathway Annotations"){
-            text = "Molecular Pathway";
-        }
 
-        if(text === "QTLs in Region (Rnor_6.0)"){
-            text = "QTLs in Region";
-        }
-
-        if(text === "Strain Sequence Variants (Rnor 6.0)"){
-            text = "Strain Sequence Variants";
-        }
-
-
-        let li = document.createElement('li');
-        let a  = document.createElement('a');
-        li.classList.add('nav-item');
-        if(value.classList.contains('sectionHeading')) {
-            li.classList.add('sub-nav-item');
-        }
-        a.classList.add('nav-link');
-        a.setAttribute('href', '#' + value.id);
-        a.innerText = text;
-        li.appendChild(a);
-        $('#navbarUlId').append(li);
     });
 }
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild){
+        parent.removeChild(parent.firstChild);
+    }
+}
 
 
 $(function () {

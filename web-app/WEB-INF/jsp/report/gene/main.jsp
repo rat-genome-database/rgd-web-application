@@ -212,7 +212,7 @@
 </div>
 
 
-<div id="top"></div>
+<div id="top" class="subTitle">Summary</div>
 
     <div id="content-wrap">
         <table width="95%" style="padding-top:10px;" border="0">
@@ -267,7 +267,7 @@
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations();">(Toggle Annotation Detail/Summary View)</a></div><br>
 
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
