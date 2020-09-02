@@ -64,7 +64,7 @@
   <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
 </div>
 <% } if( !listClinVar.isEmpty() ) { %>
-<div class="sectionHeading" id="importedAnnotations"><h4>Imported Annotations - ClinVar </h4></div>
+<div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
     <div class="reportTable" id="importedAnnotationsTable">
         <div id="modelsViewContent" >
             <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
@@ -88,19 +88,19 @@
   <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
     </div>
 <% } if( !listCTD.isEmpty() ) { %>
-  <h4>Imported Annotations - CTD </h4>
+<div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Annotations - CTD </h4></div>
   <%=af.createGridFormatAnnotationsTable(listCTD, siteName)%>
 <% } if( !listGAD.isEmpty() ) { %>
-  <h4>Imported Annotations - Genetic Association Database </h4>
+<div class="sectionHeading" id="importedAnnotationsGeneticAssociation"><h4>Imported Annotations - Genetic Association Database </h4></div>
   <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
 <% } if( !listMGI.isEmpty() ) { %>
-  <h4>Imported Annotations - MGI </h4>
+<div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Annotations - MGI </h4></div>
   <%=af.createGridFormatAnnotationsTable(listMGI, siteName)%>
 <% } if( !listOmia.isEmpty() ) { %>
-  <h4>Imported Annotations - OMIA </h4>
+<div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
   <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
 <% } if( !listOmim.isEmpty() ) { %>
-<h4>Imported Annotations - OMIM </h4>
+<div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Annotations - OMIM </h4></div>
 <%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
 <% } %>
 <br>
@@ -113,6 +113,7 @@
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
+<div class="sectionHeading" id="geneChemicalInteractionAnnotations"><h4>Gene-Chemical Interaction Annotations</h4></div>
     <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
 <%//ui.dynClose("chemiAssociationC")%>
 <% } %>
@@ -126,7 +127,7 @@
 %>
 
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
-
+<div class="sectionHeading" id="geneOntologyAnnotationsCurator"><h4>Gene Ontology Annotations</h4></div>
 <% if (bpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
        <%=af.createGridFormatAnnotationsTable(bpList, siteName)%>
@@ -171,7 +172,7 @@
         }
 %>
 <%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
-
+<div class="sectionHeading" id="molecularPathwayAnnotationsCurator"><h4>Molecular Pathway Annotations</h4></div>
 <% if( !listManual.isEmpty() ) { %>
     <h4><%=siteName%> Manual Annotations</h4>
     <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
@@ -201,7 +202,7 @@
     if (mpList.size()+hpList.size() > 0) {
 %>
 <%//ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
-
+<div class="sectionHeading" id="phenotypeAnnotations"><h4>Phenotype Annotations</h4></div>
 <% if (mpList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
        <%=af.createGridFormatAnnotationsTable(mpList, siteName)%>
@@ -232,7 +233,7 @@
 %>
 
 <%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
-
+<div class="sectionHeading" id="experimentalDataAnnotations"><h4>Experimental Data Annotations</h4></div>
 
     <%
     if(hasPhenoMinerAnn){
