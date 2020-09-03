@@ -236,14 +236,14 @@
                      <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
                      <col span="1" style="width: 5%;"> <%-- Symbol --%>
                      <col span="1" style="width: 5%;"> <%-- Obj name --%>
-                     <col span="1" style="width: 5%;"> <%-- Qualifiers --%>
-                     <col span="1" style="width: 2%;"> <%-- Evidence --%>
-                     <col span="1" style="width: 17%;"><%-- Position --%>
-                     <col span="1" style="width: 5%;"><%-- Jbrowse link --%>
-                     <col span="1" style="width: 10%;"><%-- Reference --%>
-                     <col span="1" style="width: 5%;"><%-- source --%>
-                     <col span="1" style="width: 30%;"><%-- original references/ xref --%>
+                     <col span="1" style="width: 6%;"> <%-- Qualifiers --%>
+                     <col span="1" style="width: 4%;"> <%-- Evidence --%>
                      <col span="1" style="width: 10%;"><%-- notes --%>
+                     <col span="1" style="width: 7%;"><%-- source --%>
+                     <col span="1" style="width: 18%;"><%-- RGD Reference --%>
+                     <col span="1" style="width: 25%;"><%-- original references/ xref --%>
+                     <col span="1" style="width: 15%;"><%-- Position --%>
+                     <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
                  </colgroup>
                  <td 10%></td>
                  <c:if test="${bean.speciesTypeKey==0}"><td></td></c:if>
@@ -253,12 +253,12 @@
                  <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
                  <td><b>Evidence</b></td>
 
+                 <td><b>Notes</b></td>
+                 <td><b>Source</b></td>
+                 <td><b>PubMed Reference(s)</b></td>
+                 <td><b>RGD Reference(s)</b></td>
                  <td align="right"><b>Position</b></td>
                  <td> </td>
-                 <td><b>Reference</b></td>
-                 <td><b>Source</b></td>
-                 <td><b>Original Reference(s)</b></td>
-                 <td><b>Notes</b></td>
              </tr>
             <% int row=0;
                   for( OntAnnotation annot: entry.getValue() ) {
@@ -284,26 +284,45 @@
                     if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
                    %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
 
+                <td><%=annot.getNotes()%></td>
+                <td><%  if (annot.getReference().isEmpty())
+                            out.print(annot.getDataSource());
+                        else
+                            out.print(annot.getReference());%></td><%--  annot.getDataSource()--%>
+
+                <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty())
+                            out.print(annot.getXrefSource());
+                        else if (!annot.getHiddenPmId().isEmpty() && annot.getXrefSource().isEmpty())
+                            out.print(annot.getHiddenPmId());
+                        else if (!annot.getHiddenPmId().isEmpty() && ! annot.getXrefSource().isEmpty())
+                            out.print(annot.getXrefSource()+", "+annot.getHiddenPmId());
+                        %></td>
+
+                <td><%  if (annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) // added references exist while rgdRef DNE
+                            out.print(annot.getReferenceTurnedRGDRef());
+                        else if (!annot.getRgdRefSource().isEmpty() && annot.getReferenceTurnedRGDRef().isEmpty()) // added references DNE while rgdRef exists
+                            out.print(annot.getRgdRefSource());
+                        else  if(!annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty())  // both exist
+                            out.print(annot.getRgdRefSource()+", "+annot.getReferenceTurnedRGDRef());
+                %></td>
+
+
                 <td align="right">
                     <%if(!annot.getChr().trim().isEmpty()){
                         out.print(annot.getFullNcbiPos());
                         if(annot.getChrEns()!=null){%>
-                        <%=annot.getFullEnsPos()%>
+                    <%=annot.getFullEnsPos()%>
                     <% }
-                     } // end if NCBI is not whitespace
-                     else
+                    } // end if NCBI is not whitespace
+                    else
                     if(annot.getChrEns()!=null){
                         out.print(annot.getFullEnsPos().substring(4) );
                     }%>
                 </td>
-            <td><% String jbrowseLink = annot.getJBrowseLink();
-                if( jbrowseLink!=null ) {%>
-                <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
-                <%}%></td>
-                <td><%=annot.getReference()%></td>
-                <td><%=annot.getDataSource()%></td> <%-- maybe limit PMID 5 || 10 --%>
-                <td><%=annot.getXrefSource()%></td>
-                <td><%=annot.getNotes()%></td>
+                <td><% String jbrowseLink = annot.getJBrowseLink();
+                    if( jbrowseLink!=null ) {%>
+                    <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
+                    <%}%></td>
               </tr>
             <% }    } %>
 
