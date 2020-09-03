@@ -8,14 +8,14 @@ tr.evenRow td, tr.evenRow td a {
 }
 
 tr.oddRow td, tr.oddRow td a {
-    background-color: #e2e2e2;
+    background-color: #F1F1F1;
     color: black;
     font-size: 12px;
     font-family: arial;
 }
 
 tr.headerRow td {
-    background-color: #838383;
+    background-color: #99BFE6;
     font-weight: 700;
     font-size: 13px;
     color: white;
