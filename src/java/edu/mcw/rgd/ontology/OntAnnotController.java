@@ -1,10 +1,8 @@
 package edu.mcw.rgd.ontology;
 
-import edu.mcw.rgd.dao.impl.AnnotationDAO;
-import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.MapData;
+import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
@@ -27,6 +25,7 @@ public class OntAnnotController implements Controller {
 
     // decimal format for showing the thousand separator
     static DecimalFormat _numFormat = new DecimalFormat("###,###,###,###");
+    static ReferencePipelines refPipe = new ReferencePipelines();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -302,14 +301,21 @@ public class OntAnnotController implements Controller {
                 a.setRefRgdIds(annot.getRelativeTo());
                 //a.setRefRgdId(annot.getRefRgdId());
 
-                a.setReference("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>RGD:" + annot.getRefRgdId() + "</a>");
+                a.setDataSource(annot.getDataSrc());
+
+                if (!refPipe.search(annot.getRefRgdId())){
+                    a.setHiddenPmId(annot.getRefRgdId());
+                    a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
+                }
+                else // not a pipeline reference
+                    a.setReference("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> " + a.getDataSource() + "</a>");
 
                 a.setQualifier(Utils.NVL(annot.getQualifier(),""));
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
                 }
                 a.setRgdObjectKey(annot.getRgdObjectKey());
-                a.setDataSource(annot.getDataSrc());
+                // setDataSource original position
                 a.addXrefs(annot.getXrefSource());
 
                 a.setSpeciesTypeKey(annot.getSpeciesTypeKey());
@@ -318,16 +324,23 @@ public class OntAnnotController implements Controller {
                 annotList.add(a);
             } else {
                 // merge data from multiple annotations (for the same term and object)
+                a.setDataSource( htmlMerge(a.getDataSource(), annot.getDataSrc()) );
 
-                String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>RGD:" + annot.getRefRgdId() + "</a>";
-                a.setReference( htmlMerge(a.getReference(), refInfo) );
+                if (!refPipe.search(annot.getRefRgdId())){
+                    a.setHiddenPmId(annot.getRefRgdId());
+                    a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
+                }
+                else { // not a pipeline reference
+                    String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
+                    a.setReference(htmlMerge(a.getReference(), refInfo));
+                }
 
                 a.setEvidence( htmlMerge(a.getEvidence(), annot.getEvidence()) );
                 a.setQualifier( htmlMerge(a.getQualifier(), annot.getQualifier()) );
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
                 }
-                a.setDataSource( htmlMerge(a.getDataSource(), annot.getDataSrc()) );
+
                 a.addXrefs(annot.getXrefSource());
                 a.setNotes( htmlMerge(a.getNotes(), annot.getNotes()) );
             }

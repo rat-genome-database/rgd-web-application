@@ -1,7 +1,9 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.XdbIdDAO;
 import edu.mcw.rgd.datamodel.MapData;
+import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
@@ -35,6 +37,7 @@ public class OntAnnotation  {
     private String JBrowseLink; // link to JBrowse -- customized by species
     private String dataSource;
     private String xrefSource = "";
+    private String rgdRefSource = "";
     private String notes;
 
     private String chrEns = null;
@@ -42,8 +45,21 @@ public class OntAnnotation  {
     private String stopPosEns = null;
     private String fullEnsPos = "";
     private String fullNcbiPos = "";
+    private String referenceTurnedRGDRef = "";
+    private String hiddenPmId = "";
 
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
+                int i1 = Integer.parseInt(o1.substring(5));
+                int i2 = Integer.parseInt(o2.substring(5));
+                return i1-i2;
+            }
+            return o1.compareTo(o2);
+        }
+    });
+    private Set<String> rgdRefs = new TreeSet<String>(new Comparator<String>() {
         @Override
         public int compare(String o1, String o2) {
             if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
@@ -57,14 +73,21 @@ public class OntAnnotation  {
 
     public void addXrefs(String xrefString) throws Exception {
         int oldXrefCount = xrefs.size();
+        int oldRgdRefCount = rgdRefs.size();
         if( !Utils.isStringEmpty(xrefString) ) {
             for( String xref: xrefString.split("[\\|]") ) {
-                xrefs.add(xref);
+                if (xref.contains("PMID"))
+                    xrefs.add(xref);
+                else
+                    rgdRefs.add(xref);
+//                xrefs.add(xref);
             }
         }
         if( xrefs.size()>oldXrefCount ) {
             setXrefSource(Utils.concatenate(xrefs,"|"));
         }
+        if( rgdRefs.size() > oldRgdRefCount)
+            setRgdRefSource(Utils.concatenate(rgdRefs,"|"));
     }
 
     public int getRgdId() {
@@ -125,6 +148,7 @@ public class OntAnnotation  {
     public void setRefRgdIds(String refRgdIds) throws Exception {
         if( refRgdIds!=null ) {
             this.reference = "";
+
             List<Integer> rgdIds = new ArrayList<Integer>();
             for(String refRgdId: refRgdIds.split(", ") ) {
                 int rgdId = 0;
@@ -339,4 +363,38 @@ public class OntAnnotation  {
 
     public String getFullNcbiPos()  {   return fullNcbiPos; }
 
+    public String getRgdRefSource() {   return rgdRefSource;    }
+
+    public void setRgdRefSource(String rgdRefSource) throws Exception {
+        this.rgdRefSource = AnnotationFormatter.formatXdbUrls(rgdRefSource, rgdObjectKey);
+    }
+
+    public String getReferenceTurnedRGDRef(){  return referenceTurnedRGDRef;  }
+
+    public void setReferenceTurnedRGDRef(String referenceTurnedRGDRef){
+        if (this.referenceTurnedRGDRef.isEmpty())
+            this.referenceTurnedRGDRef = referenceTurnedRGDRef;
+        else
+            this.referenceTurnedRGDRef += ", "+referenceTurnedRGDRef;
+
+    }
+
+    public String getHiddenPmId(){
+        return hiddenPmId;
+    }
+    public void setHiddenPmId(int rgdId) throws Exception{
+        Reference ref = ReferencePipelines.rdao.getReferenceByRgdId(rgdId);
+        XdbIdDAO xdbDAO = new XdbIdDAO();
+        List pmIds = xdbDAO.getXdbIdsByRgdId(2, ref.getRgdId());
+
+        String pmId = "";
+        if (pmIds.size() > 0) {
+            pmId = xdbDAO.getXdbIdsByRgdId(2, ref.getRgdId()).get(0).getAccId();
+        }
+
+        if (hiddenPmId.isEmpty())
+            hiddenPmId = "<a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
+        else
+            hiddenPmId += ", <a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
+    }
 }
