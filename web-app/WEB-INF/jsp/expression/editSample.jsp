@@ -77,7 +77,7 @@
             $("#strainTerm<%=i%>").html(value[0]);
         });
         <%}%>
-        <% for (int i = 0; i < 15; i++) { %>
+        <% for (int i = 0; i < 25; i++) { %>
         $("#tissueId<%=i%>").autocomplete('/OntoSolr/select', {
                     extraParams: {
                         'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
@@ -174,7 +174,7 @@
             <tr>
                 <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
                 <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
-                <td><span id="tissueTerm<%=tcount%>" class="highlight"></span></td>
+                <td><label for="tissueTerm<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Term: &nbsp&nbsp </label><span id="tissueTerm<%=tcount%>" class="highlight"></span></td>
             </tr>
 
         <%
@@ -186,7 +186,7 @@
             <tr>
                 <td><label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
                 <td><label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
-                <td><span id="strainTerm<%=scount%>" class="highlight"></span></td>
+                <td><label for="strainTerm<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Term: &nbsp&nbsp </label><span id="strainTerm<%=scount%>" class="highlight"></span></td>
             </tr>
 
         <%

@@ -24,6 +24,7 @@
                 <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
 				<prop key="expression/experiments.html">GeoExperimentController</prop>
 				<prop key="expression/study.html">GeoStudyController</prop>
+				<prop key="expression/editExperiment.html">GeoStudyController</prop>
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>

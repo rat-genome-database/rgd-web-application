@@ -1,6 +1,7 @@
 package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.datamodel.pheno.Experiment;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.datamodel.pheno.Study;
 import edu.mcw.rgd.reporting.Record;
@@ -23,7 +24,20 @@ public class GeoStudyController implements Controller {
         ArrayList<String> status = new ArrayList<>();
         ArrayList<String> error = new ArrayList<>();
 
-        if (request.getParameter("act") != null) {
+        if(request.getParameter("act") != null && request.getParameter("act").equalsIgnoreCase("createExperiment")){
+            try{
+                Experiment e = new Experiment();
+                e.setStudyId(Integer.parseInt(request.getParameter("studyId")));
+                e.setName(request.getParameter("name"));
+                e.setTraitOntId(request.getParameter("traitOntId"));
+                e.setNotes(request.getParameter("notes"));
+                pdao.insertExperiment(e);
+                request.setAttribute("studyId",e.getStudyId());
+            }catch (Exception e){
+                error.add("Experiment insertion failed for" + e.getMessage());
+            }
+        }
+        else if (request.getParameter("act") != null ) {
          try{
              Study s = new Study();
             s.setName(request.getParameter("name"));
@@ -41,12 +55,17 @@ public class GeoStudyController implements Controller {
             }
             status.add("Study Creation Successful");
         }catch (Exception e){
-            error.add("Sample insertion failed for" + e.getMessage());
+            error.add("Study creation failed for" + e.getMessage());
 
         }
+            return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
         }
 
-        return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
+        if(request.getParameter("studyId") != null) {
+            request.setAttribute("studyId", request.getParameter("studyId"));
+            return new ModelAndView("/WEB-INF/jsp/expression/editExperiment.jsp");
+        } else return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
+
 
     }
 }

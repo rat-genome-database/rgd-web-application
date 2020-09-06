@@ -97,7 +97,7 @@
 <% } else { %>
 <form name="createStudy" action="study.html">
   <input type="hidden" name="act" value="editStudy"/>
-  <table width="90%" cellpadding="5" style="background-color:#daeffc;">
+  <table width="90%" cellpadding="5">
     <tr>
       <td style="font-weight:700;font-size:16px;">Edit Study</td>
     </tr>
@@ -128,6 +128,25 @@
     </tr>
   </table>
 </form>
+
+<a href="/rgdweb/expression/editExperiment.html?studyId=<%=study.getId()%>">Create Experiment</a><br><br>
+  <table width="90%" cellpadding="5">
+    <% if(experiments.size() > 0) {%>
+      <th>Experiment Id</th>
+    <th>Experiment Name</th>
+    <th>Trait Ont Id</th>
+    <th>Notes</th>
+    <%}%>
+    <%for(Experiment e:experiments){ %>
+  <tr>
+  <td><a href='editExperiment.html?act=edit&expId=<%=e.getId()%>&studyId=<%=e.getStudyId()%>'><%=e.getId()%></a></td>
+    <td><%=e.getName()%></td>
+    <td><%=e.getTraitOntId()%></td>
+    <td><%=e.getNotes()%> </td>
+</tr>
+    <%}%>
+</table>
+
 <%}%>
 
 
