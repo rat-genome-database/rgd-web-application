@@ -36,6 +36,7 @@ public class GeoStudyController implements Controller {
             }catch (Exception e){
                 error.add("Experiment insertion failed for" + e.getMessage());
             }
+            return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
         }
         else if (request.getParameter("act") != null ) {
          try{
