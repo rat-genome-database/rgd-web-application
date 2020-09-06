@@ -24,14 +24,21 @@ public class GeoStudyController implements Controller {
         ArrayList<String> status = new ArrayList<>();
         ArrayList<String> error = new ArrayList<>();
 
-        if(request.getParameter("act") != null && request.getParameter("act").equalsIgnoreCase("createExperiment")){
+        if(request.getParameter("act") != null &&
+                ( request.getParameter("act").equalsIgnoreCase("createExperiment") || request.getParameter("act").equalsIgnoreCase("editExperiment")) ){
             try{
                 Experiment e = new Experiment();
                 e.setStudyId(Integer.parseInt(request.getParameter("studyId")));
                 e.setName(request.getParameter("name"));
                 e.setTraitOntId(request.getParameter("traitOntId"));
                 e.setNotes(request.getParameter("notes"));
-                pdao.insertExperiment(e);
+                if (request.getParameter("act").equalsIgnoreCase("createExperiment"))
+                    pdao.insertExperiment(e);
+                else if (request.getParameter("act").equalsIgnoreCase("editExperiment")) {
+                    e.setId(Integer.parseInt(request.getParameter("expId")));
+                    pdao.updateExperiment(e);
+                }
+
                 request.setAttribute("studyId",e.getStudyId());
             }catch (Exception e){
                 error.add("Experiment insertion failed for" + e.getMessage());

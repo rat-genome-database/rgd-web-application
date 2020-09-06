@@ -15,6 +15,7 @@
 %>
 
 <%@ include file="/common/headerarea.jsp" %>
+<a href="/rgdweb/expression/experiments.html">View Geo RNA Seq Experiments</a><br><br>
 <%
 
   String gse = request.getParameter("gse");
@@ -142,7 +143,7 @@
     <%}%>
     <%for(Experiment e:experiments){ %>
   <tr>
-  <td><a href='editExperiment.html?act=edit&expId=<%=e.getId()%>&studyId=<%=e.getStudyId()%>'><%=e.getId()%></a></td>
+  <td><a href='editExperiment.html?expId=<%=e.getId()%>&studyId=<%=e.getStudyId()%>'><%=e.getId()%></a></td>
     <td><%=e.getName()%></td>
     <td><%=e.getTraitOntId()%></td>
     <td><%=e.getNotes()%> </td>

@@ -14,8 +14,16 @@
 %>
 <%
     String studyId = request.getParameter("studyId");
-
-    String title="Create Experiment";
+    String expId = request.getParameter("expId");
+    String title = "";
+    Experiment e = new Experiment();
+    if(expId == null)
+        title ="Create Experiment";
+    else {
+        title = "Edit Experiment";
+        PhenominerDAO pdao = new PhenominerDAO();
+        e = pdao.getExperiment(Integer.parseInt(expId));
+    }
 
 %>
 <span><%=title%></span>
@@ -53,16 +61,20 @@ $(document).ready(function(){
 </script>
 
 <form action="study.html" method="get" >
-
+<% if(expId == null) {%>
 <input type="hidden" name="act" value="createExperiment"/>
+<% }else { %>
+    <input type="hidden" name="act" value="editExperiment"/>
+    <input type="hidden" name="expId" value="<%=expId%>"/>
+    <% } %>
 
 
     <br>
     <table width="90%" cellpadding="5">
 
     <tr>
-        <td>Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
-        &#160;&#160; Experimental name: <input type="text" name="name" size="50" id="name" value=""  style="background-color: #dddddd" readonly="true"> </td>
+        <td>Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="<%=e.getTraitOntId()%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
+        &#160;&#160; Experimental name: <input type="text" name="name" size="50" id="name" value="<%=e.getName()%>"  style="background-color: #dddddd" readonly="true"> </td>
     </tr>
     <tr>
         <td>Notes:</td><td><textarea name="notes" rows="6" cols="25" id="notes"></textarea> </td>
