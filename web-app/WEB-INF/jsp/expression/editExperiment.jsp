@@ -3,6 +3,10 @@
 <%@ page import="edu.mcw.rgd.reporting.*" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <%
     String pageTitle = "Edit Experiment";
     String headContent = "";
@@ -16,8 +20,10 @@
 %>
 <span><%=title%></span>
 
+<%@ include file="/common/headerarea_phenominer.jsp"%>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+
 <script type="text/javascript" src="/rgdweb/OntoSolr/ont_util.js"></script>
 
 <script>
@@ -52,7 +58,7 @@ $(document).ready(function(){
 
 
     <br>
-    <table width="90%" cellpadding="5" style="background-color:#daeffc;">
+    <table width="90%" cellpadding="5">
 
     <tr>
         <td>Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
