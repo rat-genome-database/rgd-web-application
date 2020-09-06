@@ -55,6 +55,7 @@ public class GeoStudyController implements Controller {
                 pdao.updateStudy(s);
             }
             status.add("Study Creation Successful");
+             request.setAttribute("studyId",s.getId());
         }catch (Exception e){
             error.add("Study creation failed for" + e.getMessage());
 

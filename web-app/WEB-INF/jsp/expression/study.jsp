@@ -18,8 +18,11 @@
 <%
 
   String gse = request.getParameter("gse");
+  String studyId = request.getParameter("studyId");
   PhenominerDAO pdao = new PhenominerDAO();
   Study study = pdao.getStudyByGeoId(gse);
+  if(studyId != null)
+    study = pdao.getStudy(Integer.parseInt(studyId));
   List<Experiment> experiments = new ArrayList<>();
   if(study != null)
     experiments = pdao.getExperiments(study.getId());
