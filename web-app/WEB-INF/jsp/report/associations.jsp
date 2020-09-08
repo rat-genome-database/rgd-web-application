@@ -2,6 +2,20 @@
 <%@ include file="sectionHeader.jsp"%>
 <script type="text/javascript" src="/rgdweb/js/sorttable.js" >
 </script>
+<style>
+    .reportTable{
+        display: flex;
+        overflow-x: auto;
+        flex-flow: row wrap;
+    }
+
+    .reportTable table{
+        flex-basis: 800px;
+    }
+
+
+
+</style>
 <%
 
     AnnotationFormatter af = new AnnotationFormatter();
@@ -39,9 +53,7 @@
 <%//ui.dynOpen("diseaseAsscociation", "Disease Annotations")%>
 
 <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
-<div class="reportTable" id="diseaseAnnotationsTable">
-
-
+<div class="reportTable table-responsive" id="diseaseAnnotationsTable">
 
     <div id="modelsViewContent" >
         <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
@@ -62,7 +74,9 @@
             </form>
         </div>
     </div>
+
 <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
+
 <br>
 <%//ui.dynClose("diseaseAsscociation")%>
 <% } %>

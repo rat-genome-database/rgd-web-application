@@ -175,25 +175,6 @@ function buildAnnotationTable(rowArray){
 
     let newTable = buildEmptyTable();
 
-    // for(let i = 0; i < rowArray.length; i += 2){
-    //     if(rowArray[i].hasChildNodes()){
-    //         let tr = document.createElement('tr');
-    //         newTable.tBodies[0].appendChild(tr);
-    //         if(rowArray[i].childNodes.length > 1){
-    //             tr.appendChild(rowArray[i].childNodes[1]);
-    //         }else{
-    //             tr.appendChild(rowArray[i].childNodes[0]);
-    //         }
-    //
-    //         if((i + 1) !== rowArray.length){
-    //             if(rowArray[i + 1].childNodes.length > 1){
-    //                 tr.appendChild(rowArray[i + 1].childNodes[1]);
-    //             }else{
-    //                 tr.appendChild(rowArray[i + 1].childNodes[0]);
-    //             }
-    //         }
-    //     }
-    // }
 
     for(let i = 0; i < rowArray.length; i += 3){
         let colOne = i;
