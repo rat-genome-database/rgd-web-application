@@ -312,7 +312,6 @@ function removeAllChildNodes(parent) {
     }
 }
 
-
 $(function () {
 
     $('#annotationTable1')
@@ -391,16 +390,8 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#referencesCuratedPager'),
+            container: $('.referencesCuratedPager'),
             size: 10
-        });
-    $('#pubMedReferencesTable')
-        .tablesorter({
-            theme: 'blue',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#pubMedReferencesPager')
         });
 
 
@@ -410,7 +401,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#qtlAssociationPager'),
+            container: $('.qtlAssociationPager'),
             size: 10
         });
 
@@ -420,7 +411,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#strainSequenceVariantsPager'),
+            container: $('.strainSequenceVariantsPager'),
             size: 5
         });
     
