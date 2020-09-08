@@ -412,7 +412,7 @@
 
                 alert($scope.speciesTypeKey + "-" + ont);
 
-                if ($scope.speciesTypeKey==1 && ont=="mp") {
+                if ($scope.speciesTypeKey==1 && ont=="ph") {
                     alert("we got human and mp");
                     ontId="HP:0000001";
                     ont="hp";
