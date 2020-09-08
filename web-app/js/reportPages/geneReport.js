@@ -423,16 +423,7 @@ $(function () {
             container: $('#strainSequenceVariantsPager'),
             size: 5
         });
-
-    $('#positionMarkersTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#positionMarkersPager'),
-            size: 3
-        });
+    
 
     $('#nucleotideReferenceSequencesTable')
         .tablesorter({
