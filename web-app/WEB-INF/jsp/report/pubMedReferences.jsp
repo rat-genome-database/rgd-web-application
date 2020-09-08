@@ -49,7 +49,7 @@
     <table border="0"  class="tablesorter" id="pubMedReferencesTable">
         <thead></thead>
         <tbody>
-        
+
     <%
         String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
 

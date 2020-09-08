@@ -403,15 +403,6 @@ $(function () {
             container: $('#pubMedReferencesPager')
         });
 
-    $('#comparativeMapDataTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#comparativeMapDataPager'),
-            size: 3
-        });
 
     $('#qtlAssociationTable')
         .tablesorter({

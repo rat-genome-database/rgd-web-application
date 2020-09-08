@@ -9,9 +9,7 @@
         flex-flow: row wrap;
     }
 
-    .reportTable table{
-        flex-basis: 800px;
-    }
+
 
 
 
