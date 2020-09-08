@@ -49,19 +49,33 @@
     <table border="0"  class="tablesorter" id="pubMedReferencesTable">
         <thead></thead>
         <tbody>
-    <tr>
-        <td style="background-color:#e2e2e2; vertical-align:top"><b>PubMed</b></td>
-        <td style="background-color:#e2e2e2;">
+        
     <%
         String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
-        for (XdbId xid: ei) {
-            String link=xid.getLinkText()==null ? xid.getAccId() : xid.getLinkText();
 
+        for (int i = 0; i < ei.size(); i++) {
+            String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
+            if(i % 8 == 0){
     %>
-        <a href="<%=pubmedLink%><%=xid.getAccId()%>"><%=link%></a> &nbsp;
-    <% } %>
-        </td>
-    </tr>
+<%--Beggining of row--%>
+        <tr>
+            <td style="background-color:#e2e2e2;">
+                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+            </td>
+
+    <% }else if(i % 8 == 7){ %>
+<%--            End of Row--%>
+            <td style="background-color:#e2e2e2;">
+                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+            </td>
+        </tr>
+  <% }else{%>
+<%--middle item--%>
+            <td style="background-color:#e2e2e2;">
+                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+            </td>
+    <% }
+    }%>
         </tbody>
     </table>
 
