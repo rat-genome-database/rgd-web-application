@@ -67,9 +67,9 @@
 
         </tr>
         <tr>
-            <td>
+            <td bgcolor="#d3d3d3">
                 <%if(source != null){
-                    out.print(source);
+                    out.print(source); // possible not needed
                 }%>
             </td>
         </tr>

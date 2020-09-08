@@ -15,11 +15,15 @@
 %>
 
 <%@ include file="/common/headerarea.jsp" %>
+<a href="/rgdweb/expression/experiments.html">View Geo RNA Seq Experiments</a><br><br>
 <%
 
   String gse = request.getParameter("gse");
+  String studyId = request.getParameter("studyId");
   PhenominerDAO pdao = new PhenominerDAO();
   Study study = pdao.getStudyByGeoId(gse);
+  if(studyId != null)
+    study = pdao.getStudy(Integer.parseInt(studyId));
   List<Experiment> experiments = new ArrayList<>();
   if(study != null)
     experiments = pdao.getExperiments(study.getId());
@@ -97,7 +101,7 @@
 <% } else { %>
 <form name="createStudy" action="study.html">
   <input type="hidden" name="act" value="editStudy"/>
-  <table width="90%" cellpadding="5" style="background-color:#daeffc;">
+  <table width="90%" cellpadding="5">
     <tr>
       <td style="font-weight:700;font-size:16px;">Edit Study</td>
     </tr>
@@ -128,6 +132,25 @@
     </tr>
   </table>
 </form>
+
+<a href="/rgdweb/expression/editExperiment.html?studyId=<%=study.getId()%>">Create Experiment</a><br><br>
+  <table width="90%" cellpadding="5">
+    <% if(experiments.size() > 0) {%>
+      <th>Experiment Id</th>
+    <th>Experiment Name</th>
+    <th>Trait Ont Id</th>
+    <th>Notes</th>
+    <%}%>
+    <%for(Experiment e:experiments){ %>
+  <tr>
+  <td><a href='editExperiment.html?expId=<%=e.getId()%>&studyId=<%=e.getStudyId()%>'><%=e.getId()%></a></td>
+    <td><%=e.getName()%></td>
+    <td><%=e.getTraitOntId()%></td>
+    <td><%=e.getNotes()%> </td>
+</tr>
+    <%}%>
+</table>
+
 <%}%>
 
 

@@ -106,7 +106,7 @@ public class GeoExperimentController implements Controller {
                 pdao.updateGeoStudyStatus(gse, curationStatus,species);
                 status.add("Status updated successfully for " + gse);
                 request.setAttribute("status", status);
-                return new ModelAndView("/WEB-INF/jsp/expression/" + "experiments.jsp");
+                return new ModelAndView("/WEB-INF/jsp/expression/" + "geoexperiments.jsp");
             }
             if(request.getParameter("tcount") != null){
                 int tcount = Integer.parseInt(request.getParameter("tcount"));
@@ -159,7 +159,7 @@ public class GeoExperimentController implements Controller {
             if (request.getParameter("gse") != null) {
 
                 return new ModelAndView("/WEB-INF/jsp/expression/editSample.jsp");
-            } else return new ModelAndView("/WEB-INF/jsp/expression/" + "experiments.jsp");
+            } else return new ModelAndView("/WEB-INF/jsp/expression/" + "geoexperiments.jsp");
 
         }
 
