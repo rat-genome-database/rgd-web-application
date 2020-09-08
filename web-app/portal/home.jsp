@@ -408,7 +408,28 @@
             ctrl.browse = function (ontId, ont, term, back) {
                 //$("#loadingModal").modal("show");
 
+
+
+                alert($scope.speciesTypeKey + "-" + ont);
+
+                if ($scope.speciesTypeKey==1 && ont=="mp") {
+                    alert("we got human and mp");
+                    ontId="HP:0000001";
+                    ont="hp";
+
+                }
+
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
+
+                var ontologyCodes= null;
+
+                if (ont=="hp") {
+                    ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
+
+                }else {
+                    ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
+
+                }
 
                 var ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
 
@@ -832,7 +853,11 @@
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
+
+
                     <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
+
+
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>
