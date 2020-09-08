@@ -410,7 +410,7 @@
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
-                var ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
+                var ontologyCodes = ["d","hp","ph","bp","pw","c","vt","cm","ec"];
 
                 for (var i=0; i< ontologyCodes.length; i++) {
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
@@ -832,6 +832,8 @@
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
+
+                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
