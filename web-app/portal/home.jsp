@@ -431,7 +431,6 @@
 
                 }
 
-                var ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
 
                 for (var i=0; i< ontologyCodes.length; i++) {
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
