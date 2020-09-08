@@ -465,14 +465,6 @@ $(function () {
             size: 10
         });
 
-    $('#externalDatabaseLinksTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#externalDatabaseLinksPager')
-        });
 
     $('#clinicalVariantsTable')
         .tablesorter({
