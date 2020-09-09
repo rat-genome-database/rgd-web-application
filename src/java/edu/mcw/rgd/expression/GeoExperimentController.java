@@ -54,11 +54,12 @@ public class GeoExperimentController implements Controller {
                     s.setGeoSampleAcc(request.getParameter("sampleId" + i));
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
-                    s.setDevelopmentalStage(request.getParameter("stage" + i));
+
 
 
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty()) {
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
+                        s.setDevelopmentalStage(request.getParameter("stage" + i));
                     }
                     if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() ) {
                         s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));

@@ -20,7 +20,10 @@
 
   String gse = request.getParameter("gse");
   String studyId = request.getParameter("studyId");
+  String pmid = (String)request.getAttribute("pmid");
+  String title = (String)request.getAttribute("title");
   PhenominerDAO pdao = new PhenominerDAO();
+
   Study study = pdao.getStudyByGeoId(gse);
   if(studyId != null)
     study = pdao.getStudy(Integer.parseInt(studyId));
@@ -38,7 +41,7 @@
     <tr><td style="font-weight:700;font-size:16px;">Import Reference from NCBI</td></tr>
     <tr>
       <td width="33%">PMID:</td>
-      <td width="33%"><input type="text" name="pmid_list" id="pmid_list" value=""></td>
+      <td width="33%"><input type="text" name="pmid_list" id="pmid_list" value="<%=pmid%>"></td>
       <td><input type="submit" name="importdirectly" value="Import" ></td>
     </tr>
     <tr>
@@ -76,15 +79,15 @@
     </tr>
     <tr>
       <td width="33%">Study Name:</td>
-      <td width="33%"><input type="text" name="name" value=""></td>
+      <td width="33%"><textarea name="name" cols="40" rows="5" ><%=title%></textarea></td>
     </tr>
     <tr>
           <td>Study Source:</td>
-          <td><input type="text" name="source" value=""></td>
+          <td><input type="text" name="source" value="GEO"></td>
     </tr>
     <tr>
       <td>Study Type:</td>
-      <td><input type="text" name="type" value=""></td>
+      <td><input type="text" name="type" value="RNA-SEQ"></td>
     </tr>
     <tr>
         <td>Ref RGD Id:</td>
