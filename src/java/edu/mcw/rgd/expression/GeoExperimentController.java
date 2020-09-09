@@ -124,6 +124,7 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> cellLine = new HashMap();
                 HashMap<String,String> ageLow = new HashMap<>();
                 HashMap<String,String> ageHigh = new HashMap<>();
+                HashMap<String,String> stage = new HashMap<>();
                 HashMap<String,String> gender = new HashMap<>();
                 for(int i = 1; i < tcount;i++){
                     tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
@@ -134,6 +135,7 @@ public class GeoExperimentController implements Controller {
                 for(int i = 1; i < ageCount;i++){
                     ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
                     ageHigh.put(request.getParameter("age" + i),request.getParameter("ageHigh"+i));
+                    stage.put(request.getParameter("age"+i),request.getParameter("stage"+i));
                 }
                 for(int i = 1; i < ctcount;i++){
                     cellType.put(request.getParameter("cellType" + i),request.getParameter("cellTypeId"+i));
@@ -151,6 +153,7 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("gender",gender);
                 request.setAttribute("ageLow",ageLow);
                 request.setAttribute("ageHigh",ageHigh);
+                request.setAttribute("stage",stage);
                 request.setAttribute("species",species);
                 request.setAttribute("gse",gse);
                 return new ModelAndView("/WEB-INF/jsp/expression/createSample.jsp");
