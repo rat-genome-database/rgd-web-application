@@ -220,10 +220,10 @@
                     for(String age: ages){
                 %>
             <tr>
-                <td><label for="age<%=tcount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
-                <td><label for="ageLow<%=tcount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
-                <td><label for="ageHigh<%=tcount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-                <td><label for="stage<%=tcount%>" style="color: #24609c; font-weight: bold;">Developmental Stage</label><select name="stage<%=tcount%>" id="stage<%=tcount%>">
+                <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
+                <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+                <td><label for="stage<%=ageCount%>" style="color: #24609c; font-weight: bold;">Developmental Stage</label><select name="stage<%=ageCount%>" id="stage<%=ageCount%>">
                     <option value="embryonic">embryonic (< 0 days)</option>
                     <option value="neonatal">neonatal (0 - 20 days)</option>
                     <option value="weanling">weanling (21 – 34 days)</option>

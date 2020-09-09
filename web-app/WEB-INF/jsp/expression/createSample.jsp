@@ -66,6 +66,7 @@
     HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
+    HashMap<String,String> stage = (HashMap)request.getAttribute("stage");
     HashMap<String,String> cellType = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
@@ -128,6 +129,7 @@
                 <th>Age: </th>
                 <th>Age Low: </th>
                 <th>Age High: </th>
+                <th>Life Stage: </th>
             </tr>
                 <%
             }
@@ -150,7 +152,7 @@
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
-
+                <td><input type="text" name="stage<%=count%>" id="stage<%=count%>" value="<%=Objects.toString(stage.get(s.getSampleAge()),"")%>"> </td>
             </tr>
 
                 <%
