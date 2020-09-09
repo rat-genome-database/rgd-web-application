@@ -29,8 +29,8 @@ public abstract class PhenominerController implements Controller {
 
     protected HttpServletRequest request = null;
     protected HttpServletResponse response = null;
-    String login = "";
 
+    String login = "";
     protected SearchBean buildSearchBean(HttpRequestFacade req, PhenominerDAO dao) {
 
         SearchBean sb = new SearchBean();
@@ -163,20 +163,14 @@ public abstract class PhenominerController implements Controller {
         return this.buildLink(url, text + "");
     }
 
-    protected boolean checkToken() throws Exception{
-
-        String accessToken = "";
-        if(request.getCookies() != null && request.getCookies().length != 0)
-            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
-                accessToken = request.getCookies()[0].getValue();
-            }
-        if(accessToken == null || accessToken.isEmpty()){
+    protected boolean checkToken(String token) throws Exception{
+        if(token == null || token.isEmpty()){
             return false;
         }else {
             URL url = new URL("https://api.github.com/user");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-            conn.setRequestProperty("Authorization", "Token "+accessToken);
+            conn.setRequestProperty("Authorization", "Token "+token);
 
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
                 String line = in.readLine();
@@ -186,7 +180,7 @@ public abstract class PhenominerController implements Controller {
                     URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
                     HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
                     connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                    connection.setRequestProperty("Authorization", "Token "+accessToken);
+                    connection.setRequestProperty("Authorization", "Token "+token);
                     if(connection.getResponseCode()== 204)
                         return true;
                 }

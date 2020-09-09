@@ -35,10 +35,14 @@ public class PhenominerStudyController extends PhenominerController {
         String viewPath = "/WEB-INF/jsp/curation/phenominer/studies.jsp";
         Report report = new Report();
 
-        if(login.equals("") && !checkToken()) {
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
-            return null;
-        }
+        if(login.equals("") && request.getCookies() != null && request.getCookies().length != 0)
+            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
+                String accessToken = request.getCookies()[0].getValue();
+                if(!checkToken(accessToken)) {
+                    response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+                    return null;
+                }
+            }
 
         try {
 
