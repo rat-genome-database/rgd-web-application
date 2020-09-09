@@ -11,12 +11,14 @@
             }
         });
 %>
+
+
+<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border">
+
     <br><span class="highlight"><u>Reference Sequences</u></span><br>
 
-<div id="nucleotideReferenceSequencesTableDiv">
-
     <div id="modelsViewContent" >
-        <div id="nucleotideReferenceSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+        <div id="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>

@@ -6,10 +6,11 @@
     if( pei.size()+pdomains.size()>0 ) {
 %>
     <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
+
+<div id="proteinSequencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
-<div id="proteinSequencesTableDiv">
     <div id="modelsViewContent2" >
-        <div id="proteinSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+        <div id="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -69,12 +70,14 @@
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
 %>
+
+
+<div id="proteinReferenceSequencesTableDiv" class="light-table-border">
+
     <br><span class="highlight"><u>Reference Sequences</u></span><br>
 
-<div id="proteinReferenceSequencesTableDiv">
-
     <div id="modelsViewContent" >
-        <div id="proteinReferenceSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+        <div id="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>

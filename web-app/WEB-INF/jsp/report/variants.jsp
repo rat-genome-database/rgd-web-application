@@ -29,10 +29,10 @@
 <%@ include file="sectionHeader.jsp"%>
 
 
-<div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (Rnor 6.0)</div>
 
-<div id="strainSequenceVariantsTableDiv">
 
+<div id="strainSequenceVariantsTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (Rnor 6.0)</div>
     <div class="modelsViewContent" >
         <div id="" class="pager strainSequenceVariantsPager" style="margin-bottom:2px;">
             <form>

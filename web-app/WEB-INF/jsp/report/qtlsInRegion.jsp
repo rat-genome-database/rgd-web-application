@@ -18,8 +18,10 @@
 %>
 
 <br>
-<div class="sectionHeading" id="qtlAssociation"><%=qtlAssotitle%></div>
-<div id="qtlAssociationTableDiv">
+
+<div id="qtlAssociationTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="qtlAssociation"><%=qtlAssotitle%></div>
+
 
     <div class="modelsViewContent" >
         <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
