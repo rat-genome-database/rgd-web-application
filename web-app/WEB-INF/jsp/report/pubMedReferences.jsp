@@ -55,7 +55,7 @@
 
         for (int i = 0; i < ei.size(); i++) {
             String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
-            if(i % 8 == 0){
+            if(i % 15 == 0){
     %>
 <%--Beggining of row--%>
         <tr>
@@ -63,7 +63,7 @@
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
             </td>
 
-    <% }else if(i % 8 == 7){ %>
+    <% }else if(i % 15 == 14){ %>
 <%--            End of Row--%>
             <td style="background-color:#e2e2e2;">
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
