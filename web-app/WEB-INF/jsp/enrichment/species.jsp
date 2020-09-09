@@ -20,7 +20,7 @@
         <br>
     </div>
     <section v-if="pair.info != 0">
-        <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span>
+        <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span> &nbsp;&nbsp;<button v-if="!loading" type="button" class="btn btn-info" @click="download(pair.info)" >Download</button>
         <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px;width: 1200px; "> Orthologs:
             <span v-for="gene in pair.genes" class="gene">
               {{gene.symbol}},&nbsp;</span>
