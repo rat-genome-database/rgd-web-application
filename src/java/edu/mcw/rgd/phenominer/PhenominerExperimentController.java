@@ -38,6 +38,11 @@ public class PhenominerExperimentController extends PhenominerController {
         String viewPath = "/WEB-INF/jsp/curation/phenominer/experiments.jsp";
         Report report = new Report();
 
+        if(login.equals("") && !checkToken()) {
+            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+            return null;
+        }
+
         if (action.equals("edit")) {
             viewPath = "/WEB-INF/jsp/curation/phenominer/editExperiment.jsp";
             List<String> idList = req.getParameterValues("expId");
@@ -101,6 +106,8 @@ public class PhenominerExperimentController extends PhenominerController {
                 if (!req.getParameter("traitOntId").equals("")) {
                     e.setTraitOntId(req.getParameter("traitOntId"));
                 }
+
+                e.setLastModifiedBy(login);
                 validate(req, false);
                 dao.insertExperiment(e);
                 status.add("Experiment Create Successful");
@@ -142,6 +149,7 @@ public class PhenominerExperimentController extends PhenominerController {
                         throw exp;
                     }
 
+                    e.setLastModifiedBy(login);
                     dao.updateExperiment(e);
                 }
 
