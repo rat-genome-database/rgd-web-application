@@ -392,6 +392,17 @@ $(function () {
             size: 10
         });
 
+
+    $('#annotationTable8')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.annotationPager8'),
+            size: 10
+        });
+
     $('#referencesCuratedTable')
         .tablesorter({
             theme: 'blue',

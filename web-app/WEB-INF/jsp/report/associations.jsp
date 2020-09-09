@@ -45,9 +45,9 @@
 %>
 <%//ui.dynOpen("diseaseAsscociation", "Disease Annotations")%>
 
-<div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
-<div class="reportTable" id="diseaseAnnotationsTableWrapper">
 
+<div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
+    <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -102,8 +102,9 @@
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
-<div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
-<div class="reportTable" id="geneChemicalInteractionTableWrapper">
+
+<div class="reportTable light-table-border" id="geneChemicalInteractionTableWrapper">
+    <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -165,8 +166,9 @@
 
 <% if (bpList.size() > 0) { %>
 <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
-<div class="reportTable" id="biologicalProcessAnnotationsTableWrapper">
+
+<div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -212,8 +214,9 @@
     </div>
 </div>
 <% if (ccList.size() > 0) { %>
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
-<div class="reportTable" id="cellularComponentAnnotationsTableWrapper">
+
+<div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -260,8 +263,10 @@
     </div>
 </div>
 <% if (mfList.size() > 0) { %>
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
-<div class="reportTable" id="molecularFunctionAnnotationsTableWrapper">
+
+<div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -319,9 +324,9 @@
     if(!filteredList.isEmpty() || xdbKeggPathways.size()>0) {
 %>
 <%//ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
-<div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
-<div class="reportTable" id="molecularPathwayAnnotationsTableWrapper">
 
+<div class="reportTable light-table-border" id="molecularPathwayAnnotationsTableWrapper">
+    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -383,9 +388,12 @@
 %>
 <%//ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
     <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations</div>
-<div class="reportTable" id="phenotypeAnnotationsTable">
-    <div id="modelsViewContent" >
-        <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">
+
+<% if (mpList.size() > 0) { %>
+<div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -403,13 +411,83 @@
             </form>
         </div>
     </div>
-<% if (mpList.size() > 0) { %>
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+    <div id="mammalianPhenotypeAnnotationsTable">
 <%=af.createGridFormatAnnotations(mpList, obj.getRgdId(),3)%>
+
+    </div>
+        <div class="modelsViewContent" >
+            <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+                <form>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="9999">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+    </div>
 <% } %>
+
+
 <% if (hpList.size() > 0) { %>
+<div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+
+    <div class="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="humanPhenotypeAnnotationsTable">
 <%=af.createGridFormatAnnotations(hpList, obj.getRgdId(),3)%>
+
+    </div>
+
+    <div class="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+</div>
 <% } %>
 
 <%//ui.dynClose("phenoAssociation")%>

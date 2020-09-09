@@ -14,7 +14,7 @@
 
 <%//ui.dynOpen("refAssociation", "References - curated")%>    <br>
 <div class="sectionHeading" id="referencesCurated">References - curated</div>
-<div id="referencesCuratedTableDiv">
+<div id="referencesCuratedTableDiv" class="light-table-border">
 
     <div class="modelsViewContent" >
         <div class="referencesCuratedPager" class="pager" style="margin-bottom:2px;">
