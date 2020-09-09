@@ -95,9 +95,16 @@ function iterateOverAndAppendNewTables(tableArray){
 }
 
 function linkTableWithPager(table, pagerNumber){
-    let pager = table.parentNode.getElementsByClassName('annotationPagerClass')[0];
-    if(pager !== undefined){
-        addIdToPagerDiv(pager, pagerNumber);
+    let pagers = table.parentNode.parentNode.getElementsByClassName('annotationPagerClass')
+    let pager1 = pagers[0];
+    let pager2 = pagers[1];
+
+    if(pager1 !== undefined){
+        addClassToPagerDiv(pager1, pagerNumber);
+    }
+
+    if(pager2 !== undefined){
+        addClassToPagerDiv(pager2, pagerNumber);
     }
 }
 
@@ -228,8 +235,9 @@ function addClassAndIdToAnnotationTable(table, tableNumber){
     return table;
 }
 
-function addIdToPagerDiv(pager, pagerNumber){
-    pager.id = "annotationPager" + pagerNumber.toString();
+function addClassToPagerDiv(pager, pagerNumber){
+    let pagerClassName = "annotationPager" + pagerNumber.toString();
+    pager.classList.add(pagerClassName);
     return pager;
 }
 
@@ -320,7 +328,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager1'),
+            container: $('.annotationPager1'),
             size: 10
         });
 
@@ -330,7 +338,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager2'),
+            container: $('.annotationPager2'),
             size: 10
         });
 
@@ -340,7 +348,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager3'),
+            container: $('.annotationPager3'),
             size: 10
         });
 
@@ -350,7 +358,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager4'),
+            container: $('.annotationPager4'),
             size: 10
         });
 
@@ -360,7 +368,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager5'),
+            container: $('.annotationPager5'),
             size: 10
         });
 
@@ -370,7 +378,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager6'),
+            container: $('.annotationPager6'),
             size: 10
         });
 
@@ -380,7 +388,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager7'),
+            container: $('.annotationPager7'),
             size: 10
         });
 
