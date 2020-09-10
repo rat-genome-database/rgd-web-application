@@ -408,16 +408,26 @@
             ctrl.browse = function (ontId, ont, term, back) {
                 //$("#loadingModal").modal("show");
 
+                var ontologyCodes = null;
+
+                if (ont == "hp") {
+                    document.getElementById("ph").display="none";
+                    document.getElementById("hp").display="show";
+                    ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
+                }else {
+                    document.getElementById("hp").display="none";
+                    document.getElementById("hp").display="show";
+                    ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
+                }
+
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
-                var ontologyCodes = ["d","hp","ph","bp","pw","c","vt","cm","ec"];
 
                 for (var i=0; i< ontologyCodes.length; i++) {
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomLeftRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomRightRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
-
                 }
                 if (!back) {
                     $scope.previousOntId.push($scope.ontologyId);
