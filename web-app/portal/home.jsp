@@ -412,12 +412,12 @@
                 var ontologyCodes = null;
 
                 if (ont == "hp") {
-                    document.getElementById("ph").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
+                    //document.getElementById("ph").style.visibility="hidden";
+                    //document.getElementById("hp").style.visibility="visible";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
                 }else {
-                    document.getElementById("hp").style.visibility="hidden";
-                    document.getElementById("ph").style.visibility="visible";
+                    //document.getElementById("hp").style.visibility="hidden";
+                    //document.getElementById("ph").style.visibility="visible";
                     ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
                 }
 
@@ -469,11 +469,13 @@
                 if (speciesType == "1") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
+
                 }else {
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
                 }
 
+                this.updateAll(this.ontology, this.ontologyId)
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
