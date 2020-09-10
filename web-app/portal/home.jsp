@@ -412,12 +412,12 @@
                 var ontologyCodes = null;
 
                 if (ont == "hp") {
-                    document.getElementById("ph").style.display="none";
-                    document.getElementById("hp").style.display="show";
+                    document.getElementById("ph").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="visible";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
                 }else {
-                    document.getElementById("hp").style.display="none";
-                    document.getElementById("hp").style.display="show";
+                    document.getElementById("hp").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="visible";
                     ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
                 }
 
