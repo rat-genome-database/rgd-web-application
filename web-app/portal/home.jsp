@@ -478,7 +478,7 @@
                 if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
-                    this.browse(this.ontology, this.ontologyId,null,null);
+                    this.browse($scope.ontology, $scope.ontologyId,null,null);
                 }
 
 
