@@ -411,7 +411,6 @@
 
                 var ontologyCodes = null;
 
-                alert("in browse");
                 if (ont == "hp") {
                     document.getElementById("ph").style.display="none";
                     document.getElementById("hp").style.display="show";
@@ -466,6 +465,15 @@
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
                 alert("in update species");
+
+                if (speciesType == "1") {
+                    document.getElementById("ph").style.display="none";
+                    document.getElementById("hp").style.display="show";
+                }else {
+                    document.getElementById("hp").style.display="none";
+                    document.getElementById("hp").style.display="show";
+                }
+
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
