@@ -469,7 +469,7 @@
             ctrl.updateSpecies = function (speciesType, map, commonName) {
                 alert("in update species");
 
-                alert(speciesTyp + " " + document.getElementById("hp").style.visibility);
+                alert(speciesType + " " + document.getElementById("hp").style.visibility);
                 if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
