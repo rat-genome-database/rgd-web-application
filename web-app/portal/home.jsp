@@ -408,7 +408,7 @@
 
             ctrl.browse = function (ontId, ont, term, back) {
                 //$("#loadingModal").modal("show");
-
+                alert("in browse");
                 var ontologyCodes = null;
 
                 alert("ont = " + ont);
