@@ -50,7 +50,7 @@
     boolean geneSearch=false;
     boolean positionSearch=false;
     boolean resultsRendered = false;
-    List<String> sampleList=(List<String>)request.getAttribute("sampleIds");
+    List<Integer> sampleList=(List<Integer>)request.getAttribute("sampleIds");
     geneList=req2.getParameter("geneList").replaceAll("\\s",",");
 
     if (!req2.getParameter("rdo_acc_id").equals("") || !req2.getParameter("pw_acc_id").equals("") ||
@@ -80,7 +80,7 @@ if(parameters==null){
     sb.append("&stop=");
     sb.append(req.getParameter("stop"));
     int i=1;
-    for(String id:sampleList){
+    for(int id:sampleList){
         sb.append("&sample"+i+"=");
         sb.append(id);
         i=i+1;
