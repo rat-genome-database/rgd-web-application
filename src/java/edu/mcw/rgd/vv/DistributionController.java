@@ -30,7 +30,7 @@ import java.util.*;
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
     private List<String> sampleIdsFromResultSet;
-    private StringBuilder sb;
+
 
     VVService service= new VVService();
     GeneLociDAO geneLociDAO=new GeneLociDAO();
@@ -73,7 +73,6 @@ public class DistributionController extends HaplotyperController {
             index= "variants_rat"+mapKey+"_test";
         if(mapKey==631 || mapKey==600 )
             index= "variants_dog"+mapKey+"_dev";
-        System.out.println("INDEX NAME: "+ index);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
@@ -146,87 +145,7 @@ public class DistributionController extends HaplotyperController {
      // resultHash = vdao.getVariantToGeneCountMap(vsb);
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
-            //********************Building MATRIX***************/
-            matrix= new String[sampleIdsFromResultSet.size()+1][gSymbols.size()+1];
-            int r=1;
 
-            boolean firstIteration=true;
-            for(Map.Entry e:resultHash.entrySet()){
-                String sample= (String) e.getKey();
-                matrix[r][0]=sample;
-
-               Map<String, Integer> geneCountMap= (Map<String, Integer>) e.getValue();
-                int c=1;
-               if(firstIteration) {
-                   for (Map.Entry e1 : geneCountMap.entrySet()) {
-                       String gene = (String) e1.getKey();
-                       int value = (int) e1.getValue();
-
-                       matrix[0][c] = gene;
-                      c++;
-
-
-                   }
-                   int cc=1;
-                   for (Map.Entry e1 : geneCountMap.entrySet()) {
-                       String gene = (String) e1.getKey();
-                       int value = (int) e1.getValue();
-
-                       matrix[r][cc] = String.valueOf(value);
-                       cc=cc+1;
-
-
-                   }
-                   firstIteration = false;
-
-               }
-              else{
-                   int cc=1;
-                   for (Map.Entry e1 : geneCountMap.entrySet()) {
-                       String gene = (String) e1.getKey();
-                       int value = (int) e1.getValue();
-
-                       matrix[r][cc] = String.valueOf(value);
-                       cc=cc+1;
-
-
-                   }
-               }
-                r=r+1;
-            }
-            for(int i=0;i<sampleIdsFromResultSet.size()+1;i++){
-                for(int j=0; j<gSymbols.size()+1;j++){
-                    System.out.print(matrix[i][j]+"\t");
-                }
-                System.out.println("\n");
-            }
-//**************************************************************************************/
-         System.out.println("RESULT HASH SIZE: "+ resultHash.size());
-            sb.append("[");
-            boolean first=true;
-            for(Map.Entry e:resultHash.entrySet()){
-                String sample= (String) e.getKey();
-                Map<String, Integer> geneCountMap= (Map<String, Integer>) e.getValue();
-
-                for(Map.Entry e1:geneCountMap.entrySet()){
-                    String gene= (String) e1.getKey();
-                    int value= (int) e1.getValue();
-                    if(first) {
-                        sb.append("{\"sample\": \"" + sample + "\", ");
-                        sb.append("\"gene\": \"" + gene + "\", ");
-                        sb.append(" \"value\":" + value + "}");
-                        first=false;
-                    }else{
-                        sb.append(", {\"sample\": \"" + sample + "\", ");
-                        sb.append("\"gene\": \"" + gene + "\", ");
-                        sb.append(" \"value\": " + value + "}");
-                    }
-                }
-
-            }
-            sb.append("]");
-            this.sb=sb;
-            System.out.println("SYMBOLS SIZE: "+ symbols.size()+"\nGSYMBOLS SIZE: "+ gSymbols.size());
             if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
             }
@@ -252,7 +171,6 @@ public class DistributionController extends HaplotyperController {
         if (vsb.genes.size()==0) {
             if(resultHash.size()>0) {
                 List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                System.out.println("ACTIVE MAPPED GENES SIZE: " + mappedGenes.size());
                 lastGene = "";
                 for (MappedGene mg : mappedGenes) {
 
@@ -296,7 +214,6 @@ public class DistributionController extends HaplotyperController {
             }
         }else {
             regionList = vsb.genes;
-            System.out.println("GENELIST: "+ regionList.size());
             if (req.getParameter("geneList").indexOf("|") != -1) {
                 regionList.add(req.getParameter("geneList"));
             }
@@ -318,11 +235,7 @@ public class DistributionController extends HaplotyperController {
                 regionList1=gSymbols;
             }
             Collections.sort(sampleIdsFromResultSet);
-        //    System.out.println("REGION LIST: "+ regionList1.toString());
-            request.setAttribute("json", this.sb.toString());
             request.setAttribute("regionList", regionList1);
-        //request.setAttribute("regionList", regionList);
-        //    request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("sampleIds", sampleIdsFromResultSet);
             request.setAttribute("resultHash", resultHash);
             request.setAttribute("json",sb.toString() );
@@ -450,7 +363,6 @@ public class DistributionController extends HaplotyperController {
                         geneKeys.add((String) gb.getKey());
 
                     }
-                    //    System.out.println("GENE COUNT: "+ totalDocCount + "\t"+b.getKey());
                     if (totalDocCount > 0) {
                         boolean flag=false;
                         for(int id:vsb.sampleIds){
@@ -499,7 +411,6 @@ public class DistributionController extends HaplotyperController {
                                         } else {
                                             geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
                                         }
-                                 //      System.out.print(b.getKey() + "\t" + samp.getKey() + "\t" + samp.getDocCount() + "\t");
 
                                         variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                     }else{
@@ -509,7 +420,6 @@ public class DistributionController extends HaplotyperController {
                                     }
 
                                 }
-                               // System.out.print("\n");
                             }
                         }
 
@@ -532,7 +442,6 @@ public class DistributionController extends HaplotyperController {
                             continue gene;
                         }
                     }
-                 //   System.out.println(e.getKey()+"\t"+e1.getKey()+"\t"+ e1.getValue());
                 }
             }
         }
@@ -542,13 +451,7 @@ public class DistributionController extends HaplotyperController {
 
        return variantGeneCountMap;
     }
-    public StringBuilder getSb() {
-        return sb;
-    }
 
-    public void setSb(StringBuilder sb) {
-        this.sb = sb;
-    }
 
     public VVService getService() {
         return service;
