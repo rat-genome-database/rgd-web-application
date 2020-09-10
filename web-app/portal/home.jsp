@@ -471,14 +471,14 @@
                 if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
-                    this.updateAll(this.ontology, this.ontologyId)
+                    this.browse(this.ontology, this.ontologyId,null,null);
 
                 }
 
                 if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
-                    this.updateAll(this.ontology, this.ontologyId)
+                    this.browse(this.ontology, this.ontologyId,null,null);
                 }
 
 
