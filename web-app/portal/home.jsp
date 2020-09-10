@@ -417,7 +417,7 @@
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
                 }else {
                     document.getElementById("hp").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
+                    document.getElementById("ph").style.visibility="visible";
                     ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
                 }
 
@@ -470,8 +470,8 @@
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                 }else {
+                    document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
                 }
 
 
