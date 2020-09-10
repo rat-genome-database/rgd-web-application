@@ -1,6 +1,7 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.EvidenceCode;
 import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.SpeciesType;
@@ -293,7 +294,7 @@ public class OntAnnotController implements Controller {
                     a.setName("");
 
                 // build annotation
-                a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo());
+                a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);
 
                 // originally ref_rgd_id was accessible by calling annot.getRefRgdId()
                 // since the ontology annotation table was redesigned to show only one row per gene,
@@ -335,7 +336,7 @@ public class OntAnnotController implements Controller {
                     a.setReference(htmlMerge(a.getReference(), refInfo));
                 }
 
-                a.setEvidence( htmlMerge(a.getEvidence(), annot.getEvidence()) );
+                a.setEvidence( annot.getEvidence(), term );
                 a.setQualifier( htmlMerge(a.getQualifier(), annot.getQualifier()) );
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
