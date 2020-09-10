@@ -413,12 +413,12 @@
                 alert("here");
                 if (ont == "hp") {
                     alert("got hp");
-                    document.getElementById("ph").display="none";
-                    document.getElementById("hp").display="show";
+                    document.getElementById("ph").style.display="none";
+                    document.getElementById("hp").style.display="show";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
                 }else {
-                    document.getElementById("hp").display="none";
-                    document.getElementById("hp").display="show";
+                    document.getElementById("hp").style.display="none";
+                    document.getElementById("hp").style.display="show";
                     ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
                 }
 
