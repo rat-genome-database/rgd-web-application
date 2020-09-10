@@ -115,6 +115,7 @@
         margin-left: 20rem;
         position: relative;
         max-width: 75vw;
+        /*overflow-x: hidden;*/
     }
 
 
@@ -150,7 +151,7 @@
     }
 
     #reportMainSidebar ul {
-        padding-top-top: 10px;
+        padding-top: 5px;
     }
 
     #reportMainSidebar a {
@@ -164,30 +165,36 @@
         background-color: #2865A3;
         color: white;
     }
+
     ul li {
         margin: 1px 0;
         padding: 0;
     }
 
-    li a{
+    li a {
         font-size: 10pt;
-        font-family:Arial,Helvetica,sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         line-height: 90%;
         padding-top: 1px;
     }
 
-    .sub-nav-item > a{
+    .sub-nav-item > a {
         font-size: 8pt;
         margin-left: 15px;
         margin-top: -10px;
     }
-
     .sectionHeading {
         color: #0d10a3;
         font-size: 14px;
         font-weight: 700;
         font-style: italic;
 
+    }
+
+    .light-table-border{
+        border: 2px solid #f1f1f1;
+        padding: 20px;
+        margin: 10px;
     }
 
 </style>
@@ -200,6 +207,7 @@
 %>
 
 <div id="page-container">
+
 <div id="left-side-wrap">
     <div id="species-image">
      <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>

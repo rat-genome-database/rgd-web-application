@@ -240,8 +240,8 @@
                      <col span="1" style="width: 4%;"> <%-- Evidence --%>
                      <col span="1" style="width: 10%;"><%-- notes --%>
                      <col span="1" style="width: 7%;"><%-- source --%>
-                     <col span="1" style="width: 18%;"><%-- RGD Reference --%>
                      <col span="1" style="width: 25%;"><%-- original references/ xref --%>
+                     <col span="1" style="width: 18%;"><%-- RGD Reference --%>
                      <col span="1" style="width: 15%;"><%-- Position --%>
                      <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
                  </colgroup>
@@ -280,9 +280,10 @@
                 <td><a <%=toolSubmitClass%> href="/rgdweb/report/<%=annot.getRgdObjectName()%>/main.html?id=<%=annot.getRgdId()%>"><%=annot.getSymbol()%></a></td>
                 <td><%=annot.getName()%></td>
                     <td><%=annot.getQualifier()%></td>
-                <td><a href="/rgdweb/report/annotation/<%
-                    if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
-                   %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
+                <td><%=annot.getEvidence()%></td>
+<%--                <td><a href="/rgdweb/report/annotation/<%--%>
+<%--                    if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }--%>
+<%--                   %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>--%>
 
                 <td><%=annot.getNotes()%></td>
                 <td><%  if (annot.getReference().isEmpty())

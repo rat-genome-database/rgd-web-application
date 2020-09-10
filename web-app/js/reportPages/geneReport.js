@@ -95,9 +95,16 @@ function iterateOverAndAppendNewTables(tableArray){
 }
 
 function linkTableWithPager(table, pagerNumber){
-    let pager = table.parentNode.getElementsByClassName('annotationPagerClass')[0];
-    if(pager !== undefined){
-        addIdToPagerDiv(pager, pagerNumber);
+    let pagers = table.parentNode.parentNode.getElementsByClassName('annotationPagerClass')
+    let pager1 = pagers[0];
+    let pager2 = pagers[1];
+
+    if(pager1 !== undefined){
+        addClassToPagerDiv(pager1, pagerNumber);
+    }
+
+    if(pager2 !== undefined){
+        addClassToPagerDiv(pager2, pagerNumber);
     }
 }
 
@@ -175,25 +182,6 @@ function buildAnnotationTable(rowArray){
 
     let newTable = buildEmptyTable();
 
-    // for(let i = 0; i < rowArray.length; i += 2){
-    //     if(rowArray[i].hasChildNodes()){
-    //         let tr = document.createElement('tr');
-    //         newTable.tBodies[0].appendChild(tr);
-    //         if(rowArray[i].childNodes.length > 1){
-    //             tr.appendChild(rowArray[i].childNodes[1]);
-    //         }else{
-    //             tr.appendChild(rowArray[i].childNodes[0]);
-    //         }
-    //
-    //         if((i + 1) !== rowArray.length){
-    //             if(rowArray[i + 1].childNodes.length > 1){
-    //                 tr.appendChild(rowArray[i + 1].childNodes[1]);
-    //             }else{
-    //                 tr.appendChild(rowArray[i + 1].childNodes[0]);
-    //             }
-    //         }
-    //     }
-    // }
 
     for(let i = 0; i < rowArray.length; i += 3){
         let colOne = i;
@@ -247,8 +235,9 @@ function addClassAndIdToAnnotationTable(table, tableNumber){
     return table;
 }
 
-function addIdToPagerDiv(pager, pagerNumber){
-    pager.id = "annotationPager" + pagerNumber.toString();
+function addClassToPagerDiv(pager, pagerNumber){
+    let pagerClassName = "annotationPager" + pagerNumber.toString();
+    pager.classList.add(pagerClassName);
     return pager;
 }
 
@@ -331,7 +320,6 @@ function removeAllChildNodes(parent) {
     }
 }
 
-
 $(function () {
 
     $('#annotationTable1')
@@ -340,7 +328,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager1'),
+            container: $('.annotationPager1'),
             size: 10
         });
 
@@ -350,7 +338,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager2'),
+            container: $('.annotationPager2'),
             size: 10
         });
 
@@ -360,7 +348,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager3'),
+            container: $('.annotationPager3'),
             size: 10
         });
 
@@ -370,7 +358,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager4'),
+            container: $('.annotationPager4'),
             size: 10
         });
 
@@ -380,7 +368,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager5'),
+            container: $('.annotationPager5'),
             size: 10
         });
 
@@ -390,7 +378,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager6'),
+            container: $('.annotationPager6'),
             size: 10
         });
 
@@ -400,7 +388,18 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#annotationPager7'),
+            container: $('.annotationPager7'),
+            size: 10
+        });
+
+
+    $('#annotationTable8')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.annotationPager8'),
             size: 10
         });
 
@@ -410,27 +409,10 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#referencesCuratedPager'),
+            container: $('.referencesCuratedPager'),
             size: 10
         });
-    $('#pubMedReferencesTable')
-        .tablesorter({
-            theme: 'blue',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#pubMedReferencesPager')
-        });
 
-    $('#comparativeMapDataTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#comparativeMapDataPager'),
-            size: 3
-        });
 
     $('#qtlAssociationTable')
         .tablesorter({
@@ -438,7 +420,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#qtlAssociationPager'),
+            container: $('.qtlAssociationPager'),
             size: 10
         });
 
@@ -448,19 +430,10 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#strainSequenceVariantsPager'),
+            container: $('.strainSequenceVariantsPager'),
             size: 5
         });
-
-    $('#positionMarkersTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#positionMarkersPager'),
-            size: 3
-        });
+    
 
     $('#nucleotideReferenceSequencesTable')
         .tablesorter({
@@ -502,14 +475,6 @@ $(function () {
             size: 10
         });
 
-    $('#externalDatabaseLinksTable')
-        .tablesorter({
-            theme: 'dropbox',
-            widget: ['zebra']
-        })
-        .tablesorterPager({
-            container: $('#externalDatabaseLinksPager')
-        });
 
     $('#clinicalVariantsTable')
         .tablesorter({

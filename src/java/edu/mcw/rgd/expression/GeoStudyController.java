@@ -1,6 +1,7 @@
 package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.datamodel.GeoRecord;
 import edu.mcw.rgd.datamodel.pheno.Experiment;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.datamodel.pheno.Study;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class GeoStudyController implements Controller {
@@ -73,7 +75,13 @@ public class GeoStudyController implements Controller {
         if(request.getParameter("studyId") != null) {
             request.setAttribute("studyId", request.getParameter("studyId"));
             return new ModelAndView("/WEB-INF/jsp/expression/editExperiment.jsp");
-        } else return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
+        } else {
+            String gse = request.getParameter("gse");
+            List<GeoRecord> samples = pdao.getGeoRecords(gse,request.getParameter("species"));
+            request.setAttribute("title",samples.get(0).getStudyTitle());
+            request.setAttribute("pmid",samples.get(0).getPubmedId());
+            return new ModelAndView("/WEB-INF/jsp/expression/study.jsp");
+        }
 
 
     }

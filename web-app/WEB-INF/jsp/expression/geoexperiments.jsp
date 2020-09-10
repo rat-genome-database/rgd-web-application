@@ -117,7 +117,7 @@
                 <td><%=rec.getStudyTitle()%></td>
                 <td><%=rec.getCurationStatus()%></td>
                 <td><%=link%></td>
-                <td><%="<a href=/rgdweb/expression/study.html?gse="+gse+">Create Study</a>"%></td>
+                <td><%="<a href=/rgdweb/expression/study.html?gse="+gse+"&species="+species+">Create Study</a>"%></td>
             </tr>
     <%
             }

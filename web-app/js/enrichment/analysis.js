@@ -1,4 +1,6 @@
+
 function EnrichmentVue(divId, hostname) {
+
 
     var div = '#enrichment';
     if (divId) {
@@ -7,7 +9,7 @@ function EnrichmentVue(divId, hostname) {
 
     var host = window.location.protocol + window.location.host;
     if (window.location.host.indexOf('localhost') > -1) {
-        host= window.location.protocol + '//localhost:8080';
+        host=  'https://dev.rgd.mcw.edu';
     } else if (window.location.host.indexOf('dev.rgd') > -1) {
         host= window.location.protocol + '//dev.rgd.mcw.edu';
     }else if (window.location.host.indexOf('test.rgd') > -1) {
@@ -49,6 +51,22 @@ function EnrichmentVue(divId, hostname) {
 
         },
         methods: {
+            download(arrData) {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += [
+                    Object.keys(arrData[0]).join(";"),
+                    ...arrData.map(item => Object.values(item).join(";"))
+                ]
+                    .join("\n")
+                    .replace(/(\,)/gm, "")
+                    .replace(/(\;)/gm, ",");
+
+                const data = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", data);
+                link.setAttribute("download", "MOET Results.csv");
+                link.click();
+            },
             getGenes: function (accId, species) {
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];

@@ -1,12 +1,13 @@
 <%@ include file="sectionHeader.jsp"%>
 
 <%//ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
-<div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
 
-<div id="nucleotideSequencesTableDiv">
+<div id="nucleotideSequencesTableDiv" class="light-table-border">
+
+    <div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
 
     <div id="modelsViewContent" >
-        <div id="nucleotideSequencesPager" class="pager" style="float:right;margin-bottom:2px;">
+        <div id="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
