@@ -466,16 +466,20 @@
             ctrl.updateSpecies = function (speciesType, map, commonName) {
                 alert("in update species");
 
-                if (speciesType == "1") {
+                if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
+                    this.updateAll(this.ontology, this.ontologyId)
 
-                }else {
-                    document.getElementById("ph").style.visibility="visible";
-                    document.getElementById("hp").style.visibility="hidden";
                 }
 
-                this.updateAll(this.ontology, this.ontologyId)
+                if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
+                    document.getElementById("ph").style.visibility="visible";
+                    document.getElementById("hp").style.visibility="hidden";
+                    this.updateAll(this.ontology, this.ontologyId)
+                }
+
+
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
