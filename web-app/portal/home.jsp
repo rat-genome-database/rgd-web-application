@@ -467,11 +467,11 @@
                 alert("in update species");
 
                 if (speciesType == "1") {
-                    document.getElementById("ph").style.display="none";
-                    document.getElementById("hp").style.display="show";
+                    document.getElementById("ph").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="visible";
                 }else {
-                    document.getElementById("hp").style.display="none";
-                    document.getElementById("hp").style.display="show";
+                    document.getElementById("hp").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="visible";
                 }
 
 
