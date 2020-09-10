@@ -411,6 +411,7 @@
 
                 var ontologyCodes = null;
 
+                alert("ont = " + ont);
                 if (ont == "hp") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
