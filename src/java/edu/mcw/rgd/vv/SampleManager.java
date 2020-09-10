@@ -40,7 +40,7 @@ public class SampleManager {
             SampleDAO sampleDAO = new SampleDAO();
          //   sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
                sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-            
+
             sample = sampleDAO.getSample(sampleId);
             this.samples.put(sampleId, sample);
         }
