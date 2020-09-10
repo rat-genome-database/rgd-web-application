@@ -407,6 +407,8 @@
             }
 
             ctrl.browse = function (ontId, ont, term, back) {
+
+                alert(ontId + " " + ont + " " + term + " " + back);
                 //$("#loadingModal").modal("show");
                 alert("in browse");
                 var ontologyCodes = null;
@@ -449,7 +451,6 @@
                 document.getElementById($scope.ontology).style.borderBottomRightRadius = "40px";
 
                 document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
-
 
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
