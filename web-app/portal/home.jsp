@@ -485,7 +485,8 @@
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
                     //this.browse($scope.ontologyId,$scope.ontology ,null,null);
-                    $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + $scope.onttologyId, success: function(result){
+                    alert($scope.ontologyId);
+                    $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=" + $scope.rootTermAcc + "&acc_id=" + $scope.onttologyId, success: function(result){
                             $("#browser").html(result);
                             //alert(result);
                         }});
