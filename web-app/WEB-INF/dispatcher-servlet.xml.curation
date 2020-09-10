@@ -193,6 +193,18 @@
                 <prop key="front/geneList.html">GeneListController</prop>
                 <prop key="front/config.html">ConfigController</prop>
 
+                <prop key="vv/variants.html">nVariantController</prop>
+                <prop key="vv/detail.html">nDetailController</prop>
+                <prop key="vv/detail_gbrowse.html">nDetailController</prop>
+                <prop key="vv/dist.html">nDistributionController</prop>
+                <prop key="vv/select.html">nSelectStrainController</prop>
+                <prop key="vv/options.html">nStrainOptionsController</prop>
+                <prop key="vv/annotation.html">nAnnotationController</prop>
+                <prop key="vv/region.html">nRegionController</prop>
+                <prop key="vv/download.html">nDownloadController</prop>
+                <prop key="vv/searchType.html">nSearchTypeController</prop>
+                <prop key="vv/geneList.html">nGeneListController</prop>
+                <prop key="vv/config.html">nConfigController</prop>
 
 
                 <prop key="generator/list.html">ProcessListController</prop>
@@ -436,6 +448,18 @@
     <bean id="SearchTypeController" class="edu.mcw.rgd.carpenovo.SearchTypeController" />
     <bean id="GeneListController" class="edu.mcw.rgd.carpenovo.GeneListController" />
     <bean id="ConfigController" class="edu.mcw.rgd.carpenovo.ConfigController" />
+
+    <bean id="nVariantController" class="edu.mcw.rgd.vv.VariantController" />
+    <bean id="nDetailController" class="edu.mcw.rgd.vv.DetailController" />
+    <bean id="nDistributionController" class="edu.mcw.rgd.vv.DistributionController" />
+    <bean id="nSelectStrainController" class="edu.mcw.rgd.vv.SelectStrainController" />
+    <bean id="nStrainOptionsController" class="edu.mcw.rgd.vv.StrainOptionsController" />
+    <bean id="nAnnotationController" class="edu.mcw.rgd.vv.AnnotationController" />
+    <bean id="nRegionController" class="edu.mcw.rgd.vv.RegionController" />
+    <bean id="nDownloadController" class="edu.mcw.rgd.vv.DownloadController" />
+    <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
+    <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
+    <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
 
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
