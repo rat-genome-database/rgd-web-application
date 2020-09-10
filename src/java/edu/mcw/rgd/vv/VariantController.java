@@ -63,7 +63,7 @@ public class VariantController extends HaplotyperController {
 
             }
             if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_prod";
+                index= "variants_rat"+vsb.getMapKey()+"_test";
             if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
                 index= "variants_dog"+vsb.getMapKey()+"_dev";
             VVService.setVariantIndex(index);

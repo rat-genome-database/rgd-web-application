@@ -79,7 +79,7 @@ public class DetailController extends HaplotyperController {
             if(mapKey==17)
                     index = "variants_human"+mapKey+"_dev1";
             if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_prod";
+                index= "variants_rat"+mapKey+"_test";
             if(mapKey==631 || mapKey==600 )
                 index= "variants_dog"+mapKey+"_dev";
             //   System.out.println("INDEX NAME: "+ index);

@@ -63,14 +63,14 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-      System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
+     // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         if(mapKey==17) {
             index = "variants_human"+mapKey+"_dev";
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
               //  index= "variants_rat"+mapKey+"_dev";
-            index= "variants_rat"+mapKey+"_prod";
+            index= "variants_rat"+mapKey+"_test";
         if(mapKey==631 || mapKey==600 )
             index= "variants_dog"+mapKey+"_dev";
         System.out.println("INDEX NAME: "+ index);
