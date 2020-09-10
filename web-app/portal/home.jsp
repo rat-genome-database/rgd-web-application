@@ -410,7 +410,9 @@
 
                 var ontologyCodes = null;
 
+                alert("here");
                 if (ont == "hp") {
+                    alert("got hp");
                     document.getElementById("ph").display="none";
                     document.getElementById("hp").display="show";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
