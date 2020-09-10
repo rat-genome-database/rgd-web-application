@@ -396,6 +396,7 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
+                alert("in update all");
 
                 ctrl.resetGViewer();
 
@@ -410,9 +411,8 @@
 
                 var ontologyCodes = null;
 
-                alert("here");
+                alert("in browse");
                 if (ont == "hp") {
-                    alert("got hp");
                     document.getElementById("ph").style.display="none";
                     document.getElementById("hp").style.display="show";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
@@ -465,6 +465,7 @@
             }
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
+                alert("in update species");
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
