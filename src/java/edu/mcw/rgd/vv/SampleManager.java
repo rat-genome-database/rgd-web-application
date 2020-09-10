@@ -38,7 +38,8 @@ public class SampleManager {
         Sample sample = samples.get(sampleId);
         if( sample==null ) {
             SampleDAO sampleDAO = new SampleDAO();
-            sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
+         //   sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
+               sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
             sample = sampleDAO.getSample(sampleId);
             this.samples.put(sampleId, sample);
