@@ -412,11 +412,11 @@
                 var ontologyCodes = null;
 
                 if (ont == "hp") {
-                    document.getElementById("ph").style.visibility="hide";
+                    document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                     ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
                 }else {
-                    document.getElementById("hp").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                     ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
                 }
@@ -467,10 +467,10 @@
                 alert("in update species");
 
                 if (speciesType == "1") {
-                    document.getElementById("ph").style.visibility="hide";
+                    document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                 }else {
-                    document.getElementById("hp").style.visibility="hide";
+                    document.getElementById("hp").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                 }
 
