@@ -452,6 +452,7 @@
 
                 document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
 
+                alert("updating ont browser " + ontId);
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
                     //alert(result);
@@ -471,14 +472,14 @@
                 if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
-                    this.browse($scope.ontologyId,$scope.ontology,null,null);
+                    //this.browse($scope.ontologyId,$scope.ontology,null,null);
 
                 }
 
                 if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
-                    this.browse($scope.ontologyId,$scope.ontology ,null,null);
+                    //this.browse($scope.ontologyId,$scope.ontology ,null,null);
                 }
 
 
