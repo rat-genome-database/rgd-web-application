@@ -330,7 +330,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager1'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable2')
@@ -340,7 +340,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager2'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable3')
@@ -350,7 +350,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager3'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable4')
@@ -360,7 +360,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager4'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable5')
@@ -370,7 +370,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager5'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable6')
@@ -380,7 +380,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager6'),
-            size: 10
+            size: 30
         });
 
     $('#annotationTable7')
@@ -390,7 +390,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager7'),
-            size: 10
+            size: 30
         });
 
 
@@ -401,7 +401,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager8'),
-            size: 10
+            size: 30
         });
 
     $('#referencesCuratedTable')
@@ -411,7 +411,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.referencesCuratedPager'),
-            size: 10
+            size: 20
         });
 
 
@@ -443,7 +443,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.nucleotideReferenceSequencesPager'),
-            size: 3
+            size: 5
         });
 
     $('#proteinReferenceSequencesTable')
@@ -453,7 +453,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.proteinReferenceSequencesPager'),
-            size: 3
+            size: 5
         });
 
     $('#nucleotideSequencesTable')
@@ -463,7 +463,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.nucleotideSequencesPager'),
-            size: 10
+            size: 30
         });
 
     $('#proteinSequencesTable')
@@ -473,7 +473,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.proteinSequencesPager'),
-            size: 10
+            size: 30
         });
 
 

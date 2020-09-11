@@ -25,15 +25,15 @@
 
     <div class="modelsViewContent" >
         <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form>
+            <form autocomplete="off">
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
+                    <option  value="10">10</option>
+                    <option selected="selected" value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>
@@ -86,15 +86,15 @@
 
     <div class="modelsViewContent" >
         <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form>
+            <form autocomplete="off">
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
+                    <option  value="10">10</option>
+                    <option selected="selected" value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>

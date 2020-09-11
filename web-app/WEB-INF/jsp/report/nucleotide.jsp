@@ -19,6 +19,7 @@
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
+                    <option value="30">30</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
                 </select>
@@ -82,6 +83,7 @@
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
+                    <option value="30">30</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
                 </select>
