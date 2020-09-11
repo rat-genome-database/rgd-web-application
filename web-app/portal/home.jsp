@@ -396,8 +396,6 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
-                alert("in update all");
-
                 ctrl.resetGViewer();
 
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
@@ -408,21 +406,7 @@
 
             ctrl.browse = function (ontId, ont, term, back) {
 
-                alert(ontId + " " + ont + " " + term + " " + back);
-                //$("#loadingModal").modal("show");
-                alert("in browse");
-                var ontologyCodes = null;
-
-                alert("ont = " + ont);
-                if (ont == "hp") {
-                    document.getElementById("ph").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
-                    ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
-                }else {
-                    document.getElementById("hp").style.visibility="hidden";
-                    document.getElementById("ph").style.visibility="visible";
-                    ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
-                }
+                var ontologyCodes = ontologyCodes = ["d","ph","bp","pw","hp","c","vt","cm","ec"];
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
@@ -452,7 +436,6 @@
 
                 document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
 
-                alert("updating ont browser " + ontId);
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
                     //alert(result);
@@ -466,92 +449,11 @@
 
             }
 
-            ctrl.initOntBrowser = function (ontId, ont,term, back) {
-                alert(ontId + " " + ont );
-                //$("#loadingModal").modal("show");
-                alert("in init ont browser");
-                var ontologyCodes = null;
-
-                alert("ont = " + ont);
-                if (ont == "hp") {
-                    document.getElementById("ph").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
-                    ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
-                }else {
-                    document.getElementById("hp").style.visibility="hidden";
-                    document.getElementById("ph").style.visibility="visible";
-                    ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
-                }
-
-                document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
-
-                for (var i=0; i< ontologyCodes.length; i++) {
-                    document.getElementById(ontologyCodes[i]).style.height = "65px";
-                    document.getElementById(ontologyCodes[i]).style.borderBottomLeftRadius = "8px";
-                    document.getElementById(ontologyCodes[i]).style.borderBottomRightRadius = "8px";
-                    document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
-                }
-                if (!back) {
-                    $scope.previousOntId.push($scope.ontologyId);
-                    $scope.previousOnt.push($scope.ontology);
-                    $scope.previousTerm.push($scope.currentTerm);
-                }
-
-                if (ont != null) {
-                    $scope.ontology = ont;
-                }
-
-                $scope.onttologyId = ontId;
-
-
-                document.getElementById($scope.ontology).style.height = "80px";
-                document.getElementById($scope.ontology).style.borderBottomLeftRadius = "40px";
-                document.getElementById($scope.ontology).style.borderBottomRightRadius = "40px";
-
-                document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
-
-                alert("updating ont browser " + ontId);
-                $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
-                        $("#browser").html(result);
-                        //alert(result);
-                    }});
-
-                $scope.currentTerm=term;
-                $scope.currentTermAcc=ontId;
-
-            }
-
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
-                alert("in update species");
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
-
-
-
-                alert(speciesType + " " + document.getElementById("hp").style.visibility);
-                if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
-                    alert("in here");
-                    document.getElementById("ph").style.visibility="hidden";
-                    document.getElementById("hp").style.visibility="visible";
-                    //this.browse($scope.ontologyId,$scope.ontology,null,null);
-                    alert($scope.ontologyId);
-                    this.initOntBrowser("HP:0000001","hp");
-                }
-
-                if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
-                    alert("in here 2");
-                    document.getElementById("ph").style.visibility="visible";
-                    document.getElementById("hp").style.visibility="hidden";
-                    //this.browse($scope.ontologyId,$scope.ontology ,null,null);
-                    alert($scope.ontologyId);
-                    this.initOntBrowser("MP:0000001","mp");
-
-                }
-
-
-
 
                 for (var i=1; i< 8; i++) {
                     document.getElementById("speciesButton" + i).style.border = "3px solid white";
@@ -928,9 +830,8 @@
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
-
-                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>
