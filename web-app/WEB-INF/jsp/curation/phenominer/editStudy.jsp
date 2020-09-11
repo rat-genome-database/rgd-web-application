@@ -96,6 +96,12 @@
     <tr>
         <td>GEO Series Acc:</td><td><input size="40" type="text" name="geoSeriesAcc" id="geoSeriesAcc" value="<%=dm.out("geoSeriesAcc", study.getGeoSeriesAcc())%>"> </td>
     </tr>
+    <tr>
+        <td>Created By:</td><td><input size="40" type="text" name="createdBy" id="createdBy" value="<%=dm.out("createdBy", study.getCreatedBy())%>" > </td>
+    </tr>
+    <tr>
+        <td>Last Modified By:</td><td><input size="40" type="text" name="modifiedBy" id="modifiedBy" value="<%=dm.out("modifiedBy", study.getLastModifiedBy())%>"> </td>
+    </tr>
     <tr><td>&nbsp;</td></tr>
     <tr>
         <td>Curation status:</td><td><%=fu.buildSelectList("sStatus", dao.getEnumerableMap(6, 0, true), "")%> </td>

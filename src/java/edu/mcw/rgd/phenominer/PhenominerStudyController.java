@@ -110,6 +110,7 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
 
                     s.setLastModifiedBy(login);
+                    s.setCreatedBy(login);
                     dao.insertStudy(s);
 
                     status.add("Study Create Successful");
