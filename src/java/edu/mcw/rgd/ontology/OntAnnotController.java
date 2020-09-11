@@ -605,7 +605,7 @@ public class OntAnnotController implements Controller {
                     case "symbol":
                         r = Utils.stringsCompareToIgnoreCase(o1.getSymbol(), o2.getSymbol());
                         break;
-                    case "name":
+                    case "object name":
                         r = Utils.stringsCompareToIgnoreCase(o1.getName(), o2.getName());
                         break;
                     case "qualifier":
