@@ -6,7 +6,7 @@
   Time: 4:19:11 PM
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/jquery.jcarousel.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -221,6 +221,7 @@ background-color: #daeffc;
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
+
     var v = new Vue({
         el: div,
         data: {
