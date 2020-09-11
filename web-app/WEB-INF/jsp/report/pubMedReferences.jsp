@@ -24,30 +24,12 @@
 
 <%//ui.dynOpen("otherPubmed", "References - uncurated")%>
 
-<div class="sectionHeading" id="pubMedReferences">PubMed References</div>
-<div id="pubMedReferencesTableDiv">
 
-<%--    <div id="modelsViewContent" >--%>
-<%--        <div id="pubMedReferencesPager" class="pager" style="float:right;margin-bottom:2px;">--%>
-<%--            <form>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>--%>
-<%--                <span type="text" class="pagedisplay"></span>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>--%>
-<%--                <select class="pagesize">--%>
-<%--                    <option selected="selected" value="10">10</option>--%>
-<%--                    <option value="20">20</option>--%>
-<%--                    <option value="30">30</option>--%>
-<%--                    <option  value="40">40</option>--%>
-<%--                    <option   value="100">100</option>--%>
-<%--                    <option value="9999">All Rows</option>--%>
-<%--                </select>--%>
-<%--            </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-    <table border="0"  class="tablesorter" id="pubMedReferencesTable">
-        <thead></thead>
+<div id="pubMedReferencesTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="pubMedReferences">PubMed References</div>
+
+    <table border="0"  id="pubMedReferencesTable">
+
         <tbody>
 
     <%
@@ -55,7 +37,7 @@
 
         for (int i = 0; i < ei.size(); i++) {
             String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
-            if(i % 15 == 0){
+            if(i % 14 == 0){
     %>
 <%--Beggining of row--%>
         <tr>
@@ -63,7 +45,7 @@
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
             </td>
 
-    <% }else if(i % 15 == 14){ %>
+    <% }else if(i % 14 == 13){ %>
 <%--            End of Row--%>
             <td style="background-color:#e2e2e2;">
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;

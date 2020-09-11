@@ -7,10 +7,10 @@
 %>
 
 <%//ui.dynOpen("xdbAssociation", "External Database Links")%>
-<div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
 
-<div id="externalDatabaseLinksTableDiv">
 
+<div id="externalDatabaseLinksTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
 <table border="0" id="externalDatabaseLinksTable">
     <thead>
         <tr>

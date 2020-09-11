@@ -22,9 +22,9 @@
     if (compareHomologs.size() > 0) {
 %>
 <%//ui.dynOpen("mapAssociation", "Comparative Map Data")%>
-<div class="sectionHeading" id="comparativeMapData">Comparative Map Data</div>
-<div id="comparativeMapDataTableDiv">
 
+<div id="comparativeMapDataTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="comparativeMapData">Comparative Map Data</div>
 
 <%
     compareHomologs.add(0,obj);

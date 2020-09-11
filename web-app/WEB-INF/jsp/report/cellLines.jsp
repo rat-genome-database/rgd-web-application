@@ -15,6 +15,7 @@
         });
 %>
 <%@ include file="sectionHeader.jsp"%>
+<div class="light-table-border">
 <div class="sectionHeading" id="cellLines">Cell Lines</div>
 <table cellpadding="3" cellspacing="1" border="1">
   <tr class="headerRow">
@@ -26,6 +27,7 @@
   </tr>
 <% } %>
 </table>
+</div>
  <p>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

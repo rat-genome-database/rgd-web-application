@@ -4,6 +4,7 @@
 List<QTL> qtls = associationDAO.getQtlAssociationsByGene(obj.getKey());
 if( !qtls.isEmpty() ) {
 %>
+<div class="light-table-border">
 <div class="sectionHeading" id="candidateGeneStatus">Candidate Gene Status</div>
 
 <table>
@@ -18,8 +19,8 @@ if( !qtls.isEmpty() ) {
     </tr>
     <% } %>
 </table>
-<br>
 
-<% } %>    
 
+<% } %>
+</div>
 <%@ include file="../sectionFooter.jsp"%>

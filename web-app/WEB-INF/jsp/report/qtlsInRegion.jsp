@@ -84,8 +84,6 @@
                 %>
 <br>
 
-
-<% } %>
     <div class="modelsViewContent" >
         <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -106,6 +104,8 @@
         </div>
     </div>
 </div>
+<% } %>
+
 <%@ include file="sectionFooter.jsp"%>
 
 

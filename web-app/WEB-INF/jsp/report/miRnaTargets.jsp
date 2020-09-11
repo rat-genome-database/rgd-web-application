@@ -44,6 +44,7 @@
 %>
 <%@ include file="sectionHeader.jsp"%>
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
+<div class="light-table-border">
 <div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status</div>
     <% if( confirmedCount>0 ) {
 
@@ -155,6 +156,7 @@
         or access the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.</td>
     </tr>
     </table>
+</div>
 <% } %>
 <%//ui.dynClose("miRnaTargets")%>
 <%@ include file="sectionFooter.jsp"%>

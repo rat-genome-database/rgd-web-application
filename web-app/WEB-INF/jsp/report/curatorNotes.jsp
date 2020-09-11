@@ -13,7 +13,7 @@
 if (noteList.size() > 0) {
 %>
 
-
+<div class="light-table-border">
 <div class="sectionHeading" id="rgdCurationNotes">RGD Curation Notes</div>
 <table border="1" cellpadding="4" cellspacing="0">
 <tr>
@@ -52,8 +52,8 @@ if (noteList.size() > 0) {
     }}
 %>
 </table>
-<br>
 
+</div>
 
 <% } %>
 

@@ -221,6 +221,7 @@
 <%  // PROTEIN DOMAINS
     if (pdomains.size() > 0) {
 %>
+<div class="light-table-border">
 <br><span class="highlight"><u>Protein Domains</u></span><br><br>
   <% for( int z=0; z<pdomains.size(); z++ ) {
         GenomicElement el = pdomains.get(z); %>
@@ -229,7 +230,7 @@
      <a href="/rgdweb/report/proteinDomain/main.html?id=<%=el.getRgdId()%>" title="see protein domain report page"><%=el.getSymbol()%></a>
   <% } %>
 <% } %><p>
-
+</div>
     <%//ui.dynClose("protAssociation")%>
 <% } %>
 

@@ -192,7 +192,7 @@
     }
 
     .light-table-border{
-        border: 2px solid #f1f1f1;
+        border: 3px solid #f1f1f1;
         padding: 20px;
         margin: 10px;
     }

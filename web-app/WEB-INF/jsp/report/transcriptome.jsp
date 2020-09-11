@@ -7,7 +7,7 @@
 
 <%@ include file="sectionHeader.jsp"%>
 
-
+<div class="light-table-border">
 <div class="sectionHeading" id="transcriptome">Transcriptome</div>
 <br>
 <table><%-- sample gene: Agt(ENSRNOG00000018445) --%>
@@ -29,7 +29,7 @@
 </table>
 <br>
 
-
+</div>
 
 <%@ include file="sectionFooter.jsp"%>
 <%
