@@ -3,10 +3,15 @@ package edu.mcw.rgd.phenominer;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.process.pheno.SearchBean;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.json.JSONObject;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,6 +30,7 @@ public abstract class PhenominerController implements Controller {
     protected HttpServletRequest request = null;
     protected HttpServletResponse response = null;
 
+    String login = "";
     protected SearchBean buildSearchBean(HttpRequestFacade req, PhenominerDAO dao) {
 
         SearchBean sb = new SearchBean();
@@ -155,5 +161,33 @@ public abstract class PhenominerController implements Controller {
 
     protected String buildLink(String url, int text) {
         return this.buildLink(url, text + "");
+    }
+
+    protected boolean checkToken(String token) throws Exception{
+        if(token == null || token.isEmpty()){
+            return false;
+        }else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token "+token);
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                login = (String)json.get("login");
+                if(!login.equals("")){
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
+                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token "+token);
+                    if(connection.getResponseCode()== 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
     }
 }
