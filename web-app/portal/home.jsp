@@ -532,6 +532,7 @@
 
                 alert(speciesType + " " + document.getElementById("hp").style.visibility);
                 if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
+                    alert("in here");
                     document.getElementById("ph").style.visibility="hidden";
                     document.getElementById("hp").style.visibility="visible";
                     //this.browse($scope.ontologyId,$scope.ontology,null,null);
@@ -540,6 +541,7 @@
                 }
 
                 if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
+                    alert("in here 2");
                     document.getElementById("ph").style.visibility="visible";
                     document.getElementById("hp").style.visibility="hidden";
                     //this.browse($scope.ontologyId,$scope.ontology ,null,null);
