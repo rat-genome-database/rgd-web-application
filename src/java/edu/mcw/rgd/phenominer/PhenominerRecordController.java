@@ -42,7 +42,7 @@ public class PhenominerRecordController extends PhenominerController {
         String viewPath = "/WEB-INF/jsp/curation/phenominer/records.jsp";
         Report report = new Report();
 
-        if(login.equals("") && request.getCookies() != null && request.getCookies().length != 0)
+        if(request.getCookies() != null && request.getCookies().length != 0)
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
                 String accessToken = request.getCookies()[0].getValue();
                 if(!checkToken(accessToken)) {
