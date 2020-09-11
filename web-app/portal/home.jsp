@@ -830,8 +830,8 @@
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
-                    <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
-                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Mammalian Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Human Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>
