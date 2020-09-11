@@ -35,7 +35,7 @@ public class PhenominerStudyController extends PhenominerController {
         String viewPath = "/WEB-INF/jsp/curation/phenominer/studies.jsp";
         Report report = new Report();
 
-        if(login.equals("") && request.getCookies() != null && request.getCookies().length != 0)
+        if(request.getCookies() != null && request.getCookies().length != 0)
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
                 String accessToken = request.getCookies()[0].getValue();
                 if(!checkToken(accessToken)) {
@@ -110,6 +110,7 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
 
                     s.setLastModifiedBy(login);
+                    s.setCreatedBy(login);
                     dao.insertStudy(s);
 
                     status.add("Study Create Successful");
