@@ -42,6 +42,14 @@ public class PhenominerRecordController extends PhenominerController {
         String viewPath = "/WEB-INF/jsp/curation/phenominer/records.jsp";
         Report report = new Report();
 
+        if(login.equals("") && request.getCookies() != null && request.getCookies().length != 0)
+            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
+                String accessToken = request.getCookies()[0].getValue();
+                if(!checkToken(accessToken)) {
+                    response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+                    return null;
+                }
+            }
 
         try {
             if (action.equals("edit")) {
@@ -132,6 +140,8 @@ public class PhenominerRecordController extends PhenominerController {
                     try {
                         this.validate(req, false);
                         r = this.buildRecord(req, r, false);
+                        r.setLastModifiedBy(login);
+                        r.setCreatedBy(login);
                         dao.insertRecord(r);
                         status.add("Record Create Successful");
                     } catch (Exception e) {
@@ -159,6 +169,7 @@ public class PhenominerRecordController extends PhenominerController {
                             report = buildReport(records, dao, false);
                             throw e;
                         }
+                        r.setLastModifiedBy(login);
                         dao.updateRecord(r);
 
                         String[] cDelete = req.getRequest().getParameterValues("cDelete");
