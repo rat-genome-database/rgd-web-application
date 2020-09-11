@@ -396,6 +396,7 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
+                alert("in update all");
 
                 ctrl.resetGViewer();
 
@@ -406,18 +407,31 @@
             }
 
             ctrl.browse = function (ontId, ont, term, back) {
+
+                alert(ontId + " " + ont + " " + term + " " + back);
                 //$("#loadingModal").modal("show");
+                alert("in browse");
+                var ontologyCodes = null;
+
+                alert("ont = " + ont);
+                if (ont == "hp") {
+                    document.getElementById("ph").style.visibility="hidden";
+                    document.getElementById("hp").style.visibility="visible";
+                    ontologyCodes = ["d","hp","bp","pw","c","vt","cm","ec"];
+                }else {
+                    document.getElementById("hp").style.visibility="hidden";
+                    document.getElementById("ph").style.visibility="visible";
+                    ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
+                }
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
-                var ontologyCodes = ["d","hp","ph","bp","pw","c","vt","cm","ec"];
 
                 for (var i=0; i< ontologyCodes.length; i++) {
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomLeftRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomRightRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
-
                 }
                 if (!back) {
                     $scope.previousOntId.push($scope.ontologyId);
@@ -438,7 +452,7 @@
 
                 document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
 
-
+                alert("updating ont browser " + ontId);
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
                     //alert(result);
@@ -453,6 +467,33 @@
             }
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
+                alert("in update species");
+
+                alert(speciesType + " " + document.getElementById("hp").style.visibility);
+                if (speciesType == "1" && document.getElementById("hp").style.visibility == "hidden") {
+                    document.getElementById("ph").style.visibility="hidden";
+                    document.getElementById("hp").style.visibility="visible";
+                    //this.browse($scope.ontologyId,$scope.ontology,null,null);
+                    alert($scope.ontologyId);
+                    $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=" + $scope.rootTermAcc + "&acc_id=" + $scope.ontologyId, success: function(result){
+                            $("#browser").html(result);
+                            //alert(result);
+                        }});
+
+                }
+
+                if (speciesType != "1" && document.getElementById("hp").style.visibility == "visible") {
+                    document.getElementById("ph").style.visibility="visible";
+                    document.getElementById("hp").style.visibility="hidden";
+                    //this.browse($scope.ontologyId,$scope.ontology ,null,null);
+                    alert($scope.ontologyId);
+                    $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=" + $scope.rootTermAcc + "&acc_id=" + $scope.onttologyId, success: function(result){
+                            $("#browser").html(result);
+                            //alert(result);
+                        }});
+                }
+
+
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);

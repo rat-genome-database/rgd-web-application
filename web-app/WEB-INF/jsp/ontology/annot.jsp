@@ -41,7 +41,11 @@
    String pageTitle = bean.getTerm().getTerm()+" - Ontology Report - " + RgdContext.getLongSiteName(request);
    String pageDescription = pageTitle;
 %>
-
+<style type="text/css">
+    body {
+        overflow-x:hidden
+    }
+</style>
 <%@ include file="ontHeader.jsp"%>
 <div style="margin-left:10px;">
 

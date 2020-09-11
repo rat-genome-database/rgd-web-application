@@ -2,10 +2,8 @@ package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.dao.impl.XdbIdDAO;
-import edu.mcw.rgd.datamodel.MapData;
-import edu.mcw.rgd.datamodel.Reference;
-import edu.mcw.rgd.datamodel.RgdId;
-import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
 import edu.mcw.rgd.reporting.Link;
@@ -26,7 +24,7 @@ public class OntAnnotation  {
     private String symbol; // gene symbol
     private String name; // gene name
     private String evidenceWithInfo;
-    private String evidence;
+    private String evidence = "";
     private String reference; // <a> link fully setup
     private String chr = "";
     private String startPos = "";
@@ -114,9 +112,24 @@ public class OntAnnotation  {
         this.name = name;
     }
 
-    public void setEvidenceWithInfo(String evidence, String withInfo) throws Exception {
+    public void setEvidenceWithInfo(String evidence, String withInfo, Term term) throws Exception {
 
-        this.evidence = evidence;
+        StringBuilder url = new StringBuilder();
+        if (!this.evidence.isEmpty())
+            url.append("<br>");
+        url.append("<a href=\"/rgdweb/report/annotation/");
+        if( term.getAccId().startsWith("CHEBI") )
+        {
+            url.append("table");
+        }
+        else {
+            url.append("main");
+        }
+        String evidenceCode = EvidenceCode.getName(evidence);
+        url.append(".html?term="+term.getAccId()+"&id="+rgdId+"\" title=\""+ evidenceCode +"\">"+evidence+"</a>");
+
+        if (!this.evidence.contains(evidence))
+            this.evidence += url.toString();
 
         // load the evidence
         StringBuilder buf = new StringBuilder(evidence);
@@ -262,8 +275,22 @@ public class OntAnnotation  {
         return evidence;
     }
 
-    public void setEvidence(String evidence) {
-        this.evidence = evidence;
+    public void setEvidence(String evidence, Term term) throws Exception {
+
+        StringBuilder url = new StringBuilder();
+        if (!this.evidence.isEmpty())
+            url.append("<br>");
+        url.append("<a href=\"/rgdweb/report/annotation/");
+        if( term.getAccId().startsWith("CHEBI") )
+        {
+            url.append("table");
+        }
+        else {
+            url.append("main");
+        }
+        url.append(".html?term="+term.getAccId()+"&id="+rgdId+"\" title=\""+ EvidenceCode.getName(evidence) +"\">"+evidence+"</a>");
+        if (!this.evidence.contains(evidence))
+            this.evidence += url.toString();
     }
 
     public String getDataSource() {
@@ -305,7 +332,7 @@ public class OntAnnotation  {
             stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
 
             fullEnsPos += "<br>Ensembl\tchr"+chrEns+":"+startPosEns+"..."+stopPosEns;
-
+            fullEnsPos = fullEnsPos.replaceAll("\\s", "&nbsp;");
 
             if(JBrowseLink == null){
                 StringBuilder buf = new StringBuilder(128);
@@ -347,10 +374,12 @@ public class OntAnnotation  {
 
     public void setFullNcbiPos(){
         fullNcbiPos = "NCBI\tchr"+chr+":"+startPos+"..."+stopPos;
+        fullNcbiPos = fullNcbiPos.replaceAll("\\s", "&nbsp;");
     }
 
     public void addToNcbiPos(String newChr, String newStartPos, String newStopPos){
         fullNcbiPos += "<br>NCBI\tchr"+newChr+":"+newStartPos+"..."+newStopPos;
+        fullNcbiPos = fullNcbiPos.replaceAll("\\s", "&nbsp;");
     }
 
     public String getChrEns()   { return chrEns;  }

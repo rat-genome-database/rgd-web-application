@@ -112,6 +112,7 @@ public class PhenominerExperimentController extends PhenominerController {
                 }
 
                 e.setLastModifiedBy(login);
+                e.setCreatedBy(login);
                 validate(req, false);
                 dao.insertExperiment(e);
                 status.add("Experiment Create Successful");
