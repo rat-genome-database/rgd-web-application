@@ -13,12 +13,12 @@
 %>
 
 
-<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border">
+<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
 
-    <br><span class="highlight"><u>Reference Sequences</u></span><br>
+    <span class="highlight"><u>Reference Sequences</u></span>
 
-    <div id="modelsViewContent" >
-        <div id="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
+    <div class="modelsViewContent" >
+        <div class="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -94,8 +94,28 @@
     <% } %>
     </tbody>
 </table>
-<br>
 
-<% }} %>
+<% }%>
+
+    <div class="modelsViewContent" >
+        <div class="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<% } %>
 </div>
 <%@ include file="../sectionFooter.jsp"%>

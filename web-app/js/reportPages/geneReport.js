@@ -165,6 +165,7 @@ function buildNucleotideReferenceSequencesTable(){
         document.getElementsByClassName('nucleotideReferenceSequencesInnerTable')
     );
     let rowArray = buildRowArrayFromTableArray(tableArray);
+    tableArray[0].remove();
     return buildReferenceTable(rowArray);
 }
 
@@ -441,7 +442,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#nucleotideReferenceSequencesPager'),
+            container: $('.nucleotideReferenceSequencesPager'),
             size: 3
         });
 
@@ -451,7 +452,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#proteinReferenceSequencesPager'),
+            container: $('.proteinReferenceSequencesPager'),
             size: 3
         });
 
@@ -461,7 +462,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#nucleotideSequencesPager'),
+            container: $('.nucleotideSequencesPager'),
             size: 10
         });
 
@@ -471,7 +472,7 @@ $(function () {
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('#proteinSequencesPager'),
+            container: $('.proteinSequencesPager'),
             size: 10
         });
 

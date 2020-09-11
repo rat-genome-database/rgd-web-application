@@ -197,6 +197,18 @@
         margin: 10px;
     }
 
+
+     .ref-seq-flex-order{
+         display: flex;
+         overflow-x: auto;
+         flex-flow: column;
+     }
+
+    .ref-seq-flex-order :nth-child(1){order: 1;}
+    .ref-seq-flex-order :nth-child(2){order: 2;}
+    .ref-seq-flex-order :nth-child(3){order: 4;}
+    .ref-seq-flex-order :nth-child(4){order: 3;}
+
 </style>
 
 

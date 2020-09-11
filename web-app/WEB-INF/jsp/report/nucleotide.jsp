@@ -6,8 +6,8 @@
 
     <div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
 
-    <div id="modelsViewContent" >
-        <div id="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
+    <div class="modelsViewContent" >
+        <div class="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
@@ -68,6 +68,32 @@
     }
 %>
     </table>
+
+    <div class="modelsViewContent" >
+        <div class="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
 </div>
 <br>
 
