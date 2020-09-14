@@ -46,10 +46,15 @@ function EnrichmentVue(divId, hostname) {
             selectedAll: false,
             selectedOne: false,
 
+
         },
         methods: {
             download: function (arrData) {
                 var data = "data:text/csv;charset=utf-8,";
+                data += "Species: " + this.getSpecies(this.species[0]) + "\n";
+                data += "Ontology" + this.getOntologyTitle(this.ontology[0]) + "\n";
+                data += "No of genes in the input set: " + (this.genes.length) + "\n";
+                data += "Input Genes: "+this.genes + "\n";
                 data += [
                     Object.keys(arrData[0]).join(";"),
                     ...arrData.map(item => Object.values(item).join(";"))
@@ -138,6 +143,26 @@ function EnrichmentVue(divId, hostname) {
                     return 9;
                 else
                     return 0;
+            },
+            getSpecies: function (s) {
+                if (s == 3 )
+                    return "Rat";
+                else if (s == 1)
+                    return "Human";
+                else if (s == 2)
+                    return "Mouse";
+                else if (s == 4)
+                    return "Chinchilla";
+                else if (s == 5)
+                    return "Bonobo";
+                else if (s == 6)
+                    return "Dog";
+                else if (s == 7)
+                    return "Squirrel";
+                else if (s == 9)
+                    return "Pig";
+                else
+                    return null;
             },
             explore: function (genes) {
                 params = new Object();
