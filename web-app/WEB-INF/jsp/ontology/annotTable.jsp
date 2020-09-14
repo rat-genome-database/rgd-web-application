@@ -234,15 +234,15 @@
              <tr class='headerRow'>
                  <colgroup>
                      <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
-                     <col span="1" style="width: 5%;"> <%-- Symbol --%>
-                     <col span="1" style="width: 5%;"> <%-- Obj name --%>
-                     <col span="1" style="width: 6%;"> <%-- Qualifiers --%>
+                     <col span="1" style="width: 6%;"> <%-- Symbol --%>
+                     <col span="1" style="width: 14%;"> <%-- Obj name --%>
+                     <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
                      <col span="1" style="width: 4%;"> <%-- Evidence --%>
-                     <col span="1" style="width: 10%;"><%-- notes --%>
-                     <col span="1" style="width: 7%;"><%-- source --%>
-                     <col span="1" style="width: 25%;"><%-- original references/ xref --%>
-                     <col span="1" style="width: 18%;"><%-- RGD Reference --%>
-                     <col span="1" style="width: 15%;"><%-- Position --%>
+                     <col span="1" style="width: 22%;"><%-- notes --%>
+                     <col span="1" style="width: 5%;"><%-- source --%>
+                     <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
+                     <col span="1" style="width: 13%;"><%-- RGD Reference --%>
+                     <col span="1" style="width: 11%;"><%-- Position --%>
                      <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
                  </colgroup>
                  <td 10%></td>
@@ -289,7 +289,7 @@
                 <td><%  if (annot.getReference().isEmpty())
                             out.print(annot.getDataSource());
                         else
-                            out.print(annot.getReference());%></td><%--  annot.getDataSource()--%>
+                            out.print(annot.getReference());%></td>
 
                 <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty())
                             out.print(annot.getXrefSource());
@@ -301,10 +301,14 @@
 
                 <td><%  if (annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) // added references exist while rgdRef DNE
                             out.print(annot.getReferenceTurnedRGDRef());
-                        else if (!annot.getRgdRefSource().isEmpty() && annot.getReferenceTurnedRGDRef().isEmpty()) // added references DNE while rgdRef exists
-                            out.print(annot.getRgdRefSource());
-                        else  if(!annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty())  // both exist
-                            out.print(annot.getRgdRefSource()+", "+annot.getReferenceTurnedRGDRef());
+                        else if (!annot.getRgdRefSource().isEmpty() && annot.getReferenceTurnedRGDRef().isEmpty()) { // added references DNE while rgdRef exists
+                            String newSource = annot.getRgdRefSource().replace("REF_RGD_ID", "RGD");
+                            out.print(newSource);
+                        }
+                        else  if(!annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) { // both exist
+                            String newSource = annot.getRgdRefSource().replace("REF_RGD_ID", "RGD");
+                            out.print(newSource+", "+annot.getReferenceTurnedRGDRef());
+                        }
                 %></td>
 
 

@@ -43,7 +43,10 @@
 %>
 <style type="text/css">
     body {
-        overflow-x:hidden
+        /*overflow-x:hidden*/
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 </style>
 <%@ include file="ontHeader.jsp"%>
