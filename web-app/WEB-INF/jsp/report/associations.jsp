@@ -170,9 +170,12 @@
 <%//ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>
 
 <% if (bpList.size() > 0) { %>
-<div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
+
 
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
+    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
+
+
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">

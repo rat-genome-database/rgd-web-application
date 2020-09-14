@@ -145,7 +145,7 @@
         overflow-x: hidden;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 820px) {
         #reportMainSidebar{
             overflow-y: auto;
             height: 150vh;
@@ -202,7 +202,7 @@
         border: 3px solid #f1f1f1;
         padding: 20px;
         margin: 10px;
-        max-width: 100vw;
+        max-width: 80vw;
         overflow-x: auto;
     }
 

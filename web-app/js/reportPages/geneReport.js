@@ -275,8 +275,17 @@ function addItemsToSideBar(){
     let sidebar = document.getElementById('navbarUlId');
     removeAllChildNodes(sidebar);
     $('.sidebar-item').each(function(index, value){
+        let parent;
 
-        if(value.parentNode.style.display !== "none"){
+        if(document.getElementById('associationsCurator').contains(value)){
+            parent = document.getElementById('associationsCurator');
+        }else if(document.getElementById('associationsStandard').contains(value)){
+            parent = document.getElementById('associationsStandard');
+        } else {
+            parent = value.parentNode;
+        }
+
+        if(parent.style.display !== "none"){
 
             let text = value.childNodes[0].textContent;
 
