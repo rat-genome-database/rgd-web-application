@@ -33,8 +33,8 @@
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
 
-    <script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script>
+    <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
 
     <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
     <script type="text/javascript">

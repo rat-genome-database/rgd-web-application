@@ -22,11 +22,9 @@
 <body style="background-color: white">
 
 <%
-
     String pageTitle = "RGD Gene Enrichement";
     String headContent = "";
     String pageDescription = "Gene enrichment for multiple ontologies";
-
 %>
 
 <%@ include file="/common/headerarea.jsp" %>
@@ -36,6 +34,9 @@
 %>
 <div class="rgd-panel rgd-panel-default">
     <div class="rgd-panel-heading">Gene List Enrichment: Result</div>
+    <div style="float:right; padding-right:10px; padding-top:10px;">
+        <a href="/rgdweb/enrichment/start.html" class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Reset Genes</a>
+    </div>
 </div>
 
 <% if (om.getMapped().size() == 0) {
@@ -72,7 +73,6 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
-
             <!-- Modal body -->
             <div class="modal-body">
                 Symbols Found: <%=inSymbols.size()%> <br>
@@ -94,8 +94,6 @@
     <img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','',1, '')"/>
 
     <a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '')">All Analysis Tools</a>
-
-
 </div>
 <br>
 <div id="enrichment" >
