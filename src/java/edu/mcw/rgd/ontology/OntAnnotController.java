@@ -304,13 +304,15 @@ public class OntAnnotController implements Controller {
 
                 a.setDataSource(annot.getDataSrc());
 
-                if (!refPipe.search(annot.getRefRgdId())){
+                if (!refPipe.search(annot.getRefRgdId())){// not a pipeline reference
                     a.setHiddenPmId(annot.getRefRgdId());
                     a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
                 }
-                else // not a pipeline reference
-                    a.setReference("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> " + a.getDataSource() + "</a>");
-
+                else { // is a pipeline
+                    String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
+                    if(!a.getReference().contains(refInfo))
+                        a.setReference(refInfo);
+                }
                 a.setQualifier(Utils.NVL(annot.getQualifier(),""));
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
@@ -327,13 +329,15 @@ public class OntAnnotController implements Controller {
                 // merge data from multiple annotations (for the same term and object)
                 a.setDataSource( htmlMerge(a.getDataSource(), annot.getDataSrc()) );
 
-                if (!refPipe.search(annot.getRefRgdId())){
+                if (!refPipe.search(annot.getRefRgdId())){ // not a pipeline reference
                     a.setHiddenPmId(annot.getRefRgdId());
                     a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
                 }
-                else { // not a pipeline reference
+                else { // is a pipeline
                     String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                    a.setReference(htmlMerge(a.getReference(), refInfo));
+                    if(!a.getReference().contains(refInfo)) {
+                        a.setReference(htmlMerge(a.getReference(), refInfo));
+                    }
                 }
 
                 a.setEvidence( annot.getEvidence(), term );
