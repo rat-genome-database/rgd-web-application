@@ -29,7 +29,7 @@ import java.util.*;
  */
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
-    private List<String> sampleIdsFromResultSet;
+  //  private List<String> sampleIdsFromResultSet;
 
 
     VVService service= new VVService();
@@ -234,9 +234,9 @@ public class DistributionController extends HaplotyperController {
             }else{
                 regionList1=gSymbols;
             }
-            Collections.sort(sampleIdsFromResultSet);
+            Collections.sort(sampleIds);
             request.setAttribute("regionList", regionList1);
-            request.setAttribute("sampleIds", sampleIdsFromResultSet);
+            request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("resultHash", resultHash);
             request.setAttribute("json",sb.toString() );
             request.setAttribute("vsb", vsb);
@@ -364,21 +364,21 @@ public class DistributionController extends HaplotyperController {
 
                     }
                     if (totalDocCount > 0) {
-                        boolean flag=false;
+                     /*   boolean flag=false;
                         for(int id:vsb.sampleIds){
                             if(id==(((Long) b.getKey()))){
                                 flag=true;
                             }
-                        }
-                        if(flag) {
-                            sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
+                        }*/
+                      //  if(flag) {
+                      //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
                             variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-                        }
+                       // }
                     }
 
                 }
                 //    Collections.sort(sampleIdsFromResultSet);
-                this.setSampleIdsFromResultSet(sampleIdsFromResultSet);
+             //   this.setSampleIdsFromResultSet(sampleIdsFromResultSet);
 
         }  else{
 
@@ -461,13 +461,7 @@ public class DistributionController extends HaplotyperController {
         this.service = service;
     }
 
-    public List<String> getSampleIdsFromResultSet() {
-        return sampleIdsFromResultSet;
-    }
 
-    public void setSampleIdsFromResultSet(List<String> sampleIdsFromResultSet) {
-        this.sampleIdsFromResultSet = sampleIdsFromResultSet;
-    }
 
     public List<String> getgSymbols() {
         return gSymbols;
