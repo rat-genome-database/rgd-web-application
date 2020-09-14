@@ -7,6 +7,11 @@
         display: flex;
         overflow-x: auto;
         flex-flow: column wrap;
+
+    }
+
+    #diseaseAnnotationsTable{
+        /*min-width: 750px;*/
     }
 </style>
 <%

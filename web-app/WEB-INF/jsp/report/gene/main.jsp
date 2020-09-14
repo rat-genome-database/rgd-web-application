@@ -145,6 +145,13 @@
         overflow-x: hidden;
     }
 
+    @media (max-width: 650px) {
+        #reportMainSidebar{
+            overflow-y: auto;
+            height: 150vh;
+        }
+    }
+
     #left-side-wrap{
         width: 200px;
         float: left;
@@ -195,6 +202,8 @@
         border: 3px solid #f1f1f1;
         padding: 20px;
         margin: 10px;
+        max-width: 100vw;
+        overflow-x: auto;
     }
 
 
