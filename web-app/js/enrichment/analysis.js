@@ -6,23 +6,22 @@ function EnrichmentVue(divId, hostname) {
     }
 
     var host = window.location.protocol + window.location.host;
-    if (window.location.host.indexOf('localhost') > -1) {
-        host= window.location.protocol + '//localhost:8080';
-    } else if (window.location.host.indexOf('dev.rgd') > -1) {
-        host= window.location.protocol + '//dev.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('test.rgd') > -1) {
-        host= window.location.protocol + '//test.rgd.mcw.edu';
-    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-        host= window.location.protocol + '//pipelines.rgd.mcw.edu';
-    }else {
-        host=window.location.protocol + '//rest.rgd.mcw.edu';
-    }
 
+    if (window.location.host.indexOf('localhost') > -1) {
+        host =  'https://dev.rgd.mcw.edu';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host = window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host = window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host = window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host = window.location.protocol + '//rest.rgd.mcw.edu';
+    }
     if (hostname) {
         host=hostname;
     }
 
-  
     var v = new Vue({
         el: div,
         data: {
@@ -49,6 +48,22 @@ function EnrichmentVue(divId, hostname) {
 
         },
         methods: {
+            download: function (arrData) {
+                var data = "data:text/csv;charset=utf-8,";
+                data += [
+                    Object.keys(arrData[0]).join(";"),
+                    ...arrData.map(item => Object.values(item).join(";"))
+                ]
+                    .join("\n")
+                    .replace(/(\,)/gm, "")
+                    .replace(/(\;)/gm, ",");
+
+                var convertedData = encodeURI(data);
+                var link = document.createElement("a");
+                link.setAttribute("href", data);
+                link.setAttribute("download", "MOET Results.csv");
+                link.click();
+            },
             getGenes: function (accId, species) {
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
@@ -78,8 +93,6 @@ function EnrichmentVue(divId, hostname) {
             loadView: function (s) {
                 this.species = [v.getSpeciesKey(s)];
                 v.selectView();
-
-
             },
             loadOntView: function (s) {
                 if(document.getElementById(this.ontology[0]) != null) {
@@ -154,13 +167,11 @@ function EnrichmentVue(divId, hostname) {
                             aspect: aspect
                         })
                     .then(function (response) {
-
                         v.info.push({
                             name: aspect,
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
-
                         if (response.data.length != 0 && (v.graph))
                         {
                             v.loadChart(response.data.enrichment, aspect, 0.05);}
@@ -170,7 +181,6 @@ function EnrichmentVue(divId, hostname) {
                         console.log(error)
                         v.errored = true
                     })
-
             },
             dataLoadSpecies: function (aspect, s) {
                 axios
@@ -181,25 +191,22 @@ function EnrichmentVue(divId, hostname) {
                             aspect: aspect
                         })
                     .then(function (response) {
-
-                        v.info.push({
+                            v.info.push({
                             name: s,
                             value: response.data.enrichment,
                             genes: response.data.geneSymbols
                         });
                         if (response.data.length != 0 && v.graph)
                         {
-                            v.loadChart(response.data.enrichment, s, 0.05);}
+                        v.loadChart(response.data.enrichment, s, 0.05);}
                         v.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error)
                         v.errored = true
                     })
-
             },
             getOntologyTitle: function (aspect) {
-
                 if (aspect == "RDO"){
                     return "Disease Ontology"; }
                 else if (aspect == "PW")
@@ -215,9 +222,7 @@ function EnrichmentVue(divId, hostname) {
                 else if (aspect == "CHEBI")
                     return "Chemical Interactions Ontology"
             },
-
             loadChart: function (info, name, value) {
-
                 var arr = info;
                 var xarray = [];
                 var yarray = [];
@@ -230,7 +235,6 @@ function EnrichmentVue(divId, hostname) {
                         y1array.push(arr[i].pvalue);
                     }
                 }
-
                 var trace1 = {
                     x: xarray,
                     y: yarray,
@@ -320,10 +324,8 @@ function EnrichmentVue(divId, hostname) {
                         } else return 0;
                     }
                 }
-
             },
             loadGenes: function(view){
-
                 for (i = 0; i < this.info.length; i++) {
                     if (this.info[i].name == view) {
                         return this.info[i].genes;
@@ -334,29 +336,23 @@ function EnrichmentVue(divId, hostname) {
                 this.info = [];
                 this.loading=true;
                 this.errored = false;
-
                 if (this.species[0] != 0) {
                     this.selectedAll = false;
                     this.selectedOne = true;
-
                     this.dataLoad(this.ontology[0], this.species[0]);
-
                 } else {
                     this.selectedAll = true;
                     this.selectedOne = false;
-
                     for (i = 0; i < this.allSpecies.length; i++) {
                         this.dataLoadSpecies(this.ontology[0], this.allSpecies[i]);
                     }
                 }
             }
-
         },
         computed: {
             pairs: function () {
                 var v = this;
                 return this.ontology.map(function (ont) {
-
                     return {
                         ont: ont,
                         info: v.loadPairs(ont),
