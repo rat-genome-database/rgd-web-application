@@ -363,7 +363,7 @@
 <%@ include file="xdbs_pathways.jsp"%>
 <% } %>
 <%//ui.dynClose("pathwayAssociation")%>
-<% } %>
+
         </div>
 
     <div class="modelsViewContent" >
@@ -387,7 +387,7 @@
     </div>
 </div>
 
-
+<% } %>
 
 <%
     List<Annotation> mpList = af.filterList(annotList,"N");

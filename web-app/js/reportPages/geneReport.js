@@ -325,8 +325,11 @@ function addItemsToSideBar(){
 }
 
 function removeAllChildNodes(parent) {
-    while (parent.firstChild){
-        parent.removeChild(parent.firstChild);
+    while (parent.lastElementChild){
+        if(parent.lastElementChild.isEqualNode(document.getElementById('summary'))){
+            break;
+        }
+        parent.removeChild(parent.lastElementChild);
     }
 }
 

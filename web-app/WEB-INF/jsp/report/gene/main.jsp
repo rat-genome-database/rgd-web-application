@@ -235,7 +235,7 @@
     </div>
 <nav id="reportMainSidebar" class="navbar">
     <ul class="navbar-nav" id="navbarUlId">
-        <li class="nav-item"><a class="nav-link active" href="#top">Summary</a></li>
+        <li class="nav-item" id="summary"><a class="nav-link active" href="#top">Summary</a></li>
     </ul>
 </nav>
 </div>
