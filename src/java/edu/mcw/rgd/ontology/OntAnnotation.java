@@ -1,10 +1,15 @@
 package edu.mcw.rgd.ontology;
 
-import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.XdbIdDAO;
+import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
 import edu.mcw.rgd.reporting.Link;
+import edu.mcw.rgd.web.FormUtility;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 
@@ -19,7 +24,7 @@ public class OntAnnotation  {
     private String symbol; // gene symbol
     private String name; // gene name
     private String evidenceWithInfo;
-    private String evidence;
+    private String evidence = "";
     private String reference; // <a> link fully setup
     private String chr = "";
     private String startPos = "";
@@ -30,9 +35,29 @@ public class OntAnnotation  {
     private String JBrowseLink; // link to JBrowse -- customized by species
     private String dataSource;
     private String xrefSource = "";
+    private String rgdRefSource = "";
     private String notes;
 
+    private String chrEns = null;
+    private String startPosEns = null;
+    private String stopPosEns = null;
+    private String fullEnsPos = "";
+    private String fullNcbiPos = "";
+    private String referenceTurnedRGDRef = "";
+    private String hiddenPmId = "";
+
     private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
+                int i1 = Integer.parseInt(o1.substring(5));
+                int i2 = Integer.parseInt(o2.substring(5));
+                return i1-i2;
+            }
+            return o1.compareTo(o2);
+        }
+    });
+    private Set<String> rgdRefs = new TreeSet<String>(new Comparator<String>() {
         @Override
         public int compare(String o1, String o2) {
             if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
@@ -46,14 +71,21 @@ public class OntAnnotation  {
 
     public void addXrefs(String xrefString) throws Exception {
         int oldXrefCount = xrefs.size();
+        int oldRgdRefCount = rgdRefs.size();
         if( !Utils.isStringEmpty(xrefString) ) {
             for( String xref: xrefString.split("[\\|]") ) {
-                xrefs.add(xref);
+                if (xref.contains("PMID"))
+                    xrefs.add(xref);
+                else
+                    rgdRefs.add(xref);
+//                xrefs.add(xref);
             }
         }
         if( xrefs.size()>oldXrefCount ) {
             setXrefSource(Utils.concatenate(xrefs,"|"));
         }
+        if( rgdRefs.size() > oldRgdRefCount)
+            setRgdRefSource(Utils.concatenate(rgdRefs,"|"));
     }
 
     public int getRgdId() {
@@ -80,9 +112,24 @@ public class OntAnnotation  {
         this.name = name;
     }
 
-    public void setEvidenceWithInfo(String evidence, String withInfo) throws Exception {
+    public void setEvidenceWithInfo(String evidence, String withInfo, Term term) throws Exception {
 
-        this.evidence = evidence;
+        StringBuilder url = new StringBuilder();
+        if (!this.evidence.isEmpty())
+            url.append("<br>");
+        url.append("<a href=\"/rgdweb/report/annotation/");
+        if( term.getAccId().startsWith("CHEBI") )
+        {
+            url.append("table");
+        }
+        else {
+            url.append("main");
+        }
+        String evidenceCode = EvidenceCode.getName(evidence);
+        url.append(".html?term="+term.getAccId()+"&id="+rgdId+"\" title=\""+ evidenceCode +"\">"+evidence+"</a>");
+
+        if (!this.evidence.contains(evidence))
+            this.evidence += url.toString();
 
         // load the evidence
         StringBuilder buf = new StringBuilder(evidence);
@@ -114,6 +161,7 @@ public class OntAnnotation  {
     public void setRefRgdIds(String refRgdIds) throws Exception {
         if( refRgdIds!=null ) {
             this.reference = "";
+
             List<Integer> rgdIds = new ArrayList<Integer>();
             for(String refRgdId: refRgdIds.split(", ") ) {
                 int rgdId = 0;
@@ -191,11 +239,19 @@ public class OntAnnotation  {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS;
     }
 
+    public String getObjectTypeInitial() {
+        if( rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ) {
+            return "CL";
+        }
+        return getRgdObjectName().substring(0,1).toUpperCase();
+    }
+
     public String getRgdObjectName() {
         return this.rgdObjectKey== RgdId.OBJECT_KEY_GENES ? "gene" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_QTLS ? "qtl" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_STRAINS ? "strain" :
             this.rgdObjectKey== RgdId.OBJECT_KEY_VARIANTS ? "variant" :
+            this.rgdObjectKey== RgdId.OBJECT_KEY_CELL_LINES ? "cellline" :
             "unknown";
     }
 
@@ -219,8 +275,22 @@ public class OntAnnotation  {
         return evidence;
     }
 
-    public void setEvidence(String evidence) {
-        this.evidence = evidence;
+    public void setEvidence(String evidence, Term term) throws Exception {
+
+        StringBuilder url = new StringBuilder();
+        if (!this.evidence.isEmpty())
+            url.append("<br>");
+        url.append("<a href=\"/rgdweb/report/annotation/");
+        if( term.getAccId().startsWith("CHEBI") )
+        {
+            url.append("table");
+        }
+        else {
+            url.append("main");
+        }
+        url.append(".html?term="+term.getAccId()+"&id="+rgdId+"\" title=\""+ EvidenceCode.getName(evidence) +"\">"+evidence+"</a>");
+        if (!this.evidence.contains(evidence))
+            this.evidence += url.toString();
     }
 
     public String getDataSource() {
@@ -245,5 +315,115 @@ public class OntAnnotation  {
 
     public void setNotes(String notes) {
         this.notes = notes==null ? "" : notes;
+    }
+
+    public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
+        edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
+        List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
+
+        for (int i = 0 ; i < ensemblData.size() ; i++) { //MapData ensData : ensemblData) {
+            chrEns = ensemblData.get(i).getChromosome().toUpperCase();
+            if( chrEns.length()==1 )
+                chrEns = " "+chrEns;
+            if( chrEns.endsWith("X")||chrEns.endsWith("Y")||chrEns.endsWith("T") )
+                chrEns = " "+chrEns;
+
+            startPosEns = _numFormat.format(ensemblData.get(0).getStartPos());;
+            stopPosEns = _numFormat.format(ensemblData.get(0).getStopPos());;
+
+            fullEnsPos += "<br>Ensembl\tchr"+chrEns+":"+startPosEns+"..."+stopPosEns;
+            fullEnsPos = fullEnsPos.replaceAll("\\s", "&nbsp;");
+
+            if(JBrowseLink == null){
+                StringBuilder buf = new StringBuilder(128);
+                buf.append("/jbrowse/?highlight=&data=");
+                if( speciesTypeKey== SpeciesType.RAT ){
+                    buf.append("data_rgd6");
+                }else if( speciesTypeKey==SpeciesType.MOUSE ){
+                    buf.append("data_mm38"); // was mm37
+                }else if( speciesTypeKey==SpeciesType.HUMAN ){
+                    buf.append("data_hg38"); // was hg19
+                }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
+                    buf.append("data_cl1_0");
+                }else if (speciesTypeKey==SpeciesType.DOG) {
+                    buf.append("data_dog3_1");
+                }else if (speciesTypeKey==SpeciesType.BONOBO) {
+                    buf.append("data_bonobo1_1");
+                }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
+                    buf.append("data_squirrel2_0");
+                }else if (speciesTypeKey==SpeciesType.PIG) {
+                    buf.append("data_pig11_1");
+                }
+
+                if( isGene() ) {
+                    buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
+                } else if( isQtl() ) {
+                    buf.append("&tracks=AQTLS");
+                } else if( isStrain() ) {
+                    buf.append("&tracks=CongenicStrains,MutantStrains");
+                }
+
+                buf.append("&loc=");
+                buf.append(FormUtility.getJBrowseLoc(ensemblData.get(0)));
+
+                JBrowseLink = buf.toString();
+            }
+
+        }
+    }
+
+    public void setFullNcbiPos(){
+        fullNcbiPos = "NCBI\tchr"+chr+":"+startPos+"..."+stopPos;
+        fullNcbiPos = fullNcbiPos.replaceAll("\\s", "&nbsp;");
+    }
+
+    public void addToNcbiPos(String newChr, String newStartPos, String newStopPos){
+        fullNcbiPos += "<br>NCBI\tchr"+newChr+":"+newStartPos+"..."+newStopPos;
+        fullNcbiPos = fullNcbiPos.replaceAll("\\s", "&nbsp;");
+    }
+
+    public String getChrEns()   { return chrEns;  }
+
+    public String getStartPosEns()  {   return startPosEns; }
+
+    public String getStopPosEns()   {   return stopPosEns;    }
+
+    public String getFullEnsPos()   {   return fullEnsPos;  }
+
+    public String getFullNcbiPos()  {   return fullNcbiPos; }
+
+    public String getRgdRefSource() {   return rgdRefSource;    }
+
+    public void setRgdRefSource(String rgdRefSource) throws Exception {
+        this.rgdRefSource = AnnotationFormatter.formatXdbUrls(rgdRefSource, rgdObjectKey);
+    }
+
+    public String getReferenceTurnedRGDRef(){  return referenceTurnedRGDRef;  }
+
+    public void setReferenceTurnedRGDRef(String referenceTurnedRGDRef){
+        if (this.referenceTurnedRGDRef.isEmpty())
+            this.referenceTurnedRGDRef = referenceTurnedRGDRef;
+        else
+            this.referenceTurnedRGDRef += ", "+referenceTurnedRGDRef;
+
+    }
+
+    public String getHiddenPmId(){
+        return hiddenPmId;
+    }
+    public void setHiddenPmId(int rgdId) throws Exception{
+        Reference ref = ReferencePipelines.rdao.getReferenceByRgdId(rgdId);
+        XdbIdDAO xdbDAO = new XdbIdDAO();
+        List pmIds = xdbDAO.getXdbIdsByRgdId(2, ref.getRgdId());
+
+        String pmId = "";
+        if (pmIds.size() > 0) {
+            pmId = xdbDAO.getXdbIdsByRgdId(2, ref.getRgdId()).get(0).getAccId();
+        }
+
+        if (hiddenPmId.isEmpty())
+            hiddenPmId = "<a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
+        else
+            hiddenPmId += ", <a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
     }
 }

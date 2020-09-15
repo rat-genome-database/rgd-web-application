@@ -45,7 +45,7 @@ public class OntAnnotBean extends OntBaseBean {
     static {
         sortByChoices = new ArrayList<String>();
         sortByChoices.add("symbol");
-        sortByChoices.add("name");
+        sortByChoices.add("object name");
         sortByChoices.add("position");
         sortByChoices.add("reference");
 

@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%-- requires the following declarations in the master file:
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -103,7 +104,6 @@
         <tr>
             <td colspan="2"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
                 show annotations for term's descendants
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" <c:if test="${bean.extendedView}">checked="checked"</c:if> onclick="addParamToLocHref('x','<%=bean.isExtendedView()?0:1%>','#annot')" title="show more details"> view all columns</li>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:<%=fu.buildSelectList("sort_by\" onChange=\"addParamToLocHref('sort_by',this.options[selectedIndex].text,'#annot')", bean.getSortByChoices(), bean.getSortBy())%>
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
                         value="0" <c:if test="${bean.sortDesc==false}">selected="selected"</c:if>>&uarr; asc</option><option
@@ -158,7 +158,9 @@
                         <li <c:if test="${bean.objectKey==7}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','7','#annot')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
                         <% } %>
 
-
+                        <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids) > 0) { %>
+                        <li <c:if test="${bean.objectKey==11}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','11','#annot')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
+                        <% } %>
                     </ul>
                 </div>
             </td></tr>
@@ -226,27 +228,37 @@
                             <% } %>
                          </td>
                      </tr>
+
                  </table>
              </tr>
              <tr class='headerRow'>
-                 <td></td>
+                 <colgroup>
+                     <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
+                     <col span="1" style="width: 6%;"> <%-- Symbol --%>
+                     <col span="1" style="width: 14%;"> <%-- Obj name --%>
+                     <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
+                     <col span="1" style="width: 4%;"> <%-- Evidence --%>
+                     <col span="1" style="width: 22%;"><%-- notes --%>
+                     <col span="1" style="width: 5%;"><%-- source --%>
+                     <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
+                     <col span="1" style="width: 13%;"><%-- RGD Reference --%>
+                     <col span="1" style="width: 11%;"><%-- Position --%>
+                     <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
+                 </colgroup>
+                 <td 10%></td>
                  <c:if test="${bean.speciesTypeKey==0}"><td></td></c:if>
                  <td><b>Symbol</b></td>
                  <td><b>Object Name</b></td>
-                 <td><b>JBrowse</b></td>
-                 <c:if test="${bean.extendedView}">
+
                  <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
                  <td><b>Evidence</b></td>
-                 </c:if>
-                 <td><b>Chr</b></td>
-                 <td><b>Start</b></td>
-                 <td><b>Stop</b></td>
-                 <td><b>Reference</b></td>
-                 <c:if test="${bean.extendedView}">
-                 <td><b>Source</b></td>
-                 <td><b>Original Reference(s)</b></td>
+
                  <td><b>Notes</b></td>
-                 </c:if>
+                 <td><b>Source</b></td>
+                 <td><b>PubMed Reference(s)</b></td>
+                 <td><b>RGD Reference(s)</b></td>
+                 <td align="right"><b>Position</b></td>
+                 <td> </td>
              </tr>
             <% int row=0;
                   for( OntAnnotation annot: entry.getValue() ) {
@@ -256,7 +268,7 @@
                   else
                     out.print("<tr class='evenRow'>"); %>
 
-                <td class="objtag_<%=annot.getRgdObjectName()%>" title=" <%=annot.getRgdObjectName()%> "><%=annot.getRgdObjectName().substring(0,1).toUpperCase()%></td>
+                <td class="objtag_<%=annot.getRgdObjectName()%>" title=" <%=annot.getRgdObjectName()%> "><%=annot.getObjectTypeInitial()%></td>
                 <c:if test="${bean.speciesTypeKey==0}"><td title="<%=speciesName%>"><%=speciesName.substring(0, 1)%></td></c:if>
 
                 <% //check to see if symbol should be used by tool submit logic
@@ -267,27 +279,57 @@
                 %>
                 <td><a <%=toolSubmitClass%> href="/rgdweb/report/<%=annot.getRgdObjectName()%>/main.html?id=<%=annot.getRgdId()%>"><%=annot.getSymbol()%></a></td>
                 <td><%=annot.getName()%></td>
+                    <td><%=annot.getQualifier()%></td>
+                <td><%=annot.getEvidence()%></td>
+<%--                <td><a href="/rgdweb/report/annotation/<%--%>
+<%--                    if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }--%>
+<%--                   %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>--%>
+
+                <td><%=annot.getNotes()%></td>
+                <td><%  if (annot.getReference().isEmpty())
+                            out.print(annot.getDataSource());
+                        else
+                            out.print(annot.getReference());%></td>
+
+                <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty())
+                            out.print(annot.getXrefSource());
+                        else if (!annot.getHiddenPmId().isEmpty() && annot.getXrefSource().isEmpty())
+                            out.print(annot.getHiddenPmId());
+                        else if (!annot.getHiddenPmId().isEmpty() && ! annot.getXrefSource().isEmpty())
+                            out.print(annot.getXrefSource()+", "+annot.getHiddenPmId());
+                        %></td>
+
+                <td><%  if (annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) // added references exist while rgdRef DNE
+                            out.print(annot.getReferenceTurnedRGDRef());
+                        else if (!annot.getRgdRefSource().isEmpty() && annot.getReferenceTurnedRGDRef().isEmpty()) { // added references DNE while rgdRef exists
+                            String newSource = annot.getRgdRefSource().replace("REF_RGD_ID", "RGD");
+                            out.print(newSource);
+                        }
+                        else  if(!annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) { // both exist
+                            String newSource = annot.getRgdRefSource().replace("REF_RGD_ID", "RGD");
+                            out.print(newSource+", "+annot.getReferenceTurnedRGDRef());
+                        }
+                %></td>
+
+
+                <td align="right">
+                    <%if(!annot.getChr().trim().isEmpty()){
+                        out.print(annot.getFullNcbiPos());
+                        if(annot.getChrEns()!=null){%>
+                    <%=annot.getFullEnsPos()%>
+                    <% }
+                    } // end if NCBI is not whitespace
+                    else
+                    if(annot.getChrEns()!=null){
+                        out.print(annot.getFullEnsPos().substring(4) );
+                    }%>
+                </td>
                 <td><% String jbrowseLink = annot.getJBrowseLink();
                     if( jbrowseLink!=null ) {%>
-                      <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="80" src="/rgdweb/common/images/jbrowse.png"/></a>
-                <%}%></td>
-                <c:if test="${bean.extendedView}">
-                    <td><%=annot.getQualifier()%></td>
-                <td><a href="/rgdweb/report/annotation/<%
-                    if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }
-                   %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>
-                </c:if>
-                <td class="mid"><%=annot.getChr()%></td>
-                <td class="num"><%=annot.getStartPos()%></td>
-                <td class="num"><%=annot.getStopPos()%></td>
-                <td><%=annot.getReference()%></td>
-                <c:if test="${bean.extendedView}">
-                <td><%=annot.getDataSource()%></td>
-                <td><%=annot.getXrefSource()%></td>
-                <td><%=annot.getNotes()%></td>
-                </c:if>
+                    <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
+                    <%}%></td>
               </tr>
-            <% }} %>
+            <% }    } %>
 
             </tr>
         </table>
