@@ -42,7 +42,7 @@ for (Object thisObject: compareHomologs) {
     Gene g = (Gene) thisObject;
 %>
     <tr >
-        <td style="background-color:#e0e2e1;" ><b><%=g.getSymbol()%><br>(<%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%> - <%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%>)</b></td>
+        <td class="report-page-grey" ><b><%=g.getSymbol()%><br>(<%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%> - <%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%>)</b></td>
         <td><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol())%></td>
     </tr>
 

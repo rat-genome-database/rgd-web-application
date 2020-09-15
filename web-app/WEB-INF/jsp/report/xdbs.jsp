@@ -35,13 +35,13 @@
                    }
             %>
 
-               <td style="background-color:#e2e2e2;"><b><%=xdb.getName()%></b></td>
+               <td class="report-page-grey"><b><%=xdb.getName()%></b></td>
            <% } else {%>
-               <td style="background-color:#e2e2e2;">&nbsp;</td>
+               <td class="report-page-grey">&nbsp;</td>
            <% }
               if( lastLink == null ) {
            %>
-               <td style="background-color:#e2e2e2;"><%=xid.getAccId()%></td>
+               <td class="report-page-grey"><%=xid.getAccId()%></td>
            <% } else {
 
                String link=xid.getLinkText()==null?xid.getAccId():xid.getLinkText();
@@ -54,8 +54,8 @@
                    fullUrl = lastLink + xid.getAccId();
                }
            %>
-           <td style="background-color:#e2e2e2;"><a href="<%=fullUrl%>"><%=link%></a></td>
-           <td style="background-color:#e2e2e2;"><%=Utils.defaultString(xid.getSrcPipeline())%></td>
+           <td class="report-page-grey"><a href="<%=fullUrl%>"><%=link%></a></td>
+           <td class="report-page-grey"><%=Utils.defaultString(xid.getSrcPipeline())%></td>
           <% } %>
     </tr>
 <%

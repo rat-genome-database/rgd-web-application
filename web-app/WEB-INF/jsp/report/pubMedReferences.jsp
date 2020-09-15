@@ -41,19 +41,19 @@
     %>
 <%--Beggining of row--%>
         <tr>
-            <td style="background-color:#e2e2e2;">
+            <td class="report-page-grey">
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
             </td>
 
     <% }else if(i % 14 == 13){ %>
 <%--            End of Row--%>
-            <td style="background-color:#e2e2e2;">
+            <td class="report-page-grey">
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
             </td>
         </tr>
   <% }else{%>
 <%--middle item--%>
-            <td style="background-color:#e2e2e2;">
+            <td class="report-page-grey">
                 <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
             </td>
     <% }

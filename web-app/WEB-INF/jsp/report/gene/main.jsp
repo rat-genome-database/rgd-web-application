@@ -74,7 +74,9 @@
 <script
         src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+
+</script>
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -132,12 +134,13 @@
     }
 
 
-
+    .report-page-grey{
+        background-color: #f1f1f1;
+    }
 
     /* The side navigation menu */
     #reportMainSidebar {
         width: 200px;
-        background-color: #f1f1f1;
         height: 90vh;
         overflow-y: hidden;
         margin-bottom: 0px;
@@ -218,6 +221,13 @@
     .ref-seq-flex-order :nth-child(3){order: 4;}
     .ref-seq-flex-order :nth-child(4){order: 3;}
 
+    .reportTable{
+        display: flex;
+        overflow-x: auto;
+        flex-flow: column wrap;
+
+    }
+
 </style>
 
 
@@ -233,7 +243,7 @@
     <div id="species-image">
      <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
     </div>
-<nav id="reportMainSidebar" class="navbar">
+<nav id="reportMainSidebar" class="navbar report-page-grey">
     <ul class="navbar-nav" id="navbarUlId">
         <li class="nav-item" id="summary"><a class="nav-link active" href="#top">Summary</a></li>
     </ul>
