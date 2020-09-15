@@ -1,14 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="edu.mcw.rgd.ontology.OntAnnotation" %>
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.TermSynonym" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.TermWithStats" %>
 <%@ page import="java.util.*" %>
-<%@ page import="edu.mcw.rgd.ontology.OntViewBean" %>
-<%@ page import="edu.mcw.rgd.ontology.OntDotController" %>
-<%@ page import="edu.mcw.rgd.ontology.OntAnnotBean" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.*" %>
+<%@ page import="edu.mcw.rgd.ontology.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntAnnotBean" />
 <% String headContent = "\n" +
@@ -46,15 +41,44 @@
    String pageTitle = bean.getTerm().getTerm()+" - Ontology Report - " + RgdContext.getLongSiteName(request);
    String pageDescription = pageTitle;
 %>
-
+<style type="text/css">
+    body {
+        /*overflow-x:hidden*/
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
 <%@ include file="ontHeader.jsp"%>
 <div style="margin-left:10px;">
 
     <table width="100%">
+        <%  String[] ontologyAbr = bean.getAccId().split(":");
+            String OntPrefix = ontologyAbr[0];
+            if(OntPrefix.equals("DOID"))
+                OntPrefix = "RDO";
+            else if(OntPrefix.equals("BP") || OntPrefix.equals("CC") || OntPrefix.equals("P"))
+                OntPrefix = "GO";
+            String ontology = "ONTOLOGY REPORT", source = null;
+            OntologyXDAO dao = new OntologyXDAO();
+            Ontology onto = dao.getOntology(OntPrefix);
+            if(onto != null) {
+                String[] anotherOntAbr = onto.getName().split(":");
+                ontology = anotherOntAbr[1].toUpperCase();
+                source = onto.getDescription();
+            }
+        %>
         <tr>
-            <td><h2>ONTOLOGY REPORT - ANNOTATIONS</h2></td>
+            <td><h2> <%=ontology%> - ANNOTATIONS </h2></td>
             <td align="center"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
 
+        </tr>
+        <tr>
+            <td bgcolor="#d3d3d3">
+                <%if(source != null){
+                    out.print(source); // possible not needed
+                }%>
+            </td>
         </tr>
     </table>
 
@@ -64,7 +88,6 @@
   <%-- <a name="top"/>  <!-- for sme reason this line causes links in GViewer stop working --> --%>
   <hr/>
   <br>
-<% System.out.println("a"); %>
     <table width="100%">
         <tr>
             <td align="center">
@@ -285,5 +308,4 @@ try {
 </script>
 <% } %>
 
-<% System.out.println("hey"); %>
 <%@ include file="/common/footerarea.jsp"%>
