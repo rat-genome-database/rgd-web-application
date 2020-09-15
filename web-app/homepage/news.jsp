@@ -17,6 +17,7 @@
                         <p><a href="/wg/news/surge-workshop-2019/">07/08 - Registration is open for the 2019 Summer of Rat Genetics and Genomics Workshop (SuRGe)</a></p>
                         <p><a href="/wg/chinchilla/">06/04 - RGD releases the new Chinchilla Portal: Consolidated access to Chinchilla data and tools</a></p>
                         <p><a href="/wg/news/04-25-rgd_announces_release_of_moet_the_multi-ontology_enrichment_tool/">04/25 - RGD Announces the release of MOET, a versatile new Multi-Ontology Enrichment Tool</a></p>
+                        <p><a href="/wg/news/04-25-rgd_announces_release_of_moet_the_multi-ontology_enrichment_tool/">04/25 - RGD Announces the release of MOET, a versatile new Multi-Ontology Enrichment Tool</a></p>
 
 
 
