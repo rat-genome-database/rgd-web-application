@@ -20,7 +20,7 @@
         <br>
     </div>
     <section v-if="pair.info != 0">
-        <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span> &nbsp;&nbsp;<button v-if="!loading" type="button" class="btn btn-info" @click="download(pair.info)" >Download</button>
+        <span style="font-size:22px;font-weight:700;">{{pair.spec}}</span> &nbsp;&nbsp;<button v-if="!loading" type="button" class="btn btn-info" @click="download(pair.info)" >Download Result Set</button>
         <div style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px;width: 1200px; "> Orthologs:
             <span v-for="gene in pair.genes" class="gene">
               {{gene.symbol}},&nbsp;</span>
@@ -36,6 +36,7 @@
 
                             <th v-on:click="sort('term',pair.spec)"> Term <i class="fa fa-fw fa-sort"></i></th>
                             <th v-on:click="sort('count',pair.spec)">Annotated Genes <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('refCount',pair.spec)">Ref Genes <i class="fa fa-fw fa-sort"></i></th>
                             <th v-on:click="sort('pvalue',pair.spec)">P-Value <i class="fa fa-fw fa-sort"></i></th>
                             <th v-on:click="sort('correctedpvalue',pair.spec)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
                         </tr>
@@ -50,6 +51,7 @@
                             <td  @click="getGenes(record.acc,pair.spec)"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 {{record.count}}
                             </button></td>
+                            <td> {{record.refCount}}</td>
                             <td> {{record.pvalue}}</td>
                             <td>{{record.correctedpvalue}}</td>
                         </tr>
