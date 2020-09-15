@@ -21,14 +21,14 @@
     <section v-if="pair.info != 0">
         <span style="font-size:22px;font-weight:700;">{{getOntologyTitle(pair.ont)}}</span> &nbsp;&nbsp;<button v-if="!loading" type="button" class="btn btn-info" @click="download(pair.info)" >Download Result Set</button>
 
-        <div v-if="orthologs" style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1200px; ">  Orthologs:
+        <div v-if="orthologs" style="color:#2865a3; font-size:14px; font-weight:500; height:55px; overflow-y: scroll;padding:10px; width: 1300px; ">  Orthologs:
             <span v-for="gene in pair.genes" class="gene">
               {{gene.symbol}},&nbsp;</span>
         </div>
 
         <table>
             <tr><td v-if ="table">
-                <div style="overflow:auto; height:600px; width:500px; margin-left:10px; background-color:white; ">
+                <div style="overflow:auto; height:600px; width:600px; margin-left:10px; background-color:white; ">
 
 
                     <table id="t">
