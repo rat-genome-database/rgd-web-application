@@ -194,8 +194,8 @@
         margin-top: -10px;
     }
     .sectionHeading {
-        color: #0d10a3;
-        font-size: 14px;
+        color: #2865A3;
+        font-size: 16px;
         font-weight: 700;
         font-style: italic;
 

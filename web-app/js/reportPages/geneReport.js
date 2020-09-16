@@ -165,7 +165,10 @@ function buildNucleotideReferenceSequencesTable(){
         document.getElementsByClassName('nucleotideReferenceSequencesInnerTable')
     );
     let rowArray = buildRowArrayFromTableArray(tableArray);
-    tableArray[0].remove();
+    if(tableArray[0] !== undefined){
+        tableArray[0].remove();
+    }
+
     return buildReferenceTable(rowArray);
 }
 
