@@ -45,7 +45,7 @@ function OrthologVue(divId) {
                 else v.outMaps=[];
 
                 axios
-                    .get(this.hostName + '/rgdws/maps/'+species+'/'+'NCBI')
+                    .get(this.hostName + '/rgdws/maps/'+species)
                     .then(function (response) {
                         v.maps = (response.data);
 

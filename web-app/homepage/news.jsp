@@ -16,7 +16,7 @@
                         <p><a href="/wg/news/08-23-rgd-releases-golf-the-gene-and-ortholog-location-finder/">08/23 - RGD releases GOLF, the Gene and Ortholog Location Finder tool</a></p>
                         <p><a href="/wg/news/surge-workshop-2019/">07/08 - Registration is open for the 2019 Summer of Rat Genetics and Genomics Workshop (SuRGe)</a></p>
                         <p><a href="/wg/chinchilla/">06/04 - RGD releases the new Chinchilla Portal: Consolidated access to Chinchilla data and tools</a></p>
-                        <p><a href="/wg/news/04-25-rgd_announces_release_of_moet_the_multi-ontology_enrichment_tool/">04/25 - RGD Announces the release of MOET, a versatile new Multi-Ontology Enrichment Tool</a></p>
+                        <p><a href="https://www.google.com/search?q=rat+genome+database&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj8zoin7e3rAhXSXc0KHVh4CIEQ_AUoAXoECAsQAw&biw=1366&bih=527">Cody's Test</a></p>
 
 
 
