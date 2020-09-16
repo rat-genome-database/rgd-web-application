@@ -16,8 +16,8 @@
 
 %>
 
-<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>
-
+<%--<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>--%>
+<div class="sectionHeading" id="geneAsscociation"><%=geneAssotitle%>></div>
 <table>
     <tr>
         <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -51,7 +51,7 @@
         out.print(r.format(new HTMLTableReportStrategy()));
     %>
 <br>
-<%=ui.dynClose("geneAsscociation")%>
+<%--<%=ui.dynClose("geneAsscociation")%>--%>
 
 <% } %>
 

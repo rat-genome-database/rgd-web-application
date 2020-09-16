@@ -9,7 +9,8 @@
     Map<Integer, String> relQtls = associationDAO.getQtlToQtlAssociations(obj.getKey());
     if (relQtls!=null && relQtls.size()>0) {
 %>
-<%=ui.dynOpen("relQtls", "Related QTLs")%>
+<%--<%=ui.dynOpen("relQtls", "Related QTLs")%>--%>
+<div class="sectionHeading" id="relatedQTLs">Related QTLs</div>
 <%
     Set<Integer> relQtlKeys = relQtls.keySet();
 %>
@@ -36,6 +37,6 @@
     %>
 </table>
 <br>
-<%=ui.dynClose("relQtls")%>
+<%--<%=ui.dynClose("relQtls")%>--%>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

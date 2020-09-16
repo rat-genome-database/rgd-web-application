@@ -9,8 +9,8 @@
 
 <% String markAssotitle = "Markers in Region (" + refMap.getName() + ")";            %>
 
-<%=ui.dynOpen("mark2Asscociation", markAssotitle)%>    <br>
-
+<%--<%=ui.dynOpen("mark2Asscociation", markAssotitle)%>    <br>--%>
+<div class="sectionHeading" id="mark2Asscociation"><%=markAssotitle%>></div>
 <table>
     <tr>
         <td>The following <b>Markers</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -51,7 +51,7 @@
                     }
 
                 %>
-<%=ui.dynClose("mark2Asscociation")%>
+<%--<%=ui.dynClose("mark2Asscociation")%>--%>
 
 <%@ include file="sectionFooter.jsp"%>
 
