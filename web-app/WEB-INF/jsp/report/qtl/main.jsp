@@ -81,6 +81,10 @@
         }
     }
 </script>
+<div id="page-container"></div>
+
+<%--Where sidebar should go--%>
+
 
 <table width="95%" border="0">
     <tr>

@@ -243,11 +243,13 @@
     <div id="species-image">
      <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
     </div>
-<nav id="reportMainSidebar" class="navbar report-page-grey">
-    <ul class="navbar-nav" id="navbarUlId">
-        <li class="nav-item" id="summary"><a class="nav-link active" href="#top">Summary</a></li>
-    </ul>
-</nav>
+
+<%--<nav id="reportMainSidebar" class="navbar report-page-grey">--%>
+<%--    <ul class="navbar-nav" id="navbarUlId">--%>
+<%--        <li class="nav-item" id="summary"><a class="nav-link active" href="#top">Summary</a></li>--%>
+<%--    </ul>--%>
+<%--</nav>--%>
+    <%@ include file="../reportSidebar.jsp"%>
 </div>
 
 
@@ -371,7 +373,7 @@
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
-                    <%}%>
+
                 </td>
                 <td>&nbsp;</td>
 <%--                <td valign="top">--%>
@@ -386,7 +388,7 @@
     </table>
     </div>
 </div>
-
+<% } %>
     <footer id="footer">
         <%@ include file="../reportFooter.jsp"%>
         <%@ include file="/common/footerarea.jsp"%>
