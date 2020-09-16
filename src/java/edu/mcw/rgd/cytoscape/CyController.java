@@ -81,7 +81,6 @@ public class CyController implements Controller {
 
         int interactionCount= this.getInteractionsCount(resultSet);
         List<String> nodes= nodeManager.getNodes(resultSet);
-        System.out.println("nodes SIZE:"+nodes.size());
         if(nodes!=null) {
            if (nodes.size() > 0) {
                List<String> edges = nodeManager.getEdges();

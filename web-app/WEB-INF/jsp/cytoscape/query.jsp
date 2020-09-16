@@ -120,7 +120,7 @@
                             </table>
                         </td>
                         <td style="padding-left:30px;">
-                            Example: P35900, P26769,Q03343,<br>
+                            Example: P35900, P26769, Q03343<br>
                             <c:choose>
                                 <c:when test="${model.symbolList!=null}">
                                     <textarea id="identifiers" name="identifiers"  rows="12" cols=70  >${model.symbolList}</textarea>
