@@ -71,12 +71,7 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-<script
-        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-        crossorigin="anonymous">
 
-</script>
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -94,16 +89,7 @@
 "license": "Creative Commons CC BY 4.0"
 }
 </script>
-<script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 
-
-    <script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
-    <link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
-
-<link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
 
 <%

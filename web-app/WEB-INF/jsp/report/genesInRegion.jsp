@@ -17,7 +17,8 @@
 %>
 
 <%--<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>--%>
-<div class="sectionHeading" id="geneAsscociation"><%=geneAssotitle%>></div>
+<div id="geneAssociationTableDiv" class="light-table-border">
+<div class="sectionHeading" id="geneAsscociation">Genes in Region</div>
 <table>
     <tr>
         <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -52,7 +53,7 @@
     %>
 <br>
 <%--<%=ui.dynClose("geneAsscociation")%>--%>
-
+</div>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

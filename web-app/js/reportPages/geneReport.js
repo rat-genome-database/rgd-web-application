@@ -126,7 +126,7 @@ function extractRows(parentTable){
     let rowArray = [];
     let tableArray = [];
     let tableCells = parentTable.rows[0].cells;
-
+    console.log(parentTable.parentNode);
     for(let i =0; i < tableCells.length; i++){
         tableArray.push(tableCells[i].childNodes[0])
 
@@ -197,8 +197,10 @@ function buildAnnotationTable(rowArray){
 
             if(rowArray[colOne].childNodes.length > 1){
                 tr.appendChild(rowArray[colOne].childNodes[1]);
+
             }else{
                 tr.appendChild(rowArray[colOne].childNodes[0]);
+
             }
 
             if(!(colTwo >= rowArray.length)){

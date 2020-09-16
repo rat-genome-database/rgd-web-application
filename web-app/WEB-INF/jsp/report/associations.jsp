@@ -523,24 +523,55 @@
 </table>
 <%  }else if(isReferenceRgd==0){
     if (clList.size() > 0) { %>
+
+<div class="reportTable light-table-border" id="cellOntologyAnnotationsTableWrapper">
+
+
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
-<%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
+
+    <div id="cellOntologyAnnotationsTable">
+        <%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
+    </div>
+</div>
 <% } %>
 <% if (cmoList.size() > 0) { %>
+
+<div class="reportTable light-table-border" id="clinicalMeasurementAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
-<%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
+
+    <div id="clinicalMeasurementAnnotationsTable">
+        <%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
+    </div>
+
+</div>
 <% } %>
-<% if (xcoList.size() > 0) { %>
+<% if (xcoList.size() > 0) {  %>
+
+<div class="reportTable light-table-border" id="experimentalConditionAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
-<%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
+
+    <div id="experimentalConditionAnnotationsTable">
+        <%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
+    </div>
+</div>
+
 <% } %>
 <% if (mmoList.size() > 0) { %>
+<div class="reportTable light-table-border" id="measurementMethodAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
-<%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
+    <div id="measurementMethodAnnotationsTable">
+        <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
+    </div>
+</div>
 <% } %>
 <% if (rsList.size() > 0) { %>
+<div class="reportTable light-table-border" id="ratStrainAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
-<%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
+
+    <div id="ratStrainAnnotationsTable">
+        <%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
+    </div>
+</div>
 <% } %>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
@@ -549,8 +580,13 @@
        <%=af.createGeoAnnotationsTable(maList, rsList)%>
 <% } --%>
 <% if (vtList.size() > 0) { %>
+    <div class="reportTable light-table-border" id="vertebrateTraitAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
-<%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
+
+        <div id="vertebrateTraitAnnotationsTable">
+            <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
+        </div>
+    </div>
 <% }
 }
 %>

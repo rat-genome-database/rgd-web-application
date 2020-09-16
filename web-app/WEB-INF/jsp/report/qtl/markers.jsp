@@ -23,6 +23,7 @@
 
 
 <%--<%=ui.dynOpen("markAssociation", "Position Markers")%>--%>
+<div id="markAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="markAssociation">Position Markers</div>
 <%
 
@@ -84,7 +85,7 @@
 <br>
 
 <%--<%=ui.dynClose("markAssociation")%>--%>
-
+</div>
 <% } %>
 
 
