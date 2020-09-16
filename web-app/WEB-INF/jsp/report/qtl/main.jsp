@@ -101,7 +101,7 @@
         <td>
             <%@ include file="info.jsp"%>
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>
 
@@ -112,12 +112,14 @@
                 <%@ include file="../associations.jsp"%>
             </div>
 
+
+            <div class ="subTitle" id="references">References</div>
             <%@ include file="../references.jsp"%>
             <%@ include file="../pubMedReferences.jsp"%>
             <%@ include file="relatedQtls.jsp"%>
 
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Region</div><br>
+            <br><div class="subTitle" id="region">Region</div><br>
 
 <%
     SearchBean sb = new SearchBean();
@@ -131,7 +133,7 @@
             <%@ include file="../qtlsInRegion.jsp"%>
             <%@ include file="../relatedStrains.jsp"%>
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Additional Information</div><br>
+            <br><div class="subTitle" id="additionalInformation" >Additional Information</div><br>
 
             <%@ include file="../xdbs.jsp"%>
             <%@ include file="../nomen.jsp"%>
@@ -149,7 +151,8 @@
     </div>
 </div>
 <% } %>
-
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
-
+<footer id="footer">
+    <%@ include file="../reportFooter.jsp"%>
+    <%@ include file="/common/footerarea.jsp"%>
+</footer>
+<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
