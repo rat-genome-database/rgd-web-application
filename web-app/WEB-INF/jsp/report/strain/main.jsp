@@ -161,7 +161,7 @@
         <td align="right" valign="top">
             <%@ include file="links.jsp" %>
             <br>
-            <%@ include file="../idInfo.jsp" %>
+<%--            <%@ include file="../idInfo.jsp" %>--%>
         </td>        
     </tr>
  </table>
