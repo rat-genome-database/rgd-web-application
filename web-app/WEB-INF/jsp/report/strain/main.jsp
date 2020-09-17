@@ -125,7 +125,7 @@
             <%@ include file="mutants.jsp"%>
 
             <br>
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
             <br>
             <%@ include file="diseaseModels.jsp"%>
             <div id="associationsCurator" style="display:none;">
@@ -134,14 +134,14 @@
             </div>
             <div id="associationsStandard" style="display:block;">
                 <%@ include file="../associations.jsp"%>
-                <%@ include file="phenominer.jsp"%>
+<%--                <%@ include file="phenominer.jsp"%>--%>
             </div>
 
             <%@ include file="../references.jsp"%>
             <%@ include file="../pubMedReferences.jsp"%>
 
             <br>
-            <div class="subTitle">Region</div>
+            <div class="subTitle" id="region">Region</div>
             <br>
             <%@ include file="../cellLines.jsp"%>
             <%@ include file="markers.jsp"%>

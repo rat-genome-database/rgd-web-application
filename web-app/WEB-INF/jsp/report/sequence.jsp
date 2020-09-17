@@ -5,6 +5,7 @@
     if( seqList.size() > 0 ) {
 %>
 <%--<%=ui.dynOpen("sequenceAssociation", "Sequence")%>--%>
+<div class="sectionHeading" id="sequenceAssociation">Sequence</div>
 <table border="0">
     <%
         for (Sequence seq2: seqList) {

@@ -20,6 +20,7 @@
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociationC", "Phenotype Values via Phenominer")%>--%>
+<div class="sectionHeading" id="phenominerAssociationC">Phenotype Values via Phenominer</div>
 <%@ include file="../../ontology/phenoTable.jsp"%>
 <%--<%=ui.dynClose("phenominerAssociationC")%>--%>
 

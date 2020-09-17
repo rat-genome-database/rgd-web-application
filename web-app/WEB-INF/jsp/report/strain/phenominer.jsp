@@ -16,7 +16,7 @@
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
-
+<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via Phenominer</div>
 <table>
     <tr>
       <td><b>Options:&nbsp;</b></td>

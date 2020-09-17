@@ -15,6 +15,7 @@
 
     if(!strainAssocs.isEmpty()) { %>
 <%--<%=ui.dynOpen("markerAssociation", "Position Markers")%>--%>
+<div class="sectionHeading" id="markerAssociation">Position Markers</div>
 <table>
 <%
     for( Strain2MarkerAssociation sa: strainAssocs ) {

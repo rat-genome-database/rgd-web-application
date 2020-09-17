@@ -10,6 +10,7 @@
             if (!foundOne)  {
                 foundOne=true;
 //                out.println(ui.dynOpen("mutantAsscociation", "Mutant Strains"));
+                out.println("<div class=\"sectionHeading\" id=\"mutantAsscociation\">Mutant Strains</div>");
             }
 
             int rgdIdForStrain = ontologyDAO.getRgdIdForStrainOntId(term.getAccId());

@@ -17,6 +17,7 @@
 
 
 <%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
+<div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
 <table cellpadding="3" cellspacing="3" >
 <tr>
     <td><b>Symbol</b></td>

@@ -10,6 +10,7 @@
             if (!foundOne)  {
                 foundOne=true;
 //                out.println(ui.dynOpen("congenicAsscociation", "Congenic Strains"));
+                out.println("<div class=\"sectionHeading\" id=\"congenicAsscociation\">Congenic Strains</div>");
             }
 
             int rgdIdForStrain = ontologyDAO.getRgdIdForStrainOntId(term.getAccId());

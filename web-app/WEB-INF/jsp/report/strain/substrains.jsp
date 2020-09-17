@@ -6,7 +6,7 @@
 %>
 
 <%--<%=ui.dynOpen("subAsscociation", "Substrains")%>--%>
-
+<div class="sectionHeading" id="subAsscociation">Substrains</div>
 <%
     List records = new ArrayList();
     for (Strain strain: strains) {

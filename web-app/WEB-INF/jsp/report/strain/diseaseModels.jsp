@@ -17,6 +17,7 @@
 
 
 <%--<%=ui.dynOpen("diseaseModels", "Disease Models")%>--%>
+<div class="sectionHeading" id="diseaseModels">Disease Models</div>
 <br>
 <table>
     <tr>
