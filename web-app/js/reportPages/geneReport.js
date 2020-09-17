@@ -2,8 +2,11 @@ let tableArray = Array.from(
     document.getElementsByClassName("annotationTable"));
 
 iterateOverAndAppendNewTables(tableArray);
-addHeadAndIdToQtlTable();
 removeOldAnnotationTables(tableArray);
+addHeadAndIdToAssociationTable("qtlAssociationTableDiv");
+addHeadAndIdToAssociationTable("geneAssociationTableDiv");
+addHeadAndIdToAssociationTable("mark2AssociationTableDiv");
+
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -69,8 +72,8 @@ function appendTableToDiv(table, divId){
 }
 
 
-function addHeadAndIdToQtlTable(){
-    let qtlDiv = document.getElementById('qtlAssociationTableDiv');
+function addHeadAndIdToAssociationTable(tableDivId){
+    let qtlDiv = document.getElementById(tableDivId);
     if(qtlDiv !== null){
         let qtlTables = qtlDiv.getElementsByTagName('table');
         let table = qtlTables[1];
@@ -79,7 +82,7 @@ function addHeadAndIdToQtlTable(){
         let headerRow = table.rows[0];
         table.insertBefore(tHead, tBody );
         table.className = 'tablesorter';
-        table.id = "qtlAssociationTable";
+        table.id = tableDivId.substring(0, tableDivId.length-3);
         table.firstChild.append(headerRow);
     }
 
@@ -126,7 +129,6 @@ function extractRows(parentTable){
     let rowArray = [];
     let tableArray = [];
     let tableCells = parentTable.rows[0].cells;
-    console.log(parentTable.parentNode);
     for(let i =0; i < tableCells.length; i++){
         tableArray.push(tableCells[i].childNodes[0])
 
@@ -440,6 +442,26 @@ $(function () {
         .tablesorterPager({
             container: $('.qtlAssociationPager'),
             size: 10
+        });
+
+    $('#geneAssociationTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.geneAssociationPager'),
+            size: 20
+        });
+
+    $('#mark2AssociationTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.mark2AssociationPager'),
+            size: 20
         });
 
     $('#strainSequenceVariantsTable')

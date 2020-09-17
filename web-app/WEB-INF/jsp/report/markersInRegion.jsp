@@ -12,6 +12,27 @@
 <%--<%=ui.dynOpen("mark2Asscociation", markAssotitle)%>    <br>--%>
 <div id="mark2AssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="mark2Asscociation">Markers in Region</div>
+
+    <div class="modelsViewContent" >
+        <div class="mark2AssociationPager" class="pager" style="margin-bottom:2px;">
+            <form autocomplete="off">
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option  value="10">10</option>
+                    <option selected="selected" value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
 <table>
     <tr>
         <td>The following <b>Markers</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -52,6 +73,28 @@
                     }
 
                 %>
+
+    <div class="modelsViewContent" >
+        <div class="mark2AssociationPager" class="pager" style="margin-bottom:2px;">
+            <form autocomplete="off">
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option  value="10">10</option>
+                    <option selected="selected" value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
 <%--<%=ui.dynClose("mark2Asscociation")%>--%>
 </div>
 <%@ include file="sectionFooter.jsp"%>
