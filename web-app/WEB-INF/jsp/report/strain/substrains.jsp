@@ -5,7 +5,7 @@
     if (strains.size() > 0) {
 %>
 
-<%=ui.dynOpen("subAsscociation", "Substrains")%>
+<%--<%=ui.dynOpen("subAsscociation", "Substrains")%>--%>
 
 <%
     List records = new ArrayList();
@@ -15,7 +15,7 @@
     out.print(formatter.buildTable(records, 3));
 %>
 <br>
-<%=ui.dynClose("subAsscociation")%>
+<%--<%=ui.dynClose("subAsscociation")%>--%>
 
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

@@ -16,7 +16,7 @@
 %>
 
 
-<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>
+<%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
 <table cellpadding="3" cellspacing="3" >
 <tr>
     <td><b>Symbol</b></td>
@@ -55,7 +55,7 @@
 %>
 </table>
 
-<%=ui.dynClose("strainQtlAssociation")%>
+<%--<%=ui.dynClose("strainQtlAssociation")%>--%>
 
 <% } %>
 

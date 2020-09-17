@@ -16,7 +16,7 @@
 
 
 
-<%=ui.dynOpen("diseaseModels", "Disease Models")%>
+<%--<%=ui.dynOpen("diseaseModels", "Disease Models")%>--%>
 <br>
 <table>
     <tr>
@@ -37,7 +37,7 @@
 %>
 </table>
 <br>
-<%=ui.dynClose("diseaseModels")%>
+<%--<%=ui.dynClose("diseaseModels")%>--%>
 
 <% } %>
 

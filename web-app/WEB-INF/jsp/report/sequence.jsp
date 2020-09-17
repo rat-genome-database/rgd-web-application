@@ -4,7 +4,7 @@
     List<Sequence> seqList = sequenceDAO.getObjectSequences(obj.getRgdId());
     if( seqList.size() > 0 ) {
 %>
-<%=ui.dynOpen("sequenceAssociation", "Sequence")%>
+<%--<%=ui.dynOpen("sequenceAssociation", "Sequence")%>--%>
 <table border="0">
     <%
         for (Sequence seq2: seqList) {
@@ -24,7 +24,7 @@
     <% } %>
 </table>
 
-<%=ui.dynClose("sequenceAssociation")%>
+<%--<%=ui.dynClose("sequenceAssociation")%>--%>
 
 <% } %>
 

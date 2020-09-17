@@ -13,7 +13,7 @@
     if( assembly.size() != 0 ) {
 %>
 
-<%=ui.dynOpen("damagingVar", "Damaging Variants")%>    <br>
+<%--<%=ui.dynOpen("damagingVar", "Damaging Variants")%>    <br>--%>
 <table class="table table-sm table-hover table-striped">
     <thead style="font-size: smaller"><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
     <thead style="font-size: smaller"><tr><tr><th>Sample</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
@@ -43,7 +43,7 @@
 
 
 <br>
-<%=ui.dynClose("damagingVar")%>
+<%--<%=ui.dynClose("damagingVar")%>--%>
 
 <% } %>
 

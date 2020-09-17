@@ -14,7 +14,7 @@
     }
 
     if(!strainAssocs.isEmpty()) { %>
-<%=ui.dynOpen("markerAssociation", "Position Markers")%>
+<%--<%=ui.dynOpen("markerAssociation", "Position Markers")%>--%>
 <table>
 <%
     for( Strain2MarkerAssociation sa: strainAssocs ) {
@@ -25,7 +25,7 @@
     </tr>
     <% } %>
 </table>
-<%=ui.dynClose("markerAssociation")%>
+<%--<%=ui.dynClose("markerAssociation")%>--%>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

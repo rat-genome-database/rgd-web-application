@@ -15,7 +15,7 @@
     if (recIds!=null && recIds.size() > 0) {
 %>
 
-<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>
+<%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
 
 <table>
     <tr>
@@ -70,7 +70,7 @@
 %>
 <br>
 
-<%=ui.dynClose("phenominerAssociation")%>
+<%--<%=ui.dynClose("phenominerAssociation")%>--%>
 
 <% } %>
 
