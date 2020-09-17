@@ -10,6 +10,7 @@
             if (!foundOne)  {
                 foundOne=true;
 //                out.println(ui.dynOpen("mutantAsscociation", "Mutant Strains"));
+                out.println("<div id=\"mutantAsscociationTableDiv\" class=\"light-table-border\">");
                 out.println("<div class=\"sectionHeading\" id=\"mutantAsscociation\">Mutant Strains</div>");
             }
 
@@ -25,6 +26,7 @@
 
 if (foundOne) {
     out.print(formatter.buildTable(records, 2));
+    out.println("</div>");
 //    out.println(ui.dynClose("mutantAsscociation"));
 }
 

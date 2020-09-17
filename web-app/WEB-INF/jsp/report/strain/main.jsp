@@ -134,7 +134,7 @@
             </div>
             <div id="associationsStandard" style="display:block;">
                 <%@ include file="../associations.jsp"%>
-<%--                <%@ include file="phenominer.jsp"%>--%>
+                <%@ include file="phenominer.jsp"%>
             </div>
 
             <%@ include file="../references.jsp"%>

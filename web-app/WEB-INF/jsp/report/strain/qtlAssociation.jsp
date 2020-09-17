@@ -17,6 +17,7 @@
 
 
 <%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
+<div id="strainQtlAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
 <table cellpadding="3" cellspacing="3" >
 <tr>
@@ -57,7 +58,7 @@
 </table>
 
 <%--<%=ui.dynClose("strainQtlAssociation")%>--%>
-
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

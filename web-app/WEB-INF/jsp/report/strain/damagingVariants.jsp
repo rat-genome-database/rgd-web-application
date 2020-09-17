@@ -14,6 +14,7 @@
 %>
 
 <%--<%=ui.dynOpen("damagingVar", "Damaging Variants")%>    <br>--%>
+<div id="damagingVarTableDiv" class="light-table-border">
 <div class="sectionHeading" id="damagingVar">Damaging Variants</div>
 <table class="table table-sm table-hover table-striped">
     <thead style="font-size: smaller"><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
@@ -45,7 +46,7 @@
 
 <br>
 <%--<%=ui.dynClose("damagingVar")%>--%>
-
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

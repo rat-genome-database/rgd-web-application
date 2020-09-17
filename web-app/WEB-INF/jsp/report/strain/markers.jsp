@@ -15,6 +15,7 @@
 
     if(!strainAssocs.isEmpty()) { %>
 <%--<%=ui.dynOpen("markerAssociation", "Position Markers")%>--%>
+<div id="markerAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="markerAssociation">Position Markers</div>
 <table>
 <%
@@ -28,5 +29,5 @@
 </table>
 <%--<%=ui.dynClose("markerAssociation")%>--%>
 <% } %>
-
+</div>
 <%@ include file="../sectionFooter.jsp"%>

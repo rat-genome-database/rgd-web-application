@@ -5,6 +5,7 @@
     if( seqList.size() > 0 ) {
 %>
 <%--<%=ui.dynOpen("sequenceAssociation", "Sequence")%>--%>
+<div id="sequenceAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="sequenceAssociation">Sequence</div>
 <table border="0">
     <%
@@ -26,7 +27,7 @@
 </table>
 
 <%--<%=ui.dynClose("sequenceAssociation")%>--%>
-
+</div>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

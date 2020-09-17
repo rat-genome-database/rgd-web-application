@@ -16,6 +16,7 @@
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
+<div id="phenominerAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="phenominerAssociation">Phenotype Values via Phenominer</div>
 <table>
     <tr>
@@ -71,7 +72,7 @@
 <br>
 
 <%--<%=ui.dynClose("phenominerAssociation")%>--%>
-
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>
