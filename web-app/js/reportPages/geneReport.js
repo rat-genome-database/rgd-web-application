@@ -40,10 +40,13 @@ sidebar.addEventListener("mouseout", (event) => {
     sidebar.style.overflowY = "hidden";
 });
 
+let toggle = document.getElementById("associationsToggle");
+if(toggle != null){
+    toggle.addEventListener("click",(event) =>{
+        addItemsToSideBar();
+    });
+}
 
-document.getElementById("associationsToggle").addEventListener("click",(event) =>{
-   addItemsToSideBar();
-});
 
 
 function removeBreaks(divId){
@@ -283,10 +286,12 @@ function addItemsToSideBar(){
     removeAllChildNodes(sidebar);
     $('.sidebar-item').each(function(index, value){
         let parent;
+        let curator = document.getElementById('associationsCurator');
+        let standard = document.getElementById('associationsStandard');
 
-        if(document.getElementById('associationsCurator').contains(value)){
+        if(checkIfParent(curator, value)){
             parent = document.getElementById('associationsCurator');
-        }else if(document.getElementById('associationsStandard').contains(value)){
+        }else if(checkIfParent(standard, value)){
             parent = document.getElementById('associationsStandard');
         } else {
             parent = value.parentNode;
@@ -338,6 +343,17 @@ function removeAllChildNodes(parent) {
         }
         parent.removeChild(parent.lastElementChild);
     }
+}
+
+function checkIfParent(parent, value){
+    if(parent != null){
+        if(parent.contains(value)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
 }
 
 $(function () {
