@@ -43,6 +43,23 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
+
+
+
+<div id="page-container">
+
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
+
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
+
+
+    <div id="top" ></div>
+
+    <div id="content-wrap">
 <%@ include file="menu.jsp"%>
 
 
@@ -102,8 +119,11 @@
         </td>
     </tr>
 </table>
-
+    </div>
+</div>
 <% } %>
 
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
+<footer id="footer">
+    <%@ include file="../reportFooter.jsp"%>
+    <%@ include file="/common/footerarea.jsp"%>
+</footer>
