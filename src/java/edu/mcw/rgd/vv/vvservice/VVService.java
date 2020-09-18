@@ -276,6 +276,13 @@ public class VVService {
             builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).includeLower(true));
 
         }
+        if((vsb.getMinConservation()==0.0F) && (vsb.getMaxConservation()==0.0F)){
+            builder.filter(QueryBuilders.termQuery("conScores", 0));
+        }else{
+            if(vsb.getMinConservation()>0 && vsb.getMaxConservation()>0)
+            builder.filter(QueryBuilders.rangeQuery("conScores").from(vsb.getMinConservation())
+                    .to(vsb.getMaxConservation()).includeLower(true).includeUpper(true));
+        }
         return builder;
     }
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
