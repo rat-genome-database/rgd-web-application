@@ -1,7 +1,17 @@
 <%@ page import="java.util.TreeMap" %>
 <%@ include file="../sectionHeader.jsp"%>
+<%
+    RgdId id = null;
+    try {
+        id = managementDAO.getRgdId(obj.getRgdId());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+%>
+<table width="100%" border="0" id="info-table">
+
+    <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
     <tr>
         <td class="label" valign="top">Symbol:</td>
         <td class="geneList"><%=obj.getSymbol()%></td>
@@ -11,11 +21,16 @@
         <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
 
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=id.getRgdId()%></td>
+    </tr>
+
     <%-- GENE DESCRIPTIONS: show merged description on PROD, and RGD, AGR, MERGED descriptions everywhere else--%>
     <% if( RgdContext.isCurator() ) { %>
     <tr>
         <td class="label" valign="top">Description:</td>
-        <td><%=description==null ? "" : description%></td>
+        <td style="overflow: auto"><%=description==null ? "" : description%></td>
     </tr>
 
     <% if( obj.getAgrDescription()!=null ) { %>
@@ -38,6 +53,7 @@
         <td class="label" valign="top">Description:</td>
         <td><%=Utils.NVL(obj.getMergedDescription(), description==null ? "" : description)%></td>
     </tr>
+
     <% } %><%-- end GENE DESCRIPTIONS --%>
 
     <tr>
@@ -211,29 +227,29 @@
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
                 : "";
-        String tracks = "ARGD_curated_genes";
+        String tracks;
+        if(obj.getGeneSource().equals("Ensembl"))
+            tracks = "Ensembl_genes";
+        else tracks = "ARGD_curated_genes";
         String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
     %>
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=ARGD_curated_genes%2CEnsembl_genes">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <tr>
         <td class="label">Model</td>
         <td>
             <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
-
         </td>
     </tr>
-    <script>
 
+    <script>
         $(document).ready(function() {
             document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
         });
-
-
     </script>
     <% } %>
 </table>
