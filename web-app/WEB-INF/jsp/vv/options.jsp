@@ -111,10 +111,10 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="carpeLabel">Novelty</td>
-                    <td><%=dm.makeCheckBox("foundDBSNP", "pos/change found in "+currentMap.getDbsnpVersion()+" &nbsp;")%>
-                        <%=dm.makeCheckBox("notDBSNP", "pos/change novel to "+currentMap.getDbsnpVersion())%>
-                    </td>
+                    <!--td class="carpeLabel">Novelty</td-->
+                    <!--td><%--=dm.makeCheckBox("foundDBSNP", "pos/change found in "+currentMap.getDbsnpVersion()+" &nbsp;"--)%>
+                        <%=--dm.makeCheckBox("notDBSNP", "pos/change novel to "+currentMap.getDbsnpVersion())--%>
+                    </td-->
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -123,7 +123,7 @@
                     <td colspan=3><div class="typerSubTitle" >Protein</div></td>
                 </tr>
 
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT ) { %>
+                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG ) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Amino Acid Change</td>
@@ -133,7 +133,7 @@
                 </tr>
                 <% } %>
 
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT ) { %>
+                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Polyphen&nbsp;Prediction</td>
@@ -159,7 +159,7 @@
                     <td>&nbsp;</td>
                 </tr>
 
-                <% if (currentMap.getSpeciesTypeKey()==SpeciesType.RAT) { %>
+                <% if (currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
                 <tr>
                     <td   colspan=3 ><div class="typerSubTitle" >Call Statistics</div></td>
                 </tr>

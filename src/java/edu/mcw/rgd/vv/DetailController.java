@@ -75,13 +75,14 @@ public class DetailController extends HaplotyperController {
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
          //   List<VariantResult> vr = vdao.getVariantResults(vsb);
+            String env="test";
             String index= new String();
             if(mapKey==17)
-                    index = "variants_human"+mapKey+"_dev1";
+                    index = "variants_human"+mapKey+"_"+env;
             if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_test";
+                index= "variants_rat"+mapKey+"_"+env;
             if(mapKey==631 || mapKey==600 )
-                index= "variants_dog"+mapKey+"_dev";
+                index= "variants_dog"+mapKey+"_"+env;
             //   System.out.println("INDEX NAME: "+ index);
             //    index= "variants_dog_index_dev2";
 
