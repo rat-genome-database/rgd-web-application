@@ -66,7 +66,7 @@
 </div>
 <br>
 <%//ui.dynClose("diseaseAsscociation")%>
-<% } %>
+
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -88,7 +88,7 @@
         </div>
     </div>
 </div>
-
+<% } %>
 
 
 <%
@@ -488,8 +488,9 @@
 <% } %>
 
 <%//ui.dynClose("phenoAssociation")%>
+<%--</div>--%>
 <% } %>
-</div>
+
 
 <%
     List<Annotation> maList = Collections.emptyList(); // af.filterList(annotList,"A");
