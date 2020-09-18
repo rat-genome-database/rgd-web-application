@@ -236,7 +236,7 @@
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=ARGD_curated_genes%2CEnsembl_genes">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <tr>
