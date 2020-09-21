@@ -64,15 +64,16 @@ public class DistributionController extends HaplotyperController {
         // derive species from mapKey
        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
      // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
+        String env="test";
         String index=new String();
         if(mapKey==17) {
-            index = "variants_human"+mapKey+"_dev";
+            index = "variants_human"+mapKey+"_"+env;
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
               //  index= "variants_rat"+mapKey+"_dev";
-            index= "variants_rat"+mapKey+"_test";
+            index= "variants_rat"+mapKey+"_"+env;
         if(mapKey==631 || mapKey==600 )
-            index= "variants_dog"+mapKey+"_dev";
+            index= "variants_dog"+mapKey+"_"+env;
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);

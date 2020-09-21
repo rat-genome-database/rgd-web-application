@@ -56,16 +56,16 @@ public class VariantController extends HaplotyperController {
             GeneDAO gdao = new GeneDAO();
 
             VariantSearchBean vsb = this.fillBean(req);
-
+            String env="test";
             String index=new String();
             if(vsb.getMapKey()==17) {
-                    index = "variants_human"+vsb.getMapKey()+"_dev1";
+                    index = "variants_human"+vsb.getMapKey()+"_"+env;
 
             }
             if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_test";
+                index= "variants_rat"+vsb.getMapKey()+"_"+env;
             if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
-                index= "variants_dog"+vsb.getMapKey()+"_dev";
+                index= "variants_dog"+vsb.getMapKey()+"_"+env;
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
