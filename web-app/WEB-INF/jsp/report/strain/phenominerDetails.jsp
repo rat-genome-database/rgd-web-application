@@ -24,6 +24,6 @@
 <div class="sectionHeading" id="phenominerAssociationC">Phenotype Values via Phenominer</div>
 <%@ include file="../../ontology/phenoTable.jsp"%>
 <%--<%=ui.dynClose("phenominerAssociationC")%>--%>
-
+</div>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

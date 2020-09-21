@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
   List<QTL> qtls = associationDAO.getQTLAssociationsForStrain(obj.getRgdId());
