@@ -27,7 +27,6 @@
 
     int mapKey = (Integer) request.getAttribute("mapKey");
 %>
-
 <style>
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 200; }
     #sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
@@ -138,6 +137,9 @@
                     breeds.addAll(breedMap.keySet());
                     Collections.sort(breeds);
         }
+        if(mapKey==38 || mapKey==17){
+
+        }
         %>
         <script>
             function selectGroup(name) {
@@ -195,9 +197,9 @@
                 }
             }
         </script>
-
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
         <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
-
+        <%}%>
         <table style="margin-left:50px;">
             <tr>
                 <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
@@ -205,7 +207,7 @@
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% } if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6) { %>
+                <% } if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6 && SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1) { %>
                 <td style="color:white;"><input id="all" name="all" type="checkbox" onChange="selectGroup('all')"/> All Available</td>
                 <%}%>
 
@@ -229,9 +231,9 @@
                 } %>
 
         </table>
-
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
         <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Samples</div>
-
+<%}%>
         <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
                 <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
@@ -247,7 +249,9 @@
                     ArrayList<Sample> sampList1 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList2 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-
+                    if(mapKey==38 || mapKey==17){
+                        sampList1.add(samples.get(0));
+                    }
                     int num = 0;
                     for (Sample samp: samples) {
                         if (num < ((samples.size() / 3) )) {
@@ -360,11 +364,13 @@
         </table>
 
         <br>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
         <table width="90%">
             <tr>
                 <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
             </tr>
         </table>
+        <%}%>
     </div>
 </form>
 

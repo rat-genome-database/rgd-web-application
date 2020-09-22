@@ -65,17 +65,8 @@ public class SelectStrainController extends HaplotyperController {
         }catch (Exception ignored) {
         }
         request.setAttribute("mapKey", mapKey);
-        if(mapKey==17) {
-            List<String> populations=new ArrayList<>(Arrays.asList("ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN",
-                    "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "pop", "PUR",
-                    "STU", "TSI", "YRI"
-            ));
-            List<Sample> samples= new ArrayList<>();
-            for(String population :populations){
-             //  samples.addAll(sampleDAO.getLimitedSamplesByPopulation(mapKey, population, 5));
-
-            }
-            request.setAttribute("sampleList", samples);
+       if(mapKey==17) {
+            request.setAttribute("sampleList",sampleDAO.getSamplesByMapKey(mapKey, "ClinVar"));
         }
         else
             request.setAttribute("sampleList", sampleDAO.getSamplesByMapKey(mapKey));
