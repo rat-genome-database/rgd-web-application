@@ -76,7 +76,6 @@
 
     <% } %>
 
-    <h1>REGION LIST:<%=regionList.size()%></h1>
     <% if (regionList.size() == 0) { %>
     <br>
     <table align="center">
