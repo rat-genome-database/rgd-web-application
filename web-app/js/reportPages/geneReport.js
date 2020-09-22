@@ -187,45 +187,33 @@ function buildReferenceTable(rowArray){
     return newTable;
 }
 
-function buildAnnotationTable(rowArray){
+function buildAnnotationTable(rowArray) {
 
     let newTable = buildEmptyTable();
+    let tr = document.createElement('tr');
+    newTable.tBodies[0].appendChild(tr);
 
+    for (let i = 0; i < rowArray.length; i++) {
 
-    for(let i = 0; i < rowArray.length; i += 3){
-        let colOne = i;
-        let colTwo = i + 1;
-        let colThree =  i + 2;
-        if(rowArray[colOne].hasChildNodes()){
-            let tr = document.createElement('tr');
-            newTable.tBodies[0].appendChild(tr);
+        if (rowArray[i].hasChildNodes()) {
 
-            if(rowArray[colOne].childNodes.length > 1){
-                tr.appendChild(rowArray[colOne].childNodes[1]);
-
-            }else{
-                tr.appendChild(rowArray[colOne].childNodes[0]);
-
+            if (tr.children.length >= 3) {
+                tr = document.createElement('tr');
+                newTable.tBodies[0].appendChild(tr);
             }
 
-            if(!(colTwo >= rowArray.length)){
-                if(rowArray[colTwo].childNodes.length > 1){
-                    tr.appendChild(rowArray[colTwo].childNodes[1]);
-                }else{
-                    tr.appendChild(rowArray[colTwo].childNodes[0]);
-                }
-            }
-
-            if(!(colThree >= rowArray.length)){
-                if(rowArray[colThree].childNodes.length > 1){
-                    tr.appendChild(rowArray[colThree].childNodes[1]);
-                }else{
-                    tr.appendChild(rowArray[colThree].childNodes[0]);
-                }
+            let tableData = rowArray[i].children;
+            let td = document.createElement('td');
+            tr.appendChild(td);
+            for (let j = 0; j < tableData.length; j++) {
+                td.innerHTML += tableData[j].innerHTML + " ";
             }
         }
     }
+
     return newTable;
+
+
 }
 
 function buildEmptyTable(){
