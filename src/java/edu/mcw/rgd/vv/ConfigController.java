@@ -70,7 +70,7 @@ public class ConfigController extends HaplotyperController {
             if ((positionSet || genesSet || regionSet) && !strainsSet) {
 
                 SampleDAO sampleDAO = new SampleDAO();
-                sampleDAO.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
+                sampleDAO.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 List<Sample> samples=new ArrayList<>();
                 if(vsb.getMapKey()==17){
                     List<String> populations=new ArrayList<> (Arrays.asList("FIN", "GBR"));
