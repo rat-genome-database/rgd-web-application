@@ -260,7 +260,7 @@ public abstract class HaplotyperController implements Controller {
                 String sample=req.getParameter("sample");
                 if(sample.equalsIgnoreCase("all")){
                     SampleDAO sdao = new SampleDAO();
-                    sdao.setDataSource(DataSourceFactory.getInstance().getDataSource("variant"));
+                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                     int mapKey = Integer.parseInt(req.getParameter("mapKey"));
                     List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
