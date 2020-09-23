@@ -3,13 +3,14 @@ let tableArray = Array.from(
 
 iterateOverAndAppendNewTables(tableArray);
 removeOldAnnotationTables(tableArray);
+//in region tables
 addHeadAndIdToTable("qtlAssociationTableDiv", 1);
 addHeadAndIdToTable("geneAssociationTableDiv", 1);
 addHeadAndIdToTable("mark2AssociationTableDiv", 1);
 
 //annotation detail view tables
 addHeadAndIdToTable("manualAnnotationsTableDiv", 0);
-
+addHeadAndIdToTable("importedAnnotationsClinVarTableDiv", 0);
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -447,6 +448,16 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.manualAnnotationsPager'),
+            size: 20
+        });
+
+    $('#importedAnnotationsClinVarTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsClinVarPager'),
             size: 20
         });
 

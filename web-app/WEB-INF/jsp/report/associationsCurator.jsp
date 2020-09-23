@@ -62,7 +62,7 @@
         </div>
     </div>
     <div id="manualAnnotationsTableDiv">
-  <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
+        <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -86,32 +86,54 @@
     </div>
 
 
-
-
 </div>
 <% } if( !listClinVar.isEmpty() ) { %>
-<div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
-    <div class="reportTable" id="importedAnnotationsTable">
-<%--        <div id="modelsViewContent" >--%>
-<%--            <div class="pager annotationPagerClass" style="float:right;margin-bottom:2px;">--%>
-<%--                <form>--%>
-<%--                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>--%>
-<%--                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>--%>
-<%--                    <span type="text" class="pagedisplay"></span>--%>
-<%--                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>--%>
-<%--                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>--%>
-<%--                    <select class="pagesize">--%>
-<%--                        <option selected="selected" value="10">10</option>--%>
-<%--                        <option value="20">20</option>--%>
-<%--                        <option value="30">30</option>--%>
-<%--                        <option  value="40">40</option>--%>
-<%--                        <option   value="100">100</option>--%>
-<%--                        <option value="9999">All Rows</option>--%>
-<%--                    </select>--%>
-<%--                </form>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-  <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
+
+
+    <div class="reportTable" id="importedAnnotationsClinVarTableWrapper">
+        <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
+        <div class="modelsViewContent" >
+            <div class="pager importedAnnotationsClinVarPager" >
+                <form>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="9999">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div id="importedAnnotationsClinVarTableDiv">
+            <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
+        </div>
+        <div class="modelsViewContent" >
+            <div class="pager importedAnnotationsClinVarPager" >
+                <form>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="9999">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
     </div>
 <% } if( !listCTD.isEmpty() ) { %>
 <div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Annotations - CTD </h4></div>
