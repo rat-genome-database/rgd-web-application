@@ -27,6 +27,9 @@ addHeadAndIdToTable("importedAnnotationsPIDTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsOtherTableDiv", 0);
 addHeadAndIdToTable("mammalianPhenotypeAnnotationsTableDiv", 0);
 addHeadAndIdToTable("humanPhenotypeAnnotationsTableDiv", 0);
+addHeadAndIdToTable("cellOntologyTableDiv", 0);
+addHeadAndIdToTable("mouseAnatomyTableDiv", 0);
+addHeadAndIdToTable("ratStrainTableDiv", 0);
 
 
 
@@ -630,6 +633,33 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.humanPhenotypeAnnotationsPager'),
+            size: 20
+        });
+    $('#cellOntologyTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.cellOntologyPager'),
+            size: 20
+        });
+    $('#mouseAnatomyTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.mouseAnatomyPager'),
+            size: 20
+        });
+    $('#ratStrainTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.ratStrainPager'),
             size: 20
         });
 

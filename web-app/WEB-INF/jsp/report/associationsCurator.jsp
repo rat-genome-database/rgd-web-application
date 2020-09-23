@@ -992,8 +992,50 @@
 <%
     }else if(isReferenceRgd==0){
        if (clList.size() > 0) { %>
+<div class="reportTable" id="cellOntologyTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager cellOntologyPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="cellOntologyTableDiv">
            <%=af.createGridFormatAnnotationsTable(clList, siteName)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager cellOntologyPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
     <% } %>
     <% if (cmoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
@@ -1008,12 +1050,98 @@
            <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
     <% } %>
     <% if (maList.size() > 0) { %>
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
+<div class="reportTable" id="mouseAnatomyTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager mouseAnatomyPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div id="mouseAnatomyTableDiv">
            <%=af.createGridFormatAnnotationsTable(maList)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager mouseAnatomyPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
     <% } %>
     <% if (rsList.size() > 0) { %>
+<div class="reportTable" id="ratStrainTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager ratStrainPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div id="ratStrainTableDiv">
            <%=af.createGridFormatAnnotationsTable(rsList)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager ratStrainPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
     <% } %>
     <% if (vtList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
