@@ -491,12 +491,98 @@
 </div>
 <% } %>
 <% if (ccList.size() > 0) { %>
+<div class="reportTable" id="cellularComponentAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager cellularComponentAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="cellularComponentAnnotationsTableDiv">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
+    </div>
+
+    <div class="modelsViewContent" >
+        <div class="pager cellularComponentAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+</div>
 <% } %>
 <% if (mfList.size() > 0) { %>
+<div class="reportTable" id="molecularFunctionAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+    <div class="modelsViewContent" >
+        <div class="pager molecularFunctionAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="molecularFunctionAnnotationsTableDiv">
        <%=af.createGridFormatAnnotationsTable(mfList, siteName)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager molecularFunctionAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
 <% } %>
 
 <br>

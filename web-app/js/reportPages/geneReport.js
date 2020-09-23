@@ -18,6 +18,8 @@ addHeadAndIdToTable("importedAnnotationsOMIATableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsOMIMTableDiv", 0);
 addHeadAndIdToTable("geneChemicalInteractionAnnotationsTableDiv", 0);
 addHeadAndIdToTable("biologicalProcessAnnotationsTableDiv", 0);
+addHeadAndIdToTable("cellularComponentAnnotationsTableDiv", 0);
+addHeadAndIdToTable("molecularFunctionAnnotationsTableDiv", 0);
 
 
 
@@ -535,6 +537,26 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.biologicalProcessAnnotationsPager'),
+            size: 20
+        });
+
+    $('#cellularComponentAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.cellularComponentAnnotationsPager'),
+            size: 20
+        });
+
+    $('#molecularFunctionAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.molecularFunctionAnnotationsPager'),
             size: 20
         });
 
