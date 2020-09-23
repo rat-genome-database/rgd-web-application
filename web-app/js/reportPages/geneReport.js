@@ -20,6 +20,12 @@ addHeadAndIdToTable("geneChemicalInteractionAnnotationsTableDiv", 0);
 addHeadAndIdToTable("biologicalProcessAnnotationsTableDiv", 0);
 addHeadAndIdToTable("cellularComponentAnnotationsTableDiv", 0);
 addHeadAndIdToTable("molecularFunctionAnnotationsTableDiv", 0);
+addHeadAndIdToTable("molecularPathwayManualAnnotationsTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsSMPDBTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsKEGGTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsPIDTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsOtherTableDiv", 0);
+
 
 
 
@@ -560,6 +566,52 @@ $(function () {
             size: 20
         });
 
+    $('#molecularPathwayManualAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.molecularPathwayManualAnnotationsPager'),
+            size: 20
+        });
+
+    $('#importedAnnotationsSMPDBTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsSMPDBPager'),
+            size: 20
+        });
+    $('#importedAnnotationsKEGGTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsKEGGPager'),
+            size: 20
+        });
+    $('#importedAnnotationsPIDTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsPIDPager'),
+            size: 20
+        });
+    $('#importedAnnotationsOtherTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsOtherPager'),
+            size: 20
+        });
 
     $('#pubMedReferencesTable')
         .tablesorter({
