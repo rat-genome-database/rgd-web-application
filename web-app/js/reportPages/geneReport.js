@@ -3,9 +3,12 @@ let tableArray = Array.from(
 
 iterateOverAndAppendNewTables(tableArray);
 removeOldAnnotationTables(tableArray);
-addHeadAndIdToAssociationTable("qtlAssociationTableDiv");
-addHeadAndIdToAssociationTable("geneAssociationTableDiv");
-addHeadAndIdToAssociationTable("mark2AssociationTableDiv");
+addHeadAndIdToTable("qtlAssociationTableDiv", 1);
+addHeadAndIdToTable("geneAssociationTableDiv", 1);
+addHeadAndIdToTable("mark2AssociationTableDiv", 1);
+
+//annotation detail view tables
+addHeadAndIdToTable("manualAnnotationsTableDiv", 0);
 
 
 
@@ -75,21 +78,29 @@ function appendTableToDiv(table, divId){
 }
 
 
-function addHeadAndIdToAssociationTable(tableDivId){
-    let qtlDiv = document.getElementById(tableDivId);
-    if(qtlDiv !== null){
-        let qtlTables = qtlDiv.getElementsByTagName('table');
-        let table = qtlTables[1];
+
+function addHeadAndIdToTable(tableDivId, tableNumber){
+    let div = document.getElementById(tableDivId);
+    if(div !== null){
+        let tables = div.getElementsByTagName('table');
+        let table = tables[tableNumber];
+        console.log(table);
         let tHead = document.createElement('thead');
         let tBody = table.firstChild;
         let headerRow = table.rows[0];
+        let tableId = tableDivId.substring(0, tableDivId.length-3);
         table.insertBefore(tHead, tBody );
-        table.className = 'tablesorter';
-        table.id = tableDivId.substring(0, tableDivId.length-3);
+        addClassAndId(table, 'tablesorter', tableId);
         table.firstChild.append(headerRow);
     }
 
 }
+
+function addClassAndId(table, className, idName){
+    table.className = className;
+    table.id = idName;
+}
+
 function iterateOverAndAppendNewTables(tableArray){
     for(let i = 0; i < tableArray.length; i++){
         let table = tableArray[i];
@@ -427,6 +438,18 @@ $(function () {
             size: 30
         });
 
+    //annotation detail view tables
+
+    $('#manualAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.manualAnnotationsPager'),
+            size: 20
+        });
+
     $('#pubMedReferencesTable')
         .tablesorter({
             theme: 'blue',
@@ -540,5 +563,13 @@ $(function () {
             container: $('#clinicalVariantsPager')
         });
 
+    $('#clinicalVariantsTable')
+        .tablesorter({
+            theme: 'dropbox',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.manualAnnotationsPager')
+        });
 
 });
