@@ -427,6 +427,17 @@ $(function () {
             size: 30
         });
 
+    $('#pubMedReferencesTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.pubMedReferencesPager'),
+            size: 10
+        });
+
+
     $('#referencesCuratedTable')
         .tablesorter({
             theme: 'blue',
