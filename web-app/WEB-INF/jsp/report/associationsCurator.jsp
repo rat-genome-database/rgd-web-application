@@ -382,8 +382,54 @@
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
+<div class="reportTable" id="geneChemicalInteractionAnnotationsTableWrapper">
 <div class="sectionHeading" id="geneChemicalInteractionAnnotations"><h4>Gene-Chemical Interaction Annotations</h4></div>
-    <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
+
+    <div class="modelsViewContent" >
+        <div class="pager geneChemicalInteractionAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="geneChemicalInteractionAnnotationsTableDiv">
+        <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
+    </div>
+
+    <div class="modelsViewContent" >
+        <div class="pager geneChemicalInteractionAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+</div>
 <%//ui.dynClose("chemiAssociationC")%>
 <% } %>
 
@@ -398,8 +444,51 @@
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
 <div class="sectionHeading" id="geneOntologyAnnotationsCurator"><h4>Gene Ontology Annotations</h4></div>
 <% if (bpList.size() > 0) { %>
+<div class="reportTable" id="biologicalProcessAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+
+    <div class="modelsViewContent" >
+        <div class="pager biologicalProcessAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="biologicalProcessAnnotationsTableDiv">
        <%=af.createGridFormatAnnotationsTable(bpList, siteName)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager biologicalProcessAnnotationsPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
 <% } %>
 <% if (ccList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>

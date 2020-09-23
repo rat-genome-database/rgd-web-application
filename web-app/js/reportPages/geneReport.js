@@ -16,6 +16,11 @@ addHeadAndIdToTable("importedAnnotationsGADTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsMGITableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsOMIATableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsOMIMTableDiv", 0);
+addHeadAndIdToTable("geneChemicalInteractionAnnotationsTableDiv", 0);
+addHeadAndIdToTable("biologicalProcessAnnotationsTableDiv", 0);
+
+
+
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -513,6 +518,25 @@ $(function () {
             size: 20
         });
 
+    $('#geneChemicalInteractionAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.geneChemicalInteractionAnnotationsPager'),
+            size: 20
+        });
+
+    $('#biologicalProcessAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.biologicalProcessAnnotationsPager'),
+            size: 20
+        });
 
 
     $('#pubMedReferencesTable')
