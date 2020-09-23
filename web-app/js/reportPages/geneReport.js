@@ -11,6 +11,7 @@ addHeadAndIdToTable("mark2AssociationTableDiv", 1);
 //annotation detail view tables
 addHeadAndIdToTable("manualAnnotationsTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsClinVarTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsCTDTableDiv", 0);
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -85,7 +86,6 @@ function addHeadAndIdToTable(tableDivId, tableNumber){
     if(div !== null){
         let tables = div.getElementsByTagName('table');
         let table = tables[tableNumber];
-        console.log(table);
         let tHead = document.createElement('thead');
         let tBody = table.firstChild;
         let headerRow = table.rows[0];
@@ -458,6 +458,16 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.importedAnnotationsClinVarPager'),
+            size: 20
+        });
+
+    $('#importedAnnotationsCTDTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsCTDPager'),
             size: 20
         });
 
