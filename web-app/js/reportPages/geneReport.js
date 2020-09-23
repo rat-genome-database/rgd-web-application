@@ -387,7 +387,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager1'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable2')
@@ -397,7 +397,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager2'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable3')
@@ -407,7 +407,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager3'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable4')
@@ -417,7 +417,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager4'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable5')
@@ -427,7 +427,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager5'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable6')
@@ -437,7 +437,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager6'),
-            size: 30
+            size: 20
         });
 
     $('#annotationTable7')
@@ -447,7 +447,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager7'),
-            size: 30
+            size: 20
         });
 
 
@@ -458,7 +458,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.annotationPager8'),
-            size: 30
+            size: 20
         });
 
     //annotation detail view tables
