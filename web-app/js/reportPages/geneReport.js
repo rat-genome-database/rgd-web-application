@@ -776,13 +776,14 @@ $(function () {
             container: $('#clinicalVariantsPager')
         });
 
-    $('#clinicalVariantsTable')
+    $('#externalDatabaseLinksTable')
         .tablesorter({
             theme: 'dropbox',
             widget: ['zebra']
         })
         .tablesorterPager({
-            container: $('.manualAnnotationsPager')
+            container: $('.externalDatabaseLinksPager'),
+            size: 40
         });
 
 });
