@@ -25,6 +25,8 @@ addHeadAndIdToTable("importedAnnotationsSMPDBTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsKEGGTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsPIDTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsOtherTableDiv", 0);
+addHeadAndIdToTable("mammalianPhenotypeAnnotationsTableDiv", 0);
+addHeadAndIdToTable("humanPhenotypeAnnotationsTableDiv", 0);
 
 
 
@@ -610,6 +612,24 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.importedAnnotationsOtherPager'),
+            size: 20
+        });
+    $('#mammalianPhenotypeAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.mammalianPhenotypeAnnotationsPager'),
+            size: 20
+        });
+    $('#humanPhenotypeAnnotationsTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.humanPhenotypeAnnotationsPager'),
             size: 20
         });
 
