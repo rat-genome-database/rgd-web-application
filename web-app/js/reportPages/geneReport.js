@@ -14,6 +14,8 @@ addHeadAndIdToTable("importedAnnotationsClinVarTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsCTDTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsGADTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsMGITableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsOMIATableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsOMIMTableDiv", 0);
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -491,6 +493,27 @@ $(function () {
             container: $('.importedAnnotationsMGIPager'),
             size: 20
         });
+    $('#importedAnnotationsOMIATable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsOMIAPager'),
+            size: 20
+        });
+
+    $('#importedAnnotationsOMIMTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsOMIMPager'),
+            size: 20
+        });
+
+
 
     $('#pubMedReferencesTable')
         .tablesorter({

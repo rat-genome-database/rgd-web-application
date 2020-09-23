@@ -277,11 +277,100 @@
 
 </div>
 <% } if( !listOmia.isEmpty() ) { %>
+<div class="reportTable" id="importedAnnotationsOMIATableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
-  <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
+
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsOMIAPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="importedAnnotationsOMIATableDiv">
+        <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsOMIAPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+</div>
 <% } if( !listOmim.isEmpty() ) { %>
+<div class="reportTable" id="importedAnnotationsOMIMTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Annotations - OMIM </h4></div>
-<%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsOMIMPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="importedAnnotationsOMIMTableDiv">
+        <%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
+    </div>
+
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsOMIMPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+</div>
 <% } %>
 <br>
 <%//ui.dynClose("diseaseAsscociationC")%>
