@@ -12,6 +12,8 @@ addHeadAndIdToTable("mark2AssociationTableDiv", 1);
 addHeadAndIdToTable("manualAnnotationsTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsClinVarTableDiv", 0);
 addHeadAndIdToTable("importedAnnotationsCTDTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsGADTableDiv", 0);
+addHeadAndIdToTable("importedAnnotationsMGITableDiv", 0);
 
 
 let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
@@ -468,6 +470,25 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.importedAnnotationsCTDPager'),
+            size: 20
+        });
+    $('#importedAnnotationsGADTable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsGADPager'),
+            size: 20
+        });
+
+    $('#importedAnnotationsMGITable')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.importedAnnotationsMGIPager'),
             size: 20
         });
 

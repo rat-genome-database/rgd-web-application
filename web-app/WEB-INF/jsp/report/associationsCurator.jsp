@@ -184,11 +184,98 @@
 
 </div>
 <% } if( !listGAD.isEmpty() ) { %>
-<div class="sectionHeading" id="importedAnnotationsGeneticAssociation"><h4>Imported Annotations - Genetic Association Database </h4></div>
-  <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
+<div class="reportTable" id="importedAnnotationsGADTableWrapper">
+<div class="sectionHeading" id="importedAnnotationsGAD"><h4>Imported Annotations - GAD </h4></div>
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsGADPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="importedAnnotationsGADTableDiv">
+        <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
+    </div>
+
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsGADPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
 <% } if( !listMGI.isEmpty() ) { %>
+<div class="reportTable" id="importedAnnotationsMGITableWrapper">
 <div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Annotations - MGI </h4></div>
+
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsMGIPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div id="importedAnnotationsMGITableDiv">
   <%=af.createGridFormatAnnotationsTable(listMGI, siteName)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsMGIPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+</div>
 <% } if( !listOmia.isEmpty() ) { %>
 <div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
   <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
