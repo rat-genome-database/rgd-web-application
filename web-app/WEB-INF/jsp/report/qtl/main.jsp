@@ -67,9 +67,8 @@
     <div id="top" ></div>
 
     <div id="content-wrap">
+        <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
 <%@ include file="menu.jsp"%>
-
-
 <%  RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
     if (view.equals("3")) { %>
 
@@ -142,7 +141,7 @@
         </td>
         <td>&nbsp;</td>
         <td align="right" valign="top">
-            <%@ include file="links.jsp" %>
+<%--            <%@ include file="links.jsp" %>--%>
             <br>
 <%--            <%@ include file="../idInfo.jsp" %>--%>
         </td>

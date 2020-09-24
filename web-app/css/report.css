@@ -181,5 +181,17 @@ li a {
     overflow-x: auto;
     flex-flow: column wrap;
 
+
+}
+
+.registrationLink{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.registrationLink a{
+    margin-right: 4.5vw;
+    font-size: 12pt;
+
 }
 
