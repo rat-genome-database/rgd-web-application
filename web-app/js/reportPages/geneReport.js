@@ -697,12 +697,17 @@ $(function () {
     $('#qtlAssociationTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#qtlAssociationSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.qtlAssociationPager'),
             size: 10
         });
+
 
     $('#geneAssociationTable')
         .tablesorter({
