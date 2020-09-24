@@ -40,7 +40,7 @@
 <% if( !listManual.isEmpty() ) { %>
 
 
-<div class="reportTable" id="manualAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="manualAnnotationsTableWrapper">
     <div class="sectionHeading" id="manualAnnotations"><h4><%=siteName%> Manual Annotations</h4></div>
     <div class="modelsViewContent" >
         <div class="pager manualAnnotationsPager" >
@@ -90,7 +90,7 @@
 <% } if( !listClinVar.isEmpty() ) { %>
 
 
-    <div class="reportTable" id="importedAnnotationsClinVarTableWrapper">
+    <div class="reportTable light-table-border" id="importedAnnotationsClinVarTableWrapper">
         <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
         <div class="modelsViewContent" >
             <div class="pager importedAnnotationsClinVarPager" >
@@ -137,7 +137,7 @@
     </div>
 
 <% } if( !listCTD.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsCTDTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsCTDTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Annotations - CTD </h4></div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsCTDPager" >
@@ -184,7 +184,7 @@
 
 </div>
 <% } if( !listGAD.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsGADTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsGADTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsGAD"><h4>Imported Annotations - GAD </h4></div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsGADPager" >
@@ -230,7 +230,7 @@
     </div>
 </div>
 <% } if( !listMGI.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsMGITableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsMGITableWrapper">
 <div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Annotations - MGI </h4></div>
 
     <div class="modelsViewContent" >
@@ -277,7 +277,7 @@
 
 </div>
 <% } if( !listOmia.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsOMIATableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsOMIATableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
 
     <div class="modelsViewContent" >
@@ -324,7 +324,7 @@
 
 </div>
 <% } if( !listOmim.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsOMIMTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsOMIMTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Annotations - OMIM </h4></div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOMIMPager" >
@@ -382,7 +382,7 @@
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
-<div class="reportTable" id="geneChemicalInteractionAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="geneChemicalInteractionAnnotationsTableWrapper">
 <div class="sectionHeading" id="geneChemicalInteractionAnnotations"><h4>Gene-Chemical Interaction Annotations</h4></div>
 
     <div class="modelsViewContent" >
@@ -444,7 +444,7 @@
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
 <div class="sectionHeading" id="geneOntologyAnnotationsCurator"><h4>Gene Ontology Annotations</h4></div>
 <% if (bpList.size() > 0) { %>
-<div class="reportTable" id="biologicalProcessAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
 
     <div class="modelsViewContent" >
@@ -491,7 +491,7 @@
 </div>
 <% } %>
 <% if (ccList.size() > 0) { %>
-<div class="reportTable" id="cellularComponentAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager cellularComponentAnnotationsPager" >
@@ -539,7 +539,7 @@
 </div>
 <% } %>
 <% if (mfList.size() > 0) { %>
-<div class="reportTable" id="molecularFunctionAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager molecularFunctionAnnotationsPager" >
@@ -618,7 +618,7 @@
 <%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
 <div class="sectionHeading" id="molecularPathwayAnnotationsCurator"><h4>Molecular Pathway Annotations</h4></div>
 <% if( !listManual.isEmpty() ) { %>
-<div class="reportTable" id="molecularPathwayManualAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="molecularPathwayManualAnnotationsTableWrapper">
     <h4><%=siteName%> Manual Annotations</h4>
     <div class="modelsViewContent" >
         <div class="pager molecularPathwayManualAnnotationsPager" >
@@ -666,7 +666,7 @@
 </div>
 
     <% } if( !listImportedSMPDB.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsSMPDBTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsSMPDBTableWrapper">
     <h4>Imported Annotations - SMPDB</h4>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsSMPDBPager" >
@@ -712,7 +712,7 @@
 
 </div>
     <% } if( !listImportedKEGG.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsKEGGTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsKEGGTableWrapper">
     <h4>Imported Annotations - KEGG (archival)</h4>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsKEGGPager" >
@@ -758,7 +758,7 @@
 
 </div>
     <% } if( !listImportedPID.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsPIDTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsPIDTableWrapper">
     <h4>Imported Annotations - PID (archival)</h4>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsPIDPager" >
@@ -803,7 +803,7 @@
     </div>
 </div>
     <% } if( !listImported.isEmpty() ) { %>
-<div class="reportTable" id="importedAnnotationsOtherTableWrapper">
+<div class="reportTable light-table-border" id="importedAnnotationsOtherTableWrapper">
     <h4>Imported Annotations - Other</h4>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOtherPager" >
@@ -863,7 +863,7 @@
 <%//ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
 <div class="sectionHeading" id="phenotypeAnnotations"><h4>Phenotype Annotations</h4></div>
 <% if (mpList.size() > 0) { %>
-<div class="reportTable" id="mammalianPhenotypeAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager mammalianPhenotypeAnnotationsPager" >
@@ -909,7 +909,7 @@
 </div>
 <% } %>
 <% if (hpList.size() > 0) { %>
-<div class="reportTable" id="humanPhenotypeAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager humanPhenotypeAnnotationsPager" >
@@ -992,7 +992,7 @@
 <%
     }else if(isReferenceRgd==0){
        if (clList.size() > 0) { %>
-<div class="reportTable" id="cellOntologyTableWrapper">
+<div class="reportTable light-table-border" id="cellOntologyTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager cellOntologyPager" >
@@ -1050,7 +1050,7 @@
            <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
     <% } %>
     <% if (maList.size() > 0) { %>
-<div class="reportTable" id="mouseAnatomyTableWrapper">
+<div class="reportTable light-table-border" id="mouseAnatomyTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager mouseAnatomyPager" >
@@ -1097,7 +1097,7 @@
 </div>
     <% } %>
     <% if (rsList.size() > 0) { %>
-<div class="reportTable" id="ratStrainTableWrapper">
+<div class="reportTable light-table-border" id="ratStrainTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
     <div class="modelsViewContent" >
         <div class="pager ratStrainPager" >
