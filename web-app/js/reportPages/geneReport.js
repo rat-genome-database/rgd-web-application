@@ -461,6 +461,15 @@ $(function () {
             size: 20
         });
 
+    $('#annotationTable9')
+        .tablesorter({
+            theme: 'blue',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.annotationPager9'),
+            size: 20
+        });
     //annotation detail view tables
 
     $('#manualAnnotationsTable')
@@ -803,5 +812,6 @@ $(function () {
             container: $('.phenominerAssociationPager'),
             size: 30
         });
+
 
 });

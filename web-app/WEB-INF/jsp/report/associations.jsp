@@ -536,8 +536,8 @@
 </div>
 <% } %>
 <% if (cmoList.size() > 0) { %>
-
-<div class="reportTable light-table-border" id="clinicalMeasurementAnnotationsTableWrapper">
+<div class="light-table-border">
+<div class="reportTable" id="clinicalMeasurementAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
 
     <div id="clinicalMeasurementAnnotationsTable">
@@ -548,7 +548,7 @@
 <% } %>
 <% if (xcoList.size() > 0) {  %>
 
-<div class="reportTable light-table-border" id="experimentalConditionAnnotationsTableWrapper">
+<div class="reportTable " id="experimentalConditionAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
 
     <div id="experimentalConditionAnnotationsTable">
@@ -558,19 +558,68 @@
 
 <% } %>
 <% if (mmoList.size() > 0) { %>
-<div class="reportTable light-table-border" id="measurementMethodAnnotationsTableWrapper">
+<div class="reportTable" id="measurementMethodAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
     <div id="measurementMethodAnnotationsTable">
         <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
     </div>
 </div>
+
 <% } %>
+<% if (vtList.size() > 0) { %>
+<div class="reportTable" id="vertebrateTraitAnnotationsTableWrapper">
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
+
+    <div id="vertebrateTraitAnnotationsTable">
+        <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
+    </div>
+</div>
+</div>
+<% } %>
+
 <% if (rsList.size() > 0) { %>
 <div class="reportTable light-table-border" id="ratStrainAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
-
+        <div class="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option  value="10">10</option>
+                    <option value="20">20</option>
+                    <option selected="selected" value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
     <div id="ratStrainAnnotationsTable">
         <%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
+    </div>
+    <div class="modelsViewContent" >
+        <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option  value="10">10</option>
+                    <option value="20">20</option>
+                    <option selected="selected" value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
     </div>
 </div>
 <% } %>
@@ -580,17 +629,8 @@
 <%@ include file="/common/heatmap.jsp"%>
        <%=af.createGeoAnnotationsTable(maList, rsList)%>
 <% } --%>
-<% if (vtList.size() > 0) { %>
-    <div class="reportTable light-table-border" id="vertebrateTraitAnnotationsTableWrapper">
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
 
-        <div id="vertebrateTraitAnnotationsTable">
-            <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
-        </div>
-    </div>
-<% }
-}
-%>
+<% } %>
 
 <br>
 <%//ui.dynClose("expAssociation")%>
