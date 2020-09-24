@@ -785,5 +785,14 @@ $(function () {
             container: $('.externalDatabaseLinksPager'),
             size: 40
         });
+    $('#strainQtlAssociationTable')
+        .tablesorter({
+            theme: 'dropbox',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.strainQtlAssociationPager'),
+            size: 20
+        });
 
 });

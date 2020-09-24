@@ -20,12 +20,34 @@
 <%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
 <div id="strainQtlAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
-<table cellpadding="3" cellspacing="3" >
-<tr>
-    <td><b>Symbol</b></td>
-    <td><b>Name</b></td>
-    <td><b>Trait</b></td>
-</tr>
+    <div class="modelsViewContent" >
+        <div class="pager strainQtlAssociationPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
+    <thead>
+        <tr>
+            <td><b>Symbol</b></td>
+            <td><b>Name</b></td>
+            <td><b>Trait</b></td>
+        </tr>
+    </thead>
+    <tbody>
 <%
     for (QTL qtl: qtls) {
         List<Term> traitTerms = DaoUtils.getInstance().getTraitTermsForObject(qtl.getRgdId());
@@ -56,8 +78,27 @@
     <%
     }
 %>
+    </tbody>
 </table>
-
+    <div class="modelsViewContent" >
+        <div class="pager strainQtlAssociationPager" >
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
 <%--<%=ui.dynClose("strainQtlAssociation")%>--%>
 </div>
 <% } %>
