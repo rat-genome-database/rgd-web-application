@@ -31,8 +31,8 @@ addHeadAndIdToTable("cellOntologyTableDiv", 0);
 addHeadAndIdToTable("mouseAnatomyTableDiv", 0);
 addHeadAndIdToTable("ratStrainTableDiv", 0);
 
-
-
+//phenominer values table
+addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
 
 
 
@@ -793,6 +793,15 @@ $(function () {
         .tablesorterPager({
             container: $('.strainQtlAssociationPager'),
             size: 20
+        });
+    $('#phenominerAssociationTable')
+        .tablesorter({
+            theme: 'dropbox',
+            widget: ['zebra']
+        })
+        .tablesorterPager({
+            container: $('.phenominerAssociationPager'),
+            size: 30
         });
 
 });
