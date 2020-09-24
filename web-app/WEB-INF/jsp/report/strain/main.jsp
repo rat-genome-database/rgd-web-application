@@ -64,6 +64,7 @@
 
 
 
+        <div class="registrationLink"><a href="/rgdweb/models/strainSubmissionForm.html?new=true">Strain Registration</a></div>
 <%@ include file="menu.jsp"%>
 
 
@@ -159,7 +160,7 @@
         </td>
         <td>&nbsp;</td>
         <td align="right" valign="top">
-            <%@ include file="links.jsp" %>
+<%--            <%@ include file="links.jsp" %>--%>
             <br>
 <%--            <%@ include file="../idInfo.jsp" %>--%>
         </td>        
