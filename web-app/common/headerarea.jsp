@@ -28,16 +28,13 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/subModal.css" />
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
     <link href="/rgdweb/common/rgd_styles-3.css" rel="stylesheet" type="text/css" />
-
-    <!-- adding link for OntoSolr (Pushkala) -->
-    <link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
-
+    <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
-    <script src="/rgdweb/js/jquery/jquery-1.7.1.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script>
+
+    <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
 
     <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -121,7 +118,7 @@
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
 
-<body  ng-cloak ng-app="rgdPage">
+<body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="100" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 
 
@@ -207,6 +204,8 @@
                                     <div class="rgd-dropdown-content">
                                         <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
+                                        <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
+
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                         <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
@@ -251,6 +250,7 @@
                                     <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
                                         <a href="/rgdweb/models/allModels.html">Genetic Models</a>
+                                        <a href="/wg/autism-rat-model-resource/">Autism Models</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                                         <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
                                         <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
@@ -293,33 +293,8 @@
                         </td>
                         </tr>
                         <tr>
-                        <td align="center" id="search-td">
-
-
-                                        <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
-
-                                            <input type="hidden" name="log" value="true" />
-                                            <table border="0">
-                                                <tr>
-
-                                                    <td>
-                                                        <input type="hidden" name="category" id="category" value="General"/>
-                                                        <input  type=text class="form-control searchgroup" id="term" name=term size="50" placeholder="Enter Search Term..." value="" style="border:1px solid #2865A3">
-                                                    </td>
-                                                    <td>
-                                                        <!--<input type="image" src="/rgdweb/common/images/searchGlass.gif" class="searchButtonSmall"/>-->
-                                                        <input class="btn btn-info btn-sm form-control" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px" type="submit" value="Search RGD"/>
-
-                                                    </td>
-                                                    <td colspan="2"  align="center"><br><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a><br>&nbsp;&nbsp; <a href="/QueryBuilder" >OntoMate (Literature Search) </a></td>
-                                                </tr>
-                                            </table>
-
-                                        </form>
-
-
-
-
+                        <td >
+                            <%@include file="../WEB-INF/jsp/search/elasticsearch/searchBox.jsp"%>
                             </td>
                             <td>
                                 <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
