@@ -138,6 +138,7 @@
                 <%@ include file="phenominer.jsp"%>
             </div>
 
+            <div class ="subTitle" id="references">References</div>
             <%@ include file="../references.jsp"%>
             <%@ include file="../pubMedReferences.jsp"%>
 

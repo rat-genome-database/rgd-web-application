@@ -507,14 +507,19 @@
             ((isReferenceRgd==1) && (rgdid>0)) || hasPhenoMinerAnn) {
 %>
 
-
+<%
+    if(!title.equalsIgnoreCase("strains")){
+%>
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
 <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations</div>
+
 <%
     if(hasPhenoMinerAnn){
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
 %>
+
+
 <table>
     <tr>
         <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
@@ -623,6 +628,7 @@
     </div>
 </div>
 <% } %>
+<%}%>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
        <% HeatMap hm = af.createGeoAnnotationsGrid(maList, rsList);%>

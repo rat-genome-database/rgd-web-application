@@ -57,6 +57,8 @@ window.addEventListener("scroll", (event) =>{
     let domRect = sidebar.getBoundingClientRect();
     let top = domRect.top + document.body.scrollTop;
 });
+
+checkForAnnotations();
 addItemsToSideBar();
 
 sidebar.addEventListener("mouseover", (event) => {
@@ -319,7 +321,7 @@ function addItemsToSideBar(){
             parent = value.parentNode;
         }
 
-        if(parent.style.display !== "none"){
+        if(parent.style.display !== "none" && value.style.display !== "none"){
 
             let text = value.childNodes[0].textContent;
 
@@ -356,6 +358,18 @@ function addItemsToSideBar(){
 
 
     });
+}
+
+function checkForAnnotations(){
+    //get all the tables with annotationTable class
+    let annotationTables = document.getElementsByClassName('annotationTable');
+    //if list == 0,
+    if(annotationTables.length === 0){
+        //make Annotations div display == none
+        let annotationDiv = document.getElementById('annotation');
+        annotationDiv.style.display = 'none';
+    }
+
 }
 
 function removeAllChildNodes(parent) {
