@@ -75,7 +75,7 @@ if(toggle != null){
     });
 }
 
-
+moveAGRLink();
 
 function removeBreaks(divId){
     let div = document.getElementById(divId);
@@ -391,6 +391,42 @@ function checkIfParent(parent, value){
     return false;
 }
 
+//removes row from xdbs table
+function removeAGRLink(){
+    let externalDbTable = document.getElementById('externalDatabaseLinksTable');
+    let accId;
+    if(externalDbTable !== null){
+        let rows = externalDbTable.rows;
+        for(let i = 0; i < rows.length; i++){
+            let row = rows[i];
+            let cells = row.cells;
+            if(cells[0].innerText === "AGR Gene"){
+                accId = cells[1].innerHTML;
+                externalDbTable.deleteRow(i);
+            }
+        }
+    }
+
+    return accId;
+}
+//adds row to top summary
+function addAGRLink(accId){
+    if(accId){
+        let summary = document.getElementById("info-table");
+        let row = summary.insertRow(3);
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+
+        cell1.classList.add('label');
+        cell1.innerText = "Alliance Gene";
+        cell2.innerHTML = accId;
+    }
+}
+
+function moveAGRLink(){
+    let accId = removeAGRLink();
+    addAGRLink(accId);
+}
 $(function () {
 
     $('#annotationTable1')
