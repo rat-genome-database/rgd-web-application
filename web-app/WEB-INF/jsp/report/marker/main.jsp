@@ -88,7 +88,7 @@
             %>
 
             <br>
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
+            <br><div  id='annotation' style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
 
             <%@ include file="../associations.jsp"%>
             <%@ include file="../references.jsp"%>

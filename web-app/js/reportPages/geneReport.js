@@ -51,7 +51,6 @@ removeBreaks('proteinReferenceSequencesTableDiv');
 let sidebar = document.getElementById("reportMainSidebar");
 
 
-// sidebar.style.position = "relative";
 window.addEventListener("scroll", (event) =>{
     stickifySideBar(sidebar);
     let domRect = sidebar.getBoundingClientRect();
