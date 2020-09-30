@@ -22,7 +22,7 @@
 <div id="qtlAssociationTableDiv" class="light-table-border">
     <div class="sectionHeading" id="qtlAssociation"><%=qtlAssotitle%></div>
 
-    <input class="search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search entire table">
+    <input class="search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search table">
 
     <div class="modelsViewContent" >
         <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">

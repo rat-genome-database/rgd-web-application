@@ -16,6 +16,10 @@
 
 <div id="referencesCuratedTableDiv" class="light-table-border">
     <div class="sectionHeading" id="referencesCurated">References - curated</div>
+
+    <input class="search" id='referencesCuratedSearch' type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="referencesCuratedPager" class="pager" style="margin-bottom:2px;">
             <form>

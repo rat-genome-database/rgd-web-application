@@ -700,7 +700,11 @@ $(function () {
     $('#referencesCuratedTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#referencesCuratedSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.referencesCuratedPager'),
