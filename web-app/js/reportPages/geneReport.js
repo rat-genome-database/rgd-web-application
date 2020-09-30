@@ -767,7 +767,11 @@ $(function () {
     $('#geneAssociationTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#geneAssociationSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.geneAssociationPager'),
