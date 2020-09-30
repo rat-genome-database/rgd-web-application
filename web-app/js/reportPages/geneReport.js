@@ -264,7 +264,8 @@ function buildEmptyTable(){
 
 //add classes and ids to that new table
 function addClassAndIdToAnnotationTable(table, tableNumber){
-    table.className = 'tablesorter';
+    table.classList.add('tablesorter');
+    table.classList.add('annotationTable');
     table.id = "annotationTable" + tableNumber.toString();
     return table;
 }
@@ -361,7 +362,8 @@ function addItemsToSideBar(){
 
 function checkForAnnotations(){
     //get all the tables with annotationTable class
-    let annotationTables = document.getElementsByClassName('annotationTable');
+    let annotationTables = Array.from(document.getElementsByClassName('annotationTable'));
+
     //if list == 0,
     if(annotationTables.length === 0){
         //make Annotations div display == none
@@ -418,7 +420,7 @@ function addAGRLink(accId){
         let cell2 = row.insertCell(1);
 
         cell1.classList.add('label');
-        cell1.innerText = "Alliance Gene";
+        cell1.innerText = "Alliance Gene:";
         cell2.innerHTML = accId;
     }
 }
