@@ -13,6 +13,8 @@
 <div id="mark2AssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="mark2Asscociation">Markers in Region</div>
 
+    <input class="search" id='mark2AssociationSearch' type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="mark2AssociationPager" class="pager" style="margin-bottom:2px;">
             <form autocomplete="off">

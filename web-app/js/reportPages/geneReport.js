@@ -781,7 +781,11 @@ $(function () {
     $('#mark2AssociationTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#mark2AssociationSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.mark2AssociationPager'),
