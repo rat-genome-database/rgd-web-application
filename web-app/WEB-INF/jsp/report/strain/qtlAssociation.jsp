@@ -20,6 +20,10 @@
 <%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
 <div id="strainQtlAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
+
+    <input class="search table-search" id="strainQtlAssociationSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager strainQtlAssociationPager" >
             <form>

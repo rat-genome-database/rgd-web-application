@@ -798,7 +798,7 @@ $(function () {
             theme: 'blue',
             widgets: ['filter'],
             widgetOptions : {
-                filter_external : '##mammalianPhenotypeAnnotationsSearch',
+                filter_external : '#mammalianPhenotypeAnnotationsSearch',
                 filter_columnFilters: false
             }
         })
@@ -1017,7 +1017,11 @@ $(function () {
     $('#strainQtlAssociationTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#strainQtlAssociationSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.strainQtlAssociationPager'),
