@@ -14,6 +14,7 @@
 
   <% boolean includeMapping = true; %>
 <%
+    String title = "References";
 
     Reference obj = (Reference) request.getAttribute("reportObject");
     String pageTitle = "RGD Reference Report - " + obj.getTitle() + " - " + RgdContext.getLongSiteName(request);
