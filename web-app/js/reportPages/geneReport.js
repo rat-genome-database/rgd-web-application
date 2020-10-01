@@ -1004,7 +1004,11 @@ $(function () {
     $('#externalDatabaseLinksTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#externalDatabaseLinksSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.externalDatabaseLinksPager'),
