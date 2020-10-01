@@ -931,7 +931,11 @@ $(function () {
     $('#strainSequenceVariantsTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#strainSequenceVariantsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.strainSequenceVariantsPager'),
