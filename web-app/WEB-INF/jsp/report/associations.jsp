@@ -42,6 +42,9 @@
 
 <div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
     <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -99,6 +102,10 @@
 
 <div class="reportTable light-table-border" id="geneChemicalInteractionTableWrapper">
     <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -166,6 +173,10 @@
 
 
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -215,6 +226,9 @@
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
 
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -263,6 +277,9 @@
 
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -324,6 +341,9 @@
 
 <div class="reportTable light-table-border" id="molecularPathwayAnnotationsTableWrapper">
     <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -389,6 +409,9 @@
 <% if (mpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
@@ -439,6 +462,9 @@
 <% if (hpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -585,7 +611,10 @@
 <% if (rsList.size() > 0) { %>
 <div class="reportTable light-table-border" id="ratStrainAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
-        <div class="modelsViewContent" >
+
+    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
+    <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>

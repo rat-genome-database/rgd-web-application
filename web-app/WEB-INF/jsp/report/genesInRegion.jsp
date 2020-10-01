@@ -20,7 +20,7 @@
 <div id="geneAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="geneAssociation">Genes in Region</div>
 
-    <input class="search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
+    <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
 
 
     <div class="modelsViewContent" >

@@ -184,6 +184,11 @@ li a {
 
 }
 
+.table-search{
+    width: 12vw;
+    margin: 5px;
+}
+
 .registrationLink{
     display: flex;
     justify-content: flex-end;

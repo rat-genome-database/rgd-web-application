@@ -130,6 +130,7 @@ function iterateOverAndAppendNewTables(tableArray){
         let table = tableArray[i];
         let parentIdString = table.parentNode.id;
         linkTableWithPager(table, i + 1);
+        linkTableWithSearchBar(table, i + 1);
         let newTable = extractRowsAndBuildAnnotationTable(table);
         appendTableToDiv(addClassAndIdToAnnotationTable(newTable, i + 1), parentIdString);
     }
@@ -147,6 +148,16 @@ function linkTableWithPager(table, pagerNumber){
     if(pager2 !== undefined){
         addClassToPagerDiv(pager2, pagerNumber);
     }
+}
+
+//turn into linkTableWithSeachBar
+function linkTableWithSearchBar(table, searchBarNumber){
+    let searchBar = table.parentNode.parentNode.getElementsByClassName('search')[0];
+
+    if(searchBar){
+        addIdToSearchBar(searchBar, searchBarNumber);
+    }
+
 }
 
 
@@ -274,6 +285,11 @@ function addClassToPagerDiv(pager, pagerNumber){
     let pagerClassName = "annotationPager" + pagerNumber.toString();
     pager.classList.add(pagerClassName);
     return pager;
+}
+
+function addIdToSearchBar(searchBar, searchBarNumber){
+    searchBar.id = "annotationSearch" + searchBarNumber.toString();
+    return searchBar;
 }
 
 function stickifySideBar(sidebar){
@@ -434,7 +450,11 @@ $(function () {
     $('#annotationTable1')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch1',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager1'),
@@ -444,7 +464,11 @@ $(function () {
     $('#annotationTable2')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch2',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager2'),
@@ -454,7 +478,11 @@ $(function () {
     $('#annotationTable3')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch3',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager3'),
@@ -464,7 +492,11 @@ $(function () {
     $('#annotationTable4')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch4',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager4'),
@@ -474,7 +506,11 @@ $(function () {
     $('#annotationTable5')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch5',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager5'),
@@ -484,7 +520,11 @@ $(function () {
     $('#annotationTable6')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch6',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager6'),
@@ -494,7 +534,11 @@ $(function () {
     $('#annotationTable7')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch7',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager7'),
@@ -505,7 +549,11 @@ $(function () {
     $('#annotationTable8')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch8',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager8'),
@@ -515,7 +563,11 @@ $(function () {
     $('#annotationTable9')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#annotationSearch9',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.annotationPager9'),
