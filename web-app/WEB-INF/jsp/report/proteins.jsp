@@ -11,6 +11,10 @@
 
 <div id="proteinSequencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
+
+    <input class="search table-search" id="proteinSequencesSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent2" >
         <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -98,6 +102,8 @@
 <div id="proteinReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
 
     <span class="highlight"><u>Reference Sequences</u></span>
+
+
 
     <div class="modelsViewContent" >
         <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">

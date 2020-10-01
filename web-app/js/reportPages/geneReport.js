@@ -942,7 +942,7 @@ $(function () {
     $('#nucleotideReferenceSequencesTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter']
         })
         .tablesorterPager({
             container: $('.nucleotideReferenceSequencesPager'),
@@ -952,7 +952,7 @@ $(function () {
     $('#proteinReferenceSequencesTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter']
         })
         .tablesorterPager({
             container: $('.proteinReferenceSequencesPager'),
@@ -962,7 +962,11 @@ $(function () {
     $('#nucleotideSequencesTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#nucleotideSequencesSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.nucleotideSequencesPager'),
@@ -972,7 +976,11 @@ $(function () {
     $('#proteinSequencesTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#proteinSequencesSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.proteinSequencesPager'),
