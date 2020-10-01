@@ -42,6 +42,10 @@
 
 <div class="reportTable light-table-border" id="manualAnnotationsTableWrapper">
     <div class="sectionHeading" id="manualAnnotations"><h4><%=siteName%> Manual Annotations</h4></div>
+
+    <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager manualAnnotationsPager" >
             <form>
@@ -92,6 +96,10 @@
 
     <div class="reportTable light-table-border" id="importedAnnotationsClinVarTableWrapper">
         <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
+
+        <input class="search table-search" id="importedAnnotationsClinVarSearch" type="search" data-column="all" placeholder="Search table">
+
+
         <div class="modelsViewContent" >
             <div class="pager importedAnnotationsClinVarPager" >
                 <form>
@@ -139,6 +147,10 @@
 <% } if( !listCTD.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsCTDTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Annotations - CTD </h4></div>
+
+    <input class="search table-search" id="importedAnnotationsCTDSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsCTDPager" >
             <form>
@@ -186,6 +198,10 @@
 <% } if( !listGAD.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsGADTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsGAD"><h4>Imported Annotations - GAD </h4></div>
+
+    <input class="search table-search" id="importedAnnotationsGADSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsGADPager" >
             <form>
@@ -232,6 +248,9 @@
 <% } if( !listMGI.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsMGITableWrapper">
 <div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Annotations - MGI </h4></div>
+
+    <input class="search table-search" id="importedAnnotationsMGISearch" type="search" data-column="all" placeholder="Search table">
+
 
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsMGIPager" >
@@ -280,6 +299,9 @@
 <div class="reportTable light-table-border" id="importedAnnotationsOMIATableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
 
+    <input class="search table-search" id="importedAnnotationsOMIASearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOMIAPager" >
             <form>
@@ -326,6 +348,10 @@
 <% } if( !listOmim.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsOMIMTableWrapper">
 <div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Annotations - OMIM </h4></div>
+
+    <input class="search table-search" id="importedAnnotationsOMIMSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOMIMPager" >
             <form>
@@ -384,6 +410,9 @@
 <%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
 <div class="reportTable light-table-border" id="geneChemicalInteractionAnnotationsTableWrapper">
 <div class="sectionHeading" id="geneChemicalInteractionAnnotations"><h4>Gene-Chemical Interaction Annotations</h4></div>
+
+    <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
 
     <div class="modelsViewContent" >
         <div class="pager geneChemicalInteractionAnnotationsPager" >
@@ -447,6 +476,8 @@
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
 
+    <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="pager biologicalProcessAnnotationsPager" >
             <form>
@@ -493,6 +524,10 @@
 <% if (ccList.size() > 0) { %>
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
+
+    <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager cellularComponentAnnotationsPager" >
             <form>
@@ -541,6 +576,10 @@
 <% if (mfList.size() > 0) { %>
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+
+    <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager molecularFunctionAnnotationsPager" >
             <form>
@@ -620,6 +659,10 @@
 <% if( !listManual.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="molecularPathwayManualAnnotationsTableWrapper">
     <h4><%=siteName%> Manual Annotations</h4>
+
+    <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager molecularPathwayManualAnnotationsPager" >
             <form>
@@ -668,6 +711,10 @@
     <% } if( !listImportedSMPDB.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsSMPDBTableWrapper">
     <h4>Imported Annotations - SMPDB</h4>
+
+    <input class="search table-search" id="importedAnnotationsSMPDBSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsSMPDBPager" >
             <form>
@@ -714,6 +761,10 @@
     <% } if( !listImportedKEGG.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsKEGGTableWrapper">
     <h4>Imported Annotations - KEGG (archival)</h4>
+
+    <input class="search table-search" id="importedAnnotationsKEGGSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsKEGGPager" >
             <form>
@@ -760,6 +811,10 @@
     <% } if( !listImportedPID.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsPIDTableWrapper">
     <h4>Imported Annotations - PID (archival)</h4>
+
+    <input class="search table-search" id="importedAnnotationsPIDSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsPIDPager" >
             <form>
@@ -805,6 +860,10 @@
     <% } if( !listImported.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsOtherTableWrapper">
     <h4>Imported Annotations - Other</h4>
+
+    <input class="search table-search" id="importedAnnotationsOtherSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOtherPager" >
             <form>
@@ -865,6 +924,10 @@
 <% if (mpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+
+    <input class="search table-search" id="mammalianPhenotypeAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager mammalianPhenotypeAnnotationsPager" >
             <form>
@@ -911,6 +974,10 @@
 <% if (hpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+
+    <input class="search table-search" id="humanPhenotypeAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager humanPhenotypeAnnotationsPager" >
             <form>
@@ -994,6 +1061,10 @@
        if (clList.size() > 0) { %>
 <div class="reportTable light-table-border" id="cellOntologyTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
+
+    <input class="search table-search" id="cellOntologySearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager cellOntologyPager" >
             <form>
@@ -1052,6 +1123,10 @@
     <% if (maList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mouseAnatomyTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
+
+    <input class="search table-search" id="mouseAnatomySearch" type="search" data-column="all" placeholder="Search table">
+
+
     <div class="modelsViewContent" >
         <div class="pager mouseAnatomyPager" >
             <form>
@@ -1099,6 +1174,9 @@
     <% if (rsList.size() > 0) { %>
 <div class="reportTable light-table-border" id="ratStrainTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
+
+    <input class="search table-search" id="ratStrainSearch" type="search" data-column="all" placeholder="Search table">
+
     <div class="modelsViewContent" >
         <div class="pager ratStrainPager" >
             <form>

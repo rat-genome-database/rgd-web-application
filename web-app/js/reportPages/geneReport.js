@@ -578,7 +578,11 @@ $(function () {
     $('#manualAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#manualAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.manualAnnotationsPager'),
@@ -588,7 +592,11 @@ $(function () {
     $('#importedAnnotationsClinVarTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsClinVarSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsClinVarPager'),
@@ -598,7 +606,11 @@ $(function () {
     $('#importedAnnotationsCTDTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsCTDSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsCTDPager'),
@@ -607,7 +619,11 @@ $(function () {
     $('#importedAnnotationsGADTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsGADSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsGADPager'),
@@ -617,7 +633,11 @@ $(function () {
     $('#importedAnnotationsMGITable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: [ 'filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsMGISearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsMGIPager'),
@@ -626,7 +646,11 @@ $(function () {
     $('#importedAnnotationsOMIATable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsOMIASearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsOMIAPager'),
@@ -636,7 +660,11 @@ $(function () {
     $('#importedAnnotationsOMIMTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsOMIMSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsOMIMPager'),
@@ -646,7 +674,11 @@ $(function () {
     $('#geneChemicalInteractionAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#geneChemicalInteractionAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.geneChemicalInteractionAnnotationsPager'),
@@ -656,7 +688,11 @@ $(function () {
     $('#biologicalProcessAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#biologicalProcessAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.biologicalProcessAnnotationsPager'),
@@ -666,7 +702,11 @@ $(function () {
     $('#cellularComponentAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#cellularComponentAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.cellularComponentAnnotationsPager'),
@@ -676,7 +716,11 @@ $(function () {
     $('#molecularFunctionAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#molecularFunctionAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.molecularFunctionAnnotationsPager'),
@@ -686,7 +730,11 @@ $(function () {
     $('#molecularPathwayManualAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#molecularPathwayManualAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.molecularPathwayManualAnnotationsPager'),
@@ -696,7 +744,11 @@ $(function () {
     $('#importedAnnotationsSMPDBTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsSMPDBSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsSMPDBPager'),
@@ -705,7 +757,11 @@ $(function () {
     $('#importedAnnotationsKEGGTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsKEGGSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsKEGGPager'),
@@ -714,7 +770,11 @@ $(function () {
     $('#importedAnnotationsPIDTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsPIDSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsPIDPager'),
@@ -723,7 +783,11 @@ $(function () {
     $('#importedAnnotationsOtherTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#importedAnnotationsOtherSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.importedAnnotationsOtherPager'),
@@ -732,7 +796,11 @@ $(function () {
     $('#mammalianPhenotypeAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '##mammalianPhenotypeAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.mammalianPhenotypeAnnotationsPager'),
@@ -741,7 +809,11 @@ $(function () {
     $('#humanPhenotypeAnnotationsTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#humanPhenotypeAnnotationsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.humanPhenotypeAnnotationsPager'),
@@ -750,7 +822,11 @@ $(function () {
     $('#cellOntologyTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#cellOntologySearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.cellOntologyPager'),
@@ -759,7 +835,11 @@ $(function () {
     $('#mouseAnatomyTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: [, 'filter'],
+            widgetOptions : {
+                filter_external : '#mouseAnatomySearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.mouseAnatomyPager'),
@@ -768,7 +848,11 @@ $(function () {
     $('#ratStrainTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['filter'],
+            widgetOptions : {
+                filter_external : '#ratStrainSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
             container: $('.ratStrainPager'),
@@ -778,7 +862,7 @@ $(function () {
     $('#pubMedReferencesTable')
         .tablesorter({
             theme: 'blue',
-            widget: ['zebra']
+            widgets: ['zebra']
         })
         .tablesorterPager({
             container: $('.pubMedReferencesPager'),
