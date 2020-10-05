@@ -31,9 +31,9 @@
          %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
                 <div class="geneTrack" id="<%=uniqueId%><%=i%>-<%=pos%>" style="overflow:hidden;  height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>" >
-                     <p style="width:<%=width%>; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>;"  title="<%=geneObj%>">
+                     <span style="width:<%=width%>; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>;"  title="<%=geneObj%>">
                         <%=geneObj%>
-                     </p>
+                     </span>
                </div>
             </td>
         <!--script>
@@ -55,7 +55,7 @@
         %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
                 <div class="geneTrack" id="<%=uniqueId%>-<%=pos%>" style="overflow:hidden; ; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; border-right: 1px solid white;" >
-                    <p style="  width:<%=width%>;text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>;  color:<%=fontColor%>;" title="<%=geneObj%>"><%=geneObj%></p>
+                    <span style="  width:<%=width%>;text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>;  color:<%=fontColor%>;" title="<%=geneObj%>"><%=geneObj%></span>
                 </div>
             </td>
             <!--script>
