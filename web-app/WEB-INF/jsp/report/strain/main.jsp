@@ -76,7 +76,7 @@
 
 <% } else {%>
 
-        
+
 
 
 <table width="95%" border="0">
@@ -161,3 +161,4 @@
     <%@ include file="/common/footerarea.jsp"%>
 </footer>
 <script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>

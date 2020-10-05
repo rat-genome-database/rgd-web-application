@@ -1108,6 +1108,7 @@
     </div>
 </div>
     <% } %>
+<div class="light-table-border">
     <% if (cmoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
@@ -1120,6 +1121,7 @@
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
     <% } %>
+</div>
     <% if (maList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mouseAnatomyTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
@@ -1221,12 +1223,13 @@
     </div>
 </div>
     <% } %>
+<div class="light-table-border">
     <% if (vtList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(vtList)%>
-    <% }
-    }
-    %>
+    <% }%>
+</div>
+  <%  } %>
 
 <br>
 <%//ui.dynClose("expAssociationC")%>
