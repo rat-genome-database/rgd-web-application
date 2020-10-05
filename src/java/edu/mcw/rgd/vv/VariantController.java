@@ -265,14 +265,14 @@ public class VariantController extends HaplotyperController {
         try{
             if(conScores!=null && conScores.size()>=1 ) {
                 if(conScores.get(0) instanceof Integer){
-                    BigDecimal score= new BigDecimal((Integer) conScores.get(0));
+                    BigDecimal score=  BigDecimal.valueOf((Integer) conScores.get(0));
                     cs.setScore(score);
                     cs.setChromosome((String) m.get("chromosome"));
                     cs.setPosition((Integer) m.get("startPos"));
                     cs.setNuc((String) m.get("refNuc"));
                 }else{
                     if(conScores.get(0) instanceof Double){
-                        BigDecimal score= new BigDecimal((Double) conScores.get(0));
+                        BigDecimal score= BigDecimal.valueOf((Double) conScores.get(0));
                         cs.setScore(score);
                         cs.setChromosome((String) m.get("chromosome"));
                         cs.setPosition((Integer) m.get("startPos"));
