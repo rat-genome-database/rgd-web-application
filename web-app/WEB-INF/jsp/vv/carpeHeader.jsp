@@ -214,9 +214,9 @@
                 }
 
         %>
-    //    location.href="variants.html" + queryString;
+       location.href="variants.html" + queryString;
         console.log("variants.html"+queryString);
-        window.open("variants.html" + queryString);
+    //    window.open("variants.html" + queryString);
     }
 
 
