@@ -40,7 +40,7 @@
         </div>
     </div>
     <table class="tablesorter" id="referencesCuratedTable">
-        <thead></thead>
+        <thead ><tr style="display: none"><th></th><th></th></tr></thead>
         <tbody>
     <%
     int count=1;

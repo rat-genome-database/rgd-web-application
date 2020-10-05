@@ -104,19 +104,19 @@
     <script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 
 
-    <script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
-    <script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="/rgdweb/common/tablesorter-2.18.4/js/tablesorter.js"> </script>
+    <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
 
-    <script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
-    <link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
+    <script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
+    <link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 
-    <link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.dark.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.ice.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.green.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.dark.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.ice.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.green.css" rel="stylesheet" type="text/css"/>
 
     <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
     <script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>

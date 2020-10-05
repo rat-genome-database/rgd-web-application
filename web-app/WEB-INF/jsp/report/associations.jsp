@@ -43,7 +43,7 @@
 <div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
     <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
 
-    <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+    <input class="search table-search" type="search" data-column="0-2" placeholder="Search table">
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
