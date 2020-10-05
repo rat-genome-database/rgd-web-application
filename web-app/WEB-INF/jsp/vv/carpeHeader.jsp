@@ -168,6 +168,8 @@
     }
 
     function showVariants(e) {
+
+        alert("hello");
         if (!e) e = window.event;
         var firedDiv = getTarget(e);
 
@@ -214,9 +216,9 @@
                 }
 
         %>
-    //    location.href="variants.html" + queryString;
+       location.href="variants.html" + queryString;
         console.log("variants.html"+queryString);
-        window.open("variants.html" + queryString);
+     //   window.open("variants.html" + queryString);
     }
 
 
