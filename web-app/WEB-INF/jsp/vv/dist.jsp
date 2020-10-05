@@ -179,7 +179,7 @@
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="center">
                             <div class="snpLabel">
-                                <form action="dist.html" method="post" target="_blank" >
+                                <form action="dist.html" method="post" >
                                     <%if(request.getParameter("geneList")!=null){%>
                                     <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
                                     <%}%>
