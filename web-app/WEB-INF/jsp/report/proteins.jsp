@@ -38,7 +38,12 @@
 
 
     <table border="0" id="proteinSequencesTable" class = 'tablesorter'>
-        <thead></thead>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
 <%
     int row = 0;
     int prevRefSeqCode = -1;

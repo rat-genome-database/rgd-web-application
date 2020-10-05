@@ -33,7 +33,12 @@
 
 
 <table border="0" id="nucleotideSequencesTable" class="tablesorter">
-    <thead></thead>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
 <%
     List<XdbId> nei = DaoUtils.getInstance().getNucleotideSequences(obj.getRgdId(), obj.getSpeciesTypeKey());
 
