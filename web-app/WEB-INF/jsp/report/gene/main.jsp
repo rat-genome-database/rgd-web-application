@@ -164,7 +164,7 @@
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations();">(Toggle Annotation Detail/Summary View)</a></div><br>
+                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations();">Click to see Annotation Detail View</a></div><br>
 
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>

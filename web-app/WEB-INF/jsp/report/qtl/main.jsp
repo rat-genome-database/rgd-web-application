@@ -77,21 +77,7 @@
 
 <% } else {%>
 
-<script>
-    function toggleAssociations() {
-        if (document.getElementById("associationsCurator").style.display=="none") {
-            document.getElementById("associationsCurator").style.display="block";
-        }else {
-           document.getElementById("associationsCurator").style.display="none";
-        }
 
-        if (document.getElementById("associationsStandard").style.display=="none") {
-           document.getElementById("associationsStandard").style.display="block";
-        }else {
-           document.getElementById("associationsStandard").style.display="none";
-        }
-    }
-</script>
 
 
 
@@ -100,7 +86,7 @@
         <td>
             <%@ include file="info.jsp"%>
 
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations()">Click to see Annotation Detail View</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>
 

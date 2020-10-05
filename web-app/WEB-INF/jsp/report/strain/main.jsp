@@ -76,22 +76,7 @@
 
 <% } else {%>
 
-
-<script>
-    function toggleAssociations() {
-        if (document.getElementById("associationsCurator").style.display=="none") {
-            document.getElementById("associationsCurator").style.display="block";
-        }else {
-           document.getElementById("associationsCurator").style.display="none";
-        }
-
-        if (document.getElementById("associationsStandard").style.display=="none") {
-           document.getElementById("associationsStandard").style.display="block";
-        }else {
-           document.getElementById("associationsStandard").style.display="none";
-        }
-    }
-</script>
+        
 
 
 <table width="95%" border="0">
@@ -126,7 +111,7 @@
             <%@ include file="mutants.jsp"%>
 
             <br>
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">Click to see Annotation Detail View</a></div><br>
             <br>
             <%@ include file="diseaseModels.jsp"%>
             <div id="associationsCurator" style="display:none;">

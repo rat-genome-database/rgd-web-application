@@ -78,12 +78,14 @@ function addParam(name, value) {
 function toggleAssociations() {
     if (document.getElementById("associationsCurator").style.display=="none") {
         document.getElementById("associationsCurator").style.display="block";
+        document.getElementById('associationsToggle').innerText = "Click to see Annotation Summary View";
     }else {
        document.getElementById("associationsCurator").style.display="none";
     }
 
     if (document.getElementById("associationsStandard").style.display=="none") {
        document.getElementById("associationsStandard").style.display="block";
+        document.getElementById('associationsToggle').innerText = "Click to see Annotation Detail View";
     }else {
        document.getElementById("associationsStandard").style.display="none";
     }
