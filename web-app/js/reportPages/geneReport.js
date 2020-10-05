@@ -77,6 +77,8 @@ if(toggle != null){
 
 moveAGRLink();
 
+togglePagers();
+
 function removeBreaks(divId){
     let div = document.getElementById(divId);
     if(div != null){
@@ -455,3 +457,34 @@ function moveAGRLink(){
     addAGRLink(accId);
 }
 
+function togglePagers(){
+    let tables = document.getElementsByClassName('tablesorter');
+
+    for(let i = 0; i < tables.length; i++){
+        if(tables[i].rows.length < 10){
+            let pagers = findPagers(tables[i]);
+            if(pagers.length > 0){
+                changePagerDisplay(pagers);
+            }
+
+        }
+
+    }
+}
+
+function findPagers(table){
+    let wrapperDiv = table.parentElement;
+    let pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
+    if(pagers.length === 0){
+        wrapperDiv = table.parentElement.parentElement;
+
+        pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
+    }
+    return pagers;
+}
+
+function changePagerDisplay(pagers){
+    for(let i = 0; i < pagers.length; i++){
+        pagers[i].style.display = "none";
+    }
+}

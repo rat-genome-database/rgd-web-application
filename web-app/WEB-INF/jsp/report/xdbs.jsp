@@ -15,7 +15,7 @@
     <input class="search table-search" id="externalDatabaseLinksSearch" type="search" data-column="all" placeholder="Search table">
 
 
-    <div id="modelsViewContent" >
+    <div class="modelsViewContent" >
         <div class="externalDatabaseLinksPager" class="pager" >
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
@@ -88,7 +88,7 @@
     </tbody>
 </table>
     <div class="modelsViewContent" >
-        <div class="externalDatabaseLinksPager" class="pager" >
+        <div class="externalDatabaseLinksPager pager" >
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
