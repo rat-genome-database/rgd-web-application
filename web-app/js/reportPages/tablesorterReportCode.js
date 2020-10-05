@@ -548,10 +548,14 @@ $(function () {
     $('#clinicalVariantsTable')
         .tablesorter({
             theme: 'dropbox',
-            widget: ['zebra']
+            widgets: ['zebra', 'filter'],
+            widgetOptions : {
+                filter_external : '#clinicalVariantsSearch',
+                filter_columnFilters: false
+            }
         })
         .tablesorterPager({
-            container: $('#clinicalVariantsPager')
+            container: $('.clinicalVariantsPager')
         });
 
     $('#externalDatabaseLinksTable')

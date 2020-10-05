@@ -9,27 +9,31 @@
 <div class="light-table-border">
 <div class="sectionHeading" id="clinicalVariants">Clinical Variants</div>
 
-<div id="clinicalVariantsTableDiv">
+<div class = 'reportTable' id="clinicalVariantsTableDiv">
 
-<%--    <div id="modelsViewContent" >--%>
-<%--        <div id="clinicalVariantsPager" class="pager" style="float:right;margin-bottom:2px;">--%>
-<%--            <form>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>--%>
-<%--                <span type="text" class="pagedisplay"></span>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>--%>
-<%--                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>--%>
-<%--                <select class="pagesize">--%>
-<%--                    <option selected="selected" value="3">3</option>--%>
-<%--                    <option value="5">5</option>--%>
-<%--                    <option value="10">10</option>--%>
-<%--                    <option value="20">20</option>--%>
-<%--                    <option   value="100">100</option>--%>
-<%--                    <option value="9999">All Rows</option>--%>
-<%--                </select>--%>
-<%--            </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
+
+    <input class="search table-search" id="clinicalVariantsSearch" type="search" data-column="all" placeholder="Search table">
+
+
+    <div class="modelsViewContent" >
+        <div class="clinicalVariantsPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
 <script>
     $('#clinicalVariantsTable').on('click', '.headerRow', function(){
         $('#clinicalVariantsTable tr:nth-child(even)').removeClass('evenRow').addClass('oddRow');
@@ -91,6 +95,27 @@
     </tr>
     <% } %>
 </table>
+    <div class="modelsViewContent" >
+        <div class="clinicalVariantsPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
 </div>
 </div>
     <%//ui.dynClose("clinicalVariants")%>
