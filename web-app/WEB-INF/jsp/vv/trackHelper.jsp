@@ -30,18 +30,18 @@
 
          %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
-                <div class="geneTrack" id="<%=uniqueId%><%=i%>-<%=pos%>" style="overflow:hidden; cursor:<%=cursor%>; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>" >
-                     <p style="width:<%=width%>; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>;"  title="<%=geneObj%>">
+                <div class="geneTrack" id="<%=uniqueId%><%=i%>-<%=pos%>" style="overflow:hidden;  height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>" >
+                     <span style="width:<%=width%>; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>;"  title="<%=geneObj%>">
                         <%=geneObj%>
-                     </p>
+                     </span>
                </div>
             </td>
-        <script>
-                <% if (g != null) { %>
+        <!--script>
+                <%-- if (g != null) { %>
                 document.getElementById("<%=uniqueId%><%=i%>-<%=pos%>").gene="<%=geneObj%>";
                 document.getElementById("<%=uniqueId%><%=i%>-<%=pos%>").onclick=showVariants;
-                <% } %>
-        </script>
+                <% } --%>
+        </script-->
 
         <%
         }
@@ -54,17 +54,17 @@
             }
         %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
-                <div class="geneTrack" id="<%=uniqueId%>-<%=pos%>" style="overflow:hidden; cursor:<%=cursor%>; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; border-right: 1px solid white;" >
-                    <p style="  width:<%=width%>;text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>;  color:<%=fontColor%>;" title="<%=geneObj%>"><%=geneObj%></p>
+                <div class="geneTrack" id="<%=uniqueId%>-<%=pos%>" style="overflow:hidden; ; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; border-right: 1px solid white;" >
+                    <span style="  width:<%=width%>;text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>;  color:<%=fontColor%>;" title="<%=geneObj%>"><%=geneObj%></span>
                 </div>
             </td>
-            <script>
-                <% if (g != null) { %>
+            <!--script>
+                <%-- if (g != null) { %>
                 document.getElementById("<%=uniqueId%>-<%=pos%>").gene="<%=geneObj%>";
                 document.getElementById("<%=uniqueId%>-<%=pos%>").onclick=showVariants;
-                <% } %>
+                <% } --%>
 
-            </script>
+            </script-->
         <% } %>
 
     <%
