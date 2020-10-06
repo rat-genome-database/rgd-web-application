@@ -34,8 +34,7 @@
 <div id="strainSequenceVariantsTableDiv" class="light-table-border">
     <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (Rnor 6.0)</div>
 
-    <input class="search table-search" id="strainSequenceVariantsSearch" type="search" data-column="all" placeholder="Search table">
-
+<div class="search-and-pager">
 
     <div class="modelsViewContent" >
         <div id="" class="pager strainSequenceVariantsPager" style="margin-bottom:2px;">
@@ -58,8 +57,9 @@
         </div>
     </div>
 
+    <input class="search table-search" id="strainSequenceVariantsSearch" type="search" data-column="all" placeholder="Search table">
 
-
+</div>
 
 
 <table border=0  width="100%" id="strainSequenceVariantsTable">

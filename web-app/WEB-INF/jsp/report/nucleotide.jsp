@@ -6,9 +6,8 @@
 
     <div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
 
-    <input class="search table-search" id="nucleotideSequencesSearch" type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -29,7 +28,8 @@
             </form>
         </div>
     </div>
-
+    <input class="search table-search" id="nucleotideSequencesSearch" type="search" data-column="all" placeholder="Search table">
+</div>
 
 
 <table border="0" id="nucleotideSequencesTable" class="tablesorter">

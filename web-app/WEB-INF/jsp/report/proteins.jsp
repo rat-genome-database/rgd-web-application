@@ -12,8 +12,7 @@
 <div id="proteinSequencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
 
-    <input class="search table-search" id="proteinSequencesSearch" type="search" data-column="all" placeholder="Search table">
-
+<div class="search-and-pager">
 
     <div class="modelsViewContent2" >
         <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
@@ -34,7 +33,8 @@
             </form>
         </div>
     </div>
-
+    <input class="search table-search" id="proteinSequencesSearch" type="search" data-column="all" placeholder="Search table">
+</div>
 
 
     <table border="0" id="proteinSequencesTable" class = 'tablesorter'>

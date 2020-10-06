@@ -20,9 +20,8 @@
 <div id="geneAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="geneAssociation">Genes in Region</div>
 
-    <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="geneAssociationPager" class="pager" style="margin-bottom:2px;">
             <form autocomplete="off">
@@ -42,7 +41,8 @@
             </form>
         </div>
     </div>
-
+    <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
+</div>
 <table>
     <tr>
         <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>

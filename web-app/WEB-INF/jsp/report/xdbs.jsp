@@ -12,9 +12,8 @@
 <div id="externalDatabaseLinksTableDiv" class="light-table-border">
     <div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
 
-    <input class="search table-search" id="externalDatabaseLinksSearch" type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="externalDatabaseLinksPager" class="pager" >
             <form>
@@ -35,7 +34,9 @@
             </form>
         </div>
     </div>
-<table border="0" id="externalDatabaseLinksTable" class="tablesorter">
+    <input class="search table-search" id="externalDatabaseLinksSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+    <table border="0" id="externalDatabaseLinksTable" class="tablesorter">
     <thead>
         <tr>
             <td style="background-color:#a2a2a2;"><b>Database</b></td>

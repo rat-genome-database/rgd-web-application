@@ -17,9 +17,8 @@
 <div id="referencesCuratedTableDiv" class="light-table-border">
     <div class="sectionHeading" id="referencesCurated">References - curated</div>
 
-    <input class="search table-search" id='referencesCuratedSearch' type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="referencesCuratedPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -39,6 +38,8 @@
             </form>
         </div>
     </div>
+    <input class="search table-search" id='referencesCuratedSearch' type="search" data-column="all" placeholder="Search table">
+</div>
     <table class="tablesorter" id="referencesCuratedTable">
         <thead ><tr style="display: none"><th></th><th></th></tr></thead>
         <tbody>

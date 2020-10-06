@@ -12,9 +12,8 @@
 <div class = 'reportTable' id="clinicalVariantsTableDiv">
 
 
-    <input class="search table-search" id="clinicalVariantsSearch" type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="clinicalVariantsPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -34,7 +33,9 @@
             </form>
         </div>
     </div>
-<script>
+    <input class="search table-search" id="clinicalVariantsSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+    <script>
     $('#clinicalVariantsTable').on('click', '.headerRow', function(){
         $('#clinicalVariantsTable tr:nth-child(even)').removeClass('evenRow').addClass('oddRow');
         $('#clinicalVariantsTable tr:nth-child(odd)').removeClass('oddRow').addClass('evenRow');
