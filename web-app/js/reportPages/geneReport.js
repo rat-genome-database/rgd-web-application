@@ -458,18 +458,17 @@ function moveAGRLink(){
 }
 
 function togglePagers(){
-    let tables = document.getElementsByClassName('tablesorter');
-
-    for(let i = 0; i < tables.length; i++){
-        if(tables[i].rows.length < 10){
-            let pagers = findPagers(tables[i]);
+    let tables = Array.from(document.getElementsByClassName('tablesorter'));
+    tables.forEach(table => {
+        if(table.rows.length < 10){
+            let pagers = findPagers(table);
             if(pagers.length > 0){
                 changePagerDisplay(pagers);
             }
 
         }
 
-    }
+    });
 }
 
 function findPagers(table){

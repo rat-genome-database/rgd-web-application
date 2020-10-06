@@ -35,7 +35,7 @@
             </form>
         </div>
     </div>
-<table border="0" id="externalDatabaseLinksTable">
+<table border="0" id="externalDatabaseLinksTable" class="tablesorter">
     <thead>
         <tr>
             <td style="background-color:#a2a2a2;"><b>Database</b></td>
