@@ -10,6 +10,7 @@
     if (relQtls!=null && relQtls.size()>0) {
 %>
 <%--<%=ui.dynOpen("relQtls", "Related QTLs")%>--%>
+<div class="light-table-border">
 <div class="sectionHeading" id="relatedQTLs">Related QTLs</div>
 <%
     Set<Integer> relQtlKeys = relQtls.keySet();
@@ -37,6 +38,7 @@
     %>
 </table>
 <br>
+</div>
 <%--<%=ui.dynClose("relQtls")%>--%>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>
