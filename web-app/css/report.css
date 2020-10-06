@@ -180,9 +180,19 @@ li a {
     display: flex;
     overflow-x: auto;
     flex-flow: column wrap;
-
-
 }
+
+.search-and-pager{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-and-pager .modelsViewContent{
+    padding-top: 11px;
+}
+
 
 .table-search{
     width: 12vw;
