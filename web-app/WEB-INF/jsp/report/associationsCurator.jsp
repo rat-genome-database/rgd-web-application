@@ -938,7 +938,7 @@
     if (mpList.size()+hpList.size() > 0) {
 %>
 <%//ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
-<div class="sectionHeading" id="phenotypeAnnotations"><h4>Phenotype Annotations</h4></div>
+<div class="sectionHeading" id="phenotypeAnnotationsCurator"><h4>Phenotype Annotations</h4></div>
 <% if (mpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
@@ -1062,7 +1062,7 @@
 %>
 
 <%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
-<div class="sectionHeading" id="experimentalDataAnnotations"><h4>Experimental Data Annotations</h4></div>
+<div class="sectionHeading" id="experimentalDataAnnotationsCurator"><h4>Experimental Data Annotations</h4></div>
 
     <%
     if(hasPhenoMinerAnn){
