@@ -78,7 +78,8 @@ if(toggle != null){
 moveAGRLink();
 
 togglePagersAndSearchBar();
-
+checkForRegionTables();
+checkForAdditionalInfoTables();
 function removeBreaks(divId){
     let div = document.getElementById(divId);
     if(div != null){
@@ -393,6 +394,37 @@ function checkForAnnotations(){
         //make Annotations div display == none
         let annotationDiv = document.getElementById('annotation');
         annotationDiv.style.display = 'none';
+    }
+
+}
+//to remove headers if there are no table displaying
+function checkForRegionTables(){
+    let regionDiv = document.getElementById('region');
+    if(regionDiv){
+        let element = regionDiv.nextElementSibling;
+        while(element.tagName === "BR"){
+            element = element.nextElementSibling;
+        }
+        if(element.id === "additionalInformation"){
+            regionDiv.style.display = 'none';
+        }
+    }
+
+}
+//to remove headers if there are no table displaying
+function checkForAdditionalInfoTables(){
+    let additionalInfoDiv = document.getElementById('additionalInformation');
+
+    if(additionalInfoDiv){
+        let element = additionalInfoDiv.nextElementSibling;
+
+        while(element && element.tagName === "BR"){
+            element = element.nextElementSibling;
+        }
+
+        if(!element){
+            additionalInfoDiv.style.display = 'none';
+        }
     }
 
 }

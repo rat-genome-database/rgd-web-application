@@ -136,7 +136,7 @@
             <%@ include file="qtlAssociation.jsp"%>
             <%@ include file="damagingVariants.jsp"%>
             <br>
-            <div class="subTitle">Additional Information</div>
+            <div class="subTitle" id="additionalInformation">Additional Information</div>
             <br>
 
             <%@ include file="../curatorNotes.jsp"%>

@@ -78,7 +78,7 @@
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
-                <br><div  class="subTitle">Additional Information</div><br>
+                <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
 
                 <%@ include file="xdbs.jsp"%>
                 <%@ include file="../nomen.jsp"%>
