@@ -240,8 +240,8 @@
 <%--                </td>--%>
             </tr>
         </table>
-    </table>
-    </table>
+            </table>
+        </table>
     </div>
 </div>
 <% } %>
