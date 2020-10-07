@@ -91,10 +91,6 @@ function removeBreaks(divId){
 
 }
 
-function addClassAndId(table, className, idName){
-    table.className = className;
-    table.id = idName;
-}
 
 
 function appendTableToDiv(table, divId){
@@ -508,8 +504,6 @@ function findSearchBar(table){
             searchBar = wrapperDiv.getElementsByClassName('table-search')[0];
 
         }
-        console.log(searchBar);
-
     }
     return searchBar;
 }

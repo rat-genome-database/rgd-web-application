@@ -129,3 +129,4 @@
 </footer>
 
 <script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
