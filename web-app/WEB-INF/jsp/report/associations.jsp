@@ -260,7 +260,7 @@
     <div id="cellularComponentAnnotationsTable">
 <%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
     </div>
-<% } %>
+
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -282,6 +282,7 @@
         </div>
     </div>
 </div>
+<% } %>
 <% if (mfList.size() > 0) { %>
 
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
@@ -314,7 +315,7 @@
     <div id="molecularFunctionAnnotationsTable">
 <%=af.createGridFormatAnnotations(mfList, obj.getRgdId(),3)%>
         </div>
-<% } %>
+
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -336,6 +337,7 @@
         </div>
     </div>
 </div>
+<% } %>
 <br>
 <%//ui.dynClose("goAsscociation")%>
 <% } %>
