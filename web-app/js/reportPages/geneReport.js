@@ -77,7 +77,7 @@ if(toggle != null){
 
 moveAGRLink();
 
-togglePagers();
+togglePagersAndSearchBar();
 
 function removeBreaks(divId){
     let div = document.getElementById(divId);
@@ -268,6 +268,7 @@ function buildEmptyTable(isAnnotationTable){
     let newTable = document.createElement('table');
     let tHead = document.createElement('thead');
     let tBody = document.createElement('tbody');
+    //add hidden header rows for the filter to work
     if(isAnnotationTable){
         let tr =document.createElement('tr');
         tHead.append(tr);
@@ -457,13 +458,20 @@ function moveAGRLink(){
     addAGRLink(accId);
 }
 
-function togglePagers(){
+
+
+function togglePagersAndSearchBar(){
     let tables = Array.from(document.getElementsByClassName('tablesorter'));
     tables.forEach(table => {
         if(table.rows.length < 10){
             let pagers = findPagers(table);
+            let searchBar = findSearchBar(table);
             if(pagers.length > 0){
                 changePagerDisplay(pagers);
+            }
+
+            if(searchBar){
+                searchBar.style.display = 'none';
             }
 
         }
@@ -486,4 +494,22 @@ function changePagerDisplay(pagers){
     for(let i = 0; i < pagers.length; i++){
         pagers[i].style.display = "none";
     }
+}
+
+
+
+function findSearchBar(table){
+    let wrapperDiv = table.parentElement;
+    let searchBar = wrapperDiv.getElementsByClassName('table-search')[0];
+
+    if(!searchBar){
+        wrapperDiv = table.parentElement.parentElement;
+        if(wrapperDiv.tagName !== "TD"){
+            searchBar = wrapperDiv.getElementsByClassName('table-search')[0];
+
+        }
+        console.log(searchBar);
+
+    }
+    return searchBar;
 }

@@ -51,7 +51,7 @@
 
 
 
-    <table border="0"  id="pubMedReferencesTable">
+    <table border="0"  id="pubMedReferencesTable" class="tablesorter">
         <thead></thead>
         <tbody>
 
