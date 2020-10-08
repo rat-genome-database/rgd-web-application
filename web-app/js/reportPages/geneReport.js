@@ -1,85 +1,89 @@
-let tableArray = Array.from(
-    document.getElementsByClassName("annotationTable"));
 
-iterateOverAndAppendNewTables(tableArray);
-removeOldAnnotationTables(tableArray);
+run();
+
+
+
+function run() {
+    rebuildAnnotationTables();
 //in region tables
-addHeadAndIdToTable("qtlAssociationTableDiv", 1);
-addHeadAndIdToTable("geneAssociationTableDiv", 1);
-addHeadAndIdToTable("mark2AssociationTableDiv", 1);
+    addHeadAndIdToTable("qtlAssociationTableDiv", 1);
+    addHeadAndIdToTable("geneAssociationTableDiv", 1);
+    addHeadAndIdToTable("mark2AssociationTableDiv", 1);
 
 //annotation detail view tables
-addHeadAndIdToTable("manualAnnotationsTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsClinVarTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsCTDTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsGADTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsMGITableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsOMIATableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsOMIMTableDiv", 0);
-addHeadAndIdToTable("geneChemicalInteractionAnnotationsTableDiv", 0);
-addHeadAndIdToTable("biologicalProcessAnnotationsTableDiv", 0);
-addHeadAndIdToTable("cellularComponentAnnotationsTableDiv", 0);
-addHeadAndIdToTable("molecularFunctionAnnotationsTableDiv", 0);
-addHeadAndIdToTable("molecularPathwayManualAnnotationsTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsSMPDBTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsKEGGTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsPIDTableDiv", 0);
-addHeadAndIdToTable("importedAnnotationsOtherTableDiv", 0);
-addHeadAndIdToTable("mammalianPhenotypeAnnotationsTableDiv", 0);
-addHeadAndIdToTable("humanPhenotypeAnnotationsTableDiv", 0);
-addHeadAndIdToTable("cellOntologyTableDiv", 0);
-addHeadAndIdToTable("mouseAnatomyTableDiv", 0);
-addHeadAndIdToTable("ratStrainTableDiv", 0);
+
+    let annotDetailTables = document.getElementsByClassName('annotation-detail');
+
+    for(let i = 0; i < annotDetailTables.length; i++){
+        addHeadAndIdToTable(annotDetailTables[i].id, 0);
+    }
 
 //phenominer values table
-addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
+    addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
+
+    rebuildReferenceSequenceTables();
+
+    addEventsToSidebar();
 
 
 
-let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
-addClassAndId(nucleotideRefTable, 'tablesorter' ,'nucleotideReferenceSequencesTable');
-appendTableToDiv(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
+    moveAGRLink();
 
-removeBreaks('nucleotideReferenceSequencesTableDiv');
-
-
-let proteinRefTable = buildProteinReferenceSequencesTable();
-addClassAndId(proteinRefTable, 'tablesorter' ,'proteinReferenceSequencesTable');
-appendTableToDiv(proteinRefTable, 'proteinReferenceSequencesTableDiv');
-removeBreaks('proteinReferenceSequencesTableDiv');
-
-let sidebar = document.getElementById("reportMainSidebar");
-
-
-window.addEventListener("scroll", (event) =>{
-    stickifySideBar(sidebar);
-    let domRect = sidebar.getBoundingClientRect();
-    let top = domRect.top + document.body.scrollTop;
-});
-
-checkForAnnotations();
-addItemsToSideBar();
-
-sidebar.addEventListener("mouseover", (event) => {
-    sidebar.style.overflowY = "auto";
-});
-
-sidebar.addEventListener("mouseout", (event) => {
-    sidebar.style.overflowY = "hidden";
-});
-
-let toggle = document.getElementById("associationsToggle");
-if(toggle != null){
-    toggle.addEventListener("click",(event) =>{
-        addItemsToSideBar();
-    });
+    togglePagersAndSearchBar();
+    checkForRegionTables();
+    checkForAdditionalInfoTables();
 }
 
-moveAGRLink();
+function rebuildAnnotationTables() {
+    let tableArray = Array.from(
+        document.getElementsByClassName("annotationTable"));
 
-togglePagersAndSearchBar();
-checkForRegionTables();
-checkForAdditionalInfoTables();
+    iterateOverAndAppendNewTables(tableArray);
+    removeOldAnnotationTables(tableArray);
+}
+
+function rebuildReferenceSequenceTables() {
+    let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
+    addClassAndId(nucleotideRefTable, 'tablesorter', 'nucleotideReferenceSequencesTable');
+    appendTableToDiv(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
+
+    removeBreaks('nucleotideReferenceSequencesTableDiv');
+
+
+    let proteinRefTable = buildProteinReferenceSequencesTable();
+    addClassAndId(proteinRefTable, 'tablesorter', 'proteinReferenceSequencesTable');
+    appendTableToDiv(proteinRefTable, 'proteinReferenceSequencesTableDiv');
+    removeBreaks('proteinReferenceSequencesTableDiv');
+}
+
+function addEventsToSidebar() {
+    let sidebar = document.getElementById("reportMainSidebar");
+
+    window.addEventListener("scroll", (event) => {
+        stickifySideBar(sidebar);
+        let domRect = sidebar.getBoundingClientRect();
+        let top = domRect.top + document.body.scrollTop;
+    });
+
+    checkForAnnotations();
+    addItemsToSideBar();
+
+    sidebar.addEventListener("mouseover", (event) => {
+        sidebar.style.overflowY = "auto";
+    });
+
+    sidebar.addEventListener("mouseout", (event) => {
+        sidebar.style.overflowY = "hidden";
+    });
+
+    let toggle = document.getElementById("associationsToggle");
+    if (toggle != null) {
+        toggle.addEventListener("click", (event) => {
+            addItemsToSideBar();
+        });
+    }
+}
+
 function removeBreaks(divId){
     let div = document.getElementById(divId);
     if(div != null){
@@ -486,8 +490,6 @@ function moveAGRLink(){
     addAGRLink(accId);
 }
 
-
-
 function togglePagersAndSearchBar(){
     let tables = Array.from(document.getElementsByClassName('tablesorter'));
     tables.forEach(table => {
@@ -510,14 +512,9 @@ function togglePagersAndSearchBar(){
 function findPagers(table){
     let wrapperDiv = table.parentElement;
     let pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
-    console.log(wrapperDiv);
-    console.log(table);
+
     if(pagers.length === 0){
         wrapperDiv = table.parentElement.parentElement;
-        console.log(wrapperDiv);
-        console.log(table);
-        console.log('----------------------------------------------');
-
         pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
     }
     return pagers;
@@ -528,7 +525,6 @@ function changePagerDisplay(pagers){
         pagers[i].style.display = "none";
     }
 }
-
 
 
 function findSearchBar(table){
@@ -543,4 +539,14 @@ function findSearchBar(table){
         }
     }
     return searchBar;
+}
+
+function autoChangeNavHeight(){
+    let navUl = document.getElementById('navbarUlId');
+    let nav = navUl.parentElement;
+    let navItems = navUl.children;
+
+    if(navItems.length < 18){
+        nav.style.height = 'auto';
+    }
 }

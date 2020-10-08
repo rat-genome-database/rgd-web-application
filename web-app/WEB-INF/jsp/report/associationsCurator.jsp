@@ -67,7 +67,7 @@
     <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
 
-    <div id="manualAnnotationsTableDiv">
+    <div id="manualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
 
@@ -123,7 +123,7 @@
 
         <input class="search table-search" id="importedAnnotationsClinVarSearch" type="search" data-column="all" placeholder="Search table">
     </div>
-        <div id="importedAnnotationsClinVarTableDiv">
+        <div id="importedAnnotationsClinVarTableDiv" class="annotation-detail">
             <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
         </div>
         <div class="modelsViewContent" >
@@ -176,7 +176,7 @@
     <input class="search table-search" id="importedAnnotationsCTDSearch" type="search" data-column="all" placeholder="Search table">
 </div>
 
-    <div id="importedAnnotationsCTDTableDiv">
+    <div id="importedAnnotationsCTDTableDiv" class="annotation-detail">
   <%=af.createGridFormatAnnotationsTable(listCTD, siteName)%>
     </div>
 
@@ -228,7 +228,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsGADSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsGADTableDiv">
+    <div id="importedAnnotationsGADTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
     </div>
 
@@ -279,7 +279,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsMGISearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsMGITableDiv">
+    <div id="importedAnnotationsMGITableDiv" class="annotation-detail">
   <%=af.createGridFormatAnnotationsTable(listMGI, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -330,7 +330,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsOMIASearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsOMIATableDiv">
+    <div id="importedAnnotationsOMIATableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -381,7 +381,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsOMIMSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsOMIMTableDiv">
+    <div id="importedAnnotationsOMIMTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
     </div>
 
@@ -444,7 +444,7 @@
     </div>
     <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="geneChemicalInteractionAnnotationsTableDiv">
+    <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
     </div>
 
@@ -510,7 +510,7 @@
 
     <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="biologicalProcessAnnotationsTableDiv">
+    <div id="biologicalProcessAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(bpList, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -561,7 +561,7 @@
     </div>
     <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="cellularComponentAnnotationsTableDiv">
+    <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
     </div>
 
@@ -614,7 +614,7 @@
     </div>
     <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="molecularFunctionAnnotationsTableDiv">
+    <div id="molecularFunctionAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(mfList, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -698,7 +698,7 @@
     </div>
     <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="molecularPathwayManualAnnotationsTableDiv">
+    <div id="molecularPathwayManualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
 
@@ -752,7 +752,7 @@
 
     <input class="search table-search" id="importedAnnotationsSMPDBSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsSMPDBTableDiv">
+    <div id="importedAnnotationsSMPDBTableDiv" class="annotation-detail">
     <%=af.createGridFormatAnnotationsTable(listImportedSMPDB, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -802,7 +802,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsKEGGSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsKEGGTableDiv">
+    <div id="importedAnnotationsKEGGTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listImportedKEGG, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -852,7 +852,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsPIDSearch" type="search" data-column="all" placeholder="Search table">
     </div>
-    <div id="importedAnnotationsPIDTableDiv">
+    <div id="importedAnnotationsPIDTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listImportedPID, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -901,7 +901,7 @@
     </div>
     <input class="search table-search" id="importedAnnotationsOtherSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="importedAnnotationsOtherTableDiv">
+    <div id="importedAnnotationsOtherTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listImported, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -966,7 +966,7 @@
     </div>
     <input class="search table-search" id="mammalianPhenotypeAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="mammalianPhenotypeAnnotationsTableDiv">
+    <div id="mammalianPhenotypeAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(mpList, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -1016,7 +1016,7 @@
     </div>
     <input class="search table-search" id="humanPhenotypeAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="humanPhenotypeAnnotationsTableDiv">
+    <div id="humanPhenotypeAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(hpList, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -1104,7 +1104,7 @@
     </div>
     <input class="search table-search" id="cellOntologySearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="cellOntologyTableDiv">
+    <div id="cellOntologyTableDiv" class="annotation-detail">
            <%=af.createGridFormatAnnotationsTable(clList, siteName)%>
     </div>
     <div class="modelsViewContent" >
@@ -1169,7 +1169,7 @@
     </div>
     <input class="search table-search" id="mouseAnatomySearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="mouseAnatomyTableDiv">
+    <div id="mouseAnatomyTableDiv" class="annotation-detail">
            <%=af.createGridFormatAnnotationsTable(maList)%>
     </div>
     <div class="modelsViewContent" >
@@ -1219,7 +1219,7 @@
     </div>
     <input class="search table-search" id="ratStrainSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="ratStrainTableDiv">
+    <div id="ratStrainTableDiv" class="annotation-detail">
            <%=af.createGridFormatAnnotationsTable(rsList)%>
     </div>
     <div class="modelsViewContent" >
