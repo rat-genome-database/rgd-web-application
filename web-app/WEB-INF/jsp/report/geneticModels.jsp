@@ -13,10 +13,10 @@
 
 <%//ui.dynOpen("geneticModels", "Genetic Models")%>    <br>
 <div class="sectionHeading" id="geneticModels">Genetic Models</div>
-<div class="reportTable" id="geneticModelsTable">
+<div class="reportTable light-table-border" id="geneticModelsTable">
 This gene  <span class="highlight"><%=displayName%></span> is modified in the following models/strains
 
-
+<div id="geneticModelsTableDiv">
 <%
     List records = new ArrayList();
     for (GeneticModel m : modelList) {
@@ -24,6 +24,7 @@ This gene  <span class="highlight"><%=displayName%></span> is modified in the fo
     }
     out.print(formatter.buildTable(records, 4));
 %>
+</div>
 <br>
 
 <%//ui.dynClose("geneticModels")%>

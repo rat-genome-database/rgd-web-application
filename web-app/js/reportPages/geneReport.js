@@ -515,7 +515,11 @@ function findPagers(table){
 
     if(pagers.length === 0){
         wrapperDiv = table.parentElement.parentElement;
-        pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
+        if(wrapperDiv.tagName !== "TD"){
+            pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
+
+        }
+
     }
     return pagers;
 }
@@ -548,5 +552,27 @@ function autoChangeNavHeight(){
 
     if(navItems.length < 18){
         nav.style.height = 'auto';
+    }
+}
+
+function filterAnnotations() {
+    let input, filter, table, rows, td, i, txtValue;
+    table = document.getElementById("annotationTable1");
+
+    input = findSearchBar(table);
+    filter = input.value.toUpperCase();
+    rows = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < rows.length; i++) {
+        td = rows[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
     }
 }
