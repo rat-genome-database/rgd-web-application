@@ -510,8 +510,13 @@ function togglePagersAndSearchBar(){
 function findPagers(table){
     let wrapperDiv = table.parentElement;
     let pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
+    console.log(wrapperDiv);
+    console.log(table);
     if(pagers.length === 0){
         wrapperDiv = table.parentElement.parentElement;
+        console.log(wrapperDiv);
+        console.log(table);
+        console.log('----------------------------------------------');
 
         pagers = wrapperDiv.getElementsByClassName('modelsViewContent');
     }

@@ -14,7 +14,7 @@
 
 <div class="search-and-pager">
 
-    <div class="modelsViewContent2" >
+    <div class="modelsViewContent" >
         <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
@@ -78,7 +78,7 @@
 </table>
 
 
-    <div class="modelsViewContent2" >
+    <div class="modelsViewContent" >
         <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
