@@ -21,9 +21,8 @@
 <div id="strainQtlAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
 
-    <input class="search table-search" id="strainQtlAssociationSearch" type="search" data-column="all" placeholder="Search table">
 
-
+<div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="pager strainQtlAssociationPager" >
             <form>
@@ -43,7 +42,9 @@
             </form>
         </div>
     </div>
-<table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
+    <input class="search table-search" id="strainQtlAssociationSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+    <table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
     <thead>
         <tr>
             <td><b>Symbol</b></td>
