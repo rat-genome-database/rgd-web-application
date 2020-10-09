@@ -26,6 +26,8 @@
 
 %>
 
+<div id="top" ></div>
+
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 

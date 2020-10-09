@@ -68,6 +68,7 @@
     String pageDescription = description;
 %>
 
+<div id="top" ></div>
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
@@ -108,8 +109,6 @@
     <%@ include file="../reportSidebar.jsp"%>
 </div>
 
-
-<div id="top" ></div>
 
     <div id="content-wrap">
         <table width="95%" style="padding-top:10px;" border="0">
