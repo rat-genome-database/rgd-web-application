@@ -124,6 +124,10 @@
               <a href="<%=XDBIndex.getInstance().getXDB(62).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("NCI:") ) { %>
               <a href="<%=XDBIndex.getInstance().getXDB(74).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("ICD10CM:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(129).getUrl()%><%=syn.getName().substring(8)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("ICD9CM:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(130).getUrl()%><%=syn.getName().substring(7)%>"><%=syn.getName()%></a>
           <% } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
@@ -131,9 +135,7 @@
                   <a href=<%=Link.gene(omimGenes.get(0).getRgdId())%>"><%=syn.getName()%></a>
             <%
               } else {
-            %>
-                  <%=syn.getName()%>
-             <%
+            %><%=syn.getName()%><%
               }
            } else {
               // create pattern based on ontology id
