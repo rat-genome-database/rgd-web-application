@@ -72,7 +72,7 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
+                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; "id="annotation">Annotation</div><br>
 
                 <%@ include file="../associations.jsp"%>
 

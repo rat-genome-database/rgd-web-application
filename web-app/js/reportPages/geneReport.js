@@ -22,7 +22,8 @@ function run() {
     addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
 
     rebuildReferenceSequenceTables();
-
+    checkForRegionTables();
+    checkForAdditionalInfoTables();
     addEventsToSidebar();
 
 
@@ -30,8 +31,8 @@ function run() {
     moveAGRLink();
 
     togglePagersAndSearchBar();
-    checkForRegionTables();
-    checkForAdditionalInfoTables();
+
+    autoChangeNavHeight();
 }
 
 function rebuildAnnotationTables() {
@@ -187,7 +188,10 @@ function extractRows(parentTable){
     }
     tableArray.forEach(table => {
         let rows = table.rows;
-        rowArray.push(...rows);
+        if(rows){
+            rowArray.push(...rows);
+
+        }
     });
 
     return rowArray;
@@ -306,19 +310,30 @@ function addIdToSearchBar(searchBar, searchBarNumber){
 }
 
 function stickifySideBar(sidebar){
-    //get element
     let scrollPosition = window.pageYOffset;
     let percentScrolled = calculateScrollPercentage(scrollPosition);
+    let footer = document.getElementById('footer');
+    let footerHeight = footer.offsetHeight;
+    let sidebarRect = sidebar.getBoundingClientRect();
+    let footerRect = footer.getBoundingClientRect();
+    let timeToStop = footerRect.top <= sidebarRect.height;
+
 
     if(scrollPosition >= 275){
         sidebar.style.position = "fixed";
-        sidebar.style.top = "0";
+        sidebar.style.top = '0';
+
     }else{
         sidebar.style.position = "relative";
     }
 
-    if(percentScrolled >= 99){
-        sidebar.style.top = "-15vh";
+    if(timeToStop){
+        // sidebar.style.top = "-15vh";
+
+        sidebar.style.position = "absolute";
+        sidebar.style.bottom = footerHeight;
+        sidebar.style.top = 'auto';
+
     }
 
 }
@@ -351,7 +366,6 @@ function addItemsToSideBar(){
         }
 
         if(parent.style.display !== "none" && value.style.display !== "none"){
-
             let text = value.childNodes[0].textContent;
 
             if(text === "Gene-Chemical Interaction Annotations"){
@@ -397,7 +411,9 @@ function checkForAnnotations(){
     if(annotationTables.length === 0){
         //make Annotations div display == none
         let annotationDiv = document.getElementById('annotation');
-        annotationDiv.style.display = 'none';
+        if(annotationDiv){
+            annotationDiv.style.display = 'none';
+        }
     }
 
 }

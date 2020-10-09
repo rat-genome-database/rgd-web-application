@@ -201,7 +201,7 @@
 
 <div class="sectionHeading" id="objectsReferencedInThisArticle">Objects referenced in this article</div>
 
-<table class="annotationTable" width="95%" cellspacing="4">
+<table id="objectsReferencedInThisArticleTable">
 
 <%
     for( GenomicElement ge: refObjs ) {

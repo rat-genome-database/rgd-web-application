@@ -110,7 +110,7 @@
 <div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
-            <form>
+            <form autocomplete="off">
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
@@ -135,7 +135,7 @@
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
-            <form>
+            <form autocomplete="off">>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
