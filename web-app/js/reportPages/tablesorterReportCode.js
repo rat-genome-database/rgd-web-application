@@ -492,7 +492,7 @@ $(function () {
         })
         .tablesorterPager({
             container: $('.strainSequenceVariantsPager'),
-            size: 5
+            size: 10
         });
 
 

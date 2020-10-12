@@ -77,12 +77,15 @@ function addEventsToSidebar() {
         sidebar.style.overflowY = "hidden";
     });
 
-    let toggle = document.getElementById("associationsToggle");
-    if (toggle != null) {
-        toggle.addEventListener("click", (event) => {
-            addItemsToSideBar();
-        });
-    }
+    let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
+    toggles.forEach( toggle => {
+        if (toggle) {
+            toggle.addEventListener("click", (event) => {
+                addItemsToSideBar();
+            });
+        }
+    });
+
 }
 
 function removeBreaks(divId){

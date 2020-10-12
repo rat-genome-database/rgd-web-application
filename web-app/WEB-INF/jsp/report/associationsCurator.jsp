@@ -418,8 +418,9 @@
     if (filteredList.size() > 0) {
 %>
 <%//ui.dynOpen("chemiAssociationC", "Gene-Chemical Interaction Annotations")%>
-<div class="reportTable light-table-border" id="geneChemicalInteractionAnnotationsTableWrapper">
-<div class="sectionHeading" id="geneChemicalInteractionAnnotations"><h4>Gene-Chemical Interaction Annotations</h4></div>
+<div class="reportTable light-table-border" id="geneChemicalInteractionDetailsTableWrapper">
+<div class="sectionHeading" id="geneChemicalInteractionAnnotations">Gene-Chemical Interaction Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneChemicalInteractionDetailsTableWrapper', 'geneChemicalInteractionTableWrapper');">Click to see Annotation Detail View</a>
+</div>
 
 
 <div class="search-and-pager">
@@ -442,7 +443,9 @@
             </form>
         </div>
     </div>
+
     <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
 </div>
     <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
@@ -482,7 +485,8 @@
 %>
 
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
-<div class="sectionHeading" id="geneOntologyAnnotationsCurator"><h4>Gene Ontology Annotations</h4></div>
+<div class="sectionHeading" id="geneOntologyAnnotationsCurator">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
+</div>
 <% if (bpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
@@ -536,7 +540,7 @@
 <% } %>
 <% if (ccList.size() > 0) { %>
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
+   <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentDetail"><u>Cellular Component</u></span><br></span>
 
 <div class="search-and-pager">
 
@@ -559,7 +563,9 @@
             </form>
         </div>
     </div>
+
     <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
+
 </div>
     <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
@@ -589,7 +595,7 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+   <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionDetail"><u>Molecular Function</u></span><br></span>
 
 <div class="search-and-pager">
 
@@ -612,6 +618,7 @@
             </form>
         </div>
     </div>
+
     <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="molecularFunctionAnnotationsTableDiv" class="annotation-detail">
@@ -670,7 +677,9 @@
         }
 %>
 <%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
-<div class="sectionHeading" id="molecularPathwayAnnotationsCurator"><h4>Molecular Pathway Annotations</h4></div>
+<div class="sectionHeading" id="molecularPathwayAnnotationsDetail">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
+</div>
+
 <% if( !listManual.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="molecularPathwayManualAnnotationsTableWrapper">
     <h4><%=siteName%> Manual Annotations</h4>
@@ -938,9 +947,10 @@
     if (mpList.size()+hpList.size() > 0) {
 %>
 <%//ui.dynOpen("phenoAssociationC", "Phenotype Annotations")%>
-<div class="sectionHeading" id="phenotypeAnnotationsCurator"><h4>Phenotype Annotations</h4></div>
+<div class="light-table-border">
+<div class="sectionHeading" id="phenotypeAnnotationsCurator">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
 <% if (mpList.size() > 0) { %>
-<div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
+<div class="reportTable" id="mammalianPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
 
 
@@ -1040,7 +1050,7 @@
     </div>
 </div>
 <% } %>
-
+</div>
 <%//ui.dynClose("phenoAssociationC")%>
 <% } %>
 

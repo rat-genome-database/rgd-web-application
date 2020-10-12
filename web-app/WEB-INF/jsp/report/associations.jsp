@@ -104,7 +104,8 @@
 <%//ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
 
 <div class="reportTable light-table-border" id="geneChemicalInteractionTableWrapper">
-    <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations</div>
+    <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneChemicalInteractionDetailsTableWrapper', 'geneChemicalInteractionTableWrapper');">Click to see Annotation Detail View</a>
+    </div>
 
 
 <div class="search-and-pager">
@@ -127,6 +128,7 @@
             </form>
         </div>
     </div>
+
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="geneChemicalInteractionTable">
@@ -135,7 +137,7 @@
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
-            <form autocomplete="off">>
+            <form autocomplete="off">
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
@@ -172,7 +174,8 @@
 
 
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
-    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations</div>
+    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
+    </div>
 
 
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
@@ -199,10 +202,13 @@
             </form>
         </div>
     </div>
+
+
+
         <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 
-
     </div>
+
     <div id="biologicalProcessAnnotationsTable">
 <%=af.createGridFormatAnnotations(bpList, obj.getRgdId(),3)%>
     </div>
@@ -231,7 +237,7 @@
 <% if (ccList.size() > 0) { %>
 
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
-    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cellular Component</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentSummary"><u>Cellular Component</u></span><br></span>
 
 <div class="search-and-pager">
 
@@ -256,6 +262,7 @@
     </div>
 
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+
 </div>
     <div id="cellularComponentAnnotationsTable">
 <%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
@@ -286,7 +293,7 @@
 <% if (mfList.size() > 0) { %>
 
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
-    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Molecular Function</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionSummary"><u>Molecular Function</u></span><br></span>
 
 
 <div class="search-and-pager">
@@ -353,7 +360,8 @@
 <%//ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
 
 <div class="reportTable light-table-border" id="molecularPathwayAnnotationsTableWrapper">
-    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations</div>
+    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
+    </div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -375,6 +383,7 @@
             </form>
         </div>
     </div>
+
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="molecularPathwayAnnotationsTable">
@@ -417,10 +426,11 @@
     if (mpList.size()+hpList.size() > 0) {
 %>
 <%//ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
-    <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations</div>
+<div class="light-table-border">
+    <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
 
 <% if (mpList.size() > 0) { %>
-<div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
+<div class="reportTable " id="mammalianPhenotypeAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
 
 <div class="search-and-pager">
@@ -532,7 +542,7 @@
 <% } %>
 
 <%//ui.dynClose("phenoAssociation")%>
-<%--</div>--%>
+</div>
 <% } %>
 
 
