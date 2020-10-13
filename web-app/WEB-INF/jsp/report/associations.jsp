@@ -154,9 +154,10 @@
             </form>
         </div>
     </div>
+</div>
 <%//ui.dynClose("chemiAssociation")%>
 <% } %>
-</div>
+
 
 
 
