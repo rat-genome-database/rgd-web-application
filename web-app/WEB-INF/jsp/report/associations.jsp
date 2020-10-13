@@ -41,7 +41,7 @@
 
 
 <div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
-    <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations</div>
+    <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -566,7 +566,8 @@
 %>
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
-<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations</div>
+<div class="light-table-border">
+<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
 
 <%
     if(hasPhenoMinerAnn){
@@ -584,7 +585,7 @@
 <%  }else if(isReferenceRgd==0){
     if (clList.size() > 0) { %>
 
-<div class="reportTable light-table-border" id="cellOntologyAnnotationsTableWrapper">
+<div class="reportTable" id="cellOntologyAnnotationsTableWrapper">
 
 
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
@@ -595,7 +596,6 @@
 </div>
 <% } %>
 <% if (cmoList.size() > 0) { %>
-<div class="light-table-border">
 <div class="reportTable" id="clinicalMeasurementAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
 
@@ -633,11 +633,10 @@
         <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>
     </div>
 </div>
-</div>
 <% } %>
 
 <% if (rsList.size() > 0) { %>
-<div class="reportTable light-table-border" id="ratStrainAnnotationsTableWrapper">
+<div class="reportTable" id="ratStrainAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
 
 <div class="search-and-pager">
@@ -688,6 +687,7 @@
 </div>
 <% } %>
 <%}%>
+</div>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
        <% HeatMap hm = af.createGeoAnnotationsGrid(maList, rsList);%>

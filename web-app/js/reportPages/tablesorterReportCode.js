@@ -388,7 +388,7 @@ $(function () {
     $('#mouseAnatomyTable')
         .tablesorter({
             theme: 'blue',
-            widgets: [, 'filter'],
+            widgets: ['filter'],
             widgetOptions : {
                 filter_external : '#mouseAnatomySearch',
                 filter_columnFilters: false

@@ -41,7 +41,7 @@
 
 
 <div class="reportTable light-table-border" id="manualAnnotationsTableWrapper">
-    <div class="sectionHeading" id="manualAnnotations"><h4><%=siteName%> Manual Annotations</h4></div>
+    <div class="sectionHeading" id="manualAnnotations"><%=siteName%> Manual Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -1072,7 +1072,9 @@
 %>
 
 <%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
-<div class="sectionHeading" id="experimentalDataAnnotationsCurator"><h4>Experimental Data Annotations</h4></div>
+<div class="light-table-border">
+<div class="sectionHeading" id="experimentalDataAnnotationsCurator">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
+
 
     <%
     if(hasPhenoMinerAnn){
@@ -1088,7 +1090,7 @@
 <%
     }else if(isReferenceRgd==0){
        if (clList.size() > 0) { %>
-<div class="reportTable light-table-border" id="cellOntologyTableWrapper">
+<div id="cellOntologyTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
 
 <div class="search-and-pager">
@@ -1138,10 +1140,12 @@
     </div>
 </div>
     <% } %>
-<div class="light-table-border">
+
     <% if (cmoList.size() > 0) { %>
+    
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
+
     <% } %>
     <% if (xcoList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
@@ -1151,9 +1155,9 @@
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
     <% } %>
-</div>
+
     <% if (maList.size() > 0) { %>
-<div class="reportTable light-table-border" id="mouseAnatomyTableWrapper">
+<div class="reportTable " id="mouseAnatomyTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
 
 
@@ -1204,7 +1208,7 @@
 </div>
     <% } %>
     <% if (rsList.size() > 0) { %>
-<div class="reportTable light-table-border" id="ratStrainTableWrapper">
+<div class="reportTable" id="ratStrainTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
 
 <div class="search-and-pager">
@@ -1253,14 +1257,14 @@
     </div>
 </div>
     <% } %>
-<div class="light-table-border">
+
     <% if (vtList.size() > 0) { %>
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
            <%=af.createGridFormatAnnotationsTable(vtList)%>
     <% }%>
-</div>
-  <%  } %>
 
+  <%  } %>
+</div>
 <br>
 <%//ui.dynClose("expAssociationC")%>
 <% } %>
