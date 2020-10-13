@@ -412,6 +412,25 @@ $(function () {
             size: 20
         });
 
+    $('#clinicalMeasurementTable')
+        .tablesorter({
+            theme: 'blue'
+        });
+
+    $('#experimentalConditionTable')
+        .tablesorter({
+            theme: 'blue'
+        });
+
+    $('#measurementMethodTable')
+        .tablesorter({
+            theme: 'blue'
+        });
+    $('#vertebrateTraitTable')
+        .tablesorter({
+            theme: 'blue'
+        });
+
     $('#pubMedReferencesTable')
         .tablesorter({
             theme: 'blue',

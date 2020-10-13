@@ -1142,18 +1142,28 @@
     <% } %>
 
     <% if (cmoList.size() > 0) { %>
-    
+    <div class="reportTable" id="clinicalMeasurementTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
-
+        <div id="clinicalMeasurementTableDiv" class="annotation-detail">
+            <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
+        </div>
+    </div>
     <% } %>
     <% if (xcoList.size() > 0) { %>
+    <div class="reportTable" id="experimentalConditionTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(xcoList, siteName)%>
+        <div id="experimentalConditionTableDiv" class="annotation-detail">
+            <%=af.createGridFormatAnnotationsTable(xcoList, siteName)%>
+        </div>
+    </div>
     <% } %>
     <% if (mmoList.size() > 0) { %>
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
+        <div class="reportTable" id="measurementMethodTableWrapper">
+           <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
+            <div id="measurementMethodTableDiv" class="annotation-detail">
+                <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
+            </div>
+        </div>
     <% } %>
 
     <% if (maList.size() > 0) { %>
@@ -1259,8 +1269,12 @@
     <% } %>
 
     <% if (vtList.size() > 0) { %>
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
-           <%=af.createGridFormatAnnotationsTable(vtList)%>
+    <div class="reportTable" id="vertebrateTraitTableWrapper">
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
+        <div id="vertebrateTraitTableDiv" class="annotation-detail">
+            <%=af.createGridFormatAnnotationsTable(vtList)%>
+        </div>
+    </div>
     <% }%>
 
   <%  } %>
