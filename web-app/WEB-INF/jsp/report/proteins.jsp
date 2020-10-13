@@ -233,7 +233,7 @@
     if (pdomains.size() > 0) {
 %>
 <div class="light-table-border">
-<br><span class="highlight"><u>Protein Domains</u></span><br><br>
+    <div class="sectionHeading" id="proteinDomains">Protein Domains</div>
   <% for( int z=0; z<pdomains.size(); z++ ) {
         GenomicElement el = pdomains.get(z); %>
 
