@@ -58,6 +58,12 @@
 
 
     <tr>
+        <td class="label">RRID:</td>
+        <td><%=RgdContext.getSiteName(request)%>_<%=id.getRgdId()%></td>
+    </tr>
+
+
+    <tr>
         <td class="label">Ontology ID:</td>
         <td>
         <% if( ontId.equals("N/A") ) { %>
