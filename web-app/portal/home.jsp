@@ -243,7 +243,7 @@
 
             var ctrl = this;
 
-            $scope.wsHost = "https://dev.rgd.mcw.edu"
+            $scope.wsHost = ""
             $scope.olgaHost = "https://dev.rgd.mcw.edu"
             //$scope.wsHost = "http://localhost:8080"
 
@@ -396,7 +396,6 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
-
                 ctrl.resetGViewer();
 
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
@@ -406,18 +405,17 @@
             }
 
             ctrl.browse = function (ontId, ont, term, back) {
-                //$("#loadingModal").modal("show");
+
+                var ontologyCodes = ontologyCodes = ["d","ph","bp","pw","hp","c","vt","cm","ec"];
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
 
-                var ontologyCodes = ["d","ph","bp","pw","c","vt","cm","ec"];
 
                 for (var i=0; i< ontologyCodes.length; i++) {
                     document.getElementById(ontologyCodes[i]).style.height = "65px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomLeftRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.borderBottomRightRadius = "8px";
                     document.getElementById(ontologyCodes[i]).style.border = "0px solid #FFFF00";
-
                 }
                 if (!back) {
                     $scope.previousOntId.push($scope.ontologyId);
@@ -438,7 +436,6 @@
 
                 document.getElementById($scope.ontology).style.border = "4px solid #F7BB43";
 
-
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
                     //alert(result);
@@ -451,6 +448,7 @@
 
 
             }
+
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
 
@@ -832,7 +830,8 @@
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
-                    <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Phenotypes<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Mammalian Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Human Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>

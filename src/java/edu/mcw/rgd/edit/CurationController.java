@@ -16,7 +16,6 @@ public class CurationController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
             if(request.getParameter("accessToken") != null) {
                 Cookie cookie1 = new Cookie("accessToken", request.getParameter("accessToken"));
-                cookie1.setMaxAge(24*60*60);
                 response.addCookie(cookie1);
                 return new ModelAndView("/WEB-INF/jsp/curation/home.jsp", "hello", null);
             }
