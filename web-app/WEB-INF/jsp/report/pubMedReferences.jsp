@@ -26,7 +26,7 @@
 
 
 <div id="pubMedReferencesTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="pubMedReferences">PubMed References</div>
+    <div class="sectionHeading" id="pubMedReferences">Additional References at PubMed</div>
 
     <div class="modelsViewContent" >
         <div class="pager pubMedReferencesPager" style="margin-bottom:2px;">
@@ -60,24 +60,24 @@
 
         for (int i = 0; i < ei.size(); i++) {
             String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
-            if(i % 14 == 0){
+            if(i % 12 == 0){
     %>
 <%--Beggining of row--%>
         <tr>
             <td class="report-page-grey">
-                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
             </td>
 
-    <% }else if(i % 14 == 13){ %>
+    <% }else if(i % 12 == 11){ %>
 <%--            End of Row--%>
             <td class="report-page-grey">
-                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
             </td>
         </tr>
   <% }else{%>
 <%--middle item--%>
             <td class="report-page-grey">
-                <a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
             </td>
     <% }
     }%>
