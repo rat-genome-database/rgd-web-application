@@ -33,6 +33,8 @@ function run() {
     togglePagersAndSearchBar();
 
     autoChangeNavHeight();
+
+    manageLocalStorage();
 }
 
 function rebuildAnnotationTables() {
@@ -572,6 +574,24 @@ function autoChangeNavHeight(){
     if(navItems.length < 18){
         nav.style.height = 'auto';
     }
+}
+
+function manageLocalStorage(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id');
+    let savedId = localStorage.getItem('id');
+    if(savedId){
+        if(id !== savedId){
+            localStorage.removeItem('tablesorter-pager');
+            localStorage.setItem('id', id);
+        }
+    }else{
+        localStorage.setItem('id', id);
+    }
+
+
+
 }
 
 function filterAnnotations() {
