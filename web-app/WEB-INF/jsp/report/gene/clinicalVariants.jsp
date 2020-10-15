@@ -17,11 +17,11 @@
     <div class="modelsViewContent" >
         <div class="clinicalVariantsPager" class="pager" style="margin-bottom:2px;">
             <form>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
                     <option selected="selected" value="3">3</option>
                     <option value="5">5</option>
@@ -99,11 +99,11 @@
     <div class="modelsViewContent" >
         <div class="clinicalVariantsPager" class="pager" style="margin-bottom:2px;">
             <form>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
                 <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
                     <option selected="selected" value="3">3</option>
                     <option value="5">5</option>
