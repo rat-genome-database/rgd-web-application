@@ -5,7 +5,7 @@
     <ul>
            <li id=selected><a href="javascript:addParam('view',1)">General</a></li>
 
-        <% if (true/*RgdContext.isCurator()*/) {%>
+        <% if (RgdContext.isCurator()) {%>
         <!--
         -->
            <li ><a href="/rgdweb/curation/edit/editGenomicElement.html?edit=new&objectType=editGenomicElement.html&rgdId=<%=obj.getRgdId()%>">Edit Me!</a></li>
