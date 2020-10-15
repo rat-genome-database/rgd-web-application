@@ -66,7 +66,6 @@
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
-    <div id="top" ></div>
 
     <div id="content-wrap">
         <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>

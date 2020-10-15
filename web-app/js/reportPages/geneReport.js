@@ -82,6 +82,7 @@ function addEventsToSidebar() {
     let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
     toggles.forEach( toggle => {
         if (toggle) {
+            console.log(toggle);
             toggle.addEventListener("click", (event) => {
                 addItemsToSideBar();
             });
@@ -353,6 +354,7 @@ function calculateScrollPercentage(currentPosition){
 }
 
 function addItemsToSideBar(){
+    console.log("inside addItemsToSideBar");
     $('.subTitle').addClass("sidebar-item");
     $('.sectionHeading').addClass("sidebar-item");
     let sidebar = document.getElementById('navbarUlId');
@@ -373,8 +375,13 @@ function addItemsToSideBar(){
         if(parent.style.display !== "none" && value.style.display !== "none"){
             let text = value.childNodes[0].textContent;
 
-            if(text === "Gene-Chemical Interaction Annotations"){
-                text = "Gene-Chemical Interaction";
+            if(text.length > 27){
+                let lastWhiteSpace = text.lastIndexOf(" ");
+                text = text.substring(0, lastWhiteSpace);
+            }
+
+            if(text === "Additional References at"){
+                text = "PubMed References";
             }
 
             if(text === "Molecular Pathway Annotations"){
@@ -385,7 +392,7 @@ function addItemsToSideBar(){
                 text = "QTLs in Region";
             }
 
-            if(text === "Strain Sequence Variants (Rnor 6.0)"){
+            if(text === "Strain Sequence Variants (Rnor"){
                 text = "Strain Sequence Variants";
             }
 
