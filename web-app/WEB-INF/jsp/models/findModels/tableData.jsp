@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="/rgdweb/common/tablesorter-2.18.4/js/tablesorter.js"> </script>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
 
