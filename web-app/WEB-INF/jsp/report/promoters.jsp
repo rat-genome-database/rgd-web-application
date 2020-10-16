@@ -4,9 +4,13 @@
 <%
     String promoterDataTable = PromoterEvidenceFormatter.getInstance().buildTable(obj.getRgdId(), obj.getSpeciesTypeKey());
     if( promoterDataTable!=null ) {
-        out.println(ui.dynOpen("promotersSection", "Promoters"));
+        //out.println(ui.dynOpen("promotersSection", "Promoters"));
+        out.println("<div class=\"light-table-border\">");
+        out.println("<div class='sectionHeading' id='promoters'>Promoters</div>");
+
         out.print(promoterDataTable);
-        out.print(ui.dynClose("promotersSection"));
+                out.println("</div>");
+       // out.print(ui.dynClose("promotersSection"));
     }
 %>
 <%@ include file="sectionFooter.jsp"%>

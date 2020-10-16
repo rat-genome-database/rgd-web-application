@@ -24,12 +24,47 @@
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 %>
-<br><div class="subTitle">Strain Variation</div><br>
+<br><div class="subTitle" id="strainVariation">Strain Variation</div><br>
 
 <%@ include file="sectionHeader.jsp"%>
 
-<%=ui.dynOpen("varAssociation", "Strain Sequence Variants (Rnor 6.0)")%>
-<table border=0  width="100%" >
+
+
+
+<div id="strainSequenceVariantsTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (Rnor 6.0)</div>
+
+<div class="search-and-pager">
+
+    <div class="modelsViewContent" >
+        <div id="" class="pager strainSequenceVariantsPager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <input class="search table-search" id="strainSequenceVariantsSearch" type="search" data-column="all" placeholder="Search table">
+
+</div>
+
+
+<table border=0  width="100%" id="strainSequenceVariantsTable">
+    <thead></thead>
+    <tbody>
 <%
     for (Sample samp: samples) {
         String url = "/rgdweb/carpe/search.html?chr=" + chr + "&sampleId=" + samp.getId() + "&start=" + start + "&end=" + stop;
@@ -108,9 +143,34 @@
        </tr>
 
     <% } %>
+    </tbody>
 </table>
 
-<%=ui.dynClose("varAssociation")%>
+    <div class="modelsViewContent" >
+        <div class="pager strainSequenceVariantsPager" style="margin-bottom:10px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+
+</div>
 
 <%@ include file="sectionFooter.jsp"%>
 
