@@ -196,7 +196,11 @@ public class PivotTableController implements Controller {
                     re.append(ageDaysHighBound + space + "days to " + ageDaysLowBound + space + "days");
                 }
 
-                re.append(r.getSample().getNumberOfAnimals() + "");
+                if(r.getSample().getNumberOfAnimals().equals(0) || r.getSample().getNumberOfAnimals() == 0 || r.getSample().getNumberOfAnimals() == null)
+                    re.append("N/A");
+                else
+                    re.append(r.getSample().getNumberOfAnimals() + "");
+
                 re.append(r.getSample().getNotes());
                 re.append(r.getClinicalMeasurement().getAccId());
                 re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
@@ -220,7 +224,10 @@ public class PivotTableController implements Controller {
                 re.append(r.getId() + "");
 
             }else {
-                re.append(r.getSample().getNumberOfAnimals() + "");
+                if(r.getSample().getNumberOfAnimals().equals(0) || r.getSample().getNumberOfAnimals() == 0 || r.getSample().getNumberOfAnimals() == null)
+                    re.append("N/A");
+                else
+                    re.append(r.getSample().getNumberOfAnimals() + "");
 
                 re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
                 re.append(termResolver.get(r.getSample().getStrainAccId()).getTerm());
