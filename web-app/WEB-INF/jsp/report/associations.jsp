@@ -2,6 +2,7 @@
 <%@ include file="sectionHeader.jsp"%>
 <script type="text/javascript" src="/rgdweb/js/sorttable.js" >
 </script>
+
 <%
 
     AnnotationFormatter af = new AnnotationFormatter();
@@ -29,6 +30,7 @@
         }
     });
 %>
+
 
 
 <%
@@ -66,7 +68,7 @@
 
 </div>
     <div id="diseaseAnnotationsTable">
- <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
+<%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%>
 </div>
 <br>
 <%//ui.dynClose("diseaseAsscociation")%>
@@ -130,7 +132,7 @@
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="geneChemicalInteractionTable">
-    <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
+<%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
     </div>
 
     <div class="modelsViewContent" >
@@ -157,6 +159,9 @@
 <% } %>
 
 
+
+
+
 <%
     List<Annotation> bpList = af.filterList(annotList,"P");
     List<Annotation> ccList = af.filterList(annotList,"C");
@@ -174,7 +179,7 @@
     </div>
 
 
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
 
     <div class="search-and-pager">
 
@@ -261,7 +266,7 @@
 
 </div>
     <div id="cellularComponentAnnotationsTable">
-       <%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
+<%=af.createGridFormatAnnotations(ccList, obj.getRgdId(),3)%>
     </div>
 
 
@@ -316,7 +321,7 @@
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="molecularFunctionAnnotationsTable">
-       <%=af.createGridFormatAnnotations(mfList, obj.getRgdId(),3)%>
+<%=af.createGridFormatAnnotations(mfList, obj.getRgdId(),3)%>
         </div>
 
 
@@ -341,7 +346,6 @@
     </div>
 </div>
 <% } %>
-
 <br>
 <%//ui.dynClose("goAsscociation")%>
 <% } %>
@@ -384,12 +388,12 @@
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="molecularPathwayAnnotationsTable">
-      <% if( !filteredList.isEmpty() ) { %>
+<% if( !filteredList.isEmpty() ) { %>
 <%=af.createGridFormatAnnotations(filteredList, obj.getRgdId(),3)%><br>
-      <% }
-      if( xdbKeggPathways.size()>0 ) { %>
-      <%@ include file="xdbs_pathways.jsp"%>
-      <% } %>
+<% }
+    if( xdbKeggPathways.size()>0 ) { %>
+<%@ include file="xdbs_pathways.jsp"%>
+<% } %>
 <%//ui.dynClose("pathwayAssociation")%>
 
         </div>
@@ -417,7 +421,6 @@
 
 <% } %>
 
-
 <%
     List<Annotation> mpList = af.filterList(annotList,"N");
     List<Annotation> hpList = af.filterList(annotList,"H");
@@ -429,7 +432,7 @@
 
 <% if (mpList.size() > 0) { %>
 <div class="reportTable " id="mammalianPhenotypeAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -456,7 +459,7 @@
 
 </div>
     <div id="mammalianPhenotypeAnnotationsTable">
-       <%=af.createGridFormatAnnotations(mpList, obj.getRgdId(),3)%>
+<%=af.createGridFormatAnnotations(mpList, obj.getRgdId(),3)%>
 
     </div>
         <div class="modelsViewContent" >
@@ -481,9 +484,11 @@
 
     </div>
 <% } %>
+
+
 <% if (hpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
 
 
 <div class="search-and-pager">
@@ -510,7 +515,7 @@
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="humanPhenotypeAnnotationsTable">
-       <%=af.createGridFormatAnnotations(hpList, obj.getRgdId(),3)%>
+<%=af.createGridFormatAnnotations(hpList, obj.getRgdId(),3)%>
 
     </div>
 
@@ -565,56 +570,58 @@
 <div class="light-table-border">
 <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
 
-    <%
+<%
     if(hasPhenoMinerAnn){
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
-    %>
-        <table>
-        <tr>
-            <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
-            <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
-        </tr>
-        <br />
-        </table>
+%>
+
+
+<table>
+    <tr>
+        <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+    </tr>
+    <br />
+</table>
 <%  }else if(isReferenceRgd==0){
-        if (clList.size() > 0) { %>
+    if (clList.size() > 0) { %>
 
 <div class="reportTable" id="cellOntologyAnnotationsTableWrapper">
 
 
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
 
     <div id="cellOntologyAnnotationsTable">
-       <%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
+        <%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>
     </div>
 </div>
 <% } %>
 <% if (cmoList.size() > 0) { %>
 <div class="reportTable" id="clinicalMeasurementAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
 
     <div id="clinicalMeasurementAnnotationsTable">
-       <%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
+        <%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>
     </div>
 
 </div>
 <% } %>
-<% if (xcoList.size() > 0) { %>
+<% if (xcoList.size() > 0) {  %>
 
 <div class="reportTable " id="experimentalConditionAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
 
     <div id="experimentalConditionAnnotationsTable">
-       <%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
+        <%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>
     </div>
 </div>
 
 <% } %>
 <% if (mmoList.size() > 0) { %>
 <div class="reportTable" id="measurementMethodAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
     <div id="measurementMethodAnnotationsTable">
-       <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
+        <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>
     </div>
 </div>
 
@@ -631,7 +638,7 @@
 
 <% if (rsList.size() > 0) { %>
 <div class="reportTable" id="ratStrainAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -657,7 +664,7 @@
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="ratStrainAnnotationsTable">
-       <%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
+        <%=af.createGridFormatAnnotations(rsList, obj.getRgdId(),2)%>
     </div>
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -680,7 +687,7 @@
     </div>
 </div>
 <% } %>
-<% } %>
+<%}%>
 </div>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
