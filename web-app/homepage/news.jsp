@@ -6,17 +6,16 @@
                                 <h5 class="card-title">RGD News</h5>
                         </div>
 
-                        <p><a href="https://rgd.mcw.edu/wg/news/07-31-introducing-dog-resource-page/">07/31 – Introducing Dog Resource Page</a></p>
-                        <p><a href="https://rgd.mcw.edu/wg/news/07-29-rgd-releases-covid-19-resources-and-disease-portal-pages/">07/29 – RGD Releases COVID-19 Resources and Disease Portal Pages</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/10-15-introducing-human-resource-page/">10/15 - Introducing Human Resource Page</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/09-15-submissions-are-open-for-rgds-2021-rat-calendar/">10/13 - Submissions are STILL open for RGD’s 2021 Rat Calendar!</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/07-31-introducing-dog-resource-page/">07/31 - Introducing Dog Resource Page</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/07-29-rgd-releases-covid-19-resources-and-disease-portal-pages/">07/29 - RGD Releases COVID-19 Resources and Disease Portal Pages</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-24-updated-chinchilla-resource-page/">07/24 - *Updated* Chinchilla Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-10-introducing-squirrel-resource-page/">07/10 - Introducing Squirrel Resource Page</a></p>
                         <p><a href="/wg/news/remembering-dr-mary-shimoyama/">02/28 - Remembering Dr. Mary Shimoyama</a></p>
                         <p><a href="/wg/news/12-03-rgds-2020-year-of-the-rat-calendar-is-now-available/">01/31 - RGD's 2020 Year of the Rat Calendar is still available</a></p>
-                        <p><a href="/wg/news/11-21-rgd-adds-rna-seq-expression-data-to-rat-gene-pages/">11/21 - RGD adds RNA-Seq expression data to rat gene pages</a></p>
-                        <p><a href="/wg/news/08-23-rgd-releases-golf-the-gene-and-ortholog-location-finder/">08/23 - RGD releases GOLF, the Gene and Ortholog Location Finder tool</a></p>
-                        <p><a href="/wg/news/surge-workshop-2019/">07/08 - Registration is open for the 2019 Summer of Rat Genetics and Genomics Workshop (SuRGe)</a></p>
-                        <p><a href="/wg/chinchilla/">06/04 - RGD releases the new Chinchilla Portal: Consolidated access to Chinchilla data and tools</a></p>
-                        <p><a href="/wg/news/04-25-rgd_announces_release_of_moet_the_multi-ontology_enrichment_tool/">04/25 - RGD Announces the release of MOET, a versatile new Multi-Ontology Enrichment Tool</a></p>
+                        
+                        
 
 
 
