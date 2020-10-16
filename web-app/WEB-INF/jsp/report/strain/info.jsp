@@ -19,6 +19,8 @@
     if( ontId==null )
         ontId = "N/A";
     request.setAttribute("ontId", ontId);
+
+    RgdId id = managementDAO.getRgdId(obj.getRgdId());
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
@@ -47,6 +49,19 @@
         <td><%=obj.getName()%></td>
     </tr>
     <% } %>
+
+
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=id.getRgdId()%></td>
+    </tr>
+
+
+    <tr>
+        <td class="label">RRID:</td>
+        <td><%=RgdContext.getSiteName(request)%>_<%=id.getRgdId()%></td>
+    </tr>
+
 
     <tr>
         <td class="label">Ontology ID:</td>
