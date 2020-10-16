@@ -38,11 +38,11 @@
 </div>
     <table border="0" id="externalDatabaseLinksTable" class="tablesorter">
     <thead>
-    <tr>
-        <td style="background-color:#a2a2a2;"><b>Database</b></td>
-        <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
-        <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
-    </tr>
+        <tr>
+            <td style="background-color:#a2a2a2;"><b>Database</b></td>
+            <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
+            <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
+        </tr>
     </thead>
     <tbody>
 <%

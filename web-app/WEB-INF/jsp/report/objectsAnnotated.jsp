@@ -105,6 +105,7 @@
     <%=af.createGridFormatAnnotatedObjects(objTypeListGenesRat, 3)%>
     </div>
     <% } %>
+
     <% if (objTypeListGenesMouse.size() > 0) { %>
     <div id="objectsAnnotatedMouseTable">
 <br><table>
@@ -119,7 +120,7 @@
     <% if (objTypeListGenesHuman.size() > 0) { %>
     <div id="objectsAnnotatedHumanTable">
 
-<br><table>
+    <br><table>
     <tr>
         <td ><span class="highlight">Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.HUMAN)%>)</span></td>
         <td><img src="/rgdweb/common/images/tools-white-30.png" style="margin-left:20px; float:right; cursor:hand; border: 1px solid black;" border="0" ng-click="rgd.showTools('geneList1',1,<%=MapManager.getInstance().getReferenceAssembly(1).getKey()%>)"/></td>
@@ -131,28 +132,28 @@
     <% if (objTypeListGenesChinchilla.size() > 0) { %>
     <div id="objectsAnnotatedChinchillaTable">
 
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.CHINCHILLA)%>)</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.CHINCHILLA)%>)</u></span><br></span>
         <%=af.createGridFormatAnnotatedObjects(objTypeListGenesChinchilla, 3)%>
     </div>
     <% } %>
     <% if (objTypeListQtls.size() > 0) { %>
     <div id="objectsAnnotatedQtlTable">
 
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>QTLs</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>QTLs</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListQtls, 2)%>
     </div>
     <% } %>
     <% if (objTypeListSslps.size() > 0) { %>
     <div id="objectsAnnotatedSslpTable">
 
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>SSLPs</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>SSLPs</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListSslps, 3)%>
     </div>
     <% } %>
     <% if (objTypeListStrains.size() > 0) { %>
     <div id="objectsAnnotatedStrainTable">
 
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Strains</u></span><br></span>
+    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Strains</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListStrains, 2)%>
     </div>
     <% } %>

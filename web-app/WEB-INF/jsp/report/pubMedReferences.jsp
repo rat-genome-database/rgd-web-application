@@ -55,13 +55,13 @@
         <thead></thead>
         <tbody>
 
-<%
-    String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
+    <%
+        String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
 
         for (int i = 0; i < ei.size(); i++) {
             String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
             if(i % 12 == 0){
-%>
+    %>
 <%--Beggining of row--%>
         <tr>
             <td class="report-page-grey">
@@ -72,8 +72,8 @@
 <%--            End of Row--%>
             <td class="report-page-grey">
                 <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
-    </td>
-</tr>
+            </td>
+        </tr>
   <% }else{%>
 <%--middle item--%>
             <td class="report-page-grey">
@@ -82,7 +82,7 @@
     <% }
     }%>
         </tbody>
-</table>
+    </table>
 
 
     <div class="modelsViewContent" >
