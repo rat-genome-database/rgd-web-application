@@ -35,21 +35,23 @@
     </div>
     <input class="search table-search" id="clinicalVariantsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-<script>
+    <script>
     $('#clinicalVariantsTable').on('click', '.headerRow', function(){
         $('#clinicalVariantsTable tr:nth-child(even)').removeClass('evenRow').addClass('oddRow');
         $('#clinicalVariantsTable tr:nth-child(odd)').removeClass('oddRow').addClass('evenRow');
- });
+    });
+
+
 </script>
 <table border="1" cellpadding="1" cellspacing="1" class="sortable" id="clinicalVariantsTable">
     <thead>
-    <tr class="headerRow">
-        <td title="click to sort by name">Name</td>
-        <td title="click to sort by type">Type</td>
-        <td title="click to sort by condition">Condition(s)</td>
-        <td title="click to sort by position">Position(s)</td>
-        <td title="click to sort by clinical significance">Clinical significance</td>
-    </tr>
+        <tr class="headerRow">
+            <td title="click to sort by name">Name</td>
+            <td title="click to sort by type">Type</td>
+            <td title="click to sort by condition">Condition(s)</td>
+            <td title="click to sort by position">Position(s)</td>
+            <td title="click to sort by clinical significance">Clinical significance</td>
+        </tr>
     </thead>
 <%
     String rowClass="oddRow";
