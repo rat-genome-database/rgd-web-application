@@ -77,15 +77,16 @@ public class AnnotationFormatter {
             } else {
 
                 if (!term.equals("") && objectId != refRgdId) {
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 } else if(!term.equals("")){
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
-
+//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
+                //<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
                 termAcc = a.getTermAcc();
                 annotatedRgdId = a.getAnnotatedObjectRgdId() + "";
                 term = a.getTerm();
@@ -96,15 +97,15 @@ public class AnnotationFormatter {
         }
 
         if(objectId != refRgdId) {
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+            records.add("<tr>" +
                     "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-
+//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
         }
-        else records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+        else records.add("<tr>" +
                 "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                 " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-
+//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
         return this.buildTable(records, columns);
     }
 
@@ -369,10 +370,11 @@ public class AnnotationFormatter {
             String objSymbol = Utils.NVL(a.getObjectSymbol(), "NA");
             String objName = Utils.NVL(a.getObjectName(), "NA");
 
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+            records.add("<tr>" +
                     "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
         }
+        //<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
 
         return this.buildTable(records, columns);
     }
