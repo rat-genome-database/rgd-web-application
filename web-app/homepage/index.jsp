@@ -187,19 +187,19 @@
                 </tr>
             </table>
         </td>
-<!--
+
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/human/'">
                 <div style="margin:5px; font-weight:700;">Human</div>
             </div>
             <img src="/rgdweb/common/images/species/humanI.png"  border="0"  class="speciesIcon"/>
         </td>
-        <td>
-            <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mouse'">
-                <div style="margin:5px; font-weight:700;">Mouse</div>
-            </div>
-            <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
--->
+        <!--        <td>
+                    <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mouse'">
+                        <div style="margin:5px; font-weight:700;">Mouse</div>
+                    </div>
+                    <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
+        -->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/chinchilla'">
                 <div style="margin:3px; font-weight:700;">Chinchilla</div>
