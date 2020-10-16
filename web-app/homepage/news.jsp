@@ -7,7 +7,7 @@
                         </div>
 
                         <p><a href="https://rgd.mcw.edu/wg/news/10-15-introducing-human-resource-page/">10/15 - Introducing Human Resource Page</a></p>
-                        <p><a href="https://rgd.mcw.edu/wg/news/09-15-submissions-are-open-for-rgds-2021-rat-calendar/">10/13 - Submissions are STILL open for RGD’s 2021 Rat Calendar!</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/09-15-submissions-are-open-for-rgds-2021-rat-calendar/">10/13 - Submissions are STILL open for RGD's 2021 Rat Calendar!</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-31-introducing-dog-resource-page/">07/31 - Introducing Dog Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-29-rgd-releases-covid-19-resources-and-disease-portal-pages/">07/29 - RGD Releases COVID-19 Resources and Disease Portal Pages</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-24-updated-chinchilla-resource-page/">07/24 - *Updated* Chinchilla Resource Page</a></p>
