@@ -48,7 +48,6 @@
     </div>
 
 
-    <div id="top" ></div>
 
     <div id="content-wrap">
 

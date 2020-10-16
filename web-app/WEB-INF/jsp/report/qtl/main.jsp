@@ -87,7 +87,7 @@
         <td>
             <%@ include file="info.jsp"%>
 
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations()">Click to see Annotation Detail View</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>
 
