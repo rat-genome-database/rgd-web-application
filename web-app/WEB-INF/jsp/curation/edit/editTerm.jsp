@@ -329,8 +329,6 @@ function addParentEdge() {
 
 function setTermAcc(obj) {
     $("#termAcc").val( obj.value );
-    //var x = $("#termAcc").val();
-    //alert("#termAcc="+x);
 }
 </script>
 <%@ include file="/common/footerarea.jsp"%>
