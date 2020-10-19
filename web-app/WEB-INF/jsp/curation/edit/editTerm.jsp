@@ -63,7 +63,7 @@
     <tr>
         <td class="label">Term Acc:</td>
         <td><% if( isNewCustomTerm ) { %>
-                <select onchange="setTermAcc(this);">
+                <select name="newTermAcc">
                     <option selected>select ontology</option>
                     <option>DOID:9XXXXXX</option>
                     <option>PW:XXXXXXX</option>
@@ -326,10 +326,5 @@ function addParentEdge() {
 
     tbody.appendChild(row);
 }
-
-function setTermAcc(obj) {
-    $("#termAcc").val( obj.value );
-}
 </script>
 <%@ include file="/common/footerarea.jsp"%>
-
