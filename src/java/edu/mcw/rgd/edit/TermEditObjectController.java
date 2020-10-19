@@ -21,6 +21,9 @@ public class TermEditObjectController implements Controller {
         if( Utils.isStringEmpty(termAcc) ) {
             action = Utils.defaultString(request.getParameter("action"));
             termAcc = Utils.defaultString(request.getParameter("termAcc"));
+            if( Utils.stringsAreEqualIgnoreCase(termAcc, "select ontology") ) {
+                termAcc = Utils.defaultString(request.getParameter("newTermAcc"));
+            }
         }
 
         Term term;
@@ -50,7 +53,7 @@ public class TermEditObjectController implements Controller {
         if( Utils.defaultString(request.getParameter("act")).equals("new") ) {
             // new custom RDO term
             term = new Term();
-            term.setAccId("DOID:9XXXXXX");
+            term.setAccId("select ontology");
             term.setCreatedBy(getCreatedBy(request));
             term.setCreationDate(new Date());
         }
