@@ -12,8 +12,22 @@
     String pageDescription = pageTitle;
 %>
 
+<div id="top" ></div>
+
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
+
+<div id="page-container">
+
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
+
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
+    <div id="content-wrap">
+
 
 <%@ include file="menu.jsp"%>
 
@@ -22,24 +36,31 @@
         <td>
         <%@ include file="info.jsp"%>
 
-        <br><div  class="subTitle">References</div><br>
-
+            <div class ="subTitle" id="references">References</div>
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
 
-        <br>
-        <div class="subTitle">Additional Information</div>
-        <br>
+
+            <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+
         <%@ include file="../xdbs.jsp"%>
         <%@ include file="../curatorNotes.jsp"%>
 
     </td>
     <td>&nbsp;</td>
     <td valign="top">
-        <%@ include file="../idInfo.jsp" %>
+<%--        <%@ include file="../idInfo.jsp" %>--%>
     </td>
     </tr>
  </table>
+</div>
+</div>
 
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
+<footer id="footer">
+    <%@ include file="../reportFooter.jsp"%>
+    <%@ include file="/common/footerarea.jsp"%>
+</footer>
+
+
+<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
