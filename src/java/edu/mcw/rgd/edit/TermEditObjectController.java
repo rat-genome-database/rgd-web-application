@@ -50,7 +50,6 @@ public class TermEditObjectController implements Controller {
         if( Utils.defaultString(request.getParameter("act")).equals("new") ) {
             // new custom RDO term
             term = new Term();
-            term.setAccId("DOID:9XXXXXX");
             term.setCreatedBy(getCreatedBy(request));
             term.setCreationDate(new Date());
         }

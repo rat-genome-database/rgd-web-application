@@ -64,7 +64,8 @@
         <td class="label">Term Acc:</td>
         <td><% if( isNewCustomTerm ) { %>
                 <select onchange="setTermAcc(this);">
-                    <option selected>DOID:9XXXXXX</option>
+                    <option selected>select ontology</option>
+                    <option>DOID:9XXXXXX</option>
                     <option>PW:XXXXXXX</option>
                     <option>CMO:XXXXXXX</option>
                     <option>MMO:XXXXXXX</option>
