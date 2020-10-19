@@ -21,7 +21,7 @@ public class TermEditObjectController implements Controller {
         if( Utils.isStringEmpty(termAcc) ) {
             action = Utils.defaultString(request.getParameter("action"));
             termAcc = Utils.defaultString(request.getParameter("termAcc"));
-            if( Utils.isStringEmpty(termAcc) ) {
+            if( Utils.stringsAreEqualIgnoreCase(termAcc, "select ontology") ) {
                 termAcc = Utils.defaultString(request.getParameter("newTermAcc"));
             }
         }
