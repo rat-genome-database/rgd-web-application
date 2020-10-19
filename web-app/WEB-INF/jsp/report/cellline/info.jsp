@@ -22,6 +22,11 @@
     </tr>
     <% } %>
 
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=rgdId.getRgdId()%></td>
+    </tr>
+
     <% if( obj.getObjectType()!=null ) { %>
     <tr>
         <td class="label">Cell Line Type:</td>
