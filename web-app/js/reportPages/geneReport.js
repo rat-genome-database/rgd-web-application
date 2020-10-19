@@ -82,7 +82,6 @@ function addEventsToSidebar() {
     let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
     toggles.forEach( toggle => {
         if (toggle) {
-            console.log(toggle);
             toggle.addEventListener("click", (event) => {
                 addItemsToSideBar();
             });
@@ -354,7 +353,6 @@ function calculateScrollPercentage(currentPosition){
 }
 
 function addItemsToSideBar(){
-    console.log("inside addItemsToSideBar");
     $('.subTitle').addClass("sidebar-item");
     $('.sectionHeading').addClass("sidebar-item");
     let sidebar = document.getElementById('navbarUlId');
