@@ -63,8 +63,9 @@
     <tr>
         <td class="label">Term Acc:</td>
         <td><% if( isNewCustomTerm ) { %>
-                <select onchange="setTermAcc(this);">
-                    <option selected>DOID:9XXXXXX</option>
+                <select name="newTermAcc">
+                    <option selected>select ontology</option>
+                    <option>DOID:9XXXXXX</option>
                     <option>PW:XXXXXXX</option>
                     <option>CMO:XXXXXXX</option>
                     <option>MMO:XXXXXXX</option>
@@ -89,8 +90,6 @@
         </td>
     </tr>
 
-    <% if( term.getAccId().startsWith("DOID:") || term.getAccId().startsWith("PW:") || term.getAccId().startsWith("CMO:")
-            || term.getAccId().startsWith("MMO:") || term.getAccId().startsWith("XCO:") || term.getAccId().startsWith("RS:")) { %>
     <tr>
         <td class="label">Name:</td>
         <td><input type="text" name="name" size="80" value="<%=Utils.defaultString(term.getTerm())%>" /> </td>
@@ -99,16 +98,6 @@
         <td class="label">Definition:</td>
         <td><textarea rows="5" cols="120" name="def"><%=Utils.defaultString(term.getDefinition())%></textarea></td>
     </tr>
-    <% } else { // cannot edit term name for non-RDO terms %>
-    <tr>
-        <td class="label">Name:</td>
-        <td><%=Utils.defaultString(term.getTerm())%></td>
-    </tr>
-    <tr>
-        <td class="label" valign="top">Definition:</td>
-        <td><%=Utils.defaultString(term.getDefinition())%></td>
-    </tr>
-    <% } %>
 
     <% if( !isNewCustomTerm && !termIsDeleted ) { %>
     <tr>
@@ -325,12 +314,5 @@ function addParentEdge() {
 
     tbody.appendChild(row);
 }
-
-function setTermAcc(obj) {
-    $("#termAcc").val( obj.value );
-    //var x = $("#termAcc").val();
-    //alert("#termAcc="+x);
-}
 </script>
 <%@ include file="/common/footerarea.jsp"%>
-
