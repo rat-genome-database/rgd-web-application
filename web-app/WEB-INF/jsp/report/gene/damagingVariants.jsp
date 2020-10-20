@@ -24,7 +24,10 @@
     sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
     Map m = new Map();
     if(assemblies.size() != 0) { %>
-    <%=ui.dynOpen("damagingVar", "Damaging Variants") %>
+<%--    <%=ui.dynOpen("damagingVar", "Damaging Variants") %>--%>
+<div id="damagingVariantsTableDiv" class="light-table-border">
+
+<div class="sectionHeading" id="damagingVariants">Damaging Variants</div>
 
     <br>
 <%
@@ -98,6 +101,7 @@
 
 
 <% } }%>
-<%=ui.dynClose("damagingVar")%>
+<%--<%=ui.dynClose("damagingVar")%>--%>
+</div>
 <%}%>
 <%@ include file="../sectionFooter.jsp"%>
