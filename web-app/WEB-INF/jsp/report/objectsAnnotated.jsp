@@ -201,8 +201,9 @@
 
 <div class="sectionHeading" id="objectsReferencedInThisArticle">Objects referenced in this article</div>
 
-<table id="objectsReferencedInThisArticleTable">
-
+<table id="objectsReferencedInThisArticleTable" class="tablesorter">
+<thead></thead>
+    <tbody>
 <%
     for( GenomicElement ge: refObjs ) {
         String symbolOrName = ge.getSymbol()!=null ? ge.getSymbol() : ge.getName();
@@ -214,7 +215,7 @@
           <td><%=SpeciesType.getTaxonomicName(ge.getSpeciesTypeKey())%></td>
       </tr>
 <%  }  %>
-
+    </tbody>
 </table>
 <%--<%=ui.dynClose("objAssociation2")%>--%>
 </div>
