@@ -371,7 +371,7 @@ function addItemsToSideBar(){
         }
 
         if(parent.style.display !== "none" && value.style.display !== "none"){
-            let text = value.childNodes[0].textContent;
+            let text = value.childNodes[0].textContent.trim();
 
             if(text.length > 27){
                 let lastWhiteSpace = text.lastIndexOf(" ");
