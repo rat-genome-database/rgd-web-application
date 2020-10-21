@@ -75,34 +75,15 @@ function addParam(name, value) {
     }
 }
 
-function toggleAssociations(detailWindowLocation, summaryWindowLocation) {
-    let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
-    let url = window.location.href;
-    let hashLocation = url.indexOf('#');
-    url = url.substring(0, hashLocation);
-
-    if (document.getElementById("associationsCurator").style.display==="none") {
+function toggleAssociations() {
+    if (document.getElementById("associationsCurator").style.display=="none") {
         document.getElementById("associationsCurator").style.display="block";
-        toggles.forEach( toggle => {
-            if (toggle) {
-                toggle.innerText = "Click to see Annotation Summary View";
-            }
-        });
-        location.assign(url + '#' + detailWindowLocation);
-
     }else {
        document.getElementById("associationsCurator").style.display="none";
     }
 
-    if (document.getElementById("associationsStandard").style.display==="none") {
+    if (document.getElementById("associationsStandard").style.display=="none") {
        document.getElementById("associationsStandard").style.display="block";
-        toggles.forEach( toggle => {
-            if (toggle) {
-                toggle.innerText = "Click to see Annotation Detail View";
-            }
-        });
-        location.assign(url + '#' + summaryWindowLocation);
-
     }else {
        document.getElementById("associationsStandard").style.display="none";
     }
