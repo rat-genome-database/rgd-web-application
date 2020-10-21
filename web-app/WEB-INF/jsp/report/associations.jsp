@@ -41,11 +41,7 @@
 
 
 <div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
-    <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
-        <%}%>
-    </div>
+    <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -108,10 +104,7 @@
 <%//ui.dynOpen("chemiAssociation", "Gene-Chemical Interaction Annotations")%>
 
 <div class="reportTable light-table-border" id="geneChemicalInteractionTableWrapper">
-    <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneChemicalInteractionDetailsTableWrapper', 'geneChemicalInteractionTableWrapper');">Click to see Annotation Detail View</a>
-        <%}%>
+    <div class="sectionHeading" id="geneChemicalInteraction">Gene-Chemical Interaction Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneChemicalInteractionDetailsTableWrapper', 'geneChemicalInteractionTableWrapper');">Click to see Annotation Detail View</a>
     </div>
 
 
@@ -182,10 +175,7 @@
 
 
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
-    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
-        <%}%>
+    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
     </div>
 
 
@@ -371,10 +361,7 @@
 <%//ui.dynOpen("pathwayAssociation", "Molecular Pathway Annotations")%>
 
 <div class="reportTable light-table-border" id="molecularPathwayAnnotationsTableWrapper">
-    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
-        <%}%>
+    <div class="sectionHeading" id="molecularPathwayAnnotations">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
     </div>
 
 <div class="search-and-pager">
@@ -441,10 +428,8 @@
 %>
 <%//ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
 <div class="light-table-border">
-    <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
-        <%}%>
+    <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
+
 <% if (mpList.size() > 0) { %>
 <div class="reportTable " id="mammalianPhenotypeAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
@@ -502,7 +487,7 @@
 
 
 <% if (hpList.size() > 0) { %>
-<div class="reportTable" id="humanPhenotypeAnnotationsTableWrapper">
+<div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
 
 
@@ -583,10 +568,8 @@
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-    <%if(!title.equalsIgnoreCase("references")) { %>
-        <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
-    <%}%>
+<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
+
 <%
     if(hasPhenoMinerAnn){
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
