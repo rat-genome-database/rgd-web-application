@@ -1,9 +1,5 @@
 <%@ include file="../sectionHeader.jsp"%>
 
-<%
-    RgdId id = managementDAO.getRgdId(obj.getRgdId());
-%>
-
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Marker: <%=obj.getName()%></h3></td></tr>
     <tr>
@@ -19,11 +15,6 @@
                 }
             %>
         </td>
-    </tr>
-
-    <tr>
-        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
-        <td><%=id.getRgdId()%></td>
     </tr>
 
     <% if (obj.getSslpType()!=null ) { %>

@@ -43,9 +43,8 @@
     if( confirmedCount+predictedCount > 0 ) {
 %>
 <%@ include file="sectionHeader.jsp"%>
-<%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
-<div class="light-table-border">
-<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status</div>
+<%=ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
+
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
@@ -156,8 +155,7 @@
         or access the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.</td>
     </tr>
     </table>
-</div>
 <% } %>
-<%//ui.dynClose("miRnaTargets")%>
+<%=ui.dynClose("miRnaTargets")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

@@ -22,9 +22,8 @@
 %>
 
 
-<%--<%=ui.dynOpen("markAssociation", "Position Markers")%>--%>
-<div id="markAssociationTableDiv" class="light-table-border">
-<div class="sectionHeading" id="markAssociation">Position Markers</div>
+<%=ui.dynOpen("markAssociation", "Position Markers")%>
+
 <%
 
     String f1symbol = "";
@@ -84,8 +83,8 @@
 </table>
 <br>
 
-<%--<%=ui.dynClose("markAssociation")%>--%>
-</div>
+<%=ui.dynClose("markAssociation")%>
+
 <% } %>
 
 

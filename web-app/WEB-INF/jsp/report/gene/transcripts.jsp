@@ -11,33 +11,7 @@
             }
         });
 %>
-
-
-<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
-
-    <span class="highlight"><u>Reference Sequences</u></span>
-
-
-    <div class="modelsViewContent" >
-        <div class="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-
+    <br><span class="highlight"><u>Reference Sequences</u></span><br>
 <%
 
     for (Transcript t : tlist) {
@@ -46,11 +20,9 @@
             accStr += " &nbsp; &xrArr; &nbsp; " + t.getProteinAccId();
         }
     %>
+<br>
 
-
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesInnerTable" >
-    <thead></thead>
-    <tbody>
+<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr>
         <td class="label" valign="top" width="100">RefSeq Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=accStr%></td>
@@ -93,30 +65,9 @@
         </td>
     </tr>
     <% } %>
-    </tbody>
 </table>
+<br>
 
-<% }%>
+<% }} %>
 
-    <div class="modelsViewContent" >
-        <div class="nucleotideReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-<% } %>
-</div>
 <%@ include file="../sectionFooter.jsp"%>

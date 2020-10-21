@@ -16,9 +16,7 @@
 
 
 
-<%--<%=ui.dynOpen("diseaseModels", "Disease Models")%>--%>
-<div id="diseaseModelsTableDiv" class="light-table-border">
-<div class="sectionHeading" id="diseaseModels">Disease Models</div>
+<%=ui.dynOpen("diseaseModels", "Disease Models")%>
 <br>
 <table>
     <tr>
@@ -39,8 +37,7 @@
 %>
 </table>
 <br>
-</div>
-<%--<%=ui.dynClose("diseaseModels")%>--%>
+<%=ui.dynClose("diseaseModels")%>
 
 <% } %>
 

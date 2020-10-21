@@ -5,9 +5,8 @@
     if (strains.size() > 0) {
 %>
 
-<%--<%=ui.dynOpen("subAsscociation", "Substrains")%>--%>
-<div id="subAsscociationTableDiv" class="light-table-border">
-<div class="sectionHeading" id="subAsscociation">Substrains</div>
+<%=ui.dynOpen("subAsscociation", "Substrains")%>
+
 <%
     List records = new ArrayList();
     for (Strain strain: strains) {
@@ -16,7 +15,7 @@
     out.print(formatter.buildTable(records, 3));
 %>
 <br>
-<%--<%=ui.dynClose("subAsscociation")%>--%>
-</div>
+<%=ui.dynClose("subAsscociation")%>
+
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

@@ -6,45 +6,14 @@
     if (ei.size() > 0) {
 %>
 
-<%//ui.dynOpen("xdbAssociation", "External Database Links")%>
+<%=ui.dynOpen("xdbAssociation", "External Database Links")%>
 
-
-<div id="externalDatabaseLinksTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="externalDatabaseLinks">External Database Links</div>
-
-
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="externalDatabaseLinksPager" class="pager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id="externalDatabaseLinksSearch" type="search" data-column="all" placeholder="Search table">
-</div>
-    <table border="0" id="externalDatabaseLinksTable" class="tablesorter">
-    <thead>
+<table border="0" >
     <tr>
         <td style="background-color:#a2a2a2;"><b>Database</b></td>
         <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
         <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
     </tr>
-    </thead>
-    <tbody>
 <%
     int lastXdbKey=0;
     String lastLink="", fullUrl;
@@ -60,13 +29,13 @@
                    }
             %>
 
-               <td class="report-page-grey"><b><%=xdb.getName()%></b></td>
+               <td style="background-color:#e2e2e2;"><b><%=xdb.getName()%></b></td>
            <% } else {%>
-               <td class="report-page-grey">&nbsp;</td>
+               <td style="background-color:#e2e2e2;">&nbsp;</td>
            <% }
               if( lastLink == null ) {
            %>
-               <td class="report-page-grey"><%=xid.getAccId()%></td>
+               <td style="background-color:#e2e2e2;"><%=xid.getAccId()%></td>
            <% } else {
 
                String link=xid.getLinkText()==null?xid.getAccId():xid.getLinkText();
@@ -79,38 +48,16 @@
                    fullUrl = lastLink + xid.getAccId();
                }
            %>
-           <td class="report-page-grey"><a href="<%=fullUrl%>"><%=link%></a></td>
-           <td class="report-page-grey"><%=Utils.defaultString(xid.getSrcPipeline())%></td>
+           <td style="background-color:#e2e2e2;"><a href="<%=fullUrl%>"><%=link%></a></td>
+           <td style="background-color:#e2e2e2;"><%=Utils.defaultString(xid.getSrcPipeline())%></td>
           <% } %>
     </tr>
 <%
     }
 %>
-    </tbody>
 </table>
-    <div class="modelsViewContent" >
-        <div class="externalDatabaseLinksPager pager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-</div>
 <br>
-<%//ui.dynClose("xdbAssociation")%>
+<%=ui.dynClose("xdbAssociation")%>
 <%
     }
 %>

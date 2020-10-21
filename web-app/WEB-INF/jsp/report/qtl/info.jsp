@@ -6,7 +6,6 @@
 
 <%@ include file="../sectionHeader.jsp"%>
 <%
-    RgdId id = managementDAO.getRgdId(obj.getRgdId());
     List<Note> notes;
 
     List<Term> traitTerms = DaoUtils.getInstance().getTraitTermsForObject(obj.getRgdId());
@@ -83,10 +82,6 @@
     <tr>
         <td class="label">Name:</td>
         <td><%=obj.getName()%></td>
-    </tr>
-    <tr>
-        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
-        <td><%=id.getRgdId()%></td>
     </tr>
     <%
         List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());

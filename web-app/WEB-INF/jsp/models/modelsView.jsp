@@ -11,11 +11,11 @@
     </div>
     <div id="pager" class="pager" style="float:right;margin-bottom:2px;">
         <form>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
             <input type="text" class="pagedisplay"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
             <select class="pagesize">
                 <option   value="10">10</option>
                 <option value="20">20</option>
@@ -254,11 +254,11 @@
 <div style="background-color:#24609c;width:75%;margin-left:16%">
     <div id="pager1" class="pager" style="float:right;margin-top:2%">
         <form>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/first.png" class="first"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/prev.png" class="prev"/>
             <input type="text" class="pagedisplay"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/next.png" class="next"/>
+            <img src="/rgdweb/common/tableSorter/addons/pager/icons/last.png" class="last"/>
 
         </form>
     </div>

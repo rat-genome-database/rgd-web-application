@@ -14,7 +14,6 @@
 
   <% boolean includeMapping = true; %>
 <%
-    String title = "References";
 
     Reference obj = (Reference) request.getAttribute("reportObject");
     String pageTitle = "RGD Reference Report - " + obj.getTitle() + " - " + RgdContext.getLongSiteName(request);
@@ -36,21 +35,8 @@
 
 %>
 
-<div id="top" ></div>
-
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-
-<div id="page-container">
-
-    <div id="left-side-wrap">
-        <%@ include file="../reportSidebar.jsp"%>
-    </div>
-
-
-
-    <div id="content-wrap">
-
 <%@ include file="menu.jsp"%>
 
 <% if (view.equals("2")) { %>
@@ -73,13 +59,13 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; "id="annotation">Annotation</div><br>
+                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
 
                 <%@ include file="../associations.jsp"%>
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
-                <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+                <br><div  class="subTitle">Additional Information</div><br>
 
                 <%@ include file="xdbs.jsp"%>
                 <%@ include file="../nomen.jsp"%>
@@ -90,22 +76,18 @@
         <td valign="top">
            <%-- <%@ include file="links.jsp" %>--%>
             <br>
-<%--            <%@ include file="../idInfo.jsp" %>--%>
+            <%@ include file="../idInfo.jsp" %>
         </td>
     </tr>
  </table>
-    </div>
-</div>
+
 <% }%>
-<footer id="footer">
-    <%@ include file="../reportFooter.jsp"%>
-    <%@ include file="/common/footerarea.jsp"%>
-</footer>
+<%@ include file="../reportFooter.jsp"%>
+<%@ include file="/common/footerarea.jsp"%>
 
 <script type="text/javascript">
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
+
 

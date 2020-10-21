@@ -7,9 +7,7 @@
     if( totalSeqLen > 0 ) {
         String templateSeqFormatted = FormUtility.formatFasta(template);
 %>
-<%--<%=ui.dynOpen("sequenceAssociation", "Sequence")%>--%>
-<div id="sequenceAssociationTableDiv" class="light-table-border">
-<div class="sectionHeading" id="sequenceAssociation">Sequence</div>
+<%=ui.dynOpen("sequenceAssociation", "Sequence")%>
 <table border="0">
     <tr><td>&nbsp;</td></tr>
 
@@ -34,8 +32,8 @@
     <% } %>
 
 </table>
-</div>
-<%--<%=ui.dynClose("sequenceAssociation")%>--%>
+
+<%=ui.dynClose("sequenceAssociation")%>
 
 <% } %>
 

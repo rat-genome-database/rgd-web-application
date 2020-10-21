@@ -37,9 +37,7 @@
 %>
 
 
-<%--<%=ui.dynOpen("objAssociation", "Objects Annotated")%>--%>
-<div class="light-table-border" id="objectsAnnotatedTableWrapper">
-<div class="sectionHeading" id="objectsAnnotated">Objects Annotated</div>
+<%=ui.dynOpen("objAssociation", "Objects Annotated")%>
 
 <%
     for (Annotation annot : annots) {
@@ -95,7 +93,6 @@
 %>
 
     <% if (objTypeListGenesRat.size() > 0) { %>
-    <div id="objectsAnnotatedRatTable">
         <br><table>
             <tr>
                 <td ><span class="highlight">Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.RAT)%>)</span></td>
@@ -103,10 +100,8 @@
             </tr>
         </table>
     <%=af.createGridFormatAnnotatedObjects(objTypeListGenesRat, 3)%>
-    </div>
     <% } %>
     <% if (objTypeListGenesMouse.size() > 0) { %>
-    <div id="objectsAnnotatedMouseTable">
 <br><table>
     <tr>
         <td ><span class="highlight">Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.MOUSE)%>)</span></td>
@@ -114,11 +109,8 @@
     </tr>
 </table>
            <%=af.createGridFormatAnnotatedObjects(objTypeListGenesMouse, 3)%>
-    </div>
     <% } %>
     <% if (objTypeListGenesHuman.size() > 0) { %>
-    <div id="objectsAnnotatedHumanTable">
-
 <br><table>
     <tr>
         <td ><span class="highlight">Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.HUMAN)%>)</span></td>
@@ -126,40 +118,26 @@
     </tr>
 </table>
            <%=af.createGridFormatAnnotatedObjects(objTypeListGenesHuman, 3)%>
-    </div>
     <% } %>
     <% if (objTypeListGenesChinchilla.size() > 0) { %>
-    <div id="objectsAnnotatedChinchillaTable">
-
         <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.CHINCHILLA)%>)</u></span><br></span>
         <%=af.createGridFormatAnnotatedObjects(objTypeListGenesChinchilla, 3)%>
-    </div>
     <% } %>
     <% if (objTypeListQtls.size() > 0) { %>
-    <div id="objectsAnnotatedQtlTable">
-
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>QTLs</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListQtls, 2)%>
-    </div>
     <% } %>
     <% if (objTypeListSslps.size() > 0) { %>
-    <div id="objectsAnnotatedSslpTable">
-
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>SSLPs</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListSslps, 3)%>
-    </div>
     <% } %>
     <% if (objTypeListStrains.size() > 0) { %>
-    <div id="objectsAnnotatedStrainTable">
-
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Strains</u></span><br></span>
            <%=af.createGridFormatAnnotatedObjects(objTypeListStrains, 2)%>
-    </div>
     <% } %>
 
 <br>
-<%--<%=ui.dynClose("objAssociation")%>--%>
-</div>
+<%=ui.dynClose("objAssociation")%>
 <% } %>
 
 
@@ -195,12 +173,8 @@
         });
 %>
 
-<%--<%=ui.dynOpen("objAssociation2", "Objects referenced in this article")%>--%>
-<div class="light-table-border" id="objectsReferencedInThisArticleTableWrapper">
-
-<div class="sectionHeading" id="objectsReferencedInThisArticle">Objects referenced in this article</div>
-
-<table id="objectsReferencedInThisArticleTable">
+<%=ui.dynOpen("objAssociation2", "Objects referenced in this article")%>
+<table class="annotationTable" width="95%" cellspacing="4">
 
 <%
     for( GenomicElement ge: refObjs ) {
@@ -215,8 +189,7 @@
 <%  }  %>
 
 </table>
-<%--<%=ui.dynClose("objAssociation2")%>--%>
-</div>
+<%=ui.dynClose("objAssociation2")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

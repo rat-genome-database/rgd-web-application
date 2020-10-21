@@ -17,36 +17,10 @@
 
 %>
 
-<br>
 
-<div id="qtlAssociationTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="qtlAssociation"><%=qtlAssotitle%></div>
+<%=ui.dynOpen("qtlAsscociation", qtlAssotitle)%>    <br>
 
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form autocomplete="off">
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search table">
-</div>
 <table>
-
-    <tbody>
     <tr>
         <td>The following <b>QTLs</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
         <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
@@ -56,7 +30,6 @@
 <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
 <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>[<%=objectType%>]&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=5">Gviewer</a></span></td>
 </tr>
-    </tbody>
 </table>
                 <%
                     try {
@@ -83,27 +56,8 @@
                     }
                 %>
 <br>
+<%=ui.dynClose("qtlAsscociation")%>
 
-    <div class="modelsViewContent" >
-        <div class="qtlAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form autocomplete="off">
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-</div>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

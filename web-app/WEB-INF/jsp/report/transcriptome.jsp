@@ -7,8 +7,8 @@
 
 <%@ include file="sectionHeader.jsp"%>
 
-<div class="light-table-border">
-<div class="sectionHeading" id="transcriptome">Transcriptome</div>
+<%=ui.dynOpen("transcriptomeAssociation", "Transcriptome")%>
+
 <br>
 <table><%-- sample gene: Agt(ENSRNOG00000018445) --%>
     <tr>
@@ -29,7 +29,7 @@
 </table>
 <br>
 
-</div>
+<%=ui.dynClose("transcriptomeAssociation")%>
 
 <%@ include file="sectionFooter.jsp"%>
 <%

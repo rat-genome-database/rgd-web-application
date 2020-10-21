@@ -21,11 +21,7 @@
 */
     if (compareHomologs.size() > 0) {
 %>
-<%//ui.dynOpen("mapAssociation", "Comparative Map Data")%>
-
-<div id="comparativeMapDataTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="comparativeMapData">Comparative Map Data</div>
-
+<%=ui.dynOpen("mapAssociation", "Comparative Map Data")%>
 <%
     compareHomologs.add(0,obj);
     List<Map> primaryAssemblies = mapDAO.getPrimaryRefAssemblies();
@@ -33,25 +29,23 @@
     MapData currentMapData = null;
 %>
 
-<table border="0" id="comparativeMapDataTable">
-    <thead></thead>
-    <tbody>
+<table border="0">
+
 <%
 
 for (Object thisObject: compareHomologs) {
     Gene g = (Gene) thisObject;
 %>
     <tr >
-        <td class="report-page-grey" ><b><%=g.getSymbol()%><br>(<%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%> - <%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%>)</b></td>
+        <td style="background-color:#e0e2e1;" ><b><%=g.getSymbol()%><br>(<%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%> - <%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%>)</b></td>
         <td><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol())%></td>
     </tr>
 
 <% } %>
-    </tbody>
+
 </table>
 </br>
-<%//ui.dynClose("mapAssociation")%>
+<%=ui.dynClose("mapAssociation")%>
 
 <% } %>
-</div>
 <%@ include file="../sectionFooter.jsp"%>

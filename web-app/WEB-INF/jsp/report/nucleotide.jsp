@@ -1,44 +1,8 @@
 <%@ include file="sectionHeader.jsp"%>
 
-<%//ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
+<%=ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
 
-<div id="nucleotideSequencesTableDiv" class="light-table-border">
-
-    <div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
-
-
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id="nucleotideSequencesSearch" type="search" data-column="all" placeholder="Search table">
-</div>
-
-
-<table border="0" id="nucleotideSequencesTable" class="tablesorter">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
+<table border="0" >
 <%
     List<XdbId> nei = DaoUtils.getInstance().getNucleotideSequences(obj.getRgdId(), obj.getSpeciesTypeKey());
 
@@ -77,40 +41,12 @@
     }
 %>
     </table>
-
-    <div class="modelsViewContent" >
-        <div class="nucleotideSequencesPager" class="pager" style="margin-bottom:2px;">
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-
-
-
-
-
-
-</div>
 <br>
 
 <% if( objectType.equals("gene") ) { %>
 <%@ include file="gene/transcripts.jsp"%>
 <% } %>
 
-<%//ui.dynClose("nucAssociation")%>
+<%=ui.dynClose("nucAssociation")%>
 
 <%@ include file="sectionFooter.jsp"%>

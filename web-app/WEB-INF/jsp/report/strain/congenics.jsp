@@ -9,9 +9,7 @@
         if (ontologyDAO.isDescendantOf(term.getAccId(),"RS:0000459")) {
             if (!foundOne)  {
                 foundOne=true;
-//                out.println(ui.dynOpen("congenicAsscociation", "Congenic Strains"));
-                out.println("<div id=\"congenicAsscociationTableDiv\" class=\"light-table-border\">");
-                out.println("<div class=\"sectionHeading\" id=\"congenicAsscociation\">Congenic Strains</div>");
+                out.println(ui.dynOpen("congenicAsscociation", "Congenic Strains"));
             }
 
             int rgdIdForStrain = ontologyDAO.getRgdIdForStrainOntId(term.getAccId());
@@ -26,8 +24,7 @@
 
     if (foundOne) {
         out.print(formatter.buildTable(records, 2));
-        out.println("</div>");
-//        out.println(ui.dynClose("congenicAsscociation"));
+        out.println(ui.dynClose("congenicAsscociation"));
     }
 %>
 <%@ include file="../sectionFooter.jsp"%>

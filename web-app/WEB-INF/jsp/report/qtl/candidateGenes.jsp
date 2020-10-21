@@ -8,8 +8,7 @@ List genes = associationDAO.getGeneAssociationsByQTL(obj.getRgdId());
 if (genes.size() > 0) {
 %>
 
-<%--<%=ui.dynOpen("candAsscociation", "Candidate Gene Status")%>    <br>--%>
-<div class="sectionHeading" id="candidateGenes">Candidate Gene Status</div>
+<%=ui.dynOpen("candAsscociation", "Candidate Gene Status")%>    <br>
 <table>
 <%
 
@@ -25,7 +24,7 @@ if (genes.size() > 0) {
         <% } %>
 </table>
 <br>
-<%--    <%=ui.dynClose("candAsscociation")%>--%>
+    <%=ui.dynClose("candAsscociation")%>
 
 <% } %>    
 

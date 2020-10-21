@@ -5,9 +5,8 @@ List<SslpsAllele> alleleList = sslpAlleleDAO.getSslpsAlleleByKey(obj.getKey());
 if (alleleList.size() > 0 ) {
 
 %>
-<%--<%=ui.dynOpen("strainAssociation", "Strain Variation")%>--%>
-<div id="strainAssociationTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="strainAssociation">Strain Variation</div>
+<%=ui.dynOpen("strainAssociation", "Strain Variation")%>
+
 Strain, Expected Size(s)<br>
 <%
 
@@ -27,8 +26,7 @@ Strain, Expected Size(s)<br>
 
 %>
  <br>
-</div>
-<%--<%=ui.dynClose("strainAssociation")%>--%>
+<%=ui.dynClose("strainAssociation")%>
 
 <% } %>
 

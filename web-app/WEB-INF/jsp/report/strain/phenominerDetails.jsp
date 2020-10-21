@@ -19,11 +19,9 @@
             + bean.getPhenoXcoTerms().size() > 0 ) {
 %>
 
-<%--<%=ui.dynOpen("phenominerAssociationC", "Phenotype Values via Phenominer")%>--%>
-<div id="phenominerAssociationCTableDiv" class="light-table-border">
-<div class="sectionHeading" id="phenominerAssociationC">Phenotype Values via Phenominer</div>
+<%=ui.dynOpen("phenominerAssociationC", "Phenotype Values via Phenominer")%>
 <%@ include file="../../ontology/phenoTable.jsp"%>
-<%--<%=ui.dynClose("phenominerAssociationC")%>--%>
-</div>
+<%=ui.dynClose("phenominerAssociationC")%>
+
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

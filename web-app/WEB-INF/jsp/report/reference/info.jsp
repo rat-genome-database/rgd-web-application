@@ -2,7 +2,6 @@
 <%
     List<Author> authors = referenceDAO.getAuthors(obj.getKey());
     List pmIds = xdbDAO.getXdbIdsByRgdId(2, obj.getRgdId());
-    RgdId id = managementDAO.getRgdId(obj.getRgdId());
 
     String pmId = "";
     if (pmIds.size() > 0) {
@@ -31,10 +30,6 @@
     <tr>
         <td class="label">Citation:</td>
         <td><%=obj.getCitation()%></td>
-    </tr>
-    <tr>
-        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
-        <td><%=id.getRgdId()%></td>
     </tr>
 
 	<%-- show optional URL_WEB_REFERENCE --%>

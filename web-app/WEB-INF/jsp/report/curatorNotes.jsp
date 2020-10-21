@@ -13,8 +13,7 @@
 if (noteList.size() > 0) {
 %>
 
-<div class="light-table-border">
-<div class="sectionHeading" id="rgdCurationNotes">RGD Curation Notes</div>
+<%=ui.dynOpen("noteAssociation", "RGD Curation Notes")%>
 <table border="1" cellpadding="4" cellspacing="0">
 <tr>
     <th>Note Type</th>
@@ -52,8 +51,8 @@ if (noteList.size() > 0) {
     }}
 %>
 </table>
-
-</div>
+<br>
+<%=ui.dynClose("noteAssociation")%>
 
 <% } %>
 

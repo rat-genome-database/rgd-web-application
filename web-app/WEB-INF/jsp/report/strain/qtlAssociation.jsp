@@ -1,4 +1,3 @@
-<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
   List<QTL> qtls = associationDAO.getQTLAssociationsForStrain(obj.getRgdId());
@@ -17,42 +16,13 @@
 %>
 
 
-<%--<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>--%>
-<div id="strainQtlAssociationTableDiv" class="light-table-border">
-<div class="sectionHeading" id="strainQtlAssociation">Strain QTL Data</div>
-
-
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="pager strainQtlAssociationPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id="strainQtlAssociationSearch" type="search" data-column="all" placeholder="Search table">
-</div>
-    <table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
-    <thead>
-        <tr>
-            <td><b>Symbol</b></td>
-            <td><b>Name</b></td>
-            <td><b>Trait</b></td>
-        </tr>
-    </thead>
-    <tbody>
+<%=ui.dynOpen("strainQtlAssociation", "Strain QTL Data")%>
+<table cellpadding="3" cellspacing="3" >
+<tr>
+    <td><b>Symbol</b></td>
+    <td><b>Name</b></td>
+    <td><b>Trait</b></td>
+</tr>
 <%
     for (QTL qtl: qtls) {
         List<Term> traitTerms = DaoUtils.getInstance().getTraitTermsForObject(qtl.getRgdId());
@@ -83,29 +53,10 @@
     <%
     }
 %>
-    </tbody>
 </table>
-    <div class="modelsViewContent" >
-        <div class="pager strainQtlAssociationPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-<%--<%=ui.dynClose("strainQtlAssociation")%>--%>
-</div>
+
+<%=ui.dynClose("strainQtlAssociation")%>
+
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

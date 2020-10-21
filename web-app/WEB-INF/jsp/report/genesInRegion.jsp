@@ -16,33 +16,8 @@
 
 %>
 
-<%--<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>--%>
-<div id="geneAssociationTableDiv" class="light-table-border">
-<div class="sectionHeading" id="geneAssociation">Genes in Region</div>
+<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>
 
-
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="geneAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form autocomplete="off">
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
-</div>
 <table>
     <tr>
         <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
@@ -76,28 +51,8 @@
         out.print(r.format(new HTMLTableReportStrategy()));
     %>
 <br>
+<%=ui.dynClose("geneAsscociation")%>
 
-    <div class="modelsViewContent" >
-        <div class="geneAssociationPager" class="pager" style="margin-bottom:2px;">
-            <form autocomplete="off">
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-<%--<%=ui.dynClose("geneAsscociation")%>--%>
-</div>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

@@ -10,7 +10,7 @@
         <li <%=viewNr.equals("4")?"id=selected":""%>><a href="javascript:addParam('view',4)">Array IDs</a></li>
         <!--
         -->
-<%--        <li <%=viewNr.equals("5")?"id=selected":""%>><a href="javascript:addParam('view',5)">References</a></li>--%>
+        <li <%=viewNr.equals("5")?"id=selected":""%>><a href="javascript:addParam('view',5)">References</a></li>
         <% if (RgdContext.isCurator()) {%>
         <!--
         -->
@@ -18,6 +18,6 @@
         <% } %>
     </ul>
 </div>
-<div  />
+<div style="clear:both" />
 
 <%@ include file="../sectionFooter.jsp"%>
