@@ -431,6 +431,11 @@ $(function () {
             theme: 'blue'
         });
 
+    $('#objectsReferencedInThisArticleTable')
+        .tablesorter({
+            theme: 'blue'
+        });
+
     $('#pubMedReferencesTable')
         .tablesorter({
             theme: 'blue',
