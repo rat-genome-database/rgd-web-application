@@ -68,7 +68,7 @@
 </div>
 
     <div id="manualAnnotationsTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
+  <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -124,7 +124,7 @@
         <input class="search table-search" id="importedAnnotationsClinVarSearch" type="search" data-column="all" placeholder="Search table">
     </div>
         <div id="importedAnnotationsClinVarTableDiv" class="annotation-detail">
-            <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
+  <%=af.createGridFormatAnnotationsTable(listClinVar, siteName)%>
         </div>
         <div class="modelsViewContent" >
             <div class="pager importedAnnotationsClinVarPager" >
@@ -229,7 +229,7 @@
     <input class="search table-search" id="importedAnnotationsGADSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="importedAnnotationsGADTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
+  <%=af.createGridFormatAnnotationsTable(listGAD, siteName)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -331,7 +331,7 @@
     <input class="search table-search" id="importedAnnotationsOMIASearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="importedAnnotationsOMIATableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
+  <%=af.createGridFormatAnnotationsTable(listOmia, siteName)%>
     </div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOMIAPager" >
@@ -382,7 +382,7 @@
     <input class="search table-search" id="importedAnnotationsOMIMSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="importedAnnotationsOMIMTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
+<%=af.createGridFormatAnnotationsTable(listOmim, siteName)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -448,7 +448,7 @@
 
 </div>
     <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
+    <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
     </div>
 
     <div class="modelsViewContent" >
@@ -708,7 +708,7 @@
     <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="molecularPathwayManualAnnotationsTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
+    <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -812,7 +812,7 @@
     <input class="search table-search" id="importedAnnotationsKEGGSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="importedAnnotationsKEGGTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listImportedKEGG, siteName)%>
+    <%=af.createGridFormatAnnotationsTable(listImportedKEGG, siteName)%>
     </div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsKEGGPager" >
@@ -862,7 +862,7 @@
     <input class="search table-search" id="importedAnnotationsPIDSearch" type="search" data-column="all" placeholder="Search table">
     </div>
     <div id="importedAnnotationsPIDTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listImportedPID, siteName)%>
+    <%=af.createGridFormatAnnotationsTable(listImportedPID, siteName)%>
     </div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsPIDPager" >
@@ -911,7 +911,7 @@
     <input class="search table-search" id="importedAnnotationsOtherSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="importedAnnotationsOtherTableDiv" class="annotation-detail">
-        <%=af.createGridFormatAnnotationsTable(listImported, siteName)%>
+    <%=af.createGridFormatAnnotationsTable(listImported, siteName)%>
     </div>
     <div class="modelsViewContent" >
         <div class="pager importedAnnotationsOtherPager" >
@@ -1140,12 +1140,11 @@
     </div>
 </div>
     <% } %>
-
     <% if (cmoList.size() > 0) { %>
     <div class="reportTable" id="clinicalMeasurementTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
         <div id="clinicalMeasurementTableDiv" class="annotation-detail">
-            <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
+           <%=af.createGridFormatAnnotationsTable(cmoList, siteName)%>
         </div>
     </div>
     <% } %>
@@ -1153,22 +1152,21 @@
     <div class="reportTable" id="experimentalConditionTableWrapper">
        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
         <div id="experimentalConditionTableDiv" class="annotation-detail">
-            <%=af.createGridFormatAnnotationsTable(xcoList, siteName)%>
+           <%=af.createGridFormatAnnotationsTable(xcoList, siteName)%>
         </div>
     </div>
     <% } %>
     <% if (mmoList.size() > 0) { %>
         <div class="reportTable" id="measurementMethodTableWrapper">
-           <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
+       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
             <div id="measurementMethodTableDiv" class="annotation-detail">
-                <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
+           <%=af.createGridFormatAnnotationsTable(mmoList, siteName)%>
             </div>
         </div>
     <% } %>
-
     <% if (maList.size() > 0) { %>
 <div class="reportTable " id="mouseAnatomyTableWrapper">
-    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
+       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
 
 
 <div class="search-and-pager">
@@ -1267,12 +1265,11 @@
     </div>
 </div>
     <% } %>
-
     <% if (vtList.size() > 0) { %>
     <div class="reportTable" id="vertebrateTraitTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
+       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
         <div id="vertebrateTraitTableDiv" class="annotation-detail">
-            <%=af.createGridFormatAnnotationsTable(vtList)%>
+           <%=af.createGridFormatAnnotationsTable(vtList)%>
         </div>
     </div>
     <% }%>

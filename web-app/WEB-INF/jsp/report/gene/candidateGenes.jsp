@@ -21,6 +21,6 @@ if( !qtls.isEmpty() ) {
 </table>
 
 
-<% } %>
+<% } %>    
 </div>
 <%@ include file="../sectionFooter.jsp"%>

@@ -205,7 +205,6 @@
 </tr>
 <% } %>
 </table>
-
 <% } %>
 
     <div class="modelsViewContent" >
@@ -244,6 +243,5 @@
 </div>
     <%//ui.dynClose("protAssociation")%>
 <% } %>
-
 
 <%@ include file="sectionFooter.jsp"%>

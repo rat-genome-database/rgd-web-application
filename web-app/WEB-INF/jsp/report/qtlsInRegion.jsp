@@ -44,7 +44,7 @@
     </div>
     <input class="search table-search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-    <table>
+<table>
 
     <tbody>
     <tr>
@@ -58,8 +58,6 @@
 </tr>
     </tbody>
 </table>
-
-
                 <%
                     try {
 

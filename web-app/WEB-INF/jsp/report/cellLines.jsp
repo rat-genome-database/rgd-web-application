@@ -29,5 +29,6 @@
 </table>
 </div>
  <p>
+<%=ui.dynClose("cellLineAssociations")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>
