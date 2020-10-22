@@ -41,7 +41,7 @@
 
 
 <div class="reportTable light-table-border" id="manualAnnotationsTableWrapper">
-    <div class="sectionHeading" id="manualAnnotations"><%=siteName%> Manual Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
+    <div class="sectionHeading" id="manualAnnotations"><%=siteName%> Manual Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -97,7 +97,7 @@
 
 
     <div class="reportTable light-table-border" id="importedAnnotationsClinVarTableWrapper">
-        <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Annotations - ClinVar </h4></div>
+        <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Disease Annotations - ClinVar </h4></div>
 
 
 <div class="search-and-pager">
@@ -150,7 +150,7 @@
 
 <% } if( !listCTD.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsCTDTableWrapper">
-<div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Annotations - CTD </h4></div>
+<div class="sectionHeading" id="importedAnnotationsCTD"><h4>Imported Disease Annotations - CTD </h4></div>
 
 
 <div class="search-and-pager">
@@ -203,7 +203,7 @@
 </div>
 <% } if( !listGAD.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsGADTableWrapper">
-<div class="sectionHeading" id="importedAnnotationsGAD"><h4>Imported Annotations - GAD </h4></div>
+<div class="sectionHeading" id="importedAnnotationsGAD"><h4>Imported Disease Annotations - GAD </h4></div>
 
 
 <div class="search-and-pager">
@@ -254,7 +254,7 @@
 </div>
 <% } if( !listMGI.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsMGITableWrapper">
-<div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Annotations - MGI </h4></div>
+<div class="sectionHeading" id="importedAnnotationsMGI"><h4>Imported Disease Annotations - MGI </h4></div>
 
 
 <div class="search-and-pager">
@@ -305,7 +305,7 @@
 </div>
 <% } if( !listOmia.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsOMIATableWrapper">
-<div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Annotations - OMIA </h4></div>
+<div class="sectionHeading" id="importedAnnotationsOMIA"><h4>Imported Disease Annotations - OMIA </h4></div>
 
 
 <div class="search-and-pager">
@@ -356,7 +356,7 @@
 </div>
 <% } if( !listOmim.isEmpty() ) { %>
 <div class="reportTable light-table-border" id="importedAnnotationsOMIMTableWrapper">
-<div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Annotations - OMIM </h4></div>
+<div class="sectionHeading" id="importedAnnotationsOMIM"><h4>Imported Disease Annotations - OMIM </h4></div>
 
 
 <div class="search-and-pager">
