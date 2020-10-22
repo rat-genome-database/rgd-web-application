@@ -177,16 +177,16 @@
 %>
 
 <%//ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>
-
+<div class = light-table-border>
+<div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;
+    <%if(!title.equalsIgnoreCase("references")) { %>
+    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
+    <%}%>
+</div>
 <% if (bpList.size() > 0) { %>
 
 
-<div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
-    <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
-            <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
-        <%}%>
-    </div>
+<div class="reportTable" id="biologicalProcessAnnotationsTableWrapper">
 
 
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
@@ -223,7 +223,6 @@
     <div id="biologicalProcessAnnotationsTable">
 <%=af.createGridFormatAnnotations(bpList, obj.getRgdId(),3)%>
     </div>
-<% } %>
 
     <div class="modelsViewContent" >
         <div class="pager annotationPagerClass" style="margin-bottom:2px;">
@@ -245,9 +244,12 @@
         </div>
     </div>
 </div>
+<% } %>
+
+
 <% if (ccList.size() > 0) { %>
 
-<div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
+<div class="reportTable" id="cellularComponentAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentSummary"><u>Cellular Component</u></span><br></span>
 
 <div class="search-and-pager">
@@ -303,7 +305,7 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 
-<div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
+<div class="reportTable" id="molecularFunctionAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionSummary"><u>Molecular Function</u></span><br></span>
 
 
@@ -358,6 +360,7 @@
 <% } %>
 <br>
 <%//ui.dynClose("goAsscociation")%>
+</div>
 <% } %>
 
 
