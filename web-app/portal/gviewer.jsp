@@ -71,7 +71,7 @@
 
     window.document.gviewer = gviewer;
 
-    document.getElementById("geneList").innerHTML = "<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'><table class=.gaTable width=800 /><tr class='headerRow' ><td  >Symbol</td><td  >Chromosome</td><td  >Start Position</td><td  >Stop Position</td><td  >Assembly</td></tr><tr class='evenRow' ><td  ><a onclick='geneList(2004)' href='javascript:void(0)'>A2m</a></td><td  >4</td><td  >154309426</td><td  >154359138</td><td  >Rnor_6.0</td></tr></table>";
+    document.getElementById("geneList").innerHTML = "<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css?v=1'><table class=.gaTable width=800 /><tr class='headerRow' ><td  >Symbol</td><td  >Chromosome</td><td  >Start Position</td><td  >Stop Position</td><td  >Assembly</td></tr><tr class='evenRow' ><td  ><a onclick='geneList(2004)' href='javascript:void(0)'>A2m</a></td><td  >4</td><td  >154309426</td><td  >154359138</td><td  >Rnor_6.0</td></tr></table>";
 
     alert(window.parent)
 
