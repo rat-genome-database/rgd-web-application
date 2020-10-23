@@ -416,9 +416,10 @@ function addItemsToSideBar(){
 function checkForAnnotations(){
     //get all the tables with annotationTable class
     let annotationTables = Array.from(document.getElementsByClassName('annotationTable'));
+    let phenotypeValues = document.getElementById('phenominerAssociationTableDiv');
 
     //if list == 0,
-    if(annotationTables.length === 0){
+    if(annotationTables.length === 0 && !phenotypeValues){
         //make Annotations div display == none
         let annotationDiv = document.getElementById('annotation');
         if(annotationDiv){
