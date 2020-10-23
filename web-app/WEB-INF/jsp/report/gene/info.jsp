@@ -80,7 +80,7 @@
     <% if (obj.getRefSeqStatus() != null) { %>
     <tr>
         <td class="label" valign="top">RefSeq Status:</td>
-        <td><a href="https://www.ncbi.nlm.nih.gov/RefSeq/key.html#status"><%=obj.getRefSeqStatus()%></a></td>
+        <td><a href="https://www.ncbi.nlm.nih.gov/books/NBK21091/table/ch18.T.refseq_status_codes/?report=objectonly"><%=obj.getRefSeqStatus()%></a></td>
     </tr>
     <% } %>
 
