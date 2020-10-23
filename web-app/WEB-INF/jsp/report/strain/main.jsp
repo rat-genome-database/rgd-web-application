@@ -157,9 +157,7 @@
 </div>
 <% } %>
 
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
 <script src="/rgdweb/js/reportPages/geneReport.js"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
