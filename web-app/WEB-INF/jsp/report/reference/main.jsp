@@ -97,10 +97,9 @@
     </div>
 </div>
 <% }%>
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
+
 
 <script type="text/javascript">
     openAll();
