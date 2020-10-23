@@ -17,7 +17,9 @@
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
 <div id="phenominerAssociationTableWrapper" class="light-table-border">
-<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via Phenominer</div>
+<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via Phenominer&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
+</div>
     <div class="modelsViewContent" >
         <div class="pager phenominerAssociationPager" >
             <form>
