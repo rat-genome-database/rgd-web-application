@@ -373,10 +373,6 @@ function addItemsToSideBar(){
         if(parent.style.display !== "none" && value.style.display !== "none"){
             let text = value.childNodes[0].textContent.trim();
 
-            if(text.length > 27){
-                let lastWhiteSpace = text.lastIndexOf(" ");
-                text = text.substring(0, lastWhiteSpace);
-            }
 
             if(text === "Additional References at"){
                 text = "PubMed References";
@@ -394,6 +390,17 @@ function addItemsToSideBar(){
                 text = "Strain Sequence Variants";
             }
 
+            if(text === "Phenotype Values via Phenominer"){
+                text = "Phenotype Values";
+            }
+
+            if(text.includes("Imported Disease Annotations")){
+                text = text.replace('Annotations', '');
+            }
+            if(text.length > 27){
+                let lastWhiteSpace = text.lastIndexOf(" ");
+                text = text.substring(0, lastWhiteSpace);
+            }
 
             let li = document.createElement('li');
             let a  = document.createElement('a');
