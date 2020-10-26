@@ -8,7 +8,7 @@
 
     <div class="container-fluid" id="container" style="height:36px;">
 
-            <div class="row" style=";margin-top:2px;margin-left:35%;margin-bottom:2px">
+            <div class="row" style=";margin-top:2px;margin-left:35%;margin-bottom:2px;width:100%">
             <form  name="elasticSearchForm" class="form-inline" action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
                 <input type="hidden" name="log" value="true"/>
                 <input type="hidden" name="category" id="category" value="General"/>

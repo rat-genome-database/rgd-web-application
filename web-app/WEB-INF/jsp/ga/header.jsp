@@ -124,7 +124,7 @@ function showSection(e) {
 </style>
 
 <link href="/rgdweb/js/jsor-jcarousel-7bb2e0a/style.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/.2.min.js"></script>
 <script type="text/javascript" src="/rgdweb/js/jsor-jcarousel-7bb2e0a/lib/jquery.jcarousel.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/rgdweb/js/jsor-jcarousel-7bb2e0a/skins/tango/skin.css"/>
 
