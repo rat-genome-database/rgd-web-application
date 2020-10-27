@@ -179,6 +179,10 @@ function removeOldAnnotationTables(tableArray){
 
 function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
+    if(table.parentElement.id === 'congenicAsscociationTableDiv'){
+        return buildAnnotationTable(rowArray, 1);
+    }
+
     return buildAnnotationTable(rowArray);
 }
 
@@ -245,8 +249,7 @@ function buildReferenceTable(rowArray){
     return newTable;
 }
 
-function buildAnnotationTable(rowArray) {
-
+function buildAnnotationTable(rowArray, columns = 3) {
     let newTable = buildEmptyTable(true);
     let tr = document.createElement('tr');
     newTable.tBodies[0].appendChild(tr);
@@ -255,7 +258,7 @@ function buildAnnotationTable(rowArray) {
 
         if (rowArray[i].hasChildNodes()) {
 
-            if (tr.children.length >= 3) {
+            if (tr.children.length >= columns) {
                 tr = document.createElement('tr');
                 newTable.tBodies[0].appendChild(tr);
             }
@@ -374,19 +377,16 @@ function addItemsToSideBar(){
             let text = value.childNodes[0].textContent.trim();
 
 
-            if(text === "Additional References at"){
+            if(text === "Additional References at PubMed"){
                 text = "PubMed References";
             }
 
-            if(text === "Molecular Pathway Annotations"){
-                text = "Molecular Pathway";
-            }
 
-            if(text === "QTLs in Region (Rnor_6.0)"){
+            if(text === "QTLs in Region (Rnor_6.0)" || text === "QTLs in Region (GRCm38)"){
                 text = "QTLs in Region";
             }
 
-            if(text === "Strain Sequence Variants (Rnor"){
+            if(text === "Strain Sequence Variants (Rnor 6.0)"){
                 text = "Strain Sequence Variants";
             }
 
@@ -394,7 +394,7 @@ function addItemsToSideBar(){
                 text = "Phenotype Values";
             }
 
-            if(text.includes("Imported Disease Annotations")){
+            if(text.includes("Annotations")){
                 text = text.replace('Annotations', '');
             }
             if(text.length > 27){
