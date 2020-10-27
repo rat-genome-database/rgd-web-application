@@ -374,19 +374,16 @@ function addItemsToSideBar(){
             let text = value.childNodes[0].textContent.trim();
 
 
-            if(text === "Additional References at"){
+            if(text === "Additional References at PubMed"){
                 text = "PubMed References";
             }
 
-            if(text === "Molecular Pathway Annotations"){
-                text = "Molecular Pathway";
-            }
 
             if(text === "QTLs in Region (Rnor_6.0)"){
                 text = "QTLs in Region";
             }
 
-            if(text === "Strain Sequence Variants (Rnor"){
+            if(text === "Strain Sequence Variants (Rnor 6.0)"){
                 text = "Strain Sequence Variants";
             }
 
@@ -394,10 +391,11 @@ function addItemsToSideBar(){
                 text = "Phenotype Values";
             }
 
-            if(text.includes("Imported Disease Annotations")){
+            if(text.includes("Annotations")){
                 text = text.replace('Annotations', '');
             }
             if(text.length > 27){
+                console.log(text);
                 let lastWhiteSpace = text.lastIndexOf(" ");
                 text = text.substring(0, lastWhiteSpace);
             }

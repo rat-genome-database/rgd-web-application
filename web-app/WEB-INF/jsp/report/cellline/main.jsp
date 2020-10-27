@@ -60,5 +60,5 @@
     <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=3"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
