@@ -179,6 +179,10 @@ function removeOldAnnotationTables(tableArray){
 
 function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
+    if(table.parentElement.id === 'congenicAsscociationTableDiv'){
+        return buildAnnotationTable(rowArray, 1);
+    }
+
     return buildAnnotationTable(rowArray);
 }
 
@@ -245,8 +249,7 @@ function buildReferenceTable(rowArray){
     return newTable;
 }
 
-function buildAnnotationTable(rowArray) {
-
+function buildAnnotationTable(rowArray, columns = 3) {
     let newTable = buildEmptyTable(true);
     let tr = document.createElement('tr');
     newTable.tBodies[0].appendChild(tr);
@@ -255,7 +258,7 @@ function buildAnnotationTable(rowArray) {
 
         if (rowArray[i].hasChildNodes()) {
 
-            if (tr.children.length >= 3) {
+            if (tr.children.length >= columns) {
                 tr = document.createElement('tr');
                 newTable.tBodies[0].appendChild(tr);
             }
@@ -379,7 +382,7 @@ function addItemsToSideBar(){
             }
 
 
-            if(text === "QTLs in Region (Rnor_6.0)"){
+            if(text === "QTLs in Region (Rnor_6.0)" || text === "QTLs in Region (GRCm38)"){
                 text = "QTLs in Region";
             }
 
@@ -395,7 +398,6 @@ function addItemsToSideBar(){
                 text = text.replace('Annotations', '');
             }
             if(text.length > 27){
-                console.log(text);
                 let lastWhiteSpace = text.lastIndexOf(" ");
                 text = text.substring(0, lastWhiteSpace);
             }
