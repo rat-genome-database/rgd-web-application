@@ -97,7 +97,7 @@ String pageDescription = "Define Region";
                                     <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
                                     <%}} %>
                                     <table>
-                                        <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3) { %>
+                                        <% if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 3 || MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) { %>
                                         <tr>
                                             <td colspan=3 align="center"><div style="background-color:#002752; margin-top:20px; margin-bottom:20px; padding:2px;font-weight:700; color:white;"><< OR >></div></td>
                                         </tr>
