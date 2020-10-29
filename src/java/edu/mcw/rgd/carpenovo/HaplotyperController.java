@@ -49,18 +49,15 @@ public abstract class HaplotyperController implements Controller {
 
         Position p = new Position();
 
+        int speciesKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();;
+
         if (!geneSymbol.equals("")) {
             if (geneSymbol.indexOf('|') != -1) {
                 String[] genes = geneSymbol.split("\\|");
-                Gene g1 = null, g2 = null;
-                if(mapKey == 360 || mapKey == 70 || mapKey == 60) {
-                    g1 = gdao.getGenesBySymbol(genes[0], 3);
-                    g2 = gdao.getGenesBySymbol(genes[1], 3);
-                }
-                if (mapKey == 38 || mapKey == 17) {
-                    g1 = gdao.getGenesBySymbol(genes[0], 1);
-                    g2 = gdao.getGenesBySymbol(genes[1], 1);
-                }
+
+                Gene g1 = gdao.getGenesBySymbol(genes[0], speciesKey);
+                Gene g2 = gdao.getGenesBySymbol(genes[1], speciesKey);
+
                 List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
                 List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
 
@@ -73,15 +70,8 @@ public abstract class HaplotyperController implements Controller {
             } else if (geneSymbol.indexOf('*') != -1) {
                 String[] genes = geneSymbol.split("\\*");
 
-                Gene g1 = null, g2 = null;
-                if(mapKey == 360 || mapKey == 70 || mapKey == 60) {
-                    g1 = gdao.getGenesBySymbol(genes[0], 3);
-                    g2 = gdao.getGenesBySymbol(genes[1], 3);
-                }
-                if (mapKey == 38 || mapKey == 17) {
-                    g1 = gdao.getGenesBySymbol(genes[0], 1);
-                    g2 = gdao.getGenesBySymbol(genes[1], 1);
-                }
+                Gene g1 = gdao.getGenesBySymbol(genes[0], speciesKey);
+                Gene g2 = gdao.getGenesBySymbol(genes[1], speciesKey);
 
                 List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
                 List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
@@ -139,10 +129,7 @@ public abstract class HaplotyperController implements Controller {
             geneList.add(geneStart);
 
             ObjectMapper om = new ObjectMapper();
-            if(mapKey == 360 || mapKey == 70 || mapKey == 60)
-                om.mapSymbols(geneList, 3);
-            if (mapKey == 38 || mapKey == 17)
-                om.mapSymbols(geneList, 1);
+            om.mapSymbols(geneList, speciesKey);
 
             List mapped = om.getMapped();
 
@@ -150,11 +137,7 @@ public abstract class HaplotyperController implements Controller {
             //if (mapped.size() == 0) {
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = null;
-                if(mapKey == 360 || mapKey == 70 || mapKey == 60)
-                    sList = sdao.getActiveSSLPsByName(geneStart, 3);
-                if (mapKey == 38 || mapKey == 17)
-                    sList = sdao.getActiveSSLPsByName(geneStart, 1);
+                List sList = sdao.getActiveSSLPsByName(geneStart, speciesKey);
 
                 if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
@@ -175,10 +158,7 @@ public abstract class HaplotyperController implements Controller {
             geneList.add(geneStop);
 
             om = new ObjectMapper();
-            if(mapKey == 360 || mapKey == 70 || mapKey == 60)
-                om.mapSymbols(geneList, 3);
-            if (mapKey == 38 || mapKey == 17)
-                om.mapSymbols(geneList, 1);
+            om.mapSymbols(geneList, speciesKey);
 
             mapped = om.getMapped();
 
@@ -186,11 +166,7 @@ public abstract class HaplotyperController implements Controller {
             //we may have an sslp
             if (mapped.get(0) instanceof String) {
                 SSLPDAO sdao = new SSLPDAO();
-                List sList = null;
-                if(mapKey == 360 || mapKey == 70 || mapKey == 60)
-                    sList = sdao.getActiveSSLPsByName(geneStart, 3);
-                if (mapKey == 38 || mapKey == 17)
-                    sList = sdao.getActiveSSLPsByName(geneStart, 1);
+                List sList = sdao.getActiveSSLPsByName(geneStop, speciesKey);
 
                 if (sList.size() > 0) {
                     SSLP ss = (SSLP) sList.get(0);
