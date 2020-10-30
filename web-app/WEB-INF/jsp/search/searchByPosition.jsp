@@ -11,7 +11,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -76,13 +75,7 @@ background-color: #daeffc;
                 <option value="9">Pig</option>
             </select>
             </td>
-                <td>
-                    <label for="source" style="color: #24609c; font-weight: bold;">Source:</label>
-                    <select id="source" name="source" v-model="source" onchange="v.setMaps(species,source)">
-                        <option>NCBI</option>
-                        <option>Ensembl</option>
-                    </select>
-                </td>
+
                 <td>
                     <label for="mapKey" style="color: #24609c; font-weight: bold;">Assembly:</label>
                     <select id="mapKey" name="mapKey" v-model="mapKey">
@@ -221,7 +214,7 @@ background-color: #daeffc;
     }else {
         host=window.location.protocol + '//rest.rgd.mcw.edu';
     }
-
+host = 'https://dev.rgd.mcw.edu';
     var v = new Vue({
         el: div,
         data: {
@@ -229,7 +222,6 @@ background-color: #daeffc;
             maps: [],
             chromosomes: [],
             species: 3,
-            source: "NCBI",
             chr: 1,
             mapKey: "Rnor_6.0",
             geneData: {},
@@ -294,15 +286,13 @@ background-color: #daeffc;
                     console.log(error)
                 });
             },
-            setMaps: function(species,source) {
+            setMaps: function(species) {
                 var mapKey = 0;
                 v.maps = [];
                 if(species != this.species )
                     species = species.options[species.selectedIndex].value;
-                if(source != this.source )
-                    source = source.options[source.selectedIndex].value;
                 axios
-                        .get(this.hostName + '/rgdws/maps/'+species+'/'+source)
+                        .get(this.hostName + '/rgdws/maps/'+species)
                         .then(function (response) {
                             v.maps = (response.data);
                             mapKey = v.maps[0].key;
@@ -360,8 +350,7 @@ background-color: #daeffc;
         }
     });
     v.species = 3;
-    v.source='NCBI';
-    v.setMaps(3,"NCBI");
+    v.setMaps(3);
 </script>
 <%@ include file="/common/footerarea.jsp"%>
 
