@@ -97,17 +97,17 @@
             <%@ include file="../references.jsp"%>
 
 
-            <br><div  class="subTitle">Strains and Sequence</div><br>
+            <br><div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div><br>
             <%@ include file="sequence.jsp"%>
             <%@ include file="strainVariation.jsp"%>
 
-            <br><div  class="subTitle">Region</div><br>
+            <br><div  class="subTitle" id="region">Region</div><br>
             <%@ include file="../genesInRegion.jsp"%>
             <%@ include file="../nucleotide.jsp"%>
             <%@ include file="../proteins.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
 
-            <br><div  class="subTitle">Additional Information</div><br>
+            <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
 
             <%@ include file="../curatorNotes.jsp"%>
             <%@ include file="../xdbs.jsp"%>
@@ -126,10 +126,8 @@
 </div>
 <% } %>
 
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
 
-<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=5"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>

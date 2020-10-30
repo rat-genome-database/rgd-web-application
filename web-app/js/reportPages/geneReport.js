@@ -35,6 +35,7 @@ function run() {
     autoChangeNavHeight();
 
     manageLocalStorage();
+    removePagerAutocomplete();
 }
 
 function rebuildAnnotationTables() {
@@ -179,6 +180,10 @@ function removeOldAnnotationTables(tableArray){
 
 function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
+    if(table.parentElement.id === 'congenicAsscociationTableDiv'){
+        return buildAnnotationTable(rowArray, 1);
+    }
+
     return buildAnnotationTable(rowArray);
 }
 
@@ -245,8 +250,7 @@ function buildReferenceTable(rowArray){
     return newTable;
 }
 
-function buildAnnotationTable(rowArray) {
-
+function buildAnnotationTable(rowArray, columns = 3) {
     let newTable = buildEmptyTable(true);
     let tr = document.createElement('tr');
     newTable.tBodies[0].appendChild(tr);
@@ -255,7 +259,7 @@ function buildAnnotationTable(rowArray) {
 
         if (rowArray[i].hasChildNodes()) {
 
-            if (tr.children.length >= 3) {
+            if (tr.children.length >= columns) {
                 tr = document.createElement('tr');
                 newTable.tBodies[0].appendChild(tr);
             }
@@ -371,17 +375,15 @@ function addItemsToSideBar(){
         }
 
         if(parent.style.display !== "none" && value.style.display !== "none"){
-            let text = value.childNodes[0].textContent;
+            let text = value.childNodes[0].textContent.trim();
 
-            if(text === "Gene-Chemical Interaction Annotations"){
-                text = "Gene-Chemical Interaction";
+
+            if(text === "Additional References at PubMed"){
+                text = "PubMed References";
             }
 
-            if(text === "Molecular Pathway Annotations"){
-                text = "Molecular Pathway";
-            }
 
-            if(text === "QTLs in Region (Rnor_6.0)"){
+            if(text === "QTLs in Region (Rnor_6.0)" || text === "QTLs in Region (GRCm38)"){
                 text = "QTLs in Region";
             }
 
@@ -389,6 +391,17 @@ function addItemsToSideBar(){
                 text = "Strain Sequence Variants";
             }
 
+            if(text === "Phenotype Values via Phenominer"){
+                text = "Phenotype Values";
+            }
+
+            if(text.includes("Annotations")){
+                text = text.replace('Annotations', '');
+            }
+            if(text.length > 27){
+                let lastWhiteSpace = text.lastIndexOf(" ");
+                text = text.substring(0, lastWhiteSpace);
+            }
 
             let li = document.createElement('li');
             let a  = document.createElement('a');
@@ -411,9 +424,10 @@ function addItemsToSideBar(){
 function checkForAnnotations(){
     //get all the tables with annotationTable class
     let annotationTables = Array.from(document.getElementsByClassName('annotationTable'));
+    let phenotypeValues = document.getElementById('phenominerAssociationTableDiv');
 
     //if list == 0,
-    if(annotationTables.length === 0){
+    if(annotationTables.length === 0 && !phenotypeValues){
         //make Annotations div display == none
         let annotationDiv = document.getElementById('annotation');
         if(annotationDiv){
@@ -592,6 +606,14 @@ function manageLocalStorage(){
 
 
 
+}
+
+function removePagerAutocomplete(){
+    let pagerDivs = document.getElementsByClassName('modelsViewContent');
+    for(let i = 0; i < pagerDivs.length; i++){
+        let form = pagerDivs[i].getElementsByTagName('form')[0];
+        form.setAttribute('autocomplete', 'off');
+    }
 }
 
 function filterAnnotations() {

@@ -112,7 +112,7 @@
             <%@ include file="mutants.jsp"%>
 
             <br>
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">Click to see Annotation Detail View</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
             <br>
             <%@ include file="diseaseModels.jsp"%>
             <div id="associationsCurator" style="display:none;">
@@ -157,9 +157,7 @@
 </div>
 <% } %>
 
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
-<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=5"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>

@@ -6,6 +6,8 @@
                                 <h5 class="card-title">RGD News</h5>
                         </div>
 
+                        <p><a href="https://rgd.mcw.edu/wg/10-30-introducing-mouse-resource-page/">10/30 - Introducing Mouse Resource Page</a></p>
+                        <p><a href="https://rgd.mcw.edu/wg/news/10-23-introducing-autism-rat-model-resource/">10/23 - Introducing Autism Rat Model Resource</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/10-15-introducing-human-resource-page/">10/15 - Introducing Human Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/09-15-submissions-are-open-for-rgds-2021-rat-calendar/">10/13 - Submissions are STILL open for RGD’s 2021 Rat Calendar!</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/07-31-introducing-dog-resource-page/">07/31 - Introducing Dog Resource Page</a></p>

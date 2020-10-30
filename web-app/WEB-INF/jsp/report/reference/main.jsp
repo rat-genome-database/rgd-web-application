@@ -48,7 +48,6 @@
     </div>
 
 
-    <div id="top" ></div>
 
     <div id="content-wrap">
 
@@ -98,15 +97,14 @@
     </div>
 </div>
 <% }%>
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
+
 
 <script type="text/javascript">
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=5"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
 

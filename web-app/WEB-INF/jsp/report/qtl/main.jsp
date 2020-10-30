@@ -66,7 +66,6 @@
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
-    <div id="top" ></div>
 
     <div id="content-wrap">
         <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
@@ -88,7 +87,7 @@
         <td>
             <%@ include file="info.jsp"%>
 
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="associationsToggle" onclick="toggleAssociations()">Click to see Annotation Detail View</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>
 
@@ -138,9 +137,7 @@
     </div>
 </div>
 <% } %>
-<footer id="footer">
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-</footer>
-<script src="/rgdweb/js/reportPages/geneReport.js"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=5"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>
