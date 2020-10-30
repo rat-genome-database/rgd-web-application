@@ -35,6 +35,7 @@ function run() {
     autoChangeNavHeight();
 
     manageLocalStorage();
+    removePagerAutocomplete();
 }
 
 function rebuildAnnotationTables() {
@@ -605,6 +606,14 @@ function manageLocalStorage(){
 
 
 
+}
+
+function removePagerAutocomplete(){
+    let pagerDivs = document.getElementsByClassName('modelsViewContent');
+    for(let i = 0; i < pagerDivs.length; i++){
+        let form = pagerDivs[i].getElementsByTagName('form')[0];
+        form.setAttribute('autocomplete', 'off');
+    }
 }
 
 function filterAnnotations() {
