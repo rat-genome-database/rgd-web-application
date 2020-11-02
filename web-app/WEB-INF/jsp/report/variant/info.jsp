@@ -3,6 +3,7 @@
 <%
     String objType = "{unknown object type}";
     RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
+
     if( rgdId!=null ) {
         objType = rgdId.getObjectTypeName();
     }
@@ -17,6 +18,10 @@
     <tr>
         <td class="label">Name:</td>
         <td><%=fu.chkNull(obj.getName())%></td>
+    </tr>
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=rgdId.getRgdId()%></td>
     </tr>
     <tr>
         <td class="label">Condition:</td>
