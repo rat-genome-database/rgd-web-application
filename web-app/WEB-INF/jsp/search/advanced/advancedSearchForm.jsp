@@ -78,6 +78,16 @@
     </td>
     </tr>
 <% } %>
+        <%
+            int species = 3;
+
+            try {
+                species = Integer.parseInt(request.getParameter("species"));
+            }catch (Exception ignored) {
+
+            }
+
+        %>
 
 <tr>
     <td width="10%"><b>Species:</b></td>
@@ -86,14 +96,14 @@
             <select name="species")>
             <% if (request.getServletPath().endsWith("markers.jsp")) { %>
                 <% for( int speciesTypeKey: new int[]{1,2,3} ) {
-                    if(speciesTypeKey==3){%>
+                    if(speciesTypeKey==species){%>
                         <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                     <%}else{%>  <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                 <% }}
                } else {
                    for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
                       if( !SpeciesType.isSearchable(speciesTypeKey) ) { continue; } // skip non-searchable species
-                      if(speciesTypeKey==3){%>
+                      if(speciesTypeKey==species){%>
                          <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                      <%}else if(speciesTypeKey==0){%>
                    

@@ -228,7 +228,16 @@ $(document).ready(function(){
     //});
 });
 </script-->
+        <%
+            int species = 3;
 
+            try {
+                species = Integer.parseInt(request.getParameter("species"));
+            }catch (Exception ignored) {
+
+            }
+
+        %>
 <tr>
     <td width="10%"><b>Species:</b></td>
     <td colspan=2>
@@ -242,7 +251,7 @@ $(document).ready(function(){
         <select name="species">
             <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
             <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
-            if(speciesTypeKey==3){%>
+            if(speciesTypeKey==species){%>
             <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
             <%}else{%>
             <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
@@ -265,7 +274,7 @@ $(document).ready(function(){
 
 </form>
 
-<a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br>
+<!-- <a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br> -->
 <!--a href="/wg/searchHelp">View all search features</a-->
 </div>
 <%@ include file="/common/footerarea.jsp"%>
