@@ -226,29 +226,38 @@ $(document).ready(function(){
     //});
 });
 </script-->
+        <%
+            int species = 3;
 
-<tr>
-    <td width="10%"><b>Species:</b></td>
-    <td colspan=2>
-        <!--select name="speciesType" onChange='addParam("speciesType",this.value)'>
-            <-% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
-                <-% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) { %>
-                    <option value="<-%=speciesTypeKey%>" <-%=selSpecies==speciesTypeKey?"selected":""%>><-%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                <-% } %>
-            <-% } %>
-        </select-->
-        <select name="species">
-            <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
-            <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
-            if(speciesTypeKey==3){%>
-            <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-            <%}else{%>
-            <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-            <% } }%>
-            <% } %>
-        </select>
-    </td>
-</tr>
+            try {
+                species = Integer.parseInt(request.getParameter("species"));
+            }catch (Exception ignored) {
+
+            }
+
+        %>
+        <tr>
+            <td width="10%"><b>Species:</b></td>
+            <td colspan=2>
+                <!--select name="speciesType" onChange='addParam("speciesType",this.value)'>
+                    <-% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                        <-% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) { %>
+                            <option value="<-%=speciesTypeKey%>" <-%=selSpecies==speciesTypeKey?"selected":""%>><-%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                        <-% } %>
+                    <-% } %>
+                </select-->
+                <select name="species">
+                    <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                    <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
+                        if(speciesTypeKey==species){%>
+                    <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                    <%}else{%>
+                    <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                    <% } }%>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
 
 <tr>
     <td colspan="4" align="right"><input type="submit" value="Search <%=title%>" /></td>
