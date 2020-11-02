@@ -50,9 +50,9 @@
 
 </form>
 
-<% if (!RgdContext.isChinchilla(request)) { %>
-    <a href="/genes/">Switch to classic gene search</a><br>
-    <!--a href="/wg/searchHelp">View all search features</a-->
-<% } %>
+<%--<% if (!RgdContext.isChinchilla(request)) { %>--%>
+<%--    <a href="/genes/">Switch to classic gene search</a><br>--%>
+<%--    <!--a href="/wg/searchHelp">View all search features</a-->--%>
+<%--<% } %>--%>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
