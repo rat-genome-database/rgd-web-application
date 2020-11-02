@@ -31,6 +31,9 @@
     <tr>
         <td><a href="search.html"><li>Search Phenominer</a> </td>
     </tr>
+    <tr>
+        <td><a href="phenominerUnits.html"><li>Check Phenominer Units</a> </td>
+    </tr>
 </table>
 
 
