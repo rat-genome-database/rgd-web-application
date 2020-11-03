@@ -42,16 +42,18 @@ $(document).ready(function() {
     }
     else if(species=='Squirrel') {
         if(mapKey==720)
-            document.getElementById('jbrowseMini').src = URL + "data_squirrel2_0&loc=";
+            $jbrowse.src = URL + "data_squirrel2_0&loc=";
     }
     else if(species=='Bonobo') {
         if(mapKey=='511')
-            document.getElementById('jbrowseMini').src = URL + "data_bonobo1_1&loc=";
+            $jbrowse.src = URL + "data_bonobo1_1&loc=";
+        else if(mapKey=='513')
+            $jbrowse.src = URL + "data_bonobo2&loc=";
     }
     else if(species=='Pig') {
         if(mapKey==911)
             $jbrowse.src  = URL + "data_pig11_1&loc=Chr"+chr;
-        if(mapKey==910)
+        else if(mapKey==910)
             $jbrowse.src  = URL + "data_pig10_2&loc=Chr"+chr;
     }
 
