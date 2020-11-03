@@ -412,12 +412,15 @@ public class  MapDataFormatter {
                     db = "rn6";
                     break;
 
-                case 511:
-                case 512:// bonobo
-                    db = "panPan2";
-                    break;
                 case 510: // bonobo
                     db = "panPan1";
+                    break;
+                case 511:
+                case 512:
+                    db = "panPan2";
+                    break;
+                case 513: // Mhudiblu_PPA_v0
+                    db = "panPan3";
                     break;
 
                 case 631:
