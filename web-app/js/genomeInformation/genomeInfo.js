@@ -69,6 +69,8 @@ function runGviewer() {
         bandURL="/rgdweb/gviewer/data/bonobo_ideo.xml";
         if(mapKey=='511')
             URL = URL + "data_bonobo1_1";
+        else if(mapKey=='513')
+            URL = URL + "data_bonobo2";
     }
     if(species=='Pig') {
         bandURL="/rgdweb/gviewer/data/pig_ideo.xml";

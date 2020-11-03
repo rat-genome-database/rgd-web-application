@@ -97,7 +97,11 @@
 
 
     <div class="reportTable light-table-border" id="importedAnnotationsClinVarTableWrapper">
-        <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Disease Annotations - ClinVar </h4></div>
+        <%if (title.equalsIgnoreCase("Variants")){%>
+            <div class="sectionHeading" id="importedAnnotationsClinVar">Imported Disease Annotations - ClinVar&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('importedAnnotationsClinVar', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
+        <%} else {%>
+            <div class="sectionHeading" id="importedAnnotationsClinVar"><h4>Imported Disease Annotations - ClinVar </h4></div>
+        <%}%>
 
 
 <div class="search-and-pager">
