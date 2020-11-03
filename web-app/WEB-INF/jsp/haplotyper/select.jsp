@@ -64,7 +64,7 @@
         if (count > 1) {
             document.getElementById("strainBox").submit();
         }else {
-            alert("You must select at least one strain.")
+            alert("You must select at least one sample.")
         }
     }
 </script>
