@@ -348,7 +348,7 @@ public class OntAnnotation  {
                 }else if (speciesTypeKey==SpeciesType.DOG) {
                     buf.append("data_dog3_1");
                 }else if (speciesTypeKey==SpeciesType.BONOBO) {
-                    buf.append("data_bonobo1_1");
+                    buf.append("data_bonobo2");
                 }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
                     buf.append("data_squirrel2_0");
                 }else if (speciesTypeKey==SpeciesType.PIG) {

@@ -281,6 +281,9 @@ public class  MapDataFormatter {
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
                 break;
+            case 513:
+                db = "data_bonobo2"; link = "Mhudiblu_PPA_v0";
+                break;
 
             case 631: // CanFam3.1
                 db = "data_dog3_1"; link = "CanFam3.1";
