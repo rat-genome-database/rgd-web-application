@@ -32,7 +32,7 @@
         <td><a href="search.html"><li>Search Phenominer</a> </td>
     </tr>
     <tr>
-        <td><a href="phenominerUnits.html"><li>Check Phenominer Units</a> </td>
+        <td><a href="phenominerUnits.html"><li>CMO Unit QC</a> </td>
     </tr>
 </table>
 
