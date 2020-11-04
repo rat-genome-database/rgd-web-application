@@ -180,6 +180,7 @@ function removeOldAnnotationTables(tableArray){
 
 function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
+    //this table should have one column
     if(table.parentElement.id === 'congenicAsscociationTableDiv'){
         return buildAnnotationTable(rowArray, 1);
     }
