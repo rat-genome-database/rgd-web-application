@@ -13,7 +13,7 @@
     String headContent = "";
     String pageDescription = "";
 %>
-var cCount = 0;
+var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 <%@ include file="editHeader.jsp" %>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
@@ -174,16 +174,22 @@ var cCount = 0;
             document.getElementsByName("cmUnits")[0].add(option, 0);
         }
         else if(unitType == 2){//Expt unit type
-            existingcUnits = document.getElementsByName("cUnits")[0].options;
-            CheckPresence(existingcUnits,unitValue);
-            var option = document.createElement("option");
-            option.text = unitValue;
-            option.value = unitValue;
-            option.selected = "true";
+            //existingcUnits = document.getElementsByName("cUnits")[0].options;
+            //CheckPresence(existingcUnits,unitValue);
+            //var option = document.createElement("option");
+            //option.text = unitValue;
+            //option.value = unitValue;
+            //option.selected = "true";
             var selectedAccId = document.getElementById("accId").value;//get XCO id been updated
-            for(i=0;i<cCount;i++){//check all list of conditions for XCO Id been updated
+            for(var i=0;i<cCount;i++){//check all list of conditions for XCO Id been updated
                 if( selectedAccId == document.getElementById("cAccId"+i).value ){
-                    document.getElementsByName("cUnits")[i].add(option,0);
+                    existingcUnits = document.getElementsByName("cUnits"+i)[0].options;
+                    CheckPresence(existingcUnits,unitValue);
+                    var option = document.createElement("option");
+                    option.text = unitValue;
+                    option.value = unitValue;
+                    option.selected = "true";
+                    document.getElementsByName("cUnits"+i)[0].add(option, 0);
                 }
             }
         }
@@ -646,7 +652,7 @@ var cCount = 0;
                            value="<%=dm.out("cValueMin", cond.getValueMin(), conditionCount)%>"/></td>
                 <td><input type="text" size="7" name="cValueMax"
                            value="<%=dm.out("cValueMax", cond.getValueMax(), conditionCount)%>"/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits", unitList, dm.out("cUnits", cond.getUnits(), conditionCount))%>
+                <td><%=fu.buildSelectListNewValue("cUnits"+conditionCount, unitList, dm.out("cUnits", cond.getUnits(), conditionCount))%><!--conditionCount added for RGD1797-->
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value="<%=dm.out("cMinDuration", (cond.getDurationLowerBound() > 0 ? d_f.format(cond.getDurationLowerBound()) : ""), conditionCount)%>"
@@ -702,7 +708,7 @@ var cCount = 0;
                 <input type="hidden" name="cId" value=""/>
                 <td><input type="text" size="7" name="cValueMin" value=""/></td>
                 <td><input type="text" size="7" name="cValueMax" value=""/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits", unitList, "")%>
+                <td><%=fu.buildSelectListNewValue("cUnits"+i, unitList, "")%><!--i added for RGD1797-->
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
