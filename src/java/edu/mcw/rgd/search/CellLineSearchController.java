@@ -45,6 +45,7 @@ public class CellLineSearchController extends RGDSearchController {
         Report report = new Report();
 
         Record header = new Record();
+        header.append("Species");
         header.append("Symbol");
         header.append("Name");
         header.append("Type");
@@ -58,6 +59,13 @@ public class CellLineSearchController extends RGDSearchController {
         for( CellLine cl: new CellLineDAO().getActiveCellLines(pageNr-1, pageSize) ) {
 
             Record row = new Record();
+
+            String species = "";
+            if( cl.getSpeciesTypeKey()>0 ) {
+                species = SpeciesType.getCommonName(cl.getSpeciesTypeKey());
+            }
+            row.append(species);
+
             String url = "<a href=\""+ Link.cellLine(cl.getRgdId())+"\" title=\"go to cell line report page\">"+
                     cl.getSymbol()+"</a>";
             row.append(url);
@@ -71,8 +79,8 @@ public class CellLineSearchController extends RGDSearchController {
             report.append(row);
         }
 
-        report.sort(7, Report.ASCENDING_SORT, true);
-        report.removeColumn(7);
+        report.sort(8, Report.ASCENDING_SORT, true);
+        report.removeColumn(8);
 
         return report;
     }
