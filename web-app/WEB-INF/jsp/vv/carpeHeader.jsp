@@ -168,6 +168,8 @@
     }
 
     function showVariants(e) {
+
+
         if (!e) e = window.event;
         var firedDiv = getTarget(e);
 
@@ -196,7 +198,8 @@
         queryString = addParam("geneList",gene,queryString);
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
-        queryString=addParam("sample", sample, queryString);
+      //  queryString=addParam("sample", sample, queryString);// to display results for one sample
+        queryString = addParam("geneStop","",queryString); // displays all samples
         queryString=addParam("mapKey","<%=request.getParameter("mapKey")%>", queryString);
 
        queryString=addParam("showDifferences","<%=request.getParameter("showDifferences")%>", queryString );
@@ -216,7 +219,7 @@
         %>
        location.href="variants.html" + queryString;
         console.log("variants.html"+queryString);
-    //    window.open("variants.html" + queryString);
+     //   window.open("variants.html" + queryString);
     }
 
 

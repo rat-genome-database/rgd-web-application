@@ -179,7 +179,7 @@
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="center">
                             <div class="snpLabel">
-                                <form action="dist.html" method="post" >
+                                <!--form action="dist.html" method="post" target="_blank" -->
                                     <%if(request.getParameter("geneList")!=null){%>
                                     <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
                                     <%}%>
@@ -197,11 +197,11 @@
                                     <input type="hidden" name="chr" value="<%=request.getParameter("chr")%>"/>
                                     <%}%>
                                     <%if(request.getParameter("showDifferences")==null || !request.getParameter("showDifferences").equals("true")){%>
-                                    <button class="button" type="submit" style="text-decoration: underline;border:0px;font-size: 10px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
+                                    <button class="button" type="submit" style="border:0;font-size: 10px"><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></button>
                                     <%}else{%>
                                     <p><%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%></p>
                                     <%}%>
-                                </form>
+                                <!--/form-->
                                 <!--a style="cursor:default;"
                                                      title="<--%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%>"
                                                      href="javascript:navigate('<-%=request.getParameter("geneList")%>', <-%=sample%>);"><-%=SampleManager.getInstance().getSampleName(Integer.parseInt(sample)).getAnalysisName()%-->
