@@ -9,8 +9,8 @@ String pageDescription = "test";
 
 %>
 
-<%@ include file="/rgd/common/headerarea.jsp"%>
-<%@ include file="../../front/carpeHeader.jsp"%>
+<%@ include file="/rgdweb/common/headerarea.jsp"%>
+<%@ include file="carpeHeader.jsp"%>
 
 
 

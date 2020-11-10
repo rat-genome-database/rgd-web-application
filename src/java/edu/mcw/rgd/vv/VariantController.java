@@ -75,7 +75,7 @@ public class VariantController extends HaplotyperController {
             }
             long count=service.getVariantsCount(vsb,req);
             if (count < 2000 || searchType.equals("GENE")) {
-                System.out.println("COUNT:"+ count);
+              //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
@@ -135,18 +135,19 @@ public class VariantController extends HaplotyperController {
                         Variant v = new Variant();
                      //   v.setId((Integer) m.get(""));
                         v.setChromosome((String) m.get("chromosome"));
-                        v.setStartPos((Integer) m.get("startPos"));
-                        v.setEndPos((Integer) m.get("endPos"));
+                        v.setStartPos((int) m.get("startPos"));
+                        v.setEndPos((int) m.get("endPos"));
                         v.setReferenceNucleotide((String) m.get("refNuc"));
                         v.setVariantNucleotide((String) m.get("varNuc"));
                         v.setGenicStatus((String) m.get("genicStatus"));
                         v.setPaddingBase((String) m.get("paddingBase"));
                         v.setRegionName(m.get("regionName").toString());
                         v.setVariantType((String) m.get("variantType"));
-                        v.setSampleId((Integer) m.get("sampleId"));
-                        v.setVariantFrequency((Integer) m.get("varFreq"));
+                        v.setSampleId((int) m.get("sampleId"));
+                        v.setVariantFrequency((int) m.get("varFreq"));
                         v.setDepth((Integer) m.get("totalDepth"));
-                        v.setQualityScore((Integer) m.get("qualityScore"));
+                        if(m.get("qualityScore")!=null)
+                        v.setQualityScore((int) m.get("qualityScore"));
                         v.setZygosityStatus((String) m.get("zygosityStatus"));
                         v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
                         v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
@@ -213,7 +214,7 @@ public class VariantController extends HaplotyperController {
                    aa.setTranscriptSymbol(trSymbol);
                tr.setAminoAcidVariant(aa);
                //********************************************Polyphenprediction********//
-               List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId);
+               List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
                if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
                    tr.setPolyPhenPrediction(polyPhenPredictions);
                trs.add(tr);
@@ -221,13 +222,13 @@ public class VariantController extends HaplotyperController {
      }
         return  trs;
    }
-   public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId)
+   public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId, int transcriptId)
    {
        PolyphenDAO pdao=new PolyphenDAO();
 
        try {
         //   return pdao.getPloyphenDataByVariantId(86880133);
-           return pdao.getPloyphenDataByVariantId(variantId);
+           return pdao.getPloyphenDataByVariantId(variantId, transcriptId);
        } catch (Exception e) {
            e.printStackTrace();
        }
