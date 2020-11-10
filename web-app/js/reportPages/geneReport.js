@@ -620,12 +620,19 @@ function removePagerAutocomplete(){
 
 function checkForDetailView(){
     let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let text;
     if(isDetail){
        document.getElementById("associationsCurator").style.display="block";
        document.getElementById("associationsStandard").style.display="none";
+       text = "Click to see Annotation Summary View";
+       updateToggleText(text);
+       addItemsToSideBar();
     } else {
         document.getElementById("associationsCurator").style.display="none";
         document.getElementById("associationsStandard").style.display="block";
+        text =  "Click to see Annotation Detail View";
+        updateToggleText(text);
+        addItemsToSideBar();
     }
 
 }

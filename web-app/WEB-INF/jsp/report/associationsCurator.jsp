@@ -1005,7 +1005,7 @@
 </div>
 <% } %>
 <% if (hpList.size() > 0) { %>
-<div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
+<div class="reportTable" id="humanPhenotypeAnnotationsTableWrapper">
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
 
 <div class="search-and-pager">
