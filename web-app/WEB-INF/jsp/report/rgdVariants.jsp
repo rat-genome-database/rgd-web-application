@@ -12,9 +12,10 @@
 
     if(variants.size()>0){
 %>
-<%=ui.dynOpen("rgdVariants", "Rat Variants")%>
-
-<table id="variants">
+<%--<%=ui.dynOpen("rgdVariants", "Rat Variants")%>--%>
+<div class="light-table-border">
+<div class="sectionHeading" id="rgdVariants">Rat Variants</div>
+<table id="variants" border="1" cellspacing="0" width="95%">
     <tr>
         <td><b>Name</b></td>
         <td><b>Chromosome</b></td>
@@ -57,6 +58,7 @@
 
         } //end variant for %>
 </table>
-<%=ui.dynClose("rgdVariants")%>
+</div>
+<%--<%=ui.dynClose("rgdVariants")%>--%>
 <% } // end if variants is not empty%>
 <%@ include file="sectionFooter.jsp"%>
