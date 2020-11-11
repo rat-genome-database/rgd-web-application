@@ -36,13 +36,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
 
         if(checkToken(token)) {
-            Cookie cookie1 = new Cookie("accessToken", token);
-            cookie1.setMaxAge(24*60*60);
-            response.addCookie(cookie1);
+            if(request.getCookies() == null && request.getCookies().length == 0) {
+                Cookie cookie1 = new Cookie("accessToken", token);
+                response.addCookie(cookie1);
+            }
             return true;
         }
         else {
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
             return false;
         }
     }

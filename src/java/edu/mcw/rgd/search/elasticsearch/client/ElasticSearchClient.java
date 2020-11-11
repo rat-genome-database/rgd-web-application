@@ -20,9 +20,8 @@ public class ElasticSearchClient {
 
       return new RestHighLevelClient(
                 RestClient.builder(
-                   //   new HttpHost("green.rgd.mcw.edu", 9200, "http")
-                      new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
-                        new HttpHost( "erika02.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
+                        new HttpHost("erika02.rgd.mcw.edu",9200,"http"),
                         new HttpHost("erika03.rgd.mcw.edu",9200,"http"),
                         new HttpHost("erika04.rgd.mcw.edu",9200,"http"),
                         new HttpHost("erika05.rgd.mcw.edu",9200,"http")

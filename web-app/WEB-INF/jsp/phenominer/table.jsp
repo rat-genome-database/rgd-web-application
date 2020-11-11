@@ -20,10 +20,12 @@
     HashMap<String,String> conditions = (HashMap<String,String>) request.getAttribute("conditions");
     HashMap<String,String> methods = (HashMap<String,String>) request.getAttribute("methods");
     HashMap<String,String> samples = (HashMap<String,String>) request.getAttribute("samples");
+    Report normalRanges = (Report) request.getAttribute("normalRanges");
     Double minValue = (Double) request.getAttribute("minValue");
     Double maxValue = (Double) request.getAttribute("maxValue");
     String idsWithoutMM = (String) request.getAttribute("idsWithoutMM");
     Integer refRgdId = (Integer) request.getAttribute("refRgdId");
+
 
     int speciesTypeKey = 3;
     try {
@@ -147,7 +149,7 @@
             var host = window.location.protocol + window.location.host;
 
             if (window.location.host.indexOf("localhost") > -1) {
-                host= window.location.protocol + "//localhost:8080";
+                host= window.location.protocol + "https://dev.rgd.mcw.edu";
             } else if (window.location.host.indexOf("dev.rgd") > -1) {
                 host= window.location.protocol + "//dev.rgd.mcw.edu";
             }else if (window.location.host.indexOf("pipelines.rgd") > -1) {
@@ -157,18 +159,19 @@
             }
 
             ctrl.load = function () {
-                $http({
+                 $http({
                     method: 'GET',
                     //url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/3/chart/RS%3A0000029%2CRS%3A0001860%2CRS%3A0001381%2CCMO%3A0000015",
                     <% if( refRgdId==0 ) { %>
-                    url: host + "/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
+                    url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
                     <% } else { %>
-                    url: host + "/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/<%=refRgdId%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
+                    url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/chart/<%=speciesTypeKey%>/<%=refRgdId%>/" + $scope.selectedMeasurement.accId + ",<%=idsWithoutMM%>",
                     <% } %>
                 }).then(function successCallback(response) {
 
                     $scope.records = response.data.records;
                     $scope.measurements = response.data.measurements;
+                    $scope.normalRanges = response.data.measurements[0].normalRanges;
                     $scope.conditions= response.data.conditions;
                     $scope.methods= response.data.methods;
                     $scope.samples= response.data.samples;
@@ -245,6 +248,36 @@
                     var colorArray=new Array($scope.records.length);
 
                 var spaceCount=0;
+                var normalLow = 0;
+                var normalHigh = 0;
+                var normalMaleLow;
+                var normalFemaleLow;
+                var normalMaleHigh;
+                var normalFemaleHigh;
+                var normalMixedLow;
+                var normalMixedHigh;
+
+
+                if($scope.sex == "All" && Object.keys($scope.normalRanges).length != 0 ) {
+                    normalLow=$scope.normalRanges.Mixed.low;
+                    normalHigh=$scope.normalRanges.Mixed.high;
+                }else if($scope.sex == "Male" && Object.keys($scope.normalRanges).length != 0){
+                    normalLow=$scope.normalRanges.Male.low;
+                    normalHigh= $scope.normalRanges.Male.high;
+                }else if($scope.sex == "Female" && Object.keys($scope.normalRanges).length != 0){
+                    normalLow=$scope.normalRanges.Female.low;
+                    normalHigh= $scope.normalRanges.Female.high;
+                }
+
+                if(Object.keys($scope.normalRanges).length != 0) {
+                    normalMaleLow = $scope.normalRanges.Male.low;
+                    normalFemaleLow = $scope.normalRanges.Female.low;
+                    normalMaleHigh = $scope.normalRanges.Male.high;
+                    normalFemaleHigh = $scope.normalRanges.Female.high;
+                    normalMixedLow = $scope.normalRanges.Mixed.low;
+                    normalMixedHigh = $scope.normalRanges.Mixed.high;
+                }
+
 
                     for (var i=0; i< $scope.records.length; i++) {
 
@@ -261,7 +294,13 @@
                             }
                         }
 
+
+
                         yArray[i] = $scope.records[i].measurementValue;
+
+
+
+
                         //colorArray[i]="#24609C";
                         colorArray[i]=$scope.colorMap[$scope.records[i].conditionDescription];
 
@@ -269,7 +308,6 @@
                             if ($scope.samples[j].accId == $scope.records[i].sample.strainAccId) {
                                 //alert("setting " + $scope.samples[j].term);
                                 xArray[i] = $scope.samples[j].term;
-
                                 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
                                 for (var k=0; k< spaceCount; k++) {
                                    // xArray[i] = xArray[i] + "&#8203;";
@@ -301,7 +339,7 @@
 
                         tArray[i] = hoverText;
                     }
-
+                var x1 = xArray.length;
                     var trace1= {
                         x: xArray,
                         y: yArray,
@@ -324,9 +362,47 @@
                         }
                     };
 
+
                     var data = [trace1];
 
 
+                    var rangePlot = [];
+                    if(normalHigh != 0) {
+                        rangePlot = [{
+                            'type': 'line',
+                            'x0': -1,
+                            'y0': normalLow,
+                            'x1': x1,
+                            'y1': normalLow,
+                            'line': {
+                                'color': 'orange',
+                                'width': 3,
+                                'dash': 'dot'
+                            }
+                        },
+                            {
+                                'type': 'line',
+                                'x0': -1,
+                                'y0': normalHigh,
+                                'x1': x1,
+                                'y1': normalHigh,
+                                'line': {
+                                    'color': 'orange',
+                                    'width': 3,
+                                    'dash': 'dot'
+                                }
+
+                            }];
+
+                       document.getElementById("ranges").innerHTML = '<span style="font-weight: bold;color:red;font-size: small">LOW: </span><strong> '+
+                               normalMixedLow+'</strong><span style="font-weight: bold;color:red;font-size: small">  HIGH: </span><strong> '+
+                               normalMixedHigh+'</strong><br><span style="font-weight: bold;color:blue;font-size: small">MALE LOW: </span><strong> '+
+                               normalMaleLow+'</strong><span style="font-weight: bold;color:blue;font-size: small">  MALE HIGH: </span><strong> '+
+                               normalMaleHigh+'</strong><span style="font-weight: bold;color:fuchsia;font-size: small">  FEMALE LOW: </span><strong> '+
+                               normalFemaleLow+'</strong><span style="font-weight: bold;color:fuchsia;font-size: small">  FEMALE HIGH: </span><strong> '+
+                               normalFemaleHigh+'</strong>';
+
+                    }
                     var layout = {
                         //hovermode:"closest",
                         title: 'Conditions and Measurement Methods',
@@ -348,6 +424,8 @@
                            // hoverformat:'.2f'
                         },
                         //barmode: 'group'
+
+                        shapes:rangePlot
                     };
 
 
@@ -617,8 +695,9 @@
                 <div id="myDiv" style="width: 450px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
             </td>
         </tr>
-    </table>
 
+    </table>
+    <br>
 
 <script>
 
@@ -626,10 +705,10 @@
 </script>
 
     <div ng-init="pheno.load()"></div>
-
+    <div id="ranges"></div>
 </div> <!-- end of angular block -->
 
-
+<br>
 <a name="ViewDataTable"></a>
 <table>
     <tr>
@@ -645,11 +724,12 @@
         <% } %>
     </tr>
 </table>
-
+<span style="font-weight: bold;font-size: small">Normal Ranges</span>
 <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 <%
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
     strat.setTableProperties(" class='sortable' lign='center' ");
+    out.println(strat.format(normalRanges));
     out.print(strat.format(report));
 %>
 

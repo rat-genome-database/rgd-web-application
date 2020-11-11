@@ -4,7 +4,9 @@ List<ProteinStructure> protStructs = new ProteinStructureDAO().getProteinStructu
 if( !protStructs.isEmpty() ) {
 %>
 
-<%=ui.dynOpen("proteinStructures", "Protein Structures")%><br>
+<%--<%=ui.dynOpen("proteinStructures", "Protein Structures")%><br>--%>
+<div class="light-table-border">
+    <div class="sectionHeading" id="proteinStructures">Protein Structures</div>
 <table cellpadding="2" cellspacing="1" class="sortable" id="protStruTab">
     <tr class="headerRow">
         <td title="click to sort by name">Name</td>
@@ -40,8 +42,8 @@ if( !protStructs.isEmpty() ) {
     <% } %>
 </table>
 <br>
-    <%=ui.dynClose("proteinStructures")%>
-
+<%--    <%=ui.dynClose("proteinStructures")%>--%>
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

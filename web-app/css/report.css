@@ -57,3 +57,158 @@ a.imore, a:hover.imore, a:focus.imore, a:active.imore {
     */
     padding:6px;
 }
+
+
+
+/*------- Style for sidebar and report content----------------*/
+
+body{
+
+    /*overflow-x: hidden;*/
+}
+
+
+#content-wrap {
+    margin-left: 20rem;
+    position: relative;
+    max-width: 75vw;
+    /*overflow-x: visible;*/
+}
+
+
+#info-table {
+    background-color: rgb(249, 249, 249);
+}
+
+
+#footer{
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+    /*height: 25vh;            !* Footer height *!*/
+}
+
+
+.report-page-grey{
+    background-color: #f1f1f1;
+}
+
+/* The side navigation menu */
+#reportMainSidebar {
+    width: 200px;
+    height: 90vh;
+    overflow-y: hidden;
+    margin-bottom: 0px;
+    padding-bottom: 2.5rem;
+    overflow-x: hidden;
+}
+
+@media (max-width: 820px) {
+    #reportMainSidebar{
+        overflow-y: auto;
+        height: 150vh;
+    }
+}
+
+#left-side-wrap{
+    width: 200px;
+    float: left;
+}
+
+#reportMainSidebar ul {
+    padding-top: 5px;
+}
+
+#reportMainSidebar a {
+    display: block;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+}
+
+#reportMainSidebar a.active {
+    background-color: #2865A3;
+    color: white;
+}
+
+ul li {
+    margin: 1px 0;
+    padding: 0;
+}
+
+li a {
+    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 90%;
+    padding-top: 1px;
+}
+
+.sub-nav-item > a {
+    font-size: 8pt;
+    margin-left: 15px;
+    margin-top: -10px;
+}
+.sectionHeading {
+    color: #2865A3;
+    font-size: 16px;
+    font-weight: 700;
+    font-style: italic;
+
+}
+
+.light-table-border{
+    border: 3px solid #f1f1f1;
+    padding: 20px;
+    margin: 10px;
+    max-width: 80vw;
+    overflow-x: auto;
+}
+
+
+.ref-seq-flex-order{
+    display: flex;
+    overflow-x: auto;
+    flex-flow: column;
+}
+
+.ref-seq-flex-order :nth-child(1){order: 1;}
+.ref-seq-flex-order :nth-child(2){order: 2;}
+.ref-seq-flex-order :nth-child(3){order: 4;}
+.ref-seq-flex-order :nth-child(4){order: 3;}
+
+.reportTable{
+    display: flex;
+    overflow-x: auto;
+    flex-flow: column wrap;
+}
+
+.search-and-pager{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+.search-and-pager .modelsViewContent{
+    padding-top: 11px;
+}
+
+
+.table-search{
+    width: 12vw;
+    margin: 5px;
+}
+
+.registrationLink{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.registrationLink a{
+    margin-right: 4.5vw;
+    font-size: 12pt;
+
+}
+

@@ -19,6 +19,12 @@
         <property name="mappings">
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
+
+                <prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+                <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
+				<prop key="expression/experiments.html">GeoExperimentController</prop>
+				<prop key="expression/study.html">GeoStudyController</prop>
+				<prop key="expression/editExperiment.html">GeoStudyController</prop>
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
@@ -28,6 +34,7 @@
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
                 <prop key="curation/phenominer/home.html">PhenominerCurationController</prop>
                 <prop key="curation/phenominer/studies.html">PhenominerStudyController</prop>
+                <prop key="curation/phenominer/phenominerUnits.html">PhenominerUnitsController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
 
@@ -106,6 +113,7 @@
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
                 <prop key="search/search.html">searchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -114,6 +122,7 @@
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
+                <prop key="search/searchByPosition.html">searchByPosController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                  <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
@@ -185,6 +194,18 @@
                 <prop key="front/geneList.html">GeneListController</prop>
                 <prop key="front/config.html">ConfigController</prop>
 
+                <prop key="vv/variants.html">nVariantController</prop>
+                <prop key="vv/detail.html">nDetailController</prop>
+                <prop key="vv/detail_gbrowse.html">nDetailController</prop>
+                <prop key="vv/dist.html">nDistributionController</prop>
+                <prop key="vv/select.html">nSelectStrainController</prop>
+                <prop key="vv/options.html">nStrainOptionsController</prop>
+                <prop key="vv/annotation.html">nAnnotationController</prop>
+                <prop key="vv/region.html">nRegionController</prop>
+                <prop key="vv/download.html">nDownloadController</prop>
+                <prop key="vv/searchType.html">nSearchTypeController</prop>
+                <prop key="vv/geneList.html">nGeneListController</prop>
+                <prop key="vv/config.html">nConfigController</prop>
 
 
                 <prop key="generator/list.html">ProcessListController</prop>
@@ -283,6 +304,11 @@
     <property name="primerInpDir" value="/rgd/data/primer3/createPrimerInp/"/>
 </bean>
 
+ <bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
+<bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
+
+<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
+<bean id="GeoStudyController" class="edu.mcw.rgd.expression.GeoStudyController" />
     <bean id="PathwayHomeController" class="edu.mcw.rgd.pathway.controller.PathwayHomeController" />
     <bean id="PathwayRecordController" class="edu.mcw.rgd.pathway.controller.PathwayRecordController" parent="wwwDir"> <!-- the parent attribute is being used here to refer to comon property with bean id "uploadingDir"
            that is being shared by a number of beans with different classes. Refer: 3.1.2. Abstracting common properties in SpringInAction
@@ -294,6 +320,7 @@
     <bean id="PhenominerSearchController" class="edu.mcw.rgd.phenominer.PhenominerSearchController"/>
     <bean id="PhenominerCurationController" class="edu.mcw.rgd.phenominer.PhenominerCurationController"/>
     <bean id="PhenominerStudyController" class="edu.mcw.rgd.phenominer.PhenominerStudyController"/>
+    <bean id="PhenominerUnitsController" class="edu.mcw.rgd.phenominer.PhenominerUnitsController"/>
     <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
     <bean id="PhenominerRecordController" class="edu.mcw.rgd.phenominer.PhenominerRecordController"/>
 
@@ -314,7 +341,7 @@
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
-    <!--bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/-->
+    <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
 
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
@@ -387,6 +414,7 @@
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
+    <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
@@ -422,6 +450,18 @@
     <bean id="SearchTypeController" class="edu.mcw.rgd.carpenovo.SearchTypeController" />
     <bean id="GeneListController" class="edu.mcw.rgd.carpenovo.GeneListController" />
     <bean id="ConfigController" class="edu.mcw.rgd.carpenovo.ConfigController" />
+
+    <bean id="nVariantController" class="edu.mcw.rgd.vv.VariantController" />
+    <bean id="nDetailController" class="edu.mcw.rgd.vv.DetailController" />
+    <bean id="nDistributionController" class="edu.mcw.rgd.vv.DistributionController" />
+    <bean id="nSelectStrainController" class="edu.mcw.rgd.vv.SelectStrainController" />
+    <bean id="nStrainOptionsController" class="edu.mcw.rgd.vv.StrainOptionsController" />
+    <bean id="nAnnotationController" class="edu.mcw.rgd.vv.AnnotationController" />
+    <bean id="nRegionController" class="edu.mcw.rgd.vv.RegionController" />
+    <bean id="nDownloadController" class="edu.mcw.rgd.vv.DownloadController" />
+    <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
+    <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
+    <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
 
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />

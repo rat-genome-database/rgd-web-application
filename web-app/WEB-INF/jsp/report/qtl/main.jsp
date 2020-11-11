@@ -33,6 +33,8 @@
     
 %>
 
+<div id="top" ></div>
+
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 
@@ -54,10 +56,20 @@
 }
 </script>
 
+<div id="page-container">
 
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
+
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
+
+
+    <div id="content-wrap">
+        <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
 <%@ include file="menu.jsp"%>
-
-
 <%  RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
     if (view.equals("3")) { %>
 
@@ -66,28 +78,16 @@
 
 <% } else {%>
 
-<script>
-    function toggleAssociations() {
-        if (document.getElementById("associationsCurator").style.display=="none") {
-            document.getElementById("associationsCurator").style.display="block";
-        }else {
-           document.getElementById("associationsCurator").style.display="none";
-        }
 
-        if (document.getElementById("associationsStandard").style.display=="none") {
-           document.getElementById("associationsStandard").style.display="block";
-        }else {
-           document.getElementById("associationsStandard").style.display="none";
-        }
-    }
-</script>
+
+
 
 <table width="95%" border="0">
     <tr>
         <td>
             <%@ include file="info.jsp"%>
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>
 
@@ -98,12 +98,14 @@
                 <%@ include file="../associations.jsp"%>
             </div>
 
+
+            <div class ="subTitle" id="references">References</div>
             <%@ include file="../references.jsp"%>
             <%@ include file="../pubMedReferences.jsp"%>
             <%@ include file="relatedQtls.jsp"%>
 
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Region</div><br>
+            <br><div class="subTitle" id="region">Region</div><br>
 
 <%
     SearchBean sb = new SearchBean();
@@ -117,7 +119,7 @@
             <%@ include file="../qtlsInRegion.jsp"%>
             <%@ include file="../relatedStrains.jsp"%>
 
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Additional Information</div><br>
+            <br><div class="subTitle" id="additionalInformation" >Additional Information</div><br>
 
             <%@ include file="../xdbs.jsp"%>
             <%@ include file="../nomen.jsp"%>
@@ -126,16 +128,16 @@
         </td>
         <td>&nbsp;</td>
         <td align="right" valign="top">
-            <%@ include file="links.jsp" %>
+<%--            <%@ include file="links.jsp" %>--%>
             <br>
-            <%@ include file="../idInfo.jsp" %>
+<%--            <%@ include file="../idInfo.jsp" %>--%>
         </td>
     </tr>
  </table>
-
-
+    </div>
+</div>
 <% } %>
-
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
-
+    <%@ include file="../reportFooter.jsp"%>
+    <%@ include file="/common/footerarea.jsp"%>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=7"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js"> </script>

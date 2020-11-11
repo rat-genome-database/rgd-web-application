@@ -4,6 +4,7 @@
 
 </div>
 <br>
+<footer id="footer">
 <div class="bottom-bar" >
     <table align=center class="headerTable"> <tr><td align="left" style="color:white;">
         <a href="/contact/index.shtml">Contact Us</a>&nbsp;|&nbsp;
@@ -13,7 +14,7 @@
         <a href="http://www.mcw.edu/">&copy; Medical College of Wisconsin</a>
     </td></tr></table>
 </div>
-</div>
+<%--</div>--%>
 
 
 <table align="center">
@@ -31,7 +32,7 @@
 <div id="copyright">
 
 </div>
-
+</footer>
 <script language="javascript" src="/common/js/killerZebraStripes.js" type="text/javascript"></script>
 <script>
     var arr = document.getElementsByTagName("table");
