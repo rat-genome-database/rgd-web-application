@@ -86,6 +86,7 @@ function addEventsToSidebar() {
         if (toggle) {
             toggle.addEventListener("click", (event) => {
                 addItemsToSideBar();
+                tableSorterReport();
             });
         }
     });
