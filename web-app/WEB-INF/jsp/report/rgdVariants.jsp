@@ -17,13 +17,13 @@
 <div class="sectionHeading" id="rgdVariants">Rat Variants</div>
 <table id="variants" border="1" cellspacing="0" width="95%">
     <tr>
-        <td><b>Name</b></td>
-        <td><b>Chromosome</b></td>
-        <td><b>Start Pos</b></td>
-        <td><b>End Pos</b></td>
-        <td><b>Reference Nucleotide</b></td>
-        <td><b>Variant Nucleotide</b></td>
-        <td><b>Variant Type</b></td>
+        <td align="center"><b>Name</b></td>
+        <td align="center"><b>Chromosome</b></td>
+        <td align="center"><b>Start Pos</b></td>
+        <td align="center"><b>End Pos</b></td>
+        <td align="Left"><b>Reference Nucleotide</b></td>
+        <td align="Left"><b>Variant Nucleotide</b></td>
+        <td align="center"><b>Variant Type</b></td>
 
     </tr>
     <%
@@ -38,19 +38,19 @@
 
             for(MapData var : mapDAO.getMapData(variant.getRgdId())) {
             %>
-            <td><a href="/rgdweb/report/rgdvariant/main.html?id=<%=var.getRgdId()%>"><%=variant.getName()%></a></td>
-            <td><%="chr"+var.getChromosome()%></td>
-            <td><%=var.getStartPos()%></td>
-            <td><%=var.getStopPos()%></td>
-            <td><%if(variant.getRefNuc() == null)
+            <td align="center"><a href="/rgdweb/report/rgdvariant/main.html?id=<%=var.getRgdId()%>"><%=variant.getName()%></a></td>
+            <td align="center"><%="chr"+var.getChromosome()%></td>
+            <td align="center"><%=var.getStartPos()%></td>
+            <td align="center"><%=var.getStopPos()%></td>
+            <td align="center"><%if(variant.getRefNuc() == null)
                     out.print("-");
                   else
                     out.print(variant.getRefNuc());%></td>
-            <td><%if(variant.getVarNuc() == null)
+            <td align="center"><%if(variant.getVarNuc() == null)
                 out.print("-");
             else
                 out.print(variant.getVarNuc());%></td>
-            <td><%
+            <td align="center"><%
                 Term so = odao.getTermByAccId(variant.getType());
                 out.print(so.getTerm());
             %></td>
