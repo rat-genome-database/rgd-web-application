@@ -34,8 +34,9 @@ function run() {
 
     autoChangeNavHeight();
 
-    manageLocalStorage();
-    removePagerAutocomplete();
+    checkForDetailView();
+
+    // filterAnnotations();
 }
 
 function rebuildAnnotationTables() {
@@ -85,6 +86,7 @@ function addEventsToSidebar() {
         if (toggle) {
             toggle.addEventListener("click", (event) => {
                 addItemsToSideBar();
+                tableSorterReport();
             });
         }
     });
@@ -180,6 +182,7 @@ function removeOldAnnotationTables(tableArray){
 
 function extractRowsAndBuildAnnotationTable(table){
     let rowArray = extractRows(table);
+    //this table should have one column
     if(table.parentElement.id === 'congenicAsscociationTableDiv'){
         return buildAnnotationTable(rowArray, 1);
     }
@@ -616,24 +619,48 @@ function removePagerAutocomplete(){
     }
 }
 
-function filterAnnotations() {
-    let input, filter, table, rows, td, i, txtValue;
-    table = document.getElementById("annotationTable1");
-
-    input = findSearchBar(table);
-    filter = input.value.toUpperCase();
-    rows = table.getElementsByTagName("tr");
-
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < rows.length; i++) {
-        td = rows[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
+function checkForDetailView(){
+    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let text;
+    if(isDetail){
+       document.getElementById("associationsCurator").style.display="block";
+       document.getElementById("associationsStandard").style.display="none";
+       text = "Click to see Annotation Summary View";
+       updateToggleText(text);
+       addItemsToSideBar();
+    } else {
+        document.getElementById("associationsCurator").style.display="none";
+        document.getElementById("associationsStandard").style.display="block";
+        text =  "Click to see Annotation Detail View";
+        updateToggleText(text);
+        addItemsToSideBar();
     }
+
+}
+
+
+function filterAnnotations() {
+    let table = document.getElementById("annotationTable1");
+    let input = findSearchBar(table);
+    let cells = [];
+    let rows, i, txtValue, filter;
+
+    input.addEventListener("input", (event) => {
+        filter = input.value.toUpperCase();
+        rows = Array.from(table.getElementsByTagName("tr"));
+        rows.forEach(row => {
+            cells.push(...row.getElementsByTagName("td"));
+        });
+        for (i = 0; i < cells.length; i++) {
+            txtValue = cells[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                cells[i].style.display = "";
+            } else {
+                cells[i].style.display = "none";
+            }
+
+        }
+    });
+
+
 }

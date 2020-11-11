@@ -76,36 +76,43 @@ function addParam(name, value) {
 }
 
 function toggleAssociations(detailWindowLocation, summaryWindowLocation) {
-    let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
     let url = window.location.href;
     let hashLocation = url.indexOf('#');
+    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let text;
     url = url.substring(0, hashLocation);
 
-    if (document.getElementById("associationsCurator").style.display==="none") {
+    if (!isDetail) {
         document.getElementById("associationsCurator").style.display="block";
-        toggles.forEach( toggle => {
-            if (toggle) {
-                toggle.innerText = "Click to see Annotation Summary View";
-            }
-        });
+        text = "Click to see Annotation Summary View";
+        updateToggleText(text);
         location.assign(url + '#' + detailWindowLocation);
-
+        sessionStorage.setItem('isDetail', 'true');
     }else {
        document.getElementById("associationsCurator").style.display="none";
     }
 
-    if (document.getElementById("associationsStandard").style.display==="none") {
-       document.getElementById("associationsStandard").style.display="block";
-        toggles.forEach( toggle => {
-            if (toggle) {
-                toggle.innerText = "Click to see Annotation Detail View";
-            }
-        });
+    if (isDetail) {
+        document.getElementById("associationsStandard").style.display="block";
+        text =  "Click to see Annotation Detail View";
+        updateToggleText(text);
+
         location.assign(url + '#' + summaryWindowLocation);
+        sessionStorage.setItem('isDetail', 'false');
 
     }else {
        document.getElementById("associationsStandard").style.display="none";
     }
+}
+
+function updateToggleText(text){
+    let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
+    toggles.forEach( toggle => {
+        if (toggle) {
+            toggle.innerText = text;
+        }
+    })
+
 }
 
 function toggleDivs(id_hide, id_show) {
