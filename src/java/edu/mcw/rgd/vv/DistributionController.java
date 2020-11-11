@@ -29,7 +29,7 @@ import java.util.*;
  */
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
-  //  private List<String> sampleIdsFromResultSet;
+    //  private List<String> sampleIdsFromResultSet;
 
 
     VVService service= new VVService();
@@ -62,15 +62,15 @@ public class DistributionController extends HaplotyperController {
         request.setAttribute("mapKey", mapKey );
 
         // derive species from mapKey
-       // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-     // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
+        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+        // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String env="test";
         String index=new String();
         if(mapKey==17) {
             index = "variants_human"+mapKey+"_"+env;
         }
         if(mapKey==360 || mapKey==70 || mapKey==60)
-              //  index= "variants_rat"+mapKey+"_dev";
+            //  index= "variants_rat"+mapKey+"_dev";
             index= "variants_rat"+mapKey+"_"+env;
         if(mapKey==631 || mapKey==600 )
             index= "variants_dog"+mapKey+"_"+env;
@@ -79,12 +79,12 @@ public class DistributionController extends HaplotyperController {
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
-     //   try {
+        //   try {
 
-             Set<String> masterKeySet = new HashSet<String>();
-           GeneDAO gdao = new GeneDAO();
+        Set<String> masterKeySet = new HashSet<String>();
+        GeneDAO gdao = new GeneDAO();
 
-     if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+        if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
         }
 
@@ -93,7 +93,7 @@ public class DistributionController extends HaplotyperController {
             if (!req.getParameter("chr").equals("")) {
                 vsb.setChromosome(req.getParameter("chr"));
             }
-           //vsb.sampleIds.add(Integer.parseInt(sample));
+            //vsb.sampleIds.add(Integer.parseInt(sample));
             for (String sample: sampleIds) {
                 vsb.sampleIds.add(Integer.parseInt(sample));
             }
@@ -124,26 +124,26 @@ public class DistributionController extends HaplotyperController {
             if(symbols.size()>0){
                 vsb.setGenes(symbols);
             }
-             vsb.setConnective(req.getParameter("connective"));
-             vsb.setAAChange(req.getParameter("synonymous"), req.getParameter("nonSynonymous"));
-             vsb.setGenicStatus(req.getParameter("genic"), req.getParameter("intergenic"));
-             vsb.setIsPrematureStop(req.getParameter("prematureStopCodon"));
-             vsb.setIsReadthrough(req.getParameter("readthroughMutation"));
-             vsb.setConScore(conLow, conHigh);
-             vsb.setDepth(req.getParameter("depthLowBound"), req.getParameter("depthHighBound"));
-             vsb.setNearSpliceSite(req.getParameter("nearSpliceSite"));
-             vsb.setZygosity(req.getParameter("het"), req.getParameter("hom"), req.getParameter("possiblyHom"), req.getParameter("hemi"), req.getParameter("probablyHemi"), req.getParameter("possiblyHemi"), req.getParameter("excludePossibleError"), req.getParameter("hetDiffFromRef"));
-             vsb.setScore(req.getParameter("scoreLowBound"), req.getParameter("scoreHighBound"));
-             vsb.setDBSNPNovel(req.getParameter("notDBSNP"), req.getParameter("foundDBSNP"));
-             vsb.setLocation(req.getParameter("intron"), req.getParameter("3prime"), req.getParameter("5prime"), req.getParameter("proteinCoding"));
-             //vsb.setPseudoautosomal(req.getParameter("excludePsudoautosomal"), req.getParameter("onlyPsudoautosomal"));
-             vsb.setAlleleCount(req.getParameter("alleleCount1"),req.getParameter("alleleCount2"),req.getParameter("alleleCount3"),req.getParameter("alleleCount4"));
-             vsb.setVariantType(req.getParameter("snv"),req.getParameter("ins"),req.getParameter("del"));
-             vsb.setIsFrameshift(req.getParameter("frameshift"));
-             vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
-             vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
+            vsb.setConnective(req.getParameter("connective"));
+            vsb.setAAChange(req.getParameter("synonymous"), req.getParameter("nonSynonymous"));
+            vsb.setGenicStatus(req.getParameter("genic"), req.getParameter("intergenic"));
+            vsb.setIsPrematureStop(req.getParameter("prematureStopCodon"));
+            vsb.setIsReadthrough(req.getParameter("readthroughMutation"));
+            vsb.setConScore(conLow, conHigh);
+            vsb.setDepth(req.getParameter("depthLowBound"), req.getParameter("depthHighBound"));
+            vsb.setNearSpliceSite(req.getParameter("nearSpliceSite"));
+            vsb.setZygosity(req.getParameter("het"), req.getParameter("hom"), req.getParameter("possiblyHom"), req.getParameter("hemi"), req.getParameter("probablyHemi"), req.getParameter("possiblyHemi"), req.getParameter("excludePossibleError"), req.getParameter("hetDiffFromRef"));
+            vsb.setScore(req.getParameter("scoreLowBound"), req.getParameter("scoreHighBound"));
+            vsb.setDBSNPNovel(req.getParameter("notDBSNP"), req.getParameter("foundDBSNP"));
+            vsb.setLocation(req.getParameter("intron"), req.getParameter("3prime"), req.getParameter("5prime"), req.getParameter("proteinCoding"));
+            //vsb.setPseudoautosomal(req.getParameter("excludePsudoautosomal"), req.getParameter("onlyPsudoautosomal"));
+            vsb.setAlleleCount(req.getParameter("alleleCount1"),req.getParameter("alleleCount2"),req.getParameter("alleleCount3"),req.getParameter("alleleCount4"));
+            vsb.setVariantType(req.getParameter("snv"),req.getParameter("ins"),req.getParameter("del"));
+            vsb.setIsFrameshift(req.getParameter("frameshift"));
+            vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
+            vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
-     // resultHash = vdao.getVariantToGeneCountMap(vsb);
+            // resultHash = vdao.getVariantToGeneCountMap(vsb);
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
 
@@ -153,7 +153,7 @@ public class DistributionController extends HaplotyperController {
 
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
-       //         vsb.genes.addAll(map.keySet());             //add gene symbols from the results returned by search response.
+                //         vsb.genes.addAll(map.keySet());             //add gene symbols from the results returned by search response.
                 for (Object o : map.keySet()) {
                     int value = map.get(o);
                     if (value > maxValue) {
@@ -220,33 +220,32 @@ public class DistributionController extends HaplotyperController {
             }
         }
 
-            if (!errors.isEmpty()) {
-                request.setAttribute("error", errors);
-            }
-            if(chromosome!=null && !chromosome.equals("") ) {
-                if(resultHash.size()>0) {
-                    List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
-                    for (GeneLoci l : loci) {
-                        if (!regionList1.contains(l.getGeneSymbols())) {
-                            regionList1.add(l.getGeneSymbols());
-                        }
+        if (!errors.isEmpty()) {
+            request.setAttribute("error", errors);
+        }
+        if(chromosome!=null && !chromosome.equals("") ) {
+            if(resultHash.size()>0) {
+                List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
+                for (GeneLoci l : loci) {
+                    if (!regionList1.contains(l.getGeneSymbols())) {
+                        regionList1.add(l.getGeneSymbols());
                     }
                 }
-            }else{
-                regionList1=gSymbols;
             }
-            Collections.sort(sampleIds);
-            request.setAttribute("regionList", regionList1);
-            request.setAttribute("sampleIds", sampleIds);
-            request.setAttribute("resultHash", resultHash);
-            request.setAttribute("json",sb.toString() );
-            request.setAttribute("vsb", vsb);
-            request.setAttribute("maxValue", maxValue);
+        }else{
+            regionList1=gSymbols;
+        }
+        request.setAttribute("regionList", regionList1);
+        request.setAttribute("sampleIds", sampleIds);
+        request.setAttribute("resultHash", resultHash);
+        request.setAttribute("json",sb.toString() );
+        request.setAttribute("vsb", vsb);
+        request.setAttribute("maxValue", maxValue);
         ModelMap model=new ModelMap();
         model.addAttribute("matrix", matrix);
-            return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
+        return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
-     //   }catch (Exception e) {
+        //   }catch (Exception e) {
         /*    errors.add(e.getMessage());
             request.setAttribute("error", errors);
             request.setAttribute("json",this.sb.toString() );
@@ -258,54 +257,50 @@ public class DistributionController extends HaplotyperController {
             request.setAttribute("maxValue", maxValue);
 
             return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");*/
-     //   }
+        //   }
 
     }
 
     List<String> loadSampleIds(HttpServletRequest request) throws Exception{
 
         List<String> sampleIds = new ArrayList<String>();
-        if(request.getParameter("sample1")!=null) {
+        HttpRequestFacade req = new HttpRequestFacade(request);
 
-            if (request.getParameter("sample1").equals("all")) {
-
-                SampleDAO sdao = new SampleDAO();
-                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-                int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-                List<Sample> samples=new ArrayList<>();
-                if(mapKey==17){
-                    List<String> populations= new ArrayList<>(Arrays.asList("FIN","GBR"));
-                    for(String p:populations){
-                        samples .addAll(sdao.getSamplesByMapKey(mapKey, p));
-                    }
-                }else {
-                    samples= sdao.getSamplesByMapKey(mapKey);
-                }
-
-                for (Sample s : samples) {
-                    sampleIds.add(s.getId() + "");
-                }
-
-            } else {
-
-
-                for (int i = 0; i < 1000; i++) {
-                    if (request.getParameter("sample" + i) != null) {
-                        sampleIds.add(request.getParameter("sample" + i));
-                    }
-                }
-            }
-        }else{
+        if (request.getParameter("sample1").equals("all")) {
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));
             List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
-            for (Sample s : samples) {
-                sampleIds.add(s.getId() + "");
+            for (Sample s: samples) {
+                sampleIds.add(s.getId()+"");
             }
 
+        }else {
+
+            ArrayList<Integer> al = new ArrayList<Integer>();
+            for (int i = 0; i < 999; i++) {
+                String sample = req.getParameter("sample" + i);
+                if (!sample.isEmpty()) {
+                    al.add(new Integer(sample));
+                }
+            }
+
+            if (al.size() > 0) {
+                SampleDAO sdao = new SampleDAO();
+                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                List<Sample> samples = sdao.getSampleBySampleId(al);
+
+                int cnt = 0;
+                for (Sample sampleObj: samples)  {
+                    sampleIds.add(sampleObj.getId() + "");
+                    cnt++;
+                }
+            }
         }
+       for (String id : sampleIds){
+           System.out.println(SampleManager.getInstance().getSampleName(Integer.parseInt(id)).getAnalysisName());
+       }
         return sampleIds;
     }
 
@@ -321,16 +316,16 @@ public class DistributionController extends HaplotyperController {
                 if (sampleId != null) {
                     Sample s= SampleManager.getInstance().getSampleName(Integer.parseInt(sampleId));
                     if(s!=null){
-                    int sampleMapKey = s.getMapKey();
-                    if (sampleMapKey > 0) {
-                        if (mapKey == 0) {
-                            mapKey = sampleMapKey;
-                        } else if (mapKey != sampleMapKey) {
-                            throw new Exception("Map Key Required. Samples having multiple map keys.");
+                        int sampleMapKey = s.getMapKey();
+                        if (sampleMapKey > 0) {
+                            if (mapKey == 0) {
+                                mapKey = sampleMapKey;
+                            } else if (mapKey != sampleMapKey) {
+                                throw new Exception("Map Key Required. Samples having multiple map keys.");
+                            }
                         }
                     }
-                }
-            }}
+                }}
             if( mapKey==0 )
                 throw new Exception("Map Key Required.  Please choose an assembly.");
         }
@@ -348,88 +343,88 @@ public class DistributionController extends HaplotyperController {
         List<String> symbols = new ArrayList<>();
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
 
-            if(!req.getParameter("showDifferences").equals("true")){
+        if(!req.getParameter("showDifferences").equals("true")){
             SearchResponse sr=service.getAggregations(vsb, req);
 
             Terms samplesAgg = sr.getAggregations().get("sampleId");
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
             List<String> sampleIdsFromResultSet= new ArrayList<>();
             for (Terms.Bucket b : samplebkts) {
-                    Map<String, Integer> geneCountMap = new HashMap<>();
-                    Terms geneAggs = b.getAggregations().get("region");
-                    int totalDocCount = 0;
-                    for (Terms.Bucket gb : geneAggs.getBuckets()) {
-                        totalDocCount = totalDocCount + (int) gb.getDocCount();
-                        geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
-                        geneKeys.add((String) gb.getKey());
+                Map<String, Integer> geneCountMap = new HashMap<>();
+                Terms geneAggs = b.getAggregations().get("region");
+                int totalDocCount = 0;
+                for (Terms.Bucket gb : geneAggs.getBuckets()) {
+                    totalDocCount = totalDocCount + (int) gb.getDocCount();
+                    geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
+                    geneKeys.add((String) gb.getKey());
 
-                    }
-                    if (totalDocCount > 0) {
+                }
+                if (totalDocCount > 0) {
                      /*   boolean flag=false;
                         for(int id:vsb.sampleIds){
                             if(id==(((Long) b.getKey()))){
                                 flag=true;
                             }
                         }*/
-                      //  if(flag) {
-                      //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
-                            variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-                       // }
-                    }
-
+                    //  if(flag) {
+                    //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
+                    variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
+                    // }
                 }
-                //    Collections.sort(sampleIdsFromResultSet);
-             //   this.setSampleIdsFromResultSet(sampleIdsFromResultSet);
+
+            }
+            //    Collections.sort(sampleIdsFromResultSet);
+            //   this.setSampleIdsFromResultSet(sampleIdsFromResultSet);
 
         }  else{
 
-                SearchResponse sr=service.getAggregations(vsb, req);
+            SearchResponse sr=service.getAggregations(vsb, req);
 
-                Terms regionAgg = sr.getAggregations().get("regionName");
+            Terms regionAgg = sr.getAggregations().get("regionName");
 
-                List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
+            List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
 
-                for (Terms.Bucket b : regionbkts) {
+            for (Terms.Bucket b : regionbkts) {
 
-                     geneKeys.add((String) b.getKey());
+                geneKeys.add((String) b.getKey());
 
 
-                    Terms posAggs = b.getAggregations().get("startPos");
+                Terms posAggs = b.getAggregations().get("startPos");
 
-                    for(Terms.Bucket pos:posAggs.getBuckets()){
-                         Terms sampleAggs= pos.getAggregations().get("sample");
+                for(Terms.Bucket pos:posAggs.getBuckets()){
+                    Terms sampleAggs= pos.getAggregations().get("sample");
 
-                        if(sampleAggs.getBuckets().size()< vsb.sampleIds.size()) {
-                            for (Terms.Bucket samp : sampleAggs.getBuckets()) {
-                                if (samp.getDocCount() < vsb.sampleIds.size()) {
-                                    Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
-                                    if (geneVarCountsOfSample != null) {
-                                        Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(b.getKey());
-                                        if (varNucCountOfGeneOfSample != null) {
-                                            varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
-                                            geneVarCountsOfSample.put(b.getKey().toString(), varNucCountOfGeneOfSample);
+                    if(sampleAggs.getBuckets().size()< vsb.sampleIds.size()) {
+                        for (Terms.Bucket samp : sampleAggs.getBuckets()) {
+                            if (samp.getDocCount() < vsb.sampleIds.size()) {
+                                Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
+                                if (geneVarCountsOfSample != null) {
+                                    Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(b.getKey());
+                                    if (varNucCountOfGeneOfSample != null) {
+                                        varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
+                                        geneVarCountsOfSample.put(b.getKey().toString(), varNucCountOfGeneOfSample);
 
-                                        } else {
-                                            geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
-                                        }
-
-                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
-                                    }else{
-                                        geneVarCountsOfSample=new HashMap<>();
-                                        geneVarCountsOfSample.put(b.getKey().toString(),(int) samp.getDocCount());
-                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                    } else {
+                                        geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
                                     }
 
+                                    variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                }else{
+                                    geneVarCountsOfSample=new HashMap<>();
+                                    geneVarCountsOfSample.put(b.getKey().toString(),(int) samp.getDocCount());
+                                    variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                 }
+
                             }
                         }
-
                     }
-
 
                 }
 
-           }
+
+            }
+
+        }
         gene:
         for (String g : geneKeys) {
             for (Map.Entry e : variantGeneCountMap.entrySet()) {
@@ -450,7 +445,7 @@ public class DistributionController extends HaplotyperController {
         this.setgSymbols(symbols);
 
 
-       return variantGeneCountMap;
+        return variantGeneCountMap;
     }
 
 

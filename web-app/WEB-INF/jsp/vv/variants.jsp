@@ -14,7 +14,7 @@
 <%@ page import="java.io.StreamCorruptedException" %>
 
 <%
-try {
+    try {
 
 %>
 <link rel="stylesheet" href="/rgdweb/js/javascriptPopUpWindow/GAdhtmlwindow.css" type="text/css" />
@@ -123,386 +123,390 @@ try {
 <br>
 
 <div id="blueBackground" style="padding:15px;background-image: url(/rgdweb/common/images/bg3.png);height:100%">
-<%
-    int positionCount = snplotyper.getPositions().size();
-%>
-
-<%@ include file="updateForm.jsp"%>
-
-
-<%
-Gene gene = (Gene) request.getAttribute("gene");
-    DescriptionGenerator dg = new DescriptionGenerator();
-    if (gene != null) {
-     %>
-        <table align="center" width="100%" cellpading=0 cellspacing=0 style="background-color:#EEEEEE;">
-            <tr>
-                <td align="center">
-        <div style="font-size:12px; padding: 6px; color:#063968;">
-        <span style=" font-weight:700; font-size:12px;"><%=gene.getSymbol()%></span> : <%=dg.buildDescription(gene.getRgdId())%>
-        </div>
     <%
-    }
-%>
-    </td>
-    </tr>
-</table>
+        int positionCount = snplotyper.getPositions().size();
+    %>
 
-<%
-if (positions.size()==0) {
-%>
-<br>
-<table align="center">
-<tr>
-    <td colspan=2 align=center style="font-size:20px; color:white;font-weight:700">O SNPs Found<br>(Please remove options or increase your region size)</td>
-</tr>
-</table>
-
-<%
-} else {
-%>
+    <%@ include file="updateForm.jsp"%>
 
 
-<style>
-    #mainTable td {
-        <!--font-size:5px;-->
-    }
-</style>
-
-
-
-<table id="mainTable" border=0 cellpadding=0 cellspacing=0 align="center" style="z-index:2; border:  4px outset #eeeeee;  background-color:white; padding-top:10px;  padding-bottom:20px; margin-top: 10px;margin-bottom:10px;">
-<tr>
-        <td valign=top>
-            <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white;">
-            <tr>
-                <td><img src="/rgdweb/common/images/dot_clear.png" height=25 /></td>
-                <td width="<%=xMenuWidth%>" ><div style="border-top:1px solid #E8E4D5;" class="snpLabel">Conservation&nbsp;</div></td>
-            </tr>
-            <tr>
-                <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
-                <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
-            </tr>
-            <% if (snplotyper.hasPlusStrandConflict()) {
-                heightOfOptionalGeneTracks+=25;
-            %>
-                <tr>
-                    <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
-                    <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
-                </tr>
-            <% } %>
-                <tr>
-                    <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
-                    <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
-                </tr>
-                <% if (snplotyper.hasMinusStrandConflict()) {
-                    heightOfOptionalGeneTracks+=25;
+    <%
+        Gene gene = (Gene) request.getAttribute("gene");
+        DescriptionGenerator dg = new DescriptionGenerator();
+        if (gene != null) {
+    %>
+    <table align="center" width="100%" cellpading=0 cellspacing=0 style="background-color:#EEEEEE;">
+        <tr>
+            <td align="center">
+                <div style="font-size:12px; padding: 6px; color:#063968;">
+                    <span style=" font-weight:700; font-size:12px;"><%=gene.getSymbol()%></span> : <%=dg.buildDescription(gene.getRgdId())%>
+                </div>
+                <%
+                    }
                 %>
-                <tr>
-                    <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
-                    <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
-                </tr>
-                <% } %>
+            </td>
+        </tr>
+    </table>
 
-                <tr>
-                    <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
-                    <td ><div class="snpLabel">
-                        <%if (mapKey==60) out.print("RGSC 3.4");%>
-                        <%if (mapKey==70) out.print("Rnor 5.0");%>
-                        <%if (mapKey==360) out.print("Rnor 6.0");%>
-                        <%if (mapKey==17) out.print("GRCh37");%>
-                     &nbsp;</div></td>
-                </tr>
-            <tr>
-                <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=26/></td>
-                <td valign="center" style="height:<%=yMenuHeight + 10 %>px; background-color:white;">
-                    <table width="<%=xMenuWidth -5%>" border=0 style="background-color:white; ">
-                        <tr>
-                            <td align="center" style="background-color:white;"><img src="/rgdweb/common/images/rgd.png" /></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+    <%
+        if (positions.size()==0) {
+    %>
+    <br>
+    <table align="center">
+        <tr>
+            <td colspan=2 align=center style="font-size:20px; color:white;font-weight:700">O SNPs Found<br>(Please remove options or increase your region size)</td>
+        </tr>
+    </table>
+
+    <%
+    } else {
+    %>
+
+
+    <style>
+        #mainTable td {
+        <!--font-size:5px;-->
+        }
+    </style>
+
+
+
+    <table id="mainTable" border=0 cellpadding=0 cellspacing=0 align="center" style="z-index:2; border:  4px outset #eeeeee;  background-color:white; padding-top:10px;  padding-bottom:20px; margin-top: 10px;margin-bottom:10px;">
+        <tr>
+            <td valign=top>
+                <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white;">
+                    <%   if(mapKey != 631) { %>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" height=25 /></td>
+                        <td width="<%=xMenuWidth%>" ><div style="border-top:1px solid #E8E4D5;" class="snpLabel">Conservation&nbsp;</div></td>
+                    </tr>
+                    <%   } %>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
+                        <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
+                    </tr>
+                    <% if (snplotyper.hasPlusStrandConflict()) {
+                        heightOfOptionalGeneTracks+=25;
+                    %>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
+                        <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
+                        <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
+                    </tr>
+                    <% if (snplotyper.hasMinusStrandConflict()) {
+                        heightOfOptionalGeneTracks+=25;
+                    %>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
+                        <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
+                    </tr>
+                    <% } %>
+
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
+                        <td ><div class="snpLabel">
+                            <%if (mapKey==60) out.print("RGSC 3.4");%>
+                            <%if (mapKey==70) out.print("Rnor 5.0");%>
+                            <%if (mapKey==360) out.print("Rnor 6.0");%>
+                            <%if (mapKey==17) out.print("GRCh37");%>
+                            &nbsp;</div></td>
+                    </tr>
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=26/></td>
+                        <td valign="center" style="height:<%=yMenuHeight + 10 %>px; background-color:white;">
+                            <table width="<%=xMenuWidth -5%>" border=0 style="background-color:white; ">
+                                <tr>
+                                    <td align="center" style="background-color:white;"><img src="/rgdweb/common/images/rgd.png" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <%
+                        int j=0;
+                        int k=0;
+                        Iterator it = samples.iterator();
+                        while(it.hasNext()) {
+                            int sample = (Integer) it.next();
+                    %>
+                    <tr>
+
+                        <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
+                        <td  valign="center">
+                            <div class="snpLabel"><a style="text-decoration:none;" title="<%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%>" href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(sample).getAnalysisName().replaceAll("\\s","&nbsp;")%></a>&nbsp;</div>
+                        </td>
+                    </tr>
+                    <% } %>
+
+                </table>
+                <%
+                    } //end else
+                %>
+
+            </td>
+            <td>
+
+                <script></script>
 
                 <%
-                  int j=0;
-                  int k=0;
-                  Iterator it = samples.iterator();
-                  while(it.hasNext()) {
-                      int sample = (Integer) it.next();
-                  %>
-                   <tr>
+                    int divWidth= horizontalWidth;
 
-                      <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
-                      <td  valign="center">
-                          <div class="snpLabel"><a style="text-decoration:none;" title="<%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%>" href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%></a>&nbsp;</div>
-                      </td>
-                   </tr>
-                 <% } %>
-
-            </table>
-<%
-    } //end else
-%>
-
-        </td>
-        <td>
-
-        <script></script>
-
-        <%
-            int divWidth= horizontalWidth;
-
-        %>
+                %>
 
 
 
 
-<script>
-     document.getElementById("blueBackground").style.height=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
-   // alert("set height to " + document.getElementById("blueBackground").style.height) ;
-</script>
+                <script>
+                    document.getElementById("blueBackground").style.height=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
+                    // alert("set height to " + document.getElementById("blueBackground").style.height) ;
+                </script>
 
 
-<div id="wrapperRegion" style="margin-right:20px; overflow-x:scroll; width:<%=divWidth%>px; height:<%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%>">
-<%
-     Iterator cit;
-%>
-<table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
-    <tr>
-<%
-    cit = snplotyper.getPositions().iterator();
-    while (cit.hasNext()) {
-        long pos = (Long) cit.next();
+                <div id="wrapperRegion" style="margin-right:20px; overflow-x:scroll; width:<%=divWidth%>px; height:<%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%>">
+                    <%
+                        Iterator cit;
+                    %>
+                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
+                        <tr>
+                            <%
+                                if(mapKey != 631) {
+                                    cit = snplotyper.getPositions().iterator();
+                                    while (cit.hasNext()) {
+                                        long pos = (Long) cit.next();
 
-        BigDecimal score = snplotyper.getConservation(pos);
-        int colorVal = score.multiply(new BigDecimal("1000")).intValue();
+                                        BigDecimal score = snplotyper.getConservation(pos);
+                                        int colorVal = score.multiply(new BigDecimal("1000")).intValue();
 
-        String fontColor="black";
-        if (colorVal > 500) {
-            fontColor="white";
-        }
+                                        String fontColor="black";
+                                        if (colorVal > 500) {
+                                            fontColor="white";
+                                        }
 
-        String con =score.toString().replace("0.",".");
+                                        String con =score.toString().replace("0.",".");
 
-        if (con.equals("-1")) {
-            con = "--";
+                                        if (con.equals("-1") ) {
+                                            con = "--";
 
-        }
+                                        }
 
-%>
+                            %>
 
-        <td style="font-size:10px;"><div class="conCell" style="color:<%=fontColor%>;background-color:<%=UI.getRGBValue(colorVal, 1000)%>"><%=con%></div></td>
+                            <td style="font-size:10px;"><div class="conCell" style="color:<%=fontColor%>;background-color:<%=UI.getRGBValue(colorVal, 1000)%>"><%=con%></div></td>
 
-    <%
-    }
-    %>
+                            <%
+                                    }
+                                }
+                            %>
 
-        <td></td>
-    </tr>
-
-
-<tr>
-<%
-    cit = snplotyper.getPositions().iterator();
-    String currentGene = "";
-
-    TreeMap<Long, MappedGene> overflow = new TreeMap();
-    HashSet ignore = new HashSet();
-
-    while (cit.hasNext()) {
-        long pos = (Long) cit.next();
-        List<MappedGene> mgList = snplotyper.getPlusStrandGene(pos);
-
-        Gene g = null;
-
-        if (mgList.size() > 1) {
-
-            int index1=0;
-            int index2 = 1;
-
-            if (ignore.contains(mgList.get(index1).getGene().getRgdId())) {
-                index1=1;
-                index2 = 0;
-            }
-
-            overflow.put(pos, mgList.get(index2));
-            ignore.add(mgList.get(index2).getGene().getRgdId());
-            g = mgList.get(index1).getGene();
-        }else if (mgList.size()==1) {
-            if (!ignore.contains(mgList.get(0).getGene().getRgdId())) {
-                g = mgList.get(0).getGene();
-            }
-        }
-        String uniqueId="plus";
-    %>
-     <%@ include file="trackHelper.jsp"%>
-
-    <%
-     }
-    %>
-        <td></td>
-    </tr>
+                            <td></td>
+                        </tr>
 
 
-<!-- plus overflow  -->
-<% if (snplotyper.hasPlusStrandConflict()) { %>
+                        <tr>
+                            <%
+                                cit = snplotyper.getPositions().iterator();
+                                String currentGene = "";
 
-<tr>
-<%
-    cit = snplotyper.getPositions().iterator();
-    currentGene = "";
-    while (cit.hasNext()) {
-        long pos = (Long) cit.next();
-        MappedGene mg = overflow.get(pos);
+                                TreeMap<Long, MappedGene> overflow = new TreeMap();
+                                HashSet ignore = new HashSet();
 
-        Gene g = null;
+                                while (cit.hasNext()) {
+                                    long pos = (Long) cit.next();
+                                    List<MappedGene> mgList = snplotyper.getPlusStrandGene(pos);
 
-        if (mg != null) {
-            g = mg.getGene();
+                                    Gene g = null;
 
-        }
-        String uniqueId="poverflow";
-    %>
-     <%@ include file="trackHelper.jsp"%>
+                                    if (mgList.size() > 1) {
 
-    <%
-     }
-    %>
-        <td></td>
-    </tr>
-<% }%>
+                                        int index1=0;
+                                        int index2 = 1;
 
-   <!-- minus strand -->
+                                        if (ignore.contains(mgList.get(index1).getGene().getRgdId())) {
+                                            index1=1;
+                                            index2 = 0;
+                                        }
 
-    <tr>
-    <%
-        cit = snplotyper.getPositions().iterator();
-        currentGene = "";
+                                        overflow.put(pos, mgList.get(index2));
+                                        ignore.add(mgList.get(index2).getGene().getRgdId());
+                                        g = mgList.get(index1).getGene();
+                                    }else if (mgList.size()==1) {
+                                        if (!ignore.contains(mgList.get(0).getGene().getRgdId())) {
+                                            g = mgList.get(0).getGene();
+                                        }
+                                    }
+                                    String uniqueId="plus";
+                            %>
+                            <%@ include file="trackHelper.jsp"%>
 
-        overflow = new TreeMap();
-        ignore = new HashSet();
-
-        while (cit.hasNext()) {
-            long pos = (Long) cit.next();
-            List<MappedGene> mgList = snplotyper.getMinusStrandGene(pos);
-
-            Gene g = null;
-
-            if (mgList.size() > 1) {
-                //check to make sure neither are already in overflow
-
-                int index1=0;
-                int index2 = 1;
-
-                if (ignore.contains(mgList.get(index1).getGene().getRgdId())) {
-                    index1=1;
-                    index2 = 0;
-                }
-
-                overflow.put(pos, mgList.get(index2));
-                ignore.add(mgList.get(index2).getGene().getRgdId());
-                g = mgList.get(index1).getGene();
-
-            }else if (mgList.size()==1) {
-                if (!ignore.contains(mgList.get(0).getGene().getRgdId())) {
-                    g = mgList.get(0).getGene();
-                }
-            }
-            String uniqueId="minus";
-        %>
-         <%@ include file="trackHelper.jsp"%>
-
-        <%
-         }
-        %>
-            <td></td>
-        </tr>
+                            <%
+                                }
+                            %>
+                            <td></td>
+                        </tr>
 
 
-    <!-- minus overflow  -->
-<% if (snplotyper.hasMinusStrandConflict()) { %>
+                        <!-- plus overflow  -->
+                            <% if (snplotyper.hasPlusStrandConflict()) { %>
 
-    <tr>
-    <%
-        cit = snplotyper.getPositions().iterator();
-        currentGene = "";
-        while (cit.hasNext()) {
-            long pos = (Long) cit.next();
-            MappedGene mg = overflow.get(pos);
+                        <tr>
+                            <%
+                                cit = snplotyper.getPositions().iterator();
+                                currentGene = "";
+                                while (cit.hasNext()) {
+                                    long pos = (Long) cit.next();
+                                    MappedGene mg = overflow.get(pos);
 
-            Gene g = null;
-            if (mg != null) {
-                g = mg.getGene();
-            }
-            String uniqueId="moverflow";
-        %>
-         <%@ include file="trackHelper.jsp"%>
+                                    Gene g = null;
 
-        <% } %>
-            <td></td>
-     </tr>
-<% }%>
+                                    if (mg != null) {
+                                        g = mg.getGene();
 
-    <tr>
-<%
+                                    }
+                                    String uniqueId="poverflow";
+                            %>
+                            <%@ include file="trackHelper.jsp"%>
 
-    cit = snplotyper.getPositions().iterator();
+                            <%
+                                }
+                            %>
+                            <td></td>
+                        </tr>
+                            <% }%>
 
-    while (cit.hasNext()) {
-        long pos = (Long) cit.next();
-        String score = snplotyper.getRefNuc(pos) + "";
+                        <!-- minus strand -->
 
-        String backColor="#E8E4De";
-        String fontColor="black";
-        int border=1;
-        if (snplotyper.isInExon(pos)) {
-            backColor="#42433E";
-            fontColor = "white";
-            border=0;
-        }
+                        <tr>
+                            <%
+                                cit = snplotyper.getPositions().iterator();
+                                currentGene = "";
 
-        if (score.length() > 1) {
-            score = score.length() + "";
-        }
-    %>
-        <td style="font-size:9px;"><div class="conCell" style="border-top: <%=border%>px solid white;color:<%=fontColor%>; background-color:<%=backColor%>;" ><%=score%></div></td>
-    <%
-    }
-    %>
+                                overflow = new TreeMap();
+                                ignore = new HashSet();
 
-        <td></td>
-    </tr>
+                                while (cit.hasNext()) {
+                                    long pos = (Long) cit.next();
+                                    List<MappedGene> mgList = snplotyper.getMinusStrandGene(pos);
 
-    <tr>
-    <%  Iterator kit = positions.iterator();
-        while (kit.hasNext() ) {
-            long key = (Long) kit.next(); %>
+                                    Gene g = null;
 
-        <td height=100>
-        <div class="iewrap">
-            <div class="container">
-                <div class="head" style="border-right: 1px solid white;min-width:<%=cellWidth%>">
-                    <div id="h" class="vert" style="font-family:arial;">
-                    &nbsp;&nbsp;<%=Utils.formatThousands((int) key)%>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </td>
-    <% } %>
-    </tr>
+                                    if (mgList.size() > 1) {
+                                        //check to make sure neither are already in overflow
 
-       <%
+                                        int index1=0;
+                                        int index2 = 1;
+
+                                        if (ignore.contains(mgList.get(index1).getGene().getRgdId())) {
+                                            index1=1;
+                                            index2 = 0;
+                                        }
+
+                                        overflow.put(pos, mgList.get(index2));
+                                        ignore.add(mgList.get(index2).getGene().getRgdId());
+                                        g = mgList.get(index1).getGene();
+
+                                    }else if (mgList.size()==1) {
+                                        if (!ignore.contains(mgList.get(0).getGene().getRgdId())) {
+                                            g = mgList.get(0).getGene();
+                                        }
+                                    }
+                                    String uniqueId="minus";
+                            %>
+                            <%@ include file="trackHelper.jsp"%>
+
+                            <%
+                                }
+                            %>
+                            <td></td>
+                        </tr>
+
+
+                        <!-- minus overflow  -->
+                            <% if (snplotyper.hasMinusStrandConflict()) { %>
+
+                        <tr>
+                            <%
+                                cit = snplotyper.getPositions().iterator();
+                                currentGene = "";
+                                while (cit.hasNext()) {
+                                    long pos = (Long) cit.next();
+                                    MappedGene mg = overflow.get(pos);
+
+                                    Gene g = null;
+                                    if (mg != null) {
+                                        g = mg.getGene();
+                                    }
+                                    String uniqueId="moverflow";
+                            %>
+                            <%@ include file="trackHelper.jsp"%>
+
+                            <% } %>
+                            <td></td>
+                        </tr>
+                            <% }%>
+
+                        <tr>
+                            <%
+
+                                cit = snplotyper.getPositions().iterator();
+
+                                while (cit.hasNext()) {
+                                    long pos = (Long) cit.next();
+                                    String score = snplotyper.getRefNuc(pos) + "";
+
+                                    String backColor="#E8E4De";
+                                    String fontColor="black";
+                                    int border=1;
+                                    if (snplotyper.isInExon(pos)) {
+                                        backColor="#42433E";
+                                        fontColor = "white";
+                                        border=0;
+                                    }
+
+                                    if (score.length() > 1) {
+                                        score = score.length() + "";
+                                    }
+                            %>
+                            <td style="font-size:9px;"><div class="conCell" style="border-top: <%=border%>px solid white;color:<%=fontColor%>; background-color:<%=backColor%>;" ><%=score%></div></td>
+                            <%
+                                }
+                            %>
+
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <%  Iterator kit = positions.iterator();
+                                while (kit.hasNext() ) {
+                                    long key = (Long) kit.next(); %>
+
+                            <td height=100>
+                                <div class="iewrap">
+                                    <div class="container">
+                                        <div class="head" style="border-right: 1px solid white;min-width:<%=cellWidth%>">
+                                            <div id="h" class="vert" style="font-family:arial;">
+                                                &nbsp;&nbsp;<%=Utils.formatThousands((int) key)%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <% } %>
+                        </tr>
+
+                            <%
          int j=0;
          int k=0;
          Iterator it = samples.iterator();
         while(it.hasNext()) {
             int sample = (Integer) it.next();
         %>
-         <tr>
+                        <tr>
 
-             <%
+                                <%
 
             Iterator pit = positions.iterator();
             while (pit.hasNext()) {
@@ -517,13 +521,13 @@ if (positions.size()==0) {
                             base = base.length() + "";
                         }
                     %>
-                         <td  width=24 height=10><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle;"><%=base%></div></td>
-                    <%
+                            <td  width=24 height=10><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle;">-</div></td>
+                                <%
                     }  else {
                     %>
-                      <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D" >
+                            <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D" >
 
-                    <%
+                                    <%
                     int count=0;
 
                     String zygosity = null;
@@ -583,42 +587,42 @@ if (positions.size()==0) {
 
                         %>
 
-                    <% } %>
-                           <%=var%>
-                      </td>
+                                    <% } %>
+                                    <%=var%>
+                            </td>
 
-                     </div>
+                </div>
 
-                          <%
-                           String backColor= (String) backColors.get("het");
-                           String fontColor=(String) fontColors.get("het");
+                <%
+                    String backColor= (String) backColors.get("het");
+                    String fontColor=(String) fontColors.get("het");
 
-                           if (backColors.containsKey(var)) {
-                               backColor= (String) backColors.get(var);
-                               fontColor=(String) fontColors.get(var);
-                           }
+                    if (backColors.containsKey(var)) {
+                        backColor= (String) backColors.get(var);
+                        fontColor=(String) fontColors.get(var);
+                    }
 
-                           %>
+                %>
 
-                             <script>
-                                document.getElementById('cell<%=k%>-<%=j%>').onclick=displayVariant;
-                                document.getElementById('cell<%=k%>-<%=j%>').pos=<%=pos%>;
-                                document.getElementById('cell<%=k%>-<%=j%>').vid='<%=variantID%>';
-                                document.getElementById('cell<%=k%>-<%=j%>').sid=<%=sample%>;
-                                document.getElementById('cell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
-                                document.getElementById('cell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
-                            </script>
+                <script>
+                    document.getElementById('cell<%=k%>-<%=j%>').onclick=displayVariant;
+                    document.getElementById('cell<%=k%>-<%=j%>').pos=<%=pos%>;
+                    document.getElementById('cell<%=k%>-<%=j%>').vid='<%=variantID%>';
+                    document.getElementById('cell<%=k%>-<%=j%>').sid=<%=sample%>;
+                    document.getElementById('cell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
+                    document.getElementById('cell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
+                </script>
 
-                    <% } %>
-                    </td>
+                <% } %>
+            </td>
             <% k++;
             } %>
         </tr>
-       <%  j++;
-           } %>
+        <%  j++;
+        } %>
 
-      </table>
- </div>
+    </table>
+</div>
 
 
 </td>
@@ -645,139 +649,138 @@ if (positions.size()==0) {
 
 
 <div align="center" id="overview" style="border:5px outset black; position:absolute;top:150; left:30; display:none; background-color:#ffffff;padding-top:5px; padding-bottom:25px; width:1000px;">
-     <div style="background-color:#771428; margin: 3px;">
-   <table width="100%" cellpadding=0 cellspacing=0><tr><td align="right"><a href="javascript:closeOverview();"><img src="/rgdweb/js/windowfiles/close.gif" height=15 width=15/></a>&nbsp;&nbsp;&nbsp;</td></tr></table>
+    <div style="background-color:#771428; margin: 3px;">
+        <table width="100%" cellpadding=0 cellspacing=0><tr><td align="right"><a href="javascript:closeOverview();"><img src="/rgdweb/js/windowfiles/close.gif" height=15 width=15/></a>&nbsp;&nbsp;&nbsp;</td></tr></table>
     </div>
-         <div id="overview-region" style="width:2000; padding-top:10px; overflow: auto; " >
+    <div id="overview-region" style="width:2000; padding-top:10px; overflow: auto; " >
 
-<%
-  j=0;
-  k=0;
-  it = samples.iterator();
-  int cnt = 0;
- while(it.hasNext()) {
-     int sample = (Integer) it.next();
- %>
-     <div id="row<%=cnt++%>" style="border:0px solid #EEEEEE; clear:both; height:8px; width:<%=(positions.size() * 5)%>;">
-      <%
+        <%
+            j=0;
+            k=0;
+            it = samples.iterator();
+            int cnt = 0;
+            while(it.hasNext()) {
+                int sample = (Integer) it.next();
+        %>
+        <div id="row<%=cnt++%>" style="border:0px solid #EEEEEE; clear:both; height:8px; width:<%=(positions.size() * 5)%>;">
+            <%
 
-     Iterator pit = positions.iterator();
-     while (pit.hasNext()) {
-             long pos = (Long) pit.next();
+                Iterator pit = positions.iterator();
+                while (pit.hasNext()) {
+                    long pos = (Long) pit.next();
 
-             List<VariantResult> varients = snplotyper.getNucleotide(sample,pos);
+                    List<VariantResult> varients = snplotyper.getNucleotide(sample,pos);
 
-             String variantID="";
-             if (varients.size() ==0) {
+                    String variantID="";
+                    if (varients.size() ==0) {
 
-             %>
-                  <div id="dcell<%=k%>-<%=j%>" lass="heatCell" style="height:6px; width:5px; cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle; float:left; font-size:8px; border-right:0px solid white;"></div>
-             <%
-             }  else {
-             %>
-               <div id="dcell<%=k%>-<%=j%>" lass="heatCell" style="height:6px; width:5px; color:white; cursor: pointer; background-color:#96151D; vertical-align: middle; float:left; font-size:8px; border-right:0px solid white;">
+            %>
+            <div id="dcell<%=k%>-<%=j%>" lass="heatCell" style="height:6px; width:5px; cursor: auto; color: black; background-color:#E8E4D5;vertical-align: middle; float:left; font-size:8px; border-right:0px solid white;"></div>
+            <%
+            }  else {
+            %>
+            <div id="dcell<%=k%>-<%=j%>" lass="heatCell" style="height:6px; width:5px; color:white; cursor: pointer; background-color:#96151D; vertical-align: middle; float:left; font-size:8px; border-right:0px solid white;">
 
-             <%
-             int count=0;
+                <%
+                    int count=0;
 
-             String zygosity = null;
-             String var = "";
-             for (VariantResult vr: varients) {
+                    String zygosity = null;
+                    String var = "";
+                    for (VariantResult vr: varients) {
 
-                  if (variantID.equals("")) {
-                      variantID += vr.getVariant().getId();
-                  }else {
-                      variantID += "|" + vr.getVariant().getId();
+                        if (variantID.equals("")) {
+                            variantID += vr.getVariant().getId();
+                        }else {
+                            variantID += "|" + vr.getVariant().getId();
 
-                  }
+                        }
 
-                  if (count > 0 ) {
-                     var +="/";
-                  }
+                        if (count > 0 ) {
+                            var +="/";
+                        }
 
-                  var += vr.getVariant().getVariantNucleotide();
+                        var += vr.getVariant().getVariantNucleotide();
 
-                  count++;
-
-
-                  if (varients.size()==1 && vr.getVariant().getZygosityStatus() != null ) {
-                     if (vr.getVariant().getZygosityStatus().equals(Zygosity.HETEROZYGOUS) ) {
-                        var +="/" + snplotyper.getRefNuc(pos);
-                     }else  if (vr.getVariant().getZygosityStatus().equals(Zygosity.HOMOZYGOUS) || vr.getVariant().getZygosityStatus().equals(Zygosity.POSSIBLY_HOMOZYGOUS) ) {
-                        var += "/" + var;
-                     }
-                  }
-
-                 %>
-
-             <% } %>
+                        count++;
 
 
+                        if (varients.size()==1 && vr.getVariant().getZygosityStatus() != null ) {
+                            if (vr.getVariant().getZygosityStatus().equals(Zygosity.HETEROZYGOUS) ) {
+                                var +="/" + snplotyper.getRefNuc(pos);
+                            }else  if (vr.getVariant().getZygosityStatus().equals(Zygosity.HOMOZYGOUS) || vr.getVariant().getZygosityStatus().equals(Zygosity.POSSIBLY_HOMOZYGOUS) ) {
+                                var += "/" + var;
+                            }
+                        }
 
-              </div>
+                %>
 
-                   <%
-                    String backColor= (String) backColors.get("het");
-                    String fontColor=(String) fontColors.get("het");
-
-                    if (backColors.containsKey(var)) {
-                        backColor= (String) backColors.get(var);
-                        fontColor=(String) fontColors.get(var);
-                    }
-
-                    %>
-
-                      <script>
-                         document.getElementById('dcell<%=k%>-<%=j%>').onclick=displayVariant;
-                         document.getElementById('dcell<%=k%>-<%=j%>').pos=<%=pos%>;
-                         document.getElementById('dcell<%=k%>-<%=j%>').vid=<%=variantID%>;
-                         document.getElementById('dcell<%=k%>-<%=j%>').sid=<%=sample%>;
-                         document.getElementById('dcell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
-                         document.getElementById('dcell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
-                     </script>
-
-             <% } %>
-
-     <% k++;
-     } %>
-</div>
-<%  j++;
-    } %>
-
- </div>
+                <% } %>
 
 
 
-<script>
+            </div>
 
-    window.onload = checkWidth;
-    window.onresize=checkWidth;
+            <%
+                String backColor= (String) backColors.get("het");
+                String fontColor=(String) fontColors.get("het");
+
+                if (backColors.containsKey(var)) {
+                    backColor= (String) backColors.get(var);
+                    fontColor=(String) fontColors.get(var);
+                }
+
+            %>
+
+            <script>
+                document.getElementById('dcell<%=k%>-<%=j%>').onclick=displayVariant;
+                document.getElementById('dcell<%=k%>-<%=j%>').pos=<%=pos%>;
+                document.getElementById('dcell<%=k%>-<%=j%>').vid=<%=variantID%>;
+                document.getElementById('dcell<%=k%>-<%=j%>').sid=<%=sample%>;
+                document.getElementById('dcell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
+                document.getElementById('dcell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
+            </script>
+
+            <% } %>
+
+            <% k++;
+            } %>
+        </div>
+        <%  j++;
+        } %>
+
+    </div>
 
 
 
-    function checkWidth() {
+    <script>
 
-        var newWidth=  getWidth()-250;
-        var divWidth= <%=divWidth%>;
+        window.onload = checkWidth;
+        window.onresize=checkWidth;
 
-        if (divWidth > newWidth) {
-           document.getElementById("wrapperRegion").style.width=newWidth;
+
+
+        function checkWidth() {
+
+            var newWidth=  getWidth()-250;
+            var divWidth= <%=divWidth%>;
+
+            if (divWidth > newWidth) {
+                document.getElementById("wrapperRegion").style.width=newWidth;
+            }
+
+            document.getElementById("overview").style.width=newWidth + 150;
+            document.getElementById("overview-region").style.width=newWidth + 150;
+
+
         }
 
-        document.getElementById("overview").style.width=newWidth + 150;
-        document.getElementById("overview-region").style.width=newWidth + 150;
 
-
-    }
-
-
-</script>
+    </script>
 
 
 
 
-<% } catch (Exception e)      {
+        <% } catch (Exception e)      {
     e.printStackTrace();
     }
  %>
-
