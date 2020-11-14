@@ -348,7 +348,7 @@ public class AnnotationFormatter {
 
             // AGR genes
             case "MGI": // handle weirdness MGI:MGI:97751
-                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, info);
+                uri = XDBIndex.getInstance().getXDB(5).getALink(accId, info);
                 break;
             case "SGD":
             case "WB":
