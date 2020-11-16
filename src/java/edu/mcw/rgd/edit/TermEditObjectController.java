@@ -125,7 +125,7 @@ public class TermEditObjectController implements Controller {
 
     String update(HttpServletRequest req, String termAcc, OntologyXDAO odao) throws Exception {
 
-        String newTermName = Utils.defaultString(req.getParameter("name"));
+        String newTermName = Utils.defaultString(req.getParameter("name")).trim();
 
         // definition may not contain TAB, CR and NL characters -- they will be replaced with a single SPACE
         String newTermDef = Utils.defaultString(req.getParameter("def"))
