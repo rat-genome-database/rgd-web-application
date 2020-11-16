@@ -1,8 +1,9 @@
-<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="select" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="java.util.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -36,7 +37,26 @@
         </tr>
     </c:forEach>
 <h3 style="color: red;font-weight: bold"><c:out value="${model.msg}"/></h3>
+    <%
+//        List<Integer> speciesTypes = Arrays.asList(0,1,2,3,6,9);
+        HashMap<Integer, String> speciesTypes = new HashMap<>();
+        speciesTypes.put(0, "All");
+        speciesTypes.put(1, "Human");
+        speciesTypes.put(2, "Mouse");
+        speciesTypes.put(3, "Rat");
+        speciesTypes.put(6, "Dog");
+        speciesTypes.put(9, "Pig");
+        int species = 0;
 
+        try {
+            species = Integer.parseInt(request.getParameter("species"));
+            if(speciesTypes.get(species)==null)
+                species=0;
+        }catch (Exception ignored) {
+
+        }
+
+    %>
 </table>
 <form id="query"   method="post" action="cy.html">
     <div class="container">
@@ -80,12 +100,22 @@
                                         </c:forEach>
                                     </c:when>
                                     <c:otherwise>
-                                        <option value="0" SELECTED>ALL</option>
-                                        <option value="3" >Rat</option>
-                                        <option value="2" >Mouse</option>
-                                        <option value="1" >Human</option>
-                                        <option value="6" >Dog</option>
-                                        <option value="9" >Pig</option>
+                                        <%
+                                        for (Integer key : speciesTypes.keySet()){
+                                            if(key == species){ %>
+                                                <option value="<%=key%>" SELECTED><%=speciesTypes.get(key)%></option>
+                                        <%  }
+                                            else { %>
+                                        <option value="<%=key%>" ><%=speciesTypes.get(key)%></option>
+                                        <%  }
+                                            } // end for
+                                        %>
+<%--                                        <option value="0" SELECTED>ALL</option>--%>
+<%--                                        <option value="3" >Rat</option>--%>
+<%--                                        <option value="2" >Mouse</option>--%>
+<%--                                        <option value="1" >Human</option>--%>
+<%--                                        <option value="6" >Dog</option>--%>
+<%--                                        <option value="9" >Pig</option>--%>
                                     </c:otherwise>
                                 </c:choose>
 
