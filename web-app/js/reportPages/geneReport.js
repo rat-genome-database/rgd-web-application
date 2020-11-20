@@ -619,8 +619,9 @@ function removePagerAutocomplete(){
     }
 }
 
+
 function checkForDetailView(){
-    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let isDetail = assignDetail();
     let text;
     if(isDetail){
        document.getElementById("associationsCurator").style.display="block";
