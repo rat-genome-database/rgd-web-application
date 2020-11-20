@@ -253,7 +253,7 @@ public class AnnotationFormatter {
             String infoField="";
             for(String inf: multipleInfos) {
                 if( !infoField.isEmpty() ) {
-                    infoField += ", ";
+                    infoField += " ";
                 }
                 infoField += formatXdbUrl(inf, objectKey);
             }
