@@ -56,7 +56,7 @@ public class VariantController extends HaplotyperController {
             GeneDAO gdao = new GeneDAO();
 
             VariantSearchBean vsb = this.fillBean(req);
-            String env="test";
+            String env="dev";
             String index=new String();
             if(vsb.getMapKey()==17) {
                     index = "variants_human"+vsb.getMapKey()+"_"+env;
@@ -261,6 +261,7 @@ public class VariantController extends HaplotyperController {
     }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");
+     //   System.out.println(conScores.toString());
         ConservationScore  cs = new ConservationScore();
 
         try{
@@ -286,18 +287,19 @@ public class VariantController extends HaplotyperController {
                             cs.setPosition((Integer) m.get("startPos"));
                             cs.setNuc((String) m.get("refNuc"));
                         }else{
-                            if(conScores.get(0) ==null){
-                                cs.setScore(BigDecimal.ZERO);
+                            if(conScores.get(0) instanceof String){
+                                cs.setScore(BigDecimal.valueOf(Double.parseDouble((String) conScores.get(0))));
                                 cs.setChromosome((String) m.get("chromosome"));
                                 cs.setPosition((Integer) m.get("startPos"));
                                 cs.setNuc((String) m.get("refNuc"));
                             }
+
                         }
                     }
                 }
             }else{
 
-                cs.setScore(BigDecimal.ZERO);
+                cs.setScore(BigDecimal.valueOf(-1));
                 cs.setChromosome((String) m.get("chromosome"));
                 cs.setPosition((Integer) m.get("startPos"));
                 cs.setNuc((String) m.get("refNuc"));

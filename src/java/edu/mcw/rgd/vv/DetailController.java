@@ -75,7 +75,7 @@ public class DetailController extends HaplotyperController {
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
          //   List<VariantResult> vr = vdao.getVariantResults(vsb);
-            String env="test";
+            String env="dev";
             String index= new String();
             if(mapKey==17)
                     index = "variants_human"+mapKey+"_"+env;
