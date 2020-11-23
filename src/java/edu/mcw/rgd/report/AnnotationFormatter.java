@@ -248,11 +248,12 @@ public class AnnotationFormatter {
     public static String formatXdbUrls(String info, int objectKey) throws Exception {
 
         try {
-            String[] multipleInfos = info.split("(,\\b)|([|;])");
+            info = info.replaceAll("[()]", "");
+            String[] multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
             String infoField="";
             for(String inf: multipleInfos) {
                 if( !infoField.isEmpty() ) {
-                    infoField += ", ";
+                    infoField += " ";
                 }
                 infoField += formatXdbUrl(inf, objectKey);
             }
@@ -279,8 +280,8 @@ public class AnnotationFormatter {
             else
                 objectKey = 0; // determine the object type by querying the db
         }
-
-        String[] multipleInfos = info.split("(,\\b)|([|;])");
+        info = info.replaceAll("[()]", "");
+        String[] multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
         String infoField;
         if( multipleInfos.length==1 ) {
             infoField = formatXdbUrl(multipleInfos[0], objectKey);
@@ -296,13 +297,18 @@ public class AnnotationFormatter {
     static String formatXdbUrl(String info, int objectKey) throws Exception {
 
         String uri = null;
+        String accId = "";
         int colonPos = info.indexOf(":");
         if( colonPos<=0 ) {
             return info;
         }
 
-        String dbName = info.substring(0, colonPos);
-        String accId = info.substring(colonPos+1);
+        String dbName = info.substring(0, colonPos).trim();
+        if(dbName.equalsIgnoreCase("MGI")){
+            accId = info.substring(colonPos+1).contains("MGI") ? info.substring(colonPos+1) : "MGI:" + info.substring(colonPos+1);
+        }else{
+            accId = info.substring(colonPos+1);
+        };
 
         switch(dbName) {
             case "RGD":

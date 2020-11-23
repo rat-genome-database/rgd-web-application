@@ -74,11 +74,19 @@ function addParam(name, value) {
         location.href = location.href + "&" + name + "=" + value;
     }
 }
-
+function assignDetail() {
+    let isDetail;
+    if (sessionStorage.getItem('isDetail') === null) {
+        isDetail = true;
+    } else {
+        isDetail = sessionStorage.getItem('isDetail') === 'true';
+    }
+    return isDetail;
+}
 function toggleAssociations(detailWindowLocation, summaryWindowLocation) {
     let url = window.location.href;
     let hashLocation = url.indexOf('#');
-    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let isDetail = assignDetail();
     let text;
     url = url.substring(0, hashLocation);
 
