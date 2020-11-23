@@ -37,6 +37,7 @@
                 <prop key="curation/phenominer/phenominerUnits.html">PhenominerUnitsController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
+                <prop key="curation/phenominerUnitTables.html">PhenominerUnitTablesController</prop>
 
                 <prop key="curation/nomen/nomenSearch.html">nomenclatureUpdateController</prop>
                 <prop key="curation/nomen/nomenEdit.html">nomenclatureUpdateController</prop>
@@ -321,7 +322,8 @@
     <bean id="PhenominerCurationController" class="edu.mcw.rgd.phenominer.PhenominerCurationController"/>
     <bean id="PhenominerStudyController" class="edu.mcw.rgd.phenominer.PhenominerStudyController"/>
     <bean id="PhenominerUnitsController" class="edu.mcw.rgd.phenominer.PhenominerUnitsController"/>
-    <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
+    <bean id="PhenominerUnitTablesController" class="edu.mcw.rgd.phenominer.PhenominerUnitTablesController"/>
+     <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
     <bean id="PhenominerRecordController" class="edu.mcw.rgd.phenominer.PhenominerRecordController"/>
 
 
