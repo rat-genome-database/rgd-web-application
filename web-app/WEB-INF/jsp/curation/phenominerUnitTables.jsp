@@ -25,10 +25,21 @@
     .rowTbl {
         border-style: outset;
     }
+
+    .resetButton {
+        text-align: center;
+        display: inline-block;
+        background-color: lightskyblue;
+    }
 </style>
 
 <script  type="text/javascript">
     function submitPage(actionValue) {
+        document.phenominerUnitEnumTablesForm.action = actionValue;
+        document.phenominerUnitEnumTablesForm.submit();
+    }
+
+    function resetPage(actionValue){
         document.phenominerUnitEnumTablesForm.action = actionValue;
         document.phenominerUnitEnumTablesForm.submit();
     }
@@ -72,6 +83,10 @@
                             </button>&nbsp;&nbsp;
                         </div>
                     </td>
+                    <td>
+                        <input type="hidden" name="act" value="reset" />
+                        <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class = "resetButton"> Reset </button>
+                    </td>
                 </tr>
             </table>
             </form>
@@ -111,6 +126,10 @@
                                     <i class="fa fa-search"></i>
                                 </button>&nbsp;&nbsp;
                             </div>
+                        </td>
+                        <td>
+                            <input type="hidden" name="act" value="reset" />
+                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class = "resetButton"> Reset </button>
                         </td>
                     </tr>
                 </table>
