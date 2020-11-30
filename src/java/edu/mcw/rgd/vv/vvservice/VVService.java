@@ -30,6 +30,7 @@ import java.util.List;
  */
 public class VVService {
     private static String variantIndex;
+    private static String env="dev";
 
     public static String getVariantIndex() {
         return variantIndex;
@@ -38,6 +39,15 @@ public class VVService {
     public static void setVariantIndex(String variantIndex) {
         VVService.variantIndex = variantIndex;
     }
+
+    public static String getEnv() {
+        return env;
+    }
+
+    public static void setEnv(String env) {
+        VVService.env = env;
+    }
+
     public long getVariantsCount(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
