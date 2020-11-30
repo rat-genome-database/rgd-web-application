@@ -65,13 +65,22 @@ function openSection(obj) {
     }
 }
 
+function removeHashLink(url){
+    let hashLocation = url.indexOf('#');
+    if(hashLocation !== -1){
+        url = url.substring(0, hashLocation);
+    }
+
+    return url;
+}
+
 function addParam(name, value) {
     var re = new RegExp(name + "=[^\&]*");
-
-    if (re.exec(location.href) != null) {
-        location.href = location.href.replace(re, name + "=" + value)
+    let url = removeHashLink(location.href);
+    if (re.exec(url) != null) {
+        location.href = url.replace(re, name + "=" + value)
     } else {
-        location.href = location.href + "&" + name + "=" + value;
+        location.href = url + "&" + name + "=" + value;
     }
 }
 function assignDetail() {
