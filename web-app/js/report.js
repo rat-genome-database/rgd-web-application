@@ -65,6 +65,15 @@ function openSection(obj) {
     }
 }
 
+function removeHashLink(){
+    let hashLocation = url.indexOf('#');
+    let url = window.location.href;
+    if(hashLocation){
+        url = url.substring(0, hashLocation);
+    }
+    location.assign(url);
+}
+
 function addParam(name, value) {
     var re = new RegExp(name + "=[^\&]*");
 
