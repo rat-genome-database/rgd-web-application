@@ -186,9 +186,12 @@ public class FormUtility {
         return _instance.buildSelectList(name, values, selectedValue);
     }
 
-    public String buildSelectListNewValue(String name, List<String> values, String selectedValue) {
+    public String buildSelectListNewValue(String name, List<String> values, String selectedValue, boolean isCUnits) {
         StringBuilder ret = new StringBuilder();
-        ret.append("<select name=\"").append(name).append("\">");
+        if(isCUnits){//Added to create both name & id (dynamic)
+            ret.append("<select name= \"cUnits\"").append("id=\"").append(name).append("\">");
+        }else //For any other input other than cUnit(earlier code)
+            ret.append("<select name=\"").append(name).append("\">");
         String newValueStr = "REQUEST NEW VALUE";
         for (String nxt : values) {
             ret.append("<option ").append(this.optionParams(selectedValue, nxt)).append(">")
