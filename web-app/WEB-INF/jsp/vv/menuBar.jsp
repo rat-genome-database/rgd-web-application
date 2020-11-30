@@ -89,6 +89,18 @@ if(parameters==null){
 }
 %>
 
+<%
+    String selectTitle="Edit&nbsp;Strains";
+    int map=Integer.parseInt(req2.getParameter("mapKey"));
+    // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
+    if (map==37 || map==38 || map==17) {
+        selectTitle="Edit&nbsp;Sequences";
+    }
+    if (map==631) {
+        selectTitle="Edit&nbsp;Breeds";
+    }
+
+%>
 <div class="snpMenuBarOuterBorder" >
 
     <table width=100% cellpadding=0 cellspacing=0  align="center" id="headerBar"  class="snpMenuBar">
@@ -99,7 +111,7 @@ if(parameters==null){
                 <td>&nbsp;</td>
                 <td><a href="config.html" class="classname">Home</a></td></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="select.html?<%=parameters%>" class="classname">Edit&nbsp;Strains</a></td></td>
+                <td><a href="select.html?<%=parameters%>" class="classname"><%=selectTitle%></a></td></td>
 
                     <% if (positionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
