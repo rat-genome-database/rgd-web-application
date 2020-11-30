@@ -86,13 +86,8 @@ String pageDescription = "Define Region";
     <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
 
     <%
-    int samplesSize=0;
-    if(mapKey==360 || mapKey==70 || mapKey==60){
-       samplesSize=100;
-    }
-    if(mapKey==17 || mapKey==38){
-        samplesSize=2504;
-    }
+    int samplesSize=100;
+
     if(mapKey==631 || mapKey==600){
     samplesSize=250;
     }
@@ -117,6 +112,9 @@ String pageDescription = "Define Region";
        // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
        if (mapKey==37 || mapKey==38 || mapKey==17) {
             selectTitle="Select Sequences";
+        }
+        if (mapKey==631) {
+            selectTitle="Select Breeds";
         }
 
     %>
