@@ -56,7 +56,7 @@ public class DetailController extends HaplotyperController {
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
            mapKey = Integer.parseInt(mapKeyStr);
            List<SearchResult> allResults = new ArrayList<SearchResult>();
-        if( vid.isEmpty() || vid.equals("0")) {
+   //     if( vid.isEmpty() || vid.equals("0")) {
 
             VariantSearchBean vsb = new VariantSearchBean(mapKey);
 
@@ -74,19 +74,10 @@ public class DetailController extends HaplotyperController {
 
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
-         //   List<VariantResult> vr = vdao.getVariantResults(vsb);
-            String env="test";
-            String index= new String();
-            if(mapKey==17)
-                    index = "variants_human"+mapKey+"_"+env;
-            if(mapKey==360 || mapKey==70 || mapKey==60)
-                index= "variants_rat"+mapKey+"_"+env;
-            if(mapKey==631 || mapKey==600 )
-                index= "variants_dog"+mapKey+"_"+env;
-            //   System.out.println("INDEX NAME: "+ index);
-            //    index= "variants_dog_index_dev2";
-
-            service.setVariantIndex(index);
+            String index=new String();
+            String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
+            index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
+            VVService.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
             List<TranscriptResult> tResults=new ArrayList<>();
             for(VariantResult r:vr){
@@ -106,7 +97,7 @@ public class DetailController extends HaplotyperController {
             request.setAttribute("searchResults",allResults);
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp", "searchResult", sr);
 
-        } else {
+      /*  } else {
 
             String[] vids = vid.split("\\|");
 
@@ -129,7 +120,7 @@ public class DetailController extends HaplotyperController {
             request.setAttribute("searchResults",allResults);
 
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp");
-        }
+        }*/
     }
 
  //   public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
