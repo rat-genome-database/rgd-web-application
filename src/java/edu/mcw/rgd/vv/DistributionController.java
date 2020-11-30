@@ -1,14 +1,11 @@
 package edu.mcw.rgd.vv;
 
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
-import edu.mcw.rgd.datamodel.GeneLoci;
-import edu.mcw.rgd.datamodel.MappedGene;
-import edu.mcw.rgd.datamodel.Sample;
-import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchResponse;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -64,16 +62,9 @@ public class DistributionController extends HaplotyperController {
         // derive species from mapKey
         // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
-        String env="test";
         String index=new String();
-        if(mapKey==17) {
-            index = "variants_human"+mapKey+"_"+env;
-        }
-        if(mapKey==360 || mapKey==70 || mapKey==60)
-            //  index= "variants_rat"+mapKey+"_dev";
-            index= "variants_rat"+mapKey+"_"+env;
-        if(mapKey==631 || mapKey==600 )
-            index= "variants_dog"+mapKey+"_"+env;
+        String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
+        index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
