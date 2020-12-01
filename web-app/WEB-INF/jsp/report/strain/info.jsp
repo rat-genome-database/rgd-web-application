@@ -107,7 +107,7 @@
     </tr>
     <tr>
         <td class="label">Source:</td>
-        <td><%=fu.chkNullNA(obj.getSource())%></td>
+        <td id="strain-info-table-source-data"><%=fu.chkNullNA(obj.getSource())%></td>
     </tr>
 
     <% if (obj.getImageUrl() != null) { %>
@@ -184,4 +184,11 @@
 </table>
 
 <br>
+<script>
+    let data = document.getElementById("strain-info-table-source-data");
+    let link = data.getElementsByTagName('a')[0];
+    if(data.textContent.trim() === "PGA"){
+        link.removeAttribute("href");
+    }
+</script>
 <%@ include file="../sectionFooter.jsp"%>
