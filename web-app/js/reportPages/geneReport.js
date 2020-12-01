@@ -34,7 +34,11 @@ function run() {
 
     autoChangeNavHeight();
 
-    checkForDetailView();
+    //only Reference pages hae this variable
+    if(typeof reportTitle === "undefined"){
+        checkForDetailView();
+    }
+
 
     // filterAnnotations();
 }
@@ -330,14 +334,47 @@ function stickifySideBar(sidebar){
     let footerRect = footer.getBoundingClientRect();
     let timeToStop = footerRect.top <= sidebarRect.height;
 
+    if(typeof reportTitle !== "undefined"){
+        if(reportTitle.toLowerCase() === "reference"){
+            // targets viewports at least 768px wide
+            let minMediaQuery = window.matchMedia('(min-width: 768px)');
 
-    if(scrollPosition >= 275){
-        sidebar.style.position = "fixed";
-        sidebar.style.top = '0';
+            // targets viewports at most 767px wide
+            let maxMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    }else{
-        sidebar.style.position = "relative";
+            if(minMediaQuery.matches){
+                if(scrollPosition >= 125){
+                    sidebar.style.position = "fixed";
+                    sidebar.style.top = '0';
+
+                }else{
+                    sidebar.style.position = "relative";
+                }
+            }
+
+            if(maxMediaQuery.matches){
+                if(scrollPosition >= 175){
+                    sidebar.style.position = "fixed";
+                    sidebar.style.top = '0';
+
+                }else{
+                    sidebar.style.position = "relative";
+                }
+            }
+
+        }
+    }else {
+        if(scrollPosition >= 275){
+            sidebar.style.position = "fixed";
+            sidebar.style.top = '0';
+
+        }else{
+            sidebar.style.position = "relative";
+        }
     }
+
+
+
 
     if(timeToStop){
         // sidebar.style.top = "-15vh";
