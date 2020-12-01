@@ -37,7 +37,7 @@
                 <prop key="curation/phenominer/phenominerUnits.html">PhenominerUnitsController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
-                <prop key="curation/phenominerUnitTables.html">PhenominerUnitTablesController</prop>
+                <prop key="curation/phenominer/phenominerUnitTables.html">PhenominerUnitTablesController</prop>
 
                 <prop key="curation/nomen/nomenSearch.html">nomenclatureUpdateController</prop>
                 <prop key="curation/nomen/nomenEdit.html">nomenclatureUpdateController</prop>
