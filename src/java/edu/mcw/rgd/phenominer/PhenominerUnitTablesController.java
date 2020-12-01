@@ -32,7 +32,7 @@ public class PhenominerUnitTablesController extends PhenominerController{
         ArrayList status = new ArrayList();
         Report unitReport = new Report();
         Report enumReport = new Report();
-        String viewPath = "/WEB-INF/jsp/curation/phenominerUnitTables.jsp";
+        String viewPath = "/WEB-INF/jsp/curation/phenominer/phenominerUnitTables.jsp";
 
         if(request.getCookies() != null && request.getCookies().length != 0)
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
@@ -62,7 +62,7 @@ public class PhenominerUnitTablesController extends PhenominerController{
                 phenominerUnitTables = pdao.getPhenominerUnitSearchResultsTables(pUnitTable);
                 if (phenominerUnitTables.isEmpty()) {
                     error.add("0 records found");
-                    viewPath = "/WEB-INF/jsp/curation/phenominerUnitTables.jsp";
+                    viewPath = "/WEB-INF/jsp/curation/phenominer/phenominerUnitTables.jsp";
                 } else {
                     unitReport = this.buildPhenominerUnitTablesReport(phenominerUnitTables, pdao, false);
                 }
@@ -87,7 +87,7 @@ public class PhenominerUnitTablesController extends PhenominerController{
                 phenominerEnumTables = pdao.getPhenominerEnumSearchResultsTables(pEnumTable);
                 if (phenominerEnumTables.isEmpty()) {
                     error.add("0 records found");
-                    viewPath = "/WEB-INF/jsp/curation/phenominerUnitTables.jsp";
+                    viewPath = "/WEB-INF/jsp/curation/phenominer/phenominerUnitTables.jsp";
                 } else {
                     enumReport = this.buildPhenominerEnumTablesReport(phenominerEnumTables, pdao, false);
                 }
