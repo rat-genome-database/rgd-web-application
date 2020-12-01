@@ -103,10 +103,6 @@
                 <td>
                     <a href="journals.shtml">Journal List and Links</a></td>
             </tr>
-            <tr valign="top">
-                <td>
-                    <a href="/rgdweb/curation/phenominerUnitTables.html">View Phenominer Unit Tables</a></td>
-            </tr>
             </tbody>
         </table>
 
