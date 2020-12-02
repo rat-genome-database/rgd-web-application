@@ -3,6 +3,7 @@ package edu.mcw.rgd.phenominer;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.pheno.PhenominerUnitTable;
 import edu.mcw.rgd.datamodel.pheno.phenominerEnumTable;
+import edu.mcw.rgd.datamodel.pheno.phenominerNoStdUnitTable;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -27,11 +28,13 @@ public class PhenominerUnitTablesController extends PhenominerController{
         PhenominerDAO pdao = new PhenominerDAO();
         List<PhenominerUnitTable> phenominerUnitTables = new ArrayList<PhenominerUnitTable>();
         List<phenominerEnumTable> phenominerEnumTables = new ArrayList<phenominerEnumTable>();
+        List<phenominerNoStdUnitTable> phenominerNoStdUnitTables = new ArrayList<phenominerNoStdUnitTable>();
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         Report unitReport = new Report();
         Report enumReport = new Report();
+        Report noStdUnitReport = new Report();
         String viewPath = "/WEB-INF/jsp/curation/phenominer/phenominerUnitTables.jsp";
 
         if(request.getCookies() != null && request.getCookies().length != 0)
@@ -96,11 +99,15 @@ public class PhenominerUnitTablesController extends PhenominerController{
                 enumReport = this.buildPhenominerEnumTablesReport(phenominerEnumTables, pdao, false);
             }
 
+        phenominerNoStdUnitTables = pdao.getPhenominerNoStdUnitsTables();
+        noStdUnitReport = this.buildPhenominerNoStdUnitTablesReport(phenominerNoStdUnitTables, pdao, false);
+
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
         request.setAttribute("unitReport", unitReport);
         request.setAttribute("enumReport", enumReport);
+        request.setAttribute("noStdUnitReport", noStdUnitReport);
 
         return new ModelAndView(viewPath);
     }
@@ -156,4 +163,24 @@ public class PhenominerUnitTablesController extends PhenominerController{
         return report;
     }
 
+    //Build unit table records to show on ui
+    Report buildPhenominerNoStdUnitTablesReport(List<phenominerNoStdUnitTable> phenominerNoStdUnitTables, PhenominerDAO dao, boolean edit) throws Exception {
+        Report report = new Report();
+        Record header = new Record();
+
+        header.append(" ONT ID ");
+        header.append(" Term ");
+        header.append(" Measurement Units ");
+        header.append(" ");
+        report.insert(0, header);
+
+        for (phenominerNoStdUnitTable pnStd : phenominerNoStdUnitTables) {
+            Record rec = new Record();
+            rec.append(pnStd.getOntId());
+            rec.append(pnStd.getTerm());
+            rec.append(pnStd.getMeasurementUnit());
+            report.append(rec);
+        }
+        return report;
+    }
 }
