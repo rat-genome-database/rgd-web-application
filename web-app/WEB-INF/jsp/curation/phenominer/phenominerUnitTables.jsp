@@ -5,12 +5,10 @@
     String headContent = "";
     String pageDescription = "";
 %>
-
-<%@ include file="editHeader.jsp"%>
-
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/pheno.css">
-<html>
-<body>
+<link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <style>
     /* Create two equal columns that floats next to each other */
     .columnTbll {
@@ -29,12 +27,6 @@
 
     .rowTbl {
         border-style: outset;
-    }
-
-    .resetButton {
-        text-align: center;
-        display: inline-block;
-        background-color: lightskyblue;
     }
 
     .tableFixHead {
@@ -56,7 +48,6 @@
         max-width:100px;
     }
 </style>
-
 <script  type="text/javascript">
     function submitPage(actionValue) {
         document.phenominerUnitEnumTablesForm.action = actionValue;
@@ -68,11 +59,9 @@
         document.phenominerUnitEnumTablesForm.submit();
     }
 </script>
-<script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 
-<div style="width:100%;background:#EEEEEE">
-    <h2 style="text-align: center;color:#24609c">Phenominer Unit-Enum Tables</h2>
-</div>
+<%@ include file="editHeader.jsp"%>
+<span class="phenominerPageHeader">Phenominer Unit-Enum Tables</span>
 <hr>
 
 <form id="phenominerUnitEnumTablesForm" name="phenominerUnitEnumTablesForm" action="phenominerUnitTables.html" method="Get">
@@ -104,13 +93,14 @@
                         </td>
                         <td>
                             <input type="hidden" name="act" value="reset" />
-                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class = "resetButton"> Reset </button>
+                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class="btn btn-primary tn-sm" style="background-color:#2B84C8;"> Reset </button>
                         </td>
                     </tr>
                 </table>
                 </div>
             </form>
             <hr>
+            <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
             <div class="tableFixHead">
                 <%
                     Report unitReport = (Report) request.getAttribute("unitReport");
@@ -146,13 +136,14 @@
                         </td>
                         <td>
                             <input type="hidden" name="act" value="reset" />
-                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class = "resetButton"> Reset </button>
+                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class="btn btn-primary reset"> Reset </button>
                         </td>
                     </tr>
                 </table>
                 </div>
             </form>
             <hr>
+            <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
             <div class="tableFixHead">
             <%
                 Report enumReport = (Report) request.getAttribute("enumReport");
@@ -166,8 +157,28 @@
             </div>
         </div>
     </div>
+    <span class="phenominerPageHeader">No Standard Units Table</span>
+    <hr>
+    <div class="rowTbl">
+        <div class="columnTbll">
+            <form name="phenoSearchForm3" action="" >
+                <input type="hidden" name="act" value="noStdUnitSearch" />
+            </form>
+            <hr>
+            <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+            <div class="tableFixHead">
+                <%
+                    Report noStdUnitReport = (Report) request.getAttribute("noStdUnitReport");
+                    HTMLTableReportStrategy strat3 = new HTMLTableReportStrategy();
+                    strat3.setTableProperties("class='sortable' , width=100%");
+                    String[] tdProps3 = new String[1];
+                    tdProps3[0] = "width = 25%";
+                    strat3.setTdProperties(tdProps3);
+                    out.print(noStdUnitReport.format(strat3));
+                %>
+            </div>
+        </div>
+    </div>
 </form>
 
-<%@ include file="/common/footerarea.jsp"%>
-</body>
-</html>
+<%@ include file="editFooter.jsp"%>
