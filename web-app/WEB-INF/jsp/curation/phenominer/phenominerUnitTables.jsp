@@ -47,6 +47,9 @@
         width:100px;
         max-width:100px;
     }
+    div#wrapper{ /*overwrite header css to accomodate floating divs(all 3 tables inside the border)*/
+        max-height: 1500px;
+    }
 </style>
 <script  type="text/javascript">
     function submitPage(actionValue) {
