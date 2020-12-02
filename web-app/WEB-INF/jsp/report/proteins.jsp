@@ -5,8 +5,45 @@
     List<GenomicElement> pdomains = geDAO.getProteinDomainsForGene(obj.getRgdId());
     if( pei.size()+pdomains.size()>0 ) {
 %>
-    <%=ui.dynOpen("protAssociation", "Protein Sequences")%>
-    <table border="0" >
+    <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
+
+
+
+<div id="proteinSequencesTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
+
+<div class="search-and-pager">
+
+    <div class="modelsViewContent" >
+        <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <input class="search table-search" id="proteinSequencesSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+
+
+    <table border="0" id="proteinSequencesTable" class = 'tablesorter'>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
 <%
     int row = 0;
     int prevRefSeqCode = -1;
@@ -40,11 +77,62 @@
 <% } %>
 </table>
 
+
+    <div class="modelsViewContent" >
+        <div class="proteinSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
 %>
-    <br><span class="highlight"><u>Reference Sequences</u></span><br>
+
+
+<div id="proteinReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
+
+    <span class="highlight"><u>Reference Sequences</u></span>
+
+
+
+    <div class="modelsViewContent" >
+        <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+
 <%
 
     for (Transcript t : tlist) {
@@ -74,9 +162,9 @@
             }
         }
     %>
-<br>
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+
+<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
     <tr>
         <td class="label" valign="top" width="110">RefSeq Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=t.getProteinAccId()%> &nbsp; &xlArr; &nbsp; <%=t.getAccId()%></td>
@@ -117,13 +205,35 @@
 </tr>
 <% } %>
 </table>
-<% } %>
+
 <% } %>
 
+    <div class="modelsViewContent" >
+        <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<% } %>
+</div>
 <%  // PROTEIN DOMAINS
     if (pdomains.size() > 0) {
 %>
-<br><span class="highlight"><u>Protein Domains</u></span><br><br>
+<div class="light-table-border">
+    <div class="sectionHeading" id="proteinDomains">Protein Domains</div>
   <% for( int z=0; z<pdomains.size(); z++ ) {
         GenomicElement el = pdomains.get(z); %>
 
@@ -131,8 +241,9 @@
      <a href="/rgdweb/report/proteinDomain/main.html?id=<%=el.getRgdId()%>" title="see protein domain report page"><%=el.getSymbol()%></a>
   <% } %>
 <% } %><p>
-
-    <%=ui.dynClose("protAssociation")%>
+</div>
+    <%//ui.dynClose("protAssociation")%>
 <% } %>
+
 
 <%@ include file="sectionFooter.jsp"%>

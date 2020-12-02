@@ -13,7 +13,9 @@
     if( assembly.size() != 0 ) {
 %>
 
-<%=ui.dynOpen("damagingVar", "Damaging Variants")%>    <br>
+<%--<%=ui.dynOpen("damagingVar", "Damaging Variants")%>    <br>--%>
+<div id="damagingVarTableDiv" class="light-table-border">
+<div class="sectionHeading" id="damagingVar">Damaging Variants</div>
 <table class="table table-sm table-hover table-striped">
     <thead style="font-size: smaller"><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
     <thead style="font-size: smaller"><tr><tr><th>Sample</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
@@ -22,7 +24,6 @@
     <% for(Sample s: samples) {
         int count = vdao.getCountofDamagingVariantsForSample(s.getId(), String.valueOf(s.getMapKey()));
         if(count != 0) {
-
     %>
         <tr>
             <td><%=s.getAnalysisName()%></td>
@@ -44,8 +45,8 @@
 
 
 <br>
-<%=ui.dynClose("damagingVar")%>
-
+<%--<%=ui.dynClose("damagingVar")%>--%>
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

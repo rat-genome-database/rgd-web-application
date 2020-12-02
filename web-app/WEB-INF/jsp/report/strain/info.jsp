@@ -19,6 +19,8 @@
     if( ontId==null )
         ontId = "N/A";
     request.setAttribute("ontId", ontId);
+
+    RgdId id = managementDAO.getRgdId(obj.getRgdId());
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
@@ -47,6 +49,19 @@
         <td><%=obj.getName()%></td>
     </tr>
     <% } %>
+
+
+    <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=id.getRgdId()%></td>
+    </tr>
+
+
+    <tr>
+        <td class="label">RRID:</td>
+        <td><%=RgdContext.getSiteName(request)%>_<%=id.getRgdId()%></td>
+    </tr>
+
 
     <tr>
         <td class="label">Ontology ID:</td>
@@ -92,7 +107,7 @@
     </tr>
     <tr>
         <td class="label">Source:</td>
-        <td><%=fu.chkNullNA(obj.getSource())%></td>
+        <td id="strain-info-table-source-data"><%=fu.chkNullNA(obj.getSource())%></td>
     </tr>
 
     <% if (obj.getImageUrl() != null) { %>
@@ -169,4 +184,11 @@
 </table>
 
 <br>
+<script>
+    let data = document.getElementById("strain-info-table-source-data");
+    let link = data.getElementsByTagName('a')[0];
+    if(data.textContent.trim() === "PGA"){
+        link.removeAttribute("href");
+    }
+</script>
 <%@ include file="../sectionFooter.jsp"%>

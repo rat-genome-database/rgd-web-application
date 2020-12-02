@@ -41,8 +41,28 @@
     }
 %>
 
+
+<div id="top" ></div>
+
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
+
+
+
+<div id="page-container">
+
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
+
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
+
+
+    <div id="top" ></div>
+
+    <div id="content-wrap">
 <%@ include file="menu.jsp"%>
 
 
@@ -71,23 +91,23 @@
             %>
 
             <br>
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
+            <br><div  id='annotation' style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
 
             <%@ include file="../associations.jsp"%>
             <%@ include file="../references.jsp"%>
 
 
-            <br><div  class="subTitle">Strains and Sequence</div><br>
+            <br><div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div><br>
             <%@ include file="sequence.jsp"%>
             <%@ include file="strainVariation.jsp"%>
 
-            <br><div  class="subTitle">Region</div><br>
+            <br><div  class="subTitle" id="region">Region</div><br>
             <%@ include file="../genesInRegion.jsp"%>
             <%@ include file="../nucleotide.jsp"%>
             <%@ include file="../proteins.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
 
-            <br><div  class="subTitle">Additional Information</div><br>
+            <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
 
             <%@ include file="../curatorNotes.jsp"%>
             <%@ include file="../xdbs.jsp"%>
@@ -96,14 +116,18 @@
 
         </td>
         <td align="right" valign="top">
-            <%@ include file="links.jsp" %>
+<%--            <%@ include file="links.jsp" %>--%>
             <br>
-            <%@ include file="../idInfo.jsp" %>
+<%--            <%@ include file="../idInfo.jsp" %>--%>
         </td>
     </tr>
 </table>
-
+    </div>
+</div>
 <% } %>
 
-<%@ include file="../reportFooter.jsp"%>
-<%@ include file="/common/footerarea.jsp"%>
+    <%@ include file="../reportFooter.jsp"%>
+    <%@ include file="/common/footerarea.jsp"%>
+
+<script src="/rgdweb/js/reportPages/geneReport.js?v=10"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>

@@ -15,9 +15,12 @@ if (strainList.size() > 0) {
     });
 %>
 
-<%=ui.dynOpen("strainsAssociation", "Related Rat Strains")%>    <br>
+<%//ui.dynOpen("strainsAssociation", "Related Rat Strains")%>    <br>
+<div class = 'light-table-border'>
+<div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
     The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
 
+    <div id="relatedRatStrainsTableWrapper">
     <%
         List records = new ArrayList();
         for (Strain s : strainList) {
@@ -25,9 +28,11 @@ if (strainList.size() > 0) {
         }
         out.print(formatter.buildTable(records, 4));
     %>
+    </div>
+</div>
     <br>
 
-<%=ui.dynClose("strainsAssociation")%>
+<%//ui.dynClose("strainsAssociation")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

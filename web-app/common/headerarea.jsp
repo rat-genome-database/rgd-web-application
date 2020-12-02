@@ -27,7 +27,7 @@
     <link rel="SHORTCUT ICON" href="/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/subModal.css" />
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
-    <link href="/rgdweb/common/rgd_styles-3.css" rel="stylesheet" type="text/css" />
+    <link href="/rgdweb/common/rgd_styles-3.css?v=1" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
 
@@ -119,7 +119,7 @@
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
 
-<body  ng-cloak ng-app="rgdPage">
+<body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 
 

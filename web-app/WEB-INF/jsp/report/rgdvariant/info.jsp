@@ -32,6 +32,10 @@
         <td><%=Utils.NVL(obj.getName(), "")%></td>
     </tr>
     <tr>
+        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td><%=rgdId.getRgdId()%></td>
+    </tr>
+    <tr>
         <td class="label" valign="top">Description:</td>
         <td><%=Utils.NVL(description, "")%></td>
     </tr>

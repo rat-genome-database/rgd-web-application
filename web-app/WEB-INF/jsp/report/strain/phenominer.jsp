@@ -15,7 +15,30 @@
     if (recIds!=null && recIds.size() > 0) {
 %>
 
-<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>
+<%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
+<div id="phenominerAssociationTableWrapper" class="light-table-border">
+<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via Phenominer&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
+</div>
+    <div class="modelsViewContent" >
+        <div class="pager phenominerAssociationPager" >
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
 
 <table>
     <tr>
@@ -28,7 +51,7 @@
     </tr>
   </table>
    <br/>
-
+    <div id="phenominerAssociationTableDiv">
 <%
     /*if( recIds.size()>1000 ) {
         out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
@@ -68,10 +91,29 @@
     out.print(strat.format(r));
 
 %>
+    </div>
 <br>
-
-<%=ui.dynClose("phenominerAssociation")%>
-
+    <div class="modelsViewContent" >
+        <div class="pager phenominerAssociationPager" >
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<%--<%=ui.dynClose("phenominerAssociation")%>--%>
+</div>
 <% } %>
 
 <%@ include file="../sectionFooter.jsp"%>
