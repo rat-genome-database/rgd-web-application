@@ -15,14 +15,14 @@
         float: left;
         width: 49%;
         padding: 10px;
-        max-height: 500px;
+        max-height: 600px;
     }
 
     .columnTblr {
         float: right;
         width: 47%;
         padding: 10px;
-        max-height: 500px;
+        max-height: 600px;
     }
 
     .rowTbl {
