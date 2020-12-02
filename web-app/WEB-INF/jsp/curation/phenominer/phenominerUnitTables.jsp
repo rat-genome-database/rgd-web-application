@@ -47,7 +47,7 @@
         width:100px;
         max-width:100px;
     }
-    div#wrapper{ /*overwrite header css to accomodate floating divs(all 3 tables inside the border)*/
+    div.wrapper{ /*overwrite header css to accomodate floating divs(all 3 tables inside the border)*/
         height: 1500px;
     }
 </style>
