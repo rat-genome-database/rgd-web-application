@@ -5,7 +5,7 @@
     String headContent = "";
     String pageDescription = "";
 %>
-<link rel="stylesheet" type="text/css" href="/rgdweb/css/pheno.css">
+
 <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
@@ -15,18 +15,18 @@
         float: left;
         width: 49%;
         padding: 10px;
-        max-height: 600px;
+        max-height: 500px;
     }
 
     .columnTblr {
         float: right;
         width: 47%;
         padding: 10px;
-        max-height: 600px;
+        max-height: 500px;
     }
 
     .rowTbl {
-        border-style: outset;
+        border-style: none;
     }
 
     .tableFixHead {
@@ -62,7 +62,7 @@
 
 <%@ include file="editHeader.jsp"%>
 <span class="phenominerPageHeader">Phenominer Unit-Enum Tables</span>
-<hr>
+<div class="phenoNavBar"></div>
 
 <form id="phenominerUnitEnumTablesForm" name="phenominerUnitEnumTablesForm" action="phenominerUnitTables.html" method="Get">
     <div class="rowTbl">
@@ -93,12 +93,13 @@
                         </td>
                         <td>
                             <input type="hidden" name="act" value="reset" />
-                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class="btn btn-primary tn-sm" style="background-color:#2B84C8;"> Reset </button>
+                            <button type="submit" onClick="resetPage('phenominerUnitTables.html')" class="btn btn-primary reset"> Reset </button>
                         </td>
                     </tr>
                 </table>
                 </div>
             </form>
+            <br>
             <hr>
             <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
             <div class="tableFixHead">
@@ -158,13 +159,12 @@
         </div>
     </div>
     <span class="phenominerPageHeader">No Standard Units Table</span>
-    <hr>
+    <div class="phenoNavBar"></div>
     <div class="rowTbl">
         <div class="columnTbll">
             <form name="phenoSearchForm3" action="" >
                 <input type="hidden" name="act" value="noStdUnitSearch" />
             </form>
-            <hr>
             <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
             <div class="tableFixHead">
                 <%
@@ -178,7 +178,10 @@
                 %>
             </div>
         </div>
+        <div class="columnTblr">
+        </div>
     </div>
+    <hr>
 </form>
 
 <%@ include file="editFooter.jsp"%>
