@@ -4,8 +4,7 @@
                 <td>
                         <div class="" style="border-color: transparent;margin-top:20px;">
                                 <h5 class="card-title">RGD News</h5>
-                        </div>
-                                                   
+                        </div>             
                         <p><a href="https://rgd.mcw.edu/wg/news/rgds-2021-rat-calendar-is-available/">12/02 – RGD’s 2021 Rat Calendar is available!</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/news/11-10-introducing-domestic-pig-resource-page/">11/10 - Introducing Domestic Pig Resource Page</a></p>
                         <p><a href="https://rgd.mcw.edu/wg/10-30-introducing-mouse-resource-page/">10/30 - Introducing Mouse Resource Page</a></p>
