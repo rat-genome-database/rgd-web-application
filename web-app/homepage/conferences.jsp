@@ -6,6 +6,7 @@
                         </div>
 
                 <p><a href="https://genetics-gsa.org/tagc-2020/">The Allied Genetics Conference, Gaylord National Resort &amp; Convention Center, Washington, DC, USA - April 22-26, 2020 <strong><span style="color: red"> (ONLINE) </strong></span></a></p>
+                <p><a href="https://genetics-gsa.org/tagc-2020/">The Allied Genetics Conference, Gaylord National Resort &amp; Convention Center, Washington, DC, USA - April 22-26, 2020 <strong><span style="color: red"> (ONLINE) </strong></span></a></p>
                 <p><a href="https://www.cagh.org.uk/edinburgh-2020/">Companion Animal Genetic Health Conference, South Hall Complex, Pollock Halls, Edinburgh, Scotland - May 11-12, 2020</a></p>
                 <p><a href="http://wiki.geneontology.org/index.php/Consortium_Meetings_and_Workshops">Gene Ontology Consortium Meeting, Retrovirus Room, Pasteur Institute, Paris France - May 11-14, 2020</a></p>
                 <p><a href="https://www.ibngs.org/2020-genes-brain-and-behavior-meeting">22nd Annual Meeting of the International Behavioural and Neural Genetics Society (IBANGS), Marine Biological Laboratory Conference Center, Woods Hole, MA, USA - May 12-17, 2020 <strong><span style="color: red"> (CANCELED) </strong></span></a></p>
