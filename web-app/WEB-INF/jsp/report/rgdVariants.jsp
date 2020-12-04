@@ -38,6 +38,7 @@
 
             for(MapData var : mapDAO.getMapData(variant.getRgdId())) {
             %>
+            <tr>
             <td align="center"><a href="/rgdweb/report/rgdvariant/main.html?id=<%=var.getRgdId()%>"><%=variant.getName()%></a></td>
             <td align="center"><%="chr"+var.getChromosome()%></td>
             <td align="center"><%=var.getStartPos()%></td>
@@ -54,6 +55,7 @@
                 Term so = odao.getTermByAccId(variant.getType());
                 out.print(so.getTerm());
             %></td>
+        </tr>
             <% } // end varData for
 
         } //end variant for %>
