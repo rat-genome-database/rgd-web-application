@@ -12,21 +12,25 @@
 <style>
     /* Create two equal columns that floats next to each other */
     .columnTbll {
-        float: left;
         width: 49%;
         padding: 10px;
         max-height: 600px;
+        overflow: auto;
     }
 
     .columnTblr {
-        float: right;
         width: 47%;
         padding: 10px;
         max-height: 600px;
+        overflow: auto;
     }
 
     .rowTbl {
         border-style: none;
+        display:flex;
+        flex-direction:row;
+        overflow: auto;
+        width : 100%
     }
 
     .tableFixHead {
@@ -42,11 +46,7 @@
         border-collapse: collapse;
         width: 100%;
     }
-    .fixedWidth
-    {
-        width:100px;
-        max-width:100px;
-    }
+
     div.wrapper{ /*overwrite header css to accomodate floating divs(all 3 tables inside the border)*/
         height: 1500px;
     }
@@ -75,17 +75,17 @@
                 <div style="display: inline-block">
                 <table>
                     <tr>
-                        <td class="fixedWidth">CMO ID: </td>
+                        <td>CMO ID: </td>
                         <td>
-                            <input id="cmoIdField" name="cmoIdField" size="11" width="11" type="text" value="CMO:000"/>
+                            <input id="cmoIdField" name="cmoIdField" size="11" type="text" value="CMO:000"/>
                         </td>
-                        <td class="fixedWidth">Standard Unit: </td>
+                        <td>Standard Unit: </td>
                         <td>
-                            <input id="stdUnitField" name="stdUnitField" size="20" width="20" type="text"/>
+                            <input id="stdUnitField" name="stdUnitField" size="20" type="text"/>
                         </td>
-                        <td class="fixedWidth">Unit From: </td>
+                        <td>Unit From: </td>
                         <td>
-                            <input id="unitFromField" name="unitFromField" size="20" width="20" type="text"/>
+                            <input id="unitFromField" name="unitFromField" size="20" type="text"/>
                         </td>
                         <td>
                             <div class="input-group-append">
@@ -123,13 +123,13 @@
                 <div style="display: inline-block">
                 <table>
                     <tr>
-                        <td style="width:50px;max-width:50px;">Type: </td>
+                        <td>Type: </td>
                         <td>
-                            <input id="typeField" name= "typeField" size="1" width="1" type="number" min="1" max="6"/>
+                            <input id="typeField" name= "typeField" size="1" type="number" min="1" max="6"/>
                         </td>
-                        <td style="width:50px;max-width:50px;">Label: </td>
+                        <td>Label: </td>
                         <td>
-                            <input id="labelField" name="labelField" size="30" width="30" type="text"/>
+                            <input id="labelField" name="labelField" size="30" type="text"/>
                         </td>
                         <td>
                             <div class="input-group-append">
@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <span class="phenominerPageHeader">No Standard Units Table</span>
+    <span class="phenominerPageHeader">Without Standard Units</span>
     <div class="phenoNavBar"></div>
     <div class="rowTbl">
         <div class="columnTbll">
@@ -188,3 +188,4 @@
 </form>
 
 <%@ include file="editFooter.jsp"%>
+
