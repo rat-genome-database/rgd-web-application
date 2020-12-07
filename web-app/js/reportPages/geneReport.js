@@ -710,7 +710,7 @@ function addDetailTableNotesTitleInfo(){
     let tableArray = Array.from(associationsCurator.getElementsByClassName("tablesorter"));
     //an array that contains all of the cells in the info column of the associationsCurator tables
     let infoCellArray = [];
-    let title = setMoreInfoTitle();
+    let title = "See all the information about this annotation and the notes for this " + reportTitle;
 
     //takes all of the cells in the info column in each table and adds them to the infoCellArray
     tableArray.forEach( table => {
@@ -735,16 +735,4 @@ function addDetailTableNotesTitleInfo(){
 
     })
 
-}
-//sets the information that is displaying when hovering over the "more ..." link in the info column of the associationsCurator table
-function setMoreInfoTitle(){
-    let title;
-
-    if (reportTitle === "gene") {
-        title = "See all interactions and original references for this gene and chemical";
-    } else {
-        title = "See all the information about this annotation and the notes for this " + reportTitle;
-    }
-
-    return title;
 }

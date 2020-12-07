@@ -224,7 +224,6 @@
                     <%@ include file="clinicalVariants.jsp"%>
                     <%@ include file="../variants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
-                    <%@ include file="../rgdVariants.jsp"%>
 
                     <!--above additional information--->
                     <a name="additional"></a>
@@ -255,7 +254,7 @@
         <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=11"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=12"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>
 
 
