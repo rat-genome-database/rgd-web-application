@@ -6,7 +6,16 @@
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.report.GeneTermAnnotationsBean" />
 
 <%
-    String pageTitle = "RGD Gene Chemical Interaction Report - " + RgdContext.getLongSiteName(request);
+    String objectType = bean.getRgdId().getObjectTypeName().toUpperCase();
+    String capitalizedObjectType = objectType.substring(0, 1) + objectType.substring(1).toLowerCase();
+    String pageTitle;
+    if( bean.getAccId().startsWith("CHEBI") ) {
+        pageTitle = capitalizedObjectType + " Chemical Interaction Report - " + RgdContext.getLongSiteName(request);
+    } else if (objectType.equals("QTL")){
+        pageTitle =  objectType + " Term Annotation Report - " + RgdContext.getLongSiteName(request);
+    } else {
+        pageTitle =  capitalizedObjectType + " Term Annotation Report - " + RgdContext.getLongSiteName(request);
+    }
     String headContent = "";
     String pageDescription = "View " + RgdContext.getLongSiteName(request) + " interactions to " + (bean.getTerm()!=null ? bean.getTerm().getTerm() : bean.getAccId());
 %>
@@ -22,7 +31,6 @@
 </div>
 <div style="clear:both; padding-top:1px;">
 <%
-    String objectType = bean.getRgdId().getObjectTypeName().toUpperCase();
     if( bean.getAccId().startsWith("CHEBI") ) {
         out.write("<h3>"+objectType+" - CHEMICAL INTERACTIONS REPORT</h3>\n");
     } else {

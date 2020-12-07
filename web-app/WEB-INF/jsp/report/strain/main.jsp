@@ -49,6 +49,10 @@
 }
 </script>
 
+
+<script>
+    let reportTitle = "strain";
+</script>
 <div id="page-container">
 
     <div id="left-side-wrap">
@@ -159,5 +163,5 @@
 
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=10"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=12"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>

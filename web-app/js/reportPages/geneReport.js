@@ -34,9 +34,10 @@ function run() {
 
     autoChangeNavHeight();
 
-    //only Reference pages hae this variable
-    if(typeof reportTitle === "undefined"){
+    //marker and reference reports do not have the associationsCurator tables
+    if(reportTitle !== "reference" && reportTitle !== "marker" ){
         checkForDetailView();
+        addDetailTableNotesTitleInfo();
     }
 
 
@@ -334,7 +335,6 @@ function stickifySideBar(sidebar){
     let footerRect = footer.getBoundingClientRect();
     let timeToStop = footerRect.top <= sidebarRect.height;
 
-    if(typeof reportTitle !== "undefined"){
         if(reportTitle.toLowerCase() === "reference"){
             // targets viewports at least 768px wide
             let minMediaQuery = window.matchMedia('(min-width: 768px)');
@@ -362,8 +362,7 @@ function stickifySideBar(sidebar){
                 }
             }
 
-        }
-    }else {
+        } else {
         if(scrollPosition >= 275){
             sidebar.style.position = "fixed";
             sidebar.style.top = '0';
@@ -371,6 +370,7 @@ function stickifySideBar(sidebar){
         }else{
             sidebar.style.position = "relative";
         }
+
     }
 
 
@@ -700,5 +700,39 @@ function filterAnnotations() {
         }
     });
 
+
+}
+
+//this function adds a title attribute to the "more..." links in the annotation detail tables' info section
+function addDetailTableNotesTitleInfo(){
+    //get all tables with class tablesorter that are within associationsCurator div
+    let associationsCurator = document.getElementById("associationsCurator");
+    let tableArray = Array.from(associationsCurator.getElementsByClassName("tablesorter"));
+    //an array that contains all of the cells in the info column of the associationsCurator tables
+    let infoCellArray = [];
+    let title = "See all the information about this annotation and the notes for this " + reportTitle;
+
+    //takes all of the cells in the info column in each table and adds them to the infoCellArray
+    tableArray.forEach( table => {
+        //for each table, access the rows
+        let rowsArray = Array.from(table.getElementsByTagName("tr"));
+        //for each row, access the td at index 5
+        rowsArray.forEach( row => {
+            let cells = row.getElementsByTagName("td");
+            //add cells to infoCellArray
+            infoCellArray.push(cells[5]);
+        })
+    });
+
+    //finds all off the "more ..." links and adds a title attribute to the <a> element
+    infoCellArray.forEach( cell => {
+        let linksArray = Array.from(cell.getElementsByTagName("a"));
+        linksArray.forEach(link => {
+            if(link.innerText === "more ..."){
+                link.setAttribute("title", title);
+            }
+        })
+
+    })
 
 }

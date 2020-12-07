@@ -406,9 +406,11 @@ public class AnnotationFormatter {
 
         String text = aclass.equals("imore") ? "&nbsp;&nbsp;&nbsp;" : "more ...";
         String str = " <a class=\"" + aclass + "\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
-        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">" + text + "</a>";
+        str += "&term=" + termAcc +  "\">" + text + "</a>";
         return str;
     }
+
+    //" title="see all interactions and original references for this gene and chemical\
 
     /**
      * return a subset of annotations matching given aspect
