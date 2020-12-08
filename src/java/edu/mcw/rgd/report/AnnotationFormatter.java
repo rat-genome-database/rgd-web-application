@@ -278,7 +278,7 @@ public class AnnotationFormatter {
         }
         info = info.replaceAll("[()]", "");
         String[] multipleInfos;
-        if(info.indexOf('|') == -1){
+        if(!info.contains("|") && !info.contains("UniProt")){
             multipleInfos = info.split("(,\\b)|\\b,|([|;])");
         }else{
             multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
