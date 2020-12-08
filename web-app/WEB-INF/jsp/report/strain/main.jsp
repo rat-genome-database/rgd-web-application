@@ -11,20 +11,19 @@
 
 <% boolean includeMapping = true;
     String title = "Strains";
-
     String titleTerm = request.getParameter("term");
     if (titleTerm == null ) {
-       titleTerm = "";
+        titleTerm = "";
     }
     String pageTitle = titleTerm + " Strain Report - Rat Genome Database";
     String headContent = "";
     String pageDescription = "Strain reports include a comprehensive description of function and biological process as well as disease, expression, regulation and phenotype information.";
-
     Strain obj = (Strain) request.getAttribute("reportObject");
     String objectType="strain";
     String displayName=obj.getSymbol();
-
 %>
+
+<div id="top" ></div>
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
@@ -47,110 +46,119 @@
 }
 </script>
 
-<%@ include file="menu.jsp"%>
-
-
-<% RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
-    if (view.equals("3")) { %>
-
-<% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) { %>
-    <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
-
-<% } else {%>
-
 
 <script>
-    function toggleAssociations() {
-        if (document.getElementById("associationsCurator").style.display=="none") {
-            document.getElementById("associationsCurator").style.display="block";
-        }else {
-           document.getElementById("associationsCurator").style.display="none";
-        }
-
-        if (document.getElementById("associationsStandard").style.display=="none") {
-           document.getElementById("associationsStandard").style.display="block";
-        }else {
-           document.getElementById("associationsStandard").style.display="none";
-        }
-    }
+    let reportTitle = "strain";
 </script>
+<div id="page-container">
+
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
+
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
 
 
-<table width="95%" border="0">
-    <tr>
-        <td>
-            <%@ include file="info.jsp"%>
+
+    <div id="content-wrap">
+
+
+
+        <div class="registrationLink"><a href="/rgdweb/models/strainSubmissionForm.html?new=true">Strain Registration</a></div>
+        <%@ include file="menu.jsp"%>
+
+
+        <% RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
+            if (view.equals("3")) { %>
+
+        <% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) { %>
+        <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
+
+        <% } else {%>
+
+
+
+
+        <table width="95%" border="0">
+            <tr>
+                <td>
+                    <%@ include file="info.jsp"%>
 
                     <% String highlights = strainDAO.getContentType(obj.getRgdId(),"Highlights");
-        if(highlights != null) {
-            Blob data =  strainDAO.getStrainAttachment(obj.getRgdId(),"Highlights");
-            InputStream is = data.getBinaryStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        if(highlights != null) {
+                            Blob data =  strainDAO.getStrainAttachment(obj.getRgdId(),"Highlights");
+                            InputStream is = data.getBinaryStream();
+                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                            byte[] bytes = new byte[1024];
+                            int bytesRead;
+                            while ((bytesRead = is.read(bytes)) != -1) {
+                                outputStream.write(bytes);
+                            }
+                            byte[] imageBytes = outputStream.toByteArray();
+                            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                            is.close();
+                            outputStream.close();
+                    %>
+                    <br>
+                    <div class="subTitle">Highlights</div>
+                    <br>
+                    <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
+                    <br><br>
+                    <% } %>
+                    <%@ include file="substrains.jsp"%>
+                    <%@ include file="congenics.jsp"%>
+                    <%@ include file="mutants.jsp"%>
 
-            byte[] bytes = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = is.read(bytes)) != -1) {
-                outputStream.write(bytes);
-            }
-            byte[] imageBytes = outputStream.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            is.close();
-            outputStream.close();
-    %>
-            <br>
-            <div class="subTitle">Highlights</div>
-            <br>
-    <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
-            <br><br>
-    <% } %>
-            <%@ include file="substrains.jsp"%>
-            <%@ include file="congenics.jsp"%>
-            <%@ include file="mutants.jsp"%>
+                    <br>
+                    <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+                    <br>
+                    <%@ include file="diseaseModels.jsp"%>
+                    <div id="associationsCurator" style="display:none;">
+                        <%@ include file="../associationsCurator.jsp"%>
+                        <%@ include file="phenominerDetails.jsp"%>
+                    </div>
+                    <div id="associationsStandard" style="display:block;">
+                        <%@ include file="../associations.jsp"%>
+                        <%@ include file="phenominer.jsp"%>
+                    </div>
 
-            <br>
-            <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleAssociations()">(Toggle Annotation Detail/Summary View)</a></div><br>
-            <br>
-            <%@ include file="diseaseModels.jsp"%>
-            <div id="associationsCurator" style="display:none;">
-                <%@ include file="../associationsCurator.jsp"%>
-                <%@ include file="phenominerDetails.jsp"%>
-            </div>
-            <div id="associationsStandard" style="display:block;">
-                <%@ include file="../associations.jsp"%>
-                <%@ include file="phenominer.jsp"%>
-            </div>
+                    <div class ="subTitle" id="references">References</div>
+                    <%@ include file="../references.jsp"%>
+                    <%@ include file="../pubMedReferences.jsp"%>
 
-            <%@ include file="../references.jsp"%>
-            <%@ include file="../pubMedReferences.jsp"%>
+                    <br>
+                    <div class="subTitle" id="region">Region</div>
+                    <br>
+                    <%@ include file="../cellLines.jsp"%>
+                    <%@ include file="markers.jsp"%>
+                    <%@ include file="../sequence.jsp"%>
+                    <%@ include file="qtlAssociation.jsp"%>
+                    <%@ include file="damagingVariants.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
+                    <br>
+                    <div class="subTitle" id="additionalInformation">Additional Information</div>
+                    <br>
 
-            <br>
-            <div class="subTitle">Region</div>
-            <br>
-            <%@ include file="../cellLines.jsp"%>
-            <%@ include file="markers.jsp"%>
-            <%@ include file="../sequence.jsp"%>
-            <%@ include file="qtlAssociation.jsp"%>
-            <%@ include file="damagingVariants.jsp"%>
-            <%@ include file="../rgdVariants.jsp"%>
-            <br>
-            <div class="subTitle">Additional Information</div>
-            <br>
+                    <%@ include file="../curatorNotes.jsp"%>
+                    <%@ include file="../nomen.jsp"%>
+                    <%@ include file="../xdbs.jsp"%>
 
-            <%@ include file="../curatorNotes.jsp"%>
-            <%@ include file="../nomen.jsp"%>
-            <%@ include file="../xdbs.jsp"%>
-
-        </td>
-        <td>&nbsp;</td>
-        <td align="right" valign="top">
-            <%@ include file="links.jsp" %>
-            <br>
-            <%@ include file="../idInfo.jsp" %>
-        </td>        
-    </tr>
- </table>
-
+                </td>
+                <td>&nbsp;</td>
+                <td align="right" valign="top">
+                    <%--            <%@ include file="links.jsp" %>--%>
+                    <br>
+                    <%--            <%@ include file="../idInfo.jsp" %>--%>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <% } %>
 
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=12"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>
