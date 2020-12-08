@@ -248,6 +248,9 @@ public class  MapDataFormatter {
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
                 break;
+            case 239: // NCBI GRCm39
+                db = "data_mm39"; link = "GRCm39";
+                break;
 
             case 60: // RGSC 3.4
                 db = "data_rgd3_4"; link = "RGSC3.4";
@@ -363,13 +366,13 @@ public class  MapDataFormatter {
     static void generateNcbiGDVLink(StringBuilder buf, int objectKey, MapData md, String objectSymbol, java.util.Map<Integer, String> refSeqAccIdsMap, String mapName) {
         int mapKey= md.getMapKey();
         String refSeqAccId= refSeqAccIdsMap.get(mapKey);
-        String url=refSeqAccId+"&cpmtext=genome&chr="+md.getChromosome()+"&q="+ objectSymbol;
+        //String url=refSeqAccId+"&cpmtext=genome&chr="+md.getChromosome()+"&q="+ objectSymbol;
         if(refSeqAccId!=null) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId).append("&chr=").append(md.getChromosome())
                     .append("&q=").append(objectSymbol)
                     .append("&context=genome")
-                    .append("\">" + mapName + "</a>");
+                    .append("\">").append(mapName).append("</a>");
         }
 
     }
@@ -399,6 +402,9 @@ public class  MapDataFormatter {
                 case 35:
                 case 39:// mouse build 38
                     db = "mm10";
+                    break;
+                case 239:// mouse build 39
+                    db = "mm39";
                     break;
 
                 case 60: // RGSC 3.4
