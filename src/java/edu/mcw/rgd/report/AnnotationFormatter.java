@@ -85,8 +85,6 @@ public class AnnotationFormatter {
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
-//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
-                //<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
                 termAcc = a.getTermAcc();
                 annotatedRgdId = a.getAnnotatedObjectRgdId() + "";
                 term = a.getTerm();
@@ -100,12 +98,10 @@ public class AnnotationFormatter {
             records.add("<tr>" +
                     "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
         }
         else records.add("<tr>" +
                 "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                 " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-//<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
         return this.buildTable(records, columns);
     }
 
@@ -281,7 +277,12 @@ public class AnnotationFormatter {
                 objectKey = 0; // determine the object type by querying the db
         }
         info = info.replaceAll("[()]", "");
-        String[] multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
+        String[] multipleInfos;
+        if(!info.contains("|") && !info.contains("UniProt")){
+            multipleInfos = info.split("(,\\b)|\\b,|([|;])");
+        }else{
+            multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
+        }
         String infoField;
         if( multipleInfos.length==1 ) {
             infoField = formatXdbUrl(multipleInfos[0], objectKey);
@@ -406,9 +407,11 @@ public class AnnotationFormatter {
 
         String text = aclass.equals("imore") ? "&nbsp;&nbsp;&nbsp;" : "more ...";
         String str = " <a class=\"" + aclass + "\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
-        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">" + text + "</a>";
+        str += "&term=" + termAcc +  "\">" + text + "</a>";
         return str;
     }
+
+    //" title="see all interactions and original references for this gene and chemical\
 
     /**
      * return a subset of annotations matching given aspect
