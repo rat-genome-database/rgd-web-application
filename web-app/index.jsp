@@ -138,7 +138,7 @@ font-size: 80%
 	<input type="hidden" id="speciesType" value="">
 <table width="100%" border=0>
 <tr><td colspan="8">
-	<h1>HElloo</h1>
+
 			<div>
 			
 <jsp:include page="WEB-INF/jsp/search/elasticsearch/searchBox.jsp"/>
