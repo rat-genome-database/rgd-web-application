@@ -5,7 +5,7 @@
 <script src="/rgdweb/js/genomeInformation/genomeHome.js"></script>
 
 <div class="container">
-
+    <h1>HElloo***********************</h1>
     <div id="wrapper" style="border-color: white">
     <c:forEach items="${model.hits}" var="hits">
 
@@ -74,15 +74,7 @@
                                             <c:if test="${entry.key.equalsIgnoreCase(hit.sourceAsMap.species)}">
                                                 <c:forEach items="${entry.value}" var="e">
                                                     <c:if test="${e.key!=6 && e.key!=36 && e.key!=8 && e.key!=21 && e.key!=19 && e.key!=7}">
-                                                        <c:choose>
-                                                            <c:when test="${e.key==hit.sourceAsMap.mapKey}">
-                                                                <option value="${e.key}" selected>${e.name}</option>
-
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${e.key}">${e.name}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                    <option value="${e.key}">${e.name}</option>
                                                </c:if>
                                                 </c:forEach>
 
