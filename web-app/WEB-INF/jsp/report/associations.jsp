@@ -600,7 +600,7 @@
 
 <table>
     <tr>
-        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
     </tr>
     <br />
 </table>
