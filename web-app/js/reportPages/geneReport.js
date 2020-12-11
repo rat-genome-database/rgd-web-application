@@ -431,7 +431,7 @@ function addItemsToSideBar(){
                 text = "Strain Sequence Variants";
             }
 
-            if(text === "Phenotype Values via Phenominer"){
+            if(text === "Phenotype Values via PhenoMiner"){
                 text = "Phenotype Values";
             }
 
