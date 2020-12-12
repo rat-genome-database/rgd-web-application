@@ -41,7 +41,7 @@ function run() {
     }
 
 
-    // filterAnnotations();
+    addFilterToAnnotationSummaryTables();
 }
 
 function rebuildAnnotationTables() {
@@ -644,8 +644,6 @@ function manageLocalStorage(){
         localStorage.setItem('id', id);
     }
 
-
-
 }
 
 function removePagerAutocomplete(){
@@ -676,9 +674,19 @@ function checkForDetailView(){
 
 }
 
+function addFilterToAnnotationSummaryTables(){
+    let div = document.getElementById("associationsStandard");
+    if(div){
+        let tables = Array.from(div.getElementsByClassName('tablesorter'));
+        tables.forEach( table => {
+            filterTableCells(table);
+        })
+    }
 
-function filterAnnotations() {
-    let table = document.getElementById("annotationTable1");
+}
+
+//custom filter that is used on the annotation summary tables
+function filterTableCells(table) {
     let input = findSearchBar(table);
     let cells = [];
     let rows, i, txtValue, filter;
