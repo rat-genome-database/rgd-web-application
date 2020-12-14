@@ -249,5 +249,15 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=13"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+
+
+
+
+
+
+
+
+
+
