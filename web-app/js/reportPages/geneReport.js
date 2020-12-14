@@ -701,11 +701,17 @@ function filterTableCells(table) {
             txtValue = cells[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 cells[i].style.display = "";
+                cells[i].parentElement.style.display = "";
             } else {
                 cells[i].style.display = "none";
+
             }
 
         }
+        if(filter.trim() === ""){
+            $("#" + table.id).trigger("update");
+        }
+        cells = [];
     });
 
 
