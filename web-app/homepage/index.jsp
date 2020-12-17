@@ -255,7 +255,6 @@
         </td>
         <td valign="top">
             <br>
-            <jsp:include page="carosel.jsp"/>
             <jsp:include page="twitter.jsp"/>
             <jsp:include page="tutorials.jsp"/>
 
