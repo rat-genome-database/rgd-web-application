@@ -65,18 +65,22 @@ function runGviewer() {
         if(mapKey==720)
           URL = URL + "data_squirrel2_0";
     }*/
-    if(species=='Bonobo') {
-        bandURL="/rgdweb/gviewer/data/bonobo_ideo.xml";
-        if(mapKey=='511')
+    if(species==='Bonobo') {
+
+        if (mapKey === '511') {
+            bandURL="/rgdweb/gviewer/data/bonobo_ideo_511.xml";
             URL = URL + "data_bonobo1_1";
-        else if(mapKey=='513')
+        }
+        else if(mapKey==='513') {
+            bandURL="/rgdweb/gviewer/data/bonobo_ideo_513.xml";
             URL = URL + "data_bonobo2";
+        }
     }
-    if(species=='Pig') {
+    if(species==='Pig') {
         bandURL="/rgdweb/gviewer/data/pig_ideo.xml";
-        if(mapKey=='911')
+        if(mapKey==='911')
             URL = URL + "data_pig11_1";
-        if(mapKey=='910')
+        if(mapKey==='910')
             URL = URL + "data_pig10_2";
     }
     if(!gviewer) {
