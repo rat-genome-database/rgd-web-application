@@ -84,11 +84,11 @@ public class DetailController extends HaplotyperController {
 
                 Variant v=r.getVariant();
               //  tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
-                if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
+           //     if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
                     tResults=r.getTranscriptResults();
                  //   System.out.println("transcripts size: "+ tResults.size());
-                }else
-                tResults=getTranscriptResults(v, mapKey);
+            //    }else
+           //     tResults=getTranscriptResults(v, mapKey);
 
                 r.setTranscriptResults(tResults);
              }

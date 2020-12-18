@@ -14,6 +14,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.elasticsearch.common.recycler.Recycler;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -147,20 +148,30 @@ public class VariantController extends HaplotyperController {
                         v.setZygosityPercentRead(100);
                         v.setZygosityPossibleError((String) m.get("zygosityPossError"));
                         v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
+                        v.conservationScore.add(mapConservation(m));
                         vr.setVariant(v);
                         if(requiredTranscripts) {
                             List<TranscriptResult> trs = this.getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
                             vr.setTranscriptResults(trs);
                         }
-                            v.conservationScore.add(mapConservation(m));
 
+                        if(vsb.getMapKey()==38){
+                            VariantInfo clinvar=getClinvarInfo(v.getId());
+                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
+                            vr.setClinvarInfo(clinvar);
+                        }
                         variantResults.add(vr);
 
             }
 
         return variantResults;
     }
+  VariantInfo getClinvarInfo(long variantRGDId) throws Exception {
 
+      VariantInfoDAO dao= new VariantInfoDAO();
+      return dao.getVariant((int) variantRGDId);
+
+  }
    List<TranscriptResult> getTranscriptResults(Object object, int variantId) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List list=(List)object;
