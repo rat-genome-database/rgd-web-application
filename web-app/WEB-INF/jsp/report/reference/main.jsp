@@ -107,6 +107,6 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=12"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=1"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
 

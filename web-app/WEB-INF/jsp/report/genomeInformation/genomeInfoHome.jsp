@@ -5,7 +5,6 @@
 <script src="/rgdweb/js/genomeInformation/genomeHome.js"></script>
 
 <div class="container">
-
     <div id="wrapper" style="border-color: white">
     <c:forEach items="${model.hits}" var="hits">
 

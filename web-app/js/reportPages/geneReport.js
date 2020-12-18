@@ -41,7 +41,7 @@ function run() {
     }
 
 
-    // filterAnnotations();
+    addFilterToAnnotationSummaryTables();
 }
 
 function rebuildAnnotationTables() {
@@ -431,7 +431,7 @@ function addItemsToSideBar(){
                 text = "Strain Sequence Variants";
             }
 
-            if(text === "Phenotype Values via Phenominer"){
+            if(text === "Phenotype Values via PhenoMiner"){
                 text = "Phenotype Values";
             }
 
@@ -531,24 +531,24 @@ function checkIfParent(parent, value){
 //removes row from xdbs table
 function removeAGRLink(){
     let externalDbTable = document.getElementById('externalDatabaseLinksTable');
-    let accId;
+    let link;
     if(externalDbTable !== null){
         let rows = externalDbTable.rows;
         for(let i = 0; i < rows.length; i++){
             let row = rows[i];
             let cells = row.cells;
             if(cells[0].innerText === "AGR Gene"){
-                accId = cells[1].innerHTML;
+                link = cells[1].getElementsByTagName('a')[0];
                 externalDbTable.deleteRow(i);
             }
         }
     }
 
-    return accId;
+    return link;
 }
 //adds row to top summary
-function addAGRLink(accId){
-    if(accId){
+function addAGRLink(link){
+    if(link){
         let summary = document.getElementById("info-table");
         let row = summary.insertRow(3);
         let cell1 = row.insertCell(0);
@@ -556,13 +556,16 @@ function addAGRLink(accId){
 
         cell1.classList.add('label');
         cell1.innerText = "Alliance Gene:";
-        cell2.innerHTML = accId;
+        link.removeChild(link.firstChild);
+        link.insertAdjacentHTML("beforeend", "<img border='0' src='/rgdweb/common/images/alliance_logo_small.svg'/>" );
+        cell2.appendChild(link);
+
     }
 }
 
 function moveAGRLink(){
-    let accId = removeAGRLink();
-    addAGRLink(accId);
+    let link = removeAGRLink();
+    addAGRLink(link);
 }
 
 function togglePagersAndSearchBar(){
@@ -644,8 +647,6 @@ function manageLocalStorage(){
         localStorage.setItem('id', id);
     }
 
-
-
 }
 
 function removePagerAutocomplete(){
@@ -676,9 +677,19 @@ function checkForDetailView(){
 
 }
 
+function addFilterToAnnotationSummaryTables(){
+    let div = document.getElementById("associationsStandard");
+    if(div){
+        let tables = Array.from(div.getElementsByClassName('tablesorter'));
+        tables.forEach( table => {
+            filterTableCells(table);
+        })
+    }
 
-function filterAnnotations() {
-    let table = document.getElementById("annotationTable1");
+}
+
+//custom filter that is used on the annotation summary tables
+function filterTableCells(table) {
     let input = findSearchBar(table);
     let cells = [];
     let rows, i, txtValue, filter;
@@ -693,11 +704,17 @@ function filterAnnotations() {
             txtValue = cells[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 cells[i].style.display = "";
+                cells[i].parentElement.style.display = "";
             } else {
                 cells[i].style.display = "none";
+
             }
 
         }
+        if(filter.trim() === ""){
+            $("#" + table.id).trigger("update");
+        }
+        cells = [];
     });
 
 

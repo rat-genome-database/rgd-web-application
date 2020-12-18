@@ -5,11 +5,7 @@ function tableSorterReport() {
         $('#annotationTable1')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch1',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager1'),
@@ -19,11 +15,7 @@ function tableSorterReport() {
         $('#annotationTable2')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch2',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager2'),
@@ -33,11 +25,7 @@ function tableSorterReport() {
         $('#annotationTable3')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch3',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager3'),
@@ -47,11 +35,7 @@ function tableSorterReport() {
         $('#annotationTable4')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch4',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager4'),
@@ -61,11 +45,7 @@ function tableSorterReport() {
         $('#annotationTable5')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch5',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager5'),
@@ -75,11 +55,7 @@ function tableSorterReport() {
         $('#annotationTable6')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch6',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager6'),
@@ -89,11 +65,7 @@ function tableSorterReport() {
         $('#annotationTable7')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch7',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager7'),
@@ -104,11 +76,7 @@ function tableSorterReport() {
         $('#annotationTable8')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch8',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager8'),
@@ -118,11 +86,7 @@ function tableSorterReport() {
         $('#annotationTable9')
             .tablesorter({
                 theme: 'blue',
-                widgets: ['zebra', 'filter'],
-                widgetOptions: {
-                    filter_external: '#annotationSearch9',
-                    filter_columnFilters: false
-                }
+                widgets: ['zebra']
             })
             .tablesorterPager({
                 container: $('.annotationPager9'),

@@ -38,7 +38,9 @@
             if (xids.size()==1) {
                 XdbId xid = xids.get(0);
         %>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>">HGNC</a>
+                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>" title="HUGO Gene Nomenclature Committee">
+                    <img border="0" src="/rgdweb/common/images/HUGO_Gene_Nomenclature_Committee_logo.svg" height="40" width="65"/>
+                </a>
         <%
             }
          }else if (gene.getSpeciesTypeKey()==2){
@@ -46,7 +48,9 @@
             if (xids.size()==1) {
                 XdbId xid = xids.get(0);
         %>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>">MGI</a>
+                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>" title="Mouse Genome Informatics">
+                    <img border="0" src="/rgdweb/common/images/mgi_logo.svg"/>
+                </a>
          <% }}
          %>
 
@@ -55,7 +59,9 @@
             List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,gene.getRgdId());
             if (xids.size()>0 ) {
                 XdbId xid = xids.get(0);
-            %> &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">Alliance</a>
+            %> &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                    <img border="0" src="/rgdweb/common/images/alliance_logo_small.svg"/>
+                </a>
             <% }
         %>
 

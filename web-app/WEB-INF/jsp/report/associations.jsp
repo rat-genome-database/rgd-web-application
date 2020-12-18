@@ -587,10 +587,12 @@
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-    <%if(!title.equalsIgnoreCase("references")) { %>
+    <% if(!title.equalsIgnoreCase("references")) { %>
+    <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a>
-    <%}%>
+    <%} else {%>
+        <div class="sectionHeading" id="experimentalDataAnnotations">Phenotype Values via PhenoMiner
+            <%}%>
 </div>
 <%
     if(hasPhenoMinerAnn){
@@ -600,7 +602,7 @@
 
 <table>
     <tr>
-        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
     </tr>
     <br />
 </table>
