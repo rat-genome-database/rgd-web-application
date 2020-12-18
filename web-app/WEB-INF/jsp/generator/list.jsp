@@ -27,7 +27,7 @@ String pageDescription = "Build lists based on RGD annotation";
 <script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
 
 
-<form name="submitForm" id="submitForm" action="list.html" method="GET" target="_blank">
+<form name="submitForm" id="submitForm" action="list.html" method="post" target="_blank">
     <input type="hidden" name="a" id="a" value="" />
     <input type="hidden" name="mapKey" id="mapKey" value="" />
     <input type="hidden" name="oKey" id="oKey" value="" />
