@@ -138,9 +138,9 @@ public class DistributionController extends HaplotyperController {
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
 
-            if(symbols.size()==0){
+         /*   if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
-            }
+            }*/
 
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
@@ -224,7 +224,7 @@ public class DistributionController extends HaplotyperController {
                 }
             }
         }else{
-            regionList1=gSymbols;
+          //  regionList1=gSymbols;
         }
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
