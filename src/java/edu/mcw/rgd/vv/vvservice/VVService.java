@@ -208,8 +208,9 @@ public class VVService {
             }
             builder.filter(qb);
         }
+        System.out.println("NEAR SPLICE SITE:"+ req.getParameter("nearSpliceSite"));
         if(req.getParameter("nearSpliceSite").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.nearSpliceSite.keyword")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.nearSpliceSite.keyword", "T")));
         }
         if(req.getParameter("proteinCoding").equals("true")){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword")));
