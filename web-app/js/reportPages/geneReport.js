@@ -565,7 +565,7 @@ function addAGRLink(link){
 
 function moveAGRLink(){
     let link = removeAGRLink();
-    addAGRLink(link);
+    // addAGRLink(link);
 }
 
 function togglePagersAndSearchBar(){

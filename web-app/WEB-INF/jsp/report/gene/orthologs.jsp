@@ -23,50 +23,64 @@
         String note3 = "'Aliance orthologs' lists all stringent orthology assignments as available at Alliance of Genome Resources.";
         String buttonCaption;
 %>
-<tr>
-    <td class="label" valign="top">Orthologs:</td>
-    <td>
-      <div class="ortho_short">
-        <table><tr><td>
-        <% for (Gene gene : homologs) { %>
-            <%=SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())%>
-            (<%=SpeciesType.getGenebankCommonName(gene.getSpeciesTypeKey())%>) : <a
-            href="main.html?id=<%=gene.getRgdId()%>"><%=gene.getSymbol()%> (<%=gene.getName()%>)</a>
 
-        <% if (gene.getSpeciesTypeKey()==1) {
-            List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(21,gene.getRgdId());
-            if (xids.size()==1) {
-                XdbId xid = xids.get(0);
+      <tbody class="ortho_short">
+        <tr>
+            <td class="label"> RGD Orthologs</td>
+            <td>
+                <table>
+                    <tr>
+        <% for (Gene gene : homologs) {
+            String imageSource = getSpeciesImage(gene);
         %>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>" title="HUGO Gene Nomenclature Committee">
-                    <img border="0" src="/rgdweb/common/images/HUGO_Gene_Nomenclature_Committee_logo.svg" height="40" width="65"/>
-                </a>
-        <%
-            }
-         }else if (gene.getSpeciesTypeKey()==2){
-            List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(5,gene.getRgdId());
-            if (xids.size()==1) {
-                XdbId xid = xids.get(0);
-        %>
-                &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>" title="Mouse Genome Informatics">
-                    <img border="0" src="/rgdweb/common/images/mgi_logo.svg"/>
-                </a>
-         <% }}
-         %>
+                    <td>
+                        <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
+                        <div style="margin:5px; font-weight:700;" >
+                            <%=getSpeciesName(gene)%></div>
+                        </div>
+                        <img border="0" src=<%=imageSource%> class="speciesIcon">
+                    </td>
+
+
+                    <%}%>
+        </tr>
+        </table>
+            </td>
+        </tr>
 
         <%-- AGR GENES --%>
-        <%
-            List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,gene.getRgdId());
+            <tr>
+                <td class="label">Alliance Genes</td>
+                <td style="height: 60px">
+
+                <%
+                    String imageSource = getAllianceImage(obj);
+                    List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,obj.getRgdId());
+                    if (xids.size()>0 ) {
+                        XdbId xid = xids.get(0);%>
+                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                        <img border="0" src=<%=imageSource%> width="50px" height="50px">
+                    </a>
+                    <%}
+                    for (Gene gene : homologs) {
+
+                        imageSource = getAllianceImage(gene);
+
+                        xids = xdbDAO.getXdbIdsByRgdId(63,gene.getRgdId());
             if (xids.size()>0 ) {
                 XdbId xid = xids.get(0);
-            %> &nbsp;<a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
-                    <img border="0" src="/rgdweb/common/images/alliance_logo_small.svg"/>
+
+            %><a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                    <img border="0" src=<%=imageSource%> width="50px" height="50px">
                 </a>
             <% }
         %>
 
-        <br>
-     <% }
+
+     <% } %>
+            </td>
+            </tr>
+            <%
          if( homologs.isEmpty() ) {
             buttonCaption = "homologs&nbsp;...";
      %>
@@ -75,84 +89,92 @@
             buttonCaption = "more&nbsp;info&nbsp;...";
         }
      %>
-        </td>
-        <TD style="vertical-align: bottom;">
-            <A HREF="javascript:showAllOrthos();" class="orthoExtInfo"
-                    title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></A>
-        </TD>
-        </tr></table>
-     </div>
-     <div class="ortho_long" style="display: none;">
-     <table>
-         <TR>
-             <TH style="background-color: #b6baba;">Species</TH>
-             <TH style="background-color: #b6baba;">Gene symbol and name</TH>
-             <TH style="background-color: #b6baba;">Data Source</TH>
-             <TH style="background-color: #b6baba;">Assertion derived from</TH>
-             <TH rowspan="2" style="padding-left:20px;">
-                 <A HREF="javascript:hideAllOrthos();" class="orthoExtInfo"
-                         title="click to see simple ortholog information">less&nbsp;info&nbsp;...</A>
-             </TH>
-         </TR>
-     <%
-         if( !homologs.isEmpty() ) {
-     %>
-         <TR>
-             <TH colspan="4" class="orthoExtBar" title="<%=note1%>">Orthologs <sup><u>1</u></sup></TH>
-         </TR>
-         <% }
-         OrthologDAO orthologDAO = new OrthologDAO();
-         for (Gene gg: homologs) {
-             Ortholog o = orthologDAO.getOrthologs(obj.getRgdId(), gg.getRgdId()).get(0);
-     %>
-         <TR>
-             <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-             <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-             <TD style="background-color:#e2e2e2"><%=o.getXrefDataSrc()%></TD>
-             <TD style="background-color:#e2e2e2"><%=o.getXrefDataSet()%></TD>
-         </TR>
-     <% }
-         if( !weakOrthos.isEmpty() ) {
-     %>
-         <TR>
-             <TH colspan="4" class="orthoExtBar" title="<%=note2%>">Other homologs <sup><u>2</u></sup></TH>
-         </TR>
-         <%
-             for (Association ass: weakOrthos) {
-                 Gene gg = geneDAO.getGene(ass.getDetailRgdId());
-         %>
-             <TR>
-                 <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                 <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-                 <TD style="background-color:#e2e2e2"><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
-                 <TD style="background-color:#e2e2e2"><%=ass.getAssocSubType()%></TD>
-             </TR>
-         <% }}
 
-         if( !agrOrthos.isEmpty() ) {
-         %>
-         <TR>
-             <TH colspan="4" class="orthoExtBar" title="<%=note3%>">Alliance orthologs <sup><u>3</u></sup></TH>
-         </TR>
+            <tr style="height: 40px;">
+                <td class="label">More Info</td>
+                <TD style="vertical-align: middle;">
+                    <A HREF="javascript:showAllOrthos();" class="orthoExtInfo"
+                            title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></A>
+                </TD>
+            </tr>
+     </tbody>
+
+
+         <tbody class="ortho_long" style="display: none;">
+             <tr>
+                <td class="label">More Info</td>
+                <td>
+                    <table>
+                 <TR>
+                     <TH style="background-color: #b6baba;">Species</TH>
+                     <TH style="background-color: #b6baba;">Gene symbol and name</TH>
+                     <TH style="background-color: #b6baba;">Data Source</TH>
+                     <TH style="background-color: #b6baba;">Assertion derived from</TH>
+                     <TH rowspan="2" style="padding-left:20px;">
+                         <A HREF="javascript:hideAllOrthos();" class="orthoExtInfo"
+                                 title="click to see simple ortholog information">less&nbsp;info&nbsp;...</A>
+                     </TH>
+                 </TR>
              <%
-             for (Gene gg: agrOrthos) {
-         %>
-         <TR>
-             <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-             <TD style="background-color:#e2e2e2">
-                <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
-                  <%-- do not print null gene name or gene name same as gene symbol --%>
-                  <%=gg.getSymbol()%><% if( !Utils.NVL(gg.getName(), gg.getSymbol()).equals(gg.getSymbol()) ) { out.print(" ("+gg.getName()+")"); } %></a>
-             </TD>
-             <TD style="background-color:#e2e2e2">Alliance</TD>
-             <TD style="background-color:#e2e2e2">DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
-         </TR>
-         <% }} %>
+                 if( !homologs.isEmpty() ) {
+             %>
+                 <TR>
+                     <TH colspan="4" class="orthoExtBar" title="<%=note1%>">Orthologs <sup><u>1</u></sup></TH>
+                 </TR>
+                 <% }
+                 OrthologDAO orthologDAO = new OrthologDAO();
+                 for (Gene gg: homologs) {
+                     Ortholog o = orthologDAO.getOrthologs(obj.getRgdId(), gg.getRgdId()).get(0);
+             %>
+                 <TR>
+                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSrc()%></TD>
+                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSet()%></TD>
+                 </TR>
+             <% }
+                 if( !weakOrthos.isEmpty() ) {
+             %>
+                 <TR>
+                     <TH colspan="4" class="orthoExtBar" title="<%=note2%>">Other homologs <sup><u>2</u></sup></TH>
+                 </TR>
+                 <%
+                     for (Association ass: weakOrthos) {
+                         Gene gg = geneDAO.getGene(ass.getDetailRgdId());
+                 %>
+                     <TR>
+                         <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                         <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                         <TD style="background-color:#e2e2e2"><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
+                         <TD style="background-color:#e2e2e2"><%=ass.getAssocSubType()%></TD>
+                     </TR>
+                 <% }}
 
-     </table>
-    </div>
-  </td>
-</tr>
+                 if( !agrOrthos.isEmpty() ) {
+                 %>
+                 <TR>
+                     <TH colspan="4" class="orthoExtBar" title="<%=note3%>">Alliance orthologs <sup><u>3</u></sup></TH>
+                 </TR>
+                     <%
+                     for (Gene gg: agrOrthos) {
+                 %>
+                 <TR>
+                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD style="background-color:#e2e2e2">
+                        <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
+                          <%-- do not print null gene name or gene name same as gene symbol --%>
+                          <%=gg.getSymbol()%><% if( !Utils.NVL(gg.getName(), gg.getSymbol()).equals(gg.getSymbol()) ) { out.print(" ("+gg.getName()+")"); } %></a>
+                     </TD>
+                     <TD style="background-color:#e2e2e2">Alliance</TD>
+                     <TD style="background-color:#e2e2e2">DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
+                 </TR>
+                 <% }} %>
+
+             </table>
+                </td>
+             </tr>
+         </tbody>
+
 <% } %>
 
 <script type="text/javascript">
@@ -170,3 +192,125 @@ function hideAllOrthos() {
   }
 }
 </script>
+<%!
+    private String getSpeciesImage(Gene gene) {
+        String imageSource = "/rgdweb/common/images/species/";
+        int speciesTypeKey = gene.getSpeciesTypeKey();
+        switch (speciesTypeKey){
+            case 1 :
+                imageSource += "humanI.png";
+                break;
+            case 2 :
+                imageSource += "mouseI.jpg";
+                break;
+            case 3 :
+                imageSource +=  "ratI.png";
+                break;
+            case 4 :
+                imageSource +=  "chinchillaI.jpg";
+                break;
+            case 5 :
+                imageSource +=  "bonoboI.jpg";
+                break;
+            case 6 :
+                imageSource +=  "dogI.jpg";
+                break;
+            case 7 :
+                imageSource +=  "squirrelI.jpg";
+                break;
+
+            case 9 :
+                imageSource +=  "pigI.png";
+                break;
+            case 13 :
+                imageSource +=  "green-monkeyI.png";
+                break;
+            case 14 :
+                imageSource +=  "mole-ratI.png";
+                break;
+        }
+        return imageSource;
+    }
+
+    private String getSpeciesName(Gene gene) {
+        String speciesName = "";
+        int speciesTypeKey = gene.getSpeciesTypeKey();
+        switch (speciesTypeKey){
+            case 1 :
+                speciesName = "Human";
+                break;
+            case 2 :
+                speciesName = "Mouse";
+                break;
+            case 3 :
+                speciesName =  "Rat";
+                break;
+            case 4 :
+                speciesName =  "Chinchilla";
+                break;
+            case 5 :
+                speciesName =  "Bonobo";
+                break;
+            case 6 :
+                speciesName =  "Dog";
+                break;
+            case 7 :
+                speciesName =  "Squirrel";
+                break;
+
+            case 9 :
+                speciesName =  "Pig";
+                break;
+            case 13 :
+                speciesName =  "Green Monkey";
+                break;
+            case 14 :
+                speciesName =  "Naked Mole-Rat";
+                break;
+        }
+        return speciesName;
+    }
+
+    private String getAllianceImage(Gene gene) {
+        String imageSource = "/rgdweb/common/images/";
+        int speciesTypeKey = gene.getSpeciesTypeKey();
+        switch(speciesTypeKey){
+            case 1 :
+                imageSource += "alliance_logo_hgnc.png";
+                break;
+            case 2 :
+                imageSource += "alliance_logo_rgd.png";
+                break;
+            case 3 :
+                imageSource += "alliance_logo_mgd.png";
+                break;
+
+        }
+        return imageSource;
+    }
+
+    //helper method for species tile text
+    private String convertToTitleCase(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+
+        StringBuilder converted = new StringBuilder();
+
+        boolean convertNext = true;
+        for (char ch : text.toCharArray()) {
+            if (Character.isSpaceChar(ch)) {
+                convertNext = true;
+            } else if (convertNext) {
+                ch = Character.toTitleCase(ch);
+                convertNext = false;
+            } else {
+                ch = Character.toLowerCase(ch);
+            }
+            converted.append(ch);
+        }
+
+        return converted.toString();
+    }
+
+%>

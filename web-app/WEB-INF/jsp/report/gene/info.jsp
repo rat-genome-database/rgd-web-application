@@ -10,7 +10,7 @@
 
 %>
 <table width="100%" border="0" id="info-table">
-
+    <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
     <tr>
         <td class="label" valign="top">Symbol:</td>
@@ -25,6 +25,32 @@
         <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
         <td><%=id.getRgdId()%></td>
     </tr>
+    <%--link to mgi and hgnc--%>
+
+
+    <% if (obj.getSpeciesTypeKey()==1) {
+        List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(21,obj.getRgdId());
+        if (xids.size()==1) {
+            XdbId xid = xids.get(0);
+    %>
+    <tr>
+        <td class="label">HGNC Page</td>
+        <td><a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>">HGNC</a></td>
+    </tr>
+
+    <%
+        }
+    }else if (obj.getSpeciesTypeKey()==2){
+        List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(5,obj.getRgdId());
+        if (xids.size()==1) {
+            XdbId xid = xids.get(0);
+    %>
+    <tr>
+        <td class="label">MGI Page</td>
+        <td><a href="<%=XDBIndex.getInstance().getXDB(5).getUrl(SpeciesType.MOUSE)+xid.getAccId()%>">MGI</a></td>
+    </tr>
+    <% }}
+    %>
 
     <%-- GENE DESCRIPTIONS: show merged description on PROD, and RGD, AGR, MERGED descriptions everywhere else--%>
     <% if( RgdContext.isCurator() ) { %>
@@ -100,8 +126,9 @@
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
+    </tbody>
     <%@ include file="orthologs.jsp"%>
-
+    <tbody>
     <%-- OPTIONAL SECTION: RELATED PSEUDOGENES --%>
     <%
         List<Association> assocList =  associationDAO.getAssociationsForMasterRgdId(obj.getRgdId());
@@ -252,6 +279,7 @@
         });
     </script>
     <% } %>
+    </tbody>
 </table>
 
 <%@ include file="../sectionFooter.jsp"%>
