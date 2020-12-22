@@ -226,7 +226,8 @@ public class DistributionController extends HaplotyperController {
         }else{
             regionList1=gSymbols;
         }
-        request.setAttribute("regionList", regionList1);
+    //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
+        request.setAttribute("regionList", regionList);
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("resultHash", resultHash);
         request.setAttribute("json",sb.toString() );
