@@ -72,7 +72,7 @@ function runGviewer() {
             URL = URL + "data_bonobo1_1";
         }
         else if(mapKey==='513') {
-            bandURL="/rgdweb/gviewer/data/bonobo_ideo_513.xml";
+            bandURL="/rgdweb/gviewer/data/bonobo_ideo.xml";
             URL = URL + "data_bonobo2";
         }
     }
