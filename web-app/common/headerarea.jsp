@@ -111,9 +111,12 @@
         opacity:.9;
         cursor:pointer;
         color:white;
+    }
+    .speciesIcon {
+        border:1px solid black;
+        padding:3px;
 
     }
-
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
