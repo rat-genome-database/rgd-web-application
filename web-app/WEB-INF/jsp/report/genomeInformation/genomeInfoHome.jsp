@@ -5,6 +5,7 @@
 <script src="/rgdweb/js/genomeInformation/genomeHome.js"></script>
 
 <div class="container">
+
     <div id="wrapper" style="border-color: white">
     <c:forEach items="${model.hits}" var="hits">
 
@@ -104,7 +105,7 @@
                                    </form-->
                                    <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
                                </td></tr>
-                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
+                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalSeqLength}</td></tr>
                                <c:choose>
                                <c:when test="${hit.sourceAsMap.species!='Squirrel' && hit.sourceAsMap.species!='Chinchilla'}">
                                      <tr><td>Chromosomes(haploid)</td><td>
