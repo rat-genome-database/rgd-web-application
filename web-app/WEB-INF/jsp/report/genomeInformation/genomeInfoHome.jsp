@@ -14,12 +14,12 @@
                 <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
                 hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species=='Mouse' || hit.sourceAsMap.species=='Chinchilla' || hit.sourceAsMap.species=='Dog'
                 || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel' || hit.sourceAsMap.species=='Pig') }">
-               <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
-                       <div class="panel-heading" style="background-color: #24609c">
+               <div class="card ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
+                       <div class="card-header" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->
                            <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" id="headerLink${hit.sourceAsMap.species}" title="click to see more info and other assemblies"><strong style="margin-left:40%;color:white">${hit.sourceAsMap.species}</strong></a>
                        </div>
-                       <div class="panel-body"  style="height:360px;overflow:auto">
+                       <div class="card-body"  style="height:360px;overflow:auto">
                            <c:if test="${hit.sourceAsMap.species=='Rat'}">
                            <div><p><small>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</small></p>
                            <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.</small></p></div>
