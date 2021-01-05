@@ -5,19 +5,22 @@
                                 <h5 class="card-title">Conference Watch</h5>
                         </div>
 
-                <p><a href="https://genetics-gsa.org/tagc-2020/">The Allied Genetics Conference, Gaylord National Resort &amp; Convention Center, Washington, DC, USA - April 22-26, 2020 <strong><span style="color: red"> (ONLINE) </strong></span></a></p>
-                <p><a href="https://www.cagh.org.uk/edinburgh-2020/">Companion Animal Genetic Health Conference, South Hall Complex, Pollock Halls, Edinburgh, Scotland - May 11-12, 2020</a></p>
-                <p><a href="http://wiki.geneontology.org/index.php/Consortium_Meetings_and_Workshops">Gene Ontology Consortium Meeting, Retrovirus Room, Pasteur Institute, Paris France - May 11-14, 2020</a></p>
-                <p><a href="https://www.ibngs.org/2020-genes-brain-and-behavior-meeting">22nd Annual Meeting of the International Behavioural and Neural Genetics Society (IBANGS), Marine Biological Laboratory Conference Center, Woods Hole, MA, USA - May 12-17, 2020 <strong><span style="color: red"> (CANCELED) </strong></span></a></p>
-                <p><a href="https://www.jax.org/education-and-learning/education-calendar/2020/05-may/biocuration-2020-conference">Biocuration 2020, The 13th International Biocuration Conference, Bar Harbor Club, Bar Harbor, ME, USA - May 17-20, 2020<strong><span style="color: red"> (CANCELED) </strong></span></a></p>
-                <p><a href="https://meetings.cshl.edu/meetings.aspx?meet=SYMP&year=20">85th Cold Spring Harbor Laboratory Symposium on Quantitative Biology - Genome Stability & Integrity, Cold Spring Harbor, NY, USA - May 27-June 1, 2020</a></p>
-                <p><a href="https://www.iscb.org/ismb2020">28th Conference on Intelligent Systems for Molecular Biology, Palais des Congres, Montreal, Canada - July 12-16, 2020; Abstract deadline: April 2, 2020</a></p>
-                <p><a href="http://www.complextrait.org/ctc2020/">18th Annual Meeting of the Complex Trait Community/Rat Genomics, Hulme Hall, University of Manchester, Manchester, UK - September 2-4, 2020; Abstract deadline: August 1, 2020 <strong><span style="color: red">(Delayed until June 2021: CTC-Rat Genome meeting will still be in Manchester but summer 2021)</span></strong></a></p>
-                <p><a href="https://icbo2020.inf.unibz.it/">11th International Conference on Biomedical Ontologies, Bozen-Bolzano, Italy - September 16-19, 2020; Registration deadline: March 13, 2020</a></p>
-                <p><a href="https://www.ashg.org/meetings/2020meeting/">American Society of Human Genetics 2020, San Diego, CA, USA - October 27-31, 2020; Abstract deadline: June 11, 2020</a></p>
-                <p><a href="https://www.amia.org/amia2020">AMIA 2020 Annual Symposium, Hilton Chicago, Chicago, IL, USA - November 14-18, 2020; Submission deadline: March 18, 2020</a></p>
-                <p><a href="https://www.iscb.org/rocky2020">Rocky Mountain Bioinformatics Conference (Rocky 2020), Viceroy Snowmass, Snowmass Village, CO, USA - December 3-5, 2020; Abstract deadline: October 12, 2020</a></p>
-
+                <p><a href="https://virtual.keystonesymposia.org/ks/live/621/page/5036?_ga=2.147278263.1420591416.1601296946-252217112.1600860321">Virtual Keystone Symposium - Harnessing the Microbiome for Disease Prevention and Therapy, January 18-20, 2021; Abstract (poster) deadline: January 4, 2021</a></p>
+                <p><a href="https://meetings.cshl.edu/meetings.aspx?meet=COVID-R3-5&year=21">COVID/SARS CoV2 Rapid Research Reports #5, Cold Spring Harbor Laboratory Virtual Meeting, January 26-27, 2021; Abstract deadline: December 18, 2020</a></p>
+                <p><a href="https://www.toxicology.org/events/am/AM2021/registration.asp">Society of Toxicology Annual Meeting & ToxExpo Virtual Event, weekdays March 12-26, 2021; Standard Registration deadline: February 19, 2021</a></p>
+                <p><a href="https://meetings.cshl.edu/meetings.aspx?meet=NETWORK&year=21">Network Biology, Cold Spring Harbor Laboratory Virtual Meeting, March 16-19, 2021; Abstract deadline: January 8, 2021</a></p>
+                <p><a href="https://www.amia.org/summit2021">AMIA 2021 Virtual Informatics Summit, March 22-25, 2021; Submission deadline: August 27, 2020</a></p>
+                <p><a href="https://meetings.cshl.edu/meetings.aspx?meet=PROBGEN&year=21">Probabilistic Modeling in Genomics, Cold Spring Harbor Laboratory Virtual Meeting, April 14-16, 2021; Abstract deadline: January 22, 2021</a></p>
+                <p><a href="https://www.recomb2021.org/">RECOMB 2021 - 25th International Conference on Research in Computational Molecular Biology, Fiera di Padova, Padova, Italy - April 18-21, 2021; Abstract (poster) deadline: February 1, 2021</a></p>
+                <p><a href="http://www.apsebmeeting.org/eb2021/?gclid=Cj0KCQiA-rj9BRCAARIsANB_4AC5x_bI2TMLAppa7_PthS4qyCBdSq_CGXQb49YPEXC3gD-jnUhCaXQaApFqEALw_wcB">American Physiological Society Annual Meeting at Experimental Biology (Virtual), April 27-30, 2021; Abstract deadline:January 7, 2021</a></p>
+                <p><a href="https://www.asbmb.org/meetings-events/2021-annual-meeting?gclid=Cj0KCQiA-rj9BRCAARIsANB_4ADkXnAN7qjmi8qXB4dLQ2ntw0yuxuQ-Aoa-SR2JsVuIavn63ImCgg0aApgXEALw_wcB">2021 American Society for Biochemistry and Molecular Biology Meeting at Experimental Biology (Virtual), April 27-30, 2021; Abstract deadline:January 7, 2021</a></p>
+                <p><a href="https://www.iscb.org/glbio2021">Great Lakes Bioinformatics Conference, McNamara Alumni Center, Minneapolis, MN, USA - May 10-13, 2021; Abstract deadline: March 1, 2021</a></p>
+                <p><a href="https://www.ibngs.org/2021-genes-brain-and-behavior-meeting">Genes Brain and Behavior (IBANGS) Virtual Meeting, May 11-16, 2021</a></p>
+                <p><a href="https://www.iscb.org/ismbeccb2021">29th Conference on Intelligent Systems for Molecular Biology/20th European Conference on Computational Biology, Lyon, France - July 25-29, 2021; Proceedings submission deadline: January 28, 2021</a></p>
+                
                 </td>
+                
+
+                
         </tr>
 </table>
