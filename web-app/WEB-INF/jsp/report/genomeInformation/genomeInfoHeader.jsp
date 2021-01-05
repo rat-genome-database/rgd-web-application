@@ -25,5 +25,5 @@
 </div>
 <!--div class="container"-->
 <hr>
-<div class="panel panel-default"style="border-color: white" >
-    <div class="panel-body">
+<div class="card" style="border-color: white" >
+    <div class="card-body">
