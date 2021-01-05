@@ -74,7 +74,15 @@
                                             <c:if test="${entry.key.equalsIgnoreCase(hit.sourceAsMap.species)}">
                                                 <c:forEach items="${entry.value}" var="e">
                                                     <c:if test="${e.key!=6 && e.key!=36 && e.key!=8 && e.key!=21 && e.key!=19 && e.key!=7}">
-                                                    <option value="${e.key}">${e.name}</option>
+                                                        <c:choose>
+                                                            <c:when test="${e.key==hit.sourceAsMap.mapKey}">
+                                                                <option value="${e.key}" selected>${e.name}</option>
+
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <option value="${e.key}">${e.name}</option>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                </c:if>
                                                 </c:forEach>
 
@@ -97,7 +105,7 @@
                                    </form-->
                                    <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
                                </td></tr>
-                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
+                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalSeqLength}</td></tr>
                                <c:choose>
                                <c:when test="${hit.sourceAsMap.species!='Squirrel' && hit.sourceAsMap.species!='Chinchilla'}">
                                      <tr><td>Chromosomes(haploid)</td><td>

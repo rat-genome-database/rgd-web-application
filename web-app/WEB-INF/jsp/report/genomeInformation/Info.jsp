@@ -137,9 +137,9 @@
 
 
                 <tr><td>Assembly</td><td>${model.assembly}<br><a href="${hit.sourceAsMap.ncbiLink}" target="_blank">${hit.sourceAsMap.refSeqAssemblyAccession} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
-                <tr><td>Base Pairs</td><td>${hit.sourceAsMap.basePairs}</td></tr>
-                <tr><td>Total Sequence Length (bp)</td><td>${hit.sourceAsMap.totalLength}</td></tr>
-                <tr><td>Total Assembly Gap Length (bp)</td><td>${hit.sourceAsMap.gapLength}</td></tr>
+                <!--tr><td>Base Pairs</td><td>$-{hit.sourceAsMap.basePairs}</td></tr-->
+                <tr><td>Total Sequence Length (bp)</td><td>${hit.sourceAsMap.totalSeqLength}</td></tr>
+                <tr><td>Total Ungapped Length (bp)</td><td>${hit.sourceAsMap.totalUngappedLength}</td></tr>
                 <tr><td>Gaps Between Scaffolds (bp)</td><td>${hit.sourceAsMap.gapBetweenScaffolds}</td></tr>
                 <tr><td>Number of Scaffolds</td><td>${hit.sourceAsMap.scaffolds}</td></tr>
                 <tr><td>Scaffold N50 (bp)</td><td>${hit.sourceAsMap.scaffoldN50}</td></tr>

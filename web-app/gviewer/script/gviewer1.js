@@ -562,7 +562,7 @@ function Gviewer(viewerId, height, width) {
                 }
 
 
-                if (j== (chr.bands.length -1)) {
+                if (j=== (chr.bands.length -1)) {
                     bdiv.style.borderBottomLeftRadius="10px";
                     bdiv.style.borderBottomRightRadius="10px";
                     // bdiv.style.borderBottom = "2px solid black";
@@ -570,7 +570,7 @@ function Gviewer(viewerId, height, width) {
 
                 }
 
-                if (j==0) {
+                if (j===0) {
                     //bdiv.style.borderTop = "2px solid black";
                     bdiv.style.borderTopLeftRadius="10px";
                     bdiv.style.borderTopRightRadius="10px";
@@ -607,7 +607,7 @@ function Gviewer(viewerId, height, width) {
         }
 
         for (i=0; i< this.annotationTypes.length; i++) {
-            if (this.annotationTypes[i] == annot.type) {
+            if (this.annotationTypes[i] === annot.type) {
                 adiv.style.height=len;
                 adiv.style.left = this.chromosomeWidth + this.regionPadding + ((this.annotationWidth + this.annotationPadding) * i);
             }
@@ -636,7 +636,7 @@ function Gviewer(viewerId, height, width) {
     this.toggleAnnotation = function(checked, type)  {
         for (var i=1; i< this.chromosomes.length; i++) {
             for (var j=0; j< this.chromosomes[i].annotations.length; j++) {
-                if (this.chromosomes[i].annotations[j].type == type) {
+                if (this.chromosomes[i].annotations[j].type === type) {
                     if (checked) {
                         this.chromosomes[i].annotations[j].div.style.display = "block";
                     }else {
