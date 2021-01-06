@@ -51,13 +51,13 @@
         var $jbrowse= document.getElementById('jbrowseMini');
         var URL="https://rgd.mcw.edu/jbrowse?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
 
-        if(species=='Chinchilla') {
-            if(mapKey==44)
+        if(species==='Chinchilla') {
+            if(mapKey===44)
                 $jbrowse.src = URL + "data_cl1_0&loc=";
         }
 
-        if(species=='Squirrel') {
-            if(mapKey==720)
+        if(species==='Squirrel') {
+            if(mapKey===720)
                 document.getElementById('jbrowseMini').src = URL + "data_squirrel2_0&loc=";
         }
 

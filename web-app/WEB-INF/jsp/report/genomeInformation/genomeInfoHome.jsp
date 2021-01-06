@@ -14,12 +14,12 @@
                 <c:if test="${hit.sourceAsMap.primaryAssembly=='Y' && ( hit.sourceAsMap.species=='Rat' ||
                 hit.sourceAsMap.species=='Human' || hit.sourceAsMap.species=='Mouse' || hit.sourceAsMap.species=='Chinchilla' || hit.sourceAsMap.species=='Dog'
                 || hit.sourceAsMap.species=='Bonobo' || hit.sourceAsMap.species=='Squirrel' || hit.sourceAsMap.species=='Pig') }">
-               <div class="panel panel-default ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
-                       <div class="panel-heading" style="background-color: #24609c">
+               <div class="card ${hit.sourceAsMap.species}" id="${hit.sourceAsMap.species}">
+                       <div class="card-header" style="background-color: #24609c">
                            <!--div class="panel-heading" style="background-color: #6FB98F"-->
                            <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" id="headerLink${hit.sourceAsMap.species}" title="click to see more info and other assemblies"><strong style="margin-left:40%;color:white">${hit.sourceAsMap.species}</strong></a>
                        </div>
-                       <div class="panel-body"  style="height:360px;overflow:auto">
+                       <div class="card-body"  style="height:360px;overflow:auto">
                            <c:if test="${hit.sourceAsMap.species=='Rat'}">
                            <div><p><small>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</small></p>
                            <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.</small></p></div>
@@ -74,7 +74,15 @@
                                             <c:if test="${entry.key.equalsIgnoreCase(hit.sourceAsMap.species)}">
                                                 <c:forEach items="${entry.value}" var="e">
                                                     <c:if test="${e.key!=6 && e.key!=36 && e.key!=8 && e.key!=21 && e.key!=19 && e.key!=7}">
-                                                    <option value="${e.key}">${e.name}</option>
+                                                        <c:choose>
+                                                            <c:when test="${e.key==hit.sourceAsMap.mapKey}">
+                                                                <option value="${e.key}" selected>${e.name}</option>
+
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <option value="${e.key}">${e.name}</option>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                </c:if>
                                                 </c:forEach>
 
@@ -97,7 +105,7 @@
                                    </form-->
                                    <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
                                </td></tr>
-                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalLength}</td></tr>
+                               <tr><td>Total Seq Length</td><td>${hit.sourceAsMap.totalSeqLength}</td></tr>
                                <c:choose>
                                <c:when test="${hit.sourceAsMap.species!='Squirrel' && hit.sourceAsMap.species!='Chinchilla'}">
                                      <tr><td>Chromosomes(haploid)</td><td>
