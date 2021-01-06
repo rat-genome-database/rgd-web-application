@@ -125,11 +125,11 @@
 </div>
 <hr>
 <div class="container">
-<div class="panel panel-default" style="border:1px solid white">
+<div class="card" style="border:1px solid white">
     <!--div class="panel-heading">
         <h4>$--{model.species} Genome Information - $-{model.assembly}   </h4>
     </div-->
-    <div class="panel-body" >
+    <div class="card-body" >
 
         <div style="float:left;width:40%">
             <h4>Summary</h4>
