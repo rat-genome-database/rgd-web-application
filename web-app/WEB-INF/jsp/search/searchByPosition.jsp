@@ -17,12 +17,6 @@
 <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="/rgdweb/my/my.js"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css">
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      type="text/css">
 
 <style>
     .t {
@@ -118,7 +112,16 @@
 </style>
 
 <script>
-    function toggleResults(type) {
+    function checkActiveStatus(type){
+        if(type == "result"){
+            document.getElementById("resultDataLink").className = "active";
+        }
+        else{
+            document.getElementById("resultDataLink").className = "";
+        }
+    }
+
+    /*function toggleResults(type) {
         if (type == 'result')
             document.getElementById("searchByPositionResultsId").style.display = "block";
         if (type == 'gene')
@@ -127,7 +130,7 @@
             document.getElementById("searchQTLsResultId").style.display = "block";
         if (type == 'sslps')
             document.getElementById("searchSSLPsResultId").style.display = "block";
-    }
+    }*/
 
     //on press of enter ket getdata()
     var input = document.getElementById("searchByPosSubmit");
@@ -163,10 +166,17 @@
 <link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>-->
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+-->
 
-<link href="/rgdweb/css/report.css?v=2" rel="stylesheet" type="text/css" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css" rel="stylesheet" >
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+<link href="/rgdweb/css/report.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
+
 <script type="text/javascript" src="/rgdweb/js/report.js?v=6"></script>
+<script type="text/javascript" src="/rgdweb/my/my.js"></script>
 
 <div class="rgd-panel rgd-panel-default">
     <div class="rgd-panel-heading"><%=pageHeader%>
@@ -246,17 +256,17 @@
             <nav id="reportMainSidebar" class="navbar report-page-grey bordereddiv"
                  style="overflow-y: hidden; position: fixed;width:10%; padding: 15px;height:30vh;">
                 <ul class="navbar-nav" id="navbarUlId">
-                    <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink"
+                    <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink" onclick=checkActiveStatus('result')
                                             style="font-size: x-large">Results</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="genes"><a class="nav-link" href="#searchGeneResultId"
-                                                         style="font-size: large;" onclick="toggleResults('gene');">Genes</a>
+                                                         style="font-size: large;" onclick="checkActiveStatus('gene');">Genes</a>
                     </li>
                     <br>
-                    <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId"
+                    <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick="checkActiveStatus('qtl');"
                                                         style="font-size: large;">QTLs</a></li>
                     <br>
-                    <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId"
+                    <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick="checkActiveStatus('sslp');"
                                                          style="font-size: large;">SSLPs</a></li>
                 </ul>
             </nav>
@@ -514,7 +524,7 @@
                                 v.geneCount = v.geneData.length;
                                 v.genes = true;
 
-                                //document.getElementById('resultDataLink').style.backgroundColor = '#2865A3';
+                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
 
                                 /*var geneResultsTable = document.getElementById("geneResultsTable");
