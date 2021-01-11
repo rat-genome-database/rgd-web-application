@@ -1,6 +1,3 @@
-<%@ page import="edu.mcw.rgd.reporting.SearchReportStrategy" %>
-<%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
-<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -17,6 +14,14 @@
 <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css" rel="stylesheet" >
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+<link href="/rgdweb/css/report.css?" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="/rgdweb/js/report.js?v=6"></script>
+<script type="text/javascript" src="/rgdweb/my/my.js"></script>
 
 <style>
     .t {
@@ -106,12 +111,19 @@
         -moz-appearance: textfield;
     }
 
-    a:focus {
-        background-color:#2865A3;
-    }
 </style>
 
+<%
+    String pageHeader = "Search for genes, SSLPs and QTLs by position";
+    String pageTitle = "Search By Position";
+    String headContent = "";
+    String pageDescription = "Search all objects using Position";
+%>
+
 <script>
+    var selectedSpecies = 0;
+    var selectedMapKey = 0;
+
     function checkActiveStatus(type){
         if(type == "result"){
             document.getElementById("resultDataLink").className = "active";
@@ -120,17 +132,6 @@
             document.getElementById("resultDataLink").className = "";
         }
     }
-
-    /*function toggleResults(type) {
-        if (type == 'result')
-            document.getElementById("searchByPositionResultsId").style.display = "block";
-        if (type == 'gene')
-            document.getElementById("searchGeneResultId").style.display = "block";
-        if (type == 'qtls')
-            document.getElementById("searchQTLsResultId").style.display = "block";
-        if (type == 'sslps')
-            document.getElementById("searchSSLPsResultId").style.display = "block";
-    }*/
 
     //on press of enter ket getdata()
     var input = document.getElementById("searchByPosSubmit");
@@ -143,17 +144,16 @@
         });
     }
 
-</script>
-<%
-    String pageHeader = "Search for genes, SSLPs and QTLs by position";
-    String pageTitle = "Search By Position";
-    String headContent = "";
-    String pageDescription = "Search all objects using Position";
+    function setVariables() {
+        var showToolsImgId = document.getElementById("showToolsImgId");
+        if (showToolsImgId) {
+            selectedSpecies = document.getElementById("species").selectedOptions[0].value;
+            selectedMapKey = document.getElementById("mapKey").selectedOptions[0].value;
+        }
+    }
 
-    HttpRequestFacade req = new HttpRequestFacade(request);
-    int selectedSpecies = 3;
-    int selectedMapKey = 360;
-%>
+</script>
+
 <%@ include file="/common/headerarea.jsp" %>
 
 <!--Tablesorter
@@ -166,17 +166,7 @@
 <link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
--->
-
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css" rel="stylesheet" >
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-<link href="/rgdweb/css/report.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
-
-<script type="text/javascript" src="/rgdweb/js/report.js?v=6"></script>
-<script type="text/javascript" src="/rgdweb/my/my.js"></script>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>-->
 
 <div class="rgd-panel rgd-panel-default">
     <div class="rgd-panel-heading"><%=pageHeader%>
@@ -249,7 +239,6 @@
         </table>
         </form>
     </div>
-
     <br><br><br>
     <div id="page-container" style="display: none">
         <div id="left-side-wrap" style="margin: 10px">
@@ -260,13 +249,13 @@
                                             style="font-size: x-large">Results</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="genes"><a class="nav-link" href="#searchGeneResultId"
-                                                         style="font-size: large;" onclick="checkActiveStatus('gene');">Genes</a>
+                                                         style="font-size: large;" onclick=checkActiveStatus('gene')>Genes</a>
                     </li>
                     <br>
-                    <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick="checkActiveStatus('qtl');"
+                    <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick=checkActiveStatus('qtl')
                                                         style="font-size: large;">QTLs</a></li>
                     <br>
-                    <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick="checkActiveStatus('sslp');"
+                    <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick=checkActiveStatus('sslp')
                                                          style="font-size: large;">SSLPs</a></li>
                 </ul>
             </nav>
@@ -337,9 +326,9 @@
                                     </button>
                                 </div>
                                 <div style="padding: 10px;width: 10%" >
-                                    <img src="/rgdweb/common/images/tools-white-50.png"
-                                         style="cursor:hand; border: 2px solid black;" border="0"
-                                             ng-click="rgd.showTools('geneList','<%=selectedSpecies%>','<%=selectedMapKey%>',1,'')"/>
+                                    <img src="/rgdweb/common/images/tools-white-50.png" id="showToolsImgId"
+                                         style="cursor:hand; border: 2px solid black;" border="0" onclick="setVariables()"
+                                             ng-click="rgd.showTools('geneList',selectedSpecies,selectedMapKey,1,'')"/>
                                 </div>
                             </div>
                             <table id="geneResultsTable" class="t" role="grid">
