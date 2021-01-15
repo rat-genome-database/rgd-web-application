@@ -16,7 +16,9 @@
                 <p><a href="https://www.asbmb.org/meetings-events/2021-annual-meeting?gclid=Cj0KCQiA-rj9BRCAARIsANB_4ADkXnAN7qjmi8qXB4dLQ2ntw0yuxuQ-Aoa-SR2JsVuIavn63ImCgg0aApgXEALw_wcB">2021 American Society for Biochemistry and Molecular Biology Meeting at Experimental Biology (Virtual), April 27-30, 2021; Abstract deadline:January 7, 2021</a></p>
                 <p><a href="https://www.iscb.org/glbio2021">Great Lakes Bioinformatics Conference, McNamara Alumni Center, Minneapolis, MN, USA - May 10-13, 2021; Abstract deadline: March 1, 2021</a></p>
                 <p><a href="https://www.ibngs.org/2021-genes-brain-and-behavior-meeting">Genes Brain and Behavior (IBANGS) Virtual Meeting, May 11-16, 2021</a></p>
+                <p><a href="https://www.sbr2020.org/">Swine in Biomedical Research Conference, Memorial Union, University of Wisconsin-Madison, Madison, WI, USA - July 10-14, 2021</a></p>
                 <p><a href="https://www.iscb.org/ismbeccb2021">29th Conference on Intelligent Systems for Molecular Biology/20th European Conference on Computational Biology, Lyon, France - July 25-29, 2021; Proceedings submission deadline: January 28, 2021</a></p>
+                <p><a href="http://www.hibernation2020.com/">16th International Hybernation Symposium, University Medical Center Groningen, Groningen, The Netherlands - August 1-5, 2021; Abstract deadline: April 1, 2021</a></p>
                 
                 </td>
                 
