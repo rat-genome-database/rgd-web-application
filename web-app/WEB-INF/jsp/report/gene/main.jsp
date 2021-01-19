@@ -38,19 +38,16 @@
     }
     String objectType="gene";
     String displayName=obj.getSymbol();
-
     String geneSource = Utils.NVL(obj.getGeneSource(),"NCBI");
     if( !(geneSource.equals("NCBI") || geneSource.equals("Ensembl")) ) {
         geneSource = "NCBI";
     }
     edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey(), geneSource);
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
-
     MapData md = new MapData();
     if (mapDataList.size() > 0) {
         md = (MapData) mapDataList.get(0);
     }
-
     // handling of RETIRED/WITHDRAWN genes: rgd id history is searched for an active rgd id that possibly
     // replaced this retired/withdrawn object
     RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
@@ -61,7 +58,6 @@
         if( newRgdId>0 )
             newGene = geneDAO.getGene(newRgdId);
     }
-
     String description = Utils.getGeneDescription(obj);
     String pageTitle = obj.getSymbol() + " (" + obj.getName() + ") - " + RgdContext.getLongSiteName(request);
     String headContent = "";
@@ -96,7 +92,6 @@
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/rgd-s-gene-report-pages-tutorial";
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
-
 %>
 
 <script>
@@ -105,13 +100,13 @@
 
 <div id="page-container">
 
-<div id="left-side-wrap">
-    <div id="species-image">
-     <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
-    </div>
+    <div id="left-side-wrap">
+        <div id="species-image">
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+        </div>
 
-    <%@ include file="../reportSidebar.jsp"%>
-</div>
+        <%@ include file="../reportSidebar.jsp"%>
+    </div>
 
 
     <div id="content-wrap">
@@ -191,7 +186,6 @@
                         SearchBean sb = new SearchBean();
                         sb.setTerm(obj.getSymbol() + "[gene]");
                         sb.setSpeciesType(obj.getSpeciesTypeKey());
-
                     %>
 
                     <%@ include file="candidateGenes.jsp"%>
@@ -224,6 +218,7 @@
                     <%@ include file="clinicalVariants.jsp"%>
                     <%@ include file="../variants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
 
                     <!--above additional information--->
                     <a name="additional"></a>
@@ -235,23 +230,23 @@
 
                 </td>
                 <td>&nbsp;</td>
-<%--                <td valign="top">--%>
+                <%--                <td valign="top">--%>
 
-<%--                    <%@ include file="links.jsp" %>--%>
-<%--                    <br>--%>
-<%--                    <%@ include file="../idInfo.jsp" %>--%>
-<%--                </td>--%>
+                <%--                    <%@ include file="links.jsp" %>--%>
+                <%--                    <br>--%>
+                <%--                    <%@ include file="../idInfo.jsp" %>--%>
+                <%--                </td>--%>
             </tr>
         </table>
-            </table>
-        </table>
+    </table>
+    </table>
     </div>
 </div>
 <% } %>
 <%-- --%>
 
-        <%@ include file="../reportFooter.jsp"%>
-        <%@ include file="/common/footerarea.jsp"%>
+<%@ include file="../reportFooter.jsp"%>
+<%@ include file="/common/footerarea.jsp"%>
 
 
 <script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
