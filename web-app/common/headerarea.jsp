@@ -252,6 +252,7 @@
                                     <div class="rgd-dropdown-content">
                                         <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
                                         <a href="/rgdweb/models/allModels.html">Genetic Models</a>
+                                        <a href="/wg/autism-rat-model-resource/">Autism Models</a>
                                         <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
                                         <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
                                         <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
