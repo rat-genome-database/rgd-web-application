@@ -169,7 +169,7 @@
 
         <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
         <td>
-            <a style="font-size:26px;padding-right:40px;" href="https://pipelines.rgd.mcw.edu/rgdweb/curation/home.html">Enter Curation Portal</a>
+            <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
         <%}%>
         <td>
