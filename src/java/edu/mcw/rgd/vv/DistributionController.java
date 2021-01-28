@@ -39,7 +39,7 @@ public class DistributionController extends HaplotyperController {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         List regionList = new ArrayList();
-        List<String> regionList1=new ArrayList<>();
+     //   List<String> regionList1=new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
         String[][] matrix= null;
         StringBuilder sb=new StringBuilder();
@@ -138,6 +138,8 @@ public class DistributionController extends HaplotyperController {
 
             resultHash =this.getVariantToGeneCountMap(vsb, req);
 
+            System.out.println("RESULT HASH SIZE: "+ resultHash.size());
+
          /*   if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
             }*/
@@ -218,14 +220,15 @@ public class DistributionController extends HaplotyperController {
             if(resultHash.size()>0) {
                 List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
                 for (GeneLoci l : loci) {
-                    if (!regionList1.contains(l.getGeneSymbols())) {
-                        regionList1.add(l.getGeneSymbols());
+                    if (!regionList.contains(l.getGeneSymbols())) {
+                        regionList.add(l.getGeneSymbols());
                     }
                 }
             }
         }else{
           //  regionList1=gSymbols;
         }
+
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
         request.setAttribute("sampleIds", sampleIds);
@@ -235,6 +238,13 @@ public class DistributionController extends HaplotyperController {
         request.setAttribute("maxValue", maxValue);
         ModelMap model=new ModelMap();
         model.addAttribute("matrix", matrix);
+        for(Map.Entry e:resultHash.entrySet()) {
+            System.out.println("KEY:"+e.getKey() );
+            Map<String, Integer> map= (Map<String, Integer>) e.getValue();
+            for(Map.Entry x:map.entrySet()){
+                System.out.println(x.getKey() +"\t"+ x.getValue());
+            }
+        }
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
         //   }catch (Exception e) {
@@ -347,8 +357,8 @@ public class DistributionController extends HaplotyperController {
                 int totalDocCount = 0;
                 for (Terms.Bucket gb : geneAggs.getBuckets()) {
                     totalDocCount = totalDocCount + (int) gb.getDocCount();
-                    geneCountMap.put((String) gb.getKey(), (int) gb.getDocCount());
-                    geneKeys.add((String) gb.getKey());
+                    geneCountMap.put( gb.getKey().toString().toLowerCase(), (int) gb.getDocCount());
+                    geneKeys.add((gb.getKey().toString().toLowerCase()));
 
                 }
                 if (totalDocCount > 0) {
@@ -391,19 +401,19 @@ public class DistributionController extends HaplotyperController {
                             if (samp.getDocCount() < vsb.sampleIds.size()) {
                                 Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
                                 if (geneVarCountsOfSample != null) {
-                                    Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(b.getKey());
+                                    Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(((String) b.getKey()).toLowerCase());
                                     if (varNucCountOfGeneOfSample != null) {
                                         varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
-                                        geneVarCountsOfSample.put(b.getKey().toString(), varNucCountOfGeneOfSample);
+                                        geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), varNucCountOfGeneOfSample);
 
                                     } else {
-                                        geneVarCountsOfSample.put(b.getKey().toString(), (int) samp.getDocCount());
+                                        geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), (int) samp.getDocCount());
                                     }
 
                                     variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                 }else{
                                     geneVarCountsOfSample=new HashMap<>();
-                                    geneVarCountsOfSample.put(b.getKey().toString(),(int) samp.getDocCount());
+                                    geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(),(int) samp.getDocCount());
                                     variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                 }
 
