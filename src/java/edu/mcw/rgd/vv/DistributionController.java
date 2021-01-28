@@ -38,7 +38,7 @@ public class DistributionController extends HaplotyperController {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        List regionList = new ArrayList();
+        List<String> regionList = new ArrayList<>();
      //   List<String> regionList1=new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
         String[][] matrix= null;
@@ -175,9 +175,9 @@ public class DistributionController extends HaplotyperController {
                     }
 
                     if (!lastGene.equals("")) {
-                        if (masterKeySet.contains(lastGene + "|" + mg.getGene().getSymbol())) {
-                            regionList.add(lastGene + "|" + mg.getGene().getSymbol());
-                            masterKeySet.remove(lastGene + "|" + mg.getGene().getSymbol());
+                        if (masterKeySet.contains(lastGene.toLowerCase() + "|" + mg.getGene().getSymbol().toLowerCase())) {
+                            regionList.add(lastGene.toLowerCase() + "|" + mg.getGene().getSymbol().toLowerCase());
+                            masterKeySet.remove(lastGene.toLowerCase() + "|" + mg.getGene().getSymbol().toLowerCase());
                         }
                     }
 
