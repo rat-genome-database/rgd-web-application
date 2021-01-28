@@ -315,7 +315,7 @@ public class VVService {
         }else {
             if(chromosome!=null && !chromosome.equals("") ){
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("chromosome", chromosome)
+                        QueryBuilders.termQuery("chromosome.keyword", chromosome)
                 );
            //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
             if ( sampleIds.size() > 0) {

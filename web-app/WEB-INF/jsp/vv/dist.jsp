@@ -9,7 +9,7 @@
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
     int mapKey = (Integer) request.getAttribute("mapKey");
 
-    Map resultHash = (Map) request.getAttribute("resultHash");
+    Map<String, Map<String, Integer>> resultHash = (Map<String, Map<String, Integer>>) request.getAttribute("resultHash");
     Integer maxValue = (Integer) request.getAttribute("maxValue");
     List<String> sampleIds = (List<String>) request.getAttribute("sampleIds");
     List<String> regionList = (List<String>) request.getAttribute("regionList");
@@ -86,63 +86,6 @@
 
     <% return;
     } %>
-
-
-
-    <%
-        if (hasAnnotation) {
-    %>
-
-    <div style="background-color:#EEEEEE; color:#002049;padding:10px;">
-        <table width=95% cellpadding="0" border=0>
-            <tr>
-                <td valign="top">
-                    <span style="font-size:22px;">Variation in Annotated Genes Located on Chromosome <%=req.getParameter("chr")%></span>
-                </td>
-                <td align="right"></td>
-                <td align="right">
-                    <table border=0 style="border:1px solid black; padding: 3px;" cellpadding=0 cellspacing=0>
-                        <tr>
-                            <td style="font-weight:700;">Annotation Key: &nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=rdoColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("rdo_term")%>
-                            </td>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=pwColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("pw_term")%>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=mpColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("mp_term")%>
-                            </td>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=chebiColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("chebi_term")%>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
-
-            </tr>
-        </table>
-    </div>
-
-    <% } %>
 
 
     <table border=0 cellpadding=0 cellspacing=0 align="center"
@@ -226,78 +169,6 @@
                      style="overflow:auto; width:<%=divWidth%>px; height:<%=tableHeight + 145 + sampleIds.size()%>; top: -1; position: relative;">
 
                     <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
-                        <% if (hasAnnotation) { %>
-                        <tr>
-
-                            <%
-                                Iterator genesIt = regionList.iterator();
-                                boolean first = true;
-                                while (genesIt.hasNext()) {
-                                    String region = (String) genesIt.next();
-                            %>
-
-                            <% if (first) { %>
-                            <td style="height:8px;border-left:2px solid white; " align="center">
-                                    <% first = false;
-                } else { %>
-                            <td style="height:8px; " align="center">
-                                <%} %>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (rdoGenes.size() > 0) {%>
-                                    <%
-                                        if (rdoGenes.contains(region)) { %>
-                                    <div style="background-color:<%=rdoColor%>; height:5px;width:15px; border-radius: 50px; "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px;  "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (pwGenes.size() > 0) {%>
-                                    <% if (pwGenes.contains(region)) { %>
-                                    <div style="background-color:<%=pwColor%>; height:5px;width:15px; border-radius: 50px;  "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px;  "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (mpGenes.size() > 0) {%>
-                                    <% if (mpGenes.contains(region)) { %>
-                                    <div style="background-color:<%=mpColor%>; height:5px;width:15px; border-radius: 50px;  "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (chebiGenes.size() > 0) {%>
-                                    <% if (chebiGenes.contains(region)) { %>
-                                    <div style="background-color:<%=chebiColor%>; height:5px;width:15px; border-radius: 50px; "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-                            </td>
-
-                            <%
-                                }
-                            %>
-                        </tr>
-                        <% } %>
 
                         <tr>
                             <%
@@ -348,7 +219,7 @@
                             while (it.hasNext()) {%>
                         <tr>
                             <%      String sample = (String) it.next();
-                                Map<String, Integer> results = (Map) resultHash.get(sample);
+                                Map<String, Integer> results = (Map<String, Integer>) resultHash.get(sample);
                                 if (results == null) {
                                     results = Collections.emptyMap();
                                 }
@@ -357,7 +228,7 @@
                                 while (pit.hasNext()) {
                                     String region = (String) pit.next();
 
-                                    Integer count = results.get(region.toUpperCase());
+                                    Integer count = results.get(region.toLowerCase());
                                     if (count == null) {
                                         count=results.get(region);
                                         if(count==null)
