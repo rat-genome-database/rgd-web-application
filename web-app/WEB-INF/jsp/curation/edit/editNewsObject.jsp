@@ -111,7 +111,7 @@
            },
             showExample: function () {
                 //this.message = '<td><p href="'+this.hyperlink+'">'+this.display +' '+this.strong+'</p></td>'
-                if(this.type === "NEWS" || this.type==="CONFERENCE"){
+                if(document.getElementById("contentList").value != "VIDEO" ){
                     var dateEntered = new Date(document.getElementById("date").value);
                     var month = dateEntered.getMonth() + 1;
 
