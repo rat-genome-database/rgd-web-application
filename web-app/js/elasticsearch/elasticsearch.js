@@ -617,9 +617,9 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
             if(strainSymbols!=""){
                 href="/rgdweb/generator/list.html?mapKey="+ mapKey+"&oKey="+objectkey+"&vv=&ga=&act=&a="+"~lst:" + strainSymbols.replace(/\,/g, '[');
-            }else {
-                href = "/rgdweb/generator/list.html?idType=rgd&mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '[');
-            }
+            }/*else {
+                href = "/rgdweb/generator/list.html?mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '[');
+            }*/
             _this.href=href;
         }
         var sampleExists=0;
