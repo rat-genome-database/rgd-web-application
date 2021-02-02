@@ -14,6 +14,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.elasticsearch.common.recycler.Recycler;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,18 +55,11 @@ public class VariantController extends HaplotyperController {
             }
 
             GeneDAO gdao = new GeneDAO();
-
             VariantSearchBean vsb = this.fillBean(req);
-            String env="test";
-            String index=new String();
-            if(vsb.getMapKey()==17) {
-                    index = "variants_human"+vsb.getMapKey()+"_"+env;
 
-            }
-            if(vsb.getMapKey()==360 || vsb.getMapKey()==70 || vsb.getMapKey()==60)
-                index= "variants_rat"+vsb.getMapKey()+"_"+env;
-            if(vsb.getMapKey()==631 || vsb.getMapKey()==600 )
-                index= "variants_dog"+vsb.getMapKey()+"_"+env;
+            String index=new String();
+            String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
+            index = "variants_"+species.toLowerCase()+vsb.getMapKey()+"_"+VVService.getEnv();
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
@@ -75,7 +69,7 @@ public class VariantController extends HaplotyperController {
             }
             long count=service.getVariantsCount(vsb,req);
             if (count < 2000 || searchType.equals("GENE")) {
-                System.out.println("COUNT:"+ count);
+              //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
@@ -133,40 +127,51 @@ public class VariantController extends HaplotyperController {
                         VariantResult vr = new VariantResult();
 
                         Variant v = new Variant();
-                     //   v.setId((Integer) m.get(""));
+                        v.setId((Integer) m.get("variant_id"));
                         v.setChromosome((String) m.get("chromosome"));
-                        v.setStartPos((Integer) m.get("startPos"));
-                        v.setEndPos((Integer) m.get("endPos"));
+                        v.setStartPos((int) m.get("startPos"));
+                        v.setEndPos((int) m.get("endPos"));
                         v.setReferenceNucleotide((String) m.get("refNuc"));
                         v.setVariantNucleotide((String) m.get("varNuc"));
                         v.setGenicStatus((String) m.get("genicStatus"));
                         v.setPaddingBase((String) m.get("paddingBase"));
                         v.setRegionName(m.get("regionName").toString());
                         v.setVariantType((String) m.get("variantType"));
-                        v.setSampleId((Integer) m.get("sampleId"));
-                        v.setVariantFrequency((Integer) m.get("varFreq"));
+                        v.setSampleId((int) m.get("sampleId"));
+                        v.setVariantFrequency((int) m.get("varFreq"));
                         v.setDepth((Integer) m.get("totalDepth"));
-                        v.setQualityScore((Integer) m.get("qualityScore"));
+                        if(m.get("qualityScore")!=null)
+                        v.setQualityScore((int) m.get("qualityScore"));
                         v.setZygosityStatus((String) m.get("zygosityStatus"));
                         v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
                         v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
                         v.setZygosityPercentRead(100);
                         v.setZygosityPossibleError((String) m.get("zygosityPossError"));
                         v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
+                        v.conservationScore.add(mapConservation(m));
                         vr.setVariant(v);
                         if(requiredTranscripts) {
                             List<TranscriptResult> trs = this.getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
                             vr.setTranscriptResults(trs);
                         }
-                            v.conservationScore.add(mapConservation(m));
 
+                        if(vsb.getMapKey()==38){
+                            VariantInfo clinvar=getClinvarInfo(v.getId());
+                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
+                            vr.setClinvarInfo(clinvar);
+                        }
                         variantResults.add(vr);
 
             }
 
         return variantResults;
     }
+  VariantInfo getClinvarInfo(long variantRGDId) throws Exception {
 
+      VariantInfoDAO dao= new VariantInfoDAO();
+      return dao.getVariant((int) variantRGDId);
+
+  }
    List<TranscriptResult> getTranscriptResults(Object object, int variantId) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List list=(List)object;
@@ -213,7 +218,7 @@ public class VariantController extends HaplotyperController {
                    aa.setTranscriptSymbol(trSymbol);
                tr.setAminoAcidVariant(aa);
                //********************************************Polyphenprediction********//
-               List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId);
+               List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
                if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
                    tr.setPolyPhenPrediction(polyPhenPredictions);
                trs.add(tr);
@@ -221,13 +226,13 @@ public class VariantController extends HaplotyperController {
      }
         return  trs;
    }
-   public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId)
+   public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId, int transcriptId)
    {
        PolyphenDAO pdao=new PolyphenDAO();
 
        try {
         //   return pdao.getPloyphenDataByVariantId(86880133);
-           return pdao.getPloyphenDataByVariantId(variantId);
+           return pdao.getPloyphenDataByVariantId(variantId, transcriptId);
        } catch (Exception e) {
            e.printStackTrace();
        }
@@ -260,6 +265,7 @@ public class VariantController extends HaplotyperController {
     }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");
+//        System.out.println(conScores.toString());
         ConservationScore  cs = new ConservationScore();
 
         try{
@@ -285,18 +291,19 @@ public class VariantController extends HaplotyperController {
                             cs.setPosition((Integer) m.get("startPos"));
                             cs.setNuc((String) m.get("refNuc"));
                         }else{
-                            if(conScores.get(0) ==null){
-                                cs.setScore(BigDecimal.ZERO);
+                            if(conScores.get(0) instanceof String){
+                                cs.setScore(BigDecimal.valueOf(Double.parseDouble((String) conScores.get(0))));
                                 cs.setChromosome((String) m.get("chromosome"));
                                 cs.setPosition((Integer) m.get("startPos"));
                                 cs.setNuc((String) m.get("refNuc"));
                             }
+
                         }
                     }
                 }
             }else{
 
-                cs.setScore(BigDecimal.ZERO);
+                cs.setScore(BigDecimal.valueOf(-1));
                 cs.setChromosome((String) m.get("chromosome"));
                 cs.setPosition((Integer) m.get("startPos"));
                 cs.setNuc((String) m.get("refNuc"));

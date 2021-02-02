@@ -93,7 +93,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
@@ -104,19 +104,19 @@
     <script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 
 
-    <script src="/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
-    <script src="/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="/rgdweb/common/tablesorter-2.18.4/js/tablesorter.js"> </script>
+    <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
 
-    <script src="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.min.js"></script>
-    <link href="/rgdweb/common/tableSorter/addons/pager/jquery.tablesorter.pager.css"/>
+    <script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
+    <link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 
-    <link href="/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.dark.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.ice.css" rel="stylesheet" type="text/css"/>
-    <link href="/rgdweb/common/tableSorter/css/theme.green.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.dark.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.ice.css" rel="stylesheet" type="text/css"/>
+    <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.green.css" rel="stylesheet" type="text/css"/>
 
     <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.css">
     <script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>

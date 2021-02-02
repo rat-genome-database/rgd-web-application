@@ -192,12 +192,14 @@ public class GeneTermAnnotationsBean {
             if (a.getNotes() == null) {
                 rec.append("&nbsp;");
             } else {
+
                 rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
             }
 
             if (a.getXrefSource() == null) {
                 rec.append("&nbsp;");
             } else {
+
                 rec.append(AnnotationFormatter.formatXdbUrls(a.getXrefSource(), a.getRgdObjectKey()));
             }
 

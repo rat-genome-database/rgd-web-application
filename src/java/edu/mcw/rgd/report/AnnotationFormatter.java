@@ -77,15 +77,14 @@ public class AnnotationFormatter {
             } else {
 
                 if (!term.equals("") && objectId != refRgdId) {
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 } else if(!term.equals("")){
-                    records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+                    records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                             " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
-
                 termAcc = a.getTermAcc();
                 annotatedRgdId = a.getAnnotatedObjectRgdId() + "";
                 term = a.getTerm();
@@ -96,15 +95,13 @@ public class AnnotationFormatter {
         }
 
         if(objectId != refRgdId) {
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+            records.add("<tr>" +
                     "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-
         }
-        else records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+        else records.add("<tr>" +
                 "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
                 " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
-
         return this.buildTable(records, columns);
     }
 
@@ -247,11 +244,12 @@ public class AnnotationFormatter {
     public static String formatXdbUrls(String info, int objectKey) throws Exception {
 
         try {
-            String[] multipleInfos = info.split("(,\\b)|([|;])");
+            info = info.replaceAll("[()]", "");
+            String[] multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
             String infoField="";
             for(String inf: multipleInfos) {
                 if( !infoField.isEmpty() ) {
-                    infoField += ", ";
+                    infoField += " ";
                 }
                 infoField += formatXdbUrl(inf, objectKey);
             }
@@ -278,8 +276,13 @@ public class AnnotationFormatter {
             else
                 objectKey = 0; // determine the object type by querying the db
         }
-
-        String[] multipleInfos = info.split("(,\\b)|([|;])");
+        info = info.replaceAll("[()]", "");
+        String[] multipleInfos;
+        if(!info.contains("|") && !info.contains("UniProt")){
+            multipleInfos = info.split("(,\\b)|\\b,|([|;])");
+        }else{
+            multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
+        }
         String infoField;
         if( multipleInfos.length==1 ) {
             infoField = formatXdbUrl(multipleInfos[0], objectKey);
@@ -295,13 +298,18 @@ public class AnnotationFormatter {
     static String formatXdbUrl(String info, int objectKey) throws Exception {
 
         String uri = null;
+        String accId = "";
         int colonPos = info.indexOf(":");
         if( colonPos<=0 ) {
             return info;
         }
 
-        String dbName = info.substring(0, colonPos);
-        String accId = info.substring(colonPos+1);
+        String dbName = info.substring(0, colonPos).trim();
+        if(dbName.equalsIgnoreCase("MGI")){
+            accId = info.substring(colonPos+1).contains("MGI") ? info.substring(colonPos+1) : "MGI:" + info.substring(colonPos+1);
+        }else{
+            accId = info.substring(colonPos+1);
+        };
 
         switch(dbName) {
             case "RGD":
@@ -347,7 +355,7 @@ public class AnnotationFormatter {
 
             // AGR genes
             case "MGI": // handle weirdness MGI:MGI:97751
-                uri = XDBIndex.getInstance().getXDB(63).getALink(accId, info);
+                uri = XDBIndex.getInstance().getXDB(5).getALink(accId, info);
                 break;
             case "SGD":
             case "WB":
@@ -369,10 +377,11 @@ public class AnnotationFormatter {
             String objSymbol = Utils.NVL(a.getObjectSymbol(), "NA");
             String objName = Utils.NVL(a.getObjectName(), "NA");
 
-            records.add("<tr><td><img src='/rgdweb/common/images/bullet_green.png' /></td>" +
+            records.add("<tr>" +
                     "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
         }
+        //<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
 
         return this.buildTable(records, columns);
     }
@@ -398,9 +407,11 @@ public class AnnotationFormatter {
 
         String text = aclass.equals("imore") ? "&nbsp;&nbsp;&nbsp;" : "more ...";
         String str = " <a class=\"" + aclass + "\" href=\"/rgdweb/report/annotation/table.html?id=" + rgdId;
-        str += "&term=" + termAcc + "\" title=\"see all interactions and original references for this gene and chemical\">" + text + "</a>";
+        str += "&term=" + termAcc +  "\">" + text + "</a>";
         return str;
     }
+
+    //" title="see all interactions and original references for this gene and chemical\
 
     /**
      * return a subset of annotations matching given aspect

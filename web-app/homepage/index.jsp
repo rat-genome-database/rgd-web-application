@@ -169,7 +169,7 @@
 
         <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
         <td>
-            <a style="font-size:26px;padding-right:40px;" href="https://pipelines.rgd.mcw.edu/rgdweb/curation/home.html">Enter Curation Portal</a>
+            <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
         <%}%>
         <td>
@@ -223,11 +223,13 @@
                 <div style="margin:5px; font-weight:700;">Bonobo</div>
             </div>
             <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
+-->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/pig'">
                 <div style="margin:5px; font-weight:700;">Domestic Pig</div>
             </div>
             <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
+ <!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mole-rat'">
                 <div style="margin:5px; font-weight:700;">Naked Mole Rat</div>
@@ -253,7 +255,6 @@
         </td>
         <td valign="top">
             <br>
-            <jsp:include page="carosel.jsp"/>
             <jsp:include page="twitter.jsp"/>
             <jsp:include page="tutorials.jsp"/>
 

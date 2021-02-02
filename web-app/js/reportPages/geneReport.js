@@ -34,9 +34,14 @@ function run() {
 
     autoChangeNavHeight();
 
-    checkForDetailView();
+    //marker and reference reports do not have the associationsCurator tables
+    if(reportTitle !== "reference" && reportTitle !== "marker" ){
+        checkForDetailView();
+        addDetailTableNotesTitleInfo();
+    }
 
-    // filterAnnotations();
+
+    addFilterToAnnotationSummaryTables();
 }
 
 function rebuildAnnotationTables() {
@@ -86,6 +91,7 @@ function addEventsToSidebar() {
         if (toggle) {
             toggle.addEventListener("click", (event) => {
                 addItemsToSideBar();
+                tableSorterReport();
             });
         }
     });
@@ -329,14 +335,46 @@ function stickifySideBar(sidebar){
     let footerRect = footer.getBoundingClientRect();
     let timeToStop = footerRect.top <= sidebarRect.height;
 
+        if(reportTitle.toLowerCase() === "reference"){
+            // targets viewports at least 768px wide
+            let minMediaQuery = window.matchMedia('(min-width: 768px)');
 
-    if(scrollPosition >= 275){
-        sidebar.style.position = "fixed";
-        sidebar.style.top = '0';
+            // targets viewports at most 767px wide
+            let maxMediaQuery = window.matchMedia('(max-width: 767px)');
 
-    }else{
-        sidebar.style.position = "relative";
+            if(minMediaQuery.matches){
+                if(scrollPosition >= 125){
+                    sidebar.style.position = "fixed";
+                    sidebar.style.top = '0';
+
+                }else{
+                    sidebar.style.position = "relative";
+                }
+            }
+
+            if(maxMediaQuery.matches){
+                if(scrollPosition >= 175){
+                    sidebar.style.position = "fixed";
+                    sidebar.style.top = '0';
+
+                }else{
+                    sidebar.style.position = "relative";
+                }
+            }
+
+        } else {
+        if(scrollPosition >= 275){
+            sidebar.style.position = "fixed";
+            sidebar.style.top = '0';
+
+        }else{
+            sidebar.style.position = "relative";
+        }
+
     }
+
+
+
 
     if(timeToStop){
         // sidebar.style.top = "-15vh";
@@ -393,7 +431,7 @@ function addItemsToSideBar(){
                 text = "Strain Sequence Variants";
             }
 
-            if(text === "Phenotype Values via Phenominer"){
+            if(text === "Phenotype Values via PhenoMiner"){
                 text = "Phenotype Values";
             }
 
@@ -493,24 +531,24 @@ function checkIfParent(parent, value){
 //removes row from xdbs table
 function removeAGRLink(){
     let externalDbTable = document.getElementById('externalDatabaseLinksTable');
-    let accId;
+    let link;
     if(externalDbTable !== null){
         let rows = externalDbTable.rows;
         for(let i = 0; i < rows.length; i++){
             let row = rows[i];
             let cells = row.cells;
             if(cells[0].innerText === "AGR Gene"){
-                accId = cells[1].innerHTML;
+                link = cells[1].getElementsByTagName('a')[0];
                 externalDbTable.deleteRow(i);
             }
         }
     }
 
-    return accId;
+    return link;
 }
 //adds row to top summary
-function addAGRLink(accId){
-    if(accId){
+function addAGRLink(link){
+    if(link){
         let summary = document.getElementById("info-table");
         let row = summary.insertRow(3);
         let cell1 = row.insertCell(0);
@@ -518,13 +556,16 @@ function addAGRLink(accId){
 
         cell1.classList.add('label');
         cell1.innerText = "Alliance Gene:";
-        cell2.innerHTML = accId;
+        link.removeChild(link.firstChild);
+        link.insertAdjacentHTML("beforeend", "<img border='0' src='/rgdweb/common/images/alliance_logo_small.svg'/>" );
+        cell2.appendChild(link);
+
     }
 }
 
 function moveAGRLink(){
-    let accId = removeAGRLink();
-    addAGRLink(accId);
+    let link = removeAGRLink();
+    // addAGRLink(link);
 }
 
 function togglePagersAndSearchBar(){
@@ -606,8 +647,6 @@ function manageLocalStorage(){
         localStorage.setItem('id', id);
     }
 
-
-
 }
 
 function removePagerAutocomplete(){
@@ -618,8 +657,9 @@ function removePagerAutocomplete(){
     }
 }
 
+
 function checkForDetailView(){
-    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let isDetail = assignDetail();
     let text;
     if(isDetail){
        document.getElementById("associationsCurator").style.display="block";
@@ -637,9 +677,19 @@ function checkForDetailView(){
 
 }
 
+function addFilterToAnnotationSummaryTables(){
+    let div = document.getElementById("associationsStandard");
+    if(div){
+        let tables = Array.from(div.getElementsByClassName('tablesorter'));
+        tables.forEach( table => {
+            filterTableCells(table);
+        })
+    }
 
-function filterAnnotations() {
-    let table = document.getElementById("annotationTable1");
+}
+
+//custom filter that is used on the annotation summary tables
+function filterTableCells(table) {
     let input = findSearchBar(table);
     let cells = [];
     let rows, i, txtValue, filter;
@@ -654,12 +704,52 @@ function filterAnnotations() {
             txtValue = cells[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 cells[i].style.display = "";
+                cells[i].parentElement.style.display = "";
             } else {
                 cells[i].style.display = "none";
+
             }
 
         }
+        if(filter.trim() === ""){
+            $("#" + table.id).trigger("update");
+        }
+        cells = [];
     });
 
+
+}
+
+//this function adds a title attribute to the "more..." links in the annotation detail tables' info section
+function addDetailTableNotesTitleInfo(){
+    //get all tables with class tablesorter that are within associationsCurator div
+    let associationsCurator = document.getElementById("associationsCurator");
+    let tableArray = Array.from(associationsCurator.getElementsByClassName("tablesorter"));
+    //an array that contains all of the cells in the info column of the associationsCurator tables
+    let infoCellArray = [];
+    let title = "See all the information about this annotation and the notes for this " + reportTitle;
+
+    //takes all of the cells in the info column in each table and adds them to the infoCellArray
+    tableArray.forEach( table => {
+        //for each table, access the rows
+        let rowsArray = Array.from(table.getElementsByTagName("tr"));
+        //for each row, access the td at index 5
+        rowsArray.forEach( row => {
+            let cells = row.getElementsByTagName("td");
+            //add cells to infoCellArray
+            infoCellArray.push(cells[5]);
+        })
+    });
+
+    //finds all off the "more ..." links and adds a title attribute to the <a> element
+    infoCellArray.forEach( cell => {
+        let linksArray = Array.from(cell.getElementsByTagName("a"));
+        linksArray.forEach(link => {
+            if(link.innerText === "more ..."){
+                link.setAttribute("title", title);
+            }
+        })
+
+    })
 
 }

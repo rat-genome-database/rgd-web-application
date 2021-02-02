@@ -110,9 +110,12 @@
         opacity:.9;
         cursor:pointer;
         color:white;
+    }
+    .speciesIcon {
+        border:1px solid black;
+        padding:3px;
 
     }
-
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
@@ -170,7 +173,7 @@
                                     </button>
 
                                     <div class="rgd-dropdown-content">
-                                        <a href="/wg/general-search/">Search RGD</a>
+                                        <!--<a href="/wg/general-search/">Search RGD</a>-->
                                         <a href="/wg/grants/">Grant Resources</a>
                                         <a href="/wg/citing-rgd/">Citing RGD</a>
                                         <a href="/wg/about-us/">About Us</a>
@@ -204,6 +207,8 @@
                                         <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
+                                        <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
+
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                         <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                         <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>

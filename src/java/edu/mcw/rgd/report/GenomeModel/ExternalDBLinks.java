@@ -168,6 +168,19 @@ public class ExternalDBLinks {
               xdbs.setUcsc(ucscTracksURL+"panPan1"+"&position=chr"+chr);
       }
       }
+      if(mapKey==513){  //Bonobo
+          if(chr==null) {
+              xdbs.setNcbiGenome(ncbiGenomeURL+"?term=Bonobo Mhudiblu_PPA");
+              xdbs.setNcbiAssembly(ncbiAssemblyURL +
+                      "GCF_013052645.1");
+              xdbs.setUcsc(ucscURL+"panPan3");
+              xdbs.setEnsembl("http://www.ensembl.org/Pan_paniscus/Info/Index");
+          }else{
+              xdbs.setNcbiChr(ncbinuccore+locus);
+              xdbs.setEnsembl("http://www.ensembl.org/Pan_paniscus/Location/Chromosome?r="+chr);
+              xdbs.setUcsc(ucscTracksURL+"panPan3"+"&position=chr"+chr);
+          }
+      }
 
       if(mapKey==911){  //pig
           if(chr==null) {

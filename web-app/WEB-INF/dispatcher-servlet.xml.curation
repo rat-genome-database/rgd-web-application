@@ -37,6 +37,7 @@
                 <prop key="curation/phenominer/phenominerUnits.html">PhenominerUnitsController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
+                <prop key="curation/phenominer/phenominerUnitTables.html">PhenominerUnitTablesController</prop>
 
                 <prop key="curation/nomen/nomenSearch.html">nomenclatureUpdateController</prop>
                 <prop key="curation/nomen/nomenEdit.html">nomenclatureUpdateController</prop>
@@ -74,6 +75,8 @@
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
+                <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
+                <prop key="curation/edit/updateNewsConf.html">EditNewsArticleController</prop>
 
                 <prop key="curation/edit/submittedStrains/editStrains.html">EditHomePageController</prop>
                 <prop key="curation/edit/submittedStrains/submittedStrains.html">SubmittedStrainsPage</prop>
@@ -321,7 +324,8 @@
     <bean id="PhenominerCurationController" class="edu.mcw.rgd.phenominer.PhenominerCurationController"/>
     <bean id="PhenominerStudyController" class="edu.mcw.rgd.phenominer.PhenominerStudyController"/>
     <bean id="PhenominerUnitsController" class="edu.mcw.rgd.phenominer.PhenominerUnitsController"/>
-    <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
+    <bean id="PhenominerUnitTablesController" class="edu.mcw.rgd.phenominer.PhenominerUnitTablesController"/>
+     <bean id="PhenominerExperimentController" class="edu.mcw.rgd.phenominer.PhenominerExperimentController"/>
     <bean id="PhenominerRecordController" class="edu.mcw.rgd.phenominer.PhenominerRecordController"/>
 
 
@@ -400,6 +404,8 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+    <bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
+    <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
 
     <bean id="pathwayDiagramController" class="edu.mcw.rgd.pathway.PathwayDiagramController" parent="wwwDir"/>
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>

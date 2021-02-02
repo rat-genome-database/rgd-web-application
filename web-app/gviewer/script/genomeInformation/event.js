@@ -127,10 +127,10 @@ function gviewer_chromosome_clickEvent(e) {
         elements[i].style.border="0px solid black";
         elements[i].style.borderRadius="10px"
     }
-    if (firedDiv.className == "chr") {
+    if (firedDiv.className === "chr") {
 
         var chrNum=obj.number;
-        if(chrNum=='Undefined' || chrNum==0){
+        if(chrNum==='Undefined' || chrNum===0){
             chrNum=1;
         }
       
@@ -156,7 +156,7 @@ function gviewer_object_mouseMoveEvent(e) {
         var st = gview().zoomPane.getWindowStartBP();
         var end = gview().zoomPane.getWindowEndBP();
 
-        if (gview().vid!="gviewer2") {
+        if (gview().vid!== "gviewer2") {
             gview("gviewer2").clearHighlights();
             gview().getSynteny(obj.chr.number, st, end);
         }

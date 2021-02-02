@@ -10,11 +10,11 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-<!--link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
-
+<!--link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet"/-->
 <link href="/rgdweb/css/genomeInformation/genomeInfo.css" type="text/css" rel="stylesheet"/>
+<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+
+
 
 
 <div id="titleDivWrapper">
@@ -25,5 +25,5 @@
 </div>
 <!--div class="container"-->
 <hr>
-<div class="panel panel-default"style="border-color: white" >
-    <div class="panel-body">
+<div class="card" style="border-color: white" >
+    <div class="card-body">

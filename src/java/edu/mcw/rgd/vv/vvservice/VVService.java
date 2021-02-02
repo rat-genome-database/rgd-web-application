@@ -30,6 +30,7 @@ import java.util.List;
  */
 public class VVService {
     private static String variantIndex;
+    private static String env="dev";
 
     public static String getVariantIndex() {
         return variantIndex;
@@ -38,6 +39,15 @@ public class VVService {
     public static void setVariantIndex(String variantIndex) {
         VVService.variantIndex = variantIndex;
     }
+
+    public static String getEnv() {
+        return env;
+    }
+
+    public static void setEnv(String env) {
+        VVService.env = env;
+    }
+
     public long getVariantsCount(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
@@ -198,8 +208,9 @@ public class VVService {
             }
             builder.filter(qb);
         }
+        System.out.println("NEAR SPLICE SITE:"+ req.getParameter("nearSpliceSite"));
         if(req.getParameter("nearSpliceSite").equals("true")){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.nearSpliceSite.keyword")));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.nearSpliceSite.keyword", "T")));
         }
         if(req.getParameter("proteinCoding").equals("true")){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword")));
@@ -304,7 +315,7 @@ public class VVService {
         }else {
             if(chromosome!=null && !chromosome.equals("") ){
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("chromosome", chromosome)
+                        QueryBuilders.termQuery("chromosome.keyword", chromosome)
                 );
            //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
             if ( sampleIds.size() > 0) {

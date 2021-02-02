@@ -65,20 +65,37 @@ function openSection(obj) {
     }
 }
 
-function addParam(name, value) {
-    var re = new RegExp(name + "=[^\&]*");
-
-    if (re.exec(location.href) != null) {
-        location.href = location.href.replace(re, name + "=" + value)
-    } else {
-        location.href = location.href + "&" + name + "=" + value;
+function removeHashLink(url){
+    let hashLocation = url.indexOf('#');
+    if(hashLocation !== -1){
+        url = url.substring(0, hashLocation);
     }
+
+    return url;
 }
 
+function addParam(name, value) {
+    var re = new RegExp(name + "=[^\&]*");
+    let url = removeHashLink(location.href);
+    if (re.exec(url) != null) {
+        location.href = url.replace(re, name + "=" + value)
+    } else {
+        location.href = url + "&" + name + "=" + value;
+    }
+}
+function assignDetail() {
+    let isDetail;
+    if (sessionStorage.getItem('isDetail') === null) {
+        isDetail = true;
+    } else {
+        isDetail = sessionStorage.getItem('isDetail') === 'true';
+    }
+    return isDetail;
+}
 function toggleAssociations(detailWindowLocation, summaryWindowLocation) {
     let url = window.location.href;
     let hashLocation = url.indexOf('#');
-    let isDetail = sessionStorage.getItem('isDetail') === 'true';
+    let isDetail = assignDetail();
     let text;
     url = url.substring(0, hashLocation);
 

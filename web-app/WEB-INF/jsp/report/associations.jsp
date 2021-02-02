@@ -177,7 +177,7 @@
 %>
 
 <%//ui.dynOpen("goAsscociation", "Gene Ontology Annotations")%>
-<div class = light-table-border>
+<div class = "light-table-border reportTable">
 <div class="sectionHeading" id="geneOntologyAnnotations">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;
     <%if(!title.equalsIgnoreCase("references")) { %>
     <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
@@ -186,7 +186,7 @@
 <% if (bpList.size() > 0) { %>
 
 
-<div class="reportTable" id="biologicalProcessAnnotationsTableWrapper">
+<div id="biologicalProcessAnnotationsTableWrapper">
 
 
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
@@ -249,7 +249,7 @@
 
 <% if (ccList.size() > 0) { %>
 
-<div class="reportTable" id="cellularComponentAnnotationsTableWrapper">
+<div id="cellularComponentAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentSummary"><u>Cellular Component</u></span><br></span>
 
 <div class="search-and-pager">
@@ -305,7 +305,7 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 
-<div class="reportTable" id="molecularFunctionAnnotationsTableWrapper">
+<div id="molecularFunctionAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionSummary"><u>Molecular Function</u></span><br></span>
 
 
@@ -443,14 +443,14 @@
     if (mpList.size()+hpList.size() > 0) {
 %>
 <%//ui.dynOpen("phenoAssociation", "Phenotype Annotations")%>
-<div class="light-table-border">
+<div class="light-table-border reportTable">
     <div class="sectionHeading" id="phenotypeAnnotations">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;
         <%if(!title.equalsIgnoreCase("references")) { %>
             <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a>
         <%}%>
     </div>
 <% if (mpList.size() > 0) { %>
-<div class="reportTable " id="mammalianPhenotypeAnnotationsTableWrapper">
+<div id="mammalianPhenotypeAnnotationsTableWrapper">
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
 
 <div class="search-and-pager">
@@ -506,7 +506,7 @@
 
 
 <% if (hpList.size() > 0) { %>
-<div class="reportTable" id="humanPhenotypeAnnotationsTableWrapper">
+<div id="humanPhenotypeAnnotationsTableWrapper">
 <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
 
 
@@ -587,10 +587,12 @@
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-    <%if(!title.equalsIgnoreCase("references")) { %>
+    <% if(!title.equalsIgnoreCase("references")) { %>
+    <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a>
-    <%}%>
+    <%} else {%>
+        <div class="sectionHeading" id="experimentalDataAnnotations">Phenotype Values via PhenoMiner
+            <%}%>
 </div>
 <%
     if(hasPhenoMinerAnn){
@@ -600,7 +602,7 @@
 
 <table>
     <tr>
-        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
     </tr>
     <br />
 </table>
