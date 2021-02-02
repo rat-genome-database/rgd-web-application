@@ -30,8 +30,8 @@ public class EditNewsArticleController implements Controller {
         else
             articles = ndao.getAllVideos();
 
-        List<RGDNewsConf> incomming = parseArticles(request);
-        insertAndDeleteArticles(incomming,articles, ndao);
+        List<RGDNewsConf> incoming = parseArticles(request, content[0]);
+        insertAndDeleteArticles(incoming,articles, ndao);
 
         request.setAttribute("error", error);
         request.setAttribute("status", status);
@@ -40,14 +40,18 @@ public class EditNewsArticleController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/curation/edit/editNewsArticle.jsp");
     }
 
-    List<RGDNewsConf> parseArticles(HttpServletRequest request) throws Exception {
+    List<RGDNewsConf> parseArticles(HttpServletRequest request, String content) throws Exception {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         String[] displayNames = request.getParameterValues("displayTxt");
         String[] redirectText = request.getParameterValues("redirectLink");
         String[] contentType = request.getParameterValues("contentList");
         String[] strongText = request.getParameterValues("Strong");
-        String[] dates = request.getParameterValues("releaseDate");
+        String[] dates;
+        if (!content.equals("VIDEO"))
+            dates = request.getParameterValues("releaseDate");
+        else
+            dates = null;
 
         int rowCnt = displayNames.length;
 
@@ -62,7 +66,7 @@ public class EditNewsArticleController implements Controller {
                 nc.setStrongText(null);
             else
                 nc.setStrongText(strongText[i]);
-            if(!dates[i].equals("null") && !dates[i].isEmpty()) {
+            if(dates != null) {
                 Date d1 = sdf.parse(dates[i]);
                 java.sql.Date d2 = new java.sql.Date(d1.getTime());
                 nc.setDate(d2);

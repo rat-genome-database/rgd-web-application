@@ -1,9 +1,9 @@
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="edu.mcw.rgd.datamodel.RGDNewsConf" %>
 <%@ page import="edu.mcw.rgd.dao.impl.RGDNewsConfDAO" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.rgd.edit.NewsConferenceEditController" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.*" %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -16,6 +16,8 @@
     String pageTitle = "Edit Object";
     String headContent = "";
     String pageDescription = "";
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ENGLISH);
+    Date d1 = new Date();
 
 
 %>
@@ -40,18 +42,17 @@
 
 <div id="insertApp">
     <table id="insertTable">
-        <tr>
-            <td><input type="date" id="date"></td>
-            <td class="label">Display Text</td><td><input v-model="display" type="text" id="displayText" name="words"></td>
-            <td class="label">Redirect Link</td><td><input v-model="hyperlink" type="url" id="redirectLink"></td>
-            <td><select id="contentList">
+        <tr><td class="label">Release Date</td><td><input type="date" id="date" value="<%=format.format(d1)%>"></td></tr>
+        <tr><td class="label">Display Text</td><td><input v-model="display" type="text" id="displayText" name="words" size="75"></td></tr>
+        <tr><td class="label">Redirect Link</td><td><input v-model="hyperlink" type="url" id="redirectLink" size="75"></td></tr>
+        <tr><td class="label">Content</td><td><select id="contentList">
                 <option value="NEWS">NEWS</option>
                 <option value="CONFERENCE">CONFERENCE</option>
                 <option value="VIDEO">VIDEO</option>
-            </select></td>
-            <td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)"></td>
+            </select></td></tr>
+        <tr><td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)" size="75"></td></tr>
             <td><button v-on:click="submitData">Submit</button></td>
-        </tr>
+
         <tr><td><button v-on:click="showExample">test View</button></td><td>{{message}}</td></tr>
 
     </table>
@@ -86,7 +87,7 @@
                //alert(this.display + this.hyperlink);
                const url = new URL(window.location.href);
                const urlParams = new URLSearchParams(url.search);
-               var newUrl = window.location.href.split('&display')[0];//= url.host + url.pathname;// + url.search.split('&display')[0];
+               var newUrl = window.location.href.split('&display')[0];
 
                this.display = document.getElementById("displayText").value;
                this.hyperlink = document.getElementById("redirectLink").value;
@@ -98,7 +99,10 @@
                    alert("Please include a date.");
                    return;
                }
-
+               if (this.display === '' || this.hyperlink === ''){
+                   alert("Please include display text or a redirect link.")
+                   return;
+               }
 
                newUrl += ('&display=' + this.display);
                newUrl += ('&hyperlink=' + this.hyperlink);
