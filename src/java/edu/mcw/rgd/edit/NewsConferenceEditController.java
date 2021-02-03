@@ -62,9 +62,9 @@ public class NewsConferenceEditController implements Controller {
             newsConf.setContentType(req.getParameter("type"));
             newsConf.setRedirectLink(req.getParameter("hyperlink"));
             newsConf.setStrongText(req.getParameter("strong"));
-            String date = req.getParameter("date")+" 01:00:00";
+            String date = req.getParameter("date");
             try {
-                Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
+                Date d1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
                 java.sql.Date d2 = new java.sql.Date(d1.getTime());
                 newsConf.setDate(d2);
             }

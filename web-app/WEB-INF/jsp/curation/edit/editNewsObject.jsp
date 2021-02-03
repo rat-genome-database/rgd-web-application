@@ -42,7 +42,8 @@
 
 <div id="insertApp">
     <table id="insertTable">
-        <tr><td class="label">Release Date</td><td><input type="date" id="date" value="<%=format.format(d1)%>"></td></tr>
+        <tr><td class="label">Release Date</td><td><input type="date" id="date" value="<%=format.format(d1)%>" placeholder="yyyy-MM-dd" ></td>
+            <td>Ex: yyyy-MM-dd</td></tr>
         <tr><td class="label">Display Text</td><td><input v-model="display" type="text" id="displayText" name="words" size="75"></td></tr>
         <tr><td class="label">Redirect Link</td><td><input v-model="hyperlink" type="url" id="redirectLink" size="75"></td></tr>
         <tr><td class="label">Content</td><td><select id="contentList">
