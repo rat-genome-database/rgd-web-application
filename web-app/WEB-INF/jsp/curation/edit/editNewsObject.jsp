@@ -51,10 +51,10 @@
                 <option value="CONFERENCE">CONFERENCE</option>
                 <option value="VIDEO">VIDEO</option>
             </select></td></tr>
-        <tr><td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)" size="75"></td></tr>
+        <tr><td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)" size="75" maxlength="50"></td></tr>
             <td><button v-on:click="submitData">Submit</button></td>
 
-        <tr><td><button v-on:click="showExample">test View</button></td><td>{{message}}</td></tr>
+        <tr><td><button v-on:click="showExample">Test View</button></td><td>{{message}}</td></tr>
 
     </table>
 

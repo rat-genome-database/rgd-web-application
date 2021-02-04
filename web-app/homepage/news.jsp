@@ -5,7 +5,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <hr>
-<table border="0">
+<table border="0" width="700">
         <tr>
                 <td>
                         <div class="" style="border-color: transparent;margin-top:20px;">

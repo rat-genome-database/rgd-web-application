@@ -3,7 +3,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
-<table>
+<table width="700">
         <tr>
                 <p>
                         <div class="" style="border-color: transparent;margin-top:20px;">
