@@ -75,6 +75,8 @@
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
+                <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
+                <prop key="curation/edit/updateNewsConf.html">EditNewsArticleController</prop>
 
                 <prop key="curation/edit/submittedStrains/editStrains.html">EditHomePageController</prop>
                 <prop key="curation/edit/submittedStrains/submittedStrains.html">SubmittedStrainsPage</prop>
@@ -402,6 +404,8 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+    <bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
+    <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
 
     <bean id="pathwayDiagramController" class="edu.mcw.rgd.pathway.PathwayDiagramController" parent="wwwDir"/>
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
