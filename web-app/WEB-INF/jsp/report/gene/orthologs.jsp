@@ -58,13 +58,14 @@
                     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,obj.getRgdId());
                     if (xids.size()>0 ) {
                         XdbId xid = xids.get(0);%>
-                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance gene RGD:<%=obj.getRgdId()%>">
                         <img border="0" src=<%=imageSource%> width="50px" height="50px">
                     </a>
                     <%}
                     Gene prevGene = null;
                     for (Gene gene : agrOrthos) {
                         imageSource = getAllianceImage(gene);
+                        String allianceToolTip = gene.getDescription();
                         boolean isDuplicate = false;
 
                         if(prevGene != null){
@@ -78,7 +79,7 @@
 
                             if(!isDuplicate){
                         %>
-                            <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                            <a title ="Alliance gene <%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
                                 <img border="0" src=<%=imageSource%> width="50px" height="50px">
                             </a>
                         <%}
