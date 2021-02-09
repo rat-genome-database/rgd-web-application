@@ -60,6 +60,11 @@
 			    <td>
                     <a v-bind:href="'/rgdweb/curation/strainFileUpload.html?token='+token">Strain Files Upload</a></td>
             </tr>
+            <tr>
+                <td>
+                    <a v-bind:href="'/rgdweb/curation/edit/editNews.html?token='+token+'&login='+name">Create News or Conference</a>
+                </td>
+            </tr>
             <tr valign="top">
                 <td colspan="2"></td>
             </tr>
