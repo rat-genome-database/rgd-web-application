@@ -302,7 +302,7 @@ public class NomenclatureManager {
 
                         // Added by WLiu on 4/12/2010
                         // Skip the rest if the gene is not reviewable by the pipeline.
-                        if ( gene.getNomenReviewDate().getTime() != NomenclatureDAO.NOMENDATE_REVIEWABLE.getTime() ) {
+                        if( gene.getNomenReviewDate()!=null && gene.getNomenReviewDate().getTime() != NomenclatureDAO.NOMENDATE_REVIEWABLE.getTime() ) {
                             noChange++;
                             continue;
                         }
