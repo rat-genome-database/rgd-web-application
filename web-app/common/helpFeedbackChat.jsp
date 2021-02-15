@@ -96,7 +96,7 @@
 <button class="open-button" onclick="openForm()">Help or Feedback</button>
 
 <div class="chat-popup" id="feedback">
-    <form action="/tools/contact/contact.cgi" class="form-container" method="POST">
+    <form action="https://rgd.mcw.edu/tools/contact/contact.cgi" class="form-container" method="POST">
         <h1>Help or Feedback</h1>
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
