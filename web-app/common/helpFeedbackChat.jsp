@@ -70,7 +70,7 @@
 
         /* Set a style for the submit/send button */
         .form-container .btn {
-            background-color: #4CAF50;
+            background-color: #2865A3;
             color: white;
             padding: 16px 20px;
             border: none;
