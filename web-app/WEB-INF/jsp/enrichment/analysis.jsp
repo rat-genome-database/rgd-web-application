@@ -22,7 +22,7 @@
 <body style="background-color: white">
 
 <%
-    String pageTitle = "RGD Gene Enrichement";
+    String pageTitle = "RGD Gene Enrichment";
     String headContent = "";
     String pageDescription = "Gene enrichment for multiple ontologies";
 %>
@@ -73,11 +73,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
+            <div class="modal-header">
+                Symbols Found: <%=inSymbols.size()%> <br>
+            </div>
             <!-- Modal body -->
             <div class="modal-body">
-                Symbols Found: <%=inSymbols.size()%> <br>
-            <span class="geneList"><%=symbols%></span><br>
-
+            <div style="overflow: auto; padding:10px; width: 100%;"><span class="geneList"><%=symbols%></span></div>
             </div>
 
             <!-- Modal footer -->
