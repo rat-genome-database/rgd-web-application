@@ -123,7 +123,7 @@
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
-
+<%@ include file="/common/helpFeedbackChat.jsp" %>
 
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">

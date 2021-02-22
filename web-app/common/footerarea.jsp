@@ -47,7 +47,7 @@
 </script>
 
 
-<%@ include file="/common/helpFeedbackChat.jsp" %>
+
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
 </body>
 </html>
