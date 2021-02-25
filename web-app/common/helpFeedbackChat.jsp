@@ -155,7 +155,7 @@
         el: '#ajaxVue',
         data: {
             email: '',
-            message: ''
+            message: '',
         },
         methods: {
             fcn : function (){
@@ -175,8 +175,13 @@
                     .post('/tools/contact/contact.cgi',
                         {
                             email: ajaxVue.email,
-                            message: ajaxVue.message,
-                            bypass: true
+                            comment: ajaxVue.message,
+                            bypass: true,
+                            subject: 'Send Message Form',
+                            found: 0,
+                            firstname: 'Generic',
+                            lastname: 'Name',
+                            reply: 'Help'
                         })
                     .then(function (response){
                         alert('success');
