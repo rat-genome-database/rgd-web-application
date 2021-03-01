@@ -131,6 +131,7 @@
 <a href="statusUpdate.html" >Update Object Status</a>
 <!--<a href="notesAdd.html" >Add Note</a>-->
 
+<hr>
 <h3>Gene Merge</h3>
 <form action="geneMerge.html">
 
@@ -143,6 +144,19 @@
 </table>
 </form>
 
+<hr>
+<h3>Strain Merge</h3>
+<form action="strainMerge.html">
+    <table>
+        <tr>
+            <td class="label">Strain RGD ID From:</td><td><input type="text" name="rgdIdFrom" value="" /></td>
+            <td class="label">Strain RGD ID To:</td><td><input type="text" name="rgdIdTo" value="" /></td>
+            <td><input type="submit" name="Submit" value="Submit"/></td>
+        </tr>
+    </table>
+</form>
+
+<hr>
 <h3>Drop Manual Orthologs</h3>
 <form action="dropManualOrthologs.html">
 
@@ -153,6 +167,7 @@
 </table>
 </form>
 
+<hr>
 <h3>RDO Term Merge</h3>
 <form action="termMerge.html">
 
