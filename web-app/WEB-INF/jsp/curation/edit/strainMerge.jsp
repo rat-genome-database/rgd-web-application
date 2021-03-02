@@ -284,23 +284,27 @@
 
 
     <TR>
-        <TH colspan="3" style="background-color: #b2d1ff;">QTL ASSOCIATIONS</TH>
+        <TH colspan="2" style="background-color: #b2d1ff;">QTL ASSOCIATIONS</TH>
     </TR>
     <TR>
         <TH>RGD ID</TH>
-        <TH>Symbol</TH>
-        <TH>Name</TH>
+        <TH>Symbol - Name</TH>
     </TR>
     <% // combine all
         List<QTL> qtls = new ArrayList<>(bean.getQtlsInRgd());
         qtls.addAll(bean.getQtlsNew());
+        Collections.sort(qtls, new Comparator<QTL>() {
+            public int compare(QTL o1, QTL o2) {
+                return Utils.stringsCompareToIgnoreCase(o1.getSymbol(), o2.getSymbol());
+            }
+        });
+
         for( QTL qtl: qtls ) {
             boolean isNew = qtl.getRgdId()==bean.getStrainFrom().getRgdId();
     %>
     <TR>
         <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getRgdId()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getSymbol()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getName()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getSymbol()%> - <%=qtl.getName()%></TD>
     </TR>
     <% } %>
 
