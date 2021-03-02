@@ -305,6 +305,30 @@
     <% } %>
 
     <TR>
+        <TH colspan="3" style="background-color: #b2d1ff;">QTL ASSOCIATIONS</TH>
+    </TR>
+    <TR>
+        <TH>RGD ID</TH>
+        <TH>Symbol</TH>
+        <TH>Name</TH>
+    </TR>
+    <% // combine all
+        List<QTL> qtls = new ArrayList<>(bean.getQtlsInRgd());
+        qtls.addAll(bean.getQtlsNew());
+        for( QTL qtl: qtls ) {
+            boolean isNew = qtl.getRgdId()==bean.getStrainFrom().getRgdId();
+            boolean isIgnored = isNew && bean.getQtlsNewIgnored().contains(qtl);
+            String xdbClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
+    %>
+    <TR>
+        <TD class="<%=xdbClass%>"><%=qtl.getRgdId()%></TD>
+        <TD class="<%=xdbClass%>"><%=qtl.getSymbol()%></TD>
+        <TD class="<%=xdbClass%>"><%=qtl.getName()%></TD>
+    </TR>
+    <% } %>
+
+
+    <TR>
         <TH colspan="4" align="center"><input type="submit" name="Submit" value="Commit Changes"></TH>
     </TR>
 </TABLE>

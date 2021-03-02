@@ -148,6 +148,20 @@
     </TR>
 
     <TR>
+        <TD>QTL Associations</TD>
+        <% if( bean.getQtlsNew().size()>0 ) { %>
+        <TD class="gmnew">inserted: <%=bean.getQtlsNew().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+        <% if( bean.getQtlsNewIgnored().size()>0 ) { %>
+        <TD class="gmignored">ignored: <%=bean.getQtlsNewIgnored().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+    </TR>
+
+    <TR>
         <TH colspan="4" align="center"><input type="submit" name="Submit" value="New strain pair"></TH>
     </TR>
 </TABLE>

@@ -46,6 +46,11 @@ public class StrainMergeBean {
     private List<Reference> curatedRefNew = new ArrayList<Reference>(); // curated references be inserted
     private List<Reference> curatedRefIgnored = new ArrayList<Reference>(); // new curated references to be ignored
 
+    private List<QTL> qtlsInRgd = new ArrayList<>();
+    private List<QTL> qtlsNew = new ArrayList<>();
+    private List<QTL> qtlsNewIgnored = new ArrayList<>();
+
+
     public RgdId getRgdIdFrom() {
         return rgdIdFrom;
     }
@@ -160,5 +165,17 @@ public class StrainMergeBean {
 
     public List<Reference> getCuratedRefIgnored() {
         return curatedRefIgnored;
+    }
+
+    public List<QTL> getQtlsInRgd() {
+        return qtlsInRgd;
+    }
+
+    public List<QTL> getQtlsNew() {
+        return qtlsNew;
+    }
+
+    public List<QTL> getQtlsNewIgnored() {
+        return qtlsNewIgnored;
     }
 }

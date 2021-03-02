@@ -41,6 +41,7 @@ public class StrainMergeController implements Controller {
             commitNomen(bean);
             commitRgdIdHistory(bean);
             commitMapData(bean);
+            commitQtlAssociations(bean);
 
             request.getSession().removeAttribute(sessionObj);
         }
@@ -54,6 +55,7 @@ public class StrainMergeController implements Controller {
             handleXdbIds(bean);
             handleNomens(bean);
             handleMapData(bean);
+            handleQtlAssociations(bean);
 
         } else {
 
@@ -120,6 +122,10 @@ public class StrainMergeController implements Controller {
             MapDAO mapDAO = new MapDAO();
             bean.getMapDataInRgd().addAll(mapDAO.getMapData(rgdIdTo));
             bean.getMapDataNew().addAll(mapDAO.getMapData(rgdIdFrom));
+
+            // QTL ASSOCIATIONS
+            bean.getQtlsInRgd().addAll(associationDAO.getQTLAssociationsForStrain(rgdIdTo));
+            bean.getQtlsNew().addAll(associationDAO.getQTLAssociationsForStrain(rgdIdFrom));
 
 
             // save the bean named 'strain-merge-rgdIdFrom-rgdIdTo' in session
@@ -293,6 +299,22 @@ public class StrainMergeController implements Controller {
         }
     }
 
+    void handleQtlAssociations(StrainMergeBean bean) {
+
+        Iterator<QTL> it = bean.getQtlsNew().iterator();
+        while( it.hasNext() ) {
+            QTL qtl = it.next();
+
+            for( QTL qtl2: bean.getQtlsInRgd() ) {
+
+                if( qtl.getRgdId()==qtl2.getRgdId() ) {
+                    bean.getQtlsNewIgnored().add(qtl);
+                    it.remove();
+                    break;
+                }
+            }
+        }
+    }
 
 
     void commitAliases(StrainMergeBean bean) throws Exception {
@@ -326,4 +348,18 @@ public class StrainMergeController implements Controller {
     void commitMapData(StrainMergeBean bean) {
 
     }
+
+    void commitQtlAssociations(StrainMergeBean bean) throws Exception {
+
+        if( !bean.getQtlsNew().isEmpty() ) {
+
+            AssociationDAO assocDAO = new AssociationDAO();
+            int rgdIdTo = bean.getRgdIdTo().getRgdId();
+
+            for( QTL qtl: bean.getQtlsNew() ) {
+                assocDAO.insertStrainToQTLAssociation(rgdIdTo, qtl.getRgdId());
+            }
+        }
+    }
+
 }

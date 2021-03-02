@@ -284,6 +284,28 @@
 
 
     <TR>
+        <TH colspan="3" style="background-color: #b2d1ff;">QTL ASSOCIATIONS</TH>
+    </TR>
+    <TR>
+        <TH>RGD ID</TH>
+        <TH>Symbol</TH>
+        <TH>Name</TH>
+    </TR>
+    <% // combine all
+        List<QTL> qtls = new ArrayList<>(bean.getQtlsInRgd());
+        qtls.addAll(bean.getQtlsNew());
+        for( QTL qtl: qtls ) {
+            boolean isNew = qtl.getRgdId()==bean.getStrainFrom().getRgdId();
+    %>
+    <TR>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getRgdId()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getSymbol()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getName()%></TD>
+    </TR>
+    <% } %>
+
+
+    <TR>
         <TH colspan="4" align="center"><input type="submit" name="Submit" value="Preview Changes"></TH>
     </TR>
 </TABLE>
