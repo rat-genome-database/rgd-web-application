@@ -1,6 +1,10 @@
 package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontology.Annotation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author mtutaj
@@ -14,25 +18,11 @@ public class StrainMergeBean {
     private Strain strainFrom;
     private Strain strainTo;
 
-
-
-    /*
-
-    private List<String> geneTypes;
-
-    private List<Alias> aliasesInRgd = new ArrayList<Alias>(); // existing aliases for 'to-gene'
+    private List<Alias> aliasesInRgd = new ArrayList<Alias>(); // existing aliases for 'to-strain'
     private List<Alias> aliasesNew = new ArrayList<Alias>(); // new aliases to be inserted
     private List<Alias> aliasesNewIgnored = new ArrayList<Alias>(); // new aliases to be ignored
 
-    private List<Note> notesInRgd = new ArrayList<Note>(); // existing notes for 'to-gene'
-    private List<Note> notesNew = new ArrayList<Note>(); // new notes be inserted
-    private List<Note> notesNewIgnored = new ArrayList<Note>(); // new notes to be ignored
-
-    private List<Reference> curatedRefInRgd = new ArrayList<Reference>(); // existing curated references for 'to-gene'
-    private List<Reference> curatedRefNew = new ArrayList<Reference>(); // curated references be inserted
-    private List<Reference> curatedRefIgnored = new ArrayList<Reference>(); // new curated references to be ignored
-
-    private List<Annotation> annotsInRgd = new ArrayList<Annotation>(); // existing annotation for 'to-gene'
+    private List<Annotation> annotsInRgd = new ArrayList<Annotation>(); // existing annotation for 'to-strain'
     private List<Annotation> annotsNew = new ArrayList<Annotation>(); // new annotation be inserted
     private List<Annotation> annotsIgnored = new ArrayList<Annotation>(); // new annotation to be ignored
 
@@ -47,7 +37,7 @@ public class StrainMergeBean {
     private List<MapData> mapDataInRgd = new ArrayList<MapData>();
     private List<MapData> mapDataNew = new ArrayList<MapData>();
     private List<MapData> mapDataIgnored = new ArrayList<MapData>();
-*/
+
 
     public RgdId getRgdIdFrom() {
         return rgdIdFrom;
@@ -81,17 +71,6 @@ public class StrainMergeBean {
         this.strainTo = strainTo;
     }
 
-
-
-    /*
-    public List<String> getGeneTypes() {
-        return geneTypes;
-    }
-
-    public void setGeneTypes(List<String> geneTypes) {
-        this.geneTypes = geneTypes;
-    }
-
     public List<Alias> getAliasesInRgd() {
         return aliasesInRgd;
     }
@@ -102,30 +81,6 @@ public class StrainMergeBean {
 
     public List<Alias> getAliasesNewIgnored() {
         return aliasesNewIgnored;
-    }
-
-    public List<Note> getNotesNewIgnored() {
-        return notesNewIgnored;
-    }
-
-    public List<Note> getNotesInRgd() {
-        return notesInRgd;
-    }
-
-    public List<Note> getNotesNew() {
-        return notesNew;
-    }
-
-    public List<Reference> getCuratedRefInRgd() {
-        return curatedRefInRgd;
-    }
-
-    public List<Reference> getCuratedRefNew() {
-        return curatedRefNew;
-    }
-
-    public List<Reference> getCuratedRefIgnored() {
-        return curatedRefIgnored;
     }
 
     public List<Annotation> getAnnotsInRgd() {
@@ -175,5 +130,4 @@ public class StrainMergeBean {
     public List<MapData> getMapDataIgnored() {
         return mapDataIgnored;
     }
-    */
 }

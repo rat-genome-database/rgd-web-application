@@ -1,66 +1,63 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.util.Comparator" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
-<%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontology.Annotation" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
-<%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
-<%@ page import="edu.mcw.rgd.datamodel.Map" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.edit.StrainMergeBean" />
 <% String headContent = "\n" +
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"/rgdweb/common/search.css\">\n"+
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"/rgdweb/css/ontology.css\">\n";
 
-   String pageTitle = "Strain Merge - Object Edit - Rat Genome Database";
+   String pageTitle = "Gene Merge Preview - Object Edit - Rat Genome Database";
    String pageDescription = pageTitle;
 %>
 <%@ include file="/common/headerarea.jsp"%>
 <style>
-    .gmgreen {
-        color:green;
-        font-weight:bold;
+    .gminrgd {
+        color: black;
+        font-weight: normal;
+    }
+    .gmnew {
+        color: green;
+        font-weight: bold;
+    }
+    .gmignored {
+        color: red;
+        font-weight: bold;
+        text-decoration: line-through;
     }
 </style>
 <div style="margin-left:10px;">
-<h2>STRAIN MERGE TOOL - STEP 1</h2>
+<h2>STRAIN MERGE TOOL - STEP 2 - PREVIEW </h2>
 
-<% if( !bean.getRgdIdFrom().getObjectStatus().equals("ACTIVE") ) {
-    out.print("<hr><h5>Strain with rgd id "+bean.getRgdIdFrom().getRgdId()+" is "+bean.getRgdIdFrom().getObjectStatus()+"<h5>");
-  } else {
-%>
 <form action="" method="GET">
     <input type="hidden" name="rgdIdFrom" value="<%=bean.getRgdIdFrom().getRgdId()%>"/>
     <input type="hidden" name="rgdIdTo" value="<%=bean.getRgdIdTo().getRgdId()%>"/>
-    <input type="hidden" name="action" value="preview" />
+    <input type="hidden" name="action" value="commit" />
 
 <TABLE BORDER="">
     <TR>
         <TH></TH>
-        <TH>Merge From (RGD ID:<a href="<%=Link.strain(bean.getRgdIdFrom().getRgdId())%>"><%=bean.getRgdIdFrom().getRgdId()%></a>)</TH>
-        <TH>Merge To   (RGD ID:<a href="<%=Link.strain(bean.getRgdIdTo()  .getRgdId())%>"><%=bean.getRgdIdTo()  .getRgdId()%></a>)</TH>
-        <TH>New Value</TH>
+        <TH>Merge From (RGD ID:<%=bean.getRgdIdFrom().getRgdId()%>)</TH>
+        <TH>Merge To (RGD ID:<%=bean.getRgdIdTo().getRgdId()%>)</TH>
     </TR>
     <TR>
-        <TH colspan="3" style="background-color: #b2d1ff;">STRAINS</TH>
-        <TH><input type="button" value="SWITCH STRAINS" onclick="document.location.href='/rgdweb/curation/edit/strainMerge.html?rgdIdFrom=<%=bean.getRgdIdTo().getRgdId()%>&rgdIdTo=<%=bean.getRgdIdFrom().getRgdId()%>';return false;" style="background-color: #b2d1ff;font-weight:bold"></TH>
+        <TH colspan="3" style="background-color: #b2d1ff;">GENES</TH>
     </TR>
     <TR>
         <TD>Symbol:</TD>
         <TD><%=bean.getStrainFrom().getSymbol()%> [object status:<%=bean.getRgdIdFrom().getObjectStatus()%>]</TD>
         <TD><%=bean.getStrainTo().getSymbol()%> [object status:<%=bean.getRgdIdTo().getObjectStatus()%>]</TD>
-        <TD><label for="symbol">Make Alias</label><input type="checkbox" name="symbol" value="<%=bean.getStrainFrom().getSymbol()%>" id="symbol" checked></TD>
     </TR>
     <TR>
         <TD>Name:</TD>
-        <TD><%=Utils.defaultString(bean.getStrainFrom().getName())%></TD>
-        <TD><%=Utils.defaultString(bean.getStrainTo().getName())%></TD>
-        <TD><label for="name">Make Alias</label><input type="checkbox" name="name" value="<%=bean.getStrainFrom().getName()%>" id="name" checked></TD>
-    </TR>
-    <TR>
-        <TD>Strain Type:</TD>
-        <TD><%=bean.getStrainFrom().getStrainTypeName()%></TD>
-        <TD><%=bean.getStrainTo().getStrainTypeName()%></TD>
-        <TD> </TD>
+        <TD><%=bean.getStrainFrom().getName()%></TD>
+        <TD><%=bean.getStrainTo().getName()%></TD>
     </TR>
 
     <TR>
@@ -81,17 +78,23 @@
             }
         });
         for( Alias alias: aliases ) {
-            boolean isNewAlias = alias.getKey()==0 || alias.getRgdId()==bean.getRgdIdFrom().getRgdId();
+            boolean isNew = alias.getKey()==0 || alias.getRgdId()==bean.getRgdIdFrom().getRgdId();
+            boolean isIgnored = isNew && bean.getAliasesNewIgnored().contains(alias);
+            String aClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
     %>
     <TR>
-        <TD<%=isNewAlias ? " class=\"gmnew\"" :""%>><%=alias.getTypeName()%></TD>
-        <TD<%=isNewAlias ? " class=\"gmnew\"" :""%>><%=alias.getValue()%></TD>
-        <TD<%=isNewAlias ? " class=\"gmnew\"" :""%>><%=Utils.defaultString(alias.getNotes())%></TD>
+        <TD class="<%=aClass%>"><%=alias.getTypeName()%></TD>
+        <TD class="<%=aClass%>"><%=alias.getValue()%></TD>
+        <TD class="<%=aClass%>"><%=Utils.defaultString(alias.getNotes())%></TD>
     </TR>
     <% } %>
 
+
     <TR>
         <TH colspan="4" style="background-color: #b2d1ff;">MAP DATA</TH>
+    </TR>
+    <TR>
+        <TH colspan="4" style="color:red;font-weight: bold">Note: QC only: no map data will be inserted!</TH>
     </TR>
     <TR>
         <TH>Map</TH>
@@ -101,6 +104,7 @@
     <%
         List<MapData> mds = new ArrayList<MapData>(bean.getMapDataInRgd());
         mds.addAll(bean.getMapDataNew());
+        mds.addAll(bean.getMapDataIgnored());
         Collections.sort(mds, new Comparator<MapData>() {
             public int compare(MapData o1, MapData o2) {
                 return o1.getMapKey() - o2.getMapKey();
@@ -108,6 +112,8 @@
         });
         for( MapData md: mds ) {
             boolean isNew = bean.getMapDataNew().contains(md);
+            boolean isIgnored = isNew && bean.getMapDataIgnored().contains(md);
+            String mdClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
 
             Map map = MapManager.getInstance().getMap(md.getMapKey());
             String mapName = map.getName();
@@ -121,9 +127,9 @@
                 position += md.getAbsPosition();
     %>
     <TR>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=mapName%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=position%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=md.getSrcPipeline()%></TD>
+        <TD class="<%=mdClass%>"><%=mapName%></TD>
+        <TD class="<%=mdClass%>"><%=position%></TD>
+        <TD class="<%=mdClass%>"><%=md.getSrcPipeline()%></TD>
     </TR>
     <% } %>
 
@@ -139,6 +145,7 @@
     <% // combine all
         List<XdbId> xdbIds = new ArrayList<XdbId>(bean.getXdbidsInRgd());
         xdbIds.addAll(bean.getXdbidsNew());
+        xdbIds.addAll(bean.getXdbidsIgnored());
         Collections.sort(xdbIds, new Comparator<XdbId>() {
             public int compare(XdbId o1, XdbId o2) {
                 int r = o1.getXdbKey() - o2.getXdbKey();
@@ -149,12 +156,14 @@
         });
         for( XdbId xdbId: xdbIds ) {
             boolean isNew = xdbId.getRgdId()==bean.getStrainFrom().getRgdId();
+            boolean isIgnored = isNew && bean.getXdbidsIgnored().contains(xdbId);
+            String xdbClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
     %>
     <TR>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=xdbId.getXdbKeyAsString()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=xdbId.getAccId()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=Utils.defaultString(xdbId.getSrcPipeline())%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=Utils.defaultString(xdbId.getNotes())%></TD>
+        <TD class="<%=xdbClass%>"><%=xdbId.getXdbKeyAsString()%></TD>
+        <TD class="<%=xdbClass%>"><%=xdbId.getAccId()%></TD>
+        <TD class="<%=xdbClass%>"><%=Utils.defaultString(xdbId.getSrcPipeline())%></TD>
+        <TD class="<%=xdbClass%>"><%=Utils.defaultString(xdbId.getNotes())%></TD>
     </TR>
     <% } %>
 
@@ -170,6 +179,7 @@
     <% // combine all
         List<NomenclatureEvent> events = new ArrayList<NomenclatureEvent>(bean.getNomenInRgd());
         events.addAll(bean.getNomenNew());
+        events.addAll(bean.getNomenIgnored());
         Collections.sort(events, new Comparator<NomenclatureEvent>() {
             public int compare(NomenclatureEvent o1, NomenclatureEvent o2) {
                 return o1.getNomenEventKey() - o2.getNomenEventKey();
@@ -177,25 +187,27 @@
         });
         for( NomenclatureEvent ev: events ) {
             boolean isNew = ev.getRgdId()==bean.getStrainFrom().getRgdId();
+            boolean isIgnored = isNew && bean.getNomenIgnored().contains(ev);
+            String nomClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
     %>
     <TR>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>>
+        <TD class="<%=nomClass%>">
             REF_KEY: <%=ev.getRefKey()%><br>
             NOMEN_TYPE: <%=ev.getNomenStatusType()%><br>
             DESC: <%=ev.getDesc()%><br>
             DATE: <%=ev.getEventDate()%>
         </TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>>
+        <TD class="<%=nomClass%>">
             RGD_ID: <%=ev.getRgdId()%><br>
             SYMBOL: <%=ev.getSymbol()%><br>
             NAME: <%=ev.getName()%>
         </TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>>
+        <TD class="<%=nomClass%>">
             RGD_ID: <%=ev.getOriginalRGDId()%><br>
             SYMBOL: <%=ev.getPreviousSymbol()%><br>
             NAME: <%=ev.getPreviousName()%>
         </TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>>
+        <TD class="<%=nomClass%>">
             EVENT_KEY: <%=ev.getNomenEventKey()%><br>
             NOTES: <%=ev.getNotes()%>
         </TD>
@@ -214,6 +226,7 @@
     <% // combine all annotations
         List<Annotation> annots = new ArrayList<Annotation>(bean.getAnnotsInRgd());
         annots.addAll(bean.getAnnotsNew());
+        annots.addAll(bean.getAnnotsIgnored());
         Collections.sort(annots, new Comparator<Annotation>() {
             public int compare(Annotation o1, Annotation o2) {
                 return Utils.stringsCompareToIgnoreCase(o1.getTerm(), o2.getTerm());
@@ -221,21 +234,21 @@
         });
         for( Annotation ann: annots ) {
             boolean isNew = ann.getAnnotatedObjectRgdId()==bean.getStrainFrom().getRgdId();
+            boolean isIgnored = isNew && bean.getAnnotsIgnored().contains(ann);
+            String annClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
     %>
     <TR>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ann.getRefRgdId()%><br><%=ann.getCreatedBy()%><br><%=ann.getCreatedDate()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ann.getTermAcc()%>: <%=ann.getTerm()%><br><%=ann.getEvidence()%> - <%=Utils.defaultString(ann.getWithInfo())%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ann.getDataSrc()%> - <%=ann.getXrefSource()%></TD>
-        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ann.getAspect()%> - <%=ann.getQualifier()%><br><%=ann.getNotes()%></TD>
+        <TD class="<%=annClass%>"><%=ann.getRefRgdId()%><br><%=ann.getCreatedBy()%><br><%=ann.getCreatedDate()%></TD>
+        <TD class="<%=annClass%>"><%=ann.getTermAcc()%>: <%=ann.getTerm()%><br><%=ann.getEvidence()%> - <%=Utils.defaultString(ann.getWithInfo())%></TD>
+        <TD class="<%=annClass%>"><%=ann.getDataSrc()%> - <%=ann.getXrefSource()%></TD>
+        <TD class="<%=annClass%>"><%=ann.getAspect()%> - <%=ann.getQualifier()%><br><%=ann.getNotes()%></TD>
     </TR>
     <% } %>
 
-
     <TR>
-        <TH colspan="4" align="center"><input type="submit" name="Submit" value="Preview Changes"></TH>
+        <TH colspan="4" align="center"><input type="submit" name="Submit" value="Commit Changes"></TH>
     </TR>
 </TABLE>
 </form>
-<% } %>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

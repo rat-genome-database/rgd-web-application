@@ -9,15 +9,12 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: 3/19/13
- * Time: 4:08 PM
+ * @author mtutaj
+ * @since 3/19/13
  */
 public class GeneMergeController implements Controller {
 
@@ -133,7 +130,7 @@ public class GeneMergeController implements Controller {
         return mv;
     }
 
-    void handleAliases(GeneMergeBean bean, HttpServletRequest request) throws Exception {
+    void handleAliases(GeneMergeBean bean, HttpServletRequest request) {
 
         // shall from-gene symbol be added as alias to to-gene?
         String param = request.getParameter("symbol");
@@ -142,7 +139,7 @@ public class GeneMergeController implements Controller {
             alias.setRgdId(bean.getRgdIdTo().getRgdId());
             alias.setTypeName("old_gene_symbol");
             alias.setValue(param);
-            alias.setNotes("created by GeneMerge tool on "+printDate());
+            alias.setNotes("created by GeneMerge tool on "+MergeUtils.printDate());
             bean.getAliasesNew().add(alias);
         }
 
@@ -153,7 +150,7 @@ public class GeneMergeController implements Controller {
             alias.setRgdId(bean.getRgdIdTo().getRgdId());
             alias.setTypeName("old_gene_name");
             alias.setValue(param);
-            alias.setNotes("created by GeneMerge tool on "+printDate());
+            alias.setNotes("created by GeneMerge tool on "+MergeUtils.printDate());
             bean.getAliasesNew().add(alias);
         }
 
@@ -162,7 +159,7 @@ public class GeneMergeController implements Controller {
         while( it.hasNext() ) {
             Alias alias = it.next();
             for( Alias alias2: bean.getAliasesInRgd() ) {
-                if( compareTo(alias, alias2)==0 ) {
+                if( MergeUtils.compareTo(alias, alias2)==0 ) {
                     bean.getAliasesNewIgnored().add(alias);
                     it.remove();
                     break;
@@ -172,7 +169,7 @@ public class GeneMergeController implements Controller {
     }
 
     // determine which of the new aliases are already in RGD and move them to ignored list
-    void handleNotes(GeneMergeBean bean) throws Exception {
+    void handleNotes(GeneMergeBean bean) {
 
         // remove duplicates
         Iterator<Note> it = bean.getNotesNew().iterator();
@@ -192,7 +189,7 @@ public class GeneMergeController implements Controller {
     }
 
     // determine which of the new references are already in RGD and move them to ignored list
-    void handleReferences(GeneMergeBean bean) throws Exception {
+    void handleReferences(GeneMergeBean bean) {
 
         Iterator<Reference> it = bean.getCuratedRefNew().iterator();
         while( it.hasNext() ) {
@@ -210,14 +207,14 @@ public class GeneMergeController implements Controller {
     }
 
     // determine which of the new annotations are already in RGD and move them to ignored list
-    void handleAnnots(GeneMergeBean bean) throws Exception {
+    void handleAnnots(GeneMergeBean bean) {
 
         Iterator<Annotation> it = bean.getAnnotsNew().iterator();
         while( it.hasNext() ) {
             Annotation ann = it.next();
             for( Annotation ann2: bean.getAnnotsInRgd() ) {
                 // annotations
-                if( compareTo(ann, ann2)==0 ) {
+                if( MergeUtils.compareTo(ann, ann2)==0 ) {
                     // duplicate annotation
                     bean.getAnnotsIgnored().add(ann);
                     it.remove();
@@ -227,7 +224,7 @@ public class GeneMergeController implements Controller {
         }
     }
 
-    void handleXdbIds(GeneMergeBean bean) throws Exception {
+    void handleXdbIds(GeneMergeBean bean) {
 
         Iterator<XdbId> it = bean.getXdbidsNew().iterator();
         while( it.hasNext() ) {
@@ -242,7 +239,7 @@ public class GeneMergeController implements Controller {
 
             for( XdbId xdbId2: bean.getXdbidsInRgd() ) {
 
-                if( compareTo(xdbId, xdbId2)==0 ) {
+                if( MergeUtils.compareTo(xdbId, xdbId2)==0 ) {
                     bean.getXdbidsIgnored().add(xdbId);
                     it.remove();
                     break;
@@ -251,14 +248,14 @@ public class GeneMergeController implements Controller {
         }
     }
 
-    void handleNomens(GeneMergeBean bean) throws Exception {
+    void handleNomens(GeneMergeBean bean) {
 
         // create nomenclature event for 'to-gene'
         NomenclatureEvent ev = new NomenclatureEvent();
         ev.setDesc("Data Merged");
         ev.setEventDate(new Date());
         ev.setName(bean.getGeneTo().getName());
-        ev.setNomenStatusType("PROVISIONAL");
+        ev.setNomenStatusType("APPROVED");
         ev.setNotes("GeneMerge from RGD ID " + bean.getRgdIdFrom().getRgdId() + " to RGD ID " + bean.getRgdIdTo().getRgdId());
         ev.setOriginalRGDId(bean.getRgdIdFrom().getRgdId());
         ev.setPreviousName(bean.getGeneFrom().getName());
@@ -273,7 +270,7 @@ public class GeneMergeController implements Controller {
             ev = it.next();
             for( NomenclatureEvent ev2: bean.getNomenInRgd() ) {
 
-                if( compareTo(ev, ev2)==0 ) {
+                if( MergeUtils.compareTo(ev, ev2)==0 ) {
                     bean.getNomenIgnored().add(ev);
                     it.remove();
                     break;
@@ -282,7 +279,7 @@ public class GeneMergeController implements Controller {
         }
     }
 
-    void handleMapData(GeneMergeBean bean) throws Exception {
+    void handleMapData(GeneMergeBean bean) {
 
         Iterator<MapData> it = bean.getMapDataNew().iterator();
         while( it.hasNext() ) {
@@ -301,12 +298,7 @@ public class GeneMergeController implements Controller {
 
 
     void commitAliases(GeneMergeBean bean) throws Exception {
-
-        // are there any aliases to insert?
-        if( !bean.getAliasesNew().isEmpty() ) {
-            AliasDAO aliasDAO = new AliasDAO();
-            aliasDAO.insertAliases(bean.getAliasesNew());
-        }
+        MergeUtils.insertAliases(bean.getAliasesNew());
     }
 
     void commitNotes(GeneMergeBean bean) throws Exception {
@@ -342,169 +334,22 @@ public class GeneMergeController implements Controller {
     }
 
     void commitAnnots(GeneMergeBean bean) throws Exception {
-
-        if( !bean.getAnnotsNew().isEmpty() ) {
-
-            AnnotationDAO dao = new AnnotationDAO();
-
-            for( Annotation ann: bean.getAnnotsNew() ) {
-
-                ann.setAnnotatedObjectRgdId(bean.getRgdIdTo().getRgdId());
-                ann.setObjectName(bean.getGeneTo().getName());
-                ann.setObjectSymbol(bean.getGeneTo().getSymbol());
-                int annInRgdKey = dao.getAnnotationKey(ann);
-                if( annInRgdKey==0 ) {
-                    dao.insertAnnotation(ann);
-                }
-            }
-        }
+        MergeUtils.commitAnnots(bean.getAnnotsNew(), bean.getGeneTo());
     }
 
     void commitXdbIds(GeneMergeBean bean) throws Exception {
-
-        if( !bean.getXdbidsNew().isEmpty() ) {
-
-            XdbIdDAO dao = new XdbIdDAO();
-
-            for( XdbId obj: bean.getXdbidsNew() ) {
-
-                String notes = "created by GeneMerge from RGD ID "+obj.getRgdId();
-                if( obj.getNotes()==null )
-                    obj.setNotes(notes);
-                else if( !obj.getNotes().contains(notes) ) {
-                    obj.setNotes(obj.getNotes()+"; "+notes);
-                }
-
-                obj.setRgdId(bean.getRgdIdTo().getRgdId());
-                obj.setCreationDate(new Date());
-                obj.setModificationDate(new Date());
-            }
-
-            dao.insertXdbs(bean.getXdbidsNew());
-        }
+        MergeUtils.commitXdbIds(bean.getXdbidsNew(), bean.getRgdIdTo().getRgdId(), "GeneMerge");
     }
 
     void commitNomen(GeneMergeBean bean) throws Exception {
-
-        if( !bean.getNomenNew().isEmpty() ) {
-
-            NomenclatureDAO dao = new NomenclatureDAO();
-
-            for( NomenclatureEvent event: bean.getNomenNew() ) {
-
-                String notes = "created by GeneMerge from RGD ID "+event.getRgdId();
-                if( event.getNotes()==null )
-                    event.setNotes(notes);
-                else
-                    event.setNotes(event.getNotes()+"; "+notes);
-
-                event.setRgdId(bean.getRgdIdTo().getRgdId());
-
-                dao.createNomenEvent(event);
-            }
-        }
+        MergeUtils.commitNomen(bean.getNomenNew(), bean.getRgdIdTo().getRgdId(), "GeneMerge");
     }
 
     void commitRgdIdHistory(GeneMergeBean bean) throws Exception {
-
-        RGDManagementDAO dao = new RGDManagementDAO();
-        int rgdId = dao.getRgdIdFromHistory(bean.getRgdIdFrom().getRgdId());
-        if( rgdId!=bean.getRgdIdTo().getRgdId() )
-            dao.recordIdHistory(bean.getRgdIdFrom().getRgdId(), bean.getRgdIdTo().getRgdId());
-        dao.retire(bean.getRgdIdFrom());
-
-        dao.updateLastModifiedDate(bean.getRgdIdFrom().getRgdId());
-        dao.updateLastModifiedDate(bean.getRgdIdTo().getRgdId());
+        MergeUtils.commitRgdIdHistory(bean.getRgdIdFrom(), bean.getRgdIdTo());
     }
 
     void commitMapData(GeneMergeBean bean) throws Exception {
 
     }
-
-    int compareTo(Alias a1, Alias a2) {
-
-        int r = Utils.stringsCompareToIgnoreCase(a1.getTypeName(), a2.getTypeName());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareToIgnoreCase(a1.getValue(), a2.getValue());
-        return r;
-    }
-
-    // compare by unique key, except annotation object rgd id
-    int compareTo(Annotation a1, Annotation a2) {
-
-        int r = Utils.intsCompareTo(a1.getRefRgdId(), a2.getRefRgdId());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(a1.getTermAcc(), a2.getTermAcc());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(a1.getXrefSource(), a2.getXrefSource());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(a1.getQualifier(), a2.getQualifier());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(a1.getWithInfo(), a2.getWithInfo());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(a1.getEvidence(), a2.getEvidence());
-        return r;
-    }
-
-    // compare by unique key, except rgd id
-    int compareTo(XdbId x1, XdbId x2) {
-
-        int r = x1.getXdbKey() - x2.getXdbKey();
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(x1.getAccId(), x2.getAccId());
-        return r;
-    }
-
-    int compareTo(NomenclatureEvent e1, NomenclatureEvent e2) {
-
-        int r = Utils.stringsCompareTo(e1.getNomenStatusType(), e2.getNomenStatusType());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(e1.getDesc(), e2.getDesc());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(e1.getSymbol(), e2.getSymbol());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(e1.getName(), e2.getName());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(e1.getPreviousSymbol(), e2.getPreviousSymbol());
-        if( r!=0 )
-            return r;
-        r = Utils.stringsCompareTo(e1.getPreviousName(), e2.getPreviousName());
-        if( r!=0 )
-            return r;
-        // compare year, month and day of event date
-        r = compareDateTo(e1.getEventDate(), e2.getEventDate());
-        return r;
-    }
-
-    int compareDateTo(Date d1, Date d2) {
-        int r = d1.getYear() - d2.getYear();
-        if( r!=0 )
-            return r;
-        r = d1.getMonth() - d2.getMonth();
-        if( r!=0 )
-            return r;
-        r = d1.getDay() - d2.getDay();
-        return r;
-    }
-
-    String printDate(Date dt) {
-
-        return _dateFormat.format(dt);
-    }
-    String printDate() {
-
-        return printDate(new Date());
-    }
-    static SimpleDateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 }
