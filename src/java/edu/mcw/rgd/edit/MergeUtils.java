@@ -34,6 +34,38 @@ public class MergeUtils {
         dao.updateLastModifiedDate(rgdIdTo);
     }
 
+    public static void commitNotes(List<Note> notes, int rgdIdTo) throws Exception {
+
+        // are there any new notes to insert
+        if( !notes.isEmpty() ) {
+
+            NotesDAO notesDAO = new NotesDAO();
+
+            // to make the note insertable, its key must be made 0, and its rgd id set to target rgd id
+            for( Note note: notes ) {
+
+                note.setRgdId(rgdIdTo);
+                note.setKey(0);
+                notesDAO.updateNote(note);
+            }
+        }
+    }
+
+    public static void commitCuratedRef(List<Reference> curatedRefs, int rgdIdTo) throws Exception {
+
+        // are there any new curated references to insert
+        if( !curatedRefs.isEmpty() ) {
+
+            AssociationDAO associationDAO = new AssociationDAO();
+
+            // we need to insert a reference association only
+            for( Reference ref: curatedRefs ) {
+
+                associationDAO.insertReferenceeAssociation(rgdIdTo, ref.getRgdId());
+            }
+        }
+    }
+
     public static void commitNomen(List<NomenclatureEvent> nomenEvents, int rgdIdTo, String toolName) throws Exception {
 
         if( !nomenEvents.isEmpty() ) {

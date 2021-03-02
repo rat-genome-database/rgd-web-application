@@ -1,11 +1,9 @@
 package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.Alias;
-import edu.mcw.rgd.datamodel.MapData;
-import edu.mcw.rgd.datamodel.NomenclatureEvent;
-import edu.mcw.rgd.datamodel.XdbId;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
+import edu.mcw.rgd.process.Utils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -36,6 +34,8 @@ public class StrainMergeController implements Controller {
             bean = (StrainMergeBean) request.getSession().getAttribute(sessionObj);
 
             commitAliases(bean);
+            commitNotes(bean);
+            commitCuratedRef(bean);
             commitAnnots(bean);
             commitXdbIds(bean);
             commitNomen(bean);
@@ -48,6 +48,8 @@ public class StrainMergeController implements Controller {
             bean = (StrainMergeBean) request.getSession().getAttribute(sessionObj);
 
             handleAliases(bean, request);
+            handleNotes(bean);
+            handleReferences(bean);
             handleAnnots(bean);
             handleXdbIds(bean);
             handleNomens(bean);
@@ -57,7 +59,9 @@ public class StrainMergeController implements Controller {
 
             AliasDAO aliasDAO = new AliasDAO();
             AnnotationDAO annotationDAO = new AnnotationDAO();
+            AssociationDAO associationDAO = new AssociationDAO();
             NomenclatureDAO nomenclatureDAO = new NomenclatureDAO();
+            NotesDAO notesDAO = new NotesDAO();
             RGDManagementDAO managementDAO = new RGDManagementDAO();
             StrainDAO strainDAO = new StrainDAO();
             XdbIdDAO xdbIdDAO = new XdbIdDAO();
@@ -84,6 +88,17 @@ public class StrainMergeController implements Controller {
                 Alias alias = it.next();
                 if( alias.getTypeName()!=null && alias.getTypeName().startsWith("array_id") )
                     it.remove();
+            }
+
+            // NOTES
+            bean.getNotesInRgd().addAll(notesDAO.getNotes(rgdIdTo));
+            bean.getNotesNew().addAll(notesDAO.getNotes(rgdIdFrom));
+
+            // CURATED REFERENCES
+            bean.getCuratedRefInRgd().addAll(associationDAO.getReferenceAssociations(rgdIdTo));
+            bean.getCuratedRefNew().addAll(associationDAO.getReferenceAssociations(rgdIdFrom));
+            for( Reference ref: bean.getCuratedRefNew() ) {
+                ref.setSpeciesTypeKey(-1); // artificially mark reference as coming from 'from-gene'
             }
 
             // ANNOTATIONS
@@ -151,6 +166,44 @@ public class StrainMergeController implements Controller {
             for( Alias alias2: bean.getAliasesInRgd() ) {
                 if( MergeUtils.compareTo(alias, alias2)==0 ) {
                     bean.getAliasesNewIgnored().add(alias);
+                    it.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    // determine which of the new aliases are already in RGD and move them to ignored list
+    void handleNotes(StrainMergeBean bean) {
+
+        // remove duplicates
+        Iterator<Note> it = bean.getNotesNew().iterator();
+        while( it.hasNext() ) {
+            Note note = it.next();
+            for( Note note2: bean.getNotesInRgd() ) {
+                // notes are the same if they have the same type and text
+                if( Utils.stringsAreEqualIgnoreCase(note.getNotes(), note2.getNotes()) &&
+                        Utils.stringsAreEqualIgnoreCase(note.getNotesTypeName(), note2.getNotesTypeName()) ) {
+                    // same note is in rgd
+                    bean.getNotesNewIgnored().add(note);
+                    it.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    // determine which of the new references are already in RGD and move them to ignored list
+    void handleReferences(StrainMergeBean bean) {
+
+        Iterator<Reference> it = bean.getCuratedRefNew().iterator();
+        while( it.hasNext() ) {
+            Reference ref = it.next();
+            for( Reference ref2: bean.getCuratedRefInRgd() ) {
+                // curated references are the same if they have the same rgd id
+                if( ref.getRgdId()==ref2.getRgdId() ) {
+                    // duplicate curated reference
+                    bean.getCuratedRefIgnored().add(ref);
                     it.remove();
                     break;
                 }
@@ -244,6 +297,14 @@ public class StrainMergeController implements Controller {
 
     void commitAliases(StrainMergeBean bean) throws Exception {
         MergeUtils.insertAliases(bean.getAliasesNew());
+    }
+
+    void commitNotes(StrainMergeBean bean) throws Exception {
+        MergeUtils.commitNotes(bean.getNotesNew(), bean.getRgdIdTo().getRgdId());
+    }
+
+    void commitCuratedRef(StrainMergeBean bean) throws Exception {
+        MergeUtils.commitCuratedRef(bean.getCuratedRefNew(), bean.getRgdIdTo().getRgdId());
     }
 
     void commitAnnots(StrainMergeBean bean) throws Exception {

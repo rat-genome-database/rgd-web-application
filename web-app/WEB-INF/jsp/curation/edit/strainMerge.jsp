@@ -91,6 +91,58 @@
     <% } %>
 
     <TR>
+        <TH colspan="4" style="background-color: #b2d1ff;">NOTES</TH>
+    </TR>
+    <TR>
+        <TH>Note Type</TH>
+        <TH>Note Text</TH>
+        <TH>Is Public</TH>
+    </TR>
+    <% // combine all notes; display new notes in red
+        List<Note> notes = new ArrayList<Note>(bean.getNotesInRgd());
+        notes.addAll(bean.getNotesNew());
+        Collections.sort(notes, new Comparator<Note>() {
+            public int compare(Note o1, Note o2) {
+                return Utils.stringsCompareToIgnoreCase(o1.getNotes(), o2.getNotes());
+            }
+        });
+        for( Note note: notes ) {
+            boolean isNew = note.getRgdId()==bean.getRgdIdFrom().getRgdId();
+    %>
+    <TR>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=note.getNotesTypeName()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=note.getNotes()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=note.getPublicYN()%></TD>
+    </TR>
+    <% } %>
+
+    <TR>
+        <TH colspan="4" style="background-color: #b2d1ff;">CURATED REFERENCES</TH>
+    </TR>
+    <TR>
+        <TH>Ref Key</TH>
+        <TH>Citation</TH>
+        <TH>Ref RGD ID</TH>
+    </TR>
+    <% // combine all references
+        List<Reference> refs = new ArrayList<Reference>(bean.getCuratedRefInRgd());
+        refs.addAll(bean.getCuratedRefNew());
+        Collections.sort(refs, new Comparator<Reference>() {
+            public int compare(Reference o1, Reference o2) {
+                return Utils.stringsCompareToIgnoreCase(o1.getCitation(), o2.getCitation());
+            }
+        });
+        for( Reference ref: refs ) {
+            boolean isNew = ref.getSpeciesTypeKey()<0;
+    %>
+    <TR>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ref.getKey()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ref.getCitation()%></TD>
+        <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=ref.getRgdId()%></TD>
+    </TR>
+    <% } %>
+
+    <TR>
         <TH colspan="4" style="background-color: #b2d1ff;">MAP DATA</TH>
     </TR>
     <TR>

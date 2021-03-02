@@ -302,35 +302,11 @@ public class GeneMergeController implements Controller {
     }
 
     void commitNotes(GeneMergeBean bean) throws Exception {
-
-        // are there any new notes to insert
-        if( !bean.getNotesNew().isEmpty() ) {
-
-            NotesDAO notesDAO = new NotesDAO();
-
-            // to make the note insertable, its key must be made 0, and its rgd id set to target rgd id
-            for( Note note: bean.getNotesNew() ) {
-
-                note.setRgdId(bean.getRgdIdTo().getRgdId());
-                note.setKey(0);
-                notesDAO.updateNote(note);
-            }
-        }
+        MergeUtils.commitNotes(bean.getNotesNew(), bean.getRgdIdTo().getRgdId());
     }
 
     void commitCuratedRef(GeneMergeBean bean) throws Exception {
-
-        // are there any new curated references to insert
-        if( !bean.getCuratedRefNew().isEmpty() ) {
-
-            AssociationDAO associationDAO = new AssociationDAO();
-
-            // we need to insert a reference association only
-            for( Reference ref: bean.getCuratedRefNew() ) {
-
-                associationDAO.insertReferenceeAssociation(bean.getRgdIdTo().getRgdId(), ref.getRgdId());
-            }
-        }
+        MergeUtils.commitCuratedRef(bean.getCuratedRefNew(), bean.getRgdIdTo().getRgdId());
     }
 
     void commitAnnots(GeneMergeBean bean) throws Exception {

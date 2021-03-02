@@ -64,6 +64,34 @@
     </TR>
 
     <TR>
+        <TD>Notes</TD>
+        <% if( bean.getNotesNew().size()>0 ) { %>
+        <TD class="gmnew">inserted: <%=bean.getNotesNew().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+        <% if( bean.getNotesNewIgnored().size()>0 ) { %>
+        <TD class="gmignored">ignored: <%=bean.getNotesNewIgnored().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+    </TR>
+
+    <TR>
+        <TD>Curated References</TD>
+        <% if( bean.getCuratedRefNew().size()>0 ) { %>
+        <TD class="gmnew">inserted: <%=bean.getCuratedRefNew().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+        <% if( bean.getCuratedRefIgnored().size()>0 ) { %>
+        <TD class="gmignored">ignored: <%=bean.getCuratedRefIgnored().size()%></TD>
+        <% } else { %>
+        <TD>&nbsp;</TD>
+        <% } %>
+    </TR>
+
+    <TR>
         <TD>Map Data</TD>
         <% if( bean.getMapDataNew().size()>0 ) { %>
         <TD class="gmnew">to-be-inserted manually: <%=bean.getMapDataNew().size()%></TD>

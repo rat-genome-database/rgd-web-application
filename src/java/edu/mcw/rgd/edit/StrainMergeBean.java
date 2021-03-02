@@ -38,6 +38,13 @@ public class StrainMergeBean {
     private List<MapData> mapDataNew = new ArrayList<MapData>();
     private List<MapData> mapDataIgnored = new ArrayList<MapData>();
 
+    private List<Note> notesInRgd = new ArrayList<Note>(); // existing notes for 'to-gene'
+    private List<Note> notesNew = new ArrayList<Note>(); // new notes be inserted
+    private List<Note> notesNewIgnored = new ArrayList<Note>(); // new notes to be ignored
+
+    private List<Reference> curatedRefInRgd = new ArrayList<Reference>(); // existing curated references for 'to-gene'
+    private List<Reference> curatedRefNew = new ArrayList<Reference>(); // curated references be inserted
+    private List<Reference> curatedRefIgnored = new ArrayList<Reference>(); // new curated references to be ignored
 
     public RgdId getRgdIdFrom() {
         return rgdIdFrom;
@@ -129,5 +136,29 @@ public class StrainMergeBean {
 
     public List<MapData> getMapDataIgnored() {
         return mapDataIgnored;
+    }
+
+    public List<Note> getNotesInRgd() {
+        return notesInRgd;
+    }
+
+    public List<Note> getNotesNew() {
+        return notesNew;
+    }
+
+    public List<Note> getNotesNewIgnored() {
+        return notesNewIgnored;
+    }
+
+    public List<Reference> getCuratedRefInRgd() {
+        return curatedRefInRgd;
+    }
+
+    public List<Reference> getCuratedRefNew() {
+        return curatedRefNew;
+    }
+
+    public List<Reference> getCuratedRefIgnored() {
+        return curatedRefIgnored;
     }
 }
