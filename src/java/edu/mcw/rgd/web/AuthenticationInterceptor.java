@@ -29,12 +29,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
 
-        // hack to bypass authorization
-        if(true) {
-            System.out.println("BYPASS");
-            return true;
-        }
-
         String token = request.getParameter("token");
         if(request.getCookies() != null && request.getCookies().length != 0)
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
