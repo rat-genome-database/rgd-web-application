@@ -1,6 +1,8 @@
 package edu.mcw.rgd.vv;
 
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
@@ -60,7 +62,7 @@ public class DistributionController extends HaplotyperController {
         request.setAttribute("mapKey", mapKey );
 
         // derive species from mapKey
-        // int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+        int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
@@ -71,12 +73,28 @@ public class DistributionController extends HaplotyperController {
         vsb.setPosition(chromosome, start, stop);
 
         //   try {
-
+        List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
         GeneDAO gdao = new GeneDAO();
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
+            ObjectMapper om = new ObjectMapper();
+            om.mapSymbols(symbols, speciesTypeKey);
+            List result= om.getMapped();
+            List<Gene> genes = new ArrayList<Gene>();
+
+            Iterator it = result.iterator();
+            while (it.hasNext()) {
+                Object o = it.next();
+                if (o instanceof Gene) {
+                    genes.add((Gene) o);
+                }else {
+                    errors.add("Symbol <b>" + (String) o + "</b> not found. ");
+                }
+            }
+
+            mgs = gdao.getActiveMappedGenesByGeneList(mapKey,genes);
         }
 
         if (sampleIds.size() > 0) {
@@ -88,7 +106,13 @@ public class DistributionController extends HaplotyperController {
             for (String sample: sampleIds) {
                 vsb.sampleIds.add(Integer.parseInt(sample));
             }
+            if (mgs.size() > 0) {
+                vsb.setMappedGenes(mgs);
 
+                for (MappedGene mg: vsb.getMappedGenes()) {
+                    vsb.genes.add(mg.getGene().getSymbol());
+                }
+            }
 
 
             // conservation parameters
@@ -112,9 +136,9 @@ public class DistributionController extends HaplotyperController {
                     conHigh = 1f;
                     break;
             }
-            if(symbols.size()>0){
+         /*   if(symbols.size()>0){
                 vsb.setGenes(symbols);
-            }
+            }*/
             vsb.setConnective(req.getParameter("connective"));
             vsb.setAAChange(req.getParameter("synonymous"), req.getParameter("nonSynonymous"));
             vsb.setGenicStatus(req.getParameter("genic"), req.getParameter("intergenic"));
