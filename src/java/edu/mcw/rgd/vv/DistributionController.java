@@ -199,7 +199,7 @@ public class DistributionController extends HaplotyperController {
 
                     String key = (String) masterIt.next();
 
-                    if (key.startsWith(symbol + "|")) {
+                    if (key.startsWith(symbol.toLowerCase() + "|")) {
                         regionList.add(key);
                     } else if (key.endsWith("|" + first)) {
                         regionList.add(0, key);
@@ -238,13 +238,13 @@ public class DistributionController extends HaplotyperController {
         request.setAttribute("maxValue", maxValue);
         ModelMap model=new ModelMap();
         model.addAttribute("matrix", matrix);
-        for(Map.Entry e:resultHash.entrySet()) {
+     /*   for(Map.Entry e:resultHash.entrySet()) {
             System.out.println("KEY:"+e.getKey() );
             Map<String, Integer> map= (Map<String, Integer>) e.getValue();
             for(Map.Entry x:map.entrySet()){
                 System.out.println(x.getKey() +"\t"+ x.getValue());
             }
-        }
+        }*/
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
         //   }catch (Exception e) {
