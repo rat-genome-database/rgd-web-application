@@ -314,6 +314,7 @@
     <% // combine all
         List<QTL> qtls = new ArrayList<>(bean.getQtlsInRgd());
         qtls.addAll(bean.getQtlsNew());
+        qtls.addAll(bean.getQtlsNewIgnored());
         Collections.sort(qtls, new Comparator<QTL>() {
             public int compare(QTL o1, QTL o2) {
                 return Utils.stringsCompareToIgnoreCase(o1.getSymbol(), o2.getSymbol());
