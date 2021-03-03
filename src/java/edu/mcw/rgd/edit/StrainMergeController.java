@@ -126,6 +126,9 @@ public class StrainMergeController implements Controller {
             // QTL ASSOCIATIONS
             bean.getQtlsInRgd().addAll(associationDAO.getQTLAssociationsForStrain(rgdIdTo));
             bean.getQtlsNew().addAll(associationDAO.getQTLAssociationsForStrain(rgdIdFrom));
+            for( QTL q: bean.getQtlsNew() ) {
+                q.setSpeciesTypeKey(-1); // artificially mark qtl as coming from 'from-gene'
+            }
 
 
             // save the bean named 'strain-merge-rgdIdFrom-rgdIdTo' in session
@@ -309,6 +312,7 @@ public class StrainMergeController implements Controller {
 
                 if( qtl.getRgdId()==qtl2.getRgdId() ) {
                     bean.getQtlsNewIgnored().add(qtl);
+                    qtl.setKey(-qtl.getKey());
                     it.remove();
                     break;
                 }

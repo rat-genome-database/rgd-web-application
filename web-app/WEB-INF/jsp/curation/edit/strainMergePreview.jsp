@@ -320,8 +320,8 @@
             }
         });
         for( QTL qtl: qtls ) {
-            boolean isNew = qtl.getRgdId()==bean.getStrainFrom().getRgdId();
-            boolean isIgnored = isNew && bean.getQtlsNewIgnored().contains(qtl);
+            boolean isNew = qtl.getSpeciesTypeKey()<0;
+            boolean isIgnored = qtl.getKey()<0;
             String xdbClass = isIgnored ? "gmignored" : isNew ? "gmnew" : "gminrgd";
     %>
     <TR>

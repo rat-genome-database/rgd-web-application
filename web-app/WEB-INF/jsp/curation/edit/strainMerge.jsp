@@ -300,7 +300,7 @@
         });
 
         for( QTL qtl: qtls ) {
-            boolean isNew = qtl.getRgdId()==bean.getStrainFrom().getRgdId();
+            boolean isNew = qtl.getSpeciesTypeKey()<0;
     %>
     <TR>
         <TD<%=isNew ? " class=\"gmgreen\"" :""%>><%=qtl.getRgdId()%></TD>
