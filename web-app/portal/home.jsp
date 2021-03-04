@@ -374,6 +374,11 @@
             $scope.portalLinks["DOID:0080599"].links = "/wg/portals/covid-19-disease-portal-related-links/";
             $scope.portalLinks["DOID:0080599"].models = "/wg/portals/covid-19-disease-portal-rat-strain-models/";
 
+            $scope.portalLinks["DOID:0050117"] = {};
+            $scope.portalLinks["DOID:0050117"].tools = "/wg/portals/infectious-disease-portal-tools/";
+            $scope.portalLinks["DOID:0050117"].links = "/wg/portals/infectious-disease-portal-related-links/";
+            $scope.portalLinks["DOID:0050117"].models = "/wg/portals/infectious-disease-portal-rat-strain-models/";
+
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
                 $http({
