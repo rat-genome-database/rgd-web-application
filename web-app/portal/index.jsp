@@ -76,7 +76,7 @@
     </tr>
     <tr>
         <td width="75"><img src="/rgdweb/common/images/portals/15-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=15'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=15" class="diseasePortalName">Infections Disease</a></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=15" class="diseasePortalName">Infectious Disease</a></td>
         <td width="75"><img src="/rgdweb/common/images/portals/13-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=13'" class="bottomDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=13" class="diseasePortalName">Liver Disease</a></td>
     </tr>
@@ -109,25 +109,20 @@
                     <td style="background-color: #2865A3;color:white;padding:5px;font-size:16px;">About the RGD Disease Portals</td>
                 </tr>
                 <tr>
-                    <td>RGD has numerous Disease Portals, where relationships between diseases and genes, QTLs and strains can be explored in human, rat, mouse and in the other five species at RGD. The portals contain data sections for eight other ontologies related to the portal disease category, as well as links to visualization/analysis tools and additional information.</td>
+                    <td><div style="padding:5px;">RGD has numerous Disease Portals, where relationships between diseases and genes, QTLs and strains can be explored in human, rat, mouse and in the other five species at RGD. The portals contain data sections for eight other ontologies related to the portal disease category, as well as links to visualization / analysis tools and additional information.</div></td>
                 </tr>
             </table>
             <br>
-            <table  style="border:1px solid #2865A3;">
+            <table  style="border:1px solid #2865A3;" cellpadding="5">
                 <tr>
                     <td style="background-color: #2865A3;color:white;padding:5px;font-size:16px;">Download Data</td>
                 </tr>
                 <tr>
-                    <td>Disease Ontology (RDO) Annotations - Ontology Term IDs Only</td>
-                </tr>
-                <tr>
-                    <td>RDO - Gene (8 Species)/QTL (Rat & Human)/Rat Strain </td>
-                </tr>
-                <tr>
-                    <td>RDO Annotations - Ontology Terms & IDs</td>
-                </tr>
-                <tr>
-                    <td>RDO - Gene (8 Species)/QTL (Rat & Human)/Rat Strain</td>
+                    <td>Disease Ontology (RDO) Annotations - Ontology Term IDs Only
+                        <li style="margin-left:10px;margin-top:5px;"><a href="">RDO - Gene (8 Species)</a></li>
+                        <li style="margin-left:10px;"><a href="">QTL (Rat & Human)</a></li>
+                        <li style="margin-left:10px;"><a href="">Rat Strain</a></li>
+                    </td>
                 </tr>
             </table>
         </td>
