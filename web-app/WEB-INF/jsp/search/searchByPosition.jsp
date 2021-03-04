@@ -85,9 +85,8 @@
         background-color: DodgerBlue;
         border: none;
         color: white;
-        padding: 12px 30px;
         cursor: pointer;
-        font-size: 20px;
+        font-size: 15px;
     }
 
     /* Darker background on mouse-over */
@@ -180,7 +179,7 @@
     });
 </script>
 <div id="search">
-    <div align="left" class="bordereddiv" style="display: inline-block;overflow: auto;border-color: cornflowerblue; border-width: thin">
+    <div align="left" class="bordereddiv" style="border-color: cornflowerblue; border-width: thin;">
         <form>
             <p v-if="errors.length">
                 <b style="color: red">Please correct the following error(s):</b>
@@ -188,11 +187,11 @@
                 <li v-for="error in errors">{{ error }}</li>
             </ul>
             </p>
-        <table>
+        <table width="100%">
             <tr>
                 <td>
                     <label for="species" style="color: #24609c; font-weight: bold;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required>
+                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 100px">
                         <option value="3" selected="true">Rat</option>
                         <option value="2">Mouse</option>
                         <option value="1">Human</option>
@@ -205,25 +204,25 @@
                 </td>
                 <td>
                     <label for="mapKey" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)">
+                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 200px">
                         <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
                     </select>
                 </td>
                 <td>
                     <label for="chr" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required>
+                    <select id="chr" name="chr" v-model="chr" required style="width: 80px">
                         <option v-for="value in chromosomes" :value="value">{{value}}</option>
                     </select>
                 </td>
                 <td>
                     <label for="start"
                            style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start: </label>
-                    <input id="start" type="number" name="start" required/>
+                    <input id="start" type="number" name="start" required style="width: 200px"/>
                 </td>
                 <td>
                     <label for="stop"
                            style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop: </label>
-                    <input id="stop" type="number" name="stop" required/>
+                    <input id="stop" type="number" name="stop" required style="width: 200px"/>
                 </td>
                 <td>
                     <div class="input-group-append">
@@ -242,21 +241,21 @@
     <br><br><br>
     <div id="page-container" style="display: none">
         <div id="left-side-wrap" style="margin: 10px">
-            <nav id="reportMainSidebar" class="navbar report-page-grey bordereddiv"
-                 style="overflow-y: hidden; position: fixed;width:10%; padding: 15px;height:30vh;">
+            <nav id="reportMainSidebar" class="navbar report-page-grey"
+                 style="position: fixed;padding: 10px;height:30vh;overflow-y: hidden;">
                 <ul class="navbar-nav" id="navbarUlId">
                     <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink" onclick=checkActiveStatus('result')
-                                            style="font-size: x-large">Results</a></li>
+                                            style="font-size: large">Results</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="genes"><a class="nav-link" href="#searchGeneResultId"
-                                                         style="font-size: large;" onclick=checkActiveStatus('gene')>Genes</a>
+                                                         style="font-size: medium;" onclick=checkActiveStatus('gene')>Genes</a>
                     </li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick=checkActiveStatus('qtl')
-                                                        style="font-size: large;">QTLs</a></li>
+                                                        style="font-size: medium;">QTLs</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick=checkActiveStatus('sslp')
-                                                         style="font-size: large;">SSLPs</a></li>
+                                                         style="font-size: medium;">SSLPs</a></li>
                 </ul>
             </nav>
         </div>
@@ -264,20 +263,18 @@
             <table width="100%" border="0">
                 <tr><!--Results summary section-->
                     <td>
-                        <div v-if="genes" class="bordereddiv" id="searchByPositionResultsId" style="width: 50%;padding: 10px">
+                        <div v-if="genes" class="bordereddiv" id="searchByPositionResultsId">
                             <div style="display: flex; flex-flow: row; padding: 10px">
-                                <div style="padding: 5px;width: 70%"><h2>Total Objects in the selected region: </h2>
-                                </div>
-                                <div style="padding: 5px;width: 50%">
-                                    <button class="downloadbtn" @click="download('all')"><i class="fa fa-download"
-                                                                                            style="align-self: auto"
+                                <div style="padding: 5px;width: 100%"><h2>Total Objects in the selected region: </h2>
+                                    <label for="downloadAllBtnId" style="font-size:small">Download All Objects Here: </label>
+                                    <button id="downloadAllBtnId" class="downloadbtn" @click="download('all')"><i class="fa fa-download"
                                                                                             title="Download All"></i>
                                     </button>
                                 </div>
-                                <div style="padding: 10px; width:70%">
+                                <div style="padding: 10px; width:100%">
                                     <table style="border-style: dotted" class="t">
                                         <tr>
-                                            <td style="background-color: powderblue;font-size: large">Genes -
+                                            <td style="font-size: large">Genes -
                                                 {{geneCount}}
                                             </td>
                                             <td>
@@ -287,7 +284,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: whitesmoke;font-size: large">QTLs -
+                                            <td style="font-size: large">QTLs -
                                                 {{qtlCount}}
                                             </td>
                                             <td>
@@ -297,7 +294,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: powderblue;font-size: large">SSLPs -
+                                            <td style="font-size: large">SSLPs -
                                                 {{sslpCount}}
                                             </td>
                                             <td>
