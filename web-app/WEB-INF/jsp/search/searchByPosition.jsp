@@ -96,6 +96,8 @@
 
     label {
         font-size: large;
+        align-self: center;
+        align-items: center;
     }
 
     /* Chrome, Safari, Edge, Opera */
@@ -179,7 +181,7 @@
     });
 </script>
 <div id="search">
-    <div align="left" class="bordereddiv" style="border-color: cornflowerblue; border-width: thin;">
+    <div align="left" class="bordereddiv" style="border-color: cornflowerblue; border-width: thin; max-width: 60vw">
         <form>
             <p v-if="errors.length">
                 <b style="color: red">Please correct the following error(s):</b>
@@ -191,7 +193,7 @@
             <tr>
                 <td>
                     <label for="species" style="color: #24609c; font-weight: bold;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 100px">
+                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px">
                         <option value="3" selected="true">Rat</option>
                         <option value="2">Mouse</option>
                         <option value="1">Human</option>
@@ -203,30 +205,31 @@
                     </select>
                 </td>
                 <td>
-                    <label for="mapKey" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 200px">
+                    <label for="mapKey" style="color: #24609c; font-weight: bold;">Assembly: </label>
+                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 100px">
                         <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
                     </select>
                 </td>
                 <td>
-                    <label for="chr" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required style="width: 80px">
+                    <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome: </label>
+                    <select id="chr" name="chr" v-model="chr" required style="width: 50px">
                         <option v-for="value in chromosomes" :value="value">{{value}}</option>
                     </select>
                 </td>
+
                 <td>
                     <label for="start"
-                           style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start: </label>
-                    <input id="start" type="number" name="start" required style="width: 200px"/>
+                           style="color: #24609c; font-weight: bold;">Start: </label>
+                    <input id="start" type="number" name="start" required style="width: 160px"/>
                 </td>
                 <td>
                     <label for="stop"
-                           style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop: </label>
-                    <input id="stop" type="number" name="stop" required style="width: 200px"/>
+                           style="color: #24609c; font-weight: bold;">Stop: </label>
+                    <input id="stop" type="number" name="stop" required style="width: 160px"/>
                 </td>
                 <td>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" @click="getData($event)">
+                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" style="font-size: 16px" @click="getData($event)">
                             <i class="fa fa-search"></i>
                         </button>&nbsp;&nbsp;
                     </div>
