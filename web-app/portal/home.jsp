@@ -812,7 +812,8 @@
         <div class="rgd-panel-heading">
         <table width="100%" align="center" >
         <tr>
-            <td><div style='font-size:32px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
+            <td width="75"><img src="/rgdweb/common/images/portals/<%=request.getParameter("p")%>-65.png" border="0" style="padding-bottom:10px;"/></td>
+            <td><div style='font-size:32px; clear:left; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
             <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
         </tr>
         </table>
