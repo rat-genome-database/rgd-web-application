@@ -317,7 +317,7 @@
             $scope.portalLinks["DOID:1287"] = {};
             $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
             $scope.portalLinks["DOID:1287"].links = "/wg/cardio_portal_related_links/";
-            $scope.portalLinks["DOID:1287"].models = "";
+            $scope.portalLinks["DOID:1287"].models = "/wg/cardiovascular-disease-portal-rat-strain-models/";
 
             $scope.portalLinks["DOID:9351"] = {};
             $scope.portalLinks["DOID:9351"].tools = "/wg/diabetes_portal_tools/";
