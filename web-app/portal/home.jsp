@@ -92,6 +92,11 @@
             //filter = "RDO:9001567";
             filter = "DOID:0080599";
             break;
+        case 15:
+            title = "Infectious Disease";
+            //filter = "RDO:9001567";
+            filter = "DOID:0050117";
+            break;
     }
 
 
@@ -317,7 +322,7 @@
             $scope.portalLinks["DOID:1287"] = {};
             $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
             $scope.portalLinks["DOID:1287"].links = "/wg/cardio_portal_related_links/";
-            $scope.portalLinks["DOID:1287"].models = "/wg/cardiovascular-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:1287"].models = "";
 
             $scope.portalLinks["DOID:9351"] = {};
             $scope.portalLinks["DOID:9351"].tools = "/wg/diabetes_portal_tools/";
@@ -812,7 +817,8 @@
         <div class="rgd-panel-heading">
         <table width="100%" align="center" >
         <tr>
-            <td><div style='font-size:32px; clear:left; padding:10px; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
+            <td width="75"><img src="/rgdweb/common/images/portals/<%=request.getParameter("p")%>-65.png" border="0" style="padding-bottom:10px;"/></td>
+            <td><div style='font-size:32px; clear:left; color:#24609C;"'>{{title}}&nbsp;Portal</div></td>
             <td align="right"><div style="font-size:26px; clear:left; ">{{speciesCommonName}}</div></td>
         </tr>
         </table>
