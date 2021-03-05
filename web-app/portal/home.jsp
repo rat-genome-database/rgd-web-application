@@ -92,6 +92,11 @@
             //filter = "RDO:9001567";
             filter = "DOID:0080599";
             break;
+        case 15:
+            title = "Infectious Disease";
+            //filter = "RDO:9001567";
+            filter = "DOID:0050117";
+            break;
     }
 
 
