@@ -196,7 +196,7 @@
                                         <a href="/rgdweb/ontology/search.html">Ontologies</a>
                                         <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
                                         <a href="/rgdweb/search/references.html?100">References</a>
-                                        <a href="ftp://ftp.rgd.mcw.edu/pub/">FTP Download</a>
+                                        <a href="https://download.rgd.mcw.edu">Download</a>
                                         <a href="/registration-entry.shtml">Submit Data</a>
                                     </div>
                                 </div>
