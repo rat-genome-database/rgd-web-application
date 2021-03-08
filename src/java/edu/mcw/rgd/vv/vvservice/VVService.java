@@ -174,7 +174,7 @@ public class VVService {
     public BoolQueryBuilder boolQueryBuilder(VariantSearchBean vsb, HttpRequestFacade req){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(vsb, req));
-   List<String> synStats= new ArrayList<>();
+        List<String> synStats= new ArrayList<>();
         List<String> genicStats= new ArrayList<>();
         List<String> vTypes= new ArrayList<>();
         List<String> locs=new ArrayList<>();
@@ -323,7 +323,10 @@ public class VVService {
                 qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0) {
-                qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+            //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+                qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+                qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+
             }
             if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 List<String> symbols = new ArrayList<>();
