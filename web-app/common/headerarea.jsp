@@ -123,7 +123,7 @@
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
-<%@ include file="/common/helpFeedbackChat.jsp" %>
+
 
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
@@ -173,7 +173,7 @@
                                     </button>
 
                                     <div class="rgd-dropdown-content">
-                                        <!--<a href="/wg/general-search/">Search RGD</a>-->
+                                        <a href="/rgdweb/search/searchByPosition.html">Search RGD</a><!---RGDD-1856 New Search By Position added -->
                                         <a href="/wg/grants/">Grant Resources</a>
                                         <a href="/wg/citing-rgd/">Citing RGD</a>
                                         <a href="/wg/about-us/">About Us</a>
@@ -220,6 +220,7 @@
                                         <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                         <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
                                         <a href="/GENOMESCANNER/">Genome Scanner</a>
+                                        <a href="/rgdweb/vcmap/VCMap.exe">VCMap</a>
                                     </div>
                                 </div>
                                 <div class="rgd-dropdown">
