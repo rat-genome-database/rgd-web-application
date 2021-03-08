@@ -81,13 +81,21 @@
         overflow-x: auto;
     }
 
+    .searchBox {
+        border: 3px solid #f1f1f1;
+        margin: 10px;
+        border-color: cornflowerblue;
+        border-width: thin;
+        min-width: 40vw;
+        max-width: 50vw;
+    }
+
     .downloadbtn {
         background-color: DodgerBlue;
         border: none;
         color: white;
-        padding: 12px 30px;
         cursor: pointer;
-        font-size: 20px;
+        font-size: 15px;
     }
 
     /* Darker background on mouse-over */
@@ -96,7 +104,9 @@
     }
 
     label {
-        font-size: large;
+        font-size: 1.6em;
+        align-self: center;
+        align-items: center;
     }
 
     /* Chrome, Safari, Edge, Opera */
@@ -109,8 +119,9 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+        height:20px;
+        font-size:11pt;
     }
-
 </style>
 
 <%
@@ -152,6 +163,15 @@
         }
     }
 
+    function isNumber(evt)
+    {
+        var regex = new RegExp("^[0-9-!@#$%*?,]");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    }
 </script>
 
 <%@ include file="/common/headerarea.jsp" %>
@@ -179,8 +199,27 @@
         let top = domRect.top + document.body.scrollTop;
     });
 </script>
+<style>
+    input[type=text] {
+        height:20px;
+        font-size:11pt;
+    }
+
+    select{
+        height:20px;
+        font-size:11pt;
+    }
+
+    option{
+        font-size:11pt;
+    }
+
+    .searchBox td{
+        padding: 25px;
+    }
+</style>
 <div id="search">
-    <div align="left" class="bordereddiv" style="display: inline-block;overflow: auto;border-color: cornflowerblue; border-width: thin">
+    <div align="left">
         <form>
             <p v-if="errors.length">
                 <b style="color: red">Please correct the following error(s):</b>
@@ -188,11 +227,11 @@
                 <li v-for="error in errors">{{ error }}</li>
             </ul>
             </p>
-        <table>
+        <table class="searchBox">
             <tr>
                 <td>
-                    <label for="species" style="color: #24609c; font-weight: bold;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required>
+                    <label for="species" style="color: #24609c;">Species: </label>
+                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px;font-size:11pt">
                         <option value="3" selected="true">Rat</option>
                         <option value="2">Mouse</option>
                         <option value="1">Human</option>
@@ -204,30 +243,30 @@
                     </select>
                 </td>
                 <td>
-                    <label for="mapKey" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)">
+                    <label for="mapKey" style="color: #24609c;">Assembly: </label>
+                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 110px;font-size:11pt">
                         <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
                     </select>
                 </td>
                 <td>
-                    <label for="chr" style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required>
+                    <label for="chr" style="color: #24609c;">Chromosome: </label>
+                    <select id="chr" name="chr" v-model="chr" required style="width: 50px;font-size:11pt">
                         <option v-for="value in chromosomes" :value="value">{{value}}</option>
                     </select>
                 </td>
                 <td>
                     <label for="start"
-                           style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start: </label>
-                    <input id="start" type="number" name="start" required/>
+                           style="color: #24609c;">Start(bp): </label>
+                    <input id="start" type="text" name="start" required style="width: 160px" onkeypress="return isNumber(event)"/>
                 </td>
                 <td>
                     <label for="stop"
-                           style="color: #24609c; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop: </label>
-                    <input id="stop" type="number" name="stop" required/>
+                           style="color: #24609c;">Stop(bp): </label>
+                    <input id="stop" type="text" name="stop" required style="width: 160px" onkeypress="return isNumber(event)"/>
                 </td>
                 <td>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" @click="getData($event)">
+                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" style="font-size: 20px" @click="getData($event)">
                             <i class="fa fa-search"></i>
                         </button>&nbsp;&nbsp;
                     </div>
@@ -239,24 +278,25 @@
         </table>
         </form>
     </div>
+
     <br><br><br>
     <div id="page-container" style="display: none">
         <div id="left-side-wrap" style="margin: 10px">
-            <nav id="reportMainSidebar" class="navbar report-page-grey bordereddiv"
-                 style="overflow-y: hidden; position: fixed;width:10%; padding: 15px;height:30vh;">
+            <nav id="reportMainSidebar" class="navbar report-page-grey"
+                 style="position: fixed;padding: 10px;height:30vh;overflow-y: hidden;">
                 <ul class="navbar-nav" id="navbarUlId">
                     <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink" onclick=checkActiveStatus('result')
-                                            style="font-size: x-large">Results</a></li>
+                                            style="font-size: large">Results</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="genes"><a class="nav-link" href="#searchGeneResultId"
-                                                         style="font-size: large;" onclick=checkActiveStatus('gene')>Genes</a>
+                                                         style="font-size: medium;" onclick=checkActiveStatus('gene')>Genes</a>
                     </li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick=checkActiveStatus('qtl')
-                                                        style="font-size: large;">QTLs</a></li>
+                                                        style="font-size: medium;">QTLs</a></li>
                     <br>
                     <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick=checkActiveStatus('sslp')
-                                                         style="font-size: large;">SSLPs</a></li>
+                                                         style="font-size: medium;">SSLPs</a></li>
                 </ul>
             </nav>
         </div>
@@ -264,20 +304,18 @@
             <table width="100%" border="0">
                 <tr><!--Results summary section-->
                     <td>
-                        <div v-if="genes" class="bordereddiv" id="searchByPositionResultsId" style="width: 50%;padding: 10px">
+                        <div v-if="genes" class="bordereddiv" id="searchByPositionResultsId">
                             <div style="display: flex; flex-flow: row; padding: 10px">
-                                <div style="padding: 5px;width: 70%"><h2>Total Objects in the selected region: </h2>
-                                </div>
-                                <div style="padding: 5px;width: 50%">
-                                    <button class="downloadbtn" @click="download('all')"><i class="fa fa-download"
-                                                                                            style="align-self: auto"
+                                <div style="padding: 5px;width: 100%"><h2>Total Objects in the selected region: </h2>
+                                    <label for="downloadAllBtnId" style="font-size:small">Download All Objects Here: </label>
+                                    <button id="downloadAllBtnId" class="downloadbtn" @click="download('all')"><i class="fa fa-download"
                                                                                             title="Download All"></i>
                                     </button>
                                 </div>
-                                <div style="padding: 10px; width:70%">
+                                <div style="padding: 10px; width:100%">
                                     <table style="border-style: dotted" class="t">
                                         <tr>
-                                            <td style="background-color: powderblue;font-size: large">Genes -
+                                            <td style="font-size: large">Genes -
                                                 {{geneCount}}
                                             </td>
                                             <td>
@@ -287,7 +325,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: whitesmoke;font-size: large">QTLs -
+                                            <td style="font-size: large">QTLs -
                                                 {{qtlCount}}
                                             </td>
                                             <td>
@@ -297,7 +335,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: powderblue;font-size: large">SSLPs -
+                                            <td style="font-size: large">SSLPs -
                                                 {{sslpCount}}
                                             </td>
                                             <td>
@@ -496,8 +534,8 @@
                 v.genes = false;
 
                 this.errors = [];
-                var start = document.getElementById('start').value;
-                var stop = document.getElementById('stop').value;
+                //var start = document.getElementById('start').value;
+                //var stop = document.getElementById('stop').value;
                 if(Number(start) > Number(stop)) {
                     this.errors.push('Start number is greater than Stop number.');
                 }
