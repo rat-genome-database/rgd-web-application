@@ -95,7 +95,7 @@
     }
 
     label {
-        font-size: large;
+        font-size: 1.6em;
         align-self: center;
         align-items: center;
     }
@@ -110,6 +110,18 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+        height:20px;
+        font-size:11pt;
+    }
+
+    input[type=text] {
+        height:20px;
+        font-size:11pt;
+    }
+
+    select{
+        height:20px;
+        font-size:12pt;
     }
 
 </style>
@@ -153,6 +165,24 @@
         }
     }
 
+    function isNumber(evt)
+    {
+        /*evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        if(charCode == 188) {
+            return true;
+        }
+        return true;*/
+        var regex = new RegExp("^[0-9-!@#$%*?,]");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    }
 </script>
 
 <%@ include file="/common/headerarea.jsp" %>
@@ -192,8 +222,8 @@
         <table width="100%">
             <tr>
                 <td>
-                    <label for="species" style="color: #24609c; font-weight: bold;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px">
+                    <label for="species" style="color: #24609c;">Species: </label>
+                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px;font-size:10pt">
                         <option value="3" selected="true">Rat</option>
                         <option value="2">Mouse</option>
                         <option value="1">Human</option>
@@ -205,31 +235,30 @@
                     </select>
                 </td>
                 <td>
-                    <label for="mapKey" style="color: #24609c; font-weight: bold;">Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 100px">
+                    <label for="mapKey" style="color: #24609c;">Assembly: </label>
+                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 100px;font-size:10pt">
                         <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
                     </select>
                 </td>
                 <td>
-                    <label for="chr" style="color: #24609c; font-weight: bold;">Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required style="width: 50px">
+                    <label for="chr" style="color: #24609c;">Chromosome: </label>
+                    <select id="chr" name="chr" v-model="chr" required style="width: 50px;font-size:10pt">
                         <option v-for="value in chromosomes" :value="value">{{value}}</option>
                     </select>
                 </td>
-
                 <td>
                     <label for="start"
-                           style="color: #24609c; font-weight: bold;">Start: </label>
-                    <input id="start" type="number" name="start" required style="width: 160px"/>
+                           style="color: #24609c;">Start(bp): </label>
+                    <input id="start" type="text" name="start" required style="width: 160px" onkeypress="return isNumber(event)"/>
                 </td>
                 <td>
                     <label for="stop"
-                           style="color: #24609c; font-weight: bold;">Stop: </label>
-                    <input id="stop" type="number" name="stop" required style="width: 160px"/>
+                           style="color: #24609c;">Stop(bp): </label>
+                    <input id="stop" type="text" name="stop" required style="width: 160px" onkeypress="return isNumber(event)"/>
                 </td>
                 <td>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" style="font-size: 16px" @click="getData($event)">
+                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" style="font-size: 20px" @click="getData($event)">
                             <i class="fa fa-search"></i>
                         </button>&nbsp;&nbsp;
                     </div>
