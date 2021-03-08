@@ -81,6 +81,15 @@
         overflow-x: auto;
     }
 
+    .searchBox {
+        border: 3px solid #f1f1f1;
+        margin: 10px;
+        border-color: cornflowerblue;
+        border-width: thin;
+        min-width: 40vw;
+        max-width: 50vw;
+    }
+
     .downloadbtn {
         background-color: DodgerBlue;
         border: none;
@@ -204,9 +213,13 @@
     option{
         font-size:11pt;
     }
+
+    .searchBox td{
+        padding: 25px;
+    }
 </style>
 <div id="search">
-    <div align="left" class="bordereddiv" style="border-color: cornflowerblue; border-width: thin; max-width: 60vw">
+    <div align="left">
         <form>
             <p v-if="errors.length">
                 <b style="color: red">Please correct the following error(s):</b>
@@ -214,7 +227,7 @@
                 <li v-for="error in errors">{{ error }}</li>
             </ul>
             </p>
-        <table width="100%">
+        <table class="searchBox">
             <tr>
                 <td>
                     <label for="species" style="color: #24609c;">Species: </label>
@@ -265,6 +278,7 @@
         </table>
         </form>
     </div>
+
     <br><br><br>
     <div id="page-container" style="display: none">
         <div id="left-side-wrap" style="margin: 10px">
