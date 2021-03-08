@@ -525,8 +525,8 @@
                 v.genes = false;
 
                 this.errors = [];
-                var start = document.getElementById('start').value;
-                var stop = document.getElementById('stop').value;
+                //var start = document.getElementById('start').value;
+                //var stop = document.getElementById('stop').value;
                 if(Number(start) > Number(stop)) {
                     this.errors.push('Start number is greater than Stop number.');
                 }
