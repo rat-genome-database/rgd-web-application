@@ -173,7 +173,7 @@
                                     </button>
 
                                     <div class="rgd-dropdown-content">
-                                        <!--<a href="/wg/general-search/">Search RGD</a>-->
+                                        <a href="/rgdweb/search/searchByPosition.html">Search RGD</a><!---RGDD-1856 New Search By Position added -->
                                         <a href="/wg/grants/">Grant Resources</a>
                                         <a href="/wg/citing-rgd/">Citing RGD</a>
                                         <a href="/wg/about-us/">About Us</a>
