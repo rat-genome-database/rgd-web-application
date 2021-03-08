@@ -113,17 +113,6 @@
         height:20px;
         font-size:11pt;
     }
-
-    input[type=text] {
-        height:20px;
-        font-size:11pt;
-    }
-
-    select{
-        height:20px;
-        font-size:12pt;
-    }
-
 </style>
 
 <%
@@ -167,15 +156,6 @@
 
     function isNumber(evt)
     {
-        /*evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        if(charCode == 188) {
-            return true;
-        }
-        return true;*/
         var regex = new RegExp("^[0-9-!@#$%*?,]");
         var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
         if (!regex.test(key)) {
@@ -210,6 +190,21 @@
         let top = domRect.top + document.body.scrollTop;
     });
 </script>
+<style>
+    input[type=text] {
+        height:20px;
+        font-size:11pt;
+    }
+
+    select{
+        height:20px;
+        font-size:11pt;
+    }
+
+    option{
+        font-size:11pt;
+    }
+</style>
 <div id="search">
     <div align="left" class="bordereddiv" style="border-color: cornflowerblue; border-width: thin; max-width: 60vw">
         <form>
@@ -223,7 +218,7 @@
             <tr>
                 <td>
                     <label for="species" style="color: #24609c;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px;font-size:10pt">
+                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px;font-size:11pt">
                         <option value="3" selected="true">Rat</option>
                         <option value="2">Mouse</option>
                         <option value="1">Human</option>
@@ -236,13 +231,13 @@
                 </td>
                 <td>
                     <label for="mapKey" style="color: #24609c;">Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 100px;font-size:10pt">
+                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 110px;font-size:11pt">
                         <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
                     </select>
                 </td>
                 <td>
                     <label for="chr" style="color: #24609c;">Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required style="width: 50px;font-size:10pt">
+                    <select id="chr" name="chr" v-model="chr" required style="width: 50px;font-size:11pt">
                         <option v-for="value in chromosomes" :value="value">{{value}}</option>
                     </select>
                 </td>
