@@ -1,19 +1,15 @@
+<%@ page import="javax.servlet.http.Cookie"%>
 <!DOCTYPE html>
 <html>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        input[type="text"], textarea {
-            width: 100%;
-            height: 30px;
-            font-size: Large;
-            background-color : #f1f1f1;
 
-        }
         input[type="email"], textarea {
             width: 100%;
             height: 30px;
@@ -24,12 +20,38 @@
 
         body {font-family: Arial, Helvetica, sans-serif;}
         * {box-sizing: border-box;}
-
-        .thumbsUp {
-            bottom: 28px;
-            right: 10px;
+        .hide {
+            bottom: 82px;
+            right: 9px;
             position: fixed;
+            opacity: .5;
         }
+        .thumbsUp {
+            bottom: 26px;
+            right: 182px;
+            position: fixed;
+            /*max-width: 50px;*/
+            /*max-height: 50px;*/
+            /*border-radius: 25px;*/
+            /*display: block;*/
+        }
+        .thumbsDown {
+            bottom: 26px;
+            right: 9px;
+            position: fixed;
+
+            /*border-radius: 25px;*/
+            /*display: block;*/
+        }
+        /*.btnDiv {*/
+        /*    bottom: 25px;*/
+        /*    right: 5px;*/
+        /*    height: 50px;*/
+        /*    width: 250px;*/
+        /*    background-color: red;*/
+        /*    background-position-x: 5px;*/
+        /*    background-position-y: 50px;*/
+        /*}*/
         /* Button used to open the chat form - fixed at the bottom of the page */
         .open-button {
             background-color: #555;
@@ -40,7 +62,7 @@
             opacity: 0.8;
             position: fixed;
             bottom: 23px;
-            right: 78px;
+            right: 80px;
             width: 100px;
         }
 
@@ -110,30 +132,37 @@
     </style>
 </head>
 <body>
-
-<%--<button class="thumbsUp"><img src="/rgdweb/common/images/thumbsUpS.png" ></button>--%>
-<button class="open-button" onclick="openForm()">Send Message</button>
-
-<%--<button id="ajaxVue" type="button" v-on:click="fcn">Button</button>--%>
-
+<%  Cookie cookie = null;
+    Cookie[] cookies = null;
+    cookies = request.getCookies();
+    boolean isHidden = false;
+    for (int i = 0; i < cookies.length; i++) {
+        cookie = cookies[i];
+        if(cookie.getName().equals("hideMe"))
+            isHidden = true;
+    }
+    if (!isHidden){
+%>
+    <div id="buttons" class="btnDiv">
+        <button type="button" class="hide" id="hideDiv" onclick="hideButtons()">Hide</button>
+        <button class="thumbsDown"><img src="/rgdweb/common/images/thumbsDownS.png" v-on:click="dislikedPage"></button>
+        <button class="open-button" onclick="openForm()">Send Message</button>
+        <button class="thumbsUp"><img src="/rgdweb/common/images/thumbsUpS.png" v-on:click="likedPage"></button>
+    </div>
+<%  }   %>
 <div class="chat-popup" id="ajaxVue">
     <form action="https://rgd.mcw.edu/tools/contact/contact.cgi" class="form-container">
-<%--        <img src="/rgdweb/common/images/del.jpg" id="img1" onclick="closeForm()">--%>
         <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
         <h1>Send us a Message</h1>
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
-<%--        <label><b>First Name</b></label>--%>
-<%--        <br><input type="text" name="firstname">--%>
-<%--        <br><label><b>Last Name</b></label>--%>
-<%--        <br><input type="text" name="lastname">--%>
+
         <label><b>Email</b></label>
         <br><input type="email" name="email" v-model="email"></input>
         <br><label><b>Message</b></label>
         <textarea placeholder="Type message.." name="comment" v-model="message"></textarea>
 
         <button type="button" class="btn" v-on:click="fcn">Send</button>
-<%--        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>--%>
 
     </form>
 </div>
@@ -146,6 +175,17 @@
     function closeForm() {
         document.getElementById("ajaxVue").style.display = "none";
     }
+    function hideButtons() {
+        var div = document.getElementById('buttons');
+        document.cookie = "hideMe=true; path=/"
+        //alert(document.cookie);
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
 </script>
 
 </body>
@@ -188,8 +228,6 @@
                     }).catch(function (error) {
                     console.log(error)
                 })
-
-
             }
         } // end methods
     })
@@ -197,4 +235,58 @@
         var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(message);
     }
+    var buttons= new Vue({
+        el: '#buttons',
+        data: {
+            liked: false,
+            disliked: false
+        },
+        methods: {
+            likedPage : function() {
+                //alert(window.location.href);
+                const headers = {
+                    'Content-Type': 'application/json'
+                }
+                axios
+                    .post('/rgdweb/report/weblikes.html',
+                        {
+                            liked: true,
+                            disliked: false,
+                            webPage: window.location.href
+                        },
+                        {   headers: headers    }
+                    )
+                    .then(function (response){
+                        alert("Liked")
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
+                hideButtons();
+                openForm();
+                //alert("After axios")
+            },
+            dislikedPage : function() {
+                const headers = {
+                    'Content-Type': 'application/json'
+                }
+                axios
+                    .post('/rgdweb/report/weblikes.html',
+                        {
+                            liked: false,
+                            disliked: true,
+                            webPage: window.location.href
+                        },
+                        {   headers: headers    }
+                    )
+                    .then(function (response){
+                        alert("Disliked")
+                    }).catch(function (error) {
+                    console.log(error)
+                })
+                hideButtons();
+                openForm();
+
+            }
+        }
+    })
 </script>

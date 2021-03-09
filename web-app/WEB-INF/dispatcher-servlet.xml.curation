@@ -73,7 +73,6 @@
                 <prop key="curation/edit/notesAdd.html">NotesAddController</prop>
                 <prop key="curation/edit/statusUpdate.html">StatusUpdateController</prop>
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
-                <prop key="curation/edit/strainMerge.html">StrainMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
                 <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
@@ -276,7 +275,7 @@
                 <prop key="phenominer/phenominerExpectedRanges/selectedStrain.html">phenominerERSelectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/strain.html">strainExpectedRangeController</prop>
 
-
+                <prop key="report/weblikes.html">WebsiteFeedbackController</prop>
 
 
                  <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
@@ -403,7 +402,6 @@
     <bean id="CuratedReferencesEditObjectController" class="edu.mcw.rgd.edit.CuratedReferencesEditObjectController"/>
     <bean id="ExternalLinksEditObjectController" class="edu.mcw.rgd.edit.ExternalLinksEditObjectController"/>
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
-    <bean id="StrainMergeController" class="edu.mcw.rgd.edit.StrainMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
     <bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
@@ -561,6 +559,7 @@
 
     <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
     <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
+    <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.report.WebsiteFeedbackController"/>
     </beans>
 
 
