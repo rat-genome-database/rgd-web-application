@@ -42,13 +42,6 @@ public class WebsiteFeedbackController implements Controller {
 
         }
 
-
-
-
-
-//        String[] likes = request.getParameterValues("liked");
-//        String[] dislikes = request.getParameterValues("disliked");
-
         return new ModelAndView("/WEB-INF/jsp/report/weblikes.jsp");
     }
 }

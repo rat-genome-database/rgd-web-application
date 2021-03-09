@@ -30,6 +30,7 @@
     <link href="/rgdweb/common/rgd_styles-3.css?v=1" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
+
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
 
@@ -130,6 +131,7 @@
 
 
 
+
                 <div class="top-bar">
                     <table width="100%" border="0" class="headerTable" cellpadding="0" cellspacing="0">
                         <tr>
@@ -146,7 +148,7 @@
                                 <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
                                 <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
 
-                                <a href="ftp://ftp.rgd.mcw.edu/pub">FTP Download</a>&nbsp;|&nbsp;
+                                <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                 <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui.html">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                 <a href="/contact/index.shtml">Contact</a>&nbsp;&nbsp;&nbsp;
@@ -168,7 +170,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="/rgdweb/search/searchByPosition.html">Search RGD</a><!---RGDD-1856 New Search By Position added -->
+                                            <a href="/wg/general-search/">Search RGD</a>
                                             <a href="/wg/grants/">Grant Resources</a>
                                             <a href="/wg/citing-rgd/">Citing RGD</a>
                                             <a href="/wg/about-us/">About Us</a>
@@ -189,7 +191,7 @@
                                             <a href="/rgdweb/ontology/search.html">Ontologies</a>
                                             <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
                                             <a href="/rgdweb/search/references.html?100">References</a>
-                                            <a href="ftp://ftp.rgd.mcw.edu/pub/">FTP Download</a>
+                                            <a href="https://download.rgd.mcw.edu">Download</a>
                                             <a href="/registration-entry.shtml">Submit Data</a>
                                         </div>
                                     </div>
@@ -202,8 +204,6 @@
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
-                                            <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
-
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                             <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
@@ -215,7 +215,6 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
                                             <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                            <a href="/rgdweb/vcmap/VCMap.exe">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
@@ -260,7 +259,7 @@
                                             <a href="/wg/physiology/strain-medical-records/">Strain Medical Records</a>
                                             <a href="/wg/phylogenetics/">Phylogenetics</a>
                                             <a href="/wg/strain-availability/">Strain Availability</a>
-                                            <a href="ftp://ftp.rgd.mcw.edu/pub/data_release/Hi-res_Rat_Calendars/">Calendar</a>
+                                            <a href="https://download.rgd.mcw.edu/pub/data_release/Hi-res_Rat_Calendars/">Calendar</a>
                                             <a href="/wg/physiology/rats101/">Rats 101</a>
                                             <a href="/wg/photos-and-images/community-submissions/">Submissions</a>
                                             <a href="/wg/photos-and-images/physgen-photo-archive2/">Photo Archive</a>
@@ -370,3 +369,4 @@
         <table cellpadding="5" border=0 align="center" width="100%">
             <tr>
                 <td colspan="3" align="left" valign="top">
+
