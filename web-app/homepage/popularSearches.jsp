@@ -36,7 +36,7 @@
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='/plf/plfRGD/?module=searchByPosition&func=form'"><p style="margin-top:15px;">Genomic<br>Region</p></div>
+                <div class="searchCard" onclick="location.href='/rgdweb/search/searchByPosition.html'"><p style="margin-top:15px;">Genomic<br>Region</p></div><!---RGDD-1856 New Search By Position added -->
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
