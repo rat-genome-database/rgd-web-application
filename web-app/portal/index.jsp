@@ -37,14 +37,16 @@
 <table border="0" width="800">
     <tr>
         <td colspan="4">
+            <div style="background-color:#EFEFEF;padding:10px;">
             <table>
                 <tr>
                     <td><h1 style="font-size:36px">Disease Portals</h1></td>
                 </tr>
                 <tr>
-                    <td style="background-color:#EFEFEF; font-size:16px;padding:10px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="#">Click Here</a> for help with the RGD Disease Portals.</a></td>
+                    <td style=" font-size:16px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="DiseasePortalHelp.pptx">Click Here</a> for help with the RGD Disease Portals.</a></td>
                 </tr>
             </table>
+            </div>
 
         </td>
     </tr>
@@ -63,14 +65,14 @@
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=14" class="diseasePortalName">COVID-19</a></td>
     </tr>
     <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/12-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=1'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=1" class="diseasePortalName">Developmental Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/4-65.png" border="0" onclick="location.href='       '" class="bottomDiseaseIcon"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/12-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=12'"/></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=12" class="diseasePortalName">Developmental Disease</a></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/4-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=4'" class="bottomDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="      " class="diseasePortalName">Diabetes</a></td>
     </tr>
     <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/5-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=12'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=12" class="diseasePortalName">Hematologic Disease</a></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/5-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=5'"/></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=5" class="diseasePortalName">Hematologic Disease</a></td>
         <td width="75"><img src="/rgdweb/common/images/portals/6-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=6'" class="bottomDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=6" class="diseasePortalName">Immune & Inflammatory Disease</a></td>
     </tr>
@@ -118,10 +120,9 @@
                     <td style="background-color: #2865A3;color:white;padding:5px;font-size:16px;">Download Data</td>
                 </tr>
                 <tr>
-                    <td>Disease Ontology (RDO) Annotations - Ontology Term IDs Only
-                        <li style="margin-left:10px;margin-top:5px;"><a href="">RDO - Gene (8 Species)</a></li>
-                        <li style="margin-left:10px;"><a href="">QTL (Rat & Human)</a></li>
-                        <li style="margin-left:10px;"><a href="">Rat Strain</a></li>
+                    <td>Disease Ontology (RDO) Annotations - RDO - Gene (8 Species), QTL (Rat & Human) and Rat Strain
+                        <li style="margin-left:10px;margin-top:5px;"><a href="https://download.rgd.mcw.edu/ontology/annotated_rgd_objects_by_ontology">Ontology Term IDs Only</a></li>
+                        <li style="margin-left:10px;margin-top:5px;"><a href="https://download.rgd.mcw.edu/pub/ontology/annotated_rgd_objects_by_ontology/with_terms/">Ontology Term IDs and Text</a></li>
                     </td>
                 </tr>
             </table>
