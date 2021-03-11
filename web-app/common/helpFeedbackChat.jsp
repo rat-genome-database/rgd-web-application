@@ -43,18 +43,18 @@
             /*border-radius: 25px;*/
             /*display: block;*/
         }
-        /*.btnDiv {*/
-        /*    bottom: 25px;*/
-        /*    right: 5px;*/
-        /*    height: 50px;*/
-        /*    width: 250px;*/
-        /*    background-color: red;*/
-        /*    background-position-x: 5px;*/
-        /*    background-position-y: 50px;*/
-        /*}*/
+        .btnDiv {
+            bottom: 15px;
+            right: 5px;
+            height: 93px;
+            width: 250px;
+            position: fixed;
+            background-color: #bcbcbc;
+
+        }
         /* Button used to open the chat form - fixed at the bottom of the page */
         .open-button {
-            background-color: #555;
+            background-color: #2865A3;
             color: white;
             padding: 16px 20px;
             border: none;
@@ -132,24 +132,13 @@
     </style>
 </head>
 <body>
-<%  Cookie cookie = null;
-    Cookie[] cookies = null;
-    cookies = request.getCookies();
-    boolean isHidden = false;
-    for (int i = 0; i < cookies.length; i++) {
-        cookie = cookies[i];
-        if(cookie.getName().equals("hideMe"))
-            isHidden = true;
-    }
-    if (!isHidden){
-%>
     <div id="buttons" class="btnDiv">
         <button type="button" class="hide" id="hideDiv" onclick="hideButtons()">Hide</button>
         <button class="thumbsDown"><img src="/rgdweb/common/images/thumbsDownS.png" v-on:click="dislikedPage"></button>
         <button class="open-button" onclick="openForm()">Send Message</button>
         <button class="thumbsUp"><img src="/rgdweb/common/images/thumbsUpS.png" v-on:click="likedPage"></button>
     </div>
-<%  }   %>
+
 <div class="chat-popup" id="ajaxVue">
     <form action="https://rgd.mcw.edu/tools/contact/contact.cgi" class="form-container">
         <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
@@ -168,6 +157,7 @@
 </div>
 
 <script>
+    checkCookie();
     function openForm() {
         document.getElementById("ajaxVue").style.display = "block";
     }
@@ -186,6 +176,10 @@
             div.style.display = 'block';
         }
     };
+    function checkCookie() {
+        if(document.cookie.indexOf("hideMe") != -1)
+            hideButtons();
+    }
 </script>
 
 </body>
