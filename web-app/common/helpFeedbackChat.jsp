@@ -2,7 +2,7 @@
 
 <body>
     <div id="divButtons" class="btnDiv">
-        <button type="button" class="hide" id="hideDiv" onclick="hideButtons()">Hide</button>
+        <button type="button" class="hideMe" id="hideDiv" onclick="hideButtons()">Hide</button>
         <button class="thumbsDown"><img src="/rgdweb/common/images/thumbsDownS.png" v-on:click="dislikedPage"></button>
         <button class="open-button" onclick="openForm()">Send Message</button>
         <button class="thumbsUp"><img src="/rgdweb/common/images/thumbsUpS.png" v-on:click="likedPage"></button>

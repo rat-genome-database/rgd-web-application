@@ -9,7 +9,7 @@ input[type="email"], textarea {
 
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
-.hide {
+.hideMe {
     bottom: 82px;
     right: 9px;
     position: fixed;
