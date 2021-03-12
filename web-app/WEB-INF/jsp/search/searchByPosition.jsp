@@ -552,6 +552,7 @@
                                 v.genes = true;
 
                                 document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'block';
                                 /*var geneResultsTable = document.getElementById("geneResultsTable");
@@ -561,6 +562,9 @@
                                     });
                                 }*/
                             }else{
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "20vh";
+                                document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
@@ -574,9 +578,13 @@
                                 v.qtlCount = v.qtlData.length;
                                 v.qtls = true;
                                 document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'block';
                             }else{
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "20vh";
+                                document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
@@ -590,9 +598,13 @@
                                 v.sslpCount = v.sslpData.length;
                                 v.sslps = true;
                                 document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'block';
                             }else{
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "20vh";
+                                document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
