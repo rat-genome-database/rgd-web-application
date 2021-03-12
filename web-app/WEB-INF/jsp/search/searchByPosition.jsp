@@ -304,7 +304,7 @@
             <table width="100%" border="0">
                 <tr><!--Results summary section-->
                     <td>
-                        <div v-if="genes" class="bordereddiv" id="searchByPositionResultsId">
+                        <div class="bordereddiv" id="searchByPositionResultsId">
                             <div style="display: flex; flex-flow: row; padding: 10px">
                                 <div style="padding: 5px;width: 100%"><h2>Total Objects in the selected region: </h2>
                                     <label for="downloadAllBtnId" style="font-size:small">Download All Objects Here: </label>
@@ -553,13 +553,15 @@
 
                                 document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
-
+                                document.getElementById('searchGeneResultId').style.display = 'block';
                                 /*var geneResultsTable = document.getElementById("geneResultsTable");
                                 if (geneResultsTable) {
                                     $('#geneResultsTable').tablesorter({
                                         theme: 'blue'
                                     });
                                 }*/
+                            }else{
+                                document.getElementById('searchGeneResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
                         console.log(error)
@@ -571,7 +573,11 @@
                             if (v.qtlData.length != 0) {
                                 v.qtlCount = v.qtlData.length;
                                 v.qtls = true;
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'block';
+                            }else{
+                                document.getElementById('searchQTLsResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
                         console.log(error)
@@ -583,7 +589,11 @@
                             if (v.sslpData.length != 0) {
                                 v.sslpCount = v.sslpData.length;
                                 v.sslps = true;
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'block';
+                            }else{
+                                document.getElementById('searchSSLPsResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
                         console.log(error)
