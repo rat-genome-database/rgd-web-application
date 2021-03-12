@@ -29,9 +29,16 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
     <link href="/rgdweb/common/rgd_styles-3.css?v=1" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+    <link rel="stylesheet" href="/rgdweb/css/webFeedback.css" type="text/css"/>
 
     <script type="text/javascript" src="/rgdweb/common/modalDialog/common.js"></script>
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="/rgdweb/js/webFeedback.js"></script>
 
     <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
@@ -370,4 +377,3 @@
         <table cellpadding="5" border=0 align="center" width="100%">
             <tr>
                 <td colspan="3" align="left" valign="top">
-
