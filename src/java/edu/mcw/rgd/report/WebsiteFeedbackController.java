@@ -4,6 +4,7 @@ package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.WebFeedbackDAO;
 
+import edu.mcw.rgd.my.MyRGDLookupController;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -29,19 +30,49 @@ public class WebsiteFeedbackController implements Controller {
         reader.close();
 
         try {
-            boolean likedBool = (boolean) obj.get("liked");
-            boolean dLikedBool = (boolean) obj.get("disliked");
-            String page = (String) obj.get("webPage");
+            boolean bypass = (boolean) obj.get("bypass");
+            if (bypass){
+                sendEmail(obj);
+            }
+            else {
+                boolean likedBool = (boolean) obj.get("liked");
+                boolean dLikedBool = (boolean) obj.get("disliked");
+                String page = (String) obj.get("webPage");
 
-            if (likedBool)
-                dao.insertLike(page);
-            else if (dLikedBool)
-                dao.insertDislike(page);
+                if (likedBool)
+                    dao.insertLike(page);
+                else if (dLikedBool)
+                    dao.insertDislike(page);
+            }
         }
         catch (Exception e){
 
         }
 
         return new ModelAndView("/WEB-INF/jsp/report/weblikes.jsp");
+    }
+    public void sendEmail(JSONObject obj) throws Exception {
+
+        String message = (String) obj.get("message");
+        String sender = (String) obj.get("email");
+        String subject = (String) obj.get("subject");
+        String page = (String) obj.get("webPage");
+
+        String usrMsg = "Dear User,\n\nThank you for using RGD. Your comments/messages are very important to us.\n" +
+                "We will reply or contact you as soon as possible.\n\n\n" +
+                "Your comments/messages from the page \""+ page +"\" are as follows:\n" +
+                "-----------------------------------------------------------------\n" +
+                message+"\n" +
+                "-----------------------------------------------------------------\n\n" +
+                "If you have any further question, please feel free to contact us.\n\n" +
+                "Rat Genome Database\n" +
+                "Bioinformatics Research Center\n" +
+                "Medical College of Wisconsin\n" +
+                "414-456-8871";
+
+        MyRGDLookupController.send("llamers@mcw.edu", "Send message form from " + page, message); // this is what we send to RGD
+        MyRGDLookupController.send(sender, "Thanks for your concern", usrMsg);
+
+        return;
     }
 }

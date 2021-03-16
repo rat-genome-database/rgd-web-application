@@ -10,36 +10,43 @@ input[type="email"], textarea {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 .hideMe {
-    bottom: 82px;
-    right: 9px;
+    bottom: 134px;
+    right: 40px;
     position: fixed;
-    opacity: .5;
+    opacity: .8;
 }
 .thumbsUp {
-    bottom: 26px;
-    right: 182px;
+    bottom: 105px;
+    right: 145px;
+    height: 50px;
+    width: 50px;
     position: fixed;
-    /*max-width: 50px;*/
-    /*max-height: 50px;*/
-    /*border-radius: 25px;*/
+    opacity: .8;
+    background-size: 100%;
+    background-image: url("/rgdweb/common/images/thumbsUpS.png");
+    border-radius: 25px;
     /*display: block;*/
 }
 .thumbsDown {
-    bottom: 26px;
-    right: 9px;
+    bottom: 105px;
+    right: 83px;
     position: fixed;
-
-    /*border-radius: 25px;*/
-    /*display: block;*/
+    opacity: .8;
+    height: 50px;
+    width: 50px;
+    display: block;
+    background-size: 100%;
+    background-image: url("/rgdweb/common/images/thumbsDownS.png");
+    border-radius: 25px;
 }
 .btnDiv {
     bottom: 15px;
-    right: 5px;
-    height: 93px;
-    width: 250px;
+    right: 35px;
+    height: 145px;
+    width: 175px;
     position: fixed;
-    background-color: #bcbcbc;
-
+    border: dashed;
+    border-color: lightgrey;
 }
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
@@ -52,7 +59,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
     position: fixed;
     bottom: 23px;
     right: 80px;
-    width: 100px;
+    width: 120px;
+    font-size: medium;
 }
 
 /* The popup chat - hidden by default */

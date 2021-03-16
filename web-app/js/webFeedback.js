@@ -1,10 +1,10 @@
 
 function openForm() {
-    document.getElementById("ajaxVue").style.display = "block";
+    document.getElementById("messageVue").style.display = "block";
 }
 
 function closeForm() {
-    document.getElementById("ajaxVue").style.display = "none";
+    document.getElementById("messageVue").style.display = "none";
 }
 function hideButtons() {
     var div = document.getElementById('divButtons');
@@ -22,14 +22,14 @@ function checkCookie() {
         hideButtons();
 }
 window.onload = function () {
-    var ajaxVue = new Vue({
-        el: '#ajaxVue',
+    var messageVue = new Vue({
+        el: '#messageVue',
         data: {
             email: '',
             message: '',
         },
         methods: {
-            fcn: function () {
+            sendMail: function () {
                 if (this.message === '' || !this.message) {
                     alert("There is no message entered.")
                     return;
@@ -43,19 +43,18 @@ window.onload = function () {
                     return;
                 }
                 axios
-                    .post('/tools/contact/contact.cgi',
+                    .post('/rgdweb/report/weblikes.html',
                         {
-                            email: ajaxVue.email,
-                            comment: ajaxVue.message,
+                            email: messageVue.email,
+                            message: messageVue.message,
                             bypass: true,
                             subject: 'Send Message Form',
-                            found: 0,
                             firstname: 'Generic',
                             lastname: 'Name',
-                            reply: 'Help'
+                            webPage: window.location.href
                         })
                     .then(function (response) {
-                        alert('success');
+                        closeForm();
                     }).catch(function (error) {
                     console.log(error)
                 })
@@ -85,13 +84,15 @@ window.onload = function () {
                         {
                             liked: true,
                             disliked: false,
-                            webPage: window.location.href
+                            webPage: window.location.href,
+                            bypass: false
                         },
                         {headers: headers}
                     )
-                    .then(function (response) {
-                        alert("Liked")
-                    }).catch(function (error) {
+                    // .then(function (response) {
+                    //     alert("Liked")
+                    // })
+                    .catch(function (error) {
                     console.log(error)
                 })
                 hideButtons();
@@ -107,13 +108,15 @@ window.onload = function () {
                         {
                             liked: false,
                             disliked: true,
-                            webPage: window.location.href
+                            webPage: window.location.href,
+                            bypass: false
                         },
                         {headers: headers}
                     )
-                    .then(function (response) {
-                        alert("Disliked")
-                    }).catch(function (error) {
+                    // .then(function (response) {
+                    //     alert("Disliked")
+                    // })
+                    .catch(function (error) {
                     console.log(error)
                 })
                 hideButtons();
