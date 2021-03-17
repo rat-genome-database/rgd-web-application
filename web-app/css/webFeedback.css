@@ -16,7 +16,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     opacity: .8;
 }
 .thumbsUp {
-    bottom: 105px;
+    bottom: 100px;
     right: 145px;
     height: 50px;
     width: 50px;
@@ -24,11 +24,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
     opacity: .8;
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
-    border-radius: 25px;
+    border-radius: 24px;
     /*display: block;*/
 }
 .thumbsDown {
-    bottom: 105px;
+    bottom: 100px;
     right: 83px;
     position: fixed;
     opacity: .8;
@@ -37,7 +37,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     display: block;
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsDownS.png");
-    border-radius: 25px;
+    border-radius: 24px;
 }
 .btnDiv {
     bottom: 15px;
@@ -58,9 +58,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
     opacity: 0.8;
     position: fixed;
     bottom: 23px;
-    right: 80px;
-    width: 120px;
-    font-size: medium;
+    right: 45px;
+    width: 155px;
+    height: 75px;
+    font-size: large;
 }
 
 /* The popup chat - hidden by default */
