@@ -27,7 +27,7 @@ String pageDescription = "Build lists based on RGD annotation";
 <script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
 
 
-<form name="submitForm" id="submitForm" action="list.html" method="GET" target="_blank">
+<form name="submitForm" id="submitForm" action="list.html" method="post" target="_blank">
     <input type="hidden" name="a" id="a" value="" />
     <input type="hidden" name="mapKey" id="mapKey" value="" />
     <input type="hidden" name="oKey" id="oKey" value="" />
@@ -220,6 +220,7 @@ $(document).ready(function(){
                             <option value='18' <% if (mapKey==18) out.print("selected");%>>Mouse Genome Assembly Build 37</option>
                             <option value='44' <% if (mapKey==44) out.print("selected");%>>Chinchilla ChiLan1.0 Assembly</option>
                             <option value='511' <% if (mapKey==511) out.print("selected");%>>Bonobo panpan1.1 Assembly</option>
+                            <option value='513' <% if (mapKey==511) out.print("selected");%>>Bonobo Mhudiblu PPA v0 Assembly</option>
                             <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
                             <option value='720' <% if (mapKey==720) out.print("selected");%>>Squirrel SpeTri2.0 Assembly</option>
                             <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>
