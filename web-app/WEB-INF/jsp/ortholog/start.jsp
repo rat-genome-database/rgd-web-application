@@ -30,7 +30,7 @@
         <div class="container" >
             <h2 class="text-center" id="title"><%=pageHeader%></h2>
             <hr>
-            <form role="form" method="get" action="/rgdweb/ortholog/report.html" name="form" onsubmit="return v.validate()">
+            <form role="form" method="post" action="/rgdweb/ortholog/report.html" name="form" onsubmit="return v.validate()">
                 <div class="row justify-content-center align-items-center">
 
                     <div class="col-md-5">
