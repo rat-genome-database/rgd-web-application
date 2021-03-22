@@ -351,6 +351,19 @@ function tableSorterReport() {
                 container: $('.humanPhenotypeClinVarAnnotationsPager'),
                 size: 20
             });
+        $('#humanPhenotypeManualAnnotationsTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['filter'],
+                widgetOptions: {
+                    filter_external: '#humanPhenotypeManualAnnotationsSearch',
+                    filter_columnFilters: false
+                }
+            })
+            .tablesorterPager({
+                container: $('.humanPhenotypeManualAnnotationsPager'),
+                size: 20
+            });
         $('#cellOntologyTable')
             .tablesorter({
                 theme: 'blue',

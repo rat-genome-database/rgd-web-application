@@ -443,11 +443,13 @@
     if (mpList.size()+hpList.size() > 0) {
 
         List<Annotation> hpClinVarList = new ArrayList<>();
+        List<Annotation> hpManualList = new ArrayList<>();
         List<Annotation> hpOtherList = new ArrayList<>();
 
         for( Annotation ay: hpList ) {
             switch(ay.getDataSrc()) {
                 case "ClinVar": hpClinVarList.add(ay); break;
+                case "RGD": hpManualList.add(ay); break;
                 default: hpOtherList.add(ay); break;
             }
         }
@@ -513,9 +515,9 @@
     </div>
 <% } %>
 
-<% if (hpOtherList.size() > 0) { %>
-<div id="humanPhenotypeAnnotationsTableWrapper">
-<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+<% if (hpManualList.size() > 0) { %>
+<div id="humanPhenotypeManualAnnotationsTableWrapper">
+<span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Manual Human Phenotype Annotations - RGD</u></span><br></span>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -540,8 +542,8 @@
 
     <input class="search table-search" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div id="humanPhenotypeAnnotationsTable">
-      <%=af.createGridFormatAnnotations(hpOtherList, obj.getRgdId(),3)%>
+    <div id="humanPhenotypeManualAnnotationsTable">
+      <%=af.createGridFormatAnnotations(hpManualList, obj.getRgdId(),3)%>
     </div>
 
     <div class="modelsViewContent" >
@@ -567,9 +569,63 @@
 </div>
 <% } %>
 
-<% if (hpClinVarList.size() > 0) { %>
+    <% if (hpOtherList.size() > 0) { %>
+    <div id="humanPhenotypeAnnotationsTableWrapper">
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Imported Human Phenotype Annotations - HPO</u></span><br></span>
+
+        <div class="search-and-pager">
+            <div class="modelsViewContent" >
+                <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+                    <form>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                        <span type="text" class="pagedisplay"></span>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                        <select class="pagesize">
+                            <option  value="10">10</option>
+                            <option value="20">20</option>
+                            <option selected="selected" value="30">30</option>
+                            <option  value="40">40</option>
+                            <option   value="100">100</option>
+                            <option value="9999">All Rows</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <input class="search table-search" type="search" data-column="all" placeholder="Search table">
+        </div>
+        <div id="humanPhenotypeAnnotationsTable">
+            <%=af.createGridFormatAnnotations(hpOtherList, obj.getRgdId(),3)%>
+        </div>
+
+        <div class="modelsViewContent" >
+            <div class="pager annotationPagerClass" style="margin-bottom:2px;">
+                <form>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option  value="10">10</option>
+                        <option value="20">20</option>
+                        <option selected="selected" value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="9999">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+    </div>
+<% } %>
+
+ <% if (hpClinVarList.size() > 0) { %>
     <div id="humanPhenotypeClinVarAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Import Phenotype Annotations - ClinVar</u></span><br></span>
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Imported Human Phenotype Annotations - ClinVar</u></span><br></span>
 
 
         <div class="search-and-pager">
