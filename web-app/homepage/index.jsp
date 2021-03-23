@@ -217,13 +217,11 @@
             </div>
             <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/>
         </td>
-<!--
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/bonobo'">
                 <div style="margin:5px; font-weight:700;">Bonobo</div>
             </div>
             <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
--->
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/pig'">
                 <div style="margin:5px; font-weight:700;">Domestic Pig</div>
