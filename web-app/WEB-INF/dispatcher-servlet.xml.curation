@@ -276,7 +276,8 @@
                 <prop key="phenominer/phenominerExpectedRanges/selectedStrain.html">phenominerERSelectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/strain.html">strainExpectedRangeController</prop>
 
-                <prop key="report/weblikes.html">WebsiteFeedbackController</prop>
+                <prop key="contact/weblikes.html">WebsiteFeedbackController</prop>
+                <prop key="contact/contactus.html">ContactUsController</prop>
 
 
                  <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
@@ -561,7 +562,8 @@
 
     <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
     <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
-    <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.report.WebsiteFeedbackController"/>
+    <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
+    <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
     </beans>
 
 

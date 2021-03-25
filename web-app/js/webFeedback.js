@@ -34,16 +34,17 @@ window.onload = function () {
                     alert("There is no message entered.")
                     return;
                 }
-                if (!emailValidate(this.email)) {
-                    alert("not an email")
-                    return;
-                }
                 if (this.email === '' || !this.email) {
                     alert("No email provided.")
                     return;
                 }
+                if (!emailValidate(this.email)) {
+                    alert("Not a valid email address.")
+                    return;
+                }
+
                 axios
-                    .post('/rgdweb/report/weblikes.html',
+                    .post('/rgdweb/contact/weblikes.html',
                         {
                             email: messageVue.email,
                             message: messageVue.message,
@@ -80,7 +81,7 @@ window.onload = function () {
                     'Content-Type': 'application/json'
                 }
                 axios
-                    .post('/rgdweb/report/weblikes.html',
+                    .post('/rgdweb/contact/weblikes.html',
                         {
                             liked: true,
                             disliked: false,
@@ -104,7 +105,7 @@ window.onload = function () {
                     'Content-Type': 'application/json'
                 }
                 axios
-                    .post('/rgdweb/report/weblikes.html',
+                    .post('/rgdweb/contact/weblikes.html',
                         {
                             liked: false,
                             disliked: true,

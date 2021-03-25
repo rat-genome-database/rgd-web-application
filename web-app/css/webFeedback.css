@@ -25,6 +25,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
     border-radius: 24px;
+    cursor: pointer;
     /*display: block;*/
 }
 .thumbsDown {
@@ -38,6 +39,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsDownS.png");
     border-radius: 24px;
+    cursor: pointer;
 }
 .btnDiv {
     bottom: 15px;

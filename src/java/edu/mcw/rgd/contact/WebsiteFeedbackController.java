@@ -1,6 +1,4 @@
-package edu.mcw.rgd.report;
-
-
+package edu.mcw.rgd.contact;
 
 import edu.mcw.rgd.dao.impl.WebFeedbackDAO;
 
@@ -19,17 +17,17 @@ public class WebsiteFeedbackController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         WebFeedbackDAO dao = new WebFeedbackDAO();
-        StringBuilder buffer = new StringBuilder();
-        BufferedReader reader = request.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            buffer.append(line);
-            buffer.append(System.lineSeparator());
-        }
-        JSONObject obj = new JSONObject(buffer.toString());
-        reader.close();
-
         try {
+            StringBuilder buffer = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+                buffer.append(System.lineSeparator());
+            }
+            JSONObject obj = new JSONObject(buffer.toString());
+            reader.close();
+
             boolean bypass = (boolean) obj.get("bypass");
             if (bypass){
                 sendEmail(obj);
@@ -49,7 +47,7 @@ public class WebsiteFeedbackController implements Controller {
 
         }
 
-        return new ModelAndView("/WEB-INF/jsp/report/weblikes.jsp");
+        return new ModelAndView("/WEB-INF/jsp/contact/weblikes.jsp");
     }
     public void sendEmail(JSONObject obj) throws Exception {
 
@@ -70,7 +68,7 @@ public class WebsiteFeedbackController implements Controller {
                 "Medical College of Wisconsin\n" +
                 "414-456-8871";
 
-        MyRGDLookupController.send("llamers@mcw.edu", "Send message form from " + page, message); // this is what we send to RGD
+        MyRGDLookupController.send("llamers@mcw.edu", "Send message form from " + page, message); // rgd.data@mcw.edu
         MyRGDLookupController.send(sender, "Thanks for your concern", usrMsg);
 
         return;
