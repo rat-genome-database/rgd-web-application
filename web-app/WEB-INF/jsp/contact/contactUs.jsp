@@ -398,7 +398,7 @@
                 <td><font size="3">*Message:</font></td>
             </tr>
             <tr><td><textarea rows="20" id="emailMessage" v-model="message" cols="30" ></textarea></td></tr>
-            <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn"></div></td></tr>
+            <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>
                 <td>
                     <button type="button" id="submitBtn" v-on:click="sendEmail" disabled="disabled">Submit</button></td>
@@ -499,5 +499,8 @@
     }
     function enableBtn(){
         document.getElementById("submitBtn").disabled = false;
+    }
+    function expired(){
+        document.getElementById("submitBtn").disabled = true;
     }
 </script>

@@ -17,7 +17,6 @@ public class ContactUsController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // search for user, if exist get person id. Else create/insert and get id. Type ID is used for comment about dropdown
         try{
             StringBuilder buffer = new StringBuilder();
             BufferedReader reader = request.getReader();
@@ -84,6 +83,18 @@ public class ContactUsController implements Controller {
         return;
     }
     public void sendMessage(FBPerson fb, int messageId, String message, String subject, int type) throws Exception {
+        String commentType = "";
+        if (type == 1)
+            commentType = "Help";
+        else if (type == 2)
+            commentType = "Curation";
+        else if (type == 3)
+            commentType = "Nomen";
+        else if (type == 4)
+            commentType = "Web Master";
+        else if (type == 5)
+            commentType = "Tool";
+
         String senderEmail = "Dear " + fb.getFirstName() + "\n" +
                 "\n" +
                 "Thank you for using RGD. Your comments/messages are very important to us." +
@@ -109,6 +120,7 @@ public class ContactUsController implements Controller {
                 "This message came from "+fb.getFirstName() + " "+fb.getLastName()+".\n" +
                 "Email: " + fb.getEmail() +"\n"+
                 "Phone Number: "+fb.getPhoneNumber()+"\n"+
+                "Comment Type: "+ commentType +"\n"+
                 "Institute: "+fb.getInstitute()+"\n"+
                 "City: "+ fb.getCity()+"\n"+
                 "State: "+ fb.getState()+"\n" +
