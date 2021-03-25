@@ -179,7 +179,7 @@
                                             <a href="/wg/grants/">Grant Resources</a>
                                             <a href="/wg/citing-rgd/">Citing RGD</a>
                                             <a href="/wg/about-us/">About Us</a>
-                                            <a href="/contact/index.shtml">Contact Us</a>
+                                            <a href="/rgdweb/contact/contactus.html">Contact Us</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
