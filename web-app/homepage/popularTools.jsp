@@ -126,7 +126,7 @@
         </td>
         <td>
             <div class="headerCard" style="width: 200px;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/wg/portals/'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/portal/index.jsp'">.</div>
                 <div class="headerCardTitle">Disease Portals</div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/diseasePortalScreen.png"  border="0" /></span>
             </div>
