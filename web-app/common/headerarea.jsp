@@ -226,7 +226,7 @@
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
-                                        <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
+                                        <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/rgdweb/portal/index.jsp'">Diseases
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <div class="rgd-dropdown-content">
@@ -238,6 +238,7 @@
                                             <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
                                             <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=6">Immune & Inflammatory Disease</a>
+                                            <a href="/rgdweb/portal/home.jsp?p=15">Infectious Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=13">Liver Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=7">Neurological Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=8">Obesity & Metabolic Syndrome</a>
