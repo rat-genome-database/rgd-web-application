@@ -156,7 +156,7 @@
                                 <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                 <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui.html">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
-                                <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
+                                <a href="/contact/index.shtml">Contact</a>&nbsp;&nbsp;&nbsp;
 
                                 <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                             </td>
@@ -179,7 +179,7 @@
                                             <a href="/wg/grants/">Grant Resources</a>
                                             <a href="/wg/citing-rgd/">Citing RGD</a>
                                             <a href="/wg/about-us/">About Us</a>
-                                            <a href="/rgdweb/contact/contactus.html">Contact Us</a>
+                                            <a href="/contact/index.shtml">Contact Us</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
