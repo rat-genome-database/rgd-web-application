@@ -61,14 +61,12 @@ public class ContactUsController implements Controller {
         String message = (String)obj.get("message");
         String subject = (String)obj.get("subject");
 
-        String typeButString = (String)obj.get("type");
-        int type = Integer.parseInt(typeButString);
-
 
         List<FBPerson> senders = dao.getPersonByEmail(fb.getEmail());
         if (!senders.isEmpty()) {
             if (!fb.equals(senders.get(0))) {
-                dao.updatePerson(fb);
+                FBPerson updated = mergePerson(fb, senders.get(0));
+                dao.updatePerson(updated);
             }
         }
         else{
@@ -76,26 +74,15 @@ public class ContactUsController implements Controller {
             senders = dao.getPersonByEmail(fb.getEmail());
         }
 
-        int messageId = dao.insertMessage(subject, message, type, senders.get(0).getPersonId());
+        int messageId = dao.insertMessage(subject, message, 1, senders.get(0).getPersonId());
 
-        sendMessage(fb, messageId, message, subject, type);
+        sendMessage(fb, messageId, message, subject);
 
         return;
     }
-    public void sendMessage(FBPerson fb, int messageId, String message, String subject, int type) throws Exception {
-        String commentType = "";
-        if (type == 1)
-            commentType = "Help";
-        else if (type == 2)
-            commentType = "Curation";
-        else if (type == 3)
-            commentType = "Nomen";
-        else if (type == 4)
-            commentType = "Web Master";
-        else if (type == 5)
-            commentType = "Tool";
+    public void sendMessage(FBPerson fb, int messageId, String message, String subject) throws Exception {
 
-        String senderEmail = "Dear " + fb.getFirstName() + "\n" +
+        String senderEmail = "Dear " + fb.getFirstName() + ",\n" +
                 "\n" +
                 "Thank you for using RGD. Your comments/messages are very important to us." +
                 "We will reply or contact you as soon as possible.\n" +
@@ -114,20 +101,38 @@ public class ContactUsController implements Controller {
                 "Rat Genome Database\n" +
                 "Bioinformatics Research Center\n" +
                 "Medical College of Wisconsin\n" +
-                "414-456-8871\");";
+                "414-456-8871";
 
         String rgdMessage = message + "\n\n" +
                 "This message came from "+fb.getFirstName() + " "+fb.getLastName()+".\n" +
                 "Email: " + fb.getEmail() +"\n"+
                 "Phone Number: "+fb.getPhoneNumber()+"\n"+
-                "Comment Type: "+ commentType +"\n"+
                 "Institute: "+fb.getInstitute()+"\n"+
                 "City: "+ fb.getCity()+"\n"+
                 "State: "+ fb.getState()+"\n" +
                 "Country: "+fb.getCountry();
 
-        MyRGDLookupController.send("llamers@mcw.edu", subject, rgdMessage); // to RGD
+        MyRGDLookupController.send("rgd.data@mcw.edu", subject, rgdMessage); // to RGD
         MyRGDLookupController.send(fb.getEmail(), "Thank you for your comment submission", senderEmail); // to sender
         return;
+    }
+    public FBPerson mergePerson(FBPerson newPerson, FBPerson dbPerson) throws Exception{
+        // if fb obj is empty but sender0 obj is not, put obj from sender in fb, update anyway for potential changes
+        if (!newPerson.getLastName().equals(dbPerson.getLastName()))
+            newPerson.setLastName(dbPerson.getLastName());
+        if (newPerson.getPhoneNumber()==0 && dbPerson.getPhoneNumber()!=0)
+            newPerson.setPhoneNumber(dbPerson.getPhoneNumber());
+        if ((newPerson.getCountry().isEmpty() && dbPerson.getCountry() != null) && !newPerson.getCountry().equals(dbPerson.getCountry()))
+            newPerson.setCountry(dbPerson.getCountry());
+        if ((newPerson.getInstitute().isEmpty() && dbPerson.getInstitute() != null) && !newPerson.getInstitute().equals(dbPerson.getInstitute()))
+            newPerson.setInstitute(dbPerson.getInstitute());
+        if ((newPerson.getAddress().isEmpty() && dbPerson.getAddress() != null) && !newPerson.getAddress().equals(dbPerson.getAddress()))
+            newPerson.setAddress(dbPerson.getAddress());
+        if ((newPerson.getCity().isEmpty() && dbPerson.getCity() != null) && !newPerson.getCity().equals(dbPerson.getCity()))
+            newPerson.setCity(dbPerson.getCity());
+        if (newPerson.getZipCode() == 0 && dbPerson.getZipCode() != 0)
+            newPerson.setZipCode(dbPerson.getZipCode());
+
+        return newPerson;
     }
 }

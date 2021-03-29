@@ -12,37 +12,50 @@
     #emailMessage{
         height: 250px;
     }
-    input[type="text"], input[type="email"], input[type="number"] {
+    input[type="text"], input[type="number"] {
+        width: 300px;
+    }
+    #userEmail{
         width: 300px;
     }
     #contactH {
         position: absolute;
-        left: 150px
+        left: 150px;
     }
     #formH {
         position: absolute;
         left: 150px
     }
+    #submitBtn {
+        font-size: x-large;
+    }
+    #resetBtn{
+        font-size: x-large;
+    }
+    td {
+        font-size: medium;
+    }
+    select{
+        font-size: medium;
+    }
 </style>
-<body>
+<body id="contactBody">
     <h1 id="contactH">Contact Us</h1>
     <br><br><br>
     <table width="70%" align="center">
         <tr>
-            <td><dd><font size="4">Your comments are very important to RGD. Please write to us or fill out the request form below (preferred),
-                we will reply to you as soon as possible.</font></dd></td>
+            <td><dd>Your comments are very important to RGD. Please write to us or fill out the request form below (preferred),
+                we will reply to you as soon as possible.</dd></td>
         </tr>
         <tr>
-            <td><dd align="left"><font size="4"><b>Postal Address:</b></font></dd></td>
+            <td><dd align="left"><b>Postal Address:</b></dd></td>
         </tr>
         <tr>
             <td>
-                <dd><font size="4">Rat Genome Database
-                    <br>Bioinformatics Research Center
+                <dd>Rat Genome Database
                     <br>Medical College of Wisconsin
                     <br>8701 Watertown Plank Rd.
-                    <br>Milwaukee, WI 53226
-                    <br>Telephone : 414-456-8871</font></dd>
+                    <br>Milwaukee, WI 53226</dd>
             </td>
         </tr>
     </table>
@@ -51,30 +64,30 @@
     <br><br><br>
     <form id="contactVue">
         <table width="70%" align="center" >
-            <tr><td>( * indicates the required field)</td></tr>
+            <tr><td style="color: red">( * indicates a required field)</td></tr>
             <tr>
-                <td><font size="3">*First Name: </font></td><td><input type="text" v-model="firstName"></td>
+                <td>*First Name: </td><td><input type="text" v-model="firstName"></td>
             </tr>
             <tr>
-                <td><font size="3">*Last Name:</font></td><td><input type="text" v-model="lastName"></td>
+                <td>*Last Name:</td><td><input type="text" v-model="lastName"></td>
             </tr>
             <tr>
-                <td><font size="3">*Email Address:</font></td><td><input type="text" v-model="email"></td>
+                <td>*Email Address:</td><td><input type="text" id="userEmail" v-model="email"></td>
             </tr>
             <tr>
-                <td><font size="3">Phone Number:</font></td><td><input type="number" v-model="phone"></td>
+                <td>Phone Number:</td><td><input type="number" placeholder="5555555555" v-model="phone"></td>
             </tr>
             <tr>
-                <td><font size="3">Institute/Company:</font></td><td><input type="text" v-model="institute"></td>
+                <td>Institute/Company:</td><td><input type="text" v-model="institute"></td>
             </tr>
             <tr>
-                <td><font size="3">Address:</font></td><td><input type="text" v-model="address"></td>
+                <td>Address:</td><td><input type="text" v-model="address"></td>
             </tr>
             <tr>
-                <td><font size="3">City:</font></td><td><input type="text" v-model="city"></td>
+                <td>City:</td><td><input type="text" v-model="city"></td>
             </tr>
             <tr>
-                <td><font size="3">State:</font></td><td><select id="state" size="1">
+                <td>State:</td><td><select id="state" size="1">
                 <option value="N/A" selected>N/A - Not Applicable</option>
                 <option value="AL - Alabama" >AL - Alabama</option>
                 <option value="AK - Alaska" >AK - Alaska</option>
@@ -130,10 +143,10 @@
             </select></td>
             </tr>
             <tr>
-                <td><font size="3">Zip Code:</font></td><td><input type="number" maxlength="10" v-model="zipCode"></td>
+                <td>Zip Code:</td><td><input type="number" maxlength="10" v-model="zipCode"></td>
             </tr>
             <tr>
-                <td><font size="3">Country:</font></td><td><select id="country" name="country">
+                <td>Country:</td><td><select id="country" name="country">
                 <option value="Afganistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
                 <option value="Algeria">Algeria</option>
@@ -383,26 +396,14 @@
             </select></td>
             </tr>
             <tr>
-                <td><font size="3">Comment About:</font></td><td><select size="1" id="reply">
-                <option value=1 selected>Help</option>
-                <option value=2 >Curation</option>
-                <option value=3 >Nomen</option>
-                <option value=4 >Web Master</option>
-                <option value=5 >Tool</option>
-            </select></td>
-            </tr>
-            <tr>
-                <td><font size="3">*Subject:</font></td><td><input type="text" id="subject" v-model="subject"></td>
-            </tr>
-            <tr>
-                <td><font size="3">*Message:</font></td>
+                <td>*Message:</td>
             </tr>
             <tr><td><textarea rows="20" id="emailMessage" v-model="message" cols="30" ></textarea></td></tr>
             <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>
                 <td>
                     <button type="button" id="submitBtn" v-on:click="sendEmail" disabled="disabled">Submit</button></td>
-                <td><button type="button" v-on:click="resetForm">Reset</button></td>
+                <td><button type="button" id="resetBtn" v-on:click="resetForm">Reset</button></td>
             </tr>
             <tr>
 
@@ -419,7 +420,7 @@
         el: '#contactVue',
         data: {
             message: '',
-            subject: '',
+            subject: 'User Request From RGD',
             firstName: '',
             lastName: '',
             email: '',
@@ -435,10 +436,6 @@
                     alert("Please provide a First Name and Last Name.")
                     return;
                 }
-                if(this.subject === '' || !this.subject){
-                    alert("Please include a subject.")
-                    return;
-                }
                 if (this.message === '' || !this.message) {
                     alert("There is no message entered.")
                     return;
@@ -451,8 +448,8 @@
                     alert("Not a valid email address.")
                     return;
                 }
-                alert(this.message + "\n" +this.subject+ "\n"+ this.firstName +"\n"+this.lastName+"\n"+this.email
-                    +"\n"+this.phone+"\n"+this.address+"\n"+this.institute+"\n"+this.city+"\n"+this.zipCode);
+                // alert(this.message + "\n" +this.subject+ "\n"+ this.firstName +"\n"+this.lastName+"\n"+this.email
+                //     +"\n"+this.phone+"\n"+this.address+"\n"+this.institute+"\n"+this.city+"\n"+this.zipCode);
                 axios
                     .post('/rgdweb/contact/contactus.html',
                         {
@@ -466,12 +463,12 @@
                             institute: contactVue.institute,
                             city: contactVue.city,
                             zipCode: contactVue.zipCode,
-                            type: document.getElementById("reply").value,
                             country: document.getElementById("country").value,
                             state: document.getElementById("state").value
                         })
                     .then(function (response) {
-                        alert("Done")
+                        this.resetForm();
+                        alert("Thank you for the message! We will try and get back to you as soon as possible.")
                     }).catch(function (error) {
                     console.log(error)
                 })
@@ -487,9 +484,10 @@
                 document.getElementById("state").value = "N/A";
                 this.zipCode = '';
                 document.getElementById("country").value = "United States of America";
-                document.getElementById("reply").value = "1";
                 this.subject = '';
                 this.message = '';
+                grecaptcha.reset();
+                expired();
             }
         }
     })

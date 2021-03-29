@@ -68,7 +68,7 @@ public class WebsiteFeedbackController implements Controller {
                 "Medical College of Wisconsin\n" +
                 "414-456-8871";
 
-        MyRGDLookupController.send("llamers@mcw.edu", "Send message form from " + page, message); // rgd.data@mcw.edu
+        MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, message);
         MyRGDLookupController.send(sender, "Thanks for your concern", usrMsg);
 
         return;
