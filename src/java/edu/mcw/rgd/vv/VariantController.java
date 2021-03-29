@@ -14,6 +14,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.common.recycler.Recycler;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,7 +60,7 @@ public class VariantController extends HaplotyperController {
 
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
-            index = "variants_"+species.toLowerCase()+vsb.getMapKey()+"_"+VVService.getEnv();
+            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;

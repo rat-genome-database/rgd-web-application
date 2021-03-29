@@ -1,5 +1,6 @@
 package edu.mcw.rgd.vv;
 
+import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.vv.vvservice.VariantIndexClient;
 import edu.mcw.rgd.dao.DataSourceFactory;
@@ -8,6 +9,7 @@ import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -76,7 +78,8 @@ public class DetailController extends HaplotyperController {
             SearchResult sr = new SearchResult();
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-            index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
+            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
+            //index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
             VVService.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
             List<TranscriptResult> tResults=new ArrayList<>();
@@ -141,7 +144,7 @@ public class DetailController extends HaplotyperController {
 
             request.source(srb);
 
-            SearchResponse sr = VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
+            SearchResponse sr = ClientInit.getClient().search(request, RequestOptions.DEFAULT);
 
 
             if (sr.getHits().getTotalHits().value > 0) {

@@ -16,7 +16,7 @@ import java.util.Properties;
  * Created by jthota on 1/3/2020.
  */
 public class VariantIndexClient {
-    private static RestHighLevelClient client=null;
+ /*   private static RestHighLevelClient client=null;
     public static RestHighLevelClient init(){
         if(client==null) {
          try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
@@ -90,5 +90,5 @@ public class VariantIndexClient {
 
     public static void setClient(RestHighLevelClient client) {
         VariantIndexClient.client = client;
-    }
+    }*/
 }

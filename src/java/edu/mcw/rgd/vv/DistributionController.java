@@ -10,6 +10,7 @@ import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
@@ -66,7 +67,7 @@ public class DistributionController extends HaplotyperController {
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
+        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
@@ -292,7 +293,7 @@ public class DistributionController extends HaplotyperController {
         List<String> sampleIds = new ArrayList<String>();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        if (request.getParameter("sample1").equals("all")) {
+        if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));

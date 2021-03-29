@@ -3,6 +3,8 @@ package edu.mcw.rgd.vv.vvservice;
 
 import edu.mcw.rgd.datamodel.VariantSearchBean;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -30,7 +32,7 @@ import java.util.List;
  */
 public class VVService {
     private static String variantIndex;
-    private static String env="dev";
+   // private static String env="cur";
 
     public static String getVariantIndex() {
         return variantIndex;
@@ -40,14 +42,14 @@ public class VVService {
         VVService.variantIndex = variantIndex;
     }
 
-    public static String getEnv() {
+   /* public static String getEnv() {
         return env;
     }
 
     public static void setEnv(String env) {
         VVService.env = env;
     }
-
+*/
     public long getVariantsCount(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
@@ -58,7 +60,9 @@ public class VVService {
         searchRequest.source(srb);
      //   searchRequest.scroll(TimeValue.timeValueMinutes(1L));
 
-        SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+   //     SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+          SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
         return sr.getHits().getTotalHits().value;
 
     }
@@ -76,21 +80,21 @@ public class VVService {
         List<SearchHit> searchHits= new ArrayList<>();
         if(req.getParameter("showDifferences").equals("true")){
 
-            SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
             String scrollId=sr.getScrollId();
             searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
 
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                 scrollRequest.scroll(TimeValue.timeValueSeconds(60));
-                sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
+                sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
             }while (sr.getHits().getHits().length!=0);
             return this.excludeCommonVariants(searchHits, vsb);
 
         }else {
-            SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
             String scrollId=sr.getScrollId();
 
             searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -98,7 +102,7 @@ public class VVService {
            do {
                 SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                 scrollRequest.scroll(TimeValue.timeValueSeconds(60));
-                sr = VariantIndexClient.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
+                sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                 scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
             }while (sr.getHits().getHits().length!=0);
@@ -117,7 +121,7 @@ public class VVService {
             srb.aggregation(this.buildAggregations("sampleId"));
        SearchRequest searchRequest=new SearchRequest(variantIndex);
        searchRequest.source(srb);
-       return VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+       return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
     }
     public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
 
