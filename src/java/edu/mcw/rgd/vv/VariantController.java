@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.dao.impl.variants.PolyphenDAO;
+import edu.mcw.rgd.dao.impl.variants.VariantDAO;
+import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.vv.vvservice.VVService;
@@ -35,6 +37,7 @@ import java.util.*;
 public class VariantController extends HaplotyperController {
 
     VVService service= new VVService();
+    VariantTranscriptDao dao=new VariantTranscriptDao();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
@@ -153,7 +156,7 @@ public class VariantController extends HaplotyperController {
                         v.conservationScore.add(mapConservation(m));
                         vr.setVariant(v);
                         if(requiredTranscripts) {
-                            List<TranscriptResult> trs = this.getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
+                            List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
                             vr.setTranscriptResults(trs);
                         }
 
@@ -190,8 +193,7 @@ public class VariantController extends HaplotyperController {
                aa.setSynonymousFlag(t.getSynStatus());
                aa.setPolyPhenStatus(t.getPolyphenStatus());
                aa.setNearSpliceSite(t.getNearSpliceSite());
-               ;
-               //  aa.setGeneSpliceStatus(t.get("genespliceStatus"));
+
                // tr.set.setFrameShift((String) source.get("frameShift"));
                tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
                aa.setLocation(t.getLocationName());
@@ -228,6 +230,64 @@ public class VariantController extends HaplotyperController {
      }
         return  trs;
    }
+    List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
+        List<TranscriptResult> trs=new ArrayList<>();
+        List<VariantTranscript> transcripts=new ArrayList<>();
+        try {
+            transcripts= dao.getVariantTranscripts(variantId,mapKey);
+            System.out.println("VARIANT ID:"+variantId+"TRSNSCRIPSTS SIZE: "+ transcripts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            for(VariantTranscript t:transcripts ){
+
+                    TranscriptResult tr = new TranscriptResult();
+                    AminoAcidVariant aa = new AminoAcidVariant();
+                    aa.setTripletError(t.getTripletError());
+                    aa.setSynonymousFlag(t.getSynStatus());
+                    aa.setPolyPhenStatus(t.getPolyphenStatus());
+                    aa.setNearSpliceSite(t.getNearSpliceSite());
+
+                    // tr.set.setFrameShift((String) source.get("frameShift"));
+                    tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
+                    aa.setLocation(t.getLocationName());
+                    aa.setReferenceAminoAcid(t.getRefAA());
+                    aa.setVariantAminoAcid(t.getVarAA());
+           /*  if (source.get("fullRefAA") != null)
+                 aa.setAASequence(source.get("fullRefAA").toString());
+             if (source.get("fullRefNuc") != null)
+                 aa.setDNASequence(source.get("fullRefNuc").toString());*/
+                    if (t.getFullRefAASeqKey() != 0) {
+                        aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+                    }
+                    if (t.getFullRefNucSeqKey() != 0) {
+                        aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
+                    }
+                    if (t.getFullRefAAPos() != null) {
+                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
+                        aa.setAaPosition(t.getFullRefAAPos());
+                    }
+                    if (t.getFullRefNucPos() != null) {
+                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
+                        aa.setDnaPosition(t.getFullRefNucPos());
+                    }
+                    String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
+                    if (trSymbol != null)
+                        aa.setTranscriptSymbol(trSymbol);
+                    tr.setAminoAcidVariant(aa);
+                    //********************************************Polyphenprediction********//
+                    List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
+                    if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
+                        tr.setPolyPhenPrediction(polyPhenPredictions);
+                    trs.add(tr);
+                }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return  trs;
+    }
    public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId, int transcriptId)
    {
        PolyphenDAO pdao=new PolyphenDAO();
