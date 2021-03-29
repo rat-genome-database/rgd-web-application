@@ -100,15 +100,10 @@ public class RgdContext {
 	public static String getESIndexName(String index) {
 		try {
 			if( isProduction() ) {
-			//	return index+"_index_prod";
                 return index+"_index_prod";
 			}
 			if( isPipelines() ) {
 				return index+"_index_cur";
-             //   return index+"_index_prod";
-			}
-			if( isTest() ) {
-				return index+"_index_test";
 			}
 			if( isDev() ) {
 				return index+"_index_dev";
@@ -119,4 +114,23 @@ public class RgdContext {
 		}
         return index+"_index_dev";
 	}
+    public static String getESVariantIndexName(String index) {
+        try {
+            if( isProduction() ) {
+                //	return index+"_index_prod";
+                return index+"_cur";
+            }
+            if( isPipelines() ) {
+                return index+"_cur";
+                //   return index+"_index_prod";
+            }
+            if( isDev() ) {
+                return index+"_dev";
+            }
+
+        } catch( UnknownHostException e ) {
+            return null;
+        }
+        return index+"_dev";
+    }
 }
