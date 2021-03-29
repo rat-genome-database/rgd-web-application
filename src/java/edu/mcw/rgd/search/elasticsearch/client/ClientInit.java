@@ -36,20 +36,15 @@ public class ClientInit {
 
     }
     private static RestHighLevelClient getInstance() {
-      //  Properties props= getProperties();
+        Properties props= getProperties();
 
         return new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost("eirka01.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("eirka01.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("eirka01.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("eirka01.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("eirka01.rgd.mcw.edu", 9200, "http")
-                     /*   new HttpHost(props.get("HOST1").toString(), 9200, "http"),
+                        new HttpHost(props.get("HOST1").toString(), 9200, "http"),
                         new HttpHost(props.get("HOST2").toString(), 9200, "http"),
                         new HttpHost(props.get("HOST3").toString(), 9200, "http"),
                         new HttpHost(props.get("HOST4").toString(), 9200, "http"),
-                        new HttpHost(props.get("HOST5").toString(), 9200, "http")*/
+                        new HttpHost(props.get("HOST5").toString(), 9200, "http")
 
                 ));
 
