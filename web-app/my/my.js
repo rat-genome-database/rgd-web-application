@@ -459,8 +459,8 @@ rgdModule.controller('RGDPageController', [
                         return;
                     }
                 */
-                //    url = "/rgdweb/front/dist.html?";
-                    url = "/rgdweb/vv/dist.html?";
+                  url = "/rgdweb/front/dist.html?";
+                //    url = "/rgdweb/vv/dist.html?";
 
                     if ($scope.speciesTypeKey != 1) {
                         url += "con=&depthLowBound=8&depthHighBound=&excludePossibleError=true&mapKey=" + $scope.mapKey + "&geneList=" + geneList ;

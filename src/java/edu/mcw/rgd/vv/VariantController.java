@@ -235,7 +235,6 @@ public class VariantController extends HaplotyperController {
         List<VariantTranscript> transcripts=new ArrayList<>();
         try {
             transcripts= dao.getVariantTranscripts(variantId,mapKey);
-            System.out.println("VARIANT ID:"+variantId+"TRSNSCRIPSTS SIZE: "+ transcripts);
         } catch (Exception e) {
             e.printStackTrace();
         }

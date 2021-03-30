@@ -7,6 +7,7 @@ import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ import java.util.List;
  */
 public class DownloadController extends HaplotyperController {
 
-
+    VVService service=new VVService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         /*
@@ -155,7 +156,9 @@ public class DownloadController extends HaplotyperController {
 
             vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
 
-            List<VariantResult> variantResults = vdao.getVariantResults(vsb);
+        //    List<VariantResult> variantResults = vdao.getVariantResults(vsb);
+            List<VariantResult> variantResults = service.getVariantResults(vsb, req, false);
+
 
             start=mark;
 

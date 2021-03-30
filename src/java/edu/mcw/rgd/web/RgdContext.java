@@ -131,6 +131,6 @@ public class RgdContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return index+"_dev";
+        return index+"_cur";
     }
 }
