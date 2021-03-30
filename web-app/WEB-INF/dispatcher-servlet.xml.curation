@@ -180,7 +180,7 @@
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
 
-                <prop key="front/variants.html">VariantController</prop>
+                <!--prop key="front/variants.html">VariantController</prop>
                 <prop key="front/detail.html">DetailController</prop>
                 <prop key="front/detail_gbrowse.html">DetailController</prop>
                 <prop key="front/dist.html">DistributionController</prop>
@@ -191,7 +191,20 @@
                 <prop key="front/download.html">DownloadController</prop>
                 <prop key="front/searchType.html">SearchTypeController</prop>
                 <prop key="front/geneList.html">GeneListController</prop>
-                <prop key="front/config.html">ConfigController</prop>
+                <prop key="front/config.html">ConfigController</prop-->
+
+                 <prop key="front/variants.html">nVariantController</prop>
+                              <prop key="front/detail.html">nDetailController</prop>
+                              <prop key="front/detail_gbrowse.html">nDetailController</prop>
+                              <prop key="front/dist.html">nDistributionController</prop>
+                              <prop key="front/select.html">nSelectStrainController</prop>
+                              <prop key="front/options.html">nStrainOptionsController</prop>
+                              <prop key="front/annotation.html">nAnnotationController</prop>
+                              <prop key="front/region.html">nRegionController</prop>
+                              <prop key="front/download.html">nDownloadController</prop>
+                              <prop key="front/searchType.html">nSearchTypeController</prop>
+                              <prop key="front/geneList.html">nGeneListController</prop>
+                              <prop key="front/config.html">nConfigController</prop>
 
                 <prop key="vv/variants.html">nVariantController</prop>
                 <prop key="vv/detail.html">nDetailController</prop>

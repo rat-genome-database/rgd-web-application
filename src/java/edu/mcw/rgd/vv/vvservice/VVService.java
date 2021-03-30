@@ -1,7 +1,14 @@
 package edu.mcw.rgd.vv.vvservice;
 
 
-import edu.mcw.rgd.datamodel.VariantSearchBean;
+import edu.mcw.rgd.dao.impl.SequenceDAO;
+import edu.mcw.rgd.dao.impl.TranscriptDAO;
+import edu.mcw.rgd.dao.impl.VariantInfoDAO;
+import edu.mcw.rgd.dao.impl.variants.PolyphenDAO;
+import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
+import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
+import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
@@ -23,6 +30,7 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +39,7 @@ import java.util.List;
  * Created by jthota on 7/10/2019.
  */
 public class VVService {
+    VariantTranscriptDao dao=new VariantTranscriptDao();
     private static String variantIndex;
    // private static String env="cur";
 
@@ -212,7 +221,6 @@ public class VVService {
             }
             builder.filter(qb);
         }
-        System.out.println("NEAR SPLICE SITE:"+ req.getParameter("nearSpliceSite"));
         if(req.getParameter("nearSpliceSite").equals("true")){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.nearSpliceSite.keyword", "T")));
         }
@@ -347,6 +355,211 @@ public class VVService {
         }
         }
         return dqb;
+
+    }
+    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
+        VVService service= new VVService();
+        List<SearchHit> hits=service.getVariants(vsb,req);
+        List<VariantResult> variantResults=new ArrayList<>();
+        for (SearchHit h : hits) {
+            java.util.Map<String, Object> m = h.getSourceAsMap();
+            VariantResult vr = new VariantResult();
+
+            Variant v = new Variant();
+            v.setId((Integer) m.get("variant_id"));
+            v.setChromosome((String) m.get("chromosome"));
+            v.setStartPos((int) m.get("startPos"));
+            v.setEndPos((int) m.get("endPos"));
+            v.setReferenceNucleotide((String) m.get("refNuc"));
+            v.setVariantNucleotide((String) m.get("varNuc"));
+            v.setGenicStatus((String) m.get("genicStatus"));
+            v.setPaddingBase((String) m.get("paddingBase"));
+            v.setRegionName(m.get("regionName").toString());
+            v.setVariantType((String) m.get("variantType"));
+            v.setSampleId((int) m.get("sampleId"));
+            v.setVariantFrequency((int) m.get("varFreq"));
+            v.setDepth((Integer) m.get("totalDepth"));
+            if(m.get("qualityScore")!=null)
+                v.setQualityScore((int) m.get("qualityScore"));
+            v.setZygosityStatus((String) m.get("zygosityStatus"));
+            v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
+            v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
+            double p= (double) m.get("zygosityPercentRead");
+            v.setZygosityPercentRead((int) p);
+            v.setZygosityPossibleError((String) m.get("zygosityPossError"));
+            v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
+            v.conservationScore.add(mapConservation(m));
+            vr.setVariant(v);
+            if(requiredTranscripts) {
+                List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
+                vr.setTranscriptResults(trs);
+            }
+
+            if(vsb.getMapKey()==38){
+                VariantInfo clinvar=getClinvarInfo(v.getId());
+                System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
+                vr.setClinvarInfo(clinvar);
+            }
+            variantResults.add(vr);
+
+        }
+
+        return variantResults;
+    }
+    List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
+        List<TranscriptResult> trs=new ArrayList<>();
+        List<VariantTranscript> transcripts=new ArrayList<>();
+        try {
+            transcripts= dao.getVariantTranscripts(variantId,mapKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            for(VariantTranscript t:transcripts ){
+
+                TranscriptResult tr = new TranscriptResult();
+                AminoAcidVariant aa = new AminoAcidVariant();
+                aa.setTripletError(t.getTripletError());
+                aa.setSynonymousFlag(t.getSynStatus());
+                aa.setPolyPhenStatus(t.getPolyphenStatus());
+                aa.setNearSpliceSite(t.getNearSpliceSite());
+
+                // tr.set.setFrameShift((String) source.get("frameShift"));
+                tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
+                aa.setLocation(t.getLocationName());
+                aa.setReferenceAminoAcid(t.getRefAA());
+                aa.setVariantAminoAcid(t.getVarAA());
+           /*  if (source.get("fullRefAA") != null)
+                 aa.setAASequence(source.get("fullRefAA").toString());
+             if (source.get("fullRefNuc") != null)
+                 aa.setDNASequence(source.get("fullRefNuc").toString());*/
+                if (t.getFullRefAASeqKey() != 0) {
+                    aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+                }
+                if (t.getFullRefNucSeqKey() != 0) {
+                    aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
+                }
+                if (t.getFullRefAAPos() != null) {
+                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
+                    aa.setAaPosition(t.getFullRefAAPos());
+                }
+                if (t.getFullRefNucPos() != null) {
+                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
+                    aa.setDnaPosition(t.getFullRefNucPos());
+                }
+                String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
+                if (trSymbol != null)
+                    aa.setTranscriptSymbol(trSymbol);
+                tr.setAminoAcidVariant(aa);
+                //********************************************Polyphenprediction********//
+                List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
+                if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
+                    tr.setPolyPhenPrediction(polyPhenPredictions);
+                trs.add(tr);
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return  trs;
+    }
+    public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId, int transcriptId)
+    {
+        PolyphenDAO pdao=new PolyphenDAO();
+
+        try {
+            //   return pdao.getPloyphenDataByVariantId(86880133);
+            return pdao.getPloyphenDataByVariantId(variantId, transcriptId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String getSequence(int seqKey){
+        SequenceDAO sequenceDAO=new SequenceDAO();
+        List<Sequence>  sequences=new ArrayList<>();
+        try {
+            sequences= sequenceDAO.getObjectSequencesBySeqKey(seqKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(sequences!=null){
+            return sequences.get(0).getSeqData();
+        }
+        return null;
+    }
+    public String getTranscriptSymbol(String transcriptId){
+        TranscriptDAO tdao=new TranscriptDAO();
+        Transcript tr= null;
+        try {
+            tr = tdao.getTranscript(Integer.parseInt(transcriptId));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(tr!=null)
+            return tr.getAccId();
+        return null;
+    }
+    VariantInfo getClinvarInfo(long variantRGDId) throws Exception {
+
+        VariantInfoDAO dao= new VariantInfoDAO();
+        return dao.getVariant((int) variantRGDId);
+
+    }
+    public ConservationScore mapConservation(java.util.Map m)  {
+        List conScores= (List) m.get("conScores");
+//        System.out.println(conScores.toString());
+        ConservationScore  cs = new ConservationScore();
+
+        try{
+            if(conScores!=null && conScores.size()>=1 ) {
+                if(conScores.get(0) instanceof Integer){
+                    BigDecimal score=  BigDecimal.valueOf((Integer) conScores.get(0));
+                    cs.setScore(score);
+                    cs.setChromosome((String) m.get("chromosome"));
+                    cs.setPosition((Integer) m.get("startPos"));
+                    cs.setNuc((String) m.get("refNuc"));
+                }else{
+                    if(conScores.get(0) instanceof Double){
+                        BigDecimal score= BigDecimal.valueOf((Double) conScores.get(0));
+                        cs.setScore(score);
+                        cs.setChromosome((String) m.get("chromosome"));
+                        cs.setPosition((Integer) m.get("startPos"));
+                        cs.setNuc((String) m.get("refNuc"));
+                    }else{
+                        if(conScores.get(0) instanceof BigDecimal){
+                            BigDecimal score= (BigDecimal) conScores.get(0);
+                            cs.setScore(score);
+                            cs.setChromosome((String) m.get("chromosome"));
+                            cs.setPosition((Integer) m.get("startPos"));
+                            cs.setNuc((String) m.get("refNuc"));
+                        }else{
+                            if(conScores.get(0) instanceof String){
+                                cs.setScore(BigDecimal.valueOf(Double.parseDouble((String) conScores.get(0))));
+                                cs.setChromosome((String) m.get("chromosome"));
+                                cs.setPosition((Integer) m.get("startPos"));
+                                cs.setNuc((String) m.get("refNuc"));
+                            }
+
+                        }
+                    }
+                }
+            }else{
+
+                cs.setScore(BigDecimal.valueOf(-1));
+                cs.setChromosome((String) m.get("chromosome"));
+                cs.setPosition((Integer) m.get("startPos"));
+                cs.setNuc((String) m.get("refNuc"));
+
+            }
+        }catch (Exception e){
+            System.out.println("CONSCORE:"+conScores.get(0));
+            e.printStackTrace();
+        }
+
+        return cs;
+
+
 
     }
 }
