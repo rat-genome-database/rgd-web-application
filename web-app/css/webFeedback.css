@@ -57,6 +57,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     height: 50px;
     width: 50px;
     position: fixed;
+    z-index: 500;
 }
 .openLikeBtn{
     height: 50px;
@@ -68,7 +69,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border-radius: 24px;
     cursor: pointer;
     opacity: .7;
-    z-index: 500;
 }
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
