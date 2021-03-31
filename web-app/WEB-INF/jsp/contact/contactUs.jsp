@@ -75,7 +75,7 @@
                 <td>*Email Address:</td><td><input type="text" id="userEmail" v-model="email"></td>
             </tr>
             <tr>
-                <td>Phone Number:</td><td><input type="number" placeholder="5555555555" v-model="phone"></td>
+                <td>Phone Number:</td><td><input type="number" placeholder="1231231234" v-model="phone"></td>
             </tr>
             <tr>
                 <td>Institute/Company:</td><td><input type="text" v-model="institute"></td>

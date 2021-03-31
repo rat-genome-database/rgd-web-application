@@ -67,8 +67,11 @@ public class WebsiteFeedbackController implements Controller {
                 "Bioinformatics Research Center\n" +
                 "Medical College of Wisconsin\n" +
                 "414-456-8871";
+        String rgdMessage = message+"\n\n" +
+                "Reply to: "+sender+"\n"+
+                "Webpage: " + page;
 
-        MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, message);
+        MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
         MyRGDLookupController.send(sender, "Thanks for your concern", usrMsg);
 
         return;

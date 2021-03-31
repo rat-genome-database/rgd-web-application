@@ -6,7 +6,6 @@ input[type="email"], textarea {
     background-color : #f1f1f1;
 
 }
-
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 .hideMe {
@@ -19,7 +18,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 .thumbsUp {
     bottom: 100px;
-    right: 145px;
+    right: 130px;
     height: 50px;
     width: 50px;
     position: fixed;
@@ -28,11 +27,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
     border-radius: 24px;
     cursor: pointer;
-    /*display: block;*/
 }
 .thumbsDown {
     bottom: 100px;
-    right: 83px;
+    right: 68px;
     position: fixed;
     opacity: .8;
     height: 50px;
@@ -51,6 +49,26 @@ body {font-family: Arial, Helvetica, sans-serif;}
     position: fixed;
     border: dashed;
     border-color: lightgrey;
+    z-index: 500;
+}
+.hiddenBtns {
+    bottom: 25px;
+    right: 35px;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+}
+.openLikeBtn{
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    background-size: 100%;
+    border: white;
+    background-image: url("/rgdweb/common/images/mailChat.png");
+    border-radius: 24px;
+    cursor: pointer;
+    opacity: .7;
+    z-index: 500;
 }
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {

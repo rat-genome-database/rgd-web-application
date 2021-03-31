@@ -8,18 +8,28 @@ function closeForm() {
 }
 function hideButtons() {
     var div = document.getElementById('divButtons');
-    document.cookie = "hideMe=true; path=/"
-    //alert(document.cookie);
+    var div2 = document.getElementById("hiddenBtns");
+    // var now = new Date();
+    // var time = now.getTime();
+    // var expireTime = time + (1000 * 60 * 60 * 24);
+    // now.setTime(expireTime);
+    document.cookie = 'hideMe=true;path=/';
+    // alert(document.cookie);
     if (div.style.display !== 'none') {
         div.style.display = 'none';
+        div2.style.display = 'block';
     }
     else {
         div.style.display = 'block';
+        div2.style.display = 'none';
     }
+
 };
 function checkCookie() {
-    if(document.cookie.indexOf("hideMe") != -1)
+    if(document.cookie.indexOf("hideMe") != -1){
         hideButtons();
+    }
+
 }
 window.onload = function () {
     var messageVue = new Vue({
