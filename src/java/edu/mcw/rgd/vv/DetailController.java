@@ -1,11 +1,11 @@
 package edu.mcw.rgd.vv;
 
+import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.vv.vvservice.VariantIndexClient;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
-import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class DetailController extends HaplotyperController {
     VVService service= new VVService();
+    VariantDAO vdao= new VariantDAO();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
          try {
@@ -52,16 +53,27 @@ public class DetailController extends HaplotyperController {
 
         String vid = req.getParameter("vid");
         String sid = req.getParameter("sid");
+        String index=new String();
 
         int mapKey = 360; // map key defaults to rat assembly 6.0
         String mapKeyStr = request.getParameter("mapKey");
-        if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
-           mapKey = Integer.parseInt(mapKeyStr);
+        if( mapKeyStr!=null && !mapKeyStr.isEmpty() ) {
+            mapKey = Integer.parseInt(mapKeyStr);
+        }else{
+            if(vid!=null){
+                mapKey=vdao.getMapKeyByVariantId(Integer.parseInt(vid));
+            }
+        }
+        String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
+        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
+        VVService.setVariantIndex(index);
            List<SearchResult> allResults = new ArrayList<SearchResult>();
 
             VariantSearchBean vsb = new VariantSearchBean(mapKey);
-        if( vid.isEmpty() || vid.equals("0"))
-                vsb.setVariantId(Long.parseLong(vid));
+        if( !vid.isEmpty() ) {
+            vsb.setVariantId(Long.parseLong(vid));
+
+        }
             if( !sid.isEmpty() )
                vsb.sampleIds.add(Integer.parseInt(sid));
                vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
@@ -76,10 +88,7 @@ public class DetailController extends HaplotyperController {
 
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
-            String index=new String();
-            String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
-            VVService.setVariantIndex(index);
+
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
             sr.setVariantResults(vr);
             allResults.add(sr);
