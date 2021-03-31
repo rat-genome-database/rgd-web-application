@@ -359,7 +359,7 @@ public class VVService {
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
                     );
                     qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
-
+                    dqb.add(qb);
                 }
             }
         }
