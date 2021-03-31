@@ -207,7 +207,7 @@
                                     <div class="rgd-dropdown-content">
                                         <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                         <a href="/jbrowse/">JBrowse (Genome Browser)</a>
-                                        <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
+                                        <!--a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a-->
 
                                         <a href="/rgdweb/front/config.html">Variant Visualizer</a>
                                         <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>

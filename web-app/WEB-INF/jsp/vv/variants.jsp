@@ -107,7 +107,7 @@
     function displayVariant(e) {
         if (!e) e = window.event;
         var firedDiv = getTarget(e);
-        var url = "/rgdweb/vv/detail.html?chr=<%=vsb.getChromosome()%>&start=" + firedDiv.pos + "&stop=" + (parseInt(firedDiv.pos) + 1) + "&sid=" + firedDiv.sid + "&vid=" + firedDiv.vid + "&mapKey=<%=vsb.getMapKey()%>";
+        var url = "/rgdweb/front/detail.html?chr=<%=vsb.getChromosome()%>&start=" + firedDiv.pos + "&stop=" + (parseInt(firedDiv.pos) + 1) + "&sid=" + firedDiv.sid + "&vid=" + firedDiv.vid + "&mapKey=<%=vsb.getMapKey()%>";
         var googlewin=dhtmlwindow.open("ajaxbox", "ajax", url,"Variant Details", "width=740px,height=400px,resize=1,scrolling=1,center=1", "recal");
         document.getElementById("ajaxbox").scrollTop=0;
     }
