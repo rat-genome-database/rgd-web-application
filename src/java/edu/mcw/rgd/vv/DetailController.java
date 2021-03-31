@@ -58,43 +58,29 @@ public class DetailController extends HaplotyperController {
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
            mapKey = Integer.parseInt(mapKeyStr);
            List<SearchResult> allResults = new ArrayList<SearchResult>();
-   //     if( vid.isEmpty() || vid.equals("0")) {
 
             VariantSearchBean vsb = new VariantSearchBean(mapKey);
-
+        if( vid.isEmpty() || vid.equals("0"))
+                vsb.setVariantId(Long.parseLong(vid));
             if( !sid.isEmpty() )
                vsb.sampleIds.add(Integer.parseInt(sid));
                vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
 
             // there must be start and stop position
-            if( Utils.isStringEmpty(vsb.getChromosome()) ||
+       /*     if( Utils.isStringEmpty(vsb.getChromosome()) ||
                 vsb.getStartPosition()==null || vsb.getStartPosition()<1 ||
                 vsb.getStopPosition()==null || vsb.getStopPosition()<vsb.getStartPosition() ) {
 
                 throw new VVException("variant detail: missing chr or start or stop");
-            }
+            }*/
 
             VariantController ctrl=new VariantController();
             SearchResult sr = new SearchResult();
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
-            //index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
             VVService.setVariantIndex(index);
             List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
-            List<TranscriptResult> tResults=new ArrayList<>();
-            for(VariantResult r:vr){
-
-                Variant v=r.getVariant();
-              //  tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
-           //     if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
-                    tResults=r.getTranscriptResults();
-                 //   System.out.println("transcripts size: "+ tResults.size());
-            //    }else
-           //     tResults=getTranscriptResults(v, mapKey);
-
-                r.setTranscriptResults(tResults);
-             }
             sr.setVariantResults(vr);
             allResults.add(sr);
             request.setAttribute("searchResults",allResults);
