@@ -206,7 +206,7 @@
                               <prop key="front/geneList.html">nGeneListController</prop>
                               <prop key="front/config.html">nConfigController</prop>
 
-                <prop key="vv/variants.html">nVariantController</prop>
+                <!--prop key="vv/variants.html">nVariantController</prop>
                 <prop key="vv/detail.html">nDetailController</prop>
                 <prop key="vv/detail_gbrowse.html">nDetailController</prop>
                 <prop key="vv/dist.html">nDistributionController</prop>
@@ -217,7 +217,7 @@
                 <prop key="vv/download.html">nDownloadController</prop>
                 <prop key="vv/searchType.html">nSearchTypeController</prop>
                 <prop key="vv/geneList.html">nGeneListController</prop>
-                <prop key="vv/config.html">nConfigController</prop>
+                <prop key="vv/config.html">nConfigController</prop-->
 
 
                 <prop key="generator/list.html">ProcessListController</prop>
