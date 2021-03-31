@@ -64,7 +64,6 @@ public class WebsiteFeedbackController implements Controller {
                 "-----------------------------------------------------------------\n\n" +
                 "If you have any further question, please feel free to contact us.\n\n" +
                 "Rat Genome Database\n" +
-                "Bioinformatics Research Center\n" +
                 "Medical College of Wisconsin\n" +
                 "414-456-8871";
         String rgdMessage = message+"\n\n" +

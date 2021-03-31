@@ -99,7 +99,6 @@ public class ContactUsController implements Controller {
                 "If you have any further question, please feel free to contact us.\n" +
                 "\n" +
                 "Rat Genome Database\n" +
-                "Bioinformatics Research Center\n" +
                 "Medical College of Wisconsin\n" +
                 "414-456-8871";
 
