@@ -17,6 +17,7 @@ public class ContactUsController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        boolean submit;
         try{
             StringBuilder buffer = new StringBuilder();
             BufferedReader reader = request.getReader();
@@ -87,7 +88,7 @@ public class ContactUsController implements Controller {
                 "Thank you for using RGD. Your comments/messages are very important to us." +
                 "We will reply or contact you as soon as possible.\n" +
                 "\n" +
-                "Your message ID is "+messageId+". Please refer to this number in any"+
+                "Your message ID is "+messageId+". Please refer to this number in any "+
                 "subsequent correspondence.\n" +
                 "\n" +
                 "\n" +
@@ -111,7 +112,7 @@ public class ContactUsController implements Controller {
                 "State: "+ fb.getState()+"\n" +
                 "Country: "+fb.getCountry();
 
-        MyRGDLookupController.send("rgd.data@mcw.edu", subject, rgdMessage); // to RGD
+        MyRGDLookupController.send("rgd.data@mcw.edu", subject, rgdMessage); // to RGD rgd.data@mcw.edu
         MyRGDLookupController.send(fb.getEmail(), "Thank you for your comment submission", senderEmail); // to sender
         return;
     }

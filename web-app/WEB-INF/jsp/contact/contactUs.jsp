@@ -15,6 +15,22 @@
     input[type="text"], input[type="number"] {
         width: 300px;
     }
+    #submitMsg {
+        font-size: large;
+        color: blue;
+    }
+    /* Chrome, Safari, Edge, Opera
+     hiding the arrows */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
     #userEmail{
         width: 300px;
     }
@@ -43,6 +59,9 @@
     <h1 id="contactH">Contact Us</h1>
     <br><br><br>
     <table width="70%" align="center">
+        <tr>
+            <td><dd id="submitMsg" value=""></dd></td>
+        </tr>
         <tr>
             <td><dd>Your comments are very important to RGD. Please write to us or fill out the request form below (preferred),
                 we will reply to you as soon as possible.</dd></td>
@@ -398,7 +417,9 @@
             <tr>
                 <td>*Message:</td>
             </tr>
-            <tr><td><textarea rows="20" id="emailMessage" v-model="message" cols="30" ></textarea></td></tr>
+            <tr>
+                <td colspan="2"><textarea rows="20" id="emailMessage" v-model="message" ></textarea></td>
+            </tr>
             <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>
                 <td>
@@ -448,6 +469,10 @@
                     alert("Not a valid email address.")
                     return;
                 }
+                if(document.getElementById("state".value) !== "")
+                {
+                    document.getElementById("country").value = "United States of America";
+                }
                 // alert(this.message + "\n" +this.subject+ "\n"+ this.firstName +"\n"+this.lastName+"\n"+this.email
                 //     +"\n"+this.phone+"\n"+this.address+"\n"+this.institute+"\n"+this.city+"\n"+this.zipCode);
                 axios
@@ -467,8 +492,8 @@
                             state: document.getElementById("state").value
                         })
                     .then(function (response) {
-                        this.resetForm();
-                        alert("Thank you for the message! We will try and get back to you as soon as possible.")
+                        submitted()
+                        // alert("Thank you for the message! We will try and get back to you as soon as possible.");
                     }).catch(function (error) {
                     console.log(error)
                 })
@@ -500,5 +525,10 @@
     }
     function expired(){
         document.getElementById("submitBtn").disabled = true;
+    }
+    function submitted() {
+        contactVue.resetForm();
+        window.scrollTo(0,0);
+        document.getElementById("submitMsg").innerText = "Thank you for the message! We will try and get back to you as soon as possible.";
     }
 </script>

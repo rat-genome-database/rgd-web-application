@@ -100,9 +100,9 @@ window.onload = function () {
                         },
                         {headers: headers}
                     )
-                    // .then(function (response) {
-                    //     alert("Liked")
-                    // })
+                    .then(function (response) {
+                        alert("Thanks for the feedback!\n(Optional) Let us know what you liked.");
+                    })
                     .catch(function (error) {
                     console.log(error)
                 })
@@ -124,14 +124,14 @@ window.onload = function () {
                         },
                         {headers: headers}
                     )
-                    // .then(function (response) {
-                    //     alert("Disliked")
-                    // })
+                    .then(function (response) {
+                        alert("Thanks for the feedback!\n(Optional) Let us know what could be fixed.");
+                        hideButtons();
+                        openForm();
+                    })
                     .catch(function (error) {
                     console.log(error)
                 })
-                hideButtons();
-                openForm();
 
             }
         }

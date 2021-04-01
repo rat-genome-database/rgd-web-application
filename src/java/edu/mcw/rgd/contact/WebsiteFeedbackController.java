@@ -71,7 +71,7 @@ public class WebsiteFeedbackController implements Controller {
                 "Webpage: " + page;
 
         MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
-        MyRGDLookupController.send(sender, "Thanks for your concern", usrMsg);
+        MyRGDLookupController.send(sender, "Thanks for your comment", usrMsg);
 
         return;
     }

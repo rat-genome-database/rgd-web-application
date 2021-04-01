@@ -19,7 +19,7 @@
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
 
-        <label><b>Email</b></label>
+        <label><b>Your email</b></label>
         <br><input type="email" name="email" v-model="email">
         <br><label><b>Message</b></label>
         <textarea placeholder="Type message.." name="comment" v-model="message"></textarea>
