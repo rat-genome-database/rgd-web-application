@@ -43,7 +43,7 @@
                     <td><h1 style="font-size:36px">Disease Portals</h1></td>
                 </tr>
                 <tr>
-                    <td style=" font-size:16px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="DiseasePortalHelp.pptx">Click Here</a> for help with the RGD Disease Portals.</a></td>
+                    <td style=" font-size:16px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="/wg/help3/disease-portals/">Click Here</a> for help with the RGD Disease Portals.</a></td>
                 </tr>
             </table>
             </div>
