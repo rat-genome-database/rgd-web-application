@@ -101,14 +101,19 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        alert("Thanks for the feedback!\n(Optional) Let us know what you liked.");
+                        var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
+                        if (r == true) {
+                            hideButtons();
+                            openForm();
+                        }
+                        else {
+                            hideButtons();
+                        }
                     })
                     .catch(function (error) {
                     console.log(error)
                 })
-                hideButtons();
-                openForm();
-                //alert("After axios")
+                
             },
             dislikedPage: function () {
                 const headers = {
@@ -125,9 +130,14 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        alert("Thanks for the feedback!\n(Optional) Let us know what could be fixed.");
-                        hideButtons();
-                        openForm();
+                        var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
+                        if (r == true) {
+                            hideButtons();
+                            openForm();
+                        }
+                        else {
+                            hideButtons();
+                        }
                     })
                     .catch(function (error) {
                     console.log(error)
