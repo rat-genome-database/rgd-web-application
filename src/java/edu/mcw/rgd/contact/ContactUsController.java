@@ -118,6 +118,7 @@ public class ContactUsController implements Controller {
     }
     public FBPerson mergePerson(FBPerson newPerson, FBPerson dbPerson) throws Exception{
         // if fb obj is empty but sender0 obj is not, put obj from sender in fb, update anyway for potential changes
+        newPerson.setPersonId(dbPerson.getPersonId());
         if (!newPerson.getLastName().equals(dbPerson.getLastName()))
             newPerson.setLastName(dbPerson.getLastName());
         if (newPerson.getPhoneNumber()==0 && dbPerson.getPhoneNumber()!=0)
