@@ -1,6 +1,7 @@
 
 function openForm() {
     document.getElementById("messageVue").style.display = "block";
+    document.getElementById("headMsg").innerText = 'Send us a Message'
 }
 
 function closeForm() {
@@ -101,19 +102,21 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
-                        if (r == true) {
-                            hideButtons();
-                            openForm();
-                        }
-                        else {
-                            hideButtons();
-                        }
+                        // var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
+                        // if (r == true) {
+                        //     hideButtons();
+                        //     openForm();
+                        // }
+                        // else {
+                        //     hideButtons();
+                        // }
+                        openForm();
+                        document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what you liked.';
                     })
                     .catch(function (error) {
                     console.log(error)
                 })
-                
+
             },
             dislikedPage: function () {
                 const headers = {
@@ -130,14 +133,17 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
-                        if (r == true) {
-                            hideButtons();
-                            openForm();
-                        }
-                        else {
-                            hideButtons();
-                        }
+                        // var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
+                        // if (r == true) {
+                        //     hideButtons();
+                        //     openForm();
+                        // }
+                        // else {
+                        //     hideButtons();
+                        // }
+                        openForm();
+                        document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what we can fix.';
+
                     })
                     .catch(function (error) {
                     console.log(error)

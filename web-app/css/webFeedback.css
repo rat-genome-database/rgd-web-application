@@ -130,6 +130,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     width: 100%;
     margin-bottom:10px;
     opacity: 0.8;
+    font-size: large;
 }
 
 .closeForm {
@@ -140,11 +141,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
     color: white;
 
 }
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-    background-color: red;
-}
-
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
     opacity: 1;
