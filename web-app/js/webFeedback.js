@@ -112,6 +112,7 @@ window.onload = function () {
                         // }
                         openForm();
                         document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what you liked.';
+                        hideButtons();
                     })
                     .catch(function (error) {
                     console.log(error)
@@ -143,7 +144,7 @@ window.onload = function () {
                         // }
                         openForm();
                         document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what we can fix.';
-
+                        hideButtons();
                     })
                     .catch(function (error) {
                     console.log(error)
