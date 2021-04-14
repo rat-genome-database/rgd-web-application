@@ -245,47 +245,7 @@
                                             <a href="/rgdweb/portal/home.jsp?p=10">Respiratory Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=11">Sensory Organ Disease</a>
                                         </div>
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
-                                        <a href="/jbrowse/">JBrowse (Genome Browser)</a>
-                                        <!--a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a-->
-
-                                        <a href="/rgdweb/front/config.html">Variant Visualizer</a>
-                                        <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
-                                        <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
-                                        <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
-                                        <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
-                                        <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
-                                        <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
-                                        <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
-                                        <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
-                                        <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
-                                        <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
-                                        <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                    </div>
                                 </div>
-                                <div class="rgd-dropdown">
-                                    <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/portals/'">Diseases
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    <div class="rgd-dropdown-content">
-                                        <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=14">COVID-19</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=12">Developmental Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=6">Immune & Inflammatory Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=13">Liver Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=7">Neurological Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=8">Obesity & Metabolic Syndrome</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=9">Renal Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=10">Respiratory Disease</a>
-                                        <a href="/rgdweb/portal/home.jsp?p=11">Sensory Organ Disease</a>
-                                    </div>
-
-                                    </div>
                                     <div class="rgd-dropdown">
                                         <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg/physiology/'">Phenotypes & Models
                                             <i class="fa fa-caret-down"></i>
