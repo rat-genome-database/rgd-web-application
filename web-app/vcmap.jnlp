@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<jnlp spec="1.0+" codebase="http://localhost:8080/rgdweb/vcmap" href="vcmap.jnlp">
+<jnlp spec="1.0+" href="vcmap.jnlp">
     <information>
         <title>VCMAP</title>
         <vendor>AnimalGenome.org</vendor>
