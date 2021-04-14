@@ -9,7 +9,7 @@ input[type="email"], textarea {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 .hideMe {
-    bottom: 134px;
+    bottom: 104px;
     right: 40px;
     position: fixed;
     opacity: .8;
@@ -17,22 +17,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
     color: white;
 }
 .thumbsUp {
-    bottom: 100px;
+    bottom: 70px;
     right: 130px;
     height: 50px;
     width: 50px;
     position: fixed;
-    opacity: .8;
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
     border-radius: 24px;
     cursor: pointer;
 }
 .thumbsDown {
-    bottom: 100px;
+    bottom: 70px;
     right: 68px;
     position: fixed;
-    opacity: .8;
     height: 50px;
     width: 50px;
     display: block;
@@ -44,11 +42,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .btnDiv {
     bottom: 15px;
     right: 35px;
-    height: 145px;
-    width: 175px;
+    height: 115px;
+    width: 165px;
     position: fixed;
     border: dashed;
-    border-color: lightgrey;
+    border-color: #2865A3;
+    opacity: .8;
     z-index: 500;
 }
 .hiddenBtns {
@@ -74,15 +73,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .open-button {
     background-color: #2865A3;
     color: white;
-    padding: 16px 20px;
+    /*padding: 10px 18px;*/
     border: none;
     cursor: pointer;
-    opacity: 0.8;
     position: fixed;
     bottom: 23px;
     right: 45px;
-    width: 155px;
-    height: 75px;
+    width: 145px;
+    height: 45px;
     font-size: large;
 }
 
