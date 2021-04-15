@@ -10,11 +10,16 @@ body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 .hideMe {
     bottom: 104px;
-    right: 40px;
+    right: 42px;
     position: fixed;
     opacity: .8;
     background-color: red;
     color: white;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    display:table-cell;
+    vertical-align:middle;
 }
 .thumbsUp {
     bottom: 70px;
@@ -26,6 +31,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
     border-radius: 24px;
     cursor: pointer;
+    border: none;
 }
 .thumbsDown {
     bottom: 70px;
@@ -38,6 +44,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     background-image: url("/rgdweb/common/images/thumbsDownS.png");
     border-radius: 24px;
     cursor: pointer;
+    border: none;
 }
 .btnDiv {
     bottom: 15px;
@@ -47,6 +54,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     position: fixed;
     border: dashed;
     border-color: #2865A3;
+    border-radius: 20px;
     opacity: .8;
     z-index: 500;
 }
@@ -73,15 +81,16 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .open-button {
     background-color: #2865A3;
     color: white;
-    /*padding: 10px 18px;*/
+    padding: 3px 10px;
     border: none;
     cursor: pointer;
     position: fixed;
     bottom: 23px;
     right: 45px;
     width: 145px;
-    height: 45px;
-    font-size: large;
+    height: 40px;
+    font-size: 13pt;
+    border-radius: 10px;
 }
 
 /* The popup chat - hidden by default */
