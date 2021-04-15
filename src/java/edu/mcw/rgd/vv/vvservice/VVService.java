@@ -354,6 +354,7 @@ public class VVService {
 
             dqb.add(qb);
         }else{
+
                 if(vsb.getVariantId()!=0 && vsb.getSampleIds().size()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
