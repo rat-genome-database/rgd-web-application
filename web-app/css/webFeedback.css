@@ -29,7 +29,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     position: fixed;
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsUpS.png");
-    border-radius: 24px;
+    border-radius: 25px;
     cursor: pointer;
     border: none;
 }
@@ -42,7 +42,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     display: block;
     background-size: 100%;
     background-image: url("/rgdweb/common/images/thumbsDownS.png");
-    border-radius: 24px;
+    border-radius: 25px;
     cursor: pointer;
     border: none;
 }
@@ -52,11 +52,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
     height: 115px;
     width: 165px;
     position: fixed;
-    border: dashed;
-    border-color: #2865A3;
+    /*border: solid;*/
+    /*border-color: #2865A3;*/
+    border: 1px solid #DFDFDF;
     border-radius: 20px;
     opacity: .8;
     z-index: 500;
+
 }
 .hiddenBtns {
     bottom: 25px;
