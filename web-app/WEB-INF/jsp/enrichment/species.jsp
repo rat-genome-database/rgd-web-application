@@ -39,6 +39,7 @@
                             <th v-on:click="sort('refCount',pair.spec)">Ref Genes <i class="fa fa-fw fa-sort"></i></th>
                             <th v-on:click="sort('pvalue',pair.spec)">P-Value <i class="fa fa-fw fa-sort"></i></th>
                             <th v-on:click="sort('correctedpvalue',pair.spec)">Bonferroni Correction <i class="fa fa-fw fa-sort"></i></th>
+                            <th v-on:click="sort('oddsratio',pair.spec)">Odds Ratio<i class="fa fa-fw fa-sort"></i></th>
                         </tr>
 
 
@@ -54,6 +55,7 @@
                             <td> {{record.refCount}}</td>
                             <td> {{record.pvalue}}</td>
                             <td>{{record.correctedpvalue}}</td>
+                            <td>{{record.oddsratio}}</td>
                         </tr>
 
                     </table>
