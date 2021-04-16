@@ -222,7 +222,6 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
                                             <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                            <a href="/rgdweb/vcmap.jnlp">VCMap</a>
                                             <a href="/rgdweb/vcmap/vcmap.jnlp">VCMap_org</a>
                                         </div>
                                     </div>
