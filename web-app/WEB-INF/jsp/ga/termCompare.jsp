@@ -26,7 +26,6 @@
 <% try { %>
 
 
-
 <%@ include file="menuBar.jsp" %>
 
 <% if (om.getMapped().size()==0) { %>
@@ -35,9 +34,6 @@
 <%  return;
     } %>
  <%
-
-
-
 
     OntologyXDAO xdao = new OntologyXDAO();
     int max = Integer.MIN_VALUE;
@@ -236,8 +232,8 @@
             position:relative;
             min-width: 24px;
             min-height: 24px;
-            width:24px;
-            height:24px;
+            width:25px;
+            height:25px;
             *width: 25px;
             *height: 25px;
             border-top: 1px solid white;
@@ -411,7 +407,7 @@
 </div>
 </div>
 
-<div style="position:absolute; top: 80; left:210;">
+<div style="position:absolute; top: 175px; left:210px;">
 <table border=0>
     <tr>
         <td valign="center" style="height:280px;">
@@ -432,83 +428,84 @@
 </table>
 </div>
 
-<div style="position: absolute; left: 210px; top: 85px; ">
-<div style="position: absolute; left:300px; top:0px;" >
-    <div class="iewrap">
-        <div class="container">
-           <% Iterator dit = xTerms.iterator();
-             while(dit.hasNext()) {
-                 TermWithStats xTermWs = (TermWithStats) dit.next();
 
-                 if (xTermWs.getChildTermCount() > 0) {
-           %>
-                 <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" href="javascript:termCompare('<%=xTermWs.getAccId()%>','<%=req.getParameter("term2")%>');">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
-           <%    } else { %>
-                 <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" style="text-decoration: none; cursor:default;  color: #771428;" href="javascript:void(0);">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
+<div style="position: absolute; left: 210px; top: 190px; ">
+    <div style="position: absolute; left:256px; top:0px; width: 1200px;">
+        <div class="iewrap">
+            <div class="container">
+               <% Iterator dit = xTerms.iterator();
+                 while(dit.hasNext()) {
+                     TermWithStats xTermWs = (TermWithStats) dit.next();
+
+                     if (xTermWs.getChildTermCount() > 0) {
+               %>
+                     <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" href="javascript:termCompare('<%=xTermWs.getAccId()%>','<%=req.getParameter("term2")%>');">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
+               <%    } else { %>
+                     <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" style="text-decoration: none; cursor:default;  color: #771428;" href="javascript:void(0);">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
 
 
-               <% }
-             } %>
-       </div>
+                   <% }
+                 } %>
+           </div>
+        </div>
     </div>
-</div>
 
-<div style="position: absolute; top: 300px; left:0;">
-<% Iterator pit = yTerms.iterator();
-  while(pit.hasNext()) {
-      TermWithStats yTermWs = (TermWithStats) pit.next();
-     %>
-      <div style="background-color:#EEEEEE; width: 300px;overflow: hidden; height: 24px; text-align: right;margin-top:1px;">
-
-          <% if (yTermWs.getChildTermCount() > 0) { %>
-              <a  title="<%=yTermWs.getTerm()%>" href="javascript:termCompare('<%=xTerm.getAccId()%>','<%=yTermWs.getAccId()%>');">&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
-          <% } else { %>
-            <a  style="text-decoration: none; cursor:default;  color: #771428;" title="<%=yTermWs.getTerm()%>" href="javascript:void(0)" >&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
-          <% } %>
-      </div>
-     <%
-  }
-   %>
-</div>
-
-<div style="min-width: <%=horizontalWidth%>px; position: absolute; top:300px; left:300px; width:<%=horizontalWidth%>px; border:0px solid red;">
-    <table border=0 cellpadding=0 cellspacing=0>
-    <%
-     for (int k=0; k < mapData.length; k++) {
+    <div style="position: absolute; top: 300px; left:0;">
+    <% Iterator pit = yTerms.iterator();
+      while(pit.hasNext()) {
+          TermWithStats yTermWs = (TermWithStats) pit.next();
          %>
-          <tr>
+          <div style="background-color:#EEEEEE; width: 300px;overflow: hidden; height: 24px; text-align: right;margin-top:1px;">
 
-        <!--<div style="position:relative; width:<%=horizontalWidth%>px; border:0px solid orange; ">-->
+              <% if (yTermWs.getChildTermCount() > 0) { %>
+                  <a  title="<%=yTermWs.getTerm()%>" href="javascript:termCompare('<%=xTerm.getAccId()%>','<%=yTermWs.getAccId()%>');">&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
+              <% } else { %>
+                <a  style="text-decoration: none; cursor:default;  color: #771428;" title="<%=yTermWs.getTerm()%>" href="javascript:void(0)" >&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
+              <% } %>
+          </div>
          <%
-         for (int j=0; j < mapData[k].length; j++) {
-             String color = UI.getRGBValue(mapData[k][j], max);
-             String fontColor="black";
+      }
+       %>
+    </div>
 
-             if (((double) mapData[k][j]) / (double)max > .5) {
-                fontColor="white";
-             }
-
-             String cursor ="default";
-             if (mapData[k][j] > 0) {
-                cursor="pointer";
-             }
-
+    <div style="min-width: <%=horizontalWidth%>px; position: absolute; top:300px; left:300px; width:<%=horizontalWidth%>px; border:0px solid red;">
+        <table border=0 cellpadding=0 cellspacing=0>
+        <%
+         for (int k=0; k < mapData.length; k++) {
              %>
-                 <td><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: <%=cursor%>; color: <%=fontColor%>; background-color:<%=color%>;"><%=mapData[k][j]%></div></td>
-                <script>
-                    document.getElementById("cell<%=k%>-<%=j%>").cellBgColor = "<%=color%>";
-                    document.getElementById("cell<%=k%>-<%=j%>").cellFontColor = "<%=fontColor%>";
-                </script>
-         <% } %>
-         <!-- </div>-->
-              </tr>
+              <tr>
 
-         <%
-     }
-%>
-     </table>
-    <br>&nbsp;<br>&nbsp;<br>&nbsp;
-</div>
+            <!--<div style="position:relative; width:<%=horizontalWidth%>px; border:0px solid orange; ">-->
+             <%
+             for (int j=0; j < mapData[k].length; j++) {
+                 String color = UI.getRGBValue(mapData[k][j], max);
+                 String fontColor="black";
+
+                 if (((double) mapData[k][j]) / (double)max > .5) {
+                    fontColor="white";
+                 }
+
+                 String cursor ="default";
+                 if (mapData[k][j] > 0) {
+                    cursor="pointer";
+                 }
+
+                 %>
+                     <td><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: <%=cursor%>; color: <%=fontColor%>; background-color:<%=color%>;"><%=mapData[k][j]%></div></td>
+                    <script>
+                        document.getElementById("cell<%=k%>-<%=j%>").cellBgColor = "<%=color%>";
+                        document.getElementById("cell<%=k%>-<%=j%>").cellFontColor = "<%=fontColor%>";
+                    </script>
+             <% } %>
+             <!-- </div>-->
+                  </tr>
+
+             <%
+         }
+    %>
+         </table>
+<%--            <br>&nbsp;<br>&nbsp;<br>&nbsp;--%>
+    </div>
 </div>
 
 <!-- heat map script -->
@@ -712,6 +709,7 @@ while (it2.hasNext()) {
 
 
 <br><br><br><br><br><br><br><br><br><br>
+<%@ include file="/common/footerarea.jsp"%>
 
 <%
 } catch (Exception e) {
