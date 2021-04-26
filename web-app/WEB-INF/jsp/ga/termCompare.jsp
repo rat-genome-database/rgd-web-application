@@ -19,9 +19,16 @@
 ***********************************************/
 
 </script>
+<%
+    String pageTitle = "GA Tool: Term Compare";
+    String headContent = "";
+    String pageDescription = "";
+%>
+
+<%@ include file="/common/headerarea.jsp"%>
 
 <%@ include file="gaHeader.jsp" %>
-<%@ include file="rgdHeader.jsp" %>
+<%--<%@ include file="rgdHeader.jsp" %>--%>
 
 <% try { %>
 
@@ -252,16 +259,16 @@
 
 <%
     //if there are errors display them
-    List error = (List) request.getAttribute("error");
-    if (error.size() > 0) {
-        Iterator eit = error.iterator();
-        while (eit.hasNext()) {
-            String emsg = (String) eit.next();
-            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
-
-        }
-        return;
-    }
+//    List error = (List) request.getAttribute("error");
+//    if (error.size() > 0) {
+//        Iterator eit = error.iterator();
+//        while (eit.hasNext()) {
+//            String emsg = (String) eit.next();
+//            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
+//
+//        }
+//        return;
+//    }
 
     if (om.getMapped().size() ==0) {
         out.println("<br><br><div style='color: red; ' >0 Genes Found</div>");
@@ -396,10 +403,10 @@
 
         if (rgdId==-1) {
         %>
-            <span style="color:red; font-weight:700;"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
+            <span style="color:red; font-weight:700;" class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
 
         <% } else { %>
-            <a style="font-size:18px;" ><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
+            <a style="font-size:18px;" class="geneList"><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
         <% }
            i++;
      }
@@ -430,7 +437,7 @@
 
 
 <div style="position: absolute; left: 210px; top: 190px; ">
-    <div style="position: absolute; left:256px; top:0px; width: 1200px;">
+    <div style="position: absolute; left:31px; top:0px; width: 1650px;">
         <div class="iewrap">
             <div class="container">
                <% Iterator dit = xTerms.iterator();
@@ -709,10 +716,12 @@ while (it2.hasNext()) {
 
 
 <br><br><br><br><br><br><br><br><br><br>
-<%@ include file="/common/footerarea.jsp"%>
+
+
 
 <%
 } catch (Exception e) {
     e.printStackTrace();
 }
     %>
+<%@ include file="/common/footerarea.jsp"%>
