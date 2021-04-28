@@ -44,7 +44,7 @@
 
     OntologyXDAO xdao = new OntologyXDAO();
     int max = Integer.MIN_VALUE;
-
+    int br = 0;
     Term xTerm = xdao.getTermByAccId(req.getParameter("term1"));
     Term yTerm = xdao.getTermByAccId(req.getParameter("term2"));
 
@@ -471,6 +471,7 @@
               <% } %>
           </div>
          <%
+          br++;
       }
        %>
     </div>
@@ -714,10 +715,20 @@ while (it2.hasNext()) {
 %>
 </script>
 
-
-<br><br><br><br><br><br><br><br><br><br>
-
-
+<%
+if (br<=16) {
+    out.println("<br><br><br><br><br>");
+    for (int j = 0; j < br/2; j++) {
+        out.println("<br>");
+    }
+}
+else {
+    out.println("<br><br><br><br><br><br><br><br><br><br><br><br>");
+    for (int j = 0; j < br; j++) {
+        out.println("<br>");
+    }
+}
+%>
 
 <%
 } catch (Exception e) {
