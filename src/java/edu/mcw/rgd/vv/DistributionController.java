@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -253,9 +254,11 @@ public class DistributionController extends HaplotyperController {
         }else{
           //  regionList1=gSymbols;
         }
-
+     String geneList=  regionList.stream().filter(p->!p.contains("|")).collect(Collectors.joining("+"));
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
+        request.setAttribute("geneList", geneList);
+
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("resultHash", resultHash);
         request.setAttribute("json",sb.toString() );
