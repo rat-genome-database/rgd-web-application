@@ -276,7 +276,12 @@ public class AnnotationFormatter {
             else
                 objectKey = 0; // determine the object type by querying the db
         }
-        info = info.replaceAll("[()]", "");
+        if(a.getTermAcc().substring(0,2).equalsIgnoreCase("GO")
+                || a.getTermAcc().substring(0,2).equalsIgnoreCase("HP")
+                || a.getTermAcc().substring(0,2).equalsIgnoreCase("MP")){
+            info = info.replaceAll("[()]", "");
+        }
+
         String[] multipleInfos;
         if(!info.contains("|") && !info.contains("UniProt")){
             multipleInfos = info.split("(,\\b)|\\b,|([|;])");
