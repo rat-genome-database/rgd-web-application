@@ -12,6 +12,7 @@ import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
+import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -76,7 +77,7 @@ public class VVService {
 
     }
 
-    public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
+    public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -87,40 +88,46 @@ public class VVService {
         searchRequest.scroll(TimeValue.timeValueMinutes(1L));
 
         List<SearchHit> searchHits= new ArrayList<>();
-        if(req.getParameter("showDifferences").equals("true")){
+        try {
+            if (req.getParameter("showDifferences").equals("true")) {
 
-            SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-            String scrollId=sr.getScrollId();
-            searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-
-           do {
-                SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
-                sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
-                scrollId = sr.getScrollId();
+                SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+                String scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-            }while (sr.getHits().getHits().length!=0);
-            return this.excludeCommonVariants(searchHits, vsb);
 
-        }else {
-            SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-            String scrollId=sr.getScrollId();
+                do {
+                    SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+                    scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                    sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
+                    scrollId = sr.getScrollId();
+                    searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+                } while (sr.getHits().getHits().length != 0);
+                return this.excludeCommonVariants(searchHits, vsb);
 
-            searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+            } else {
+                SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+                String scrollId = sr.getScrollId();
 
-           do {
-                SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                scrollRequest.scroll(TimeValue.timeValueSeconds(60));
-                sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
-                scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-            }while (sr.getHits().getHits().length!=0);
-            return searchHits;
+
+                do {
+                    SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+                    scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                    sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
+                    scrollId = sr.getScrollId();
+                    searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+                } while (sr.getHits().getHits().length != 0);
+                return searchHits;
+            }
+        }catch (Exception e){
+           if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
+               throw new VVException("Too many bukckets. Please limit number of samples/genes");
+
         }
-
+        return null;
     }
 
-   public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
+   public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
@@ -130,8 +137,15 @@ public class VVService {
             srb.aggregation(this.buildAggregations("sampleId"));
        SearchRequest searchRequest=new SearchRequest(variantIndex);
        searchRequest.source(srb);
-       return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-    }
+       try {
+           return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+       } catch (IOException e) {
+           if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
+               throw new VVException("Too many bukckets. Please limit number of samples/genes");
+
+       }
+       return null;
+   }
     public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
 
         List<SearchHit> nonSharedVariants=new ArrayList<>();
