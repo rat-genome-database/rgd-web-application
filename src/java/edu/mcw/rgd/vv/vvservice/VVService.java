@@ -120,11 +120,11 @@ public class VVService {
                 return searchHits;
             }
         }catch (Exception e){
-         //  if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
+           if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
                throw new VVException("Too many bukckets. Please limit number of samples/genes");
 
         }
-      //  return null;
+        return null;
     }
 
    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
@@ -140,11 +140,11 @@ public class VVService {
        try {
            return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
        } catch (IOException e) {
-          // if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
+           if( e.getMessage().contains("too_many_buckets_exception") && vsb.getMapKey()==631)
                throw new VVException("Too many bukckets. Please limit number of samples/genes");
 
        }
-
+       return null;
    }
     public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
 
