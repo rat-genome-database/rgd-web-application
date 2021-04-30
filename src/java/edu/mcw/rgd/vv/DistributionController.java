@@ -65,6 +65,7 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+        request.setAttribute("speciesTypeKey", speciesTypeKey);
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
@@ -260,7 +261,7 @@ public class DistributionController extends HaplotyperController {
      String geneList=  regionList.stream().filter(p->!p.contains("|")).collect(Collectors.joining("+"));
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
-        request.setAttribute("geneList", geneList);
+        request.setAttribute("geneListStr", geneList);
 
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("resultHash", resultHash);
