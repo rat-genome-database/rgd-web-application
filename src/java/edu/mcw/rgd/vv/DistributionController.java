@@ -74,7 +74,7 @@ public class DistributionController extends HaplotyperController {
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
-        //   try {
+        try {
         List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
         GeneDAO gdao = new GeneDAO();
@@ -161,8 +161,11 @@ public class DistributionController extends HaplotyperController {
             vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
             // resultHash = vdao.getVariantToGeneCountMap(vsb);
-
-            resultHash =this.getVariantToGeneCountMap(vsb, req);
+            try {
+                resultHash = this.getVariantToGeneCountMap(vsb, req);
+            }catch (VVException e){
+                throw e;
+            }
 
             System.out.println("RESULT HASH SIZE: "+ resultHash.size());
 
@@ -275,19 +278,17 @@ public class DistributionController extends HaplotyperController {
         }*/
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
-        //   }catch (Exception e) {
-        /*    errors.add(e.getMessage());
+         }catch (Exception e) {
+           errors.add(e.getMessage());
             request.setAttribute("error", errors);
-            request.setAttribute("json",this.sb.toString() );
             request.setAttribute("regionList", regionList);
-            //    request.setAttribute("sampleIds", sampleIds);
-            request.setAttribute("sampleIds", sampleIdsFromResultSet);
+            request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("resultHash", resultHash);
             request.setAttribute("vsb", vsb);
             request.setAttribute("maxValue", maxValue);
 
-            return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");*/
-        //   }
+            return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");
+         }
 
     }
 
@@ -366,7 +367,7 @@ public class DistributionController extends HaplotyperController {
         return !(req.getParameter("rdo_acc_id").isEmpty() && req.getParameter("pw_acc_id").isEmpty()
                 && req.getParameter("mp_acc_id").isEmpty() && req.getParameter("chebi_acc_id").isEmpty());
     }
-    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws IOException, VVException {
+    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
 
         Set<String> geneKeys=new HashSet<>();
