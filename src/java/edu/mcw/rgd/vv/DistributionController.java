@@ -279,6 +279,9 @@ public class DistributionController extends HaplotyperController {
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
          }catch (Exception e) {
+            if(e.getMessage().contains("Elasticsearch exception"))
+                errors.add("Please reduce the number of samples or genes using the EDIT buttons");
+            else
            errors.add(e.getMessage());
             request.setAttribute("error", errors);
             request.setAttribute("regionList", regionList);
