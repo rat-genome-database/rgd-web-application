@@ -280,9 +280,13 @@ public class AnnotationFormatter {
             else
                 objectKey = 0; // determine the object type by querying the db
         }
-        if(a.getTermAcc().substring(0,2).equalsIgnoreCase("GO")
-                || a.getTermAcc().substring(0,2).equalsIgnoreCase("HP")
-                || a.getTermAcc().substring(0,2).equalsIgnoreCase("MP")){
+        if(a.getAspect().equalsIgnoreCase("P")//GO
+                || a.getAspect().equalsIgnoreCase("C")//GO
+                || a.getAspect().equalsIgnoreCase("F")//GO
+                || (a.getAspect().equalsIgnoreCase("H") && !a.getDataSrc().equalsIgnoreCase("RGD"))//HP
+                || a.getAspect().equalsIgnoreCase("N"))//MP
+
+            {
             info = info.replaceAll("[()]", "");
         }
 
