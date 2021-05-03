@@ -5,7 +5,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
 <%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
-
+<%@ include file="/common/headerarea.jsp" %>
 <style>
 
     .carpeLabel {

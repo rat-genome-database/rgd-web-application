@@ -12,7 +12,12 @@
 <%@ page import="edu.mcw.rgd.datamodel.VariantResult" %>
 <%@ page import="edu.mcw.rgd.util.Zygosity" %>
 <%@ page import="java.io.StreamCorruptedException" %>
+<%
+    String pageTitle = "Variant Visualizer (Variants)";
+    String headContent = "";
+    String pageDescription = "View the Variants of selected position or genes";
 
+%>
 <%
     try {
 
@@ -141,12 +146,13 @@
                 <div style="font-size:12px; padding: 6px; color:#063968;">
                     <span style=" font-weight:700; font-size:12px;"><%=gene.getSymbol()%></span> : <%=dg.buildDescription(gene.getRgdId())%>
                 </div>
-                <%
-                    }
-                %>
             </td>
         </tr>
     </table>
+        <%
+            }
+        %>
+
 
     <%
         if (positions.size()==0) {
@@ -247,8 +253,7 @@
                     } //end else
                 %>
 
-            </td>
-            <td>
+
 
                 <script></script>
 
@@ -784,3 +789,4 @@
     e.printStackTrace();
     }
  %>
+<%@ include file="/common/footerarea.jsp" %>

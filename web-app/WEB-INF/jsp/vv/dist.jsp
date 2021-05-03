@@ -4,7 +4,12 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.datamodel.VariantSearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%
+    String pageTitle = "Variant Visualizer (Dist)";
+    String headContent = "";
+    String pageDescription = "Dist";
 
+%>
 <%
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
     int mapKey = (Integer) request.getAttribute("mapKey");
@@ -302,3 +307,4 @@
 </script>
 
 
+<%@ include file="/common/footerarea.jsp" %>
