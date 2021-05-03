@@ -192,7 +192,11 @@ public class AnnotationFormatter {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
+                if(a.getRgdObjectKey() == 5){
+                    rec.append(a.getWithInfo());
+                }else{
+                    rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
+                }
             }
 
   if (!index.keySet().contains(i)) {
