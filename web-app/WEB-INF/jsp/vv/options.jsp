@@ -299,3 +299,4 @@
 
 
 </form>
+<%@ include file="/common/footerarea.jsp" %>
