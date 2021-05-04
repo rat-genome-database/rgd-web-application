@@ -199,8 +199,18 @@ public class GeneTermAnnotationsBean {
             if (a.getNotes() == null) {
                 rec.append("&nbsp;");
             } else {
+                if(a.getAspect().equalsIgnoreCase("P")//GO
+                        || a.getAspect().equalsIgnoreCase("C")//GO
+                        || a.getAspect().equalsIgnoreCase("F")//GO
+                        || (a.getAspect().equalsIgnoreCase("H") && !a.getDataSrc().equalsIgnoreCase("RGD"))//HP
+                        || a.getAspect().equalsIgnoreCase("N"))//MP
 
-                rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
+                {
+                    rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
+                } else{
+                    rec.append(a.getNotes());
+                }
+
             }
 
             if (a.getXrefSource() == null) {
