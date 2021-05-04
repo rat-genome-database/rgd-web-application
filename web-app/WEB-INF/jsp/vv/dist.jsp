@@ -38,7 +38,19 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
+<style>
+    #distTable td{
+        max-width: 25px;
 
+    }
+    #distTable .container{
+        padding-left: 0;
+    }
+    * {
+        box-sizing: unset;
+    }
+
+</style>
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 
@@ -173,7 +185,7 @@
                 <div id="wrapperRegion"
                      style="overflow:auto; width:<%=divWidth%>px; height:<%=tableHeight + 145 + sampleIds.size()%>; top: -1; position: relative;">
 
-                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
+                    <table id="distTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
 
                         <tr>
                             <%

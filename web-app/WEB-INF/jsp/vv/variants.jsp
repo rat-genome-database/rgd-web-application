@@ -25,6 +25,19 @@
 <link rel="stylesheet" href="/rgdweb/js/javascriptPopUpWindow/GAdhtmlwindow.css" type="text/css" />
 <script type="text/javascript" src="/rgdweb/js/javascriptPopUpWindow/dhtmlwindow.js">
 </script>
+<style>
+    #colTable td{
+        max-width: 25px;
+
+    }
+    #colTable .container{
+        padding-left: 0;
+    }
+    * {
+        box-sizing: unset;
+    }
+
+</style>
 <%
 
     HashMap backColors = new HashMap();
@@ -126,7 +139,7 @@
 %>
 <%@ include file="menuBar.jsp"%>
 <br>
-<ul class="list-unstyled">
+
 <div id="blueBackground" style="padding:15px;background-image: url(/rgdweb/common/images/bg3.png);height:100%">
     <%
         int positionCount = snplotyper.getPositions().size();
@@ -275,7 +288,7 @@
                     <%
                         Iterator cit;
                     %>
-                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
+                    <table id="colTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
                         <tr>
                             <%
                                 if(mapKey != 631) {
@@ -784,7 +797,6 @@
 
 </div>
 </div>
-</ul>
         <% } catch (Exception e)      {
     e.printStackTrace();
     }
