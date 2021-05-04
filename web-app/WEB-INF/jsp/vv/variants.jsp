@@ -126,7 +126,7 @@
 %>
 <%@ include file="menuBar.jsp"%>
 <br>
-<div class="list-unstyled">
+<ul class="list-unstyled">
 <div id="blueBackground" style="padding:15px;background-image: url(/rgdweb/common/images/bg3.png);height:100%">
     <%
         int positionCount = snplotyper.getPositions().size();
@@ -638,7 +638,7 @@
 
 
 
-</div>
+
 
 <br><br>
 
@@ -784,7 +784,7 @@
 
 </div>
 </div>
-
+</ul>
         <% } catch (Exception e)      {
     e.printStackTrace();
     }

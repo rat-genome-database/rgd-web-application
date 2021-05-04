@@ -59,7 +59,7 @@
 
 
 %>
-<div class="list-unstyled">
+<ul class="list-unstyled">
 
 <div class="typerMat" id="blueBackground">
     <div class="typerTitle">
@@ -281,7 +281,7 @@
 
 </div>
 
-</div>
+</ul>
 <br><br>
 
 <script>

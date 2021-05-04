@@ -1,3 +1,9 @@
+<%
+    String pageTitle = "Variant Visualizer (Download)";
+    String headContent = "";
+    String pageDescription = "Download genes and variants from VV";
+
+%>
 <%@ include file="carpeHeader.jsp" %>
 <%@ include file="menuBar.jsp" %>
 <br>
