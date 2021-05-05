@@ -46,9 +46,6 @@
     #distTable .container{
         padding-left: 0;
     }
-    * {
-        box-sizing: unset;
-    }
 
 </style>
 <%@ include file="mapStyles.jsp" %>
@@ -71,7 +68,7 @@
 
 
 %>
-<ul class="list-unstyled">
+
 
 <div class="typerMat" id="blueBackground">
     <div class="typerTitle">
@@ -138,7 +135,7 @@
 
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="center">
-                            <div class="snpLabel">
+                            <div class="snpLabel" style="height: 25px">
                                 <!--form action="dist.html" method="post" target="_blank" -->
                                     <%if(request.getParameter("geneList")!=null){%>
                                     <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
@@ -293,7 +290,7 @@
 
 </div>
 
-</ul>
+
 <br><br>
 
 <script>

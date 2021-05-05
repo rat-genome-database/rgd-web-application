@@ -33,9 +33,6 @@
     #colTable .container{
         padding-left: 0;
     }
-    * {
-        box-sizing: unset;
-    }
 
 </style>
 <%
