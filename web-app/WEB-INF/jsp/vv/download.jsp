@@ -91,4 +91,5 @@ Select annotation to include in your download.
 
 The VCF repository contains files used to populate the variant visualizer
 <br><br>
-<a href="ftp://ftp.rgd.mcw.edu/pub/strain_specific_variants" style="font-size:16px;">Browse the VCF File Repository</a>
+<a href="https://download.rgd.mcw.edu//pub/strain_specific_variants" style="font-size:16px;">Browse the VCF File Repository</a>
+<%@ include file="/common/footerarea.jsp" %>
