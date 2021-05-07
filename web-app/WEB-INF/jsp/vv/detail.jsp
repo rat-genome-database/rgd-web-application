@@ -7,7 +7,12 @@
 <%@ page import="edu.mcw.rgd.dao.impl.TranscriptDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%
+    String pageTitle = "Variant Visualizer (Details)";
+    String headContent = "";
+    String pageDescription = "Details";
 
+%>
 <%@ include file="carpeHeader.jsp"%>
 
 <style>

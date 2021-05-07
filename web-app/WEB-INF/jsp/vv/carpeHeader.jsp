@@ -149,6 +149,9 @@
     *{
         box-sizing: unset;
     }
+    table {
+        border-collapse: unset;
+    }
 </style>
 
 <script>
