@@ -20,6 +20,7 @@
             <mvc:mapping path="/curation/nomen/*" />
             <mvc:mapping path="/curation/pathway/*" />
             <mvc:mapping path="/curation/phenominer/*" />
+            <mvc:mapping path="/curation/strainFileUpload*" />
             <beans:bean id="authInterceptor" class="edu.mcw.rgd.web.AuthenticationInterceptor"></beans:bean>
         </mvc:interceptor>
     </mvc:interceptors>

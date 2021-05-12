@@ -37,6 +37,7 @@
 <script type="text/javascript">
     function navigatePage(form) {
         form.action = form.objectType.options[form.objectType.options.selectedIndex].value;
+
         form.submit();
     }
 </script>
@@ -130,8 +131,10 @@
 <a href="statusUpdate.html" >Update Object Status</a>
 <!--<a href="notesAdd.html" >Add Note</a>-->
 
+<hr>
 <h3>Gene Merge</h3>
 <form action="geneMerge.html">
+
 <TABLE>
     <TR>
         <td class="label">Gene RGD ID From:</td><td><input type="text" name="rgdIdFrom" value="" /></td>
@@ -141,8 +144,22 @@
 </table>
 </form>
 
+<hr>
+<h3>Strain Merge</h3>
+<form action="strainMerge.html">
+    <table>
+        <tr>
+            <td class="label">Strain RGD ID From:</td><td><input type="text" name="rgdIdFrom" value="" /></td>
+            <td class="label">Strain RGD ID To:</td><td><input type="text" name="rgdIdTo" value="" /></td>
+            <td><input type="submit" name="Submit" value="Submit"/></td>
+        </tr>
+    </table>
+</form>
+
+<hr>
 <h3>Drop Manual Orthologs</h3>
 <form action="dropManualOrthologs.html">
+
 <TABLE>
     <TR>
         <td><input type="submit" name="Submit" value="Go to Drop Manual Orthologs Tool"/></td>
@@ -150,8 +167,10 @@
 </table>
 </form>
 
+<hr>
 <h3>RDO Term Merge</h3>
 <form action="termMerge.html">
+
 <TABLE>
     <TR>
         <td class="label">RDO Term Acc From:</td><td><input type="text" name="termAccFrom" value="" /></td>

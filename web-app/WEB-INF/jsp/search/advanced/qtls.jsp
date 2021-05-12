@@ -21,11 +21,9 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-<!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
- <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
-
- <script type="text/javascript">
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
+<script type="text/javascript">
     function addParam(name, value) {
         var re = new RegExp(name + "=[^\&]*");
         if( re.exec(location.href) != null ) {
@@ -238,28 +236,28 @@ $(document).ready(function(){
             }
 
         %>
-<tr>
-    <td width="10%"><b>Species:</b></td>
-    <td colspan=2>
-        <!--select name="speciesType" onChange='addParam("speciesType",this.value)'>
-            <-% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
-                <-% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) { %>
-                    <option value="<-%=speciesTypeKey%>" <-%=selSpecies==speciesTypeKey?"selected":""%>><-%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                <-% } %>
-            <-% } %>
-        </select-->
-        <select name="species">
-            <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
-            <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
-            if(speciesTypeKey==species){%>
-            <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-            <%}else{%>
-            <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-            <% } }%>
-            <% } %>
-        </select>
-    </td>
-</tr>
+        <tr>
+            <td width="10%"><b>Species:</b></td>
+            <td colspan=2>
+                <!--select name="speciesType" onChange='addParam("speciesType",this.value)'>
+                    <-% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                        <-% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) { %>
+                            <option value="<-%=speciesTypeKey%>" <-%=selSpecies==speciesTypeKey?"selected":""%>><-%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                        <-% } %>
+                    <-% } %>
+                </select-->
+                <select name="species">
+                    <% for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) { %>
+                    <% if (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3) {
+                        if(speciesTypeKey==species){%>
+                    <option selected><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                    <%}else{%>
+                    <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                    <% } }%>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
 
 <tr>
     <td colspan="4" align="right"><input type="submit" value="Search <%=title%>" /></td>
@@ -274,7 +272,7 @@ $(document).ready(function(){
 
 </form>
 
-<!-- <a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br> -->
+<%--<a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br>--%>
 <!--a href="/wg/searchHelp">View all search features</a-->
 </div>
 <%@ include file="/common/footerarea.jsp"%>

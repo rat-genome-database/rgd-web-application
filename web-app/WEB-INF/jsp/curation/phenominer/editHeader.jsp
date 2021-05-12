@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/pheno.css">
 
-<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="/QueryBuilder/css/jquery.autocomplete.css" type="text/css" />
 
 <script type="text/javascript">
     function edit(idName) {
