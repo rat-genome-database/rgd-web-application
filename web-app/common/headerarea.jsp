@@ -127,7 +127,6 @@
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 <%@ include file="/common/helpFeedbackChat.jsp" %>
 
-
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td>
@@ -209,7 +208,7 @@
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
-                                            <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
+                                         <!--   <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a> -->
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
@@ -222,7 +221,7 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
                                             <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                            <a href="/rgdweb/vcmap/vcmap.jnlp">VCMap_org</a>
+                                            <a href="/rgdweb/vcmap.jnlp">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">

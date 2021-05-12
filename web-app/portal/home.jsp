@@ -322,7 +322,7 @@
             $scope.portalLinks["DOID:1287"] = {};
             $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
             $scope.portalLinks["DOID:1287"].links = "/wg/cardio_portal_related_links/";
-            $scope.portalLinks["DOID:1287"].models = "/wg/cardiovascular-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:1287"].models = "";
 
             $scope.portalLinks["DOID:9351"] = {};
             $scope.portalLinks["DOID:9351"].tools = "/wg/diabetes_portal_tools/";
@@ -347,7 +347,7 @@
             $scope.portalLinks["DOID:9008231"] = {};
             $scope.portalLinks["DOID:9008231"].tools = "/wg/obesity_portal_tools/";
             $scope.portalLinks["DOID:9008231"].links = "/wg/obesity_portal_related_links/";
-            $scope.portalLinks["DOID:9008231"].models = "/wg/obesity-metabolic-syndrome-rat-strain-models/";
+            $scope.portalLinks["DOID:9008231"].models = "";
 
             $scope.portalLinks["DOID:557"] = {};
             $scope.portalLinks["DOID:557"].tools = "/wg/portals/renal-disease-portal-tools/";

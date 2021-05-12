@@ -1,7 +1,6 @@
 package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.datamodel.RgdId;
-import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
@@ -178,13 +177,7 @@ public class GeneTermAnnotationsBean {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                if(this.getRgdObject() instanceof Strain){
-                    rec.append(a.getWithInfo());
-                }else{
-                    rec.append(AnnotationFormatter.formatXdbUrls(a.getWithInfo(), a.getRgdObjectKey()));
-                }
-
-
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getWithInfo(), a.getRgdObjectKey()));
             }
 
             if( a.getRefRgdId()!=null && a.getRefRgdId()>0 ) {
@@ -199,18 +192,8 @@ public class GeneTermAnnotationsBean {
             if (a.getNotes() == null) {
                 rec.append("&nbsp;");
             } else {
-                if(a.getAspect().equalsIgnoreCase("P")//GO
-                        || a.getAspect().equalsIgnoreCase("C")//GO
-                        || a.getAspect().equalsIgnoreCase("F")//GO
-                        || (a.getAspect().equalsIgnoreCase("H") && !a.getDataSrc().equalsIgnoreCase("RGD"))//HP
-                        || a.getAspect().equalsIgnoreCase("N"))//MP
 
-                {
-                    rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
-                } else{
-                    rec.append(a.getNotes());
-                }
-
+                rec.append(AnnotationFormatter.formatXdbUrls(a.getNotes(), a.getRgdObjectKey()).replace("; ", "<br><br>")+"<br><br>");
             }
 
             if (a.getXrefSource() == null) {

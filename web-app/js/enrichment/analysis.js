@@ -327,7 +327,7 @@ function EnrichmentVue(divId, hostname) {
                     if (this.info[i].name == view) {
                         if (this.info[i].value.length != 0) {
                             if (this.selected == view) {
-                                if(v.currentSort == 'count' || v.currentSort == 'term' || v.currentSort == 'refCount' || v.currentSort == 'oddsratio') {
+                                if(v.currentSort == 'count' || v.currentSort == 'term' || v.currentSort == 'refCount') {
                                     return this.info[i].value.sort(function (a, b) {
                                         let modifier = 1;
                                         if (v.currentSortDir === 'desc') modifier = -1;

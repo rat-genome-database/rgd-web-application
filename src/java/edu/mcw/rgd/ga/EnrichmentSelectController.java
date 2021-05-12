@@ -13,15 +13,6 @@ import java.util.ArrayList;
 public class EnrichmentSelectController extends GAController {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ArrayList error = new ArrayList();
-        ArrayList warning = new ArrayList();
-        ArrayList status = new ArrayList();
-
-        HttpRequestFacade req = new HttpRequestFacade(request);
-
-        request.setAttribute("error", error);
-        request.setAttribute("status", status);
-        request.setAttribute("warn", warning);
 
         if(request.getParameter("species") != null)
         return new ModelAndView("/WEB-INF/jsp/enrichment/start.jsp?species="+request.getParameter("species"), "hello", null);

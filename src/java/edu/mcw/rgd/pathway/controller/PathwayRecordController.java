@@ -60,7 +60,7 @@ public class PathwayRecordController implements Controller {
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
         String  entryTerm="";
-        
+
         if(req.getParameter("acc_id").equals("")){
             error.add("Pathway term not supplied");
             ModelAndView mv = new ModelAndView("/WEB-INF/jsp/curation/pathway/home.jsp");

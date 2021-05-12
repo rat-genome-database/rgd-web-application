@@ -248,7 +248,7 @@ $(document).ready(function(){
 
 </form>
 
-<%--<a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br>--%>
+<a href="/objectSearch/qtlSubmit.jsp?species=Rat&go=Submit">Switch to classic QTL search</a><br>
 <a href="/wg/searchHelp">View all search features</a>    
 </div>
 <%@ include file="/common/footerarea.jsp"%>

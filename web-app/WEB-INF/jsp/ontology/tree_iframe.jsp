@@ -90,8 +90,6 @@
       // turn synonym name into a link from MESH and OMIM ids
       if( syn.getName().startsWith("MESH:") ) { %>
           <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-      <% } else if( syn.getName().startsWith("OMIM:PS") ) { %>
-          <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
       <% } else if( syn.getName().startsWith("OMIM:") ) { %>
           <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
       <% } else if( syn.getName().startsWith("RGD ID:") ) { %>

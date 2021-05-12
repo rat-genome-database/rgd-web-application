@@ -307,7 +307,6 @@ $(function() {
                     url: gUrl
                 }
             ].map(function (link) {
-                if(typeof(link.url)!='undefined')
                 return '<a target="_blank" href="' + link.url + '">' + link.name + '</a>';
             }).join('<br />\n'),
             position: {
@@ -766,9 +765,11 @@ $("input[name='intType']").click(function(){
                         var str = value.toUpperCase();
                         $.each(nodes, function (index, node) {
                             var geneCount = this.data('geneSymbolCount');
-                            for (var i = 0; i <= geneCount; i++) {
+                            for (var i = 0; i < geneCount; i++) {
                             var str1= node.data('name').toLowerCase();
+                                console.log("str: "+ str);
                                 var str2= "(" + str.toLowerCase() +")";
+                               console.log("str2: " + str2);
                             if (node.data('id') == str || node.data('gene'+ i) == str || str1.indexOf(str2)!=-1) {
                                 node.addClass('Q');
                             }

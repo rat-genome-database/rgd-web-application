@@ -23,7 +23,11 @@
 
 <%@ include file="/common/compactHeaderArea.jsp" %>
 
-
+<!--
+<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
+<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.custom.js"></script>
+<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+-->
 <style>
 .rootont {
     float:left;

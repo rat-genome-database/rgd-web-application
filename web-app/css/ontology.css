@@ -71,7 +71,6 @@ a.binoculars { background-image:url("/rgdweb/images/binoculars.png");background-
 .objtag_qtl    {background-color:#3294d3; padding-left:3px; padding-right:3px; text-align:center;}
 .objtag_strain {background-color:#76ac1a; padding-left:3px; padding-right:3px; text-align:center;}
 .objtag_variant{background-color:#bb9c61; padding-left:3px; padding-right:3px; text-align:center;}
-.objtag_cellline{background-color:lightsalmon; padding-left:3px; padding-right:3px; text-align:center;}
 
 #browser_graph /* term browser - window with graph at the page bottom */
 { text-align:center; }

@@ -220,10 +220,6 @@ public class DaoUtils {
                 if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
                     buf.append(" \"").append(xref.getXrefDescription()).append("\"");
                 }
-
-                if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
-                    buf.append(" \"").append(xref.getXrefDescription()).append("\"");
-                }
             }
             xrefs = buf.toString();
         }

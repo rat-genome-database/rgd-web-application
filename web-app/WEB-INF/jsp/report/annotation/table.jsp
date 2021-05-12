@@ -33,10 +33,8 @@
 <%
     if( bean.getAccId().startsWith("CHEBI") ) {
         out.write("<h3>"+objectType+" - CHEMICAL INTERACTIONS REPORT</h3>\n");
-        pageTitle = objectType + "chemical Interaction Report - " + RgdContext.getLongSiteName(request);
     } else {
         out.write("<h3>"+objectType+" - TERM ANNOTATION REPORT</h3>\n");
-        pageTitle = objectType + "Term Annotation Report - " + RgdContext.getLongSiteName(request);
     }
 %>
 <table><tr><td valign="top">

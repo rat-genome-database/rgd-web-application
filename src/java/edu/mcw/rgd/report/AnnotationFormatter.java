@@ -192,11 +192,7 @@ public class AnnotationFormatter {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                if(a.getRgdObjectKey() == 5){
-                    rec.append(a.getWithInfo());
-                }else{
-                    rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
-                }
+                rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
             }
 
   if (!index.keySet().contains(i)) {
@@ -280,16 +276,7 @@ public class AnnotationFormatter {
             else
                 objectKey = 0; // determine the object type by querying the db
         }
-        if(a.getAspect().equalsIgnoreCase("P")//GO
-                || a.getAspect().equalsIgnoreCase("C")//GO
-                || a.getAspect().equalsIgnoreCase("F")//GO
-                || (a.getAspect().equalsIgnoreCase("H") && !a.getDataSrc().equalsIgnoreCase("RGD"))//HP
-                || a.getAspect().equalsIgnoreCase("N"))//MP
-
-            {
-            info = info.replaceAll("[()]", "");
-        }
-
+        info = info.replaceAll("[()]", "");
         String[] multipleInfos;
         if(!info.contains("|") && !info.contains("UniProt")){
             multipleInfos = info.split("(,\\b)|\\b,|([|;])");
@@ -394,6 +381,7 @@ public class AnnotationFormatter {
                     "<td><a href=\"" + Link.it(a.getAnnotatedObjectRgdId(), a.getRgdObjectKey()) + "\" class='geneList" + a.getSpeciesTypeKey() + "'>" + objSymbol +
                     " </a><span style=\"font-size:10px;\">&nbsp;(" + objName + ")</span></td></tr>");
         }
+        //<td><img src='/rgdweb/common/images/bullet_green.png' /></td>
 
         return this.buildTable(records, columns);
     }
@@ -422,6 +410,8 @@ public class AnnotationFormatter {
         str += "&term=" + termAcc +  "\">" + text + "</a>";
         return str;
     }
+
+    //" title="see all interactions and original references for this gene and chemical\
 
     /**
      * return a subset of annotations matching given aspect
