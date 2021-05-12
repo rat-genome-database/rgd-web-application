@@ -175,9 +175,8 @@
 <br><br>
 <div style="padding:30px; border: 3px solid #FFCF3E; font-size:20px;">
 
-    Your selection has <%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids)%> annotated objects.
+    This term has <%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids)%> annotated objects.
 
-    The maximum number of objects that can be shown is 2000.
     The list is too large to display.  <br><br>
 
     <li><a style="font-size:18px;" href="/rgdweb/ontology/view.html?acc_id=<%=bean.getAccId()%>">Select a more specific term using the term browser</a>
