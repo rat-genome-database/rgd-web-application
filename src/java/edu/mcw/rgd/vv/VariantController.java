@@ -148,6 +148,7 @@ public class VariantController extends HaplotyperController {
                         v.setVariantNucleotide((String) m.get("varNuc"));
                         v.setGenicStatus((String) m.get("genicStatus"));
                         v.setPaddingBase((String) m.get("paddingBase"));
+                        if(m.get("regionName")!=null)
                         v.setRegionName(m.get("regionName").toString());
                         v.setVariantType((String) m.get("variantType"));
                         v.setSampleId((int) m.get("sampleId"));
@@ -171,7 +172,7 @@ public class VariantController extends HaplotyperController {
 
                         if(vsb.getMapKey()==38){
                             VariantInfo clinvar=getClinvarInfo(v.getId());
-                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
+//                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                             vr.setClinvarInfo(clinvar);
                         }
                         variantResults.add(vr);
