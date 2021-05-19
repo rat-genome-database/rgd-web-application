@@ -36,7 +36,7 @@ public class ClientInit {
 
     }
     private static RestHighLevelClient getInstance() {
-        Properties props= getProperties();
+    //    Properties props= getProperties();
 
         return new RestHighLevelClient(
                 RestClient.builder(
