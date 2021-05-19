@@ -7,6 +7,8 @@
                 <property name="informaticPrescreener"><ref bean="informaticPrescreener"/></property>
        </bean>
     <bean id="elasticsearchclient" class="edu.mcw.rgd.search.elasticsearch.client.ClientInit" init-method="init" destroy-method="destroy"/>
+    	<!--bean id="variantClient" class="edu.mcw.rgd.vv.vvservice.VariantIndexClient" init-method="init" destroy-method="destroy"/-->
+
     <bean id="informaticPrescreener" class="edu.mcw.rgd.nomenclatureinterface.InformaticPrescreener">
 	    <property name="untouchableNames">
 			<list>
