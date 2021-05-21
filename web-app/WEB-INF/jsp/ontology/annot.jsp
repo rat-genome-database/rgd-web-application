@@ -305,6 +305,32 @@ try {
 </c:if>
 
 
+<c:if test="${bean.speciesTypeKey==5}">
+var gviewer = null;
+onload= function() {
+
+    try {
+        gviewer = new Gviewer("gviewer", 200, 750);
+        gviewer.imagePath = "/rgdweb/gviewer/images";
+        gviewer.exportURL = "/rgdweb/report/format.html";
+        gviewer.annotationTypes = new Array("gene","qtl","strain");
+        gviewer.genomeBrowserURL = "/jbrowse/?data=data_bonobo1_1&tracks=ARGD_curated_genes";
+        //gviewer.imageViewerURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes&menu=&nav=&overview=&tracklist=&loc=";
+        gviewer.enableAdd=true;
+        gviewer.genomeBrowserName = "JBrowse";
+        gviewer.regionPadding=2;
+        gviewer.annotationPadding = 1;
+        gviewer.loadBands("/rgdweb/gviewer/data/bonobo_ideo.xml");
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?acc_id=<%=bean.getAccId()%>&species_type=<%=bean.getSpeciesTypeKey()%>&with_childs=<%=bean.isWithChildren()?1:0%>");
+        gviewer.addZoomPane("zoomWrapper", 200, 750);
+    }catch (err) {
+
+    }
+
+}
+</c:if>
+
+
 </script>
 <% } %>
 
