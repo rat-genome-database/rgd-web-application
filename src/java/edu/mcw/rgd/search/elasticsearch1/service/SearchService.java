@@ -215,9 +215,6 @@ public class SearchService {
 
     public void reInitiateClient(){
         ClientInit esClient= new ClientInit();
-        List<String> hostNames= esClient.getHostNames();
-        ClientInit.setHosts(hostNames);
-        ClientInit.setClient(null);
         esClient.init();
 
     }

@@ -171,7 +171,6 @@ if(parameters==null){
     </tr>
 </table>
 </div>
-
 <div id="apps" style="z-index:5000; display:none; position:absolute; top:25; left:50; background-color:white; border: 2px ridge black;">
     <table border=0 cellpadding="5">
         <tr><td align="right" colspan=2 style="background-color:#771428;"><a href="javascript:hideApps(); void(0);"><img src="/rgdweb/js/windowfiles/close.gif" height=20 width=20 border=0/></a> </td></tr>
@@ -194,7 +193,9 @@ if(parameters==null){
             <% if (request.getRequestURL().indexOf("variants") > 0 || request.getRequestURL().indexOf("dist") > 0) {    %>
             <tr>
                     <td>GA Tool:  All genes in the current region will be annotated by the Gene Annotater (GA Tool).</td>
-                    <td><a  style="width:200px; text-align: center;" class="classname" href="/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=25&x=30&x=45&x=29&x=44&x=20&x=23&x=32&x=27&x=17&x=2&x=42&x=41&x=9&x=3&x=5&x=28&x=12&x=13&x=8&x=1&x=10&x=35&x=7&x=6&x=38&x=39&x=34&x=15&x=18&x=36&x=37&x=21&x=31&x=43&x=24&x=33&x=26&x=22&x=46&x=4&x=40&x=14&ortholog=1&ortholog=2&species=3&chr=1&start&genes=<%=geneList%>">Annotate This Region</a></td>
+                    <td>
+                        <a  style="width:200px; text-align: center;" class="classname" href="/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=25&x=30&x=45&x=29&x=44&x=20&x=23&x=32&x=27&x=17&x=2&x=42&x=41&x=9&x=3&x=5&x=28&x=12&x=13&x=8&x=1&x=10&x=35&x=7&x=6&x=38&x=39&x=34&x=15&x=18&x=36&x=37&x=21&x=31&x=43&x=24&x=33&x=26&x=22&x=46&x=4&x=40&x=14&ortholog=1&ortholog=2&species=${speciesTypeKey}&chr=1&start&genes=${geneListStr}&mapKey=${mapKey}">
+                            Annotate This Region</a></td>
             </tr>
             <tr>
                     <td>Download this graph to Excel or a text file</td>
