@@ -10,6 +10,7 @@
     String pageDescription = "Dist";
 
 %>
+<%@ include file="/common/headerarea.jsp" %>
 <%
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
     int mapKey = (Integer) request.getAttribute("mapKey");

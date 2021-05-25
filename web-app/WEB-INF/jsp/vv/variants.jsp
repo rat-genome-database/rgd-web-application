@@ -18,6 +18,7 @@
     String pageDescription = "View the Variants of selected position or genes";
 
 %>
+<%@ include file="/common/headerarea.jsp" %>
 <%
     try {
 

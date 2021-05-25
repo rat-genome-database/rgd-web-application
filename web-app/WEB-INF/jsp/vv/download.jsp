@@ -4,6 +4,7 @@
     String pageDescription = "Download genes and variants from VV";
 
 %>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 <%@ include file="menuBar.jsp" %>
 <br>

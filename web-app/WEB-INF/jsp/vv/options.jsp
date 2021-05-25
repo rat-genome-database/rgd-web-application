@@ -12,7 +12,7 @@
     edu.mcw.rgd.datamodel.Map currentMap = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey")));
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
 %>
-
+<%@ include file="/common/headerarea.jsp" %>
 <script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
 <script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
 <link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />

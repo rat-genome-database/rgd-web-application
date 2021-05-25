@@ -7,7 +7,7 @@ String pageTitle = "Variant Visualizer (Define Region)";
 String headContent = "";
 String pageDescription = "Define Region";
 %>
-<%--<%@ include file="/common/headerarea.jsp" %>--%>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
