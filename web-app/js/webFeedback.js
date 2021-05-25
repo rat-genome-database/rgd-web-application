@@ -10,10 +10,6 @@ function closeForm() {
 function hideButtons() {
     var div = document.getElementById('divButtons');
     var div2 = document.getElementById("hiddenBtns");
-    // var now = new Date();
-    // var time = now.getTime();
-    // var expireTime = time + (1000 * 60 * 60 * 24);
-    // now.setTime(expireTime);
     document.cookie = 'hideMe=true;path=/';
     // alert(document.cookie);
     if (div.style.display !== 'none') {
@@ -32,7 +28,7 @@ function checkCookie() {
     }
 
 }
-window.onload = function () {
+// window.onload = function () {
     var messageVue = new Vue({
         el: '#messageVue',
         data: {
@@ -42,15 +38,15 @@ window.onload = function () {
         methods: {
             sendMail: function () {
                 if (this.message === '' || !this.message) {
-                    alert("There is no message entered.")
+                    alert("There is no message entered.");
                     return;
                 }
                 if (this.email === '' || !this.email) {
-                    alert("No email provided.")
+                    alert("No email provided.");
                     return;
                 }
                 if (!emailValidate(this.email)) {
-                    alert("Not a valid email address.")
+                    alert("Not a valid email address.");
                     return;
                 }
 
@@ -72,7 +68,7 @@ window.onload = function () {
                 })
             }
         } // end methods
-    })
+    });
 
     function emailValidate(message) {
         var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -90,7 +86,7 @@ window.onload = function () {
                 //alert(window.location.href);
                 const headers = {
                     'Content-Type': 'application/json'
-                }
+                };
                 axios
                     .post('/rgdweb/contact/weblikes.html',
                         {
@@ -102,14 +98,6 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        // var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
-                        // if (r == true) {
-                        //     hideButtons();
-                        //     openForm();
-                        // }
-                        // else {
-                        //     hideButtons();
-                        // }
                         openForm();
                         document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what you liked.';
                         hideButtons();
@@ -122,7 +110,7 @@ window.onload = function () {
             dislikedPage: function () {
                 const headers = {
                     'Content-Type': 'application/json'
-                }
+                };
                 axios
                     .post('/rgdweb/contact/weblikes.html',
                         {
@@ -134,14 +122,6 @@ window.onload = function () {
                         {headers: headers}
                     )
                     .then(function (response) {
-                        // var r = confirm("Thanks for the feedback!\nLet us know what you liked/what could be fixed.");
-                        // if (r == true) {
-                        //     hideButtons();
-                        //     openForm();
-                        // }
-                        // else {
-                        //     hideButtons();
-                        // }
                         openForm();
                         document.getElementById("headMsg").innerText = 'Thanks for the feedback!\nTell us what we can fix.';
                         hideButtons();
@@ -152,5 +132,5 @@ window.onload = function () {
 
             }
         }
-    })
-}
+    });
+// };

@@ -8,7 +8,7 @@ String pageDescription = "Define Region";
 
 
 %>
-<%--<%@ include file="/common/headerarea.jsp" %>--%>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="carpeHeader.jsp"%>
 
 <% try { %>

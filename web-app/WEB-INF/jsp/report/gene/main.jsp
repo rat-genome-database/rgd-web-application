@@ -225,6 +225,7 @@
                     <%@ include file="../variants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
 
+
                     <!--above additional information--->
                     <a name="additional"></a>
                     <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
@@ -232,6 +233,7 @@
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
 
                 </td>
                 <td>&nbsp;</td>

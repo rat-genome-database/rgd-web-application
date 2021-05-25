@@ -38,7 +38,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="/rgdweb/js/webFeedback.js"></script>
+    <script src="/rgdweb/js/webFeedback.js" defer></script>
 
     <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
@@ -222,7 +222,7 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
                                             <a href="/GENOMESCANNER/">Genome Scanner</a>
-                                            <a href="/rgdweb/vcmap/vcmap.jnlp">VCMap_org</a>
+                                            <a href="/rgdweb/vcmap/VCMap.exe">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
