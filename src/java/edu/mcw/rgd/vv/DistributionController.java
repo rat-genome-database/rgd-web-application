@@ -248,7 +248,7 @@ public class DistributionController extends HaplotyperController {
             request.setAttribute("error", errors);
         }
         if(chromosome!=null && !chromosome.equals("") ) {
-            if(resultHash.size()>0) {
+            if(resultHash.size()>0 && regionList.size()>0) {
                 List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
                 for (GeneLoci l : loci) {
                     if (!regionList.contains(l.getGeneSymbols())) {
