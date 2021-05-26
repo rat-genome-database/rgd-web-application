@@ -40,11 +40,11 @@ public class ClientInit {
 
         return new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost(props.get("HOST1").toString(), 9200, "http"),
-                        new HttpHost(props.get("HOST2").toString(), 9200, "http"),
-                        new HttpHost(props.get("HOST3").toString(), 9200, "http"),
-                        new HttpHost(props.get("HOST4").toString(), 9200, "http"),
-                        new HttpHost(props.get("HOST5").toString(), 9200, "http")
+                        new HttpHost("erika01.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost(props.get("erika02.rgd.mcw.edu").toString(), 9200, "http"),
+                        new HttpHost(props.get("erika03.rgd.mcw.edu").toString(), 9200, "http"),
+                        new HttpHost(props.get("erika04.rgd.mcw.edu").toString(), 9200, "http"),
+                        new HttpHost(props.get("erika05.rgd.mcw.edu").toString(), 9200, "http")
 
                 ));
 
@@ -89,7 +89,7 @@ public class ClientInit {
 
         try{
          //    fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
-           fis=new FileInputStream("/data/pipelines/properties/es_properties.properties");
+        //   fis=new FileInputStream("/data/pipelines/properties/es_properties.properties");
             props.load(fis);
 
         }catch (Exception e){
