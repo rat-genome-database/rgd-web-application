@@ -630,7 +630,7 @@ $(document).ready(function(){
         <td align="right">
               Log:
         </td>
-        <td align="right" width=10>
+        <td align="left" width=550>
             <div id="warningBox" class=info>
                         <%
                             Iterator logIt = omLog.iterator();
