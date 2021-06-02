@@ -220,7 +220,11 @@ public class SNPlotyper {
                 conScore.put(v.getStartPos(), new BigDecimal("-1"));
             }else {
                 ConservationScore cs = v.conservationScore.get(0);
+                if(cs.getScore()!=null)
                 conScore.put(v.getStartPos(),cs.getScore());
+                else
+                    conScore.put(v.getStartPos(), new BigDecimal("-1"));
+
             }
         }
 

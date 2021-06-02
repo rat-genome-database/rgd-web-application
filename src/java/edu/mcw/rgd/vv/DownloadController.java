@@ -7,7 +7,9 @@ import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,7 @@ import java.util.List;
  */
 public class DownloadController extends HaplotyperController {
 
-
+    VVService service=new VVService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         /*
@@ -42,7 +44,10 @@ public class DownloadController extends HaplotyperController {
         HttpRequestFacade req = new HttpRequestFacade(request);
         String geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
         VariantSearchBean vsb = this.fillBean(req);
-
+        String index=new String();
+        String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
+        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
+        VVService.setVariantIndex(index);
         if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
             long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
 
@@ -89,8 +94,6 @@ public class DownloadController extends HaplotyperController {
     void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
                         boolean printHeader, boolean isHuman) throws Exception {
 
-        VariantDAO vdao = new VariantDAO();
-        vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
         SampleDAO sdao = new SampleDAO();
         sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -155,7 +158,8 @@ public class DownloadController extends HaplotyperController {
 
             vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
 
-            List<VariantResult> variantResults = vdao.getVariantResults(vsb);
+        //    List<VariantResult> variantResults = vdao.getVariantResults(vsb);
+            List<VariantResult> variantResults = service.getVariantResults(vsb, req, true);
 
             start=mark;
 
@@ -223,6 +227,8 @@ public class DownloadController extends HaplotyperController {
                     }
 
                     refAA = "";
+
+                    System.out.println("TRANSCRIPTS SIZE:"+ vr.getTranscriptResults().size());
                     if (vr.getTranscriptResults().size() > 0) {
 
                         for( TranscriptResult trr: vr.getTranscriptResults() ) {
@@ -344,7 +350,8 @@ public class DownloadController extends HaplotyperController {
                     chr = vr.getVariant().getChromosome();
                     pos = vr.getVariant().getStartPos();
 
-                    if (vr.getVariant().getConservationScore().size() > 0) {
+                    if (vr.getVariant()!=null && vr.getVariant().getConservationScore()!=null && vr.getVariant().getConservationScore().size() > 0) {
+                        if(vr.getVariant().getConservationScore().get(0).getScore()!=null)
                         score = vr.getVariant().getConservationScore().get(0).getScore().toString();
                     }
 

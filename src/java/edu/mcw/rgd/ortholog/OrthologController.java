@@ -98,8 +98,9 @@ public class OrthologController implements Controller {
             List<MappedGene> rgdIds = gdao.getActiveMappedGenesByIds(this.inMapKey, mappedIds);
             geneMap = rgdIds.stream().collect(
                     Collectors.groupingBy(MappedGene -> MappedGene.getGene().getRgdId()));
-            List<Integer> geneRgdIds = geneMap.keySet().stream().collect(Collectors.toList());
-
+            Set<Integer> geneSet = geneMap.keySet().stream().collect(Collectors.toSet());
+            List<Integer> geneRgdIds = new ArrayList<>();
+            geneRgdIds.addAll(geneSet);
 
             Set<String> symbolsFound = new TreeSet<>();
 
@@ -115,8 +116,11 @@ public class OrthologController implements Controller {
                 }else {
 
                     orthologs = odao.getOrthologsForSourceRgdIds(geneRgdIds, outSpeciesTypeKey);
-                    orthologMap = orthologs.stream().collect(
-                            Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
+                    for(Ortholog o:orthologs){
+                        orthologMap.put(o.getSrcRgdId(),o.getDestRgdId());
+                    }
+                    //orthologMap = orthologs.stream().collect(
+                    //        Collectors.toMap(Ortholog::getSrcRgdId, Ortholog::getDestRgdId));
                     orthologIds = orthologs.stream().map(Ortholog::getDestRgdId).collect(
                             Collectors.toList());
                 }

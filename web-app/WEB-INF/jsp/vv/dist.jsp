@@ -4,12 +4,18 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.datamodel.VariantSearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%
+    String pageTitle = "Variant Visualizer (Dist)";
+    String headContent = "";
+    String pageDescription = "Dist";
 
+%>
+<%@ include file="/common/headerarea.jsp" %>
 <%
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
     int mapKey = (Integer) request.getAttribute("mapKey");
 
-    Map resultHash = (Map) request.getAttribute("resultHash");
+    Map<String, Map<String, Integer>> resultHash = (Map<String, Map<String, Integer>>) request.getAttribute("resultHash");
     Integer maxValue = (Integer) request.getAttribute("maxValue");
     List<String> sampleIds = (List<String>) request.getAttribute("sampleIds");
     List<String> regionList = (List<String>) request.getAttribute("regionList");
@@ -33,7 +39,16 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
+<style>
+    #distTable td{
+        max-width: 25px;
 
+    }
+    #distTable .container{
+        padding-left: 0;
+    }
+
+</style>
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 
@@ -88,63 +103,6 @@
     } %>
 
 
-
-    <%
-        if (hasAnnotation) {
-    %>
-
-    <div style="background-color:#EEEEEE; color:#002049;padding:10px;">
-        <table width=95% cellpadding="0" border=0>
-            <tr>
-                <td valign="top">
-                    <span style="font-size:22px;">Variation in Annotated Genes Located on Chromosome <%=req.getParameter("chr")%></span>
-                </td>
-                <td align="right"></td>
-                <td align="right">
-                    <table border=0 style="border:1px solid black; padding: 3px;" cellpadding=0 cellspacing=0>
-                        <tr>
-                            <td style="font-weight:700;">Annotation Key: &nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=rdoColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("rdo_term")%>
-                            </td>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=pwColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("pw_term")%>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=mpColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("mp_term")%>
-                            </td>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>
-                                <div style="background-color:<%=chebiColor%>; height:5px;width:15px; border-radius: 50px; border:0px solid white;"></div>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td><%=req.getParameter("chebi_term")%>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
-
-            </tr>
-        </table>
-    </div>
-
-    <% } %>
-
-
     <table border=0 cellpadding=0 cellspacing=0 align="center"
            style="border: 4px outset #eeeeee; background-color:white; padding-top:15px;  padding-bottom:20px; margin-top: 10px;margin-bottom:10px;">
 
@@ -178,7 +136,7 @@
 
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="center">
-                            <div class="snpLabel">
+                            <div class="snpLabel" style="height: 25px">
                                 <!--form action="dist.html" method="post" target="_blank" -->
                                     <%if(request.getParameter("geneList")!=null){%>
                                     <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
@@ -225,79 +183,7 @@
                 <div id="wrapperRegion"
                      style="overflow:auto; width:<%=divWidth%>px; height:<%=tableHeight + 145 + sampleIds.size()%>; top: -1; position: relative;">
 
-                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
-                        <% if (hasAnnotation) { %>
-                        <tr>
-
-                            <%
-                                Iterator genesIt = regionList.iterator();
-                                boolean first = true;
-                                while (genesIt.hasNext()) {
-                                    String region = (String) genesIt.next();
-                            %>
-
-                            <% if (first) { %>
-                            <td style="height:8px;border-left:2px solid white; " align="center">
-                                    <% first = false;
-                } else { %>
-                            <td style="height:8px; " align="center">
-                                <%} %>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (rdoGenes.size() > 0) {%>
-                                    <%
-                                        if (rdoGenes.contains(region)) { %>
-                                    <div style="background-color:<%=rdoColor%>; height:5px;width:15px; border-radius: 50px; "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px;  "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (pwGenes.size() > 0) {%>
-                                    <% if (pwGenes.contains(region)) { %>
-                                    <div style="background-color:<%=pwColor%>; height:5px;width:15px; border-radius: 50px;  "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px;  "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (mpGenes.size() > 0) {%>
-                                    <% if (mpGenes.contains(region)) { %>
-                                    <div style="background-color:<%=mpColor%>; height:5px;width:15px; border-radius: 50px;  "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-
-                                <div style="border-bottom:1px solid white; width:100%">
-                                    <% if (chebiGenes.size() > 0) {%>
-                                    <% if (chebiGenes.contains(region)) { %>
-                                    <div style="background-color:<%=chebiColor%>; height:5px;width:15px; border-radius: 50px; "></div>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                    <% } else { %>
-                                    <div style="height:5px;width:5px; border-radius: 50px; "></div>
-                                    <% } %>
-                                </div>
-                            </td>
-
-                            <%
-                                }
-                            %>
-                        </tr>
-                        <% } %>
+                    <table id="distTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
 
                         <tr>
                             <%
@@ -348,7 +234,7 @@
                             while (it.hasNext()) {%>
                         <tr>
                             <%      String sample = (String) it.next();
-                                Map<String, Integer> results = (Map) resultHash.get(sample);
+                                Map<String, Integer> results = (Map<String, Integer>) resultHash.get(sample);
                                 if (results == null) {
                                     results = Collections.emptyMap();
                                 }
@@ -357,7 +243,7 @@
                                 while (pit.hasNext()) {
                                     String region = (String) pit.next();
 
-                                    Integer count = results.get(region.toUpperCase());
+                                    Integer count = results.get(region.toLowerCase());
                                     if (count == null) {
                                         count=results.get(region);
                                         if(count==null)
@@ -431,3 +317,4 @@
 </script>
 
 
+<%@ include file="/common/footerarea.jsp" %>

@@ -58,24 +58,32 @@
                     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,obj.getRgdId());
                     if (xids.size()>0 ) {
                         XdbId xid = xids.get(0);%>
-                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance gene RGD:<%=obj.getRgdId()%>">
                         <img border="0" src=<%=imageSource%> width="50px" height="50px">
                     </a>
                     <%}
-                    for (Gene gene : homologs) {
-
+                    Gene prevGene = null;
+                    for (Gene gene : agrOrthos) {
                         imageSource = getAllianceImage(gene);
+                        String allianceToolTip = gene.getDescription();
+                        boolean isDuplicate = false;
+
+                        if(prevGene != null){
+                            isDuplicate = prevGene.getDescription().equalsIgnoreCase(gene.getDescription());
+                        }
+                        prevGene = gene;
 
                         xids = xdbDAO.getXdbIdsByRgdId(63,gene.getRgdId());
-            if (xids.size()>0 ) {
-                XdbId xid = xids.get(0);
+                        if (xids.size()>0 ) {
+                            XdbId xid = xids.get(0);
 
-            %><a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
-                    <img border="0" src=<%=imageSource%> width="50px" height="50px">
-                </a>
-            <% }
-        %>
-
+                            if(!isDuplicate){
+                        %>
+                            <a title ="Alliance gene <%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                                <img border="0" src=<%=imageSource%> width="50px" height="50px">
+                            </a>
+                        <%}
+                        }%>
 
      <% } %>
             </td>
@@ -283,6 +291,18 @@ function hideAllOrthos() {
                 break;
             case 3 :
                 imageSource += "alliance_logo_mgd.png";
+                break;
+            case 8 :
+                imageSource += "alliance_logo_zfin.png";
+                break;
+            case 10 :
+                imageSource += "alliance_logo_flybase.png";
+                break;
+            case 11 :
+                imageSource += "alliance_logo_wormbase.png";
+                break;
+            case 12 :
+                imageSource += "alliance_logo_sgd.png";
                 break;
 
         }

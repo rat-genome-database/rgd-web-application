@@ -73,8 +73,11 @@
                 <prop key="curation/edit/notesAdd.html">NotesAddController</prop>
                 <prop key="curation/edit/statusUpdate.html">StatusUpdateController</prop>
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
+                <prop key="curation/edit/strainMerge.html">StrainMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
+                <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
+                <prop key="curation/edit/updateNewsConf.html">EditNewsArticleController</prop>
 
                 <prop key="curation/edit/submittedStrains/editStrains.html">EditHomePageController</prop>
                 <prop key="curation/edit/submittedStrains/submittedStrains.html">SubmittedStrainsPage</prop>
@@ -182,7 +185,7 @@
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
 
-                <prop key="front/variants.html">VariantController</prop>
+                <!--prop key="front/variants.html">VariantController</prop>
                 <prop key="front/detail.html">DetailController</prop>
                 <prop key="front/detail_gbrowse.html">DetailController</prop>
                 <prop key="front/dist.html">DistributionController</prop>
@@ -193,9 +196,22 @@
                 <prop key="front/download.html">DownloadController</prop>
                 <prop key="front/searchType.html">SearchTypeController</prop>
                 <prop key="front/geneList.html">GeneListController</prop>
-                <prop key="front/config.html">ConfigController</prop>
+                <prop key="front/config.html">ConfigController</prop-->
 
-                <prop key="vv/variants.html">nVariantController</prop>
+                 <prop key="front/variants.html">nVariantController</prop>
+                              <prop key="front/detail.html">nDetailController</prop>
+                              <prop key="front/detail_gbrowse.html">nDetailController</prop>
+                              <prop key="front/dist.html">nDistributionController</prop>
+                              <prop key="front/select.html">nSelectStrainController</prop>
+                              <prop key="front/options.html">nStrainOptionsController</prop>
+                              <prop key="front/annotation.html">nAnnotationController</prop>
+                              <prop key="front/region.html">nRegionController</prop>
+                              <prop key="front/download.html">nDownloadController</prop>
+                              <prop key="front/searchType.html">nSearchTypeController</prop>
+                              <prop key="front/geneList.html">nGeneListController</prop>
+                              <prop key="front/config.html">nConfigController</prop>
+
+                <!--prop key="vv/variants.html">nVariantController</prop>
                 <prop key="vv/detail.html">nDetailController</prop>
                 <prop key="vv/detail_gbrowse.html">nDetailController</prop>
                 <prop key="vv/dist.html">nDistributionController</prop>
@@ -206,7 +222,7 @@
                 <prop key="vv/download.html">nDownloadController</prop>
                 <prop key="vv/searchType.html">nSearchTypeController</prop>
                 <prop key="vv/geneList.html">nGeneListController</prop>
-                <prop key="vv/config.html">nConfigController</prop>
+                <prop key="vv/config.html">nConfigController</prop-->
 
 
                 <prop key="generator/list.html">ProcessListController</prop>
@@ -273,7 +289,8 @@
                 <prop key="phenominer/phenominerExpectedRanges/selectedStrain.html">phenominerERSelectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/strain.html">strainExpectedRangeController</prop>
 
-
+                <prop key="contact/weblikes.html">WebsiteFeedbackController</prop>
+                <prop key="contact/contactus.html">ContactUsController</prop>
 
 
                  <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
@@ -400,8 +417,11 @@
     <bean id="CuratedReferencesEditObjectController" class="edu.mcw.rgd.edit.CuratedReferencesEditObjectController"/>
     <bean id="ExternalLinksEditObjectController" class="edu.mcw.rgd.edit.ExternalLinksEditObjectController"/>
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
+    <bean id="StrainMergeController" class="edu.mcw.rgd.edit.StrainMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+    <bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
+    <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
 
     <bean id="pathwayDiagramController" class="edu.mcw.rgd.pathway.PathwayDiagramController" parent="wwwDir"/>
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
@@ -555,6 +575,8 @@
 
     <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
     <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
+    <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
+    <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
     </beans>
 
 

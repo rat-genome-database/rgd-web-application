@@ -154,7 +154,7 @@
 <%--            <%@ include file="links.jsp" %>--%>
             <br>
 <%--            <%@ include file="../idInfo.jsp" %>--%>
-        </td>        
+        </td>
     </tr>
  </table>
     </div>
