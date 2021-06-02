@@ -621,28 +621,31 @@ $(document).ready(function(){
 <% if (accIds.size() > 0 ) { %>
 
 <table width=100% border=0>
+
+    <% if (omLog.size() > 0) { %>
+     <tr>
+        <td align="right" width="5%">
+            Log:
+        </td>
+        <td align="left" >
+            <div id="warningBox" class=info>
+                <%
+                    Iterator logIt = omLog.iterator();
+                    String msg = "";
+                    while (logIt.hasNext()) {
+                        out.print(logIt.next() + "<br>");
+                    }
+                %>
+            </div>
+
+        </td>
+    </tr>
+    <% } %>
     <tr>
         <td>
             <div style="font-size:22;color:#1A456F;margin-top:10px;">WorkBench</div>
         </td>
 
-        <% if (omLog.size() > 0) { %>
-        <td align="right">
-              Log:
-        </td>
-        <td align="left" width=550>
-            <div id="warningBox" class=info>
-                        <%
-                            Iterator logIt = omLog.iterator();
-                            String msg = "";
-                            while (logIt.hasNext()) {
-                                out.print(logIt.next() + "<br>");
-                            }
-                        %>
-            </div>
-
-        </td>
-        <% } %>
     </tr>
 </table>
 
