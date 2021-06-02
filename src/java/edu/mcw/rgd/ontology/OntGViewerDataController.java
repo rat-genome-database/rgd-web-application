@@ -159,7 +159,8 @@ public class OntGViewerDataController implements Controller {
                     sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
                     sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
                     sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ")";
+                    sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ",";
+                    sql += MapManager.getInstance().getReferenceAssembly(9).getKey() + ")";
                 }
             } else {
                 sql = bean.buildSqlForGViewerAnnotations();
