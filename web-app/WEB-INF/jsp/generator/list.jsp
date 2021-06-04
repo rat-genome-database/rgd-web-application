@@ -620,15 +620,15 @@ $(document).ready(function(){
 
 <% if (accIds.size() > 0 ) { %>
 
-<table width=100% border=0>
+<% if (omLog.size() > 0) { %>
+<table align="center">
 
-    <% if (omLog.size() > 0) { %>
-     <tr>
+    <tr>
         <td align="right" width="5%">
             Log:
         </td>
         <td align="left" >
-            <div id="warningBox" class=info>
+            <div id="warningBox" class=info style="overflow: auto;height: 60px; width: 550px;">
                 <%
                     Iterator logIt = omLog.iterator();
                     String msg = "";
@@ -640,7 +640,10 @@ $(document).ready(function(){
 
         </td>
     </tr>
-    <% } %>
+
+</table>
+<% } %>
+<table width=100% border=0>
     <tr>
         <td>
             <div style="font-size:22;color:#1A456F;margin-top:10px;">WorkBench</div>
