@@ -418,7 +418,7 @@
                 <td>*Message:</td>
             </tr>
             <tr>
-                <td colspan="2"><textarea rows="20" id="emailMessage" v-model="message" ></textarea></td>
+                <td colspan="2"><textarea rows="20" cols="160" id="emailMessage" v-model="message" ></textarea></td>
             </tr>
             <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>

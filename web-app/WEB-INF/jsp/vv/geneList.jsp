@@ -9,7 +9,7 @@ String pageTitle = "Variant Visualizer (Define Gene Symbol List)";
 String headContent = "";
 String pageDescription = "Define Gene Symbol List";
 %>
-
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
@@ -139,5 +139,5 @@ String pageDescription = "Define Gene Symbol List";
 
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
-
+<%@ include file="/common/footerarea.jsp" %>
 

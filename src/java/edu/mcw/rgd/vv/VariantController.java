@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -80,7 +81,7 @@ public class VariantController extends HaplotyperController {
                 List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
 
                 for (VariantResult vr: variantResults) {
-                    if (vr.getVariant() != null) {
+                    if (vr.getVariant() != null && vr.getVariant().getReferenceNucleotide()!=null) {
                         snplotyper.add(vr);
                     }
                 }
@@ -93,11 +94,19 @@ public class VariantController extends HaplotyperController {
 
                 request.setAttribute("snplotyper",snplotyper);
                 request.setAttribute("vsb",vsb);
+                if (mappedGenes.size() > 0) {
+                    vsb.setMappedGenes(mappedGenes);
 
+                 String geneListStr=   mappedGenes.stream().
+                         map(mg->mg.getGene().getSymbol()).collect(Collectors.joining("+"));
+                    request.setAttribute("geneListStr",geneListStr);
+                }
                 // note: call the methods below to catch 'no-strand' exceptions
                 boolean b1 = snplotyper.hasPlusStrandConflict();
                 boolean b2 = snplotyper.hasMinusStrandConflict();
 
+                request.setAttribute("mapKey",vsb.getMapKey());
+                request.setAttribute("speciesTypeKey", SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
                 return new ModelAndView("/WEB-INF/jsp/vv/variants.jsp");
             }else {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
@@ -139,6 +148,7 @@ public class VariantController extends HaplotyperController {
                         v.setVariantNucleotide((String) m.get("varNuc"));
                         v.setGenicStatus((String) m.get("genicStatus"));
                         v.setPaddingBase((String) m.get("paddingBase"));
+                        if(m.get("regionName")!=null)
                         v.setRegionName(m.get("regionName").toString());
                         v.setVariantType((String) m.get("variantType"));
                         v.setSampleId((int) m.get("sampleId"));
@@ -162,7 +172,7 @@ public class VariantController extends HaplotyperController {
 
                         if(vsb.getMapKey()==38){
                             VariantInfo clinvar=getClinvarInfo(v.getId());
-                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
+//                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                             vr.setClinvarInfo(clinvar);
                         }
                         variantResults.add(vr);

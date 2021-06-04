@@ -529,8 +529,11 @@ rgdModule.controller('RGDPageController', [
                     //var url = "/rgdweb/gviewer/download.html?";
                     //url += "mapKey=" + document.getElementById("mapKey_tmp").options[document.getElementById("mapKey_tmp").selectedIndex].value;
                     //url += "&genes=" + getResultSet();
-
-                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey="+ $scope.oKey+"&vv=&ga=&act=excel&a="+$scope.a;
+                    if (typeof $scope.oKey === 'undefined' || $scope.oKey === null) {
+                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=1&vv=&ga=&act=excel&a=" + $scope.a;
+                    } else{
+                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=" + $scope.oKey + "&vv=&ga=&act=excel&a=" + $scope.a;
+                    }
 
                     var f = document.createElement("form");
                     f.setAttribute('method',"post");
