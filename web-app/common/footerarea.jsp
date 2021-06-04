@@ -16,7 +16,6 @@
     </div>
     <%--</div>--%>
 
-
     <table align="center">
         <tr>
             <td><a href="/wg/wp-admin/post.php?post=15&action=edit"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>

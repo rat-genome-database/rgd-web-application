@@ -38,7 +38,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="/rgdweb/js/webFeedback.js"></script>
+    <script src="/rgdweb/js/webFeedback.js" defer></script>
 
     <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
@@ -125,8 +125,7 @@
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
-
-
+<%@ include file="/common/helpFeedbackChat.jsp" %>
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -156,7 +155,7 @@
                                 <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                 <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui.html">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
-                                <a href="/contact/index.shtml">Contact</a>&nbsp;&nbsp;&nbsp;
+                                <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
                                 <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                             </td>
@@ -179,7 +178,7 @@
                                             <a href="/wg/grants/">Grant Resources</a>
                                             <a href="/wg/citing-rgd/">Citing RGD</a>
                                             <a href="/wg/about-us/">About Us</a>
-                                            <a href="/contact/index.shtml">Contact Us</a>
+                                            <a href="/rgdweb/contact/contactus.html">Contact Us</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">

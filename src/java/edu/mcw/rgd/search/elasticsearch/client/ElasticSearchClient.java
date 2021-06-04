@@ -13,7 +13,7 @@ import java.util.List;
  * Created by jthota on 2/22/2017.
  */
 public class ElasticSearchClient {
-    private static List<String> hosts;
+  /*  private static List<String> hosts;
 
     private ElasticSearchClient(){}
     public static RestHighLevelClient getInstance() {
@@ -36,5 +36,5 @@ public class ElasticSearchClient {
 
     public static void setHosts(List<String> hosts) {
         ElasticSearchClient.hosts = hosts;
-    }
+    }*/
 }
