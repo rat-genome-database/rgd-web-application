@@ -21,8 +21,6 @@
         <tr>
             <td><a href="/wg/wp-admin/post.php?post=15&action=edit"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
             <td width=100 align="center"><a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" height="80" width="133" border=0/></a></td>
-            <td width=100 align="right"><a href="/wg/gerrc"><img src="/rgdweb/common/images/GERRC-35.png" border=0/></a></td>
-            <td width=100 align="right"><a href="/wg/physgenknockouts"><img src="/rgdweb/common/images/knockOuts.jpg" border=0/></a></td>
         </tr>
     </table>
 
