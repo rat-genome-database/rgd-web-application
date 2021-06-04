@@ -10,6 +10,7 @@ import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,24 +65,26 @@ public class DistributionController extends HaplotyperController {
 
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+        request.setAttribute("speciesTypeKey", speciesTypeKey);
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
+        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
-        //   try {
+        try {
         List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
         GeneDAO gdao = new GeneDAO();
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
+           List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
             ObjectMapper om = new ObjectMapper();
-            om.mapSymbols(symbols, speciesTypeKey);
+            om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
             List result= om.getMapped();
             List<Gene> genes = new ArrayList<Gene>();
 
@@ -159,8 +163,11 @@ public class DistributionController extends HaplotyperController {
             vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
             // resultHash = vdao.getVariantToGeneCountMap(vsb);
-
-            resultHash =this.getVariantToGeneCountMap(vsb, req);
+            try {
+                resultHash = this.getVariantToGeneCountMap(vsb, req);
+            }catch (VVException e){
+                throw e;
+            }
 
             System.out.println("RESULT HASH SIZE: "+ resultHash.size());
 
@@ -241,7 +248,7 @@ public class DistributionController extends HaplotyperController {
             request.setAttribute("error", errors);
         }
         if(chromosome!=null && !chromosome.equals("") ) {
-            if(resultHash.size()>0) {
+            if(resultHash.size()>0 && regionList.size()>0) {
                 List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
                 for (GeneLoci l : loci) {
                     if (!regionList.contains(l.getGeneSymbols())) {
@@ -252,9 +259,11 @@ public class DistributionController extends HaplotyperController {
         }else{
           //  regionList1=gSymbols;
         }
-
+     String geneList=  regionList.stream().filter(p->!p.contains("|")).collect(Collectors.joining("+"));
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
+        request.setAttribute("geneListStr", geneList);
+
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("resultHash", resultHash);
         request.setAttribute("json",sb.toString() );
@@ -271,19 +280,20 @@ public class DistributionController extends HaplotyperController {
         }*/
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
-        //   }catch (Exception e) {
-        /*    errors.add(e.getMessage());
+         }catch (Exception e) {
+            if(e.getMessage().contains("Elasticsearch exception"))
+                errors.add("Please reduce the number of samples or genes using the EDIT buttons");
+            else
+           errors.add(e.getMessage());
             request.setAttribute("error", errors);
-            request.setAttribute("json",this.sb.toString() );
             request.setAttribute("regionList", regionList);
-            //    request.setAttribute("sampleIds", sampleIds);
-            request.setAttribute("sampleIds", sampleIdsFromResultSet);
+            request.setAttribute("sampleIds", sampleIds);
             request.setAttribute("resultHash", resultHash);
             request.setAttribute("vsb", vsb);
             request.setAttribute("maxValue", maxValue);
 
-            return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");*/
-        //   }
+            return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");
+         }
 
     }
 
@@ -292,7 +302,7 @@ public class DistributionController extends HaplotyperController {
         List<String> sampleIds = new ArrayList<String>();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        if (request.getParameter("sample1").equals("all")) {
+        if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
             int mapKey = Integer.parseInt(request.getParameter("mapKey"));
@@ -362,7 +372,7 @@ public class DistributionController extends HaplotyperController {
         return !(req.getParameter("rdo_acc_id").isEmpty() && req.getParameter("pw_acc_id").isEmpty()
                 && req.getParameter("mp_acc_id").isEmpty() && req.getParameter("chebi_acc_id").isEmpty());
     }
-    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
+    public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
 
         Set<String> geneKeys=new HashSet<>();

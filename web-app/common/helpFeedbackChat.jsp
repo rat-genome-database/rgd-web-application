@@ -15,7 +15,7 @@
 <div class="chat-popup" id="messageVue">
     <form class="form-container">
         <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
-        <h1>Send us a Message</h1>
+        <h2 id="headMsg">Send us a Message</h2>
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
 

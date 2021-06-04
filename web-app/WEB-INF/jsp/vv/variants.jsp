@@ -12,7 +12,13 @@
 <%@ page import="edu.mcw.rgd.datamodel.VariantResult" %>
 <%@ page import="edu.mcw.rgd.util.Zygosity" %>
 <%@ page import="java.io.StreamCorruptedException" %>
+<%
+    String pageTitle = "Variant Visualizer (Variants)";
+    String headContent = "";
+    String pageDescription = "View the Variants of selected position or genes";
 
+%>
+<%@ include file="/common/headerarea.jsp" %>
 <%
     try {
 
@@ -20,6 +26,16 @@
 <link rel="stylesheet" href="/rgdweb/js/javascriptPopUpWindow/GAdhtmlwindow.css" type="text/css" />
 <script type="text/javascript" src="/rgdweb/js/javascriptPopUpWindow/dhtmlwindow.js">
 </script>
+<style>
+    #colTable td{
+        max-width: 25px;
+
+    }
+    #colTable .container{
+        padding-left: 0;
+    }
+
+</style>
 <%
 
     HashMap backColors = new HashMap();
@@ -107,7 +123,7 @@
     function displayVariant(e) {
         if (!e) e = window.event;
         var firedDiv = getTarget(e);
-        var url = "/rgdweb/vv/detail.html?chr=<%=vsb.getChromosome()%>&start=" + firedDiv.pos + "&stop=" + (parseInt(firedDiv.pos) + 1) + "&sid=" + firedDiv.sid + "&vid=" + firedDiv.vid + "&mapKey=<%=vsb.getMapKey()%>";
+        var url = "/rgdweb/front/detail.html?chr=<%=vsb.getChromosome()%>&start=" + firedDiv.pos + "&stop=" + (parseInt(firedDiv.pos) + 1) + "&sid=" + firedDiv.sid + "&vid=" + firedDiv.vid + "&mapKey=<%=vsb.getMapKey()%>";
         var googlewin=dhtmlwindow.open("ajaxbox", "ajax", url,"Variant Details", "width=740px,height=400px,resize=1,scrolling=1,center=1", "recal");
         document.getElementById("ajaxbox").scrollTop=0;
     }
@@ -141,12 +157,13 @@
                 <div style="font-size:12px; padding: 6px; color:#063968;">
                     <span style=" font-weight:700; font-size:12px;"><%=gene.getSymbol()%></span> : <%=dg.buildDescription(gene.getRgdId())%>
                 </div>
-                <%
-                    }
-                %>
             </td>
         </tr>
     </table>
+        <%
+            }
+        %>
+
 
     <%
         if (positions.size()==0) {
@@ -249,7 +266,6 @@
 
             </td>
             <td>
-
                 <script></script>
 
                 <%
@@ -270,7 +286,7 @@
                     <%
                         Iterator cit;
                     %>
-                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
+                    <table id="colTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
                         <tr>
                             <%
                                 if(mapKey != 631) {
@@ -633,7 +649,7 @@
 
 
 
-</div>
+
 
 <br><br>
 
@@ -777,10 +793,10 @@
 
     </script>
 
-
-
-
+</div>
+</div>
         <% } catch (Exception e)      {
     e.printStackTrace();
     }
  %>
+<%@ include file="/common/footerarea.jsp" %>

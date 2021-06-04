@@ -1,4 +1,8 @@
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.dao.impl.RgdVariantDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.RgdVariant" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%@ include file="sectionHeader.jsp"%>
 <%
@@ -14,7 +18,7 @@
 %>
 <%--<%=ui.dynOpen("rgdVariants", "Rat Variants")%>--%>
 <div class="light-table-border">
-<div class="sectionHeading" id="rgdVariants">Rat Variants</div>
+<div class="sectionHeading" id="rgdVariants">Allelic Variants</div>
 <table id="variants" border="1" cellspacing="0" width="95%">
     <tr>
         <td align="center"><b>Name</b></td>

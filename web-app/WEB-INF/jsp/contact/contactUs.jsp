@@ -106,7 +106,7 @@
                 <td>City:</td><td><input type="text" v-model="city"></td>
             </tr>
             <tr>
-                <td>State:</td><td><select id="state" size="1">
+                <td>State:</td><td><select id="state" size="1" onchange="changeCountry()">
                 <option value="N/A" selected>N/A - Not Applicable</option>
                 <option value="AL - Alabama" >AL - Alabama</option>
                 <option value="AK - Alaska" >AK - Alaska</option>
@@ -418,7 +418,7 @@
                 <td>*Message:</td>
             </tr>
             <tr>
-                <td colspan="2"><textarea rows="20" id="emailMessage" v-model="message" ></textarea></td>
+                <td colspan="2"><textarea rows="20" cols="160" id="emailMessage" v-model="message" ></textarea></td>
             </tr>
             <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>
@@ -469,10 +469,6 @@
                     alert("Not a valid email address.")
                     return;
                 }
-                if(document.getElementById("state".value) !== "")
-                {
-                    document.getElementById("country").value = "United States of America";
-                }
                 // alert(this.message + "\n" +this.subject+ "\n"+ this.firstName +"\n"+this.lastName+"\n"+this.email
                 //     +"\n"+this.phone+"\n"+this.address+"\n"+this.institute+"\n"+this.city+"\n"+this.zipCode);
                 axios
@@ -509,6 +505,7 @@
                 document.getElementById("state").value = "N/A";
                 this.zipCode = '';
                 document.getElementById("country").value = "United States of America";
+                document.getElementById("country").disabled = false;
                 this.subject = '';
                 this.message = '';
                 grecaptcha.reset();
@@ -529,6 +526,16 @@
     function submitted() {
         contactVue.resetForm();
         window.scrollTo(0,0);
-        document.getElementById("submitMsg").innerText = "Thank you for the message! We will try and get back to you as soon as possible.";
+        document.getElementById("submitMsg").innerText = "Thank you for the message! We will respond to you as soon as possible.";
+    }
+    function changeCountry() {
+        if(document.getElementById("state").value !== "N/A")
+        {
+            document.getElementById("country").value = "United States of America";
+            document.getElementById("country").disabled = true;
+        }
+        else {
+            document.getElementById("country").disabled = false;
+        }
     }
 </script>

@@ -1,13 +1,15 @@
 package edu.mcw.rgd.vv;
 
+import edu.mcw.rgd.dao.impl.variants.VariantDAO;
+import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.vv.vvservice.VariantIndexClient;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
-import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -29,7 +31,9 @@ import java.util.List;
  * Time: 9:49 AM
  */
 public class DetailController extends HaplotyperController {
-    VVService service= new VVService();
+    VariantController ctrl=new VariantController();
+    VariantDAO vdao= new VariantDAO();
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
          try {
@@ -54,76 +58,60 @@ public class DetailController extends HaplotyperController {
         int mapKey = 360; // map key defaults to rat assembly 6.0
         String mapKeyStr = request.getParameter("mapKey");
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
-           mapKey = Integer.parseInt(mapKeyStr);
-           List<SearchResult> allResults = new ArrayList<SearchResult>();
-   //     if( vid.isEmpty() || vid.equals("0")) {
+            mapKey = Integer.parseInt(mapKeyStr);
+        else
+        if(vid!=null && !vid.isEmpty() && !vid.equals("0") && !vid.contains("|")){
+            mapKey=vdao.getMapKeyByVariantId(Integer.parseInt(vid));
+        }
 
-            VariantSearchBean vsb = new VariantSearchBean(mapKey);
+        String index = new String();
+        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
+        VVService.setVariantIndex(index);
 
-            if( !sid.isEmpty() )
-               vsb.sampleIds.add(Integer.parseInt(sid));
-               vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
+        List<SearchResult> allResults = new ArrayList<SearchResult>();
 
-            // there must be start and stop position
-            if( Utils.isStringEmpty(vsb.getChromosome()) ||
-                vsb.getStartPosition()==null || vsb.getStartPosition()<1 ||
-                vsb.getStopPosition()==null || vsb.getStopPosition()<vsb.getStartPosition() ) {
+        VariantSearchBean vsb = new VariantSearchBean(mapKey);
+        if (!sid.isEmpty())
+            vsb.sampleIds.add(Integer.parseInt(sid));
+        if(req.getParameter("chr")!=null &&
+                req.getParameter("start")!=null &&
+                req.getParameter("stop") !=null &&
+        !req.getParameter("chr").equals("") &&
+               ! req.getParameter("start").equals("") &&
+                req.getParameter("stop") .equals("")){
 
-                throw new VVException("variant detail: missing chr or start or stop");
-            }
+            vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
 
-            VariantController ctrl=new VariantController();
+            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
             SearchResult sr = new SearchResult();
-            String index=new String();
-            String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-            index = "variants_"+species.toLowerCase()+mapKey+"_"+VVService.getEnv();
-            VVService.setVariantIndex(index);
-            List<VariantResult> vr = ctrl.getVariantResults(vsb,req, true);
-            List<TranscriptResult> tResults=new ArrayList<>();
-            for(VariantResult r:vr){
 
-                Variant v=r.getVariant();
-              //  tResults=getTranscriptResults(v.getChromosome(), v.getStartPos(), v.getEndPos(), v.getReferenceNucleotide(), v.getVariantNucleotide());
-           //     if(SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1){
-                    tResults=r.getTranscriptResults();
-                 //   System.out.println("transcripts size: "+ tResults.size());
-            //    }else
-           //     tResults=getTranscriptResults(v, mapKey);
-
-                r.setTranscriptResults(tResults);
-             }
             sr.setVariantResults(vr);
             allResults.add(sr);
-            request.setAttribute("searchResults",allResults);
+            request.setAttribute("searchResults", allResults);
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp", "searchResult", sr);
 
-      /*  } else {
 
-            String[] vids = vid.split("\\|");
+       }else{
+             if(vid !=null && !vid.isEmpty() && !vid.equals("0")) {
 
-            VariantDAO vdao = new VariantDAO();
+                 String[] vids = vid.split("\\|");
+                 for (int i = 0; i < vids.length; i++) {
+                     SearchResult sr = new SearchResult();
 
-
-            for (int i=0; i < vids.length; i++) {
-
-               SearchResult sr = new SearchResult();
-               VariantSearchBean vsb = new VariantSearchBean(mapKey);
-               vsb.setVariantId(Long.parseLong(vids[i]));
-
-               vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-               List<VariantResult> vr = vdao.getVariantResults(vsb);
-
-               sr.setVariantResults(vr);
-               allResults.add(sr);
-            }
-
-            request.setAttribute("searchResults",allResults);
-
+                     vsb.setVariantId(Long.parseLong(vids[i]));
+                     List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+                     sr.setVariantResults(vr);
+                     allResults.add(sr);
+                 }}
+            request.setAttribute("searchResults", allResults);
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp");
-        }*/
+
+       }
     }
 
- //   public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
+
+    //   public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
         public List<TranscriptResult> getTranscriptResults(Variant v, int mapKey) throws IOException {
         int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(mapKey);
             List<TranscriptResult> tds = new ArrayList<>();
@@ -141,7 +129,7 @@ public class DetailController extends HaplotyperController {
 
             request.source(srb);
 
-            SearchResponse sr = VariantIndexClient.getClient().search(request, RequestOptions.DEFAULT);
+            SearchResponse sr = ClientInit.getClient().search(request, RequestOptions.DEFAULT);
 
 
             if (sr.getHits().getTotalHits().value > 0) {
