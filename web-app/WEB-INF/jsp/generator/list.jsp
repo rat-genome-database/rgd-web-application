@@ -621,7 +621,7 @@ $(document).ready(function(){
 <% if (accIds.size() > 0 ) { %>
 
 <% if (omLog.size() > 0) { %>
-<table align="center">
+<table align="center" style="margin-top: 15px;">
 
     <tr>
         <td align="right" width="5%">
@@ -633,7 +633,9 @@ $(document).ready(function(){
                     Iterator logIt = omLog.iterator();
                     String msg = "";
                     while (logIt.hasNext()) {
-                        out.print(logIt.next() + "<br>");
+                        msg = logIt.next().toString();
+//                        System.out.println(msg);
+                        out.print(msg + "<br>");
                     }
                 %>
             </div>
@@ -642,6 +644,7 @@ $(document).ready(function(){
     </tr>
 
 </table>
+<hr>
 <% } %>
 <table width=100% border=0>
     <tr>
