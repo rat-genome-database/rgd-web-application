@@ -620,29 +620,38 @@ $(document).ready(function(){
 
 <% if (accIds.size() > 0 ) { %>
 
+<% if (omLog.size() > 0) { %>
+<table align="center" style="margin-top: 15px;">
+
+    <tr>
+        <td align="right" width="5%">
+            Log:
+        </td>
+        <td align="left" >
+            <div id="warningBox" class=info style="overflow: auto;height: 60px; width: 550px;">
+                <%
+                    Iterator logIt = omLog.iterator();
+                    String msg = "";
+                    while (logIt.hasNext()) {
+                        msg = logIt.next().toString();
+//                        System.out.println(msg);
+                        out.print(msg + "<br>");
+                    }
+                %>
+            </div>
+
+        </td>
+    </tr>
+
+</table>
+<hr>
+<% } %>
 <table width=100% border=0>
     <tr>
         <td>
             <div style="font-size:22;color:#1A456F;margin-top:10px;">WorkBench</div>
         </td>
 
-        <% if (omLog.size() > 0) { %>
-        <td align="right">
-              Log:
-        </td>
-        <td align="right" width=10>
-            <div id="warningBox" class=info>
-                        <%
-                            Iterator logIt = omLog.iterator();
-                            String msg = "";
-                            while (logIt.hasNext()) {
-                                out.print(logIt.next() + "<br>");
-                            }
-                        %>
-            </div>
-
-        </td>
-        <% } %>
     </tr>
 </table>
 
