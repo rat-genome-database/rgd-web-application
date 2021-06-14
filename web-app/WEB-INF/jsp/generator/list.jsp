@@ -620,13 +620,29 @@ $(document).ready(function(){
 
 <% if (accIds.size() > 0 ) { %>
 
-
-<table width=100% border=0 style="margin-top: 10px;">
-    <%if(omLog.size() > 0) {%>
+<% if (omLog.size() > 0) { %>
+<table align="center" style="margin-top: 15px; border: solid;border-color: black;border-width: thin;">
     <tr>
-        <td colspan="3" align="center">List of all genes not found and converted are shown below the mapped list.</td>
+        <td align="left" >
+            <div id="warningBox" class=info style="overflow: auto;height: 60px;">
+                <%
+                    Iterator logIt = omLog.iterator();
+                    String msg = "";
+                    while (logIt.hasNext()) {
+                        msg = logIt.next().toString();
+//                        System.out.println(msg);
+                        out.print(msg + "<br>");
+                    }
+                %>
+            </div>
+
+        </td>
     </tr>
-    <% } %>
+
+</table>
+<hr>
+<% } %>
+<table width=100% border=0>
     <tr>
         <td>
             <div style="font-size:22;color:#1A456F;margin-top:10px;">WorkBench</div>
@@ -828,33 +844,7 @@ if (accIds.size()==1 && objectSymbols.get(0).size() == 0) {
 %>
 
 </script>
-<hr>
-<% if (omLog.size() > 0) { %>
-<table align="center" > <%--style="margin-top: 30px;">--%>
 
-    <tr>
-        <td align="right" width="5%">
-            Log:
-        </td>
-        <td align="left" >
-            <div id="warningBox" class=info style="overflow: auto;height: 90px; width: 550px;">
-                <%
-                    Iterator logIt = omLog.iterator();
-                    String msg = "";
-                    while (logIt.hasNext()) {
-                        msg = logIt.next().toString();
-//                        System.out.println(msg);
-                        out.print(msg + "<br>");
-                    }
-                %>
-            </div>
-
-        </td>
-    </tr>
-
-</table>
-
-<% } %>
 <% }
 
 } catch (Exception e) {
