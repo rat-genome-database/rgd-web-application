@@ -138,7 +138,7 @@
     <div class="rgd-panel-heading"><%=pageHeader%></div>
 </div>
 
-
+<p>For information on the algorithm, please refer to <a href="https://rgd.mcw.edu/wg/new-moet-algorithm/">MOET INFO</a></p>
 
 <br>
 <div id="app">
