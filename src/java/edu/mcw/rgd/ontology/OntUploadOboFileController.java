@@ -25,7 +25,7 @@ public class OntUploadOboFileController implements Controller {
 
         // load annotations
         OntologyXDAO dao = new OntologyXDAO();
-        OntAnnotController.loadAnnotations(bean, dao, request, OntAnnotBean.MAX_ANNOT_COUNT, false);
+        OntAnnotController.loadAnnotations(bean, dao, request, OntAnnotBean.MAX_ANNOT_COUNT);
 
         return mv;
     }
