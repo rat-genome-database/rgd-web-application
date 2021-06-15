@@ -32,27 +32,26 @@ public class OntAnnotController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView mv = null;
-        boolean isDownload = false;
         int maxAnnotCount = OntAnnotBean.MAX_ANNOT_COUNT;
-
+        OntAnnotBean bean = new OntAnnotBean();
         if (request.getParameter("a") != null && request.getParameter("a").equals("1")) {
             mv = new ModelAndView("/WEB-INF/jsp/ontology/annotDetail.jsp");
         }else if (request.getParameter("d") != null && request.getParameter("d").equals("1")) {
             // download to a file -- no annotation limit
             maxAnnotCount = Integer.MAX_VALUE-10;
-            isDownload = true;
+            bean.setIsDownload(true);
             mv = new ModelAndView("/WEB-INF/jsp/ontology/downloadAnnotation.jsp");
         }else {
             mv = new ModelAndView("/WEB-INF/jsp/ontology/annot.jsp");
         }
 
-        OntAnnotBean bean = new OntAnnotBean();
+
         mv.addObject("bean", bean);
 
         // load annotations
         OntologyXDAO dao = new OntologyXDAO();
 
-        loadAnnotations(bean, dao, request, maxAnnotCount, isDownload);
+        loadAnnotations(bean, dao, request, maxAnnotCount);
         // handle missing or unknown acc_id
         if( bean.getAccId()==null || bean.getTerm()==null ) {
 
@@ -85,7 +84,7 @@ public class OntAnnotController implements Controller {
     }
 
 
-    static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount, boolean isDownload) throws Exception {
+    static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount) throws Exception {
 
 
         String oKey = "1";
@@ -102,12 +101,11 @@ public class OntAnnotController implements Controller {
                  request.getParameter("sort_desc"),
                  oKey,
                  request.getParameter("x"),
-                 maxAnnotCount,
-                 isDownload);
+                 maxAnnotCount);
     }
 
     static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, String accId, String species, String displayDescendants,
-        String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount, boolean isDownload) throws Exception {
+        String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount) throws Exception {
 
         bean.setExtendedView(false);
         if( extendedView!=null ) {
@@ -183,7 +181,7 @@ public class OntAnnotController implements Controller {
         }
 
         if (ts.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) < maxAnnotCount) {
-            mapWithAnnots = loadAnnotations(bean, withChildren, maxAnnotCount, isDownload);
+            mapWithAnnots = loadAnnotations(bean, withChildren, maxAnnotCount);
         }
 
         // load gene,qtl and strain annotations for the term
@@ -216,7 +214,7 @@ public class OntAnnotController implements Controller {
     }
 
 
-    static Map<Term, List<OntAnnotation>> loadAnnotations(OntAnnotBean bean, boolean withChildren, int maxAnnotCount, boolean isDownload) throws Exception {
+    static Map<Term, List<OntAnnotation>> loadAnnotations(OntAnnotBean bean, boolean withChildren, int maxAnnotCount) throws Exception {
 
 
         final String accId = bean.getAccId();
@@ -298,7 +296,7 @@ public class OntAnnotController implements Controller {
                     a.setName("");
 
                 // build annotation
-                if(isDownload){
+                if(bean.getIsDownload()){
                     a.setPlainEvidence(annot.getEvidence());
                 }else{
                     a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);

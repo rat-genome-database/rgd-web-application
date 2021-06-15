@@ -13,7 +13,7 @@
     String objectKey = Integer.toString(RgdId.OBJECT_KEY_STRAINS);
     String extView = null; // no extended view
     OntAnnotController.loadAnnotations(bean, ontologyDAO, accId, species, displayDescendants, sortBy, sortDesc, objectKey,
-            extView, OntAnnotBean.MAX_ANNOT_COUNT, false);
+            extView, OntAnnotBean.MAX_ANNOT_COUNT);
 
     if( bean.getPhenoCmoTerms().size() + bean.getPhenoMmoTerms().size() + bean.getPhenoStrains().size()
             + bean.getPhenoXcoTerms().size() > 0 ) {

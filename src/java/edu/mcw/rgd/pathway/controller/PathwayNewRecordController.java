@@ -46,7 +46,7 @@ public class PathwayNewRecordController implements Controller {
             mv.addObject("bean", bean);
 
             // load annotations
-            OntAnnotController.loadAnnotations(bean, ontxDao, request, OntAnnotBean.MAX_ANNOT_COUNT, true);
+            OntAnnotController.loadAnnotations(bean, ontxDao, request, OntAnnotBean.MAX_ANNOT_COUNT);
             return mv;
         }
 
@@ -442,7 +442,7 @@ public class PathwayNewRecordController implements Controller {
             mv.addObject("bean", bean);
 
             // load annotations
-            OntAnnotController.loadAnnotations(bean, ontxDao, request, OntAnnotBean.MAX_ANNOT_COUNT, false);
+            OntAnnotController.loadAnnotations(bean, ontxDao, request, OntAnnotBean.MAX_ANNOT_COUNT);
 
             return mv;
         }else{
