@@ -135,10 +135,10 @@
 %>
 
 <div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading"><%=pageHeader%></div>
+    <div class="rgd-panel-heading"><%=pageHeader%></div><br>
+    <a href = "https://rgd.mcw.edu/wg/new-moet-algorithm/">*The New Multi-Ontology Enrichment Tool (MOET) Algorithm (v.2 released in May 2021)</a>
 </div>
 
-<p>For information on the algorithm, please refer to <a href="https://rgd.mcw.edu/wg/new-moet-algorithm/">MOET INFO</a></p>
 
 <br>
 <div id="app">
