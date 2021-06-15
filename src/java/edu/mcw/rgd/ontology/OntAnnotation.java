@@ -112,6 +112,10 @@ public class OntAnnotation  {
         this.name = name;
     }
 
+    public void setPlainEvidence(String evidence){
+        this.evidence = evidence;
+    }
+
     public void setEvidenceWithInfo(String evidence, String withInfo, Term term) throws Exception {
 
         StringBuilder url = new StringBuilder();

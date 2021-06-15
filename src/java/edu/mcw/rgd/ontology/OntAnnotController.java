@@ -28,9 +28,11 @@ public class OntAnnotController implements Controller {
     static DecimalFormat _numFormat = new DecimalFormat("###,###,###,###");
     static ReferencePipelines refPipe = new ReferencePipelines();
 
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView mv = null;
+        boolean isDownload = false;
         int maxAnnotCount = OntAnnotBean.MAX_ANNOT_COUNT;
 
         if (request.getParameter("a") != null && request.getParameter("a").equals("1")) {
@@ -38,6 +40,7 @@ public class OntAnnotController implements Controller {
         }else if (request.getParameter("d") != null && request.getParameter("d").equals("1")) {
             // download to a file -- no annotation limit
             maxAnnotCount = Integer.MAX_VALUE-10;
+            isDownload = true;
             mv = new ModelAndView("/WEB-INF/jsp/ontology/downloadAnnotation.jsp");
         }else {
             mv = new ModelAndView("/WEB-INF/jsp/ontology/annot.jsp");
@@ -49,7 +52,7 @@ public class OntAnnotController implements Controller {
         // load annotations
         OntologyXDAO dao = new OntologyXDAO();
 
-        loadAnnotations(bean, dao, request, maxAnnotCount);
+        loadAnnotations(bean, dao, request, maxAnnotCount, isDownload);
         // handle missing or unknown acc_id
         if( bean.getAccId()==null || bean.getTerm()==null ) {
 
@@ -82,7 +85,7 @@ public class OntAnnotController implements Controller {
     }
 
 
-    static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount) throws Exception {
+    static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount, boolean isDownload) throws Exception {
 
 
         String oKey = "1";
@@ -99,11 +102,12 @@ public class OntAnnotController implements Controller {
                  request.getParameter("sort_desc"),
                  oKey,
                  request.getParameter("x"),
-                 maxAnnotCount);
+                 maxAnnotCount,
+                 isDownload);
     }
 
     static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, String accId, String species, String displayDescendants,
-        String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount) throws Exception {
+        String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount, boolean isDownload) throws Exception {
 
         bean.setExtendedView(false);
         if( extendedView!=null ) {
@@ -179,7 +183,7 @@ public class OntAnnotController implements Controller {
         }
 
         if (ts.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) < maxAnnotCount) {
-            mapWithAnnots = loadAnnotations(bean, withChildren, maxAnnotCount);
+            mapWithAnnots = loadAnnotations(bean, withChildren, maxAnnotCount, isDownload);
         }
 
         // load gene,qtl and strain annotations for the term
@@ -212,7 +216,7 @@ public class OntAnnotController implements Controller {
     }
 
 
-    static Map<Term, List<OntAnnotation>> loadAnnotations(OntAnnotBean bean, boolean withChildren, int maxAnnotCount) throws Exception {
+    static Map<Term, List<OntAnnotation>> loadAnnotations(OntAnnotBean bean, boolean withChildren, int maxAnnotCount, boolean isDownload) throws Exception {
 
 
         final String accId = bean.getAccId();
@@ -294,7 +298,12 @@ public class OntAnnotController implements Controller {
                     a.setName("");
 
                 // build annotation
-                a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);
+                if(isDownload){
+                    a.setPlainEvidence(annot.getEvidence());
+                }else{
+                    a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);
+                }
+
 
                 // originally ref_rgd_id was accessible by calling annot.getRefRgdId()
                 // since the ontology annotation table was redesigned to show only one row per gene,
