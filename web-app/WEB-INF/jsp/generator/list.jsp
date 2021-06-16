@@ -621,14 +621,10 @@ $(document).ready(function(){
 <% if (accIds.size() > 0 ) { %>
 
 <% if (omLog.size() > 0) { %>
-<table align="center" style="margin-top: 15px;">
-
+<table align="center" style="margin-top: 15px; border: solid;border-color: black;border-width: thin;">
     <tr>
-        <td align="right" width="5%">
-            Log:
-        </td>
         <td align="left" >
-            <div id="warningBox" class=info style="overflow: auto;height: 60px; width: 550px;">
+            <div id="warningBox" class=info style="overflow: auto;height: 60px;">
                 <%
                     Iterator logIt = omLog.iterator();
                     String msg = "";

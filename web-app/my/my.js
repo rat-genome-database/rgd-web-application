@@ -436,6 +436,10 @@ rgdModule.controller('RGDPageController', [
 
             var geneList = "";
             for (i=0; i< lst.length; i++) {
+                if (lst[i].innerHTML.includes("<sup>")) // temp statement to remove alleles
+                {
+                    continue;
+                }
                 if (i!=0) {
                     geneList +=",";
                 }
@@ -529,6 +533,7 @@ rgdModule.controller('RGDPageController', [
                     //var url = "/rgdweb/gviewer/download.html?";
                     //url += "mapKey=" + document.getElementById("mapKey_tmp").options[document.getElementById("mapKey_tmp").selectedIndex].value;
                     //url += "&genes=" + getResultSet();
+
                     if (typeof $scope.oKey === 'undefined' || $scope.oKey === null) {
                         url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=1&vv=&ga=&act=excel&a=" + $scope.a;
                     } else{
