@@ -436,6 +436,10 @@ rgdModule.controller('RGDPageController', [
 
             var geneList = "";
             for (i=0; i< lst.length; i++) {
+                if (lst[i].innerHTML.includes("<sup>")) // temp statement to remove alleles
+                {
+                    continue;
+                }
                 if (i!=0) {
                     geneList +=",";
                 }
