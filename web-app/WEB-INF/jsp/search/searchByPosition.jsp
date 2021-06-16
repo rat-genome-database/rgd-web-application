@@ -241,7 +241,7 @@
                         <option value="7">Squirrel</option>
                         <option value="9">Pig</option>
                         <option value="14">Naked Mole-Rat</option>
-                        <option value="13">African Green Monkey (Vervet)</option>
+                        <option value="13">Green Monkey</option>
                     </select>
                 </td>
                 <td>

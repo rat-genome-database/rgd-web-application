@@ -193,6 +193,8 @@
             <option  value="6" <% if (speciesTypeKey==6) out.print("SELECTED"); %>>Dog</option>
             <option  value="7" <% if (speciesTypeKey==7) out.print("SELECTED"); %>>Squirrel</option>
             <option  value="9" <% if (speciesTypeKey==9) out.print("SELECTED"); %>>Pig</option>
+                <option  value="14" <% if (speciesTypeKey==14) out.print("SELECTED"); %>>Naked Mole-rat</option>
+                <option  value="13" <% if (speciesTypeKey==13) out.print("SELECTED"); %>>Green Monkey</option>
             </select>
        </td>
     </tr>

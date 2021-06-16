@@ -73,6 +73,9 @@
         <option  value="Canis">Dog</option>
         <option  value="Ictidomys">Squirrel</option>
         <option value="Sus">Pig</option>
+        <option value="Glaber">Naked Mole-Rat</option>
+        <option value="Sabaeus">Green Monkey</option>
+
     </select>
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
