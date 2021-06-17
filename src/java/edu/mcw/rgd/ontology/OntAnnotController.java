@@ -349,7 +349,12 @@ public class OntAnnotController implements Controller {
                     }
                 }
 
-                a.setEvidence( annot.getEvidence(), term );
+                if(bean.getIsDownload()){
+                    a.setPlainEvidence(annot.getEvidence());
+                }else{
+                    a.setEvidence( annot.getEvidence(), term );
+                }
+
                 a.setQualifier( htmlMerge(a.getQualifier(), annot.getQualifier()) );
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
