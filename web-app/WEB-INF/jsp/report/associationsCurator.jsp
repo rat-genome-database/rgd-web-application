@@ -962,11 +962,13 @@
             }
         }
 %>
-<div class="light-table-border">
-<div class="sectionHeading" id="phenotypeAnnotationsCurator">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
+<div class="reportTable light-table-border">
+  <div class="sectionHeading" id="phenotypeAnnotationsCurator">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
+</div>
+
 <% if (mpList.size() > 0) { %>
-<div class="reportTable" id="mammalianPhenotypeAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+<div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
+   <div class="sectionHeading" id="mammalianPhenotypeAnnotations"><h4>Mammalian Phenotype</h4></div>
 
 
 <div class="search-and-pager">
@@ -1016,10 +1018,10 @@
 </div>
 
 <% } if (hpManualList.size() > 0) { %>
-<div class="reportTable" id="humanPhenotypeManualAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Manual Human Phenotype Annotations - RGD</u></span><br></span>
+ <div class="reportTable light-table-border" id="humanPhenotypeManualAnnotationsTableWrapper">
+    <div class="sectionHeading" id="humanPhenotypeManualAnnotations"><h4>Manual Human Phenotype Annotations - RGD</h4></div>
 
-<div class="search-and-pager">
+ <div class="search-and-pager">
     <div class="modelsViewContent" >
         <div class="pager humanPhenotypeManualAnnotationsPager" >
             <form>
@@ -1066,8 +1068,8 @@
 </div>
 
     <% } if (hpOtherList.size() > 0) { %>
-    <div class="reportTable" id="humanPhenotypeAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+<div class="reportTable light-table-border" id="humanPhenotypeAnnotationsTableWrapper">
+    <div class="sectionHeading" id="humanPhenotypeAnnotations"><h4>Imported Human Phenotype Annotations - HPO</h4></div>
 
         <div class="search-and-pager">
             <div class="modelsViewContent" >
@@ -1116,8 +1118,8 @@
     </div>
 
  <% } if (hpClinVarList.size() > 0) { %>
-    <div class="reportTable" id="humanPhenotypeClinVarAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Imported Phenotype Annotations - ClinVar</u></span><br></span>
+<div class="reportTable light-table-border" id="humanPhenotypeClinVarAnnotationsTableWrapper">
+    <div class="sectionHeading" id="humanPhenotypeClinVarAnnotations"><h4>Imported Human Phenotype Annotations - ClinVar</h4></div>
 
         <div class="search-and-pager">
             <div class="modelsViewContent" >
@@ -1166,7 +1168,6 @@
     </div>
 
     <% } %>
-</div>
 <% } %>
 
 
