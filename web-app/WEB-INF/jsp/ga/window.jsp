@@ -4,9 +4,13 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="java.util.Iterator" %>
 
+<% String pageTitle = "GA Tool: Compared Terms Window";
+    String headContent = "";
+    String pageDescription = "";%>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="gaHeader.jsp" %>
 
-   <%@ include file="rgdHeader.jsp" %>
+<%--   <%@ include file="rgdHeader.jsp" %>--%>
     <%@ include file="menuBar.jsp" %>
 <br>
 
@@ -76,7 +80,7 @@
                 %>
                 <tr>
                     <td align="left" style="background-color:#E8E4D5;">
-                            <a href="<%=Link.gene(g.getRgdId())%>" target="_blank"><%=g.getSymbol()%></a> - <%=g.getName()%><br>
+                            <a class="geneList" href="<%=Link.gene(g.getRgdId())%>" target="_blank"><%=g.getSymbol()%></a> - <%=g.getName()%><br>
                         </td>
                 </tr>
                 <%
@@ -87,3 +91,4 @@
     </tr>
 </table>
 
+<%@ include file="/common/footerarea.jsp" %>
