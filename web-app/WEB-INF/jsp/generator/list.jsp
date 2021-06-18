@@ -624,7 +624,7 @@ $(document).ready(function(){
 <table align="center" style="margin-top: 15px; border: solid;border-color: black;border-width: thin;">
     <tr>
         <td align="left" >
-            <div id="warningBox" class=info style="overflow: auto;height: 60px;">
+            <div id="warningBox" class=info style="overflow: auto;height: 60px;margin: 3px;">
                 <%
                     Iterator logIt = omLog.iterator();
                     String msg = "";
