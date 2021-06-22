@@ -51,6 +51,9 @@
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Dog&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Dog Results" style="font-weight: bold">Dog</a></td>
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Squirrel&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Squirrel Results" style="font-weight: bold">Squirrel</a></td>
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Pig&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Pig Results" style="font-weight: bold">Pig</a></td>
+                                <td ><a href="elasticResults.html?term=${model.term}&species=Green%20Monkey&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Green Monkey Results" style="font-weight: bold">Green Monkey</a></td>
+                                <td ><a href="elasticResults.html?term=${model.term}&species=Naked%20Mole-rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-rat</a></td>
+
                                 <td >All</td>
                             </tr>
                             </thead>
@@ -86,7 +89,10 @@
                                               <c:set var="species" value="Pig"/>
                                           </c:if>
                                           <c:if test="${loop.index==9}">
-                                              <c:set var="species" value=""/>
+                                              <c:set var="species" value="Green Monkey"/>
+                                          </c:if>
+                                          <c:if test="${loop.index==10}">
+                                              <c:set var="species" value="Naked Mole-rat"/>
                                           </c:if>
                                            <c:choose>
                                               <c:when test="${first==true}">
