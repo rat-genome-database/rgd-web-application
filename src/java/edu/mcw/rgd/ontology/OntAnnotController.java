@@ -28,22 +28,24 @@ public class OntAnnotController implements Controller {
     static DecimalFormat _numFormat = new DecimalFormat("###,###,###,###");
     static ReferencePipelines refPipe = new ReferencePipelines();
 
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView mv = null;
         int maxAnnotCount = OntAnnotBean.MAX_ANNOT_COUNT;
-
+        OntAnnotBean bean = new OntAnnotBean();
         if (request.getParameter("a") != null && request.getParameter("a").equals("1")) {
             mv = new ModelAndView("/WEB-INF/jsp/ontology/annotDetail.jsp");
         }else if (request.getParameter("d") != null && request.getParameter("d").equals("1")) {
             // download to a file -- no annotation limit
             maxAnnotCount = Integer.MAX_VALUE-10;
+            bean.setIsDownload(true);
             mv = new ModelAndView("/WEB-INF/jsp/ontology/downloadAnnotation.jsp");
         }else {
             mv = new ModelAndView("/WEB-INF/jsp/ontology/annot.jsp");
         }
 
-        OntAnnotBean bean = new OntAnnotBean();
+
         mv.addObject("bean", bean);
 
         // load annotations
@@ -294,7 +296,12 @@ public class OntAnnotController implements Controller {
                     a.setName("");
 
                 // build annotation
-                a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);
+                if(bean.getIsDownload()){
+                    a.setPlainEvidence(annot.getEvidence());
+                }else{
+                    a.setEvidenceWithInfo(annot.getEvidence(), annot.getWithInfo(), term);
+                }
+
 
                 // originally ref_rgd_id was accessible by calling annot.getRefRgdId()
                 // since the ontology annotation table was redesigned to show only one row per gene,
@@ -340,7 +347,12 @@ public class OntAnnotController implements Controller {
                     }
                 }
 
-                a.setEvidence( annot.getEvidence(), term );
+                if(bean.getIsDownload()){
+                    a.setPlainEvidence(annot.getEvidence());
+                }else{
+                    a.setEvidence( annot.getEvidence(), term );
+                }
+
                 a.setQualifier( htmlMerge(a.getQualifier(), annot.getQualifier()) );
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
                     bean.setHasQualifiers(true);
@@ -576,6 +588,10 @@ public class OntAnnotController implements Controller {
             buf.append("data_squirrel2_0");
         }else if (speciesTypeKey==SpeciesType.PIG) {
             buf.append("data_pig11_1");
+        }else if (speciesTypeKey==SpeciesType.NAKED_MOLE_RAT) {
+            buf.append("HetGla 1.0");
+        }else if (speciesTypeKey==SpeciesType.VERVET) {
+            buf.append("ChlSab1.1");
         }
 
         if( a.isGene() ) {

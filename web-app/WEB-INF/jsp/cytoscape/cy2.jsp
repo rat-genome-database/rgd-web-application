@@ -102,6 +102,8 @@
       <option  value="1" >Human</option>
       <option  value="6" >Dog</option>
       <option  value="9" >Pig</option>
+      <option  value="14" >Naked Mole-rat</option>
+      <option  value="13" >Green Monkey</option>
   </select><span><button value="submit">Search</button> </span></div></form>
     <h3><span style="color: #0066FF"><c:out value="${fn:length(model.edges)}"/></span> binary interactions found for Queried Objects
         <c:forEach items="${model.matched}" var="item">

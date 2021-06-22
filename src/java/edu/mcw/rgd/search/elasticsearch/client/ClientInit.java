@@ -36,15 +36,15 @@ public class ClientInit {
 
     }
     private static RestHighLevelClient getInstance() {
-    //    Properties props= getProperties();
+     //   Properties props= getProperties();
 
         return new RestHighLevelClient(
                 RestClient.builder(
-                new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
-                new HttpHost( "erika02.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika03.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika04.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika05.rgd.mcw.edu",9200,"http")
+                        new HttpHost("erika01.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika02.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika03.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika04.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika05.rgd.mcw.edu", 9200, "http")
 
                 ));
 
@@ -88,8 +88,8 @@ public class ClientInit {
 
 
         try{
-          //   fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
-            fis=new FileInputStream("/data/properties/elasticsearchProps.properties");
+         //    fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
+        //   fis=new FileInputStream("/data/pipelines/properties/es_properties.properties");
             props.load(fis);
 
         }catch (Exception e){

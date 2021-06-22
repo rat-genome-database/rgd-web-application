@@ -248,7 +248,17 @@ public class VVService {
         if(req.getParameter("possibly").equals("true")){pPredictions.add("possibly damaging");}
         if(req.getParameter("probably").equals("true")){pPredictions.add("probably damaging");}
         if(pPredictions.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray())));
+            builder.filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray()));
+        }
+
+        List<String> clinicalSignificance=new ArrayList<>();
+        if(req.getParameter("cs_pathogenic").equals("true")){clinicalSignificance.add("pathogenic");
+        clinicalSignificance.add("pathogenic|likely pathogenic");}
+        if(req.getParameter("cs_benign").equals("true")){clinicalSignificance.add("benign");
+        clinicalSignificance.add("likely benign");}
+        if(req.getParameter("cs_other").equals("true")){clinicalSignificance.add("uncertain significance");}
+        if(clinicalSignificance.size()>0){
+            builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("clinicalSignificance.keyword", clinicalSignificance.toArray())));
         }
 
         List<String> clinicalSignificance=new ArrayList<>();

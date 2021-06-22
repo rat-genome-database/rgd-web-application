@@ -22,6 +22,7 @@ public class OntAnnotBean extends OntBaseBean {
     boolean hasQualifiers; // there are annotations with qualifiers
     boolean showAnnotsForAllSpecies = true;
     boolean extendedView = false;
+    boolean isDownload = false;
     int objectKey=-1;
 
 
@@ -256,4 +257,13 @@ public class OntAnnotBean extends OntBaseBean {
     public void setAnnotCount(int annotCount) {
         this.annotCount = annotCount;
     }
+
+    public boolean getIsDownload() {
+        return isDownload;
+    }
+
+    public void setIsDownload(boolean isDownload) {
+        this.isDownload = isDownload;
+    }
+
 }

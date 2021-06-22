@@ -2,7 +2,10 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
 
-
+<% String pageTitle = "GA Tool: Genome Viewer";
+    String headContent = "";
+    String pageDescription = "View gene positions";%>
+<%@ include file="/common/headerarea.jsp" %>
 <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
 // ================================================================
 //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
@@ -43,16 +46,16 @@
 
 
 <%
-    List error = (List) request.getAttribute("error");
-    if (error.size() > 0) {
-        Iterator eit = error.iterator();
-        while (eit.hasNext()) {
-            String emsg = (String) eit.next();
-            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
-
-        }
-        return;
-    }
+//    List error = (List) request.getAttribute("error");
+//    if (error.size() > 0) {
+//        Iterator eit = error.iterator();
+//        while (eit.hasNext()) {
+//            String emsg = (String) eit.next();
+//            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
+//
+//        }
+//        return;
+//    }
 
     System.out.println(om.getMapped().size());
 
@@ -75,33 +78,57 @@
 <script>
 
         var gviewer = null;
+        onload = function () {
 
-             if (!gviewer) {
-                 gviewer = new Gviewer("gviewer", 250, 800);
 
-                 gviewer.imagePath = "/rgdweb/gviewer/images";
-                 gviewer.exportURL = "/rgdweb/report/format.html";
-                 gviewer.annotationTypes = new Array("gene", "qtl","strain");
-                 gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-                 //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
-                 gviewer.genomeBrowserName = "JBrowse";
-                 gviewer.regionPadding=2;
-                 gviewer.annotationPadding = 1;
+            try {
+                species = <%=req.getParameter("species")%>;
+                if (species == 6){
+                    gviewer = new Gviewer("gviewer", 250, 1000);
+                }
+                else {
+                    gviewer = new Gviewer("gviewer", 250, 800);
+                }
 
-                 species = <%=req.getParameter("species")%>;
+                gviewer.imagePath = "/rgdweb/gviewer/images";
+                gviewer.exportURL = "/rgdweb/report/format.html";
+                gviewer.annotationTypes = new Array("gene", "qtl", "strain");
 
-                 if (species == 3) {
-                     gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
-                 }else if (species == 1) {
-                     gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
-                 }else {
-                     gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
-                 }
+                //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
+                gviewer.genomeBrowserName = "JBrowse";
+                gviewer.regionPadding = 2;
+                gviewer.annotationPadding = 1;
 
-                 gviewer.addZoomPane("zoomWrapper", 250, 800);
-             }else {
-                 gviewer.reset();
-             }
+                switch (species) {
+                    case 3:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
+                        break;
+                    case 1:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
+                        break;
+                    case 2:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
+                        break;
+                    case 5:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_bonobo1_1&tracks=ARGD_curated_genes";
+                        break;
+                    case 6:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_dog3_1&tracks=ARGD_curated_genes";
+
+                        break;
+                    case 9:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_pig11_1&tracks=ARGD_curated_genes";
+                        break;
+                    default:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
+                }
+
+                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml");
+
+                gviewer.addZoomPane("zoomWrapper", 250, 800);
+            } catch (err) {
+                // gviewer.reset();
+            }
 
 
      <%
@@ -157,11 +184,39 @@
      %>
 
      document.getElementById("geneList").innerHTML = "<%=r.format(strat)%>";
-
+        }
   </script>
 
+<%
+    Iterator symbolIt = om.getMapped().iterator();
+    while (symbolIt.hasNext()) {
+        Object obj = symbolIt.next();
 
+        String symbol = "";
+        int rgdId=-1;
+        String type="";
+
+        if (obj instanceof Gene) {
+            Gene g = (Gene) obj;
+            symbol=g.getSymbol();
+            rgdId=g.getRgdId();
+            type="gene";
+        }
+        if (obj instanceof String) {
+            symbol=(String) obj;
+            rgdId=-1;
+        }
+
+        if (rgdId==-1) {
+        %>
+            <span hidden style="color:red; font-weight:700;" class="geneList"><%=symbol%></span>
+
+    <% } else { %>
+            <a hidden style="font-size:18px;" class="geneList"><%=symbol%></a>
+    <% }
+    } %>
 <br>
 
 </body>
 </html>
+<%@ include file="/common/footerarea.jsp" %>
