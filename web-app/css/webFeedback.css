@@ -19,6 +19,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     text-align: center;
     display:table-cell;
     vertical-align:middle;
+    box-sizing: border-box;
 }
 .thumbsUp {
     bottom: 70px;
@@ -31,6 +32,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border-radius: 25px;
     cursor: pointer;
     border: none;
+    box-sizing: border-box;
 }
 .thumbsDown {
     bottom: 70px;
@@ -44,6 +46,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border-radius: 25px;
     cursor: pointer;
     border: none;
+    box-sizing: border-box;
 }
 .btnDiv {
     bottom: 15px;
@@ -57,7 +60,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border-radius: 20px;
     opacity: .8;
     z-index: 500;
-
+    box-sizing: border-box;
 }
 .hiddenBtns {
     bottom: 25px;
@@ -66,6 +69,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     width: 50px;
     position: fixed;
     z-index: 500;
+    box-sizing: border-box;
 }
 .openLikeBtn{
     height: 50px;
@@ -77,6 +81,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border-radius: 24px;
     cursor: pointer;
     opacity: .7;
+    box-sizing: border-box;
 }
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
@@ -92,6 +97,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     height: 40px;
     font-size: 13pt;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 /* The popup chat - hidden by default */
@@ -102,6 +108,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     right: 15px;
     border: 3px solid #f1f1f1;
     z-index: 501;
+    box-sizing: border-box;
 }
 
 /* Add styles to the form container */
@@ -109,6 +116,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
     max-width: 300px;
     padding: 10px;
     background-color: white;
+    box-sizing: border-box;
+    white-space: normal;
 }
 
 /* Full-width textarea */
@@ -121,6 +130,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     resize: none;
     min-height: 200px;
     font-size: large;
+    box-sizing: border-box;
 }
 
 /* When the textarea gets focus, do something */
@@ -140,6 +150,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     margin-bottom:10px;
     opacity: 0.8;
     font-size: large;
+    box-sizing: border-box;
 }
 
 .closeForm {
@@ -148,6 +159,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     right: 0;
     background-color: red;
     color: white;
+    box-sizing: border-box;
 
 }
 /* Add some hover effects to buttons */
