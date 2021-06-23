@@ -1,9 +1,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-<property name="maxUploadSize" value="100000000"/>
-</bean>
+
  
      <bean id="nomenclatureManager" class="edu.mcw.rgd.nomenclatureinterface.NomenclatureManager">
                 <property name="informaticPrescreener"><ref bean="informaticPrescreener"/></property>

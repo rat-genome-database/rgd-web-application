@@ -399,6 +399,72 @@
                                           </c:forEach>
 
                                       </c:if>
+                                      <c:if test="${item.key.equalsIgnoreCase('Green Monkey')}">
+
+                                          <c:forEach items="${model.aggregations.greenmonkey}" var="greenMonkeyFilterItem">
+                                              <li><button style="border:none;background-color: transparent" onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','','')"><span>${greenMonkeyFilterItem.key} (${greenMonkeyFilterItem.docCount})</span></button>
+
+                                                  <ul>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('gene')}">
+                                                          <c:forEach items="${model.aggregations.greenmonkeyGene}" var="geneType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('variant')}">
+                                                          <c:forEach items="${model.aggregations.greenmonkeyVariant}" var="variantType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('qtl')}">
+                                                          <c:forEach items="${model.aggregations.greenmonkeyQTL}" var="qtlType">
+
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${qtlType.key}'),'trait'">${qtlType.key} (${qtlType.docCount})</li>
+
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('sslp')}">
+                                                          <c:forEach items="${model.aggregations.greenmonkeySSLP}" var="sslpType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                  </ul>
+                                              </li>
+                                          </c:forEach>
+
+                                      </c:if>
+                                      <c:if test="${item.key.equalsIgnoreCase('Naked Mole-rat')}">
+
+                                          <c:forEach items="${model.aggregations.nakedmolerat}" var="greenMonkeyFilterItem">
+                                              <li><button style="border:none;background-color: transparent" onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','','')"><span>${greenMonkeyFilterItem.key} (${greenMonkeyFilterItem.docCount})</span></button>
+
+                                                  <ul>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('gene')}">
+                                                          <c:forEach items="${model.aggregations.nakedmoleratGene}" var="geneType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('variant')}">
+                                                          <c:forEach items="${model.aggregations.nakedmoleratVariant}" var="variantType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('qtl')}">
+                                                          <c:forEach items="${model.aggregations.nakedmoleratQTL}" var="qtlType">
+
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${qtlType.key}'),'trait'">${qtlType.key} (${qtlType.docCount})</li>
+
+                                                          </c:forEach>
+                                                      </c:if>
+                                                      <c:if test="${greenMonkeyFilterItem.key.equalsIgnoreCase('sslp')}">
+                                                          <c:forEach items="${model.aggregations.nakedmoleratSSLP}" var="sslpType">
+                                                              <li onclick="filterClick('${greenMonkeyFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
+                                                          </c:forEach>
+                                                      </c:if>
+                                                  </ul>
+                                              </li>
+                                          </c:forEach>
+
+                                      </c:if>
                                   </ul>
                            </li>
                     </c:if>

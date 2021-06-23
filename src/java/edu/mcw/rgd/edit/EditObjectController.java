@@ -97,7 +97,7 @@ public abstract class EditObjectController implements Controller {
         }
 
    if(!checkToken(accessToken)) {
-      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
         return null;
    }
     if(geneType!=null)

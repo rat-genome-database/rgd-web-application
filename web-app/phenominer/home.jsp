@@ -1,5 +1,3 @@
-
-Hello World
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 
 <%
@@ -30,7 +28,7 @@ String pageDescription = "";
 </script>
 
 <div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">PhenoMiner - Quantitative Phenotypes</div>
+    <div class="rgd-panel-heading">Phenominer - Quantitative Phenotype</div>
 </div>
 
                 <br>

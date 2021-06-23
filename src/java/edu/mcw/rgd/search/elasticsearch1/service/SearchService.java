@@ -38,7 +38,7 @@ public class SearchService {
         long totalHits=0;
 
         Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
-        String[][] speciesCatArray = new String[7][10];
+        String[][] speciesCatArray = new String[7][12];
         speciesCatArray[0][0]="Gene";
         speciesCatArray[4][0]="Variant";
         speciesCatArray[1][0]="Strain";
@@ -62,8 +62,10 @@ public class SearchService {
                 aggregations.put("category", catBuckets);
                 for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
                    Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
-                   String species = speciesBkt.getKey().toString().toLowerCase();
-                   aggregations.put(species, catFilterAgg.getBuckets());
+                   String species = new String();
+                    species=   speciesBkt.getKey().toString().toLowerCase().replace(" ", "").replace("-","");
+
+                    aggregations.put(species, catFilterAgg.getBuckets());
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
@@ -110,40 +112,46 @@ public class SearchService {
                         }else if (key.equalsIgnoreCase("Pig")) {
                             k = 8;
                         }
+                        else if (key.equalsIgnoreCase("Green Monkey")) {
+                            k = 9;
+                        }
+                        else if (key.equalsIgnoreCase("Naked Mole-rat")) {
+                            k = 10;
+                        }
 
                             switch (bType) {
                             case "Gene":
                          //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[0][9] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[0][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
                             case "Variant":
                                 speciesCatArray[4][k] =  String.valueOf(b.getDocCount()) ;
-                                speciesCatArray[4][9] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[4][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
                             case "Strain":
                                 speciesCatArray[1][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[1][9] = String.valueOf(bucket.getDocCount());
+                                speciesCatArray[1][11] = String.valueOf(bucket.getDocCount());
 
                                 break;
                             case "QTL":
                                 speciesCatArray[2][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[2][9] =  String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[2][11] =  String.valueOf(bucket.getDocCount()) ;
                               //  System.out.println(key + " : "+ b.getDocCount());
                                 break;
                             case "SSLP":
                                 speciesCatArray[3][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[3][9] = String.valueOf(bucket.getDocCount());
+                                speciesCatArray[3][11] = String.valueOf(bucket.getDocCount());
                                 break;
 
                             case "Promoter":
 
                                 speciesCatArray[5][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[5][9] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[5][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
                             case "Cell line":
                                 speciesCatArray[6][k] =  String.valueOf(b.getDocCount()) ;
-                                speciesCatArray[6][9] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[6][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
 
                             default:

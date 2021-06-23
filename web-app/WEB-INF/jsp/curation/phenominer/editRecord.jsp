@@ -13,7 +13,7 @@
     String headContent = "";
     String pageDescription = "";
 %>
-var cCount = 0;<!--cCount made glogal variable for RGD1797-->
+
 <%@ include file="editHeader.jsp" %>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
@@ -161,53 +161,36 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     function updateUnits() {
         var unitType = document.getElementById("unitType").value;
         var unitValue = document.getElementById("unitValue").value;
-        var existingcmUnits, existingcUnits;
+        var existing;
 
-        //check for CMO Unit type or Expt Unit type
-        if (unitType == 3) {//CMO unit type
-            existingcmUnits = document.getElementsByName("cmUnits")[0].options;
-            CheckPresence(existingcmUnits,unitValue);
+        if (unitType == 3) {
+            existing = document.getElementsByName("cmUnits")[0].options;
             var option = document.createElement("option");
             option.text = unitValue;
             option.value = unitValue;
             option.selected = "true";
-            document.getElementsByName("cmUnits")[0].add(option, 0);
+            document.getElementsByName("cmUnits")[0].add(option,0);
+        } else {
+            existing = document.getElementsByName("cUnits")[0].options;
+            var option = document.createElement("option");
+            option.text = unitValue;
+            option.value = unitValue;
+            option.selected = "true";
+            document.getElementsByName("cUnits")[0].add(option,0);
         }
-        else if(unitType == 2){//Expt unit type
-            //existingcUnits = document.getElementsByName("cUnits")[0].options;
-            //CheckPresence(existingcUnits,unitValue);
-            //var option = document.createElement("option");
-            //option.text = unitValue;
-            //option.value = unitValue;
-            //option.selected = "true";
-            var selectedAccId = document.getElementById("accId").value;//get XCO id been updated
-            for(var i=0;i<cCount;i++){//check all list of conditions for XCO Id been updated
-                if( selectedAccId == document.getElementById("cAccId"+i).value ){
-                    existingcUnits = document.getElementsByName("cUnits")[0].options;
-                    CheckPresence(existingcUnits,unitValue);
-                    var option = document.createElement("option");
-                    option.text = unitValue;
-                    option.value = unitValue;
-                    option.selected = "true";
-                    document.getElementById("cUnits"+i).add(option, 0);
-                }
-            }
-        }
-        var unit = document.getElementById("unit");
-        unit.style.display = "none";
-    }
-
-    //check for presence of value in existing units options
-    function CheckPresence(existing,unitValue){
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
             if (val == unitValue)
                 alert("Unit exists in the database - Only conversion will be added");
         }
+
+        var unit = document.getElementById("unit");
+        unit.style.display = "none";
     }
+
 </script>
 
-<form name= "editRecordForm" action="records.html" method="get">
+<form action="records.html" method="get">
 
     <input type="hidden" name="act" value="save"/>
     <input type="hidden" name="studyId" value="<%=req.getParameter("studyId")%>"/>
@@ -442,7 +425,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             <td><input type="text" size="7" name="sMaxAge"
                        value="<%=dm.outForce("sMaxAge", rec.getSample().getAgeDaysFromHighBound(), multiEdit || (isNew && !isCloning) ?
                    "" : "N/A")%>"/></td>
-            <td><%=fu.buildSelectListNewValue("sSex", dao.getDistinct("PHENOMINER_ENUMERABLES where type=1 ", "value", true), dm.out("sSex", rec.getSample().getSex()),false)%>
+            <td><%=fu.buildSelectListNewValue("sSex", dao.getDistinct("PHENOMINER_ENUMERABLES where type=1 ", "value", true), dm.out("sSex", rec.getSample().getSex()))%>
             </td>
         </tr>
     </table>
@@ -473,7 +456,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             <td><input type="text" name="cmSD" size="7" value="<%=dm.out("cmSD", rec.getMeasurementSD())%>"/></td>
             <td><input type="text" name="cmSEM" size="7" value="<%=dm.out("cmSEM", rec.getMeasurementSem())%>"/></td>
             <td><input type="text" name="cmError" value="<%=dm.out("cmError", rec.getMeasurementError())%>"/></td>
-            <td><%=fu.buildSelectListNewValue("cmAveType", dao.getDistinct("PHENOMINER_ENUMERABLES where type=4 ", "value", true), dm.out("cmAveType", rec.getClinicalMeasurement().getAverageType()),false)%>
+            <td><%=fu.buildSelectListNewValue("cmAveType", dao.getDistinct("PHENOMINER_ENUMERABLES where type=4 ", "value", true), dm.out("cmAveType", rec.getClinicalMeasurement().getAverageType()))%>
             </td>
             <td><input type="text" name="cmFormula"
                        value="<%=dm.out("cmFormula", rec.getClinicalMeasurement().getFormula())%>"/></td>
@@ -596,7 +579,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
     <script type="text/javascript">
         var conditions = new Array();
-        cCount =<%=rec.getConditions().size()%>;
+        var cCount =<%=rec.getConditions().size()%>;
         function addCondition() {
             var thisCondition = document.getElementById("condition" + cCount);
             thisCondition.style.display = "block";
@@ -651,7 +634,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                            value="<%=dm.out("cValueMin", cond.getValueMin(), conditionCount)%>"/></td>
                 <td><input type="text" size="7" name="cValueMax"
                            value="<%=dm.out("cValueMax", cond.getValueMax(), conditionCount)%>"/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits"+conditionCount, unitList, dm.out("cUnits", cond.getUnits(), conditionCount),true)%><!--conditionCount added for RGD1797-->
+                <td><%=fu.buildSelectListNewValue("cUnits", unitList, dm.out("cUnits", cond.getUnits(), conditionCount))%>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value="<%=dm.out("cMinDuration", (cond.getDurationLowerBound() > 0 ? d_f.format(cond.getDurationLowerBound()) : ""), conditionCount)%>"
@@ -707,7 +690,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                 <input type="hidden" name="cId" value=""/>
                 <td><input type="text" size="7" name="cValueMin" value=""/></td>
                 <td><input type="text" size="7" name="cValueMax" value=""/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits"+i, unitList, "",true)%><!--i added for RGD1797-->
+                <td><%=fu.buildSelectListNewValue("cUnits", unitList, "")%>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>

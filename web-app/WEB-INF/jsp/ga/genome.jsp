@@ -82,7 +82,13 @@
 
 
             try {
-                gviewer = new Gviewer("gviewer", 250, 800);
+                species = <%=req.getParameter("species")%>;
+                if (species == 6){
+                    gviewer = new Gviewer("gviewer", 250, 1000);
+                }
+                else {
+                    gviewer = new Gviewer("gviewer", 250, 800);
+                }
 
                 gviewer.imagePath = "/rgdweb/gviewer/images";
                 gviewer.exportURL = "/rgdweb/report/format.html";
@@ -93,18 +99,31 @@
                 gviewer.regionPadding = 2;
                 gviewer.annotationPadding = 1;
 
-                species = <%=req.getParameter("species")%>;
+                switch (species) {
+                    case 3:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
+                        break;
+                    case 1:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
+                        break;
+                    case 2:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
+                        break;
+                    case 5:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_bonobo1_1&tracks=ARGD_curated_genes";
+                        break;
+                    case 6:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_dog3_1&tracks=ARGD_curated_genes";
 
-                if (species == 3) {
-                    gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-                    gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
-                } else if (species == 1) {
-                    gviewer.genomeBrowserURL = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
-                    gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
-                } else {
-                    gviewer.genomeBrowserURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
-                    gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
+                        break;
+                    case 9:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_pig11_1&tracks=ARGD_curated_genes";
+                        break;
+                    default:
+                        gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
                 }
+
+                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml");
 
                 gviewer.addZoomPane("zoomWrapper", 250, 800);
             } catch (err) {
@@ -168,7 +187,34 @@
         }
   </script>
 
+<%
+    Iterator symbolIt = om.getMapped().iterator();
+    while (symbolIt.hasNext()) {
+        Object obj = symbolIt.next();
 
+        String symbol = "";
+        int rgdId=-1;
+        String type="";
+
+        if (obj instanceof Gene) {
+            Gene g = (Gene) obj;
+            symbol=g.getSymbol();
+            rgdId=g.getRgdId();
+            type="gene";
+        }
+        if (obj instanceof String) {
+            symbol=(String) obj;
+            rgdId=-1;
+        }
+
+        if (rgdId==-1) {
+        %>
+            <span hidden style="color:red; font-weight:700;" class="geneList"><%=symbol%></span>
+
+    <% } else { %>
+            <a hidden style="font-size:18px;" class="geneList"><%=symbol%></a>
+    <% }
+    } %>
 <br>
 
 </body>

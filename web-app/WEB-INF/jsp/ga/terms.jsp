@@ -12,19 +12,25 @@
 <%@ include file="gaHeader.jsp" %>
 
  <%
+
  try {
+
     ArrayList passedAspects = new ArrayList();
     if (!req.getParameter("aspect").equals("")) {
         passedAspects.add(req.getParameter("aspect"));
     }
+
     /*
     int slimId = -1;
     if (req.getParameter("aspect").equals("E")) {
        slimId=1;
     }
     */
+
      LinkedHashMap<String,Integer> geneCounts=  adao.getGeneCounts(om.getMappedRgdIds(), termSet, passedAspects);
+
      OntologyXDAO oDao = new OntologyXDAO();
+
  %>
 
 
@@ -37,10 +43,14 @@
 <%
     int count=0;
     Iterator tit = geneCounts.keySet().iterator();
+
     while (tit.hasNext() && count++ < 200) {
+
         String acc = (String) tit.next();
         int refs = geneCounts.get(acc);
+
         BigDecimal genePercent = new BigDecimal(((double) refs / (double) om.getMappedRgdIds().size() * 100));
+
 %>
 
     <tr>
@@ -58,6 +68,7 @@
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
+
             %>
 
 
@@ -87,5 +98,6 @@
 
 <% } catch (Exception e) {
     e.printStackTrace();
+
 }
 %>

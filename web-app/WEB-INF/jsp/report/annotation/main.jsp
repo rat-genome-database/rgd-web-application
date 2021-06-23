@@ -25,10 +25,6 @@
         isReferenceRgd = 1;
     }
 
-    if (annotList.size() == 0) {
-        annotList = annotationDAO.getAnnotationsByReferenceAndTermAcc(rgdId,termAcc);
-        isReferenceRgd = 1;
-    }
 
     String term = termAcc;
     Annotation obj = null;

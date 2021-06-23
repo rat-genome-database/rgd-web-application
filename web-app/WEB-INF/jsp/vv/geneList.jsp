@@ -139,5 +139,5 @@ String pageDescription = "Define Gene Symbol List";
 
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
-<%@ include file="/common/footerarea.jsp" %>
+
 

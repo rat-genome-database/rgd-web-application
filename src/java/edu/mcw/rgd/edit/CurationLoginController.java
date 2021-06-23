@@ -29,21 +29,21 @@ public class CurationLoginController implements Controller {
             else {
                 response.addHeader("Cache-Control","max-age=5, must-revalidate");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
-                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
                 return null;
             }
 
         } else {
             response.addHeader("Cache-Control","max-age=5, must-revalidate");
             response.setHeader("Access-Control-Allow-Credentials", "true");
-             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=7de10c5ae2c3e3825007&scope=user&redirect_uri=https://dev.rgd.mcw.edu/rgdweb/curation/login.html");
+             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
              return null;
         }
 
     }
     private String getAccessToken(String code) throws Exception {
         FileDownloader downloader = new FileDownloader();
-        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id=7de10c5ae2c3e3825007&client_secret=0bf648f790ad12f2be1d54dcb0a9f57972289fd0&code="+code);
+        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id=dc5513384190f8a788e5&client_secret=804a3b439b9babe0aa865aa94e7953e4f976914a&code="+code);
         downloader.setLocalFile(null);
 
         String token =downloader.download();

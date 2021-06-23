@@ -48,7 +48,7 @@
             if (article.getStrongText() == null)
             {
                 out.print("<p> <a href=\""+article.getRedirectLink()+"\"><img src=\"/rgdweb/common/images/social/youtube-20.png\" /></a>&nbsp;"+
-                        "<a href=\""+article.getRedirectLink()+"\" style=\"font-weight: bold;color: #24609c;text-decoration:none;\"> "+article.getDisplayText()+"</a></p>");
+                "<a href=\""+article.getRedirectLink()+"\" style=\"font-weight: bold;color: #24609c;text-decoration:none;\"> "+article.getDisplayText()+"</a></p>");
             }
             else {
                 out.print("<p> <a href=\""+article.getRedirectLink()+"\"><img src=\"/rgdweb/common/images/social/youtube-20.png\" /></a>&nbsp;"+
@@ -57,6 +57,7 @@
             }
         }
     %>
+
 </div>
 
 
