@@ -201,7 +201,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                         v.info.push({
@@ -225,7 +226,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                             v.info.push({
