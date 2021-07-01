@@ -30,8 +30,9 @@ function EnrichmentVue(divId, hostname) {
             info: [],
             hostName: host,
             species: [],
+            originalSpecies:0,
             ontology: [],
-            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig"],
+            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig","Naked Mole-rat","Green Monkey"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
@@ -41,6 +42,7 @@ function EnrichmentVue(divId, hostname) {
             pvalueLimit: 0.05,
             geneData: {},
             genes: [],
+            originalGenes: [],
             currentSort: 'pvalue',
             currentSortDir: 'asc',
             selectedAll: false,
@@ -118,6 +120,8 @@ function EnrichmentVue(divId, hostname) {
                 document.getElementById(v.ontology[0]).innerHTML = "";
               v.ontology = [ont];
               v.species = [species];
+              v.originalSpecies = species;
+              v.originalGenes = genes;
               v.genes = genes;
               v.graph = graph;
               v.table = table;
@@ -141,6 +145,10 @@ function EnrichmentVue(divId, hostname) {
                     return 7;
                 else if (s == "Pig")
                     return 9;
+                else if (s == "Naked Mole-rat")
+                    return 14;
+                else if (s == "Green Monkey")
+                    return 13;
                 else
                     return 0;
             },
@@ -161,6 +169,10 @@ function EnrichmentVue(divId, hostname) {
                     return "Squirrel";
                 else if (s == 9)
                     return "Pig";
+                else if (s == 14)
+                    return "Naked Mole-rat";
+                else if (s == 13)
+                    return "Green Monkey";
                 else
                     return null;
             },
@@ -189,7 +201,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                         v.info.push({
@@ -213,7 +226,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                             v.info.push({

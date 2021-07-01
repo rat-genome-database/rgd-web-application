@@ -248,7 +248,7 @@ public class VVService {
         if(req.getParameter("possibly").equals("true")){pPredictions.add("possibly damaging");}
         if(req.getParameter("probably").equals("true")){pPredictions.add("probably damaging");}
         if(pPredictions.size()>0){
-            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray())));
+            builder.filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray()));
         }
 
         List<String> clinicalSignificance=new ArrayList<>();

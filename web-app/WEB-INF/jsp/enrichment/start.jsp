@@ -44,6 +44,8 @@
     List<Map> dogMaps= mdao.getMaps(SpeciesType.DOG, "bp");
     List<Map> squirrelMaps= mdao.getMaps(SpeciesType.SQUIRREL, "bp");
     List<Map> pigMaps= mdao.getMaps(SpeciesType.PIG, "bp");
+    List<Map> moleRatMaps= mdao.getMaps(SpeciesType.NAKED_MOLE_RAT, "bp");
+    List<Map> greenMonkeyMaps= mdao.getMaps(SpeciesType.VERVET, "bp");
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
     List<Chromosome> mouseChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
     List<Chromosome> humanChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.HUMAN).getKey());
@@ -54,6 +56,8 @@
     //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
     List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
+    List<Chromosome> moleRatChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
+    List<Chromosome> greenMonkeyChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
     LinkedHashMap humanKeyValues= new LinkedHashMap();
@@ -62,6 +66,8 @@
     LinkedHashMap dogKeyValues= new LinkedHashMap();
     LinkedHashMap squirrelKeyValues= new LinkedHashMap();
     LinkedHashMap pigKeyValues= new LinkedHashMap();
+    LinkedHashMap moleRatKeyValues= new LinkedHashMap();
+    LinkedHashMap greenMonkeyKeyValues= new LinkedHashMap();
 
     Iterator it = ratMaps.iterator();
     while (it.hasNext()) {
@@ -105,6 +111,16 @@
         Map m = (Map)it.next();
         pigKeyValues.put(m.getKey() + "", m.getName());
     }
+    it = moleRatMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        moleRatKeyValues.put(m.getKey() + "", m.getName());
+    }
+    it = greenMonkeyMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        greenMonkeyKeyValues.put(m.getKey() + "", m.getName());
+    }
 
 %>
 
@@ -127,6 +143,10 @@
         var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
        var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
        var pigChroms = '<%=fu.buildChrSelectListWithCss("chr", pigChr, "1","form-control inputstl")%>';
+       var moleRatMaps = '<%=fu.buildSelectListWithCss("mapKey", moleRatKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
+       var moleRatChroms = '<%=fu.buildChrSelectListWithCss("chr", moleRatChr, "1","form-control inputstl")%>';
+       var greenMonkeyMaps = '<%=fu.buildSelectListWithCss("mapKey", greenMonkeyKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
+       var greenMonkeyChroms = '<%=fu.buildChrSelectListWithCss("chr", greenMonkeyChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>
 
@@ -157,6 +177,9 @@
                     <option  value="6">Dog</option>
                     <option  value="7">Squirrel</option>
                     <option value="9">Pig</option>
+                    <option value="14">Naked Mole-Rat</option>
+                    <option value="13">Green Monkey</option>
+
                 </select>
             </td>
         </tr>

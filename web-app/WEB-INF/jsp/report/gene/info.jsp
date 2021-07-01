@@ -248,11 +248,13 @@
         String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
                 : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"
                 : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rgd6"
-                : obj.getSpeciesTypeKey()==5 ? "data_bonobo2"
-                : obj.getSpeciesTypeKey()==6 ? "data_dog3_1"
-                : obj.getSpeciesTypeKey()==7 ? "data_squirrel2_0"
+                : obj.getSpeciesTypeKey()==SpeciesType.BONOBO ? "data_bonobo2"
+                : obj.getSpeciesTypeKey()==SpeciesType.DOG ? "data_dog3_1"
+                : obj.getSpeciesTypeKey()==SpeciesType.SQUIRREL ? "data_squirrel2_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
+                : obj.getSpeciesTypeKey()==SpeciesType.VERVET ? "data_chlSab2"
+                : obj.getSpeciesTypeKey()==SpeciesType.NAKED_MOLE_RAT ? "data_hetGla2"
                 : "";
         String tracks;
         if(obj.getGeneSource().equals("Ensembl"))

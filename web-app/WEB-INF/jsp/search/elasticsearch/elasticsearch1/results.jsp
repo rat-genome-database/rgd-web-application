@@ -219,7 +219,7 @@
                                                 <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </c:when>
                                             <c:otherwise>
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}">
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}" data-symbol="${hit.getSourceAsMap().symbol}">
                                             </c:otherwise>
                                         </c:choose>
 
@@ -257,7 +257,7 @@
                                                             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}">
+                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-symbol="${hit.getSourceAsMap().symbol}">
                                                         </c:otherwise>
                                                     </c:choose>
 
@@ -531,7 +531,9 @@
                                                 <td style="color: white">Chinchilla</td>
                                                 <td style="color: white">Dog</td>
                                                 <td style="color: white">Bonobo</td>
-                                                <td style="color: white;padding-right:10px">Squirrel</td>
+                                                <td style="color: white;">Squirrel</td>
+                                                <td style="color: white;">Naked Mole-rat</td>
+                                                <td style="color: white;padding-right:10px">Green Monkey</td>
                                             </tr>
                                             <c:set var="i" value="0"/>
                                             <c:forEach items="${hit.getSourceAsMap().annotationsMatrix}" var="row">

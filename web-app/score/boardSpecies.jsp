@@ -16,5 +16,7 @@
     <option value="6" <%=fu.optionParams(speciesType, "6")%>>Dog</option>
     <option value="7" <%=fu.optionParams(speciesType, "7")%>>Squirrel</option>
     <option value="9" <%=fu.optionParams(speciesType, "9")%>>Pig</option>
+    <option value="14" <%=fu.optionParams(speciesType, "14")%>>Naked Mole-rat</option>
+    <option value="13" <%=fu.optionParams(speciesType, "13")%>>Green Monkey</option>
   </select>
 </td>
