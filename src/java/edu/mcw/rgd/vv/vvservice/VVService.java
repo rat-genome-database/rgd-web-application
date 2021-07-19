@@ -31,6 +31,7 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -335,11 +336,17 @@ public class VVService {
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         List<Integer> sampleIds=vsb.getSampleIds();
         String chromosome=vsb.getChromosome();
+        String geneList=new String();
+        try {
+            geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-        if((chromosome==null || chromosome.equals("")) && !req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")){
-
+        if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
+            System.out.println("CHRMoosme null");
             List<String> symbols= new ArrayList<>();
-            for(String s:Utils.symbolSplit(req.getParameter("geneList"))){
+            for(String s:Utils.symbolSplit(geneList)){
                    symbols.add(s.toLowerCase());
             }
 
@@ -349,6 +356,7 @@ public class VVService {
 
         }else {
             if(chromosome!=null && !chromosome.equals("") ){
+                System.out.println("CHROMOSOME NOT NULL");
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome.keyword", chromosome)
                 );
@@ -366,7 +374,7 @@ public class VVService {
             }
             if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 List<String> symbols = new ArrayList<>();
-                for (String s : Utils.symbolSplit(req.getParameter("geneList"))) {
+                for (String s : Utils.symbolSplit(geneList)) {
                   symbols.add(s.toLowerCase());
                 }
 
@@ -430,7 +438,6 @@ public class VVService {
 
             if(vsb.getMapKey()==38){
                 VariantInfo clinvar=getClinvarInfo(v.getId());
-                System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                 vr.setClinvarInfo(clinvar);
             }
             variantResults.add(vr);

@@ -13,7 +13,7 @@ An annotated file will be generated for this region.
 Select annotation to include in your download.
 <br>
 <br>
-<form action="download.html">
+<form action="download.html"  method="post">
     <table align="center">
         <tr>
             <td>
@@ -73,11 +73,11 @@ Select annotation to include in your download.
     </table>
 
 
-
     <input type="hidden" name="download" value="1"/>
     <%
         out.print(fu.buildHiddenFormFieldsFromQueryString(request.getQueryString()));
     %>
+
 </form>
 
 

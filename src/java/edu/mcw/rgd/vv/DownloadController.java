@@ -30,6 +30,8 @@ import java.util.stream.Stream;
 public class DownloadController extends HaplotyperController {
 
     VVService service=new VVService();
+    GeneDAO gdao = new GeneDAO();
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         /*
@@ -59,8 +61,7 @@ public class DownloadController extends HaplotyperController {
 
         boolean isHuman = req.getParameter("mapKey").equals("38") || req.getParameter("mapKey").equals("17");
 
-        GeneDAO gdao = new GeneDAO();
-        List<MappedGene> mappedGenes;
+        List<MappedGene> mappedGenes=new ArrayList<>();
 
         if (request.getParameter("download") != null && request.getParameter("download").equals("1")) {
 
@@ -79,18 +80,20 @@ public class DownloadController extends HaplotyperController {
                 mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                 generateReport(vsb, mappedGenes, request, out, true, isHuman);
             } else {
-                for(int i=0; i<geneSymbols.size(); i++ ) {
+              /*  for(int i=0; i<geneSymbols.size(); i++ ) {
                     String geneSymbol = geneSymbols.get(i);
+                    System.out.println(geneSymbol);
                     Position p = this.getPosition(geneSymbol, req.getParameter("geneStart"), req.getParameter("geneStop"), vsb.getMapKey());
                     vsb.setPosition(p.getChromosome(), p.getStart() + "", p.getStop() + "");
                     mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                    generateReport(vsb, mappedGenes, request, out, i==0, isHuman);
-                }
+                 */   generateReport(vsb, null, request, out, true, isHuman);
+               // }
             }
             return null;
         }
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/vv/download.jsp");
         mv.addObject("isHuman", isHuman);
+        mv.addObject("vsb", vsb);
         return mv;
     }
 
@@ -127,12 +130,12 @@ public class DownloadController extends HaplotyperController {
         }
 
 
-        while (mark <= stop) {
+   //     while (mark <= stop) {
 
             vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
             List<VariantResult> variantResults = service.getVariantResults(vsb, req, true);
-            start=mark;
-            mark= Math.min(mark + limit, stop);
+          //  start=mark;
+          //  mark= Math.min(mark + limit, stop);
             TreeMap<String, List<VariantResult>> vrsMap=new TreeMap<>();
             for (VariantResult vr : variantResults) {
                 String key=vr.getVariant().getStartPos()+"-"+vr.getVariant().getVariantNucleotide();
@@ -194,17 +197,21 @@ public class DownloadController extends HaplotyperController {
                     }else {
                         varNuc.put(samp, vr.getVariant().getVariantNucleotide());
                     }
+                    if(mappedGenes!=null) {
+                        for (MappedGene mg : mappedGenes) {
+                            if (pos >= mg.getStart() && pos <= mg.getStop()) {
+                                if (!gene.equals("")) {
+                                    gene += "|";
+                                    strand += "|";
+                                }
 
-                    for (MappedGene mg : mappedGenes) {
-                        if (pos >= mg.getStart() && pos <= mg.getStop()) {
-                            if (!gene.equals("")) {
-                                gene += "|";
-                                strand += "|";
+                                gene += mg.getGene().getSymbol();
+                                strand += mg.getStrand();
                             }
-
-                            gene += mg.getGene().getSymbol();
-                            strand += mg.getStrand();
                         }
+                    }else {
+                        if(vr.getVariant().getRegionName()!=null)
+                        gene+=vr.getVariant().getRegionName().replace("[","").replace("]","");
                     }
 
 
@@ -330,10 +337,10 @@ public class DownloadController extends HaplotyperController {
                 out.print(delim);
                 out.print("\n");
             }
-            if (stop==mark) {
+         /*   if (stop==mark) {
                 break;
             }
-        }
+        }*/
     }
     public void printHeader(HttpRequestFacade req,PrintWriter out, String delim, List<Sample> samples, boolean isHuman){
         if (!req.getParameter("c").equals("")) out.print("RGD_ID" + delim);
