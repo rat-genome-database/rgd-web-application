@@ -492,7 +492,7 @@
     } else {
         host = window.location.protocol + '//rest.rgd.mcw.edu';
     }
-    host = 'https://dev.rgd.mcw.edu';
+    //host = 'https://dev.rgd.mcw.edu';
     var v = new Vue({
         el: div,
         data: {
