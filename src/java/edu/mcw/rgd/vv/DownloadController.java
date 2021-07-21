@@ -138,7 +138,7 @@ public class DownloadController extends HaplotyperController {
           //  mark= Math.min(mark + limit, stop);
             TreeMap<String, List<VariantResult>> vrsMap=new TreeMap<>();
             for (VariantResult vr : variantResults) {
-                String key=vr.getVariant().getStartPos()+"-"+vr.getVariant().getVariantNucleotide();
+                String key=vr.getVariant().getChromosome()+"-"+vr.getVariant().getStartPos()+"-"+vr.getVariant().getVariantNucleotide();
 
                 List<VariantResult> vrs=new ArrayList<>();
                 if(vrsMap.get(key)!=null){
