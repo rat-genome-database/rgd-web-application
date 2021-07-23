@@ -1,24 +1,27 @@
 package edu.mcw.rgd.vv;
 
+
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author jdepons
@@ -27,6 +30,8 @@ import java.util.List;
 public class DownloadController extends HaplotyperController {
 
     VVService service=new VVService();
+    GeneDAO gdao = new GeneDAO();
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         /*
@@ -56,8 +61,7 @@ public class DownloadController extends HaplotyperController {
 
         boolean isHuman = req.getParameter("mapKey").equals("38") || req.getParameter("mapKey").equals("17");
 
-        GeneDAO gdao = new GeneDAO();
-        List<MappedGene> mappedGenes;
+        List<MappedGene> mappedGenes=new ArrayList<>();
 
         if (request.getParameter("download") != null && request.getParameter("download").equals("1")) {
 
@@ -76,18 +80,20 @@ public class DownloadController extends HaplotyperController {
                 mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                 generateReport(vsb, mappedGenes, request, out, true, isHuman);
             } else {
-                for(int i=0; i<geneSymbols.size(); i++ ) {
+              /*  for(int i=0; i<geneSymbols.size(); i++ ) {
                     String geneSymbol = geneSymbols.get(i);
+                    System.out.println(geneSymbol);
                     Position p = this.getPosition(geneSymbol, req.getParameter("geneStart"), req.getParameter("geneStop"), vsb.getMapKey());
                     vsb.setPosition(p.getChromosome(), p.getStart() + "", p.getStop() + "");
                     mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                    generateReport(vsb, mappedGenes, request, out, i==0, isHuman);
-                }
+                 */   generateReport(vsb, null, request, out, true, isHuman);
+               // }
             }
             return null;
         }
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/vv/download.jsp");
         mv.addObject("isHuman", isHuman);
+        mv.addObject("vsb", vsb);
         return mv;
     }
 
@@ -101,44 +107,14 @@ public class DownloadController extends HaplotyperController {
         List<Sample> samples = new ArrayList<>();
         LinkedHashMap<String,String> varNuc = new LinkedHashMap<>();
         for( int sampleId: vsb.sampleIds ) {
-            varNuc.put(Integer.toString(sampleId), null);
+        //    varNuc.put(Integer.toString(sampleId), null);
             samples.add(sdao.getSampleBySampleId(sampleId));
         }
-
-
         String delim = "\t";
-
-
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         if( printHeader ) {
-            if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
-            if (!req.getParameter("p").equals("")) out.print("Position" + delim);
-            if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
-            if (!req.getParameter("gs").equals("")) out.print("Gene Symbol" + delim);
-            if (!req.getParameter("st").equals("")) out.print("Gene Strand" + delim);
-            if (!req.getParameter("rn").equals("")) out.print("Reference" + delim);
-
-            if (!req.getParameter("sn").equals("")) {
-                for (Sample s : samples) {
-                    out.print(s.getAnalysisName() + " - Variant" + delim);
-                }
-            }
-
-            if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
-            if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
-            if (!req.getParameter("tai").equals("")) out.print("Transcript Accession IDs" + delim);
-            if (!req.getParameter("raa").equals("")) out.print("Reference Amino Acid" + delim);
-            if (!req.getParameter("vaa").equals("")) out.print("Variant Amino Acid" + delim);
-            if (!req.getParameter("pp").equals("")) {
-                if( isHuman ) {
-                    out.print("Clinical Significance" + delim);
-                } else {
-                    out.print("Polyphen Prediction" + delim);
-                }
-            }
-
-            out.print("\n");
+            printHeader(req,out,delim,samples,isHuman);
         }
 
         long start = vsb.getStartPosition();
@@ -154,57 +130,53 @@ public class DownloadController extends HaplotyperController {
         }
 
 
-        while (mark <= stop) {
+   //     while (mark <= stop) {
 
             vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
-
-        //    List<VariantResult> variantResults = vdao.getVariantResults(vsb);
             List<VariantResult> variantResults = service.getVariantResults(vsb, req, true);
-
-            start=mark;
-
-            if (mark + limit > stop) {
-                mark = stop;
-            }else {
-                mark = mark + limit;
-            }
-
-
-            String chr = null;
-            long pos = -1;
-            String score = "";
-            String gene = null;
-            String strand = null;
-            String ref = null;
-            String refAA = "";
-
-            long lastPosition = 0;
-            long nextPosition = -1;
-
-            boolean first = true;
-            Iterator it;
-
-            LinkedHashMap locationMap = new LinkedHashMap();
-            LinkedHashMap varAAMap = new LinkedHashMap();
-            LinkedHashMap polyMap = new LinkedHashMap();
-            LinkedHashMap transcriptMap = new LinkedHashMap();
-            LinkedHashMap aaChangeMap = new LinkedHashMap();
-
-
-            //hack to ensure the last one is printed.
-            VariantResult dummy = new VariantResult();
-            Variant varDummy = new Variant();
-            varDummy.setStartPos(0);
-            dummy.setVariant(varDummy);
-            variantResults.add(dummy);
-
-
+          //  start=mark;
+          //  mark= Math.min(mark + limit, stop);
+            TreeMap<String, List<VariantResult>> vrsMap=new TreeMap<>();
             for (VariantResult vr : variantResults) {
-                String samp = vr.getVariant().getSampleId() + "";
-                nextPosition = vr.getVariant().getStartPos();
+                String key=vr.getVariant().getChromosome()+"-"+ vr.getVariant().getStartPos()+"-"+vr.getVariant().getVariantNucleotide();
 
-                if (lastPosition == nextPosition ) {
+                List<VariantResult> vrs=new ArrayList<>();
+                if(vrsMap.get(key)!=null){
+                    vrs.addAll(vrsMap.get(key));
+                }
+                vrs.add(vr);
+                vrsMap.put(key, vrs);
 
+
+            }
+            for(Map.Entry e: vrsMap.entrySet()) {
+                for( int sampleId: vsb.sampleIds ) {
+                    varNuc.put(Integer.toString(sampleId), null);
+                }
+                List<VariantResult> vResults= (List<VariantResult>) e.getValue();
+                long rgdId=0;
+                String chr = new String();
+                long pos = -1;
+                String score = "";
+                String gene = null;
+                String strand = null;
+                String ref = null;
+
+                Set<String> location=new HashSet<>();
+               Set<String > aaChangeMap=new HashSet<>();
+                Set<String> transcriptMap=new HashSet<>();
+                Set<String> varAAMap=new HashSet<>();
+                Set<String> refAA=new HashSet<>();
+                Set<String> polyMap=new HashSet<>();
+                boolean first = true;
+
+                for (VariantResult vr :vResults) {
+                    String samp = vr.getVariant().getSampleId() + "";
+                    chr = Objects.requireNonNull(vr.getVariant()).getChromosome();
+                    pos = vr.getVariant().getStartPos();
+                    rgdId = vr.getVariant().getId();
+                    gene = "";
+                    strand = "";
                     if (varNuc.get(samp) != null) {
 
                         String v = varNuc.get(samp);
@@ -225,195 +197,179 @@ public class DownloadController extends HaplotyperController {
                     }else {
                         varNuc.put(samp, vr.getVariant().getVariantNucleotide());
                     }
-
-                    refAA = "";
-
-                    System.out.println("TRANSCRIPTS SIZE:"+ vr.getTranscriptResults().size());
-                    if (vr.getTranscriptResults().size() > 0) {
-
-                        for( TranscriptResult trr: vr.getTranscriptResults() ) {
-                            locationMap.put(trr.getAminoAcidVariant().getLocation().toLowerCase(), null);
-
-                            if (trr.getAminoAcidVariant().getSynonymousFlag() != null) {
-                                aaChangeMap.put(trr.getAminoAcidVariant().getSynonymousFlag(), null);
-                            }
-
-                            transcriptMap.put(trr.getAminoAcidVariant().getTranscriptSymbol(), null);
-
-
-                            if (trr.getAminoAcidVariant().getReferenceAminoAcid() != null) {
-                                refAA = trr.getAminoAcidVariant().getReferenceAminoAcid();
-                                varAAMap.put(trr.getAminoAcidVariant().getVariantAminoAcid(), null);
-
-                                if (trr.getPolyPhenPrediction().size() > 0) {
-                                    polyMap.put(trr.getPolyPhenPrediction().get(0).getPrediction(), null);
+                    if(mappedGenes!=null) {
+                        for (MappedGene mg : mappedGenes) {
+                            if (pos >= mg.getStart() && pos <= mg.getStop()) {
+                                if (!gene.equals("")) {
+                                    gene += "|";
+                                    strand += "|";
                                 }
+
+                                gene += mg.getGene().getSymbol();
+                                strand += mg.getStrand();
                             }
                         }
-                    }
-                    if( vr.getClinvarInfo()!=null ) {
-                        String clinicalSignificance = vr.getClinvarInfo().getClinicalSignificance();
-                        if( !Utils.isStringEmpty(clinicalSignificance) ) {
-                            polyMap.put(clinicalSignificance, null);
-                        }
-                    }
-
-                } else {
-                    if (!first ) {
-                        if (!req.getParameter("c").equals(""))  out.print(chr + delim);
-                        if (!req.getParameter("p").equals("")) out.print(pos + delim);
-                        if (!req.getParameter("cs").equals("")) out.print(score + delim);
-                        if (!req.getParameter("gs").equals("")) out.print(gene + delim);
-                        if (!req.getParameter("st").equals("")) out.print(strand + delim);
-                        if (!req.getParameter("rn").equals("")) out.print(ref + delim);
-
-                        if (!req.getParameter("sn").equals(""))  {
-                            for( String sampleId: varNuc.keySet() ) {
-                                String v = varNuc.get(sampleId);
-                                out.print(v!=null ? v : "");
-                                out.print(delim);
-                            }
-                        }
-
-                        if (!req.getParameter("vl").equals("")) {
-                            it = locationMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                            out.print(delim);
-                        }
-
-                        if (!req.getParameter("aac").equals("")){
-                            it = aaChangeMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                            out.print(delim);
-                        }
-
-                        if (!req.getParameter("tai").equals("")) {
-                            it = transcriptMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                            out.print(delim);
-                        }
-
-                        if (!req.getParameter("raa").equals("")) out.print(refAA + delim);
-
-                        if (!req.getParameter("vaa").equals("")) {
-                            it = varAAMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                            out.print(delim);
-                        }
-
-
-                        if (!req.getParameter("pp").equals("")) {
-                            it = polyMap.keySet().iterator();
-                            while (it.hasNext()) {
-                                out.print((String) it.next());
-                                if (it.hasNext()) {
-                                    out.print("|");
-                                }
-                            }
-                        }
-
-                        out.print("\n");
-
-                        // init variables for next iteration
-                        for (String sampleId: varNuc.keySet()) {
-                            varNuc.put(sampleId, null);
-                        }
-                        locationMap = new LinkedHashMap();
-                        varAAMap = new LinkedHashMap();
-                        polyMap = new LinkedHashMap();
-                        transcriptMap = new LinkedHashMap();
-                        aaChangeMap = new LinkedHashMap();
-                    }
-
-                    first = false;
-
-                    chr = vr.getVariant().getChromosome();
-                    pos = vr.getVariant().getStartPos();
-
-                    if (vr.getVariant()!=null && vr.getVariant().getConservationScore()!=null && vr.getVariant().getConservationScore().size() > 0) {
-                        if(vr.getVariant().getConservationScore().get(0).getScore()!=null)
-                        score = vr.getVariant().getConservationScore().get(0).getScore().toString();
-                    }
-
-
-                    gene = "";
-                    strand = "";
-
-                    for (MappedGene mg : mappedGenes) {
-                        if (pos >= mg.getStart() && pos <= mg.getStop()) {
-                            if (!gene.equals("")) {
-                                gene += "|";
-                                strand += "|";
-                            }
-
-                            gene += mg.getGene().getSymbol();
-                            strand += mg.getStrand();
-                        }
+                    }else {
+                        if(vr.getVariant().getRegionName()!=null)
+                        gene+=vr.getVariant().getRegionName().replace("[","").replace("]","");
                     }
 
 
                     ref = vr.getVariant().getReferenceNucleotide();
 
-                    varNuc.put(samp, vr.getVariant().getVariantNucleotide());
+                    if (vr.getVariant() != null && vr.getVariant().getConservationScore() != null && vr.getVariant().getConservationScore().size() > 0) {
+                        if (vr.getVariant().getConservationScore().get(0).getScore() != null)
+                            score = vr.getVariant().getConservationScore().get(0).getScore().toString();
+                    }
+                            if(first) {
 
-                    refAA = "";
-                    if (vr.getTranscriptResults().size() > 0) {
 
-                        for (TranscriptResult trr: vr.getTranscriptResults() ) {
-
-                            locationMap.put(trr.getAminoAcidVariant().getLocation().toLowerCase(), null);
-
-                            if (trr.getAminoAcidVariant().getSynonymousFlag() != null) {
-                                aaChangeMap.put(trr.getAminoAcidVariant().getSynonymousFlag(), null);
+                                if(rgdId!=0)out.print(rgdId +delim);
+                                if (!req.getParameter("c").equals("")) out.print(chr + delim);
+                                if (!req.getParameter("p").equals("")) out.print(pos + delim);
+                                if (!req.getParameter("cs").equals("")) out.print(score + delim);
+                                if (!req.getParameter("gs").equals("")) out.print(gene + delim);
+                                if (!req.getParameter("st").equals("")) out.print(strand + delim);
+                                if (!req.getParameter("rn").equals("")) out.print(ref + delim);
+                                first=false;
                             }
+                            if(vr.getTranscriptResults()!=null && vr.getTranscriptResults().size()>0){
 
-                            transcriptMap.put(trr.getAminoAcidVariant().getTranscriptSymbol(), null);
-
-
-                            if (trr.getAminoAcidVariant().getReferenceAminoAcid() != null) {
-                                refAA = trr.getAminoAcidVariant().getReferenceAminoAcid();
-                                varAAMap.put(trr.getAminoAcidVariant().getVariantAminoAcid(), null);
-
-                                if (trr.getPolyPhenPrediction().size() > 0) {
-                                    polyMap.put(trr.getPolyPhenPrediction().get(0).getPrediction(), null);
+                              Set<String>  locationSet=vr.getTranscriptResults().stream()
+                                      .map(TranscriptResult::getAminoAcidVariant)
+                                      .filter(Objects::nonNull)
+                                      .map(AminoAcidVariant::getLocation)
+                                      .collect(Collectors.toSet());
+                              location.addAll(locationSet);
+                             Set<String> aaChange=   vr.getTranscriptResults().stream()
+                                        .filter(t->t.getAminoAcidVariant()!=null && t.getAminoAcidVariant().getSynonymousFlag()!=null)
+                                       .filter(t->!t.getAminoAcidVariant().getSynonymousFlag().equals(""))
+                                        .map(t->t.getAminoAcidVariant().getSynonymousFlag())
+                                        .collect(Collectors.toSet());
+                                aaChangeMap.addAll(aaChange);
+                              Set<String> transcripts= ( vr.getTranscriptResults().stream()
+                                        .filter(t -> t.getAminoAcidVariant() != null)
+                                        .filter(t -> t.getAminoAcidVariant().getTranscriptSymbol() != null && !t.getAminoAcidVariant().getTranscriptSymbol().equals(""))
+                                        .map(t -> t.getAminoAcidVariant().getTranscriptSymbol()).collect(Collectors.toSet()));
+                              transcriptMap.addAll(transcripts);
+                              Set<String> poly=  vr.getTranscriptResults().stream()
+                                      .filter(t->t.getPolyPhenPrediction()!=null)
+                                      .map(t->t.getPolyPhenPrediction().stream()
+                                              .map(PolyPhenPrediction::getPrediction))
+                                      .flatMap(Stream::distinct)
+                                      .collect(Collectors.toSet());
+                                if (vr.getClinvarInfo() != null) {
+                                    String clinicalSignificance = vr.getClinvarInfo().getClinicalSignificance();
+                                    if (!Utils.isStringEmpty(clinicalSignificance)) {
+                                      poly.add(clinicalSignificance);
+                                    }
                                 }
+                                polyMap.addAll(poly);
+                              Set<String>  varAA=vr.getTranscriptResults().stream()
+                                        .filter(t->t.getAminoAcidVariant()!=null)
+                                        .filter(t->t.getAminoAcidVariant().getVariantAminoAcid()!=null && !t.getAminoAcidVariant().getVariantAminoAcid().equals("") )
+                                        .map(t->t.getAminoAcidVariant().getVariantAminoAcid()).collect(Collectors.toSet());
+                              varAAMap.addAll(varAA);
+
+                              Set<String>  refAAset=(vr.getTranscriptResults().stream()
+                                      .map(t->t.getAminoAcidVariant().getReferenceAminoAcid())
+                                      .collect(Collectors.toSet()));
+                              refAA.addAll(refAAset);
+
                             }
-                        }
+                     //       varNuc.put(samp, vr.getVariant().getVariantNucleotide());
+
+                }
+                if (!req.getParameter("sn").equals("")) {
+                    for (String k : varNuc.keySet()) {
+                        if ((varNuc.get(k) != null && !varNuc.get(k).equals(ref)))
+                            out.print(varNuc.get(k));
+                        out.print(delim);
                     }
-                    if( vr.getClinvarInfo()!=null ) {
-                        String clinicalSignificance = vr.getClinvarInfo().getClinicalSignificance();
-                        if( !Utils.isStringEmpty(clinicalSignificance) ) {
-                            polyMap.put(clinicalSignificance, null);
-                        }
-                    }
+
                 }
 
-                lastPosition = nextPosition;
-            }
+                if (!req.getParameter("vl").equals("")) {
+                    out.print(location.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+                    out.print(delim);
+                }
 
-            if (stop==mark) {
+                if (!req.getParameter("aac").equals("")) {
+                    out.print(aaChangeMap.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+                    out.print(delim);
+                }
+
+                if (!req.getParameter("tai").equals("")) {
+                    out.print(transcriptMap.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+                    out.print(delim);
+                }
+
+                if (!req.getParameter("raa").equals("")) {
+                    out.print(refAA.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+                    out.print(delim);
+                }
+
+
+                if (!req.getParameter("vaa").equals("")) {
+                    out.print(varAAMap.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+                    out.print(delim);
+                }
+                if (!req.getParameter("pp").equals("")) {
+                    out.print(polyMap.stream()
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.joining("|")));
+
+                }
+
+
+   //      varNuc.put(samp, vr.getVariant().getVariantNucleotide());
+
+                out.print(delim);
+                out.print("\n");
+            }
+         /*   if (stop==mark) {
                 break;
             }
+        }*/
+    }
+    public void printHeader(HttpRequestFacade req,PrintWriter out, String delim, List<Sample> samples, boolean isHuman){
+        if (!req.getParameter("c").equals("")) out.print("RGD_ID" + delim);
+        if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
+        if (!req.getParameter("p").equals("")) out.print("Position" + delim);
+        if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
+        if (!req.getParameter("gs").equals("")) out.print("Gene Symbol" + delim);
+        if (!req.getParameter("st").equals("")) out.print("Gene Strand" + delim);
+        if (!req.getParameter("rn").equals("")) out.print("Reference" + delim);
+
+        if (!req.getParameter("sn").equals("")) {
+            for (Sample s : samples) {
+                out.print(s.getAnalysisName() + " - Variant" + delim);
+            }
         }
+
+        if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
+        if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
+        if (!req.getParameter("tai").equals("")) out.print("Transcript Accession IDs" + delim);
+        if (!req.getParameter("raa").equals("")) out.print("Reference Amino Acid" + delim);
+        if (!req.getParameter("vaa").equals("")) out.print("Variant Amino Acid" + delim);
+        if (!req.getParameter("pp").equals("")) {
+            if( isHuman ) {
+                out.print("Clinical Significance" + delim);
+            } else {
+                out.print("Polyphen Prediction" + delim);
+            }
+        }
+
+        out.print("\n");
     }
 }
