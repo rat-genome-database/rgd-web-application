@@ -179,7 +179,6 @@
     <% if(fu.mapPosIsValid(md)) {
         String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
                 : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"
-                : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rgd6"
                 : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : "";
