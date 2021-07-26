@@ -248,6 +248,7 @@
         String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
                 : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"
                 : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rgd6"
+                : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
                 : obj.getSpeciesTypeKey()==5 ? "data_bonobo2"
                 : obj.getSpeciesTypeKey()==6 ? "data_dog3_1"
                 : obj.getSpeciesTypeKey()==7 ? "data_squirrel2_0"

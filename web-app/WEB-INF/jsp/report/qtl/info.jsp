@@ -180,6 +180,7 @@
         String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
                 : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"
                 : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rgd6"
+                : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : "";
         String tracks = obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "GFF3_track" : "AQTLS";
@@ -189,7 +190,7 @@
         <td  class="label">JBrowse:</td>
         <td align="left">
             <% if( fu.mapPosIsValid(md) ){ %>
-            <a href="https://rgd.mcw.edu/jbrowse?data=data_rgd6&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>
+            <a href="https://rgd.mcw.edu/jbrowse?data=data_rn7_2&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>
             <% } %>
         </td>
     </tr>
