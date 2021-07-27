@@ -1,3 +1,10 @@
+<%
+    String pageTitle = "Variant Visualizer (Download)";
+    String headContent = "";
+    String pageDescription = "Download genes and variants from VV";
+
+%>
+<%@ include file="/common/headerarea.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 <%@ include file="menuBar.jsp" %>
 <br>
@@ -86,3 +93,4 @@ Select annotation to include in your download.
 The VCF repository contains files used to populate the variant visualizer
 <br><br>
 <a href="https://download.rgd.mcw.edu/strain_specific_variants/" style="font-size:16px;">Browse the VCF File Repository</a>
+<%@ include file="/common/footerarea.jsp" %>

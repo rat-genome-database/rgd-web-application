@@ -13,11 +13,10 @@
     response.setHeader("Content-disposition","attachment;filename=\""+fileName+"\"");
    InputStream is = data.getBinaryStream();
 
-
     byte[] bytes = new byte[1024];
-    int bytesRead;
+    int bytesRead = -1;
     while ((bytesRead = is.read(bytes)) != -1) {
-         response.getOutputStream().write(bytes);
+         response.getOutputStream().write(bytes,0,bytesRead);
     }
     is.close();
     response.getOutputStream().flush();

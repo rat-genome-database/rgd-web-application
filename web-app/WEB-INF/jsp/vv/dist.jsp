@@ -4,7 +4,13 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.datamodel.VariantSearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%
+    String pageTitle = "Variant Visualizer (Dist)";
+    String headContent = "";
+    String pageDescription = "Dist";
 
+%>
+<%@ include file="/common/headerarea.jsp" %>
 <%
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
     int mapKey = (Integer) request.getAttribute("mapKey");
@@ -33,7 +39,16 @@
     List<String> chebiGenes = (List<String>) request.getAttribute("chebiGenes");
 
 %>
+<style>
+    #distTable td{
+        max-width: 25px;
 
+    }
+    #distTable .container{
+        padding-left: 0;
+    }
+
+</style>
 <%@ include file="mapStyles.jsp" %>
 <%@ include file="carpeHeader.jsp" %>
 
@@ -121,7 +136,7 @@
 
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="center">
-                            <div class="snpLabel">
+                            <div class="snpLabel" style="height: 25px">
                                 <!--form action="dist.html" method="post" target="_blank" -->
                                     <%if(request.getParameter("geneList")!=null){%>
                                     <input type="hidden" name="geneList" value="<%=request.getParameter("geneList")%>"/>
@@ -168,7 +183,7 @@
                 <div id="wrapperRegion"
                      style="overflow:auto; width:<%=divWidth%>px; height:<%=tableHeight + 145 + sampleIds.size()%>; top: -1; position: relative;">
 
-                    <table cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
+                    <table id="distTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee;">
 
                         <tr>
                             <%
@@ -302,3 +317,4 @@
 </script>
 
 
+<%@ include file="/common/footerarea.jsp" %>
