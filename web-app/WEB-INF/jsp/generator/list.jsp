@@ -8,7 +8,7 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 
 <%
-String pageTitle = "OLGA - Online List Generator & Analyzer";
+String pageTitle = "OLGA - Object List Generator & Analyzer";
 String headContent = "";
 String pageDescription = "Build lists based on RGD annotation";
 %>
@@ -182,7 +182,7 @@ $(document).ready(function(){
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 
 <div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">OLGA - Online List Generator & Analyzer</div>
+    <div class="rgd-panel-heading">OLGA - Object List Generator & Analyzer</div>
 </div>
 <!--Build Gene lists using annotations from multiple terms and ontologies-->
 
