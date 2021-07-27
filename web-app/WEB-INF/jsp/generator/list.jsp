@@ -8,7 +8,7 @@
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 
 <%
-String pageTitle = "OLGA - Online List Generator & Analyzer";
+String pageTitle = "OLGA - Object List Generator & Analyzer";
 String headContent = "";
 String pageDescription = "Build lists based on RGD annotation";
 %>
@@ -182,7 +182,7 @@ $(document).ready(function(){
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 
 <div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">OLGA - Online List Generator & Analyzer</div>
+    <div class="rgd-panel-heading">OLGA - Object List Generator & Analyzer</div>
 </div>
 <!--Build Gene lists using annotations from multiple terms and ontologies-->
 
@@ -211,6 +211,7 @@ $(document).ready(function(){
                 <tr>
                     <td style="font-weight:700; color: #2865A3;">Assembly Version:
                         <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
+                            <option value='372' <% if (mapKey==372) out.print("selected");%>>RAT Genome Assembly v7.2</option>
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
                             <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>

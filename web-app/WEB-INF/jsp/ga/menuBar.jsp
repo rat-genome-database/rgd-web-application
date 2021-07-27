@@ -20,6 +20,13 @@
     if(request.getParameter("a")!=null){
         a=request.getParameter("a");
     }
+    String key = request.getParameter("mapKey");
+    try{
+        mapKey = Integer.parseInt(key);
+    }
+    catch (Exception e){
+
+    }
 %>
 
 <div style="width:1100px; border: 1px solid #346f97; background-color:#f0f6f9; padding:2px; " >

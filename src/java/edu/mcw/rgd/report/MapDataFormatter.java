@@ -266,6 +266,9 @@ public class  MapDataFormatter {
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
                 break;
+            case 372:
+                db = "data_rn7_2"; link = "mRatBN7.2";
+                break;
 
             case 44: // chinchilla
                 db = "data_cl1_0"; link = "ChiLan1.0";
