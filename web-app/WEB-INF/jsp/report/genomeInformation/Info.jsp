@@ -47,16 +47,15 @@
 </style>
 
 
-<c:forEach items="${model.hits}" var="item">
-    <c:forEach items="${item}" var="hit">
+<c:forEach items="${model.hits}" var="hit">
         <div>
 
             <div style="float:right;">
         <c:if test="${model.xlinks.ncbiGenome!=null || model.xlinks.ncbiAssembly!=null || model.xlinks.ensembl!=null || model.xlinks.ucsc!=null}">
 
             <div style="; width:130px ;height:100px; border:1px solid gainsboro;">
-    <strong style="padding:10px;color:grey">External Links</strong>
-    <ul class="list-group">
+        <strong style="padding:10px;color:grey">External Links</strong>
+        <ul class="list-group">
         <c:if test="${model.mapKey==360 || model.mapKey==38 || model.mapKey==35 || model.mapKey==720 || model.mapKey==44 || model.mapKey==631 || model.mapKey==511}">
            <c:if test="${model.xlinks.ncbiGenome!=null}">
             <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ncbiGenome}" target="_blank">NCBI Genome</a> </li>
@@ -72,64 +71,64 @@
         <c:if test="${model.xlinks.ucsc!=null }">
         <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ucsc}" target="_blank">UCSC</a></li>
         </c:if>
-    </ul>
-</div>
+        </ul>
+        </div>
         </c:if>
             </div>
             <div style="width:49%">
                 <h4 style="color: #24609c;padding-left:10px">${model.species} Genome Information - ${model.assembly}</h4>
             </div>
         </div>
-<hr>
+        <hr>
 
-<div style="padding-left:10px;width: 80%">
-    <c:if test="${model.species=='Rat'}">
+        <div style="padding-left:10px;width: 80%">
+        <c:if test="${model.species=='Rat'}">
         <div><p>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</p>
             <p><strong>Lineage: </strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.  </p></div>
-    </c:if>
-    <c:if test="${model.species=='Human'}">
+        </c:if>
+        <c:if test="${model.species=='Human'}">
         <div><p> Human genome projects have generated an unprecedented amount of knowledge about human genetics and health.Study of the human condition is supported by a wealth of genome-scale data that will result in significant medical advances derived from a better understanding human biology.
             <p><strong>Lineage: </strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates[28]; Haplorrhini; Catarrhini; Hominidae; Homo; Homo sapiens.  </p></div>
-    </c:if>
-    <c:if test="${model.species=='Mouse'}">
+         </c:if>
+        <c:if test="${model.species=='Mouse'}">
         <div><p> The laboratory mouse is a major model organism for basic mammalian biology, human disease, and genome evolution, and is extensively used for comparative genome analysis.</p>
             <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Mus; Mus; Mus musculus.  </p></div>
-    </c:if>
-    <c:if test="${model.species=='Chinchilla'}">
+        </c:if>
+        <c:if test="${model.species=='Chinchilla'}">
         <div><p> The long-tailed chinchilla, a rodent native to the mountains of northern Chile, is the model of choice for the study of the human disease otitis media, infections of the middle ear.</p>
             <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Hystricomorpha; Chinchillidae; Chinchilla; Chinchilla lanigera.      </p>
         </div>
-    </c:if>
-    <c:if test="${model.species=='Squirrel'}">
+        </c:if>
+        <c:if test="${model.species=='Squirrel'}">
         <div><p>The thirteen-lined ground squirrel is a good model system for the study of vision and metabolism. Compared to other rodent genomes, ground squirrel genomes show a slower rate of evolution.</p>
             <p ><strong>Lineage: </strong>   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Sciuromorpha; Sciuridae; Xerinae; Marmotini; Ictidomys; Ictidomys tridecemlineatus.      </p>
         </div>
-    </c:if>
-    <c:if test="${model.species=='Dog'}">
+        </c:if>
+        <c:if test="${model.species=='Dog'}">
         <div><p> The dog is a useful model organism for medical research due to extensive genetic diversity and morphological variation within the species.  Many breeds of dog are particularly susceptible to inherited diseases that are also common in humans, such as cancer, heart disease, rheumatoid arthritis, autoimmune disorders, deafness, and blindness.</p>
             <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Carnivora; Caniformia; Canidae; Canis; Canis lupus; Canis lupus familiaris.      </p>
         </div>
-    </c:if>
+        </c:if>
 
-    <c:if test="${model.species=='Bonobo'}">
+        <c:if test="${model.species=='Bonobo'}">
         <div><p> Although the bonobo, or pygmy chimpanzee, Pan paniscus and common chimpanzee Pan troglodytes are morphologically similar, studies have found that more than three per cent of the human genome is more closely related to either the bonobo or the chimpanzee genome than these are to each other.</p>
             <p><strong>Lineage: </strong>   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Pan; Pan paniscus.      </p>
         </div>
-    </c:if>
-    <c:if test="${model.species=='Pig'}">
+        </c:if>
+        <c:if test="${model.species=='Pig'}">
         <div><p>The pig (Sus scrofa) is a member of the artiodactyls, or cloven-hoofed mammals, which are an evolutionary clade distinct from the primates and rodents. Pigs exist in both feral and domesticated populations that have distinct phenotypes and karyotypes. The haploid genome of the domesticated pig is estimated to be 2800 Mb. The diploid genome is organized in 18 pairs of autosomes and two sex chromosomes.Sus scrofa is an important model organism for health research due to parallels with humans. Swine are omnivores and their digestive physiology is similar to humans. Similarities between humans and pigs also exist in renal function, vascular structure, and respiratory rates. Pigs are used as model organism in many areas of medical research including obesity, cardiovascular disease, endocrinology, alcoholism, diabetes, nephropathy, and organ transplantation. Pigs are also agriculturally important, as pork is a leading source of protein worldwide.
        </p>
             <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa   </p>
         </div>
-    </c:if>
-</div>
-<hr>
-<div class="container">
-<div class="card" style="border:1px solid white">
+     </c:if>
+        </div>
+        <hr>
+        <div class="container">
+        <div class="card" style="border:1px solid white">
     <!--div class="panel-heading">
         <h4>$--{model.species} Genome Information - $-{model.assembly}   </h4>
     </div-->
-    <div class="card-body" >
+        <div class="card-body" >
 
         <div style="float:left;width:40%">
             <h4>Summary</h4>
@@ -485,7 +484,7 @@
 
         </div>
 
-        </c:forEach>
+
 
         </c:forEach>
 </div>
