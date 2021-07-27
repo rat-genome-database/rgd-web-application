@@ -3,6 +3,7 @@ package edu.mcw.rgd.report;
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.*;
 
+import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
@@ -21,9 +22,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jthota on 10/11/2017.
@@ -50,7 +49,7 @@ public class GenomeInformationController implements Controller{
 
             mapKey=Integer.parseInt(key);
         }
-        List<SearchHit[]> hits;
+        LinkedList<SearchHit> hits;
         model.addAttribute("speciesList", this.getSpeciesList());
 
             if (isDetailsPage || species != null || action != null) {
@@ -109,7 +108,7 @@ public class GenomeInformationController implements Controller{
         return assemblyListsMap;
     }
 
-    public List<SearchHit[]> getGenome(int mapkey) throws IOException {
+    public LinkedList<SearchHit> getGenome(int mapkey) throws IOException {
         List<SearchHit[]> hitsList= new ArrayList<>();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(QueryBuilders.matchAllQuery());
@@ -142,7 +141,44 @@ public class GenomeInformationController implements Controller{
             hitsList.add(sr.getHits().getHits());
 
         }
-        return hitsList;
+        LinkedList<SearchHit> map=new LinkedList<>();
+        for(SearchHit[] hit:hitsList){
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Rat"))
+                map.add(h);
+            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Human"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Mouse"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Chinchilla"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Dog"))
+                    map.add(h);            }
+
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Bonobo"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Squirrel"))
+                    map.add(h);            }
+
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Pig"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Naked Mole-rat"))
+                    map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Green Monkey"))
+                    map.add(h);            }
+
+        }
+        return map;
     }
 
 
