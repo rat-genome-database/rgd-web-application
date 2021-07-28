@@ -56,7 +56,7 @@
             <div style="; width:130px ;height:100px; border:1px solid gainsboro;">
         <strong style="padding:10px;color:grey">External Links</strong>
         <ul class="list-group">
-        <c:if test="${model.mapKey==360 || model.mapKey==38 || model.mapKey==35 || model.mapKey==720 || model.mapKey==44 || model.mapKey==631 || model.mapKey==511}">
+        <c:if test="${model.mapKey==360 || model.mapKey==38 || model.mapKey==35 || model.mapKey==720 || model.mapKey==44 || model.mapKey==631 || model.mapKey==511 || model.mapKey==372}">
            <c:if test="${model.xlinks.ncbiGenome!=null}">
             <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ncbiGenome}" target="_blank">NCBI Genome</a> </li>
            </c:if>
@@ -121,6 +121,19 @@
             <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa   </p>
         </div>
      </c:if>
+            <c:if test="${model.species=='Green Monkey'}">
+                <div><p><small>The green monkey or vervet (Chlorocebus sabaeus) is native to West Africa and was introduced to the Caribbean islands in the 1600s. The term "vervet" is often applied to any of the species in the genus Chlorocebus <span class="more">as they were formerly treated as subspecies of the vervet (Chlorocebus aethiops). For example, the green monkey was formerly classified as Chlorocebus aethiops sabaeus. Green monkeys, and vervets in general, are commonly used in biomedical research as models for the study of neurodegeneration, diabetes and other metabolic syndromes, HIV transmission, and AIDS. Green monkeys are a natural host of the simian immunodeficiency virus (SIV) but, when infected, do not develop AIDS-like symptoms despite having a high viral load. The human immunodeficiency virus (HIV) likely evolved from SIV .</span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                </small></p>
+                    <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Cercopithecidae; Cercopithecinae; Chlorocebus; Chlorocebus sabaeus</small>  </p>
+                </div>
+            </c:if>
+            <c:if test="${model.species=='Naked Mole-rat'}">
+                <div><p><small>The naked mole-rat is a hairless rodent native to tropical grasslands of East Africa. It is the longest-lived rodent with a lifespan exceeding thirty years. Naked mole-rats are eusocial organisms, <span class="more"> resistant to a variety of cancers, insensitive to certain types of pain, and adapted to life in harsh locales, including low oxygen and high carbon dioxide environments. They do not regulate body temperature, which conforms to ambient temperature.
+               </span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                </small></p>
+                    <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires[170]; Glires; Rodentia; Hystricomorpha; Bathyergidae; Heterocephalus; Heterocephalus glaber </small>  </p>
+                </div>
+            </c:if>
         </div>
         <hr>
         <div class="container">
@@ -365,7 +378,7 @@
             </div>
         </div>
 
-        <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70}">
+        <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70 ||model.mapKey==372}">
 
             <div class="panel panel-default"  >
                 <div class="panel-heading">
