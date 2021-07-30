@@ -322,7 +322,17 @@ public class OntAnnotation  {
     }
 
     public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
-        edu.mcw.rgd.datamodel.Map refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey,"Ensembl");
+        edu.mcw.rgd.datamodel.Map refAssembly;
+        try {
+            refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey, "Ensembl");
+        }
+        catch (Exception e){
+            chrEns = "";
+            startPosEns = "";
+            stopPosEns = "";
+            fullEnsPos = "";
+            return;
+        }
         List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
 
         for (int i = 0 ; i < ensemblData.size() ; i++) { //MapData ensData : ensemblData) {
