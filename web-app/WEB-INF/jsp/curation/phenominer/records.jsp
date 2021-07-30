@@ -63,7 +63,17 @@
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
     strat.setTableProperties("class='sortable'");
 
-
+//    System.out.println(report.records.get(1).toString());
+    boolean firstLine = true;
+    for (Object obj : report.records){
+        if(firstLine) {
+            firstLine = false;
+            continue;
+        }
+        edu.mcw.rgd.reporting.Record r = (edu.mcw.rgd.reporting.Record) obj;
+        String replace = r.get(26).replace('~', '-');
+        r.set(26, replace);
+    }
     out.print(report.format(strat));
 
 
