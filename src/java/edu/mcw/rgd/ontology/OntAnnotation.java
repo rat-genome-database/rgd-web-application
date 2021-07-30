@@ -327,10 +327,10 @@ public class OntAnnotation  {
             refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey, "Ensembl");
         }
         catch (Exception e){
-            chrEns = "";
-            startPosEns = "";
-            stopPosEns = "";
-            fullEnsPos = "";
+            chrEns = null;
+            startPosEns = null;
+            stopPosEns = null;
+            fullEnsPos = null;
             return;
         }
         List<MapData> ensemblData = dao.getMapData(rgdId,refAssembly.getKey());
