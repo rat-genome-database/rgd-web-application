@@ -289,7 +289,7 @@
                     <table id="colTable" cellpadding=0 cellspacing=0 border=0 style="background-color: #eeeeee; border-top:1px solid #E8E4D5;">
                         <tr>
                             <%
-                                if(mapKey != 631) {
+                                if(mapKey != 631 && mapKey != 372) {
                                     cit = snplotyper.getPositions().iterator();
                                     while (cit.hasNext()) {
                                         long pos = (Long) cit.next();
