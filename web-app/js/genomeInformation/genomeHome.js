@@ -40,6 +40,16 @@ $(function () {
         var $content=$(".PigClass");
         changeGenomeData('Pig',mapKey, $content);
     });
+    $(".GreenMonkey").on('change', function () {
+        var mapKey= this.value;
+        var $content=$(".GreenMonkeyClass");
+        changeGenomeData('Green Monkey',mapKey, $content);
+    });
+    $(".NakedMole-rat").on('change', function () {
+        var mapKey= this.value;
+        var $content=$(".NakedMole-ratClass");
+        changeGenomeData('Naked Mole-rat',mapKey, $content);
+    });
     $(".more").hide();
     $(".moreLink").on("click", function(e) {
 
@@ -61,7 +71,7 @@ $(function () {
     });
 });
 function changeGenomeData(species,mapKey, $content) {
-    var href="genomeInformation.html?species="+species+"&mapKey="+mapKey+"&details=true";
+    var href="genomeInformation.html?species="+species.replace(" ","+")+"&mapKey="+mapKey+"&details=true";
     $('#headerLink'+species).attr('href', href);
     var className = ".map" + mapKey;
     var url = "genomeInformation.html?mapKey=" + mapKey + "&infoTable=y";

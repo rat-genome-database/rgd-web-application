@@ -70,6 +70,18 @@
     position:absolute;
     display:inline-block;
 }
+#GreenMonkey{
+    width:25%;margin-left:26%;top:500px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
+#NakedMole-rat{
+    width:25%;margin-left:52%;top:500px;
+    height:400px;
+    position:absolute;
+    display:inline-block;
+}
 #wrapper{
     position:relative;
     width:100%;

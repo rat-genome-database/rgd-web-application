@@ -533,6 +533,7 @@ rgdModule.controller('RGDPageController', [
                     //var url = "/rgdweb/gviewer/download.html?";
                     //url += "mapKey=" + document.getElementById("mapKey_tmp").options[document.getElementById("mapKey_tmp").selectedIndex].value;
                     //url += "&genes=" + getResultSet();
+
                     if (typeof $scope.oKey === 'undefined' || $scope.oKey === null) {
                         url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=1&vv=&ga=&act=excel&a=" + $scope.a;
                     } else{

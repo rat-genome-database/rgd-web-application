@@ -66,34 +66,34 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Location</td>
-                    <td><%=dm.makeCheckBox("intergenic", "Intergenic")%>
-                        <%=dm.makeCheckBox("genic", "Genic")%>
-                        <%=dm.makeCheckBox("nearSpliceSite", "Near Splice Site")%>
+                    <td><%=dm.makeCheckBox("intergenic", " Intergenic")%>
+                        <%=dm.makeCheckBox("genic", " Genic")%>
+                        <%=dm.makeCheckBox("nearSpliceSite", " Near Splice Site")%>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>&nbsp;</td>
-                    <td><%=dm.makeCheckBox("intron", "Intron")%>
-                        <%=dm.makeCheckBox("3prime", "3 Prime UTR")%>
-                        <%=dm.makeCheckBox("5prime", "5 Prime UTR")%>
+                    <td><%=dm.makeCheckBox("intron", " Intron")%>
+                        <%=dm.makeCheckBox("3prime", " 3 Prime UTR")%>
+                        <%=dm.makeCheckBox("5prime", " 5 Prime UTR")%>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Variant Type</td>
-                    <td><%=dm.makeCheckBox("snv", "SNV")%>
-                        <%=dm.makeCheckBox("ins", "Insertion")%>
-                        <%=dm.makeCheckBox("del", "Deletion")%>
+                    <td><%=dm.makeCheckBox("snv", " SNV")%>
+                        <%=dm.makeCheckBox("ins", " Insertion")%>
+                        <%=dm.makeCheckBox("del", " Deletion")%>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Limit to</td>
-                    <td><%=dm.makeCheckBox("proteinCoding", "Coding Exon")%>
-                        <%=dm.makeCheckBox("frameshift", "Frameshift")%>
-                        <%=dm.makeCheckBox("prematureStopCodon", "Premature Stop")%>
-                        <%=dm.makeCheckBox("readthroughMutation", "Readthrough")%>
+                    <td><%=dm.makeCheckBox("proteinCoding", " Coding Exon")%>
+                        <%=dm.makeCheckBox("frameshift", " Frameshift")%>
+                        <%=dm.makeCheckBox("prematureStopCodon", " Premature Stop")%>
+                        <%=dm.makeCheckBox("readthroughMutation", " Readthrough")%>
                     </td>
                 </tr>
                 <tr>
@@ -112,8 +112,8 @@
                 <tr>
                     <td></td>
                     <!--td class="carpeLabel">Novelty</td-->
-                    <!--td><%--=dm.makeCheckBox("foundDBSNP", "pos/change found in "+currentMap.getDbsnpVersion()+" &nbsp;"--)%>
-                        <%=--dm.makeCheckBox("notDBSNP", "pos/change novel to "+currentMap.getDbsnpVersion())--%>
+                    <!--td><%--=dm.makeCheckBox("foundDBSNP", " pos/change found in "+currentMap.getDbsnpVersion()+" &nbsp;"--)%>
+                        <%=--dm.makeCheckBox("notDBSNP", " pos/change novel to "+currentMap.getDbsnpVersion())--%>
                     </td-->
                 </tr>
                 <tr>
@@ -127,8 +127,8 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Amino Acid Change</td>
-                    <td><%=dm.makeCheckBox("synonymous", "Synonymous")%>
-                        <%=dm.makeCheckBox("nonSynonymous", "Non-Synonymous")%>
+                    <td><%=dm.makeCheckBox("synonymous", " Synonymous")%>
+                        <%=dm.makeCheckBox("nonSynonymous", " Non-Synonymous")%>
                     </td>
                 </tr>
                 <% } %>
@@ -137,9 +137,9 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Polyphen&nbsp;Prediction</td>
-                    <td><%=dm.makeCheckBox("probably", "Probably Damaging")%>
-                        <%=dm.makeCheckBox("possibly", "Possibly Damaging")%>
-                        <%=dm.makeCheckBox("benign", "Benign")%>
+                    <td><%=dm.makeCheckBox("probably", " Probably Damaging")%>
+                        <%=dm.makeCheckBox("possibly", " Possibly Damaging")%>
+                        <%=dm.makeCheckBox("benign", " Benign")%>
                     </td>
                 </tr>
                 <% } %>
@@ -148,9 +148,9 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Clinical&nbsp;Significance</td>
-                    <td><%=dm.makeCheckBox("cs_pathogenic", "Pathogenic / Likely Pathogenic")%>
-                        <%=dm.makeCheckBox("cs_benign", "Benign")%>
-                        <%=dm.makeCheckBox("cs_other", "Uncertain Significance")%>
+                    <td><%=dm.makeCheckBox("cs_pathogenic", " Pathogenic / Likely Pathogenic")%>
+                        <%=dm.makeCheckBox("cs_benign", " Benign")%>
+                        <%=dm.makeCheckBox("cs_other", " Uncertain Significance")%>
                     </td>
                 </tr>
                 <% } %>
@@ -178,10 +178,10 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Total Alleles Read</td>
-                    <td><%=dm.makeCheckBox("alleleCount1", "1")%>
-                        <%=dm.makeCheckBox("alleleCount2", "2")%>
-                        <%=dm.makeCheckBox("alleleCount3", "3")%>
-                        <%=dm.makeCheckBox("alleleCount4", "4")%>
+                    <td><%=dm.makeCheckBox("alleleCount1", " 1")%>
+                        <%=dm.makeCheckBox("alleleCount2", " 2")%>
+                        <%=dm.makeCheckBox("alleleCount3", " 3")%>
+                        <%=dm.makeCheckBox("alleleCount4", " 4")%>
                     </td>
                 </tr>
                 <tr>
@@ -190,7 +190,7 @@
                         <table cellpadding=0 cellspacing=0 border=0>
                             <tr>
                                 <td width=200>
-                                    <input type="checkbox"  style="border:0px solid black;" name="het" value="true" <% if (req.getParameter("het").equals("true")) out.print("checked"); %>>Heterozygous
+                                    <input type="checkbox"  style="border:0px solid black;" name="het" value="true" <% if (req.getParameter("het").equals("true")) out.print("checked"); %>> Heterozygous
                                 </td>
                                 <td style="font-style:italic;">
                                     2 alleles called between 15% and 85% of reads
@@ -198,7 +198,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                <input type="checkbox" name="hom" style="border:0px solid black;"  value="true" <% if (req.getParameter("hom").equals("true")) out.print("checked"); %>>Homozygous
+                                <input type="checkbox" name="hom" style="border:0px solid black;"  value="true" <% if (req.getParameter("hom").equals("true")) out.print("checked"); %>> Homozygous
                                 </td>
                                 <td style="font-style:italic;">
                                     Variant read in 100% of reads
@@ -206,7 +206,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                <input type="checkbox" name="possiblyHom"  style="border:0px solid black;" value="true" <% if (req.getParameter("possiblyHom").equals("true")) out.print("checked"); %>>Possibly Homozygous
+                                <input type="checkbox" name="possiblyHom"  style="border:0px solid black;" value="true" <% if (req.getParameter("possiblyHom").equals("true")) out.print("checked"); %>> Possibly Homozygous
                                 </td>
                                 <td style="font-style:italic;">
                                     Variants read in 85% to 99% of reads
@@ -214,7 +214,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                <input type="checkbox" style="border:0px solid black;"  name="excludePossibleError" value="true" checked>Exclude Low Read Percentage                                </td>
+                                <input type="checkbox" style="border:0px solid black;"  name="excludePossibleError" value="true" checked> Exclude Low Read Percentage                                </td>
                                 <td style="font-style:italic;">
                                     Variant read in less than 15% of reads
                                 </td>
@@ -232,7 +232,7 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Show Differences</td>
-                    <td>  <input type="checkbox" style="border:0px solid black;"  name="showDifferences" value="true" <% if (req.getParameter("showDifferences").equals("true")) out.print("checked"); %>>Exclude Common Variants between strains</td>
+                    <td>  <input type="checkbox" style="border:0px solid black;"  name="showDifferences" value="true" <% if (req.getParameter("showDifferences").equals("true")) out.print("checked"); %>> Exclude Common Variants between strains</td>
                 </tr>
               <% } //end only show for rat %>
 
@@ -299,3 +299,4 @@
 
 
 </form>
+<%@ include file="/common/footerarea.jsp" %>
