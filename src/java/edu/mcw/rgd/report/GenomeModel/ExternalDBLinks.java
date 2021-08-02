@@ -17,6 +17,18 @@ public class ExternalDBLinks {
       String ucscTracksURL="https://genome.ucsc.edu/cgi-bin/hgTracks?lastVirtModeType=default&virtModeType=default&virtMode=0&db=";
 
 /************************************************RAT********************************************/
+      if(mapKey==372){
+          if(chr==null) {
+              xdbs.setNcbiGenome(ncbiGenomeURL+"?term=mRatBN7.2");
+              xdbs.setNcbiAssembly(ncbiAssemblyURL+"GCF_015227675.2");
+              xdbs.setUcsc(ucscURL+"rn7");
+              xdbs.setEnsembl("http://www.ensembl.org/Rattus_norvegicus/Info/Index");
+          }else{
+              xdbs.setNcbiChr(ncbinuccore+locus);
+              xdbs.setEnsembl("http://www.ensembl.org/Rattus_norvegicus/Location/Chromosome?r="+chr);
+              xdbs.setUcsc(ucscTracksURL+"rn6"+"&position=chr"+chr);
+          }
+      }
       if(mapKey==360){
           if(chr==null) {
           xdbs.setNcbiGenome(ncbiGenomeURL+"?term=Rnor_6.0");
