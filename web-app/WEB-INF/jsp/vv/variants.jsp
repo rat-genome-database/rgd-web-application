@@ -229,6 +229,7 @@
                             <%if (mapKey==60) out.print("RGSC 3.4");%>
                             <%if (mapKey==70) out.print("Rnor 5.0");%>
                             <%if (mapKey==360) out.print("Rnor 6.0");%>
+                            <%if (mapKey==372) out.print("mRatBN7.2");%>
                             <%if (mapKey==17) out.print("GRCh37");%>
                             &nbsp;</div></td>
                     </tr>
