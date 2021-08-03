@@ -24,7 +24,9 @@ public class OntAnnotBean extends OntBaseBean {
     boolean extendedView = false;
     boolean isDownload = false;
     int objectKey=-1;
-
+    String geneRgdids;
+    String qtlRgdids;
+    String strainRgdids;
 
     public static int MAX_ANNOT_COUNT = 2500; // max count of annotations shown in gviewer and on ontology annot report page
     int annotCount; // count of all annotations
@@ -265,5 +267,31 @@ public class OntAnnotBean extends OntBaseBean {
     public void setIsDownload(boolean isDownload) {
         this.isDownload = isDownload;
     }
+
+    public String getGeneRgdids() {
+        return geneRgdids;
+    }
+
+    public void setGeneRgdids(String rgdids) {
+        this.geneRgdids = rgdids;
+    }
+
+    public String getQtlRgdids() {
+        return qtlRgdids;
+    }
+
+    public void setQtlRgdids(String rgdids) {
+        this.qtlRgdids = rgdids;
+    }
+
+    public String getStrainRgdids() {
+        return strainRgdids;
+    }
+
+    public void setStrainRgdids(String rgdids) {
+        this.strainRgdids = rgdids;
+    }
+
+
 
 }
