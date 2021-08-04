@@ -95,7 +95,7 @@
             <td align="center">
                 <div id="gviewer" class="gviewer" name="gviewer">
                     <c:if test="${bean.speciesTypeKey==0}">Please select species to view GViewer data.</c:if>
-                    <c:if test="${bean.speciesTypeKey==4}">GViewer not supported for chinchilla.</c:if>
+                    <c:if test="${bean.speciesTypeKey==4 || bean.speciesTypeKey==7}">GViewer not supported for the selected species.</c:if>
                 </div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
             </td>
@@ -277,13 +277,13 @@ try {
     gviewer.addZoomPane("zoomWrapper", 200, 750);
 
     if (geneIds != "") {
-        gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + geneIds);
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + geneIds);
     }
     if (qtlIds != ""){
-        gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + qtlIds);
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + qtlIds);
     }
     if (strainIds != ""){
-        gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + strainIds);
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + strainIds);
     }
 
 

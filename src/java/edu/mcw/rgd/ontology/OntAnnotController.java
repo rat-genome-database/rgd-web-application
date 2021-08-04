@@ -674,23 +674,32 @@ public class OntAnnotController implements Controller {
 
     static void loadGviewerRgdIds(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount) throws Exception {
         String rgd_ids = "";
-
+        OntologyXDAO xdao = new OntologyXDAO();
+        TermWithStats tws = xdao.getTermWithStatsCached(bean.getAccId());
         OntAnnotBean bean2 = new OntAnnotBean();
-        loadAnnotations(bean2, dao,request,maxAnnotCount,"1"); //5,6
-        rgd_ids += addRgdIds(bean2.getAnnots());
-        bean.setGeneRgdids(rgd_ids);
+        int withChildren = 0;
+        if(bean.isWithChildren())
+            withChildren = 1;
 
-        rgd_ids = "";
-        bean2 = new OntAnnotBean();
-        loadAnnotations(bean2, dao,request,maxAnnotCount,"6");
-        rgd_ids += addRgdIds(bean2.getAnnots());
-        bean.setQtlRgdids(rgd_ids);
-
-        rgd_ids="";
-        bean2 = new OntAnnotBean();
-        loadAnnotations(bean2, dao,request,maxAnnotCount,"5");
-        rgd_ids += addRgdIds(bean2.getAnnots());
-        bean.setStrainRgdids(rgd_ids);
+        if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withChildren) > 0) {
+            loadAnnotations(bean2, dao, request, maxAnnotCount, "1"); //5,6
+            rgd_ids += addRgdIds(bean2.getAnnots());
+            bean.setGeneRgdids(rgd_ids);
+        }
+        if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withChildren) > 0) {
+            rgd_ids = "";
+            bean2 = new OntAnnotBean();
+            loadAnnotations(bean2, dao, request, maxAnnotCount, "6");
+            rgd_ids += addRgdIds(bean2.getAnnots());
+            bean.setQtlRgdids(rgd_ids);
+        }
+        if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withChildren) > 0) {
+            rgd_ids = "";
+            bean2 = new OntAnnotBean();
+            loadAnnotations(bean2, dao, request, maxAnnotCount, "5");
+            rgd_ids += addRgdIds(bean2.getAnnots());
+            bean.setStrainRgdids(rgd_ids);
+        }
         return;
     }
     static String addRgdIds(Map<Term, List<OntAnnotation>> mapWithAnnots) throws Exception {
@@ -699,7 +708,7 @@ public class OntAnnotController implements Controller {
             int size = entry.getValue().size();
             int i = 0;
             for( OntAnnotation annot: entry.getValue() ) {
-                if (i < size){
+                if (i < (size-1)){
                     rgdIds += annot.getRgdId()+",";
                 }
                 else{
