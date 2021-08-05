@@ -188,7 +188,7 @@
         <band index="1" name="p13">
             <start>0</start>
             <end>129381034</end>
-            <stain>gneg</stain>
+            <stain>gvar</stain>
             <link></link>
         </band>
     </chromosome>
