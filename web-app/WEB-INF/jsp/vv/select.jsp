@@ -152,7 +152,15 @@
                 var hrdp = strainGroups["hrdp"];
 
                 var checkboxes = document.getElementsByName('strain[]');
+                if(name=="all"){
+                    if (group.checked) {
+                        document.getElementById("hsfounders").checked = true;
+                        document.getElementById("hrdp").checked = true;
+                    }
+                    else{  document.getElementById("hsfounders").checked = false;
+                        document.getElementById("hrdp").checked = false;}
 
+                }
                 for (var i in checkboxes) {
                     if (!checkboxes[i].id) continue;
                     var strainId = checkboxes[i].id.split("_");
@@ -160,6 +168,7 @@
                     if (name == "all") {
                         if (group.checked) {
                             checkboxes[i].checked = true;
+
                         } else {
                             checkboxes[i].checked = false;
                         }
