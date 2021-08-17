@@ -98,6 +98,27 @@
 
         return Math.min(endPos1, endPos2, endPos3);
     }
+    $(function () {
+        $(".more").hide();
+        $(".moreLink").on("click", function(e) {
+
+            var $this = $(this);
+            var parent = $this.parent();
+            var $content=parent.find(".more");
+            var linkText = $this.text();
+
+            if(linkText === "More..."){
+                linkText = "Hide...";
+                $content.show();
+            } else {
+                linkText = "More...";
+                $content.hide();
+            }
+            $this.text(linkText);
+            return false;
+
+        });
+    });
 </script>
     <a name="annot"></a>
     <table border="0" style="padding-top:20px;" width="100%">
@@ -292,13 +313,94 @@
                         else
                             out.print(annot.getReference());%></td>
 
-                <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty())
-                            out.print(annot.getXrefSource());
-                        else if (!annot.getHiddenPmId().isEmpty() && annot.getXrefSource().isEmpty())
-                            out.print(annot.getHiddenPmId());
-                        else if (!annot.getHiddenPmId().isEmpty() && ! annot.getXrefSource().isEmpty())
-                            out.print(annot.getXrefSource()+", "+annot.getHiddenPmId());
-                        %></td>
+            <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty()) {
+                String[] pmids = annot.getXrefSource().split("> ");
+                if (pmids.length > 5){
+                    String lessPms = "";
+                    String morePms = "";
+                    int i = 0;
+                    for (String pmid : pmids ){
+                        if (i>4){
+                            if (i==pmids.length-1)
+                                morePms += pmid + " ";
+                            else
+                                morePms += pmid + "> ";
+                            System.out.println(morePms);
+                        }
+                        else {
+                            lessPms += pmid + "> ";
+                            System.out.println(lessPms);
+                        }
+                        i++;
+                    }
+
+            %>
+                <%=lessPms%> <span class="more" style="display: none;"><%=morePms%> </span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                <%
+                    }
+                    else {
+                        out.print(annot.getXrefSource());
+                    }
+                }
+                else if (!annot.getHiddenPmId().isEmpty() && annot.getXrefSource().isEmpty()) {
+                    String[] pmids = annot.getHiddenPmId().split("> ");
+                    if (pmids.length > 5){
+                        String lessPms = "";
+                        String morePms = "";
+                        int i = 0;
+                        for (String pmid : pmids ){
+                            if (i>4){
+                                if (i==pmids.length-1)
+                                    morePms += pmid + " ";
+                                else
+                                    morePms += pmid + "> ";
+                            }
+                            else {
+                                lessPms += pmid + "> ";
+                            }
+                            i++;
+                        }
+                %>
+                <%=lessPms%> <span class="more" style="display: none;"><%=morePms%> </span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                <%
+                    }
+                    else {
+
+                        out.print(annot.getHiddenPmId());
+                    }
+                }
+                else if (!annot.getHiddenPmId().isEmpty() && !annot.getXrefSource().isEmpty()) {
+                    String[] pmids = annot.getXrefSource().split("</A>");
+                    String[] pmids2 = annot.getHiddenPmId().split("</A>");
+                    ArrayList<String> pmidsTot = new ArrayList<>(Arrays.asList(pmids));
+                    pmidsTot.addAll(Arrays.asList(pmids2));
+                    if (pmidsTot.size() > 5){
+                        String lessPms = "";
+                        String morePms = "";
+                        int i = 0;
+                        for (String pmid : pmidsTot ){
+                            if (i>4){
+                                if (i == pmidsTot.size()-1)
+                                    morePms += pmid + "</A>";
+                                else
+                                    morePms += pmid + "</A>";
+                            }
+                            else {
+                                lessPms += pmid + "</A>";
+                            }
+                            i++;
+                        }
+                        System.out.println(lessPms + "\n" + morePms);
+
+                %>
+                <%=lessPms%> <span class="more" style="display: none;"><%=morePms%> </span><a href="#" class="moreLink" title="Click to see more">More...</a>
+                <%
+                        }
+                        else {
+                            out.print(annot.getXrefSource() + " " + annot.getHiddenPmId());
+                        }
+                    }
+                %></td>
 
                 <td><%  if (annot.getRgdRefSource().isEmpty() && !annot.getReferenceTurnedRGDRef().isEmpty()) // added references exist while rgdRef DNE
                             out.print(annot.getReferenceTurnedRGDRef());

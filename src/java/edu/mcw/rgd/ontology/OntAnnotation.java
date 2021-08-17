@@ -440,8 +440,8 @@ public class OntAnnotation  {
         }
 
         if (hiddenPmId.isEmpty())
-            hiddenPmId = "<a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
+            hiddenPmId = "<A href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\">PMID:" + pmId + "</A>";
         else
-            hiddenPmId += ", <a href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\"> PMID:" + pmId + "</a>";
+            hiddenPmId += " <A href=\"https://www.ncbi.nlm.nih.gov/pubmed/"+pmId+"\">PMID:" + pmId + "</A>";
     }
 }
