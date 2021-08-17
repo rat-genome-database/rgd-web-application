@@ -372,6 +372,7 @@
                 else if (!annot.getHiddenPmId().isEmpty() && !annot.getXrefSource().isEmpty()) {
                     String[] pmids = annot.getXrefSource().split("</A>");
                     String[] pmids2 = annot.getHiddenPmId().split("</A>");
+                    pmids2[0] = " "+pmids2[0];
                     ArrayList<String> pmidsTot = new ArrayList<>(Arrays.asList(pmids));
                     pmidsTot.addAll(Arrays.asList(pmids2));
                     if (pmidsTot.size() > 5){
