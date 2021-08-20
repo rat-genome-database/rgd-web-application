@@ -147,28 +147,71 @@
                 strainGroups["hsfounders"] = <%=founderArr%>;
                 strainGroups["hrdp"] = <%=hdrpArr%>;
                 var group = document.getElementById(name);
-                var founders = strainGroups[name];
-                var checkboxes = document.getElementsByName('strain[]');
+                var selected = strainGroups[name];
+                var founders = strainGroups["hsfounders"];
+                var hrdp = strainGroups["hrdp"];
 
+                var checkboxes = document.getElementsByName('strain[]');
+                if(name=="all"){
+                    if (group.checked) {
+                        document.getElementById("hsfounders").checked = true;
+                        document.getElementById("hrdp").checked = true;
+                    }
+                    else{  document.getElementById("hsfounders").checked = false;
+                        document.getElementById("hrdp").checked = false;}
+
+                }
                 for (var i in checkboxes) {
                     if (!checkboxes[i].id) continue;
                     var strainId = checkboxes[i].id.split("_");
 
-                    if (name=="all") {
+                    if (name == "all") {
                         if (group.checked) {
                             checkboxes[i].checked = true;
+
                         } else {
                             checkboxes[i].checked = false;
                         }
-                    }else {
-                        for (j = 0; j < founders.length; j++) {
-                            if (strainId[0] == founders[j]) {
+                    } else {
+                        for (j = 0; j < selected.length; j++) {
+                            if (strainId[0] == selected[j]) {
+                                var flag = "false";
+                                var otherGroup;
+                                if (name == 'hsfounders') {
+                                    otherGroup = document.getElementById("hrdp");
 
-                                if (group.checked) {
-                                    checkboxes[i].checked = true;
-                                } else {
-                                    checkboxes[i].checked = false;
+                                    if (otherGroup.checked) {
+                                        for (k = 0; k < hrdp.length; k++) {
+                                            if (strainId[0] == hrdp[k]) {
+                                                flag = "true";
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
+                                if (name == 'hrdp') {
+                                    otherGroup = document.getElementById("hsfounders");
+
+                                    if (otherGroup.checked) {
+                                        for (var k = 0; k < founders.length; k++) {
+                                            console.log( strainId[0] +"\t"+ founders[k]);
+
+                                            if (strainId[0] == founders[k]) {
+                                                flag = "true";
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                    if (group.checked) {
+                                        checkboxes[i].checked = true;
+
+                                    } else {
+                                            if (flag==="false")
+                                                checkboxes[i].checked = false;
+                                    }
+
+
                             }
                         }
                     }
