@@ -19,18 +19,12 @@
 ***********************************************/
 
 </script>
-<%
-    String pageTitle = "GA Tool: Term Compare";
-    String headContent = "";
-    String pageDescription = "";
-%>
-
-<%@ include file="/common/headerarea.jsp"%>
 
 <%@ include file="gaHeader.jsp" %>
-<%--<%@ include file="rgdHeader.jsp" %>--%>
+<%@ include file="rgdHeader.jsp" %>
 
 <% try { %>
+
 
 
 <%@ include file="menuBar.jsp" %>
@@ -42,9 +36,12 @@
     } %>
  <%
 
+
+
+
     OntologyXDAO xdao = new OntologyXDAO();
     int max = Integer.MIN_VALUE;
-    int br = 0;
+
     Term xTerm = xdao.getTermByAccId(req.getParameter("term1"));
     Term yTerm = xdao.getTermByAccId(req.getParameter("term2"));
 
@@ -239,8 +236,8 @@
             position:relative;
             min-width: 24px;
             min-height: 24px;
-            width:25px;
-            height:25px;
+            width:24px;
+            height:24px;
             *width: 25px;
             *height: 25px;
             border-top: 1px solid white;
@@ -259,16 +256,16 @@
 
 <%
     //if there are errors display them
-//    List error = (List) request.getAttribute("error");
-//    if (error.size() > 0) {
-//        Iterator eit = error.iterator();
-//        while (eit.hasNext()) {
-//            String emsg = (String) eit.next();
-//            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
-//
-//        }
-//        return;
-//    }
+    List error = (List) request.getAttribute("error");
+    if (error.size() > 0) {
+        Iterator eit = error.iterator();
+        while (eit.hasNext()) {
+            String emsg = (String) eit.next();
+            out.println("<br><br><div style='color: red; ' >" + emsg + "</div>");
+
+        }
+        return;
+    }
 
     if (om.getMapped().size() ==0) {
         out.println("<br><br><div style='color: red; ' >0 Genes Found</div>");
@@ -403,10 +400,10 @@
 
         if (rgdId==-1) {
         %>
-            <span style="color:red; font-weight:700;" class="geneList"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
+            <span style="color:red; font-weight:700;"><%=symbol%></span><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
 
         <% } else { %>
-            <a style="font-size:18px;" class="geneList"><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
+            <a style="font-size:18px;" ><%=symbol%></a><span style="font-size:11px;">&nbsp;(<%=i%>)</span><br>
         <% }
            i++;
      }
@@ -414,7 +411,7 @@
 </div>
 </div>
 
-<div style="position:absolute; top: 175px; left:210px;">
+<div style="position:absolute; top: 80; left:210;">
 <table border=0>
     <tr>
         <td valign="center" style="height:280px;">
@@ -435,85 +432,83 @@
 </table>
 </div>
 
+<div style="position: absolute; left: 210px; top: 85px; ">
+<div style="position: absolute; left:300px; top:0px;" >
+    <div class="iewrap">
+        <div class="container">
+           <% Iterator dit = xTerms.iterator();
+             while(dit.hasNext()) {
+                 TermWithStats xTermWs = (TermWithStats) dit.next();
 
-<div style="position: absolute; left: 210px; top: 190px; ">
-    <div style="position: absolute; left:31px; top:0px; width: 1650px;">
-        <div class="iewrap">
-            <div class="container">
-               <% Iterator dit = xTerms.iterator();
-                 while(dit.hasNext()) {
-                     TermWithStats xTermWs = (TermWithStats) dit.next();
-
-                     if (xTermWs.getChildTermCount() > 0) {
-               %>
-                     <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" href="javascript:termCompare('<%=xTermWs.getAccId()%>','<%=req.getParameter("term2")%>');">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
-               <%    } else { %>
-                     <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" style="text-decoration: none; cursor:default;  color: #771428;" href="javascript:void(0);">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
+                 if (xTermWs.getChildTermCount() > 0) {
+           %>
+                 <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" href="javascript:termCompare('<%=xTermWs.getAccId()%>','<%=req.getParameter("term2")%>');">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
+           <%    } else { %>
+                 <div class="head"><div id="h" class="vert"><a title="<%=xTermWs.getTerm()%>" style="text-decoration: none; cursor:default;  color: #771428;" href="javascript:void(0);">&nbsp;<%=xTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a></div></div>
 
 
-                   <% }
-                 } %>
-           </div>
-        </div>
+               <% }
+             } %>
+       </div>
     </div>
+</div>
 
-    <div style="position: absolute; top: 300px; left:0;">
-    <% Iterator pit = yTerms.iterator();
-      while(pit.hasNext()) {
-          TermWithStats yTermWs = (TermWithStats) pit.next();
+<div style="position: absolute; top: 300px; left:0;">
+<% Iterator pit = yTerms.iterator();
+  while(pit.hasNext()) {
+      TermWithStats yTermWs = (TermWithStats) pit.next();
+     %>
+      <div style="background-color:#EEEEEE; width: 300px;overflow: hidden; height: 24px; text-align: right;margin-top:1px;">
+
+          <% if (yTermWs.getChildTermCount() > 0) { %>
+              <a  title="<%=yTermWs.getTerm()%>" href="javascript:termCompare('<%=xTerm.getAccId()%>','<%=yTermWs.getAccId()%>');">&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
+          <% } else { %>
+            <a  style="text-decoration: none; cursor:default;  color: #771428;" title="<%=yTermWs.getTerm()%>" href="javascript:void(0)" >&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
+          <% } %>
+      </div>
+     <%
+  }
+   %>
+</div>
+
+<div style="min-width: <%=horizontalWidth%>px; position: absolute; top:300px; left:300px; width:<%=horizontalWidth%>px; border:0px solid red;">
+    <table border=0 cellpadding=0 cellspacing=0>
+    <%
+     for (int k=0; k < mapData.length; k++) {
          %>
-          <div style="background-color:#EEEEEE; width: 300px;overflow: hidden; height: 24px; text-align: right;margin-top:1px;">
+          <tr>
 
-              <% if (yTermWs.getChildTermCount() > 0) { %>
-                  <a  title="<%=yTermWs.getTerm()%>" href="javascript:termCompare('<%=xTerm.getAccId()%>','<%=yTermWs.getAccId()%>');">&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
-              <% } else { %>
-                <a  style="text-decoration: none; cursor:default;  color: #771428;" title="<%=yTermWs.getTerm()%>" href="javascript:void(0)" >&nbsp;<%=yTermWs.getTerm().replaceAll("\\s","&nbsp;")%></a>
-              <% } %>
-          </div>
+        <!--<div style="position:relative; width:<%=horizontalWidth%>px; border:0px solid orange; ">-->
          <%
-          br++;
-      }
-       %>
-    </div>
+         for (int j=0; j < mapData[k].length; j++) {
+             String color = UI.getRGBValue(mapData[k][j], max);
+             String fontColor="black";
 
-    <div style="min-width: <%=horizontalWidth%>px; position: absolute; top:300px; left:300px; width:<%=horizontalWidth%>px; border:0px solid red;">
-        <table border=0 cellpadding=0 cellspacing=0>
-        <%
-         for (int k=0; k < mapData.length; k++) {
+             if (((double) mapData[k][j]) / (double)max > .5) {
+                fontColor="white";
+             }
+
+             String cursor ="default";
+             if (mapData[k][j] > 0) {
+                cursor="pointer";
+             }
+
              %>
-              <tr>
+                 <td><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: <%=cursor%>; color: <%=fontColor%>; background-color:<%=color%>;"><%=mapData[k][j]%></div></td>
+                <script>
+                    document.getElementById("cell<%=k%>-<%=j%>").cellBgColor = "<%=color%>";
+                    document.getElementById("cell<%=k%>-<%=j%>").cellFontColor = "<%=fontColor%>";
+                </script>
+         <% } %>
+         <!-- </div>-->
+              </tr>
 
-            <!--<div style="position:relative; width:<%=horizontalWidth%>px; border:0px solid orange; ">-->
-             <%
-             for (int j=0; j < mapData[k].length; j++) {
-                 String color = UI.getRGBValue(mapData[k][j], max);
-                 String fontColor="black";
-
-                 if (((double) mapData[k][j]) / (double)max > .5) {
-                    fontColor="white";
-                 }
-
-                 String cursor ="default";
-                 if (mapData[k][j] > 0) {
-                    cursor="pointer";
-                 }
-
-                 %>
-                     <td><div id="cell<%=k%>-<%=j%>" class="heatCell" style="cursor: <%=cursor%>; color: <%=fontColor%>; background-color:<%=color%>;"><%=mapData[k][j]%></div></td>
-                    <script>
-                        document.getElementById("cell<%=k%>-<%=j%>").cellBgColor = "<%=color%>";
-                        document.getElementById("cell<%=k%>-<%=j%>").cellFontColor = "<%=fontColor%>";
-                    </script>
-             <% } %>
-             <!-- </div>-->
-                  </tr>
-
-             <%
-         }
-    %>
-         </table>
-<%--            <br>&nbsp;<br>&nbsp;<br>&nbsp;--%>
-    </div>
+         <%
+     }
+%>
+     </table>
+    <br>&nbsp;<br>&nbsp;<br>&nbsp;
+</div>
 </div>
 
 <!-- heat map script -->
@@ -715,24 +710,11 @@ while (it2.hasNext()) {
 %>
 </script>
 
-<%
-if (br<=16) {
-    out.println("<br><br><br><br><br>");
-    for (int j = 0; j < br/2; j++) {
-        out.println("<br>");
-    }
-}
-else {
-    out.println("<br><br><br><br><br><br><br><br><br><br><br><br>");
-    for (int j = 0; j < br; j++) {
-        out.println("<br>");
-    }
-}
-%>
+
+<br><br><br><br><br><br><br><br><br><br>
 
 <%
 } catch (Exception e) {
     e.printStackTrace();
 }
     %>
-<%@ include file="/common/footerarea.jsp"%>
