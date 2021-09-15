@@ -81,7 +81,7 @@ public class VariantController extends HaplotyperController {
                 List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
 
                 for (VariantResult vr: variantResults) {
-                    if (vr.getVariant() != null && vr.getVariant().getReferenceNucleotide()!=null) {
+                    if (vr.getVariant() != null) {
                         snplotyper.add(vr);
                     }
                 }
