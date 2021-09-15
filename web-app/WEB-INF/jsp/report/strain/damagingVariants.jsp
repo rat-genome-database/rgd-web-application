@@ -22,11 +22,14 @@
 
     <tbody>
     <% for(Sample s: samples) {
-        int count = vdao.getCountofDamagingVariantsForSample(s.getId(), String.valueOf(s.getMapKey()));
+        int count = vdao.getCountofDamagingVariantsForSample2(s.getId(), String.valueOf(s.getMapKey()));
         if(count != 0) {
     %>
         <tr>
             <td><%=s.getAnalysisName()%></td>
+            <td><% if(s.getMapKey() == 372 ) {%>
+                <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
+                <% }  %></td>
             <td><% if(s.getMapKey() == 360 ) {%>
                 <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
             <% }  %></td>
