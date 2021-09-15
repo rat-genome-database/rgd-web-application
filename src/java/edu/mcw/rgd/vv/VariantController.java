@@ -55,7 +55,7 @@ public class VariantController extends HaplotyperController {
                     searchType="GENE";
                 }
             }
-            if (geneList.equals("") && !req.getParameter("rdo_term").equals("")) {
+            if (geneList.equals("") ) {
                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
 
@@ -72,16 +72,18 @@ public class VariantController extends HaplotyperController {
             }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
-            long count=service.getVariantsCount(vsb,req);
+         //   long count=service.getVariantsCount(vsb,req);
+            List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
+           long count=variantResults.size();
             if (count < 2000 || searchType.equals("GENE")) {
               //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
-                List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
+
 
                 for (VariantResult vr: variantResults) {
-                    if (vr.getVariant() != null && vr.getVariant().getReferenceNucleotide()!=null) {
+                    if (vr.getVariant() != null ) {
                         snplotyper.add(vr);
                     }
                 }
