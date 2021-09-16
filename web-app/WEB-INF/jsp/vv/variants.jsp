@@ -483,8 +483,11 @@
                                         border=0;
                                     }
 
-                                    if (score.length() > 1) {
+                                    if (score.length() > 1 && !score.equalsIgnoreCase("null")) {
                                         score = score.length() + "";
+                                    }
+                                    if(score.equalsIgnoreCase("null")){
+                                        score="-";
                                     }
                             %>
                             <td style="font-size:9px;"><div class="conCell" style="border-top: <%=border%>px solid white;color:<%=fontColor%>; background-color:<%=backColor%>;" ><%=score%></div></td>
