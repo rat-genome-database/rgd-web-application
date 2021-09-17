@@ -220,7 +220,7 @@
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
-                                            <a href="/GENOMESCANNER/">Genome Scanner</a>
+<%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
                                             <a href="/rgdweb/vcmap.jnlp">VCMap</a>
                                         </div>
                                     </div>
