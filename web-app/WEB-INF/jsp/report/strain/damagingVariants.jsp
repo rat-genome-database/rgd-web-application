@@ -18,7 +18,7 @@
 <div class="sectionHeading" id="damagingVar">Damaging Variants</div>
 <table class="table table-sm table-hover table-striped">
     <thead style="font-size: smaller"><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
-    <thead style="font-size: smaller"><tr><tr><th>Sample</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
+    <thead style="font-size: smaller"><tr><tr><th>Sample</th><th>mRatBN7.2</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
 
     <tbody>
     <% for(Sample s: samples) {
