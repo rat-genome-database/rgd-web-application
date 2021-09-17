@@ -63,7 +63,9 @@
                                     <c:set var="url" value=""/>
                                     <c:set value="true" var="first"/>
                                     <c:set value="" var="category"/>
+
                                       <c:forEach items="${row}" var="column" varStatus="loop">
+                                          <c:set var="species" value=""/>
                                         <c:if test="${loop.index==1}">
                                             <c:set var="species" value="Rat"/>
                                         </c:if>
