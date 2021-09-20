@@ -277,11 +277,12 @@
     <% } %>
     <%
         for (XdbId xdbId: xdbids) {
+            String link = xdb.getXDB(xdbId.getXdbKey()).getSpeciesURL(id.getSpeciesTypeKey())+xdbId.getAccId();
     %>
             <tr>
                 <td><%=xdb.getXDB(xdbId.getXdbKey()).getName()%></td>
                 <td><%=xdbId.getAccId()%></td>
-                <td><a href="<%=xdb.getXDB(xdbId.getXdbKey()).getSpeciesURL(id.getSpeciesTypeKey())%><%=xdbId.getAccId()%>">Link</a></td>
+                <td><a href="<%=link%>">Link</a></td>
                 <td><%=xdbId.getSrcPipeline()%></td>
             </tr>
     <%  } %>
