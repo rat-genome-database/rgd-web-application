@@ -125,7 +125,7 @@ public class RgdContext {
                 //   return index+"_index_prod";
             }
             if( isDev() ) {
-                return index+"_dev";
+                return index+"_test";
             }
 
         } catch( UnknownHostException e ) {
