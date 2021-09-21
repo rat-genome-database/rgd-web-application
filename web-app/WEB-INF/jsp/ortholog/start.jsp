@@ -45,16 +45,16 @@
                             <div class="form-group">
                                 <label for="inSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
                                 <select class="form-control" id="inSpecies" name="inSpecies" v-model="inSpecies" onchange="v.setMaps(inSpecies,'inMaps')">
-                                    <option value="3">Rat</option>
-                                    <option  value="2">Mouse</option>
-                                    <option  value="1">Human</option>
-                                    <option  value="4">Chinchilla</option>
-                                    <option  value="5">Bonobo</option>
-                                    <option  value="6">Dog</option>
-                                    <option  value="7">Squirrel</option>
-                                    <option value="9">Pig</option>
-                                    <option value="14">Naked Mole-Rat</option>
-                                    <option value="13">Green Monkey</option>
+                                    <option >Rat</option>
+                                    <option  >Mouse</option>
+                                    <option  >Human</option>
+                                    <option  >Chinchilla</option>
+                                    <option  >Bonobo</option>
+                                    <option  >Dog</option>
+                                    <option  >Squirrel</option>
+                                    <option >Pig</option>
+                                    <option >Naked Mole-Rat</option>
+                                    <option >Green Monkey</option>
 
                                 </select>
                             </div>
