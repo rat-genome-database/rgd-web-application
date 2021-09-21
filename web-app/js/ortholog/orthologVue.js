@@ -27,7 +27,7 @@ function OrthologVue(divId) {
             inMaps: [],
             outMaps: [],
             chromosomes: [],
-            inSpecies: "Rat",
+            inSpecies: 3,
             outSpecies: 1,
             chr: 1,
             inMapKey: "Rnor_6.0",
@@ -36,8 +36,6 @@ function OrthologVue(divId) {
         },
         methods: {
             setMaps: function(species,divId) {
-                alert("in Set Maps");
-                alert("in species = " + this.inSpecies)
                 var mapKey = 0;
                 if(species != this.inSpecies && species != this.outSpecies )
                     species = species.options[species.selectedIndex].value;

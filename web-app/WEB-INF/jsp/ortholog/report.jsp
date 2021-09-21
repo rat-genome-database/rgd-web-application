@@ -171,14 +171,11 @@ int insize = genes.get(rgdId).size();
 </div>
 
 <script>
-    alert("about to create vue");
     var v= new OrthologVue("ortholog");
-    alert("orthovue = " + v);
     v.inSpecies = <%=inSpeciesKey%>;
     v.outSpecies = <%=outSpeciesKey%>;
     v.inMapKey = <%=inMapKey%>;
     v.outMapKey = <%=outMapKey%>;
     v.genes = <%=symbols%>;
-    alert(v.inSpecies + "-" + v.outSpecies + "-" + v.inMapKey + "-" + v.outMapKey + "-" + v.genes );
 </script>
 

@@ -19,7 +19,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="/rgdweb/js/ortholog/orthologVue.js?2"></script>
+<script src="/rgdweb/js/ortholog/orthologVue.js?8"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -43,18 +43,18 @@
                             <br>
 
                             <div class="form-group">
-                                <label for="inSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
-                                <select class="form-control" id="inSpecies" name="inSpecies" v-model="inSpecies" onchange="v.setMaps(inSpecies,'inMaps')">
-                                    <option >Rat</option>
-                                    <option  >Mouse</option>
-                                    <option  >Human</option>
-                                    <option  >Chinchilla</option>
-                                    <option  >Bonobo</option>
-                                    <option  >Dog</option>
-                                    <option  >Squirrel</option>
-                                    <option >Pig</option>
-                                    <option >Naked Mole-Rat</option>
-                                    <option >Green Monkey</option>
+                                <label for="inSpecies_div" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
+                                <select class="form-control" id="inSpecies_div" name="inSpecies_select" v-model="inSpecies" @change="setMaps($event.target.value,'inMaps')" nchange="v.setMaps('inMaps',$event)">
+                                    <option value="3">Rat</option>
+                                    <option  value="2">Mouse</option>
+                                    <option  value="1">Human</option>
+                                    <option  value="4">Chinchilla</option>
+                                    <option  value="5">Bonobo</option>
+                                    <option  value="6">Dog</option>
+                                    <option  value="7">Squirrel</option>
+                                    <option value="9">Pig</option>
+                                    <option value="14">Naked Mole-Rat</option>
+                                    <option value="13">Green Monkey</option>
 
                                 </select>
                             </div>
@@ -108,8 +108,8 @@
                             <br>
 
                             <div class="form-group">
-                                <label for="outSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
-                                <select class="form-control" id="outSpecies" name="outSpecies" v-model="outSpecies" onchange="v.setMaps(outSpecies,'outMaps')">
+                                <label for="outSpecies_div" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
+                                <select class="form-control" id="outSpecies_div" name="outSpecies_select" v-model="outSpecies" @change="setMaps($event.target.value,'outMaps')" nchange="v.setMaps(outSpecies,'outMaps')">
                                     <option value="3">Rat</option>
                                     <option  value="2">Mouse</option>
                                     <option  value="1">Human</option>
