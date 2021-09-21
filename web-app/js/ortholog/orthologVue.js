@@ -36,6 +36,8 @@ function OrthologVue(divId) {
         },
         methods: {
             setMaps: function(species,divId) {
+                alert("in Set Maps");
+                alert("in species = " + this.inSpecies)
                 var mapKey = 0;
                 if(species != this.inSpecies && species != this.outSpecies )
                     species = species.options[species.selectedIndex].value;
