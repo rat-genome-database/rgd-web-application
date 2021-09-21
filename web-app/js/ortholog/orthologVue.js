@@ -27,7 +27,7 @@ function OrthologVue(divId) {
             inMaps: [],
             outMaps: [],
             chromosomes: [],
-            inSpecies: 3,
+            inSpecies: "Rat",
             outSpecies: 1,
             chr: 1,
             inMapKey: "Rnor_6.0",
