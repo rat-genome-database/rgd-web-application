@@ -171,7 +171,6 @@ int insize = genes.get(rgdId).size();
 </div>
 
 <script>
-
     var v= new OrthologVue("ortholog");
     v.inSpecies = <%=inSpeciesKey%>;
     v.outSpecies = <%=outSpeciesKey%>;
