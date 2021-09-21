@@ -19,7 +19,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="/rgdweb/js/ortholog/orthologVue.js"></script>
+<script src="/rgdweb/js/ortholog/orthologVue.js?1"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -109,7 +109,7 @@
 
                             <div class="form-group">
                                 <label for="outSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
-                                <select class="form-control" id="outSpecies" name="outSpecies"v-model="outSpecies" onchange="v.setMaps(outSpecies,'outMaps')">
+                                <select class="form-control" id="outSpecies" name="outSpecies" v-model="outSpecies" onchange="v.setMaps(outSpecies,'outMaps')">
                                     <option value="3">Rat</option>
                                     <option  value="2">Mouse</option>
                                     <option  value="1">Human</option>
