@@ -133,8 +133,24 @@
                     continue;
         %>
         <tr>
-            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>
-            <td class="credittext"><%=oo.getDescription()%></td>
+            <%
+                switch (oo.getId()){
+                    case "MF":  %>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/go-logo.png" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
+            <%      break;
+                    case "MP": %>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/mgi_logo.gif" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
+            <%      break;
+                    default:    %>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
+            <%
+                } // end switch
+            %>
+<%--            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>--%>
+<%--            <td class="credittext"><%=oo.getDescription()%></td>--%>
         </tr>
     <% } %>
     </table>
