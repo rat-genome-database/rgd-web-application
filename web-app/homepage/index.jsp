@@ -144,10 +144,8 @@
         margin-left: auto;
     }
 </style>
-<!--
-<table align=center ><tr><td style="color:red;"> NOTICE: Ratmine will be unavailable for maintenance June 19th</td></tr></table>
+<table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade portions of RGD may be unavailable Sunday September 24th</td></tr></table>
 <br><br>
--->
 <script>
     function covidPortal() {
         location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
