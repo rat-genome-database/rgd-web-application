@@ -36,7 +36,7 @@ public class DistributionController extends HaplotyperController {
 
     VVService service= new VVService();
     GeneLociDAO geneLociDAO=new GeneLociDAO();
-
+    GeneDAO gdao = new GeneDAO();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -72,13 +72,13 @@ public class DistributionController extends HaplotyperController {
         index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
+        List<MappedGene> mgs = new ArrayList<MappedGene>();
+        Set<String> masterKeySet = new HashSet<String>();
+
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
         try {
-        List<MappedGene> mgs = new ArrayList<MappedGene>();
-        Set<String> masterKeySet = new HashSet<String>();
-        GeneDAO gdao = new GeneDAO();
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
@@ -239,7 +239,7 @@ public class DistributionController extends HaplotyperController {
             }
         }else {
             regionList = vsb.genes;
-            if (req.getParameter("geneList").indexOf("|") != -1) {
+            if (req.getParameter("geneList").indexOf("|") != -1 && mgs.size()>0) {
                 regionList.add(req.getParameter("geneList"));
             }
         }
