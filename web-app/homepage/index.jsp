@@ -144,7 +144,7 @@
         margin-left: auto;
     }
 </style>
-<table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday September 26th</td></tr></table>
+<table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday October 3rd</td></tr></table>
 <br><br>
 <script>
     function covidPortal() {
