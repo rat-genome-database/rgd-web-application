@@ -40,7 +40,7 @@ public class SelectStrainController extends HaplotyperController {
                 }
                for(int id:strainIds){
                    Sample s= new Sample();
-                   s=sampleDAO.getSampleByStrainRgdId(id, 600);
+                   s=sampleDAO.getSampleByStrainRgdIdNMapKey(id, Integer.parseInt(map));
                    if(s!=null){
                     System.out.println("sample id:"+ s.getId());
                    sampleList.add(s);}
