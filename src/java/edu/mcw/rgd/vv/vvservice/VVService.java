@@ -347,7 +347,7 @@ public class VVService {
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
             System.out.println("CHRMoosme null");
             List<String> symbols= new ArrayList<>();
-            for(String s:Utils.symbolSplit(geneList)){
+            for(String s:vsb.genes){
                    symbols.add(s.toLowerCase());
             }
 
@@ -373,12 +373,18 @@ public class VVService {
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
             }
-            if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+         //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+                if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
                 List<String> symbols = new ArrayList<>();
-                for (String s : Utils.symbolSplit(geneList)) {
+                    for (String s : vsb.genes){
+
+                        symbols.add(s.toLowerCase());
+                    }
+              /* for (String s : Utils.symbolSplit(geneList)) {
+
                   symbols.add(s.toLowerCase());
                 }
-
+                */
                 if (!symbols.get(0).equals("null"))
                 qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
 
