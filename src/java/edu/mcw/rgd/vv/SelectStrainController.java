@@ -30,7 +30,8 @@ public class SelectStrainController extends HaplotyperController {
         String strainRgdIds=request.getParameter("rgdIds");
         String map=request.getParameter("mapKey");
 
-        if(strainRgdIds!=null && Integer.parseInt(map)==360 ){
+        if(strainRgdIds!=null ){
+
             if(!strainRgdIds.equals("")){
                 List<Integer> strainIds= new ArrayList<>();
                 StringTokenizer tokens= new StringTokenizer(strainRgdIds, ",");
@@ -43,9 +44,11 @@ public class SelectStrainController extends HaplotyperController {
                    if(s!=null){
                     System.out.println("sample id:"+ s.getId());
                    sampleList.add(s);}
-                   else{
-                       System.out.println("No Samples");
-                  }
+
+               }
+               if(sampleList.size()==0){
+
+                       sampleList= sampleDAO.getSamplesByMapKey(Integer.parseInt(map));
                }
                 if(sampleList.size()>0){
                     request.setAttribute("mapKey",Integer.parseInt(map));
