@@ -38,6 +38,8 @@ import java.util.stream.Collectors;
 public class VariantController extends HaplotyperController {
 
     VVService service= new VVService();
+    GeneDAO gdao = new GeneDAO();
+
     VariantTranscriptDao dao=new VariantTranscriptDao();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -59,9 +61,8 @@ public class VariantController extends HaplotyperController {
                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
 
-            GeneDAO gdao = new GeneDAO();
             VariantSearchBean vsb = this.fillBean(req);
-
+            vsb.genes=Utils.symbolSplit(geneList);
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
