@@ -5,13 +5,6 @@
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
-<%@ page import="java.sql.Blob" %>
-<%@ page import="java.io.InputStream" %>
-<%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
@@ -21,6 +14,17 @@
     request.setAttribute("ontId", ontId);
 
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
+
+    String RRRCid = null;
+    List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
+    if( !aliases.isEmpty() ) {
+        for( Alias a: aliases ) {
+            if( a.getValue().startsWith("RRRC:") ) {
+                RRRCid = a.getValue().replace(':','_');
+                break;
+            }
+        }
+    }
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
@@ -52,16 +56,19 @@
 
 
     <tr>
-        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td class="label">RGD ID:</td>
         <td><%=id.getRgdId()%></td>
     </tr>
 
 
     <tr>
-        <td class="label">RRID:</td>
-        <td><%=RgdContext.getSiteName(request)%>_<%=id.getRgdId()%></td>
+        <td class="label">Citation ID:</td>
+        <td>RRID:<% if( RRRCid==null ) {
+            out.print("RGD_" + obj.getRgdId());
+        } else {
+            out.print(RRRCid);
+        }%></td>
     </tr>
-
 
     <tr>
         <td class="label">Ontology ID:</td>
@@ -92,7 +99,6 @@
     <% } %>
 
     <%
-        List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
         if( !aliases.isEmpty() ) {
     %>
     <tr>
