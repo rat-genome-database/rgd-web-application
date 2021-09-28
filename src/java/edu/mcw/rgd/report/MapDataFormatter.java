@@ -329,6 +329,9 @@ public class  MapDataFormatter {
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
                 break;
+            case 1313: // Green Monkey (vervet) Vero_WHO_p1.0
+                db = "data_veroWho"; link = "Vero_WHO_p1.0";
+                break;
 
             case 1410: // naked mole rat NCBI
                 db = "data_hetGla2"; link = "HetGla_female_1.0";
