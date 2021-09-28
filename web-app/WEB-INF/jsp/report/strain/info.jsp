@@ -28,6 +28,10 @@
         for( Alias a: aliases ) {
             if( a.getValue().startsWith("RRRC:") ) {
                 RRRCid = a.getValue().replace(':','_');
+                if( RRRCid.length()==9 ) {
+                    // convert RRRC_00xx into RRRC_000xx
+                    RRRCid = "RRRC_0"+RRRCid.substring(5);
+                }
                 break;
             }
         }
