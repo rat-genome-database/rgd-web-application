@@ -320,6 +320,27 @@ public class  MapDataFormatter {
             case 910:
                 db = "data_pig10_2"; link = "Sscrofa10.2";
                 break;
+
+            case 1311: // Green Monkey (vervet) chlSab2
+                db = "data_chlSab2"; link = "ChlSab1.1";
+                break;
+            case 1312: // chlSab2 Ensembl
+                db = "data_chlSab2"; link = "ChlSab1.1";
+                if( track != null && track.equals("ARGD_curated_genes"))
+                    track = "Ensembl_genes";
+                break;
+            case 1313: // Green Monkey (vervet) Vero_WHO_p1.0
+                db = "data_veroWho"; link = "Vero_WHO_p1.0";
+                break;
+
+            case 1410: // naked mole rat NCBI
+                db = "data_hetGla2"; link = "HetGla_female_1.0";
+                break;
+            case 1411: // naked mole rat Ensembl
+                db = "data_hetGla2"; link = "HetGla_female_1.0";
+                if( track != null && track.equals("ARGD_curated_genes"))
+                    track = "Ensembl_genes";
+                break;
         }
 
         if( db!=null && track!=null ) {
@@ -443,6 +464,16 @@ public class  MapDataFormatter {
                 case 911:
                 case 912:
                     db = "susScr11";
+                    break;
+
+                case 1311:
+                case 1312:// green monkey (vervet)
+                    db = "chlSab2";
+                    break;
+
+                case 1410:
+                case 1411:// naked mole rat
+                    db = "hetGla2";
                     break;
             }
         }
