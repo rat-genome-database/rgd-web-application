@@ -5,6 +5,13 @@
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
+<%@ page import="java.sql.Blob" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
