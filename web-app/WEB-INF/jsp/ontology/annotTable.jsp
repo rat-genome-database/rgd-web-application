@@ -120,6 +120,7 @@
         });
     });
 </script>
+<br>
     <a name="annot"></a>
     <table border="0" style="padding-top:20px;" width="100%">
         <tr>
@@ -129,7 +130,7 @@
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
                         value="0" <c:if test="${bean.sortDesc==false}">selected="selected"</c:if>>&uarr; asc</option><option
                         value="1" <c:if test="${bean.sortDesc==true}">selected="selected"</c:if>>&darr; desc</option></select>
-                        <input type="button" value="download" onclick="addParamToLocHref('d','1','#annot')" title="download to file">
+                        <input type="button" value="download annotations" onclick="addParamToLocHref('d','1','#annot')" title="download to file">
 
             </td>
         </tr>
