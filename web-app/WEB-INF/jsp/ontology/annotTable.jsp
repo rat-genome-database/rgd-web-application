@@ -311,8 +311,12 @@
                 <td><%=annot.getNotes()%></td>
                 <td><%  if (annot.getReference().isEmpty())
                             out.print(annot.getDataSource());
-                        else
-                            out.print(annot.getReference());%></td>
+                        else {
+                    out.print(annot.getReference());
+                    if (annot.getDataSource().contains("RGD") && !annot.getReference().contains("RGD")) {
+                        out.print("<BR>RGD");
+                    }
+                }%></td>
 
             <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty()) {
                 String[] pmids = annot.getXrefSource().split("> ");
