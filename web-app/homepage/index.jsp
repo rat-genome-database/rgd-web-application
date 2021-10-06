@@ -144,8 +144,10 @@
         margin-left: auto;
     }
 </style>
+<!--
 <table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday October 3rd</td></tr></table>
 <br><br>
+-->
 <script>
     function covidPortal() {
         location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
