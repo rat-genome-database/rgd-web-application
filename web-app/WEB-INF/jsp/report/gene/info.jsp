@@ -253,6 +253,8 @@
                 : obj.getSpeciesTypeKey()==SpeciesType.SQUIRREL ? "data_squirrel2_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
                 : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
+                : obj.getSpeciesTypeKey()==SpeciesType.VERVET ? "data_chlSab2"
+                : obj.getSpeciesTypeKey()==SpeciesType.NAKED_MOLE_RAT ? "data_hetGla2"
                 : "";
         String tracks;
         if(obj.getGeneSource().equals("Ensembl"))
