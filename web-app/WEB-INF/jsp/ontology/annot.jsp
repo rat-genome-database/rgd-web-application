@@ -40,6 +40,8 @@
 
    String pageTitle = bean.getTerm().getTerm()+" - Ontology Report - " + RgdContext.getLongSiteName(request);
    String pageDescription = pageTitle;
+    edu.mcw.rgd.datamodel.Map refMap2 = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
+    int mapKey2 = refMap2!=null ? refMap2.getKey() : 0;
 %>
 <style type="text/css">
     body {
@@ -91,9 +93,9 @@
     <table width="100%">
         <tr>
             <td align="center">
-                <div id="gviewer" class="gviewer">
+                <div id="gviewer" class="gviewer" name="gviewer">
                     <c:if test="${bean.speciesTypeKey==0}">Please select species to view GViewer data.</c:if>
-                    <c:if test="${bean.speciesTypeKey==4}">GViewer not supported for chinchilla.</c:if>
+                    <c:if test="${bean.speciesTypeKey==4 || bean.speciesTypeKey==7}">GViewer not supported for the selected species.</c:if>
                 </div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
             </td>
@@ -223,87 +225,74 @@
     </div>
 </div>
 
-<%
-%>
 <% if (tws.getAnnotObjectCountForSpecies(bean.getSpeciesTypeKey(),false) <= 2400) { %>
 
 <%----------------- GVIEWER ------------%>
 <script language="JavaScript1.2">
-<c:if test="${bean.speciesTypeKey==3}">
+<c:if test="${bean.speciesTypeKey!=7 && bean.speciesTypeKey!=4 && bean.speciesTypeKey!=0}">
 var gviewer = null;
 onload= function() {
 
 try {
-    gviewer = new Gviewer("gviewer", 200, 750);
+    var geneIds = "<%=bean.getGeneRgdids()%>";
+    var qtlIds = "<%=bean.getQtlRgdids()%>";
+    var strainIds = "<%=bean.getStrainRgdids()%>";
+    var species = "<%=bean.getSpeciesTypeKey()%>";
+    var jbrowseUrl;
+    var width = 750;
+    switch (species) {
+        case "1":
+            jbrowseUrl = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
+            break;
+        case "2":
+            jbrowseUrl = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
+            break;
+        case "3":
+            jbrowseUrl = "/jbrowse/?data=data_rn7_2&tracks=ARGD_curated_genes";
+            break;
+        case "5":
+            jbrowseUrl = "/jbrowse/?data=data_bonobo1_1&tracks=ARGD_curated_genes";
+            break;
+        case "6":
+            jbrowseUrl = "/jbrowse/?data=data_dog3_1&tracks=ARGD_curated_genes";
+            width = 1000;
+            break;
+        case "9":
+            jbrowseUrl = "/jbrowse/?data=data_pig11_1&tracks=ARGD_curated_genes";
+            break;
+        default:
+            jbrowseUrl = "/jbrowse/?data=data_rn7_2&tracks=ARGD_curated_genes";
+    }
+
+    gviewer = new Gviewer("gviewer", 200, width);
     gviewer.imagePath = "/rgdweb/gviewer/images";
     gviewer.exportURL = "/rgdweb/report/format.html";
     gviewer.annotationTypes = new Array("gene","qtl","strain");
-    gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-    //gviewer.imageViewerURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes&menu=&nav=&overview=&tracklist=&loc=";
-    gviewer.enableAdd=true;
+    gviewer.genomeBrowserURL = jbrowseUrl;
+    // gviewer.enableAdd=true;
     gviewer.genomeBrowserName = "JBrowse";
     gviewer.regionPadding=2;
     gviewer.annotationPadding = 1;
-    gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
-    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?acc_id=<%=bean.getAccId()%>&species_type=<%=bean.getSpeciesTypeKey()%>&with_childs=<%=bean.isWithChildren()?1:0%>");
+    gviewer.loadBands("/rgdweb/gviewer/data/portal_<%=bean.getSpeciesTypeKey()%>_ideo.xml");
     gviewer.addZoomPane("zoomWrapper", 200, 750);
-}catch (err) {
-    
-}
 
-}
-</c:if>
+    if (geneIds != "") {
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + geneIds);
+    }
+    if (qtlIds != ""){
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + qtlIds);
+    }
+    if (strainIds != ""){
+        gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + strainIds);
+    }
 
-<c:if test="${bean.speciesTypeKey==1}">
-var gviewer = null;
-onload= function() {
 
-try {
-    gviewer = new Gviewer("gviewer", 200, 750);
-    gviewer.imagePath = "/rgdweb/gviewer/images";
-    gviewer.exportURL = "/rgdweb/report/format.html";
-    gviewer.annotationTypes = new Array("gene","qtl","strain");
-    gviewer.genomeBrowserURL = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
-    //gviewer.imageViewerURL = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes&menu=&nav=&overview=&tracklist=&loc=";
-    gviewer.enableAdd=true;
-    gviewer.genomeBrowserName = "JBrowse";
-    gviewer.regionPadding=2;
-    gviewer.annotationPadding = 1;
-    gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
-    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?acc_id=<%=bean.getAccId()%>&species_type=<%=bean.getSpeciesTypeKey()%>&with_childs=<%=bean.isWithChildren()?1:0%>");
-    gviewer.addZoomPane("zoomWrapper", 200, 750);
-}catch (err) {
-
-}
-
-}
-</c:if>
-
-<c:if test="${bean.speciesTypeKey==2}">
-var gviewer = null;
-onload= function() {
-
-try {
-    gviewer = new Gviewer("gviewer", 200, 750);
-    gviewer.imagePath = "/rgdweb/gviewer/images";
-    gviewer.exportURL = "/rgdweb/report/format.html";
-    gviewer.annotationTypes = new Array("gene","qtl","strain");
-    gviewer.genomeBrowserURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
-    //gviewer.imageViewerURL = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes&menu=&nav=&overview=&tracklist=&loc=";
-    gviewer.enableAdd=true;
-    gviewer.genomeBrowserName = "JBrowse";
-    gviewer.regionPadding=2;
-    gviewer.annotationPadding = 1;
-    gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
-    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?acc_id=<%=bean.getAccId()%>&species_type=<%=bean.getSpeciesTypeKey()%>&with_childs=<%=bean.isWithChildren()?1:0%>");
-    gviewer.addZoomPane("zoomWrapper", 200, 750);
 }catch (err) {
 
 }
 
 }
 </c:if>
-
 
 </script>
 <% } %>
