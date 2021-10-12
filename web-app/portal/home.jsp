@@ -609,12 +609,37 @@
                     return;
                 }
 
-                    gviewer = new Gviewer("gviewer", 250, 800);
+                var species = $scope.speciesTypeKey;
+                var jbrowseUrl;
+                switch (species) {
+                    case "1":
+                        jbrowseUrl = "/jbrowse/?data=data_hg38&tracks=ARGD_curated_genes";
+                        break;
+                    case "2":
+                        jbrowseUrl = "/jbrowse/?data=data_mm38&tracks=ARGD_curated_genes";
+                        break;
+                    case "3":
+                        jbrowseUrl = "/jbrowse/?data=data_rn7_2&tracks=ARGD_curated_genes";
+                        break;
+                    case "5":
+                        jbrowseUrl = "/jbrowse/?data=data_bonobo1_1&tracks=ARGD_curated_genes";
+                        break;
+                    case "6":
+                        jbrowseUrl = "/jbrowse/?data=data_dog3_1&tracks=ARGD_curated_genes";
+                        break;
+                    case "9":
+                        jbrowseUrl = "/jbrowse/?data=data_pig11_1&tracks=ARGD_curated_genes";
+                        break;
+                    default:
+                        jbrowseUrl = "/jbrowse/?data=data_rn7_2&tracks=ARGD_curated_genes";
+                }
+
+                gviewer = new Gviewer("gviewer", 250, 800);
 
                     gviewer.imagePath = "/rgdweb/gviewer/images";
                     gviewer.exportURL = "/rgdweb/report/format.html";
                     gviewer.annotationTypes = new Array("gene","qtl","strain");
-                    gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
+                    gviewer.genomeBrowserURL = jbrowseUrl;
                     gviewer.genomeBrowserName = "JBrowse";
                     gviewer.regionPadding=2;
                     gviewer.annotationPadding = 1;
@@ -641,7 +666,8 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
+                    console.log(ids);
+                    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + ids);
                 }
                 ids="";
                 var first = 1;
@@ -658,7 +684,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + ids);
                 }
 
                 ids="";
@@ -675,7 +701,7 @@
                 }
 
                 if (ids != "") {
-                    gviewer.loadAnnotations("/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
+                    gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + ids); // "/rgdweb/gviewer/getAnnotationXmlByID.html?ids=" + ids);
                 }
 
             }

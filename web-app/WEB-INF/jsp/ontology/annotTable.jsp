@@ -144,16 +144,16 @@
 
     <div id="searchResultHeader">
         <ul style="border-bottom:2px solid #2865A3;">
-            <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#annot')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#annot')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==1}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Human','#annot')">Human&nbsp;(<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==4}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Chinchilla','#annot')">Chinchilla&nbsp;(<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#annot')">Bonobo&nbsp;(<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#annot')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#annot')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#annot')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#gviewer')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#gviewer')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==1}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Human','#gviewer')">Human&nbsp;(<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==4}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Chinchilla','#gviewer')">Chinchilla&nbsp;(<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#gviewer')">Bonobo&nbsp;(<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#gviewer')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#gviewer')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#gviewer')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
             <c:if test="${bean.showAnnotsForAllSpecies}">
-            <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#annot')">All</a></li>
+            <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#gviewer')">All</a></li>
             </c:if>
 
         </ul>
@@ -165,23 +165,23 @@
                 <div id="searchResultHeader">
                     <ul>
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey<2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('o','1','#annot')">Genes (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids)%>)</a></li>
+                        <li <c:if test="${bean.objectKey<2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('o','1','#gviewer')">Genes (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==6}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','6','#annot')">QTL (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids)%>)</a></li>
+                        <li <c:if test="${bean.objectKey==6}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','6','#gviewer')">QTL (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==5}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','5','#annot')">Strains (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids)%>)</a></li>
+                        <li <c:if test="${bean.objectKey==5}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','5','#gviewer')">Strains (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==7}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','7','#annot')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
+                        <li <c:if test="${bean.objectKey==7}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','7','#gviewer')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==11}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','11','#annot')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
+                        <li <c:if test="${bean.objectKey==11}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','11','#gviewer')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
                         <% } %>
                     </ul>
                 </div>
@@ -311,11 +311,15 @@
                 <td><%=annot.getNotes()%></td>
                 <td><%  if (annot.getReference().isEmpty())
                             out.print(annot.getDataSource());
-                        else
-                            out.print(annot.getReference());%></td>
+                        else {
+                    out.print(annot.getReference());
+                    if (annot.getDataSource().contains("RGD") && !annot.getReference().contains("RGD")) {
+                        out.print("<BR>RGD");
+                    }
+                }%></td>
 
             <td><%  if (!annot.getXrefSource().isEmpty() && annot.getHiddenPmId().isEmpty()) {
-                String[] pmids = annot.getXrefSource().split("</A>");
+                String[] pmids = annot.getXrefSource().split("> ");
                 if (pmids.length > 5){
                     String lessPms = "";
                     String morePms = "";
@@ -323,12 +327,14 @@
                     for (String pmid : pmids ){
                         if (i>4){
                             if (i==pmids.length-1)
-                                morePms += pmid + "</A>";
+                                morePms += pmid + " ";
                             else
-                                morePms += pmid + "</A>";
+                                morePms += pmid + "> ";
+                            System.out.println(morePms);
                         }
                         else {
-                            lessPms += pmid + "</A>";
+                            lessPms += pmid + "> ";
+                            System.out.println(lessPms);
                         }
                         i++;
                     }
@@ -342,7 +348,7 @@
                     }
                 }
                 else if (!annot.getHiddenPmId().isEmpty() && annot.getXrefSource().isEmpty()) {
-                    String[] pmids = annot.getHiddenPmId().split("</A>");
+                    String[] pmids = annot.getHiddenPmId().split("> ");
                     if (pmids.length > 5){
                         String lessPms = "";
                         String morePms = "";
@@ -350,12 +356,12 @@
                         for (String pmid : pmids ){
                             if (i>4){
                                 if (i==pmids.length-1)
-                                    morePms += pmid + "</A>";
+                                    morePms += pmid + " ";
                                 else
-                                    morePms += pmid + "</A>";
+                                    morePms += pmid + "> ";
                             }
                             else {
-                                lessPms += pmid + "</A> ";
+                                lessPms += pmid + "> ";
                             }
                             i++;
                         }
@@ -390,6 +396,7 @@
                             }
                             i++;
                         }
+                        System.out.println(lessPms + "\n" + morePms);
 
                 %>
                 <%=lessPms%> <span class="more" style="display: none;"><%=morePms%> </span><a href="#" class="moreLink" title="Click to see more">More...</a>

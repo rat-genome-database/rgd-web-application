@@ -184,4 +184,12 @@
     <link></link>
     </band>
 </chromosome>
+    <chromosome index="24" number="2B" length="129381034">
+        <band index="1" name="p13">
+            <start>0</start>
+            <end>129381034</end>
+            <stain>gvar</stain>
+            <link></link>
+        </band>
+    </chromosome>
 </genome>
