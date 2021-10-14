@@ -1,5 +1,6 @@
 package edu.mcw.rgd.contact;
 
+import edu.mcw.rgd.dao.impl.RgdFbDAO;
 import edu.mcw.rgd.dao.impl.WebFeedbackDAO;
 
 import edu.mcw.rgd.my.MyRGDLookupController;
@@ -50,6 +51,7 @@ public class WebsiteFeedbackController implements Controller {
         return new ModelAndView("/WEB-INF/jsp/contact/weblikes.jsp");
     }
     public void sendEmail(JSONObject obj) throws Exception {
+        RgdFbDAO fbdao = new RgdFbDAO();
 
         String message = (String) obj.get("message");
         String sender = (String) obj.get("email");
@@ -72,6 +74,9 @@ public class WebsiteFeedbackController implements Controller {
 
         MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
         MyRGDLookupController.send(sender, "Thanks for your comment", usrMsg);
+
+        String storedMessage = message + "\t Recipients email:"+sender;
+        fbdao.insertMessageForm("Send Message Form",storedMessage,1);
 
         return;
     }
