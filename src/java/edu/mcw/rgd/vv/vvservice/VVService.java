@@ -344,10 +344,15 @@ public class VVService {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        List<String> symbols= new ArrayList<>();
 
+        if(geneList!=null){
+            if(vsb.genes==null || vsb.genes.size()==0){
+                vsb.genes= Utils.symbolSplit(geneList);
+            }
+        }
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
             System.out.println("CHRMoosme null");
-            List<String> symbols= new ArrayList<>();
             for(String s:vsb.genes){
                    symbols.add(s.toLowerCase());
             }
@@ -376,7 +381,6 @@ public class VVService {
             }
          //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
-                List<String> symbols = new ArrayList<>();
                     for (String s : vsb.genes){
 
                         symbols.add(s.toLowerCase());
