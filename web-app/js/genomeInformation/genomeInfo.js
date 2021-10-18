@@ -12,8 +12,10 @@ $(function () {
     });
 
    
-    var species=$species.val();
-   if(species!='Chinchilla' && $species.val()!='Squirrel'){
+    var species=$species.val().trim();
+
+   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog'){
+       console.log("SPECIES VAL():"+species+ "...RUNNING GVIEWER..");
         runGviewer()
    }
 

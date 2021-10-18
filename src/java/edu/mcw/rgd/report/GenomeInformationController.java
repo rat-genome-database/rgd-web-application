@@ -187,7 +187,8 @@ public class GenomeInformationController implements Controller{
 
     for(int key:SpeciesType.getSpeciesTypeKeys()){
 
-        if(key==1 || key==2 || key==3 || key==4 || key==5 || key==6 || key==7 || key==9)
+      //  if(key==1 || key==2 || key==3 || key==4 || key==5 || key==6 || key==7 || key==9)
+        if(SpeciesType.isSearchable(key))
         speciesList.add(SpeciesType.getCommonName(key));
     }
     return speciesList;
