@@ -19,7 +19,7 @@
             </div>
             </form>
             <form id="assemblyForm" action="genomeInformation.html?species=${model.species}&action=change&details=true">
-                <input type="hidden" name="species" value="${model.species}"/>
+                <input type="hidden"  name="species" value="${model.species}"/>
             <div style="width:30%;margin-left:21%;">
                 <label>Assembly:
                     <select id="assembly" name="assembly">
@@ -39,7 +39,7 @@
             </div>
             </form>
         </div>
-</div>
+
    <jsp:include page="Info.jsp"/>
  <jsp:include page="genomeInfoFooter.jsp"/>
 
@@ -50,18 +50,27 @@
         var species=$('#species').val();
         var $jbrowse= document.getElementById('jbrowseMini');
         var URL="https://rgd.mcw.edu/jbrowse?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
+        if($jbrowse!=null && typeof $jbrowse != 'undefined') {
+            if (species == 'Chinchilla') {
+                if (mapKey == 44)
+                    $jbrowse.src = URL + "data_cl1_0&loc=";
+            }
 
-        if(species==='Chinchilla') {
-            if(mapKey===44)
-                $jbrowse.src = URL + "data_cl1_0&loc=";
+            if (species == 'Squirrel') {
+                if (mapKey == 720)
+                    $jbrowse.src = URL + "data_squirrel2_0&loc=";
+            }
+            if (species == 'Naked Mole-rat') {
+                if (mapKey == 1410)
+                    $jbrowse.src = URL + "data_hetGla2&loc=";
+            }
+            if (species == 'Green Monkey') {
+                if (mapKey == 1311)
+                    $jbrowse.src = URL + "data_chlSab2&loc=";
+                if (mapKey == 1313)
+                    $jbrowse.src = URL + "data_veroWho&loc=";
+            }
         }
-
-        if(species==='Squirrel') {
-            if(mapKey===720)
-                document.getElementById('jbrowseMini').src = URL + "data_squirrel2_0&loc=";
-        }
-
-
     });
 </script>
 

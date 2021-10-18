@@ -12,8 +12,10 @@ $(function () {
     });
 
    
-    var species=$species.val();
-   if(species!='Chinchilla' && $species.val()!='Squirrel'){
+    var species=$species.val().trim();
+
+   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig'){
+       console.log("SPECIES VAL():"+species+ "...RUNNING GVIEWER..");
         runGviewer()
    }
 
@@ -26,6 +28,9 @@ function runGviewer() {
     var bandURL=null;
     if(species=='Rat') {
         bandURL="/rgdweb/gviewer/data/rgd_rat_ideo.xml";
+        if(mapKey==372) {
+            URL  = URL + "data_rn7_2";
+        }
         if(mapKey==360) {
            URL  = URL + "data_rgd6";
         }

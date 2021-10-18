@@ -241,12 +241,6 @@
             <h4>Other</h4>
             <table class="table table-striped" style="border:1px solid gainsboro;">
 
-                <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
-                <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
-                <!--/c:if>
-                <!--c:if test="$-{hit.sourceAsMap.utrs5!=0}">
-                <!--tr><td>5UTRS</td><td>$-{hit.sourceAsMap.utrs5}</td></tr>
-                <!--/c:if-->
                 <c:if test="${hit.sourceAsMap.exons!=0}">
                     <tr><td>Exons</td><td>${hit.sourceAsMap.exons}</td></tr>
                 </c:if>
@@ -271,8 +265,7 @@
 
         </div>
         <div style="margin-left:41%;">
-
-                <c:if test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla')}">
+                <c:if test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-rat') && !model.species.equals('Green Monkey')}">
                     <div class="panel panel-default" style=";height:600px;">
                     <div class="panel-heading">
                         <strong>Karyotype</strong>
@@ -294,7 +287,8 @@
                     </div>
                         </div>
                 </c:if>
-                  <c:if test="${model.species.equals('Squirrel') || model.species.equals('Chinchilla')}">
+                  <c:if test="${model.species.equals('Squirrel') || model.species.equals('Chinchilla')
+                    || model.species.equals('Naked Mole-rat') || model.species.equals('Green Monkey')}">
             <div class="panel panel-default" style=";height:300px;">
                       <div class="panel-heading">
                           <strong>JBrowse</strong>
@@ -420,10 +414,6 @@
                                                 <th class="row-header">Del</th>
 
                                             </c:if>
-                                            <!--c:if test="$-{i==5}">
-                                                <!--th class="row-header">SNV</th-->
-
-                                            <!--/c:if-->
 
                                             <c:forEach items="${row}" var="cell">
                                                 <c:choose>

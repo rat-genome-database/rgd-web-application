@@ -26,8 +26,10 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
             }
 
             String xref = annot.getXrefSource();
+            String xref2 = annot.getHiddenPmId();
             if( xref!=null ) {
                 xref = xref.replaceAll("\\<[^>]*>", "");
+                xref2 = xref2.replaceAll("\\<[^>]*>", "");
             }
 
             String objectType = ""; // per RGDD-1552: [ genes: gene type;  strain: strain type:  clinvar variant: clinical significance ]
@@ -57,7 +59,7 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
                 annot.getStopPos() + "\t" +
                 ref + "\t" +
                 annot.getDataSource().replaceAll("<BR>",",") + "\t" +
-                xref + "\t" +
+                xref + " " + xref2 + "\t" +
                 annot.getNotes().replaceAll("<BR>",","));
         }
     }
