@@ -229,7 +229,7 @@
 
 <%----------------- GVIEWER ------------%>
 <script language="JavaScript1.2">
-<c:if test="${bean.speciesTypeKey!=7 && bean.speciesTypeKey!=4 && bean.speciesTypeKey!=0}">
+<c:if test="${bean.speciesTypeKey!=7 && bean.speciesTypeKey!=4 && bean.speciesTypeKey!=0 && bean.speciesTypeKey!=13 && bean.speciesTypeKey!=14}">
 var gviewer = null;
 onload= function() {
 
