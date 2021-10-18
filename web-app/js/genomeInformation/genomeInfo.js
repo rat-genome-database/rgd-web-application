@@ -14,7 +14,7 @@ $(function () {
    
     var species=$species.val().trim();
 
-   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog'){
+   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig'){
        console.log("SPECIES VAL():"+species+ "...RUNNING GVIEWER..");
         runGviewer()
    }

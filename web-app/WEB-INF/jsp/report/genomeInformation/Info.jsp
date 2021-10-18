@@ -259,7 +259,7 @@
 
         </div>
         <div style="margin-left:41%;">
-                <c:if test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-rat ') && !model.species.equals('Green Monkey')}">
+                <c:if test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-rat') && !model.species.equals('Green Monkey')}">
                     <div class="panel panel-default" style=";height:600px;">
                     <div class="panel-heading">
                         <strong>Karyotype</strong>
