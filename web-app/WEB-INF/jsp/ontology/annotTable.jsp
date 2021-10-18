@@ -152,6 +152,8 @@
             <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#gviewer')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
             <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#gviewer')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
             <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#gviewer')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==13}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Green Monkey','#gviewer')">Green Monkey&nbsp;(<%=tws.getStat("annotated_object_count",13,0,withKids)%>)</a></li>
+            <li<c:if test="${bean.speciesTypeKey==14}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Naked Mole-rat','#gviewer')">Naked Mole-rat&nbsp;(<%=tws.getStat("annotated_object_count",14,0,withKids)%>)</a></li>
             <c:if test="${bean.showAnnotsForAllSpecies}">
             <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#gviewer')">All</a></li>
             </c:if>
