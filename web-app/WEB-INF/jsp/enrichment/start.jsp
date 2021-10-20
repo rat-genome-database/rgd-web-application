@@ -209,26 +209,18 @@
                         <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value="affy"/>Affymetrix Array ID</td>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;GenBank Nucleotide</td>
-                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ontology Term ID</td>
+                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;GO Term ID</td>
                         </tr>
                         <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Gene</td>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;GenBank Protein</td>
-                            <td style="font-size:11px;"> <input type="radio" name="idType" value="rgd" />&nbsp;RGD ID &nbsp;</td>
+                            <td style="font-size:11px;"> <input type="radio" name="idType" value="rgd" />Gene&nbsp;RGD ID &nbsp;</td>
                         </tr>
                         <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;Ensembl Protein</td>
                             <td style="font-size:11px;"><input type="radio" name="idType" value=" " checked="checked"/>&nbsp;Gene Symbol</td>
-                            <td style="font-size:11px;"><input type="radio" name="idType" value=" "/>&nbsp;dbSNP ID</td>
-                        </tr>
-                        <tr>
                             <td style="font-size:11px;"><input type="radio" name="idType" value="entrez"/>&nbsp;EntrezGene ID</td>
-                            <td style="font-size:11px;"><input type="radio" name="idType" value="kegg"/>&nbsp;Kegg Pathway</td>
                         </tr>
-                     &nbsp;
-
-
-
                 </table>
             </td>
             <td>
