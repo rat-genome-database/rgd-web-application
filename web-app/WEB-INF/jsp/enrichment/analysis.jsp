@@ -112,7 +112,12 @@
 
     <section v-if="errored">
         <br><br>
-        <div style="font-size:20px;">Annotation is unavailable for the following genes.<br><br>  <%=om.getMappedAsString()%><br><br>Please try a different gene set or larger region.  <a href="/rgdweb/enrichment/start.html"><< Search Again</a></div>
+        <div style="font-size:20px;">Annotations are unavailable for the input values and/or the selected ontology.
+            <% if (geneSymbols.size() > 0) { %>
+            <br><br>  Gene Set: <span style="font-size:12px;"><%=om.getMappedAsString()%></span>
+            <% } %>
+            <br><br>  Note that numeric values must be RGD or NCBI Gene IDs.  Variant identifiers are not supported at this time.
+            <br><br>Please try a different gene set, larger region, or select a different ontology.  <a style="font-size:20px;" href="/rgdweb/enrichment/start.html"><< Search Again</a></div>
     </section>
 
     <section v-else>
