@@ -52,7 +52,7 @@ public class EnrichmentController implements Controller {
             try {
                 Long.parseLong(req.getParameter("start"));
                 Long.parseLong(req.getParameter("stop"));
-            } catch {
+            } catch (Exception e){
                 error.add("Start or Stop Coordinate is invalid");
                 request.setAttribute("error",error );
                 request.setAttribute("status", status);
