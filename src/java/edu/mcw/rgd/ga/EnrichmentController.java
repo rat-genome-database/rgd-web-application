@@ -44,9 +44,6 @@ public class EnrichmentController implements Controller {
         request.setAttribute("symbols", this.symbols);
         request.setAttribute("o", req.getParameter("o"));
 
-        ObjectMapper om = this.buildMapper(req.getParameter("idType"));
-
-
 
         if (!req.getParameter("start").equals("") || !req.getParameter("stop").equals("")) {
             try {
@@ -62,6 +59,12 @@ public class EnrichmentController implements Controller {
 
             }
         }
+
+
+        ObjectMapper om = this.buildMapper(req.getParameter("idType"));
+
+
+
 
 
 
