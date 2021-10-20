@@ -652,7 +652,13 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                         i.setAttribute('name', "rgdIds");
                         i.setAttribute('value', selected);
 
+                        var i2 = document.createElement("input"); //input element, text
+                        i2.setAttribute('type', "hidden");
+                        i2.setAttribute('name', "mapKey");
+                        i2.setAttribute('value', mapKey);
+
                         f.appendChild(i);
+                        f.appendChild(i2);
                         document.getElementsByTagName('body')[0].appendChild(f);
                         f.submit();
 

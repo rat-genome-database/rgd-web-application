@@ -121,7 +121,8 @@ public class VVService {
                 return searchHits;
             }
         }catch (Exception e) {
-            throw new VVException("Too many bukckets. Please limit number of samples/genes");
+            e.printStackTrace();
+            throw new VVException("Too many buckets. Please limit number of samples/genes");
 
         }
 
@@ -162,7 +163,7 @@ public class VVService {
                         String chr1 = (String) h.getSourceAsMap().get("chromosome");
                         int startPos1 = (int) h.getSourceAsMap().get("startPos");
                         String varNuc1 = (String) h.getSourceAsMap().get("varNuc");
-                        if (chr1.equals(chr) && startPos1 == startPos && varNuc1.equals(varNuc)) {
+                        if (chr1!=null && chr1.equals(chr) && startPos1 == startPos && varNuc1!=null  && varNuc1.equals(varNuc)) {
                             tempList.add(h);
                         }
                     }
@@ -343,11 +344,16 @@ public class VVService {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        List<String> symbols= new ArrayList<>();
 
+        if(geneList!=null){
+            if(vsb.genes==null || vsb.genes.size()==0){
+                vsb.genes= Utils.symbolSplit(geneList);
+            }
+        }
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
             System.out.println("CHRMoosme null");
-            List<String> symbols= new ArrayList<>();
-            for(String s:Utils.symbolSplit(geneList)){
+            for(String s:vsb.genes){
                    symbols.add(s.toLowerCase());
             }
 
@@ -373,12 +379,17 @@ public class VVService {
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
             }
-            if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
-                List<String> symbols = new ArrayList<>();
-                for (String s : Utils.symbolSplit(geneList)) {
+         //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+                if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
+                    for (String s : vsb.genes){
+
+                        symbols.add(s.toLowerCase());
+                    }
+              /* for (String s : Utils.symbolSplit(geneList)) {
+
                   symbols.add(s.toLowerCase());
                 }
-
+                */
                 if (!symbols.get(0).equals("null"))
                 qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
 
