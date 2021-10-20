@@ -357,7 +357,7 @@
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
             String err = (String) errorIt.next();
-            out.println("<br><span style=\"color:red;\">" + err + "</span>");
+            out.println("<br><span style=\"color:red;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + err + "</span>");
         out.println("<br>");
         }
     }
@@ -366,7 +366,7 @@
         Iterator statusIt = status.iterator();
         while (statusIt.hasNext()) {
             String stat = (String) statusIt.next();
-            out.println("<br><span style=\"color:blue;\">" + stat + "</span>");
+            out.println("<br><span style=\"color:blue;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + stat + "</span>");
         out.println("<br>");
         }
     }

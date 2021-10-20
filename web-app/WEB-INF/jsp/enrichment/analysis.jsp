@@ -40,6 +40,7 @@
 </div>
 
 <% if (om.getMapped().size() == 0) {
+    out.println("Zero Genes found in region.  Please try again.");
     return;
 }
     String species = req.getParameter("species");
@@ -110,7 +111,8 @@
     </tr></table>
 
     <section v-if="errored">
-        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+        <br><br>
+        <div style="font-size:20px;">Annotation is unavailable for the following genes.<br><br>  <%=om.getMappedAsString()%><br><br>Please try a different gene set or larger region.  <a href="/rgdweb/enrichment/start.html"><< Search Again</a></div>
     </section>
 
     <section v-else>
