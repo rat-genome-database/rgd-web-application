@@ -46,6 +46,25 @@ public class EnrichmentController implements Controller {
 
         ObjectMapper om = this.buildMapper(req.getParameter("idType"));
 
+
+
+        if (!req.getParameter("start").equals("") || !req.getParameter("stop").equals("")) {
+            try {
+                Long.parseLong(req.getParameter("start"));
+                Long.parseLong(req.getParameter("stop"));
+            } catch {
+                error.add("Start or Stop Coordinate is invalid");
+                request.setAttribute("error",error );
+                request.setAttribute("status", status);
+                request.setAttribute("warn", warning);
+
+                return new ModelAndView("/WEB-INF/jsp/enrichment/start.jsp", "hello", null);
+
+            }
+        }
+
+
+
         if (om.getMapped().size() ==0) {
             //request.setAttribute("objectMapper", om);
 

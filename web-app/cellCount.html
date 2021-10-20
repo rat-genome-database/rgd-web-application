@@ -1,0 +1,233 @@
+
+
+<html>
+<body>
+
+<style>
+    body {
+        font-family: "Helvetica", Arial, sans-serif;
+    }
+    .dot {
+        padding: 10px 20px;
+        font-size: 22px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #04AA6D;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+    .dot:hover {background-color: #3e8e41}
+
+    .dot:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+    .label {
+        font-size: 20px;
+        margin-left:20px;
+    }
+    .counter {
+        font-size: 20px;
+    }
+    input {
+        font-size:20px;
+        border: 2px solid #eeeeee;
+    }
+
+</style>
+
+<br><br><br>
+
+<div id="example">
+    <table width="80%">
+        <tr>
+            <td style="margin-left:5px; padding:10px;font-size:40px;">Total: {{total}}</td>
+            <td align="right" width="30"><input type="button" value="Reset" @click="reset()"></input></td>
+        </tr>
+    </table>
+<hr>
+<br><br>
+    <table cellpadding="5">
+    <tr>
+        <td class="label" align="center">NRBC</td>
+        <td class="label"  align="center">Blast</td>
+        <td class="label"  align="center">ProMyel</td>
+        <td class="label"  align="center">Myelo</td>
+        <td class="label"  align="center">Meta</td>
+        <td class="label"  align="center">Band</td>
+        <td class="label"  align="center">Baso</td>
+        <td class="label"  align="center">Eos</td>
+        <td class="label"  align="center">Mono</td>
+        <td class="label"  align="center">Lymph</td>
+        <td class="label"  align="center">Seg</td>
+        <td class="label"  align="center">RLymph</td>
+    </tr>
+    <tr>
+        <td class="counter" align="center"><input id="nrbc_div" @blur="calculate('nrbc')" size=5 v-model="nrbc" type="text" /></td>
+        <td class="counter"  align="center"><input id="blast_div" @blur="calculate('blast')" size=5  v-model="blast" type="text" /></td>
+        <td class="counter"  align="center"><input id="promyel_div" @blur="calculate('promyel')" size=5  v-model="promyel" type="text" /></td>
+        <td class="counter"  align="center"><input id="myelo_div"  @blur="calculate('myelo')" size=5  v-model="myelo" type="text" /></td>
+        <td class="counter"  align="center"><input id="meta_div"  @blur="calculate('meta')" size=5  v-model="meta" type="text" /></td>
+        <td class="counter"  align="center"><input id="band_div"   @blur="calculate('band')" size=5  v-model="band" type="text" /></td>
+        <td class="counter"  align="center"><input id="baso_div"  @blur="calculate('baso')"  size=5  v-model="baso" type="text" /></td>
+        <td class="counter"  align="center"><input id="eos_div"  @blur="calculate('eos')"  size=5  v-model="eos" type="text" /></td>
+        <td class="counter"  align="center"><input id="mono_div"  @blur="calculate('mono')"  size=5  v-model="mono" type="text" /></td>
+        <td class="counter"  align="center"><input id="lymph_div"  @blur="calculate('lymph')"  size=5  v-model="lymph" type="text" /></td>
+        <td class="counter"  align="center"><input id="seg_div"  @blur="calculate('seg')"  size=5  v-model="seg" type="text" /></td>
+        <td class="counter"  align="center"><input id="rlymph_div"  @blur="calculate('rlymph')"  size=5  v-model="rlymph" type="text" /></td>
+    </tr>
+    <tr>
+        <td><div class="dot" @click="addToCount('g')">g</div></td>
+        <td><div class="dot" @click="addToCount('h')">h</div></td>
+        <td><div class="dot" @click="addToCount('j')">j</div></td>
+        <td><div class="dot" @click="addToCount('k')">k</div></td>
+        <td><div class="dot" @click="addToCount('l')">l</div></td>
+        <td><div class="dot" @click="addToCount(';')">;</div></td>
+        <td><div class="dot" @click="addToCount('n')">n</div></td>
+        <td><div class="dot" @click="addToCount('m')">m</div></td>
+        <td><div class="dot" @click="addToCount(',')">,</div></td>
+        <td><div class="dot" @click="addToCount('.')">.</div></td>
+        <td><div class="dot" @click="addToCount('/')">/</div></td>
+        <td><div class="dot" @click="addToCount('b')">b</div></td>
+    </tr>
+</table>
+
+    <br><br><br>
+    <div style="font-size:20px;">{{log}}</div>
+
+</div>
+
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+    new Vue({
+        el: '#example',
+        created() {
+            window.addEventListener('keydown', (e) => {
+                    this.addToCount(e.key);
+            });
+        },
+        methods: {
+            reset: function() {
+                this.seg=0;
+                this.lymph=0;
+                this.mono=0;
+                this.eos=0;
+                this.baso=0;
+                this.band=0;
+                this.meta=0;
+                this.myelo=0;
+                this.promyel=0;
+                this.blast=0;
+                this.rlymph=0;
+                this.nrbc=0;
+                this.total=0;
+                this.log="";
+
+                this.clear();
+
+            },
+            calculate (oid) {
+                this.buttonPress(oid);
+                this.calculateTotal();
+            },
+            calculateTotal() {
+                this.total = parseInt(this.seg)+parseInt(this.lymph)+parseInt(this.mono)+parseInt(this.eos)+parseInt(this.baso)+parseInt(this.band)+parseInt(this.meta)+parseInt(this.myelo)+parseInt(this.promyel)+parseInt(this.blast)+parseInt(this.rlymph);
+
+            },
+            clear: function() {
+                for (var i=0; i< this.divs.length; i++) {
+                    document.getElementById(this.divs[i] + "_div").style.borderColor="#eeeeee";
+                }
+            },
+            buttonPress: function(oid) {
+
+                for (var i=0; i< this.divs.length; i++) {
+                    document.getElementById(this.divs[i] + "_div").style.borderColor="#eeeeee";
+                }
+                document.getElementById(oid+ "_div").style.borderColor="red";
+
+                //this.log=oid + " + 1";
+            },
+            addToCount: function (key) {
+               if (key=='/') {
+                   this.buttonPress("seg");
+                   this.seg++;
+                   this.calculateTotal();
+               }else if (key=='.') {
+                   this.buttonPress("lymph");
+                   this.lymph++;
+                   this.calculateTotal();
+               }else if (key==',') {
+                   this.buttonPress("mono");
+                    this.mono++;
+                   this.calculateTotal();
+               }else if (key=='m') {
+                   this.buttonPress("eos");
+                   this.eos++;
+                   this.calculateTotal();
+               }else if (key=='n') {
+                   this.buttonPress("baso");
+                   this.baso++;
+                   this.calculateTotal();
+               }else if (key==';') {
+                   this.buttonPress("band");
+                   this.band++;
+                   this.calculateTotal();
+               }else if (key=='l') {
+                   this.buttonPress("meta");
+                   this.meta++;
+                   this.calculateTotal();
+               }else if (key=='k') {
+                   this.buttonPress("myelo");
+                   this.myelo++;
+                   this.calculateTotal();
+               }else if (key=='j') {
+                   this.buttonPress("promyel");
+                   this.promyel++;
+                   this.calculateTotal();
+               }else if (key=='h') {
+                   this.buttonPress("blast");
+                   this.blast++;
+                   this.calculateTotal();
+               }else if (key=='b') {
+                   this.buttonPress("rlymph");
+                   this.rlymph++;
+                   this.calculateTotal();
+               }else if (key=='g') {
+                   this.buttonPress("nrbc");
+                   this.nrbc++;
+               }
+               //this.total = this.seg+this.lymph+this.mono+this.eos+this.baso+this.band+this.meta+this.myelo+this.promyel+this.blast+this.rlymph;
+               if (this.total == 100) {
+                   alert("You hit 100 cells!");
+               }
+
+            }
+        },
+        data: { log: '',
+            nrbc:0,
+            blast:0,
+            promyel:0,
+            myelo:0,
+            meta:0,
+            band:0,
+            baso:0,
+            eos:0,
+            mono:0,
+            lymph:0,
+            seg:0,
+            rlymph:0,
+            total:0,
+            divs : ["seg","lymph","mono","eos","baso","band","meta","myelo","promyel","blast","rlymph","nrbc"]
+
+    }
+    })
+</script>
+</body>
+</html>
