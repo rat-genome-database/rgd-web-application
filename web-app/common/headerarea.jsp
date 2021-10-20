@@ -127,6 +127,7 @@
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 <%@ include file="/common/helpFeedbackChat.jsp" %>
 
+
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td>
@@ -208,7 +209,6 @@
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
-                                         <!--   <a href="/rgdweb/vv/config.html"><span style="color:darkblue">Elastic Variant Visualizer</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a> -->
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
@@ -221,7 +221,7 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                             <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
 <%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
-                                            <!--<a href="/rgdweb/vcmap.jnlp">VCMap</a>-->
+                                            <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
@@ -261,6 +261,7 @@
                                             <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                             <a href="/wg/phenotype-data13/">Phenotypes</a>
+                                            <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
                                             <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
                                             <a href="/wg/strain-maintenance/">Animal Husbandry</a>
                                             <a href="/wg/physiology/strain-medical-records/">Strain Medical Records</a>
@@ -356,7 +357,7 @@
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
             String err = (String) errorIt.next();
-            out.println("<br><span style=\"color:red;\">" + err + "</span>");
+            out.println("<br><span style=\"color:red;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + err + "</span>");
         out.println("<br>");
         }
     }
@@ -365,7 +366,7 @@
         Iterator statusIt = status.iterator();
         while (statusIt.hasNext()) {
             String stat = (String) statusIt.next();
-            out.println("<br><span style=\"color:blue;\">" + stat + "</span>");
+            out.println("<br><span style=\"color:blue;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + stat + "</span>");
         out.println("<br>");
         }
     }

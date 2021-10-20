@@ -46,6 +46,19 @@ public class EnrichmentController implements Controller {
 
         ObjectMapper om = this.buildMapper(req.getParameter("idType"));
 
+        if (om.getMapped().size() ==0) {
+            //request.setAttribute("objectMapper", om);
+
+            error.add("Zero Genes Found in Set.  Please select a larger Region.");
+            request.setAttribute("error",error );
+            request.setAttribute("status", status);
+            request.setAttribute("warn", warning);
+
+            return new ModelAndView("/WEB-INF/jsp/enrichment/start.jsp", "hello", null);
+
+        }
+
+
         request.setAttribute("objectMapper", om);
 
         request.setAttribute("error", error);
