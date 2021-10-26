@@ -467,22 +467,14 @@
             ctrl.updateSpecies = function (speciesType, map, commonName) {
                 //alert("in update species");
 
+                /*
                 alert($scope.portalGenes);
 
                 if ($scope.portalGenes.loading) {
                     alert($scope.portalGenes.loading);
                 }
-                if ( $scope.portalGenes && $scope.portalGenes["loading"]) {
-                    alert("Gene set still is loading.  Please try again when gene set is loaded above.");
-                    return;
-                } else if ( $scope.portalQTLs && $scope.portalQTLs["loading"]) {
-                    alert("QTL set still is loading.  Please try again when gene set is loaded above.");
-                    return;
-                } else if ( $scope.portalStrains && $scope.portalStrains["loading"]) {
-                    alert("Strain set still is loading.  Please try again when gene set is loaded above.");
-                    return;
-                }
 
+                 */
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
@@ -525,13 +517,63 @@
             ctrl.clear = function (objectKey) {
                 //alert("in clear");
 
+
+                if (objectKey==1) {
+                    if ($scope.geneCanceler) {
+                        $scope.geneCanceler.resolve("canceled");
+                    }
+                    $scope.geneCanceler = $q.defer();
+                    timeout=$scope.geneCanceler.promise;
+
+                    //document.getElementById("gviewer").innerHTML="";
+
+
+                }else if (objectKey==5) {
+                    if ($scope.qtlCanceler) {
+                        $scope.qtlCanceler.resolve("canceled");
+                    }
+                    $scope.qtlCanceler = $q.defer();
+                    timeout=$scope.qtlCanceler.promise;
+                    //document.getElementById("gviewer").innerHTML="";
+
+                }else if (objectKey==6) {
+                    if ($scope.strainCanceler) {
+                        $scope.strainCanceler.resolve("canceled");
+                    }
+                    $scope.strainCanceler = $q.defer();
+                    timeout=$scope.strainCanceler.promise;
+                    //document.getElementById("gviewer").innerHTML="";
+
+                }
+
+
+
                 if (objectKey ==1) {
+
+                    if ($scope.geneCanceler) {
+                        $scope.geneCanceler.resolve("canceled");
+                    }
+                    $scope.geneCanceler = $q.defer();
+                    timeout=$scope.geneCanceler.promise;
+
+
                     $scope.portalGenes = {};
                     $scope.portalGenesLen = 0;
                 }else if (objectKey==6) {
+                    if ($scope.strainCanceler) {
+                        $scope.strainCanceler.resolve("canceled");
+                    }
+                    $scope.strainCanceler = $q.defer();
+                    timeout=$scope.strainCanceler.promise;
                     $scope.portalQTLs={};
                     $scope.portalQTLsLen=0;
                 }else if (objectKey==5) {
+                    if ($scope.qtlCanceler) {
+                        $scope.qtlCanceler.resolve("canceled");
+                    }
+                    $scope.qtlCanceler = $q.defer();
+                    timeout=$scope.qtlCanceler.promise;
+
                     $scope.portalStrains={};
                     $scope.portalStrainsLen=0;
                 }
