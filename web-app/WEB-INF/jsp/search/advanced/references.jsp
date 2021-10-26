@@ -41,7 +41,7 @@ Reference reports provide full citations, abstracts, and links to Pubmed. <!--a 
 
 
 </form>
-    <a href="/references/">Switch to classic reference search</a><br>
+
     <!--a href="/wg/searchHelp">View all search features</a-->
 </div>
 <%@ include file="/common/footerarea.jsp"%>
