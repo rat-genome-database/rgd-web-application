@@ -254,8 +254,10 @@
 
             $scope.wsHost = window.location.protocol + window.location.host;
             if (window.location.host.indexOf('localhost') > -1) {
-                $scope.wsHost= window.location.protocol + '//localhost:8080';
+                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
                 $scope.olgaHost = $scope.wsHost;
+//                $scope.wsHost= window.location.protocol + '//localhost:8080';
+//                $scope.olgaHost = $scope.wsHost;
             } else if (window.location.host.indexOf('dev.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
                 $scope.olgaHost = $scope.wsHost;
@@ -406,6 +408,7 @@
             }
 
             ctrl.updateAll = function (ont, ontId) {
+                //alert("in update all");
                 ctrl.resetGViewer();
 
                 ctrl.updateCounts(ontId,$scope.rootTermAcc);
@@ -416,6 +419,7 @@
 
             ctrl.browse = function (ontId, ont, term, back) {
 
+                //alert("in browse");
                 var ontologyCodes = ontologyCodes = ["d","ph","bp","pw","hp","c","vt","cm","ec"];
 
                 document.getElementById("speciesButton" + $scope.speciesTypeKey).style.borderColor = "#8E0026";
@@ -461,6 +465,19 @@
 
 
             ctrl.updateSpecies = function (speciesType, map, commonName) {
+                //alert("in update species");
+
+                if ( $scope.portalGenes && $scope.portalGenes["loading"]) {
+                    alert("Gene set still is loading.  Please try again when gene set is loaded above.");
+                    return;
+                } else if ( $scope.portalQTLs && $scope.portalQTLs["loading"]) {
+                    alert("QTL set still is loading.  Please try again when gene set is loaded above.");
+                    return;
+                } else if ( $scope.portalStrains && $scope.portalStrains["loading"]) {
+                    alert("Strain set still is loading.  Please try again when gene set is loaded above.");
+                    return;
+                }
+
 
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
@@ -501,6 +518,7 @@
             }
 
             ctrl.clear = function (objectKey) {
+                //alert("in clear");
 
                 if (objectKey ==1) {
                     $scope.portalGenes = {};
@@ -518,6 +536,7 @@
 
             ctrl.downloadGenes = function() {
 
+                //alert("in download genes");
                 var ids="";
                 var first = 1;
                 for(var key in $scope.portalGenes) {
@@ -1130,7 +1149,7 @@
                         <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/green-monkeyS.png"></td>
                     </tr>
                     <tr>
-                        <td align="center"><%=SpeciesType.getCommonName(14)%></td>
+                        <td align="center"><%=SpeciesType.getCommonName(13)%></td>
                     </tr>
                     <tr>
                         <td align="center">
@@ -1159,7 +1178,7 @@
                         <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/mole-ratS.png"></td>
                     </tr>
                     <tr>
-                        <td align="center"><%=SpeciesType.getCommonName(13)%></td>
+                        <td align="center"><%=SpeciesType.getCommonName(14)%></td>
                     </tr>
                     <tr>
                         <td align="center">
