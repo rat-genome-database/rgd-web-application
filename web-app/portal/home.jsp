@@ -467,6 +467,11 @@
             ctrl.updateSpecies = function (speciesType, map, commonName) {
                 //alert("in update species");
 
+                alert($scope.portalGenes);
+
+                if ($scope.portalGenes.loading) {
+                    alert($scope.portalGenes.loading);
+                }
                 if ( $scope.portalGenes && $scope.portalGenes["loading"]) {
                     alert("Gene set still is loading.  Please try again when gene set is loaded above.");
                     return;
