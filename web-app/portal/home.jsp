@@ -58,7 +58,7 @@
             filter = "DOID:863";
             break;
         case 8:
-            title = "Obesity/Metabolic Syndrome";
+            title = "Obesity & Metabolic Syndrome";
             //filter = "RDO:0006123";
             filter = "DOID:9008231";
             break;
@@ -1113,6 +1113,64 @@
                                 <tr>
                                     <td class="countTitle">QTL:</td>
                                     <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|9|6|1"] }}</td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                            </table>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
+        <td>
+
+            <div border="0" id="speciesButton14" class="speciesButton" ng-click="portal.updateSpecies(14,'<%=MapManager.getInstance().getReferenceAssembly(14).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(14)%> (<%=SpeciesType.getCommonName(14)%>)')">
+                <table>
+                    <tr>
+                        <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/green-monkeyS.png"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><%=SpeciesType.getCommonName(14)%></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <table class="countTable" >
+                                <tr>
+                                    <td class="countTitle">Genes:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|14|1|1"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="countTitle">QTL:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|14|6|1"] }}</td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                            </table>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
+        <td>
+
+            <div border="0" id="speciesButton13" class="speciesButton" ng-click="portal.updateSpecies(13,'<%=MapManager.getInstance().getReferenceAssembly(13).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(13)%> (<%=SpeciesType.getCommonName(13)%>)')">
+                <table>
+                    <tr>
+                        <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/mole-ratS.png"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><%=SpeciesType.getCommonName(13)%></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <table class="countTable" >
+                                <tr>
+                                    <td class="countTitle">Genes:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|13|1|1"] }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="countTitle">QTL:</td>
+                                    <td align="right" class="dnavCount">{{ objectCounts["annotated_object_count|13|6|1"] }}</td>
                                 </tr>
                                 <tr><td>&nbsp;</td></tr>
                             </table>
