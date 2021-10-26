@@ -18,12 +18,13 @@
 
     <table align="center">
         <tr>
-            <td><a href="/wg/wp-admin/post.php?post=15&action=edit"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
+            <td width=100 align="center"><a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
+            <td width=100 align="center"><a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
             <td width=100 align="center"><a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" height="80" width="133" border=0/></a></td>
         </tr>
     </table>
 
-    <p align="center">RGD is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br>
+    <p align="center"><a href="/wg/wp-admin/post.php?post=15&action=edit">RGD</a> is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br>
 
 
     <div id="copyright">

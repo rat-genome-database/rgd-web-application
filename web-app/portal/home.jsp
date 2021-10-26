@@ -58,7 +58,7 @@
             filter = "DOID:863";
             break;
         case 8:
-            title = "Obesity/Metabolic Syndrome";
+            title = "Obesity & Metabolic Syndrome";
             //filter = "RDO:0006123";
             filter = "DOID:9008231";
             break;
