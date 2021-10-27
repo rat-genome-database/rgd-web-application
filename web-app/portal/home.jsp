@@ -671,7 +671,7 @@
 
                 ctrl.resetGViewer();
 
-                if ($scope.speciesTypeKey==4 || $scope.speciesTypeKey==7) {
+                if ($scope.speciesTypeKey==4 || $scope.speciesTypeKey==7 || $scope.speciesTypeKey==8 || $scope.speciesTypeKey==13 || $scope.speciesTypeKey==14) {
                     return;
                 }
 
