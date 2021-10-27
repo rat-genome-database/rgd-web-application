@@ -143,9 +143,9 @@
         var squiChroms = '<%=fu.buildChrSelectListWithCss("chr", squirrelChr, "1","form-control inputstl")%>';
        var pigMaps = '<%=fu.buildSelectListWithCss("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
        var pigChroms = '<%=fu.buildChrSelectListWithCss("chr", pigChr, "1","form-control inputstl")%>';
-       var moleRatMaps = '<%=fu.buildSelectListWithCss("mapKey", moleRatKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
+       var moleRatMaps = '<%=fu.buildSelectListWithCss("mapKey", moleRatKeyValues, mdao.getPrimaryRefAssembly(14).getKey() + "","form-control inputstl")%>';
        var moleRatChroms = '<%=fu.buildChrSelectListWithCss("chr", moleRatChr, "1","form-control inputstl")%>';
-       var greenMonkeyMaps = '<%=fu.buildSelectListWithCss("mapKey", greenMonkeyKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "","form-control inputstl")%>';
+       var greenMonkeyMaps = '<%=fu.buildSelectListWithCss("mapKey", greenMonkeyKeyValues, mdao.getPrimaryRefAssembly(13).getKey() + "","form-control inputstl")%>';
        var greenMonkeyChroms = '<%=fu.buildChrSelectListWithCss("chr", greenMonkeyChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>

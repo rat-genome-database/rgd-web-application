@@ -31,6 +31,8 @@
     List<Map> dogMaps= mdao.getMaps(SpeciesType.DOG, "bp");
     List<Map> squirrelMaps= mdao.getMaps(SpeciesType.SQUIRREL, "bp");
     List<Map> pigMaps= mdao.getMaps(SpeciesType.PIG, "bp");
+    List<Map> moleMaps = mdao.getMaps(SpeciesType.NAKED_MOLE_RAT,"bp");
+    List<Map> monkeyMaps = mdao.getMaps(SpeciesType.VERVET,"bp");
 
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
     List<Chromosome> mouseChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
@@ -42,6 +44,8 @@
     //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
     List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
+    List<Chromosome> moleChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
+    List<Chromosome> monkeyChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
 
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
@@ -51,6 +55,8 @@
     LinkedHashMap dogKeyValues= new LinkedHashMap();
     LinkedHashMap squirrelKeyValues= new LinkedHashMap();
     LinkedHashMap pigKeyValues= new LinkedHashMap();
+    LinkedHashMap moleKeyValues= new LinkedHashMap();
+    LinkedHashMap monkeyKeyValues= new LinkedHashMap();
 
     Iterator it = ratMaps.iterator();
     while (it.hasNext()) {
@@ -96,7 +102,16 @@
         pigKeyValues.put(m.getKey() + "", m.getName());
     }
 
-
+    it = moleMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        moleKeyValues.put(m.getKey() + "", m.getName());
+    }
+    it = monkeyMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        monkeyKeyValues.put(m.getKey() + "", m.getName());
+    }
 %>
 
 
@@ -110,6 +125,8 @@
     var dogMapHtml='<%=fu.buildSelectList("mapKey", dogKeyValues, mdao.getPrimaryRefAssembly(6).getKey() + "")%>';
     var squirrelMapHtml='<%=fu.buildSelectList("mapKey", squirrelKeyValues, mdao.getPrimaryRefAssembly(7).getKey() + "")%>';
     var pigMapHtml='<%=fu.buildSelectList("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "")%>';
+    var monkeyMapHtml='<%=fu.buildSelectList("mapKey", monkeyKeyValues, mdao.getPrimaryRefAssembly(13).getKey() + "")%>';
+    var moleMapHtml='<%=fu.buildSelectList("mapKey", moleKeyValues, mdao.getPrimaryRefAssembly(14).getKey() + "")%>';
 
     var ratChrHtml = '<%=fu.buildChrSelectList("chr", ratChr, "1")%>';
     var mouseChrHtml = '<%=fu.buildChrSelectList("chr", mouseChr, "1")%>';
@@ -119,6 +136,8 @@
     var dogChrHtml = '<%=fu.buildChrSelectList("chr", dogChr, "1")%>';
     var squirrelChrHtml = '<%=fu.buildChrSelectList("chr", squirrelChr, "1")%>';
     var pigChrHtml = '<%=fu.buildChrSelectList("chr", pigChr, "1")%>';
+    var monkeyChrHtml = '<%=fu.buildChrSelectList("chr", monkeyChr, "1")%>';
+    var moleChrHtml = '<%=fu.buildChrSelectList("chr", moleChr, "1")%>';
 
 
     function setMap(obj) {
@@ -150,6 +169,12 @@
         }else if (selected==9) {
             maps.innerHTML=pigMapHtml;
             chroms.innerHTML=pigChrHtml;
+        }else if (selected==13) {
+            maps.innerHTML=monkeyMapHtml;
+            chroms.innerHTML=monkeyChrHtml;
+        }else if (selected==14) {
+            maps.innerHTML=moleMapHtml;
+            chroms.innerHTML=moleChrHtml;
         }else {
             maps.innerHTML=ratMapHtml;
             chroms.innerHTML=ratChrHtml;

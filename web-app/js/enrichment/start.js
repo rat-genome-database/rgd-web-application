@@ -41,6 +41,12 @@ var v = new Vue({
             } else if (selected == 9) {
                 maps.innerHTML = pigMaps;
                 chroms.innerHTML = pigChroms;
+            }else if (selected == 13) {
+                maps.innerHTML = greenMonkeyMaps;
+                chroms.innerHTML = greenMonkeyChroms;
+            }else if (selected == 14) {
+                maps.innerHTML = moleRatMaps;
+                chroms.innerHTML = moleRatChroms;
             }else {
                 maps.innerHTML = ratMaps;
                 chroms.innerHTML = ratChroms;
