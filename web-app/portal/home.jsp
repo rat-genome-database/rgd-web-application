@@ -483,6 +483,8 @@
                     document.getElementById("speciesButton" + i).style.border = "3px solid white";
                 }
                 document.getElementById("speciesButton9").style.border = "3px solid white";
+                document.getElementById("speciesButton13").style.border = "3px solid white";
+                document.getElementById("speciesButton14").style.border = "3px solid white";
 
                 document.getElementById("speciesButton" + speciesType).style.border = "3px solid #8E0026";
 
@@ -929,14 +931,19 @@
 
         <td>
 
-        <table border="0">
+        <table border="0" align="center">
             <tr>
                 <td align="center">
                     <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse(rootTermAcc,'d')">Diseases<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('MP:0000001','ph')">Mammalian Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="hp" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.browse('HP:0000001','hp')">Human Phenotype<br><span style="font-size:11px;">{{title}}</span></div>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
                     <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('GO:0008150','bp')">Biological Processes<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="pw" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('PW:0000001','pw')">Pathways<br><span style="font-size:11px;">{{title}}</span></div>
+                    <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('CHEBI:59999','c')">Chemicals and Drugs<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>
             </tr>
             <tr>
@@ -944,7 +951,6 @@
                     <div id="vt" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('VT:0000001','vt')">Vertebrate Traits<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="cm" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('CMO:0000000','cm')">Clinical Measurements<br><span style="font-size:11px;">{{title}}</span></div>
                     <div id="ec" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.browse('XCO:0000000','ec')">Experimental Conditions<br><span style="font-size:11px;">{{title}}</span></div>
-                    <div id="c" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.browse('CHEBI:59999','c')">Chemicals and Drugs<br><span style="font-size:11px;">{{title}}</span></div>
                 </td>
             </tr>
         </table>
@@ -1190,7 +1196,7 @@
         </td>
         <td>
 
-            <div border="0" id="speciesButton14" class="speciesButton" ng-click="portal.updateSpecies(13,'<%=MapManager.getInstance().getReferenceAssembly(13).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(13)%> (<%=SpeciesType.getCommonName(13)%>)')">
+            <div border="0" id="speciesButton13" class="speciesButton" ng-click="portal.updateSpecies(13,'<%=MapManager.getInstance().getReferenceAssembly(13).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(13)%> (<%=SpeciesType.getCommonName(13)%>)')">
                 <table>
                     <tr>
                         <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/green-monkeyS.png"></td>
@@ -1216,7 +1222,7 @@
         </td>
         <td>
 
-            <div border="0" id="speciesButton13" class="speciesButton" ng-click="portal.updateSpecies(14,'<%=MapManager.getInstance().getReferenceAssembly(14).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(14)%> (<%=SpeciesType.getCommonName(14)%>)')">
+            <div border="0" id="speciesButton14" class="speciesButton" ng-click="portal.updateSpecies(14,'<%=MapManager.getInstance().getReferenceAssembly(14).getKey()%>' ,'<%=SpeciesType.getTaxonomicName(14)%> (<%=SpeciesType.getCommonName(14)%>)')">
                 <table>
                     <tr>
                         <td height="150" valign="bottom"><img src="/rgdweb/common/images/species/mole-ratS.png"></td>
