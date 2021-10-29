@@ -157,8 +157,12 @@
     <tr>
     <td style="padding:8px;">
         <table align="center">
-            <td><img height="20" width="20" src="/rgdweb/common/images/alert.png"/></td>
-            <td style="font-size:20px;color:#8A0000; ">&nbsp;RGD COVID-19 Resources</td>
+            <tr>
+                <td ><span style="font-size:24px;color:#8A0000;">&nbsp;Did you know RGD Curators hold virtual office hours?</span></td>
+            </tr>
+        </table>
+        <table align="center">
+            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b>  Every Thursday from 2:00PM to 3:00PM Central/US Chicago.<br><b>Where:</b>   <a href=" https://mcw-edu.zoom.us/meeting/tJMtdOuvrj0vE9GbFUF26V-JUSDYhJzI0W2F/ics?icsToken=98tyKuCvrjgoHdSTtRCCRowEAojCa-3ziCFYj_p6njnQJXIFVE7cA9FmC7pVCvGA">Join RGD over Zoom</a><br><b>Who:</b> Anyone is welcome!</span></td>
         </table>
     </td>
     </tr>
@@ -167,7 +171,7 @@
 <table align="center">
     <tr>
 
-        <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") || request.getServerName().equals("localhost")) { %>
+        <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") ) { %>
         <td>
             <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
@@ -227,7 +231,7 @@
                 <div style="margin:5px; font-weight:700;">Domestic Pig</div>
             </div>
             <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
- <!--
+
         <td>
             <div class="speciesCardOverlay" onclick="location.href='http://rgd.mcw.edu/wg/species/mole-rat'">
                 <div style="margin:5px; font-weight:700;">Naked Mole Rat</div>
@@ -238,8 +242,7 @@
                 <div style="margin:5px; font-weight:700;">African Green Monkey</div>
             </div>
             <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
- -->
-    </tr>
+     </tr>
 </table>
 
 <table align="center" cellspacing="5" cellpadding="5">
