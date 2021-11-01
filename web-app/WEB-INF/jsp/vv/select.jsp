@@ -27,21 +27,25 @@
 
     int mapKey = (Integer) request.getAttribute("mapKey");
 %>
+
 <style>
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 200; }
     #sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
     #sortable li span { cursor:pointer; position: absolute; margin-left: 2px; }
 </style>
 <script>
-   /* $(function() {
-        $( "#sortable" ).sortable();
-        $( "#sortable" ).disableSelection();
-    });*/
+    $(function() {
+        //  $( "#sortable" ).sortable();
+        //  $( "#sortable" ).disableSelection();
+        <%if (req.getParameter("sample1").equals("all")) {%>
+        selectAll();
+        <% }%>
+
+    });
 
     function selectAll() {
-        <% for (Sample samp: samples) { %>
-        selectIt('<%=samp.getAnalysisName()%>', '<%=samp.getId()%>');
-        <% } %>
+        document.getElementById("all").checked = true;
+        selectGroup("all");
     }
 
     function submitPage() {
