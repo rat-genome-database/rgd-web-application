@@ -18,8 +18,8 @@
 
     <table align="center">
         <tr>
-            <td width=100 align="center"><a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
-            <td width=100 align="center"><a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NHLBI Logo" title="National Heart Lung and Blood Institute logo"></a><br><br></td>
+            <td width=100 align="center"><a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute"></a><br><br></td>
+            <td width=100 align="center"><a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NHLBI Logo" title="National Institue of Health"></a><br><br></td>
             <td width=100 align="center"><a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" height="80" width="133" border=0/></a></td>
         </tr>
     </table>
