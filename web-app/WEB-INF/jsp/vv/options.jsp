@@ -166,7 +166,7 @@
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Depth of Coverage</td>
-                    <% String defaultDepth = "8";
+                    <% String defaultDepth = "1";
 
                        if (!dm.out("depthLowBound", req.getParameter("depthLowBound")).equals("")) {
                            defaultDepth = dm.out("depthLowBound",req.getParameter("depthLowBound"));
@@ -214,7 +214,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                <input type="checkbox" style="border:0px solid black;"  name="excludePossibleError" value="true" checked> Exclude Low Read Percentage                                </td>
+                                <input type="checkbox" style="border:0px solid black;"  name="excludePossibleError" > Exclude Low Read Percentage                                </td>
                                 <td style="font-style:italic;">
                                     Variant read in less than 15% of reads
                                 </td>
