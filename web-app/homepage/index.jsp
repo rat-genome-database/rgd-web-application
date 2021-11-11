@@ -162,7 +162,7 @@
             </tr>
         </table>
         <table align="center">
-            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b>  Every Thursday from 2:00PM to 3:00PM Central/US Chicago.<br><b>Where:</b>   <a href="https://mcw-edu.zoom.us/j/99583555634?pwd=TnVra0ZQYTMzcG5tYzl5c1pFNGV3dz09">Join RGD over Zoom</a><br><b>Who:</b> Anyone is welcome!</span></td>
+            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b>  Every Thursday from 2:00PM to 3:00PM Central/US Chicago.<br><b>Where:</b>   <a href=" https://mcw-edu.zoom.us/j/97032706595?pwd=aDhzRENiN3l2MGd4TE9ZcG51cHM4dz09">Join RGD over Zoom</a><br><b>Who:</b> Anyone is welcome!</span></td>
         </table>
     </td>
     </tr>
