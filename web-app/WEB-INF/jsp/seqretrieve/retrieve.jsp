@@ -45,9 +45,11 @@
               <option value="17" <%=mapKey==17?"selected":""%>>GRCh37 (hg19)</option>
               <option value="13" <%=mapKey==13?"selected":""%>>NCBI 36 (hg18)</option>
             <% } else if( speciesTypeKey==SpeciesType.MOUSE ) { %>
+              <option value="239" <%=mapKey==239?"selected":""%>>GRCm39</option>
               <option value="35" <%=mapKey==35?"selected":""%>>GRCm38</option>
               <option value="18" <%=mapKey==18?"selected":""%>>MGSCv37</option>
             <% } else if( speciesTypeKey==SpeciesType.RAT ) { %>
+            <option value="372" <%=mapKey==372?"selected":""%>>mRatBN7.2</option>
             <option value="360" <%=mapKey==360?"selected":""%>>Rnor6.0</option>
             <option value="70" <%=mapKey==70?"selected":""%>>Rnor5.0</option>
             <option value="60" <%=mapKey==60?"selected":""%>>RGSC3.4</option>
@@ -102,11 +104,13 @@
         }
         else if( speciesName=='Mouse' ) {
             mapKeyObj.innerHTML =
+            '<option value="239">GRCm39</option>\n'+
             '<option value="35">GRCm38</option>\n'+
             '<option value="18">MGSCv37</option>\n';
         }
         else if( speciesName=='Rat' ) {
             mapKeyObj.innerHTML =
+            '<option value="372">mRatBN7.2</option>\n'+
             '<option value="360">Rnor6.0</option>\n'+
             '<option value="70">Rnor5.0</option>\n'+
             '<option value="60">RGSC3.4</option>\n';
