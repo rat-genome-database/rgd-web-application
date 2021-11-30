@@ -57,6 +57,13 @@
             i++;
         }
     }
+    function rejectAllChanges() {
+        i = 0;
+        while (document.getElementById("d" + i) != null) {
+            document.getElementById("d" + i).checked = true;
+            i++;
+        }
+    }
 </script>
 <br>
 
@@ -88,7 +95,7 @@
               <td width="150">Results:<%=result.getStartIndex()%> to <%=result.getEndIndex()%> of <%=result.getTotalCount()%></td>
               <td width="100" align="right"><a href="nomenEdit.html?pageNo=<%=result.getPreviousePage()%>&keyword=<%=keyword%>&from=<%=from%>&to=<%=to%>&dateSearch=<%=dateSearch%>&keywordSearch=<%=keywordSearch%>"><< Previous</a><td>&nbsp;</td>
               <td width="100"><a href="nomenEdit.html?pageNo=<%=result.getNextPage()%>&keyword=<%=keyword%>&from=<%=from%>&to=<%=to%>&dateSearch=<%=dateSearch%>&keywordSearch=<%=keywordSearch%>">Next >></a></td>
-              <td width="300" align="right"><input onClick="acceptAllChanges();" type="button" name="acceptAll" value="Accept All"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="submit" value="Submit Changes"/></td>
+              <td width="300" align="right"><input onClick="acceptAllChanges();" type="button" name="acceptAll" value="Accept All"/>&nbsp;&nbsp;&nbsp;<input onClick="rejectAllChanges();" type="button" name="rejectAll" value="Reject All"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="submit" value="Submit Changes"/></td>
           </tr>
       </table>
 
@@ -153,7 +160,7 @@
                 gc.add(Calendar.YEAR, 1);
             %>
 
-            <td colspan=3 style="background-color: #b6baba;"><input type="radio" onClick="hideDate('dateInput<%=count%>')" name="c<%=count%>" value="skip" CHECKED>Skip  <input type="radio"  onClick="hideDate('dateInput<%=count%>')" id="c<%=count%>" name="c<%=count%>" value="accept">Accept:  <input type="radio" name="c<%=count%>"  onClick="showDate('dateInput<%=count%>')" value="reject">Reject:  <input type="radio" name="c<%=count%>"  onClick="showDate('dateInput<%=count%>')" value="update">Update:</td><td style="background-color: #b6baba;"><div id="dateInput<%=count%>" style="visibility: hidden;"><table><tr><td>Next Nomenclature Review: </td><td><script>DateInput('reviewDate<%=count%>', true, 'MM/DD/YYYY','<%=format.format(gc.getTime())%>')</script></div> </td></tr></table></td>
+            <td colspan=3 style="background-color: #b6baba;"><input type="radio" onClick="hideDate('dateInput<%=count%>')" name="c<%=count%>" value="skip" CHECKED>Skip  <input type="radio"  onClick="hideDate('dateInput<%=count%>')" id="c<%=count%>" name="c<%=count%>" value="accept">Accept:  <input type="radio" name="c<%=count%>"  onClick="showDate('dateInput<%=count%>')" value="reject" id="d<%=count%>">Reject:  <input type="radio" name="c<%=count%>"  onClick="showDate('dateInput<%=count%>')" value="update">Update:</td><td style="background-color: #b6baba;"><div id="dateInput<%=count%>" style="visibility: hidden;"><table><tr><td>Next Nomenclature Review: </td><td><script>DateInput('reviewDate<%=count%>', true, 'MM/DD/YYYY','<%=format.format(gc.getTime())%>')</script></div> </td></tr></table></td>
         </tr>
         <tr><td>&nbsp;</td></tr>
         <%
