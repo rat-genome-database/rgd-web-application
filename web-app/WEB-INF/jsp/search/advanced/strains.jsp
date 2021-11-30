@@ -45,7 +45,10 @@
 
 
 </form>
-    <a href="/rgdweb/models/findModels.html" style="font-weight: bold;font-size: large">Find Models by Disease or Phenotype</a>&nbsp;&nbsp;&nbsp;<span style="color:red;font-weight: bold;font-size: large">new</span> <br><br>
+<br>
+    <a href="/rgdweb/ontology/view.html?acc_id=RS:0000457" style="font-weight: bold; font-size: large">Browse All Strains Using Rat Strain Ontology</a>&nbsp;<br>
+<br>
+    <a href="/rgdweb/models/findModels.html" style="font-weight: bold; font-size: large">Find Models by Disease or Phenotype</a>&nbsp;&nbsp;&nbsp;<span style="color:red;font-weight: bold;font-size: large">new</span> <br><br>
 
     <!--a href="/wg/searchHelp">View all search features</a-->
     
