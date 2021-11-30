@@ -31,37 +31,39 @@ function runGviewer() {
         if(mapKey==372) {
             URL  = URL + "data_rn7_2";
         }
-        if(mapKey==360) {
+        else if(mapKey==360) {
            URL  = URL + "data_rgd6";
         }
-        if(mapKey==70){
+        else if(mapKey==70){
            URL  = URL + "data_rgd5";
         }
-        if(mapKey==60){
+        else if(mapKey==60){
             URL  = URL + "data_rgd3_4";
         }
     }
-    if(species=='Human') {
+    else if(species=='Human') {
         bandURL="/rgdweb/gviewer/data/human_ideo.xml";
         if(mapKey==38)
            URL = URL + "data_hg38";
-        if(mapKey==17)
+        else if(mapKey==17)
            URL = URL + "data_hg19";
-        if(mapKey==13)
+        else if(mapKey==13)
           URL = URL + "data_hg18";
     }
-    if(species=='Mouse') {
+    else if(species=='Mouse') {
         bandURL="/rgdweb/gviewer/data/mouse_ideo.xml";
-        if(mapKey==35)
+        if(mapKey==239)
+            URL = URL + "data_mm39";
+        else if(mapKey==35)
            URL  = URL + "data_mm38";
-        if(mapKey==18)
+        else if(mapKey==18)
            URL  = URL + "data_mm37";
     }
    /* if(species=='Chinchilla') {
         if(mapKey==44)
            URL = URL + "data_cl1_0";
     }*/
-    if(species=='Dog') {
+    else if(species=='Dog') {
         bandURL="/rgdweb/gviewer/data/dog_ideo.xml";
         if(mapKey==631)
            URL  = URL + "data_dog3_1";
@@ -70,22 +72,22 @@ function runGviewer() {
         if(mapKey==720)
           URL = URL + "data_squirrel2_0";
     }*/
-    if(species=='Bonobo') {
+    else if(species=='Bonobo') {
         bandURL="/rgdweb/gviewer/data/bonobo_ideo.xml";
         if(mapKey=='511')
             URL = URL + "data_bonobo1_1";
         else if(mapKey=='513')
             URL = URL + "data_bonobo2";
     }
-    if(species=='Pig') {
+    else if(species=='Pig') {
         bandURL="/rgdweb/gviewer/data/pig_ideo.xml";
         if(mapKey=='911')
             URL = URL + "data_pig11_1";
-        if(mapKey=='910')
+        else if(mapKey=='910')
             URL = URL + "data_pig10_2";
     }
-    if(!gviewer) {
 
+    if(!gviewer) {
         gviewer = new Gviewer("gviewer",300,600);
     //    gviewer.genomeBrowserURL = "http://rgd.mcw.edu/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
         gviewer.genomeBrowserURL =URL;
