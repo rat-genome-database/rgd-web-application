@@ -210,7 +210,7 @@
         %>
       <tr>
           <td><%=RgdId.getObjectTypeName(ge.getObjectKey())%></td>
-          <td><a href="<%=Link.it(ge.getRgdId(), ge.getObjectKey())%>"><%=symbolOrName%></a></td>
+          <td style="width: 15vw"><a href="<%=Link.it(ge.getRgdId(), ge.getObjectKey())%>"><%=symbolOrName%></a></td>
           <td><%=ge.getName()%></td>
           <td><%=SpeciesType.getTaxonomicName(ge.getSpeciesTypeKey())%></td>
       </tr>
