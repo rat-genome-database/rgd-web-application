@@ -224,7 +224,6 @@ public class GeneTermAnnotationsBean {
                 rec.append("<a href=\"/rgdweb/curation/edit/editAnnotation.html?rgdId="+a.getKey()+"\">(Edit Me!)</a>");
             }
 
-            System.out.println(rec);
             report.append(rec);
         }
 
