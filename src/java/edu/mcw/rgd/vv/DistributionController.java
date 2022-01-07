@@ -169,7 +169,7 @@ public class DistributionController extends HaplotyperController {
                 throw e;
             }
 
-            System.out.println("RESULT HASH SIZE: "+ resultHash.size());
+            //System.out.println("RESULT HASH SIZE: "+ resultHash.size());
 
          /*   if(symbols.size()==0){
                 vsb.genes.addAll(gSymbols);
