@@ -332,11 +332,11 @@
                                 morePms += pmid + " ";
                             else
                                 morePms += pmid + "> ";
-                            System.out.println(morePms);
+                            //System.out.println(morePms);
                         }
                         else {
                             lessPms += pmid + "> ";
-                            System.out.println(lessPms);
+                            //System.out.println(lessPms);
                         }
                         i++;
                     }
@@ -398,7 +398,7 @@
                             }
                             i++;
                         }
-                        System.out.println(lessPms + "\n" + morePms);
+                        //System.out.println(lessPms + "\n" + morePms);
 
                 %>
                 <%=lessPms%> <span class="more" style="display: none;"><%=morePms%> </span><a href="#" class="moreLink" title="Click to see more">More...</a>
