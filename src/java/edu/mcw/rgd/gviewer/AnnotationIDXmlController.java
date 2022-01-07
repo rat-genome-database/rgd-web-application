@@ -52,23 +52,23 @@ public class AnnotationIDXmlController implements Controller {
         for (int i = 0; i < idArray.length; i++) {
 
             if (idStr.length()==0) {
-                System.out.println("len = 0 ");
+                // System.out.println("len = 0 ");
                 idStr += idArray[i];
             }else {
                 idStr += "," + idArray[i];
             }
 
             if (i!=0 && i % 999 == 0) {
-                System.out.println("adding " + i + " " + idStr);
+                // System.out.println("adding " + i + " " + idStr);
                 idList.add(idStr);
                 idStr = "";
             }
 
         }
 
-        System.out.println("adding " + idStr);
+        // System.out.println("adding " + idStr);
         idList.add(idStr);
-        System.out.println("ids list size = " + idList.size());
+        // System.out.println("ids list size = " + idList.size());
 
         try {
 
@@ -102,7 +102,7 @@ public class AnnotationIDXmlController implements Controller {
             e.printStackTrace();
         }
 
-        System.out.println(sql);
+        // System.out.println(sql);
 
         Connection conn = null;
         try {

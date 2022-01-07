@@ -41,7 +41,7 @@ public class AnnotationXmlController implements Controller {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
-            System.out.println("here 2");
+            //System.out.println("here 2");
             while (rs.next()) {
                 String rgdId = rs.getString("rgd_id");
                 String objectType = rs.getString("object_type");
@@ -55,7 +55,7 @@ public class AnnotationXmlController implements Controller {
                         "";
                 // strip html tags from symbol (we return xml, so these tags will break the xml structure)
                 String symbol = rs.getString("object_symbol").replaceAll("\\<.*?>", "");
-                System.out.println("here 4");
+                //System.out.println("here 4");
 
                 out.println("<feature>");
                 out.println("<chromosome>"+rs.getString("chromosome")+"</chromosome>");
@@ -67,7 +67,7 @@ public class AnnotationXmlController implements Controller {
                 out.println("<color>"+color+"</color>");
                 out.println("</feature>");
             }
-            System.out.println("here 3");
+            // System.out.println("here 3");
 
             out.println("</genome>");
         }catch(SQLException se) {
