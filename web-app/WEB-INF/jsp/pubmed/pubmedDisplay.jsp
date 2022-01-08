@@ -23,7 +23,7 @@
 
 <h3>RGD Reference Object:</h3>
 <%
-    System.out.println("here is the pmid:" + pmid);
+    //System.out.println("here is the pmid:" + pmid);
     //out.print("here is the doi: " + doi);
 %>
 <%--<table>

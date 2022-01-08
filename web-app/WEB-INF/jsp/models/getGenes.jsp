@@ -16,7 +16,7 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-    System.out.println(genes.size());
+    //System.out.println(genes.size());
     Iterator iterator= genes.iterator();
 
 
