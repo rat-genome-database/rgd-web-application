@@ -107,7 +107,7 @@
          }else if (oKey == 6) {
             //qtl
 
-            System.out.println("im here");
+            //System.out.println("im here");
 
              QTL qtl = (QTL)allObjects.get(it.next());
 

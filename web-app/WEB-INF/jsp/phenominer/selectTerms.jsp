@@ -5,7 +5,7 @@
 
     String sex = request.getAttribute("sex").toString();
     String species = request.getAttribute("species").toString();
-    System.out.println(" selectTerms.jsp  sex="+sex+" species="+species);
+    //System.out.println(" selectTerms.jsp  sex="+sex+" species="+species);
     String ont = request.getAttribute("ont").toString();
     String ontName = ont.equals("RS") ? "Rat Strains" :
         ont.equals("CS") ? "Chinchilla" :

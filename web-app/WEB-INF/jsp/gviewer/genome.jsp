@@ -75,14 +75,14 @@
         return;
     }
 
-    System.out.println("here again");
-    System.out.println(om.getMapped().size());
+    //System.out.println("here again");
+    //System.out.println(om.getMapped().size());
 
-    System.out.println("im here");
+    //System.out.println("im here");
 
     int speciesTypeKey= edu.mcw.rgd.datamodel.SpeciesType.getSpeciesTypeKeyForMap(Integer.parseInt(request.getParameter("mapKey")));
 
-    System.out.println("im here 2");
+    //System.out.println("im here 2");
 
 
 %>

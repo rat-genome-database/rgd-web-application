@@ -44,10 +44,10 @@
                 // let your comparator look up your car's color in the custom order
 
                  String t1 = o1.getTerm().replace("chromosome","").trim();
-                 System.out.println(t1);
+                 //System.out.println(t1);
 
                  String t2 = o2.getTerm().replace("chromosome","").trim();
-                 System.out.println(t2);
+                 //System.out.println(t2);
 
                  try {
                      if (Integer.parseInt(t1) < Integer.parseInt(t2)) {
@@ -63,7 +63,7 @@
              }
         };
 
-         System.out.println("sorting x");
+         //System.out.println("sorting x");
          Collections.sort(xTerms,  comparator);
      }
 
@@ -75,7 +75,7 @@
               }
          };
 
-         System.out.println("sorting y");
+         //System.out.println("sorting y");
           Collections.sort(yTerms,  comparator);
      }
 

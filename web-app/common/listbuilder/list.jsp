@@ -1271,7 +1271,7 @@ if (accIdsA.length > 0) {
 <div style="border-right:1px solid <%=colors[i]%>; border-top:5px solid <%=colors[i]%>; padding:5px; margin: 5px; display: inline-block;">
 <div style="text-align:right;"><a href="javascript:removeTerm(<%=i%>)"><img src="/rgdweb/common/images/del.jpg" border=0 /></a> </div>
 
-<%  System.out.println("gene list size = " + aGenes.size()); %>
+<%--  System.out.println("gene list size = " + aGenes.size()); --%>
 
 <% if (aGenes.get(i).size()==0) { %>
    Empty
