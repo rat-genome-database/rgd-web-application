@@ -41,10 +41,10 @@ public class SelectStrainController extends HaplotyperController {
                    Sample s= new Sample();
                    s=sampleDAO.getSampleByStrainRgdId(id, 600);
                    if(s!=null){
-                    System.out.println("sample id:"+ s.getId());
+					//System.out.println("sample id:"+ s.getId());
                    sampleList.add(s);}
                    else{
-                       System.out.println("No Samples");
+                       //System.out.println("No Samples");
                   }
                }
                 if(sampleList.size()>0){

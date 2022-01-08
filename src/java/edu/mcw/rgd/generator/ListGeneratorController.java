@@ -30,7 +30,7 @@ public class ListGeneratorController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        System.out.println("entering List Gen Controller");
+        //System.out.println("entering List Gen Controller");
         String aValue = "";
         ArrayList<String> operators = new ArrayList<String>();
         ArrayList<String> accIds = new ArrayList<String>();
@@ -170,7 +170,7 @@ public class ListGeneratorController implements Controller {
         request.setAttribute("messages", messages);
         request.setAttribute("oKey", oKey);
 
-        System.out.println("exiting List Gen Controller");
+        //System.out.println("exiting List Gen Controller");
 
         return new ModelAndView("/WEB-INF/jsp/generator/list.jsp");
     }
