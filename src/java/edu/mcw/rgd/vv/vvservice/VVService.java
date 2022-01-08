@@ -352,7 +352,7 @@ public class VVService {
             }
         }
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
-            System.out.println("CHRMoosme null");
+            //System.out.println("CHRMoosme null");
             for(String s:vsb.genes){
                    symbols.add(s.toLowerCase());
             }
@@ -363,7 +363,7 @@ public class VVService {
 
         }else {
             if(chromosome!=null && !chromosome.equals("") ){
-                System.out.println("CHROMOSOME NOT NULL");
+                //System.out.println("CHROMOSOME NOT NULL");
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome.keyword", chromosome)
                 );

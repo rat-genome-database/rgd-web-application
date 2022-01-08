@@ -23,7 +23,7 @@ public class InteractionsService {
      public List<InteractionReportRecord> getInteractionsBySpecies(String species) throws Exception {
         int speciesTypeKey= SpeciesType.parse(species);
         List<Integer> rgdIds= getProteinRgdIds(speciesTypeKey);
-        System.out.println(species +" PROTEINS SIZE:"+rgdIds.size());
+        //System.out.println(species +" PROTEINS SIZE:"+rgdIds.size());
         List<Interaction> interactions= new ArrayList<>();
         Collection[] colletions = this.split(rgdIds, 1000);
 
@@ -184,6 +184,6 @@ public class InteractionsService {
         InteractionsService service= new InteractionsService();
         service.getGeneByProteinRgdId(0);
 
-        System.out.println("DONE!!");
+        //System.out.println("DONE!!");
     }
 }

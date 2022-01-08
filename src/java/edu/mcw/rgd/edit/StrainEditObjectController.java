@@ -260,7 +260,7 @@ public class StrainEditObjectController extends EditObjectController {
             File newFileName = new File(location + File.separator + "strain_" + rgdId + ".png");
             if (oldFile.renameTo(newFileName)) {
                 newImageUrl=newFileName.getPath();
-                System.out.println(newImageUrl);
+                //System.out.println(newImageUrl);
                 sdao.updateImageUrl(key, newFileName.getPath());
 
             }

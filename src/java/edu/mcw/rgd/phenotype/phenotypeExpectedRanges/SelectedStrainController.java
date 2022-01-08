@@ -57,7 +57,7 @@ public class SelectedStrainController implements Controller{
             }
         }
        if(methodsSelected!=null){
-            System.out.println("methods selected: "+ methodsSelected);
+            //System.out.println("methods selected: "+ methodsSelected);
             if(!methodsSelected.equals(""))
             selectedMethods=this.getSelectedMethods(methodsSelected);
         }

@@ -250,7 +250,7 @@ public abstract class HaplotyperController implements Controller {
                 sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 List<Sample> samples = sdao.getSampleBySampleId(al);
 
-                System.out.println("samples.len = " + samples.size());
+                // System.out.println("samples.len = " + samples.size());
                 // determine mapKey from samples
                 int cnt = 0;
                 for (Sample sampleObj: samples)  {

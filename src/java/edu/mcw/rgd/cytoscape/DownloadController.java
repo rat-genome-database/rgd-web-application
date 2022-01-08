@@ -19,7 +19,7 @@ public class DownloadController implements Controller {
 
         HttpSession session=request.getSession();
         List<InteractionReportRecord> records= (List<InteractionReportRecord>) session.getAttribute("records");
-        System.out.println(records.size());
+        //System.out.println(records.size());
         Report report= new Report();
         Record header =new Record();
 
