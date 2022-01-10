@@ -297,7 +297,7 @@
                     ArrayList<Sample> sampList2 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList3 = new ArrayList<Sample>();
                     if(mapKey==38 || mapKey==17){
-                        sampList1.add(samples.get(0));
+                     //   sampList1.add(samples.get(0));
                     }
                     int num = 0;
                     for (Sample samp: samples) {
