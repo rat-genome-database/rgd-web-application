@@ -166,12 +166,13 @@
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
                     </tr>
-                    <% } else if(sample.getMapKey()!=17){ %>
+                    <% } else if(sample.getMapKey()!=17){
+                    if(result!=null && result.getClinvarInfo()!=null && result.getClinvarInfo().getClinicalSignificance()!=null){%>
                     <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
                     </tr>
                     <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%=result.getClinvarInfo().getTraitName()%></td>
                     </tr>
-                    <% } %>
+                    <% } }%>
 
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">VID:</td><td><%=result.getVariant().getId()%></td>
