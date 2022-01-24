@@ -42,25 +42,33 @@ $(function () {
         var _this=$("#myForm");
         var $content=$('#test');
         var $container=$('#submissionWrapper');
-    
-        $.ajax({
-            type:_this.attr('method'),
-            url:"strainSubmissionForm.html",
-            data:_this.serialize(),
-            success:function (data) {
-                var $successData= data.toString();
-                if($successData=='false'){
-                    $content.html("ReCaptcha Validation Failed.  Please try again.")
-                }else{
-                    // window.location.href=$successUrl;
+
+        var symbol = $('#symbol').val();
+        var lastname = $('#lastname').val();
+        var firstname = $('#firstname').val();
+        var email = $('#email').val();
+        var source = $('#source').val();
+
+        var bool = (symbol && lastname && firstname && email && source);
+        if (bool) {
+            $.ajax({
+                type: _this.attr('method'),
+                url: "strainSubmissionForm.html",
+                data: _this.serialize(),
+                success: function (data) {
+                    var $successData= data.toString();
+                    if($successData=='false'){
+                        $content.html("ReCaptcha Validation Failed.  Please try again.")
+                    }else{
+                    window.location.href=$successUrl;
                     $container.html($successData + "<br><p style='color:grey'>Thank you for your interest in strain submission</p>");
+
+                    }
 
                 }
 
-            }
-
-        })
-
+            })
+        }
 
     });
     /*    $("#myForm").submit(function () {
