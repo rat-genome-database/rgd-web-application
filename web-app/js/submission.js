@@ -60,7 +60,7 @@ $(function () {
                     if($successData=='false'){
                         $content.html("ReCaptcha Validation Failed.  Please try again.")
                     }else{
-                    window.location.href=$successUrl;
+                    // window.location.href=$successUrl;
                     $container.html($successData + "<br><p style='color:grey'>Thank you for your interest in strain submission</p>");
 
                     }
