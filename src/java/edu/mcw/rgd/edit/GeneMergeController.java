@@ -419,6 +419,10 @@ public class GeneMergeController implements Controller {
 
     void commitMapData(GeneMergeBean bean) throws Exception {
 
+        if( !bean.getMapDataNew().isEmpty() ) {
+            MapDAO mapDAO = new MapDAO();
+            mapDAO.insertMapData(bean.getMapDataNew());
+        }
     }
 
     int compareTo(Alias a1, Alias a2) {
