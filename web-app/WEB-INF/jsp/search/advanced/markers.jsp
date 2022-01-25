@@ -47,9 +47,5 @@ SSLP and SNP reports provide mapping data, primer information, and size variatio
         <input type="hidden" name="objectSearch" value="true"/>
 
 </form>
-<% if( !RgdContext.isChinchilla(request) ) { %>
-    <a href="/objectSearch/sslpQuery.jsp">Switch to classic marker search</a> <br>
-    <a href="/wg/searchHelp">View all search features</a>
-<% } %>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
