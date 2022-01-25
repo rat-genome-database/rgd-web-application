@@ -94,7 +94,7 @@
     <TR>
         <TD>Map Data</TD>
         <% if( bean.getMapDataNew().size()>0 ) { %>
-        <TD class="gmnew">to-be-inserted manually: <%=bean.getMapDataNew().size()%></TD>
+        <TD class="gmnew">inserted: <%=bean.getMapDataNew().size()%></TD>
         <% } else { %>
         <TD>&nbsp;</TD>
         <% } %>
