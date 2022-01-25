@@ -421,6 +421,17 @@ public class GeneMergeController implements Controller {
 
         if( !bean.getMapDataNew().isEmpty() ) {
             MapDAO mapDAO = new MapDAO();
+
+            for( MapData md: bean.getMapDataNew() ) {
+                String notes = "created by GeneMerge from RGD ID " + bean.getRgdIdFrom().getRgdId();
+                if (md.getNotes() == null)
+                    md.setNotes(notes);
+                else
+                    md.setNotes(md.getNotes() + "; " + notes);
+
+                md.setRgdId(bean.getRgdIdTo().getRgdId());
+            }
+
             mapDAO.insertMapData(bean.getMapDataNew());
         }
     }
