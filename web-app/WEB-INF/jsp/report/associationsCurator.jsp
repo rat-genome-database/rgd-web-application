@@ -63,7 +63,7 @@
             </form>
         </div>
     </div>
-
+    <input type="checkbox" onchange="hideEvidence(this,'manualAnnotationsTable');" style=""><label style="position: relative; right: 163px;top: 3px;">Only show annotations with direct experimental evidence</label>
     <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
 
@@ -515,7 +515,7 @@
             </form>
         </div>
     </div>
-
+    <input type="checkbox" onchange="hideEvidence(this,'biologicalProcessAnnotationsTable');" style=""><label style="position: relative; right: 163px;top: 3px;">Only show annotations with direct experimental evidence</label>
     <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
     <div id="biologicalProcessAnnotationsTableDiv" class="annotation-detail">
@@ -1398,5 +1398,29 @@
 <br>
 <%//ui.dynClose("expAssociationC")%>
 <% } %>
+<script>
+    function hideEvidence(cb, table) {
+        var oTable = document.getElementById(table.toString());
+        var oRows = oTable.getElementsByTagName("tr");
 
+        var selectVal = parseInt(cb.parentNode.getElementsByTagName("select")[0].value);
+        var startPoint = cb.parentNode.getElementsByTagName("span")[0].innerText.replace(/(^\d+)(.+$)/i,'$1') -1;
+        var endVal = selectVal + startPoint + 1;
+        if (endVal > oRows.length){
+            endVal = oRows.length;
+        }
+
+        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is row 3
+            if (oRows[i].cells[2].innerText === "ISO" || oRows[i].cells[2].innerText === "ISS" || oRows[i].cells[2].innerText === "IEA"){
+                if ($(cb).is(':checked')){
+                    oRows[i].style.display = 'none';
+                }
+                else {
+                    oRows[i].style.display = '';
+                }
+
+            }
+        }
+    }
+</script>
 <%@ include file="sectionFooter.jsp"%>
