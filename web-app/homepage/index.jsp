@@ -158,11 +158,11 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:24px;color:#8A0000;">&nbsp;Did you know RGD Curators hold virtual office hours?</span></td>
+                <td ><span style="font-size:24px;color:#8A0000;">&nbsp;RGD virtual office hours are now by appointment.</span></td>
             </tr>
         </table>
         <table align="center">
-            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b>  Every Thursday from 2:00PM to 3:00PM Central/US Chicago.<br><b>Where:</b>   <a href=" https://mcw-edu.zoom.us/j/97032706595?pwd=aDhzRENiN3l2MGd4TE9ZcG51cHM4dz09">Join RGD over Zoom</a><br><b>Who:</b> Anyone is welcome!</span></td>
+            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b> At your convenience!  <a href="/rgdweb/contact/contactus.html">Contact us</a> to schedule a time.<br><b>Who:</b> Anyone is welcome!</span></td>
         </table>
     </td>
     </tr>
