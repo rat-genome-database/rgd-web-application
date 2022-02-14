@@ -306,6 +306,10 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.termQuery("xdata", term).boost(1))
+/*********************adding variants to be searchable********************/
+                        .add(QueryBuilders.matchQuery("regionNameLc", term).operator(Operator.AND).boost(1))
+
+
                 ;
             }else{
                     dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
