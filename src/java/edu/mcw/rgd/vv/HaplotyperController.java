@@ -245,7 +245,7 @@ public abstract class HaplotyperController implements Controller {
                 sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 List<Sample> samples = sdao.getSampleBySampleId(al);
 
-                System.out.println("samples.len = " + samples.size());
+                //System.out.println("samples.len = " + samples.size());
                 // determine mapKey from samples
                 int cnt = 0;
                 for (Sample sampleObj: samples)  {
@@ -261,7 +261,7 @@ public abstract class HaplotyperController implements Controller {
                             vsb.sampleIds.add(sampleObj.getId());
                         } else {
                             // assembly mixup, ignore the sample
-                            System.out.println("ERROR: assembly mixup");
+                            //System.out.println("ERROR: assembly mixup");
                         }
                     }
 
