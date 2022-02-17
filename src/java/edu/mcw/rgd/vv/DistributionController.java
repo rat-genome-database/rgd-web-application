@@ -248,11 +248,26 @@ public class DistributionController extends HaplotyperController {
             request.setAttribute("error", errors);
         }
         if(chromosome!=null && !chromosome.equals("") ) {
-            if(resultHash.size()>0 && regionList.size()>0) {
-                List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
-                for (GeneLoci l : loci) {
-                    if (!regionList.contains(l.getGeneSymbols())) {
-                        regionList.add(l.getGeneSymbols());
+            if(resultHash.size()>0 && regionList.size()>0 ) {
+                if(regionList.size()<=1000) {
+                    List<GeneLoci> loci = geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) regionList);
+                    for (GeneLoci l : loci) {
+                        if (!regionList.contains(l.getGeneSymbols())) {
+                            regionList.add(l.getGeneSymbols());
+                        }
+                    }
+                }else{
+                  Collection[] collections=  split(regionList, 1000);
+                    List<GeneLoci> loci=new ArrayList<>();
+                    for (int i = 0; i < collections.length; i++) {
+                      List<GeneLoci> geneLoci= geneLociDAO.getGeneLociByRegionName(mapKey, chromosome, (List<String>) collections[i]);
+                       if(geneLoci!=null && geneLoci.size()>0)
+                        loci.addAll(geneLoci);
+                    }
+                    for (GeneLoci l : loci) {
+                        if (!regionList.contains(l.getGeneSymbols())) {
+                            regionList.add(l.getGeneSymbols());
+                        }
                     }
                 }
             }
@@ -500,6 +515,20 @@ public class DistributionController extends HaplotyperController {
     }
     public void setgSymbols(List<String> gSymbols) {
         this.gSymbols = gSymbols;
+    }
+
+    public Collection[] split(List<String> symbols, int size) throws Exception {
+        int numOfBatches = symbols.size() / size + 1;
+        Collection[] batches = new Collection[numOfBatches];
+
+        for(int index = 0; index < numOfBatches; ++index) {
+            int count = index + 1;
+            int fromIndex = Math.max((count - 1) * size, 0);
+            int toIndex = Math.min(count * size, symbols.size());
+            batches[index] = symbols.subList(fromIndex, toIndex);
+        }
+
+        return batches;
     }
 
 }
