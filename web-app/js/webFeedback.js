@@ -1,11 +1,12 @@
 
 function openForm() {
     document.getElementById("messageVue").style.display = "block";
-    document.getElementById("headMsg").innerText = 'Send us a Message'
+    document.getElementById("headMsg").innerText = 'Send us a Message';
 }
 
 function closeForm() {
     document.getElementById("messageVue").style.display = "none";
+    document.getElementById("sendEmail").disabled = false;
 }
 function hideButtons() {
     var div = document.getElementById('divButtons');
@@ -49,7 +50,7 @@ function checkCookie() {
                     alert("Not a valid email address.");
                     return;
                 }
-
+                document.getElementById("sendEmail").disabled = true;
                 axios
                     .post('/rgdweb/contact/weblikes.html',
                         {
