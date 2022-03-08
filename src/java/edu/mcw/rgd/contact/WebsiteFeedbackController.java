@@ -72,11 +72,13 @@ public class WebsiteFeedbackController implements Controller {
                 "Reply to: "+sender+"\n"+
                 "Webpage: " + page;
 
+        String storedMessage = message + "\t Recipients email:"+sender;
+        int messageId = fbdao.insertMessageForm("Send Message Form",storedMessage,1);
+
+        System.out.println("Message_ID="+messageId);
+
         MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
         MyRGDLookupController.send(sender, "Thanks for your comment", usrMsg);
-
-        String storedMessage = message + "\t Recipients email:"+sender;
-        fbdao.insertMessageForm("Send Message Form",storedMessage,1);
 
         return;
     }
