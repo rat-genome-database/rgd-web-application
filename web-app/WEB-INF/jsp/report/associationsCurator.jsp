@@ -66,7 +66,9 @@
 
     <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('manualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('manualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="manualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
@@ -451,6 +453,9 @@
     <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('geneChemicalInteractionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('geneChemicalInteractionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(filteredList, siteName)%><br>
     </div>
@@ -518,6 +523,9 @@
 
     <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('biologicalProcessAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('biologicalProcessAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="biologicalProcessAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(bpList, siteName)%>
     </div>
@@ -625,6 +633,9 @@
 
     <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularFunctionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="molecularFunctionAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(mfList, siteName)%>
     </div>
@@ -1286,5 +1297,44 @@
 <br>
 <%//ui.dynClose("expAssociationC")%>
 <% } %>
+<script>
+    function hideEvidence(table) {
+        var oTable = document.getElementById(table.toString());
+        var oRows = oTable.getElementsByTagName("tr");
+        var cb = oTable.parentNode.parentNode.getElementsByClassName('hideTableEvidence');
+        var selectVal = parseInt(oTable.parentNode.parentNode.getElementsByTagName("select")[0].value);
+        var startPoint = parseInt(oTable.parentNode.parentNode.getElementsByTagName("span")[0].innerText.replace(/(^\d+)(.+$)/i,'$1') );
+        var endVal = selectVal + startPoint;
+        if (endVal > oRows.length){
+            endVal = oRows.length;
+        }
+        var hideCnt = 0;
+        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 3
+            if (oRows[i].cells[2].innerText === "ISO" || oRows[i].cells[2].innerText === "ISS" || oRows[i].cells[2].innerText === "IEA"){
+                if ($(cb).is(':checked')){
+                    oRows[i].style.display = 'none';
+                    hideCnt++;
+                }
+                else {
+                    oRows[i].style.display = '';
+                }
+            }
+        }
 
+        var myLabel = oTable.parentNode.parentNode.getElementsByClassName("hideEviText")[0];//cb.nextSibling;
+        myLabel.innerText = 'Only show annotations with direct experimental evidence ('+hideCnt+' objects hidden)';
+    }
+    function checkBox(table) {
+        var oTable = document.getElementById(table.toString());
+        var cb = oTable.parentNode.parentNode.getElementsByClassName('hideTableEvidence');
+        if ($(cb).is(':checked')){
+            $(cb).prop("checked",false);
+            hideEvidence(table);
+        }
+        else {
+            $(cb).prop("checked",true);
+            hideEvidence(table);
+        }
+    }
+</script>
 <%@ include file="sectionFooter.jsp"%>

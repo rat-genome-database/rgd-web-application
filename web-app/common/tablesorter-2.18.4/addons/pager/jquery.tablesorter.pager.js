@@ -320,13 +320,22 @@
 				e =  s + p.size,
 				f = c.widgetOptions && c.widgetOptions.filter_filteredRow || 'filtered',
 				j = 0; // size counter
+				var cb = table.parentNode.parentNode.getElementsByClassName('hideTableEvidence');
+				var hideCnt = 0;
 				for ( i = 0; i < l; i++ ){
 					if ( !rows[i].className.match(f) ) {
 						if (j === s && rows[i].className.match(c.cssChildRow)) {
 							// hide child rows @ start of pager (if already visible)
 							rows[i].style.display = 'none';
 						} else {
-							rows[i].style.display = ( j >= s && j < e ) ? '' : 'none';
+							if ($(cb).is(':checked') && (rows[i].cells[2].innerText === "ISO" || rows[i].cells[2].innerText === "ISS" || rows[i].cells[2].innerText === "IEA") )
+							{
+								rows[i].style.display = 'none';
+								if (i >= s && i < e ) // updates hideCnt if i is between the size
+									hideCnt++;
+							}
+							else
+								rows[i].style.display = ( j >= s && j < e ) ? '' : 'none';
 							// don't count child rows
 							j += rows[i].className.match(c.cssChildRow + '|' + c.selectorRemove.slice(1)) && !p.countChildRows ? 0 : 1;
 							if ( j === e && rows[i].style.display !== 'none' && rows[i].className.match(ts.css.cssHasChild) ) {
@@ -341,6 +350,8 @@
 						rows[lastIndex].style.display = '';
 					}
 				}
+				var myLabel = table.parentNode.parentNode.getElementsByClassName('hideEviText')[0];//cb.nextSibling;
+				$(myLabel).last().html('Only show annotations with direct experimental evidence ('+hideCnt+' objects hidden)');
 			}
 		},
 
