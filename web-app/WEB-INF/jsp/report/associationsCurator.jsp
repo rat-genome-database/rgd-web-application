@@ -579,6 +579,9 @@
     <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
     </div>
@@ -1303,7 +1306,7 @@
         var oRows = oTable.getElementsByTagName("tr");
         var cb = oTable.parentNode.parentNode.getElementsByClassName('hideTableEvidence');
         var selectVal = parseInt(oTable.parentNode.parentNode.getElementsByTagName("select")[0].value);
-        var startPoint = parseInt(oTable.parentNode.parentNode.getElementsByTagName("span")[0].innerText.replace(/(^\d+)(.+$)/i,'$1') );
+        var startPoint = parseInt(oTable.parentNode.parentNode.getElementsByClassName("pagedisplay")[0].innerText.replace(/(^\d+)(.+$)/i,'$1') );
         var endVal = selectVal + startPoint;
         if (endVal > oRows.length){
             endVal = oRows.length;

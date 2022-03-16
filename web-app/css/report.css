@@ -211,4 +211,16 @@ li a {
     font-size: 12pt;
 
 }
+.first{
+    cursor: pointer;
+}
+.last{
+    cursor: pointer;
+}
+.next{
+    cursor: pointer;
+}
+.prev{
+    cursor: pointer;
+}
 
