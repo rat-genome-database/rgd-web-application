@@ -41,7 +41,7 @@
         <input type="hidden" id="action" name="action" />
         <div class="form-group">
             <label for="symbol">Strain Symbol</label>&nbsp;&nbsp;<span style="color:red">*</span>
-            <input type="text" class="form-control" id="symbol" name="symbol" aria-describedby="emailHelp" placeholder="Enter strain symbol">
+            <input type="text" class="form-control" id="symbol" name="symbol" aria-describedby="emailHelp" placeholder="Enter strain symbol" required>
             <small id="symbolHelp" class="form-text text-muted">
                 Please enter a symbol for the strain being submitted, for example: BN/Crl, or SHR.BN-(D13Arb5-Ren)/Ipcv. For more information, please refer to the <a href="http://www.rgd.mcw.edu/nomen/rules-for-nomen.shtml">rules for strain nomenclature</a>. For help naming your strain please contact <a href="mailto:RGD.Data@mcw.edu">RGD.Data@mcw.edu</a>.
 
@@ -179,7 +179,7 @@
         </div>
         <div class="form-group">
             <label for="source">Where could this strain be obtained?</label>&nbsp;&nbsp;<span style="color:red">*</span>
-            <textarea class="form-control" id="source" name="source" rows="3"></textarea>
+            <textarea class="form-control" id="source" name="source" rows="3" required></textarea>
         </div>
         <div class="form-group">
             <label for="availablecontactemail">Availability Contact Email</label>
@@ -197,18 +197,18 @@
         <div class="form-group" style="width:100%">
         <div class="form-group" style="width:50%;float:left">
             <label for="lastname">Last Name/Surname</label>&nbsp;&nbsp;<span style="color:red">*</span>
-            <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" placeholder="Enter submitter last name/surname">
+            <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" placeholder="Enter submitter last name/surname" required>
             <small id="lastnameHelp" class="form-text text-muted"></small>
         </div>
         <div class="form-group" style="width:49%;float:right">
             <label for="firstname">First Name</label>&nbsp;&nbsp;<span style="color:red">*</span>
-            <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" placeholder="Enter submitter first name/given name">
+            <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" placeholder="Enter submitter first name/given name" required>
             <small id="firstnameHelp" class="form-text text-muted"></small>
         </div>
         </div>
         <div class="form-group">
             <label for="email">Email Address</label>&nbsp;&nbsp;<span style="color:red">*</span>
-            <input type="text" class="form-control" id="email"  name="email" aria-describedby="submitteremailHelp" placeholder="Enter submitter email address">
+            <input type="text" class="form-control" id="email"  name="email" aria-describedby="submitteremailHelp" placeholder="Enter submitter email address" required>
             <small id="submitteremailHelp" class="form-text text-muted"></small>
         </div>
         <div class="form-group">
