@@ -39,6 +39,7 @@
              %>
             $scope.rootMeasurements = <%=mArr%>;
             $scope.selectedMeasurement=  $scope.rootMeasurements[0];
+            $scope.selectedMeasurement .checked=true;
             <%
             mArr = "[";
 
@@ -52,6 +53,7 @@
              mArr += "]";
              %>
             $scope.rootSamples = <%=mArr%>;
+            $scope.selectedSamples=[];
 
             <%
             mArr = "[";
@@ -97,8 +99,15 @@
             }else {
                 host=window.location.protocol + "//rest.rgd.mcw.edu";
             }
-
+            $scope.changeCMO= function(selectedMeasurement){
+                $scope.selectedMeasurement=selectedMeasurement;
+                return ctrl.load()
+            };
+            $scope.loadSelectedSample = function(){
+                ctrl.load()
+            };
             ctrl.load = function () {
+             //   alert("loading.."+$scope.selectedMeasurement.accId);
                 $http({
                     method: 'GET',
                     //url: "https://dev.rgd.mcw.edu/rgdws/phenotype/phenominer/3/chart/RS%3A0000029%2CRS%3A0001860%2CRS%3A0001381%2CCMO%3A0000015",
@@ -135,8 +144,11 @@
                         //alert("setting " + $scope.methods[rec].accId + " to " + $scope.methods[rec].term);
                         $scope.methodMap[$scope.methods[rec].accId]=$scope.methods[rec].term;
                     }
-
-
+                    $scope.selectedSamples=$scope.samples;
+                    angular.forEach($scope.selectedSamples, function(value){
+                        value.checked=true;
+                      //  $scope.selectedSamples.push(value)
+                    });
 
                     //alert(JSON.stringify($scope.records[0].measurementMethod.accId));
 
@@ -152,13 +164,7 @@
 
 
                     }
-
-
-
-
-
                     ctrl.updateChart();
-
 
                 }, function errorCallback(response) {
                     alert("response = " + response.data);

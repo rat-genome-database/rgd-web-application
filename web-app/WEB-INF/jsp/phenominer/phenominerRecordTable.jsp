@@ -13,10 +13,17 @@
         <% } %>
     </tr>
 </table>
-
+<style>
+.headerRow{
+position:sticky;
+top: 0 ;
+}
+</style>
 <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<div class="overflow-auto" style="height:400px">
 <%
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
     strat.setTableProperties(" class='sortable' lign='center' ");
     out.print(strat.format(report));
 %>
+    </div>

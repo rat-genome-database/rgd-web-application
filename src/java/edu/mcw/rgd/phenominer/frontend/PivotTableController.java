@@ -60,7 +60,49 @@ public class PivotTableController implements Controller {
         } else {
             records = getRecordsByTerms(req, speciesTypeKey, idsWithoutMM);
         }
+        Map<String, String> tableColumnsMap=new HashMap<>();
 
+        if(records.size()>0){
+            for(Record record:records){
+                if(record.getExperimentNotes()!=null && !record.getExperimentNotes().equals("") ){
+                    tableColumnsMap.put("expNotes", "");
+                }
+                if(record.getClinicalMeasurement().getNotes()!=null && !record.getClinicalMeasurement().getNotes().equals("") ){
+                    tableColumnsMap.put("cmoNotes", "");
+                }
+                if(record.getSample().getNotes()!=null && !record.getSample().getNotes().equals("") ){
+                    tableColumnsMap.put("rsNotes", "");
+                }
+                if(record.getMeasurementMethod().getNotes()!=null && !record.getMeasurementMethod().getNotes().equals("") ){
+                    tableColumnsMap.put("mmoNotes", "");
+                }
+                if(record.getMeasurementMethod().getPiType()!=null && !record.getMeasurementMethod().getPiType().equals("") ){
+                    tableColumnsMap.put("piType","");
+                }
+                if(record.getMeasurementMethod().getPiTimeValue()!=null && record.getMeasurementMethod().getPiTimeValue()!=0 ){
+                    tableColumnsMap.put("piTime", "");
+                }
+                if(record.getMeasurementMethod().getPiTypeUnit()!=null && !record.getMeasurementMethod().getPiTypeUnit().equals("") ){
+                    tableColumnsMap.put("piTypeUnit", "");
+                }
+                if(record.getClinicalMeasurement().getFormula()!=null && !record.getClinicalMeasurement().getFormula().equals("") ){
+                    tableColumnsMap.put("formula", "");
+                }
+                if(record.getMeasurementSD()!=null && !record.getMeasurementSD().equals("") ){
+                    tableColumnsMap.put("sd", "");
+                }
+                if(record.getMeasurementSem()!=null && !record.getMeasurementSem().equals("") ){
+                    tableColumnsMap.put("sem", "");
+                }
+                if(record.getClinicalMeasurement().getAverageType()!=null && !record.getClinicalMeasurement().getAverageType().equals("") ){
+                    tableColumnsMap.put("averageType", "");
+                }
+                if(record. getMeasurementMethod().getSite()!=null && !record. getMeasurementMethod().getSite().equals("") ){
+                    tableColumnsMap.put("methodSite", "");
+                }
+
+            }
+        }
 
         Report report = new Report();
         edu.mcw.rgd.reporting.Record re = new edu.mcw.rgd.reporting.Record();
@@ -69,29 +111,41 @@ public class PivotTableController implements Controller {
             re.append("Study ID");
             re.append("Study");
             re.append("Experiment Name");
+            if(tableColumnsMap.get("expNotes")!=null)
             re.append("Experiment Notes");
-            re.append("Strain Ont ID");
+     //       re.append("Strain Ont ID");
             re.append("Strain");
             re.append("Sex");
             re.append("Age");
             re.append("# of Animals");
+            if(tableColumnsMap.get("rsNotes")!=null)
             re.append("Sample Notes");
-            re.append("Clinical Measurement Ont ID");
+     //       re.append("Clinical Measurement Ont ID");
             re.append("Phenotype");
+            if(tableColumnsMap.get("formula")!=null)
             re.append("Formula");
+            if(tableColumnsMap.get("cmoNotes")!=null)
             re.append("Clinical Measurement Notes");
+            if(tableColumnsMap.get("averageType")!=null)
             re.append("Average Type");
             re.append("Value");
             re.append("Units");
+            if(tableColumnsMap.get("sem")!=null)
             re.append("SEM");
+            if(tableColumnsMap.get("sd")!=null)
             re.append("SD");
-            re.append("Method Ont ID");
+      //      re.append("Method Ont ID");
             re.append("Method");
+            if(tableColumnsMap.get("methodSite")!=null)
             re.append("Method Site");
             re.append("Method Duration");
+            if(tableColumnsMap.get("mmoNotes")!=null)
             re.append("Method Notes");
+            if(tableColumnsMap.get("piType")!=null)
             re.append("Post Insult Type");
+            if(tableColumnsMap.get("piTime")!=null)
             re.append("Post Insult Time Value");
+            if(tableColumnsMap.get("piTypeUnit")!=null)
             re.append("Post Insult Time Unit");
             re.append("Conditions");
         }else {
@@ -183,9 +237,13 @@ public class PivotTableController implements Controller {
                 re.append(r.getStudyId() + "");
                 re.append(r.getStudyName());
                 re.append(r.getExperimentName());
+                if(tableColumnsMap.get("expNotes")!=null)
                 re.append(r.getExperimentNotes());
-                re.append(r.getSample().getStrainAccId());
-                re.append(termResolver.get(r.getSample().getStrainAccId()).getTerm());
+          //      re.append(r.getSample().getStrainAccId());
+                StringBuilder builder1=new StringBuilder();
+                builder1.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getSample().getStrainAccId())
+                        .append("'>").append(termResolver.get(r.getSample().getStrainAccId()).getTerm()).append("</a>");
+                re.append(builder1.toString());
                 re.append(r.getSample().getSex());
 
                 int ageDaysHighBound = r.getSample().getAgeDaysFromHighBound()==null ? 0 : r.getSample().getAgeDaysFromHighBound();
@@ -200,24 +258,47 @@ public class PivotTableController implements Controller {
                     re.append("N/A");
                 else
                     re.append(r.getSample().getNumberOfAnimals() + "");
-
+                if(tableColumnsMap.get("rsNotes")!=null)
                 re.append(r.getSample().getNotes());
-                re.append(r.getClinicalMeasurement().getAccId());
-                re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
-                re.append(r.getClinicalMeasurement().getFormula());
+           //     re.append(r.getClinicalMeasurement().getAccId());
+           //     re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
+                StringBuilder builder2=new StringBuilder();
+                builder2.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getClinicalMeasurement().getAccId())
+                        .append("'>").append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm()).append("</a>");
+
+                re.append(builder2.toString());
+                if(tableColumnsMap.get("formula")!=null)
+
+                    re.append(r.getClinicalMeasurement().getFormula());
+                if(tableColumnsMap.get("cmoNotes")!=null)
                 re.append(r.getClinicalMeasurement().getNotes());
-                re.append(r.getClinicalMeasurement().getAverageType());
+                if(tableColumnsMap.get("averageType")!=null)
+
+                    re.append(r.getClinicalMeasurement().getAverageType());
                 re.append(r.getMeasurementValue());
                 re.append(r.getMeasurementUnits());
+                if(tableColumnsMap.get("sem")!=null)
                 re.append(this.round(r.getMeasurementSem(),4));
+                if(tableColumnsMap.get("sd")!=null)
                 re.append(this.round(r.getMeasurementSD(),4));
-                re.append(r.getMeasurementMethod().getAccId());
-                re.append(termResolver.get(r.getMeasurementMethod().getAccId()).getTerm());
-                re.append(r.getMeasurementMethod().getSite());
+           //     re.append(r.getMeasurementMethod().getAccId());
+           //     re.append(termResolver.get(r.getMeasurementMethod().getAccId()).getTerm());
+                StringBuilder builder3=new StringBuilder();
+                builder3.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getMeasurementMethod().getAccId())
+                        .append("'>").append(termResolver.get(r.getMeasurementMethod().getAccId()).getTerm()).append("</a>");
+
+                re.append(builder3.toString());
+                if(tableColumnsMap.get("methodSite")!=null)
+
+                    re.append(r.getMeasurementMethod().getSite());
                 re.append(r.getMeasurementMethod().getDuration());
+                if(tableColumnsMap.get("mmoNotes")!=null)
                 re.append(r.getMeasurementMethod().getNotes());
+                if(tableColumnsMap.get("piType")!=null)
                 re.append(r.getMeasurementMethod().getPiType());
+                if(tableColumnsMap.get("piTime")!=null)
                 re.append(r.getMeasurementMethod().getPiTimeValue() + "");
+                if(tableColumnsMap.get("piTypeUnit")!=null)
                 re.append(r.getMeasurementMethod().getPiTypeUnit());
                 re.append(r.getConditionDescription());
 

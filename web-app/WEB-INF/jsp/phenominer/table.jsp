@@ -59,11 +59,11 @@
 <script>
 
 </script>
+<%@include file="chartjs.jsp"%>
 
 <div class="row" id="phenoController" ng-controller="phenoController as pheno">
 
 <div class="col-md-3  sidebar">
-    <%@include file="chartjs.jsp"%>
     <!--div class="sidebar-sticky"-->
     <%@include file="sideBar.jsp"%>
 
