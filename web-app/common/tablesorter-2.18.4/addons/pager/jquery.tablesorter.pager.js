@@ -328,10 +328,10 @@
 							// hide child rows @ start of pager (if already visible)
 							rows[i].style.display = 'none';
 						} else {
-							if ($(cb).is(':checked') && (rows[i].cells[2].innerText === "ISO" || rows[i].cells[2].innerText === "ISS" || rows[i].cells[2].innerText === "IEA") )
+							if ($(cb).is(':checked') && (rows[i].cells[2].innerText === "ISO" || rows[i].cells[2].innerText === "ISS" || rows[i].cells[2].innerText === "IEA" || rows[i].cells[2].innerText === "IBA") )
 							{
 								rows[i].style.display = 'none';
-								if (i >= s && i < e ) // updates hideCnt if i is between the size
+								if (j >= s && j < e ) // updates hideCnt if i is between the size
 									hideCnt++;
 							}
 							else

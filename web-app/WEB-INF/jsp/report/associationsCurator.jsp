@@ -580,7 +580,7 @@
 
 </div>
     <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('cellularComponentAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName)%>
@@ -725,6 +725,9 @@
     </div>
     <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
+    <div>
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularPathwayManualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularPathwayManualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    </div>
     <div id="molecularPathwayManualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName)%>
     </div>
@@ -1313,7 +1316,7 @@
         }
         var hideCnt = 0;
         for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 3
-            if (oRows[i].cells[2].innerText === "ISO" || oRows[i].cells[2].innerText === "ISS" || oRows[i].cells[2].innerText === "IEA"){
+            if (oRows[i].cells[2].innerText === "ISO" || oRows[i].cells[2].innerText === "ISS" || oRows[i].cells[2].innerText === "IEA" || oRows[i].cells[2].innerText === "IBA"){
                 if ($(cb).is(':checked')){
                     oRows[i].style.display = 'none';
                     hideCnt++;
