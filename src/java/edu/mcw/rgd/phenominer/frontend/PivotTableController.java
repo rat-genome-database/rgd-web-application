@@ -5,10 +5,13 @@ import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
+import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.DelimitedReportStrategy;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -22,470 +25,44 @@ import java.util.*;
  */
 public class PivotTableController implements Controller {
 
-    PhenominerDAO pdao = new PhenominerDAO();
-
+    PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-
-        ArrayList error = new ArrayList();
-        ArrayList warning = new ArrayList();
-        ArrayList status = new ArrayList();
-
-        String formatStr=req.getParameter("fmt");
-        if (formatStr.equals("")) {
-            formatStr="1";
-        }
-
-        int format = Integer.parseInt(formatStr);
-
-        int speciesTypeKey;
-        String species = req.getParameter("species");
-        if( Utils.isStringEmpty(species) ) {
-            speciesTypeKey = 3;
-        } else {
-            speciesTypeKey = Integer.parseInt(species);
-        }
-
-        int refRgdId;
-        try {
-            refRgdId = Integer.parseInt(req.getParameter("refRgdId"));
-        } catch (NumberFormatException e) {
-            refRgdId = 0;
-        }
-
-        StringBuffer idsWithoutMM = new StringBuffer();
-        List<Record> records;
-        if( refRgdId!=0 ) {
-            records = getRecordsByRefRgdId(refRgdId);
-        } else {
-            records = getRecordsByTerms(req, speciesTypeKey, idsWithoutMM);
-        }
-        Map<String, String> tableColumnsMap=new HashMap<>();
-
-        if(records.size()>0){
-            for(Record record:records){
-                if(record.getExperimentNotes()!=null && !record.getExperimentNotes().equals("") ){
-                    tableColumnsMap.put("expNotes", "");
-                }
-                if(record.getClinicalMeasurement().getNotes()!=null && !record.getClinicalMeasurement().getNotes().equals("") ){
-                    tableColumnsMap.put("cmoNotes", "");
-                }
-                if(record.getSample().getNotes()!=null && !record.getSample().getNotes().equals("") ){
-                    tableColumnsMap.put("rsNotes", "");
-                }
-                if(record.getMeasurementMethod().getNotes()!=null && !record.getMeasurementMethod().getNotes().equals("") ){
-                    tableColumnsMap.put("mmoNotes", "");
-                }
-                if(record.getMeasurementMethod().getPiType()!=null && !record.getMeasurementMethod().getPiType().equals("") ){
-                    tableColumnsMap.put("piType","");
-                }
-                if(record.getMeasurementMethod().getPiTimeValue()!=null && record.getMeasurementMethod().getPiTimeValue()!=0 ){
-                    tableColumnsMap.put("piTime", "");
-                }
-                if(record.getMeasurementMethod().getPiTypeUnit()!=null && !record.getMeasurementMethod().getPiTypeUnit().equals("") ){
-                    tableColumnsMap.put("piTypeUnit", "");
-                }
-                if(record.getClinicalMeasurement().getFormula()!=null && !record.getClinicalMeasurement().getFormula().equals("") ){
-                    tableColumnsMap.put("formula", "");
-                }
-                if(record.getMeasurementSD()!=null && !record.getMeasurementSD().equals("") ){
-                    tableColumnsMap.put("sd", "");
-                }
-                if(record.getMeasurementSem()!=null && !record.getMeasurementSem().equals("") ){
-                    tableColumnsMap.put("sem", "");
-                }
-                if(record.getClinicalMeasurement().getAverageType()!=null && !record.getClinicalMeasurement().getAverageType().equals("") ){
-                    tableColumnsMap.put("averageType", "");
-                }
-                if(record. getMeasurementMethod().getSite()!=null && !record. getMeasurementMethod().getSite().equals("") ){
-                    tableColumnsMap.put("methodSite", "");
-                }
-
-            }
-        }
-
-        Report report = new Report();
-        edu.mcw.rgd.reporting.Record re = new edu.mcw.rgd.reporting.Record();
-
-        if (format > 1) {
-            re.append("Study ID");
-            re.append("Study");
-            re.append("Experiment Name");
-            if(tableColumnsMap.get("expNotes")!=null)
-            re.append("Experiment Notes");
-     //       re.append("Strain Ont ID");
-            re.append("Strain");
-            re.append("Sex");
-            re.append("Age");
-            re.append("# of Animals");
-            if(tableColumnsMap.get("rsNotes")!=null)
-            re.append("Sample Notes");
-     //       re.append("Clinical Measurement Ont ID");
-            re.append("Phenotype");
-            if(tableColumnsMap.get("formula")!=null)
-            re.append("Formula");
-            if(tableColumnsMap.get("cmoNotes")!=null)
-            re.append("Clinical Measurement Notes");
-            if(tableColumnsMap.get("averageType")!=null)
-            re.append("Average Type");
-            re.append("Value");
-            re.append("Units");
-            if(tableColumnsMap.get("sem")!=null)
-            re.append("SEM");
-            if(tableColumnsMap.get("sd")!=null)
-            re.append("SD");
-      //      re.append("Method Ont ID");
-            re.append("Method");
-            if(tableColumnsMap.get("methodSite")!=null)
-            re.append("Method Site");
-            re.append("Method Duration");
-            if(tableColumnsMap.get("mmoNotes")!=null)
-            re.append("Method Notes");
-            if(tableColumnsMap.get("piType")!=null)
-            re.append("Post Insult Type");
-            if(tableColumnsMap.get("piTime")!=null)
-            re.append("Post Insult Time Value");
-            if(tableColumnsMap.get("piTypeUnit")!=null)
-            re.append("Post Insult Time Unit");
-            re.append("Conditions");
-        }else {
-            re.append("# of Animals");
-            re.append("Phenotype");
-            re.append("Strain");
-            re.append("Sex");
-            re.append("Value");
-            re.append("Units");
-            re.append("Conditions");
-        }
-
-        re.append("Record ID");
-        report.append(re);
-
-        HashMap<String, Term> termResolver = new HashMap<String, Term>();
-        List<String> termList = new ArrayList<String>();
-        HashMap<String,String> measurements = new HashMap<String,String>();
-        HashMap<String,String> methods = new HashMap<String,String>();
-        HashMap<String,String> samples = new HashMap<String,String>();
-        HashMap<String,String> conditions =  new HashMap<String,String>();
-
-        double min = 1000000000;
-        double max = -1000000000;
-        int aCodePoint = Character.codePointAt("a", 0);
-
-        Set<String> condColNames = new TreeSet<>();
-        for (Record r: records) {
-            termList.add(r.getSample().getStrainAccId());
-            samples.put(r.getSample().getStrainAccId(), null);
-            termList.add(r.getClinicalMeasurement().getAccId());
-            measurements.put(r.getClinicalMeasurement().getAccId(), null);
-            termList.add(r.getMeasurementMethod().getAccId());
-            methods.put(r.getMeasurementMethod().getAccId(), null);
-
-            String condColName = null;
-            int prevOrdinality = 0;
-            int sameOrdCount = 0;
-
-            for (Condition c : r.getConditions()) {
-                termList.add(c.getOntologyId());
-                conditions.put(c.getOntologyId(), null);
-
-                if( c.getOrdinality() != prevOrdinality ) {
-                    prevOrdinality = c.getOrdinality();
-                    sameOrdCount = 0;
-                    condColName = "Condition "+c.getOrdinality();
-                } else {
-                    sameOrdCount++;
-                    char suffix = (char)(aCodePoint+sameOrdCount);
-                    condColName = "Condition "+c.getOrdinality()+suffix;
-                }
-                condColNames.add(condColName);
-
-            }
-            double thisVal = Double.parseDouble(r.getMeasurementValue());
-
-            if (thisVal < min) {
-                min = thisVal;
-            }
-
-            if (thisVal > max) {
-                max = thisVal;
-            }
-        }
-
-        // emit cond col names
-        emitConditionNames(re, condColNames);
-
-        if( !termList.isEmpty() ) {
-            String[] termIds = new String[termList.size()];
-            termIds = termList.toArray(termIds);
-
-            OntologyXDAO xdao = new OntologyXDAO();
-            List<Term> ontTerms = xdao.getTermByAccId(termIds);
-
-            for (Term term : ontTerms) {
-                termResolver.put(term.getAccId(), term);
-            }
-        }
-
-        String space = format==3 ? " " : "&nbsp;"; // emit plain spaces in generated CSV file
-
-        for (Record r: records) {
-
-            re = new edu.mcw.rgd.reporting.Record();
-
-            if (format > 1) {
-                re.append(r.getStudyId() + "");
-                re.append(r.getStudyName());
-                re.append(r.getExperimentName());
-                if(tableColumnsMap.get("expNotes")!=null)
-                re.append(r.getExperimentNotes());
-          //      re.append(r.getSample().getStrainAccId());
-                StringBuilder builder1=new StringBuilder();
-                builder1.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getSample().getStrainAccId())
-                        .append("'>").append(termResolver.get(r.getSample().getStrainAccId()).getTerm()).append("</a>");
-                re.append(builder1.toString());
-                re.append(r.getSample().getSex());
-
-                int ageDaysHighBound = r.getSample().getAgeDaysFromHighBound()==null ? 0 : r.getSample().getAgeDaysFromHighBound();
-                int ageDaysLowBound = r.getSample().getAgeDaysFromLowBound()==null ? 0 : r.getSample().getAgeDaysFromLowBound();
-                if( ageDaysHighBound==ageDaysLowBound ) {
-                    re.append(ageDaysHighBound + space + "days");
-                }else {
-                    re.append(ageDaysHighBound + space + "days to " + ageDaysLowBound + space + "days");
-                }
-
-                if(r.getSample().getNumberOfAnimals().equals(0) || r.getSample().getNumberOfAnimals() == 0 || r.getSample().getNumberOfAnimals() == null)
-                    re.append("N/A");
-                else
-                    re.append(r.getSample().getNumberOfAnimals() + "");
-                if(tableColumnsMap.get("rsNotes")!=null)
-                re.append(r.getSample().getNotes());
-           //     re.append(r.getClinicalMeasurement().getAccId());
-           //     re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
-                StringBuilder builder2=new StringBuilder();
-                builder2.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getClinicalMeasurement().getAccId())
-                        .append("'>").append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm()).append("</a>");
-
-                re.append(builder2.toString());
-                if(tableColumnsMap.get("formula")!=null)
-
-                    re.append(r.getClinicalMeasurement().getFormula());
-                if(tableColumnsMap.get("cmoNotes")!=null)
-                re.append(r.getClinicalMeasurement().getNotes());
-                if(tableColumnsMap.get("averageType")!=null)
-
-                    re.append(r.getClinicalMeasurement().getAverageType());
-                re.append(r.getMeasurementValue());
-                re.append(r.getMeasurementUnits());
-                if(tableColumnsMap.get("sem")!=null)
-                re.append(this.round(r.getMeasurementSem(),4));
-                if(tableColumnsMap.get("sd")!=null)
-                re.append(this.round(r.getMeasurementSD(),4));
-           //     re.append(r.getMeasurementMethod().getAccId());
-           //     re.append(termResolver.get(r.getMeasurementMethod().getAccId()).getTerm());
-                StringBuilder builder3=new StringBuilder();
-                builder3.append("<a href='/rgdweb/ontology/annot.html?acc_id=").append(r.getMeasurementMethod().getAccId())
-                        .append("'>").append(termResolver.get(r.getMeasurementMethod().getAccId()).getTerm()).append("</a>");
-
-                re.append(builder3.toString());
-                if(tableColumnsMap.get("methodSite")!=null)
-
-                    re.append(r.getMeasurementMethod().getSite());
-                re.append(r.getMeasurementMethod().getDuration());
-                if(tableColumnsMap.get("mmoNotes")!=null)
-                re.append(r.getMeasurementMethod().getNotes());
-                if(tableColumnsMap.get("piType")!=null)
-                re.append(r.getMeasurementMethod().getPiType());
-                if(tableColumnsMap.get("piTime")!=null)
-                re.append(r.getMeasurementMethod().getPiTimeValue() + "");
-                if(tableColumnsMap.get("piTypeUnit")!=null)
-                re.append(r.getMeasurementMethod().getPiTypeUnit());
-                re.append(r.getConditionDescription());
-
-                re.append(r.getId() + "");
-
-            }else {
-                if(r.getSample().getNumberOfAnimals().equals(0) || r.getSample().getNumberOfAnimals() == 0 || r.getSample().getNumberOfAnimals() == null)
-                    re.append("N/A");
-                else
-                    re.append(r.getSample().getNumberOfAnimals() + "");
-
-                re.append(termResolver.get(r.getClinicalMeasurement().getAccId()).getTerm());
-                re.append(termResolver.get(r.getSample().getStrainAccId()).getTerm());
-                re.append(r.getSample().getSex());
-                re.append(r.getMeasurementValue());
-                re.append(r.getMeasurementUnits());
-                re.append(r.getConditionDescription());
-                re.append(r.getId() + "");
-
-            }
-
-            emitConditions(re, condColNames, r);
-
-            report.append(re);
-        }
-
-        if (format == 3) {
-            response.setContentType("application/csv");
-            response.setHeader("Content-Disposition","filename=phenominer.csv");
-            DelimitedReportStrategy drs = new DelimitedReportStrategy();
-            drs.setDelimiter(",");
-            response.getWriter().print(drs.format(report));
-            return null;
-        }
-
-        request.setAttribute("error", error);
-        request.setAttribute("status", status);
-        request.setAttribute("warn", warning);
-        request.setAttribute("report",report);
-        request.setAttribute("termResolver", termResolver);
-        request.setAttribute("methods", methods);
-        request.setAttribute("conditions", conditions);
-        request.setAttribute("samples",samples);
-        request.setAttribute("measurements", measurements);
-        //request.setAttribute("ageRanges", ageRanges);
-        request.setAttribute("minValue",min);
-        request.setAttribute("maxValue",max);
-        request.setAttribute("refRgdId", refRgdId);
-
-        request.setAttribute("idsWithoutMM",idsWithoutMM.toString());
-
-        return new ModelAndView("/WEB-INF/jsp/phenominer/table.jsp", "", null);
+        PhenominerService.setPhenominerIndex("phenominer_index_dev");
+        SearchResponse sr=service.getSearchResponse(req);
+       // service.getAggregations(req);
+        Map<String, List<Terms.Bucket>>aggregations=service.getSearchAggregations(sr);
+        request.setAttribute("aggregations",aggregations);
+        request.setAttribute("sr", sr);
+        System.out.println("TOTAL HITS:"+ sr.getHits().getTotalHits());
+        return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
     }
+    public Map<String, String> getFilterMap(HttpServletRequest req){
+        Map<String, String> filterMap=new HashMap<>();
+        Map<String, String> mappings=new HashMap<>();
+        Map<String, String> selectedFilters=new HashMap<>();
+        filterMap.put("cmoTerm","");
+        filterMap.put("mmoTerm","");
+        filterMap.put("xcoTerm","");
+        filterMap.put("rsTerm","");
+        filterMap.put("sex","");
+        filterMap.put("units","");
 
-    void emitConditionNames(edu.mcw.rgd.reporting.Record re, Set<String> condColNames) {
-
-        // condColNames has data like this: 'Condition 1', 'Condition 1b', 'Condition 2', ...
-        // we need to have:
-        // 'Condition 1a', 'Condition 1b', 'Condition 2', ...
-    Iterator<String> it = condColNames.iterator();
-        String prev = "";
-        if(it.hasNext())
-            prev = it.next();
-    String curr = "";
-
-    while (it.hasNext()) {
-        curr = it.next();
-
-        if ((prev + "b").equals(curr)) {
-            re.append(prev + "a");
-        } else {
-            re.append(prev);
+        for(String param:filterMap.keySet())
+        {
+            if (req.getParameterValues(param) != null) {
+                List<String> values = Arrays.asList(req.getParameterValues(param));
+                if (values.size() > 0) {
+                    filterMap.put(param, String.join(",", values));
+                    selectedFilters.put(param, String.join(",", values));
+                }
+            }
         }
-        prev = curr;
-    }
+        req.setAttribute("selectedFilters", selectedFilters);
 
-    re.append(curr);
-
+        return filterMap;
     }
 
 
-    void emitConditions(edu.mcw.rgd.reporting.Record re, Set<String> condColNames, Record r ) throws Exception {
-
-        int aCodePoint = Character.codePointAt("a", 0);
-
-        // emit conditions
-        String condColName;
-        int prevOrdinality = 0;
-        int sameOrdCount = 0;
-
-        Iterator<String> it = condColNames.iterator();
-
-        for (Condition c : r.getConditions()) {
-
-            if( c.getOrdinality() != prevOrdinality ) {
-                prevOrdinality = c.getOrdinality();
-                sameOrdCount = 0;
-                condColName = "Condition "+c.getOrdinality();
-            } else {
-                sameOrdCount++;
-                char suffix = (char)(aCodePoint+sameOrdCount);
-                condColName = "Condition "+c.getOrdinality()+suffix;
-            }
-
-            // emit empty cells until condition matches
-            String colName = it.next();
-            while( !colName.equals(condColName) ) {
-                re.append("");
-                colName = it.next();
-            }
-            re.append(c.getConditionDescription2());
-        }
-
-        while( it.hasNext() ) {
-            re.append("");
-            it.next();
-        }
-    }
-
-    List<Record> getRecordsByTerms(HttpRequestFacade req, int speciesTypeKey, StringBuffer idsWithoutMM) throws Exception {
-        List<String> sampleIds = new ArrayList<String>();
-        List mmIds = new ArrayList<String>();
-        List cmIds = new ArrayList<String>();
-        List ecIds = new ArrayList<String>();
-
-        String termString = req.getParameter("terms");
-
-        String[] terms = termString.split(",");
-
-        for (int j=0; j< terms.length; j++) {
-            String[] termParts = terms[j].split(":");
-
-            while (termParts[1].length()<7) {
-                termParts[1]="0" + termParts[1];
-            }
-
-            terms[j] = termParts[0] + ":" + termParts[1];
-        }
-
-        int count=0;
-
-        for( String term: terms ) {
-            if (term.startsWith("RS") || term.startsWith("CS")) {
-                sampleIds.add(term);
-            } else if (term.startsWith("CMO")) {
-                cmIds.add(term);
-            } else if (term.startsWith("MMO")) {
-                mmIds.add(term);
-            } else if (term.startsWith("XCO")) {
-                ecIds.add(term);
-            }
-
-
-            if (!term.startsWith("CMO")) {
-                if (count == 0) {
-                    idsWithoutMM.append(term);
-                } else {
-                    idsWithoutMM.append(",").append(term);
-                }
-                count++;
-            }
-        }
-
-        List<Record> records = pdao.getFullRecords(sampleIds,mmIds,cmIds,ecIds, speciesTypeKey);
-        return records;
-    }
-
-    List<Record> getRecordsByRefRgdId(int refRgdId) throws Exception {
-        return pdao.getFullRecords(refRgdId);
-    }
-
-    public double round(double value, int numberOfDigitsAfterDecimalPoint) {
-        BigDecimal bigDecimal = new BigDecimal(value);
-        bigDecimal = bigDecimal.setScale(numberOfDigitsAfterDecimalPoint,
-                BigDecimal.ROUND_HALF_UP);
-        return bigDecimal.doubleValue();
-    }
-
-    public String round(String value, int numberOfDigitsAfterDecimalPoint) {
-        if (value == null || value.equals("")) {
-            return "";
-        }
-
-        BigDecimal bigDecimal = new BigDecimal(value);
-        bigDecimal = bigDecimal.setScale(numberOfDigitsAfterDecimalPoint,
-                BigDecimal.ROUND_HALF_UP);
-        return bigDecimal.doubleValue() + "";
-    }
 
 }
