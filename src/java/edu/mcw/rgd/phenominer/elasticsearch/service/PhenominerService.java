@@ -1,16 +1,13 @@
 package edu.mcw.rgd.phenominer.elasticsearch.service;
 
 
-import com.google.gson.Gson;
-import edu.mcw.rgd.datamodel.*;
+
 
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.vv.VVException;
-import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -18,7 +15,6 @@ import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -27,8 +23,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +39,9 @@ public class PhenominerService {
     }
 
 
-    public SearchResponse getSearchResponse(HttpRequestFacade req) throws VVException, IOException {
+    public SearchResponse getSearchResponse(HttpRequestFacade req, Map<String,String> filterMap) throws VVException, IOException {
 
-        BoolQueryBuilder builder=this.boolQueryBuilder(req);
+        BoolQueryBuilder builder=this.boolQueryBuilder(req, filterMap);
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
         srb.size(10000);
@@ -75,10 +70,15 @@ public class PhenominerService {
 
         return aggs;
     }
-    public BoolQueryBuilder boolQueryBuilder(HttpRequestFacade req){
+    public BoolQueryBuilder boolQueryBuilder(HttpRequestFacade req, Map<String, String> filterMap){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery( req));
+        if(filterMap!=null && filterMap.size()>0)
+            for(String key:filterMap.keySet()){
+               builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
+            }
+        System.out.println(builder);
         return builder;
     }
     public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
@@ -90,40 +90,61 @@ public class PhenominerService {
     }
     public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
+        if(sr!=null && sr.getAggregations()!=null){
         Terms cmoAggs=sr.getAggregations().get("cmoTerm");
+        if(cmoAggs!=null){
         aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
         for(Terms.Bucket bkt:cmoAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
+        }}
         Terms mmoAggs=sr.getAggregations().get("mmoTerm");
+        if(mmoAggs!=null){
         aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
         for(Terms.Bucket bkt:mmoAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
+        }}
         Terms xcoAggs=sr.getAggregations().get("xcoTerm");
+        if(xcoAggs!=null){
         aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
         for(Terms.Bucket bkt:xcoAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
+        }}
         Terms rsTermAggs=sr.getAggregations().get("rsTerm");
+        if(rsTermAggs!=null){
         aggregations.put("rsTermBkts", (List<Terms.Bucket>) rsTermAggs.getBuckets());
         for(Terms.Bucket bkt:rsTermAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
+        }}
         Terms sexAggs=sr.getAggregations().get("sex");
+        if(sexAggs!=null){
         aggregations.put("sexBkts", (List<Terms.Bucket>) sexAggs.getBuckets());
         for(Terms.Bucket bkt:sexAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
+        }}
         Terms unitsAggs=sr.getAggregations().get("units");
-        aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
-        for(Terms.Bucket bkt:unitsAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }
-        Gson gson=new Gson();
-        System.out.println(gson.toJson(aggregations));
+        if(unitsAggs!=null) {
+            aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
+            for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
+                System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
+            }
+        }}
         return aggregations;
     }
 
+    public SearchResponse getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException {
 
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        if(filterMap.size()==1) {
+            srb.query(this.boolQueryBuilder(req, filterMap));
+            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
+            srb.aggregation(this.buildAggregations(filterMap.entrySet().iterator().next().getKey()));
+        }
+
+        srb.size(0);
+        SearchRequest searchRequest=new SearchRequest(phenominerIndex);
+        searchRequest.source(srb);
+
+        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
+    }
 }

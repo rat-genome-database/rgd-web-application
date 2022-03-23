@@ -26,20 +26,15 @@
     document.body.style.backgroundColor="white";
 </script>
 
-<script>
 
-</script>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
 <div class="row" id="phenoController">
 
     <div class=" sidebar">
-        <!--div class="sidebar-sticky"-->
         <%@include file="sideBar.jsp"%>
-
-        <!--/div-->
     </div>
-    <main role="main" class="" id="results">
+    <main role="main" class="col" id="results">
         <%@include file="phenominerChart.jsp"%>
     </main>
 </div>

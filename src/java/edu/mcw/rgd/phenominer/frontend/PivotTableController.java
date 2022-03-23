@@ -20,18 +20,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.*;
 
-/**
- * Created by jdepons on 5/11/2017.
- */
+
 public class PivotTableController implements Controller {
 
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
         PhenominerService.setPhenominerIndex("phenominer_index_dev");
-        SearchResponse sr=service.getSearchResponse(req);
-       // service.getAggregations(req);
+        SearchResponse sr=service.getSearchResponse(req, getFilterMap(request));
         Map<String, List<Terms.Bucket>>aggregations=service.getSearchAggregations(sr);
+        boolean facetSearch=req.getParameter("facetSearch").equals("true");
+        if(facetSearch) {
+            System.out.println("FACET SEARCH: "+ facetSearch);
+            SearchResponse searchResponse= service.getFilteredAggregations(getFilterMap(request),req);
+                if(searchResponse!=null) {
+                    Map<String, List<Terms.Bucket>> filtered = service.getSearchAggregations(searchResponse);
+                    aggregations.putAll(filtered);
+                }
+
+
+        }
         request.setAttribute("aggregations",aggregations);
         request.setAttribute("sr", sr);
         System.out.println("TOTAL HITS:"+ sr.getHits().getTotalHits());
@@ -39,16 +47,11 @@ public class PivotTableController implements Controller {
     }
     public Map<String, String> getFilterMap(HttpServletRequest req){
         Map<String, String> filterMap=new HashMap<>();
-        Map<String, String> mappings=new HashMap<>();
         Map<String, String> selectedFilters=new HashMap<>();
-        filterMap.put("cmoTerm","");
-        filterMap.put("mmoTerm","");
-        filterMap.put("xcoTerm","");
-        filterMap.put("rsTerm","");
-        filterMap.put("sex","");
-        filterMap.put("units","");
+        List<String> params=new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm","xcoTerm","rsTerm","sex","units"));
 
-        for(String param:filterMap.keySet())
+
+        for(String param:params)
         {
             if (req.getParameterValues(param) != null) {
                 List<String> values = Arrays.asList(req.getParameterValues(param));

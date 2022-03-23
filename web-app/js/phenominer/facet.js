@@ -1,6 +1,4 @@
-$(".form-check-input").on("change",function () {
-    $('form ').submit();
-})
+
 $.each($('input[name="cmoTerm"]'), function() {
     var _this = $(this);
     var val = _this.val();

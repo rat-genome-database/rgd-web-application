@@ -1,7 +1,19 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script>
 
+
+        selectedCmo= "${selectedFilters.cmoTerm}";
+        selectedRs ="${selectedFilters.rsTerm}";
+        selectedMmo= "${selectedFilters.mmoTerm}";
+        selectedXco ="${selectedFilters.xcoTerm}";
+        selectedSex ="${selectedFilters.sex}";
+        selectedUnits="${selectedFilters.units}";
+
+
+
+</script>
 <style>
     body {
         font-family: "Lato", sans-serif;
@@ -148,7 +160,7 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <form action="/rgdweb/phenominer/table.html?species=3" method="get" >
+    <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?species=3" method="get" >
         <input type="hidden" name="terms" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
     <table align="center" border="0" style="margin-left:35px;">
@@ -160,7 +172,7 @@
                     <tr>
                         <td ><div class="recordFilterTitle">
 
-                            <input  id="phenotype"  type="checkbox" checked>&nbsp;
+                            <input  id="phenotype"  type="checkbox" >&nbsp;
 
                             Phenotypes</div></td>
                     </tr>
@@ -171,7 +183,7 @@
                                     <c:forEach items="${aggregations.cmoTermBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input onclick="applyFilters(this)" name="cmoTerm"  type="checkbox" checked>&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -192,7 +204,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input  id="allCellTypes"  type="checkbox" checked>&nbsp;
+                            <input  id="allCellTypes"  type="checkbox" >&nbsp;
                             Strains</div></td>
                     </tr>
                     <tr>
@@ -203,7 +215,7 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input onclick="applyFilters(this)" name="rsTerm"  type="checkbox" checked>&nbsp;${rsBkt.key}&nbsp;(${rsBkt.docCount})
+                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;(${rsBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -224,7 +236,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input  id="alleditors"  type="checkbox" checked>&nbsp;
+                            <input  id="alleditors"  type="checkbox" >&nbsp;
 
                             Methods</div></td>
                     </tr>
@@ -236,7 +248,7 @@
                                     <c:forEach items="${aggregations.mmoTermBkts}" var="mmoBkt" >
                                         <tr>
                                             <td>
-                                                <input onclick="applyFilters(this)" name="mmoTerm"  type="checkbox" checked>&nbsp;${mmoBkt.key}&nbsp;(${mmoBkt.docCount})
+                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;(${mmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -256,7 +268,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input   type="checkbox" checked>&nbsp;
+                            <input   type="checkbox" >&nbsp;
 
                             Conditions
                         </div></td>
@@ -269,7 +281,7 @@
                                     <c:forEach items="${aggregations.xcoTermBkts}" var="xcoBkt" >
                                         <tr>
                                             <td>
-                                                <input onclick="applyFilters(this)" name="xcoTerm"  type="checkbox" checked>&nbsp;${xcoBkt.key}&nbsp;(${xcoBkt.docCount})
+                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;(${xcoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -290,7 +302,7 @@
                     <tr>
                         <td><div class="recordFilterTitle">
 
-                            <input  type="checkbox" checked>&nbsp;
+                            <input  type="checkbox" >&nbsp;
 
                             Age</div></td>
                     </tr>
@@ -301,7 +313,7 @@
 
                                     <tr>
                                         <td>
-                                            <input  name="age" type="checkbox" checked>age1
+                                            <input class="formCheckInput" name="age" type="checkbox" >age1
                                         </td>
                                     </tr>
 
@@ -320,7 +332,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input   type="checkbox" checked>&nbsp;
+                            <input   type="checkbox" >&nbsp;
 
                             Sex</div></td>
                     </tr>
@@ -332,7 +344,7 @@
                                     <c:forEach items="${aggregations.sexBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input  name="sex"  type="checkbox" checked>&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                <input class="formCheckInput" name="sex"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -352,7 +364,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input   type="checkbox" checked>&nbsp;
+                            <input   type="checkbox" >&nbsp;
 
                             Units</div></td>
                     </tr>
@@ -364,7 +376,7 @@
                                     <c:forEach items="${aggregations.unitBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input  name="units"  type="checkbox" checked>&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -384,5 +396,9 @@
 </div>
 <script>
     setTimeout(openNav,1000);
-
+    $(".formCheckInput").on("change",function () {
+        $('#phenominerReportForm').submit();
+    })
 </script>
+
+<script src="/rgdweb/js/phenominer/facet.js"></script>
