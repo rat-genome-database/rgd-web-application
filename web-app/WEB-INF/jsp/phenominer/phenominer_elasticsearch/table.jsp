@@ -20,7 +20,9 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
+
+
 
 <script>
     document.body.style.backgroundColor="white";
@@ -35,6 +37,7 @@
         <%@include file="sideBar.jsp"%>
     </div>
     <main role="main" class="col" id="results">
+        <%@include file="chartjs.jsp"%>
         <%@include file="phenominerChart.jsp"%>
     </main>
 </div>
