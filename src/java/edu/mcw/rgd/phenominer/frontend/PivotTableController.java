@@ -9,6 +9,7 @@ import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PlotValues;
 import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
+import edu.mcw.rgd.phenominer.elasticsearch.service.PlotData;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.DelimitedReportStrategy;
 import edu.mcw.rgd.reporting.Report;
@@ -21,12 +22,15 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PivotTableController implements Controller {
-
+    HashMap<Integer, String> colorMap=new HashMap<>();
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -45,34 +49,75 @@ public class PivotTableController implements Controller {
 
         }
         Gson gson=new Gson();
-        Colors colors=new Colors();
-        Set<String> labels=new HashSet<>();
-        request.setAttribute("plotData", getPlotData(sr,labels));
+
+        List<String> labels=new ArrayList<>();
+        List<String> backgroundColors=new ArrayList<>();
+        Map<String, String> colors=new HashMap<>();
+        request.setAttribute("plotData", getPlotData(sr,labels, backgroundColors,colors));
+      //  request.setAttribute("colors", Colors.colors);
+        request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
+        request.setAttribute("legend", colors);
         request.setAttribute("labels",gson.toJson( labels));
-        request.setAttribute("colors", colors.colors);
         request.setAttribute("aggregations",aggregations);
         request.setAttribute("sr", sr);
+        request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
         System.out.println("TOTAL HITS:"+ sr.getHits().getTotalHits());
-        System.out.println("COLORS:"+ gson.toJson(colors.colors));
+    //    System.out.println("COLORS:"+ gson.toJson(colors.colors));
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
     }
-    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, Set<String> labels){
+    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> colors) throws Exception {
         LinkedHashMap<String, List<Double>> plotData=new LinkedHashMap<>();
+        List<Double> values=new ArrayList<>();
+        int i=0;
         for(SearchHit hit:sr.getHits().getHits()){
-         double sd= Double.valueOf((String) hit.getSourceAsMap().get("sd"));
+         double value= Double.valueOf((String) hit.getSourceAsMap().get("value"));
          String strain= (String) hit.getSourceAsMap().get("rsTerm");
-         String condition=  hit.getSourceAsMap().get("xcoTerm").toString();
-         List<Double> values=new ArrayList<>();
-         if(plotData.get(condition)!=null){
-             values.addAll(plotData.get(condition));
-         }
-         values.add(sd);
-         labels.add(strain+"_"+hit.getSourceAsMap().get("sex"));
-         plotData.put(condition,values );
+         String sex= (String) hit.getSourceAsMap().get("sex");
+         int noOfAnimals= (int) hit.getSourceAsMap().get("numberOfAnimals");
+       List<String> conditions= (List<String>) hit.getSourceAsMap().get("xcoTerm");
+        String condition=conditions.stream().collect(Collectors.joining(", "));
+        if(!colors.containsKey(condition)){
+            colors.put(condition,Colors.colors.get(i));
+            backgroundColors.add(Colors.colors.get(i));
+
+            i++;
+        }else{
+            backgroundColors.add(colors.get(condition));
         }
+      /*   List<Double> values=new ArrayList<>();
+         if(plotData.get(strain)!=null){
+             values.addAll(plotData.get(strain));
+         }*/
+         values.add(value);
+         labels.add(strain+"_"+sex +"_animals("+noOfAnimals+")");
+       //  plotData.put(strain,values );
+        }
+
+        plotData.put("Values",values );
+
         Gson gson=new Gson();
         System.out.println(gson.toJson(plotData));
-       return plotData;
+        System.out.println("COLORS:"+gson.toJson(colors));
+    /*    List<PlotData> dataSet=new ArrayList<>();
+        int i=0;
+        for(Map.Entry entry:plotData.entrySet()) {
+            PlotData data = new PlotData();
+            String label = (String) entry.getKey();
+            data.setLabel(label);
+            data.setData((List<Double>) entry.getValue());
+            data.setBackgroundColor( Colors.colors.get(i));
+            data.setBorderWidth(2);
+            data.setBorderColor(Colors.colors.get(i));
+            dataSet.add(data);
+
+            i++;
+        }*/
+
+   //     System.out.println("COLORS WORKING:"+gson.toJson(Colors.colors));
+
+  //      System.out.println(gson.toJson(plotData));
+
+        return plotData;
     }
     public Map<String, String> getFilterMap(HttpServletRequest req){
         Map<String, String> filterMap=new HashMap<>();

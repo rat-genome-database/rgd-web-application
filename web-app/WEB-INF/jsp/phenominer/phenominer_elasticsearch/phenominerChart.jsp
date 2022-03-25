@@ -1,30 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="/rgdweb/common/tablesorter-2.18.4/js/tablesorter.js"> </script>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
-
-
-<script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
-<link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 
 <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.dark.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.ice.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.green.css" rel="stylesheet" type="text/css"/>
+
 
 <script>
-    $(function() {
-        $("#phenoTable").tablesorter({
+    $(function () {
+        $("#mytable").tablesorter({
             theme: 'blue',
             widthFixed: false,
             widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
 
-        });
+        })
     })
 </script>
-<h3>${sr.hits.totalHits}</h3>
-<table id="phenoTable" class="tablesorter tablesorter-blue">
+<table id="mytable" class="tablesorter">
+    <thead>
         <tr>
             <th>Record ID</th>
             <th>Study ID</th>
@@ -53,6 +47,8 @@
             <th>Post Insult Time Unit</th>
             <th>Conditions</th>
         </tr>
+    </thead>
+    <tbody>
         <c:forEach items="${sr.hits.hits}" var="hit">
             <tr>
                 <td>${hit.sourceAsMap.recordId}</td>
@@ -83,5 +79,5 @@
                 <td>${hit.sourceAsMap.xcoTerm}</td>
             </tr>
         </c:forEach>
-
+    </tbody>
 </table>

@@ -10,7 +10,6 @@
 
 <meta name="referrer" content="no-referrer" />
 
-<script src="https://d3js.org/d3.v4.min.js"></script>
 
 <%
 
@@ -20,13 +19,10 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="/rgdweb/common/chartjs/chartjs-error-bars.js"></script>
 
-
-<script>
-    document.body.style.backgroundColor="white";
-</script>
 
 
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
@@ -37,7 +33,25 @@
         <%@include file="sideBar.jsp"%>
     </div>
     <main role="main" class="col" id="results">
+        <h3>${sr.hits.totalHits}</h3>
+        <c:choose>
+        <c:when test="${fn:length(aggregations.unitBkts)==1}">
+        <div class="container">
+            <div class="row" style="text-align: center">
+                <c:forEach items="${legend}" var="color">
+
+                    <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value}"></div>
+                    <div class="col-xs-1">&nbsp;${color.key}</div>&nbsp;
+
+                </c:forEach>
+            </div>
+        </div>
         <%@include file="chartjs.jsp"%>
+        </c:when>
+            <c:otherwise>
+                <h4 style="font-weight: bold;color:red">Limit the units to one to view the plot</h4>
+            </c:otherwise>
+        </c:choose>
         <%@include file="phenominerChart.jsp"%>
     </main>
 </div>

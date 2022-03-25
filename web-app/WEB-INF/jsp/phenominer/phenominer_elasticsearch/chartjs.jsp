@@ -2,14 +2,11 @@
     <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
 <script>
     $(function () {
-
-
-    var ctx = document.getElementById("resultChart");
-    var myChart = new Chart(ctx, {
+        var ctx = document.getElementById("resultChart");
+        var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ${labels},
@@ -95,11 +92,24 @@
                 intersect: false
             },
             legend: {
-                display: true
+                display: false
+            }
+            ,
+            plugins: {
+                chartJsPluginErrorBars: {
+                    color: 'black',
+                }
             }
         }
     });
-    })
+
+
+
+    });
+
+
+
+
     function getRandomColor() {
         var letters = 'BCDEF'.split('');
         var color = '#';
@@ -109,26 +119,28 @@
         return color;
     }
 
-
-
     function generateData() {
 
         var data=[];
+        <c:set var="i" value="0"/>
         <c:forEach items="${plotData}" var="plot">
         data.push({
             label: "${plot.key}",
             data: ${plot.value},
-            backgroundColor: getRandomColor(),
-            borderColor:    getRandomColor(),
+            errorColumn:"value",
+            errorBars:  {
+                plus: 0.8,
+                minus:0-0.8
+            },
+            backgroundColor: ${backgroundColor},
+
             borderWidth: 1
         });
+        <c:set var="i" value="${i+1}"/>
         </c:forEach>
-
-
-
-
         return data;
     }
+
 
 
 </script>

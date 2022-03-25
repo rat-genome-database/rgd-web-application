@@ -57,10 +57,6 @@ public class PhenominerService {
         return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
-
-
-
-
     public AggregationBuilder buildAggregations(String fieldName){
         AggregationBuilder aggs= null;
 
@@ -82,9 +78,12 @@ public class PhenominerService {
         return builder;
     }
     public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
-
+        System.out.println();
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        dqb.add(QueryBuilders.matchAllQuery());
+        dqb.add(QueryBuilders.termsQuery("cmoTermAcc.keyword", req.getParameter("terms").split(",")));
+        dqb.add(QueryBuilders.termsQuery("mmoTermAcc.keyword", req.getParameter("terms").split(",")));
+        dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
+        dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
         return dqb;
 
     }
