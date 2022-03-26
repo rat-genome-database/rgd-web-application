@@ -12,11 +12,17 @@
         $("#mytable").tablesorter({
             theme: 'blue',
             widthFixed: false,
-            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
+            widgets: ['zebra','resizable', 'stickyHeaders'],
 
         })
-    })
+
+    .bind("sortEnd",function(e, t) {
+        updateChart();
+        });
+    });
+
 </script>
+<div id="display"></div>
 <table id="mytable" class="tablesorter">
     <thead>
         <tr>

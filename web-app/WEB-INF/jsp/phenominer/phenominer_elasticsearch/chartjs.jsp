@@ -1,10 +1,11 @@
+
 <div class="chart-container" id = "chartDiv">
     <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
 
 </div>
 
 <script>
-    $(function () {
+
         var ctx = document.getElementById("resultChart");
         var myChart = new Chart(ctx, {
         type: 'bar',
@@ -43,7 +44,7 @@
                     }
                 }],
                 yAxes: [{
-                    id: 'delivery',
+
                     type: 'linear',
                     position: 'left',
                     ticks: {
@@ -51,21 +52,6 @@
                     },
                     scaleLabel: {
                         display: true,
-                        fontSize: 14,
-                        fontStyle: 'bold',
-                        fontFamily: 'Calibri'
-                    }
-                }, {
-                    id: 'editing',
-                    display: false,
-                    type: 'linear',
-                    position: 'right',
-                    ticks: {
-                        beginAtZero: true
-                    },
-                    scaleLabel: {
-                        display: true,
-
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
@@ -101,14 +87,84 @@
                 }
             }
         }
-    });
+        });
+        function updateChart() {
+            var rowLength=document.getElementById("mytable").rows.length;
+            var sortedValues=[];
+            for(var i=1;i<rowLength;i++){
+                var value= document.getElementById("mytable").rows[i].cells.item(14).innerHTML;
+                //console.log(value);
+                sortedValues.push(value);
+            }
+            arrayLabel = ${labels}
+                <c:forEach items="${plotData}" var="plot">
+                arrayData = ${plot.value}
+                    </c:forEach>
+                    arrayColors=${backgroundColor}
+
+                        arrayOfObj = arrayLabel.map(function(d, i) {
+                            return {
+                                label: d,
+                                data: arrayData[i] || 0,
+                                bgColor:arrayColors[i]
+                            };
+                        });
+
+            /*   sortedArrayOfObj = arrayOfObj.sort(function(a, b) {
+                   return b.data - a.data;
+               });
+           */
+            sortedArrayOfObj=sortByValues(sortedValues, arrayOfObj);
+            newArrayLabel = [];
+            newArrayData = [];
+            newArrayBackgroundColor = [];
+            var data=[];
+            sortedArrayOfObj.forEach(function(d){
+                newArrayLabel.push(d.label);
+                newArrayData.push(d.data);
+                newArrayBackgroundColor.push(d.bgColor);
+
+
+            });
+            console.log(newArrayLabel);
+            console.log(newArrayData);
+            console.log(newArrayBackgroundColor);
+
+            myChart.data.labels=newArrayLabel;
+
+            //  myChart.data.backgroundColor=newArrayBackgroundColor;
+            data.push({
+                data: newArrayData ,
+                errorColumn:"value",
+                errorBars:  {
+                    plus: 0.8,
+                    minus:0-0.8
+                },
+                backgroundColor:newArrayBackgroundColor,
+
+                borderWidth: 1
+            });
+
+
+            myChart.data.datasets=data;
+            myChart.update();
+            document.getElementById("chartDiv").style.display = "block";
+            document.getElementById("resultChart").style.display = "block";
+        }
 
 
 
-    });
-
-
-
+        function sortByValues(sortedValues, arrayOfObj) {
+            var sortedObjArray=[];
+            for(var i=0;i<sortedValues.length;i++){
+                for(var j=0;j<arrayOfObj.length;j++){
+                    if(arrayOfObj[j].data==sortedValues[i]){
+                        sortedObjArray.push(arrayOfObj[j])
+                    }
+                }
+            }
+            return sortedObjArray;
+        }
 
     function getRandomColor() {
         var letters = 'BCDEF'.split('');
@@ -122,7 +178,7 @@
     function generateData() {
 
         var data=[];
-        <c:set var="i" value="0"/>
+
         <c:forEach items="${plotData}" var="plot">
         data.push({
             label: "${plot.key}",
@@ -136,7 +192,7 @@
 
             borderWidth: 1
         });
-        <c:set var="i" value="${i+1}"/>
+
         </c:forEach>
         return data;
     }
