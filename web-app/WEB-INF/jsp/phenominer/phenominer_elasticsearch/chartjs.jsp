@@ -21,7 +21,6 @@
                     gridLines: {
                         color: "rgba(0, 0, 0, 0)"
                     },
-
                     scaleLabel: {
                         display: true,
                         labelString: 'Experiment Conditions',
@@ -29,8 +28,6 @@
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
                     },
-
-
                     ticks:{
                         fontColor: "rgb(0,75,141)",
                         fontSize: 10,
@@ -44,7 +41,6 @@
                     }
                 }],
                 yAxes: [{
-
                     type: 'linear',
                     position: 'left',
                     ticks: {
@@ -66,9 +62,8 @@
                     },
                     afterLabel: function(tooltipItem) {
                         var index = tooltipItem.index;
-                        return index;
+                        return getDetails(index);
                     }
-
                 }
 
             },
@@ -88,6 +83,7 @@
             }
         }
         });
+
         function updateChart() {
             var rowLength=document.getElementById("mytable").rows.length;
             var sortedValues=[];
@@ -132,19 +128,12 @@
 
             myChart.data.labels=newArrayLabel;
 
-            //  myChart.data.backgroundColor=newArrayBackgroundColor;
             data.push({
                 data: newArrayData ,
-                errorColumn:"value",
-                errorBars:  {
-                    plus: 0.8,
-                    minus:0-0.8
-                },
                 backgroundColor:newArrayBackgroundColor,
 
                 borderWidth: 1
             });
-
 
             myChart.data.datasets=data;
             myChart.update();
@@ -174,20 +163,35 @@
         }
         return color;
     }
-
+        function getDetails(index) {
+            var table = document.getElementById('mytable');
+            var j = 0;
+            var detail = [];
+            var rowLength = table.rows.length;
+            var avgIndex = table.rows.item(0).cells.length;
+            for (i = 1; i < rowLength; i++) {
+                if (table.rows.item(i).style.display !== 'none') {
+                    if (j === index) {
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(value!='' && label!='Value')
+                            detail.push(label + ':' + value) ;
+                        }
+                    }
+                    j++;
+                }
+            }
+            return detail;
+        }
     function generateData() {
-
         var data=[];
-
+        errorBars=${errorBars}
         <c:forEach items="${plotData}" var="plot">
         data.push({
             label: "${plot.key}",
             data: ${plot.value},
-            errorColumn:"value",
-            errorBars:  {
-                plus: 0.8,
-                minus:0-0.8
-            },
+            errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
 
             borderWidth: 1
@@ -196,7 +200,4 @@
         </c:forEach>
         return data;
     }
-
-
-
 </script>
