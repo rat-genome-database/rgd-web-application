@@ -134,7 +134,7 @@ public class PhenominerService {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         if(filterMap.size()==1) {
-            srb.query(this.boolQueryBuilder(req, filterMap));
+            srb.query(this.boolQueryBuilder(req, null));
             System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
             srb.aggregation(this.buildAggregations(filterMap.entrySet().iterator().next().getKey()));
         }
