@@ -1,4 +1,4 @@
-(function (global, factory) {
+$(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('chart.js')) :
         typeof define === 'function' && define.amd ? define(['chart.js'], factory) :
             (global = global || self, global.PluginErrorbars = factory(global.Chart));

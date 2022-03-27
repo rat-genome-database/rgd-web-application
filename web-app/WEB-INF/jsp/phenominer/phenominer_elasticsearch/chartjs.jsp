@@ -57,9 +57,12 @@
             tooltips: {
 
                 callbacks: {
-                    title: function(tooltipItem) {
-                        return this._data.labels[tooltipItem[0].index];
+                    label: function(tooltipItem, all) {
+                        return all.datasets[tooltipItem.datasetIndex].label
+                            + ': ' + tooltipItem.yLabel.toLocaleString()
+                            + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ? ' ± ' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
                     },
+
                     afterLabel: function(tooltipItem) {
                         var index = tooltipItem.index;
                         return getDetails(index);

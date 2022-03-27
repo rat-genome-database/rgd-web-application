@@ -57,7 +57,8 @@ public class PivotTableController implements Controller {
         List<String> labels=new ArrayList<>();
         List<String> backgroundColors=new ArrayList<>();
         Map<String, String> colors=new HashMap<>();
-        List<Map<String, Double>> errorBars=new ArrayList<>();        request.setAttribute("plotData", getPlotData(sr,labels, backgroundColors,colors, errorBars));
+        Map<String,Map<String, Double>> errorBars=new HashMap<>();
+        request.setAttribute("plotData", getPlotData(sr,labels, backgroundColors,colors, errorBars));
       //  request.setAttribute("colors", Colors.colors);
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
         request.setAttribute("errorBars", gson.toJson(errorBars));
@@ -68,15 +69,16 @@ public class PivotTableController implements Controller {
         request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
         System.out.println("TOTAL HITS:"+ sr.getHits().getTotalHits());
     //    System.out.println("COLORS:"+ gson.toJson(colors.colors));
-        return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+      return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+ //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
     }
-    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> colors,List<Map<String, Double>> errorBars ) throws Exception {
+    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> colors,Map<String,Map<String, Double>> errorBars ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData=new LinkedHashMap<>();
         List<Double> values=new ArrayList<>();
         int i=0;
 
         for(SearchHit hit:sr.getHits().getHits()){
-            Map<String, Double> errorBarMap=new HashMap<>();
+            Map<String, Double> errorValues=new HashMap<>();
          double value= Double.valueOf((String) hit.getSourceAsMap().get("value"));
          String strain= (String) hit.getSourceAsMap().get("rsTerm");
          String sex= (String) hit.getSourceAsMap().get("sex");
@@ -91,9 +93,10 @@ public class PivotTableController implements Controller {
         }else{
             backgroundColors.add(colors.get(condition));
         }
-        errorBarMap.put("plus", Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
-        errorBarMap.put("minus", 0-Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
-        errorBars.add(errorBarMap);
+        errorValues.put("plus", Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
+        errorValues.put("minus", 0-Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
+        errorBars.put(strain+"_"+sex +"_animals("+noOfAnimals+")", errorValues);
+
       /*   List<Double> values=new ArrayList<>();
          if(plotData.get(strain)!=null){
              values.addAll(plotData.get(strain));
