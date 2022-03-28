@@ -163,7 +163,7 @@
     <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?species=3" method="get" >
         <input type="hidden" name="terms" value="${terms}"/>
         <input type="hidden" name="facetSearch" value="true"/>
-        <input type="text" name="legendJson" value='${legendJson}'/>
+        <input type="hidden" name="legendJson" value='${legendJson}'/>
 
         <table align="center" border="0" style="margin-left:35px;">
 
