@@ -133,7 +133,7 @@ public class PhenominerService {
     public SearchResponse getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        if(filterMap.size()==1) {
+        if(filterMap.size()==1 && req.getParameter("units").equals("")) {
             srb.query(this.boolQueryBuilder(req, null));
             System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
             srb.aggregation(this.buildAggregations(filterMap.entrySet().iterator().next().getKey()));

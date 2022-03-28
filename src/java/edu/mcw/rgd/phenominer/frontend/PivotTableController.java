@@ -1,5 +1,6 @@
 package edu.mcw.rgd.phenominer.frontend;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
@@ -11,6 +12,7 @@ import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PlotData;
 import edu.mcw.rgd.process.Utils;
+
 import edu.mcw.rgd.reporting.DelimitedReportStrategy;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -56,13 +58,13 @@ public class PivotTableController implements Controller {
 
         List<String> labels=new ArrayList<>();
         List<String> backgroundColors=new ArrayList<>();
-        Map<String, String> colors=new HashMap<>();
+        Map<String, String> legend=new HashMap<>();
         Map<String,Map<String, Double>> errorBars=new HashMap<>();
-        request.setAttribute("plotData", getPlotData(sr,labels, backgroundColors,colors, errorBars));
-      //  request.setAttribute("colors", Colors.colors);
+        request.setAttribute("plotData", getPlotData(sr,labels, backgroundColors,legend, errorBars, request));
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
         request.setAttribute("errorBars", gson.toJson(errorBars));
-        request.setAttribute("legend", colors);
+        request.setAttribute("legend", legend);
+        request.setAttribute("legendJson", gson.toJson(legend));
         request.setAttribute("labels",gson.toJson( labels));
     //    request.setAttribute("aggregations",aggregations);
         request.setAttribute("sr", sr);
@@ -72,11 +74,20 @@ public class PivotTableController implements Controller {
       return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
  //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
     }
-    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> colors,Map<String,Map<String, Double>> errorBars ) throws Exception {
+    public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData=new LinkedHashMap<>();
         List<Double> values=new ArrayList<>();
+        Gson gson=new Gson();
+        boolean facetSearch=false;
+        if(request.getParameter("facetSearch")!=null)
+        facetSearch=request.getParameter("facetSearch").equals("true");
         int i=0;
-
+        Map<String, String> map=new HashMap<>();
+        if(facetSearch){
+            ObjectMapper mapper=new ObjectMapper();
+            String legendJson=request.getParameter("legendJson");
+             map = mapper.readValue(legendJson, Map.class);
+        }
         for(SearchHit hit:sr.getHits().getHits()){
             Map<String, Double> errorValues=new HashMap<>();
          double value= Double.valueOf((String) hit.getSourceAsMap().get("value"));
@@ -85,13 +96,18 @@ public class PivotTableController implements Controller {
          int noOfAnimals= (int) hit.getSourceAsMap().get("numberOfAnimals");
        List<String> conditions= (List<String>) hit.getSourceAsMap().get("xcoTerm");
         String condition=conditions.stream().collect(Collectors.joining(", "));
-        if(!colors.containsKey(condition)){
-            colors.put(condition,Colors.colors.get(i));
+        if(!legend.containsKey(condition)){
+            legend.put(condition,Colors.colors.get(i));
             backgroundColors.add(Colors.colors.get(i));
 
             i++;
         }else{
-            backgroundColors.add(colors.get(condition));
+            if(facetSearch) {
+                backgroundColors.add(map.get(condition));
+                legend.put(condition,map.get(condition));
+            }else{
+                backgroundColors.add(legend.get(condition));
+            }
         }
         errorValues.put("plus", Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
         errorValues.put("minus", 0-Double.parseDouble( hit.getSourceAsMap().get("sem").toString()));
@@ -106,11 +122,11 @@ public class PivotTableController implements Controller {
        //  plotData.put(strain,values );
         }
 
-        plotData.put("Values",values );
+        plotData.put("Value",values );
 
-        Gson gson=new Gson();
+
         System.out.println(gson.toJson(plotData));
-        System.out.println("COLORS:"+gson.toJson(colors));
+        System.out.println("LEGEND:"+gson.toJson(legend));
         System.out.println("ERRORBARS:"+gson.toJson(errorBars));
     /*    List<PlotData> dataSet=new ArrayList<>();
         int i=0;

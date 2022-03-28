@@ -100,12 +100,13 @@
                 arrayData = ${plot.value}
                     </c:forEach>
                     arrayColors=${backgroundColor}
-
+                    arrayErrorBars=${errorBars}
                         arrayOfObj = arrayLabel.map(function(d, i) {
                             return {
                                 label: d,
                                 data: arrayData[i] || 0,
-                                bgColor:arrayColors[i]
+                                bgColor:arrayColors[i],
+                                errorBars:arrayErrorBars[d]
                             };
                         });
 
@@ -117,12 +118,13 @@
             newArrayLabel = [];
             newArrayData = [];
             newArrayBackgroundColor = [];
+            newErrorBars={};
             var data=[];
             sortedArrayOfObj.forEach(function(d){
                 newArrayLabel.push(d.label);
                 newArrayData.push(d.data);
                 newArrayBackgroundColor.push(d.bgColor);
-
+                newErrorBars[d.label]=arrayErrorBars[d.label]
 
             });
             console.log(newArrayLabel);
@@ -132,9 +134,10 @@
             myChart.data.labels=newArrayLabel;
 
             data.push({
+                label:"Value",
                 data: newArrayData ,
                 backgroundColor:newArrayBackgroundColor,
-
+                errorBars:newErrorBars,
                 borderWidth: 1
             });
 
