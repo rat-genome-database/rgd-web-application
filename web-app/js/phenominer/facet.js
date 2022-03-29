@@ -76,3 +76,14 @@ $.each($('input[name="units"]'), function(){
             }
         })
 });
+function removeFilter(filter) {
+
+    $.each($('input[class="formCheckInput"]'),function () {
+        var _this=$(this);
+        var val=_this.val();
+       if(val==filter){
+           _this.prop('checked',false)
+       }
+    })
+    $('#phenominerReportForm').submit()
+}

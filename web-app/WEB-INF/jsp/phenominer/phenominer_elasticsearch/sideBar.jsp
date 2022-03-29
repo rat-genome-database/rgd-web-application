@@ -176,7 +176,7 @@
 
                             <input  id="phenotype"  type="checkbox" >&nbsp;
 
-                            Phenotypes</div></td>
+                            Measurement</div></td>
                     </tr>
                     <tr>
                         <td>

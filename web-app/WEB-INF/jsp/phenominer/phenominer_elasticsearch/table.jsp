@@ -22,8 +22,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
@@ -33,6 +32,16 @@
         <%@include file="sideBar.jsp"%>
     </div>
     <main role="main" class="col" id="results">
+        <c:if test="${fn:length(selectedFilters)>0}">
+        <span><strong>Remove Filters:</strong>
+            <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
+        <c:forEach items="${selectedFilters}" var="termList">
+            <c:forEach items="${termList.value}" var="filter">
+                <button class="btn btn-light btn-sm " value="${filter}" onclick="removeFilter('${filter}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
+            </c:forEach>
+        </c:forEach>
+</span>
+        </c:if>
         <h3>${sr.hits.totalHits}</h3>
         <c:choose>
         <c:when test="${fn:length(aggregations.unitBkts)==1}">
@@ -49,7 +58,7 @@
         <%@include file="chartjs.jsp"%>
         </c:when>
             <c:otherwise>
-                <h4 style="font-weight: bold;color:red">Limit the units to one to view the plot</h4>
+                <h4 style="font-weight: bold;color:red">Limit the units or measurement to one to view the plot</h4>
             </c:otherwise>
         </c:choose>
         <%@include file="phenominerChart.jsp"%>
