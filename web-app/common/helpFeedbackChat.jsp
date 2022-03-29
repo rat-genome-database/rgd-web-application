@@ -24,7 +24,7 @@
         <br><label><b>Message</b></label>
         <textarea placeholder="Type message.." name="comment" v-model="message"></textarea>
 
-        <button type="button" class="btn" v-on:click="sendMail">Send</button>
+        <button type="button" id="sendEmail" class="btn" v-on:click="sendMail">Send</button>
 
     </form>
 </div>

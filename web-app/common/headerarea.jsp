@@ -219,7 +219,7 @@
                                             <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
-                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
+<%--                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>--%>
 <%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
                                             <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>
