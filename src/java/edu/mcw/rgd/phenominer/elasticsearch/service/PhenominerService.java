@@ -30,9 +30,6 @@ import java.util.Map;
 
 public class PhenominerService {
     private static String phenominerIndex;
-    public static String getPhenominerIndex() {
-        return phenominerIndex;
-    }
 
     public static void setPhenominerIndex(String phenominerIndex) {
         PhenominerService.phenominerIndex = phenominerIndex;

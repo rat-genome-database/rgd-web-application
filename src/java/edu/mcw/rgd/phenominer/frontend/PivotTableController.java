@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 
 public class PivotTableController implements Controller {
-    HashMap<Integer, String> colorMap=new HashMap<>();
     Gson gson = new Gson();
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {

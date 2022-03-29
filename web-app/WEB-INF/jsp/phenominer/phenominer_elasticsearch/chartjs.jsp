@@ -127,9 +127,7 @@
                 newErrorBars[d.label]=arrayErrorBars[d.label]
 
             });
-            console.log(newArrayLabel);
-            console.log(newArrayData);
-            console.log(newArrayBackgroundColor);
+           
 
             myChart.data.labels=newArrayLabel;
 
