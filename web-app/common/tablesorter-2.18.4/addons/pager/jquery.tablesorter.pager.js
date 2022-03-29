@@ -350,6 +350,9 @@
 						rows[lastIndex].style.display = '';
 					}
 				}
+
+				// var tableId = $(table).attr("id");
+				// hideEvidence(tableId);
 				var myLabel = table.parentNode.parentNode.getElementsByClassName('hideEviText')[0];//cb.nextSibling;
 				$(myLabel).last().html('Only show annotations with direct experimental evidence ('+hideCnt+' objects hidden)');
 			}

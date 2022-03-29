@@ -129,13 +129,18 @@
             List<Integer> breedsArr = new ArrayList<>();
             for(Sample s:samples){
                 String name = s.getAnalysisName();
-                int index = name.indexOf("(");
-                String breed = name.substring(0,index-1);
-                breedsArr = breedMap.get(breed);
-                if(breedsArr == null)
-                    breedsArr = new ArrayList<>();
-                breedsArr.add(s.getId());
-                breedMap.put(breed,breedsArr);
+                try{
+                    int index = name.indexOf("(");
+                    String breed = name.substring(0,index-1);
+                    breedsArr = breedMap.get(breed);
+                    if(breedsArr == null)
+                        breedsArr = new ArrayList<>();
+                    breedsArr.add(s.getId());
+                    breedMap.put(breed,breedsArr);
+                }
+                catch (Exception e){
+                    // probably eva, if not some other bug
+                }
             }
 
                     breeds.addAll(breedMap.keySet());
@@ -145,6 +150,8 @@
 
         }
         %>
+
+
         <script>
             function selectGroup(name) {
                 var strainGroups = {};
@@ -244,7 +251,8 @@
                 }
             }
         </script>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
+                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
         <%}%>
         <table style="margin-left:50px;">
@@ -254,7 +262,8 @@
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% } if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6 && SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1) { %>
+                <% } if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6 && SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
+                        SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
                 <td style="color:white;"><input id="all" name="all" type="checkbox" onChange="selectGroup('all')"/> All Available</td>
                 <%}%>
 
@@ -278,7 +287,8 @@
                 } %>
 
         </table>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
+                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Samples</div>
 <%}%>
         <table width="90%" cellpadding="0" cellspacing="0">
@@ -296,8 +306,8 @@
                     ArrayList<Sample> sampList1 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList2 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-                    if(mapKey==38 || mapKey==17){
-                     //   sampList1.add(samples.get(0));
+                    if(mapKey==38 || mapKey==17 || mapKey==910 || mapKey==911 || mapKey==1311 || mapKey==35){
+                        sampList1.add(samples.get(0));
                     }
                     int num = 0;
                     for (Sample samp: samples) {
@@ -411,7 +421,8 @@
         </table>
 
         <br>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1) { %>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
+                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         <table width="90%">
             <tr>
                 <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>

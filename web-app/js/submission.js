@@ -61,7 +61,12 @@ $(function () {
                         $content.html("ReCaptcha Validation Failed.  Please try again.")
                     }else{
                     // window.location.href=$successUrl;
-                    $container.html($successData + "<br><p style='color:grey'>Thank you for your interest in strain submission</p>");
+                        let words = $successData +"";
+                        if (~words.indexOf("Strain Symbol you tried to submit is already in the RGD")) {
+                            alert("Strain Symbol is in RGD. Please use another Strain Symbol.");
+                        }
+                        else
+                            $container.html($successData + "<br><p style='color:grey'>Thank you for your interest in strain submission</p>");
 
                     }
 
