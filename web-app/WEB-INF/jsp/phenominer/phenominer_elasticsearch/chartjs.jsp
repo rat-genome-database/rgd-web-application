@@ -1,6 +1,6 @@
 
 <div class="chart-container" id = "chartDiv">
-    <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
+    <canvas id="resultChart" style="position: relative;width:100%; height:400px"></canvas>
 
 </div>
 
@@ -127,7 +127,7 @@
                 newErrorBars[d.label]=arrayErrorBars[d.label]
 
             });
-           
+
 
             myChart.data.labels=newArrayLabel;
 
