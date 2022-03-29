@@ -69,7 +69,7 @@ public class DistributionController extends HaplotyperController {
         // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+mapKey);
+        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+mapKey);
         VVService.setVariantIndex(index);
         List<String> symbols=new ArrayList<>();
         List<MappedGene> mgs = new ArrayList<MappedGene>();

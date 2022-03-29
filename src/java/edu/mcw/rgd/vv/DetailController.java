@@ -66,7 +66,7 @@ public class DetailController extends HaplotyperController {
 
         String index = new String();
         String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + mapKey);
         VVService.setVariantIndex(index);
 
         List<SearchResult> allResults = new ArrayList<SearchResult>();

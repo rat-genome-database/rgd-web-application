@@ -121,7 +121,7 @@ public class RgdContext {
                 return index+"_cur";
             }
             if( isPipelines() ) {
-                return index+"_cur";
+                return index+"_prod";
                 //   return index+"_index_prod";
             }
             if( isDev() ) {
@@ -131,6 +131,6 @@ public class RgdContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return index+"_cur";
+        return index+"_dev";
     }
 }
