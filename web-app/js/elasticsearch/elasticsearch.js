@@ -461,7 +461,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
         if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo' && species!='Pig'){
             html=html+interviewer+gviewer+moet;
         }
-        if(species=='Human' || species=='Rat'){
+        if(species=='Human' || species=='Rat' || species=='Dog'){
             html=html+damage+vv;
         }
 
