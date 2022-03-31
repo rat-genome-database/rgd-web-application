@@ -45,7 +45,7 @@
         <h3>${sr.hits.totalHits}</h3>
         <c:choose>
         <c:when test="${fn:length(aggregations.unitBkts)==1}">
-        <div class="container">
+        <div>
             <div class="row" style="text-align: center">
                 <c:forEach items="${legend}" var="color">
 
@@ -58,7 +58,7 @@
         <%@include file="chartjs.jsp"%>
         </c:when>
             <c:otherwise>
-                <h4 style="font-weight: bold;color:red">Limit the units or measurement to one to view the plot</h4>
+                <h4 style="font-weight: bold;color:red">Graph will be displayed if the units or measurement is limited to one.</h4>
             </c:otherwise>
         </c:choose>
         <%@include file="phenominerChart.jsp"%>
