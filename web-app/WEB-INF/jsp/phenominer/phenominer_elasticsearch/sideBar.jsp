@@ -198,6 +198,36 @@
             </td>
         </tr>
 
+            <tr>
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td  ><div class="recordFilterTitle">
+
+                                <input   type="checkbox" >&nbsp;
+
+                                Units</div></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="recordFilterBlock">
+                                    <table>
+
+                                        <c:forEach items="${aggregations.unitBkts}" var="cmoBkt" >
+                                            <tr>
+                                                <td>
+                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+
+                                    </table>
+                                </div></td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
 
 
         <tr>
@@ -360,36 +390,6 @@
         </tr>
 
 
-        <tr>
-            <td valign="top">
-                <table>
-                    <tr>
-                        <td  ><div class="recordFilterTitle">
-
-                            <input   type="checkbox" >&nbsp;
-
-                            Units</div></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="recordFilterBlock">
-                                <table>
-
-                                    <c:forEach items="${aggregations.unitBkts}" var="cmoBkt" >
-                                        <tr>
-                                            <td>
-                                                <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-
-                                </table>
-                            </div></td>
-                    </tr>
-                </table>
-
-            </td>
-        </tr>
 
 
 
