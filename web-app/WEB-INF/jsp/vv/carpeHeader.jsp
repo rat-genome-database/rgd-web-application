@@ -113,7 +113,7 @@
     .snpLabel {
         font-size:11px;
         background-color:#EEEEEE;
-        height:24px;
+        height:23px;
         overflow: hidden;
         text-align: right;
         vertical-align: middle;
