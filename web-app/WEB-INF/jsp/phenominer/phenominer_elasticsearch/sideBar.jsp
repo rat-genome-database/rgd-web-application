@@ -3,14 +3,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script>
 
-
         selectedCmo= "${selectedFilters.cmoTerm}";
         selectedRs ="${selectedFilters.rsTerm}";
         selectedMmo= "${selectedFilters.mmoTerm}";
         selectedXco ="${selectedFilters.xcoTerm}";
         selectedSex ="${selectedFilters.sex}";
         selectedUnits="${selectedFilters.units}";
-
+        selectAllRsCheckbox="${selectAllCheckBox.rsAll}";
+        selectAllCmoCheckbox="${selectAllCheckBox.cmoAll}";
+        selectAllMmoCheckbox="${selectAllCheckBox.mmoAll}";
+        selectAllXcoCheckbox="${selectAllCheckBox.xcoAll}";
+        selectAllSexCheckbox="${selectAllCheckBox.sexAll}";
+        selectAllUnitsCheckbox="${selectAllCheckBox.unitsAll}";
 
 
 </script>
@@ -174,7 +178,7 @@
                     <tr>
                         <td ><div class="recordFilterTitle">
 
-                            <input  id="phenotype"  type="checkbox" >&nbsp;
+                            <input  id="cmoAll" name="cmoAll" type="checkbox"  >&nbsp;
 
                             Measurement</div></td>
                     </tr>
@@ -185,7 +189,7 @@
                                     <c:forEach items="${aggregations.cmoTermBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -204,7 +208,7 @@
                         <tr>
                             <td  ><div class="recordFilterTitle">
 
-                                <input   type="checkbox" >&nbsp;
+                                <input  id="unitsAll" name="unitsAll" type="checkbox"  >&nbsp;
 
                                 Units</div></td>
                         </tr>
@@ -216,7 +220,7 @@
                                         <c:forEach items="${aggregations.unitBkts}" var="cmoBkt" >
                                             <tr>
                                                 <td>
-                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -235,8 +239,7 @@
                 <table>
                     <tr>
                         <td  ><div class="recordFilterTitle">
-
-                            <input  id="allCellTypes"  type="checkbox" >&nbsp;
+                            <input  id="rsAll" name="rsAll"  type="checkbox" >&nbsp;
                             Strains</div></td>
                     </tr>
                     <tr>
@@ -247,7 +250,7 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;(${rsBkt.docCount})
+                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -268,7 +271,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input  id="alleditors"  type="checkbox" >&nbsp;
+                            <input  id="mmoAll"  name="mmoAll" type="checkbox" >&nbsp;
 
                             Methods</div></td>
                     </tr>
@@ -280,7 +283,7 @@
                                     <c:forEach items="${aggregations.mmoTermBkts}" var="mmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;(${mmoBkt.docCount})
+                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -300,7 +303,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input   type="checkbox" >&nbsp;
+                            <input  id="xcoAll" name= "xcoAll" type="checkbox" >&nbsp;
 
                             Conditions
                         </div></td>
@@ -313,7 +316,7 @@
                                     <c:forEach items="${aggregations.xcoTermBkts}" var="xcoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;(${xcoBkt.docCount})
+                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -334,7 +337,7 @@
                     <tr>
                         <td><div class="recordFilterTitle">
 
-                            <input  type="checkbox" >&nbsp;
+                            <input id="ageAll" name="ageAll" type="checkbox" >&nbsp;
 
                             Age</div></td>
                     </tr>
@@ -364,7 +367,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
 
-                            <input   type="checkbox" >&nbsp;
+                            <input  id="sexAll" name="sexAll" type="checkbox"  >&nbsp;
 
                             Sex</div></td>
                     </tr>
@@ -376,7 +379,7 @@
                                     <c:forEach items="${aggregations.sexBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="sex"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                <input class="formCheckInput" name="sex"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;
                                             </td>
                                         </tr>
                                     </c:forEach>

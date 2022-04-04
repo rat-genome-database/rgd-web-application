@@ -28,21 +28,24 @@ public class PivotTableController implements Controller {
         HttpRequestFacade req = new HttpRequestFacade(request);
         PhenominerService.setPhenominerIndex("phenominer_index_dev");
         SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
-        Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
+        Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
         request.setAttribute("aggregations", aggregations);
+        Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
 
         boolean facetSearch = req.getParameter("facetSearch").equals("true");
         if (facetSearch) {
-            if (getFilterMap(request).size() == 1) {
+
                 SearchResponse searchResponse = service.getFilteredAggregations(getFilterMap(request), req);
                 if (searchResponse != null) {
                     Map<String, List<Terms.Bucket>> filtered = service.getSearchAggregations(searchResponse);
-                    aggregations.putAll(filtered);
-                    request.setAttribute("aggregations", aggregations);
+                    filtered.putAll(filtered);
+                    request.setAttribute("filteredAggregations", filteredAggregations);
 
                 }
-            }
+        setSelectAllCheckBox(request);
 
+        }else{
+         //   request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
         }
 
 
@@ -57,6 +60,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("legendJson", gson.toJson(legend));
         request.setAttribute("labels", gson.toJson(labels));
         request.setAttribute("sr", sr);
+        request.setAttribute("facetSearch", facetSearch);
         request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
         System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
@@ -153,7 +157,69 @@ public class PivotTableController implements Controller {
 
         return filterMap;
     }
+    public void setSelectAllCheckBox( HttpServletRequest request) {
+        System.out.println("rsAll:"+request.getParameter("rsAll"));
+        Map<String, String> selectAllCheckBox=new HashMap<>();
+        if(request.getParameter("rsAll")!=null && request.getParameter("rsAll").equals("on")) {
+            selectAllCheckBox.put("rsAll", request.getParameter("rsAll"));
+        }
+        if(request.getParameter("cmoAll")!=null && request.getParameter("cmoAll").equals("on")) {
+            selectAllCheckBox.put("cmoAll", request.getParameter("cmoAll"));
+        }
+        if(request.getParameter("mmoAll")!=null && request.getParameter("mmoAll").equals("on")) {
+            selectAllCheckBox.put("mmoAll", request.getParameter("mmoAll"));
+        }
+        if(request.getParameter("xcoAll")!=null && request.getParameter("xcoAll").equals("on")) {
+            selectAllCheckBox.put("xcoAll", request.getParameter("xcoAll"));
+        }
+        if(request.getParameter("sexAll")!=null && request.getParameter("sexAll").equals("on")) {
+            selectAllCheckBox.put("sexAll", request.getParameter("sexAll"));
+        }
+        if(request.getParameter("unitsAll")!=null && request.getParameter("unitsAll").equals("on")) {
+            selectAllCheckBox.put("unitsAll", request.getParameter("unitsAll"));
+        }
 
+        request.setAttribute("selectAllCheckBox", selectAllCheckBox);
+
+    }
+
+        public Map<String, String> setSelectedFilters( Map<String, List<Terms.Bucket>> aggregations){
+
+        Map<String, String> selectedFilters = new HashMap<>();
+        for(Map.Entry e:aggregations.entrySet()){
+            System.out.println(e.getKey());
+            List<Terms.Bucket> buckets= (List<Terms.Bucket>) e.getValue();
+            String value=buckets.stream().map(b->b.getKey().toString()).collect(Collectors.joining(","));
+            switch (e.getKey().toString()){
+                case "mmoTermBkts":
+
+                    selectedFilters.put("mmoTerm",value);
+                    break;
+                case "rsTermBkts":
+                    selectedFilters.put("rsTerm",value);
+
+                    break;
+                case "unitBkts":
+                    selectedFilters.put("units",value);
+
+                    break;
+                case "cmoTermBkts":
+                    selectedFilters.put("cmoTerm",value);
+
+                    break;
+                case  "xcoTermBkts":
+                    selectedFilters.put("xcoTerm",value);
+
+                    break;
+                case  "sexBkts":
+                    selectedFilters.put("sex",value);
+
+                    break;
+                default:
+            }
+        }
+        return  selectedFilters;
+    }
 
 
 }

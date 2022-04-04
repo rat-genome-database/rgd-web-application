@@ -25,6 +25,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import java.io.IOException;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,10 @@ public class PhenominerService {
         return dqb;
 
     }
+    public java.util.Map<String, List<Terms.Bucket>> getAggregationsBeforeFilters(HttpRequestFacade req) throws IOException, VVException {
+        SearchResponse sr= getSearchResponse(req, null);
+        return getSearchAggregations(sr);
+    }
     public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
         if(sr!=null && sr.getAggregations()!=null){
@@ -130,12 +135,15 @@ public class PhenominerService {
     public SearchResponse getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        if(filterMap.size()==1 && req.getParameter("units").equals("")) {
-            srb.query(this.boolQueryBuilder(req, null));
-            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
-            srb.aggregation(this.buildAggregations(filterMap.entrySet().iterator().next().getKey()));
-        }
 
+            srb.query(this.boolQueryBuilder(req, null));
+            if(filterMap!=null && filterMap.size()>0) {
+                Iterator iterator = filterMap.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    srb.aggregation(this.buildAggregations(entry.getKey().toString()));
+                }
+            }
         srb.size(0);
         SearchRequest searchRequest=new SearchRequest(phenominerIndex);
         searchRequest.source(srb);
