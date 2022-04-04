@@ -26,7 +26,7 @@ public class PivotTableController implements Controller {
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-        PhenominerService.setPhenominerIndex("phenominer_index_dev");
+        PhenominerService.setPhenominerIndex("phenominer_index_test");
         SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
         Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
         request.setAttribute("aggregations", aggregations);
@@ -34,21 +34,23 @@ public class PivotTableController implements Controller {
 
         boolean facetSearch = req.getParameter("facetSearch").equals("true");
         if (facetSearch) {
-
-                SearchResponse searchResponse = service.getFilteredAggregations(getFilterMap(request), req);
-                if (searchResponse != null) {
-                    Map<String, List<Terms.Bucket>> filtered = service.getSearchAggregations(searchResponse);
-                    filtered.putAll(filtered);
-                    request.setAttribute("filteredAggregations", filteredAggregations);
-
-                }
-        setSelectAllCheckBox(request);
+            filteredAggregations = service.getFilteredAggregations(getFilterMap(request), req);
+            request.setAttribute("filteredAggregations", filteredAggregations);
+            setSelectAllCheckBox(request);
 
         }else{
-         //   request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
+           request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
+            setSelectAllCheckBox(request);
         }
+        List<String> units=new ArrayList<>();
+        List<String> cmoTerms= new ArrayList<>();
+        if(request.getParameterValues("units")!=null)
+         units= Arrays.asList(request.getParameterValues("units"));
+        if(request.getParameterValues("cmoTerm")!=null)
+            cmoTerms= Arrays.asList(request.getParameterValues("cmoTerm"));
 
-
+        request.setAttribute("cmoSize", cmoTerms.size());
+        request.setAttribute("unitsSize", units.size());
         List<String> labels = new ArrayList<>();
         List<String> backgroundColors = new ArrayList<>();
         Map<String, String> legend = new HashMap<>();
@@ -57,12 +59,17 @@ public class PivotTableController implements Controller {
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
         request.setAttribute("errorBars", gson.toJson(errorBars));
         request.setAttribute("legend", legend);
+        if(request.getParameter("legendJson")!=null)
+            request.setAttribute("legendJson", request.getParameter("legendJson"));
+        else
         request.setAttribute("legendJson", gson.toJson(legend));
+
         request.setAttribute("labels", gson.toJson(labels));
         request.setAttribute("sr", sr);
         request.setAttribute("facetSearch", facetSearch);
         request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
         System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
         //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
     }
@@ -75,11 +82,15 @@ public class PivotTableController implements Controller {
             facetSearch = request.getParameter("facetSearch").equals("true");
         int i = 0;
         Map<String, String> map = new HashMap<>();
-        if (facetSearch) {
+
             ObjectMapper mapper = new ObjectMapper();
             String legendJson = request.getParameter("legendJson");
-            map = mapper.readValue(legendJson, Map.class);
-        }
+            if(legendJson!=null) {
+                map = mapper.readValue(legendJson, Map.class);
+                if (map.size() > 0) {
+                    legend.putAll(map);
+                }
+            }
         for (SearchHit hit : sr.getHits().getHits()) {
             Map<String, Double> errorValues = new HashMap<>();
             double value = Double.valueOf((String) hit.getSourceAsMap().get("value"));
@@ -88,19 +99,21 @@ public class PivotTableController implements Controller {
             int noOfAnimals = (int) hit.getSourceAsMap().get("numberOfAnimals");
             List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
             String condition = conditions.stream().collect(Collectors.joining(", "));
-            if (!legend.containsKey(condition)) {
-                legend.put(condition, Colors.colors.get(i));
-                backgroundColors.add(Colors.colors.get(i));
 
-                i++;
+            if (facetSearch) {
+                backgroundColors.add(map.get(condition));
+                //legend.put(condition, map.get(condition));
             } else {
-                if (facetSearch) {
-                    backgroundColors.add(map.get(condition));
-                    legend.put(condition, map.get(condition));
-                } else {
+                if (!legend.containsKey(condition)) {
+                    legend.put(condition, Colors.colors.get(i));
+                    backgroundColors.add(Colors.colors.get(i));
+
+                    i++;
+                }else {
                     backgroundColors.add(legend.get(condition));
                 }
             }
+
             if(hit.getSourceAsMap().get("sem")!=null) {
                 errorValues.put("plus", Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
                 errorValues.put("minus", 0 - Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
@@ -158,27 +171,38 @@ public class PivotTableController implements Controller {
         return filterMap;
     }
     public void setSelectAllCheckBox( HttpServletRequest request) {
-        System.out.println("rsAll:"+request.getParameter("rsAll"));
         Map<String, String> selectAllCheckBox=new HashMap<>();
-        if(request.getParameter("rsAll")!=null && request.getParameter("rsAll").equals("on")) {
-            selectAllCheckBox.put("rsAll", request.getParameter("rsAll"));
-        }
-        if(request.getParameter("cmoAll")!=null && request.getParameter("cmoAll").equals("on")) {
-            selectAllCheckBox.put("cmoAll", request.getParameter("cmoAll"));
-        }
-        if(request.getParameter("mmoAll")!=null && request.getParameter("mmoAll").equals("on")) {
-            selectAllCheckBox.put("mmoAll", request.getParameter("mmoAll"));
-        }
-        if(request.getParameter("xcoAll")!=null && request.getParameter("xcoAll").equals("on")) {
-            selectAllCheckBox.put("xcoAll", request.getParameter("xcoAll"));
-        }
-        if(request.getParameter("sexAll")!=null && request.getParameter("sexAll").equals("on")) {
-            selectAllCheckBox.put("sexAll", request.getParameter("sexAll"));
-        }
-        if(request.getParameter("unitsAll")!=null && request.getParameter("unitsAll").equals("on")) {
-            selectAllCheckBox.put("unitsAll", request.getParameter("unitsAll"));
-        }
+        boolean facetSearch=false;
+        if(request.getParameter("facetSearch")!=null)
+        facetSearch=request.getParameter("facetSearch").equals("true");
+        if(facetSearch) {
+            if (request.getParameter("rsAll") != null && request.getParameter("rsAll").equals("on")) {
+                selectAllCheckBox.put("rsAll", request.getParameter("rsAll"));
+            }
+            if (request.getParameter("cmoAll") != null && request.getParameter("cmoAll").equals("on")) {
+                selectAllCheckBox.put("cmoAll", request.getParameter("cmoAll"));
+            }
+            if (request.getParameter("mmoAll") != null && request.getParameter("mmoAll").equals("on")) {
+                selectAllCheckBox.put("mmoAll", request.getParameter("mmoAll"));
+            }
+            if (request.getParameter("xcoAll") != null && request.getParameter("xcoAll").equals("on")) {
+                selectAllCheckBox.put("xcoAll", request.getParameter("xcoAll"));
+            }
+            if (request.getParameter("sexAll") != null && request.getParameter("sexAll").equals("on")) {
+                selectAllCheckBox.put("sexAll", request.getParameter("sexAll"));
+            }
+            if (request.getParameter("unitsAll") != null && request.getParameter("unitsAll").equals("on")) {
+                selectAllCheckBox.put("unitsAll", request.getParameter("unitsAll"));
+            }
+        }else {
+            selectAllCheckBox.put("rsAll", "on");
+            selectAllCheckBox.put("cmoAll", "on");
+            selectAllCheckBox.put("mmoAll", "on");
+            selectAllCheckBox.put("xcoAll", "on");
+            selectAllCheckBox.put("sexAll", "on");
+            selectAllCheckBox.put("unitsAll", "on");
 
+        }
         request.setAttribute("selectAllCheckBox", selectAllCheckBox);
 
     }

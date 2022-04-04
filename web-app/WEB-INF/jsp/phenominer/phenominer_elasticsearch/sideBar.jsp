@@ -170,9 +170,37 @@
         <input type="hidden" name="legendJson" value='${legendJson}'/>
 
         <table align="center" border="0" style="margin-left:35px;">
+            <!--tr>
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td ><div class="recordFilterTitle">
 
+                                <input  id="cmoAll" name="cmoAll" type="checkbox"  >&nbsp;
 
-        <tr>
+                                Measurement</div></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="recordFilterBlock">
+                                    <table>
+                                        <c:forEach items="${aggregations.cmoTermBkts}" var="cmoBkt" >
+                                            <tr>
+                                                <td>
+                                                    <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr-->
+
+        <!--tr>
             <td valign="top">
                 <table>
                     <tr>
@@ -189,7 +217,7 @@
                                     <c:forEach items="${aggregations.cmoTermBkts}" var="cmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}
+                                                <input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;(${cmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -200,7 +228,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr-->
 
             <tr>
                 <td valign="top">
@@ -210,17 +238,24 @@
 
                                 <input  id="unitsAll" name="unitsAll" type="checkbox"  >&nbsp;
 
-                                Units</div></td>
+                                Measurements By Units</div></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="recordFilterBlock">
                                     <table>
 
-                                        <c:forEach items="${aggregations.unitBkts}" var="cmoBkt" >
+                                        <c:forEach items="${aggregations.unitBkts}" var="unitBkt" >
                                             <tr>
                                                 <td>
-                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${cmoBkt.key}&nbsp;
+                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${unitBkt.key}" >&nbsp;${unitBkt.key}&nbsp;(${unitBkt.docCount})
+                                                    <table style="border:1px solid lightgrey">
+                                                        <c:forEach items="${unitBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
+
+                                                                <tr><td><input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${bkt.key} (${bkt.docCount})</td></tr>
+
+                                                        </c:forEach>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -250,7 +285,7 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;
+                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;(${rsBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -283,7 +318,7 @@
                                     <c:forEach items="${aggregations.mmoTermBkts}" var="mmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;
+                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;(${mmoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -316,7 +351,7 @@
                                     <c:forEach items="${aggregations.xcoTermBkts}" var="xcoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;
+                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;&nbsp;(${xcoBkt.docCount})
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -331,7 +366,7 @@
 
 
 
-        <tr>
+        <!--tr>
             <td valign="top">
                 <table>
                     <tr>
@@ -358,7 +393,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr-->
 
 
         <tr>

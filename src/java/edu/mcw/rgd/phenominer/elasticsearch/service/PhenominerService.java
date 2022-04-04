@@ -43,6 +43,7 @@ public class PhenominerService {
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
         srb.size(10000);
+        srb.aggregation(this.buildAggregations("cmoTermWithUnits"));
         srb.aggregation(this.buildAggregations("cmoTerm"));
         srb.aggregation(this.buildAggregations("mmoTerm"));
         srb.aggregation(this.buildAggregations("rsTerm"));
@@ -57,7 +58,11 @@ public class PhenominerService {
     }
     public AggregationBuilder buildAggregations(String fieldName){
         AggregationBuilder aggs= null;
-
+        if(fieldName.equalsIgnoreCase("units")){
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
+                    .size(1000).order(BucketOrder.key(true))
+                    .subAggregation(AggregationBuilders.terms("cmoTerm").field("cmoTerm.keyword"));
+        }else
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                     .size(1000).order(BucketOrder.key(true));
 
@@ -69,8 +74,10 @@ public class PhenominerService {
         builder.must(this.getDisMaxQuery( req));
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
+                if(key.equalsIgnoreCase("cmoTerm")){
+                    builder.filter(QueryBuilders.termsQuery("cmoTermWithUnits.keyword", filterMap.get(key).split(",")));
+                }else
                builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
-
             }
         System.out.println(builder);
         return builder;
@@ -92,63 +99,60 @@ public class PhenominerService {
     public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
         if(sr!=null && sr.getAggregations()!=null){
-        Terms cmoAggs=sr.getAggregations().get("cmoTerm");
+       /* Terms cmoAggs=sr.getAggregations().get("cmoTerm");
         if(cmoAggs!=null){
         aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
         for(Terms.Bucket bkt:cmoAggs.getBuckets()){
             System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}
+        }}*/
+            Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
+            if(cmoAggs!=null){
+                aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
+                for(Terms.Bucket bkt:cmoAggs.getBuckets()){
+                //    System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                }}
         Terms mmoAggs=sr.getAggregations().get("mmoTerm");
         if(mmoAggs!=null){
         aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
         for(Terms.Bucket bkt:mmoAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+         //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
         }}
         Terms xcoAggs=sr.getAggregations().get("xcoTerm");
         if(xcoAggs!=null){
         aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
         for(Terms.Bucket bkt:xcoAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+           // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
         }}
         Terms rsTermAggs=sr.getAggregations().get("rsTerm");
         if(rsTermAggs!=null){
         aggregations.put("rsTermBkts", (List<Terms.Bucket>) rsTermAggs.getBuckets());
         for(Terms.Bucket bkt:rsTermAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+          //  System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
         }}
         Terms sexAggs=sr.getAggregations().get("sex");
         if(sexAggs!=null){
         aggregations.put("sexBkts", (List<Terms.Bucket>) sexAggs.getBuckets());
         for(Terms.Bucket bkt:sexAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+           // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
         }}
         Terms unitsAggs=sr.getAggregations().get("units");
         if(unitsAggs!=null) {
             aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
             for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
                 System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
+                Terms unitsSubAggs=bkt.getAggregations().get("cmoTerm");
+                for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
+                    System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
+                }
             }
         }}
         return aggregations;
     }
 
-    public SearchResponse getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException {
+    public java.util.Map<String, List<Terms.Bucket>> getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException, VVException {
 
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-
-            srb.query(this.boolQueryBuilder(req, null));
-            if(filterMap!=null && filterMap.size()>0) {
-                Iterator iterator = filterMap.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iterator.next();
-                    srb.aggregation(this.buildAggregations(entry.getKey().toString()));
-                }
-            }
-        srb.size(0);
-        SearchRequest searchRequest=new SearchRequest(phenominerIndex);
-        searchRequest.source(srb);
-
-        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= getSearchResponse(req, filterMap);
+        return getSearchAggregations(sr);
 
     }
 }

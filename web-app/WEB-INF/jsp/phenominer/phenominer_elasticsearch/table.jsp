@@ -44,7 +44,7 @@
         </c:if>
         <h3>${sr.hits.totalHits}</h3>
         <c:choose>
-        <c:when test="${fn:length(aggregations.unitBkts)==1}">
+        <c:when test="${unitsSize==1 || cmoSize==1 || fn:length(aggregations.unitBkts)==1 || fn:length(aggregations.cmoTerms)==1}">
         <div>
             <div class="row" style="text-align: center">
                 <c:forEach items="${legend}" var="color">
