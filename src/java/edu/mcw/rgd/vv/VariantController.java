@@ -45,6 +45,7 @@ public class VariantController extends HaplotyperController {
 
         try {
 
+            System.out.println("here 1");
             HttpRequestFacade req = new HttpRequestFacade(request);
             String geneList=req.getParameter("geneList");
 
@@ -61,6 +62,7 @@ public class VariantController extends HaplotyperController {
                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
 
+            System.out.println("here 2");
             VariantSearchBean vsb = this.fillBean(req);
             vsb.genes=Utils.symbolSplit(geneList);
             String index=new String();
@@ -89,6 +91,7 @@ public class VariantController extends HaplotyperController {
                     }
                 }
 
+                System.out.println("here 3");
                 List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                 snplotyper.addGeneMappings(mappedGenes);
                 TranscriptDAO tdao = new TranscriptDAO();
@@ -108,6 +111,7 @@ public class VariantController extends HaplotyperController {
                 boolean b1 = snplotyper.hasPlusStrandConflict();
                 boolean b2 = snplotyper.hasMinusStrandConflict();
 
+                System.out.println("here 4");
                 request.setAttribute("mapKey",vsb.getMapKey());
                 request.setAttribute("speciesTypeKey", SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
                 return new ModelAndView("/WEB-INF/jsp/vv/variants.jsp");
