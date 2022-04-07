@@ -33,7 +33,18 @@
         if( newRgdId>0 )
             newRef = referenceDAO.getReference(newRgdId);
     }
+    List<Annotation> strains = new ArrayList<Annotation>();
+    final List<Annotation> allAnnots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+    for (Annotation annot : allAnnots) {
+        if (RgdContext.isChinchilla(request)) {
 
+        }else
+        if (annot.getRgdObjectKey() == RgdId.OBJECT_KEY_STRAINS) {
+            if (checkAnnotInList1(annot, strains) == 0) {
+                strains.add(annot);
+            }
+        }
+    }
 %>
 
 <div id="top" ></div>
@@ -75,9 +86,17 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; "id="annotation">Annotation</div><br>
+            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+            <br>
 
+            <div id="associationsCurator" style="display:none;">
+                <%@ include file="../associationsCurator.jsp"%>
+                <%@ include file="phenominerDetails.jsp"%>
+            </div>
+            <div id="associationsStandard" style="display:block;">
                 <%@ include file="../associations.jsp"%>
+                <%@ include file="phenominer.jsp"%>
+            </div>
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
@@ -101,7 +120,17 @@
 <% }%>
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
+<%!
+    private int checkAnnotInList1(Annotation annotation, List<Annotation> objListAnnot) {
 
+        for(Annotation a : objListAnnot){
+            if(a.getAnnotatedObjectRgdId().equals(annotation.getAnnotatedObjectRgdId())){
+                return 1;
+            }
+        }
+        return 0;
+    }
+%>
 
 <script type="text/javascript">
     openAll();
