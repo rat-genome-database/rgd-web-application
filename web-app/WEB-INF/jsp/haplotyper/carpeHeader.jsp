@@ -185,6 +185,8 @@
 
     function navigate(gene) {
 
+        gene = gene.replaceAll("|","%7C");
+
         var queryString = "?<%=request.getQueryString()%>";
         queryString = addParam("chr","",queryString);
         queryString = addParam("start","",queryString);
@@ -194,7 +196,7 @@
         queryString = addParam("geneStop","",queryString);
 
         //console.log("variants.html" + queryString);
-        console.log("variants.html" + encodeURI(queryString));
+        console.log("here variants.html" + queryString);
         //location.href="variants.html" + queryString;
     }
 
