@@ -191,7 +191,10 @@
     }
 
     function navigate(gene, sample) {
-       var qString="<%=request.getQueryString()%>";
+
+        gene = gene.replaceAll("|","%7C");
+
+        var qString="<%=request.getQueryString()%>";
         var queryString="?";
         if(qString!=null && qString!="null")
         {
@@ -222,7 +225,7 @@
                 }
 
         %>
-       location.href="variants.html" + queryString;
+       //location.href="variants.html" + queryString;
         console.log("variants.html"+queryString);
      //   window.open("variants.html" + queryString);
     }
