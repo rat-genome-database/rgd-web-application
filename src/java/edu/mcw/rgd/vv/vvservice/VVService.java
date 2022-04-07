@@ -80,23 +80,33 @@ public class VVService {
 
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
+        System.out.println("31");
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+        System.out.println("32");
         SearchSourceBuilder srb=new SearchSourceBuilder();
+        System.out.println("33");
         srb.query(builder);
+        System.out.println("34");
         srb.size(10000);
         SearchRequest searchRequest=new SearchRequest(variantIndex);
+        System.out.println("35");
         searchRequest.source(srb);
+        System.out.println("36");
         searchRequest.scroll(TimeValue.timeValueMinutes(1L));
 
         List<SearchHit> searchHits= new ArrayList<>();
         try {
             if (req.getParameter("showDifferences").equals("true")) {
 
+                System.out.println("37");
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+                System.out.println("38");
                 String scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
+                System.out.println("39");
 
                 do {
+                    System.out.println("40");
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                     scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
@@ -109,10 +119,12 @@ public class VVService {
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
                 String scrollId = sr.getScrollId();
 
+                System.out.println("41");
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
 
                 do {
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+                    System.out.println("42");
                     scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
