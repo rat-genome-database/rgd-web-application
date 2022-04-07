@@ -64,26 +64,34 @@ public class VariantController extends HaplotyperController {
 
             System.out.println("here 2");
             VariantSearchBean vsb = this.fillBean(req);
+            System.out.println("here 3");
             vsb.genes=Utils.symbolSplit(geneList);
+            System.out.println("here 4");
             String index=new String();
+            System.out.println("here 5");
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
+            System.out.println("here 6");
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+vsb.getMapKey());
             VVService.setVariantIndex(index);
+            System.out.println("here 7");
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
             }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
+            System.out.println("here 8");
          //   long count=service.getVariantsCount(vsb,req);
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
+            System.out.println("here 9");
             if (count < 2000 || searchType.equals("GENE")) {
               //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
 
+                System.out.println("here 10");
 
                 for (VariantResult vr: variantResults) {
                     if (vr.getVariant() != null ) {
