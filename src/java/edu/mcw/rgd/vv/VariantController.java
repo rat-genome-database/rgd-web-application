@@ -147,13 +147,18 @@ public class VariantController extends HaplotyperController {
     }
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
+        System.out.println("here 21");
         VVService service= new VVService();
+        System.out.println("here 22");
         List<SearchHit> hits=service.getVariants(vsb,req);
+        System.out.println("here 23");
         List<VariantResult> variantResults=new ArrayList<>();
             for (SearchHit h : hits) {
+                System.out.println("here 24");
                 java.util.Map<String, Object> m = h.getSourceAsMap();
                         VariantResult vr = new VariantResult();
 
+                System.out.println("here 25");
                         Variant v = new Variant();
                         v.setId((Integer) m.get("variant_id"));
                         v.setChromosome((String) m.get("chromosome"));
@@ -180,17 +185,21 @@ public class VariantController extends HaplotyperController {
                         v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
                         v.conservationScore.add(mapConservation(m));
                         vr.setVariant(v);
+                System.out.println("here 26");
                         if(requiredTranscripts) {
                             List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
                             vr.setTranscriptResults(trs);
                         }
 
+                System.out.println("here 27");
                         if(vsb.getMapKey()==38){
+                            System.out.println("here 28");
                             VariantInfo clinvar=getClinvarInfo(v.getId());
 //                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                             vr.setClinvarInfo(clinvar);
                         }
                         variantResults.add(vr);
+                System.out.println("here 29");
 
             }
 
