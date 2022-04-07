@@ -51,7 +51,7 @@ public class VariantController extends HaplotyperController {
             String searchType="";
 
             if (!geneList.equals("")) {
-                if (!geneList.contains(";") && !geneList.contains("*") && Utils.symbolSplit(geneList).size()>1 ) {
+                if (!geneList.contains("|") && !geneList.contains("*") && Utils.symbolSplit(geneList).size()>1 ) {
                    return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
                 }else {
                     searchType="GENE";

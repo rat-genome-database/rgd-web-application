@@ -158,9 +158,6 @@
     //add a parameter on to the query string passed in
     function addParam(name, value, queryString) {
         var re = new RegExp(name + "=[^\&]*");
-        if (value != null && value.includes("|")){
-            value=value.replace("|",";");
-        }
         if( re.exec(queryString) != null ) {
             queryString = queryString.replace(re, name + "=" + value);
         }

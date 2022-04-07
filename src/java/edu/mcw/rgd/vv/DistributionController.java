@@ -80,7 +80,7 @@ public class DistributionController extends HaplotyperController {
 
         try {
 
-        if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains(";")) {
+        if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
            List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
             ObjectMapper om = new ObjectMapper();
@@ -239,7 +239,7 @@ public class DistributionController extends HaplotyperController {
             }
         }else {
             regionList = vsb.genes;
-            if (req.getParameter("geneList").indexOf(";") != -1 && mgs.size()>0) {
+            if (req.getParameter("geneList").indexOf("|") != -1 && mgs.size()>0) {
                 regionList.add(req.getParameter("geneList"));
             }
         }
@@ -274,7 +274,7 @@ public class DistributionController extends HaplotyperController {
         }else{
           //  regionList1=gSymbols;
         }
-     String geneList=  regionList.stream().filter(p->!p.contains(";")).collect(Collectors.joining("+"));
+     String geneList=  regionList.stream().filter(p->!p.contains("|")).collect(Collectors.joining("+"));
     //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
         request.setAttribute("geneListStr", geneList);
