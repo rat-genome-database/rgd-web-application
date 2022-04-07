@@ -124,7 +124,7 @@ public class VVService {
 
                 do {
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                    System.out.println("42");
+                    System.out.println("sr.get hits = " + sr.getHits().getHits().length);
                     scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
