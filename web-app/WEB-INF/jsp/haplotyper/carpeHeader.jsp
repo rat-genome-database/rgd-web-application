@@ -193,7 +193,7 @@
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
 
-        console.log("variants.html" + queryString);
+        //console.log("variants.html" + queryString);
         console.log("variants.html" + encodeURI(queryString));
         //location.href="variants.html" + queryString;
     }
