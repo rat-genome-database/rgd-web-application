@@ -53,6 +53,7 @@ public class DistributionController extends HaplotyperController {
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
+        System.out.println("here 1");
         try {
 
             if ((start.isEmpty() || stop.isEmpty()) && !this.hasAnnotation(req)) {
@@ -72,6 +73,7 @@ public class DistributionController extends HaplotyperController {
             VariantDAO vdao = new VariantDAO();
             vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
+            System.out.println("here 2");
             List<MappedGene> mgs = new ArrayList<MappedGene>();
 
             GeneDAO gdao = new GeneDAO();
@@ -88,6 +90,7 @@ public class DistributionController extends HaplotyperController {
             List<String> mpGenes = new ArrayList<String>();
             List<String> chebiGenes = new ArrayList<String>();
 
+            System.out.println("here 3");
             if (req.getParameter("chr").equals("")) {
                 throw new Exception("Chromosome can not be empty.  Please select a chromosome.");
             }
@@ -109,6 +112,7 @@ public class DistributionController extends HaplotyperController {
                 geneCount += rdoCount;
                 accIds.add(rdoTerm);
             }
+            System.out.println("here 4");
             if (!pwTerm.equals("")) {
                 TermWithStats tws = xdao.getTermWithStatsCached(pwTerm, null);
 
@@ -141,6 +145,7 @@ public class DistributionController extends HaplotyperController {
 
             Integer startPos=null;
             Integer stopPos=null;
+            System.out.println("here 5");
 
             try {
                 startPos=Integer.parseInt(start);
@@ -163,6 +168,7 @@ public class DistributionController extends HaplotyperController {
 
             List<String> geneSymbols = adao.getAnnotatedGeneSymbols(accIds, mapKey, chromosome, startPos, stopPos);
 
+            System.out.println("here 7");
             if (geneSymbols.size() > 0) {
 
                 if (!rdoTerm.equals("")) {
@@ -193,6 +199,7 @@ public class DistributionController extends HaplotyperController {
 
                 }
 
+                System.out.println("here 8");
                 request.setAttribute("chebiGenes", chebiGenes);
                 HashMap termMap =  new HashMap();
                 termMap.put(req.getParameter("rdo_acc_id"), req.getParameter("rdo_term"));
@@ -208,6 +215,7 @@ public class DistributionController extends HaplotyperController {
             List result= om.getMapped();
             List<Gene> genes = new ArrayList<Gene>();
 
+            System.out.println("here 9");
             Iterator it = result.iterator();
             while (it.hasNext()) {
                 Object o = it.next();
@@ -240,6 +248,7 @@ public class DistributionController extends HaplotyperController {
                 }
             }
 
+            System.out.println("here 10");
             // conservation parameters
             float conLow = -1;
             float conHigh = -1;
@@ -280,6 +289,7 @@ public class DistributionController extends HaplotyperController {
              vsb.setIsFrameshift(req.getParameter("frameshift"));
              vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
              vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
+            System.out.println("here 11");
 
              resultHash = vdao.getVariantToGeneCountMap(vsb);
 
@@ -300,7 +310,8 @@ public class DistributionController extends HaplotyperController {
 
         //need to be different for functional search
 
-        if (vsb.genes.size()==0) {
+            System.out.println("here 12");
+            if (vsb.genes.size()==0) {
 
             List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
 
@@ -313,6 +324,7 @@ public class DistributionController extends HaplotyperController {
                     first=symbol;
                 }
 
+                System.out.println("here 13");
                 if (!lastGene.equals(""))  {
                     if (masterKeySet.contains(lastGene + "|" + mg.getGene().getSymbol())) {
                         regionList.add(lastGene + "|" + mg.getGene().getSymbol());
@@ -333,7 +345,8 @@ public class DistributionController extends HaplotyperController {
 
             }
 
-            Iterator masterIt = masterKeySet.iterator();
+                System.out.println("here 14");
+                Iterator masterIt = masterKeySet.iterator();
             while (masterIt.hasNext()) {
 
                 String key = (String) masterIt.next();
@@ -352,6 +365,7 @@ public class DistributionController extends HaplotyperController {
             }
         }
 
+            System.out.println("here 15");
             if (!errors.isEmpty()) {
                 request.setAttribute("error", errors);
             }
