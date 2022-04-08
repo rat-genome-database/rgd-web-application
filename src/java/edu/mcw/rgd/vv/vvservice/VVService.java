@@ -366,9 +366,12 @@ public class VVService {
         }
         List<String> symbols= new ArrayList<>();
 
-        if(geneList!=null){
-            if(vsb.genes==null || vsb.genes.size()==0){
-                vsb.genes= Utils.symbolSplit(geneList);
+
+        if (!geneList.contains("|")) {
+            if (geneList != null) {
+                if (vsb.genes == null || vsb.genes.size() == 0) {
+                    vsb.genes = Utils.symbolSplit(geneList);
+                }
             }
         }
 
