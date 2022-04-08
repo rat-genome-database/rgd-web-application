@@ -437,7 +437,9 @@ public class VVService {
                     System.out.println("59");
 
                 }
-                System.out.println("60");
+                System.out.println("query = " + qb.toString());
+
+
 
                 dqb.add(qb);
             }else{
