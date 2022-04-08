@@ -429,19 +429,15 @@ public class VVService {
                 }
                 */
                     if (!symbols.get(0).equals("null")) {
-                        System.out.println("53");
+                        System.out.println("58");
 
-                        if (req.getParameter("geneList").contains("|")) {
-                            System.out.println("adding gene list");
-                            qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", req.getParameter("geneList")));
-
-                        }else {
-                            System.out.println("adding symbolArray");
                             qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-                        }
+
                     }
+                    System.out.println("59");
 
                 }
+                System.out.println("60");
 
                 dqb.add(qb);
             }else{
@@ -456,6 +452,7 @@ public class VVService {
                 }
             }
         }
+        System.out.println("61");
         return dqb;
 
     }
