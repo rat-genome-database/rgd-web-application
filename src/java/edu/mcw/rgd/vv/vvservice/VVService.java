@@ -403,19 +403,23 @@ public class VVService {
                 );
                 //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
                 if ( sampleIds.size() > 0) {
+                    System.out.println("55");
 
                     qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
                 }
                 if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
                         && req.getParameter("geneList").equals("")) {
                     //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+                    System.out.println("56");
                     qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                     qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
                 }
                 //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
+                    System.out.println("57");
                     for (String s : vsb.genes){
+                        System.out.println("58");
 
                         symbols.add(s.toLowerCase());
                     }
@@ -424,8 +428,11 @@ public class VVService {
                   symbols.add(s.toLowerCase());
                 }
                 */
-                    if (!symbols.get(0).equals("null"))
+                    if (!symbols.get(0).equals("null")) {
+                        System.out.println("53");
+
                         qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+                    }
 
                 }
 
