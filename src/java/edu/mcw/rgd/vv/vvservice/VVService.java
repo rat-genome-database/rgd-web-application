@@ -366,6 +366,11 @@ public class VVService {
         }
         List<String> symbols= new ArrayList<>();
 
+        System.out.println("contains = " + geneList.contains("|"));
+
+        for (String g1: vsb.genes) {
+            System.out.println("genes before = " + g1);
+        }
 
         if (!geneList.contains("|")) {
             if (geneList != null) {
