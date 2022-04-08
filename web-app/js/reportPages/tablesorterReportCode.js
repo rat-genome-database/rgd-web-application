@@ -575,7 +575,7 @@ function tableSorterReport() {
                 size: 20
             });
         var cnt = ($("div[id^='phenominerAssociationTable']").length)/2;
-        if (cnt==2)
+        if (cnt==1)
             $('#phenominerAssociationTable1')
             .tablesorter({
                 theme: 'dropbox',
