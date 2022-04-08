@@ -431,7 +431,12 @@ public class VVService {
                     if (!symbols.get(0).equals("null")) {
                         System.out.println("53");
 
-                        qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+                        if (req.getParameter("geneList").contains("|")) {
+                            qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", req.getParameter("geneList")));
+
+                        }else {
+                            qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
+                        }
                     }
 
                 }
