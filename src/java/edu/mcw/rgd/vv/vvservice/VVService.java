@@ -371,6 +371,11 @@ public class VVService {
                 vsb.genes= Utils.symbolSplit(geneList);
             }
         }
+
+        for (String g1: vsb.genes) {
+            System.out.println("gene = " + g1);
+        }
+
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
             //System.out.println("CHRMoosme null");
             for(String s:vsb.genes){
