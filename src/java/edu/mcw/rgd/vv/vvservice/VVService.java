@@ -372,11 +372,9 @@ public class VVService {
             System.out.println("genes before = " + g1);
         }
 
-        if (!geneList.contains("|")) {
-            if (geneList != null) {
-                if (vsb.genes == null || vsb.genes.size() == 0) {
-                    vsb.genes = Utils.symbolSplit(geneList);
-                }
+        if (geneList != null) {
+            if (vsb.genes == null || vsb.genes.size() == 0) {
+                vsb.genes = Utils.symbolSplit(geneList);
             }
         }
 
@@ -385,6 +383,7 @@ public class VVService {
         }
 
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
+           System.out.println("51");
             //System.out.println("CHRMoosme null");
             for(String s:vsb.genes){
                 symbols.add(s.toLowerCase());
@@ -395,7 +394,9 @@ public class VVService {
                         .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
+            System.out.println("52");
             if(chromosome!=null && !chromosome.equals("") ){
+                System.out.println("53");
                 //System.out.println("CHROMOSOME NOT NULL");
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome.keyword", chromosome)
@@ -431,6 +432,7 @@ public class VVService {
                 dqb.add(qb);
             }else{
 
+                System.out.println("54");
                 if(vsb.getVariantId()!=0 && vsb.getSampleIds().size()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
