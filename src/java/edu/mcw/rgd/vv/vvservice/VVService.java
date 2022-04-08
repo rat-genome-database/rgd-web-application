@@ -80,6 +80,9 @@ public class VVService {
 
     public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
+
+
+
         System.out.println("31");
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
         System.out.println("32");
@@ -88,6 +91,7 @@ public class VVService {
         srb.query(builder);
         System.out.println("34");
         srb.size(10000);
+        System.out.println("variant index = " + variantIndex);
         SearchRequest searchRequest=new SearchRequest(variantIndex);
         System.out.println("35");
         searchRequest.source(srb);
@@ -116,6 +120,8 @@ public class VVService {
                 return this.excludeCommonVariants(searchHits, vsb);
 
             } else {
+
+
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
                 String scrollId = sr.getScrollId();
 
@@ -211,6 +217,8 @@ public class VVService {
         return aggs;
     }
     public BoolQueryBuilder boolQueryBuilder(VariantSearchBean vsb, HttpRequestFacade req){
+
+
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(vsb, req));
         List<String> synStats= new ArrayList<>();
@@ -352,6 +360,7 @@ public class VVService {
         String geneList=new String();
         try {
             geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
+            System.out.println("gene list = " + geneList);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
