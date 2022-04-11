@@ -597,13 +597,12 @@
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
 %>
 
-
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>--%>
-<%--    </tr>--%>
-<%--    <br />--%>
-<%--</table>--%>
+<table>
+    <tr>
+        <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+    </tr>
+    <br />
+</table>
 <%  }else if(isReferenceRgd==0){
     if (clList.size() > 0) { %>
 
