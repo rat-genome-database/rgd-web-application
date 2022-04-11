@@ -51,6 +51,7 @@ public class OntAnnotBean extends OntBaseBean {
         sortByChoices.add("object name");
         sortByChoices.add("position");
         sortByChoices.add("reference");
+        sortByChoices.add("evidence");
 
         sortByChoicesEx = new ArrayList<String>();
         sortByChoicesEx.add("symbol");
@@ -92,7 +93,7 @@ public class OntAnnotBean extends OntBaseBean {
      * @return true if the sort-by option is available only in extended view
      */
     public boolean isExtendedSortBy(String sortBy) {
-        return sortBy.equals("evidence") || sortBy.equals("qualifier") || sortBy.equals("source");
+        return sortBy.equals("qualifier") || sortBy.equals("source");
     }
 
     // set the term and compute annotation count
