@@ -83,34 +83,23 @@ public class VVService {
 
 
 
-        System.out.println("31");
         BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
-        System.out.println("32");
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        System.out.println("33");
         srb.query(builder);
-        System.out.println("34");
         srb.size(10000);
-        System.out.println("variant index = " + variantIndex);
         SearchRequest searchRequest=new SearchRequest(variantIndex);
-        System.out.println("35");
         searchRequest.source(srb);
-        System.out.println("36");
         searchRequest.scroll(TimeValue.timeValueMinutes(1L));
 
         List<SearchHit> searchHits= new ArrayList<>();
         try {
             if (req.getParameter("showDifferences").equals("true")) {
 
-                System.out.println("37");
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-                System.out.println("38");
                 String scrollId = sr.getScrollId();
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-                System.out.println("39");
 
                 do {
-                    System.out.println("40");
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
                     scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
@@ -125,12 +114,10 @@ public class VVService {
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
                 String scrollId = sr.getScrollId();
 
-                System.out.println("41");
                 searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
 
                 do {
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                    System.out.println("sr.get hits = " + sr.getHits().getHits().length);
                     scrollRequest.scroll(TimeValue.timeValueSeconds(60));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
@@ -360,17 +347,12 @@ public class VVService {
         String geneList=new String();
         try {
             geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
-            System.out.println("gene list = " + geneList);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         List<String> symbols= new ArrayList<>();
 
-        System.out.println("contains = " + geneList.contains("|"));
 
-        for (String g1: vsb.genes) {
-            System.out.println("genes before = " + g1);
-        }
 
         if (geneList != null) {
             if (vsb.genes == null || vsb.genes.size() == 0) {
@@ -378,12 +360,7 @@ public class VVService {
             }
         }
 
-        for (String g1: vsb.genes) {
-            System.out.println("gene = " + g1);
-        }
-
         if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
-           System.out.println("51");
             //System.out.println("CHRMoosme null");
             for(String s:vsb.genes){
                 symbols.add(s.toLowerCase());
@@ -394,32 +371,26 @@ public class VVService {
                         .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
-            System.out.println("52");
             if(chromosome!=null && !chromosome.equals("") ){
-                System.out.println("53");
                 //System.out.println("CHROMOSOME NOT NULL");
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome.keyword", chromosome)
                 );
                 //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
                 if ( sampleIds.size() > 0) {
-                    System.out.println("55");
 
                     qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
                 }
                 if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
                         && req.getParameter("geneList").equals("")) {
                     //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
-                    System.out.println("56");
                     qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                     qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
                 }
                 //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
                 if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
-                    System.out.println("57");
                     for (String s : vsb.genes){
-                        System.out.println("58");
 
                         symbols.add(s.toLowerCase());
                     }
@@ -429,22 +400,18 @@ public class VVService {
                 }
                 */
                     if (!symbols.get(0).equals("null")) {
-                        System.out.println("58");
 
                             qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
 
                     }
-                    System.out.println("59");
 
                 }
-                System.out.println("query = " + qb.toString());
 
 
 
                 dqb.add(qb);
             }else{
 
-                System.out.println("54");
                 if(vsb.getVariantId()!=0 && vsb.getSampleIds().size()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
@@ -454,7 +421,6 @@ public class VVService {
                 }
             }
         }
-        System.out.println("61");
         return dqb;
 
     }
