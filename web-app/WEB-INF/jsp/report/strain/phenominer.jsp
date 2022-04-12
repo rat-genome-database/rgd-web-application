@@ -21,7 +21,7 @@
     <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
 </div>
     <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager1" >
+        <div class="pager phenominerAssociationPager" >
             <form>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
@@ -51,7 +51,7 @@
     </tr>
   </table>
    <br/>
-    <div id="phenominerAssociationTable1Div">
+    <div id="phenominerAssociationTableDiv">
 <%
     /*if( recIds.size()>1000 ) {
         out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
@@ -94,7 +94,7 @@
     </div>
 <br>
     <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager1" >
+        <div class="pager phenominerAssociationPager" >
             <form>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>

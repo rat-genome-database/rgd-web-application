@@ -19,19 +19,14 @@ function run() {
     }
 
 //phenominer values table
+    addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
 
-
-    // var phenominer = document.getElementById("phenominerAssociationTableDiv");
-    // const count = array.filter((obj) => obj.phenominer === phenominer).length;
-
-    var cnt = $("div[id^='phenominerAssociationTable']").length;
-    for (var i = 1 ; i <= cnt ; i++) {
-        addHeadAndIdToTable("phenominerAssociationTable" + i + "Div", 0);
-    }
     rebuildReferenceSequenceTables();
     checkForRegionTables();
     checkForAdditionalInfoTables();
     addEventsToSidebar();
+
+
 
     moveAGRLink();
 

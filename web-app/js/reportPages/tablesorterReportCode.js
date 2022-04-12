@@ -574,32 +574,15 @@ function tableSorterReport() {
                 container: $('.strainQtlAssociationPager'),
                 size: 20
             });
-        var cnt = ($("div[id^='phenominerAssociationTable']").length)/2;
-        if (cnt==1)
-            $('#phenominerAssociationTable1')
+        $('#phenominerAssociationTable')
             .tablesorter({
                 theme: 'dropbox',
                 widget: ['zebra']
             })
             .tablesorterPager({
-                container: $('.phenominerAssociationPager1'),
+                container: $('.phenominerAssociationPager'),
                 size: 30
             });
-        else {
-            for (var i = 1; i <= cnt; i++) {
-                $('#phenominerAssociationTable'+i)
-                    .tablesorter({
-                        theme: 'dropbox',
-                        widget: ['zebra']
-                    })
-                    .tablesorterPager({
-                        container: $('.phenominerAssociationPager'+i),
-                        size: 30
-                    });
-            }
-        }
-
-
 
 
     });

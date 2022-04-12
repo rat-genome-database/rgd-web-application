@@ -731,5 +731,191 @@ public class OntAnnotController implements Controller {
                 request.getParameter("x"),
                 maxAnnotCount);
     }
+
+    static public void loadAnnotationsForReference(OntAnnotBean bean, OntologyXDAO dao, int rgdId, String species, String displayDescendants,
+                                       String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount) throws Exception {
+
+        bean.setExtendedView(false);
+        if( extendedView!=null ) {
+            if( Integer.parseInt(extendedView)>0 )
+                bean.setExtendedView(true);
+        }
+
+
+        if (objectKey != null) {
+            bean.setObjectKey(Integer.parseInt(objectKey));
+        }
+
+        boolean withChildren = true; // display gene annotations for term and all child terms; default is true
+        int withKids = 1;
+        if( displayDescendants!=null &&  displayDescendants.equals("0") ) {
+            withChildren = false; // override to turn off showing the descendants
+            withKids=0;
+        }
+        bean.setWithChildren(withChildren);
+
+        // species filter (validate)
+        if( species==null ) {
+            species = "Rat";
+        } else {
+            int pos = species.indexOf('?');
+            if( pos>0 )
+                species = species.substring(0, pos);
+        }
+        int speciesTypeKey = SpeciesType.parse(species);
+        if( speciesTypeKey==SpeciesType.UNKNOWN ) {
+            speciesTypeKey = SpeciesType.RAT;
+        }
+        bean.setSpeciesTypeKey(speciesTypeKey);
+        species = SpeciesType.getCommonName(speciesTypeKey);
+        bean.setSpecies(species);
+
+//        TermWithStats ts = dao.getTermWithStatsCached(bean.getAccId());
+//        bean.setTerm(ts);
+        // handle invalid term acc id
+//        if( bean.getTerm()==null ) {
+//            return; // invalid acc id -- nothing more to do
+//        }
+
+//        if (ts.getStat("annotated_object_count",speciesTypeKey,bean.getObjectKey(),withKids) < 1) {
+//
+//            if (ts.getStat("annotated_object_count",speciesTypeKey,1,withKids) > 0){
+//                bean.setObjectKey(1);
+//            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,6,withKids) > 0){
+//                bean.setObjectKey(6);
+//            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,5,withKids) > 0){
+//                bean.setObjectKey(5);
+//            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,7,withKids) > 0){
+//                bean.setObjectKey(7);
+//            }else  if (ts.getStat("annotated_object_count",speciesTypeKey,11,withKids) > 0){
+//                bean.setObjectKey(11);
+//            }
+//        }
+
+        // load term synonyms
+//        List<TermSynonym> synonyms = dao.getTermSynonyms(accId);
+//        bean.setTermSynonyms(synonyms);
+//        // sort synonyms by type and name
+//        OntViewController.sortSynonyms(synonyms);
+
+//        Map<Term, List<OntAnnotation>> mapWithAnnots = new HashMap<Term, List<OntAnnotation>>();
+
+        withKids = 0;
+        if (bean.isWithChildren()) {
+            withKids=1;
+        }
+
+//        if (ts.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) < maxAnnotCount) {
+//            mapWithAnnots = loadAnnotations(bean, withChildren, maxAnnotCount);
+//        }
+//
+//        // load gene,qtl and strain annotations for the term
+//        bean.setAnnots(mapWithAnnots);
+
+        // load map positions for the annotations specific to given species
+//        if( speciesTypeKey!=SpeciesType.ALL ) {
+//            loadMapPositions(mapWithAnnots, speciesTypeKey);
+//        }else {
+//            loadMapPositions(mapWithAnnots);
+//        }
+        // the rest of parameters: 'sort_by' and 'sort_desc'
+        if( sortBy==null || sortBy.isEmpty() )
+            sortBy = "symbol"; // default sort by symbol
+        if( !bean.isExtendedView() && bean.isExtendedSortBy(sortBy) )
+            sortBy = "symbol"; // default sort by symbol
+        bean.setSortBy(sortBy);
+
+        if( sortDesc!=null && sortDesc.equals("1") )
+            bean.setSortDesc(true);
+
+        // sort the objects
+//        sort(mapWithAnnots, bean.getSortBy(), bean.isSortDesc());
+        loadPhenominerAnnotations(bean, rgdId, withChildren);
+    }
+    static void loadPhenominerAnnotations(OntAnnotBean bean, int rgdId, boolean withChildren) throws Exception {
+
+        //
+        withChildren = false;
+
+        // build map with annotations
+        Set<Term> strainTerms = new TreeSet<Term>(new Comparator<Term>() {
+            public int compare(Term t1, Term t2) {
+                return Utils.stringsCompareToIgnoreCase(t1.getTerm(), t2.getTerm());
+            }
+        });
+
+        Set<Term> cmoTerms = new TreeSet<Term>(new Comparator<Term>() {
+            public int compare(Term t1, Term t2) {
+                return Utils.stringsCompareToIgnoreCase(t1.getTerm(), t2.getTerm());
+            }
+        });
+
+        Set<Term> mmoTerms = new TreeSet<Term>(new Comparator<Term>() {
+            public int compare(Term t1, Term t2) {
+                return Utils.stringsCompareToIgnoreCase(t1.getTerm(), t2.getTerm());
+            }
+        });
+
+        Set<Term> xcoTerms = new TreeSet<Term>(new Comparator<Term>() {
+            public int compare(Term t1, Term t2) {
+                return Utils.stringsCompareToIgnoreCase(t1.getTerm(), t2.getTerm());
+            }
+        });
+
+
+        // first get the list of record ids
+        PhenominerDAO phDAO = new PhenominerDAO();
+        OntologyXDAO ontDAO = new OntologyXDAO();
+
+        List<Record> records = phDAO.getFullRecords(rgdId);
+
+//        List<Integer> annotIds;
+//        if( withChildren )
+//            annotIds = phDAO.getAnnotationsForTermAndDescendants(bean.getAccId());
+//        else
+//            annotIds = phDAO.getAnnotationsForTerm(bean.getAccId());
+
+//        for( int recordId: annotIds ) {
+        for (Record rec : records){
+//            Record rec = record;
+
+            // strain ontology term
+            String accId = rec.getSample().getStrainAccId();
+            Term term = ontDAO.getTermWithStatsCached(accId);
+            if( term!=null ) {
+                strainTerms.add(term);
+            }
+
+            // cmo term
+            accId = rec.getClinicalMeasurement().getAccId();
+            term = ontDAO.getTermWithStatsCached(accId);
+            if( term!=null ) {
+                cmoTerms.add(term);
+            }
+
+            // mmo term
+            accId = rec.getMeasurementMethod().getAccId();
+            term = ontDAO.getTermWithStatsCached(accId);
+            if( term!=null ) {
+                mmoTerms.add(term);
+            }
+
+            // xco term
+            for( Condition cond: rec.getConditions() ) {
+                accId = cond.getOntologyId();
+                term = ontDAO.getTermWithStatsCached(accId);
+                if( term!=null ) {
+                    xcoTerms.add(term);
+                }
+            }
+        }
+
+        bean.setPhenoStrains(strainTerms);
+        bean.setPhenoCmoTerms(cmoTerms);
+        bean.setPhenoMmoTerms(mmoTerms);
+        bean.setPhenoXcoTerms(xcoTerms);
+    }
+
+
 }
 

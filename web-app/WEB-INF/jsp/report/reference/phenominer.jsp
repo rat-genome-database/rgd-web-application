@@ -6,28 +6,26 @@
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
-    int j = 1;
-    for (int i = 0; i < strains.size(); i++){
-    String ontId = ontologyDAO.getStrainOntIdForRgdId(strains.get(i).getAnnotatedObjectRgdId());
-
-    List<Integer> recIds = null;
-    if( ontId != null ) {
-        SearchBean sb = new SearchBean();
-        sb.setSAccId(ontId);
-
-        recIds = phenominerDAO.getRecordIdsForReport(sb);
-    }
-    if (recIds!=null && recIds.size() > 0) {
+//    String ontId = request.getAttribute("ontId").toString();
+//
+//    List<Integer> recIds = null;
+//    if( ontId != null ) {
+//        SearchBean sb = new SearchBean();
+//        sb.setSAccId(ontId);
+//
+//        recIds = phenominerDAO.getRecordIdsForReport(sb);
+//    }
+    List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId());
+    if (records!=null && records.size() > 0) {
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
-<div id="phenominerAssociationTable<%out.print(j);%>Wrapper" class="light-table-border">
-<div class="sectionHeading" id="phenominerAssociation<%out.print(j);%>">Phenominer - <%out.print(strains.get(i).getObjectSymbol());%>
-    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationC<%out.print(j);%>TableDiv', 'phenominerAssociationTable<%out.print(j);%>Wrapper');">Click to see Annotation Detail View</a>
+<div id="phenominerAssociationTableWrapper" class="light-table-border">
+<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via PhenoMiner&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
 </div>
-
     <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager<%out.print(j);%>" >
+        <div class="pager phenominerAssociationPager" >
             <form>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
@@ -49,22 +47,22 @@
 <table>
     <tr>
       <td><b>Options:&nbsp;</b></td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=ontId%>#ViewChart">View chart</a></td>
+      <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=obj.getRgdId()%>#ViewChart">View chart</a></td>
       <td>&nbsp;|&nbsp;</td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&terms=<%=ontId%>">Download data table</a></td>
+      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&refRgdId=<%=obj.getRgdId()%>">Download data table</a></td>
       <td>&nbsp;|&nbsp;</td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=2&terms=<%=ontId%>">View expanded data table</a></td>
+      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=2&refRgdId=<%=obj.getRgdId()%>">View expanded data table</a></td>
     </tr>
   </table>
    <br/>
-    <div id="phenominerAssociationTable<%out.print(j);%>Div">
+    <div id="phenominerAssociationTableDiv">
 <%
     /*if( recIds.size()>1000 ) {
         out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
     }
     */
 
-    List<Record> records = phenominerDAO.getRecords(recIds);
+//    List<Record> records = phenominerDAO.getRecords(recIds);
 
     Report r = new Report();
 
@@ -74,8 +72,6 @@
     r.append(row);
 
     HashMap seen = new HashMap();
-
-
 
     for (Record rec: records) {
        row = new edu.mcw.rgd.reporting.Record();
@@ -91,7 +87,6 @@
         }
 
     }
-
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
     r.sort(0, Report.CHARACTER_SORT, Report.ASCENDING_SORT, true);
 
@@ -101,7 +96,7 @@
     </div>
 <br>
     <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager<%out.print(j);%>" >
+        <div class="pager phenominerAssociationPager" >
             <form>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
@@ -119,10 +114,8 @@
             </form>
         </div>
     </div>
-
 <%--<%=ui.dynClose("phenominerAssociation")%>--%>
 </div>
-<%  j++;}
-}%>
+<% } %>
 
 <%@ include file="../sectionFooter.jsp"%>

@@ -1408,9 +1408,9 @@
         </div>
     </div>
     <% }%>
-
-  <%  } %>
 </div>
+  <%  } %>
+
 <br>
 <%//ui.dynClose("expAssociationC")%>
 <% } %>

@@ -33,18 +33,6 @@
         if( newRgdId>0 )
             newRef = referenceDAO.getReference(newRgdId);
     }
-    List<Annotation> strains = new ArrayList<Annotation>();
-    final List<Annotation> allAnnots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
-    for (Annotation annot : allAnnots) {
-        if (RgdContext.isChinchilla(request)) {
-
-        }else
-        if (annot.getRgdObjectKey() == RgdId.OBJECT_KEY_STRAINS) {
-            if (checkAnnotInList1(annot, strains) == 0) {
-                strains.add(annot);
-            }
-        }
-    }
 %>
 
 <div id="top" ></div>
