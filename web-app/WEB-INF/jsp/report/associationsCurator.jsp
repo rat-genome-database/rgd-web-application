@@ -1203,6 +1203,7 @@
 %>
 
 <%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
+<% if(!title.equalsIgnoreCase("references")) { %>
 <div class="light-table-border">
 <div class="sectionHeading" id="experimentalDataAnnotationsCurator">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
 
@@ -1398,7 +1399,7 @@
     </div>
 </div>
     <% } %>
-
+    <%}%>
     <% if (vtList.size() > 0) { %>
     <div class="reportTable" id="vertebrateTraitTableWrapper">
         <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
