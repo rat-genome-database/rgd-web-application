@@ -45,7 +45,6 @@ public class VariantController extends HaplotyperController {
 
         try {
 
-            System.out.println("here 1");
             HttpRequestFacade req = new HttpRequestFacade(request);
             String geneList=req.getParameter("geneList");
 
@@ -62,36 +61,40 @@ public class VariantController extends HaplotyperController {
                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
 
-            System.out.println("here 2");
             VariantSearchBean vsb = this.fillBean(req);
-            System.out.println("here 3");
-            vsb.genes=Utils.symbolSplit(geneList);
-            System.out.println("here 4");
+            List<String> genes = Utils.symbolSplit(geneList);
+            List<String> geneSymbols = new ArrayList<>();
+            if (genes.size()==1){
+                try {
+                    int rgdId = Integer.parseInt(genes.get(0));
+                    Gene g = gdao.getGene(rgdId);
+                    geneSymbols.add(g.getSymbol());
+                } catch (Exception e) {
+                    geneSymbols.add(genes.get(0));
+                }
+                vsb.genes= geneSymbols;
+            }
+            else
+                vsb.genes = genes;
             String index=new String();
-            System.out.println("here 5");
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
-            System.out.println("here 6");
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+vsb.getMapKey());
             VVService.setVariantIndex(index);
-            System.out.println("here 7");
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
             }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
-            System.out.println("here 8");
          //   long count=service.getVariantsCount(vsb,req);
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
-            System.out.println("here 9");
             if (count < 2000 || searchType.equals("GENE")) {
               //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
 
-                System.out.println("here 10");
 
                 for (VariantResult vr: variantResults) {
                     if (vr.getVariant() != null ) {
@@ -99,7 +102,6 @@ public class VariantController extends HaplotyperController {
                     }
                 }
 
-                System.out.println("here 3");
                 List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                 snplotyper.addGeneMappings(mappedGenes);
                 TranscriptDAO tdao = new TranscriptDAO();
@@ -119,7 +121,6 @@ public class VariantController extends HaplotyperController {
                 boolean b1 = snplotyper.hasPlusStrandConflict();
                 boolean b2 = snplotyper.hasMinusStrandConflict();
 
-                System.out.println("here 4");
                 request.setAttribute("mapKey",vsb.getMapKey());
                 request.setAttribute("speciesTypeKey", SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
                 return new ModelAndView("/WEB-INF/jsp/vv/variants.jsp");
@@ -147,18 +148,13 @@ public class VariantController extends HaplotyperController {
     }
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
-        System.out.println("here 21");
         VVService service= new VVService();
-        System.out.println("here 22");
         List<SearchHit> hits=service.getVariants(vsb,req);
-        System.out.println("here 23");
         List<VariantResult> variantResults=new ArrayList<>();
             for (SearchHit h : hits) {
-                System.out.println("here 24");
                 java.util.Map<String, Object> m = h.getSourceAsMap();
                         VariantResult vr = new VariantResult();
 
-                System.out.println("here 25");
                         Variant v = new Variant();
                         v.setId((Integer) m.get("variant_id"));
                         v.setChromosome((String) m.get("chromosome"));
@@ -185,21 +181,17 @@ public class VariantController extends HaplotyperController {
                         v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
                         v.conservationScore.add(mapConservation(m));
                         vr.setVariant(v);
-                System.out.println("here 26");
                         if(requiredTranscripts) {
                             List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
                             vr.setTranscriptResults(trs);
                         }
 
-                System.out.println("here 27");
                         if(vsb.getMapKey()==38){
-                            System.out.println("here 28");
                             VariantInfo clinvar=getClinvarInfo(v.getId());
 //                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                             vr.setClinvarInfo(clinvar);
                         }
                         variantResults.add(vr);
-                System.out.println("here 29");
 
             }
 

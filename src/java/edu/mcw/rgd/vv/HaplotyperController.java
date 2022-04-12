@@ -98,7 +98,15 @@ public abstract class HaplotyperController implements Controller {
             } else if (Utils.symbolSplit(geneSymbol).size() == 1) {
 
                 Map m = MapManager.getInstance().getMap(mapKey);
-                Gene gene = gdao.getGenesBySymbol(geneSymbol, m.getSpeciesTypeKey());
+                Gene gene;
+                try {
+                    int rgdId = Integer.parseInt(geneSymbol);
+                    gene = gdao.getGene(rgdId);
+                }
+                catch (Exception e){
+                    gene = gdao.getGenesBySymbol(geneSymbol, m.getSpeciesTypeKey());
+                }
+
                 if (gene == null) {
                     throw new VVException("Gene not found for symbol " + geneSymbol);
                 }
