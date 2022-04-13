@@ -75,7 +75,6 @@ public class VariantController extends HaplotyperController {
             }else if ((vsb.getStopPosition() - vsb.getStartPosition()) > 20000000) {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
-         //   long count=service.getVariantsCount(vsb,req);
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
             if (count < 2000 || searchType.equals("GENE")) {
