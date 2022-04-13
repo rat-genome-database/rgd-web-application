@@ -114,7 +114,7 @@
           </table>
            <br/>
             <div id="phenominerAssociationTableDiv">
-
+                <input type="hidden" id="hiddenCheck" value="0">
                 <table id="annotationTable9" border='0' cellpadding='2' cellspacing='2' aria-describedby="annotationTable9_pager_info">
                     <tr class="headerRow"><td>Strains with Phenominer Data</td><td></td></tr>
         <%
@@ -186,12 +186,17 @@
     function showAllClinicalMeasurement(divNames, buttons){
         var allDivs = $("div[id^="+divNames+"]");
         var allBtns = $("[id^="+buttons+"]");
+        var hidden = document.getElementById('hiddenCheck');
+        if (hidden.value === '1')
+            hidden.value = '0';
+        else
+            hidden.value = '1';
         for (var i = 0 ; i < allDivs.length ; i++){
-            if (allDivs[i].style.display !== 'none') {
+            if (allDivs[i].style.display !== 'none' && hidden.value === '0') {
                 allDivs[i].style.display = 'none';
                 allBtns[i].value = '+';
             }
-            else {
+            else if (allDivs[i].style.display !== 'block' && hidden.value === '1'){
                 allDivs[i].style.display = 'block';
                 allBtns[i].value = '-';
             }
