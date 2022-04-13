@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
  */
 public class VariantController extends HaplotyperController {
 
-    VVService service= new VVService();
     GeneDAO gdao = new GeneDAO();
 
     VariantTranscriptDao dao=new VariantTranscriptDao();
@@ -62,7 +61,10 @@ public class VariantController extends HaplotyperController {
             }
 
             VariantSearchBean vsb = this.fillBean(req);
-            vsb.genes=Utils.symbolSplit(geneList);
+            if(!geneList.contains("|"))
+            vsb.genes=Utils.symbolSplit(geneList).stream().map(g->g.toLowerCase()).collect(Collectors.toList());
+            else
+                vsb.genes= Collections.singletonList(geneList.toLowerCase());
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
@@ -77,7 +79,6 @@ public class VariantController extends HaplotyperController {
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
             if (count < 2000 || searchType.equals("GENE")) {
-              //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
