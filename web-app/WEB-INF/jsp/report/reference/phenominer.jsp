@@ -6,116 +6,203 @@
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
-//    String ontId = request.getAttribute("ontId").toString();
-//
-//    List<Integer> recIds = null;
-//    if( ontId != null ) {
-//        SearchBean sb = new SearchBean();
-//        sb.setSAccId(ontId);
-//
-//        recIds = phenominerDAO.getRecordIdsForReport(sb);
-//    }
-    List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId());
-    if (records!=null && records.size() > 0) {
+
+    AnnotationFormatter af = new AnnotationFormatter();
+    final List<Annotation> annots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+    final Set<Integer> annotRgdIds = new HashSet<Integer>(annots.size());
+    List<Annotation> strains = new ArrayList<Annotation>();
+    if (annots.size() > 0 ) {
+        Collections.sort(annots, new Comparator<Annotation>() {
+            public int compare(Annotation o1, Annotation o2) {
+                int result = (o1.getRgdObjectKey().compareTo(o2.getRgdObjectKey()));
+                if (result != 0)
+                    return result;
+
+                int result1 = Utils.stringsCompareToIgnoreCase(o1.getObjectSymbol(), o2.getObjectSymbol());
+                if (result1 != 0)
+                    return result1;
+
+                int result2 = Utils.stringsCompareToIgnoreCase(o1.getObjectName(), o2.getObjectName());
+                if (result2 != 0)
+                    return result2;
+
+                return o1.getTerm().compareToIgnoreCase(o2.getTerm());
+            }
+        });
+        for (Annotation annot : annots) {
+            annotRgdIds.add(annot.getAnnotatedObjectRgdId());
+            if (annot.getRgdObjectKey() == RgdId.OBJECT_KEY_STRAINS) {
+                if (checkAnnotInList(annot, strains) == 0) {
+                    strains.add(annot);
+                }
+            }
+        }
+    }
+
+    ArrayList<String> table = new ArrayList<>(strains.size());
+    for (int i = 0; i < strains.size(); i++){
+        String ontId = ontologyDAO.getStrainOntIdForRgdId(strains.get(i).getAnnotatedObjectRgdId());
+        List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId(),ontId);
+        if (records!=null && records.size()>0) {
+            Report r = new Report();
+            edu.mcw.rgd.reporting.Record row = new edu.mcw.rgd.reporting.Record();
+            row.append("Clinical Measurement");
+            r.append(row);
+            HashMap seen = new HashMap();
+            for (Record rec : records) {
+                row = new edu.mcw.rgd.reporting.Record();
+
+                String term = ontologyDAO.getTerm(rec.getClinicalMeasurement().getAccId()).getTerm();
+
+                if (!seen.containsKey(term)) {
+                    row.append("<a href='/rgdweb/phenominer/table.html?species=3&terms=" + rec.getSample().getStrainAccId()
+                            + "," + rec.getClinicalMeasurement().getAccId()
+                            + "#ViewDataTable'>" + ontologyDAO.getTerm(rec.getClinicalMeasurement().getAccId()).getTerm() + "</a>");
+                    r.append(row);
+                    seen.put(term, true);
+                }
+            }
+            HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
+            r.sort(0, Report.CHARACTER_SORT, Report.ASCENDING_SORT, true);
+            table.add(i, strat.format(r));
+        }
+        else
+            table.add(i,null);
+    }
+
+//        List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId());
+//        if (records!=null && records.size() > 0) {
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
-<div id="phenominerAssociationTableWrapper" class="light-table-border">
-<div class="sectionHeading" id="phenominerAssociation">Phenotype Values via PhenoMiner&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
-</div>
-    <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
+        <div id="phenominerAssociationTableWrapper" class="light-table-border">
+            <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
+            <div class="sectionHeading" id="phenominerAssociation">Phenotype Values via PhenoMiner&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a>
+            </div>
+            <div class="modelsViewContent" >
+                <div class="pager phenominerAssociationPager" >
+                    <form>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                        <span type="text" class="pagedisplay"></span>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                        <select class="pagesize">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option  value="40">40</option>
+                            <option   value="100">100</option>
+                            <option value="9999">All Rows</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+        <table>
+            <tr>
+              <td><b>Options:&nbsp;</b></td>
+              <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=obj.getRgdId()%>#ViewChart">View chart</a></td>
+              <td>&nbsp;|&nbsp;</td>
+              <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&refRgdId=<%=obj.getRgdId()%>">Download data table</a></td>
+              <td>&nbsp;|&nbsp;</td>
+              <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=2&refRgdId=<%=obj.getRgdId()%>">View expanded data table</a></td>
+              <td>&nbsp;|&nbsp;</td>
+              <td><a href="javascript:void(0);" onclick="showAllClinicalMeasurement('ClinMeasure', 'showHide');">Show All Strains Clinical Measurement</a></td>
+            </tr>
+          </table>
+           <br/>
+            <div id="phenominerAssociationTableDiv">
+
+                <table id="annotationTable9" border='0' cellpadding='2' cellspacing='2' aria-describedby="annotationTable9_pager_info">
+                    <tr class="headerRow"><td>Strains with Phenominer Data</td><td></td></tr>
+        <%
+            /*if( recIds.size()>1000 ) {
+                out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
+            }
+            */
+
+        //    List<Record> records = phenominerDAO.getRecords(recIds);
+//            List<String> records = new ArrayList<>();
+            int k = 0;
+            for (int j = 0 ; j < strains.size() ; j++){
+
+                if (table.get(j)!=null && !table.get(j).isEmpty()){
+
+                    String evenOdd = (k%2==0) ? "even" : "odd";
+                    String objSymbol = Utils.NVL(strains.get(j).getObjectSymbol(), "NA");
+
+                    out.print("<tr  class=\""+evenOdd+"Row\">" +
+                        "<td><a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
+                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol +
+                        " <span style=\"font-size:10px;\">&nbsp;<span style=\"color:blue;font-size:20px;font-weight:bold\" title='Phenominer Data Available'><img src=\"/rgdweb/images/PM_small.gif\"></span></span></a>" +
+                            "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>" +
+                            "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input></td></tr>");
+                    k++;
+                }
+
+            }
+        %>
+                </table>
+            </div>
+        <br>
+            <div class="modelsViewContent" >
+                <div class="pager phenominerAssociationPager" >
+                    <form>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                        <span type="text" class="pagedisplay"></span>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                        <select class="pagesize">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option  value="40">40</option>
+                            <option   value="100">100</option>
+                            <option value="9999">All Rows</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        <%--<%=ui.dynClose("phenominerAssociation")%>--%>
         </div>
-    </div>
-
-<table>
-    <tr>
-      <td><b>Options:&nbsp;</b></td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=obj.getRgdId()%>#ViewChart">View chart</a></td>
-      <td>&nbsp;|&nbsp;</td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&refRgdId=<%=obj.getRgdId()%>">Download data table</a></td>
-      <td>&nbsp;|&nbsp;</td>
-      <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=2&refRgdId=<%=obj.getRgdId()%>">View expanded data table</a></td>
-    </tr>
-  </table>
-   <br/>
-    <div id="phenominerAssociationTableDiv">
-<%
-    /*if( recIds.size()>1000 ) {
-        out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
-    }
-    */
-
-//    List<Record> records = phenominerDAO.getRecords(recIds);
-
-    Report r = new Report();
-
-    edu.mcw.rgd.reporting.Record row = new edu.mcw.rgd.reporting.Record();
-    row.append("Clinical Measurement");
-
-    r.append(row);
-
-    HashMap seen = new HashMap();
-
-    for (Record rec: records) {
-       row = new edu.mcw.rgd.reporting.Record();
-
-       String term = ontologyDAO.getTerm(rec.getClinicalMeasurement().getAccId()).getTerm();
-
-        if (!seen.containsKey(term)) {
-            row.append("<a href='/rgdweb/phenominer/table.html?species=3&terms=" + rec.getSample().getStrainAccId()
-                    + "," + rec.getClinicalMeasurement().getAccId()
-                    + "#ViewDataTable'>" + ontologyDAO.getTerm(rec.getClinicalMeasurement().getAccId()).getTerm() + "</a>");
-            r.append(row);
-            seen.put(term,true);
+<%--<% } %>--%>
+<script>
+    function toggleCM(divName, myButton){
+       var clinicalMeasurment = document.getElementById(divName);
+       var pm = document.getElementById(myButton);
+        if (clinicalMeasurment.style.display !== 'none') {
+            clinicalMeasurment.style.display = 'none';
+            pm.value = '+';
+        }
+        else {
+            clinicalMeasurment.style.display = 'block';
+            pm.value = '-';
         }
 
     }
-    HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-    r.sort(0, Report.CHARACTER_SORT, Report.ASCENDING_SORT, true);
-
-    out.print(strat.format(r));
-
-%>
-    </div>
-<br>
-    <div class="modelsViewContent" >
-        <div class="pager phenominerAssociationPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-<%--<%=ui.dynClose("phenominerAssociation")%>--%>
-</div>
-<% } %>
-
+    function showAllClinicalMeasurement(divNames, buttons){
+        var allDivs = $("div[id^="+divNames+"]");
+        var allBtns = $("[id^="+buttons+"]");
+        for (var i = 0 ; i < allDivs.length ; i++){
+            if (allDivs[i].style.display !== 'none') {
+                allDivs[i].style.display = 'none';
+                allBtns[i].value = '+';
+            }
+            else {
+                allDivs[i].style.display = 'block';
+                allBtns[i].value = '-';
+            }
+        }
+    }
+</script>
+<style>
+    .phenoButton{
+        border: none;
+        background: red;
+        color: white;
+    }
+</style>
 <%@ include file="../sectionFooter.jsp"%>

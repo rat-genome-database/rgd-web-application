@@ -20,7 +20,7 @@
 %>
 
 <div id="phenominerAssociationCTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="phenominerAssociationC">Phenotype Values<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>
+    <div class="sectionHeading" id="phenominerAssociationC">Phenotype Values <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>
     <div>
         <h3>Related Phenotype Data for Reference</h3>
         <table cellspacing='3px' border='0'>
