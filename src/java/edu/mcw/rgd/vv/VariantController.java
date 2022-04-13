@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
  */
 public class VariantController extends HaplotyperController {
 
-    VVService service= new VVService();
     GeneDAO gdao = new GeneDAO();
 
     VariantTranscriptDao dao=new VariantTranscriptDao();
@@ -62,23 +61,13 @@ public class VariantController extends HaplotyperController {
             }
 
             VariantSearchBean vsb = this.fillBean(req);
-            List<String> genes = Utils.symbolSplit(geneList);
-            List<String> geneSymbols = new ArrayList<>();
-            if (genes.size()==1){
-                try {
-                    int rgdId = Integer.parseInt(genes.get(0));
-                    Gene g = gdao.getGene(rgdId);
-                    geneSymbols.add(g.getSymbol());
-                } catch (Exception e) {
-                    geneSymbols.add(genes.get(0));
-                }
-                vsb.genes= geneSymbols;
-            }
+            if(!geneList.contains("|"))
+            vsb.genes=Utils.symbolSplit(geneList).stream().map(g->g.toLowerCase()).collect(Collectors.toList());
             else
-                vsb.genes = genes;
+                vsb.genes= Collections.singletonList(geneList.toLowerCase());
             String index=new String();
             String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
-            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+vsb.getMapKey());
+            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
@@ -90,7 +79,6 @@ public class VariantController extends HaplotyperController {
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
             if (count < 2000 || searchType.equals("GENE")) {
-              //  System.out.println("COUNT:"+ count);
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
