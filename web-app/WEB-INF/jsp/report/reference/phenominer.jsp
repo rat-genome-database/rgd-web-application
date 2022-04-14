@@ -70,11 +70,25 @@
             table.add(i,null);
     }
 
+    List<String> columns = new ArrayList<>();
+    int k = 0;
+    for (int j = 0 ; j < strains.size() ; j++){
+        if (table.get(j)!=null && !table.get(j).isEmpty()){
+            String objSymbol = Utils.NVL(strains.get(j).getObjectSymbol(), "NA");
+            columns.add(
+                    "<td><a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
+                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol +
+                            "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>" +
+                            "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input></td>");
+            k++;
+        }
+    }
 //        List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId());
 //        if (records!=null && records.size() > 0) {
 %>
 
 <%--<%=ui.dynOpen("phenominerAssociation", "Phenotype Values via Phenominer")%>--%>
+<% if (columns.size()>0){%>
         <div id="phenominerAssociationTableWrapper" class="light-table-border">
             <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
             <div class="sectionHeading" id="phenominerAssociation">Phenotype Values via PhenoMiner&nbsp;&nbsp;&nbsp;&nbsp;
@@ -116,33 +130,38 @@
             <div id="phenominerAssociationTableDiv">
                 <input type="hidden" id="hiddenCheck" value="0">
                 <table id="annotationTable9" border='0' cellpadding='2' cellspacing='2' aria-describedby="annotationTable9_pager_info">
-                    <tr class="headerRow"><td>Strains with Phenominer Data</td><td></td></tr>
+                    <tr class="headerRow"><td>Strains with Phenominer Data</td><td></td>
+                    <%
+                        if (columns.size()%3==2)
+                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>");
+                        else if (columns.size()>2){
+                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>" +
+                                    "<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>");
+                        }
+                    %>
+                    </tr>
         <%
             /*if( recIds.size()>1000 ) {
                 out.println("<p><span class=\"highlight\"><u>Note: Only first 1000 records are shown!</u></span><br></p>");
             }
             */
 
-        //    List<Record> records = phenominerDAO.getRecords(recIds);
-//            List<String> records = new ArrayList<>();
-            int k = 0;
-            for (int j = 0 ; j < strains.size() ; j++){
-
-                if (table.get(j)!=null && !table.get(j).isEmpty()){
-
-                    String evenOdd = (k%2==0) ? "even" : "odd";
-                    String objSymbol = Utils.NVL(strains.get(j).getObjectSymbol(), "NA");
-
-                    out.print("<tr  class=\""+evenOdd+"Row\">" +
-                        "<td><a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
-                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol +
-                        " <span style=\"font-size:10px;\">&nbsp;<span style=\"color:blue;font-size:20px;font-weight:bold\" title='Phenominer Data Available'><img src=\"/rgdweb/images/PM_small.gif\"></span></span></a>" +
-                            "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>" +
-                            "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input></td></tr>");
-                    k++;
+            boolean isRow = false;
+            String evenOdd = (isRow) ? "even" : "odd";
+            isRow = true;
+            for (int i = 0; i < columns.size();i++){
+                if (i==0) {
+                    out.print("<tr  class=\"" + evenOdd + "Row\">");
                 }
-
+                else if (i%3==0){
+                    evenOdd = (isRow) ? "even" : "odd";
+                    out.print("</tr><tr  class=\""+evenOdd+"Row\">" );
+                    isRow = !isRow;
+                }
+                    out.print(columns.get(i));
             }
+            if (columns.size()>0)
+                out.print("</tr>");
         %>
                 </table>
             </div>
@@ -168,6 +187,7 @@
             </div>
         <%--<%=ui.dynClose("phenominerAssociation")%>--%>
         </div>
+<% } %>
 <%--<% } %>--%>
 <script>
     function toggleCM(divName, myButton){
