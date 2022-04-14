@@ -9,6 +9,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.ml.job.results.Bucket;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
@@ -24,10 +25,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhenominerService {
     private static String phenominerIndex;
@@ -74,9 +72,9 @@ public class PhenominerService {
         builder.must(this.getDisMaxQuery( req));
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
-                if(key.equalsIgnoreCase("cmoTerm")){
-                    builder.filter(QueryBuilders.termsQuery("cmoTermWithUnits.keyword", filterMap.get(key).split(",")));
-                }else
+              /*  if(key.equalsIgnoreCase("cmoTerm")){
+                  //  builder.filter(QueryBuilders.termsQuery("cmoTermWithUnits.keyword", filterMap.get(key).split(",")));
+                }else*/
                builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
             }
         System.out.println(builder);
@@ -99,18 +97,18 @@ public class PhenominerService {
     public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
         if(sr!=null && sr.getAggregations()!=null){
-       /* Terms cmoAggs=sr.getAggregations().get("cmoTerm");
+        Terms cmoAggs=sr.getAggregations().get("cmoTerm");
         if(cmoAggs!=null){
         aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
         for(Terms.Bucket bkt:cmoAggs.getBuckets()){
-            System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}*/
-            Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
+         //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+        }}
+       /*     Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
             if(cmoAggs!=null){
                 aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
                 for(Terms.Bucket bkt:cmoAggs.getBuckets()){
                 //    System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }}
+                }}*/
         Terms mmoAggs=sr.getAggregations().get("mmoTerm");
         if(mmoAggs!=null){
         aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
@@ -138,13 +136,16 @@ public class PhenominerService {
         Terms unitsAggs=sr.getAggregations().get("units");
         if(unitsAggs!=null) {
             aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
+            List<Terms.Bucket> unitsSubBkts=new ArrayList<>();
             for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
-                System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
+               // System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
                 Terms unitsSubAggs=bkt.getAggregations().get("cmoTerm");
                 for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
-                    System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
+                  //  System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
+                    unitsSubBkts.add(subBkt);
                 }
             }
+            aggregations.put("cmoTermBkts", unitsSubBkts);
         }}
         return aggregations;
     }

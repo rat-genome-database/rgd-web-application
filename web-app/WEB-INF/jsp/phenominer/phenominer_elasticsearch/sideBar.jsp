@@ -249,10 +249,10 @@
                                             <tr>
                                                 <td>
                                                     <input class="formCheckInput" name="units"  type="checkbox" value="${unitBkt.key}" >&nbsp;${unitBkt.key}&nbsp;(${unitBkt.docCount})
-                                                    <table style="border:1px solid lightgrey">
+                                                    <table style="border:1px solid lightgrey;margin-left: 10%">
                                                         <c:forEach items="${unitBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
 
-                                                                <tr><td><input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${bkt.key} (${bkt.docCount})</td></tr>
+                                                                <tr><td><input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key} (${bkt.docCount})</td></tr>
 
                                                         </c:forEach>
                                                     </table>
