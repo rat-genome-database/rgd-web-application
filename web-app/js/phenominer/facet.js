@@ -108,10 +108,20 @@ $('#unitsAll').change(function() {
             _this.prop('checked', true);
 
         });
+        $.each($('input[name="cmoTerm"]'), function(){
+            var _this=$(this);
+            _this.prop('checked', true);
+
+        });
     }else {
         $.each($('input[name="units"]'), function(){
             var _this=$(this);
             _this.prop('checked', false);
+
+        });
+        $.each($('input[name="cmoTerm"]'), function(){
+            var _this=$(this);
+            _this.prop('checked', false );
 
         });
     }
@@ -193,14 +203,25 @@ $.each($('input[name="units"]'), function(){
     var _this=$(this);
     var val=_this.val();
     _this.prop('checked', false);
+    if(val.includes('%'))
+        $('.'+val.replace('%','percent').replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
+    else{
+        $('.'+val.replace(/\//g,'').replace(/\s/g, "")).prop('checked', false);
+
+    }
     if(selectedUnits!==typeof undefined)
         $.each(selectedUnits.split(","), function (i,selected) {
             if(selected===val){
-                _this.prop('checked',true)
+                _this.prop('checked',true);
+                if(val.includes('%'))
+                $('.'+val.replace('%','percent').replace(/\s/g, "").replace(/\//g,'')).prop('checked', true);
+                else{
+                    $('.'+val.replace(/\//g,'').replace(/\s/g, "")).prop('checked', true);
+
+                }
             }
         })
 });
-
 
 function removeFilter(filter) {
 
@@ -210,6 +231,6 @@ function removeFilter(filter) {
        if(val==filter){
            _this.prop('checked',false)
        }
-    })
+    });
     $('#phenominerReportForm').submit()
 }
