@@ -248,26 +248,11 @@
                                         <c:forEach items="${aggregations.unitBkts}" var="unitBkt" >
                                             <tr>
                                                 <td>
-                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${unitBkt.key}" >Units&nbsp;-&nbsp;${unitBkt.key}&nbsp;<!--($-{unitBkt.docCount})-->
-                                                    <c:set var="unit" value=""/>
-                                                    <c:choose>
-
-                                                        <c:when test="${fn:contains(unitBkt.key, '%')}">
-                                                            <c:set var="unit" value="${fn:replace(unitBkt.key,'%' , 'percent')}"/>
-                                                            <c:set var="unit" value="${fn:replace(unit,' ' , '')}"/>
-                                                            <c:set var="unit" value="${fn:replace(unit,'/' , '')}"/>
-
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:set var="unit" value="${fn:replace(unitBkt.key,'/' , '')}"/>
-                                                            <c:set var="unit" value="${fn:replace(unit,' ' , '')}"/>
-
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    <table style="border:1px solid lightgrey;margin-left: 10%">
+                                                    <!--input class="formCheckInput" name="units"  type="checkbox" value="$-{unitBkt.key}" >Units&nbsp;-&nbsp;$-{unitBkt.key}&nbsp;<($-{unitBkt.docCount})-->
+                                                                           <table style="border:1px solid lightgrey;margin-left: 10%">
                                                         <c:forEach items="${unitBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
 
-                                                                <tr><td><input class="formCheckInput ${unit}" name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key} <!--($-{bkt.docCount})--></td></tr>
+                                                                <tr><td><input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${unitBkt.key})<!--($-{bkt.docCount})--></td></tr>
 
                                                         </c:forEach>
                                                     </table>
