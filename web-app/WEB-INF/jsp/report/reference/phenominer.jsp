@@ -76,10 +76,10 @@
         if (table.get(j)!=null && !table.get(j).isEmpty()){
             String objSymbol = Utils.NVL(strains.get(j).getObjectSymbol(), "NA");
             columns.add(
-                    "<td><a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
-                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol +
-                            "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>" +
-                            "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input></td>");
+                    "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input>" +
+                            "\t<a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
+                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol + "</a>" +
+                            "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>");
             k++;
         }
     }
@@ -130,13 +130,13 @@
             <div id="phenominerAssociationTableDiv">
                 <input type="hidden" id="hiddenCheck" value="0">
                 <table id="annotationTable9" border='0' cellpadding='2' cellspacing='2' aria-describedby="annotationTable9_pager_info">
-                    <tr class="headerRow"><td>Strains with Phenominer Data</td><td></td>
+                    <tr class="headerRow"><td>Strains with Phenominer Data</td>
                     <%
                         if (columns.size()%3==2)
-                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>");
+                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td>");
                         else if (columns.size()>2){
-                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>" +
-                                    "<td style=\"color: #99BFE6;\">Strains with phenominer data</td><td></td>");
+                            out.print("<td style=\"color: #99BFE6;\">Strains with phenominer data</td>" +
+                                    "<td style=\"color: #99BFE6;\">Strains with phenominer data</td>");
                         }
                     %>
                     </tr>
