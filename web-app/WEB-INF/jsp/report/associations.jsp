@@ -586,19 +586,16 @@
 %>
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
+<% if(!title.equalsIgnoreCase("references")) { %>
 <div class="light-table-border">
-    <% if(!title.equalsIgnoreCase("references")) { %>
+
     <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a>
-    <%} else {%>
-        <div class="sectionHeading" id="experimentalDataAnnotations">Phenotype Values via PhenoMiner
-            <%}%>
-</div>
-<%
-    if(hasPhenoMinerAnn){
+
+</div><%
+    if(hasPhenoMinerAnn ){
         String phenoMinerUrl = "/rgdweb/phenominer/table.html?refRgdId=";
 %>
-
 
 <table>
     <tr>
@@ -711,7 +708,7 @@
 </div>
 <% } %>
 <%}%>
-</div>
+</div><%}%>
 <%-- if (maList.size() + rsList.size() > 0) { %>
    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>
        <% HeatMap hm = af.createGeoAnnotationsGrid(maList, rsList);%>
