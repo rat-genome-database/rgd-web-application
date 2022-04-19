@@ -33,7 +33,7 @@
         if (aliases.size() > 0 ) {
     %>
     <tr>
-        <td class="label" valign="top">Also&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
         <td>
             <%
                 int printedAliases = 0;
