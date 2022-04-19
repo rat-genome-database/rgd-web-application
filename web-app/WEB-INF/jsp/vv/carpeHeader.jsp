@@ -106,26 +106,14 @@
     .typerTableHeader {
     }
 
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        .snpHeader {
-            background-color: white;
-            padding-top: 19px;
-        }
+    .snpHeader {
+        background-color: white;
     }
-    @-moz-document url-prefix() {
-        .snpHeader{
-            padding-top: 2px;
-        }
-    }
-
-    /*.snpHeader {*/
-    /*    background-color: white;*/
-    /*}*/
 
     .snpLabel {
         font-size:11px;
         background-color:#EEEEEE;
-        height:24px;
+        height:23px;
         overflow: hidden;
         text-align: right;
         vertical-align: middle;
