@@ -75,9 +75,17 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-                <br><div  style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; "id="annotation">Annotation</div><br>
+                <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+                <br>
 
-                <%@ include file="../associations.jsp"%>
+                <div id="associationsCurator" style="display:none;">
+                    <%@ include file="../associationsCurator.jsp"%>
+                    <%@ include file="phenominerDetails.jsp"%>
+                </div>
+                <div id="associationsStandard" style="display:block;">
+                    <%@ include file="../associations.jsp"%>
+                    <%@ include file="phenominer.jsp"%>
+                </div>
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
