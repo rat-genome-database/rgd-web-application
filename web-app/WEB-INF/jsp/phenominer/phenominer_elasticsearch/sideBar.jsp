@@ -9,6 +9,8 @@
         selectedXco ="${selectedFilters.xcoTerm}";
         selectedSex ="${selectedFilters.sex}";
         selectedUnits="${selectedFilters.units}";
+        selectedExperimentName="${selectedFilters.experimentName}";
+
         selectAllRsCheckbox="${selectAllCheckBox.rsAll}";
         selectAllCmoCheckbox="${selectAllCheckBox.cmoAll}";
         selectAllMmoCheckbox="${selectAllCheckBox.mmoAll}";
@@ -238,7 +240,7 @@
 
                                 <input  id="unitsAll" name="unitsAll" type="checkbox"  >&nbsp;
 
-                                Measurements By Units</div></td>
+                                Measurements</div></td>
                         </tr>
                         <tr>
                             <td>
@@ -248,14 +250,15 @@
                                         <c:forEach items="${aggregations.unitBkts}" var="unitBkt" >
                                             <tr>
                                                 <td>
-                                                    <input class="formCheckInput" name="units"  type="checkbox" value="${unitBkt.key}" >&nbsp;${unitBkt.key}&nbsp;(${unitBkt.docCount})
-                                                    <table style="border:1px solid lightgrey">
-                                                        <c:forEach items="${unitBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
-
-                                                                <tr><td><input class="formCheckInput" name="cmoTerm"  type="checkbox" value="${cmoBkt.key}" >&nbsp;${bkt.key} (${bkt.docCount})</td></tr>
+                                            <c:forEach items="${unitBkt.aggregations.get('experimentName').buckets}" var="xNameBkt" >
+                                                <input class="formCheckInput" name="experimentName"  type="checkbox" onchange="updateSelection('${xNameBkt.key}')" value="${xNameBkt.key}">&nbsp;${xNameBkt.key}&nbsp;<!--($-{unitBkt.docCount})-->
+                                                <table style="border:1px solid lightgrey;margin-left: 10%">
+                                                    <c:forEach items="${xNameBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
+                                                        <tr><td><input class="formCheckInput ${fn:replace(xNameBkt.key,' ', '')}" name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${unitBkt.key})<!--($-{bkt.docCount})--></td></tr>
 
                                                         </c:forEach>
                                                     </table>
+                                            </c:forEach>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -285,7 +288,14 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;(${rsBkt.docCount})
+                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                <table style="border:1px solid lightgrey;margin-left: 10%">
+                                                <c:forEach items="${rsBkt.aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
+                                                <tr><td>
+                                                    <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                </td></tr>
+                                                    </c:forEach>
+                                                </table>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -318,7 +328,7 @@
                                     <c:forEach items="${aggregations.mmoTermBkts}" var="mmoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;(${mmoBkt.docCount})
+                                                <input class="formCheckInput" name="mmoTerm"  type="checkbox" value="${mmoBkt.key}" >&nbsp;${mmoBkt.key}&nbsp;<!--($-{mmoBkt.docCount})-->
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -351,7 +361,7 @@
                                     <c:forEach items="${aggregations.xcoTermBkts}" var="xcoBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;&nbsp;(${xcoBkt.docCount})
+                                                <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;&nbsp;<!--($-{xcoBkt.docCount})-->
                                             </td>
                                         </tr>
                                     </c:forEach>

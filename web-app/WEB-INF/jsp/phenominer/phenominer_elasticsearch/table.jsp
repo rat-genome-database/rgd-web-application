@@ -7,7 +7,8 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta name="referrer" content="no-referrer" />
 
 
@@ -37,14 +38,16 @@
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
         <c:forEach items="${selectedFilters}" var="termList">
             <c:forEach items="${termList.value}" var="filter">
-                <button class="btn btn-light btn-sm " value="${filter}" onclick="removeFilter('${filter}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
+                <button class="btn btn-light btn-sm " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
             </c:forEach>
         </c:forEach>
 </span>
         </c:if>
         <h3>${sr.hits.totalHits}</h3>
         <c:choose>
-        <c:when test="${unitsSize==1 || cmoSize==1 || fn:length(aggregations.unitBkts)==1 || fn:length(aggregations.cmoTerms)==1}">
+        <c:when test="${fn:length(sr.hits.hits)>0}">
+        <c:choose>
+        <c:when test="${plotData!=null}">
         <div>
             <div class="row" style="text-align: center">
                 <c:forEach items="${legend}" var="color">
@@ -58,10 +61,16 @@
         <%@include file="chartjs.jsp"%>
         </c:when>
             <c:otherwise>
-                <h4 style="font-weight: bold;color:red">Graph will be displayed if the units or measurement is limited to one.</h4>
+                <h4 style="font-weight: bold;color:red">Please select the measurements of one unit group in the left filter pane to view the graph.</h4>
             </c:otherwise>
         </c:choose>
         <%@include file="phenominerChart.jsp"%>
+        </c:when>
+            <c:otherwise>
+                <h4 style="font-weight: bold;color:red">No results found with selected filters. Please refine the filters.</h4>
+
+            </c:otherwise>
+        </c:choose>
     </main>
 </div>
 </div>
