@@ -316,5 +316,17 @@
     }
 </script>
 
-
+<style>
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .snpHeader {
+            background-color: white;
+            padding-top: 19px;
+        }
+    }
+    @-moz-document url-prefix() {
+        .snpHeader{
+            padding-top: 2px;
+        }
+    }
+</style>
 <%@ include file="/common/footerarea.jsp" %>
