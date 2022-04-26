@@ -340,7 +340,7 @@ public class VVService {
 
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         if((vsb.getChromosome()==null || vsb.getChromosome().equals("")) && vsb.genes!=null && vsb.genes.size()>0){
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.toArray()))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.stream().map(g->g.toLowerCase()).toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
