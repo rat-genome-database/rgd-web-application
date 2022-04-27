@@ -277,6 +277,7 @@ public class PhenominerRecordController extends PhenominerController {
         header.append("Min Age");
         header.append("Max Age");
         header.append("Sex");
+        header.append("BioSample Id");
 
         final DecimalFormat d_f = new DecimalFormat("0.####");
 
@@ -356,6 +357,7 @@ public class PhenominerRecordController extends PhenominerController {
             rec.append(r.getSample().getAgeDaysFromLowBound() + "");
             rec.append(r.getSample().getAgeDaysFromHighBound() + "");
             rec.append(r.getSample().getSex());
+            rec.append(r.getSample().getBioSampleId());
 
             List<Condition> conditions =
                     dao != null ? dao.getConditions(r.getId()) : r.getConditions();
