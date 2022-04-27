@@ -130,15 +130,38 @@
             for(Sample s:samples){
                 String name = s.getAnalysisName();
                 try{
-                    int index = name.indexOf("(");
-                    String breed = name.substring(0,index-1);
-                    breedsArr = breedMap.get(breed);
-                    if(breedsArr == null)
-                        breedsArr = new ArrayList<>();
-                    breedsArr.add(s.getId());
-                    breedMap.put(breed,breedsArr);
+                    int index = name.indexOf("Wolf");
+                    boolean foundWolf = false;
+                    if (index >= 0) {
+                        foundWolf=true;
+                    }
+
+                    if (foundWolf) {
+                        String breed = "Wolf";
+                        breedsArr = breedMap.get(breed);
+
+                        if (breedsArr == null) {
+                            breedsArr = new ArrayList<>();
+                        }
+
+                        breedsArr.add(s.getId());
+                        breedMap.put(breed,breedsArr);
+
+                    }else {
+                        index = name.indexOf("(");
+                        String breed = name.substring(0, index - 1);
+
+                        breedsArr = breedMap.get(breed);
+                        if (breedsArr == null) {
+                            breedsArr = new ArrayList<>();
+                        }
+                        breedsArr.add(s.getId());
+                        breedMap.put(breed, breedsArr);
+                    }
                 }
                 catch (Exception e){
+                    e.printStackTrace();
+
                     // probably eva, if not some other bug
                 }
             }
