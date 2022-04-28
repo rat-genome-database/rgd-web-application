@@ -50,7 +50,7 @@
 </script>
 
 
-<table width="95%" cellspacing="1px" border="0">
+<table width="95%" cellspacing="1px" border="1">
     <tr>
         <td style="color: #2865a3; font-size: 20px; font-weight:700;">PhenoMiner Database</td>
         <td align="right" colspan="2"><input type="button" value="New Query" onClick="location.href='/rgdweb/phenominer/home.jsp'"/></td>
@@ -70,7 +70,12 @@
 
 <div id="phenominer" >
 
-<table cellspacing='0' border='0'>
+
+
+
+
+
+    <table cellspacing='0' border='1' style="border:3px solid black">
     <tr>
 
         <% if (false) { %>
@@ -199,53 +204,11 @@
 
             </div>
         </td>
-        <td valign='top'>
-            <!--
-            <table cellspacing='0' border='0'>
-                <tr>
-                    <td valign='top'><br><br><br><br><br><img src="/rgdweb/common/images/phenoRightArrow.gif" ></td>
-                    <td valign='top'><br><br><br><br><br><img src="/rgdweb/common/images/phenoRightArrow.gif" ></td>
-                    <td valign='top'><br><br><br><br><br><img src="/rgdweb/common/images/phenoRightArrow.gif" ></td>
-
-                    <td valign='top'></td>
-
-
-                    <td valign='top' style='padding: 5px ;vertical-align: top; border-left: 1px solid black;border-top: 1px solid black;'><b>Additional Options...</b><br><br>
-                        <% if (sampleIds.size()==0 && csIds.size()==0) { %>
-
-                            <% if (speciesTypeKey ==3) {%>
-                                <input style="font-weight: 700;" type="button" value="Limit By Rat Strains" onClick="location.href='/rgdweb/phenominer/selectTerms.html?ont=RS&species=<%=speciesTypeKey%>&terms=<%=termString%>'" /><br><br>
-                            <% } else { %>
-                                <input style="font-weight: 700;" type="button" value="Limit By Chinchilla Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?ont=CS&species=<%=speciesTypeKey%>&terms=<%=termString%>'" /><br><br>
-
-                            <% } %>
-
-                        <% }
-                           if (cmIds.size()==0) {
-                        %>
-                        <input style="font-weight: 700;" type="button" value="Limit By Clinical Measurements" onClick="location.href='/rgdweb/phenominer/selectTerms.html?ont=CMO&species=<%=speciesTypeKey%>&terms=<%=termString%>'" /><br><br>
-                        <% }
-                            if (ecIds.size()==0) {
-                        %>
-                        <input style="font-weight: 700;" type="button" value="Limit By Experimental Conditions" onClick="location.href='/rgdweb/phenominer/selectTerms.html?ont=XCO&species=<%=speciesTypeKey%>&terms=<%=termString%>'" /><br><br>
-                        <% }
-                            if (mmIds.size()==0) {
-                        %>
-                        <input style="font-weight: 700;" type="button" value="Limit By Measurement Methods" onClick="location.href='/rgdweb/phenominer/selectTerms.html?ont=MMO&species=<%=speciesTypeKey%>&terms=<%=termString%>'" /><br><br>
-                        <% } %>
-                        <b>I'm Done..</b><br><br><input type=button value="Generate Report" onClick="location.href='/rgdweb/phenominer/table.html?species=<%=speciesTypeKey%>&terms=<%=request.getParameter("terms")%>'"/></td>
-
-                </tr>
-            </table>
-                -->
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>            <input type="button" style="font-size:20px;" @click="generateReport()" value="Generate Report"/>
         </td>
     </tr>
 </table>
-
-
-
-
-
 
 <!--- other page  -->
 
@@ -294,7 +257,7 @@
 
 
     <br>
-    <table align="left" width="1000">
+    <table align="left" width="1000" border="1">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
         </tr>
@@ -304,10 +267,6 @@
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=speciesTypeKey%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=speciesTypeKey%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=speciesTypeKey%>)"  /></td>
-
-            <input type="button" @click="update()" value="init"/>
-            <input type="button" @click="doStuff()" value="test"/>
-
         </tr>
         <tr>
             <td width="700">
@@ -324,7 +283,7 @@
 
             </td>
             <td align="left" valign="top" width="500">
-                <div id="placeholder" style="position:absolute;"></div>
+                <div id="placeholder" style="position:absolute;">&nbsp;</div>
             </td>
         </tr>
     </table>
@@ -335,7 +294,7 @@
 
 </div>
 
-<div id="treebox" style="z-index:1000;float:right; padding: 7px; width:700px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
+<div id="treebox" style="diplay:none; z-index:1000;float:right; padding: 7px; width:700px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
@@ -1028,7 +987,9 @@
 
             },
 
-
+            generateReport: function () {
+                location.href="/rgdweb/phenominer/table.html?species=3&terms=" + v.getAllTerms();
+            },
             update: function (ont, species,terms) {
 
                 if (!ont) {
@@ -1080,9 +1041,6 @@
                 tree.loadXML("/rgdweb/phenominer/treeXml.html?ont=" + ont + "&sex=both&species=" + species + "&terms=" + terms);
 
 
-                document.getElementById("treebox").style.position="absolute";
-                document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
-                document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
 
                 v.options={};
 
@@ -1121,6 +1079,13 @@
                             v.symbolHash[keys[i]] = tmpHash[keys[i]];
                             v.keyMap[tmpHash[keys[i]].split("_")[0]] = keys[i];
                         }
+
+                        document.getElementById("treebox").style.display="block";
+                        document.getElementById("treebox").style.position="absolute";
+                        document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
+                        document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
+
+
 
 
                     })
