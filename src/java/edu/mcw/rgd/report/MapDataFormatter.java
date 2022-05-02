@@ -55,7 +55,6 @@ public class  MapDataFormatter {
         final MapManager mm = MapManager.getInstance();
 
         Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-       java.util.Map refSeqAccMap=mm.getReqSeqAccIdMap();
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
         // sort map data by order specified in the database
@@ -179,8 +178,9 @@ public class  MapDataFormatter {
             if( objectKey==RgdId.OBJECT_KEY_GENES ) {
                 // NCBI links
                 ret.append("<td>");
-               // generateNcbiLink(ret, objectKey, mdObj, objectSymbol);
-                generateNcbiGDVLink(ret, objectKey, mdObj, objectSymbol, refSeqAccMap, map==null ? "" : map.getName());
+                if( map!=null ) {
+                    generateNcbiGDVLink(ret, objectSymbol, map.getRefSeqAssemblyAcc(), map.getName());
+                }
                 ret.append("</td>");
 
                 // UCSC links
@@ -351,54 +351,14 @@ public class  MapDataFormatter {
         }
     }
 
-    static void generateNcbiLink(StringBuilder buf, int objectKey, MapData md, String objectSymbol) {
-
-        String db = null;
-        if( objectSymbol!=null && objectKey==RgdId.OBJECT_KEY_GENES ) {
-            switch(md.getMapKey()) {
-                case 11: // human cytomap
-                    db = "human";
-                    break;
-
-                case 12: // mouse cytomap
-                    db = "mouse";
-                    break;
-
-                case 99: // rat cytomap
-                    db = "rat";
-                    break;
-
-                case 600: // dog cytomap
-                    db = "dog";
-                    break;
-
-                case 900: // pig cytomap
-                    db = "pig";
-                    break;
-            }
-        }
-
-        if( db!=null ) {
-            buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/mapview/maps.cgi?org=")
-                    .append(db).append("&chr=").append(md.getChromosome())
-                    .append("&query=").append(objectSymbol).append("&maps=gene_set&cmd=focus")
-                    .append("\">mapview</a>");
-        }
-
-
-    }
-    static void generateNcbiGDVLink(StringBuilder buf, int objectKey, MapData md, String objectSymbol, java.util.Map<Integer, String> refSeqAccIdsMap, String mapName) {
-        int mapKey= md.getMapKey();
-        String refSeqAccId= refSeqAccIdsMap.get(mapKey);
-        //String url=refSeqAccId+"&cpmtext=genome&chr="+md.getChromosome()+"&q="+ objectSymbol;
+    static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
         if(refSeqAccId!=null) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
-                    .append(refSeqAccId).append("&chr=").append(md.getChromosome())
+                    .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
                     .append("&context=genome")
                     .append("\">").append(mapName).append("</a>");
         }
-
     }
 
     static void generateUcscLink(StringBuilder buf, int objectKey, MapData md) {
