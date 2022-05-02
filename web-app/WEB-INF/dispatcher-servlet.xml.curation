@@ -137,6 +137,7 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
+                <prop key="report/variants/main.html">CNVariantReportController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
                 <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
@@ -344,6 +345,7 @@
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
+    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
  <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
