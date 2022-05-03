@@ -32,6 +32,9 @@ public class CellLineSearchController extends RGDSearchController {
      */
     public Report getReport(SearchBean search, HttpRequestFacade req) throws Exception {
 
+        CellLineDAO dao = new CellLineDAO();
+        req.getRequest().setAttribute("totalCount", dao.getActiveCellLineCount());
+
         // page nr
         String p = req.getParameter("p");
         int pageNr = p.isEmpty() ? 1 : Integer.parseInt(p);
@@ -45,6 +48,7 @@ public class CellLineSearchController extends RGDSearchController {
         Report report = new Report();
 
         Record header = new Record();
+        header.append("Nr");
         header.append("Species");
         header.append("Symbol");
         header.append("Name");
@@ -56,9 +60,12 @@ public class CellLineSearchController extends RGDSearchController {
         header.append("--Symbol--"); // column used only for sorting
         report.append(header);
 
-        for( CellLine cl: new CellLineDAO().getActiveCellLines(pageNr-1, pageSize) ) {
+        int nr = (pageNr-1)*pageSize;
+        for( CellLine cl: dao.getActiveCellLines(pageNr-1, pageSize) ) {
 
             Record row = new Record();
+
+            row.append((++nr)+".");
 
             String species = "";
             if( cl.getSpeciesTypeKey()>0 ) {
@@ -79,8 +86,8 @@ public class CellLineSearchController extends RGDSearchController {
             report.append(row);
         }
 
-        report.sort(8, Report.ASCENDING_SORT, true);
-        report.removeColumn(8);
+        report.sort(9, Report.ASCENDING_SORT, true);
+        report.removeColumn(9);
 
         return report;
     }
