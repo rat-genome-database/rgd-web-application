@@ -22,7 +22,8 @@
 
 <div class="searchBox">
 
-All cell lines available in RGD &nbsp; (total count <%=Utils.formatThousands(totalCount)%>):<br><br>
+All cell lines available in RGD &nbsp; (total count <%=Utils.formatThousands(totalCount)%>):
+    &nbsp; &nbsp; see the file <a href="https://download.rgd.mcw.edu/data_release/CELL_LINES.txt">CELL_LINES.txt</a><br><br>
 
 <table border=1 cellspacing=0 cellpadding=10 style="background-color:white;">
   <tr><td>
