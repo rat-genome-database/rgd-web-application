@@ -22,8 +22,16 @@
 
     MapDAO mdao = new MapDAO();
     Map map = mdao.getMap(var.getMapKey());
-    for (Sample s : samples){
+    if (var.getMapKey()!=631) {
+        for (Sample s : samples) {
             src += (s.getAnalysisName() + " ");
+        }
+    }
+    else {
+        for (Sample s : samples){
+            if (s.getAnalysisName().equals("EVA"))
+                src = s.getAnalysisName();
+        }
     }
 
     int start = (int) var.getStartPos();
@@ -46,9 +54,6 @@
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(var.getSpeciesTypeKey())%>
-    <% if (RgdContext.isCurator() || RgdContext.isTest()) {%>
-    <span style="margin-left:100px; padding: 5px; border: 1px solid blue; background-color: yellow;"><a href="/rgdweb/curation/edit/editVariant.html?rgdId=<%=obj.getRgdId()%>" style="font-weight:bold;font-size:11px;color:blue" title="go to Object Edit">EDIT</a></span>
-    <% } %>
     </h3></td></tr>
 
 <%--    <tr>--%>
@@ -78,9 +83,8 @@
 
     <tr>
         <td class="label">Type:</td>
-        <td><% for (Term t : ontTerms) {%>
+        <td>
             <%=t.getTerm()%>&nbsp;<a href="<%=Link.ontView(t.getAccId())%>" title="click to go to ontology page"><%= "("+ t.getAccId() + ")"%></a>&nbsp;
-            <%}%>
         </td>
     </tr>
 
@@ -140,7 +144,19 @@
         <td class="label">Source:</td>
         <td><%=src%></td>
     </tr>
-    <%
+    <% if (var.getMapKey()==631) {%>
+    <tr>
+        <td class="label">Breeds:</td>
+        <td>
+            <%for (int i = 0 ; i < breeds.size();i++) {
+                if (i == breeds.size()-1)
+                    out.print(breeds.get(i));
+                else
+                    out.print(breeds.get(i) +", ");
+            } %>
+        </td>
+    </tr>
+    <% }
         List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
         if (aliases.size() > 0 ) {
             // sort aliases alphabetically by alias value

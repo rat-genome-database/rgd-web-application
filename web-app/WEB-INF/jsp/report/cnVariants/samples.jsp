@@ -1,8 +1,5 @@
 <%@ include file="../sectionHeader.jsp"%>
 
-<%
-
-%>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div class="reportTable light-table-border" id="variantSamplesTableWrapper">
     <div class="sectionHeading" id="variantSamples">Variant Samples</div>

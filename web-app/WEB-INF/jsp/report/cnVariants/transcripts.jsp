@@ -42,11 +42,11 @@
         <div id="variantTranscriptsTableDiv" class="annotation-detail">
             <table id="variantTranscriptsTable" width="650" border=0 ><tr></tr>
 <% for (SearchResult searchResult : allResults){
-    System.out.println("Results: "+searchResult.getVariantResults().size());
+//    System.out.println("Results: "+searchResult.getVariantResults().size());
     List<VariantResult> resultList = searchResult.getVariantResults();
     for (VariantResult result : resultList) {
 //        if (!result.getTranscriptResults().isEmpty()){
-        System.out.println("Transcript results:"+result.getTranscriptResults().size());%>
+        //System.out.println("Transcript results:"+result.getTranscriptResults().size());%>
 
 
             <tr>

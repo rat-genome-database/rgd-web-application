@@ -22,7 +22,23 @@ function tableSorterReport() {
                 size: 20
             });
 
+        $('#sampleDetailsTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.sampleDetailsPager'),
+                size: 20
+            });
+
         $('#gwasPubMedReferencesTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
+            });
+
+        $('#gwasDataTable')
             .tablesorter({
                 theme: 'blue',
                 widgets: ['zebra']
