@@ -8,40 +8,26 @@
 <%
 
     AnnotationFormatter af = new AnnotationFormatter();
-    final List<Annotation> annots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
-    final Set<Integer> annotRgdIds = new HashSet<Integer>(annots.size());
-    List<Annotation> strains = new ArrayList<Annotation>();
-    if (annots.size() > 0 ) {
-        Collections.sort(annots, new Comparator<Annotation>() {
-            public int compare(Annotation o1, Annotation o2) {
-                int result = (o1.getRgdObjectKey().compareTo(o2.getRgdObjectKey()));
-                if (result != 0)
-                    return result;
 
-                int result1 = Utils.stringsCompareToIgnoreCase(o1.getObjectSymbol(), o2.getObjectSymbol());
-                if (result1 != 0)
-                    return result1;
+    PhenominerDAO phDAO = new PhenominerDAO();
+    OntologyXDAO ontDAO = new OntologyXDAO();
+    List<Record> allRecords = phDAO.getFullRecords(obj.getRgdId());
+    List<Term> strainTerms = new ArrayList<>();
+    HashMap<String,Boolean> terms = new HashMap<>();
 
-                int result2 = Utils.stringsCompareToIgnoreCase(o1.getObjectName(), o2.getObjectName());
-                if (result2 != 0)
-                    return result2;
-
-                return o1.getTerm().compareToIgnoreCase(o2.getTerm());
-            }
-        });
-        for (Annotation annot : annots) {
-            annotRgdIds.add(annot.getAnnotatedObjectRgdId());
-            if (annot.getRgdObjectKey() == RgdId.OBJECT_KEY_STRAINS) {
-                if (checkAnnotInList(annot, strains) == 0) {
-                    strains.add(annot);
-                }
-            }
+    for (Record r : allRecords){
+        String accId = r.getSample().getStrainAccId();
+        Term term = ontDAO.getTermWithStatsCached(accId);
+        if( term!=null && terms.get(term.getTerm())==null ) {
+            terms.put(term.getTerm(),true);
+            strainTerms.add(term);
         }
     }
 
-    ArrayList<String> table = new ArrayList<>(strains.size());
-    for (int i = 0; i < strains.size(); i++){
-        String ontId = ontologyDAO.getStrainOntIdForRgdId(strains.get(i).getAnnotatedObjectRgdId());
+    ArrayList<String> table = new ArrayList<>();
+
+    for (int i = 0 ; i < strainTerms.size(); i++){
+        String ontId = strainTerms.get(i).getAccId(); //ontologyDAO.getStrainOntIdForRgdId(strains.get(i).getAnnotatedObjectRgdId());
         List<Record> records = phenominerDAO.getFullRecords(obj.getRgdId(),ontId);
         if (records!=null && records.size()>0) {
             Report r = new Report();
@@ -72,13 +58,13 @@
 
     List<String> columns = new ArrayList<>();
     int k = 0;
-    for (int j = 0 ; j < strains.size() ; j++){
+    for (int j = 0 ; j < strainTerms.size() ; j++){
         if (table.get(j)!=null && !table.get(j).isEmpty()){
-            String objSymbol = Utils.NVL(strains.get(j).getObjectSymbol(), "NA");
+            String objSymbol = Utils.NVL(strainTerms.get(j).getTerm(), "NA");
             columns.add(
                     "<td><input type=\"button\" class=\"phenoButton\" id=\"showHide"+k+"\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" value=\"+\"></input>" +
                             "\t<a href=\"javascript:void(0);\" onclick=\"toggleCM('ClinMeasure"+k+"','showHide"+k+"');\" class='phenominer"
-                            + strains.get(j).getSpeciesTypeKey() + "'>" + objSymbol + "</a>" +
+                            + refRgdId.getSpeciesTypeKey() + "'>" + objSymbol + "</a>" +
                             "<div id=\"ClinMeasure"+k+"\"style=\"display:none; border: 2px solid #000000;\" >"+table.get(j)+"</div></td>");
             k++;
         }
