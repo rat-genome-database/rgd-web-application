@@ -23,7 +23,7 @@
         position: relative;
          /* this will give container dimension, because floated child nodes don't give any */
          /* if your child nodes are inline-blocked, then you don't have to set it */
-         overflow: auto;
+         /*overflow: auto;*/
 
         /*width*/
         in-width: <%=horizontalWidth%>px;
