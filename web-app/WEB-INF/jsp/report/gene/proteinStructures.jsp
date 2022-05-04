@@ -36,7 +36,11 @@ if( !protStructs.isEmpty() ) {
         <td><%=ps.getModeller()%></td>
         <td><%=ps.getProteinAccId()%></td>
         <td><%=ps.getProteinAaRange()%></td>
+        <% if( ps.getModeller().equals("AlphaFold") ) {%>
+        <td><a href="/rgdweb/jsmol/alphafold.jsp?d=<%=ps.getName()%>&species=<%=SpeciesType.getShortName(obj.getSpeciesTypeKey())%>">view protein structure</a></td>
+        <% } else %>
         <td><a href="/rgdweb/jsmol/rgd.jsp?d=<%=ps.getName()%>">view protein structure</a></td>
+        <% } %>
         <td><%=videoUrl%></td>
     </tr>
     <% } %>
