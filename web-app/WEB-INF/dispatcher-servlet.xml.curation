@@ -128,6 +128,7 @@
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
+                <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
                 <prop key="report/marker/main.html">MarkerReportController</prop>
@@ -336,6 +337,7 @@
 
 
     <bean id="GeneReportController" class="edu.mcw.rgd.report.GeneReportController"/>
+    <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
