@@ -98,7 +98,7 @@ public class PivotTableController implements Controller {
             double value = Double.valueOf((String) hit.getSourceAsMap().get("value"));
             String strain = (String) hit.getSourceAsMap().get("rsTerm");
             String sex = (String) hit.getSourceAsMap().get("sex");
-
+            String measurement=(String) hit.getSourceAsMap().get("cmoTerm");
             int noOfAnimals = (int) hit.getSourceAsMap().get("numberOfAnimals");
             List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
             String condition = conditions.stream().collect(Collectors.joining(", "));
