@@ -37,7 +37,7 @@ $(function () {
         $('#phenominerReportForm').submit()
     });
 
-$('#cmoAll').change(function() {
+/*$('#cmoAll').change(function() {
     if($(this).is(":checked")) {
         $.each($('input[name="cmoTerm"]'), function(){
             var _this=$(this);
@@ -52,7 +52,7 @@ $('#cmoAll').change(function() {
         });
     }
     $('#phenominerReportForm').submit()
-});
+});*/
 $('#mmoAll').change(function() {
     if($(this).is(":checked")) {
         $.each($('input[name="mmoTerm"]'), function(){
@@ -139,6 +139,7 @@ $('#unitsAll').change(function() {
 });
 
 $.each($('input[name="cmoTerm"]'), function() {
+
     var _this = $(this);
     var val = _this.val();
     _this.prop('checked', false);
@@ -146,7 +147,9 @@ $.each($('input[name="cmoTerm"]'), function() {
     if (selectedCmo !== typeof undefined) {
 
         $.each(selectedCmo.split(","), function (i, selected) {
-            if (selected === val) {
+            if (selected ==val) {
+                console.log("SELECTED:"+ selected+"\tval:"+ val)
+
                 _this.prop('checked', true)
             }
         })
@@ -232,48 +235,50 @@ $.each($('input[name="units"]'), function(){
             }
         })
 });
-$.each($('input[name="experimentName"]'), function(){
+if(selectedExperimentName!==typeof undefined && selectedExperimentName!="") {
+    $.each($('input[name="experimentName"]'), function () {
 
-    var _this=$(this);
-    var val=_this.val();
-    _this.prop('checked', false);
+        var _this = $(this);
+        var val = _this.val();
+        _this.prop('checked', false);
 
-        $('.'+val.replace(/\s/g, "")).prop('checked', false);
-
-
-    if(selectedExperimentName!==typeof undefined)
-        $.each(selectedExperimentName.split(","), function (i,selected) {
-
-            if(selected==val){
-                _this.prop('checked',true);
-
-                    $('.'+val.replace(/\s/g, "")).prop('checked', true);
-
-               //     $('.'+val.replace(/\//g,'').replace(/\s/g, "")).prop('checked', true);
+        $('.formCheckInput.' + val.replace(/\s/g, "")).prop('checked', false);
 
 
-            }
-        })
-});
+        if (selectedExperimentName !== typeof undefined)
+            $.each(selectedExperimentName.split(","), function (i, selected) {
 
+                if (selected == val) {
+                    _this.prop('checked', true);
+
+                    $('.formCheckInput.' + val.replace(/\s/g, "")).prop('checked', true);
+
+                    //     $('.'+val.replace(/\//g,'').replace(/\s/g, "")).prop('checked', true);
+
+
+                }
+            })
+    });
+}
 function removeFilter(filter, key) {
 
-    $.each($('input[class="formCheckInput"]'),function () {
+    $.each($('input[type="checkbox"]'),function () {
         var _this=$(this);
         var val=_this.val();
+   //     alert('VAL:'+ val+"\tFILTER:"+ filter);
        if(val==filter){
            _this.prop('checked',false)
        }
-       if(key=='experimentName'){
-           $('.'+filter.replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
+       if(key=='experimentName' || key=='rsTerm'){
+           $('.formCheckInput.'+filter.replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
        }
     });
     $('#phenominerReportForm').submit()
 }
 function updateSelection(bkt) {
 
-    var _this = $('.' + bkt);
-    alert(_this.is(":checked")+"\t"+ bkt);
+    var _this = $('.' + bkt.replace(/\s/g, "").replace(/\//g,''));
+   // alert(_this.is(":checked")+"\t"+ bkt+ "\t"+ _this);
     if (_this.is(":checked")) {
         _this.prop('checked', false)
         $('.' + bkt.replace(/\s/g, "")).prop('checked', false);

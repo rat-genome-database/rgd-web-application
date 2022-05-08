@@ -252,9 +252,10 @@
                                                 <td>
                                             <c:forEach items="${unitBkt.aggregations.get('experimentName').buckets}" var="xNameBkt" >
                                                 <input class="formCheckInput" name="experimentName"  type="checkbox" onchange="updateSelection('${xNameBkt.key}')" value="${xNameBkt.key}">&nbsp;${xNameBkt.key}&nbsp;<!--($-{unitBkt.docCount})-->
+                                                <c:set var="className" value="${fn:replace(xNameBkt.key,' ', '')}"/>
                                                 <table style="border:1px solid lightgrey;margin-left: 10%">
                                                     <c:forEach items="${xNameBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
-                                                        <tr><td><input class="formCheckInput ${fn:replace(xNameBkt.key,' ', '')}" name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${unitBkt.key})<!--($-{bkt.docCount})--></td></tr>
+                                                        <tr><td><input class='formCheckInput ${className}' name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${unitBkt.key})<!--($-{bkt.docCount})--></td></tr>
 
                                                         </c:forEach>
                                                     </table>
@@ -288,11 +289,12 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" onchange="updateSelection('${rsBkt.key}')" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                <c:set var="rsClassName" value="${fn:replace(rsBkt.key,'/', '')}"/>
                                                 <table style="border:1px solid lightgrey;margin-left: 10%">
                                                 <c:forEach items="${rsBkt.aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
                                                 <tr><td>
-                                                    <input class="formCheckInput" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                    <input class="formCheckInput ${rsClassName}" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
                                                 </td></tr>
                                                     </c:forEach>
                                                 </table>
