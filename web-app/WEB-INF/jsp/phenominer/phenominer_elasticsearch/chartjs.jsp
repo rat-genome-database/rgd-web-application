@@ -23,7 +23,7 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Experiment Conditions',
+                        labelString: '<------Experiment Conditions------>',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
@@ -32,12 +32,12 @@
                         fontColor: "rgb(0,75,141)",
                         fontSize: 10,
                         autoSkip: false,
-                        callback: function(t) {
+                      /*  callback: function(t) {
                             var maxLabelLength = 40;
                             if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
                             else return t;
 
-                        }
+                        }*/
                     }
                 }],
                 yAxes: [{
@@ -48,6 +48,7 @@
                     },
                     scaleLabel: {
                         display: true,
+                        labelString:'<------------ ${yaxisLabel} -------------->',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
