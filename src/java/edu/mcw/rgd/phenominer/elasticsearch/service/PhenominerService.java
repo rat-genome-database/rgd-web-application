@@ -164,8 +164,32 @@ public class PhenominerService {
     }
 
     public java.util.Map<String, List<Terms.Bucket>> getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException, VVException {
+        SearchResponse sr=null;
+      /*  if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.get("experimentName")!=null)){
+         sr= getSearchResponse(req, null);
+        }else{
+             sr= getSearchResponse(req, filterMap);
+        }*/
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName")) ) {
+            srb.query(this.boolQueryBuilder(req, null));
+            //   srb.aggregation(this.buildSearchAggregations("category", category));
+            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
+           String  filterField=filterMap.entrySet().iterator().next().getKey();
+            if(filterField.equalsIgnoreCase("cmoTerm"))
+            srb.aggregation(this.buildAggregations("units"));
+            else
+                srb.aggregation(this.buildAggregations(filterField));
+        }
 
-        SearchResponse sr= getSearchResponse(req, filterMap);
+        //   srb.highlighter(this.buildHighlights());
+        srb.size(0);
+        //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
+        SearchRequest searchRequest=new SearchRequest(phenominerIndex);
+        searchRequest.source(srb);
+
+        sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
         return getSearchAggregations(sr);
 
     }
