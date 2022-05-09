@@ -28,20 +28,25 @@ public class PivotTableController implements Controller {
         HttpRequestFacade req = new HttpRequestFacade(request);
         PhenominerService.setPhenominerIndex("phenominer_index_test");
         SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
-        Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
-        request.setAttribute("aggregations", aggregations);
+     //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
+        Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
         Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
-
+        Map<String, String> filterMap=getFilterMap(request);
         boolean facetSearch = req.getParameter("facetSearch").equals("true");
+        System.out.println("FILTERMAP SIZE:"+ filterMap.size()) ;
         if (facetSearch) {
-            filteredAggregations = service.getFilteredAggregations(getFilterMap(request), req);
-            request.setAttribute("filteredAggregations", filteredAggregations);
-            setSelectAllCheckBox(request);
+            if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName"))) {
+                filteredAggregations = service.getFilteredAggregations(filterMap, req);
+                // request.setAttribute("aggregations", filteredAggregations);
+                aggregations.putAll(filteredAggregations);
+                setSelectAllCheckBox(request);
+            }
+        }//else{
+            request.setAttribute("aggregations", aggregations);
 
-        }else{
-         //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
+            //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
          //   setSelectAllCheckBox(request);
-        }
+     //   }
 
         List<String> labels = new ArrayList<>();
         List<String> backgroundColors = new ArrayList<>();
