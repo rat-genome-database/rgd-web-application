@@ -29,17 +29,18 @@ public class PivotTableController implements Controller {
         PhenominerService.setPhenominerIndex("phenominer_index_test");
         SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
         Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
-        request.setAttribute("aggregations", aggregations);
         Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
 
         boolean facetSearch = req.getParameter("facetSearch").equals("true");
         if (facetSearch) {
             filteredAggregations = service.getFilteredAggregations(getFilterMap(request), req);
-            request.setAttribute("filteredAggregations", filteredAggregations);
+            request.setAttribute("aggregations", filteredAggregations);
             setSelectAllCheckBox(request);
 
         }else{
-         //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
+            request.setAttribute("aggregations", aggregations);
+
+            //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
          //   setSelectAllCheckBox(request);
         }
 
