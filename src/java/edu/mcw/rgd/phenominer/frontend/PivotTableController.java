@@ -59,6 +59,7 @@ public class PivotTableController implements Controller {
         }
         if(unitsSet.size()==1){
             request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
+            request.setAttribute("yaxisLabel", unitsSet.iterator().next());
 
         }
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
@@ -132,16 +133,17 @@ public class PivotTableController implements Controller {
                 }
             }
 
+            String e = strain + "_" + sex + "_animals(" + noOfAnimals + ")_" + measurement;
             if(hit.getSourceAsMap().get("sem")!=null) {
                 errorValues.put("plus", Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
                 errorValues.put("minus", 0 - Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
-                errorBars.put(strain + "_" + sex + "_animals(" + noOfAnimals + ")", errorValues);
+                errorBars.put(e, errorValues);
             }else{
                /* errorValues.put("plus", (double) 0);
                 errorValues.put("minus", (double) 0);*/
             }
             values.add(value);
-            labels.add(strain + "_" + sex + "_animals(" + noOfAnimals + ")");
+            labels.add(e);
         }
 
         plotData.put("Value", values);
