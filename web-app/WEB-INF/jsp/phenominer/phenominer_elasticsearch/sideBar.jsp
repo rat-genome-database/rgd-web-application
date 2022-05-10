@@ -251,11 +251,13 @@
                                             <tr>
                                                 <td>
                                             <c:forEach items="${unitBkt.aggregations.get('experimentName').buckets}" var="xNameBkt" >
-                                                <input class="formCheckInput" name="experimentName"  type="checkbox" onchange="updateSelection('${xNameBkt.key}')" value="${xNameBkt.key}">&nbsp;${xNameBkt.key}&nbsp;<!--($-{unitBkt.docCount})-->
+                                                <!--input class="formCheckInput" name="experimentName"  type="checkbox" onchange="updateSelection('${xNameBkt.key}')" value="${xNameBkt.key}">&nbsp;${xNameBkt.key}&nbsp;(${unitBkt.key})&nbsp;($-{unitBkt.docCount})-->
+                                                <p style="color:navajowhite">&nbsp;${fn:toUpperCase( xNameBkt.key)}&nbsp;(${unitBkt.key})&nbsp;<!--($-{unitBkt.docCount})-->
+
                                                 <c:set var="className" value="${fn:replace(xNameBkt.key,' ', '')}"/>
                                                 <table style="border:1px solid lightgrey;margin-left: 10%">
                                                     <c:forEach items="${xNameBkt.aggregations.get('cmoTerm').buckets}" var="bkt">
-                                                        <tr><td><input class='formCheckInput ${className}' name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${unitBkt.key})&nbsp;(${bkt.docCount})</td></tr>
+                                                        <tr><td><input class='formCheckInput ${className}' name="cmoTerm"  type="checkbox" value="${bkt.key}" >&nbsp;${bkt.key}&nbsp;(${bkt.docCount})</td></tr>
 
                                                         </c:forEach>
                                                     </table>
@@ -361,11 +363,13 @@
                                 <table>
 
                                     <c:forEach items="${aggregations.xcoTermBkts}" var="xcoBkt" >
+                                        <c:if test="${xcoBkt.key!=''}">
                                         <tr>
                                             <td>
                                                 <input class="formCheckInput" name="xcoTerm"  type="checkbox" value="${xcoBkt.key}" >&nbsp;${xcoBkt.key}&nbsp;&nbsp;(${xcoBkt.docCount})
                                             </td>
                                         </tr>
+                                        </c:if>
                                     </c:forEach>
 
                                 </table>
