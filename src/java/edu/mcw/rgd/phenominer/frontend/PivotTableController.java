@@ -26,7 +26,7 @@ public class PivotTableController implements Controller {
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-        PhenominerService.setPhenominerIndex("phenominer_index_test");
+        PhenominerService.setPhenominerIndex("phenominer_index_dev");
         SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
      //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
         Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
@@ -83,21 +83,20 @@ public class PivotTableController implements Controller {
     public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
         List<Double> values = new ArrayList<>();
-        Gson gson = new Gson();
+
         boolean facetSearch = false;
         if (request.getParameter("facetSearch") != null)
             facetSearch = request.getParameter("facetSearch").equals("true");
         int i = 0;
         Map<String, String> map = new HashMap<>();
-
-            ObjectMapper mapper = new ObjectMapper();
-            String legendJson = request.getParameter("legendJson");
-            if(legendJson!=null && !legendJson.equals("")) {
-                map = mapper.readValue(legendJson, Map.class);
-                if (map.size() > 0) {
-                    legend.putAll(map);
-                }
+        ObjectMapper mapper = new ObjectMapper();
+        String legendJson = request.getParameter("legendJson");
+        if(legendJson!=null && !legendJson.equals("")) {
+            map = mapper.readValue(legendJson, Map.class);
+            if (map.size() > 0) {
+                 //   legend.putAll(map);
             }
+        }
 
         for (SearchHit hit : sr.getHits().getHits()) {
             Map<String, Double> errorValues = new HashMap<>();
@@ -106,12 +105,16 @@ public class PivotTableController implements Controller {
             String sex = (String) hit.getSourceAsMap().get("sex");
             String measurement=(String) hit.getSourceAsMap().get("cmoTerm");
             int noOfAnimals = (int) hit.getSourceAsMap().get("numberOfAnimals");
-            List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
+          /*  List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
             String condition = conditions.stream().collect(Collectors.joining(", "));
+            */
+            String condition= (String) hit.getSourceAsMap().get("xcoTerm").toString().trim();
 
             if (facetSearch) {
-                if(map.size()>0)
-                backgroundColors.add(map.get(condition));
+                if(map.size()>0) {
+                    backgroundColors.add(map.get(condition));
+                    legend.put(condition, map.get(condition));
+                }
                 else {
                     if (!legend.containsKey(condition)) {
                         legend.put(condition, Colors.colors.get(i));
@@ -149,9 +152,9 @@ public class PivotTableController implements Controller {
         plotData.put("Value", values);
 
 
-        System.out.println(gson.toJson(plotData));
+       /* System.out.println(gson.toJson(plotData));
         System.out.println("LEGEND:" + gson.toJson(legend));
-        System.out.println("ERRORBARS:" + gson.toJson(errorBars));
+        System.out.println("ERRORBARS:" + gson.toJson(errorBars));*/
     /*    List<PlotData> dataSet=new ArrayList<>();
         int i=0;
         for(Map.Entry entry:plotData.entrySet()) {

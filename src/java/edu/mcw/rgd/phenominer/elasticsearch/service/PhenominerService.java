@@ -94,6 +94,7 @@ public class PhenominerService {
         dqb.add(QueryBuilders.termsQuery("mmoTermAcc.keyword", req.getParameter("terms").split(",")));
         dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
         dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
+        dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
         return dqb;
 
     }
