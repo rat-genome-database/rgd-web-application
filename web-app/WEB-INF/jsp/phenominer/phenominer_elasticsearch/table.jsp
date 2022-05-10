@@ -48,16 +48,8 @@
         <c:when test="${fn:length(sr.hits.hits)>0}">
         <c:choose>
         <c:when test="${plotData!=null}">
-        <div>
-            <div class="row" style="text-align: center">
-                <c:forEach items="${legend}" var="color">
+            <%@include file="legend.jsp"%>
 
-                    <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value}"></div>
-                    <div class="col-xs-1">&nbsp;${color.key}</div>&nbsp;
-
-                </c:forEach>
-            </div>
-        </div>
         <%@include file="chartjs.jsp"%>
         </c:when>
             <c:otherwise>
@@ -72,6 +64,7 @@
             </c:otherwise>
         </c:choose>
     </main>
+
 </div>
 </div>
 

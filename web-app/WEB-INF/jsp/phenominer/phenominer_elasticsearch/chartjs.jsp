@@ -49,7 +49,7 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString:'<------------ ${yaxisLabel} -------------->',
+                        labelString:' ${yaxisLabel} ',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
@@ -218,7 +218,8 @@
             errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
 
-            borderWidth: 1
+            borderWidth: 1,
+            borderColor:"gray"
         });
 
         </c:forEach>
