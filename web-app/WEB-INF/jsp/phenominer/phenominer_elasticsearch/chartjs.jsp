@@ -1,6 +1,6 @@
 
-<div class="chart-container" id = "chartDiv">
-    <canvas id="resultChart" style="position: relative;width:100%; height:400px"></canvas>
+<div class="chart-container" id = "chartDiv" >
+    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
 </div>
 
@@ -29,8 +29,9 @@
                         fontFamily: 'Calibri'
                     },
                     ticks:{
-                        fontColor: "rgb(0,75,141)",
-                        fontSize: 10,
+                      /*  fontColor: "rgb(0,75,141)",
+                        fontSize: 10,*/
+                      display:false,
                         autoSkip: false,
                       /*  callback: function(t) {
                             var maxLabelLength = 40;
@@ -180,8 +181,26 @@
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
-                            if(value!='' && label!='Value')
+                            if(value!='' && label!='Value' && (label=='SEM' || label=='SD'))
                             detail.push(label + ':' + value) ;
+                        }
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(label=='Units'  )
+                                detail.push(label + ':' + value) ;
+                        }
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' )
+                                detail.push(label + ':' + value) ;
+                        }
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(label=='Study ID' || label=='Study' )
+                                detail.push(label + ':' + value) ;
                         }
                     }
                     j++;
