@@ -1,30 +1,33 @@
 <%@ page import="edu.mcw.rgd.vv.VariantController" %>
 <%@ page import="edu.mcw.rgd.vv.vvservice.VVService" %>
 <%@ include file="../sectionHeader.jsp"%>
+<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <%
-    VariantController ctrl = new VariantController();
-    VariantSearchBean vsb = new VariantSearchBean(var.getMapKey());
     List<SearchResult> allResults = new ArrayList<SearchResult>();
-    String index = new String();
-    String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(var.getMapKey()) );
-    index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + var.getMapKey());
-    VVService.setVariantIndex(index);
-    for (Sample s : samples){
-//        System.out.println(s.getId());
-        vsb.sampleIds.add(s.getId());
-    }
-//    vsb.setPosition( var.getChromosome(),String.valueOf(var.getStartPos()), String.valueOf(var.getEndPos()) );
-    vsb.setVariantId(var.getId());
-    try {
-        List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
-        SearchResult sr = new SearchResult();
+    for (VariantMapData v : vars) {
+        VariantController ctrl = new VariantController();
+        VariantSearchBean vsb = new VariantSearchBean(v.getMapKey());
 
-        sr.setVariantResults(vr);
-        allResults.add(sr);
+        String index = new String();
+        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(v.getMapKey()));
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + v.getMapKey());
+        VVService.setVariantIndex(index);
+        for (Sample s : samples) {
+//        System.out.println(s.getId());
+            vsb.sampleIds.add(s.getId());
+        }
+//    vsb.setPosition( v.getChromosome(),String.valueOf(v.getStartPos()), String.valueOf(v.getEndPos()) );
+        vsb.setVariantId(v.getId());
+        try {
+            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+            SearchResult sr = new SearchResult();
+
+            sr.setVariantResults(vr);
+            allResults.add(sr);
 //        System.out.println(allResults.size());
-    }
-    catch (Exception e){
+        } catch (Exception e) {
 //        System.out.println(e);
+        }
     }
     boolean emptyTranscripts = true;
     for (SearchResult sr1 : allResults){
@@ -35,7 +38,6 @@
     }
     if (!allResults.isEmpty() && !emptyTranscripts){
 %>
-<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div class="reportTable light-table-border" id="variantTranscriptsTableWrapper">
     <div class="sectionHeading" id="variantTranscripts">Variant Transcripts</div>
 
@@ -53,7 +55,7 @@
                 <td>
 
             <% for (TranscriptResult tr: result.getTranscriptResults()) { %>
-                    <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
+                    <table border="0" width="100%" style="background-color:white; color:#053867;font-size:12px;">
                 <% try { %>
                 <tr>
                     <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xdbDAO.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
@@ -161,8 +163,9 @@
                 <% } %>
 
 
-                <tr><td>&nbsp;</td></tr>
+<%--                <tr><td>&nbsp;</td></tr>--%>
                     </table>
+                    <br>
                 <% } %>
                 </td>
             </tr>
@@ -172,5 +175,8 @@
             </table>
         </div>
 </div>
+<style>
+
+</style>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

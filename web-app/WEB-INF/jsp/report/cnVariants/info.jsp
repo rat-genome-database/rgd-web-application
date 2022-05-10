@@ -20,9 +20,7 @@
     String src = "";
 
 
-    MapDAO mdao = new MapDAO();
-    Map map = mdao.getMap(var.getMapKey());
-    if (var.getMapKey()!=631) {
+    if (mapKey!=631) {
         for (Sample s : samples) {
             src += (s.getAnalysisName() + " ");
         }
@@ -35,7 +33,7 @@
     }
 
     int start = (int) var.getStartPos();
-    List<MapData> mapData = mdao.getMapDataWithinRange(start,start,var.getChromosome(),var.getMapKey(),1);
+    List<MapData> mapData = mapDAO.getMapDataWithinRange(start,start,var.getChromosome(),var.getMapKey(),1);
     List<Gene> geneList = new ArrayList<>();
     String genes = "";
     if (mapData.size()>0) {
@@ -53,7 +51,7 @@
 %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(var.getSpeciesTypeKey())%>
+    <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(speciesType)%>
     </h3></td></tr>
 
 <%--    <tr>--%>
@@ -120,24 +118,27 @@
         <td class="wrap660"><%=Utils.NVL(var.getVariantNucleotide(), "-")%></td>
     </tr>
     <tr>
-        <td class="label" valign="top">Padding Base:</td>
-        <td class="wrap660"><%=Utils.NVL(var.getPaddingBase(), "-")%></td>
-    </tr>
-    <tr>
         <td class="label">Position</td>
         <td>
             <table border="0" class="mapDataTable" width="670">
                 <tr>
-                    <th align="left"><b>Rat Assembly</b></th>
+                    <th align="left"><b>Assembly</b></th>
                     <th align="left">Chr</th>
                     <th align="left">Position</th>
                 </tr>
+                <% for (VariantMapData v : vars) {
+                    Map map = mapDAO.getMap(v.getMapKey()); %>
                 <tr>
+                    <% if (v.getMapKey()==refMap.getKey()) { %>
+                    <td><a style='color:blue;font-weight:700;font-size:11px;' href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=map.getName()%></a></td>
+                    <% }
+                    else {%>
                     <td><%=map.getName()%></td>
-                    <td><%=var.getChromosome()%></td>
-                    <td><%=NumberFormat.getNumberInstance(Locale.US).format(var.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(var.getEndPos())%></td>
-
+                    <% } %>
+                    <td><%=v.getChromosome()%></td>
+                    <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
                 </tr>
+                <% } %>
             </table></td>
     </tr>
     <tr>

@@ -10,18 +10,24 @@
 
 <% boolean includeMapping = true;
     String title = "Variant";
+//    List<Object> vars = (List<Object>) request.getAttribute("reportObject");
     VariantMapData var = (VariantMapData) request.getAttribute("reportObject");
+    VariantDAO vdao = new VariantDAO();
+    SampleDAO sdao = new SampleDAO();
+    RgdId obj = managementDAO.getRgdId2((int)var.getId());
+    List<VariantMapData> vars = vdao.getVariantsByRgdId(obj.getRgdId());
+
     String objectType="RgdVariant";
     String displayName;
     displayName = Utils.isStringEmpty(var.getRsId()) ? "RGD:"+var.getId() : var.getRsId();
     boolean isGwas = false;
-    RgdId obj = managementDAO.getRgdId2((int)var.getId());
-    VariantDAO vdao = new VariantDAO();
-    SampleDAO sdao = new SampleDAO();
+
+    int speciesType =  var.getSpeciesTypeKey();
     sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
     List<VariantSampleDetail> sampleDetails = vdao.getVariantSampleDetail(obj.getRgdId());
-    Map refMap = mapDAO.getPrimaryRefAssembly(var.getSpeciesTypeKey());
-    List mapDataList = mapDAO.getMapData((int)var.getId(), refMap.getKey());
+    Map refMap = mapDAO.getPrimaryRefAssembly(speciesType);
+    int mapKey = refMap.getKey();
+    List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
     List<XdbId> ei1 = DaoUtils.getInstance().getExternalDbLinks(obj.getRgdId(), obj.getSpeciesTypeKey());
     MapData md = new MapData();
     if (mapDataList.size() > 0) {
@@ -87,7 +93,7 @@
     }
     HashMap<String,List<Integer>> breedMap = new HashMap<>();
     List<String> breeds = new ArrayList<>();
-    if(var.getMapKey() == 631){
+    if(mapKey == 631){
 
         List<Integer> breedsArr = new ArrayList<>();
         for(Sample s:samples){
@@ -148,7 +154,7 @@
 
     <div id="left-side-wrap">
         <div id="species-image">
-            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(var.getSpeciesTypeKey())%>"/>
+            <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(speciesType)%>"/>
         </div>
 
         <%@ include file="../reportSidebar.jsp"%>
@@ -171,24 +177,28 @@
             <div id="associationsStandard" style="display:block;">
                 <%@ include file="../associations.jsp"%>
             </div>
-
+                <% if (isGwas) {%>
+            <div id="gwasAssociation">
+                <%@ include file="gwasData.jsp"%>
+            </div>
+                <% } %>
             <br><div class="subTitle" id="variantDetails">Variant Details</div>
             <div id="transcripts">
                 <%@ include file="transcripts.jsp"%>
             </div>
             <div id="samples">
                 <%@ include file="samples.jsp"%>
+                <% if (obj.getSpeciesTypeKey()!=1) {%>
                 <%@ include file="sampleDetails.jsp"%>
+                <% } %>
             </div>
             <div id="pubMed">
                 <%@ include file="../pubMedReferences.jsp"%>
-                <%@ include file="pubMed.jsp"%>
             </div>
-            <%if (!ei1.isEmpty() || isGwas) {%>
+            <%if (!ei1.isEmpty()) {%>
             <br><div  class="subTitle">Additional Information</div>
             <br>
                 <%@ include file="../xdbs.jsp"%>
-                <%@ include file="gwasData.jsp"%>
             <% } %>
 
 

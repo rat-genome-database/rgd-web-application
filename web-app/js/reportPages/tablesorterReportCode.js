@@ -32,12 +32,6 @@ function tableSorterReport() {
                 size: 20
             });
 
-        $('#gwasPubMedReferencesTable')
-            .tablesorter({
-                theme: 'blue',
-                widgets: ['zebra']
-            });
-
         $('#gwasDataTable')
             .tablesorter({
                 theme: 'blue',

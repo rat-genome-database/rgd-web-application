@@ -40,7 +40,9 @@
                 <td>Zygosity Percent Read</td>
             </tr>
             <%for (VariantSampleDetail vsd : sampleDetails) {
-                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());%>
+                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
+            if (vsd.getZygosityStatus() == null)
+                continue;%>
             <tr>
                 <td><%=s.getAnalysisName()%></td>
                 <td><%=vsd.getDepth()%></td>
