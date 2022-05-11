@@ -85,7 +85,7 @@ public class PhenominerService {
         if(termsMap.get("RS")!=null)
                 builder.filter(QueryBuilders.termsQuery("rsTermAcc.keyword", termsMap.get("RS")));
         if(termsMap.get("XCO")!=null)
-                builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(","))
+                builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", termsMap.get("XCO"))
                );
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
