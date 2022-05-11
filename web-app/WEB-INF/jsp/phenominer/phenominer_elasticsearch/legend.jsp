@@ -29,7 +29,7 @@
                 <c:forEach items="${legend}" var="color">
                     <li class="list-group-item">
                         <div class="row" style="text-align: center">
-                            <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value}"></div>
+                            <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value};border:1px solid gray"></div>
                             <div class="col-xs-1">&nbsp;${color.key}</div>&nbsp;
                         </div>
                     </li>
