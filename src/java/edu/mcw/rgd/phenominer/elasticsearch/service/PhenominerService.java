@@ -77,6 +77,16 @@ public class PhenominerService {
     public BoolQueryBuilder boolQueryBuilder(HttpRequestFacade req, Map<String, String> filterMap){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery( req));
+        Map<String, List<String>> termsMap=getSegregatedTerms(req);
+        if(termsMap.get("CMO")!=null)
+        builder.filter(QueryBuilders.termsQuery("cmoTermAcc.keyword",termsMap.get("CMO")));
+        if(termsMap.get("MMO")!=null)
+               builder.filter(QueryBuilders.termsQuery("mmoTermAcc.keyword", termsMap.get("MMO")));
+        if(termsMap.get("RS")!=null)
+                builder.filter(QueryBuilders.termsQuery("rsTermAcc.keyword", termsMap.get("RS")));
+        if(termsMap.get("XCO")!=null)
+                builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(","))
+               );
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
               /*  if(key.equalsIgnoreCase("cmoTerm")){
@@ -87,6 +97,45 @@ public class PhenominerService {
         System.out.println(builder);
         return builder;
     }
+    public Map<String, List<String>> getSegregatedTerms(HttpRequestFacade req){
+        Map<String, List<String>> segregatedTermsMap=new HashMap<>();
+        List<String> terms= Arrays.asList(req.getParameter("terms").split(","));
+        for(String term:terms){
+            if(term.contains("CMO")){
+                List<String> cmoTerms=segregatedTermsMap.get("CMO");
+                if(cmoTerms==null) {
+                    cmoTerms=new ArrayList<>();
+                }
+                cmoTerms.add(term);
+                segregatedTermsMap.put("CMO", cmoTerms);
+            }
+            if(term.contains("XCO")){
+                List<String> xcoTerms=segregatedTermsMap.get("XCO");
+                if(xcoTerms==null) {
+                    xcoTerms=new ArrayList<>();
+                }
+                xcoTerms.add(term);
+                segregatedTermsMap.put("XCO", xcoTerms);
+            }
+            if(term.contains("MMO")){
+                List<String> mmoTerms=segregatedTermsMap.get("MMO");
+                if(mmoTerms==null) {
+                    mmoTerms=new ArrayList<>();
+                }
+                mmoTerms.add(term);
+                segregatedTermsMap.put("MMO", mmoTerms);
+            }
+            if(term.contains("RS")){
+                List<String> rsTerms=segregatedTermsMap.get("RS");
+                if(rsTerms==null) {
+                    rsTerms=new ArrayList<>();
+                }
+                rsTerms.add(term);
+                segregatedTermsMap.put("RS", rsTerms);
+            }
+        }
+        return segregatedTermsMap;
+    }
     public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
         System.out.println();
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
@@ -95,6 +144,7 @@ public class PhenominerService {
         dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
         dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
         dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
+
         return dqb;
 
     }
