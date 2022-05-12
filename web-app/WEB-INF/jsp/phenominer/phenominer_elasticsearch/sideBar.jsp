@@ -166,7 +166,7 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?species=3" method="get" >
+    <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?species=3" method="post" >
         <input type="hidden" name="terms" value="${terms}"/>
         <input type="hidden" name="facetSearch" value="true"/>
         <input type="hidden" name="legendJson" value='${legendJson}'/>
