@@ -2,19 +2,28 @@
 <%
 List<ProteinStructure> protStructs = new ProteinStructureDAO().getProteinStructuresForGene(obj.getRgdId());
 if( !protStructs.isEmpty() ) {
+
+    boolean showVideoCol = false;
+    for (ProteinStructure ps: protStructs) {
+        if( !Utils.isStringEmpty(ps.getVideoUrl()) ) {
+            showVideoCol = true;
+            break;
+        }
+    }
 %>
 
-<%--<%=ui.dynOpen("proteinStructures", "Protein Structures")%><br>--%>
 <div class="light-table-border">
     <div class="sectionHeading" id="proteinStructures">Protein Structures</div>
-<table cellpadding="2" cellspacing="1" class="sortable" id="protStruTab">
+<table cellpadding="5" cellspacing="1" class="sortable" id="protStruTab">
     <tr class="headerRow">
         <td title="click to sort by name">Name</td>
-        <td title="click to sort by modeller">Modeller</td>
+        <td title="click to sort by modeller">Modeler</td>
         <td title="click to sort by protein">Protein Id</td>
         <td title="click to sort by aminoacid range">AA Range</td>
         <td>Protein Structure</td>
+        <% if( showVideoCol ) { %>
         <td>Video</td>
+        <% } %>
     </tr>
 <%
     String rowClass="oddRow";
@@ -33,7 +42,7 @@ if( !protStructs.isEmpty() ) {
 %>
     <tr class="<%=rowClass%>">
         <td><%=ps.getName()%></td>
-        <td><%=ps.getModeller()%></td>
+        <td><a href="https://alphafold.com/entry/<%=ps.getProteinAccId()%>"><%=ps.getModeller()%></a></td>
         <td><%=ps.getProteinAccId()%></td>
         <td><%=ps.getProteinAaRange()%></td>
         <% if( ps.getModeller().equals("AlphaFold") ) {%>
@@ -41,12 +50,13 @@ if( !protStructs.isEmpty() ) {
         <% } else { %>
         <td><a href="/rgdweb/jsmol/rgd.jsp?d=<%=ps.getName()%>">view protein structure</a></td>
         <% } %>
+        <% if( showVideoCol ) { %>
         <td><%=videoUrl%></td>
+        <% } %>
     </tr>
     <% } %>
 </table>
 <br>
-<%--    <%=ui.dynClose("proteinStructures")%>--%>
 </div>
 <% } %>
 
