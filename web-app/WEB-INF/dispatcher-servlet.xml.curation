@@ -179,7 +179,7 @@
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
 
-                <prop key="carpe/search.html">CarpenovoSearchController</prop>
+                <prop key="carpe/search.html">nCarpenovoSearchController</prop>
                 <prop key="front/variants.html">nVariantController</prop>
                 <prop key="front/detail.html">nDetailController</prop>
                 <prop key="front/detail_gbrowse.html">nDetailController</prop>
@@ -423,6 +423,7 @@
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
 
+    <bean id="nCarpenovoSearchController" class="edu.mcw.rgd.vv.CarpenovoSearchController"/>
     <bean id="nVariantController" class="edu.mcw.rgd.vv.VariantController" />
     <bean id="nDetailController" class="edu.mcw.rgd.vv.DetailController" />
     <bean id="nDistributionController" class="edu.mcw.rgd.vv.DistributionController" />
@@ -434,8 +435,6 @@
     <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
     <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
     <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
-    <bean id="CarpenovoSearchController" class="edu.mcw.rgd.vv.CarpenovoSearchController"/>
-
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
