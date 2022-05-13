@@ -144,7 +144,6 @@
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
                 <prop key="overgo/find.html">OvergoController</prop>
-                <prop key="carpe/search.html">CarpenovoSearchController</prop>
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
@@ -180,6 +179,7 @@
                 <prop key="pa/termCompare.html">PATermCompareController</prop>
                 <prop key="pa/window.html">PACrossCompareController</prop>
 
+                <prop key="carpe/search.html">CarpenovoSearchController</prop>
                 <prop key="front/variants.html">nVariantController</prop>
                 <prop key="front/detail.html">nDetailController</prop>
                 <prop key="front/detail_gbrowse.html">nDetailController</prop>
@@ -404,7 +404,6 @@
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
-    <bean id="CarpenovoSearchController" class="edu.mcw.rgd.carpenovo.CarpenovoSearchController"/>
 <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
 <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
     <bean id="GASearchController" class="edu.mcw.rgd.ga.GASearchController" />
@@ -435,6 +434,7 @@
     <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
     <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
     <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
+    <bean id="CarpenovoSearchController" class="edu.mcw.rgd.vv.CarpenovoSearchController"/>
 
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
