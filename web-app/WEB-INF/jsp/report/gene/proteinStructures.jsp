@@ -4,12 +4,45 @@ List<ProteinStructure> protStructs = new ProteinStructureDAO().getProteinStructu
 if( !protStructs.isEmpty() ) {
 
     boolean showVideoCol = false;
+    int alphaFoldFragments = 0;
     for (ProteinStructure ps: protStructs) {
         if( !Utils.isStringEmpty(ps.getVideoUrl()) ) {
             showVideoCol = true;
-            break;
+        }
+        if( ps.getModeller().equals("AlphaFold") ) {
+            alphaFoldFragments++;
         }
     }
+
+    Collections.sort(protStructs, new Comparator<ProteinStructure>() {
+        @Override
+        public int compare(ProteinStructure o1, ProteinStructure o2) {
+            int start1 = 0, end1 = 0;
+            int start2 = 0, end2 = 0;
+            String range1 = o1.getProteinAaRange();
+            if( range1!=null ) {
+                int dashPos = range1.indexOf('-');
+                if( dashPos>0 ) {
+                    start1 = Integer.parseInt(range1.substring(0, dashPos).trim());
+                    end1 = Integer.parseInt(range1.substring(dashPos+1).trim());
+                }
+            }
+            String range2 = o2.getProteinAaRange();
+            if( range2!=null ) {
+                int dashPos = range2.indexOf('-');
+                if( dashPos>0 ) {
+                    start2 = Integer.parseInt(range2.substring(0, dashPos).trim());
+                    end2 = Integer.parseInt(range2.substring(dashPos+1).trim());
+                }
+            }
+
+            int r = start1 - start2;
+            if( r!=0 ) {
+                return r;
+            }
+            return end1 - end2;
+        }
+    });
 %>
 
 <div class="light-table-border">
@@ -42,11 +75,15 @@ if( !protStructs.isEmpty() ) {
 %>
     <tr class="<%=rowClass%>">
         <td><%=ps.getName()%></td>
-        <td><a href="https://alphafold.com/entry/<%=ps.getProteinAccId()%>"><%=ps.getModeller()%></a></td>
+        <td><%=ps.getModeller()%></td>
         <td><%=ps.getProteinAccId()%></td>
         <td><%=ps.getProteinAaRange()%></td>
-        <% if( ps.getModeller().equals("AlphaFold") ) {%>
-        <td><a href="/rgdweb/jsmol/alphafold.jsp?p=<%=ps.getName()%>&species=<%=SpeciesType.getShortName(obj.getSpeciesTypeKey())%>">view protein structure</a></td>
+        <% if( ps.getModeller().equals("AlphaFold") ) {
+                if( alphaFoldFragments==1 ) {%>
+            <td><a href="https://alphafold.com/entry/<%=ps.getProteinAccId()%>">view protein structure</a></td>
+            <% } else { // protein with multiple fragments are not available at AlphaFold website; thus we use RGD jmol browser to show them %>
+            <td><a href="/rgdweb/jsmol/alphafold.jsp?p=<%=ps.getName()%>&species=<%=SpeciesType.getShortName(obj.getSpeciesTypeKey())%>">view protein structure</a></td>
+            <% } %>
         <% } else { %>
         <td><a href="/rgdweb/jsmol/rgd.jsp?d=<%=ps.getName()%>">view protein structure</a></td>
         <% } %>
