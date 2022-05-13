@@ -12,8 +12,12 @@
     String title = "Variant";
 //    List<Object> vars = (List<Object>) request.getAttribute("reportObject");
     VariantMapData var = (VariantMapData) request.getAttribute("reportObject");
+
     VariantDAO vdao = new VariantDAO();
     SampleDAO sdao = new SampleDAO();
+    OntologyXDAO odao = new OntologyXDAO();
+    GWASCatalogDAO gwasDao = new GWASCatalogDAO();
+
     RgdId obj = managementDAO.getRgdId2((int)var.getId());
     List<VariantMapData> vars = vdao.getVariantsByRgdId(obj.getRgdId());
 
@@ -27,6 +31,14 @@
     List<VariantSampleDetail> sampleDetails = vdao.getVariantSampleDetail(obj.getRgdId());
     Map refMap = mapDAO.getPrimaryRefAssembly(speciesType);
     int mapKey = refMap.getKey();
+    boolean foundPrimary = false;
+    for (VariantMapData v : vars){
+        if (v.getMapKey()==mapKey) {
+            var = v;
+            foundPrimary = true;
+            break;
+        }
+    }
     List mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
     List<XdbId> ei1 = DaoUtils.getInstance().getExternalDbLinks(obj.getRgdId(), obj.getSpeciesTypeKey());
     MapData md = new MapData();
@@ -56,30 +68,16 @@
             ontTerm = var.getVariantType();
             break;
     }
-    OntologyXDAO odao = new OntologyXDAO();
     Term t = new Term();
     List<Term> gwasTerms = new ArrayList<>();
-    GWASCatalogDAO gwasDao = new GWASCatalogDAO();
-    GWASCatalog gwas = gwasDao.getGWASCatalogByVariantRgdId(obj.getRgdId());
-    try {
-        String gwasTerm = gwas.getEfoId().replace('_', ':');
-        String[] terms = gwasTerm.split(",");
-        for (String termAcc : terms){
-            if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") )
-                continue;
-            String trimmed = termAcc.trim();
-//                System.out.println(trimmed);
-            Term term = odao.getTermByAccId(trimmed);
-            gwasTerms.add(term);
-        }
-        isGwas = true;
-//            ontTerms = odao.getTermByAccId(terms); // fix by trimming \\s
-        t = odao.getTermByTermName(ontTerm, ontId);
-    }
-    catch (Exception e){
-        isGwas = false;
-        t = odao.getTermByTermName(ontTerm, ontId);
-    }
+    List<GWASCatalog> gwasList = gwasDao.getGWASListByVariantRgdId(obj.getRgdId());
+
+       if (gwasList.isEmpty())
+           isGwas = false;
+       else
+           isGwas = true;
+    t = odao.getTermByTermName(ontTerm, ontId);
+
     HashMap<String,Boolean> sources = new HashMap<>();
     List<VariantSampleDetail> col = new ArrayList<>();
     List<Sample> samples = new ArrayList<>();
@@ -170,7 +168,9 @@
 
             <%@ include file="info.jsp"%>
             <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-
+            <div id="clinVar">
+                <%@ include file="clinVar.jsp"%>
+            </div>
             <div id="associationsCurator" style="display:none;">
                 <%@ include file="../associationsCurator.jsp"%>
             </div>

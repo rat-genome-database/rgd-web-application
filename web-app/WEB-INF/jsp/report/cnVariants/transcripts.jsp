@@ -10,13 +10,12 @@
 
         String index = new String();
         String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(v.getMapKey()));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + v.getMapKey());
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + v.getMapKey());
         VVService.setVariantIndex(index);
         for (Sample s : samples) {
 //        System.out.println(s.getId());
             vsb.sampleIds.add(s.getId());
         }
-//    vsb.setPosition( v.getChromosome(),String.valueOf(v.getStartPos()), String.valueOf(v.getEndPos()) );
         vsb.setVariantId(v.getId());
         try {
             List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);

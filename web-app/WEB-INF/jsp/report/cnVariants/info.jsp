@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.net.InetAddress" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .wrap660 {
@@ -141,6 +142,71 @@
                 <% } %>
             </table></td>
     </tr>
+    <% if(fu.mapPosIsValid(var)) {
+        String dbJBrowse = "";
+        switch (var.getMapKey()){
+            case 372:
+                dbJBrowse = "data_rn7_2";
+                break;
+            case 360:
+                dbJBrowse = "data_rgd6";
+                break;
+            case 70:
+                dbJBrowse = "data_rgd5";
+                break;
+            case 38:
+                dbJBrowse = "data_hg38";
+                break;
+            case 17:
+                dbJBrowse = "data_hg19";
+                break;
+            case 35:
+                dbJBrowse = "data_mm38";
+                break;
+            case 239:
+                dbJBrowse = "data_mm39";
+                break;
+            case 1311:
+                dbJBrowse = "data_chlSab2";
+                break;
+            case 631:
+                dbJBrowse = "data_dog3_1";
+                break;
+            case 910:
+                dbJBrowse = "data_pig10_2";
+                break;
+            case 911:
+                dbJBrowse = "data_pig11_1";
+                break;
+            default:
+                dbJBrowse = "data_rn7_2";
+        }
+        System.out.println(InetAddress.getLocalHost());
+        String tracks = "";
+        if (obj.getSpeciesTypeKey()==SpeciesType.HUMAN)
+            tracks = "ClinVar";
+        else
+            tracks = "dbSNP%2CEVA";
+        String jbUrl = "https://dev.rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
+    %>
+    <tr>
+        <td  class="label">JBrowse:</td>
+        <td align="left">
+            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Model</td>
+        <td>
+            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
+        </td>
+    </tr>
+    <script>
+        $(document).ready(function() {
+            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
+        });
+    </script>
+    <% } %>
     <tr>
         <td class="label">Source:</td>
         <td><%=src%></td>
@@ -156,20 +222,6 @@
                     out.print(breeds.get(i) +", ");
             } %>
         </td>
-    </tr>
-    <% }
-        List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
-        if (aliases.size() > 0 ) {
-            // sort aliases alphabetically by alias value
-            Collections.sort(aliases, new Comparator<Alias>() {
-                public int compare(Alias o1, Alias o2) {
-                    return Utils.stringsCompareToIgnoreCase(o1.getValue(), o2.getValue());
-                }
-            });
-    %>
-    <tr>
-        <td class="label" valign="top">Aliases:</td>
-        <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
 

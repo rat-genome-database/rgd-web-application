@@ -35,7 +35,7 @@
             <tr>
                 <td>Sample</td>
                 <td>Total Depth</td>
-                <td>Allele Frequency</td>
+                <td>Sample Allele Frequency</td>
                 <td>Zygosity Status</td>
                 <td>Zygosity Percent Read</td>
             </tr>

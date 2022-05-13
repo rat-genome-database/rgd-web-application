@@ -36,6 +36,16 @@ function tableSorterReport() {
             .tablesorter({
                 theme: 'blue',
                 widgets: ['zebra']
+            })
+            .tablesorterPager({
+            container: $('.gwasDataPager'),
+            size: 20
+        });
+
+        $('#ClinVarTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
             });
 
         $('#annotationTable1')
