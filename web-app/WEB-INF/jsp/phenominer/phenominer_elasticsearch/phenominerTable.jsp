@@ -24,6 +24,26 @@
 
 </script>
 <div id="display"></div>
+<c:set var="missedColumCount" value="0"/>
+<c:if test="${columns.experimentNotes==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+    </c:if>
+<c:if test="${columns.sampleNotes==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+</c:if>
+<c:if test="${columns.clinicalMeasurementNotes==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+</c:if>
+<c:if test="${columns.averageType==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+</c:if>
+<c:if test="${columns.formula==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+    </c:if>
+<script>
+    var missedColumnCount=${missedColumCount}
+    console.log("MISSED COLUN COUNT:"+ missedColumnCount)
+</script>
 <table id="mytable" class="tablesorter">
     <thead>
         <tr>
