@@ -51,50 +51,41 @@
             <th>Study ID</th>
             <th>Study</th>
             <th>Experiment Name</th>
-            <c:if test="${columns.experimentNotes!=null}">
             <th>Experiment Notes</th>
-            </c:if>
             <th>Strain</th>
             <th>Sex</th>
             <th>Age</th>
             <th># of Animals</th>
-            <c:if test="${columns.sampleNotes!=null}">
+
             <th>Sample Notes</th>
-            </c:if>
+
             <th>Phenotype</th>
-<c:if test="${columns.formula!=null}">
+
 
 <th>Formula</th>
-</c:if>
-<c:if test="${columns.clinicalMeasurementNotes!=null}">
+
+
             <th>Clinical Measurement Notes</th>
-</c:if>
-<c:if test="${columns.averageType!=null}">
+
+
             <th>Average Type</th>
-</c:if>
+
             <th>Value</th>
             <th>Units</th>
             <th>SEM</th>
             <th>SD</th>
             <th>Method</th>
-<c:if test="${columns.methodSite!=null}">
 
 <th>Method Site</th>
-</c:if>
             <th>Method Duration</th>
-<c:if test="${columns.methodNotes!=null}">
 
 <th>Method Notes</th>
-</c:if>
-<c:if test="${columns.postInsultType!=null}">
 
 <th>Post Insult Type</th>
-</c:if>
+
             <th>Post Insult Time Value</th>
-<c:if test="${columns.postInsultTimeUnit!=null}">
 
 <th>Post Insult Time Unit</th>
-</c:if>
             <th>Conditions</th>
         </tr>
     </thead>
@@ -105,51 +96,33 @@
                 <td>${hit.sourceAsMap.studyId}</td>
                 <td>${hit.sourceAsMap.study}</td>
                 <td>${hit.sourceAsMap.experimentName}</td>
-                <c:if test="${columns.experimentNotes!=null}">
                 <td>${hit.sourceAsMap.experimentNotes}</td>
-                </c:if>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
                 <td>${hit.sourceAsMap.sex}</td>
                 <td>${hit.sourceAsMap.ageLowBound}-${hit.sourceAsMap.ageHighBound}</td>
                 <td>${hit.sourceAsMap.numberOfAnimals}</td>
-                <c:if test="${columns.sampleNotes!=null}">
                 <td>${hit.sourceAsMap.sampleNotes}</td>
-                </c:if>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
-                <c:if test="${columns.formula!=null}">
 
                 <td>${hit.sourceAsMap.formula}</td>
-                </c:if>
-                <c:if test="${columns.clinicalMeasurementNotes!=null}">
 
                 <td>${hit.sourceAsMap.clinicalMeasurementNotes}</td>
-                </c:if>
-                <c:if test="${columns.averageType!=null}">
 
                 <td>${hit.sourceAsMap.averageType}</td>
-                </c:if>
                 <td>${hit.sourceAsMap.value}</td>
                 <td>${hit.sourceAsMap.units}</td>
                 <td>${hit.sourceAsMap.sem}</td>
                 <td>${hit.sourceAsMap.sd}</td>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.mmoTermAcc}">${hit.sourceAsMap.mmoTerm}</a></td>
-                <c:if test="${columns.methodSite!=null}">
 
                 <td>${hit.sourceAsMap.methodSite}</td>
-                </c:if>
                 <td>${hit.sourceAsMap.methodDuration}</td>
-                <c:if test="${columns.methodNotes!=null}">
 
                 <td>${hit.sourceAsMap.methodNotes}</td>
-                </c:if>
-                <c:if test="${columns.postInsultType!=null}">
                 <td>${hit.sourceAsMap.postInsultType}</td>
-                </c:if>
                 <td>${hit.sourceAsMap.postInsultTimeValue}</td>
-                <c:if test="${columns.postInsultTimeUnit!=null}">
 
                 <td>${hit.sourceAsMap.postInsultTimeUnit}</td>
-                </c:if>
                 <td>${hit.sourceAsMap.xcoTerm}</td>
             </tr>
         </c:forEach>
