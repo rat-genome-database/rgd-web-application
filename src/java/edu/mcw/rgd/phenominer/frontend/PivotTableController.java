@@ -72,7 +72,7 @@ public class PivotTableController implements Controller {
             request.setAttribute("legendJson", gson.toJson(legend));
 
         request.setAttribute("labels", gson.toJson(labels));
-
+        request.setAttribute("columns",getTableColumns(sr));
         request.setAttribute("sr", sr);
         request.setAttribute("facetSearch", facetSearch);
         request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
@@ -80,6 +80,16 @@ public class PivotTableController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
         //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
+    }
+    public  Map<String, String> getTableColumns(SearchResponse sr){
+        Map<String, String> columnMap=new HashMap<>();
+        for(SearchHit hit:sr.getHits()){
+            Map<String, Object> sourceMap=hit.getSourceAsMap();
+            for(String key:sourceMap.keySet()){
+                columnMap.put(key, "");
+            }
+        }
+        return columnMap;
     }
     public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
