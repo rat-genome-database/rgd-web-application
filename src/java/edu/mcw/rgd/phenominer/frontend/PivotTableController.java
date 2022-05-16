@@ -39,8 +39,9 @@ public class PivotTableController implements Controller {
                 filteredAggregations = service.getFilteredAggregations(filterMap, req);
                 // request.setAttribute("aggregations", filteredAggregations);
                 aggregations.putAll(filteredAggregations);
-                setSelectAllCheckBox(request);
+
             }
+            setSelectAllCheckBox(request);
         }//else{
             request.setAttribute("aggregations", aggregations);
 
