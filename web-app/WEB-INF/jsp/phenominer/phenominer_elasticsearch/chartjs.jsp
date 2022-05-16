@@ -1,6 +1,6 @@
 
-<div class="chart-container" id = "chartDiv" >
-    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
+<div class="chart-container" id = "chartDiv" style="margin-top:2%" >
+    <canvas id="resultChart" style="position: relative; height:200px; width:80vw;"></canvas>
 
 </div>
 
@@ -217,7 +217,6 @@
             data: ${plot.value},
             errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
-
             borderWidth: 1,
             borderColor:"gray"
         });
