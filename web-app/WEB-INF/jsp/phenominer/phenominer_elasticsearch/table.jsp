@@ -33,6 +33,21 @@
         <%@include file="sideBar.jsp"%>
     </div>
     <main role="main" class="col" id="results">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Phenominer Database Results (${sr.hits.totalHits})</h3>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary"><a href="download.html?fmt=3&terms=${terms}" style="text-decoration: none;color:white">Download all records</a></button>
+            </div>
+            <c:if test="${facetSearch=='true'}">
+                <div class="col-xs-2">
+                    &nbsp;<button class="btn btn-primary"><a href="" style="text-decoration: none;color:white">Download table view records</a></button>
+                </div>
+            </c:if>
+        </div>
+        <hr>
         <c:if test="${fn:length(selectedFilters)>0}">
         <span><strong>Remove Filters:</strong>
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
@@ -43,7 +58,7 @@
         </c:forEach>
 </span>
         </c:if>
-        <h3>${sr.hits.totalHits}</h3>
+
         <c:choose>
         <c:when test="${fn:length(sr.hits.hits)>0}">
         <c:choose>
@@ -56,7 +71,7 @@
                 <h4 style="font-weight: bold;color:red">Please select the measurements of one unit group in the left filter pane to view the graph.</h4>
             </c:otherwise>
         </c:choose>
-        <%@include file="phenominerChart.jsp"%>
+        <%@include file="phenominerTable.jsp"%>
         </c:when>
             <c:otherwise>
                 <h4 style="font-weight: bold;color:red">No results found with selected filters. Please refine the filters.</h4>

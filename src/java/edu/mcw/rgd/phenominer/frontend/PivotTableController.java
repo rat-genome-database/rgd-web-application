@@ -33,7 +33,7 @@ public class PivotTableController implements Controller {
         Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
         Map<String, String> filterMap=getFilterMap(request);
         boolean facetSearch = req.getParameter("facetSearch").equals("true");
-        System.out.println("FILTERMAP SIZE:"+ filterMap.size()) ;
+        System.out.println("FILTERMAP SIZE:"+ filterMap.size()+"\t"+ gson.toJson(filterMap)) ;
         if (facetSearch) {
             if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName"))) {
                 filteredAggregations = service.getFilteredAggregations(filterMap, req);
