@@ -9,7 +9,7 @@ if (clinVar!=null){
 %>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div class="reportTable light-table-border" id="ClinVarTableWrapper">
-    <div class="sectionHeading" id="variantSamples">ClinVar Data</div>
+    <div class="sectionHeading" id="ClinVar">ClinVar Data</div>
     <div id="ClinVarTableDiv" class="annotation-detail">
         <table id="ClinVarTable" border='0' cellpadding='2' cellspacing='2'>
             <tr>

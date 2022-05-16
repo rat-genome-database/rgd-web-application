@@ -184,10 +184,13 @@
         }
 //        System.out.println(InetAddress.getLocalHost());
         String tracks = "";
+        if (genicStatus.equals("GENIC"))
+            tracks = "ARGD_curated_genes%2C";
         if (obj.getSpeciesTypeKey()==SpeciesType.HUMAN)
-            tracks = "ClinVar";
+            tracks += "ClinVar";
         else
-            tracks = "dbSNP%2CEVA";
+            tracks += "dbSNP%2CEVA";
+
         String jbUrl = "https://dev.rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
     %>
     <tr>
