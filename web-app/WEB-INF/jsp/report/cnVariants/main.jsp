@@ -198,7 +198,7 @@
             <%if (!ei1.isEmpty()) {%>
             <br><div  class="subTitle">Additional Information</div>
             <br>
-                <%@ include file="../xdbs.jsp"%>
+                <%@ include file="xdbs.jsp"%>
             <% } %>
 
 
@@ -220,5 +220,28 @@
 </div>
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
+<script>
+    $(function () {
+        $(".more").hide();
+        $(".moreLink").on("click", function(e) {
+
+            var $this = $(this);
+            var parent = $this.parent();
+            var $content=parent.find(".more");
+            var linkText = $this.text();
+
+            if(linkText === "More..."){
+                linkText = "Hide...";
+                $content.show();
+            } else {
+                linkText = "More...";
+                $content.hide();
+            }
+            $this.text(linkText);
+            return false;
+
+        });
+    });
+</script>
 <script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>

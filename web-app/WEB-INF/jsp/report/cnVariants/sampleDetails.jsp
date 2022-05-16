@@ -1,6 +1,14 @@
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantSampleDetail" %>
 
 <%@ include file="../sectionHeader.jsp"%>
+<%
+List<VariantSampleDetail> sampleDetailList = new ArrayList<>();
+for (VariantSampleDetail vsd : sampleDetails){
+    if (vsd.getZygosityStatus() != null)
+        sampleDetailList.add(vsd);
+}
+if (!sampleDetailList.isEmpty() ) {
+%>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 
 <div class="sampleDetailsTable light-table-border" id="sampleDetailsTableWrapper">
@@ -39,10 +47,8 @@
                 <td>Zygosity Status</td>
                 <td>Zygosity Percent Read</td>
             </tr>
-            <%for (VariantSampleDetail vsd : sampleDetails) {
-                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
-            if (vsd.getZygosityStatus() == null)
-                continue;%>
+            <%for (VariantSampleDetail vsd : sampleDetailList) {
+                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());%>
             <tr>
                 <td><%=s.getAnalysisName()%></td>
                 <td><%=vsd.getDepth()%></td>
@@ -74,4 +80,5 @@
         </div>
     </div>
 </div>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>

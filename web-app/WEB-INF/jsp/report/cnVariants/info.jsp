@@ -180,8 +180,9 @@
                 break;
             default:
                 dbJBrowse = "data_rn7_2";
+                break;
         }
-        System.out.println(InetAddress.getLocalHost());
+//        System.out.println(InetAddress.getLocalHost());
         String tracks = "";
         if (obj.getSpeciesTypeKey()==SpeciesType.HUMAN)
             tracks = "ClinVar";

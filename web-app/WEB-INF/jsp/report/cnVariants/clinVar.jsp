@@ -17,6 +17,9 @@ if (clinVar!=null){
                 <td>HGVS Name(s)</td>
                 <% } %>
                 <td>Last Evaluated</td>
+                <% if( clinVar.getMolecularConsequence()!=null ) { %>
+                <td>Molecular Consequence</td>
+                <% } %>
                 <td>Clinical Significance</td>
                 <% if( clinVar.getAgeOfOnset()!=null ) { %>
                 <td>Age of Onset</td>
@@ -27,12 +30,28 @@ if (clinVar!=null){
                 <td>Trait Synonyms</td>
             </tr>
             <tr>
-                <%if (hgvsNames!=null && !hgvsNames.isEmpty()){%>
-                <td><% for( HgvsName hgvsName: hgvsNames ) { %>
-                    <%=hgvsName.getName()%><br>
-                    <% } %></td>
+                <%if (hgvsNames!=null && !hgvsNames.isEmpty()){
+                    String lessTerms = "";
+                    String moreTerms = "";
+                    for (int i = 0 ; i < hgvsNames.size() ; i ++){
+                        if (i<4){
+                            lessTerms += hgvsNames.get(i).getName()+"<br>";
+                        }
+                        else{
+                            moreTerms += hgvsNames.get(i).getName()+"<br>";
+                        }
+                    }%>
+                <td>
+                    <%=lessTerms%>
+                    <% if (hgvsNames.size()>4) {%>
+                    <span class="more" style="display: none;"><%=moreTerms%> </span><a href="" class="moreLink" title="Click to see more"> More...</a>
+                    <% } %>
+                </td>
                 <% } %>
                 <td><%=fu.chkNull(clinVar.getDateLastEvaluated())%></td>
+                <% if( clinVar.getMolecularConsequence()!=null ) { %>
+                <td><%=clinVar.getMolecularConsequence()%></td>
+                <% } %>
                 <td><%=fu.chkNull(clinVar.getClinicalSignificance())%></td>
                 <% if( clinVar.getAgeOfOnset()!=null ) { %>
                 <td><%=clinVar.getAgeOfOnset()%></td>

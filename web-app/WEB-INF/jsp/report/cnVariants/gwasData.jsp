@@ -113,28 +113,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-        $(".more").hide();
-        $(".moreLink").on("click", function(e) {
-
-            var $this = $(this);
-            var parent = $this.parent();
-            var $content=parent.find(".more");
-            var linkText = $this.text();
-
-            if(linkText === "More..."){
-                linkText = "Hide...";
-                $content.show();
-            } else {
-                linkText = "More...";
-                $content.hide();
-            }
-            $this.text(linkText);
-            return false;
-
-        });
-    });
-</script>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>
