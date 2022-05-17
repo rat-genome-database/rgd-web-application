@@ -13,7 +13,7 @@ if (clinVar!=null){
     <div id="ClinVarTableDiv" class="annotation-detail">
         <table id="ClinVarTable" border='0' cellpadding='2' cellspacing='2'>
             <tr>
-                <%if (hgvsNames!=null && !hgvsNames.isEmpty())%>
+                <%if (hgvsNames!=null && !hgvsNames.isEmpty()) {%>
                 <td>HGVS Name(s)</td>
                 <% } %>
                 <td>Last Evaluated</td>
@@ -69,6 +69,7 @@ if (clinVar!=null){
                         });
                 %>
                 <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
+                <% } %>
             </tr>
         </table>
     </div>
