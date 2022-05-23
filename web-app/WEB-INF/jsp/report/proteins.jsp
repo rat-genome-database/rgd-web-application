@@ -47,7 +47,7 @@
 <%
     int row = 0;
     int prevRefSeqCode = -1;
-    String prevAccId = null;
+    String prevAccId = null, preName="";
 
     for (XdbId pxid: pei) {
         if( Utils.stringsAreEqual(prevAccId, pxid.getAccId()) ) {
@@ -65,14 +65,20 @@
            int refSeqCode = (pxid.getAccId()!=null && pxid.getAccId().length()>3 && pxid.getAccId().charAt(2)=='_') ? 1 : 0;
            if( refSeqCode != prevRefSeqCode ) {
                prevRefSeqCode = refSeqCode;
+               preName = xdb.getName();
        %>
            <td style="background-color:<%=bkColor%>;"><b><%=refSeqCode>0 ? "Protein RefSeqs" : xdb.getName()%></b></td>
-       <% } else {%>
+       <% } else if ( !preName.equals(xdb.getName()) ) {
+            preName = xdb.getName(); %>
+        <td style="background-color:<%=bkColor%>;"><b><%=xdb.getName()%></b></td>
+      <% } else { %>
            <td style="background-color:<%=bkColor%>;">&nbsp;</td>
        <% } %>
         <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getLinkText()%>"><%=pxid.getAccId()%></a></td>
+        <% if (!xdb.getName().contains("Ensembl") ) {%>
         <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>?report=fasta">(Get FASTA)</a></td>
         <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=pxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
+        <% } else {out.print("<td style=\"background-color:"+bkColor+";\"></td><td style=\"background-color:"+bkColor+";\"></td>");}%>
     </tr>
 <% } %>
 </table>

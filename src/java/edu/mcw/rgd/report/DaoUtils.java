@@ -55,6 +55,7 @@ public class DaoUtils {
              || xid.getXdbKey()==XdbId.XDB_KEY_PID
              || xid.getXdbKey()==XdbId.XDB_KEY_GENEBANKNU
              || xid.getXdbKey()==XdbId.XDB_KEY_GENEBANKPROT
+             || xid.getXdbKey()==XdbId.XDB_KEY_ENSEMBL_PROTEIN
              || xid.getXdbKey()==XdbId.XDB_KEY_TRANSPOSAGEN){
                 eiit.remove();
             }
@@ -143,6 +144,9 @@ public class DaoUtils {
         pxi.setRgdId(rgdId);
         pxi.setXdbKey(XdbId.XDB_KEY_GENEBANKPROT);
         List<XdbId> pei = xdbIdDAO.getXdbIds(pxi, speciesTypeKey);
+        pxi.setXdbKey(XdbId.XDB_KEY_ENSEMBL_PROTEIN);
+        List<XdbId> ensemblProt = xdbIdDAO.getXdbIds(pxi, speciesTypeKey);
+        pei.addAll(ensemblProt);
 
         Collections.sort(pei, xdbIdRefSeqComparator);
         return pei;
