@@ -66,7 +66,7 @@ public class VariantController extends HaplotyperController {
             else
                 vsb.genes= Collections.singletonList(geneList.toLowerCase());
             String index=new String();
-            String species=SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
+            String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey())).replace(" ","");
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
