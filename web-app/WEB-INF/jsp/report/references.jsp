@@ -48,6 +48,10 @@
     for(Reference ref: refs ) {
     %>
         <tr>
+            <td></td>
+            <td><%=ref.getTitle()%></td>
+        </tr>
+        <tr>
             <td><%=count++%>.</td>
             <td><a href="<%=Link.ref(ref.getRgdId())%>"><%=ref.getCitation()%></a><br></td>
         </tr>
