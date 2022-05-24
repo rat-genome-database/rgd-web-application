@@ -128,7 +128,6 @@
             }
             catch (Exception e){
 //                e.printStackTrace();
-
                 // probably eva, if not some other bug
             }
         }
@@ -139,7 +138,6 @@
 %>
 
 <div id="top" ></div>
-
 
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
@@ -158,64 +156,50 @@
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
-
     <div id="content-wrap">
+        <table width="95%" border="0">
+            <tr>
+                <td>
 
+                    <%@ include file="info.jsp"%>
+                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div id="clinVar">
+                        <%@ include file="clinVar.jsp"%>
+                    </div>
+                    <div id="associationsCurator" style="display:none;">
+                        <%@ include file="../associationsCurator.jsp"%>
+                    </div>
+                    <div id="associationsStandard" style="display:block;">
+                        <%@ include file="../associations.jsp"%>
+                    </div>
+                        <% if (isGwas) {%>
+                    <div id="gwasAssociation">
+                        <%@ include file="gwasData.jsp"%>
+                    </div>
+                        <% } %>
+                    <br><div class="subTitle" id="variantDetails">Variant Details</div>
+                    <div id="transcripts">
+                        <%@ include file="transcripts.jsp"%>
+                    </div>
+                    <div id="samples">
+                        <%@ include file="samples.jsp"%>
+                        <% if (obj.getSpeciesTypeKey()!=1) {%>
+                        <%@ include file="sampleDetails.jsp"%>
+                        <% } %>
+                    </div>
+<%--                    <br><div class="subTitle" id="references">References</div>--%>
+                    <div id="pubRef">
+<%--                        <%@ include file="../references.jsp"%>--%>
+                        <%@ include file="../pubMedReferences.jsp"%>
+                    </div>
+                    <%if (!ei1.isEmpty()) {%>
+                    <br><div  class="subTitle" id="addInfo">Additional Information</div>
+                    <br>
+                        <%@ include file="xdbs.jsp"%>
+                    <% } %>
 
-<table width="95%" border="0">
-    <tr>
-        <td>
-
-            <%@ include file="info.jsp"%>
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-            <div id="clinVar">
-                <%@ include file="clinVar.jsp"%>
-            </div>
-            <div id="associationsCurator" style="display:none;">
-                <%@ include file="../associationsCurator.jsp"%>
-            </div>
-            <div id="associationsStandard" style="display:block;">
-                <%@ include file="../associations.jsp"%>
-            </div>
-                <% if (isGwas) {%>
-            <div id="gwasAssociation">
-                <%@ include file="gwasData.jsp"%>
-            </div>
-                <% } %>
-            <br><div class="subTitle" id="variantDetails">Variant Details</div>
-            <div id="transcripts">
-                <%@ include file="transcripts.jsp"%>
-            </div>
-            <div id="samples">
-                <%@ include file="samples.jsp"%>
-                <% if (obj.getSpeciesTypeKey()!=1) {%>
-                <%@ include file="sampleDetails.jsp"%>
-                <% } %>
-            </div>
-            <div id="pubMed">
-                <%@ include file="../pubMedReferences.jsp"%>
-            </div>
-            <%if (!ei1.isEmpty()) {%>
-            <br><div  class="subTitle">Additional Information</div>
-            <br>
-                <%@ include file="xdbs.jsp"%>
-            <% } %>
-
-
-<%--            <%@ include file="../relatedStrains.jsp"%>--%>
-<%--        <%@ include file="../references.jsp"%>--%>
-<%--        <%@ include file="../pubMedReferences.jsp"%>--%>
-
-<%--    <br><div  class="subTitle">Additional Information</div>--%>
-<%--    <br>--%>
-<%--    <%@ include file="../xdbs.jsp"%>--%>
-<%--    </td>--%>
-<%--    <td>&nbsp;</td>--%>
-<%--    <td valign="top">--%>
-<%--        <%@ include file="../idInfo.jsp" %>--%>
-<%--    </td>--%>
-    </tr>
- </table>
+            </tr>
+        </table>
     </div>
 </div>
 <%@ include file="../reportFooter.jsp"%>

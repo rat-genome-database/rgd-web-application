@@ -182,7 +182,7 @@
                 dbJBrowse = "data_rn7_2";
                 break;
         }
-//        System.out.println(InetAddress.getLocalHost());
+
         String tracks = "";
         if (genicStatus.equals("GENIC"))
             tracks = "ARGD_curated_genes%2C";
@@ -191,12 +191,18 @@
         else
             tracks += "dbSNP%2CEVA";
 
-        String jbUrl = "https://dev.rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
+        String url = request.getRequestURL().toString();
+        String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + "/";
+        if (baseURL.contains("localhost"))
+            baseURL = "https://dev.rgd.mcw.edu/";
+
+        String jbUrl = baseURL+"jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
+
     %>
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+            <a href="<%=baseURL%>jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <tr>
