@@ -7,26 +7,18 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-    String ensemblSym = "", ensemblName = "", ensemblType = "", ensemblType1 = "";
-    if (!Utils.isStringEmpty(obj.getEnsemblGeneType()))
-        ensemblType1=obj.getEnsemblGeneType().replace("_","-");
-    if (!Utils.isStringEmpty(obj.getEnsemblGeneSymbol()) && !obj.getSymbol().toLowerCase().equals(obj.getEnsemblGeneSymbol().toLowerCase()))
-        ensemblSym = " (Ensembl: "+obj.getEnsemblGeneSymbol()+")";
-    if (!Utils.isStringEmpty(obj.getEnsemblFullName()) && !obj.getName().toLowerCase().equals(obj.getEnsemblFullName().toLowerCase()))
-        ensemblName = " (Ensembl: "+obj.getEnsemblFullName()+")";
-    if (!Utils.isStringEmpty(obj.getEnsemblGeneType()) && !obj.getType().toLowerCase().equals(ensemblType1.toLowerCase()))
-        ensemblType = " (Ensembl: "+obj.getEnsemblGeneType()+")";
+
 %>
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
     <tr>
         <td class="label" valign="top">Symbol:</td>
-        <td class="geneList"><%=obj.getSymbol()+ensemblSym%></td>
+        <td class="geneList"><%=obj.getSymbol()%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Name:</td>
-        <td><%=obj.getName()==null ? "" : obj.getName() + ensemblName%></td>
+        <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
 
     <tr>
@@ -92,7 +84,7 @@
 
     <tr>
         <td class="label" valign="top">Type:</td>
-        <td><%=obj.getType()+ensemblType%>
+        <td><%=obj.getType()%>
 
             <%
                 List<Gene> geneVariants =  geneDAO.getGeneFromVariant(obj.getRgdId());
