@@ -147,7 +147,8 @@ public class PivotTableController implements Controller {
                 }
             }
 
-            String e = strain + "_" + sex + "_animals(" + noOfAnimals + ")_" + measurement;
+        //    String e = strain + "_" + sex + "_animals(" + noOfAnimals + ")_" + measurement;
+            String e = strain + "_" + sex;
             if(hit.getSourceAsMap().get("sem")!=null) {
                 errorValues.put("plus", Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
                 errorValues.put("minus", 0 - Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));

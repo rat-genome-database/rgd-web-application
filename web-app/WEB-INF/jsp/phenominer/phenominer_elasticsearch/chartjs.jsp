@@ -1,6 +1,15 @@
+<style>
+    #chartjs-tooltip{
+        background: rgba(0, 0, 0, 0.7);
 
+
+    }
+   table tr td, table tr th{
+        color:white;
+    }
+</style>
 <div class="chart-container" id = "chartDiv" style="margin-top:2%" >
-    <canvas id="resultChart" style="position: relative; height:200px; width:80vw;"></canvas>
+    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
 </div>
 
@@ -31,7 +40,7 @@
                     ticks:{
                       /*  fontColor: "rgb(0,75,141)",
                         fontSize: 10,*/
-                      display:false,
+                      display:true,
                         autoSkip: false,
                       /*  callback: function(t) {
                             var maxLabelLength = 40;
@@ -56,13 +65,89 @@
                     }
                 }]
             },
-            tooltips: {
+            tooltips:{
+                enabled:false,
+                custom:function (tooltipModel) {
+                    var tooltipEl = document.getElementById('chartjs-tooltip');
 
+                    // Create element on first render
+                    if (!tooltipEl) {
+                        tooltipEl = document.createElement('div');
+                        tooltipEl.id = 'chartjs-tooltip';
+                        tooltipEl.innerHTML = '<table></table>';
+                        document.body.appendChild(tooltipEl);
+                    }
+
+                    // Hide if no tooltip
+                  //  const tooltipModel = context.tooltip;
+                    if (tooltipModel.opacity === 0) {
+                        tooltipEl.style.opacity = 0;
+                        return;
+                    }
+
+                    // Set caret Position
+                    tooltipEl.classList.remove('above', 'below', 'no-transform');
+                    if (tooltipModel.yAlign) {
+                        tooltipEl.classList.add(tooltipModel.yAlign);
+                    } else {
+                        tooltipEl.classList.add('no-transform');
+                    }
+
+                    function getBody(bodyItem) {
+                        return bodyItem.lines ;
+                    }
+
+                    // Set Text
+                    if (tooltipModel.body) {
+                        const titleLines = tooltipModel.title || [];
+                        const bodyLines = tooltipModel.body.map(getBody);
+
+                        let innerHtml = '<thead>';
+
+                        titleLines.forEach(function(title) {
+                            innerHtml += '<tr><th>' + title + '</th></tr>';
+                        });
+                        innerHtml += '</thead><tbody>';
+
+                        bodyLines.forEach(function(body, i) {
+                            const colors = tooltipModel.labelColors[i];
+                            let style = 'background:' + colors.backgroundColor;
+                            style += '; border-color:' + colors.borderColor;
+                            style += '; border-width: 2px';
+                            const span = '<span style="' + style + '"></span>';
+                            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                            var details=getDetails(i);
+                            for(var item=0;item<details.length;item++)
+                                innerHtml += '<tr><td >' +details[item] + '</td></tr>';
+                        });
+
+                        innerHtml += '</tbody>';
+
+                        let tableRoot = tooltipEl.querySelector('table');
+                        tableRoot.innerHTML = innerHtml;
+                    }
+
+                    const position = this._chart.canvas.getBoundingClientRect();
+                  //  const bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
+
+                    // Display, position, and set styles for font
+                    tooltipEl.style.opacity = 1;
+                    tooltipEl.style.position = 'absolute';
+                    tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                    tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
+                    tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
+                    tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
+                    tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+                    tooltipEl.style.pointerEvents = 'none';
+            }},
+      /*      tooltips: {
+                yAlign:'top',
                 callbacks: {
                     label: function(tooltipItem, all) {
                         return all.datasets[tooltipItem.datasetIndex].label
                             + ': ' + tooltipItem.yLabel.toLocaleString()
-                            + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ? ' ± ' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
+                            + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ?  '\u00B1' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
                     },
 
                     afterLabel: function(tooltipItem) {
@@ -71,7 +156,7 @@
                     }
                 }
 
-            },
+            },*/
 
             hover: {
                 mode: 'index',
@@ -81,9 +166,17 @@
                 display: false
             }
             ,
+
             plugins: {
                 chartJsPluginErrorBars: {
                     color: 'black',
+                }
+
+            },
+            layout: {
+                padding: {
+                    bottom: 100 , //set that fits the best
+                    top:10
                 }
             }
         }
@@ -138,7 +231,8 @@
                 data: newArrayData ,
                 backgroundColor:newArrayBackgroundColor,
                 errorBars:newErrorBars,
-                borderWidth: 1
+                borderWidth: 1,
+                borderColor:"gray"
             });
 
             myChart.data.datasets=data;

@@ -389,6 +389,7 @@
 <script>
     setTimeout(openNav,1000);
     $(".formCheckInput").on("change",function () {
+
         $('#phenominerReportForm').submit();
     })
 </script>
