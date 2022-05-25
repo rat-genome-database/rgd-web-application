@@ -69,7 +69,7 @@
                         boolean isDuplicate = false;
 
                         if(prevGene != null){
-                            isDuplicate = prevGene.getDescription().equalsIgnoreCase(gene.getDescription());
+                            isDuplicate = Utils.stringsAreEqualIgnoreCase(prevGene.getDescription(),gene.getDescription()); //prevGene.getDescription().equalsIgnoreCase(gene.getDescription());
                         }
                         prevGene = gene;
 
