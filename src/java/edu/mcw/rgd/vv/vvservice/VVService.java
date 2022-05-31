@@ -35,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -118,6 +119,8 @@ public class VVService {
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
                 } while (sr.getHits().getHits().length != 0);
+
+              //  System.out.println("search Hits:"+ searchHits);
                 return searchHits;
             }
         }catch (Exception e) {
@@ -335,41 +338,17 @@ public class VVService {
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
 
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        List<Integer> sampleIds=vsb.getSampleIds();
-        String chromosome=vsb.getChromosome();
-        String geneList=new String();
-        try {
-            geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        List<String> symbols= new ArrayList<>();
-
-        if(geneList!=null){
-            if(vsb.genes==null || vsb.genes.size()==0){
-                vsb.genes= Utils.symbolSplit(geneList);
-            }
-        }
-        if((chromosome==null || chromosome.equals("")) && !geneList.equals("") && !geneList.contains("|")){
-            //System.out.println("CHRMoosme null");
-            for(String s:vsb.genes){
-                   symbols.add(s.toLowerCase());
-            }
-
-            if(!symbols.get(0).equals("null"))
-                      dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()))
+        if((vsb.getChromosome()==null || vsb.getChromosome().equals("")) && vsb.genes!=null && vsb.genes.size()>0){
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.stream().map(g->g.toLowerCase()).toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }else {
-            if(chromosome!=null && !chromosome.equals("") ){
-                //System.out.println("CHROMOSOME NOT NULL");
+            if(vsb.getChromosome()!=null && !vsb.getChromosome().equals("") ){
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("chromosome.keyword", chromosome)
+                        QueryBuilders.termQuery("chromosome.keyword", vsb.getChromosome())
                 );
-           //     System.out.println("SAMPLE IDS SIZE: "+sampleIds.size());
-            if ( sampleIds.size() > 0) {
-
-                qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
+            if ( vsb.sampleIds.size() > 0) {
+                qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
             && req.getParameter("geneList").equals("")) {
@@ -378,22 +357,8 @@ public class VVService {
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
             }
-         //   if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
-                if (vsb.genes!=null && vsb.genes.size()>0 && !req.getParameter("geneList").contains("|")) {
-                    for (String s : vsb.genes){
-
-                        symbols.add(s.toLowerCase());
-                    }
-              /* for (String s : Utils.symbolSplit(geneList)) {
-
-                  symbols.add(s.toLowerCase());
-                }
-                */
-                if (!symbols.get(0).equals("null"))
-                qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", symbols.toArray()));
-
-            }
-
+            if(vsb.genes.size()>0)
+                qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.toArray()));
             dqb.add(qb);
         }else{
 
@@ -401,7 +366,7 @@ public class VVService {
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
                     );
-                    qb.filter(QueryBuilders.termsQuery("sampleId", sampleIds.toArray()));
+                    qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
                     dqb.add(qb);
                 }
             }

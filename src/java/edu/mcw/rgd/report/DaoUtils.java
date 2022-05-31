@@ -54,7 +54,8 @@ public class DaoUtils {
              || xid.getXdbKey()==XdbId.XDB_KEY_KEGGPATHWAY
              || xid.getXdbKey()==XdbId.XDB_KEY_PID
              || xid.getXdbKey()==XdbId.XDB_KEY_GENEBANKNU
-             || xid.getXdbKey()==XdbId.XDB_KEY_GENEBANKPROT){
+             || xid.getXdbKey()==XdbId.XDB_KEY_GENEBANKPROT
+             || xid.getXdbKey()==XdbId.XDB_KEY_TRANSPOSAGEN){
                 eiit.remove();
             }
         }

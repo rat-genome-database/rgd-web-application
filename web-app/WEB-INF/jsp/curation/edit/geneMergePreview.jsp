@@ -152,9 +152,6 @@
         <TH colspan="4" style="background-color: #b2d1ff;">MAP DATA</TH>
     </TR>
     <TR>
-        <TH colspan="4" style="color:red;font-weight: bold">Note: QC only: no map data will be inserted!</TH>
-    </TR>
-    <TR>
         <TH>Map</TH>
         <TH>Position</TH>
         <TH>Source</TH>

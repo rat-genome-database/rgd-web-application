@@ -9,6 +9,7 @@
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE, NO-STORE, MUST-REVALIDATE">
     <meta name="author" content="RGD">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="referrer" content="origin">
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -219,7 +220,7 @@
                                             <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
-                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>
+<%--                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>--%>
 <%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
                                             <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>

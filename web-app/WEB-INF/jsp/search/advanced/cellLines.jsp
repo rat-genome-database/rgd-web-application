@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.reporting.Report" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String pageTitle = "Cell Lines in RGD";
@@ -10,6 +11,7 @@
     Report report = (Report) request.getAttribute("report");
     int pageNr = (Integer) request.getAttribute("pageNr");
     int pageSize = (Integer) request.getAttribute("pageSize");
+    int totalCount = (Integer) request.getAttribute("totalCount");
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
@@ -20,7 +22,8 @@
 
 <div class="searchBox">
 
-All cell lines available in RGD:<br><br>
+All cell lines available in RGD &nbsp; (total count: <%=Utils.formatThousands(totalCount)%>):
+    &nbsp; &nbsp; <a href="https://download.rgd.mcw.edu/data_release/CELL_LINES.txt">Download the full list of cell lines in RGD</a><br><br>
 
 <table border=1 cellspacing=0 cellpadding=10 style="background-color:white;">
   <tr><td>

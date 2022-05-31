@@ -122,7 +122,7 @@
             });
     %>
     <tr>
-        <td class="label" valign="top">Also&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
@@ -246,7 +246,7 @@
   <%-- show model JBrowse mini chart for genes having positions on current reference assembly --%>
     <% if(fu.mapPosIsValid(md)) {
         String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
-                : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"
+                : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm39"
                 : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
                 : obj.getSpeciesTypeKey()==SpeciesType.BONOBO ? "data_bonobo2"
                 : obj.getSpeciesTypeKey()==SpeciesType.DOG ? "data_dog3_1"

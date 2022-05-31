@@ -11,7 +11,7 @@
         <td><%=obj.getName()%></td>
     </tr>
     <tr>
-        <td class="label" valign="top">Also&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
         <td>
             <%  List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
                 for (Alias a : aliases) {
