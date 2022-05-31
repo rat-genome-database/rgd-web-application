@@ -23,7 +23,7 @@ public abstract class ReportController implements Controller {
 
     protected HttpServletRequest request = null;
     protected HttpServletResponse response = null;
-
+    HttpRequestFacade req=null;
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.request = request;
         this.response = response;
@@ -33,7 +33,7 @@ public abstract class ReportController implements Controller {
         ArrayList status = new ArrayList();
         String path = "/WEB-INF/jsp/report/";
 
-        HttpRequestFacade req = new HttpRequestFacade(request);
+       req = new HttpRequestFacade(request);
 
         String strRgdId = req.getParameter("id");
         strRgdId = strRgdId.replaceAll("RGD:", "");
