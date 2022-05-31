@@ -63,7 +63,7 @@
         <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
         <td><%=obj.getRgdId()%></td>
     </tr>
-    <%if (!Utils.isStringEmpty(var.getRsId())) {%>
+    <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {%>
     <tr>
         <td class="label">RS ID:</td>
         <td><%=var.getRsId()%></td>

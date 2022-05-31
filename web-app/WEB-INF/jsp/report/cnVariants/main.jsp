@@ -23,7 +23,10 @@
 
     String objectType="RgdVariant";
     String displayName;
-    displayName = Utils.isStringEmpty(var.getRsId()) ? "RGD:"+var.getId() : var.getRsId();
+    if (Utils.isStringEmpty(var.getRsId()) || var.getRsId().equals("."))
+        displayName = "RGD:"+var.getId();
+    else
+        displayName = var.getRsId();
     boolean isGwas = false;
 
     int speciesType =  var.getSpeciesTypeKey();
