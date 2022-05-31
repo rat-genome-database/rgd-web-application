@@ -67,8 +67,7 @@ public abstract class ReportController implements Controller {
 
 
         if (error.size() > 0) {
-            return new ModelAndView("/WEB-INF/jsp/search/search.jsp");
-
+            return new ModelAndView("/WEB-INF/jsp/search/searchByPosition.jsp");
         }else {
             return new ModelAndView(path + this.getViewUrl());
         }
