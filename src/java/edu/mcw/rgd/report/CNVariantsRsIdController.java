@@ -26,12 +26,16 @@ public class CNVariantsRsIdController implements Controller {
         List<VariantMapData> objects = null;
 
         try {
-            objects = vdao.getAllVariantByRsId(rsId);
-            if( objects==null ) {
-                error.add("Invalid rs ID for this type of object!");
-            }else if(objects.isEmpty()){
-                error.add("No variants with given rs ID!");
+            if (!rsId.equals(".")){
+                objects = vdao.getAllVariantByRsId(rsId);
+                if( objects==null ) {
+                    error.add("Invalid rs ID!");
+                }else if(objects.isEmpty()){
+                    error.add("No variants with given rs ID!");
+                }
             }
+            else
+                error.add("Invalid rs ID!");
         }
         catch( Exception e ) {
             error.add(e.getMessage());
