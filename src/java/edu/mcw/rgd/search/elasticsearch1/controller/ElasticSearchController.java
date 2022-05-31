@@ -121,6 +121,7 @@ public class ElasticSearchController implements Controller {
 
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
+                System.out.println("WORKING FORM IF");
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
                 String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
@@ -131,6 +132,7 @@ public class ElasticSearchController implements Controller {
                     return redirUrl;
                 }
             }else {
+
 
                     SearchService service = new SearchService();
                     SearchResponse sr;
@@ -162,6 +164,9 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
         String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
+        String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
+        String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
+
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
@@ -169,8 +174,14 @@ public class ElasticSearchController implements Controller {
                 rgdIdValue = Integer.parseInt(docId);
                 RgdId  id = rdao.getRgdId2(rgdIdValue);
            if (id != null) {
+               if(!category.equalsIgnoreCase("variant") || species.equalsIgnoreCase("human"))
                redirUrl = Link.it(rgdIdValue, id.getObjectKey());
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
+               else {
+                   if(category.equalsIgnoreCase("variant") && !species.equalsIgnoreCase("human")){
+                       redirUrl="/rgdweb/report/variants/main.html?id="+rgdIdValue;
+                   }
+               }
             }
         }else {
           if(docId.contains(":"))
