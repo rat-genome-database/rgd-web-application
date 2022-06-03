@@ -112,7 +112,7 @@ public class RgdContext {
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return index+"_index_dev";
+        return index+"_index_dev"+","+"variant_index_dev2";
 	}
     public static String getESVariantIndexName(String index) {
         try {
