@@ -444,7 +444,6 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
-                                    ${item.startPos}
                                     <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
                                         ${item.startPos}
                                     </c:if>
