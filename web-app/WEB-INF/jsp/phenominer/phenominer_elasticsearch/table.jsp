@@ -27,11 +27,17 @@
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
-    var hits=${fn:length(sr.hits.hits)}
+    var hits=${fn:length(sr.hits.hits)};
+    <c:if test="${plotData!=null}">
+    var plotData=${plotData}
+        </c:if>
     $(function () {
         if(hits==0){
             $('#phenominerModal').modal('show');
 
+        }
+        if(typeof plotData=='undefined'){
+            $('#phenominer-noplot-modal').modal('show');
         }
     })
 
@@ -57,6 +63,25 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <a href="/rgdweb/phenominer/table.html?terms=${terms}"><button type="button" class="btn btn-primary" id="zeroResultButton">Ok</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="phenominer-noplot-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h5 class="modal-title" id="phenominer-noplot-modal-Label">Alert!!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 >Please select the measurements of one unit group in the left filter pane to view the graph</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!--button type="button" class="btn btn-primary" id="noPlotButton">Ok</button-->
                 </div>
             </div>
         </div>
