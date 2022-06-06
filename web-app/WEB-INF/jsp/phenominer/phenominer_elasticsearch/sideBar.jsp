@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script>
 
+
         selectedCmo= "${selectedFilters.cmoTerm}";
         selectedRs ="${selectedFilters.rsTerm}";
         selectedMmo= "${selectedFilters.mmoTerm}";
@@ -170,6 +171,8 @@
         <input type="hidden" name="terms" value="${terms}"/>
         <input type="hidden" name="facetSearch" value="true"/>
         <input type="hidden" name="legendJson" value='${legendJson}'/>
+        <input type="hidden" name="selectedFiltersJson" value='${selectedFiltersJson}'/>
+        <input type="hidden" id="unchecked" name="unchecked" value=''/>
 
         <table align="center" border="0" style="margin-left:35px;">
 
@@ -232,7 +235,9 @@
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
-                                                <input class="formCheckInput" name="rsTerm"  type="checkbox" onchange="updateSelection('${rsBkt.key}')" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+                                                <!--input class="formCheckInput" name="rsTerm"  type="checkbox" onchange="updateSelection('${rsBkt.key}')" value="${rsBkt.key}">&nbsp;${rsBkt.key}&nbsp;<($-{rsBkt.docCount})-->
+                                                <span>&nbsp;${rsBkt.key}&nbsp;<!--($-{rsBkt.docCount})-->
+
                                                 <c:set var="rsClassName" value="${fn:replace(rsBkt.key,'/', '')}"/>
                                                 <table style="border:1px solid lightgrey;margin-left: 10%">
                                                 <c:forEach items="${rsBkt.aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
@@ -389,7 +394,10 @@
 <script>
     setTimeout(openNav,1000);
     $(".formCheckInput").on("change",function () {
-
+        if (!$(this).is(":checked")) {
+            alert("checked: "+$(this).is(":checked"))
+            $('#unchecked').val($(this).val());
+        }
         $('#phenominerReportForm').submit();
     })
 </script>

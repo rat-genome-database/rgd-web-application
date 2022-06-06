@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +71,6 @@ public class PivotTableController implements Controller {
             request.setAttribute("legendJson", request.getParameter("legendJson"));
         else
             request.setAttribute("legendJson", gson.toJson(legend));
-
         request.setAttribute("labels", gson.toJson(labels));
         request.setAttribute("columns",getTableColumns(sr));
         request.setAttribute("sr", sr);
@@ -187,9 +187,12 @@ public class PivotTableController implements Controller {
         //      System.out.println(gson.toJson(plotData));
         return plotData;
     }
-    public Map<String, String> getFilterMap(HttpServletRequest req){
+    public Map<String, String> getFilterMap(HttpServletRequest req) throws IOException {
         Map<String, String> filterMap = new HashMap<>();
-        Map<String, String> selectedFilters = new HashMap<>();
+        LinkedHashMap<String, String> selectedFilters = new LinkedHashMap<>();
+        String filterJsonString=req.getParameter("selectedFiltersJson");
+        String unchecked= req.getParameter("unchecked");
+        System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
         List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
         for (String param : params) {
             if (req.getParameterValues(param) != null) {
@@ -200,9 +203,34 @@ public class PivotTableController implements Controller {
                 }
             }
         }
+        if(filterJsonString!=null) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, String> filterJson = mapper.readValue(filterJsonString, Map.class);
+            if (filterJson != null) {
+                for (Map.Entry e : filterJson.entrySet()) {
+                    List<String> filterValues= Arrays.asList(e.getValue().toString().split(","));
+                    System.out.println(e.getKey() + "\t" + e.getValue().toString());
+                    String key= (String) e.getKey();
+                    List<String> keyValues= new ArrayList<>();
+                    if(selectedFilters.get(key)!=null)
+                        keyValues.addAll(Arrays.asList(selectedFilters.get(key).split(",")));
+                    for(String filterValue:filterValues){
+                        if(unchecked!=null && !filterValue.equalsIgnoreCase(unchecked)){
+                            if(!keyValues.contains(filterValue))
+                           keyValues.add(filterValue);
+                        }
+                    }
+                    if(keyValues.size()>0)
+                    selectedFilters.put(key, String.join(",", keyValues));
+                }
+            }
+        }
         req.setAttribute("selectedFilters", selectedFilters);
-            System.out.println("SELECTED FILTERS:"+ gson.toJson(selectedFilters));
-        return filterMap;
+        req.setAttribute("selectedFiltersJson" , gson.toJson(selectedFilters));
+
+        System.out.println("SELECTED FILTERS:"+ gson.toJson(selectedFilters));
+     //   return filterMap;
+        return selectedFilters;
     }
     public void setSelectAllCheckBox( HttpServletRequest request) {
         Map<String, String> selectAllCheckBox=new HashMap<>();

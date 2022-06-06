@@ -272,10 +272,12 @@ function removeFilter(filter, key) {
         var val=_this.val();
    //     alert('VAL:'+ val+"\tFILTER:"+ filter);
        if(val==filter){
-           _this.prop('checked',false)
+           _this.prop('checked',false);
+           $('#unchecked').val(val);
+
        }
        if(key=='experimentName' || key=='rsTerm'){
-           $('.formCheckInput.'+filter.replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
+      //     $('.formCheckInput.'+filter.replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
        }
     });
     $('#phenominerReportForm').submit()
