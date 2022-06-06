@@ -395,7 +395,6 @@
     setTimeout(openNav,1000);
     $(".formCheckInput").on("change",function () {
         if (!$(this).is(":checked")) {
-            alert("checked: "+$(this).is(":checked"))
             $('#unchecked').val($(this).val());
         }
         $('#phenominerReportForm').submit();

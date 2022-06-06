@@ -26,11 +26,41 @@
 
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+    var hits=${fn:length(sr.hits.hits)}
+    $(function () {
+        if(hits==0){
+            $('#phenominerModal').modal('show');
 
+        }
+    })
+
+</script>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
 <div class="row" id="phenoController">
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="phenominerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h5 class="modal-title" id="exampleModalLabel">0 Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 >0 results found with selected filters. Please refine the filters. Redirecting to initial search..</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="/rgdweb/phenominer/table.html?terms=${terms}"><button type="button" class="btn btn-primary" id="zeroResultButton">Ok</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class=" sidebar">
         <%@include file="sideBar.jsp"%>
     </div>
@@ -53,11 +83,13 @@
         <c:if test="${fn:length(selectedFilters)>0}">
         <span><strong>Remove Filters:</strong>
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
-        <c:forEach items="${selectedFilters}" var="termList">
+            <c:if test="${fn:length(sr.hits.hits)>0}">
+            <c:forEach items="${selectedFilters}" var="termList">
             <c:forEach items="${termList.value}" var="filter">
                 <button class="btn btn-light btn-lg " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
             </c:forEach>
         </c:forEach>
+            </c:if>
 </span>
         </c:if>
 
@@ -76,7 +108,7 @@
         <%@include file="phenominerTable.jsp"%>
         </c:when>
             <c:otherwise>
-                <h4 style="font-weight: bold;color:red">No results found with selected filters. Please refine the filters.</h4>
+                <!--h4 style="font-weight: bold;color:red">No results found with selected filters. Please refine the filters.</h4-->
 
             </c:otherwise>
         </c:choose>

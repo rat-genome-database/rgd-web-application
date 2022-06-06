@@ -47,28 +47,22 @@
 <table id="mytable" class="tablesorter">
     <thead>
         <tr>
-            <th>Record ID</th>
-            <th>Study ID</th>
+            <th>Conditions</th>
+
             <th>Study</th>
             <th>Experiment Name</th>
-            <c:if test="${columns.experimentNotes!=null}">
-            <th>Experiment Notes</th>
-            </c:if>
+
             <th>Strain</th>
             <th>Sex</th>
             <th>Age</th>
             <th># of Animals</th>
-            <c:if test="${columns.sampleNotes!=null}">
-            <th>Sample Notes</th>
-            </c:if>
+
             <th>Phenotype</th>
 <c:if test="${columns.formula!=null}">
 
 <th>Formula</th>
 </c:if>
-<c:if test="${columns.clinicalMeasurementNotes!=null}">
-            <th>Clinical Measurement Notes</th>
-</c:if>
+
 <c:if test="${columns.averageType!=null}">
             <th>Average Type</th>
 </c:if>
@@ -82,10 +76,7 @@
 <th>Method Site</th>
 </c:if>
             <th>Method Duration</th>
-<c:if test="${columns.methodNotes!=null}">
 
-<th>Method Notes</th>
-</c:if>
 <c:if test="${columns.postInsultType!=null}">
 
 <th>Post Insult Type</th>
@@ -95,35 +86,41 @@
 
 <th>Post Insult Time Unit</th>
 </c:if>
-            <th>Conditions</th>
+            <c:if test="${columns.methodNotes!=null}">
+
+                <th>Method Notes</th>
+            </c:if>
+            <c:if test="${columns.clinicalMeasurementNotes!=null}">
+                <th>Clinical Measurement Notes</th>
+            </c:if>
+            <c:if test="${columns.sampleNotes!=null}">
+                <th>Sample Notes</th>
+            </c:if>
+            <c:if test="${columns.experimentNotes!=null}">
+                <th>Experiment Notes</th>
+            </c:if>
+            <th>Record ID</th>
+            <th>Study ID</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach items="${sr.hits.hits}" var="hit">
             <tr>
-                <td>${hit.sourceAsMap.recordId}</td>
-                <td>${hit.sourceAsMap.studyId}</td>
+                <td>${hit.sourceAsMap.xcoTerm}</td>
                 <td>${hit.sourceAsMap.study}</td>
                 <td>${hit.sourceAsMap.experimentName}</td>
-                <c:if test="${columns.experimentNotes!=null}">
-                <td>${hit.sourceAsMap.experimentNotes}</td>
-                </c:if>
+
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
                 <td>${hit.sourceAsMap.sex}</td>
                 <td>${hit.sourceAsMap.ageLowBound}-${hit.sourceAsMap.ageHighBound}</td>
                 <td>${hit.sourceAsMap.numberOfAnimals}</td>
-                <c:if test="${columns.sampleNotes!=null}">
-                <td>${hit.sourceAsMap.sampleNotes}</td>
-                </c:if>
+
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
                 <c:if test="${columns.formula!=null}">
 
                 <td>${hit.sourceAsMap.formula}</td>
                 </c:if>
-                <c:if test="${columns.clinicalMeasurementNotes!=null}">
 
-                <td>${hit.sourceAsMap.clinicalMeasurementNotes}</td>
-                </c:if>
                 <c:if test="${columns.averageType!=null}">
 
                 <td>${hit.sourceAsMap.averageType}</td>
@@ -138,10 +135,7 @@
                 <td>${hit.sourceAsMap.methodSite}</td>
                 </c:if>
                 <td>${hit.sourceAsMap.methodDuration}</td>
-                <c:if test="${columns.methodNotes!=null}">
 
-                <td>${hit.sourceAsMap.methodNotes}</td>
-                </c:if>
                 <c:if test="${columns.postInsultType!=null}">
                 <td>${hit.sourceAsMap.postInsultType}</td>
                 </c:if>
@@ -150,7 +144,22 @@
 
                 <td>${hit.sourceAsMap.postInsultTimeUnit}</td>
                 </c:if>
-                <td>${hit.sourceAsMap.xcoTerm}</td>
+                <c:if test="${columns.methodNotes!=null}">
+
+                    <td>${hit.sourceAsMap.methodNotes}</td>
+                </c:if>
+                <c:if test="${columns.clinicalMeasurementNotes!=null}">
+
+                    <td>${hit.sourceAsMap.clinicalMeasurementNotes}</td>
+                </c:if>
+                <c:if test="${columns.sampleNotes!=null}">
+                    <td>${hit.sourceAsMap.sampleNotes}</td>
+                </c:if>
+                <c:if test="${columns.experimentNotes!=null}">
+                    <td>${hit.sourceAsMap.experimentNotes}</td>
+                </c:if>
+                <td>${hit.sourceAsMap.recordId}</td>
+                <td>${hit.sourceAsMap.studyId}</td>
             </tr>
         </c:forEach>
     </tbody>
