@@ -21,7 +21,9 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<!--script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script-->
+
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -53,7 +55,7 @@
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
         <c:forEach items="${selectedFilters}" var="termList">
             <c:forEach items="${termList.value}" var="filter">
-                <button class="btn btn-light btn-sm " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
+                <button class="btn btn-light btn-lg " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
             </c:forEach>
         </c:forEach>
 </span>
