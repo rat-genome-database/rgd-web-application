@@ -2,6 +2,8 @@
 <%@ page import="edu.mcw.rgd.phenominer.frontend.OTrees" %>
 <%@ page import="org.springframework.web.servlet.ModelAndView" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%
     String pageTitle = "Phenominer";
     String headContent = "";
@@ -15,6 +17,73 @@
     List<String> cmIds = (List<String>) request.getAttribute("cmIds");
     List<String> csIds = (List<String>) request.getAttribute("csIds");
     List<String> ecIds = (List<String>) request.getAttribute("ecIds");
+
+//    selectedStrains: {},
+//    selectedMeasurements: {},
+//    selectedConditions: {},
+//    selectedMethods: {},
+
+    OntologyXDAO odao = new OntologyXDAO();
+
+    //{"ACI.COP-(D10Mgh8-D10Rat4)/Shul(2)":"RS:0001158","ACI.COP-(D3Rat130-D3Rat114)/Shul(2)":"RS:0001160"}
+
+    String selectedMeasurements = "{";
+    String selectedStrains = "{";
+    String selectedConditions = "{";
+    String selectedMethods = "{";
+
+    boolean first = true;
+    for (String mmId: mmIds) {
+        Term t = odao.getTermByAccId(mmId);
+
+        if (!first) {
+            selectedMethods+=",";
+        }
+        selectedMethods+= "\"" + t.getTerm() + "\":" + "\"" + t.getAccId() + "\"";
+        first=false;
+    }
+    selectedMethods+="}";
+
+
+    first=true;
+    for (String cmId: cmIds) {
+        Term t = odao.getTermByAccId(cmId);
+
+        if (!first) {
+            selectedMeasurements+=",";
+        }
+        selectedMeasurements+= "\"" + t.getTerm() + "\":" + "\"" + t.getAccId() + "\"";
+        first=false;
+    }
+    selectedMeasurements+="}";
+
+    first=true;
+    for (String sampleId: sampleIds) {
+        Term t = odao.getTermByAccId(sampleId);
+
+        if (!first) {
+            selectedStrains+=",";
+        }
+        selectedStrains+= "\"" + t.getTerm() + "\":" + "\"" + t.getAccId() + "\"";
+        first=false;
+    }
+    selectedStrains+="}";
+
+    first=true;
+    for (String ecId: ecIds) {
+        Term t = odao.getTermByAccId(ecId);
+
+        if (!first) {
+            selectedConditions+=",";
+        }
+        selectedConditions+= "\"" + t.getTerm() + "\":" + "\"" + t.getAccId() + "\"";
+        first=false;
+    }
+    selectedConditions+="}";
+
+
+
+
     String termString = (String) request.getAttribute("termString");
     int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
     int filteredRecCount = (int) request.getAttribute("filteredRecCount");
@@ -50,14 +119,14 @@
 </script>
 
 
-<table width="95%" cellspacing="1px" border="1">
+<table width="95%" cellspacing="1px" border="0">
     <tr>
-        <td style="color: #2865a3; font-size: 20px; font-weight:700;">PhenoMiner Database</td>
+        <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
         <td align="right" colspan="2"><input type="button" value="New Query" onClick="location.href='/rgdweb/phenominer/home.jsp'"/></td>
     </tr>
     <tr>
         <td>
-            <span style="">Select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
+            <span style="font-size:16px;">Select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
         </td>
         <td align="right">
             <input style="visibility: hidden;" type="button" id="continue" name="continue" value="Generate Report" onClick="location.href='/phenotypes/dataTable/retrieveData?terms=RS%3A29%2CRS%3A1860%2CRS%3A1381%2CCMO%3A371%2CCMO%3A374%2CCMO%3A368%2CCMO%3A369%2CCMO%3A27%2CCMO%3A171%2CCMO%3A149%2CMMO%3A145%2CMMO%3A225%2CMMO%3A6%2CXCO%3A87'" />
@@ -75,7 +144,7 @@
 
 
 
-    <table cellspacing='0' border='1' style="border:3px solid black">
+    <table cellspacing='0' border='0' style="border:0px solid black">
     <tr>
 
         <% if (false) { %>
@@ -205,7 +274,7 @@
             </div>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>            <input type="button" style="font-size:20px;" @click="generateReport()" value="Generate Report"/>
+        <td>            <input type="button" style="border:1px solid white; color:white; font-size:26px;background-color:#2B84C8; border-radius:5px;" @click="generateReport()" value="Generate Report"/>
         </td>
     </tr>
 </table>
@@ -257,7 +326,7 @@
 
 
     <br>
-    <table align="left" width="1000" border="1">
+    <table align="left" width="1000" border="0">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
         </tr>
@@ -269,7 +338,7 @@
             <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=speciesTypeKey%>)"  /></td>
         </tr>
         <tr>
-            <td width="700">
+            <td width="650">
                 <div style="overflow:scroll;height:450px;width:700px;border: 1px solid black;">
                     <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
                     <table>
@@ -294,7 +363,7 @@
 
 </div>
 
-<div id="treebox" style="diplay:none; z-index:1000;float:right; padding: 7px; width:700px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
+<div id="treebox" style="diplay:none; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
@@ -632,10 +701,10 @@
             options:{},
             symbolHash: {},
             keyMap: {},
-            selectedStrains: {},
-            selectedMeasurements: {},
-            selectedConditions: {},
-            selectedMethods: {},
+            selectedStrains: <%=selectedStrains%>,
+            selectedMeasurements: <%=selectedMeasurements%>,
+            selectedConditions: <%=selectedConditions%>,
+            selectedMethods: <%=selectedMethods%>,
             currentOnt: "RS",
             examples: "",
 
@@ -643,7 +712,7 @@
         methods: {
 
             selectByTermId: function(val) {
-
+                console.log(val);
                 goToNode(val);
                 handleCheckbox(val, 1);
                 v.doStuff();
@@ -711,6 +780,8 @@
 
             },
             updateStrainBox: function() {
+                //alert(JSON.stringify(v.selectedStrains));
+
                 if (JSON.stringify(v.selectedStrains) === "{}") {
                     return;
                 }
@@ -758,6 +829,8 @@
 
             },
             updateMethodBox: function() {
+                console.log("Called update method box");
+
                 if (JSON.stringify(v.selectedMethods) === "{}") {
                     return;
                 }
@@ -898,47 +971,96 @@
 
                 v.updateOtherBoxes();
 
+            },
+
+            removeTerm: function (ont, term) {
+
+                if (ont === "RS") {
+                    for (const key in v.selectedStrains) {
+                        if (v.selectedStrains[key] === term) {
+                            delete v.selectedStrains[key];
+                        }
+                    }
+                }
+
+                if (ont === "CMO") {
+                    for (const key in v.selectedMeasurements) {
+                        if (v.selectedMeasurements[key] != term) {
+                            delete v.selectedMeasurements[key];
+                        }
+                    }
+                }
+
+                if (ont === "MMO") {
+                    for (const key in v.selectedMethods) {
+                        if (v.selectedMethods[key] != term) {
+                            delete v.selectedMethods[key];
+                        }
+                    }
+                }
+
+                if (ont === "XCO") {
+                    for (const key in v.selectedConditions) {
+                        if (v.selectedConditions[key] != term) {
+                            delete v.selectedConditions[key];
+                        }
+                    }
+                }
 
             },
 
             remove: function (accId, ont) {
-                if (ont === "RS") {
-                    for (var key in v.selectedStrains) {
-                        if (v.selectedStrains[key] === accId) {
-                            handleCheckbox(accId, 0);
-                            v.doStuff()
+
+                alert("in remove");
+
+                if (ont != this.currentOnt) {
+                    this.removeTerm(ont, accId);
+                    this.update(this.ont, this.species);
+                }else {
+                    if (ont === this.currentOnt) {
+                        if (ont === "RS") {
+                            for (var key in v.selectedStrains) {
+                                if (v.selectedStrains[key] === accId) {
+                                    handleCheckbox(accId, 0);
+                                    v.doStuff()
+                                }
+                            }
                         }
-                    }
-                }
-                if (ont === "CMO") {
-                    for (var key in v.selectedMeasurements) {
-                        if (v.selectedMeasurements[key] === accId) {
-                            handleCheckbox(accId, 0);
-                            v.doStuff()
+                        if (ont === "CMO") {
+                            for (var key in v.selectedMeasurements) {
+                                if (v.selectedMeasurements[key] === accId) {
+                                    handleCheckbox(accId, 0);
+                                    v.doStuff()
+                                }
+                            }
                         }
-                    }
-                }
-                if (ont === "MMO") {
-                    for (var key in v.selectedMethods) {
-                        if (v.selectedMethods[key] === accId) {
-                            handleCheckbox(accId, 0);
-                            v.doStuff()
+                        if (ont === "MMO") {
+                            for (var key in v.selectedMethods) {
+                                if (v.selectedMethods[key] === accId) {
+                                    handleCheckbox(accId, 0);
+                                    v.doStuff()
+                                }
+                            }
                         }
-                    }
-                }
-                if (ont === "XCO") {
-                    for (var key in v.selectedConditions) {
-                        if (v.selectedConditions[key] === accId) {
-                            handleCheckbox(accId, 0);
-                            v.doStuff()
+                        if (ont === "XCO") {
+                            for (var key in v.selectedConditions) {
+                                if (v.selectedConditions[key] === accId) {
+                                    handleCheckbox(accId, 0);
+                                    v.doStuff()
+                                }
+                            }
                         }
-                    }
-                }
+                    } else {
+                        console.log("need to remvoe fromt the terms");
 
 
+                    }
+                }
             },
 
+
             getAllTerms: function () {
+                console.log("in get all terms");
                 var termString="";
 
                 var first=true;
@@ -990,6 +1112,13 @@
             generateReport: function () {
                 location.href="/rgdweb/phenominer/table.html?species=3&terms=" + v.getAllTerms();
             },
+
+
+            init: function () {
+                v.update();
+                v.updateStrainBox();
+            },
+
             update: function (ont, species,terms) {
 
                 if (!ont) {
@@ -1099,7 +1228,7 @@
     })
 
 
-    setTimeout(v.update, 10);
+    setTimeout(v.init, 10);
 </script>
 
 
