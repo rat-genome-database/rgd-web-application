@@ -94,7 +94,7 @@ public class PhenominerService {
                 }else*/
                builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
             }
-        System.out.println(builder);
+       // System.out.println(builder);
         return builder;
     }
     public Map<String, List<String>> getSegregatedTerms(HttpRequestFacade req){
