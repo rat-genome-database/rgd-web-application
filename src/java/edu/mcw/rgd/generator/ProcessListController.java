@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import edu.mcw.rgd.dao.impl.AnnotationDAO;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.generator.GeneratorCommandParser;
 import edu.mcw.rgd.process.generator.OLGAParser;
@@ -78,7 +80,7 @@ public class ProcessListController implements Controller {
 
         if (action.equals("excel")) {
 
-            this.writeExcelFile(oKey,or.getResultSet());
+            this.writeExcelFile(oKey,or.getResultSet(),or);
 
             return null;
         }else if (action.equals("browse")) {
@@ -95,7 +97,7 @@ public class ProcessListController implements Controller {
     }
 
 
-    public void writeExcelFile(int oKey, HashMap allObjects) throws Exception {
+    public void writeExcelFile(int oKey, HashMap allObjects, OLGAResult or) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
         int speciesTypeKey= edu.mcw.rgd.datamodel.SpeciesType.getSpeciesTypeKeyForMap(Integer.parseInt(request.getParameter("mapKey")));
@@ -111,7 +113,54 @@ public class ProcessListController implements Controller {
         //String errors = "";
         //Report r = new Report();
 
+        OntologyXDAO xdao = new OntologyXDAO();
+        //String errors = "";
+        //Report r = new Report();
+
+        String union = 	"\u222A";
+        String intersect = "\u2229";
+        String subtract = "-";
+        List<String> accIds =or.getAccIds();
         Row row = sheet.createRow(rownum++);
+        if (!or.getAccIds().isEmpty()) {
+            Cell c = row.createCell(0);
+            String title = "";
+            for (int i = 0; i < accIds.size(); i++) {
+                String accId = accIds.get(i);
+                String identifier = null;
+                if (accId.toLowerCase().startsWith("chr")) {
+                    identifier=accId;
+                }else if (accId.toLowerCase().startsWith("lst")) {
+                    identifier = "User List";
+                } else if (accId.toLowerCase().startsWith("qtl")) {
+                    identifier = accId.substring(4);
+                } else {
+                    OntologyXDAO odao = new OntologyXDAO();
+                    Term t = odao.getTermByAccId(accId);
+                    identifier = t.getTerm();
+                }
+                if (i != 0) {
+                    switch (or.getOperators().get(i)) {
+                        case "~":
+                            title += " " + union;
+                            break;
+                        case "^":
+                            title += subtract;
+                            break;
+                        case "!":
+                            title += intersect;
+                            break;
+                    }
+                    title += " " + identifier + " ) ";
+                } else {
+                    for (int j = 1; j < accIds.size(); j++)
+                        title += "( ";
+                    title += identifier;
+                }
+            }
+            c.setCellValue(title);
+        }
+        row = sheet.createRow(rownum++);
         Cell cell = row.createCell(cellnum++);
         cell.setCellValue("RGD ID");
         cell = row.createCell(cellnum++);
