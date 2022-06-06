@@ -106,7 +106,7 @@ public class RgdContext {
 				return index+"_index_cur";
 			}
 			if( isDev() ) {
-				return index+"_index_dev";
+				return index+"_index_dev"+","+"variant_index_dev";
 			}
 			
 		} catch( UnknownHostException e ) {
