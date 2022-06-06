@@ -109,11 +109,7 @@ public class ProcessListController implements Controller {
         int cellnum = 0;
 
         MapDAO mdao = new MapDAO();
-
-        //String errors = "";
-        //Report r = new Report();
-
-        OntologyXDAO xdao = new OntologyXDAO();
+        OntologyXDAO odao = new OntologyXDAO();
         //String errors = "";
         //Report r = new Report();
 
@@ -135,7 +131,6 @@ public class ProcessListController implements Controller {
                 } else if (accId.toLowerCase().startsWith("qtl")) {
                     identifier = accId.substring(4);
                 } else {
-                    OntologyXDAO odao = new OntologyXDAO();
                     Term t = odao.getTermByAccId(accId);
                     identifier = t.getTerm();
                 }
@@ -145,13 +140,13 @@ public class ProcessListController implements Controller {
                             title += " " + union;
                             break;
                         case "^":
-                            title += subtract;
+                            title += " " + subtract;
                             break;
                         case "!":
-                            title += intersect;
+                            title += " " + intersect;
                             break;
                     }
-                    title += " " + identifier + " ) ";
+                    title += " " + identifier + " )";
                 } else {
                     for (int j = 1; j < accIds.size(); j++)
                         title += "( ";
