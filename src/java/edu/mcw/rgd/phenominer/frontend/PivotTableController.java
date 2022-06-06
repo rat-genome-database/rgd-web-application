@@ -194,15 +194,7 @@ public class PivotTableController implements Controller {
         String unchecked= req.getParameter("unchecked");
         System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
         List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
-        for (String param : params) {
-            if (req.getParameterValues(param) != null) {
-                List<String> values = Arrays.asList(req.getParameterValues(param));
-                if (values.size() > 0) {
-                    filterMap.put(param, String.join(",", values));
-                    selectedFilters.put(param, String.join(",", values));
-                }
-            }
-        }
+
         if(filterJsonString!=null) {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, String> filterJson = mapper.readValue(filterJsonString, Map.class);
@@ -222,6 +214,23 @@ public class PivotTableController implements Controller {
                     }
                     if(keyValues.size()>0)
                     selectedFilters.put(key, String.join(",", keyValues));
+                }
+            }
+        }
+        for (String param : params) {
+            if (req.getParameterValues(param) != null) {
+                List<String> values = Arrays.asList(req.getParameterValues(param));
+                List<String> keyValues= new ArrayList<>();
+                if(selectedFilters.get(param)!=null)
+                    keyValues.addAll(Arrays.asList(selectedFilters.get(param).split(",")));
+                if (values.size() > 0) {
+                    for(String val:values){
+                        if(!keyValues.contains(val)){
+                           keyValues.add(val);
+                        }
+                    }
+                    filterMap.put(param, String.join(",", keyValues));
+                    selectedFilters.put(param, String.join(",", keyValues));
                 }
             }
         }
