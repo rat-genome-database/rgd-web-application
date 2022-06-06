@@ -76,7 +76,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("sr", sr);
         request.setAttribute("facetSearch", facetSearch);
         request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
-        System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+     //   System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
 
         return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
         //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
@@ -237,7 +237,7 @@ public class PivotTableController implements Controller {
         req.setAttribute("selectedFilters", selectedFilters);
         req.setAttribute("selectedFiltersJson" , gson.toJson(selectedFilters));
 
-        System.out.println("SELECTED FILTERS:"+ gson.toJson(selectedFilters));
+     //   System.out.println("SELECTED FILTERS:"+ gson.toJson(selectedFilters));
      //   return filterMap;
         return selectedFilters;
     }
