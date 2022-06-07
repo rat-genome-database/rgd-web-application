@@ -75,7 +75,7 @@ public class ElasticSearchController implements Controller {
             }
 
             String redirUrl = this.getRedirectUrl(request, term, sb);
-
+            System.out.println("REDIRECT URL:"+ redirUrl);
             if (redirUrl != null) {
                 response.sendRedirect(redirUrl);
                 return null;
@@ -121,10 +121,16 @@ public class ElasticSearchController implements Controller {
 
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
-                System.out.println("WORKING FORM IF");
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
-                String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
+                String redirUrl = null;
+                if(id != null) {
+                    if(id.getSpeciesTypeKey()!=1 && id.getObjectKey()==7)
+                        redirUrl="/rgdweb/report/variants/main.html?id="+id.getRgdId();
+                    else
+                        redirUrl= Link.it(rgdid, id.getObjectKey()) ;
+
+                }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
                     //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
