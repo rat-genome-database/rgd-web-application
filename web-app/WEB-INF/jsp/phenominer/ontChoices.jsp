@@ -18,14 +18,7 @@
     List<String> csIds = (List<String>) request.getAttribute("csIds");
     List<String> ecIds = (List<String>) request.getAttribute("ecIds");
 
-//    selectedStrains: {},
-//    selectedMeasurements: {},
-//    selectedConditions: {},
-//    selectedMethods: {},
-
     OntologyXDAO odao = new OntologyXDAO();
-
-    //{"ACI.COP-(D10Mgh8-D10Rat4)/Shul(2)":"RS:0001158","ACI.COP-(D3Rat130-D3Rat114)/Shul(2)":"RS:0001160"}
 
     String selectedMeasurements = "{";
     String selectedStrains = "{";
@@ -81,15 +74,11 @@
     }
     selectedConditions+="}";
 
-
-
-
     String termString = (String) request.getAttribute("termString");
     int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
     int filteredRecCount = (int) request.getAttribute("filteredRecCount");
 
     String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
-    OTrees.OTree rsTree = ot.getFilteredTree(sampleOnt, sex, speciesTypeKey, termString);
 
 %>
 
@@ -118,18 +107,14 @@
     }
 </script>
 
-
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <td align="right" colspan="2"><input type="button" value="New Query" onClick="location.href='/rgdweb/phenominer/home.jsp'"/></td>
+        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
         <td>
             <span style="font-size:16px;">Select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
-        </td>
-        <td align="right">
-            <input style="visibility: hidden;" type="button" id="continue" name="continue" value="Generate Report" onClick="location.href='/phenotypes/dataTable/retrieveData?terms=RS%3A29%2CRS%3A1860%2CRS%3A1381%2CCMO%3A371%2CCMO%3A374%2CCMO%3A368%2CCMO%3A369%2CCMO%3A27%2CCMO%3A171%2CCMO%3A149%2CMMO%3A145%2CMMO%3A225%2CMMO%3A6%2CXCO%3A87'" />
         </td>
     </tr>
     <tr>
@@ -139,12 +124,7 @@
 
 <div id="phenominer" >
 
-
-
-
-
-
-    <table cellspacing='0' border='0' style="border:0px solid black">
+    <table cellspacing='0' border='0' style="border:0px solid black" width="95%">
     <tr>
 
         <% if (false) { %>
@@ -164,10 +144,6 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;'>
 
-                <% for (String sample: csIds) { %>
-                <li><%=ot.getTermName(sample,sex,speciesTypeKey)%> (<%=rsTree.getRecordCountForTermOnly(sample)%>)</li>
-                <% } %>
-
             </div>
         </td>
         <% } %>
@@ -185,14 +161,6 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
 
-                <!--
-                <% for (String sample: sampleIds) { %>
-                    <li><%=ot.getTermName(sample,sex,speciesTypeKey)%> (<%=rsTree.getRecordCountForTermOnly(sample)%>)</li>
-                <% } %>
-                -->
-
-
-
                 <table>
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
@@ -206,8 +174,6 @@
             </div>
         </td>
 
-        <%
-            OTrees.OTree cmoTree = ot.getFilteredTree("CMO", sex, speciesTypeKey, termString); %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #ccc1da; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
                 <table border="0"  width="100%" style="background-color: #ccc1da">
@@ -229,8 +195,6 @@
         </td>
 
 
-        <%
-            OTrees.OTree mmoTree = ot.getFilteredTree("MMO", sex, speciesTypeKey, termString); %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #fcd5b5; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
                 <table border="0"  width="100%" style="background-color: #fcd5b5">
@@ -252,8 +216,6 @@
         </td>
 
 
-        <%
-            OTrees.OTree xcoTree = ot.getFilteredTree("XCO", sex, speciesTypeKey, termString); %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #b9cde5; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
                 <table border="0"  width="100%" style="background-color: #b9cde5">
@@ -273,10 +235,10 @@
 
             </div>
         </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>            <input type="button" style="border:1px solid white; color:white; font-size:26px;background-color:#2B84C8; border-radius:5px;" @click="generateReport()" value="Generate Report"/>
-        </td>
-    </tr>
+        </tr>
+        <tr>
+            <td  colspan=4 align="center"><input type="button" style="margin-top:20px; width:300px; border:1px solid white; color:white; font-size:26px;background-color:#2B84C8; border-radius:5px;" @click="generateReport()" value="Generate Report"/></td>
+        </tr>
 </table>
 
 <!--- other page  -->
@@ -326,20 +288,20 @@
 
 
     <br>
-    <table align="left" width="1000" border="0">
+    <table align="left" width="1000" border="0" id="selectionWindow" style="visibility:hidden;">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
         </tr>
         <tr>
-            <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="45" style="border: 3px solid black;height:38px;width:700px;" v-on:input="search()"/></td>
+            <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="40" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
             <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=speciesTypeKey%>)" /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=speciesTypeKey%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=speciesTypeKey%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=speciesTypeKey%>)"  /></td>
         </tr>
         <tr>
-            <td width="650">
-                <div style="overflow:scroll;height:450px;width:700px;border: 1px solid black;">
+            <td width="50">
+                <div style="overflow:scroll;height:450px;width:600px;border: 1px solid black;">
                     <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
                     <table>
                         <tr v-for="(key, value) in options" >
@@ -363,7 +325,7 @@
 
 </div>
 
-<div id="treebox" style="diplay:none; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
+<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
@@ -942,6 +904,7 @@
             },
 
             doStuff: function() {
+                console.log("in doStuff");
                 var checked = determineChecked();
 
                 if (v.currentOnt==="RS") {
@@ -975,6 +938,13 @@
 
             removeTerm: function (ont, term) {
 
+                console.log("in remove Term ont=" + ont + " term = " + term);
+                console.log(JSON.stringify(v.selectedStrains));
+                console.log(JSON.stringify(v.selectedMeasurements));
+                console.log(JSON.stringify(v.selectedMethods));
+                console.log(JSON.stringify(v.selectedConditions));
+
+
                 if (ont === "RS") {
                     for (const key in v.selectedStrains) {
                         if (v.selectedStrains[key] === term) {
@@ -985,7 +955,7 @@
 
                 if (ont === "CMO") {
                     for (const key in v.selectedMeasurements) {
-                        if (v.selectedMeasurements[key] != term) {
+                        if (v.selectedMeasurements[key] === term) {
                             delete v.selectedMeasurements[key];
                         }
                     }
@@ -993,7 +963,7 @@
 
                 if (ont === "MMO") {
                     for (const key in v.selectedMethods) {
-                        if (v.selectedMethods[key] != term) {
+                        if (v.selectedMethods[key] === term) {
                             delete v.selectedMethods[key];
                         }
                     }
@@ -1001,7 +971,7 @@
 
                 if (ont === "XCO") {
                     for (const key in v.selectedConditions) {
-                        if (v.selectedConditions[key] != term) {
+                        if (v.selectedConditions[key] === term) {
                             delete v.selectedConditions[key];
                         }
                     }
@@ -1010,12 +980,12 @@
             },
 
             remove: function (accId, ont) {
-
-                alert("in remove");
+                console.log("in remove ont=" + ont + " accId = " + term);
 
                 if (ont != this.currentOnt) {
                     this.removeTerm(ont, accId);
-                    this.update(this.ont, this.species);
+
+                    this.update(this.currentOnt, this.species);
                 }else {
                     if (ont === this.currentOnt) {
                         if (ont === "RS") {
@@ -1110,7 +1080,13 @@
             },
 
             generateReport: function () {
-                location.href="/rgdweb/phenominer/table.html?species=3&terms=" + v.getAllTerms();
+                var tString = v.getAllTerms();
+                if (tString === "") {
+                    alert("Please select one or more terms below to generate a Phenominer report.");
+
+                }else {
+                    location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
+                }
             },
 
 
@@ -1120,7 +1096,7 @@
             },
 
             update: function (ont, species,terms) {
-
+                console.log("in update " + ont);
                 if (!ont) {
                     ont="RS";
                     species=3;
@@ -1173,12 +1149,14 @@
 
                 v.options={};
 
+
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=' + ont + '&sex=both&species=' + species + '&terms=' + terms,
                         {
-                            species: "hell",
+                            species: "3",
                         })
                     .then(function (response) {
+
                         var parser = new DOMParser();
                         xmlDoc = parser.parseFromString(response.data + "","text/xml");
 
@@ -1214,7 +1192,8 @@
                         document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
                         document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
 
-
+                        document.getElementById("treebox").style.visibility="visible";
+                        document.getElementById("selectionWindow").style.visibility="visible";
 
 
                     })
