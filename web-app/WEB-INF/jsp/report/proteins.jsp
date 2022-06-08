@@ -114,8 +114,6 @@
 
     <span class="highlight"><u>Reference Sequences</u></span>
 
-
-
     <div class="modelsViewContent" >
         <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -135,9 +133,6 @@
             </form>
         </div>
     </div>
-
-
-
 
 <%
 
@@ -168,8 +163,6 @@
             }
         }
     %>
-
-
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
     <tr>
         <td class="label" valign="top" width="110">RefSeq Acc Id:</td>
@@ -233,8 +226,9 @@
             </form>
         </div>
     </div>
-<% } %>
 </div>
+<% } %>
+
 <%  // PROTEIN DOMAINS
     if (pdomains.size() > 0) {
 %>

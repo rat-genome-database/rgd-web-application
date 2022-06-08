@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td class="label" valign="top">Name:</td>
-        <td><%=obj.getName()==null ? "" : (obj.getEnsemblFullName()!=null && !Utils.stringsAreEqualIgnoreCase(obj.getName(),obj.getEnsemblFullName())) ? obj.getName() +"\t(Ensembl:"+obj.getEnsemblFullName()+")" : ( obj.getName()==null ? "" : obj.getName() )%></td>
+        <td><%=obj.getName()==null ? "" : (obj.getEnsemblFullName()!=null && !Utils.stringsAreEqualIgnoreCase(obj.getName(),obj.getEnsemblFullName())) ? obj.getName() +"\t(Ensembl:"+obj.getEnsemblFullName()+")" : obj.getName()%></td>
     </tr>
 
     <tr>

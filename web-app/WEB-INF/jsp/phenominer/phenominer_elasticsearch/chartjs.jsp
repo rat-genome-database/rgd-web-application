@@ -186,7 +186,7 @@
             var rowLength=document.getElementById("mytable").rows.length;
             var sortedValues=[];
             for(var i=1;i<rowLength;i++){
-                var value= document.getElementById("mytable").rows[i].cells.item(14-missedColumnCount).innerHTML;
+                var value= document.getElementById("mytable").rows[i].cells.item(10-missedColumnCount).innerHTML;
                 //console.log(value);
                 sortedValues.push(value);
             }
