@@ -104,7 +104,16 @@
 
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
                 <td>${hit.sourceAsMap.sex}</td>
-                <td>${hit.sourceAsMap.ageLowBound}-${hit.sourceAsMap.ageHighBound}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${hit.sourceAsMap.ageLowBound==hit.sourceAsMap.ageHighBound}">
+                            ${hit.sourceAsMap.ageHighBound}&nbsp;days
+                        </c:when>
+                        <c:otherwise>
+                            ${hit.sourceAsMap.ageLowBound}&nbsp;days-${hit.sourceAsMap.ageHighBound}&nbsp;days</td>
+
+            </c:otherwise>
+                    </c:choose>
                 <td>${hit.sourceAsMap.numberOfAnimals}</td>
 
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
