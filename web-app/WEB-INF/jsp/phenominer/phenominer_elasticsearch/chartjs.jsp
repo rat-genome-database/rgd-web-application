@@ -188,6 +188,7 @@
             for(var i=1;i<rowLength;i++){
                 var value= document.getElementById("mytable").rows[i].cells.item(10-missedColumnCount).innerHTML;
                 //console.log(value);
+                if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
             arrayLabel = ${labels}
