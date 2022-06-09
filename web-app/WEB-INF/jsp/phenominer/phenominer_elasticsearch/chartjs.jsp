@@ -247,10 +247,18 @@
             var sortedObjArray=[];
             for(var i=0;i<sortedValues.length;i++){
                 for(var j=0;j<arrayOfObj.length;j++){
-                    if(arrayOfObj[j].data==sortedValues[i]){
+                    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0){
                         sortedObjArray.push(arrayOfObj[j])
                     }
                 }
+
+            }
+
+                for (var j = 0; j < arrayOfObj.length; j++) {
+                    if (arrayOfObj[j].data == 0) {
+                        sortedObjArray.push(arrayOfObj[j])
+                    }
+
             }
             return sortedObjArray;
         }
