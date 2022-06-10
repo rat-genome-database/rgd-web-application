@@ -41,7 +41,11 @@
     <input class="search table-search" id='referencesCuratedSearch' type="search" data-column="all" placeholder="Search table">
 </div>
     <table class="tablesorter" id="referencesCuratedTable">
-        <thead ><tr style="display: none"><th></th><th></th></tr></thead>
+        <thead ><tr>
+            <td>#</td>
+            <td>Reference Title</td>
+            <td>Reference Citation</td>
+        </tr></thead>
         <tbody>
     <%
     int count=1;
@@ -49,6 +53,7 @@
     %>
         <tr>
             <td><%=count++%>.</td>
+            <td><%=ref.getTitle()%></td>
             <td><a href="<%=Link.ref(ref.getRgdId())%>"><%=ref.getCitation()%></a><br></td>
         </tr>
     <%
