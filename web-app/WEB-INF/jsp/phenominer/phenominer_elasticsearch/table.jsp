@@ -106,7 +106,7 @@
         </div>
         <hr>
         <c:if test="${fn:length(selectedFilters)>0}">
-        <span><strong>Remove Filters:</strong>
+        <span><strong style="color:black">Remove Filters:</strong>
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
             <c:if test="${fn:length(sr.hits.hits)>0}">
             <c:forEach items="${selectedFilters}" var="termList">
