@@ -64,13 +64,7 @@ public class PivotTableController implements Controller {
             request.setAttribute("yaxisLabel", unitsSet.iterator().next());
 
         }
-        request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
-        request.setAttribute("errorBars", gson.toJson(errorBars));
-        request.setAttribute("legend", legend);
-        if(request.getParameter("legendJson")!=null && !request.getParameter("legendJson").equals(""))
-            request.setAttribute("legendJson", request.getParameter("legendJson"));
-        else
-            request.setAttribute("legendJson", gson.toJson(legend));
+
         request.setAttribute("labels", gson.toJson(labels));
         request.setAttribute("columns",getTableColumns(sr));
         request.setAttribute("sr", sr);
@@ -160,7 +154,15 @@ public class PivotTableController implements Controller {
             values.add(value);
             labels.add(e);
         }
-
+        request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
+        request.setAttribute("errorBars", gson.toJson(errorBars));
+        request.setAttribute("legend", legend);
+        if(request.getParameter("legendJson")!=null && !request.getParameter("legendJson").equals(""))
+            request.setAttribute("legendJson", request.getParameter("legendJson"));
+        else
+            request.setAttribute("legendJson", gson.toJson(legend));
+        System.out.println("LEGEND JSON:"+ legendJson);
+        System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
 
 
