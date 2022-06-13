@@ -15,31 +15,48 @@
         });
     });
 </script>
+<div class="row card-header">
+    <div class="col">
 
-<div class="accordion-group">
-    <div class="pl-3  accordion-heading card-header" >
-       <button class="btn btn-sm btn-light"> <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo" style="text-decoration: none">
-            Legend&nbsp;<span class="float-right"><i class="fas fa-angle-down"></i></span>
-        </a></button>
+            <label class="form-inline" style="color: black" >Colored By:&nbsp;
+                <select class="form-control" id= "colorBy">
+
+                    <option value="condition">Condition</option>
+                    <option value="strain">Strain</option>
+                    <option value="phenotype">Phenotype</option>
+                    <option value="method">Method</option>
+                    <option value="sex">Sex</option>
+                </select>
+            </label>
+
     </div>
-    <div id="collapseTwo" class="accordion-body collapse hidden">
-        <div class="pl-3  accordion-inner">
 
-            <ul>
-                <c:forEach items="${legend}" var="color">
-                    <li class="list-group-item">
-                        <div class="row" style="text-align: center">
-                            <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value};border:1px solid gray"></div>
-                            <div class="col-xs-1">&nbsp;${color.key}</div>&nbsp;
-                        </div>
-                    </li>
-                </c:forEach>
+    <div class="accordion-group col">
+        <div class="pl-3  accordion-heading " >
+            <button class="btn btn-sm btn-light"> <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo" style="text-decoration: none">
+                Legend&nbsp;<span class="float-right"><i class="fas fa-angle-down"></i></span>
+            </a></button>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse hidden">
+            <div class="pl-3  accordion-inner">
+
+                <ul>
+                    <c:forEach items="${legend}" var="color">
+                        <li class="list-group-item">
+                            <div class="row" style="text-align: center">
+                                <div class="col-xs-1" style="width: 10px;height: 10px;background-color: ${color.value};border:1px solid gray"></div>
+                                <div class="col-xs-1">&nbsp;${color.key}</div>&nbsp;
+                            </div>
+                        </li>
+                    </c:forEach>
 
 
-            </ul>
+                </ul>
 
 
+            </div>
         </div>
     </div>
-</div>
 
+
+</div>
