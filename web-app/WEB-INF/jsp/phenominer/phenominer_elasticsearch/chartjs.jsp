@@ -104,8 +104,8 @@
 
                         let innerHtml = '<thead>';
 
-                        titleLines.forEach(function(title) {
-                            innerHtml += '<tr><th>' + title + '</th></tr>';
+                        titleLines.forEach(function(title,k) {
+                            innerHtml += '<tr><th>' + title + '&nbsp;<br><span style="background-color:blue;color:yellow"> '+getPhenotype(k)+ '</span></th></tr>';
                         });
                         innerHtml += '</thead><tbody>';
 
@@ -272,6 +272,27 @@
         }
         return color;
     }
+        function getPhenotype(index) {
+            var table = document.getElementById('mytable');
+            var j = 0;
+            var rowLength = table.rows.length;
+            var avgIndex = table.rows.item(0).cells.length;
+            for (i = 1; i < rowLength; i++) {
+                if (table.rows.item(i).style.display !== 'none') {
+                    if (j === index) {
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(label=='Phenotype'  )
+                                return value;
+                        }
+
+                    }
+                    j++;
+                }
+            }
+            return detail;
+        }
         function getDetails(index) {
             var table = document.getElementById('mytable');
             var j = 0;
@@ -281,6 +302,7 @@
             for (i = 1; i < rowLength; i++) {
                 if (table.rows.item(i).style.display !== 'none') {
                     if (j === index) {
+
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
@@ -296,7 +318,13 @@
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
-                            if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' )
+                            if(label=='Phenotype'  )
+                                detail.push(label + ':<strong style="text-decoration:underline ">' + value+'</strong>') ;
+                        }
+                        for(k = 1;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' && label!='Phenotype' )
                                 detail.push(label + ':' + value) ;
                         }
                         for(k = 1;k < avgIndex;k++){
