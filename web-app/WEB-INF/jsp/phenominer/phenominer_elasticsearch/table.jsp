@@ -122,6 +122,7 @@
         <c:when test="${fn:length(sr.hits.hits)>0}">
         <c:choose>
         <c:when test="${plotData!=null}">
+
             <%@include file="legend.jsp"%>
 
         <%@include file="chartjs.jsp"%>
@@ -142,6 +143,12 @@
 </div>
 </div>
 
-
+<script>
+    $("#colorBy").on("change",function () {
+      $('input[name="colorBy"]').val($(this).val());
+    //    alert($(this).val());
+        $('#phenominerReportForm').submit();
+    })
+</script>
 
 <%@ include file="/common/compactFooterArea.jsp"%>
