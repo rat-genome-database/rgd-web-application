@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 <script>
+    var colorBy='${colorBy}';
     $(document).ready(function(){
         // Add down arrow icon for collapse element which is open by default
         $(".collapse.show").each(function(){
@@ -13,6 +14,12 @@
         }).on('hide.bs.collapse', function(){
             $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
         });
+       var options= document.getElementById("colorBy").getElementsByTagName("option");
+        $.each(options, function (i, e) {
+            if(colorBy!='undefined' && colorBy==e.value){
+                document.getElementById("colorBy").value=colorBy
+            }
+        })
     });
 </script>
 <div class="row card-header">
