@@ -118,12 +118,11 @@ public class ElasticSearchController implements Controller {
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
-
+        String redirUrl =null;
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
-                String redirUrl = null;
                 if(id != null) {
                     if(id.getSpeciesTypeKey()!=1 && id.getObjectKey()==7)
                         redirUrl="/rgdweb/report/variants/main.html?id="+id.getRgdId();
@@ -134,10 +133,17 @@ public class ElasticSearchController implements Controller {
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
                     //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                    redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
-                    return redirUrl;
+                    return request.getScheme() + "://" + request.getServerName() + redirUrl;
+
                 }
-            }else {
+            }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
+            {
+                System.out.println("RSID :"+ term);
+                redirUrl=Link.rsId(term);
+                return request.getScheme() + "://" + request.getServerName() + redirUrl;
+
+            }
+            else {
 
 
                     SearchService service = new SearchService();
