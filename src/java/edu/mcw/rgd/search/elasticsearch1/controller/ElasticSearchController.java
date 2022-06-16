@@ -75,7 +75,7 @@ public class ElasticSearchController implements Controller {
             }
 
             String redirUrl = this.getRedirectUrl(request, term, sb);
-            System.out.println("REDIRECT URL:"+ redirUrl);
+
             if (redirUrl != null) {
                 response.sendRedirect(redirUrl);
                 return null;
@@ -173,9 +173,13 @@ public class ElasticSearchController implements Controller {
         String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
         String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
 
+        String rsId=(String) sr.getHits().getHits()[0].getSourceAsMap().get("rsId");
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
+            if(rsId!=null && !rsId.equals("")){
+                redirUrl = Link.rsId(rsId);
+            }else
       if (docId.matches("[0-9]+") && docId.length() > 2) {
                 rgdIdValue = Integer.parseInt(docId);
                 RgdId  id = rdao.getRgdId2(rgdIdValue);
@@ -192,6 +196,7 @@ public class ElasticSearchController implements Controller {
         }else {
           if(docId.contains(":"))
               redirUrl = Link.ontAnnot(docId);
+
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
