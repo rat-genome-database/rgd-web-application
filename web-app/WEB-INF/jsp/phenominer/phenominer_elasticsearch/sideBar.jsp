@@ -173,7 +173,7 @@
         <input type="hidden" name="legendJson" value='${legendJson}'/>
         <input type="hidden" name="selectedFiltersJson" value='${selectedFiltersJson}'/>
         <input type="hidden" id="unchecked" name="unchecked" value=''/>
-        <input type="text" name="colorBy"  value='${colorBy}'/>
+        <input type="hidden" name="colorBy"  value='${colorBy}'/>
 
         <table align="center" border="0" style="margin-left:35px;">
 
