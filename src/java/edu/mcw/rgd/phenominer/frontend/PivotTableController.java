@@ -27,52 +27,72 @@ public class PivotTableController implements Controller {
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-        PhenominerService.setPhenominerIndex("phenominer_index_test");
-        SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
-     //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
-        Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
-        Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
-        Map<String, String> filterMap=getFilterMap(request);
-        boolean facetSearch = req.getParameter("facetSearch").equals("true");
-        System.out.println("FILTERMAP SIZE:"+ filterMap.size()+"\t"+ gson.toJson(filterMap)) ;
-        if (facetSearch) {
-            if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName"))) {
-                filteredAggregations = service.getFilteredAggregations(filterMap, req);
-                // request.setAttribute("aggregations", filteredAggregations);
-                aggregations.putAll(filteredAggregations);
 
-            }
-            setSelectAllCheckBox(request);
-        }//else{
+        int refRgdId=0;
+        try {
+            refRgdId = Integer.parseInt(req.getParameter("refRgdId"));
+        } catch (NumberFormatException e) { }
+        String formatStr=req.getParameter("fmt");
+        if (formatStr.equals("")) {
+            formatStr="1";
+        }
+
+        int format = Integer.parseInt(formatStr);
+        if(format==3){
+            response.sendRedirect("/rgdweb/phenominer/download.html?fmt="+format+"&terms="+request.getParameter("terms"));
+        }
+
+        if(refRgdId!=0){
+            response.sendRedirect("/rgdweb/phenominer/download.html?refRgdId="+refRgdId);
+        }else {
+            PhenominerService.setPhenominerIndex("phenominer_index_test");
+            SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
+            //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
+            Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
+            Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
+            Map<String, String> filterMap = getFilterMap(request);
+            boolean facetSearch = req.getParameter("facetSearch").equals("true");
+            System.out.println("FILTERMAP SIZE:" + filterMap.size() + "\t" + gson.toJson(filterMap));
+            if (facetSearch) {
+                if (filterMap.size() == 1 || (filterMap.size() == 2 && filterMap.containsKey("experimentName"))) {
+                    filteredAggregations = service.getFilteredAggregations(filterMap, req);
+                    // request.setAttribute("aggregations", filteredAggregations);
+                    aggregations.putAll(filteredAggregations);
+
+                }
+                setSelectAllCheckBox(request);
+            }//else{
             request.setAttribute("aggregations", aggregations);
 
             //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
-         //   setSelectAllCheckBox(request);
-     //   }
+            //   setSelectAllCheckBox(request);
+            //   }
 
-        List<String> labels = new ArrayList<>();
-        List<String> backgroundColors = new ArrayList<>();
-        Map<String, String> legend = new HashMap<>();
-        Map<String, Map<String, Double>> errorBars = new HashMap<>();
-        Set<String> unitsSet=new HashSet<>();
-        for (SearchHit hit : sr.getHits().getHits()) {
-            String unit = (String) hit.getSourceAsMap().get("units");
-            unitsSet.add(unit.trim());
+            List<String> labels = new ArrayList<>();
+            List<String> backgroundColors = new ArrayList<>();
+            Map<String, String> legend = new HashMap<>();
+            Map<String, Map<String, Double>> errorBars = new HashMap<>();
+            Set<String> unitsSet = new HashSet<>();
+            for (SearchHit hit : sr.getHits().getHits()) {
+                String unit = (String) hit.getSourceAsMap().get("units");
+                unitsSet.add(unit.trim());
+            }
+            if (unitsSet.size() == 1) {
+                request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
+                request.setAttribute("yaxisLabel", unitsSet.iterator().next());
+
+            }
+
+            request.setAttribute("labels", gson.toJson(labels));
+            request.setAttribute("columns", getTableColumns(sr));
+            request.setAttribute("sr", sr);
+            request.setAttribute("facetSearch", facetSearch);
+            request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
+            //   System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+            return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+
         }
-        if(unitsSet.size()==1){
-            request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
-            request.setAttribute("yaxisLabel", unitsSet.iterator().next());
-
-        }
-
-        request.setAttribute("labels", gson.toJson(labels));
-        request.setAttribute("columns",getTableColumns(sr));
-        request.setAttribute("sr", sr);
-        request.setAttribute("facetSearch", facetSearch);
-        request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
-     //   System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
-
-        return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+        return null;
         //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
     }
     public  Map<String, String> getTableColumns(SearchResponse sr){
