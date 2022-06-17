@@ -173,7 +173,9 @@
         <input type="hidden" name="legendJson" value='${legendJson}'/>
         <input type="hidden" name="selectedFiltersJson" value='${selectedFiltersJson}'/>
         <input type="hidden" id="unchecked" name="unchecked" value=''/>
-        <input type="text" name="colorBy"  value='${colorBy}'/>
+        <input type="hidden" id="uncheckedAll" name="uncheckedAll" value=''/>
+
+        <input type="hidden" name="colorBy"  value='${colorBy}'/>
 
         <table align="center" border="0" style="margin-left:35px;">
 
@@ -183,7 +185,7 @@
                         <tr>
                             <td  ><div class="recordFilterTitle">
 
-                                <input  id="unitsAll" name="unitsAll" type="checkbox"  >&nbsp;
+                                <input  id="cmoAll" name="cmoAll" type="checkbox"  >&nbsp;
 
                                 Measurements</div></td>
                         </tr>

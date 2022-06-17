@@ -35,11 +35,13 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("rsTerm");
         }
+
         $('#phenominerReportForm').submit()
     });
 
-    /*$('#cmoAll').change(function() {
+    $('#cmoAll').change(function() {
         if($(this).is(":checked")) {
             $.each($('input[name="cmoTerm"]'), function(){
                 var _this=$(this);
@@ -52,9 +54,11 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("cmoTerm");
+
         }
         $('#phenominerReportForm').submit()
-    });*/
+    });
 
     $('#mmoAll').change(function () {
         if ($(this).is(":checked")) {
@@ -69,6 +73,8 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("mmoTerm");
+
         }
         $('#phenominerReportForm').submit()
     });
@@ -85,6 +91,8 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("xcoTerm");
+
         }
         $('#phenominerReportForm').submit()
     });
@@ -101,6 +109,8 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("sex");
+
         }
         $('#phenominerReportForm').submit()
     });
@@ -137,6 +147,8 @@ $(function () {
                 _this.prop('checked', false);
 
             });
+            $('#uncheckedAll').val("");
+
         }
         $('#phenominerReportForm').submit()
     });
@@ -147,7 +159,7 @@ function resetAllCheckBoxes() {
         var val = _this.val();
         _this.prop('checked', false);
         console.log("SELECTED CMO:" + selectedCmo);
-        if (selectedCmo !== typeof undefined) {
+        if (selectedCmo !== typeof undefined ) {
 
             $.each(selectedCmo.split(","), function (i, selected) {
                 if (selected == val) {
