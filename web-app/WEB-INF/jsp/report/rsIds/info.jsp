@@ -3,7 +3,8 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%>
+    <!-- select which variant you want to view -->
+    <tr><td colspan="2"><h3>Select which variant from <%=displayName%>&nbsp;you would like to view -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%>
     </h3></td></tr>
     <tr>
         <td class="label">
