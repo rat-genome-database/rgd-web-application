@@ -229,7 +229,10 @@ public class PivotTableController implements Controller {
         LinkedHashMap<String, String> selectedFilters = new LinkedHashMap<>();
         String filterJsonString=req.getParameter("selectedFiltersJson");
         String unchecked= req.getParameter("unchecked");
+        String uncheckedAll= req.getParameter("uncheckedAll");
         System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
+        System.out.println("UNCHECKED ALL:"+ req.getParameter("uncheckedAll"));
+
         List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
 
         if(filterJsonString!=null) {
@@ -243,6 +246,7 @@ public class PivotTableController implements Controller {
                     List<String> keyValues= new ArrayList<>();
                     if(selectedFilters.get(key)!=null)
                         keyValues.addAll(Arrays.asList(selectedFilters.get(key).split(",")));
+                    if(uncheckedAll!=null && !uncheckedAll.equalsIgnoreCase(key))
                     for(String filterValue:filterValues){
                         if(unchecked!=null && !filterValue.equalsIgnoreCase(unchecked)){
                             if(!keyValues.contains(filterValue))
@@ -314,7 +318,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("selectAllCheckBox", selectAllCheckBox);
 
     }
-
+   
         public Map<String, String> setSelectedFilters( Map<String, List<Terms.Bucket>> aggregations){
 
         Map<String, String> selectedFilters = new HashMap<>();
