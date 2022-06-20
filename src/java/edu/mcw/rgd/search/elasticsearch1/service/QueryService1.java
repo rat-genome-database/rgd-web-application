@@ -319,8 +319,10 @@ public class QueryService1 {
         } else{
             if(term.equals("")){
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-            }else
-            dqb.add(QueryBuilders.termQuery("term_acc", term));
+            }else {
+                dqb.add(QueryBuilders.termQuery("term_acc", term));
+                dqb.add(QueryBuilders.termQuery("rsId", term));
+            }
         }
         return dqb;
 

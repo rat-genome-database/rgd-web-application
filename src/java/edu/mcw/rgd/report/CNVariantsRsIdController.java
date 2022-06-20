@@ -9,6 +9,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,9 +41,18 @@ public class CNVariantsRsIdController implements Controller {
         catch( Exception e ) {
             error.add(e.getMessage());
         }
+// show distinct rgd ids, rs715 an example to go right to page
 
+        HashMap<Long,Boolean> duplicateRgdId = new HashMap<>();
+        List<VariantMapData> objectsNonDupe = new ArrayList<>();
+        for (VariantMapData obj : objects){
+            if (duplicateRgdId.get(obj.getId())==null ){
+                duplicateRgdId.put(obj.getId(),true);
+                objectsNonDupe.add(obj);
+            }
+        }
 
-        request.setAttribute("reportObjects", objects);
+        request.setAttribute("reportObjects", objectsNonDupe);
         request.setAttribute("requestFacade", req);
 
         request.setAttribute("error", error);
@@ -52,8 +62,8 @@ public class CNVariantsRsIdController implements Controller {
 
         if (error.size() > 0) {
             return new ModelAndView("/WEB-INF/jsp/search/searchByPosition.jsp");
-        } else if (objects.size()==1){
-            request.setAttribute("reportObject", objects.get(0));
+        } else if (objectsNonDupe.size()==1){
+            request.setAttribute("reportObject", objectsNonDupe.get(0));
             return new ModelAndView("/WEB-INF/jsp/report/cnVariants/main.jsp");
         } else{
             return new ModelAndView("/WEB-INF/jsp/report/rsIds/main.jsp");

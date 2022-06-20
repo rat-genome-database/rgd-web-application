@@ -67,6 +67,7 @@
             },
             tooltips:{
                 enabled:false,
+
                 custom:function (tooltipModel) {
                     var tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -101,11 +102,19 @@
                     if (tooltipModel.body) {
                         const titleLines = tooltipModel.title || [];
                         const bodyLines = tooltipModel.body.map(getBody);
+                        var details="";
+                        var phenotype="";
+                        if (tooltipModel.dataPoints.length) {
+                            var index=tooltipModel.dataPoints[0].index;
+                            details=getDetails(index);
+                            phenotype=getPhenotype(index);
+                        }
+
 
                         let innerHtml = '<thead>';
-
                         titleLines.forEach(function(title) {
-                            innerHtml += '<tr><th>' + title + '</th></tr>';
+                            innerHtml += '<tr><th>' + title + '&nbsp;<br><span style="text-decoration:underline;"> '+phenotype+ '</span></th></tr>';
+
                         });
                         innerHtml += '</thead><tbody>';
 
@@ -116,12 +125,13 @@
                             style += '; border-width: 2px';
                             const span = '<span style="' + style + '"></span>';
                             innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                            var details=getDetails(i);
+
                             for(var item=0;item<details.length;item++)
                                 innerHtml += '<tr><td >' +details[item] + '</td></tr>';
+                            innerHtml += '</tbody>';
                         });
 
-                        innerHtml += '</tbody>';
+
 
                         let tableRoot = tooltipEl.querySelector('table');
                         tableRoot.innerHTML = innerHtml;
@@ -140,7 +150,8 @@
                     tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
                     tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
                     tooltipEl.style.pointerEvents = 'none';
-            }},
+            }
+            },
       /*      tooltips: {
                 yAlign:'top',
                 callbacks: {
@@ -272,10 +283,9 @@
         }
         return color;
     }
-        function getDetails(index) {
+        function getPhenotype(index) {
             var table = document.getElementById('mytable');
             var j = 0;
-            var detail = [];
             var rowLength = table.rows.length;
             var avgIndex = table.rows.item(0).cells.length;
             for (i = 1; i < rowLength; i++) {
@@ -284,26 +294,56 @@
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
+                            if(label=='Phenotype'  )
+                                return value;
+                        }
+
+                    }
+                    j++;
+                }
+            }
+            return detail;
+        }
+        function getDetails(index) {
+            console.log("index:"+index)
+            var table = document.getElementById('mytable');
+            var j = 0;
+            var detail = [];
+            var rowLength = table.rows.length; // no. of rows
+            var avgIndex = table.rows.item(0).cells.length; // no. of cells
+            for (i = 1; i < rowLength; i++) { // iterating rows excluding header row
+                if (table.rows.item(i).style.display !== 'none') {
+                    if (j == index) {
+
+                        for(k = 1;k < avgIndex;k++){ // iterating over cells
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
                             if(value!='' && label!='Value' && (label=='SEM' || label=='SD'))
-                            detail.push(label + ':' + value) ;
+                            detail.push(label + ':&nbsp;' + value) ;
                         }
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
                             if(label=='Units'  )
-                                detail.push(label + ':' + value) ;
+                                detail.push(label + ':&nbsp;' + value) ;
                         }
-                        for(k = 1;k < avgIndex;k++){
+                       /* for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
-                            if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' )
-                                detail.push(label + ':' + value) ;
+                            if(label=='Phenotype'  )
+                                detail.push(label + ':<strong style="text-decoration:underline ">' + value+'</strong>') ;
+                        }*/
+                        for(k = 0;k < avgIndex;k++){
+                            var label = table.rows.item(0).cells.item(k).innerText;
+                            var value = table.rows.item(i).cells.item(k).innerText;
+                            if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' && label!='Phenotype' )
+                                detail.push(label + ':&nbsp;' + value) ;
                         }
                         for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
                             if(label=='Study ID' || label=='Study' )
-                                detail.push(label + ':' + value) ;
+                                detail.push(label + ':&nbsp;' + value) ;
                         }
                     }
                     j++;

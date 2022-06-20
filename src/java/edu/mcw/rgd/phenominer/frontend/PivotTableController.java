@@ -27,52 +27,72 @@ public class PivotTableController implements Controller {
     PhenominerService service=new PhenominerService();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
-        PhenominerService.setPhenominerIndex("phenominer_index_dev");
-        SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
-     //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
-        Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
-        Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
-        Map<String, String> filterMap=getFilterMap(request);
-        boolean facetSearch = req.getParameter("facetSearch").equals("true");
-        System.out.println("FILTERMAP SIZE:"+ filterMap.size()+"\t"+ gson.toJson(filterMap)) ;
-        if (facetSearch) {
-            if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName"))) {
-                filteredAggregations = service.getFilteredAggregations(filterMap, req);
-                // request.setAttribute("aggregations", filteredAggregations);
-                aggregations.putAll(filteredAggregations);
 
-            }
-            setSelectAllCheckBox(request);
-        }//else{
+        int refRgdId=0;
+        try {
+            refRgdId = Integer.parseInt(req.getParameter("refRgdId"));
+        } catch (NumberFormatException e) { }
+        String formatStr=req.getParameter("fmt");
+        if (formatStr.equals("")) {
+            formatStr="1";
+        }
+
+        int format = Integer.parseInt(formatStr);
+        if(format==3){
+            response.sendRedirect("/rgdweb/phenominer/download.html?fmt="+format+"&terms="+request.getParameter("terms"));
+        }
+
+        if(refRgdId!=0){
+            response.sendRedirect("/rgdweb/phenominer/download.html?refRgdId="+refRgdId);
+        }else {
+            PhenominerService.setPhenominerIndex("phenominer_index_test");
+            SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
+            //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
+            Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
+            Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
+            Map<String, String> filterMap = getFilterMap(request);
+            boolean facetSearch = req.getParameter("facetSearch").equals("true");
+            System.out.println("FILTERMAP SIZE:" + filterMap.size() + "\t" + gson.toJson(filterMap));
+            if (facetSearch) {
+                if (filterMap.size() == 1 || (filterMap.size() == 2 && filterMap.containsKey("experimentName"))) {
+                    filteredAggregations = service.getFilteredAggregations(filterMap, req);
+                    // request.setAttribute("aggregations", filteredAggregations);
+                    aggregations.putAll(filteredAggregations);
+
+                }
+                setSelectAllCheckBox(request);
+            }//else{
             request.setAttribute("aggregations", aggregations);
 
             //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
-         //   setSelectAllCheckBox(request);
-     //   }
+            //   setSelectAllCheckBox(request);
+            //   }
 
-        List<String> labels = new ArrayList<>();
-        List<String> backgroundColors = new ArrayList<>();
-        Map<String, String> legend = new HashMap<>();
-        Map<String, Map<String, Double>> errorBars = new HashMap<>();
-        Set<String> unitsSet=new HashSet<>();
-        for (SearchHit hit : sr.getHits().getHits()) {
-            String unit = (String) hit.getSourceAsMap().get("units");
-            unitsSet.add(unit.trim());
+            List<String> labels = new ArrayList<>();
+            List<String> backgroundColors = new ArrayList<>();
+            Map<String, String> legend = new HashMap<>();
+            Map<String, Map<String, Double>> errorBars = new HashMap<>();
+            Set<String> unitsSet = new HashSet<>();
+            for (SearchHit hit : sr.getHits().getHits()) {
+                String unit = (String) hit.getSourceAsMap().get("units");
+                unitsSet.add(unit.trim());
+            }
+            if (unitsSet.size() == 1) {
+                request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
+                request.setAttribute("yaxisLabel", unitsSet.iterator().next());
+
+            }
+
+            request.setAttribute("labels", gson.toJson(labels));
+            request.setAttribute("columns", getTableColumns(sr));
+            request.setAttribute("sr", sr);
+            request.setAttribute("facetSearch", facetSearch);
+            request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
+            //   System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
+            return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+
         }
-        if(unitsSet.size()==1){
-            request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
-            request.setAttribute("yaxisLabel", unitsSet.iterator().next());
-
-        }
-
-        request.setAttribute("labels", gson.toJson(labels));
-        request.setAttribute("columns",getTableColumns(sr));
-        request.setAttribute("sr", sr);
-        request.setAttribute("facetSearch", facetSearch);
-        request.setAttribute("terms", String.join(",", req.getParameterValues("terms")));
-     //   System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
-
-        return new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/table.jsp", "", null);
+        return null;
         //  return  new ModelAndView("/WEB-INF/jsp/phenominer/phenominer_elasticsearch/errorBarExample.jsp", "", null);
     }
     public  Map<String, String> getTableColumns(SearchResponse sr){
@@ -88,7 +108,7 @@ public class PivotTableController implements Controller {
     public LinkedHashMap<String, List<Double>> getPlotData(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
         List<Double> values = new ArrayList<>();
-
+        String colorBy= request.getParameter("colorBy");
         boolean facetSearch = false;
         if (request.getParameter("facetSearch") != null)
             facetSearch = request.getParameter("facetSearch").equals("true");
@@ -102,6 +122,7 @@ public class PivotTableController implements Controller {
                  //   legend.putAll(map);
             }
         }
+        Map<String, String> tempMap = new HashMap<>(map);
 
         for (SearchHit hit : sr.getHits().getHits()) {
             Map<String, Double> errorValues = new HashMap<>();
@@ -113,12 +134,42 @@ public class PivotTableController implements Controller {
           /*  List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
             String condition = conditions.stream().collect(Collectors.joining(", "));
             */
-            String condition= (String) hit.getSourceAsMap().get("xcoTerm").toString().trim();
+          System.out.println("COLOR BY:"+ colorBy);
+          String condition=new String();
+          if(colorBy!=null && !colorBy.equals("")) {
+              if (colorBy.equalsIgnoreCase("condition")) {
+                  condition = hit.getSourceAsMap().get("xcoTerm").toString().trim();
+              } else if (colorBy.equalsIgnoreCase("strain")) {
+                  condition = hit.getSourceAsMap().get("rsTerm").toString().trim();
+              } else if (colorBy.equalsIgnoreCase("method")) {
+                  condition = hit.getSourceAsMap().get("mmoTerm").toString().trim();
+              } else if (colorBy.equalsIgnoreCase("sex")) {
+                  condition = hit.getSourceAsMap().get("sex").toString().trim();
+              } else if (colorBy.equalsIgnoreCase("phenotype")) {
+                  condition = hit.getSourceAsMap().get("cmoTerm").toString().trim();
+              }
+          }else {
+              condition=hit.getSourceAsMap().get("xcoTerm").toString().trim();//default color by condition term
+          }
 
             if (facetSearch) {
                 if(map.size()>0) {
-                    backgroundColors.add(map.get(condition));
-                    legend.put(condition, map.get(condition));
+                    if(map.get(condition)!=null) {
+                        backgroundColors.add(map.get(condition));
+                        legend.put(condition, map.get(condition));
+                    }else{
+
+                      for(int k=0;k<Colors.colors.size();k++) {
+                          String newColor=  Colors.colors.get(k);
+
+                          if(!map.containsValue(newColor)) {
+                              map.put(condition, newColor);
+                              legend.put(condition, newColor);
+                              backgroundColors.add(newColor);
+                              break;
+                          }
+                      }
+                    }
                 }
                 else {
                     if (!legend.containsKey(condition)) {
@@ -158,9 +209,13 @@ public class PivotTableController implements Controller {
         request.setAttribute("errorBars", gson.toJson(errorBars));
         request.setAttribute("legend", legend);
         if(request.getParameter("legendJson")!=null && !request.getParameter("legendJson").equals(""))
-            request.setAttribute("legendJson", request.getParameter("legendJson"));
+      //      request.setAttribute("legendJson", request.getParameter("legendJson"));
+        request.setAttribute("legendJson", gson.toJson(map));
+
         else
             request.setAttribute("legendJson", gson.toJson(legend));
+
+        request.setAttribute("colorBy", colorBy);
         System.out.println("LEGEND JSON:"+ legendJson);
         System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
@@ -194,7 +249,10 @@ public class PivotTableController implements Controller {
         LinkedHashMap<String, String> selectedFilters = new LinkedHashMap<>();
         String filterJsonString=req.getParameter("selectedFiltersJson");
         String unchecked= req.getParameter("unchecked");
+        String uncheckedAll= req.getParameter("uncheckedAll");
         System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
+        System.out.println("UNCHECKED ALL:"+ req.getParameter("uncheckedAll"));
+
         List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
 
         if(filterJsonString!=null) {
@@ -208,6 +266,7 @@ public class PivotTableController implements Controller {
                     List<String> keyValues= new ArrayList<>();
                     if(selectedFilters.get(key)!=null)
                         keyValues.addAll(Arrays.asList(selectedFilters.get(key).split(",")));
+                    if(uncheckedAll!=null && !uncheckedAll.equalsIgnoreCase(key))
                     for(String filterValue:filterValues){
                         if(unchecked!=null && !filterValue.equalsIgnoreCase(unchecked)){
                             if(!keyValues.contains(filterValue))
@@ -279,7 +338,7 @@ public class PivotTableController implements Controller {
         request.setAttribute("selectAllCheckBox", selectAllCheckBox);
 
     }
-
+   
         public Map<String, String> setSelectedFilters( Map<String, List<Terms.Bucket>> aggregations){
 
         Map<String, String> selectedFilters = new HashMap<>();

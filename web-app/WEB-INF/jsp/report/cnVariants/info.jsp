@@ -189,7 +189,7 @@
         if (obj.getSpeciesTypeKey()==SpeciesType.HUMAN)
             tracks += "ClinVar";
         else
-            tracks += "dbSNP%2CEVA";
+            tracks += "EVA";
 
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + "/";
