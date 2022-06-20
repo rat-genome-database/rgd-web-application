@@ -28,7 +28,7 @@
     }
     else {
         for (Sample s : samples){
-            if (s.getAnalysisName().equals("EVA"))
+            if (s.getAnalysisName().contains("European Variation Archive"))
                 src = s.getAnalysisName();
         }
     }
