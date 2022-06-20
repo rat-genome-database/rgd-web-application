@@ -110,7 +110,7 @@
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
+        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
         <td>
@@ -288,6 +288,7 @@
 
 
     <br>
+    <div id="ontologyLoadingMessage" style="position:absolute; top:20; padding:20px; background-color:#04AA6D; color:white;font-size:30px;">Loading Rat Strain Ontology....</div>
     <table align="left" width="1000" border="0" id="selectionWindow" style="visibility:hidden;">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
@@ -625,16 +626,6 @@
 </script>
 
 
-
-
-<div style="width: 500px; height: 40px">
-    <div style="float: right; position: relative; top: 10px">
-        <input type="button" value="Select <%=ontName%>" onClick="makeSelection();"/>
-        <input type="button" value="Cancel" onClick="window.history.back()"/>
-    </div>
-</div>
-
-
 <script>
 
     var div = '#phenominer';
@@ -669,12 +660,11 @@
             selectedMethods: <%=selectedMethods%>,
             currentOnt: "RS",
             examples: "",
-
+            axiosRequest: new AbortController(),
         },
         methods: {
 
             selectByTermId: function(val) {
-                console.log(val);
                 goToNode(val);
                 handleCheckbox(val, 1);
                 v.doStuff();
@@ -682,16 +672,68 @@
                 //selectByTermId(val);
             },
             search: function () {
+                this.axiosRequest.abort();
+
                 v.options={};
 
                 v.optionsNotEmpty = true;
-                for (var key in v.symbolHash) {
-                    if (key.indexOf(v.searchTerm) != -1) {
-                        //console.log(key.indexOf(v.searchTerm));
-                        v.options[key] = v.symbolHash[key];
-                        v.optionsNotEmpty=false;
-                    }
+
+                var subCat = 'RS:%20Rat%20Strains';
+                if (this.currentOnt === "MMO") {
+                    var subCat = 'MMO:%20Measurement%20Methods';
+
+                }else if (this.currentOnt === "XCO") {
+                    var subCat = 'XCO:%20Experimental%20Condition';
+
+                }else if (this.currentOnt === "CMO") {
+                    var subCat = 'CMO:%20Clinical%20Measurement';
+
                 }
+
+               // alert(v.searchTerm);
+                if (v.searchTerm === "") {
+                    for (var key in v.symbolHash) {
+                            v.options[key] = v.symbolHash[key];
+                            v.optionsNotEmpty=false;
+                    }
+                }else {
+
+                    axios
+                        .get(this.hostName + '/rgdweb/phenominerTermSearch.html?term=' + v.searchTerm + '&category=Ontology&subCat=' + subCat + '&species=&cat1=General&sp1=&postCount=1',
+                            {
+                                species: "hell",
+                            })
+                        .then(function (response) {
+                            for (var searchKey in response.data) {
+                                //alert(searchKey);
+                                for (var key in v.symbolHash) {
+                                    if (v.symbolHash[key].indexOf(searchKey) != -1) {
+                                        v.options[key] = v.symbolHash[key];
+                                        v.optionsNotEmpty = false;
+                                    }
+                                }
+                            }
+
+
+                            /*
+                                            for (var key in v.symbolHash) {
+                                                if (key.indexOf(v.searchTerm) != -1) {
+                                                    //console.log(key.indexOf(v.searchTerm));
+                                                    v.options[key] = v.symbolHash[key];
+                                                    v.optionsNotEmpty=false;
+                                                }
+                                            }
+                              */
+
+
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                            v.errored = true
+                        })
+                }
+
+
             },
 
             updateConditionBox: function() {
@@ -780,7 +822,6 @@
                         }
 
                         //v.selectedConditions = tmpHash;
-
 
                     })
                     .catch(function (error) {
@@ -939,11 +980,6 @@
             removeTerm: function (ont, term) {
 
                 console.log("in remove Term ont=" + ont + " term = " + term);
-                console.log(JSON.stringify(v.selectedStrains));
-                console.log(JSON.stringify(v.selectedMeasurements));
-                console.log(JSON.stringify(v.selectedMethods));
-                console.log(JSON.stringify(v.selectedConditions));
-
 
                 if (ont === "RS") {
                     for (const key in v.selectedStrains) {
@@ -1085,15 +1121,57 @@
                     alert("Please select one or more terms below to generate a Phenominer report.");
 
                 }else {
+                    this.updateSessionStorage();
                     location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
                 }
             },
 
 
             init: function () {
+                if (sessionStorage.currentOnt) {
+                    this.loadFromSessionStorage();
+                }
+
                 v.update();
                 v.updateStrainBox();
+
             },
+
+            loadFromSessionStorage: function() {
+
+                //this.optionsNotEmpty=sessionStorage.optionsNotEmpty;
+                this.title=sessionStorage.title;
+                this.searchTerm=sessionStorage.searchTerm;
+                this.hostName=sessionStorage.hostName;
+                this.options=JSON.parse(sessionStorage.options);
+                this.symbolHash=JSON.parse(sessionStorage.symbolHash);
+                this.keyMap=JSON.parse(sessionStorage.keyMap);
+                this.selectedStrains=JSON.parse(sessionStorage.selectedStrains);
+                this.selectedConditions=JSON.parse(sessionStorage.selectedConditions);
+                this.selectedMeasurements=JSON.parse(sessionStorage.selectedMeasurements);
+                this.selectedMethods=JSON.parse(sessionStorage.selectedMethods);
+                this.currentOnt=sessionStorage.currentOnt;
+            },
+
+
+            updateSessionStorage: function() {
+                //sessionStorage.optionsNotEmpty=this.optionsNotEmpty;
+                sessionStorage.title=this.title;
+                sessionStorage.searchTerm=this.searchTerm;
+                sessionStorage.hostName=this.hostName;
+                sessionStorage.options = JSON.stringify(this.options);
+                sessionStorage.symbolHash=JSON.stringify(this.symbolHash);
+                sessionStorage.keyMap=JSON.stringify(this.keyMap);
+                sessionStorage.selectedStrains=JSON.stringify(this.selectedStrains);
+                sessionStorage.selectedConditions=JSON.stringify(this.selectedConditions);
+                sessionStorage.selectedMeasurements=JSON.stringify(this.selectedMeasurements);
+                sessionStorage.selectedMethods=JSON.stringify(this.selectedMethods);
+                sessionStorage.currentOnt=this.currentOnt;
+
+
+
+            },
+
 
             update: function (ont, species,terms) {
                 console.log("in update " + ont);
@@ -1194,6 +1272,7 @@
 
                         document.getElementById("treebox").style.visibility="visible";
                         document.getElementById("selectionWindow").style.visibility="visible";
+                        document.getElementById("ontologyLoadingMessage").style.display="none";
 
 
                     })
@@ -1208,6 +1287,9 @@
 
 
     setTimeout(v.init, 10);
+
+
+
 </script>
 
 

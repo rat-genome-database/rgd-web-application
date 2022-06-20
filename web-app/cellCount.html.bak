@@ -63,9 +63,9 @@
         <td class="label"  align="center">Baso</td>
         <td class="label"  align="center">Eos</td>
         <td class="label"  align="center">Mono</td>
+        <td class="label"  align="center">RLymph</td>
         <td class="label"  align="center">Lymph</td>
         <td class="label"  align="center">Seg</td>
-        <td class="label"  align="center">RLymph</td>
     </tr>
     <tr>
         <td class="counter" align="center"><input id="nrbc_div" @blur="calculate('nrbc')" size=5 v-model="nrbc" type="text" /></td>
@@ -77,9 +77,9 @@
         <td class="counter"  align="center"><input id="baso_div"  @blur="calculate('baso')"  size=5  v-model="baso" type="text" /></td>
         <td class="counter"  align="center"><input id="eos_div"  @blur="calculate('eos')"  size=5  v-model="eos" type="text" /></td>
         <td class="counter"  align="center"><input id="mono_div"  @blur="calculate('mono')"  size=5  v-model="mono" type="text" /></td>
+        <td class="counter"  align="center"><input id="rlymph_div"  @blur="calculate('rlymph')"  size=5  v-model="rlymph" type="text" /></td>
         <td class="counter"  align="center"><input id="lymph_div"  @blur="calculate('lymph')"  size=5  v-model="lymph" type="text" /></td>
         <td class="counter"  align="center"><input id="seg_div"  @blur="calculate('seg')"  size=5  v-model="seg" type="text" /></td>
-        <td class="counter"  align="center"><input id="rlymph_div"  @blur="calculate('rlymph')"  size=5  v-model="rlymph" type="text" /></td>
     </tr>
     <tr>
         <td><div class="dot" @click="addToCount('g')">g</div></td>
@@ -103,7 +103,7 @@
 </div>
 
 
-<script src="https://unpkg.com/vue"></script>
+<script src="http://unpkg.com/vue@2"></script>
 <script>
     new Vue({
         el: '#example',
