@@ -381,7 +381,7 @@
 
 </div>
 
-<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
+<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border-left: 5px solid black;border-right: 5px solid black;border-bottom: 5px solid black;border-top: 10px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
