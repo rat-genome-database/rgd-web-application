@@ -9,6 +9,12 @@
     String headContent = "";
     String pageDescription = "";
 
+    int species=3;
+    if (request.getParameter("species") != null && !request.getParameter("species").equals("")) {
+        species=Integer.parseInt(request.getParameter("species"));
+    }
+
+
     OTrees ot = OTrees.getInstance();
 
     String sex = (String) request.getAttribute("sex");;
@@ -75,10 +81,14 @@
     selectedConditions+="}";
 
     String termString = (String) request.getAttribute("termString");
-    int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
-    int filteredRecCount = (int) request.getAttribute("filteredRecCount");
 
-    String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
+    if (termString != null && !termString.equals("")) {
+        out.print("<script>sessionStorage.clear()</script>");
+    }
+    //int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
+    //int filteredRecCount = (int) request.getAttribute("filteredRecCount");
+
+    //String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
 
 %>
 
@@ -107,9 +117,28 @@
     }
 </script>
 
+<script>
+
+    function updateSpecies(species) {
+        sessionStorage.clear();
+        location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
+    }
+</script>
+
+
+
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
+        <!--
+        <td>
+            <span style="font-size:18px">Species</span>
+            <select name="species" style="font-size:18px" onChange="updateSpecies(this.value)">
+                <option value="3" <% if (species==3) out.print("selected"); %> style="font-size:18px">Rat</option>
+                <option value="4" <% if (species==4) out.print("selected"); %> style="font-size:18px">Chinchilla</option>
+            </select>
+        </td>
+        -->
         <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
@@ -138,7 +167,7 @@
                         <td valign="top" height=45 style="font-size:12px; font-style: italic; color: black;"><b>Examples:</b> <span style="">Bbcdw:Chin, Rrcjo:Chin</span></td>
                     </tr>
                     <tr>
-                        <td valign="top" align="center"><input style="font-weight: 700;" type="button" value="Select Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?terms=<%=termString%>&ont=CS&species=<%=speciesTypeKey%>'" /><br><br></td>
+                        <td valign="top" align="center"><input style="font-weight: 700;" type="button" value="Select Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?terms=<%=termString%>&ont=CS&species=<%=species%>'" /><br><br></td>
                     </tr>
                 </table>
             </div>
@@ -148,9 +177,7 @@
         </td>
         <% } %>
 
-
-
-
+        <% if (species==3) { %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
                 <table border="0"  width="100%" style="background-color: #d7e4bd">
@@ -165,14 +192,43 @@
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
-                                <!--<td>{{key}}</td>-->
-                                <td style="font-size:12px;" align="left">{{value}}</td>
-                            </tr>
-                        </table>
+                        <!--<td>{{key}}</td>-->
+                        <td style="font-size:12px;" align="left">{{value}}</td>
+                    </tr>
+                </table>
 
 
             </div>
         </td>
+        <% } else { %>
+
+        <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
+            <div style='font-weight: 700;'>
+                <table border="0"  width="100%" style="background-color: #d7e4bd">
+                    <tr>
+                        <td  height="60" style="font-size:20px; background-color: #d7e4bd; " valign="top"><div style="height:50px; width:100%; border-bottom: 3px solid white">Chinchilla Sources<br><span style="font-size:11px; ">Search for data related to one or more chinchilla sources.</span></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
+
+                <table>
+                    <tr v-for="(key, value) in selectedStrains">
+                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
+
+                        <!--<td>{{key}}</td>-->
+                        <td style="font-size:12px;" align="left">{{value}}</td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </td>
+
+        <%}%>
+
+
+
 
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #ccc1da; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
@@ -265,7 +321,6 @@
         }
     }
 
-    int species = 3;
 
     /*
     speciesTypeKey = "3";
@@ -288,17 +343,17 @@
 
 
     <br>
-    <div id="ontologyLoadingMessage" style="position:absolute; top:20; padding:20px; background-color:#04AA6D; color:white;font-size:30px;">Loading Rat Strain Ontology....</div>
+    <div id="ontologyLoadingMessage" style="position:absolute; top:20; padding:20px; background-color:#D7E4BD; color:black;font-size:30px; border-radius:20px;">Loading Rat Strain Ontology....</div>
     <table align="left" width="1000" border="0" id="selectionWindow" style="visibility:hidden;">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
         </tr>
         <tr>
             <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="40" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=speciesTypeKey%>)" /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=speciesTypeKey%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=speciesTypeKey%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=speciesTypeKey%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=species%>)" /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=species%>)"  /></td>
         </tr>
         <tr>
             <td width="50">
