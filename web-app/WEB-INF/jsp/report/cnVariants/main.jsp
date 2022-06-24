@@ -181,9 +181,9 @@
                     </div>
                         <% } %>
                     <br><div class="subTitle" id="variantDetails">Variant Details</div>
-                    <div id="transcripts">
-                        <%@ include file="transcripts.jsp"%>
-                    </div>
+<%--                    <div id="transcripts">--%>
+<%--                        <%@ include file="transcripts.jsp"%>--%>
+<%--                    </div>--%>
                     <div id="samples">
                         <%@ include file="samples.jsp"%>
                         <% if (obj.getSpeciesTypeKey()!=1) {%>
