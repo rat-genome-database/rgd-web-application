@@ -139,7 +139,7 @@ if(parameters==null){
 
         </td>
 
-        <td width="33%">
+        <td width="33%" style="color: white;">
             <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
                 <%=MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName()%>
