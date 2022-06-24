@@ -22,70 +22,84 @@ public class OntChoicesController implements Controller {
 
         int speciesTypeKey = 3;
         String spParam = request.getParameter("species");
-        if( spParam!=null && spParam.equals("4")) {
+        if (spParam != null && spParam.equals("4")) {
             speciesTypeKey = 4;
         }
-        String termString = request.getParameter("terms");
-        String sex = null;
 
         List<String> sampleIds = new ArrayList<String>();
         List<String> csIds = new ArrayList<String>();
         List<String> mmIds = new ArrayList<String>();
         List<String> cmIds = new ArrayList<String>();
         List<String> ecIds = new ArrayList<String>();
+        String termString="";
+        int filteredRecordCount = 0;
 
-        String[] terms = termString.split(",");
 
-        for (int j=0; j< terms.length; j++) {
-            String[] termParts = terms[j].split(":");
+        if (request.getParameter("terms") == null || request.getParameter("terms").equals("")) {
 
-            while (termParts[1].length()<7) {
-                termParts[1]="0" + termParts[1];
+        }else {
+
+            termString = request.getParameter("terms");
+            String sex = null;
+
+            System.out.println("termString" + termString);
+
+            String[] terms = termString.split(",");
+
+            System.out.println("term lenght = " + terms.length);
+
+            for (int j = 0; j < terms.length; j++) {
+                String[] termParts = terms[j].split(":");
+
+                while (termParts[1].length() < 7) {
+                    termParts[1] = "0" + termParts[1];
+                }
+
+                terms[j] = termParts[0] + ":" + termParts[1];
+
             }
 
-            terms[j] = termParts[0] + ":" + termParts[1];
-        }
+            Set<Integer> sampleRecIds = new HashSet<Integer>();
+            Set<Integer> csRecIds = new HashSet<Integer>();
+            Set<Integer> mmRecIds = new HashSet<Integer>();
+            Set<Integer> cmRecIds = new HashSet<Integer>();
+            Set<Integer> ecRecIds = new HashSet<Integer>();
 
-        Set<Integer> sampleRecIds = new HashSet<Integer>();
-        Set<Integer> csRecIds = new HashSet<Integer>();
-        Set<Integer> mmRecIds = new HashSet<Integer>();
-        Set<Integer> cmRecIds = new HashSet<Integer>();
-        Set<Integer> ecRecIds = new HashSet<Integer>();
-
-        for (String term : terms) {
-            if (term.startsWith("RS")) {
-                sampleIds.add(term);
-                sampleRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
-            } else if (term.startsWith("CMO")) {
-                cmIds.add(term);
-                cmRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
-            } else if (term.startsWith("MMO")) {
-                mmIds.add(term);
-                mmRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
-            } else if (term.startsWith("XCO")) {
-                ecIds.add(term);
-                ecRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
-            } else if (term.startsWith("CS")) {
-                csIds.add(term);
-                csRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+            for (String term : terms) {
+                if (term.startsWith("RS")) {
+                    sampleIds.add(term);
+                    sampleRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+                } else if (term.startsWith("CMO")) {
+                    cmIds.add(term);
+                    cmRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+                } else if (term.startsWith("MMO")) {
+                    mmIds.add(term);
+                    mmRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+                } else if (term.startsWith("XCO")) {
+                    ecIds.add(term);
+                    ecRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+                } else if (term.startsWith("CS")) {
+                    csIds.add(term);
+                    csRecIds.addAll(pdao.getRecordIdsForTermOnly(term, sex, speciesTypeKey));
+                }
             }
+
+            Set<Integer> filteredRecIds = new HashSet<Integer>();
+            applyFilter(filteredRecIds, sampleRecIds);
+            applyFilter(filteredRecIds, csRecIds);
+            applyFilter(filteredRecIds, cmRecIds);
+            applyFilter(filteredRecIds, mmRecIds);
+            applyFilter(filteredRecIds, ecRecIds);
+            filteredRecordCount = filteredRecIds.size();
+
+            sortByTermName(sampleIds);
+            sortByTermName(csIds);
+            sortByTermName(cmIds);
+            sortByTermName(mmIds);
+            sortByTermName(ecIds);
         }
 
-        Set<Integer> filteredRecIds = new HashSet<Integer>();
-        applyFilter(filteredRecIds, sampleRecIds);
-        applyFilter(filteredRecIds, csRecIds);
-        applyFilter(filteredRecIds, cmRecIds);
-        applyFilter(filteredRecIds, mmRecIds);
-        applyFilter(filteredRecIds, ecRecIds);
-        int filteredRecordCount = filteredRecIds.size();
-
-        sortByTermName(sampleIds);
-        sortByTermName(csIds);
-        sortByTermName(cmIds);
-        sortByTermName(mmIds);
-        sortByTermName(ecIds);
-
-        request.setAttribute("sex", sex);
+        request.setAttribute("sex", null);
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("csIds", csIds);
         request.setAttribute("cmIds", cmIds);

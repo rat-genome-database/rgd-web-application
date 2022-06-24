@@ -98,21 +98,43 @@ public class RgdContext {
     }
 	
 	public static String getESIndexName(String index) {
+        String indexName=null;
 		try {
-			if( isProduction() ) {
-                return index+"_index_prod";
-			}
-			if( isPipelines() ) {
-				return index+"_index_cur";
-			}
-			if( isDev() ) {
-				return index+"_index_dev";
-			}
+		    switch(index){
+                case "phenominer":
+                    if( isProduction() ) {
+                        indexName= index+"_index_prod";
+                    }else
+                    if( isPipelines() ) {
+                        indexName= index+"_index_cur";
+                    }else
+                    if( isDev() ) {
+                        indexName= index+"_index_dev";
+                    }else
+                    indexName= index+"_index_dev";
+                    break;
+                case "search":
+                case "variant":
+                    if( isProduction() ) {
+                        indexName= index+"_index_prod";
+                    }else
+                    if( isPipelines() ) {
+                        indexName= index+"_index_cur";
+                    }else
+                    if( isDev() ) {
+                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                    }else
+                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                    break;
+
+                default:
+            }
+
 			
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return index+"_index_dev";
+        return indexName;
 	}
     public static String getESVariantIndexName(String index) {
         try {
@@ -131,6 +153,7 @@ public class RgdContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return index+"_cur";
+        return index+"_dev";
     }
+
 }

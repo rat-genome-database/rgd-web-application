@@ -41,6 +41,7 @@ String pageDescription = "";
                 <br>
                 <form>
 
+                    <!--
                     <table border="0" cellpadding="2" cellspacing="6" align="center">
                         <tbody>
                         <tr>
@@ -120,7 +121,15 @@ String pageDescription = "";
                         </tbody>
                     </table>
                 </form>
+
+-->
+
+
                 <br>
+
+                    <input type="button" value="Search Quantitative Phenotypes for Rattus Norvegicus"/>
+
+                    <input type="button" value="Search Quantitative Phenotypes for Rattus Norvegicus"/>
 
 
                 <span style="font-size:16px;font-weight:bold"> * If you would like to show your own data in PhenoMiner, please submit your data <a href="/wg/home/phenominer-data-upload"><span style="font-size:16px;font-weight:bold">here.</span></a></span> <br>
