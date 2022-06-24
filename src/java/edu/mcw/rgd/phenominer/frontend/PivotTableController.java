@@ -7,6 +7,7 @@ import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -45,7 +46,7 @@ public class PivotTableController implements Controller {
         if(refRgdId!=0){
             response.sendRedirect("/rgdweb/phenominer/download.html?refRgdId="+refRgdId);
         }else {
-            PhenominerService.setPhenominerIndex("phenominer_index_test");
+            PhenominerService.setPhenominerIndex(RgdContext.getESIndexName("phenominer"));
             SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
             Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
             Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
