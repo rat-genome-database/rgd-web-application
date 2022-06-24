@@ -214,7 +214,7 @@
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                             <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
-                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner (Quatitative Phenotypes)</a>
                                             <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                                             <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
@@ -257,9 +257,9 @@
                                             <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
                                             <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                             <a href="/wg/autism-rat-model-resource/">Autism Models</a>
-                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner (Quantitative Phenotypes)</a>
                                             <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
-                                            <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                             <a href="/wg/phenotype-data13/">Phenotypes</a>
                                             <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>

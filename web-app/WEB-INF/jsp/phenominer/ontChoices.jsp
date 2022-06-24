@@ -9,6 +9,12 @@
     String headContent = "";
     String pageDescription = "";
 
+    int species=3;
+    if (request.getParameter("species") != null && !request.getParameter("species").equals("")) {
+        species=Integer.parseInt(request.getParameter("species"));
+    }
+
+
     OTrees ot = OTrees.getInstance();
 
     String sex = (String) request.getAttribute("sex");;
@@ -75,10 +81,14 @@
     selectedConditions+="}";
 
     String termString = (String) request.getAttribute("termString");
-    int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
-    int filteredRecCount = (int) request.getAttribute("filteredRecCount");
 
-    String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
+    if (termString != null && !termString.equals("")) {
+        out.print("<script>sessionStorage.clear()</script>");
+    }
+    //int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
+    //int filteredRecCount = (int) request.getAttribute("filteredRecCount");
+
+    //String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
 
 %>
 
@@ -107,10 +117,29 @@
     }
 </script>
 
+<script>
+
+    function updateSpecies(species) {
+        sessionStorage.clear();
+        location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
+    }
+</script>
+
+
+
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
+        <!--
+        <td>
+            <span style="font-size:18px">Species</span>
+            <select name="species" style="font-size:18px" onChange="updateSpecies(this.value)">
+                <option value="3" <% if (species==3) out.print("selected"); %> style="font-size:18px">Rat</option>
+                <option value="4" <% if (species==4) out.print("selected"); %> style="font-size:18px">Chinchilla</option>
+            </select>
+        </td>
+        -->
+        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
         <td>
@@ -138,7 +167,7 @@
                         <td valign="top" height=45 style="font-size:12px; font-style: italic; color: black;"><b>Examples:</b> <span style="">Bbcdw:Chin, Rrcjo:Chin</span></td>
                     </tr>
                     <tr>
-                        <td valign="top" align="center"><input style="font-weight: 700;" type="button" value="Select Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?terms=<%=termString%>&ont=CS&species=<%=speciesTypeKey%>'" /><br><br></td>
+                        <td valign="top" align="center"><input style="font-weight: 700;" type="button" value="Select Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?terms=<%=termString%>&ont=CS&species=<%=species%>'" /><br><br></td>
                     </tr>
                 </table>
             </div>
@@ -148,9 +177,7 @@
         </td>
         <% } %>
 
-
-
-
+        <% if (species==3) { %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
                 <table border="0"  width="100%" style="background-color: #d7e4bd">
@@ -165,14 +192,43 @@
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
-                                <!--<td>{{key}}</td>-->
-                                <td style="font-size:12px;" align="left">{{value}}</td>
-                            </tr>
-                        </table>
+                        <!--<td>{{key}}</td>-->
+                        <td style="font-size:12px;" align="left">{{value}}</td>
+                    </tr>
+                </table>
 
 
             </div>
         </td>
+        <% } else { %>
+
+        <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
+            <div style='font-weight: 700;'>
+                <table border="0"  width="100%" style="background-color: #d7e4bd">
+                    <tr>
+                        <td  height="60" style="font-size:20px; background-color: #d7e4bd; " valign="top"><div style="height:50px; width:100%; border-bottom: 3px solid white">Chinchilla Sources<br><span style="font-size:11px; ">Search for data related to one or more chinchilla sources.</span></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
+
+                <table>
+                    <tr v-for="(key, value) in selectedStrains">
+                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
+
+                        <!--<td>{{key}}</td>-->
+                        <td style="font-size:12px;" align="left">{{value}}</td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </td>
+
+        <%}%>
+
+
+
 
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #ccc1da; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
@@ -265,7 +321,6 @@
         }
     }
 
-    int species = 3;
 
     /*
     speciesTypeKey = "3";
@@ -288,16 +343,17 @@
 
 
     <br>
+    <div id="ontologyLoadingMessage" style="position:absolute; top:20; padding:20px; background-color:#D7E4BD; color:black;font-size:30px; border-radius:20px;">Loading Rat Strain Ontology....</div>
     <table align="left" width="1000" border="0" id="selectionWindow" style="visibility:hidden;">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
         </tr>
         <tr>
             <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="40" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=speciesTypeKey%>)" /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=speciesTypeKey%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=speciesTypeKey%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=speciesTypeKey%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=species%>)" /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=species%>)"  /></td>
         </tr>
         <tr>
             <td width="50">
@@ -325,7 +381,7 @@
 
 </div>
 
-<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 5px solid black;" tabindex="0">
+<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border-left: 5px solid black;border-right: 5px solid black;border-bottom: 5px solid black;border-top: 10px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
@@ -625,16 +681,6 @@
 </script>
 
 
-
-
-<div style="width: 500px; height: 40px">
-    <div style="float: right; position: relative; top: 10px">
-        <input type="button" value="Select <%=ontName%>" onClick="makeSelection();"/>
-        <input type="button" value="Cancel" onClick="window.history.back()"/>
-    </div>
-</div>
-
-
 <script>
 
     var div = '#phenominer';
@@ -669,12 +715,11 @@
             selectedMethods: <%=selectedMethods%>,
             currentOnt: "RS",
             examples: "",
-
+            axiosRequest: new AbortController(),
         },
         methods: {
 
             selectByTermId: function(val) {
-                console.log(val);
                 goToNode(val);
                 handleCheckbox(val, 1);
                 v.doStuff();
@@ -682,16 +727,68 @@
                 //selectByTermId(val);
             },
             search: function () {
+                this.axiosRequest.abort();
+
                 v.options={};
 
                 v.optionsNotEmpty = true;
-                for (var key in v.symbolHash) {
-                    if (key.indexOf(v.searchTerm) != -1) {
-                        //console.log(key.indexOf(v.searchTerm));
-                        v.options[key] = v.symbolHash[key];
-                        v.optionsNotEmpty=false;
-                    }
+
+                var subCat = 'RS:%20Rat%20Strains';
+                if (this.currentOnt === "MMO") {
+                    var subCat = 'MMO:%20Measurement%20Methods';
+
+                }else if (this.currentOnt === "XCO") {
+                    var subCat = 'XCO:%20Experimental%20Condition';
+
+                }else if (this.currentOnt === "CMO") {
+                    var subCat = 'CMO:%20Clinical%20Measurement';
+
                 }
+
+               // alert(v.searchTerm);
+                if (v.searchTerm === "") {
+                    for (var key in v.symbolHash) {
+                            v.options[key] = v.symbolHash[key];
+                            v.optionsNotEmpty=false;
+                    }
+                }else {
+
+                    axios
+                        .get(this.hostName + '/rgdweb/phenominerTermSearch.html?term=' + v.searchTerm + '&category=Ontology&subCat=' + subCat + '&species=&cat1=General&sp1=&postCount=1',
+                            {
+                                species: "hell",
+                            })
+                        .then(function (response) {
+                            for (var searchKey in response.data) {
+                                //alert(searchKey);
+                                for (var key in v.symbolHash) {
+                                    if (v.symbolHash[key].indexOf(searchKey) != -1) {
+                                        v.options[key] = v.symbolHash[key];
+                                        v.optionsNotEmpty = false;
+                                    }
+                                }
+                            }
+
+
+                            /*
+                                            for (var key in v.symbolHash) {
+                                                if (key.indexOf(v.searchTerm) != -1) {
+                                                    //console.log(key.indexOf(v.searchTerm));
+                                                    v.options[key] = v.symbolHash[key];
+                                                    v.optionsNotEmpty=false;
+                                                }
+                                            }
+                              */
+
+
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                            v.errored = true
+                        })
+                }
+
+
             },
 
             updateConditionBox: function() {
@@ -780,7 +877,6 @@
                         }
 
                         //v.selectedConditions = tmpHash;
-
 
                     })
                     .catch(function (error) {
@@ -939,11 +1035,6 @@
             removeTerm: function (ont, term) {
 
                 console.log("in remove Term ont=" + ont + " term = " + term);
-                console.log(JSON.stringify(v.selectedStrains));
-                console.log(JSON.stringify(v.selectedMeasurements));
-                console.log(JSON.stringify(v.selectedMethods));
-                console.log(JSON.stringify(v.selectedConditions));
-
 
                 if (ont === "RS") {
                     for (const key in v.selectedStrains) {
@@ -1085,15 +1176,57 @@
                     alert("Please select one or more terms below to generate a Phenominer report.");
 
                 }else {
+                    this.updateSessionStorage();
                     location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
                 }
             },
 
 
             init: function () {
+                if (sessionStorage.currentOnt) {
+                    this.loadFromSessionStorage();
+                }
+
                 v.update();
                 v.updateStrainBox();
+
             },
+
+            loadFromSessionStorage: function() {
+
+                //this.optionsNotEmpty=sessionStorage.optionsNotEmpty;
+                this.title=sessionStorage.title;
+                this.searchTerm=sessionStorage.searchTerm;
+                this.hostName=sessionStorage.hostName;
+                this.options=JSON.parse(sessionStorage.options);
+                this.symbolHash=JSON.parse(sessionStorage.symbolHash);
+                this.keyMap=JSON.parse(sessionStorage.keyMap);
+                this.selectedStrains=JSON.parse(sessionStorage.selectedStrains);
+                this.selectedConditions=JSON.parse(sessionStorage.selectedConditions);
+                this.selectedMeasurements=JSON.parse(sessionStorage.selectedMeasurements);
+                this.selectedMethods=JSON.parse(sessionStorage.selectedMethods);
+                this.currentOnt=sessionStorage.currentOnt;
+            },
+
+
+            updateSessionStorage: function() {
+                //sessionStorage.optionsNotEmpty=this.optionsNotEmpty;
+                sessionStorage.title=this.title;
+                sessionStorage.searchTerm=this.searchTerm;
+                sessionStorage.hostName=this.hostName;
+                sessionStorage.options = JSON.stringify(this.options);
+                sessionStorage.symbolHash=JSON.stringify(this.symbolHash);
+                sessionStorage.keyMap=JSON.stringify(this.keyMap);
+                sessionStorage.selectedStrains=JSON.stringify(this.selectedStrains);
+                sessionStorage.selectedConditions=JSON.stringify(this.selectedConditions);
+                sessionStorage.selectedMeasurements=JSON.stringify(this.selectedMeasurements);
+                sessionStorage.selectedMethods=JSON.stringify(this.selectedMethods);
+                sessionStorage.currentOnt=this.currentOnt;
+
+
+
+            },
+
 
             update: function (ont, species,terms) {
                 console.log("in update " + ont);
@@ -1194,6 +1327,7 @@
 
                         document.getElementById("treebox").style.visibility="visible";
                         document.getElementById("selectionWindow").style.visibility="visible";
+                        document.getElementById("ontologyLoadingMessage").style.display="none";
 
 
                     })
@@ -1208,6 +1342,9 @@
 
 
     setTimeout(v.init, 10);
+
+
+
 </script>
 
 

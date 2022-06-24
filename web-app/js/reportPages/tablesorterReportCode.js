@@ -19,7 +19,7 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.variantTranscriptsPager'),
-                size: 20
+                size: 3
             });
 
         $('#sampleDetailsTable')

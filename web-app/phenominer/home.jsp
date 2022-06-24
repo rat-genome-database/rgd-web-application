@@ -25,9 +25,6 @@ String pageDescription = "";
     function updateSpecies(species) {
         location.href = "/rgdweb/phenominer/home.jsp?species=" + species;
     }
-
-    location.href="/rgdweb/phenominer/ontChoices.html?terms=RS:0001336,RS:0000711,RS:0001320,RS:0000940,RS:0000941,RS:0001090&species=3";
-
 </script>
 
 <div class="rgd-panel rgd-panel-default">
