@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -74,7 +75,7 @@ public class PivotTableController implements Controller {
                 unitsSet.add(unit.trim());
             }
             if (unitsSet.size() == 1) {
-                request.setAttribute("plotData", getPlotData(sr, labels, backgroundColors, legend, errorBars, request));
+                request.setAttribute("plotData", getPlotDataWithIndividualRecords(sr, labels, backgroundColors, legend, errorBars, request));
                 request.setAttribute("yaxisLabel", unitsSet.iterator().next());
 
             }
@@ -205,6 +206,156 @@ public class PivotTableController implements Controller {
      //   System.out.println("LEGEND JSON:"+ legendJson);
      //   System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
+        //     System.out.println("COLORS WORKING:"+gson.toJson(Colors.colors));
+        //      System.out.println(gson.toJson(plotData));
+        return plotData;
+    }
+    public LinkedHashMap<String, List<Double>> getPlotDataWithIndividualRecords(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
+        LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
+        List<Double> values = new ArrayList<>();
+
+        List<String> individualValues=new ArrayList<>();
+        List<String> individualNames=new ArrayList<>();
+        Map<Integer, List<Double>> sampleData=new HashMap<>();
+        String colorBy= request.getParameter("colorBy");
+        boolean facetSearch = false;
+        if (request.getParameter("facetSearch") != null)
+            facetSearch = request.getParameter("facetSearch").equals("true");
+        int i = 0;
+        Map<String, String> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        String legendJson = request.getParameter("legendJson");
+        if(legendJson!=null && !legendJson.equals("")) {
+            map = mapper.readValue(legendJson, Map.class);
+        }
+
+        for (SearchHit hit : sr.getHits().getHits()) {
+            Map<String, Double> errorValues = new HashMap<>();
+            double value = Double.valueOf((String) hit.getSourceAsMap().get("value"));
+            String strain = (String) hit.getSourceAsMap().get("rsTerm");
+            String sex = (String) hit.getSourceAsMap().get("sex");
+            String condition=new String();
+            if(colorBy!=null && !colorBy.equals("")) {
+                if (colorBy.equalsIgnoreCase("condition")) {
+                    condition = hit.getSourceAsMap().get("xcoTerm").toString().trim();
+                } else if (colorBy.equalsIgnoreCase("strain")) {
+                    condition = hit.getSourceAsMap().get("rsTerm").toString().trim();
+                } else if (colorBy.equalsIgnoreCase("method")) {
+                    condition = hit.getSourceAsMap().get("mmoTerm").toString().trim();
+                } else if (colorBy.equalsIgnoreCase("sex")) {
+                    condition = hit.getSourceAsMap().get("sex").toString().trim();
+                } else if (colorBy.equalsIgnoreCase("phenotype")) {
+                    condition = hit.getSourceAsMap().get("cmoTerm").toString().trim();
+                }
+            }else {
+                condition=hit.getSourceAsMap().get("xcoTerm").toString().trim();//default color by condition term
+            }
+
+            if (facetSearch) {
+                if(map.size()>0) {
+                    if(map.get(condition)!=null) {
+                        backgroundColors.add(map.get(condition));
+                        legend.put(condition, map.get(condition));
+                    }else{
+
+                        for(int k=0;k<Colors.colors.size();k++) {
+                            String newColor=  Colors.colors.get(k);
+
+                            if(!map.containsValue(newColor)) {
+                                map.put(condition, newColor);
+                                legend.put(condition, newColor);
+                                backgroundColors.add(newColor);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (!legend.containsKey(condition)) {
+                        legend.put(condition, Colors.colors.get(i));
+                        backgroundColors.add(Colors.colors.get(i));
+                        i++;
+                    }else {
+                        backgroundColors.add(legend.get(condition));
+                    }
+                    //legend.put(condition, map.get(condition));
+                }
+            } else {
+                if (!legend.containsKey(condition)) {
+                    legend.put(condition, Colors.colors.get(i));
+                    backgroundColors.add(Colors.colors.get(i));
+
+                    i++;
+                }else {
+                    backgroundColors.add(legend.get(condition));
+                }
+            }
+
+            //    String e = strain + "_" + sex + "_animals(" + noOfAnimals + ")_" + measurement;
+            String e = strain + "_" + sex;
+            if(hit.getSourceAsMap().get("sem")!=null) {
+                errorValues.put("plus", Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
+                errorValues.put("minus", 0 - Double.parseDouble(hit.getSourceAsMap().get("sem").toString()));
+                errorBars.put(e, errorValues);
+            }else{
+               /* errorValues.put("plus", (double) 0);
+                errorValues.put("minus", (double) 0);*/
+            }
+            values.add(value);
+
+           List iRecords= (List) hit.getSourceAsMap().get("individualRecords");
+            int k=0;
+           if(iRecords!=null && iRecords.size()>0) {
+
+               System.out.println( hit.getSourceAsMap().get("individualRecords"));
+
+               for (Object entry:iRecords) {
+                    Map<String, Object> record= (Map<String, Object>) entry;
+                 //   System.out.println(record.get("measurementValue"));
+                    List<Double> valueList=new ArrayList<>();
+                    if(sampleData.get(k)!=null){
+                        valueList.addAll(sampleData.get(k));
+                    }
+                    valueList.add(Double.parseDouble((String) record.get("measurementValue")));
+                    sampleData.put(k, valueList);
+                   k++;
+                   }
+
+
+               }
+           else{
+               List<Double> valueList=new ArrayList<>();
+               if(sampleData.get(k)!=null){
+                   valueList.addAll(sampleData.get(k));
+               }
+               valueList.add(null);
+               sampleData.put(k, valueList);
+
+           }
+
+            labels.add(e);
+        }
+        System.out.println(gson.toJson(sampleData));
+        request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
+        request.setAttribute("errorBars", gson.toJson(errorBars));
+        request.setAttribute("legend", legend);
+        if(request.getParameter("legendJson")!=null && !request.getParameter("legendJson").equals(""))
+            //      request.setAttribute("legendJson", request.getParameter("legendJson"));
+            request.setAttribute("legendJson", gson.toJson(map));
+
+        else
+            request.setAttribute("legendJson", gson.toJson(legend));
+
+        request.setAttribute("colorBy", colorBy);
+        //   System.out.println("LEGEND JSON:"+ legendJson);
+        //   System.out.println("LEGEND:"+ legend);
+        plotData.put("Value", values);
+     //   plotData.put("IndividualValues", individualValues);
+      request.setAttribute("sampleData", sampleData);
+        request.setAttribute("individualNames", individualNames);
+
+        //  plotData.put("IndividualNames", individualNames);
+      //  System.out.println("individual values:"+ individualValues.toString());
         //     System.out.println("COLORS WORKING:"+gson.toJson(Colors.colors));
         //      System.out.println(gson.toJson(plotData));
         return plotData;

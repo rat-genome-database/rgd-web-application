@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <style>
     #chartjs-tooltip{
         background: rgba(0, 0, 0, 0.7);
@@ -354,17 +356,32 @@
     function generateData() {
         var data=[];
         errorBars=${errorBars}
-        <c:forEach items="${plotData}" var="plot">
+        <!--c:forEach items="$-{plotData}" var="plot"-->
         data.push({
-            label: "${plot.key}",
-            data: ${plot.value},
+            label: "Value",
+            data: ${plotData.Value},
             errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
             borderWidth: 1,
             borderColor:"gray"
         });
+       <c:if test="${fn:length(sampleData)>0}">
 
+        <c:set var="i" value="0"/>
+        <c:forEach items="${sampleData}" var="d">
+        data.push({
+            label: "Individual Sample Value",
+            data: ${d.value},
+            type: "scatter",
+            backgroundColor:"red",
+            showLine: false,
+            fill:false
+
+        });
+        <c:set var="i" value="${i+1}"/>
         </c:forEach>
+        </c:if>
+        <!--/c:forEach-->
         return data;
     }
 </script>
