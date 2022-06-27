@@ -66,7 +66,7 @@
             Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
             boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
             VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
-            System.out.println(vmd.getId());
+//            System.out.println(vmd.getId());
     if (vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
     <div class="typerTitle"><div class="typerTitleSub"><%=vmd.getRsId()%></div></div>
@@ -193,6 +193,9 @@
                         <td><a href="<%=Link.variant(result.getVariant().getRgdId())%>"><%=result.getVariant().getRgdId()%></a></td>
                     </tr>
                     <% } %>
+                    <tr>
+                        <td><a href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>
+                    </tr>
                 </table>
 
             </td>
