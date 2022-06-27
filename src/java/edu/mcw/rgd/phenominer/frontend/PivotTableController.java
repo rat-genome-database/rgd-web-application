@@ -214,8 +214,7 @@ public class PivotTableController implements Controller {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
         List<Double> values = new ArrayList<>();
 
-        List<String> individualValues=new ArrayList<>();
-        List<String> individualNames=new ArrayList<>();
+
         Map<Integer, List<Double>> sampleData=new HashMap<>();
         String colorBy= request.getParameter("colorBy");
         boolean facetSearch = false;
@@ -304,38 +303,42 @@ public class PivotTableController implements Controller {
             values.add(value);
 
            List iRecords= (List) hit.getSourceAsMap().get("individualRecords");
-            int k=0;
-           if(iRecords!=null && iRecords.size()>0) {
 
+           if(iRecords!=null && iRecords.size()>0) {
+               int k=0;
                System.out.println( hit.getSourceAsMap().get("individualRecords"));
 
                for (Object entry:iRecords) {
                     Map<String, Object> record= (Map<String, Object>) entry;
-                 //   System.out.println(record.get("measurementValue"));
-                    List<Double> valueList=new ArrayList<>();
-                    if(sampleData.get(k)!=null){
-                        valueList.addAll(sampleData.get(k));
-                    }
-                    valueList.add(Double.parseDouble((String) record.get("measurementValue")));
-                    sampleData.put(k, valueList);
+                   // System.out.println(record.get("measurementValue"));
+                   // Map<String, String> point=new HashMap<>();
+                   //point.x= (int) value;
+                  // point.y= (int) Double.parseDouble(String.valueOf(record.get("measurementValue")));
+                  // point.put("x",(String) record.get("animalId"));
+                //   point.put("y",String.valueOf(record.get("measurementValue")));
+                  // System.out.println(gson.toJson(point));
+                //   List<String> points=new ArrayList<>();
+                   List<Double> individualValues=new ArrayList<>();
+                   List<String> individualNames=new ArrayList<>();
+                   if(sampleData.get(k)!=null)
+                   individualValues.addAll(sampleData.get(k));
+                 //  points.add(gson.toJson(point));
+                //   sampleData.put(k,points);
+                   individualValues.add(Double.parseDouble(String.valueOf(record.get("measurementValue"))));
+                   sampleData.put(k, individualValues);
                    k++;
-                   }
+               }
 
 
                }
            else{
-               List<Double> valueList=new ArrayList<>();
-               if(sampleData.get(k)!=null){
-                   valueList.addAll(sampleData.get(k));
-               }
-               valueList.add(null);
-               sampleData.put(k, valueList);
 
            }
 
             labels.add(e);
         }
-        System.out.println(gson.toJson(sampleData));
+        request.setAttribute("sampleData", sampleData);
+        request.setAttribute("sampleDataJson", gson.toJson(sampleData));
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
         request.setAttribute("errorBars", gson.toJson(errorBars));
         request.setAttribute("legend", legend);
@@ -351,11 +354,7 @@ public class PivotTableController implements Controller {
         //   System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
      //   plotData.put("IndividualValues", individualValues);
-      request.setAttribute("sampleData", sampleData);
-        request.setAttribute("individualNames", individualNames);
 
-        //  plotData.put("IndividualNames", individualNames);
-      //  System.out.println("individual values:"+ individualValues.toString());
         //     System.out.println("COLORS WORKING:"+gson.toJson(Colors.colors));
         //      System.out.println(gson.toJson(plotData));
         return plotData;
