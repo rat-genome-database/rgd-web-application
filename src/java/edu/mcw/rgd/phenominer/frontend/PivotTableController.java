@@ -215,7 +215,8 @@ public class PivotTableController implements Controller {
         List<Double> values = new ArrayList<>();
 
 
-        Map<Integer, List<Double>> sampleData=new HashMap<>();
+        LinkedHashMap<Integer, List<Double>> sampleData=new LinkedHashMap<>();
+        LinkedHashMap<Integer, List<String>> animalIds=new LinkedHashMap<>();
         String colorBy= request.getParameter("colorBy");
         boolean facetSearch = false;
         if (request.getParameter("facetSearch") != null)
@@ -310,22 +311,18 @@ public class PivotTableController implements Controller {
 
                for (Object entry:iRecords) {
                     Map<String, Object> record= (Map<String, Object>) entry;
-                   // System.out.println(record.get("measurementValue"));
-                   // Map<String, String> point=new HashMap<>();
-                   //point.x= (int) value;
-                  // point.y= (int) Double.parseDouble(String.valueOf(record.get("measurementValue")));
-                  // point.put("x",(String) record.get("animalId"));
-                //   point.put("y",String.valueOf(record.get("measurementValue")));
-                  // System.out.println(gson.toJson(point));
-                //   List<String> points=new ArrayList<>();
+
                    List<Double> individualValues=new ArrayList<>();
                    List<String> individualNames=new ArrayList<>();
                    if(sampleData.get(k)!=null)
                    individualValues.addAll(sampleData.get(k));
-                 //  points.add(gson.toJson(point));
-                //   sampleData.put(k,points);
                    individualValues.add(Double.parseDouble(String.valueOf(record.get("measurementValue"))));
                    sampleData.put(k, individualValues);
+                   if(animalIds.get(k)!=null){
+                       individualNames.addAll(animalIds.get(k));
+                   }
+                   individualNames.add((String) record.get("animalId"));
+                   animalIds.put(k, individualNames);
                    k++;
                }
 
@@ -338,6 +335,8 @@ public class PivotTableController implements Controller {
             labels.add(e);
         }
         request.setAttribute("sampleData", sampleData);
+        request.setAttribute("animalIds", gson.toJson(animalIds));
+
         request.setAttribute("sampleDataJson", gson.toJson(sampleData));
         request.setAttribute("backgroundColor", gson.toJson(backgroundColors));
         request.setAttribute("errorBars", gson.toJson(errorBars));

@@ -406,11 +406,10 @@
             stack:"stack 1"
         });
        <c:if test="${fn:length(sampleData)>0}">
-
         <c:set var="i" value="0"/>
         <c:forEach items="${sampleData}" var="d">
         data.push({
-            label: "Individual Sample Value - "+${i},
+           label: "Individual Sample Value - "+${i},
             data: ${d.value},
             type: "scatter",
             backgroundColor:"red",
