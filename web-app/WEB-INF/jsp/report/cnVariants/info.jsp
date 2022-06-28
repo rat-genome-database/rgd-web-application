@@ -23,7 +23,7 @@
 
     if (mapKey!=631) {
         for (int i = 0 ; i < samples.size(); i++) {
-            if (samples.get(i).getSequencer()!=null){
+            if (samples.get(i).getSequencer()!=null && !samples.get(i).getSequencer().equals("n/a")){
                 if (src.contains(samples.get(i).getSequencer()))
                     continue;
                 src += samples.get(i).getSequencer();
