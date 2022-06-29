@@ -138,9 +138,6 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">CNVariantReportController</prop>
-                <prop key="report/variants/transcripts.html">VariantsTranscriptsController</prop>
-                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
                 <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
@@ -313,7 +310,6 @@
 
 
     <bean id="GeneReportController" class="edu.mcw.rgd.report.GeneReportController"/>
-    <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
@@ -323,9 +319,6 @@
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
-    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
-    <bean id="VariantsTranscriptsController" class="edu.mcw.rgd.report.VariantTranscriptController"/>
-    <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
  <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
