@@ -128,7 +128,6 @@
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
-                <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
                 <prop key="report/marker/main.html">MarkerReportController</prop>
