@@ -7,6 +7,7 @@ import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -45,9 +46,8 @@ public class PivotTableController implements Controller {
         if(refRgdId!=0){
             response.sendRedirect("/rgdweb/phenominer/download.html?refRgdId="+refRgdId);
         }else {
-            PhenominerService.setPhenominerIndex("phenominer_index_test");
+            PhenominerService.setPhenominerIndex(RgdContext.getESIndexName("phenominer"));
             SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
-            //   Map<String, List<Terms.Bucket>> aggregations = service.getAggregationsBeforeFilters(req);
             Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
             Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
             Map<String, String> filterMap = getFilterMap(request);
@@ -56,17 +56,13 @@ public class PivotTableController implements Controller {
             if (facetSearch) {
                 if (filterMap.size() == 1 || (filterMap.size() == 2 && filterMap.containsKey("experimentName"))) {
                     filteredAggregations = service.getFilteredAggregations(filterMap, req);
-                    // request.setAttribute("aggregations", filteredAggregations);
                     aggregations.putAll(filteredAggregations);
 
                 }
                 setSelectAllCheckBox(request);
-            }//else{
+            }
             request.setAttribute("aggregations", aggregations);
 
-            //  request.setAttribute("selectedFilters", setSelectedFilters(aggregations));
-            //   setSelectAllCheckBox(request);
-            //   }
 
             List<String> labels = new ArrayList<>();
             List<String> backgroundColors = new ArrayList<>();
@@ -118,23 +114,13 @@ public class PivotTableController implements Controller {
         String legendJson = request.getParameter("legendJson");
         if(legendJson!=null && !legendJson.equals("")) {
             map = mapper.readValue(legendJson, Map.class);
-            if (map.size() > 0) {
-                 //   legend.putAll(map);
-            }
         }
-        Map<String, String> tempMap = new HashMap<>(map);
 
         for (SearchHit hit : sr.getHits().getHits()) {
             Map<String, Double> errorValues = new HashMap<>();
             double value = Double.valueOf((String) hit.getSourceAsMap().get("value"));
             String strain = (String) hit.getSourceAsMap().get("rsTerm");
             String sex = (String) hit.getSourceAsMap().get("sex");
-            String measurement=(String) hit.getSourceAsMap().get("cmoTerm");
-            int noOfAnimals = (int) hit.getSourceAsMap().get("numberOfAnimals");
-          /*  List<String> conditions = (List<String>) hit.getSourceAsMap().get("xcoTerm");
-            String condition = conditions.stream().collect(Collectors.joining(", "));
-            */
-          System.out.println("COLOR BY:"+ colorBy);
           String condition=new String();
           if(colorBy!=null && !colorBy.equals("")) {
               if (colorBy.equalsIgnoreCase("condition")) {
@@ -216,31 +202,10 @@ public class PivotTableController implements Controller {
             request.setAttribute("legendJson", gson.toJson(legend));
 
         request.setAttribute("colorBy", colorBy);
-        System.out.println("LEGEND JSON:"+ legendJson);
-        System.out.println("LEGEND:"+ legend);
+     //   System.out.println("LEGEND JSON:"+ legendJson);
+     //   System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
-
-
-       /* System.out.println(gson.toJson(plotData));
-        System.out.println("LEGEND:" + gson.toJson(legend));
-        System.out.println("ERRORBARS:" + gson.toJson(errorBars));*/
-    /*    List<PlotData> dataSet=new ArrayList<>();
-        int i=0;
-        for(Map.Entry entry:plotData.entrySet()) {
-            PlotData data = new PlotData();
-            String label = (String) entry.getKey();
-            data.setLabel(label);
-            data.setData((List<Double>) entry.getValue());
-            data.setBackgroundColor( Colors.colors.get(i));
-            data.setBorderWidth(2);
-            data.setBorderColor(Colors.colors.get(i));
-            dataSet.add(data);
-
-            i++;
-        }*/
-
         //     System.out.println("COLORS WORKING:"+gson.toJson(Colors.colors));
-
         //      System.out.println(gson.toJson(plotData));
         return plotData;
     }
@@ -250,8 +215,8 @@ public class PivotTableController implements Controller {
         String filterJsonString=req.getParameter("selectedFiltersJson");
         String unchecked= req.getParameter("unchecked");
         String uncheckedAll= req.getParameter("uncheckedAll");
-        System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
-        System.out.println("UNCHECKED ALL:"+ req.getParameter("uncheckedAll"));
+       // System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
+       // System.out.println("UNCHECKED ALL:"+ req.getParameter("uncheckedAll"));
 
         List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
 
@@ -326,14 +291,6 @@ public class PivotTableController implements Controller {
             if (request.getParameter("unitsAll") != null && request.getParameter("unitsAll").equals("on")) {
                 selectAllCheckBox.put("unitsAll", request.getParameter("unitsAll"));
             }
-        }else {
-            selectAllCheckBox.put("rsAll", "on");
-            selectAllCheckBox.put("cmoAll", "on");
-            selectAllCheckBox.put("mmoAll", "on");
-            selectAllCheckBox.put("xcoAll", "on");
-            selectAllCheckBox.put("sexAll", "on");
-            selectAllCheckBox.put("unitsAll", "on");
-
         }
         request.setAttribute("selectAllCheckBox", selectAllCheckBox);
 

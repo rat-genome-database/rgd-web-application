@@ -22,9 +22,26 @@
 
 
     if (mapKey!=631) {
-        for (Sample s : samples) {
-            src += (s.getAnalysisName() + " ");
+        for (int i = 0 ; i < samples.size(); i++) {
+            if (samples.get(i).getSequencer()!=null && !samples.get(i).getSequencer().equals("n/a")){
+                if (src.contains(samples.get(i).getSequencer()))
+                    continue;
+                src += samples.get(i).getSequencer();
+            }
+            else if (samples.get(i).getSequencedBy()!=null){
+                if (src.contains(samples.get(i).getSequencedBy()))
+                    continue;
+                src += samples.get(i).getSequencedBy();
+            }
+            else {
+                src += samples.get(i).getAnalysisName();
+            }
+            if (i!=samples.size()-1){
+                src += ", ";
+            }
         }
+        if (src.endsWith(", "))
+            src = src.substring(0, src.length()-2);
     }
     else {
         for (Sample s : samples){
@@ -217,11 +234,12 @@
         });
     </script>
     <% } %>
+    <% if (!src.isEmpty()) {%>
     <tr>
         <td class="label">Source:</td>
         <td><%=src%></td>
     </tr>
-    <% if (var.getMapKey()==631) {%>
+    <%} if (var.getMapKey()==631) {%>
     <tr>
         <td class="label">Breeds:</td>
         <td>

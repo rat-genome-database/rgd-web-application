@@ -1,33 +1,41 @@
 <%@ page import="edu.mcw.rgd.vv.VariantController" %>
 <%@ page import="edu.mcw.rgd.vv.vvservice.VVService" %>
-<%@ include file="../sectionHeader.jsp"%>
-<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
+<%@ page import="edu.mcw.rgd.datamodel.SearchResult" %>
+<%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.datamodel.VariantResult" %>
+<%@ page import="edu.mcw.rgd.datamodel.TranscriptResult" %>
+<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
+<%@ page import="edu.mcw.rgd.web.FormUtility" %>
+
+<%--<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>--%>
 <%
-    List<SearchResult> allResults = new ArrayList<SearchResult>();
-    for (VariantMapData v : vars) {
-        VariantController ctrl = new VariantController();
-        VariantSearchBean vsb = new VariantSearchBean(v.getMapKey());
-
-        String index = new String();
-        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(v.getMapKey()));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + v.getMapKey());
-        VVService.setVariantIndex(index);
-        for (Sample s : samples) {
-//        System.out.println(s.getId());
-            vsb.sampleIds.add(s.getId());
-        }
-        vsb.setVariantId(v.getId());
-        try {
-            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
-            SearchResult sr = new SearchResult();
-
-            sr.setVariantResults(vr);
-            allResults.add(sr);
-//        System.out.println(allResults.size());
-        } catch (Exception e) {
-//        System.out.println(e);
-        }
-    }
+    XdbIdDAO xdbDAO = new XdbIdDAO();
+    FormUtility fu = new FormUtility();
+    List<SearchResult> allResults = (List<SearchResult>) request.getAttribute("searchResults");; // will get from request
+//    for (VariantMapData v : vars) {
+//        VariantController ctrl = new VariantController();
+//        VariantSearchBean vsb = new VariantSearchBean(v.getMapKey());
+//
+//        String index = new String();
+//        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(v.getMapKey()));
+//        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + v.getMapKey());
+//        VVService.setVariantIndex(index);
+//        for (Sample s : samples) {
+////        System.out.println(s.getId());
+//            vsb.sampleIds.add(s.getId());
+//        }
+//        vsb.setVariantId(v.getId());
+//        try {
+//            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+//            SearchResult sr = new SearchResult();
+//
+//            sr.setVariantResults(vr);
+//            allResults.add(sr);
+////        System.out.println(allResults.size());
+//        } catch (Exception e) {
+////        System.out.println(e);
+//        }
+//    }
     boolean emptyTranscripts = true;
     for (SearchResult sr1 : allResults){
         for (VariantResult vr : sr1.getVariantResults()){
@@ -38,21 +46,18 @@
     if (!allResults.isEmpty() && !emptyTranscripts){
 %>
 <div class="reportTable light-table-border" id="variantTranscriptsTableWrapper">
-    <div class="sectionHeading" id="variantTranscripts">Variant Transcripts</div>
-
+    <div class="sectionHeading" id="variantTranscripts" >Variant Transcripts</div>
         <div id="variantTranscriptsTableDiv" class="annotation-detail">
             <table id="variantTranscriptsTable" width="650" border=0 ><tr></tr>
 <% for (SearchResult searchResult : allResults){
 //    System.out.println("Results: "+searchResult.getVariantResults().size());
     List<VariantResult> resultList = searchResult.getVariantResults();
     for (VariantResult result : resultList) {
-//        if (!result.getTranscriptResults().isEmpty()){
-        //System.out.println("Transcript results:"+result.getTranscriptResults().size());%>
-
-
+    // make the transcripts pop out like VV %>
             <tr>
                 <td>
-
+                    <a></a>
+                    <div id="sampleTranscripts">
             <% for (TranscriptResult tr: result.getTranscriptResults()) { %>
                     <table border="0" width="100%" style="background-color:white; color:#053867;font-size:12px;">
                 <% try { %>
@@ -83,13 +88,11 @@
 
                 <% } %>
 
-
                 <% if (tr.getAminoAcidVariant().getTripletError().equals("T") || tr.getAminoAcidVariant().getLocation().equals("Unknown")) { %>
                 <tr>
                     <td colspan=2 align="center" style="font-weight:700; color:red;"><br>TRANSCRIPT MAY BE FAULTY.  PLEASE CHECK WITH NCBI FOR CORRECTIONS</td>
                 </tr>
                 <% } %>
-
 
                 <tr><td></td></tr>
 
@@ -161,11 +164,11 @@
                 <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:12px;"><pre><%=aaSequence%></pre></td></tr>
                 <% } %>
 
-
 <%--                <tr><td>&nbsp;</td></tr>--%>
                     </table>
                     <br>
                 <% } %>
+                    </div>
                 </td>
             </tr>
 
@@ -173,9 +176,35 @@
     } // end all result  %>
             </table>
         </div>
-</div>
-<style>
 
+<% }
+else {%>
+    <h1>No transcripts for sample.
+<%}%>
+<style>
+    #variantTranscriptsTableWrapper{
+        background-image: url(/rgdweb/common/images/bg3.png);
+    }
+    table {
+        display: table;
+        border-collapse: separate;
+        box-sizing: border-box;
+        text-indent: initial;
+        white-space: normal;
+        line-height: normal;
+        font-weight: normal;
+        font-size: medium;
+        font-style: normal;
+        color: -internal-quirk-inherit;
+        text-align: start;
+        border-spacing: 2px;
+        border-color: grey;
+        font-variant: normal;
+    }
+    #variantTranscripts{
+        background-color: white;
+        width: 180px;
+        padding-left: 4px;
+        font-size: 22px;
+    }
 </style>
-<% } %>
-<%@ include file="../sectionFooter.jsp"%>

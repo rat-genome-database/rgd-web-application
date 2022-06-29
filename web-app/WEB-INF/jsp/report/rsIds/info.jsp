@@ -4,7 +4,7 @@
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <!-- select which variant you want to view -->
-    <tr><td colspan="2"><h3>Select which variant from <%=displayName%>&nbsp;you would like to view -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%>
+    <tr><td colspan="2"><h3>This variant maps to multiple locations. Select which position for <%=displayName%>&nbsp;you would like to view -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%>
     </h3></td></tr>
     <tr>
         <td class="label">
