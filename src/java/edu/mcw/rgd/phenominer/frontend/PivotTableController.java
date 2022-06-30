@@ -1,8 +1,10 @@
 package edu.mcw.rgd.phenominer.frontend;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import edu.mcw.rgd.datamodel.pheno.IndividualRecord;
 import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 
@@ -213,8 +215,8 @@ public class PivotTableController implements Controller {
     public LinkedHashMap<String, List<Double>> getPlotDataWithIndividualRecords(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
         List<Double> values = new ArrayList<>();
-
-
+            int testIndCount=0;
+        Map<Integer, List<IndividualRecord>> individualRecords=new HashMap<>();
         LinkedHashMap<Integer, List<Double>> sampleData=new LinkedHashMap<>();
         LinkedHashMap<Integer, List<String>> animalIds=new LinkedHashMap<>();
         String colorBy= request.getParameter("colorBy");
@@ -224,16 +226,20 @@ public class PivotTableController implements Controller {
         int i = 0;
         Map<String, String> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         String legendJson = request.getParameter("legendJson");
         if(legendJson!=null && !legendJson.equals("")) {
             map = mapper.readValue(legendJson, Map.class);
         }
-
+        int cursorPosition=0;
         for (SearchHit hit : sr.getHits().getHits()) {
+
             Map<String, Double> errorValues = new HashMap<>();
             double value = Double.valueOf((String) hit.getSourceAsMap().get("value"));
             String strain = (String) hit.getSourceAsMap().get("rsTerm");
             String sex = (String) hit.getSourceAsMap().get("sex");
+            int recordId = (int) hit.getSourceAsMap().get("recordId");
             String condition=new String();
             if(colorBy!=null && !colorBy.equals("")) {
                 if (colorBy.equalsIgnoreCase("condition")) {
@@ -304,36 +310,80 @@ public class PivotTableController implements Controller {
             values.add(value);
 
            List iRecords= (List) hit.getSourceAsMap().get("individualRecords");
-
+           if(testIndCount<3){
            if(iRecords!=null && iRecords.size()>0) {
                int k=0;
                System.out.println( hit.getSourceAsMap().get("individualRecords"));
-
+               List<IndividualRecord> individualRecordList=new ArrayList<>();
                for (Object entry:iRecords) {
                     Map<String, Object> record= (Map<String, Object>) entry;
-
+                   IndividualRecord record1= mapper.readValue( gson.toJson(entry), IndividualRecord.class);
+                   individualRecordList.add(record1);
                    List<Double> individualValues=new ArrayList<>();
                    List<String> individualNames=new ArrayList<>();
                    if(sampleData.get(k)!=null)
                    individualValues.addAll(sampleData.get(k));
+                   else{
+
+                       if(cursorPosition>0) {
+                           // valueLength = sampleData.get(0).size();
+                           for (int l = 0; l < cursorPosition; l++) {
+                               individualValues.add(null);
+                           }
+                       }
+                   }
+
                    individualValues.add(Double.parseDouble(String.valueOf(record.get("measurementValue"))));
+
                    sampleData.put(k, individualValues);
-                   if(animalIds.get(k)!=null){
+                  /* if(animalIds.get(k)!=null){
                        individualNames.addAll(animalIds.get(k));
                    }
                    individualNames.add((String) record.get("animalId"));
-                   animalIds.put(k, individualNames);
+                   animalIds.put(k, individualNames);*/
                    k++;
                }
 
+               Collections.sort(individualRecordList, new Comparator<IndividualRecord>() {
+                   @Override
+                   public int compare(IndividualRecord a, IndividualRecord b) {
+                       double mv1=Double.parseDouble( a.getMeasurementValue());
+                       double mv2=Double.parseDouble(b.getMeasurementValue());
+                       return Double.compare(mv1,mv2);
+                   }
+               });
+
+             individualRecords.put(recordId, individualRecordList);
 
                }
            else{
+               List<Double> individualValues=new ArrayList<>();
+               for(int key:sampleData.keySet()){
+                   if(sampleData.get(key)!=null)
+                       individualValues.addAll(sampleData.get(key));
+                   individualValues.add(null);
+                   sampleData.put(key, individualValues);
+               }
 
            }
-
+           testIndCount++;
+           }
+            cursorPosition++;
+            for(Map.Entry entry:sampleData.entrySet()) {
+                int key= (int) entry.getKey();
+                List<Double> indVals= (List<Double>) entry.getValue();
+                if (indVals.size()>0 && indVals.size()  < cursorPosition ) {
+                    for (int l = 0; l < (cursorPosition-indVals.size()); l++) {
+                        indVals.add(null);
+                    }
+                }
+                sampleData.put(key, indVals);
+            }
             labels.add(e);
         }
+
+        System.out.println("SAMPLE DATA:"+ gson.toJson(sampleData));
+        request.setAttribute("sortedIndividualRecords", individualRecords);
         request.setAttribute("sampleData", sampleData);
         request.setAttribute("animalIds", gson.toJson(animalIds));
 
