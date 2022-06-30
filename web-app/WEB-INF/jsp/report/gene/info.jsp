@@ -35,7 +35,7 @@
     %>
     <tr>
         <td class="label">HGNC Page</td>
-        <td><a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>">HGNC</a></td>
+        <td><a href="<%=XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN)+xid.getAccId()%>"><%=xid.getAccId()%></a></td>
     </tr>
 
     <%
