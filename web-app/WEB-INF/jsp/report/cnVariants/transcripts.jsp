@@ -6,35 +6,35 @@
 <%@ page import="edu.mcw.rgd.datamodel.TranscriptResult" %>
 <%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
-
-<%--<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>--%>
+<%@ include file="../sectionHeader.jsp"%>
+<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <%
-    XdbIdDAO xdbDAO = new XdbIdDAO();
-    FormUtility fu = new FormUtility();
-    List<SearchResult> allResults = (List<SearchResult>) request.getAttribute("searchResults");; // will get from request
+//    XdbIdDAO xdbDAO = new XdbIdDAO();
+//    FormUtility fu = new FormUtility();
+    List<SearchResult> allResults = new ArrayList<>(); //(List<SearchResult>) request.getAttribute("searchResults");; // will get from request
 //    for (VariantMapData v : vars) {
-//        VariantController ctrl = new VariantController();
-//        VariantSearchBean vsb = new VariantSearchBean(v.getMapKey());
-//
-//        String index = new String();
-//        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(v.getMapKey()));
-//        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + v.getMapKey());
-//        VVService.setVariantIndex(index);
+        VariantController ctrl = new VariantController();
+        VariantSearchBean vsb = new VariantSearchBean(var.getMapKey());
+
+        String index = new String();
+        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(var.getMapKey()));
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + var.getMapKey());
+        VVService.setVariantIndex(index);
 //        for (Sample s : samples) {
-////        System.out.println(s.getId());
-//            vsb.sampleIds.add(s.getId());
+//        System.out.println(s.getId());
+            vsb.sampleIds.add(mainSample.getId());
 //        }
-//        vsb.setVariantId(v.getId());
-//        try {
-//            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
-//            SearchResult sr = new SearchResult();
-//
-//            sr.setVariantResults(vr);
-//            allResults.add(sr);
-////        System.out.println(allResults.size());
-//        } catch (Exception e) {
-////        System.out.println(e);
-//        }
+        vsb.setVariantId(var.getId());
+        try {
+            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+            SearchResult sr = new SearchResult();
+
+            sr.setVariantResults(vr);
+            allResults.add(sr);
+//        System.out.println(allResults.size());
+        } catch (Exception e) {
+//        System.out.println(e);
+        }
 //    }
     boolean emptyTranscripts = true;
     for (SearchResult sr1 : allResults){
@@ -177,34 +177,35 @@
             </table>
         </div>
 
-<% }
-else {%>
-    <h1>No transcripts for sample.
-<%}%>
+<% } %>
+<%--else {%>--%>
+<%--    <h1>No transcripts for sample.--%>
+<%--<%}%>--%>
+    <%@ include file="../sectionFooter.jsp"%>
 <style>
-    #variantTranscriptsTableWrapper{
-        background-image: url(/rgdweb/common/images/bg3.png);
-    }
-    table {
-        display: table;
-        border-collapse: separate;
-        box-sizing: border-box;
-        text-indent: initial;
-        white-space: normal;
-        line-height: normal;
-        font-weight: normal;
-        font-size: medium;
-        font-style: normal;
-        color: -internal-quirk-inherit;
-        text-align: start;
-        border-spacing: 2px;
-        border-color: grey;
-        font-variant: normal;
-    }
-    #variantTranscripts{
-        background-color: white;
-        width: 180px;
-        padding-left: 4px;
-        font-size: 22px;
-    }
+    /*#variantTranscriptsTableWrapper{*/
+    /*    background-image: url(/rgdweb/common/images/bg3.png);*/
+    /*}*/
+    /*table {*/
+    /*    display: table;*/
+    /*    border-collapse: separate;*/
+    /*    box-sizing: border-box;*/
+    /*    text-indent: initial;*/
+    /*    white-space: normal;*/
+    /*    line-height: normal;*/
+    /*    font-weight: normal;*/
+    /*    font-size: medium;*/
+    /*    font-style: normal;*/
+    /*    color: -internal-quirk-inherit;*/
+    /*    text-align: start;*/
+    /*    border-spacing: 2px;*/
+    /*    border-color: grey;*/
+    /*    font-variant: normal;*/
+    /*}*/
+    /*#variantTranscripts{*/
+    /*    background-color: white;*/
+    /*    width: 180px;*/
+    /*    padding-left: 4px;*/
+    /*    font-size: 22px;*/
+    /*}*/
 </style>

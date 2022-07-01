@@ -39,6 +39,10 @@
             isRow = true;
             for (int i=0 ; i < col.size();i++){
                 Sample s = sdao.getSampleBySampleId(col.get(i).getSampleId());
+                long start = var.getStartPos() - 10;
+                long stop = var.getEndPos() + 10;
+                String vvUrl = "/rgdweb/front/variants.html?start="+ start +"&stop="+stop+"&chr=" + var.getChromosome() +
+                        "&geneStart=&geneStop=&geneList=&mapKey="+s.getMapKey()+"&con=&depthLowBound=1&depthHighBound=&sample1="+s.getId();
                 if (i==0) {
                     out.print("<tr  class=\"" + evenOdd + "Row\">");
                 }
@@ -47,7 +51,7 @@
                     out.print("</tr><tr  class=\""+evenOdd+"Row\">" );
                     isRow = !isRow;
                 } %>
-            <td><a href="javascript:void(0);" onclick="displayVariant('<%=s.getId()%>','<%=obj.getRgdId()%>')" title="View sample transcripts"><%=s.getAnalysisName()%></a></td>
+            <td><a href="<%=vvUrl%>" title="View in Variant Visualizer"><%=s.getAnalysisName()%></a></td>
 <%--                <div style="margin:10px; position:absolute; z-index:100; visibility:hidden; padding:10px;background: #2865A3;" id="div_<%=s.getId()%>">--%>
 <%--                    <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">--%>
 <%--                        <tr>--%>

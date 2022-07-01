@@ -19,7 +19,7 @@
         objType = obj.getObjectTypeName();
     }
     String src = "";
-
+boolean isEva = false;
 
     if (mapKey!=631) {
         for (int i = 0 ; i < samples.size(); i++) {
@@ -49,7 +49,8 @@
                 src = s.getAnalysisName();
         }
     }
-
+    if (src.contains("European Variation Archive"))
+        isEva = true;
     int start = (int) var.getStartPos();
     List<MapData> mapData = mapDAO.getMapDataWithinRange(start,start,var.getChromosome(),var.getMapKey(),1);
     List<Gene> geneList = new ArrayList<>();
@@ -83,7 +84,11 @@
     <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {%>
     <tr>
         <td class="label">RS ID:</td>
+        <% if (!isEva){%>
         <td><%=var.getRsId()%></td>
+        <% } else { %>
+        <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
+        <% } %>
     </tr>
     <% } %>
     <%if (!Utils.isStringEmpty(var.getClinvarId())) {%>

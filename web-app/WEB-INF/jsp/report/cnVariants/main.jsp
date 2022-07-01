@@ -84,8 +84,11 @@
     HashMap<String,Boolean> sources = new HashMap<>();
     List<VariantSampleDetail> col = new ArrayList<>();
     List<Sample> samples = new ArrayList<>();
+    Sample mainSample = new Sample();
     for (VariantSampleDetail vsd : sampleDetails){
         Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
+        if (s.getMapKey()==var.getMapKey())
+            mainSample=s;
         if (sources.get(s.getAnalysisName())==null) {
             samples.add(s);
             sources.put(s.getAnalysisName(), true);
@@ -181,9 +184,9 @@
                     </div>
                         <% } %>
                     <br><div class="subTitle" id="variantDetails">Variant Details</div>
-<%--                    <div id="transcripts">--%>
-<%--                        <%@ include file="transcripts.jsp"%>--%>
-<%--                    </div>--%>
+                    <div id="transcripts">
+                        <%@ include file="transcripts.jsp"%>
+                    </div>
                     <div id="samples">
                         <%@ include file="samples.jsp"%>
                         <% if (obj.getSpeciesTypeKey()!=1) {%>
