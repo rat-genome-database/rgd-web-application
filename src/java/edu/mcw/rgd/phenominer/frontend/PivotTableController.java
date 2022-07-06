@@ -310,7 +310,7 @@ public class PivotTableController implements Controller {
             values.add(value);
 
            List iRecords= (List) hit.getSourceAsMap().get("individualRecords");
-           if(testIndCount<3){
+     //     if(testIndCount<1){
            if(iRecords!=null && iRecords.size()>0) {
                int k=0;
                System.out.println( hit.getSourceAsMap().get("individualRecords"));
@@ -366,8 +366,8 @@ public class PivotTableController implements Controller {
                }
 
            }
-           testIndCount++;
-           }
+      //     testIndCount++;
+      //    }
             cursorPosition++;
             for(Map.Entry entry:sampleData.entrySet()) {
                 int key= (int) entry.getKey();

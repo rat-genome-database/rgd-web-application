@@ -220,7 +220,7 @@
                 if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
-            var sampleData=${sampleDataJson}
+            sampleData=${sampleDataJson}
             arrayLabel = ${labels}
                 <c:forEach items="${plotData}" var="plot">
                 arrayData = ${plot.value}
@@ -235,7 +235,7 @@
                                 data: arrayData[i] || 0,
                                 bgColor:arrayColors[i],
                                 errorBars:arrayErrorBars[d],
-                                individuals:sampleData[i]
+                               individuals:sampleData[i]
                             };
                         });
 
@@ -249,16 +249,20 @@
             newArrayData = [];
             newArrayBackgroundColor = [];
             newErrorBars={};
+            newArrayIndividuals = [];
 
             var data=[];
+            var j=0;
             sortedArrayOfObj.forEach(function(d){
                 newArrayLabel.push(d.label);
                 newArrayData.push(d.data);
                 newArrayBackgroundColor.push(d.bgColor);
                 newErrorBars[d.label]=arrayErrorBars[d.label]
-
+                newArrayIndividuals[j]=(d.individuals);
+                j++;
             });
-
+            for(var k=0;k<newArrayIndividuals.length;k++)
+            console.log("newArrayIndividuals:"+ k+":"+ newArrayIndividuals[k]);
             myChart.data.labels=newArrayLabel;
 
             data.push({
@@ -270,21 +274,29 @@
                 borderColor:"gray"
             });
             var counter=0;
-            sortedArrayOfObj.forEach(function(d){
+            if(newArrayIndividuals.length>0) {
+                newArrayIndividuals.forEach(function (array) {
+                    var sortedArray = [];
+                    if(typeof array!='undefined'){
+                        array.forEach(function (a) {
+                            if (a == '') {
+                                a.push(null)
+                            }
+                        });
+
+                        data.push({
+                            label: "Individual Sample Value - " + counter,
+                            data: array,
+                            type: "scatter",
+                            backgroundColor: "red",
+                            showLine: false
 
 
-                   data.push({
-                       label: "Individual Sample Value - " + counter,
-                       data:d.individuals,
-                       type: "scatter",
-                       backgroundColor: "red",
-                       showLine: false
+                        });
+                        counter++;
 
-
-                   });
-                counter++;
-
-            });
+                    } });
+            }
            // console.log("DATA:"+ JSON.stringify(data))
 
             myChart.data.datasets=data;
