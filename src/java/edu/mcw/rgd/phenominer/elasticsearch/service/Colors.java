@@ -20,7 +20,7 @@ public class Colors {
                 float g = rand.nextFloat();
                 float b = rand.nextFloat();
                 Color randomColor = new Color(r, g, b);
-                String color = "rgb(" + randomColor.brighter().getRed() + "," + randomColor.brighter().getGreen() + "," + randomColor.brighter().getBlue() + ")";
+                String color = "rgb(" + (randomColor.brighter().getRed()) + "," + (randomColor.brighter().getGreen()) + "," + (randomColor.brighter().getBlue()) + "," + 0.5 +")";
                colors.put(i, color);
 
             }

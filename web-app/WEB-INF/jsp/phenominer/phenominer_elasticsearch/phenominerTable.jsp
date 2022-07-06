@@ -20,6 +20,27 @@
     .bind("sortEnd",function(e, t) {
         updateChart();
         });
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            content: function () {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            }
+
+        })
+            .on("focus", function () {
+                $(this).popover("show");
+            }).on("focusout", function () {
+            var _this = this;
+            if (!$(".popover:hover").length) {
+                $(this).popover("hide");
+            } else {
+                $('.popover').mouseleave(function () {
+                    $(_this).popover("hide");
+                    $(this).off('mouseleave');
+                });
+            }
+        });
     });
 
 </script>
@@ -39,17 +60,19 @@
 <table id="mytable" class="tablesorter">
     <thead>
         <tr>
+            <th>Strain</th>
+            <th>Phenotype</th>
             <th>Conditions</th>
 
             <th>Study</th>
             <th>Experiment Name</th>
 
-            <th>Strain</th>
+
             <th>Sex</th>
             <th>Age</th>
             <th># of Animals</th>
 
-            <th>Phenotype</th>
+
 <c:if test="${columns.formula!=null}">
 
 <th>Formula</th>
@@ -93,16 +116,21 @@
             </c:if>
             <th>Record ID</th>
             <th>Study ID</th>
+            <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+            <th>Individual Records</th>
+            </c:if>
         </tr>
     </thead>
     <tbody>
         <c:forEach items="${sr.hits.hits}" var="hit">
             <tr>
+                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
+                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
+
                 <td>${hit.sourceAsMap.xcoTerm}</td>
                 <td>${hit.sourceAsMap.study}</td>
                 <td>${hit.sourceAsMap.experimentName}</td>
 
-                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
                 <td>${hit.sourceAsMap.sex}</td>
                 <td>
                     <c:choose>
@@ -116,7 +144,6 @@
                     </c:choose>
                 <td>${hit.sourceAsMap.numberOfAnimals}</td>
 
-                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
                 <c:if test="${columns.formula!=null}">
 
                 <td>${hit.sourceAsMap.formula}</td>
@@ -161,6 +188,20 @@
                 </c:if>
                 <td>${hit.sourceAsMap.recordId}</td>
                 <td>${hit.sourceAsMap.studyId}</td>
+                <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+                <td>
+                    <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
+                        <span style="text-decoration:underline">View Values</span>
+                    </button>
+                    <div style="display: none" id="popover-${hit.sourceAsMap.recordId}">
+                        <div class="popover-body">
+                            <c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">
+                                ${r.animalId}:&nbsp;${r.measurementValue}<br>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </td>
+                </c:if>
             </tr>
         </c:forEach>
     </tbody>

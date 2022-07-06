@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <style>
     #chartjs-tooltip{
         background: rgba(0, 0, 0, 0.7);
@@ -150,7 +152,23 @@
                     tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
                     tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
                     tooltipEl.style.pointerEvents = 'none';
-            }
+            },
+                callbacks: {
+                    label: function(tooltipItem, all) {
+                        if(tooltipItem.datasetIndex==0){
+                        var label1= all.datasets[tooltipItem.datasetIndex].label
+                            + ': ' + tooltipItem.yLabel.toLocaleString()
+                            + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ?  '\u00B1' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
+
+
+                            return label1;
+                        }
+                    else
+                            var label2=all.datasets[tooltipItem.datasetIndex].label  + ': ' + tooltipItem.yLabel.toLocaleString();
+                            return label2;
+
+                    }
+                }
             },
       /*      tooltips: {
                 yAlign:'top',
@@ -202,6 +220,7 @@
                 if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
+            sampleData=${sampleDataJson}
             arrayLabel = ${labels}
                 <c:forEach items="${plotData}" var="plot">
                 arrayData = ${plot.value}
@@ -209,13 +228,17 @@
                     arrayColors=${backgroundColor}
                     arrayErrorBars=${errorBars}
                         arrayOfObj = arrayLabel.map(function(d, i) {
+                            console.log(sampleData[i])
+
                             return {
                                 label: d,
                                 data: arrayData[i] || 0,
                                 bgColor:arrayColors[i],
-                                errorBars:arrayErrorBars[d]
+                                errorBars:arrayErrorBars[d],
+                               individuals:sampleData[i]
                             };
                         });
+
 
             /*   sortedArrayOfObj = arrayOfObj.sort(function(a, b) {
                    return b.data - a.data;
@@ -226,16 +249,20 @@
             newArrayData = [];
             newArrayBackgroundColor = [];
             newErrorBars={};
+            newArrayIndividuals = [];
+
             var data=[];
+            var j=0;
             sortedArrayOfObj.forEach(function(d){
                 newArrayLabel.push(d.label);
                 newArrayData.push(d.data);
                 newArrayBackgroundColor.push(d.bgColor);
                 newErrorBars[d.label]=arrayErrorBars[d.label]
-
+                newArrayIndividuals[j]=(d.individuals);
+                j++;
             });
-
-
+            for(var k=0;k<newArrayIndividuals.length;k++)
+            console.log("newArrayIndividuals:"+ k+":"+ newArrayIndividuals[k]);
             myChart.data.labels=newArrayLabel;
 
             data.push({
@@ -246,6 +273,31 @@
                 borderWidth: 1,
                 borderColor:"gray"
             });
+            var counter=0;
+            if(newArrayIndividuals.length>0) {
+                newArrayIndividuals.forEach(function (array) {
+                    var sortedArray = [];
+                    if(typeof array!='undefined'){
+                        array.forEach(function (a) {
+                            if (a == '') {
+                                a.push(null)
+                            }
+                        });
+
+                        data.push({
+                            label: "Individual Sample Value - " + counter,
+                            data: array,
+                            type: "scatter",
+                            backgroundColor: "red",
+                            showLine: false
+
+
+                        });
+                        counter++;
+
+                    } });
+            }
+           // console.log("DATA:"+ JSON.stringify(data))
 
             myChart.data.datasets=data;
             myChart.update();
@@ -354,17 +406,33 @@
     function generateData() {
         var data=[];
         errorBars=${errorBars}
-        <c:forEach items="${plotData}" var="plot">
+        <!--c:forEach items="$-{plotData}" var="plot"-->
         data.push({
-            label: "${plot.key}",
-            data: ${plot.value},
+            label: "Value",
+            data: ${plotData.Value},
             errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
+            fill:false,
             borderWidth: 1,
-            borderColor:"gray"
+            borderColor:"gray",
+            stack:"stack 1"
         });
+       <c:if test="${fn:length(sampleData)>0}">
+        <c:set var="i" value="0"/>
+        <c:forEach items="${sampleData}" var="d">
+        data.push({
+           label: "Individual Sample Value - "+${i},
+            data: ${d.value},
+            type: "scatter",
+            backgroundColor:"red",
+            showLine: false
 
+
+        });
+        <c:set var="i" value="${i+1}"/>
         </c:forEach>
+        </c:if>
+        <!--/c:forEach-->
         return data;
     }
 </script>
