@@ -158,7 +158,7 @@
                         if(tooltipItem.datasetIndex==0){
                         var label1= all.datasets[tooltipItem.datasetIndex].label
                             + ': ' + tooltipItem.yLabel.toLocaleString()
-                            + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ?  '\u00B1' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
+                          //  + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ?  '\u00B1' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
 
 
                             return label1;
