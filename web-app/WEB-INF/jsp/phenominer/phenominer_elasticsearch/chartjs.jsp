@@ -220,6 +220,7 @@
                 if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
+            sampleDataLength=${fn:length(sampleData)}
             sampleData=${sampleDataJson}
             arrayLabel = ${labels}
                 <c:forEach items="${plotData}" var="plot">
@@ -228,14 +229,22 @@
                     arrayColors=${backgroundColor}
                     arrayErrorBars=${errorBars}
                         arrayOfObj = arrayLabel.map(function(d, i) {
-                            console.log(sampleData[i])
-
+                          //  console.log(sampleData[i])
+                            var individualData=[];
+                            for(var s=0;s<sampleDataLength;s++){
+                             /*   sampleData[s].forEach(function (a) {
+                                    console.log("HELLO:"+a);
+                                })*/
+                             var array=sampleData[s];
+                             individualData.push(array[i])
+                            }
+                     //   console.log("INDIVIDUAL DATA:"+i+":"+individualData)
                             return {
                                 label: d,
                                 data: arrayData[i] || 0,
                                 bgColor:arrayColors[i],
                                 errorBars:arrayErrorBars[d],
-                               individuals:sampleData[i]
+                               individuals:individualData
                             };
                         });
 
@@ -249,8 +258,7 @@
             newArrayData = [];
             newArrayBackgroundColor = [];
             newErrorBars={};
-            newArrayIndividuals = [];
-
+            newArrayIndividuals=[];
             var data=[];
             var j=0;
             sortedArrayOfObj.forEach(function(d){
@@ -275,27 +283,25 @@
             });
             var counter=0;
             if(newArrayIndividuals.length>0) {
-                newArrayIndividuals.forEach(function (array) {
+                for(var p=0;p<sampleDataLength;p++) {
                     var sortedArray = [];
-                    if(typeof array!='undefined'){
-                        array.forEach(function (a) {
-                            if (a == '') {
-                                a.push(null)
-                            }
-                        });
-
-                        data.push({
-                            label: "Individual Sample Value - " + counter,
-                            data: array,
-                            type: "scatter",
-                            backgroundColor: "red",
-                            showLine: false
+                    for (var q = 0; q < sampleDataLength; q++) {
+                        var array = newArrayIndividuals[q];
+                        if(typeof array!='undefined')
+                        sortedArray.push(array[p])
+                    }
+                    data.push({
+                        label: "Individual Sample Value - " + counter,
+                        data: sortedArray,
+                        type: "scatter",
+                        backgroundColor: "red",
+                        showLine: false
 
 
-                        });
-                        counter++;
+                    });
+                    counter++;
+                }
 
-                    } });
             }
            // console.log("DATA:"+ JSON.stringify(data))
 
