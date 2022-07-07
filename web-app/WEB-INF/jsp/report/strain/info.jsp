@@ -22,18 +22,16 @@
 
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
 
-    String RRRCid = null;
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
-    if( !aliases.isEmpty() ) {
-        for( Alias a: aliases ) {
-            if( a.getValue().startsWith("RRRC:") ) {
-                RRRCid = a.getValue().replace(':','_');
-                if( RRRCid.length()==9 ) {
-                    // convert RRRC_00xx into RRRC_000xx
-                    RRRCid = "RRRC_0"+RRRCid.substring(5);
-                }
-                break;
-            }
+
+    String RRRCid = null;
+    List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(141, obj.getRgdId());
+    if( !xids.isEmpty() ) {
+        String accId = xids.get(0).getAccId();
+        if( accId.length()==4 ) {
+            RRRCid = "RRRC_0" + accId;
+        } else {
+            RRRCid = "RRRC_" + accId;
         }
     }
 %>
