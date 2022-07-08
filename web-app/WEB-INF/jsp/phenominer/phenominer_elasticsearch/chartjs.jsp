@@ -214,12 +214,13 @@
         function updateChart() {
             var rowLength=document.getElementById("mytable").rows.length;
             var sortedValues=[];
-            for(var i=1;i<rowLength;i++){
+            for(var i=0;i<rowLength;i++){
                 var value= document.getElementById("mytable").rows[i].cells.item(10-missedColumnCount).innerHTML;
                 //console.log(value);
-                if(!sortedValues.includes(value))
+          //      if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
+            console.log("sortedValues:"+ sortedValues)
             sampleDataLength=${fn:length(sampleData)}
             sampleData=${sampleDataJson}
             arrayLabel = ${labels}
@@ -269,8 +270,8 @@
                 newArrayIndividuals[j]=(d.individuals);
                 j++;
             });
-            for(var k=0;k<newArrayIndividuals.length;k++)
-            console.log("newArrayIndividuals:"+ k+":"+ newArrayIndividuals[k]);
+          //  for(var k=0;k<newArrayIndividuals.length;k++)
+         //   console.log("newArrayIndividuals:"+ k+":"+ newArrayIndividuals[k]);
             myChart.data.labels=newArrayLabel;
 
             data.push({
@@ -315,21 +316,27 @@
 
         function sortByValues(sortedValues, arrayOfObj) {
             var sortedObjArray=[];
+            var loadedPositions=[];
+            for(var j=0;j<arrayOfObj.length;j++){
             for(var i=0;i<sortedValues.length;i++){
-                for(var j=0;j<arrayOfObj.length;j++){
-                    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0){
-                        sortedObjArray.push(arrayOfObj[j])
+
+                //    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0) {
+                if(arrayOfObj[j].data==sortedValues[i]) {
+                        if (!loadedPositions.includes(i)) {
+                            sortedObjArray[i] = arrayOfObj[j];
+                            loadedPositions.push(i)
+                    }
                     }
                 }
 
             }
 
-                for (var j = 0; j < arrayOfObj.length; j++) {
+            /*    for (var j = 0; j < arrayOfObj.length; j++) {
                     if (arrayOfObj[j].data == 0) {
                         sortedObjArray.push(arrayOfObj[j])
                     }
 
-            }
+            }*/
             return sortedObjArray;
         }
 
@@ -363,15 +370,17 @@
             return detail;
         }
         function getDetails(index) {
-            console.log("index:"+index)
+            //console.log("index:"+index)
             var table = document.getElementById('mytable');
             var j = 0;
             var detail = [];
             var rowLength = table.rows.length; // no. of rows
             var avgIndex = table.rows.item(0).cells.length; // no. of cells
-            for (i = 1; i < rowLength; i++) { // iterating rows excluding header row
-                if (table.rows.item(i).style.display !== 'none') {
-                    if (j == index) {
+            i=index+1;
+
+       //     for (i = 1; i < rowLength; i++) { // iterating rows excluding header row
+           //     if (table.rows.item(i).style.display !== 'none') {
+           //         if (j == index) {
 
                         for(k = 1;k < avgIndex;k++){ // iterating over cells
                             var label = table.rows.item(0).cells.item(k).innerText;
@@ -391,7 +400,7 @@
                             if(label=='Phenotype'  )
                                 detail.push(label + ':<strong style="text-decoration:underline ">' + value+'</strong>') ;
                         }*/
-                        for(k = 0;k < avgIndex;k++){
+                        for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
                             if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' && label!='Phenotype' )
@@ -403,10 +412,10 @@
                             if(label=='Study ID' || label=='Study' )
                                 detail.push(label + ':&nbsp;' + value) ;
                         }
-                    }
-                    j++;
-                }
-            }
+                //    }
+               //     j++;
+             //   }
+          //  }
             return detail;
         }
     function generateData() {
