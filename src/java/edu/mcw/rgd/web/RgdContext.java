@@ -60,7 +60,7 @@ public class RgdContext {
 
             hostname = InetAddress.getLocalHost().getHostName().toLowerCase();
 			
-            isProduction = hostname.contains("hancock") || hostname.contains("owen");
+            isProduction = hostname.contains("apollo") || hostname.contains("booker");
             isPipelines = hostname.contains("reed");
             isDev = hostname.contains("hansen");
             isCurator = isPipelines || isDev;
@@ -112,7 +112,7 @@ public class RgdContext {
 		} catch( UnknownHostException e ) {
 			return null;
 		}
-        return index+"_index_dev";
+        return index+"_index_prod";
 	}
     public static String getESVariantIndexName(String index) {
         try {
@@ -131,6 +131,6 @@ public class RgdContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return index+"_cur";
+        return index+"_dev";
     }
 }
