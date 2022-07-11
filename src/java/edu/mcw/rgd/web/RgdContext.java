@@ -59,8 +59,8 @@ public class RgdContext {
         try {
 
             hostname = InetAddress.getLocalHost().getHostName().toLowerCase();
-			
-            isProduction = hostname.contains("hancock") || hostname.contains("owen");
+
+            isProduction = hostname.contains("apollo") || hostname.contains("booker");
             isPipelines = hostname.contains("reed");
             isDev = hostname.contains("hansen");
             isCurator = isPipelines || isDev;
