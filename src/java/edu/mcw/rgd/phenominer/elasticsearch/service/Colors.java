@@ -14,7 +14,7 @@ public class Colors {
     static{
 
             colors = new HashMap<>();
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 300; i++) {
                 Random rand = new Random();
                 float r = rand.nextFloat();
                 float g = rand.nextFloat();

@@ -55,7 +55,7 @@ public class PivotTableController implements Controller {
             Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
             Map<String, String> filterMap = getFilterMap(request);
             boolean facetSearch = req.getParameter("facetSearch").equals("true");
-            System.out.println("FILTERMAP SIZE:" + filterMap.size() + "\t" + gson.toJson(filterMap));
+          //  System.out.println("FILTERMAP SIZE:" + filterMap.size() + "\t" + gson.toJson(filterMap));
             if (facetSearch) {
                 if (filterMap.size() == 1 || (filterMap.size() == 2 && filterMap.containsKey("experimentName"))) {
                     filteredAggregations = service.getFilteredAggregations(filterMap, req);
@@ -241,6 +241,8 @@ public class PivotTableController implements Controller {
             String sex = (String) hit.getSourceAsMap().get("sex");
             int recordId = (int) hit.getSourceAsMap().get("recordId");
             String condition=new String();
+          //  System.out.println("COLOR BY:"+ colorBy);
+         //   System.out.println("COLOR MAP:"+ gson.toJson(map));
             if(colorBy!=null && !colorBy.equals("")) {
                 if (colorBy.equalsIgnoreCase("condition")) {
                     condition = hit.getSourceAsMap().get("xcoTerm").toString().trim();
@@ -313,7 +315,7 @@ public class PivotTableController implements Controller {
      //     if(testIndCount<1){
            if(iRecords!=null && iRecords.size()>0) {
                int k=0;
-               System.out.println( hit.getSourceAsMap().get("individualRecords"));
+             //  System.out.println( hit.getSourceAsMap().get("individualRecords"));
                List<IndividualRecord> individualRecordList=new ArrayList<>();
                for (Object entry:iRecords) {
                     Map<String, Object> record= (Map<String, Object>) entry;
@@ -386,7 +388,7 @@ public class PivotTableController implements Controller {
             labels.add(e);
         }
 
-        System.out.println("SAMPLE DATA:"+ gson.toJson(sampleData));
+
         request.setAttribute("sortedIndividualRecords", individualRecords);
         request.setAttribute("sampleData", sampleData);
         request.setAttribute("animalIds", gson.toJson(animalIds));
@@ -429,7 +431,7 @@ public class PivotTableController implements Controller {
             if (filterJson != null) {
                 for (Map.Entry e : filterJson.entrySet()) {
                     List<String> filterValues= Arrays.asList(e.getValue().toString().split(","));
-                    System.out.println(e.getKey() + "\t" + e.getValue().toString());
+                   // System.out.println(e.getKey() + "\t" + e.getValue().toString());
                     String key= (String) e.getKey();
                     List<String> keyValues= new ArrayList<>();
                     if(selectedFilters.get(key)!=null)
@@ -503,7 +505,7 @@ public class PivotTableController implements Controller {
 
         Map<String, String> selectedFilters = new HashMap<>();
         for(Map.Entry e:aggregations.entrySet()){
-            System.out.println(e.getKey());
+         //   System.out.println(e.getKey());
             List<Terms.Bucket> buckets= (List<Terms.Bucket>) e.getValue();
             String value=buckets.stream().map(b->b.getKey().toString()).collect(Collectors.joining(","));
             switch (e.getKey().toString()){
