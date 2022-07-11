@@ -357,12 +357,16 @@ public class PivotTableController implements Controller {
 
                }
            else{
-               List<Double> individualValues=new ArrayList<>();
-               for(int key:sampleData.keySet()){
-                   if(sampleData.get(key)!=null)
-                       individualValues.addAll(sampleData.get(key));
-                   individualValues.add(null);
-                   sampleData.put(key, individualValues);
+
+               if(sampleData.size()>0) {
+                //   System.out.println("SAMPLE DATA:"+ gson.toJson(sampleData));
+                   for (int key : sampleData.keySet()) {
+                       List<Double> individualValues=new ArrayList<>();
+                       if (sampleData.get(key) != null)
+                           individualValues.addAll(sampleData.get(key));
+                       individualValues.add(null);
+                       sampleData.put(key, individualValues);
+                   }
                }
 
            }
