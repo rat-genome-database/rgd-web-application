@@ -190,6 +190,7 @@
                 <td>${hit.sourceAsMap.studyId}</td>
                 <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
                 <td>
+                    <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
                     <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
                         <span style="text-decoration:underline">View Values</span>
                     </button>
@@ -200,6 +201,7 @@
                             </c:forEach>
                         </div>
                     </div>
+                    </c:if>
                 </td>
                 </c:if>
             </tr>
