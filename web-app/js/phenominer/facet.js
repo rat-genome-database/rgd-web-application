@@ -277,22 +277,32 @@ function resetAllCheckBoxes() {
         });
     }
 }
-function removeFilter(filter, key) {
-
+function removeFilter(filter, name) {
+   // console.log('Name:'+ name+"\tFILTER:"+ filter);
     $.each($('input[type="checkbox"]'),function () {
         var _this=$(this);
         var val=_this.val();
-   //     alert('VAL:'+ val+"\tFILTER:"+ filter);
+
        if(val==filter){
            _this.prop('checked',false);
            $('#unchecked').val(val);
-
+           if(name=='rsTerm')
+               $('input[name="rsAll"]').prop('checked',false)
+           if(name=='mmoTerm')
+               $('input[name="mmoAll"]').prop('checked',false)
+           if(name=='cmoTerm')
+               $('input[name="cmoAll"]').prop('checked',false)
+           if(name=='sex')
+               $('input[name="sexAll"]').prop('checked',false)
+           if(name=='xcoTerm')
+               $('input[name="xcoAll"]').prop('checked',false)
        }
-       if(key=='experimentName' || key=='rsTerm'){
+
+       if(name=='experimentName' || name=='rsTerm'){
       //     $('.formCheckInput.'+filter.replace(/\s/g, "").replace(/\//g,'')).prop('checked', false);
        }
     });
-    $('#phenominerReportForm').submit()
+  $('#phenominerReportForm').submit()
 }
 function updateSelection(bkt) {
 
