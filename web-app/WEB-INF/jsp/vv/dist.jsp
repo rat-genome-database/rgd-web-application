@@ -108,7 +108,7 @@
 
         <tr>
             <td valign=top>
-                <table border=0 class="snpHeader" align="center" cellpadding=0 cellspacing=0>
+                <table border=0 class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="padding-top: 1px;">
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td valign="top" style="height:<%=yMenuHeight -1  + annotationHeightAdjustment%>px; background-color:white;">
