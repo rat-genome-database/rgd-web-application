@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <table class="table table-stripped" >
 
-    <c:forEach items="${model.hits}" var="hits">
-    <c:forEach items="${hits}" var="hit">
+    <c:forEach items="${model.hits}" var="hit">
+
     <tr><td colspan="2" style="text-align: center">
         <!--form action="genomeInformation.html">
             <input type="hidden" name=species value="$--{hit.source.species}"/>
@@ -19,5 +19,5 @@
     <tr><td>Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
 
     </c:forEach>
-    </c:forEach>
+   
 </table>
