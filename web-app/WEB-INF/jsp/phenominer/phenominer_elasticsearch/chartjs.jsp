@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <style>
     #chartjs-tooltip{
         background: rgba(0, 0, 0, 0.7);
@@ -150,7 +152,23 @@
                     tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
                     tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
                     tooltipEl.style.pointerEvents = 'none';
-            }
+            },
+                callbacks: {
+                    label: function(tooltipItem, all) {
+                        if(tooltipItem.datasetIndex==0){
+                        var label1= all.datasets[tooltipItem.datasetIndex].label
+                            + ': ' + tooltipItem.yLabel.toLocaleString()
+                          //  + (all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus ?  '\u00B1' + all.datasets[tooltipItem.datasetIndex].errorBars[tooltipItem.label].plus.toLocaleString() : '');
+
+
+                            return label1;
+                        }
+                    else
+                            var label2=all.datasets[tooltipItem.datasetIndex].label  + ': ' + tooltipItem.yLabel.toLocaleString();
+                            return label2;
+
+                    }
+                }
             },
       /*      tooltips: {
                 yAlign:'top',
@@ -196,12 +214,15 @@
         function updateChart() {
             var rowLength=document.getElementById("mytable").rows.length;
             var sortedValues=[];
-            for(var i=1;i<rowLength;i++){
+            for(var i=0;i<rowLength;i++){
                 var value= document.getElementById("mytable").rows[i].cells.item(10-missedColumnCount).innerHTML;
                 //console.log(value);
-                if(!sortedValues.includes(value))
+          //      if(!sortedValues.includes(value))
                 sortedValues.push(value);
             }
+            console.log("sortedValues:"+ sortedValues)
+            sampleDataLength=${fn:length(sampleData)}
+            sampleData=${sampleDataJson}
             arrayLabel = ${labels}
                 <c:forEach items="${plotData}" var="plot">
                 arrayData = ${plot.value}
@@ -209,13 +230,25 @@
                     arrayColors=${backgroundColor}
                     arrayErrorBars=${errorBars}
                         arrayOfObj = arrayLabel.map(function(d, i) {
+                          //  console.log(sampleData[i])
+                            var individualData=[];
+                            for(var s=0;s<sampleDataLength;s++){
+                             /*   sampleData[s].forEach(function (a) {
+                                    console.log("HELLO:"+a);
+                                })*/
+                             var array=sampleData[s];
+                             individualData.push(array[i])
+                            }
+                     //   console.log("INDIVIDUAL DATA:"+i+":"+individualData)
                             return {
                                 label: d,
                                 data: arrayData[i] || 0,
                                 bgColor:arrayColors[i],
-                                errorBars:arrayErrorBars[d]
+                                errorBars:arrayErrorBars[d],
+                               individuals:individualData
                             };
                         });
+
 
             /*   sortedArrayOfObj = arrayOfObj.sort(function(a, b) {
                    return b.data - a.data;
@@ -226,16 +259,19 @@
             newArrayData = [];
             newArrayBackgroundColor = [];
             newErrorBars={};
+            newArrayIndividuals=[];
             var data=[];
+            var j=0;
             sortedArrayOfObj.forEach(function(d){
                 newArrayLabel.push(d.label);
                 newArrayData.push(d.data);
                 newArrayBackgroundColor.push(d.bgColor);
                 newErrorBars[d.label]=arrayErrorBars[d.label]
-
+                newArrayIndividuals[j]=(d.individuals);
+                j++;
             });
-
-
+          //  for(var k=0;k<newArrayIndividuals.length;k++)
+         //   console.log("newArrayIndividuals:"+ k+":"+ newArrayIndividuals[k]);
             myChart.data.labels=newArrayLabel;
 
             data.push({
@@ -246,6 +282,29 @@
                 borderWidth: 1,
                 borderColor:"gray"
             });
+            var counter=0;
+            if(newArrayIndividuals.length>0) {
+                for(var p=0;p<sampleDataLength;p++) {
+                    var sortedArray = [];
+                    for (var q = 0; q < sampleDataLength; q++) {
+                        var array = newArrayIndividuals[q];
+                        if(typeof array!='undefined')
+                        sortedArray.push(array[p])
+                    }
+                    data.push({
+                        label: "Individual Sample Value - " + counter,
+                        data: sortedArray,
+                        type: "scatter",
+                        backgroundColor: "red",
+                        showLine: false
+
+
+                    });
+                    counter++;
+                }
+
+            }
+           // console.log("DATA:"+ JSON.stringify(data))
 
             myChart.data.datasets=data;
             myChart.update();
@@ -257,21 +316,27 @@
 
         function sortByValues(sortedValues, arrayOfObj) {
             var sortedObjArray=[];
+            var loadedPositions=[];
+            for(var j=0;j<arrayOfObj.length;j++){
             for(var i=0;i<sortedValues.length;i++){
-                for(var j=0;j<arrayOfObj.length;j++){
-                    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0){
-                        sortedObjArray.push(arrayOfObj[j])
+
+                //    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0) {
+                if(arrayOfObj[j].data==sortedValues[i]) {
+                        if (!loadedPositions.includes(i)) {
+                            sortedObjArray[i] = arrayOfObj[j];
+                            loadedPositions.push(i)
+                    }
                     }
                 }
 
             }
 
-                for (var j = 0; j < arrayOfObj.length; j++) {
+            /*    for (var j = 0; j < arrayOfObj.length; j++) {
                     if (arrayOfObj[j].data == 0) {
                         sortedObjArray.push(arrayOfObj[j])
                     }
 
-            }
+            }*/
             return sortedObjArray;
         }
 
@@ -305,15 +370,17 @@
             return detail;
         }
         function getDetails(index) {
-            console.log("index:"+index)
+            //console.log("index:"+index)
             var table = document.getElementById('mytable');
             var j = 0;
             var detail = [];
             var rowLength = table.rows.length; // no. of rows
             var avgIndex = table.rows.item(0).cells.length; // no. of cells
-            for (i = 1; i < rowLength; i++) { // iterating rows excluding header row
-                if (table.rows.item(i).style.display !== 'none') {
-                    if (j == index) {
+            i=index+1;
+
+       //     for (i = 1; i < rowLength; i++) { // iterating rows excluding header row
+           //     if (table.rows.item(i).style.display !== 'none') {
+           //         if (j == index) {
 
                         for(k = 1;k < avgIndex;k++){ // iterating over cells
                             var label = table.rows.item(0).cells.item(k).innerText;
@@ -333,7 +400,7 @@
                             if(label=='Phenotype'  )
                                 detail.push(label + ':<strong style="text-decoration:underline ">' + value+'</strong>') ;
                         }*/
-                        for(k = 0;k < avgIndex;k++){
+                        for(k = 1;k < avgIndex;k++){
                             var label = table.rows.item(0).cells.item(k).innerText;
                             var value = table.rows.item(i).cells.item(k).innerText;
                             if(value!='' && label!='Value' && label!='SEM' && label!='SD' && label!='Study ID' && label!='Study' && label!='Units' && label!='Phenotype' )
@@ -345,26 +412,42 @@
                             if(label=='Study ID' || label=='Study' )
                                 detail.push(label + ':&nbsp;' + value) ;
                         }
-                    }
-                    j++;
-                }
-            }
+                //    }
+               //     j++;
+             //   }
+          //  }
             return detail;
         }
     function generateData() {
         var data=[];
         errorBars=${errorBars}
-        <c:forEach items="${plotData}" var="plot">
+        <!--c:forEach items="$-{plotData}" var="plot"-->
         data.push({
-            label: "${plot.key}",
-            data: ${plot.value},
+            label: "Value",
+            data: ${plotData.Value},
             errorBars: ${errorBars},
             backgroundColor: ${backgroundColor},
+            fill:false,
             borderWidth: 1,
-            borderColor:"gray"
+            borderColor:"gray",
+            stack:"stack 1"
         });
+       <c:if test="${fn:length(sampleData)>0}">
+        <c:set var="i" value="0"/>
+        <c:forEach items="${sampleData}" var="d">
+        data.push({
+           label: "Individual Sample Value - "+${i},
+            data: ${d.value},
+            type: "scatter",
+            backgroundColor:"red",
+            showLine: false
 
+
+        });
+        <c:set var="i" value="${i+1}"/>
         </c:forEach>
+        </c:if>
+        <!--/c:forEach-->
         return data;
     }
 </script>

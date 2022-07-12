@@ -25,7 +25,7 @@
 <!--script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script-->
 
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <script>
     var hits=${fn:length(sr.hits.hits)};
     <c:if test="${plotData!=null}">
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="phenominer-noplot-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--div class="modal fade" id="phenominer-noplot-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header alert alert-danger">
@@ -81,11 +81,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <!--button type="button" class="btn btn-primary" id="noPlotButton">Ok</button-->
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
     <div class=" sidebar">
         <%@include file="sideBar.jsp"%>
     </div>
@@ -128,7 +127,19 @@
         <%@include file="chartjs.jsp"%>
         </c:when>
             <c:otherwise>
-                <h4 style="font-weight: bold;color:red">Please select the measurements of one unit group in the left filter pane to view the graph.</h4>
+                <div>
+               <span style="color:blue;font-weight: bold">How to display a graph</span>
+
+                    <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-graph-help" title="Graph Display Help" style="background-color: transparent">
+                        <span style="text-decoration:underline"><i class="fas fa-question-circle" style="color: blue;font-size: large"></i></span>
+                    </button>
+                    <div style="display: none" id="popover-graph-help">
+                        <div class="popover-body">
+                           <p> Please select the measurements of same unit in the left filter pane to view the graph.</p>
+                        </div>
+                    </div>
+                <!--h4 style="font-weight: bold;color:red">Please select the measurements of one unit group in the left filter pane to view the graph.</h4-->
+                </div>
             </c:otherwise>
         </c:choose>
         <%@include file="phenominerTable.jsp"%>

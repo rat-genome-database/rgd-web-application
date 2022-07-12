@@ -399,6 +399,17 @@
     $(".formCheckInput").on("change",function () {
         if (!$(this).is(":checked")) {
             $('#unchecked').val($(this).val());
+            var name=this.name
+            if(name=='rsTerm')
+            $('input[name="rsAll"]').prop('checked',false)
+            if(name=='mmoTerm')
+                $('input[name="mmoAll"]').prop('checked',false)
+            if(name=='cmoTerm')
+                $('input[name="cmoAll"]').prop('checked',false)
+            if(name=='sex')
+                $('input[name="sexAll"]').prop('checked',false)
+            if(name=='xcoTerm')
+                $('input[name="xcoAll"]').prop('checked',false)
         }
         $('#phenominerReportForm').submit();
     })
