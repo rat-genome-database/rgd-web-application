@@ -113,7 +113,7 @@
     .snpLabel {
         font-size:11px;
         background-color:#EEEEEE;
-        height:24px;
+        height:23px;
         overflow: hidden;
         text-align: right;
         vertical-align: middle;
@@ -191,7 +191,10 @@
     }
 
     function navigate(gene, sample) {
-       var qString="<%=request.getQueryString()%>";
+
+        gene = gene.replaceAll("|","%7C");
+
+        var qString="<%=request.getQueryString()%>";
         var queryString="?";
         if(qString!=null && qString!="null")
         {
@@ -222,7 +225,8 @@
                 }
 
         %>
-       location.href="variants.html" + queryString;
+        console.log("variants.html"+queryString);
+        location.href="variants.html" + queryString;
         console.log("variants.html"+queryString);
      //   window.open("variants.html" + queryString);
     }
@@ -240,7 +244,7 @@
 
 
 %>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+<script src="https://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
 
 <script type="text/javascript">

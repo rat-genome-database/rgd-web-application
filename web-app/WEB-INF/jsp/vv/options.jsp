@@ -29,7 +29,7 @@
 <table width="100%" class="stepLabel" border=0>
     <tr>
         <td><div style="padding:8px;">Select Sequence Annotation (Optional)</div></td>
-        <td align="right"><%=currentMap.getName()%> assembly</td>
+        <td align="right" style="font-size:16px;"><%=currentMap.getName()%> assembly</td>
     </tr>
 </table>
 
