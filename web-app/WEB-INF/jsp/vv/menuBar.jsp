@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <style>
     .snpMenuBar {
         background-color:#F0F6F9;
@@ -138,8 +139,12 @@ if(parameters==null){
 
         </td>
 
-        <td width="33%">
+        <td width="33%" style="color: white; font-size:16px;">
+            <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
+                <%=MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName()%>&nbsp;Assembly
+
+            <% } %>
         </td>
         <td align="right" width="10%">
             <div id="appMenu">

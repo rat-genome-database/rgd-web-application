@@ -94,7 +94,7 @@
         <table width="100%" class="stepLabel" border=0>
             <tr>
                 <td align="left">Select samples to compare</td>
-                <td align="right"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>
+                <td align="right" style="font-size:16px;"><%=MapManager.getInstance().getMap(mapKey).getName()%> assembly</td>
             </tr>
         </table>
 

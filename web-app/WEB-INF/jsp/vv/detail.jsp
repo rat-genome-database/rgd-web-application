@@ -7,6 +7,8 @@
 <%@ page import="edu.mcw.rgd.dao.impl.TranscriptDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
+<%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -23,6 +25,10 @@
 </style>
 
 <%
+    VariantDAO dao = new VariantDAO();
+    boolean isList = false;
+
+//    VariantMapData vmd = dao.getVariant(Integer.parseInt(vid));
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
     XdbIdDAO xDao = new XdbIdDAO();
 
@@ -59,9 +65,12 @@
 
             Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
             boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
+            VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
+//            System.out.println(vmd.getId());
+    if (vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
-
-
+    <div class="typerTitle"><div class="typerTitleSub"><%=vmd.getRsId()%></div></div>
+    <% } %>
     <table border="0" width="650" style="border:2px solid #D8D8DB; color:#053867; background-color:white; font-size:11px;" align="center">
         <tr>
             <td>
@@ -166,12 +175,13 @@
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
                     </tr>
-                    <% } else if(sample.getMapKey()!=17){ %>
+                    <% } else if(sample.getMapKey()!=17){
+                    if(result!=null && result.getClinvarInfo()!=null && result.getClinvarInfo().getClinicalSignificance()!=null){%>
                     <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
                     </tr>
                     <tr><td class="carpeLabel" style="color:#053867;">Condition:</td><td><%=result.getClinvarInfo().getTraitName()%></td>
                     </tr>
-                    <% } %>
+                    <% } }%>
 
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">VID:</td><td><%=result.getVariant().getId()%></td>
@@ -183,6 +193,9 @@
                         <td><a href="<%=Link.variant(result.getVariant().getRgdId())%>"><%=result.getVariant().getRgdId()%></a></td>
                     </tr>
                     <% } %>
+                    <tr>
+                        <td><a href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>
+                    </tr>
                 </table>
 
             </td>
