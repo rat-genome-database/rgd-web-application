@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <table class="table table-stripped" >
 
-    <c:forEach items="${model.hits}" var="hits">
+    <c:forEach items="${model.hits}" var="hit">
 
     <tr><td colspan="2" style="text-align: center">
         <!--form action="genomeInformation.html">
