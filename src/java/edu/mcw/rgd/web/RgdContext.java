@@ -101,6 +101,7 @@ public class RgdContext {
         String indexName=null;
 		try {
 		    switch(index){
+                case "genome":
                 case "phenominer":
                     if( isProduction() ) {
                         indexName= index+"_index_prod";
@@ -113,8 +114,9 @@ public class RgdContext {
                     }else
                     indexName= index+"_index_dev";
                     break;
+
+
                 case "search":
-                case "genome":
                 case "variant":
                     if( isProduction() ) {
                         indexName= index+"_index_prod";
