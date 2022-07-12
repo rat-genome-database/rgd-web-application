@@ -114,6 +114,7 @@ public class RgdContext {
                     indexName= index+"_index_dev";
                     break;
                 case "search":
+                case "genome":
                 case "variant":
                     if( isProduction() ) {
                         indexName= index+"_index_prod";
