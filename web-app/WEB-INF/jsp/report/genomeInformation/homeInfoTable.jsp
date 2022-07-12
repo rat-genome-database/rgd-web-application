@@ -2,7 +2,7 @@
 <table class="table table-stripped" >
 
     <c:forEach items="${model.hits}" var="hits">
-    <c:forEach items="${hits}" var="hit">
+
     <tr><td colspan="2" style="text-align: center">
         <!--form action="genomeInformation.html">
             <input type="hidden" name=species value="$--{hit.source.species}"/>
@@ -18,6 +18,6 @@
     <tr><td>Chromosomes(haploid)</td><td>${hit.sourceAsMap.chromosomes}</td></tr>
     <tr><td>Genes</td><td>${hit.sourceAsMap.totalGenes}</td></tr>
 
-    </c:forEach>
+
     </c:forEach>
 </table>
