@@ -85,11 +85,6 @@
     if (termString != null && !termString.equals("")) {
         out.print("<script>sessionStorage.clear()</script>");
     }
-    //int speciesTypeKey = (int) request.getAttribute("speciesTypeKey");
-    //int filteredRecCount = (int) request.getAttribute("filteredRecCount");
-
-    //String sampleOnt = speciesTypeKey==3 ? "RS" : "CS";
-
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
@@ -321,17 +316,8 @@
         }
     }
 
-
-    /*
-    speciesTypeKey = "3";
-    String spParam = request.getParameter("species");
-    if( spParam!=null ) {
-        speciesTypeKey = spParam;
-    }
-*/
     String terms =  Utils.defaultString(request.getParameter("terms"));
 
-    //System.out.println(" selectTerms.jsp  sex="+sex+" species="+species);
     String ontName = ont.equals("RS") ? "Rat Strains" :
             ont.equals("CS") ? "Chinchilla" :
                     ont.equals("MMO") ? "Measurement Methods" :
