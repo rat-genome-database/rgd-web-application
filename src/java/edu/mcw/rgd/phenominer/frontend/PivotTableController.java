@@ -214,6 +214,7 @@ public class PivotTableController implements Controller {
     }
     public LinkedHashMap<String, List<Double>> getPlotDataWithIndividualRecords(SearchResponse sr, List<String> labels, List<String> backgroundColors, Map<String, String> legend,Map<String,Map<String, Double>> errorBars, HttpServletRequest request ) throws Exception {
         LinkedHashMap<String, List<Double>> plotData = new LinkedHashMap<>();
+        List<Integer> recordIds=new ArrayList<>();
         List<Double> values = new ArrayList<>();
             int testIndCount=0;
         Map<Integer, List<IndividualRecord>> individualRecords=new HashMap<>();
@@ -385,9 +386,11 @@ public class PivotTableController implements Controller {
                 }
                 sampleData.put(key, indVals);
             }
+            recordIds.add(recordId);
             labels.add(e);
         }
 
+        request.setAttribute("recordIds", recordIds);
 
         request.setAttribute("sortedIndividualRecords", individualRecords);
         request.setAttribute("sampleData", sampleData);
@@ -405,8 +408,8 @@ public class PivotTableController implements Controller {
             request.setAttribute("legendJson", gson.toJson(legend));
 
         request.setAttribute("colorBy", colorBy);
-        //   System.out.println("LEGEND JSON:"+ legendJson);
-        //   System.out.println("LEGEND:"+ legend);
+      //    System.out.println("LEGEND JSON:"+ legendJson);
+      //    System.out.println("LEGEND:"+ legend);
         plotData.put("Value", values);
      //   plotData.put("IndividualValues", individualValues);
 
