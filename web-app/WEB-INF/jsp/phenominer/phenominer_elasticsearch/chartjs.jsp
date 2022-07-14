@@ -214,13 +214,28 @@
         function updateChart() {
             var rowLength=document.getElementById("mytable").rows.length;
             var sortedValues=[];
+            var cellLength=  document.getElementById("mytable").rows[0].cells.length
+            var recordIdIndex=0;
+            for(var j=0;j<cellLength;j++){
+               var cellText= document.getElementById("mytable").rows[0].cells[j].innerHTML;
+                if(cellText.includes( "Record ID")){
+                    recordIdIndex=j;
+                }
+            }
             for(var i=0;i<rowLength;i++){
                 var value= document.getElementById("mytable").rows[i].cells.item(10-missedColumnCount).innerHTML;
+               var recordId= document.getElementById("mytable").rows[i].cells.item(recordIdIndex).innerHTML;
+              //      console.log(recordId)
+                var valueObj={}
+                    valueObj.id=recordId;
+                    valueObj.value=value;
                 //console.log(value);
           //      if(!sortedValues.includes(value))
-                sortedValues.push(value);
+
+             //   sortedValues.push(value);
+                sortedValues.push(valueObj);
             }
-            console.log("sortedValues:"+ sortedValues)
+       //     console.log("sortedValues:"+ sortedValues)
             sampleDataLength=${fn:length(sampleData)}
             sampleData=${sampleDataJson}
             arrayLabel = ${labels}
@@ -229,6 +244,7 @@
                     </c:forEach>
                     arrayColors=${backgroundColor}
                     arrayErrorBars=${errorBars}
+                        arrayRecordIds=${recordIds}
                         arrayOfObj = arrayLabel.map(function(d, i) {
                           //  console.log(sampleData[i])
                             var individualData=[];
@@ -245,7 +261,8 @@
                                 data: arrayData[i] || 0,
                                 bgColor:arrayColors[i],
                                 errorBars:arrayErrorBars[d],
-                               individuals:individualData
+                               individuals:individualData,
+                                recordId:arrayRecordIds[i]
                             };
                         });
 
@@ -321,10 +338,11 @@
             for(var i=0;i<sortedValues.length;i++){
 
                 //    if(arrayOfObj[j].data==sortedValues[i] && arrayOfObj[j].data!=0) {
-                if(arrayOfObj[j].data==sortedValues[i]) {
+                if(arrayOfObj[j].data==sortedValues[i].value && arrayOfObj[j].recordId==sortedValues[i].id) {
                         if (!loadedPositions.includes(i)) {
                             sortedObjArray[i] = arrayOfObj[j];
                             loadedPositions.push(i)
+                            break;
                     }
                     }
                 }
