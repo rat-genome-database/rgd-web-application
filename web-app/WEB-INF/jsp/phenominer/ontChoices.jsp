@@ -188,7 +188,8 @@
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
                         <!--<td>{{key}}</td>-->
-                        <td style="font-size:12px;" align="left">{{value}}</td>
+
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
                     </tr>
                 </table>
 
@@ -212,7 +213,7 @@
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
                         <!--<td>{{key}}</td>-->
-                        <td style="font-size:12px;" align="left">{{value}}</td>
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
                     </tr>
                 </table>
 
@@ -238,7 +239,7 @@
                     <tr v-for="(key, value) in selectedMeasurements">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'CMO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
-                        <td style="font-size:12px;" align="left">{{value}}</td>
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
                     </tr>
                 </table>
 
@@ -259,7 +260,7 @@
                     <tr v-for="(key, value) in selectedMethods">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'MMO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
-                        <td style="font-size:12px;" align="left">{{value}}</td>
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
                     </tr>
                 </table>
 
@@ -280,7 +281,7 @@
                     <tr v-for="(key, value) in selectedConditions">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'XCO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
-                        <td style="font-size:12px;" align="left">{{value}}</td>
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
                     </tr>
                 </table>
 
@@ -699,6 +700,11 @@
             selectedMeasurements: <%=selectedMeasurements%>,
             selectedConditions: <%=selectedConditions%>,
             selectedMethods: <%=selectedMethods%>,
+            selectedStrainsRemoved: <%=selectedStrains%>,
+            selectedMeasurementsRemoved: <%=selectedMeasurements%>,
+            selectedConditionsRemoved: <%=selectedConditions%>,
+            selectedMethodsRemoved: <%=selectedMethods%>,
+
             currentOnt: "RS",
             examples: "",
             axiosRequest: new AbortController(),
@@ -793,21 +799,36 @@
 
                         var root = xmlDoc.getRootNode();
                         //var root = xmlDoc.getElementsByTagName("tree");
-                        var children = root.getElementsByTagName("item");
+                        var childNodes = root.getElementsByTagName("item");
 
+                        var children = v.getLeafNodes(childNodes);
+
+                        //find out if a selection is now gone
                         var tmpHash = {};
-                        for (let i = 0; i < children.length; i++) {
-                            let item = children[i];
-
-                            for (var key in v.selectedConditions) {
+                        for (var key in v.selectedConditions) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
                                 var idArr = (item.getAttribute("id") + "").split("_");
                                 var id = idArr[0];
 
                                 if (v.selectedConditions[key] === id) {
                                     tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
                                 }
                             }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedConditions[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedConditions[key];
+                                }
+
+                            }
                         }
+
 
                         v.selectedConditions = {};
                         for (key in tmpHash) {
@@ -824,8 +845,31 @@
                     })
 
             },
+
+            getLeafNodes: function(node) {
+
+                var children=[];
+                for (j=0; j< node.length; j++) {
+                    //console.log("node list length " + node.length);
+                    //console.log(node[j].hasChildNodes());
+                    if (node[j].children.length == 0) {
+                        //console.log("node = " + JSON.stringify(node[j]));
+                        children[children.length] = node[j];
+                    } else {
+                        //v.getLeafNodes(node[j]);
+                        //console.log("has children");
+                        }
+
+                }
+
+                return children;
+
+            },
+
             updateStrainBox: function() {
                 //alert(JSON.stringify(v.selectedStrains));
+
+                //alert(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=' + v.getAllTerms());
 
                 if (JSON.stringify(v.selectedStrains) === "{}") {
                     return;
@@ -840,20 +884,34 @@
                         xmlDoc = parser.parseFromString(response.data + "", "text/xml");
 
                         var root = xmlDoc.getRootNode();
+
                         //var root = xmlDoc.getElementsByTagName("tree");
-                        var children = root.getElementsByTagName("item");
+                        var childNodes = root.getElementsByTagName("item");
+                        var children = v.getLeafNodes(childNodes);
 
+                        //find out if a selection is now gone
                         var tmpHash = {};
-                        for (let i = 0; i < children.length; i++) {
-                            let item = children[i];
-
-                            for (var key in v.selectedStrains) {
+                        for (var key in v.selectedStrains) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
                                 var idArr = (item.getAttribute("id") + "").split("_");
                                 var id = idArr[0];
 
                                 if (v.selectedStrains[key] === id) {
                                     tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
                                 }
+                            }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedStrains[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedStrains[key];
+                                }
+
                             }
                         }
 
@@ -889,21 +947,37 @@
 
                         var root = xmlDoc.getRootNode();
                         //var root = xmlDoc.getElementsByTagName("tree");
-                        var children = root.getElementsByTagName("item");
+                        var childNodes = root.getElementsByTagName("item");
 
+                        var children = v.getLeafNodes(childNodes);
+
+
+                        //find out if a selection is now gone
                         var tmpHash = {};
-                        for (let i = 0; i < children.length; i++) {
-                            let item = children[i];
-
-                            for (var key in v.selectedMethods) {
+                        for (var key in v.selectedMethods) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
                                 var idArr = (item.getAttribute("id") + "").split("_");
                                 var id = idArr[0];
 
                                 if (v.selectedMethods[key] === id) {
                                     tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
                                 }
                             }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedMethods[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedMethods[key];
+                                }
+
+                            }
                         }
+
 
                         v.selectedMethods = {};
                         for (key in tmpHash) {
@@ -936,19 +1010,34 @@
 
                         var root = xmlDoc.getRootNode();
                         //var root = xmlDoc.getElementsByTagName("tree");
-                        var children = root.getElementsByTagName("item");
+                        var childNodes = root.getElementsByTagName("item");
 
+                        var children = v.getLeafNodes(childNodes);
+
+
+                        //find out if a selection is now gone
                         var tmpHash = {};
-                        for (let i = 0; i < children.length; i++) {
-                            let item = children[i];
-
-                            for (var key in v.selectedMeasurements) {
+                        for (var key in v.selectedMeasurements) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
                                 var idArr = (item.getAttribute("id") + "").split("_");
                                 var id = idArr[0];
 
                                 if (v.selectedMeasurements[key] === id) {
                                     tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
                                 }
+                            }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedMeasurements[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedMeasurements[key];
+                                }
+
                             }
                         }
 
@@ -958,7 +1047,6 @@
                         }
 
                         //v.selectedConditions = tmpHash;
-
 
                     })
                     .catch(function (error) {
@@ -1106,12 +1194,17 @@
             },
 
 
-            getAllTerms: function () {
+            getAllTerms: function (excludeZeroRecordTerms) {
                 console.log("in get all terms");
                 var termString="";
 
                 var first=true;
                 for (const key in v.selectedStrains) {
+
+                    if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
+                        continue;
+                    }
+
                     if (!first) {
                         termString += ",";
                     }else {
@@ -1122,6 +1215,11 @@
                 }
 
                 for (const key in v.selectedMeasurements) {
+
+                    if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
+                        continue;
+                    }
+
                     if (!first) {
                         termString += ",";
                     }else {
@@ -1132,6 +1230,10 @@
                 }
 
                 for (const key in v.selectedConditions) {
+
+                    if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
+                        continue;
+                    }
                     if (!first) {
                         termString += ",";
                     }else {
@@ -1142,6 +1244,10 @@
                 }
 
                 for (const key in v.selectedMethods) {
+                    if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
+                        continue;
+                    }
+
                     if (!first) {
                         termString += ",";
                     }else {
@@ -1158,6 +1264,9 @@
 
             generateReport: function () {
                 var tString = v.getAllTerms();
+
+
+
                 if (tString === "") {
                     alert("Please select one or more terms below to generate a Phenominer report.");
 
@@ -1281,7 +1390,11 @@
 
                         var root = xmlDoc.getRootNode();
                         //var root = xmlDoc.getElementsByTagName("tree");
-                        var children = root.getElementsByTagName("item");
+                        var childNodes = root.getElementsByTagName("item");
+
+                        var children = v.getLeafNodes(childNodes);
+
+                        console.log(JSON.stringify(children));
 
                         var tmpHash={};
                         for (let i = 0; i < children.length; i++) {
