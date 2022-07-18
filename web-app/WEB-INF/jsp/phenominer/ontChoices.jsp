@@ -819,7 +819,15 @@
 
                         v.selectedConditions = {};
                         for (key in tmpHash) {
-                            v.selectedConditions[key] = tmpHash[key];
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedConditions[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedConditions[key] = tmpHash[key];
+                            }
                         }
 
                         //v.selectedConditions = tmpHash;
@@ -904,7 +912,15 @@
 
                         v.selectedStrains = {};
                         for (key in tmpHash) {
-                            v.selectedStrains[key] = tmpHash[key];
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedStrains[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedStrains[key] = tmpHash[key];
+                            }
                         }
 
                         //v.selectedConditions = tmpHash;
@@ -968,7 +984,15 @@
 
                         v.selectedMethods = {};
                         for (key in tmpHash) {
-                            v.selectedMethods[key] = tmpHash[key];
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedMethods[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedMethods[key] = tmpHash[key];
+                            }
                         }
 
                         //v.selectedConditions = tmpHash;
@@ -1032,7 +1056,15 @@
 
                         v.selectedMeasurements = {};
                         for (key in tmpHash) {
-                            v.selectedMeasurements[key] = tmpHash[key];
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedMeasurements[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedMeasurements[key] = tmpHash[key];
+                            }
                         }
 
                         //v.selectedConditions = tmpHash;
