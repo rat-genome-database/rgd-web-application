@@ -752,7 +752,6 @@
                             })
                         .then(function (response) {
                             for (var searchKey in response.data) {
-                                //alert(searchKey);
                                 for (var key in v.symbolHash) {
                                     if (v.symbolHash[key].indexOf(searchKey) != -1) {
                                         v.options[key] = v.symbolHash[key];
@@ -760,18 +759,6 @@
                                     }
                                 }
                             }
-
-
-                            /*
-                                            for (var key in v.symbolHash) {
-                                                if (key.indexOf(v.searchTerm) != -1) {
-                                                    //console.log(key.indexOf(v.searchTerm));
-                                                    v.options[key] = v.symbolHash[key];
-                                                    v.optionsNotEmpty=false;
-                                                }
-                                            }
-                              */
-
 
                         })
                         .catch(function (error) {
@@ -999,6 +986,8 @@
                 if (JSON.stringify(v.selectedMeasurements) === "{}") {
                     return;
                 }
+                alert("calling 3");
+
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=CMO&sex=both&species=3&terms=' + v.getAllTerms(),
                         {
@@ -1195,7 +1184,6 @@
 
 
             getAllTerms: function (excludeZeroRecordTerms) {
-                console.log("in get all terms");
                 var termString="";
 
                 var first=true;
@@ -1263,7 +1251,7 @@
             },
 
             generateReport: function () {
-                var tString = v.getAllTerms();
+                var tString = v.getAllTerms(true);
 
 
 
@@ -1324,7 +1312,6 @@
 
 
             update: function (ont, species,terms) {
-                console.log("in update " + ont);
                 if (!ont) {
                     ont="RS";
                     species=3;
@@ -1360,22 +1347,11 @@
 
                 v.searchTerm="";
 
-                document.getElementById("treebox").innerHTML="";
-
-                tree = new dhtmlXTreeObject("treebox","100%","100%",0);
-                tree.enableCheckBoxes(1);
-                tree.enableThreeStateCheckboxes(1);
-                tree.setImagePath("/rgdweb/js/dhtmlxTree/imgs/");
-
-                tree.attachEvent("onCheck", handleCheckbox);
-                tree.attachEvent("onCheck",passToVue);
-
-                tree.setXMLAutoLoading("/rgdweb/phenominer/treeXml.html?ont=" + ont + "&sex=both&species=" + species + "&terms=" + terms);
-                tree.loadXML("/rgdweb/phenominer/treeXml.html?ont=" + ont + "&sex=both&species=" + species + "&terms=" + terms);
-
-
-
                 v.options={};
+
+                document.getElementById("treebox").innerHTML="Loading...";
+               // document.getElementById("selectionWindow").innerHTML="Loading...";
+
 
 
                 axios
@@ -1385,16 +1361,34 @@
                         })
                     .then(function (response) {
 
+
+
+                        document.getElementById("treebox").innerHTML="";
+
+                        tree = new dhtmlXTreeObject("treebox","100%","100%",0);
+                        tree.enableCheckBoxes(1);
+                        tree.enableThreeStateCheckboxes(1);
+                        tree.setImagePath("/rgdweb/js/dhtmlxTree/imgs/");
+
+                        tree.attachEvent("onCheck", handleCheckbox);
+                        tree.attachEvent("onCheck",passToVue);
+
+                        tree.loadXMLString(response.data);
+                        //tree.setXMLAutoLoading("/rgdweb/phenominer/treeXml.html?ont=" + ont + "&sex=both&species=" + species + "&terms=" + terms);
+                        //tree.loadXML("/rgdweb/phenominer/treeXml.html?ont=" + ont + "&sex=both&species=" + species + "&terms=" + terms);
+
                         var parser = new DOMParser();
                         xmlDoc = parser.parseFromString(response.data + "","text/xml");
+
+
+
+
 
                         var root = xmlDoc.getRootNode();
                         //var root = xmlDoc.getElementsByTagName("tree");
                         var childNodes = root.getElementsByTagName("item");
 
                         var children = v.getLeafNodes(childNodes);
-
-                        console.log(JSON.stringify(children));
 
                         var tmpHash={};
                         for (let i = 0; i < children.length; i++) {
@@ -1404,10 +1398,6 @@
 
 
                         var keys = Object.keys(tmpHash);
-
-                        //v.symbolHash["HR Donors"]="HR";
-                        //v.symbolHash["HDRP Strains"]="HDRP";
-                        //v.symbolHash["HS Founder Strains"]="HS";
 
                         keys.sort();
                         v.options={};
