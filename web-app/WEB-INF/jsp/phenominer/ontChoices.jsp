@@ -183,7 +183,8 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
 
-                <table>
+                <div id="strainMessageUpdate" style="display:none;">Updating...</div>
+                <table id="strainMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
@@ -207,8 +208,9 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
+                <div id="sourceMessageUpdate" style="display:none;">Updating...</div>
 
-                <table>
+                <table id="sourceMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
 
@@ -235,8 +237,10 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <table>
-                    <tr v-for="(key, value) in selectedMeasurements">
+                <div id="cmoMessageUpdate" style="display:none;">Updating...</div>
+
+                <table id="cmoMessageTable">
+                <tr v-for="(key, value) in selectedMeasurements">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'CMO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
                         <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
@@ -256,7 +260,9 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <table>
+                <div id="methodsMessageUpdate" style="display:none;">Updating...</div>
+
+                <table id="methodsMessageTable">
                     <tr v-for="(key, value) in selectedMethods">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'MMO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
@@ -277,7 +283,9 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <table>
+                <div id="conditionMessageUpdate" style="display:none;">Updating...</div>
+
+                <table id="conditionMessageTable">
                     <tr v-for="(key, value) in selectedConditions">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'XCO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
@@ -774,6 +782,8 @@
                 if (JSON.stringify(v.selectedConditions) === "{}") {
                     return;
                 }
+                document.getElementById("conditionMessageTable").style.visibility="hidden";
+                document.getElementById("conditionMessageUpdate").style.display="block";
 
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=XCO&sex=both&species=3&terms=' + v.getAllTerms(),
@@ -831,6 +841,8 @@
                         }
 
                         //v.selectedConditions = tmpHash;
+                        document.getElementById("conditionMessageTable").style.visibility="visible";
+                        document.getElementById("conditionMessageUpdate").style.display="none";
 
 
                     })
@@ -866,9 +878,14 @@
 
                 //alert(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=' + v.getAllTerms());
 
+
                 if (JSON.stringify(v.selectedStrains) === "{}") {
                     return;
                 }
+
+                document.getElementById("strainMessageTable").style.visibility="hidden";
+                document.getElementById("strainMessageUpdate").style.display="block";
+
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=' + v.getAllTerms(),
                         {
@@ -923,6 +940,9 @@
                             }
                         }
 
+                        document.getElementById("strainMessageTable").style.visibility="visible";
+                        document.getElementById("strainMessageUpdate").style.display="none";
+
                         //v.selectedConditions = tmpHash;
 
                     })
@@ -939,6 +959,10 @@
                 if (JSON.stringify(v.selectedMethods) === "{}") {
                     return;
                 }
+
+                document.getElementById("methodMessageTable").style.visibility="hidden";
+                document.getElementById("methodMessageUpdate").style.display="block";
+
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=MMO&sex=both&species=3&terms=' + v.getAllTerms(),
                         {
@@ -996,6 +1020,8 @@
                         }
 
                         //v.selectedConditions = tmpHash;
+                        document.getElementById("methodMessageTable").style.visibility="visible";
+                        document.getElementById("methodMessageUpdate").style.display="none";
 
 
                     })
@@ -1010,7 +1036,9 @@
                 if (JSON.stringify(v.selectedMeasurements) === "{}") {
                     return;
                 }
-                alert("calling 3");
+
+                document.getElementById("cmoMessageTable").style.visibility="hidden";
+                document.getElementById("cmoMessageUpdate").style.display="block";
 
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=CMO&sex=both&species=3&terms=' + v.getAllTerms(),
@@ -1068,6 +1096,8 @@
                         }
 
                         //v.selectedConditions = tmpHash;
+                        document.getElementById("cmoMessageTable").style.visibility="visible";
+                        document.getElementById("cmoMessageUpdate").style.display="none";
 
                     })
                     .catch(function (error) {
