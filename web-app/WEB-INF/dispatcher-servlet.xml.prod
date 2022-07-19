@@ -62,6 +62,8 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
 
                 <prop key="overgo/find.html">OvergoController</prop>
@@ -225,6 +227,8 @@
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
+    <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
 
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>

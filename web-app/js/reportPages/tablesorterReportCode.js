@@ -2,6 +2,51 @@ tableSorterReport();
 function tableSorterReport() {
     $(function () {
 
+        $('#variantSamplesTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.variantSamplesPager'),
+                size: 20
+            });
+
+        $('#variantTranscriptsTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.variantTranscriptsPager'),
+                size: 20
+            });
+
+        $('#sampleDetailsTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.sampleDetailsPager'),
+                size: 20
+            });
+
+        $('#gwasDataTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
+            })
+            .tablesorterPager({
+            container: $('.gwasDataPager'),
+            size: 20
+        });
+        $('#ClinVarTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
+            });
+
         $('#annotationTable1')
             .tablesorter({
                 theme: 'blue',
@@ -574,16 +619,5 @@ function tableSorterReport() {
                 container: $('.strainQtlAssociationPager'),
                 size: 20
             });
-        $('#phenominerAssociationTable')
-            .tablesorter({
-                theme: 'dropbox',
-                widget: ['zebra']
-            })
-            .tablesorterPager({
-                container: $('.phenominerAssociationPager'),
-                size: 30
-            });
-
-
     });
 }
