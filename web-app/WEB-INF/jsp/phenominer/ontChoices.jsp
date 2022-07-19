@@ -260,9 +260,9 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="methodsMessageUpdate" style="display:none;">Updating...</div>
+                <div id="methodMessageUpdate" style="display:none;">Updating...</div>
 
-                <table id="methodsMessageTable">
+                <table id="methodMessageTable">
                     <tr v-for="(key, value) in selectedMethods">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'MMO')" src="/rgdweb/common/images/del.jpg"/></td>
                         <!--<td>{{key}}</td>-->
