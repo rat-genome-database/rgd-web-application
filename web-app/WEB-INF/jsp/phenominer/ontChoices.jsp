@@ -1201,6 +1201,11 @@
                 if (ont != this.currentOnt) {
                     this.removeTerm(ont, accId);
 
+                    this.updateMethodBox();
+                    this.updateStrainBox();
+                    this.updateConditionBox();
+                    this.updateMeasurementBox();
+
                     this.update(this.currentOnt, this.species);
                 }else {
                     if (ont === this.currentOnt) {
