@@ -33,7 +33,11 @@
 
 <div id="strainSequenceVariantsTableDiv" class="light-table-border">
     <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (MRatBN7.2)</div>
-
+    <br>
+    <div>
+        <b><a style="font-size: 14px;" href="/rgdweb/front/variants.html?start=<%=md.getStartPos()%>&stop=<%=md.getStopPos()%>&chr=<%=md.getChromosome()%>&geneStart=&geneStop=&geneList=<%=obj.getSymbol()%>&mapKey=372&con=&depthLowBound=1&depthHighBound=&sample1=3000&sample2=3016&sample3=3031&sample4=3001&sample5=3017&sample6=3032&sample7=3002&sample8=3018&sample9=3033&sample10=3004&sample11=3020&sample12=3036&sample13=3003&sample14=3019&sample15=3035&sample16=3005&sample17=3021&sample18=3037&sample19=3006&sample20=3022&sample21=3038&sample22=3007&sample23=3030&sample24=3039&sample25=3008&sample26=3023&sample27=3041&sample28=3009&sample29=3034&sample30=3040&sample31=3010&sample32=3024&sample33=3042&sample34=3012&sample35=3025&sample36=3043&sample37=3011&sample38=3026&sample39=3044&sample40=3013&sample41=3027&sample42=3046&sample43=3014&sample44=3028&sample45=3045&sample46=3015&sample47=3029&sample48=3047">View all Strains in Variant Visualizer</a></b>
+    </div>
+    
 <div class="search-and-pager">
 
     <div class="modelsViewContent" >
