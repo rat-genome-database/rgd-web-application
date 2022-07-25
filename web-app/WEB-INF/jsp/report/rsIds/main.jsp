@@ -10,11 +10,19 @@
     String title = "Variant";
     List<VariantMapData> vars = (List<VariantMapData>) request.getAttribute("reportObjects");
     int speciesType = vars.get(0).getSpeciesTypeKey();
+    int mapKey = vars.get(0).getMapKey();
     String objectType="Variants";
     String displayName = request.getParameter("id");
+    boolean isGene = false;
+    if (request.getAttribute("gene").toString().isEmpty())
+         displayName = request.getParameter("id");
+    else {
+        isGene = true;
+        displayName = request.getAttribute("gene").toString();
+    }
     String pageTitle = displayName;
     String headContent = "";
-    String pageDescription = pageTitle;
+    String pageDescription = pageTitle + " Variants";
 %>
 
 <div id="top" ></div>

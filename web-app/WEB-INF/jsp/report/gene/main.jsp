@@ -219,6 +219,7 @@
                     <%@ include file="../variants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
+                    <%@ include file="../cnVariants.jsp"%>
 
 
                     <!--above additional information--->
