@@ -979,7 +979,7 @@
 %>
 <div class="reportTable light-table-border">
   <div class="sectionHeading" id="phenotypeAnnotationsCurator">Phenotype Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenotypeAnnotationsCurator', 'phenotypeAnnotations');">Click to see Annotation Detail View</a></div>
-</div>
+
 
 <% if (mpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="mammalianPhenotypeAnnotationsTableWrapper">
@@ -1184,7 +1184,7 @@
 
     <% } %>
 <% } %>
-
+</div>
 
 
 <%
