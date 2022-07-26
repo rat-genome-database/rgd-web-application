@@ -383,6 +383,33 @@ function tableSorterReport() {
                 container: $('.humanPhenotypeAnnotationsPager'),
                 size: 20
             });
+        $('#humanPhenotypeManualAnnotationsTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['filter'],
+                widgetOptions: {
+                    filter_external: '#humanPhenotypeManualAnnotationsSearch',
+                    filter_columnFilters: false
+                }
+            })
+            .tablesorterPager({
+                container: $('.humanPhenotypeManualAnnotationsPager'),
+                size: 20
+            });
+
+        $('#humanPhenotypeClinVarAnnotationsTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['filter'],
+                widgetOptions: {
+                    filter_external: '#humanPhenotypeClinVarAnnotationsSearch',
+                    filter_columnFilters: false
+                }
+            })
+            .tablesorterPager({
+                container: $('.humanPhenotypeClinVarAnnotationsPager'),
+                size: 20
+            });
         $('#cellOntologyTable')
             .tablesorter({
                 theme: 'blue',
