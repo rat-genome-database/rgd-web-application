@@ -11,6 +11,11 @@ function tableSorterReport() {
                 container: $('.variantSamplesPager'),
                 size: 20
             });
+        $('#mapDataTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            });
 
         $('#variantTranscriptsTable')
             .tablesorter({
@@ -650,5 +655,6 @@ function tableSorterReport() {
                 container: $('.strainQtlAssociationPager'),
                 size: 20
             });
+
     });
 }

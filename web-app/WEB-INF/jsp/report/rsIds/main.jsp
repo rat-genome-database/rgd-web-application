@@ -13,16 +13,21 @@
     int mapKey = vars.get(0).getMapKey();
     String objectType="Variants";
     String displayName = request.getParameter("id");
+    String symbol = "";
+
     boolean isGene = false;
-    if (request.getAttribute("gene").toString().isEmpty())
+    if (request.getAttribute("symbol").toString().isEmpty())
          displayName = request.getParameter("id");
     else {
         isGene = true;
-        displayName = request.getAttribute("gene").toString();
+
+        symbol = request.getAttribute("symbol").toString();
+        displayName = symbol + " Variants";
     }
     String pageTitle = displayName;
     String headContent = "";
     String pageDescription = pageTitle + " Variants";
+
 %>
 
 <div id="top" ></div>
