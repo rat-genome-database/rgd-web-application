@@ -74,6 +74,7 @@ public class DownloadController extends HaplotyperController {
             List<String> geneSymbols = null;
             if (!geneList.equals("") && !geneList.contains("|") && !geneList.contains("*")) {
                 geneSymbols = Utils.symbolSplit(geneList);
+                vsb.setGenes(geneSymbols);
                 multipleGeneSymbols = geneSymbols.size()>1;
             }
             if( !multipleGeneSymbols ) {
@@ -128,7 +129,13 @@ public class DownloadController extends HaplotyperController {
         }else {
             mark=vsb.getStopPosition();
         }
+        if (mappedGenes.size() > 0) {
+            vsb.setMappedGenes(mappedGenes);
 
+            for (MappedGene mg: vsb.getMappedGenes()) {
+                vsb.genes.add(mg.getGene().getSymbol());
+            }
+        }
 
    //     while (mark <= stop) {
 
