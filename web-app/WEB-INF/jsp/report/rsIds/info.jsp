@@ -57,7 +57,7 @@
                 <input type="hidden" id="chr" value=""/>
                 <input type="hidden" id="mapKey" value=""/>
                 <input type="hidden" id="symbol" value=""/>
-                <button  style="cursor:pointer;" height=33 width=35 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></button> <!--  onclick="downloadVariants()" -->
+                <input type="image" style="cursor:pointer;" height=33 width=35 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></input> <!--  onclick="downloadVariants()" -->
             </form>
         </td>
     </tr>
@@ -136,7 +136,7 @@
                     {responseType: 'blob'})
                     .then(function (response) {
                         // alert("done");
-                        console.log(response);
+                        // console.log(response);
                         var a = document.createElement("a");
                         document.body.appendChild(a);
                         a.style = "display: none";
