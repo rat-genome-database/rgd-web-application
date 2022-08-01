@@ -56,9 +56,9 @@ public class VariantController extends HaplotyperController {
                     searchType="GENE";
                 }
             }
-            if (geneList.equals("") ) {
+           /* if (geneList.equals("") ) {
                return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
-            }
+            }*/
 
             VariantSearchBean vsb = this.fillBean(req);
             if(!geneList.contains("|"))
@@ -77,6 +77,7 @@ public class VariantController extends HaplotyperController {
             }
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
            long count=variantResults.size();
+           System.out.println("count:"+ count);
             if (count < 2000 || searchType.equals("GENE")) {
                 SNPlotyper snplotyper = new SNPlotyper();
 
