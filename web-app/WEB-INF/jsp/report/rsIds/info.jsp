@@ -8,75 +8,6 @@
     String stop = request.getAttribute("stop").toString();
     String chr = request.getAttribute("chr").toString();
 %>
-<script>
-    rgdModule.controller('rsIdController', [
-        '$scope','$http','$q',
-
-        function ($scope, $http, $q) {
-
-            var ctrl = this;
-
-            $scope.wsHost = window.location.protocol + window.location.host;
-            if (window.location.host.indexOf('localhost') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-//                $scope.wsHost= window.location.protocol + '//localhost:8080';
-//                $scope.olgaHost = $scope.wsHost;
-            } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else if (window.location.host.indexOf('test.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else {
-                $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';
-                $scope.olgaHost = "https://rgd.mcw.edu";
-            } $scope.wsHost = window.location.protocol + window.location.host;
-            if (window.location.host.indexOf('localhost') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-//                $scope.wsHost= window.location.protocol + '//localhost:8080';
-//                $scope.olgaHost = $scope.wsHost;
-            } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else if (window.location.host.indexOf('test.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
-                $scope.olgaHost = $scope.wsHost;
-            }else {
-                $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';
-                $scope.olgaHost = "https://rgd.mcw.edu";
-            }
-
-            $scope.title = "<%=title%>";
-            $scope.subTitle = "";
-            $scope.thisCtrl = ctrl;
-
-            ctrl.downloadVariants = function() {
-
-                var form = document.getElementById("download");
-                form.action="downloadVariants.jsp";
-                form.method="POST";
-                form.start.value = "<%=start%>";
-                form.stopPos.value = "<%=stop%>";
-                form.chr.value = "<%=chr%>";
-                form.mapKey.value = "<%=mapKey%>";
-                form.symbol.value = "<%=symbol%>";
-                form.submit();
-            }
-
-        }
-
-    ]);
-
-</script>
-<div id="rsIdController" ng-controller="rsIdController as variant">
 
     <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
         // ================================================================
@@ -119,7 +50,16 @@
             Your selection has multiple variants. Select which variant for <%=symbol%>&nbsp;you would like to view -&nbsp;<a style="font-size:20px; color:#2865A3; font-weight:700;" href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=SpeciesType.getTaxonomicName(speciesType)%></a>
         </td>
         <td width="10%"></td>
-        <td align="right"><img  style="cursor:pointer;" height=33 width=35 ng-click="variant.downloadVariants()" src="/rgdweb/common/images/excel.png"/></td>
+        <td align="right">
+            <form id="downloadVue">
+                <input type="hidden" id="start" value=""/>
+                <input type="hidden" id="stopPos" value=""/>
+                <input type="hidden" id="chr" value=""/>
+                <input type="hidden" id="mapKey" value=""/>
+                <input type="hidden" id="symbol" value=""/>
+                <button  style="cursor:pointer;" height=33 width=35 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></button> <!--  onclick="downloadVariants()" -->
+            </form>
+        </td>
     </tr>
     <tr>
         <td><b>
@@ -161,14 +101,135 @@
         <% } %>
     </table>
 </div>
-<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">
-    <form id="download" name="download" >
-        <input name="start" value=""/>
-        <input name="stopPos" value=""/>
-        <input name="chr" value=""/>
-        <input name="mapKey" value=""/>
-        <input name="symbol" value=""/>
-    </form>
-</div>
+<%--<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">--%>
+<%--    <form id="download" name="download" >--%>
+<%--        <input name="start" value=""/>--%>
+<%--        <input name="stopPos" value=""/>--%>
+<%--        <input name="chr" value=""/>--%>
+<%--        <input name="mapKey" value=""/>--%>
+<%--        <input name="symbol" value=""/>--%>
+<%--    </form>--%>
+<%--</div>--%>
 
-</div>
+<script>
+    var downloadVue = new Vue ({
+        el: '#downloadVue',
+        data: {
+            start: '<%=start%>',
+            stopPos: '<%=stop%>',
+            chr: '<%=chr%>',
+            mapKey: '<%=mapKey%>',
+            symbol: '<%=symbol%>'
+        },
+        methods: {
+            downloadVars: function () {
+                // alert("Start vue");
+                axios
+                    .post('/rgdweb/report/rsIds/download.html',
+                        {
+                            start: downloadVue.start,
+                            stopPos: downloadVue.stopPos,
+                            chr: downloadVue.chr,
+                            mapKey: downloadVue.mapKey,
+                            symbol: downloadVue.symbol
+                        },
+                    {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/csv' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "variants.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                    console.log(error.response.data)
+                })
+            }
+        }
+    });
+
+    <%--function downloadVariants() {--%>
+
+    <%--    var form = document.getElementById("downloadVue");--%>
+    <%--    form.action="/rgdweb/report/rsIds/download.html";--%>
+    <%--    form.method="POST";--%>
+    <%--    form.start.value = '<%=start%>';--%>
+    <%--    form.stopPos.value = '<%=stop%>';--%>
+    <%--    form.chr.value = '<%=chr%>';--%>
+    <%--    form.mapKey.value = '<%=mapKey%>';--%>
+    <%--    form.symbol.value = '<%=symbol%>';--%>
+    <%--    form.submit();--%>
+    <%--}--%>
+    <%--    rgdModule.controller('rsIdController', [--%>
+    <%--        '$scope','$http','$q',--%>
+
+    <%--        function ($scope, $http, $q) {--%>
+
+    <%--            var ctrl = this;--%>
+
+    <%--            $scope.wsHost = window.location.protocol + window.location.host;--%>
+    <%--            if (window.location.host.indexOf('localhost') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--//                $scope.wsHost= window.location.protocol + '//localhost:8080';--%>
+    <%--//                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            } else if (window.location.host.indexOf('dev.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else if (window.location.host.indexOf('test.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else if (window.location.host.indexOf('pipelines.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else {--%>
+    <%--                $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = "https://rgd.mcw.edu";--%>
+    <%--            } $scope.wsHost = window.location.protocol + window.location.host;--%>
+    <%--            if (window.location.host.indexOf('localhost') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--//                $scope.wsHost= window.location.protocol + '//localhost:8080';--%>
+    <%--//                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            } else if (window.location.host.indexOf('dev.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else if (window.location.host.indexOf('test.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else if (window.location.host.indexOf('pipelines.rgd') > -1) {--%>
+    <%--                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = $scope.wsHost;--%>
+    <%--            }else {--%>
+    <%--                $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';--%>
+    <%--                $scope.olgaHost = "https://rgd.mcw.edu";--%>
+    <%--            }--%>
+
+    <%--            $scope.title = "<%=title%>";--%>
+    <%--            $scope.subTitle = "";--%>
+    <%--            $scope.thisCtrl = ctrl;--%>
+
+    <%--            ctrl.downloadVariants = function() {--%>
+
+    <%--                var form = document.getElementById("download");--%>
+    <%--                form.action="downloadVariants.jsp";--%>
+    <%--                form.method="POST";--%>
+    <%--                form.start.value = "<%=start%>";--%>
+    <%--                form.stopPos.value = "<%=stop%>";--%>
+    <%--                form.chr.value = "<%=chr%>";--%>
+    <%--                form.mapKey.value = "<%=mapKey%>";--%>
+    <%--                form.symbol.value = "<%=symbol%>";--%>
+    <%--                form.submit();--%>
+    <%--            }--%>
+
+    <%--        }--%>
+
+    <%--    ]);--%>
+</script>

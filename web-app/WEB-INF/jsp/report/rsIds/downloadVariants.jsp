@@ -4,16 +4,17 @@
     VariantDAO vdao = new VariantDAO();
     MapDAO mapDAO = new MapDAO();
 
-    String chr = request.getParameter("chr");
-    int start = Integer.parseInt(request.getParameter("start"));
-    int stop = Integer.parseInt(request.getParameter("stopPos"));
-    int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-    String symbol = request.getParameter("symbol");
+    String chr = request.getAttribute("chr").toString();
+    int start = Integer.parseInt(request.getAttribute("start").toString());
+    int stop = Integer.parseInt(request.getAttribute("stopPos").toString());
+    int mapKey = Integer.parseInt(request.getAttribute("mapKey").toString());
+    String symbol = request.getAttribute("symbol").toString();
 
     List<VariantMapData> vars = vdao.getVariantsWithGeneLocation(mapKey,chr,start,stop);
     Map map = mapDAO.getMap(mapKey);
 
     out.print(symbol);
+    out.print(",");
     out.println(map.getName());
 
     out.print("rs ID");
@@ -48,9 +49,16 @@
         out.print(",");
         out.print(v.getVariantType());
         out.print(",");
-        out.print(v.getReferenceNucleotide());
+        if (Utils.isStringEmpty(v.getReferenceNucleotide()))
+            out.print("-");
+        else
+            out.print(v.getReferenceNucleotide());
         out.print(",");
-        out.print(v.getVariantNucleotide());
+        if (Utils.isStringEmpty(v.getVariantNucleotide()))
+            out.print("-");
+        else
+            out.print(v.getVariantNucleotide());
         out.print(",");
         out.println(v.getId());
-    }%>
+    }
+%>

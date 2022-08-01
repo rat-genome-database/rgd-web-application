@@ -26,7 +26,7 @@
     <div class="sectionHeading" id="cnVariants">Variants</div>
     <br>
     <div>
-        <b><a style="font-size: 14px;" href="/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b>
+        <b><a style="font-size: 14px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b>
     </div>
     </div>
 </div>
