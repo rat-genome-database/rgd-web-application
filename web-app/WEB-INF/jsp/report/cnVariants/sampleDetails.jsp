@@ -42,19 +42,21 @@ if (!sampleDetailList.isEmpty() ) {
         <table id="sampleDetailsTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="sampleDetailsTable_pager_info">
             <tr>
                 <td>Sample</td>
-                <td>Total Depth</td>
-                <td>Sample Allele Frequency</td>
+                <td>Percent Read</td>
                 <td>Zygosity Status</td>
-                <td>Zygosity Percent Read</td>
+                <td>Quality Score</td>
             </tr>
             <%for (VariantSampleDetail vsd : sampleDetailList) {
-                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());%>
+                Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
+                long start = var.getStartPos() - 1;
+                long stop = var.getEndPos() + 1;
+                String vvUrl = "/rgdweb/front/variants.html?start="+ start +"&stop="+stop+"&chr=" + var.getChromosome() +
+                        "&geneStart=&geneStop=&geneList=&mapKey="+s.getMapKey()+"&con=&depthLowBound=1&depthHighBound=&sample1="+s.getId();%>
             <tr>
-                <td><%=s.getAnalysisName()%></td>
-                <td><%=vsd.getDepth()%></td>
-                <td><%=vsd.getVariantFrequency()%></td>
+                <td><a href="<%=vvUrl%>" title="View in Variant Visualizer"><%=s.getAnalysisName()%></a></td>
+                <td><%=vsd.getVariantFrequency()%>/<%=vsd.getDepth()%>&nbsp;(<%=vsd.getZygosityPercentRead()%>%)</td>
                 <td><%=vsd.getZygosityStatus()%></td>
-                <td><%=vsd.getZygosityPercentRead()%></td>
+                <td><%=vsd.getQualityScore()%></td>
             </tr>
             <% } %>
         </table>
