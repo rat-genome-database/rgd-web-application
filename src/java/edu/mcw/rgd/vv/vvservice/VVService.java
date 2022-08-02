@@ -120,7 +120,7 @@ public class VVService {
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
                 } while (sr.getHits().getHits().length != 0);
 
-                System.out.println("search Hits:"+ searchHits);
+              //  System.out.println("search Hits:"+ searchHits);
                 return searchHits;
             }
         }catch (Exception e) {

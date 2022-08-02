@@ -350,7 +350,7 @@ public class DistributionController extends HaplotyperController {
             }
         }
        for (String id : sampleIds){
-           System.out.println(SampleManager.getInstance().getSampleName(Integer.parseInt(id)).getAnalysisName());
+      //     System.out.println(SampleManager.getInstance().getSampleName(Integer.parseInt(id)).getAnalysisName());
        }
         return sampleIds;
     }

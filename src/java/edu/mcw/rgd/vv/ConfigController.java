@@ -36,7 +36,7 @@ public class ConfigController extends HaplotyperController {
 
             vsb = this.fillBean(req);
             request.setAttribute("vsb", vsb);
-            System.out.println("IN CONFIG CONTRL: MAPKEY: "+vsb.getMapKey()+"\tstart: "+vsb.getStartPosition()+"\tstp:"+vsb.getStopPosition() );
+           // System.out.println("IN CONFIG CONTRL: MAPKEY: "+vsb.getMapKey()+"\tstart: "+vsb.getStartPosition()+"\tstp:"+vsb.getStopPosition() );
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
