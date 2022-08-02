@@ -110,8 +110,12 @@ public class EditHomePageController implements Controller {
          
             }else{
                 if(s.getGeneRgdId()>0){
-                    Gene g=geneDAO.getGene(s.getGeneRgdId());
-                     s.setGeneSymbol(g.getSymbol());
+                    try {
+                        Gene g = geneDAO.getGene(s.getGeneRgdId());
+                        s.setGeneSymbol(g.getSymbol());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
             if(s.getAlleleRgdId()==0){
@@ -122,15 +126,21 @@ public class EditHomePageController implements Controller {
               
             }else{
                 if(s.getAlleleRgdId()>0){
-                    Gene a= geneDAO.getGene(s.getAlleleRgdId());
-                    s.setAlleleSymbol(a.getSymbol());
+                    try {
+                        Gene a = geneDAO.getGene(s.getAlleleRgdId());
+                        s.setAlleleSymbol(a.getSymbol());
+                    }catch (Exception e){e.printStackTrace();}
                 }
             }
             if(s.getStrainRgdId()>0){
-                Strain strain= strainDAO.getStrain(s.getStrainRgdId());
-                if(strain!=null){
-                s.setStrainSymbol(strain.getSymbol());
-            }}
+                try {
+                    Strain strain = strainDAO.getStrain(s.getStrainRgdId());
+                    if (strain != null) {
+                        s.setStrainSymbol(strain.getSymbol());
+
+                    }
+                }catch (Exception e){e.printStackTrace();}
+            }
             List<SubmittedStrainAvailabiltiy> aList= adao.getAvailabilityByStrainKey(s.getSubmittedStrainKey());
             s.setAvailList(aList);
             submittedStrains.add(s);
