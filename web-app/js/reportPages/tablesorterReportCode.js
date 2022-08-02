@@ -15,7 +15,11 @@ function tableSorterReport() {
             .tablesorter({
                 theme: 'blue',
                 widget: ['zebra']
-            });
+            })
+            .tablesorterPager({
+            container: $('.mapDataPager'),
+            size: 20
+        });
 
         $('#variantTranscriptsTable')
             .tablesorter({

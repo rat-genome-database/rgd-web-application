@@ -7,6 +7,23 @@
     String start =  request.getAttribute("start").toString();
     String stop = request.getAttribute("stop").toString();
     String chr = request.getAttribute("chr").toString();
+    String vvSamples = "";
+    if (speciesType==1)
+        vvSamples="&strain%5B%5D=2&sample1=2";
+    else if (speciesType==3)
+        vvSamples = "&sample1=3000&sample2=3016&sample3=3031&sample4=3001&sample5=3017&sample6=3032&sample7=3002&sample8=3018" +
+                "&sample9=3033&sample10=3004&sample11=3020&sample12=3036&sample13=3003&sample14=3019&sample15=3035&sample16=3005" +
+                "&sample17=3021&sample18=3037&sample19=3006&sample20=3022&sample21=3038&sample22=3007&sample23=3030&sample24=3039" +
+                "&sample25=3008&sample26=3023&sample27=3041&sample28=3009&sample29=3034&sample30=3040&sample31=3010&sample32=3024" +
+                "&sample33=3042&sample34=3012&sample35=3025&sample36=3043&sample37=3011&sample38=3026&sample39=3044&sample40=3013" +
+                "&sample41=3027&sample42=3046&sample43=3014&sample44=3028&sample45=3045&sample46=3015&sample47=3029&sample48=3047";
+    else
+        vvSamples = "&sample1=3000&sample2=3016&sample3=3031&sample4=3001&sample5=3017&sample6=3032&sample7=3002&sample8=3018" +
+                "&sample9=3033&sample10=3004&sample11=3020&sample12=3036&sample13=3003&sample14=3019&sample15=3035&sample16=3005" +
+                "&sample17=3021&sample18=3037&sample19=3006&sample20=3022&sample21=3038&sample22=3007&sample23=3030&sample24=3039" +
+                "&sample25=3008&sample26=3023&sample27=3041&sample28=3009&sample29=3034&sample30=3040&sample31=3010&sample32=3024" +
+                "&sample33=3042&sample34=3012&sample35=3025&sample36=3043&sample37=3011&sample38=3026&sample39=3044&sample40=3013" +
+                "&sample41=3027&sample42=3046&sample43=3014&sample44=3028&sample45=3045&sample46=3015&sample47=3029&sample48=3047";
 %>
 
     <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
@@ -63,7 +80,7 @@
     </tr>
     <tr>
         <td><b>
-            <a style="font-size: 14px;" href="/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=map.getKey()%>&con=&depthLowBound=1&depthHighBound=&sample1=3000&sample2=3016&sample3=3031&sample4=3001&sample5=3017&sample6=3032&sample7=3002&sample8=3018&sample9=3033&sample10=3004&sample11=3020&sample12=3036&sample13=3003&sample14=3019&sample15=3035&sample16=3005&sample17=3021&sample18=3037&sample19=3006&sample20=3022&sample21=3038&sample22=3007&sample23=3030&sample24=3039&sample25=3008&sample26=3023&sample27=3041&sample28=3009&sample29=3034&sample30=3040&sample31=3010&sample32=3024&sample33=3042&sample34=3012&sample35=3025&sample36=3043&sample37=3011&sample38=3026&sample39=3044&sample40=3013&sample41=3027&sample42=3046&sample43=3014&sample44=3028&sample45=3045&sample46=3015&sample47=3029&sample48=3047">View in Variant Visualizer</a>
+            <a style="font-size: 14px;" href="/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=map.getKey()%>&con=&depthLowBound=1&depthHighBound=<%=vvSamples%>">View in Variant Visualizer</a>
         </b></td>
     </tr>
 </table>
@@ -71,6 +88,28 @@
 
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div id="mapDataTableDiv" class="annotation-detail" >
+    <div class="search-and-pager">
+        <div class="modelsViewContent" >
+            <div class="pager mapDataPager" >
+                <form>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                    <span type="text" class="pagedisplay"></span>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                    <select class="pagesize">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                        <option   value="100">100</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <table border="0" id="mapDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="mapDataTable_pager_info">
         <tr>
             <th align="left">Variant Page</th>
@@ -102,6 +141,25 @@
         </tr>
         <% } %>
     </table>
+    <div class="modelsViewContent" >
+        <div class="pager mapDataPager" >
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="1000">1000</option>
+                </select>
+            </form>
+        </div>
+    </div>
 </div>
 <%--<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">--%>
 <%--    <form id="download" name="download" >--%>
