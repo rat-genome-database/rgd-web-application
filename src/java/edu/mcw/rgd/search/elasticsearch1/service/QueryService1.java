@@ -266,6 +266,9 @@ public class QueryService1 {
 
                         .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
                         .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+                        .add(QueryBuilders.matchPhrasePrefixQuery("term.symbol", term).boost(600))
+                        .add(QueryBuilders.matchPhraseQuery("term.symbol", term).boost(600))
+
 
                         .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
                         .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
