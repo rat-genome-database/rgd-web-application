@@ -64,8 +64,7 @@
 <table>
     <tr>
         <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
-            Your selection has multiple variants. Select which variant for <%=symbol%>&nbsp;you would like to view -&nbsp;<a style="font-size:20px; color:#2865A3; font-weight:700; text-decoration: underline;" href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=SpeciesType.getTaxonomicName(speciesType)%></a>
-        </td>
+            Your selection has multiple variants. Select which variant for <%=symbol%>&nbsp;you would like to view -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
         <td width="10%"></td>
         <td align="right">
             <form id="downloadVue">
@@ -79,10 +78,15 @@
         </td>
     </tr>
     <tr>
+        <td>Assembly:&nbsp;<a href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=map.getName()%></a></td>
+    </tr>
+    <% if (speciesType == 1 || speciesType == 3 ){ %>
+    <tr>
         <td><b>
             <a style="font-size: 14px;" href="/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=map.getKey()%>&con=&depthLowBound=1&depthHighBound=<%=vvSamples%>">View in Variant Visualizer</a>
         </b></td>
     </tr>
+    <% } %>
 </table>
 <br>
 
@@ -120,8 +124,9 @@
             <th align="left">Type</th>
             <th align="left">Reference Nucleotide</th>
             <th align="left">Variant Nucleotide</th>
-            <th align="left">Assembly</th>
+            <% if (speciesType == 1 || speciesType == 3 ){ %>
             <th align="left">VV</th>
+            <%}%>
         </tr>
         <% for (VariantMapData v : vars) { %>
         <tr>
@@ -134,10 +139,11 @@
             <td><%=v.getVariantType()%></td>
             <td><%=Utils.NVL(v.getReferenceNucleotide(), "-")%></td>
             <td><%=Utils.NVL(v.getVariantNucleotide(),"-")%></td>
-            <td><%=map.getName()%></td>
-            <td><a title="View in Variant Visualizer" href="/rgdweb/front/variants.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=map.getKey()%>&con=&depthLowBound=1&depthHighBound=&sample1=3000&sample2=3016&sample3=3031&sample4=3001&sample5=3017&sample6=3032&sample7=3002&sample8=3018&sample9=3033&sample10=3004&sample11=3020&sample12=3036&sample13=3003&sample14=3019&sample15=3035&sample16=3005&sample17=3021&sample18=3037&sample19=3006&sample20=3022&sample21=3038&sample22=3007&sample23=3030&sample24=3039&sample25=3008&sample26=3023&sample27=3041&sample28=3009&sample29=3034&sample30=3040&sample31=3010&sample32=3024&sample33=3042&sample34=3012&sample35=3025&sample36=3043&sample37=3011&sample38=3026&sample39=3044&sample40=3013&sample41=3027&sample42=3046&sample43=3014&sample44=3028&sample45=3045&sample46=3015&sample47=3029&sample48=3047">
+            <% if (speciesType == 1 || speciesType == 3 ){ %>
+            <td><a title="View in Variant Visualizer" href="/rgdweb/front/variants.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=map.getKey()%>&con=&depthLowBound=1&depthHighBound=<%=vvSamples%>">
                 <img src="/rgdweb/common/images/variantVisualizer-abr.png" width="30" height="15">
             </a></td>
+            <% } %>
         </tr>
         <% } %>
     </table>
