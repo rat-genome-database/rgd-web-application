@@ -193,6 +193,7 @@
                     <%@ include file="comparativeMapData.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../qtlsInRegion.jsp"%>
+                    <%@ include file="../cnVariants.jsp"%>
                     <%@ include file="../relatedStrains.jsp"%>
                     <%@ include file="../geneticModels.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
@@ -219,7 +220,6 @@
 <%--                    <%@ include file="../variants.jsp"%>--%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
-                    <%@ include file="../cnVariants.jsp"%>
 
 
                     <!--above additional information--->

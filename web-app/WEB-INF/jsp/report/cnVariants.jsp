@@ -25,9 +25,12 @@
 <div class="reportTable light-table-border" id="cnVariantsWrapper">
     <div class="sectionHeading" id="cnVariants">Variants</div>
     <br>
-    <div>
-        <b><a style="font-size: 14px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b>
-    </div>
+    <table>
+    <tr>
+        <td><b><a style="font-size: 18px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b></td>
+        <td><a title="View variants in Variant Visualizer" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>" ><input type="image" style="cursor: pointer;"  src="/rgdweb/common/images/variantVisualizer.png"></a></td> <%-- href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=obj.getSymbol()%>&mapKey=<%=activeMap.getKey()%>" --%>
+    </tr>
+    </table>
     </div>
 </div>
 <%@ include file="sectionFooter.jsp"%>

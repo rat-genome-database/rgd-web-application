@@ -64,32 +64,8 @@ public class CNVariantsRsIdController implements Controller {
                         }
                         break;
                     case "qtlId":
-                        String[] paramValues2 = request.getParameterValues(paramName);
-                        for (int i = 0; i < paramValues2.length; i++) {
-                            String paramValue = paramValues2[i];
-                            if (!Utils.isStringEmpty(paramValue)) {
-                                int rgdId = Integer.parseInt(paramValue);
-                                QTL qtl = getQtl(rgdId);
-                                final MapManager mm = MapManager.getInstance();
-                                Map activeMap = mm.getReferenceAssembly(qtl.getSpeciesTypeKey());
-                                MapData mapData = getMapData(rgdId, activeMap);
-                                if (mapData == null) {
-                                    error.add("We have no variants in given assembly for " + qtl.getSymbol() + "!");
-                                } else {
-                                    objects = vdao.getVariantsWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
-                                    request.setAttribute("symbol", qtl.getSymbol());
-                                    request.setAttribute("rgdId", rgdId);
-                                    request.setAttribute("start", mapData.getStartPos());
-                                    request.setAttribute("stop", mapData.getStopPos());
-                                    request.setAttribute("chr", mapData.getChromosome());
-                                }
-                            } else
-                                error.add("No proper ID given!");
-                        }
                         break;
                     case "strainId":
-//                        String[] paramValues3 = request.getParameterValues(paramName);
-//                        for (int i = 0; i < paramValues3.length; i++) {}
                         break;
                     case "id":
                         String[] paramValues4 = request.getParameterValues(paramName);

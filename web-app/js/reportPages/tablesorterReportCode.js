@@ -18,7 +18,7 @@ function tableSorterReport() {
             })
             .tablesorterPager({
             container: $('.mapDataPager'),
-            size: 20
+            size: 100
         });
 
         $('#variantTranscriptsTable')
