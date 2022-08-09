@@ -256,7 +256,7 @@ public class QueryService1 {
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
                         .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
                         .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-                        .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
+                       .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
                         .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
                         .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
                         .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
@@ -264,10 +264,12 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
                         .add(QueryBuilders.matchPhraseQuery("genomicAlteration", term).boost(5))
 
-                        .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
-                        .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-                        .add(QueryBuilders.matchPhrasePrefixQuery("term.symbol", term).boost(600))
-                        .add(QueryBuilders.matchPhraseQuery("term.symbol", term).boost(600))
+                    .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
+                    .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+                      .add(QueryBuilders.matchPhrasePrefixQuery("term.symbol", term).boost(500))
+                     .add(QueryBuilders.matchPhraseQuery("term.symbol", term).boost(400))
+                //        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms", term).boost(400))
+                        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms.symbol", term).boost(100))
 
 
                         .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
