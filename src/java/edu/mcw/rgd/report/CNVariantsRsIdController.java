@@ -31,57 +31,114 @@ public class CNVariantsRsIdController implements Controller {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         List<VariantMapData> objects = null;
+        String geneId = request.getParameter("geneId");
+        String qtlId = request.getParameter("qtlId");
+        String p = request.getParameter("p");
+        String rsId = request.getParameter("id");
+        int page = 1;
+        try {
+            if (!Utils.isStringEmpty(p))
+                page = Integer.parseInt(p);
+        }catch (Exception e){
+            page = 1;
+        }
+        if (page<=0)
+            page=1;
         int k = 0;
         try {
 
-            Enumeration<String> parameterNames = request.getParameterNames();
-
-            while (parameterNames.hasMoreElements()) {
-                String paramName = parameterNames.nextElement();
-                switch (paramName){
-                    case "geneId":
-                        String[] paramValues = request.getParameterValues(paramName);
-                        for (int i = 0; i < paramValues.length; i++) {
-                            String paramValue = paramValues[i];
-                            if (!Utils.isStringEmpty(paramValue)) {
-                                int rgdId = Integer.parseInt(paramValue);
-                                Gene g = getGene(rgdId);
-                                final MapManager mm = MapManager.getInstance();
-                                Map activeMap = mm.getReferenceAssembly(g.getSpeciesTypeKey());
-                                MapData mapData = getMapData(rgdId, activeMap);
-                                if (mapData == null) {
-                                    error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
-                                } else {
-                                    objects = vdao.getVariantsWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
-                                    request.setAttribute("symbol", g.getSymbol());
-                                    request.setAttribute("rgdId", rgdId);
-                                    request.setAttribute("start", mapData.getStartPos());
-                                    request.setAttribute("stop", mapData.getStopPos());
-                                    request.setAttribute("chr", mapData.getChromosome());
-                                }
-                            } else
-                                error.add("No proper ID given!");
-                        }
-                        break;
-                    case "qtlId":
-                        break;
-                    case "strainId":
-                        break;
-                    case "id":
-                        String[] paramValues4 = request.getParameterValues(paramName);
-                        for (int i = 0; i < paramValues4.length; i++) {
-                            String rsId = paramValues4[i];
-                            if (!rsId.equals(".")) {
-                                objects = vdao.getAllVariantByRsId(rsId);
-                            } else
-                                error.add("Invalid rs ID!");
-                        }
-                        break;
-                    default:
-                        error.add("No given geneId/qtlId/strainId/id!");
+            if (Utils.isStringEmpty(geneId) && Utils.isStringEmpty(rsId) && Utils.isStringEmpty(qtlId))
+                error.add("No ID is given!");
+            else{
+                if (rsId!=null) {
+                    if (!Utils.isStringEmpty(rsId) && !rsId.equals(".")) {
+                        objects = vdao.getAllVariantByRsId(rsId);
+                    } else
+                        error.add("Invalid rs ID!");
                 }
-                k++;
+                else if (geneId != null){
+                    if (!Utils.isStringEmpty(geneId)) {
+                        int rgdId = Integer.parseInt(geneId);
+                        Gene g = getGene(rgdId);
+                        final MapManager mm = MapManager.getInstance();
+                        Map activeMap = mm.getReferenceAssembly(g.getSpeciesTypeKey());
+                        MapData mapData = getMapData(rgdId, activeMap);
+                        if (mapData == null) {
+                            error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
+                        } else {
+                            int size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
+                            int maxPage = (int)Math.ceil(size/1000)+1;
+                            if (page > maxPage )
+                                page = maxPage;
+                            int offset = ((page-1)*1000)+1;
+                            objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(),mapData.getChromosome(),mapData.getStartPos(),mapData.getStopPos(),offset);
+                            request.setAttribute("p",page);
+                            request.setAttribute("maxPage", maxPage);
+                            request.setAttribute("pageId","geneId");
+                            request.setAttribute("symbol", g.getSymbol());
+                            request.setAttribute("rgdId", rgdId);
+                            request.setAttribute("start", mapData.getStartPos());
+                            request.setAttribute("stop", mapData.getStopPos());
+                            request.setAttribute("chr", mapData.getChromosome());
+                        }
+                    } else
+                        error.add("No proper ID given!");
+                }
+                else if (qtlId != null){
+
+                }
+                else {
+
+                }
+
             }
+
+
+
+//            Enumeration<String> parameterNames = request.getParameterNames();
+
+//            while (parameterNames.hasMoreElements()) {
+//                String paramName = parameterNames.nextElement();
+//                switch (paramName){
+//                    case "geneId":
+//                        String[] paramValues = request.getParameterValues(paramName);
+//                        for (int i = 0; i < paramValues.length; i++) {
+//                            String paramValue = paramValues[i];
+//                            if (!Utils.isStringEmpty(paramValue)) {
+//                                int rgdId = Integer.parseInt(paramValue);
+//                                Gene g = getGene(rgdId);
+//                                final MapManager mm = MapManager.getInstance();
+//                                Map activeMap = mm.getReferenceAssembly(g.getSpeciesTypeKey());
+//                                MapData mapData = getMapData(rgdId, activeMap);
+//                                if (mapData == null) {
+//                                    error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
+//                                } else {
+//                                    objects = vdao.getVariantsWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
+//                                    request.setAttribute("symbol", g.getSymbol());
+//                                    request.setAttribute("rgdId", rgdId);
+//                                    request.setAttribute("start", mapData.getStartPos());
+//                                    request.setAttribute("stop", mapData.getStopPos());
+//                                    request.setAttribute("chr", mapData.getChromosome());
+//                                }
+//                            } else
+//                                error.add("No proper ID given!");
+//                        }
+//                        break;
+//                    case "qtlId":
+//                        break;
+//                    case "strainId":
+//                        break;
+//                    case "id":
+//
+//                        break;
+//                    case "p":
+//
+//                        break;
+//                    default:
+//                        error.add("No given geneId/qtlId/strainId/id!");
+//                }
+//                k++;
+//            }
 
             if (objects == null) {
                 error.add("Invalid rs ID!");
@@ -150,4 +207,5 @@ public class CNVariantsRsIdController implements Controller {
         }
         return null;
     }
+
 }

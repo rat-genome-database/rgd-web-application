@@ -10,10 +10,13 @@
     Map map = mapDAO.getMap(mapKey);
     VariantTranscriptDao vtdao = new VariantTranscriptDao();
     PolyphenDAO polydao = new PolyphenDAO();
-//    int objRgdId = (int) request.getAttribute("rgdId");
+    int objRgdId = Integer.parseInt(request.getAttribute("rgdId").toString());
+    String paramId = request.getAttribute("pageId").toString();
     String start =  request.getAttribute("start").toString();
     String stop = request.getAttribute("stop").toString();
     String chr = request.getAttribute("chr").toString();
+    int curPage = Integer.parseInt(request.getAttribute("p").toString());
+    int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
 %>
 
 
@@ -29,7 +32,7 @@
                 <input type="hidden" id="chr" value=""/>
                 <input type="hidden" id="mapKey" value=""/>
                 <input type="hidden" id="symbol" value=""/>
-                <input type="image" style="cursor:pointer;" height=33 width=35 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></input> <!--  onclick="downloadVariants()" -->
+                <input type="image" style="cursor:pointer;" height=40 width=42 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></input> <!--  onclick="downloadVariants()" -->
             </form>
         </td>
     </tr>
@@ -45,30 +48,79 @@
     <% } %>
 </table>
 <br>
-<% if (vars.size() <= 5000) {%>
+<%--<% if (listSize > 5000) {--%>
+<%--listSize = 5000;%>--%>
+<%--<br>--%>
+<%--<div style="color: red; font-size: 25px">--%>
+<%--    Size of list (<%=vars.size()%>) is too large, showing 5000. They can all be viewed in--%>
+<%--    <a style="color: red; font-size: 25px" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">Variant Visualizer</a>--%>
+<%--    or be <a style="color: red; font-size: 25px" href="javascript:download()" >downloaded</a>.--%>
+<%--</div>--%>
+<%--<% } %>--%>
+<div>
+    <form id="locationChange">
+        <input type="radio" id="exon" name="locationType" value="coding">
+        <label for="exon">Coding Exon</label>&nbsp;|&nbsp;
+        <input type="radio" id="non-coding" name="locationType" value="non-coding">
+        <label for="non-coding">Non-coding Exon</label>&nbsp;|&nbsp;
+        <input type="radio" id="intron" name="locationType" value="intron">
+        <label for="intron">Intron</label>&nbsp;|&nbsp;
+        <input type="radio" id="all" name="locationType" value="all" checked>
+        <label for="all">All</label>
+    </form>
+</div>
+<div>
+    <table>
+        <tr>
+            <% if (curPage > 1) {%>
+            <td><button style="font-size: 25px; outline: none;" title="go back a page" onclick="goBack()"><</button>&nbsp;&nbsp;</td>
+            <% } %>
+            <td><label style="font-size: 25px;"><%=curPage%></label>&nbsp;&nbsp;</td>
+            <% if (curPage<maxPage) {%>
+            <td><button style="font-size: 25px;outline: none;" title="go forward a page" onclick="goForward()">></button>&nbsp;&nbsp;</td>
+            <%}%>
+            <%
+            if (maxPage>1){%>
+             <td><select style="font-size: 25px" id="pageChanger" onchange="pageChange()">
+                <%
+                for (int i = 1 ; i <= maxPage;i++){
+                    if (i==curPage)
+                        out.print("<option value="+i+" selected>"+i+"</option>");
+                    else
+                        out.print("<option value="+i+">"+i+"</option>");
+                }
+                %>
+             </select>
+             </td>
+           <% } %>
+        </tr>
+    </table>
+
+</div>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div id="mapDataTableDiv" class="annotation-detail" >
-    <div class="search-and-pager">
-        <div class="modelsViewContent" >
-            <div class="pager mapDataPager" >
-                <form>
-                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                    <span type="text" class="pagedisplay"></span>
-                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                    <select class="pagesize">
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option selected="selected" value="100">100</option>
-                        <option value="250">250</option>
-                        <option value="500">500</option>
-                        <option value="1000">1000</option>
-                    </select>
-                </form>
-            </div>
-        </div>
-    </div>
+
+<%--    <div class="search-and-pager">--%>
+<%--        <div class="modelsViewContent" >--%>
+<%--            <div class="pager mapDataPager" >--%>
+<%--                <form>--%>
+<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>--%>
+<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>--%>
+<%--                    <span type="text" class="pagedisplay"></span>--%>
+<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>--%>
+<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>--%>
+<%--                    <select class="pagesize">--%>
+<%--                        <option value="25">25</option>--%>
+<%--                        <option value="50">50</option>--%>
+<%--                        <option selected="selected" value="100">100</option>--%>
+<%--                        <option value="250">250</option>--%>
+<%--                        <option value="500">500</option>--%>
+<%--                        <option value="1000">1000</option>--%>
+<%--                    </select>--%>
+<%--                </form>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
     <table border="0" id="mapDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="mapDataTable_pager_info">
         <tr>
@@ -87,10 +139,11 @@
             <%}%>
         </tr>
         <% for (VariantMapData v : vars) {
+//            VariantMapData v = vars.get(i);
             List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),mapKey);
             List<PolyPhenPrediction> p = null;
             if (vts != null && !vts.isEmpty()) {
-                System.out.println("Transcript size: "+vts.size());
+//                System.out.println("Transcript size: "+vts.size());
                 p = polydao.getPloyphenDataByVariantId((int) v.getId(), vts.get(0).getTranscriptRgdId());
             }
         %>
@@ -102,8 +155,28 @@
             <td><%=v.getChromosome()%></td>
             <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
             <td><%=v.getVariantType()%></td>
-            <td><%=Utils.NVL(v.getReferenceNucleotide(), "-")%></td>
-            <td><%=Utils.NVL(v.getVariantNucleotide(),"-")%></td>
+            <td>
+                <% String ref = Utils.NVL(v.getReferenceNucleotide(), "-");
+                    String refLess = ref;
+                    String refMore = "";
+                    if (!ref.equals("-") && ref.length()>15){
+                        refLess = ref.substring(0,15);
+                        refMore = ref.substring(15);
+                    }
+                %>
+                <%=refLess%><% if (ref.length()>16) {%><span class="more" style="display: none;"><%=refMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
+            </td>
+            <td>
+                <% String varNuc = Utils.NVL(v.getVariantNucleotide(),"-");
+                    String varLess = varNuc;
+                    String varMore = "";
+                    if (!varNuc.equals("-") && varNuc.length()>15){
+                        varLess = varNuc.substring(0,15);
+                        varMore = varNuc.substring(15);
+                    }
+                %>
+                <%=varLess%><% if (varNuc.length()>16) {%><span class="more" style="display: none;"><%=varMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
+            </td>
             <% if (vts != null && !vts.isEmpty()) {%>
             <td><%=Utils.NVL(vts.get(0).getLocationName(),"-")%></td>
             <%} else {out.print("<td>-</td>");}%>
@@ -118,31 +191,29 @@
         </tr>
         <% } %>
     </table>
-    <div class="modelsViewContent" >
-        <div class="pager mapDataPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option selected="selected" value="100">100</option>
-                    <option value="250">250</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
-                </select>
-            </form>
-        </div>
-    </div>
+
+<%--    <div class="modelsViewContent" >--%>
+<%--        <div class="pager mapDataPager" >--%>
+<%--            <form>--%>
+<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>--%>
+<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>--%>
+<%--                <span type="text" class="pagedisplay"></span>--%>
+<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>--%>
+<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>--%>
+<%--                <select class="pagesize">--%>
+<%--                    <option value="25">25</option>--%>
+<%--                    <option value="50">50</option>--%>
+<%--                    <option selected="selected" value="100">100</option>--%>
+<%--                    <option value="250">250</option>--%>
+<%--                    <option value="500">500</option>--%>
+<%--                    <option value="1000">1000</option>--%>
+<%--                </select>--%>
+<%--            </form>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+
 </div>
-<% }
-else { %>
-<br>
-<h1 style="color: red;">Exceeded amount of Variants to view (5000). They can still be viewed in Variant Visualizer or be downloaded.</h1>
-<% } %>
+
 <%--<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">--%>
 <%--    <form id="download" name="download" >--%>
 <%--        <input name="start" value=""/>--%>
@@ -154,6 +225,16 @@ else { %>
 <%--</div>--%>
 
 <script>
+    // var locationVue = Vue({
+    //     el: '#locationVue',
+    //     data: {
+    //
+    //     },
+    //     methods: {
+    //
+    //     }
+    // });
+
     var downloadVue = new Vue ({
         el: '#downloadVue',
         data: {
@@ -195,5 +276,37 @@ else { %>
                 })
             }
         }
+    });
+
+    function download(){
+        downloadVue.downloadVars();
+    }
+    function goBack() {window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage-1%>';}
+    function goForward() {window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage+1%>';}
+    function pageChange() {
+        var d = document.getElementById("pageChanger").value;
+        window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p='+d;
+    }
+
+    $(function () {
+        $(".more").hide();
+        $(".moreLink").on("click", function(e) {
+
+            var $this = $(this);
+            var parent = $this.parent();
+            var $content=parent.find(".more");
+            var linkText = $this.text();
+
+            if(linkText === "..."){
+                linkText = " Hide...";
+                $content.show();
+            } else {
+                linkText = "...";
+                $content.hide();
+            }
+            $this.text(linkText);
+            return false;
+
+        });
     });
 </script>

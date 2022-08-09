@@ -15,11 +15,11 @@ function tableSorterReport() {
             .tablesorter({
                 theme: 'blue',
                 widget: ['zebra']
-            })
-            .tablesorterPager({
-            container: $('.mapDataPager'),
-            size: 100
-        });
+            });
+        //     .tablesorterPager({
+        //     container: $('.mapDataPager'),
+        //     size: 100
+        // });
 
         $('#variantTranscriptsTable')
             .tablesorter({
