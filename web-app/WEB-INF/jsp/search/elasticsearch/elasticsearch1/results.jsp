@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -889,16 +890,18 @@
                                 </c:choose>
                             </c:if>
                         </c:forEach>
-                        <!--a href="#" class="moreLink" style="color:dodgerblue" title="Matched fragments">Show Matches...</a>
+                        <% if(!RgdContext.isProduction()){%>
+                        <a href="#" class="moreLink" style="color:dodgerblue" title="Matched fragments">Show Matches...</a>
                         <div  class="more hideContent" style="overflow-y: auto">
-                            <!--c:set value="true" var="first"/>
-                            <!--c:forEach items="$--{hit.getHighlightFields()}" var="hf">
+                            <c:set value="true" var="first"/>
+                            <c:forEach items="${hit.getHighlightFields()}" var="hf">
 
-                                <!--c:forEach items="$-{hf.value.getFragments()}" var="f">
-                                    $-{f} ;
-                                <!--/c:forEach>
-                            <!--/c:forEach>
-                        </div-->
+                                <c:forEach items="${hf.value.getFragments()}" var="f">
+                                    ${f} ;
+                                </c:forEach>
+                            </c:forEach>
+                        </div>
+                        <%}%>
                     </td>
                     <!--td class="" >$-{hit.getScore()}</td-->
 
