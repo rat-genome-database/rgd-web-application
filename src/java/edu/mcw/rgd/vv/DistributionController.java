@@ -78,7 +78,7 @@ public class DistributionController extends HaplotyperController {
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
-    //    try {
+       try {
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
            System.out.println(req.getParameter("geneList"));
@@ -302,10 +302,10 @@ public class DistributionController extends HaplotyperController {
         }*/
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
-      /*   }catch (Exception e) {
-            if(e.getMessage().contains("Elasticsearch exception"))
+       }catch (Exception e) {
+          /*  if(e.getMessage().contains("Elasticsearch exception"))
                 errors.add("Please reduce the number of samples or genes using the EDIT buttons");
-            else
+            else*/
            errors.add(e.getMessage());
             request.setAttribute("error", errors);
             request.setAttribute("regionList", regionList);
@@ -315,7 +315,7 @@ public class DistributionController extends HaplotyperController {
             request.setAttribute("maxValue", maxValue);
 
             return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");
-         }*/
+         }
 
     }
 
