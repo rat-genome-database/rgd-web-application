@@ -34,7 +34,7 @@ public class CNVariantsRsIdController implements Controller {
         String qtlId = request.getParameter("qtlId");
         String p = request.getParameter("p");
         String rsId = request.getParameter("id");
-        String locType = request.getParameter("locType").toLowerCase();
+        String locType = Utils.isStringEmpty(request.getParameter("locType"))? "":request.getParameter("locType").toLowerCase();
         boolean exon = false;
         boolean intron = false;
         if (Utils.isStringEmpty(locType)){
