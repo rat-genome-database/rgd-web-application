@@ -17,22 +17,24 @@
     String chr = request.getAttribute("chr").toString();
     int curPage = Integer.parseInt(request.getAttribute("p").toString());
     int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
+    String locType = request.getAttribute("locType").toString();
 %>
 
 
 <table>
     <tr>
         <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
-            Your selection has multiple variants. Select which variant for <%=symbol%>&nbsp;you would like to view -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
-        <td width="10%"></td>
-        <td align="right">
+            <%=symbol%> has <%=vars.size()%> Variants -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
+        <td width="63%"></td>
+        <td align="center">
             <form id="downloadVue">
                 <input type="hidden" id="start" value=""/>
                 <input type="hidden" id="stopPos" value=""/>
                 <input type="hidden" id="chr" value=""/>
                 <input type="hidden" id="mapKey" value=""/>
                 <input type="hidden" id="symbol" value=""/>
-                <input type="image" style="cursor:pointer;" height=40 width=42 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"></input> <!--  onclick="downloadVariants()" -->
+                <input type="image" style="cursor:pointer;" height=40 width=42 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"/> <!--  onclick="downloadVariants()" -->
+                <br><label style="cursor: pointer;" v-on:click="downloadVars"><u>Download all</u></label>
             </form>
         </td>
     </tr>
@@ -48,24 +50,26 @@
     <% } %>
 </table>
 <br>
-<%--<% if (listSize > 5000) {--%>
-<%--listSize = 5000;%>--%>
-<%--<br>--%>
-<%--<div style="color: red; font-size: 25px">--%>
-<%--    Size of list (<%=vars.size()%>) is too large, showing 5000. They can all be viewed in--%>
-<%--    <a style="color: red; font-size: 25px" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">Variant Visualizer</a>--%>
-<%--    or be <a style="color: red; font-size: 25px" href="javascript:download()" >downloaded</a>.--%>
-<%--</div>--%>
-<%--<% } %>--%>
+
 <div>
     <form id="locationChange">
-        <input type="radio" id="exon" name="locationType" value="coding">
-        <label for="exon">Coding Exon</label>&nbsp;|&nbsp;
-        <input type="radio" id="non-coding" name="locationType" value="non-coding">
-        <label for="non-coding">Non-coding Exon</label>&nbsp;|&nbsp;
+        <% if (locType.equals("exon")){%>
+        <input type="radio" id="exon" name="locationType" value="exon" checked>
+        <%} else {%>
+        <input type="radio" id="exon" name="locationType" value="exon">
+        <% } %>
+        <label for="exon">Exon</label>&nbsp;|&nbsp;
+        <% if (locType.equals("intron")){%>
+        <input type="radio" id="intron" name="locationType" value="intron" checked>
+        <%} else {%>
         <input type="radio" id="intron" name="locationType" value="intron">
+        <% } %>
         <label for="intron">Intron</label>&nbsp;|&nbsp;
+        <% if (locType.equals("all")){%>
         <input type="radio" id="all" name="locationType" value="all" checked>
+        <%} else {%>
+        <input type="radio" id="all" name="locationType" value="all">
+        <% } %>
         <label for="all">All</label>
     </form>
 </div>
@@ -73,11 +77,11 @@
     <table>
         <tr>
             <% if (curPage > 1) {%>
-            <td><button style="font-size: 25px; outline: none;" title="go back a page" onclick="goBack()"><</button>&nbsp;&nbsp;</td>
+            <td><button style="font-size: 25px; outline: none;" title="go to previous page" onclick="goBack()">Prev</button>&nbsp;&nbsp;</td>
             <% } %>
-            <td><label style="font-size: 25px;"><%=curPage%></label>&nbsp;&nbsp;</td>
+            <td><label style="font-size: 25px;">Page <%=curPage%> of <%=maxPage%></label>&nbsp;&nbsp;</td>
             <% if (curPage<maxPage) {%>
-            <td><button style="font-size: 25px;outline: none;" title="go forward a page" onclick="goForward()">></button>&nbsp;&nbsp;</td>
+            <td><button style="font-size: 25px;outline: none;" title="go to next page" onclick="goForward()">Next</button>&nbsp;&nbsp;</td>
             <%}%>
             <%
             if (maxPage>1){%>
@@ -141,10 +145,17 @@
         <% for (VariantMapData v : vars) {
 //            VariantMapData v = vars.get(i);
             List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),mapKey);
+            VariantTranscript transcript = null;
             List<PolyPhenPrediction> p = null;
-            if (vts != null && !vts.isEmpty()) {
-//                System.out.println("Transcript size: "+vts.size());
-                p = polydao.getPloyphenDataByVariantId((int) v.getId(), vts.get(0).getTranscriptRgdId());
+            for (VariantTranscript vt : vts){
+                String ltU = locType.toUpperCase();
+                if (vt.getLocationName().contains(ltU)) {
+                    transcript = vt;
+                    p = polydao.getPloyphenDataByVariantId((int) v.getId(), vt.getTranscriptRgdId());
+                    break;
+                }
+                else
+                    transcript = vt;
             }
         %>
         <tr>
@@ -178,7 +189,7 @@
                 <%=varLess%><% if (varNuc.length()>16) {%><span class="more" style="display: none;"><%=varMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
             </td>
             <% if (vts != null && !vts.isEmpty()) {%>
-            <td><%=Utils.NVL(vts.get(0).getLocationName(),"-")%></td>
+            <td><%=Utils.NVL(transcript.getLocationName(),"-")%></td>
             <%} else {out.print("<td>-</td>");}%>
             <% if (p != null && !p.isEmpty()) {%>
             <td><%=p.get(0).getPrediction()%></td>
@@ -287,7 +298,21 @@
         var d = document.getElementById("pageChanger").value;
         window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p='+d;
     }
-
+    // function locationTypes()
+    // {
+        var rad = document.getElementById('locationChange');
+        var prev = null;
+        for (var i = 0; i < rad.length; i++) {
+            rad[i].addEventListener('change', function () {
+                // (prev) ? console.log(prev.value) : null;
+                if (this !== prev) {
+                    prev = this;
+                }
+                // console.log("selected "+this.value)
+                window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
+            });
+        }
+    // }
     $(function () {
         $(".more").hide();
         $(".moreLink").on("click", function(e) {

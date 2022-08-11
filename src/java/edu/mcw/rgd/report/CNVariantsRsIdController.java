@@ -16,7 +16,6 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +34,23 @@ public class CNVariantsRsIdController implements Controller {
         String qtlId = request.getParameter("qtlId");
         String p = request.getParameter("p");
         String rsId = request.getParameter("id");
+        String locType = request.getParameter("locType").toLowerCase();
+        boolean exon = false;
+        boolean intron = false;
+        if (Utils.isStringEmpty(locType)){
+            locType = "all";
+        }
+        else if (Utils.stringsAreEqual(locType, "exon")){
+            exon = true;
+        }
+        else if (Utils.stringsAreEqual(locType,"intron")){
+            intron=true;
+        }
+        else {
+            locType = "all";
+            exon =false;
+            intron = false;
+        }
         int page = 1;
         try {
             if (!Utils.isStringEmpty(p))
@@ -44,7 +60,7 @@ public class CNVariantsRsIdController implements Controller {
         }
         if (page<=0)
             page=1;
-        int k = 0;
+//        int k = 0;
         try {
 
             if (Utils.isStringEmpty(geneId) && Utils.isStringEmpty(rsId) && Utils.isStringEmpty(qtlId))
@@ -58,6 +74,7 @@ public class CNVariantsRsIdController implements Controller {
                 }
                 else if (geneId != null){
                     if (!Utils.isStringEmpty(geneId)) {
+                        int maxPage = 0, offset = 1, size = 0;
                         int rgdId = Integer.parseInt(geneId);
                         Gene g = getGene(rgdId);
                         final MapManager mm = MapManager.getInstance();
@@ -66,12 +83,36 @@ public class CNVariantsRsIdController implements Controller {
                         if (mapData == null) {
                             error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
                         } else {
-                            int size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
-                            int maxPage = (int)Math.ceil(size/1000)+1;
-                            if (page > maxPage )
-                                page = maxPage;
-                            int offset = ((page-1)*1000)+1;
-                            objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(),mapData.getChromosome(),mapData.getStartPos(),mapData.getStopPos(),offset);
+                            if (exon){
+                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon");
+                                maxPage = size / 1000;
+                                if (size % 1000 != 0)
+                                    maxPage++;
+                                if (page > maxPage)
+                                    page = maxPage;
+                                offset = ((page - 1) * 1000) + 1;
+                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
+                            }
+                            else if (intron){
+                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron");
+                                maxPage = size / 1000;
+                                if (size % 1000 != 0)
+                                    maxPage++;
+                                if (page > maxPage)
+                                    page = maxPage;
+                                offset = ((page - 1) * 1000) + 1;
+                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
+                            }
+                            else {
+                                size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
+                                maxPage = size / 1000;
+                                if (size % 1000 != 0)
+                                    maxPage++;
+                                if (page > maxPage)
+                                    page = maxPage;
+                                offset = ((page - 1) * 1000) + 1;
+                                objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
+                            }
                             request.setAttribute("p",page);
                             request.setAttribute("maxPage", maxPage);
                             request.setAttribute("pageId","geneId");
@@ -80,6 +121,7 @@ public class CNVariantsRsIdController implements Controller {
                             request.setAttribute("start", mapData.getStartPos());
                             request.setAttribute("stop", mapData.getStopPos());
                             request.setAttribute("chr", mapData.getChromosome());
+                            request.setAttribute("locType",locType);
                         }
                     } else
                         error.add("No proper ID given!");
@@ -141,19 +183,20 @@ public class CNVariantsRsIdController implements Controller {
 //            }
 
             if (objects == null) {
-                error.add("Invalid rs ID!");
-            } else if (objects.isEmpty()) {
-                error.add("No variants with given rs ID!");
+                error.add("Invalid ID!");
+            } else if (objects.isEmpty() && Utils.isStringEmpty(geneId)) {
+                error.add("No variants with given ID!");
             }
         }
         catch( Exception e ) {
+//            System.out.println(e);
             error.add(e.getMessage());
         }
 // show distinct rgd ids, rs715 an example to go right to page
 
-        if (k>1){
-            error.add("Too many IDs given! Reduce down to 1 ID!");
-        }
+//        if (k>1){
+//            error.add("Too many IDs given! Reduce down to 1 ID!");
+//        }
 
         HashMap<Long, Boolean> duplicateRgdId = new HashMap<>();
         List<VariantMapData> objectsNonDupe = new ArrayList<>();
@@ -165,6 +208,7 @@ public class CNVariantsRsIdController implements Controller {
                 }
             }
         }
+
         request.setAttribute("reportObjects", objectsNonDupe);
         request.setAttribute("requestFacade", req);
 
