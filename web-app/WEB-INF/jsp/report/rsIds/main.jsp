@@ -9,8 +9,9 @@
 <%
     String title = "Variant";
     List<VariantMapData> vars = (List<VariantMapData>) request.getAttribute("reportObjects");
-    int speciesType = vars.get(0).getSpeciesTypeKey();
-    int mapKey = vars.get(0).getMapKey();
+
+    int speciesType = Integer.parseInt(request.getAttribute("species").toString());
+    int mapKey = Integer.parseInt(request.getAttribute("mapKey").toString());
     String objectType="Variants";
     String displayName = request.getParameter("id");
     String symbol = "";

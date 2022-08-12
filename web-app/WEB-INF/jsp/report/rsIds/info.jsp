@@ -18,13 +18,14 @@
     int curPage = Integer.parseInt(request.getAttribute("p").toString());
     int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
     String locType = request.getAttribute("locType").toString();
+    int totalSize = Integer.parseInt(request.getAttribute("totalSize").toString());
 %>
 
 
 <table>
     <tr>
         <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
-            <%=symbol%> has <%=vars.size()%> Variants -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
+            <%=symbol%> has <%=totalSize%> Variants -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
         <td width="63%"></td>
         <td align="center">
             <form id="downloadVue">
@@ -101,6 +102,7 @@
     </table>
 
 </div>
+<%     if (totalSize != 0){ %>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div id="mapDataTableDiv" class="annotation-detail" >
 
@@ -235,6 +237,11 @@
 <%--    </form>--%>
 <%--</div>--%>
 
+<% } else {%>
+<h1 style="color: red;">No variants for given selection!</h1>
+<% } %>
+
+
 <script>
     // var locationVue = Vue({
     //     el: '#locationVue',
@@ -267,7 +274,7 @@
                             mapKey: downloadVue.mapKey,
                             symbol: downloadVue.symbol
                         },
-                    {responseType: 'blob'})
+                        {responseType: 'blob'})
                     .then(function (response) {
                         // alert("done");
                         // console.log(response);
@@ -283,8 +290,8 @@
                         // window.open(url)
                     })
                     .catch(function (error) {
-                    console.log(error.response.data)
-                })
+                        console.log(error.response.data)
+                    })
             }
         }
     });
@@ -300,18 +307,18 @@
     }
     // function locationTypes()
     // {
-        var rad = document.getElementById('locationChange');
-        var prev = null;
-        for (var i = 0; i < rad.length; i++) {
-            rad[i].addEventListener('change', function () {
-                // (prev) ? console.log(prev.value) : null;
-                if (this !== prev) {
-                    prev = this;
-                }
-                // console.log("selected "+this.value)
-                window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
-            });
-        }
+    var rad = document.getElementById('locationChange');
+    var prev = null;
+    for (var i = 0; i < rad.length; i++) {
+        rad[i].addEventListener('change', function () {
+            // (prev) ? console.log(prev.value) : null;
+            if (this !== prev) {
+                prev = this;
+            }
+            // console.log("selected "+this.value)
+            window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
+        });
+    }
     // }
     $(function () {
         $(".more").hide();

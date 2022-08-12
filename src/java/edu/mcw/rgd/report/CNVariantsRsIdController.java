@@ -122,6 +122,9 @@ public class CNVariantsRsIdController implements Controller {
                             request.setAttribute("stop", mapData.getStopPos());
                             request.setAttribute("chr", mapData.getChromosome());
                             request.setAttribute("locType",locType);
+                            request.setAttribute("totalSize", size);
+                            request.setAttribute("mapKey",activeMap.getKey());
+                            request.setAttribute("species",g.getSpeciesTypeKey());
                         }
                     } else
                         error.add("No proper ID given!");
