@@ -19,6 +19,7 @@
     int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
     String locType = request.getAttribute("locType").toString();
     int totalSize = Integer.parseInt(request.getAttribute("totalSize").toString());
+    int offset = ((curPage - 1) * 1000) + 1;
 %>
 
 
@@ -106,30 +107,9 @@
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div id="mapDataTableDiv" class="annotation-detail" >
 
-<%--    <div class="search-and-pager">--%>
-<%--        <div class="modelsViewContent" >--%>
-<%--            <div class="pager mapDataPager" >--%>
-<%--                <form>--%>
-<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>--%>
-<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>--%>
-<%--                    <span type="text" class="pagedisplay"></span>--%>
-<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>--%>
-<%--                    <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>--%>
-<%--                    <select class="pagesize">--%>
-<%--                        <option value="25">25</option>--%>
-<%--                        <option value="50">50</option>--%>
-<%--                        <option selected="selected" value="100">100</option>--%>
-<%--                        <option value="250">250</option>--%>
-<%--                        <option value="500">500</option>--%>
-<%--                        <option value="1000">1000</option>--%>
-<%--                    </select>--%>
-<%--                </form>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
     <table border="0" id="mapDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="mapDataTable_pager_info">
         <tr>
+            <th></th>
             <th align="left">Variant Page</th>
             <% if (isGene) { %>
             <th align="left">rs ID</th> <% } %>
@@ -161,6 +141,7 @@
             }
         %>
         <tr>
+            <td><%=offset%>.</td>
             <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more Information</a></td>
             <% if (isGene) {
                 String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
@@ -202,40 +183,11 @@
             </a></td>
             <% } %>
         </tr>
-        <% } %>
+        <% offset++;} %>
     </table>
 
-<%--    <div class="modelsViewContent" >--%>
-<%--        <div class="pager mapDataPager" >--%>
-<%--            <form>--%>
-<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>--%>
-<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>--%>
-<%--                <span type="text" class="pagedisplay"></span>--%>
-<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>--%>
-<%--                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>--%>
-<%--                <select class="pagesize">--%>
-<%--                    <option value="25">25</option>--%>
-<%--                    <option value="50">50</option>--%>
-<%--                    <option selected="selected" value="100">100</option>--%>
-<%--                    <option value="250">250</option>--%>
-<%--                    <option value="500">500</option>--%>
-<%--                    <option value="1000">1000</option>--%>
-<%--                </select>--%>
-<%--            </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
 
 </div>
-
-<%--<div style="width:1px; height:1px; overflow:hidden;visibility:hidden;">--%>
-<%--    <form id="download" name="download" >--%>
-<%--        <input name="start" value=""/>--%>
-<%--        <input name="stopPos" value=""/>--%>
-<%--        <input name="chr" value=""/>--%>
-<%--        <input name="mapKey" value=""/>--%>
-<%--        <input name="symbol" value=""/>--%>
-<%--    </form>--%>
-<%--</div>--%>
 
 <% } else {%>
 <h1 style="color: red;">No variants for given selection!</h1>
@@ -243,15 +195,6 @@
 
 
 <script>
-    // var locationVue = Vue({
-    //     el: '#locationVue',
-    //     data: {
-    //
-    //     },
-    //     methods: {
-    //
-    //     }
-    // });
 
     var downloadVue = new Vue ({
         el: '#downloadVue',
@@ -305,8 +248,7 @@
         var d = document.getElementById("pageChanger").value;
         window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p='+d;
     }
-    // function locationTypes()
-    // {
+
     var rad = document.getElementById('locationChange');
     var prev = null;
     for (var i = 0; i < rad.length; i++) {
@@ -319,7 +261,7 @@
             window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
         });
     }
-    // }
+
     $(function () {
         $(".more").hide();
         $(".moreLink").on("click", function(e) {
