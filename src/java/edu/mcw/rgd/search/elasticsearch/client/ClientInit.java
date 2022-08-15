@@ -1,6 +1,7 @@
 package edu.mcw.rgd.search.elasticsearch.client;
 
 
+import edu.mcw.rgd.web.RgdContext;
 import io.netty.util.internal.InternalThreadLocalMap;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -10,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.*;
 
 
@@ -20,34 +22,36 @@ public class ClientInit {
     private static RestHighLevelClient client=null;
    // private static List<String> hosts;
     private static ClientInit esClientFactory=null;
-    public static void init(){
+    public static void init() throws UnknownHostException {
         if(esClientFactory==null){
             esClientFactory=new ClientInit();
             System.out.println("Initializing Elasticsearch Client...");
             if(client==null){
-                //  hosts=this.getHostNames();
-                ///  ElasticSearchClient.setHosts(hosts);
                 System.out.println("CLIENT IS NULL, CREATING NEW CLIENT...");
-                // client=ElasticSearchClient.getInstance();
                 client=getInstance();
                 System.out.println("Initialized elasticsearch client ...");
             }
         }
 
     }
-    private static RestHighLevelClient getInstance() {
-    //    Properties props= getProperties();
-
+    private static RestHighLevelClient getInstance() throws UnknownHostException {
+     //   Properties props= getProperties();
+        if(RgdContext.isProduction())
         return new RestHighLevelClient(
                 RestClient.builder(
-                new HttpHost("erika01.rgd.mcw.edu",9200,"http"),
-                new HttpHost( "erika02.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika03.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika04.rgd.mcw.edu",9200,"http"),
-                new HttpHost("erika05.rgd.mcw.edu",9200,"http")
+                        new HttpHost("erika01.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika02.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika03.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika04.rgd.mcw.edu", 9200, "http"),
+                        new HttpHost("erika05.rgd.mcw.edu", 9200, "http")
 
                 ));
+        else
+            return new RestHighLevelClient(
+                    RestClient.builder(
+                            new HttpHost("travis.rgd.mcw.edu", 9200, "http")
 
+                    ));
     }
     public static void setClient(RestHighLevelClient client) {
         ClientInit.client = client;
@@ -64,7 +68,7 @@ public class ClientInit {
             esClientFactory=null;
         }
     }
-   public static RestHighLevelClient getClient() {
+   public static RestHighLevelClient getClient() throws UnknownHostException {
         if(client==null){
             init();
         }
@@ -88,8 +92,8 @@ public class ClientInit {
 
 
         try{
-          //   fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
-            fis=new FileInputStream("/data/properties/elasticsearchProps.properties");
+         //    fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
+        //   fis=new FileInputStream("/data/pipelines/properties/es_properties.properties");
             props.load(fis);
 
         }catch (Exception e){
@@ -104,35 +108,6 @@ public class ClientInit {
         }
         return props;
     }
- /*   public List<String> getNodeURLs() {
-        ArrayList hostNames = new ArrayList();
-      List<String> nodeUrls = new ArrayList<>(Arrays.asList("http://erika01.rgd.mcw.edu:9200", "http://erika02.rgd.mcw.edu:9200", "http://erika03.rgd.mcw.edu:9200", "http://erika04.rgd.mcw.edu:9200", "http://erika05.rgd.mcw.edu:9200"));
-           Iterator var2 = nodeUrls.iterator();
 
-        while(var2.hasNext()) {
-            String str = (String)var2.next();
-
-            try {
-                URL e = new URL(str);
-                HttpURLConnection conn = (HttpURLConnection)e.openConnection();
-                conn.setRequestMethod("GET");
-                if(conn.getResponseMessage().equals("OK")) {
-                    hostNames.add(str.substring(0, str.lastIndexOf(":")).replace("http://", ""));
-                }
-
-                conn.disconnect();
-            } catch (Exception var6) {
-                var6.printStackTrace();
-            }
-        }
-
-        return hostNames;
-    }*/
-    public static void main(String[] args) throws IOException {
-        ClientInit c= new ClientInit();
-        c.init();
-        c.destroy();
-        System.out.println("DONE!!!!!!!!!!");
-    }
 
 }

@@ -178,6 +178,11 @@
                     Annotations
                 </c:if>
             </td>
+            <td style="width: 10em;">
+                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology' && model.searchBean.category!='Variant'}">
+                    Strains Crossed
+                </c:if>
+            </td>
             <td>RGD ID / <br>Term_acc
             </td>
             <td>Matched By</td><!--td>Score</td-->
@@ -574,7 +579,22 @@
                             </div>
                         </c:if>
                     </td>
-
+                    <td style="width: 10em;">
+                        <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology' && model.searchBean.category!='Variant'}">
+                            <c:set var="firstFlag" value="true"/>
+                            <c:forEach items="${hit.getSourceAsMap().crossedStrain}" var="crossedStrain">
+                            <c:choose>
+                                <c:when test="${firstFlag=='true'}">
+                                    ${crossedStrain}
+                                    <c:set var="firstFlag" value="false"/>
+                                </c:when>
+                                <c:otherwise>
+                                   ,&nbsp;${crossedStrain}
+                                </c:otherwise>
+                            </c:choose>
+                            </c:forEach>
+                        </c:if>
+                    </td>
                     <td class="id">${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}</td>
                     <td id="highlight">
                         <c:set value="true" var="first"/>
