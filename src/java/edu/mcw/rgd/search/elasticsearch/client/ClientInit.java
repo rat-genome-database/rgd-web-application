@@ -36,7 +36,7 @@ public class ClientInit {
     }
     private static RestHighLevelClient getInstance() throws UnknownHostException {
      //   Properties props= getProperties();
-        if(RgdContext.isProduction())
+        if(RgdContext.isProduction() || RgdContext.isPipelines())
         return new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("erika01.rgd.mcw.edu", 9200, "http"),
