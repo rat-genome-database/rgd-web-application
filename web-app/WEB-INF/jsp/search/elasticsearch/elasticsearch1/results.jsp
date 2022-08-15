@@ -179,7 +179,7 @@
                 </c:if>
             </td>
             <td style="width: 10em;">
-                <c:if test="${model.searchBean.category=='General' && model.searchBean.category=='Qtls'}">
+                <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
             </td>
@@ -580,7 +580,7 @@
                         </c:if>
                     </td>
                     <td style="width: 10em;">
-                        <c:if test="${model.searchBean.category=='General' && model.searchBean.category=='Qtls'}">
+                        <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                             <c:set var="firstFlag" value="true"/>
                             <c:forEach items="${hit.getSourceAsMap().crossedStrain}" var="crossedStrain">
                             <c:choose>
