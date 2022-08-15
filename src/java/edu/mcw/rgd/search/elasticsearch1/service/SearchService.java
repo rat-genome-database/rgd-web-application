@@ -223,8 +223,7 @@ public class SearchService {
     }
 
     public void reInitiateClient() throws UnknownHostException {
-        ClientInit esClient= new ClientInit();
-        esClient.init();
+        ClientInit.init();
 
     }
     public SearchBean getSearchBean(HttpRequestFacade request, String term){
