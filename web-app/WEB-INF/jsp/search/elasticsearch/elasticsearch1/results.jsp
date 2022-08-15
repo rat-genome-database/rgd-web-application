@@ -179,7 +179,7 @@
                 </c:if>
             </td>
             <td style="width: 10em;">
-                <c:if test="${model.searchBean.category=='General' && model.searchBean.category=='Qtls'}">
+                <c:if test="${model.searchBean.category=='General' || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
             </td>
