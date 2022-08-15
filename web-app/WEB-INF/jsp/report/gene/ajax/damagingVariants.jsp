@@ -6,7 +6,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Variant" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
-<%@ page import="edu.mcw.rgd.datamodel.Gene" %>
+
 <style>
   #variants {
       border:1px solid black;
@@ -40,7 +40,8 @@
 
     <br>
 <%
-    for(String a: assemblies){
+    for(int i = assemblies.size()-1; i >=0  ; i--){
+        String a = assemblies.get(i);
         List<Variant> assembly = vdao.getDamagingVariantsForGeneByAssembly(objRgdId,a);
         m = MapManager.getInstance().getMap(Integer.valueOf(a));
         if( !assembly.isEmpty() ) {

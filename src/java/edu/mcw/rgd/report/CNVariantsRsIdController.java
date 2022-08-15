@@ -90,7 +90,7 @@ public class CNVariantsRsIdController implements Controller {
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
-                                offset = ((page - 1) * 1000) + 1;
+                                offset = ((page - 1) * 1000);
                                 objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
                             }
                             else if (intron){
@@ -100,7 +100,7 @@ public class CNVariantsRsIdController implements Controller {
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
-                                offset = ((page - 1) * 1000) + 1;
+                                offset = ((page - 1) * 1000);
                                 objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
                             }
                             else {
@@ -110,7 +110,7 @@ public class CNVariantsRsIdController implements Controller {
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
-                                offset = ((page - 1) * 1000) + 1;
+                                offset = ((page - 1) * 1000);
                                 objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
                             }
                             request.setAttribute("p",page);
