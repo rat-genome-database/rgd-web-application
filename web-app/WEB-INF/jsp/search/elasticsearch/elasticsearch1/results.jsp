@@ -582,7 +582,7 @@
                     <td style="width: 10em;">
                         <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                             <c:set var="firstFlag" value="true"/>
-                            <c:forEach items="${hit.getSourceAsMap().crossedStrain}" var="crossedStrain">
+                            <c:forEach items="${hit.getSourceAsMap().strainsCrossed}" var="crossedStrain">
                             <c:choose>
                                 <c:when test="${firstFlag=='true'}">
                                     ${crossedStrain}
