@@ -43,17 +43,10 @@ public class QueryService1 {
 
 
     public SearchResponse getSearchResponse(String term, SearchBean sb) throws IOException {
-
-      //  if(term!=null) {
-            Map<String, String> filterMap= this.getFilterMap(sb);
-            BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
-                    //sb.getCategory(),sb.getSpecies(), filterMap,sb.getChr(), sb.getStart(), sb.getStop(), sb.getAssembly() );
-
-
-            String sortField=null;
+        BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
+        String sortField=null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
-       //     SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
-                    srb.query(builder);
+        srb.query(builder);
             if(sb != null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance")) {
                     srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
@@ -130,48 +123,9 @@ public class QueryService1 {
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-     /*   SearchResponse sr=srb
-                .setSearchType(SearchType.QUERY_THEN_FETCH)
-                .setRequestCache(true)
-                   .execute().actionGet();
-*/
         return sr;
-    //   }
-
-  //     return null;
     }
-    public Map<String, String> getFilterMap(SearchBean sb){
-            //String category, String species, String type, String subCat){
-        if(sb!=null) {
-            Map<String, String> filterMap = new HashMap<>();
-            if (sb.getSpecies() != null) {
-                if (!sb.getSpecies().equals("")) {
-                    filterMap.put("species", sb.getSpecies());
-                }
-            }
-            if (sb.getCategory() != null) {
-                if (!sb.getCategory().equalsIgnoreCase("general")) {
-                    filterMap.put("category", sb.getCategory());
-                }
-                if (sb.getCategory().equalsIgnoreCase("ontology")) {
-                    if (!sb.getSubCat().equals("")) {
-                        filterMap.put("subcat", sb.getSubCat());
-                    } else {
-                        filterMap.put("category", sb.getCategory());
-                    }
 
-                }
-            }
-            if (sb.getType() != null) {
-                if (!sb.getType().equals("")) {
-                    filterMap.put("type", sb.getType());
-                }
-            }
-
-
-            return filterMap;
-        }else return null;
-    }
     public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
                                              //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
@@ -311,10 +265,9 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.termQuery("xdata", term).boost(1))
-/*********************adding variants to be searchable********************/
-                        .add(QueryBuilders.matchQuery("regionNameLc", term).operator(Operator.AND).boost(1))
 
-
+                        .add(QueryBuilders.multiMatchQuery(term).type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(100))
+                        .add(QueryBuilders.multiMatchQuery(term).type(MultiMatchQueryBuilder.Type.PHRASE).boost(50))
                 ;
             }else{
                     dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
@@ -324,10 +277,8 @@ public class QueryService1 {
         } else{
             if(term.equals("")){
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-            }else {
-                dqb.add(QueryBuilders.termQuery("term_acc", term));
-                dqb.add(QueryBuilders.termQuery("rsId", term));
-            }
+            }else
+            dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
         return dqb;
 
@@ -366,7 +317,7 @@ public class QueryService1 {
     }
 
     public HighlightBuilder buildHighlights(){
-        List<String> fields=new ArrayList<>(Arrays.asList(
+     /*   List<String> fields=new ArrayList<>(Arrays.asList(
                 "symbol","symbol.symbol","symbol.ngram","htmlStrippedSymbol.ngram",
                 "name","name.name", "description","description.description",
                 "citation","citation.citation","title",
@@ -379,11 +330,12 @@ public class QueryService1 {
                 "type","transcripts", "promoters",
                 "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers",
                 "associations","genomicAlteration"
-        ));
+        ));*/
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+       /* for(String field:fields){
             hb.field(field);
-        }
+        }*/
+        hb.field("*");
         return hb;
     }
 
