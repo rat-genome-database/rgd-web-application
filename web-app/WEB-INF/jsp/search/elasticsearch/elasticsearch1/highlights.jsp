@@ -320,7 +320,7 @@
 <div  class="more hideContent" style="overflow-y: auto">
     <c:set value="true" var="first"/>
     <c:forEach items="${hit.getHighlightFields()}" var="hf">
-
+        <strong>${fn:substring(hf.key,0,fn:indexOf(hf.key,"." ))}</strong>
         <c:forEach items="${hf.value.getFragments()}" var="f">
             ${f} ;
         </c:forEach>
