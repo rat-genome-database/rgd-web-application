@@ -52,7 +52,7 @@ public class OntGViewerDataController implements Controller {
 
         // generate a stream of xml objects
         String ids = request.getParameter("ids");
-
+        if(ids!=null && !ids.equals("") && !ids.equals("undefined"))
         generate(request, response, ids);
 
 //        String dataElements = getGViewerData(accId, speciesType, withChilds);
@@ -175,6 +175,7 @@ public class OntGViewerDataController implements Controller {
         Connection conn = null;
         try {
             conn = DataSourceFactory.getInstance().getDataSource().getConnection();
+            System.out.println("GVIEW QUERy:"+ sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
