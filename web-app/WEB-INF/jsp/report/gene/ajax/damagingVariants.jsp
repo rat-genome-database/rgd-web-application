@@ -58,6 +58,7 @@
     <td><b>Variant Nucleotide</b></td>
     <td><b>Variant Type</b></td>
     <td><b>Strain</b></td>
+    <td>Variant Page</td>
 </tr>
     <%
        String pstrain = "",passembly = "";
@@ -85,6 +86,7 @@
         <td><%=v1.getVariantNucleotide()%></td>
         <td><%=v1.getVariantType()%></td>
         <td><%= pstrain %></td>
+        <td><a href="/rgdweb/report/variants/main.html?id=<%=v1.getId()%>" title="see more information in the variant page">View more Information</a></td>
     </tr>
 <%
          } else
@@ -104,6 +106,7 @@
     <td><%=v1.getVariantNucleotide()%></td>
     <td><%=v1.getVariantType()%></td>
     <td><%= pstrain %></td>
+    <td><a href="/rgdweb/report/variants/main.html?id=<%=v1.getId()%>" title="see more information in the variant page">View more Information</a></td>
 </tr>
 </table>
 <br>
