@@ -77,7 +77,6 @@ public class VariantController extends HaplotyperController {
             }
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
             long count=variantResults.size();
-            System.out.println("count:"+ count);
             if (count < 2000 || searchType.equals("GENE")) {
                 SNPlotyper snplotyper = new SNPlotyper();
 
