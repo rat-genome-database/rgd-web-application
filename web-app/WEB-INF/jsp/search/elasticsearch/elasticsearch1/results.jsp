@@ -179,7 +179,7 @@
                 </c:if>
             </td>
             <td style="width: 10em;">
-                <c:if test="${fn:toLowerCase(model.searchBean.category=='general' )|| model.searchBean.category=='QTL'}">
+                <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
             </td>
@@ -227,7 +227,7 @@
                                                 <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </c:when>
                                             <c:otherwise>
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}" >
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}">
                                             </c:otherwise>
                                         </c:choose>
 
@@ -265,7 +265,7 @@
                                                             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-symbol="${hit.getSourceAsMap().symbol}">
+                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}">
                                                         </c:otherwise>
                                                     </c:choose>
 
@@ -539,9 +539,7 @@
                                                 <td style="color: white">Chinchilla</td>
                                                 <td style="color: white">Dog</td>
                                                 <td style="color: white">Bonobo</td>
-                                                <td style="color: white;">Squirrel</td>
-                                                <td style="color: white;">Naked Mole-rat</td>
-                                                <td style="color: white;padding-right:10px">Green Monkey</td>
+                                                <td style="color: white;padding-right:10px">Squirrel</td>
                                             </tr>
                                             <c:set var="i" value="0"/>
                                             <c:forEach items="${hit.getSourceAsMap().annotationsMatrix}" var="row">
@@ -584,7 +582,7 @@
                     <td style="width: 10em;">
                         <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                             <c:set var="firstFlag" value="true"/>
-                            <c:forEach items="${hit.getSourceAsMap().crossedStrain}" var="crossedStrain">
+                            <c:forEach items="${hit.getSourceAsMap().strainsCrossed}" var="crossedStrain">
                             <c:choose>
                                 <c:when test="${firstFlag=='true'}">
                                     ${crossedStrain}
@@ -599,7 +597,7 @@
                     </td>
                     <td class="id">${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}</td>
                     <%if(!RgdContext.isProduction()){%>
-                    <td id="highlight">
+                    <td id="highlight" onmouseover="link=false;" onmouseout="link=true;">
                         <%@include file="highlights.jsp"%>
                     </td>
                     <%}%>
