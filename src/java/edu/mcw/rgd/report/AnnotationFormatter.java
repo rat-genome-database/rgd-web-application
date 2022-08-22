@@ -1,9 +1,8 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.datamodel.RgdId;
-import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.datamodel.XDBIndex;
-import edu.mcw.rgd.datamodel.XdbId;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.dao.impl.RGDManagementDAO;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
@@ -12,6 +11,7 @@ import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 
 import java.util.*;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -193,7 +193,7 @@ public class AnnotationFormatter {
                 rec.append("&nbsp;");
             } else {
                 if(a.getRgdObjectKey() == 5){
-                    rec.append(a.getWithInfo());
+                    rec.append(formatWithInfo(a.getWithInfo(),a));
                 }else{
                     rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
                 }
@@ -243,6 +243,28 @@ public class AnnotationFormatter {
 
 
         return new HTMLTableReportStrategy().format(report);
+    }
+
+    public static String formatWithInfo(String info, Annotation a) throws Exception{
+        try {
+            String[] multiInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
+            String[] separator = Arrays.stream(info.split("[^,|]")).filter(e -> e.trim().length() > 0).toArray(String[]::new);
+            String infoField = "";
+
+            for (int i = 0; i < multiInfos.length; i++){
+                infoField+=formatXdbUrl(multiInfos[i],a.getRgdObjectKey());
+                if (separator.length>0 && i < multiInfos.length-1){
+                    if (separator[i].equals("|"))
+                        infoField+=" or ";
+                    else if (separator[i].equals(","))
+                        infoField+=" and ";
+                }
+            }
+            return infoField;
+        }
+        catch (Exception e){
+            return info;
+        }
     }
 
     public static String formatXdbUrls(String info, int objectKey) throws Exception {
@@ -301,7 +323,7 @@ public class AnnotationFormatter {
             infoField = formatXdbUrl(multipleInfos[0], objectKey);
         }
         else if( multipleInfos.length==2 ) {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey)+", "+ formatXdbUrl(multipleInfos[1], objectKey);
+            infoField = formatXdbUrl(multipleInfos[0], objectKey)+" and "+ formatXdbUrl(multipleInfos[1], objectKey);
         } else {
             infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
         }
@@ -316,7 +338,7 @@ public class AnnotationFormatter {
         if( colonPos<=0 ) {
             return info;
         }
-
+        OntologyXDAO odao = new OntologyXDAO();
         String dbName = info.substring(0, colonPos).trim();
         if(dbName.equalsIgnoreCase("MGI")){
             accId = info.substring(colonPos+1).contains("MGI") ? info.substring(colonPos+1) : "MGI:" + info.substring(colonPos+1);
@@ -327,8 +349,36 @@ public class AnnotationFormatter {
         switch(dbName) {
             case "RGD":
                 try {
-                    uri = Link.it(Integer.parseInt(info.substring(4)), objectKey);
-                    uri = "<a href='" + uri + "'>" + info + "</a>";
+                    RGDManagementDAO managementDAO = new RGDManagementDAO();
+                    int withRgdId = Integer.parseInt(info.substring(4));
+                    String symbol = "";
+                    Speciated withObj = (Speciated) managementDAO.getObject(withRgdId);
+
+                    if( withObj==null ) {
+                        uri = "/rgdweb/search/search.html?term="+withRgdId;
+                    }else if (withObj instanceof Gene) {
+                        Gene g = (Gene) withObj;
+                        symbol = g.getSymbol();
+                        uri = Link.gene(withRgdId);
+                    }else if (withObj instanceof SSLP) {
+                        SSLP s = (SSLP) withObj;
+                        symbol = s.getName();
+                        uri = Link.marker(withRgdId);
+                    }else if (withObj instanceof QTL) {
+                        QTL q = (QTL) withObj;
+                        symbol = q.getSymbol();
+                        uri = Link.qtl(withRgdId);
+                    }else {
+                        uri = Link.it(withRgdId);
+                    }
+
+                    if( withObj!=null ) {
+                        uri = "<a href='" + uri + "'>" + symbol + " (" + SpeciesType.getTaxonomicName(withObj.getSpeciesTypeKey()) + ")</a>";
+                    } else {
+                        uri = "<a href='" + uri + "'>" + symbol + "</a>";
+                    }
+//                    uri = Link.it(Integer.parseInt(info.substring(4)), objectKey);
+//                    uri = "<a href='" + uri + "'>" + info + "</a>";
                 }catch(Exception e) {
                     uri = null;
                 }
@@ -375,6 +425,10 @@ public class AnnotationFormatter {
             case "FB":
             case "ZFIN":
                 uri = XDBIndex.getInstance().getXDB(63).getALink(info, info);
+                break;
+            case "XCO":
+            case "CHEBI":
+                uri = "<a href=\"/rgdweb/ontology/annot.html?acc_id="+info+"\">"+odao.getTermByAccId(info).getTerm()+"</a>";
                 break;
         }
 

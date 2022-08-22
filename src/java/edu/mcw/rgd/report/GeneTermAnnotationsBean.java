@@ -178,11 +178,7 @@ public class GeneTermAnnotationsBean {
             if (a.getWithInfo() == null) {
                 rec.append("&nbsp;");
             } else {
-                if(this.getRgdObject() instanceof Strain){
-                    rec.append(a.getWithInfo());
-                }else{
-                    rec.append(AnnotationFormatter.formatXdbUrls(a.getWithInfo(), a.getRgdObjectKey()));
-                }
+                rec.append(AnnotationFormatter.formatWithInfo(a.getWithInfo(),a));
 
 
             }
