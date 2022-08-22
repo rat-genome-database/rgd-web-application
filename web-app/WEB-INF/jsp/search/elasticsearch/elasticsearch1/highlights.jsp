@@ -25,11 +25,11 @@
 </script>
 
 <% if(!RgdContext.isProduction()){%>
-<button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.term_acc}" title="Highlights" style="background-color: transparent">
+<button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${fn:replace(hit.sourceAsMap.term_acc,":","")}" title="Highlights" style="background-color: transparent">
     <span style="text-decoration:underline">Show Matches</span>
 </button>
 <!--a href="#" class="moreLink" style="color:dodgerblue" title="Matched fragments">Show Matches...</a-->
-<div style="display: none" id="popover-study-${hit.sourceAsMap.term_acc}">
+<div style="display: none" id="popover-study-${fn:replace(hit.sourceAsMap.term_acc, ':','')}">
     <div class="popover-body">
     <c:set value="true" var="first"/>
     <c:forEach items="${hit.getHighlightFields()}" var="hf">
