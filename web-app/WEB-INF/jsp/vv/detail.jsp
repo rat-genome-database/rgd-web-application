@@ -193,9 +193,9 @@
                         <td><a href="<%=Link.variant(result.getVariant().getRgdId())%>"><%=result.getVariant().getRgdId()%></a></td>
                     </tr>
                     <% } %>
-                    <tr>
-                        <td><a href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <td><a href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>--%>
+<%--                    </tr>--%>
                 </table>
 
             </td>
