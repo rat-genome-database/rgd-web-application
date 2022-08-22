@@ -42,6 +42,8 @@
     })
 
 </script>
+<script src="/rgdweb/common/jquery.tabletoCSV.js"> </script>
+
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
 <div class="row" id="phenoController">
@@ -99,7 +101,7 @@
             </div>
             <c:if test="${facetSearch=='true'}">
                 <div class="col-xs-2">
-                    &nbsp;<button class="btn btn-primary"><a href="" style="text-decoration: none;color:white">Download table view records</a></button>
+                    &nbsp;<button class="btn btn-primary" onclick="downloadSelected()"><a href="" style="text-decoration: none;color:white">Download table view records</a></button>
                 </div>
             </c:if>
         </div>
@@ -160,6 +162,7 @@
     //    alert($(this).val());
         $('#phenominerReportForm').submit();
     })
+
 </script>
 
 <%@ include file="/common/compactFooterArea.jsp"%>
