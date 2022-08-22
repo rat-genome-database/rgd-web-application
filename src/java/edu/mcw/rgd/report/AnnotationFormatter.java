@@ -393,6 +393,7 @@ public class AnnotationFormatter {
                 uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PANTHER).getALink(accId, info);
                 break;
             case "Ensembl":
+            case "ensembl":
                 if( accId.startsWith("ENSRNOP") ) {
                     uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ENSEMBL_PROTEIN).getALink(accId, info, SpeciesType.RAT);
                 } else if( accId.startsWith("ENSMUSP") ) {
