@@ -14,26 +14,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: jdepons
- * Date: Jun 2, 2008
- * Time: 8:59:47 AM
+ * @author jdepons
+ * @since Jun 2, 2008
  */
 public class ExternalLinksEditObjectController implements Controller {
 
     XdbIdDAO dao = new XdbIdDAO();
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        /* dump all parameters
-
-        java.util.Enumeration e = request.getParameterNames();
-        while( e.hasMoreElements() ) {
-            String name = e.nextElement().toString();
-            String values[] = request.getParameterValues(name);
-            System.out.println(values);
-        }
-         */
 
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
@@ -74,7 +62,7 @@ public class ExternalLinksEditObjectController implements Controller {
         String[] linkTexts = request.getParameterValues("linkText");
         String[] srcPipelines = request.getParameterValues("srcPipeline");
         String[] notes = request.getParameterValues("notes");
-        int recCount = accXdbKeys.length;
+        int recCount = accXdbKeys==null ? 0 : accXdbKeys.length;
         Date currDate = new Date();
 
         List<XdbId> records = new ArrayList<XdbId>(recCount);
