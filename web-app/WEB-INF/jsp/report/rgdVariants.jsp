@@ -1,4 +1,6 @@
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.dao.impl.RgdVariantDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.RgdVariant" %>
 
 <%@ include file="sectionHeader.jsp"%>
 <%
@@ -14,7 +16,7 @@
 %>
 <%--<%=ui.dynOpen("rgdVariants", "Rat Variants")%>--%>
 <div class="light-table-border">
-<div class="sectionHeading" id="rgdVariants">Rat Variants</div>
+<div class="sectionHeading" id="rgdVariants">Allelic Variants</div>
 <table id="variants" border="1" cellspacing="0" width="95%">
     <tr>
         <td align="center"><b>Name</b></td>
@@ -24,6 +26,7 @@
         <td align="Left"><b>Reference Nucleotide</b></td>
         <td align="Left"><b>Variant Nucleotide</b></td>
         <td align="center"><b>Variant Type</b></td>
+        <td align="center"><b>Assembly</b></td>
 
     </tr>
     <%
@@ -55,6 +58,7 @@
                 Term so = odao.getTermByAccId(variant.getType());
                 out.print(so.getTerm());
             %></td>
+                <td><%=mapDAO.getMap(var.getMapKey()).getName()%></td>
         </tr>
             <% } // end varData for
 
