@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,6 +27,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     String login = "";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
+
+        // no access checking on DEV -- everything is allowed on DEV
+        if( RgdContext.isDev() ) {
+            return true;
+        }
 
         String token = request.getParameter("token");
         if(request.getCookies() != null && request.getCookies().length != 0)
