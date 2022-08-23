@@ -409,7 +409,11 @@ public class TermEditObjectController implements Controller {
                 "SELECT 'DOID:9'||lpad(1+to_number(substr(term_acc,7)),6,'0') FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE ont_id='RDO' AND term_acc like 'DOID:9______')\n" +
                 ") ORDER BY DBMS_RANDOM.RANDOM";
-        return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+
+        String acc1 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+        String acc2 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+        // return a smaller term acc from two random picks
+        return acc1.compareTo(acc2)<0 ? acc1 : acc2;
     }
 
     String getUnusedPwTermAcc(OntologyXDAO dao) throws Exception {
