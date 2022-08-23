@@ -28,6 +28,7 @@
         <td align="Left"><b>Reference Nucleotide</b></td>
         <td align="Left"><b>Variant Nucleotide</b></td>
         <td align="center"><b>Variant Type</b></td>
+        <td align="center"><b>Assembly</b></td>
 
     </tr>
     <%
@@ -59,6 +60,7 @@
                 Term so = odao.getTermByAccId(variant.getType());
                 out.print(so.getTerm());
             %></td>
+                <td><%=mapDAO.getMap(var.getMapKey()).getName()%></td>
         </tr>
             <% } // end varData for
 

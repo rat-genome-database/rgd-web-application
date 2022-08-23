@@ -191,6 +191,7 @@
                     <%@ include file="comparativeMapData.jsp"%>
                     <%@ include file="../cnVariants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
                     <%@ include file="candidateGenes.jsp"%>
                     <%@ include file="markers.jsp"%>
@@ -219,7 +220,7 @@
                     <%@ include file="../promoters.jsp"%>
                     <%@ include file="clinicalVariants.jsp"%>
 <%--                    <%@ include file="../variants.jsp"%>--%>
-                    <%@ include file="../rgdVariants.jsp"%>
+
 
 
                     <!--above additional information--->
@@ -229,7 +230,7 @@
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
-                    <%@ include file="../rgdVariants.jsp"%>
+<%--                    <%@ include file="../rgdVariants.jsp"%>--%>
 
                 </td>
                 <td>&nbsp;</td>
