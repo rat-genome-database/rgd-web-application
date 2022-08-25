@@ -193,7 +193,7 @@
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
-                    <%@ include file="candidateGenes.jsp"%>
+<%--                    <%@ include file="candidateGenes.jsp"%>--%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../cellLines.jsp"%>
                     <%@ include file="../qtlsInRegion.jsp"%>
