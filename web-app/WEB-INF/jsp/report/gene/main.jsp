@@ -194,9 +194,9 @@
                     <%@ include file="../rgdVariants.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
 <%--                    <%@ include file="candidateGenes.jsp"%>--%>
+                    <%@ include file="../qtlsInRegion.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../cellLines.jsp"%>
-                    <%@ include file="../qtlsInRegion.jsp"%>
                     <%@ include file="../relatedStrains.jsp"%>
                     <%@ include file="../geneticModels.jsp"%>
                     <!---Above expression table-->
