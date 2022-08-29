@@ -223,6 +223,7 @@
     <% }%>
 
     <%@ include file="../markerFor.jsp"%>
+    <%@ include file="candidateGenes.jsp"%>
     <tr>
         <td class="label" valign="top">Latest Assembly:</td>
         <td><%=refMap.getName()%> - <%=refMap.getDescription()%></td>

@@ -21,6 +21,7 @@
     }
 
 %>
+<% if (totalVars>0){%>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div class="reportTable light-table-border" id="cnVariantsWrapper">
     <div class="sectionHeading" id="cnVariants">Variants</div>
@@ -38,7 +39,7 @@
     </table>
     </div>
 </div>
-
+<% } %>
 <style>
     .headerCardTitle {
         text-align:left;

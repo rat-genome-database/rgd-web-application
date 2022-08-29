@@ -58,7 +58,7 @@
     <td><b>Variant Nucleotide</b></td>
     <td><b>Variant Type</b></td>
     <td><b>Strain</b></td>
-    <td>Variant Page</td>
+    <td><b>Variant Page</b></td>
 </tr>
     <%
        String pstrain = "",passembly = "";
