@@ -1,13 +1,11 @@
 package edu.mcw.rgd.edit.submittedStrains;
 
-import edu.mcw.rgd.dao.impl.GeneDAO;
-import edu.mcw.rgd.dao.impl.StrainDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainAvailablityDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
+import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
+import edu.mcw.rgd.process.mapping.ObjectMapper;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -15,6 +13,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +25,7 @@ public class EditHomePageController implements Controller {
     GeneDAO geneDAO= new GeneDAO();
     SubmittedStrainAvailablityDAO adao= new SubmittedStrainAvailablityDAO();
     StrainDAO strainDAO= new StrainDAO();
+    RGDManagementDAO rgdManagementDAO=new RGDManagementDAO();
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelMap model= new ModelMap();
@@ -102,49 +102,71 @@ public class EditHomePageController implements Controller {
 
         List<SubmittedStrain> submittedStrains= new ArrayList<>();
         for(SubmittedStrain s: strains){
-            String gene= s.getGeneSymbol();
-            String allele= s.getAlleleSymbol();
-            if(s.getGeneRgdId()==0){
-                Gene g= this.getGeneOrAllele(gene);
-                s.setGeneRgdId(g.getRgdId());
-         
-            }else{
-                if(s.getGeneRgdId()>0){
-                    try {
-                        Gene g = geneDAO.getGene(s.getGeneRgdId());
-                        s.setGeneSymbol(g.getSymbol());
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-            if(s.getAlleleRgdId()==0){
-                Gene a= this.getGeneOrAllele(allele);
-                s.setAlleleRgdId(a.getRgdId());
-
-
-              
-            }else{
-                if(s.getAlleleRgdId()>0){
-                    try {
-                        Gene a = geneDAO.getGene(s.getAlleleRgdId());
-                        s.setAlleleSymbol(a.getSymbol());
-                    }catch (Exception e){e.printStackTrace();}
-                }
-            }
-            if(s.getStrainRgdId()>0){
-                try {
-                    Strain strain = strainDAO.getStrain(s.getStrainRgdId());
-                    if (strain != null) {
-                        s.setStrainSymbol(strain.getSymbol());
-
-                    }
-                }catch (Exception e){e.printStackTrace();}
-            }
-            List<SubmittedStrainAvailabiltiy> aList= adao.getAvailabilityByStrainKey(s.getSubmittedStrainKey());
-            s.setAvailList(aList);
+            mapBySubmittedSymbols(s);
+            mapBySubmittedRgdIds(s);
             submittedStrains.add(s);
         }
         return submittedStrains;
+    }
+    public void mapBySubmittedSymbols(SubmittedStrain submittedStrain) throws Exception {
+        ObjectMapper om=new ObjectMapper();
+        List<String> symbols=new ArrayList<>();
+        if(submittedStrain.getGeneSymbol()!=null && !submittedStrain.getGeneSymbol().equals("") )
+        symbols.add(submittedStrain.getGeneSymbol());
+        if(submittedStrain.getStrainSymbol()!=null && !submittedStrain.getStrainSymbol().equals("") )
+            symbols.add(submittedStrain.getStrainSymbol());
+        if(submittedStrain.getAlleleSymbol()!=null && !submittedStrain.getAlleleSymbol().equals("") )
+            symbols.add(submittedStrain.getAlleleSymbol());
+        if(symbols.size()>0) {
+            om.mapSymbols(symbols, 3);
+            if(submittedStrain.getGeneSymbol()!=null || submittedStrain.getAlleleSymbol()!=null) {
+                for (Object object : om.getMapped()) {
+                    if (object instanceof Gene) {
+                        Gene gene = (Gene) object;
+                        if (submittedStrain.getGeneSymbol()!=null && submittedStrain.getGeneSymbol().equalsIgnoreCase(gene.getSymbol())) {
+                            submittedStrain.setGeneRgdId(gene.getRgdId());
+                            submittedStrain.setGeneSymbol(gene.getSymbol());
+                        } else  if (submittedStrain.getAlleleSymbol()!=null && submittedStrain.getAlleleSymbol().equalsIgnoreCase(gene.getSymbol()))
+                        {
+                            submittedStrain.setAlleleRgdId(gene.getRgdId());
+                            submittedStrain.setAlleleSymbol(gene.getSymbol());
+                        }
+                    } else if (object instanceof Strain) {
+                        Strain strain = (Strain) object;
+                        submittedStrain.setGeneRgdId(strain.getRgdId());
+                        submittedStrain.setGeneSymbol(strain.getSymbol());
+                    }
+                }
+            }
+        }
+    }
+    public void mapBySubmittedRgdIds(SubmittedStrain submittedStrain) throws Exception {
+        ObjectMapper om=new ObjectMapper();
+        List<String> symbols=new ArrayList<>();
+        if(submittedStrain.getGeneRgdId()>0)
+            symbols.add(String.valueOf(submittedStrain.getGeneRgdId()));
+        if(submittedStrain.getStrainRgdId()>0)
+            symbols.add(String.valueOf(submittedStrain.getStrainRgdId()));
+        if(submittedStrain.getAlleleRgdId()>0)
+            symbols.add(String.valueOf(submittedStrain.getAlleleRgdId()));
+        if(symbols.size()>0) {
+            om.mapSymbols(symbols, 3, "rgd");
+            for (Object object : om.getMapped()) {
+                if (object instanceof Gene) {
+                    Gene gene = (Gene) object;
+                    if (submittedStrain.getGeneRgdId()==(gene.getRgdId())) {
+                        submittedStrain.setGeneRgdId(gene.getRgdId());
+                        submittedStrain.setGeneSymbol(gene.getSymbol());
+                    } else  if (submittedStrain.getAlleleRgdId()==(gene.getRgdId())){
+                        submittedStrain.setAlleleRgdId(gene.getRgdId());
+                        submittedStrain.setAlleleSymbol(gene.getSymbol());
+                    }
+                } else if (object instanceof Strain) {
+                    Strain strain = (Strain) object;
+                    submittedStrain.setGeneRgdId(strain.getRgdId());
+                    submittedStrain.setGeneSymbol(strain.getSymbol());
+                }
+            }
+        }
     }
 }

@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script src="/rgdweb/jquery/jquery-1.12.4.min.js"></script>
 <script src="/rgdweb/js/lookup.js"></script>
 <script src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
 
@@ -22,6 +21,12 @@
                 <th style="font-size:small;">Gene Symbol</th>
                 <th style="font-size:small;">Allele Symbol</th>
                 <th style="font-size:small;">Strain Symbol</th>
+                <th style="font-size:small;">Submitted Gene RgdId</th>
+                <th style="font-size:small;">Submitted Allele RgdId</th>
+                <th style="font-size:small;">Submitted Strain RgdId</th>
+
+
+
                 <th style="font-size:small">Display Status</th>
                 <th style="font-size:small;width:15%">Origination</th>
                 <th style="font-size:small">Status</th>
@@ -60,7 +65,9 @@
                     </c:otherwise>
                 </c:choose>
 
-
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>${s.displayStatus}</td>
 
                     <td>${s.source}</td>
