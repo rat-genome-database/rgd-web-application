@@ -245,7 +245,7 @@
                                                 <table style="border:1px solid lightgrey;margin-left: 10%">
                                                 <c:forEach items="${rsBkt.aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
                                                 <tr><td>
-                                                    <input class="formCheckInput ${rsClassName}" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;(${rsBkt.docCount})
+                                                    <input class="formCheckInput ${rsClassName}" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;(${rsTermBkt.docCount})
                                                 </td></tr>
                                                     </c:forEach>
                                                 </table>
