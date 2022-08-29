@@ -196,6 +196,7 @@
                     <%@ include file="../relatedStrains.jsp"%>
                     <%@ include file="../geneticModels.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
                     <!---Above expression table-->
                     <a name="expression"></a>
                     <br>
@@ -218,7 +219,6 @@
                     <%@ include file="clinicalVariants.jsp"%>
                     <%@ include file="../variants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
-                    <%@ include file="../rgdVariants.jsp"%>
 
                     <!--above additional information--->
                     <a name="additional"></a>
