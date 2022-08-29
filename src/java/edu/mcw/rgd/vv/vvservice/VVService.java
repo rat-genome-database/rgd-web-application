@@ -103,7 +103,7 @@ public class VVService {
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-                } while (sr.getHits().getHits().length != 0);
+                } while (sr.getHits()!=null && sr.getHits().getHits()!=null && sr.getHits().getHits().length != 0);
                 return this.excludeCommonVariants(searchHits, vsb);
 
             } else {
