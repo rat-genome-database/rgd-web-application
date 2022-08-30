@@ -139,8 +139,8 @@
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/variants/main.html">CNVariantReportController</prop>
-                <prop key="report/rsIds/main.html">CNVariantsRsIdController</prop>
-                <prop key="report/rsIds/download.html">VariantDownloadController</prop>
+                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
+                <prop key="report/rsId/download.html">VariantDownloadController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
                 <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>

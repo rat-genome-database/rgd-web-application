@@ -2,7 +2,7 @@ package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.RGDNewsConfDAO;
 import edu.mcw.rgd.datamodel.RGDNewsConf;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 

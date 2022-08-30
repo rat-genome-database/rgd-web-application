@@ -4,22 +4,25 @@
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.PolyphenDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantTranscript" %>
-<%@ page import="edu.mcw.rgd.dao.spring.variants.Polyphen" %>
 <%@ page import="edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction" %>
 <%
     Map map = mapDAO.getMap(mapKey);
     VariantTranscriptDao vtdao = new VariantTranscriptDao();
     PolyphenDAO polydao = new PolyphenDAO();
-    int objRgdId = Integer.parseInt(request.getAttribute("rgdId").toString());
-    String paramId = request.getAttribute("pageId").toString();
-    String start =  request.getAttribute("start").toString();
-    String stop = request.getAttribute("stop").toString();
-    String chr = request.getAttribute("chr").toString();
+    int objRgdId = 0;
+    String paramId="" , start="", stop="", chr="";
     int curPage = Integer.parseInt(request.getAttribute("p").toString());
     int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
     String locType = request.getAttribute("locType").toString();
     int totalSize = Integer.parseInt(request.getAttribute("totalSize").toString());
     int offset = ((curPage - 1) * 1000) + 1;
+    if (isGene){
+        objRgdId = Integer.parseInt(request.getAttribute("rgdId").toString());
+        paramId = request.getAttribute("pageId").toString();
+        start =  request.getAttribute("start").toString();
+        stop = request.getAttribute("stop").toString();
+        chr = request.getAttribute("chr").toString();
+    }
 %>
 
 
@@ -28,6 +31,7 @@
         <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
             <%=symbol%> has <%=totalSize%> Variants -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
         <td width="63%"></td>
+        <% if (isGene){%>
         <td align="center">
             <form id="downloadVue">
                 <input type="hidden" id="start" value=""/>
@@ -39,20 +43,23 @@
                 <br><label style="cursor: pointer;" v-on:click="downloadVars"><u>Download all</u></label>
             </form>
         </td>
+        <% } %>
     </tr>
     <tr>
         <td>Assembly:&nbsp;<a href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=map.getName()%></a></td>
     </tr>
-    <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
+
+    <% if (isGene){
+        if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
     <tr>
         <td><b>
             <a style="font-size: 14px;" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">View in Variant Visualizer</a>
         </b></td>
     </tr>
-    <% } %>
+    <% } } %>
 </table>
 <br>
-
+<% if (isGene){%>
 <div>
     <form id="locationChange">
         <% if (locType.equals("exon")){%>
@@ -75,6 +82,7 @@
         <label for="all">All</label>
     </form>
 </div>
+<% } %>
 <div>
     <table>
         <tr>
@@ -209,7 +217,7 @@
             downloadVars: function () {
                 // alert("Start vue");
                 axios
-                    .post('/rgdweb/report/rsIds/download.html',
+                    .post('/rgdweb/report/rsId/download.html',
                         {
                             start: downloadVue.start,
                             stopPos: downloadVue.stopPos,
@@ -242,11 +250,11 @@
     function download(){
         downloadVue.downloadVars();
     }
-    function goBack() {window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage-1%>';}
-    function goForward() {window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage+1%>';}
+    function goBack() {window.location.href = '/rgdweb/report/rsId/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage-1%>';}
+    function goForward() {window.location.href = '/rgdweb/report/rsId/main.html?<%=paramId%>=<%=objRgdId%>&p=<%=curPage+1%>';}
     function pageChange() {
         var d = document.getElementById("pageChanger").value;
-        window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&p='+d;
+        window.location.href = '/rgdweb/report/rsId/main.html?<%=paramId%>=<%=objRgdId%>&p='+d;
     }
 
     var rad = document.getElementById('locationChange');
@@ -258,7 +266,7 @@
                 prev = this;
             }
             // console.log("selected "+this.value)
-            window.location.href = '/rgdweb/report/rsIds/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
+            window.location.href = '/rgdweb/report/rsId/main.html?<%=paramId%>=<%=objRgdId%>&locType='+this.value;
         });
     }
 

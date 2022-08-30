@@ -1,8 +1,5 @@
 <%@ page import="edu.mcw.rgd.datamodel.Map" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.mcw.rgd.dao.DataSourceFactory" %>
-<%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
@@ -15,10 +12,18 @@
     String objectType="Variants";
     String displayName = request.getParameter("id");
     String symbol = "";
-
+    String sym;
+    try {
+        sym = request.getAttribute("symbol").toString();
+    }
+    catch (Exception ignore){
+        sym = "";
+    }
     boolean isGene = false;
-    if (request.getAttribute("symbol").toString().isEmpty())
+    if (sym.isEmpty()){
          displayName = request.getParameter("id");
+         symbol = displayName;
+    }
     else {
         isGene = true;
 

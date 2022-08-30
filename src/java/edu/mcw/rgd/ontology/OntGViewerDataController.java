@@ -8,7 +8,7 @@ import edu.mcw.rgd.process.generator.GeneratorCommandParser;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.jdbc.core.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
