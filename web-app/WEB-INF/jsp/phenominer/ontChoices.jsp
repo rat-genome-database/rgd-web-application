@@ -125,15 +125,8 @@
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <!--
-        <td>
-            <span style="font-size:18px">Species</span>
-            <select name="species" style="font-size:18px" onChange="updateSpecies(this.value)">
-                <option value="3" <% if (species==3) out.print("selected"); %> style="font-size:18px">Rat</option>
-                <option value="4" <% if (species==4) out.print("selected"); %> style="font-size:18px">Chinchilla</option>
-            </select>
+        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading Rat Strain Ontology....</div>
         </td>
-        -->
         <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
@@ -142,9 +135,11 @@
         </td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
+        <td>&nbsp;
+        </td>
     </tr>
 </table>
+
 
 <div id="phenominer" >
 
@@ -183,7 +178,7 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
 
-                <div id="strainMessageUpdate" style="display:none;">Updating...</div>
+                <div id="strainMessageUpdate" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
                 <table id="strainMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
@@ -208,7 +203,7 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="sourceMessageUpdate" style="display:none;">Updating...</div>
+                <div id="sourceMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
 
                 <table id="sourceMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
@@ -237,7 +232,7 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="cmoMessageUpdate" style="display:none;">Updating...</div>
+                <div id="cmoMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
 
                 <table id="cmoMessageTable">
                 <tr v-for="(key, value) in selectedMeasurements">
@@ -260,7 +255,7 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="methodMessageUpdate" style="display:none;">Updating...</div>
+                <div id="methodMessageUpdate" style="display:none;font-size:26px; color:#D64927; font-weight:700;">Updating...</div>
 
                 <table id="methodMessageTable">
                     <tr v-for="(key, value) in selectedMethods">
@@ -283,7 +278,7 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="conditionMessageUpdate" style="display:none;">Updating...</div>
+                <div id="conditionMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
 
                 <table id="conditionMessageTable">
                     <tr v-for="(key, value) in selectedConditions">
@@ -338,7 +333,6 @@
 
 
     <br>
-    <div id="ontologyLoadingMessage" style="position:absolute; top:20; padding:20px; background-color:#D7E4BD; color:black;font-size:30px; border-radius:20px;">Loading Rat Strain Ontology....</div>
     <table align="left" width="1000" border="0" id="selectionWindow" style="visibility:hidden;">
         <tr>
             <td colspan="2"style="font-size:24px;">{{title}}</td>
@@ -389,6 +383,11 @@
         </td>
     </tr>
 </table>
+
+
+<div id="block" onClick="alert('Data is loading.   Please wait for next selection....')" style="opacity:.0; display:none;background-color:blue;position:absolute;top:0;left:0;z-index:1000;height:2000px;width:2000px;">
+&nbsp;
+</div>
 
 
 <script type="text/javascript" src="/rgdweb/js/xml2json.js"></script>
@@ -782,6 +781,7 @@
                 if (JSON.stringify(v.selectedConditions) === "{}") {
                     return;
                 }
+                v.block();
                 document.getElementById("conditionMessageTable").style.visibility="hidden";
                 document.getElementById("conditionMessageUpdate").style.display="block";
 
@@ -843,7 +843,7 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("conditionMessageTable").style.visibility="visible";
                         document.getElementById("conditionMessageUpdate").style.display="none";
-
+                        v.unblock();
 
                     })
                     .catch(function (error) {
@@ -873,6 +873,16 @@
 
             },
 
+            block: function() {
+                //alert("in block");
+                document.getElementById("block").style.display="block";
+
+            },
+            unblock: function() {
+                //alert("in unblock");
+                document.getElementById("block").style.display="none";
+
+            },
             updateStrainBox: function() {
                 //alert(JSON.stringify(v.selectedStrains));
 
@@ -883,6 +893,7 @@
                     return;
                 }
 
+                v.block();
                 document.getElementById("strainMessageTable").style.visibility="hidden";
                 document.getElementById("strainMessageUpdate").style.display="block";
 
@@ -942,7 +953,7 @@
 
                         document.getElementById("strainMessageTable").style.visibility="visible";
                         document.getElementById("strainMessageUpdate").style.display="none";
-
+                        v.unblock();
                         //v.selectedConditions = tmpHash;
 
                     })
@@ -959,7 +970,7 @@
                 if (JSON.stringify(v.selectedMethods) === "{}") {
                     return;
                 }
-
+                v.block();
                 document.getElementById("methodMessageTable").style.visibility="hidden";
                 document.getElementById("methodMessageUpdate").style.display="block";
 
@@ -1022,7 +1033,7 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("methodMessageTable").style.visibility="visible";
                         document.getElementById("methodMessageUpdate").style.display="none";
-
+                        v.unblock();
 
                     })
                     .catch(function (error) {
@@ -1037,6 +1048,7 @@
                     return;
                 }
 
+                v.block();
                 document.getElementById("cmoMessageTable").style.visibility="hidden";
                 document.getElementById("cmoMessageUpdate").style.display="block";
 
@@ -1098,7 +1110,7 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("cmoMessageTable").style.visibility="visible";
                         document.getElementById("cmoMessageUpdate").style.display="none";
-
+                        v.unblock();
                     })
                     .catch(function (error) {
                         console.log(error)
