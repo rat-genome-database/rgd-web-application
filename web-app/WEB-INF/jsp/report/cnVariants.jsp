@@ -29,7 +29,7 @@
     <table>
     <tr>
         <td><div class="headerCard" style="width: 200px;text-align: center;">
-            <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>'">.</div>
+            <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>'">.</div>
             <div class="headerCardTitle">Variants in <%=obj.getSymbol()%><br><span class="headerSubTitle"><%=totalVars%> total Variants</span></div>
             <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/variantPage.png" height="175" width="270" border="0" /></span>
         </div></td>
