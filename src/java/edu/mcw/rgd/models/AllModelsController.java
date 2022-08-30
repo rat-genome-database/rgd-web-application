@@ -8,7 +8,7 @@ import edu.mcw.rgd.datamodel.models.GeneticModel;
 
 
 import edu.mcw.rgd.models.models1.GeneticModelsSingleton;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;

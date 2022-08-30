@@ -9,7 +9,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.xml.XomAnalyzer;
 import nu.xom.Element;
 import nu.xom.Elements;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jaxen.XPath;
 import org.jaxen.xom.XOMXPath;
 import org.springframework.web.servlet.ModelAndView;

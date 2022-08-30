@@ -5,7 +5,7 @@ import edu.mcw.rgd.datamodel.myrgd.MyUser;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.UI;
 import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.apache.commons.collections.functors.ExceptionPredicate;
+import org.apache.commons.collections4.functors.ExceptionPredicate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

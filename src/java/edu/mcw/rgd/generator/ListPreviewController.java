@@ -5,7 +5,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 

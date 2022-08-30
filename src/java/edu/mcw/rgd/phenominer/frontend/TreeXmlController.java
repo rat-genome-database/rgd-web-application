@@ -48,8 +48,10 @@ public class TreeXmlController implements Controller {
 		String xml;
 		if (filterTerms.isEmpty()) {
 			// generate xml tree if no filters are specified
+			System.out.println("here 1");
 			xml = trees.generateXml(ontId, sex, speciesTypeKey);
 		} else {
+			System.out.println("here 2");
 			xml = trees.generateXml(ontId, sex, speciesTypeKey, filterTerms);
 		}
 
