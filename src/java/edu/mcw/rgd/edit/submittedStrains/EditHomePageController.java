@@ -1,7 +1,9 @@
 package edu.mcw.rgd.edit.submittedStrains;
 
+import com.google.gson.Gson;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Gene;
+import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
@@ -24,8 +26,9 @@ public class EditHomePageController implements Controller {
     SubmittedStrainDao sdao= new SubmittedStrainDao();
     GeneDAO geneDAO= new GeneDAO();
     SubmittedStrainAvailablityDAO adao= new SubmittedStrainAvailablityDAO();
-    StrainDAO strainDAO= new StrainDAO();
     RGDManagementDAO rgdManagementDAO=new RGDManagementDAO();
+    StrainDAO strainDAO=new StrainDAO();
+   Gson gson=new Gson();
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelMap model= new ModelMap();
@@ -117,6 +120,7 @@ public class EditHomePageController implements Controller {
             symbols.add(submittedStrain.getStrainSymbol());
         if(submittedStrain.getAlleleSymbol()!=null && !submittedStrain.getAlleleSymbol().equals("") )
             symbols.add(submittedStrain.getAlleleSymbol());
+
         if(symbols.size()>0) {
             om.mapSymbols(symbols, 3);
             if(submittedStrain.getGeneSymbol()!=null || submittedStrain.getAlleleSymbol()!=null) {
@@ -124,17 +128,17 @@ public class EditHomePageController implements Controller {
                     if (object instanceof Gene) {
                         Gene gene = (Gene) object;
                         if (submittedStrain.getGeneSymbol()!=null && submittedStrain.getGeneSymbol().equalsIgnoreCase(gene.getSymbol())) {
-                            submittedStrain.setGeneRgdId(gene.getRgdId());
-                            submittedStrain.setGeneSymbol(gene.getSymbol());
+                            submittedStrain.setGene(gene);
                         } else  if (submittedStrain.getAlleleSymbol()!=null && submittedStrain.getAlleleSymbol().equalsIgnoreCase(gene.getSymbol()))
                         {
-                            submittedStrain.setAlleleRgdId(gene.getRgdId());
-                            submittedStrain.setAlleleSymbol(gene.getSymbol());
+                            submittedStrain.setAllele(gene);
                         }
-                    } else if (object instanceof Strain) {
-                        Strain strain = (Strain) object;
-                        submittedStrain.setGeneRgdId(strain.getRgdId());
-                        submittedStrain.setGeneSymbol(strain.getSymbol());
+                    } else  {
+                        try {
+                            Strain strain = strainDAO.getStrainBySymbol((String) object);
+                            if (strain != null)
+                                submittedStrain.setStrain(strain);
+                        }catch (Exception e){}
                     }
                 }
             }
@@ -155,16 +159,20 @@ public class EditHomePageController implements Controller {
                 if (object instanceof Gene) {
                     Gene gene = (Gene) object;
                     if (submittedStrain.getGeneRgdId()==(gene.getRgdId())) {
-                        submittedStrain.setGeneRgdId(gene.getRgdId());
-                        submittedStrain.setGeneSymbol(gene.getSymbol());
+                        if(submittedStrain.getGene()==null){
+                            submittedStrain.setGene(gene);
+                        }
                     } else  if (submittedStrain.getAlleleRgdId()==(gene.getRgdId())){
-                        submittedStrain.setAlleleRgdId(gene.getRgdId());
-                        submittedStrain.setAlleleSymbol(gene.getSymbol());
+                        if(submittedStrain.getAllele()==null)
+                            submittedStrain.setAllele(gene);
                     }
-                } else if (object instanceof Strain) {
-                    Strain strain = (Strain) object;
-                    submittedStrain.setGeneRgdId(strain.getRgdId());
-                    submittedStrain.setGeneSymbol(strain.getSymbol());
+                } else {
+                    System.out.println("OBJECT INSTANCE OF STRAIN: " + gson.toJson(object));
+                    try {
+                        Strain strain = strainDAO.getStrain( Integer.parseInt(String.valueOf(object)));
+                        if (strain != null)
+                            submittedStrain.setStrain(strain);
+                    }catch (Exception e){}
                 }
             }
         }
