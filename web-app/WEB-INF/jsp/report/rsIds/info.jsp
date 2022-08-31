@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.variants.PolyphenDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantTranscript" %>
 <%@ page import="edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     Map map = mapDAO.getMap(mapKey);
     VariantTranscriptDao vtdao = new VariantTranscriptDao();
@@ -53,7 +54,7 @@
         if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
     <tr>
         <td><b>
-            <a style="font-size: 14px;" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">View in Variant Visualizer</a>
+            <a style="font-size: 14px;" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">View all Variants in Variant Visualizer</a>
         </b></td>
     </tr>
     <% } } %>
@@ -127,30 +128,52 @@
             <th align="left">Reference Nucleotide</th>
             <th align="left">Variant Nucleotide</th>
             <th align="left">Location Name</th>
-            <th align="left">PolyPhen Prediction</th>
+            <th align="left">Is Damaging?</th>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
-            <th align="left">VV</th>
+            <th align="left">Visualize</th>
             <%}%>
         </tr>
         <% for (VariantMapData v : vars) {
 //            VariantMapData v = vars.get(i);
             List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),mapKey);
-            VariantTranscript transcript = null;
-            List<PolyPhenPrediction> p = null;
+//            VariantTranscript transcript = null;
+            List<PolyPhenPrediction> predictions = null;
+            List<String> locNames = new ArrayList<>();
+            String locName = null;
+            String isDamaging = null;
+            // Probably damaging > possibly damaging > benign
             for (VariantTranscript vt : vts){
-                String ltU = locType.toUpperCase();
-                if (vt.getLocationName().contains(ltU)) {
-                    transcript = vt;
-                    p = polydao.getPloyphenDataByVariantId((int) v.getId(), vt.getTranscriptRgdId());
-                    break;
+                String[] types = vt.getLocationName().split(",");
+                for (String type : types){
+                    if (!locNames.contains(type)) {
+                        locNames.add(type);
+                        if (!Utils.isStringEmpty(locName)){
+                            locName += ";"+type;
+                        }
+                        else
+                            locName = type;
+                    }
                 }
-                else
-                    transcript = vt;
+                predictions = polydao.getPloyphenDataByVariantId((int) v.getId(), vt.getTranscriptRgdId());
+                for (PolyPhenPrediction p : predictions){
+                    if (p.getPrediction().equals("probably damaging")) {
+                        isDamaging = p.getPrediction();
+                        break;
+                    }
+                    else if (p.getPrediction().equals("possibly damaging")){
+                        if (Utils.isStringEmpty(isDamaging) || Utils.stringsAreEqual(isDamaging,"benign"))
+                            isDamaging = p.getPrediction();
+                    }
+                    else if (p.getPrediction().equals("benign")){
+                        if (Utils.isStringEmpty(isDamaging))
+                            isDamaging = p.getPrediction();
+                    }
+                }
             }
         %>
         <tr>
             <td><%=offset%>.</td>
-            <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more Information</a></td>
+            <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
             <% if (isGene) {
                 String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
             <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <% } %>
@@ -179,14 +202,10 @@
                 %>
                 <%=varLess%><% if (varNuc.length()>16) {%><span class="more" style="display: none;"><%=varMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
             </td>
-            <% if (vts != null && !vts.isEmpty()) {%>
-            <td><%=Utils.NVL(transcript.getLocationName(),"-")%></td>
-            <%} else {out.print("<td>-</td>");}%>
-            <% if (p != null && !p.isEmpty()) {%>
-            <td><%=p.get(0).getPrediction()%></td>
-            <%} else {out.print("<td>-</td>");}%>
+            <td><%=Utils.NVL(locName,"-")%></td>
+            <td><%=Utils.NVL(isDamaging,"-")%></td>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
-            <td><a title="View in Variant Visualizer" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">
+            <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">
                 <img src="/rgdweb/common/images/variantVisualizer-abr.png" width="30" height="15">
             </a></td>
             <% } %>

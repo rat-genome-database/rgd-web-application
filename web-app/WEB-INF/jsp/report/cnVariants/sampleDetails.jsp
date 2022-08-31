@@ -42,9 +42,8 @@ if (!sampleDetailList.isEmpty() ) {
         <table id="sampleDetailsTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="sampleDetailsTable_pager_info">
             <tr>
                 <td>Sample</td>
-                <td>Percent Read</td>
-                <td>Zygosity Status</td>
-                <td>Quality Score</td>
+                <td>Variant Allele Depth</td>
+                <td>Variant Zygosity in Sample</td>
             </tr>
             <%for (VariantSampleDetail vsd : sampleDetailList) {
                 Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
@@ -56,7 +55,6 @@ if (!sampleDetailList.isEmpty() ) {
                 <td><a href="<%=vvUrl%>" title="View in Variant Visualizer"><%=s.getAnalysisName()%></a></td>
                 <td><%=vsd.getVariantFrequency()%>/<%=vsd.getDepth()%>&nbsp;(<%=vsd.getZygosityPercentRead()%>%)</td>
                 <td><%=vsd.getZygosityStatus()%></td>
-                <td><%=vsd.getQualityScore()%></td>
             </tr>
             <% } %>
         </table>
