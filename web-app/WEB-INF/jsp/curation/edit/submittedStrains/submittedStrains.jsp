@@ -62,21 +62,7 @@
 
 
                 <td>${s.displayStatus}</td>
-                    <!--td>
-                        <!--c:set var="first" value="true"/>
-                        <!--c:forEach items="$--{s.availList}" var="a">
-                            <!--c:choose>
-                                <!--c:when  test="$--{first=='true'}">
-                                    <!--c:out value="$--{a.availabilityType}"/>
-                                    <!--c:set var="first" value="false"/>
-                                 <!--/c:when>
-                                <!--c:otherwise>
-                                    <!--c:out value=",  $--{a.availabilityType}"/>
-                                <!--/c:otherwise>
-                            <!--/c:choose>
 
-                        <!--/c:forEach-->
-                        <!--/td-->
                     <td>${s.source}</td>
                 <td>
                 <form action="editStrains.html?statusUpdate=true&submissionKey=${s.submittedStrainKey}" method="post">

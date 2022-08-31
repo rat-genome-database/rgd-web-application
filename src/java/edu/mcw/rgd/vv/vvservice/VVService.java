@@ -120,7 +120,7 @@ public class VVService {
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
                 } while (sr.getHits().getHits().length != 0);
 
-                System.out.println("search Hits:"+ searchHits);
+              //  System.out.println("search Hits:"+ searchHits);
                 return searchHits;
             }
         }catch (Exception e) {
@@ -363,7 +363,7 @@ public class VVService {
             dqb.add(qb);
         }else{
 
-                if(vsb.getVariantId()!=0 && vsb.getSampleIds().size()>0 ){
+                if(vsb.getVariantId()>0 && vsb.getSampleIds().size()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
                     );

@@ -118,19 +118,33 @@ public class ElasticSearchController implements Controller {
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
-
+        String redirUrl =null;
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
-                String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
+                if(id != null) {
+                    if(id.getSpeciesTypeKey()!=1 && id.getObjectKey()==7)
+                        redirUrl="/rgdweb/report/variants/main.html?id="+id.getRgdId();
+                    else
+                        redirUrl= Link.it(rgdid, id.getObjectKey()) ;
+
+                }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
                     //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                    redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
-                    return redirUrl;
+                    return request.getScheme() + "://" + request.getServerName() + redirUrl;
+
                 }
-            }else {
+            }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
+            {
+                System.out.println("RSID :"+ term);
+                redirUrl=Link.rsId(term);
+                return request.getScheme() + "://" + request.getServerName() + redirUrl;
+
+            }
+            else {
+
 
                     SearchService service = new SearchService();
                     SearchResponse sr;
@@ -162,19 +176,33 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
         String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
+        String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
+        String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
+
+        String rsId=(String) sr.getHits().getHits()[0].getSourceAsMap().get("rsId");
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
+            if(rsId!=null && !rsId.equals("")){
+                redirUrl = Link.rsId(rsId);
+            }else
       if (docId.matches("[0-9]+") && docId.length() > 2) {
                 rgdIdValue = Integer.parseInt(docId);
                 RgdId  id = rdao.getRgdId2(rgdIdValue);
            if (id != null) {
+               if(!category.equalsIgnoreCase("variant") || species.equalsIgnoreCase("human"))
                redirUrl = Link.it(rgdIdValue, id.getObjectKey());
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
+               else {
+                   if(category.equalsIgnoreCase("variant") && !species.equalsIgnoreCase("human")){
+                       redirUrl="/rgdweb/report/variants/main.html?id="+rgdIdValue;
+                   }
+               }
             }
         }else {
           if(docId.contains(":"))
               redirUrl = Link.ontAnnot(docId);
+
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
             //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;

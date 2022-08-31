@@ -43,17 +43,10 @@ public class QueryService1 {
 
 
     public SearchResponse getSearchResponse(String term, SearchBean sb) throws IOException {
-
-      //  if(term!=null) {
-            Map<String, String> filterMap= this.getFilterMap(sb);
-            BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
-                    //sb.getCategory(),sb.getSpecies(), filterMap,sb.getChr(), sb.getStart(), sb.getStop(), sb.getAssembly() );
-
-
-            String sortField=null;
+        BoolQueryBuilder builder=this.boolQueryBuilder(term,sb);
+        String sortField=null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
-       //     SearchRequestBuilder srb = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
-                    srb.query(builder);
+        srb.query(builder);
             if(sb != null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance")) {
                     srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
@@ -130,48 +123,9 @@ public class QueryService1 {
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-     /*   SearchResponse sr=srb
-                .setSearchType(SearchType.QUERY_THEN_FETCH)
-                .setRequestCache(true)
-                   .execute().actionGet();
-*/
         return sr;
-    //   }
-
-  //     return null;
     }
-    public Map<String, String> getFilterMap(SearchBean sb){
-            //String category, String species, String type, String subCat){
-        if(sb!=null) {
-            Map<String, String> filterMap = new HashMap<>();
-            if (sb.getSpecies() != null) {
-                if (!sb.getSpecies().equals("")) {
-                    filterMap.put("species", sb.getSpecies());
-                }
-            }
-            if (sb.getCategory() != null) {
-                if (!sb.getCategory().equalsIgnoreCase("general")) {
-                    filterMap.put("category", sb.getCategory());
-                }
-                if (sb.getCategory().equalsIgnoreCase("ontology")) {
-                    if (!sb.getSubCat().equals("")) {
-                        filterMap.put("subcat", sb.getSubCat());
-                    } else {
-                        filterMap.put("category", sb.getCategory());
-                    }
 
-                }
-            }
-            if (sb.getType() != null) {
-                if (!sb.getType().equals("")) {
-                    filterMap.put("type", sb.getType());
-                }
-            }
-
-
-            return filterMap;
-        }else return null;
-    }
     public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
                                              //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
@@ -235,28 +189,28 @@ public class QueryService1 {
                 if(!term.equals("")){
                     System.out.println("TERM IN DISMAXQUERY: "+ term);
                 dqb
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
+                       // .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
 
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
+                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
 
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
+                     //   .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
 
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
+                     //   .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
 
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
+                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
 
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
+                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)))
+                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
 
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                        .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
+                      /*  .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
                         .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-                        .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
+                       .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
                         .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
                         .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
                         .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
@@ -264,8 +218,13 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
                         .add(QueryBuilders.matchPhraseQuery("genomicAlteration", term).boost(5))
 
-                        .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
-                        .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+                    .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
+                    .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
+                      .add(QueryBuilders.matchPhrasePrefixQuery("term.symbol", term).boost(500))
+                     .add(QueryBuilders.matchPhraseQuery("term.symbol", term).boost(400))
+                //        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms", term).boost(400))
+                        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms.symbol", term).boost(100))
+
 
                         .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
                         .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
@@ -291,10 +250,10 @@ public class QueryService1 {
                                 .must(QueryBuilders.matchQuery("author.author", term)))
 
 
-                        .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND).boost(10))
-                        .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND).boost(50))
-                        .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND).boost(5))
-                        .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND).boost(10))
+                        .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND))
+                        .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND))
+                        .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND))
+                        .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND))
                         .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
 
                         .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
@@ -305,7 +264,19 @@ public class QueryService1 {
                         .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
                         .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
-                        .add(QueryBuilders.termQuery("xdata", term).boost(1))
+                        .add(QueryBuilders.termQuery("xdata", term).boost(1))*/
+
+
+                        .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
+                        .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
+
+                        .add(QueryBuilders.multiMatchQuery(term)
+                              .field("symbol.symbol", 100)
+                              .field("term.symbol", 100)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                      // .add(QueryBuilders.multiMatchQuery(term) .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).type(MultiMatchQueryBuilder.Type.PHRASE).boost(50))
                 ;
             }else{
                     dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
@@ -355,7 +326,7 @@ public class QueryService1 {
     }
 
     public HighlightBuilder buildHighlights(){
-        List<String> fields=new ArrayList<>(Arrays.asList(
+     /*   List<String> fields=new ArrayList<>(Arrays.asList(
                 "symbol","symbol.symbol","symbol.ngram","htmlStrippedSymbol.ngram",
                 "name","name.name", "description","description.description",
                 "citation","citation.citation","title",
@@ -368,11 +339,12 @@ public class QueryService1 {
                 "type","transcripts", "promoters",
                 "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers",
                 "associations","genomicAlteration"
-        ));
+        ));*/
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+       /* for(String field:fields){
             hb.field(field);
-        }
+        }*/
+        hb.field("*");
         return hb;
     }
 

@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -203,7 +204,7 @@ public class SearchService {
     //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
-   public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb)  {
+   public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
            try {
             QueryService1 qs = new QueryService1();
            return qs.getSearchResponse(term, sb);
@@ -221,9 +222,8 @@ public class SearchService {
         return null;
     }
 
-    public void reInitiateClient(){
-        ClientInit esClient= new ClientInit();
-        esClient.init();
+    public void reInitiateClient() throws UnknownHostException {
+        ClientInit.init();
 
     }
     public SearchBean getSearchBean(HttpRequestFacade request, String term){

@@ -1,3 +1,4 @@
+<%@ page import="javax.rmi.CORBA.Util" %>
 <%
     List<Gene> homologs = geneDAO.getHomologs(obj.getRgdId());
     List<Association> weakOrthos = associationDAO.getAssociationsForMasterRgdId(obj.getRgdId(), "weak_ortholog");
