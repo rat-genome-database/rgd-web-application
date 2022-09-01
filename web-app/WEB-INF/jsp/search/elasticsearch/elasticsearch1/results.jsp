@@ -199,6 +199,12 @@
                 <c:set var="xRecordCount" value="${xRecordCount+ hit.getSourceAsMap().experimentRecordCount}"/>
                 <c:set var="sampleExists" value="${sampleExists+ hit.getSourceAsMap().sampleExists}"/>
                 <c:set var="url" value="/rgdweb/report/${hit.getSourceAsMap().category.toLowerCase()}/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
+
+                <c:if test="${hit.getSourceAsMap().category=='Variant'}">
+                    <c:if test="${model.searchBean.species!='Human'}">
+                    <c:set var="url" value="/rgdweb/report/variants/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
+                    </c:if>
+                    </c:if>
                 <c:if test="${hit.getSourceAsMap().category=='Reference'}">
                     <c:set var="url" value="/rgdweb/report/reference/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
@@ -215,7 +221,7 @@
                     <c:set var="url" value="/rgdweb/report/cellline/main.html?id=${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
                 <!--tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location= '$-{url}'"-->
-                <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.open('${url}', '_blank')">
+                <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location.href='${url}'">
                     <c:choose>
                         <c:when test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
                                          || model.searchBean.category.equals('SSLP') || model.searchBean.category.equals('Variant') || model.searchBean.category.equals('Promoter') || model.searchBean.category.equals('Reference') || model.searchBean.category.equals('Cell line')}">
@@ -227,7 +233,7 @@
                                                 <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                             </c:when>
                                             <c:otherwise>
-                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}">
+                                                <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-rgdids="${hit.getSourceAsMap().term_acc}" >
                                             </c:otherwise>
                                         </c:choose>
 
@@ -265,7 +271,7 @@
                                                             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-count="${hit.getSourceAsMap().experimentRecordCount}" data-symbol="${hit.getSourceAsMap().symbol}" data-sampleExists="${hit.getSourceAsMap().sampleExists}">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}">
+                                                            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="${hit.getSourceAsMap().term_acc}" data-symbol="${hit.getSourceAsMap().symbol}">
                                                         </c:otherwise>
                                                     </c:choose>
 
@@ -374,18 +380,18 @@
                     </td>
 
                     <td  onmouseover="link=false;" onmouseout="link=true;" style="cursor: auto;">
-                        <a href="${url}" target="_blank">
+                        <a href="${url}">
                             <c:set var="str" value="${hit.getSourceAsMap().name}${hit.getSourceAsMap().title}${hit.getSourceAsMap().term}"/>
                        ${f:format(str,t )}
                         </a>
                         <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'  && hit.getSourceAsMap().category!='Promoter'  && hit.getSourceAsMap().category!='Cell line'}">
-                            <a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().term_acc}" title="click to browse the term" alt="browse term" target="_blank">
+                            <a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().term_acc}" title="click to browse the term" alt="browse term">
                                 <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                             <c:if test="${hit.getSourceAsMap().annotationsCount>0}">
-                                &nbsp;<a href="${url}" target="_blank"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show ${hit.getSourceAsMap().annotationsCount} annotated objects"></a>
+                                &nbsp;<a href="${url}"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show ${hit.getSourceAsMap().annotationsCount} annotated objects"></a>
                             </c:if>
                             <c:if test="${hit.getSourceAsMap().pathwayDiagUrl!=null}">
-                                &nbsp;<a href="${hit.getSourceAsMap().pathwayDiagUrl}" target="_blank"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
+                                &nbsp;<a href="${hit.getSourceAsMap().pathwayDiagUrl}"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
                             </c:if>
                         </c:if>
                     </td>
@@ -446,7 +452,6 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
-
                                     <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
                                         ${item.startPos}
                                     </c:if>
@@ -539,7 +544,9 @@
                                                 <td style="color: white">Chinchilla</td>
                                                 <td style="color: white">Dog</td>
                                                 <td style="color: white">Bonobo</td>
-                                                <td style="color: white;padding-right:10px">Squirrel</td>
+                                                <td style="color: white;">Squirrel</td>
+                                                <td style="color: white;">Naked Mole-rat</td>
+                                                <td style="color: white;padding-right:10px">Green Monkey</td>
                                             </tr>
                                             <c:set var="i" value="0"/>
                                             <c:forEach items="${hit.getSourceAsMap().annotationsMatrix}" var="row">
