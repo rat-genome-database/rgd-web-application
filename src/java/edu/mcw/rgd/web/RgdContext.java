@@ -124,7 +124,7 @@ public class RgdContext {
                         indexName= index+"_index_prod";
                     }else
                     if( isPipelines() ) {
-                        indexName= index+"_index_cur";
+                        indexName= index+"_index_cur"+","+"variant_index_cur";
                     }else
                     if( isDev() ) {
                         indexName= index+"_index_dev"+","+"variant_index_dev";
