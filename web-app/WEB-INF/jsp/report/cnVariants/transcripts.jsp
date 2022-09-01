@@ -36,29 +36,34 @@
 //        System.out.println(e);
         }
 //    }
+    List<TranscriptResult> results = new ArrayList<>();
     boolean emptyTranscripts = true;
     for (SearchResult sr1 : allResults){
         for (VariantResult vr : sr1.getVariantResults()){
-            if (!vr.getTranscriptResults().isEmpty())
-                emptyTranscripts = false;
+            for(TranscriptResult tr:vr.getTranscriptResults())
+            {
+                if (!results.contains(tr))
+                    results.add(tr);
+            }
+
         }
     }
-    if (!allResults.isEmpty() && !emptyTranscripts){
+    if (!results.isEmpty()){
+        Collections.sort(results, new Comparator<TranscriptResult>() {
+            public int compare(TranscriptResult tr1, TranscriptResult tr2) {
+                return Utils.stringsCompareToIgnoreCase(tr1.getAminoAcidVariant().getLocation(), tr2.getAminoAcidVariant().getLocation());
+            }
+        });
 %>
 <div class="reportTable light-table-border" id="variantTranscriptsTableWrapper">
     <div class="sectionHeading" id="variantTranscripts" >Variant Transcripts</div>
         <div id="variantTranscriptsTableDiv" class="annotation-detail">
             <table id="variantTranscriptsTable" width="650" border=0 ><tr></tr>
-<% for (SearchResult searchResult : allResults){
-//    System.out.println("Results: "+searchResult.getVariantResults().size());
-    List<VariantResult> resultList = searchResult.getVariantResults();
-    for (VariantResult result : resultList) {
-    // make the transcripts pop out like VV %>
             <tr>
                 <td>
                     <a></a>
                     <div id="sampleTranscripts">
-            <% for (TranscriptResult tr: result.getTranscriptResults()) { %>
+            <% for (TranscriptResult tr: results) { %>
                     <table border="0" width="100%" style="background-color:white; color:#053867;font-size:12px;">
                 <% try { %>
                 <tr>
@@ -172,11 +177,9 @@
                 </td>
             </tr>
 
- <%   }  // end resultList
-    } // end all result  %>
             </table>
         </div>
-
+</div>
 <% } %>
 <%--else {%>--%>
 <%--    <h1>No transcripts for sample.--%>
