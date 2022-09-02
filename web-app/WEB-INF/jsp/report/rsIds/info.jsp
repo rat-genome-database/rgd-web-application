@@ -175,8 +175,12 @@
             <td><%=offset%>.</td>
             <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
             <% if (isGene) {
+                if (speciesType!=SpeciesType.HUMAN){
                 String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
-            <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <% } %>
+            <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <%}
+                else {%>
+                <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?v.getRsId():"-"%></td>
+             <% } } %>
             <td><%=v.getChromosome()%></td>
             <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
             <td><%=v.getVariantType()%></td>
