@@ -40,11 +40,7 @@
     boolean emptyTranscripts = true;
     for (SearchResult sr1 : allResults){
         for (VariantResult vr : sr1.getVariantResults()){
-            for(TranscriptResult tr:vr.getTranscriptResults())
-            {
-                if (!results.contains(tr))
-                    results.add(tr);
-            }
+            results.addAll(vr.getTranscriptResults());
 
         }
     }
@@ -76,7 +72,7 @@
                     <td class="carpeLabel" width=200>Accession:</td><td width=70%><%=tr.getAminoAcidVariant().getTranscriptSymbol()%></td>
                 </tr>
                 <tr>
-                    <td class="carpeLabel" >Location:</td><td><%=tr.getAminoAcidVariant().getLocation()%></td>
+                    <td class="carpeLabel" >Location:</td><td><%=tr.getAminoAcidVariant().getLocation().replace(",",";")%></td>
                 </tr>
 
                 <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
