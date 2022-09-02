@@ -120,9 +120,9 @@ theme : 'blue'
                 <td>${s.displayStatus}</td>
 
                     <td>${s.source}</td>
-                <td>
+                <td style="width: 10%">
                 <form action="editStrains.html?statusUpdate=true&submissionKey=${s.submittedStrainKey}" method="post">
-                <select class="form-control" class="status" name="status" onchange="this.form.submit()" >
+                <select class="form-control " class="status" name="status" onchange="this.form.submit()" >
                     <option  value="${s.approvalStatus}" selected >${s.approvalStatus}</option>
                     <c:if test="${s.approvalStatus!='submitted'}">
                         <option value="submitted">submitted</option>
