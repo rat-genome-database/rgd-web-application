@@ -225,7 +225,6 @@ public class PhenominerService {
         if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName")) ) {
             srb.query(this.boolQueryBuilder(req, null));
             //   srb.aggregation(this.buildSearchAggregations("category", category));
-            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
            String  filterField=filterMap.entrySet().iterator().next().getKey();
             if(filterField.equalsIgnoreCase("cmoTerm"))
             srb.aggregation(this.buildAggregations("units"));

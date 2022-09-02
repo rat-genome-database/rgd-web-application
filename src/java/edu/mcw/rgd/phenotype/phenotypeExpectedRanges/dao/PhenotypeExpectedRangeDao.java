@@ -100,7 +100,6 @@ public class PhenotypeExpectedRangeDao extends OntologyXDAO {
         sql+=this.buildIntQuery(ageLow, "AGE_DAYS_FROM_DOB_LOW_BOUND");
         sql+=this.buildIntQuery(ageHigh,"AGE_DAYS_FROM_DOB_HIGH_BOUND");
        sql+=this.buildStringQuery(sex, "SEX");
-        System.out.println("SELECTED METHODS SIZE:" + selectedMethods.size());
         String methodQuery=this.buildMethodQuery(selectedMethods, "measurement_method_ont_id");
         if(methodQuery!=null)
         sql+=methodQuery;

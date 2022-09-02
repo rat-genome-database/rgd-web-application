@@ -360,49 +360,53 @@ public class DownloadController implements Controller {
             }
 
             if (objectKey.equals("7")) {
-                VariantInfoDAO vdao = new VariantInfoDAO();
-                List<VariantInfo> variants = new ArrayList<>();
-                for (int rgdId : rgdidsList) {
-                    VariantInfo v = new VariantInfo();
-                    v = vdao.getVariant(rgdId);
-                    List<MapData> m = mdao.getMapData(rgdId, Integer.parseInt(mapKey));
-                    cellnum = 0;
-                    if (m.size() > 0) {
-                        MapData md = m.get(0);
+                System.out.println("MAPKEY:"+mapKey);
+                if(mapKey.equals("38") || mapKey.equals("17")) {
+                    VariantInfoDAO vdao = new VariantInfoDAO();
+                    List<VariantInfo> variants = new ArrayList<>();
+                    for (int rgdId : rgdidsList) {
+                        VariantInfo v = new VariantInfo();
+                        v = vdao.getVariant(rgdId);
+                        List<MapData> m = mdao.getMapData(rgdId, Integer.parseInt(mapKey));
+                        cellnum = 0;
+                        if (m.size() > 0) {
+                            MapData md = m.get(0);
 
-                        row = sheet.createRow(rownum++);
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(rgdId);
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(v.getSymbol());
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(md.getChromosome());
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(md.getStartPos());
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(md.getStopPos());
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(rgdId);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(v.getSymbol());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getChromosome());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStartPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(md.getStopPos());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
 
-                    } else {
-                        row = sheet.createRow(rownum++);
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(rgdId);
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue(v.getSymbol());
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue("");
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue("");
-                        cell = row.createCell(cellnum++);
-                        cell.setCellValue("");
+                        } else {
+                            row = sheet.createRow(rownum++);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(rgdId);
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue(v.getSymbol());
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
+                            cell = row.createCell(cellnum++);
+                            cell.setCellValue("");
                             cell = row.createCell(cellnum);
-                        cell.setCellValue("");
+                            cell.setCellValue("");
+
+                        }
 
                     }
+                }else{
 
                 }
-
 
             }
             if (objectKey.equals("12")) {

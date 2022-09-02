@@ -26,12 +26,12 @@ public class DiseaseGenesController implements Controller {
             mapKey=Integer.parseInt(map_key);
         }
         List<DiseaseObject> objects=dao.getAnnotatedObjects(term_acc, "D", mapKey, chromosome);
-        System.out.println(chromosome+ "    "+ term_acc + " "+ objects.size()+ "\n=====================================================================");
+     //   System.out.println(chromosome+ "    "+ term_acc + " "+ objects.size()+ "\n=====================================================================");
         for(DiseaseObject o: objects){
-            System.out.println(o.getGeneRgdId()+"   "+ o.getGeneSymbol() + "    "+ o.getStartPos() + "  "+ o.getStopPos()+ "    "+ o.getStrand());
+    //        System.out.println(o.getGeneRgdId()+"   "+ o.getGeneSymbol() + "    "+ o.getStartPos() + "  "+ o.getStopPos()+ "    "+ o.getStrand());
         }
 
-        System.out.println(term_acc + " || " + map_key + " || " + chromosome);
+     //   System.out.println(term_acc + " || " + map_key + " || " + chromosome);
 
         response.setContentType("application/text");
         response.setHeader( "Content-Disposition", "attachment;filename="+"CHR"+"_" +chromosome + ".tab" );

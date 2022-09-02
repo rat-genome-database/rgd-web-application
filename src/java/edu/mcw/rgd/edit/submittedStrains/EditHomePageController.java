@@ -167,7 +167,6 @@ public class EditHomePageController implements Controller {
                             submittedStrain.setAllele(gene);
                     }
                 } else {
-                    System.out.println("OBJECT INSTANCE OF STRAIN: " + gson.toJson(object));
                     try {
                         Strain strain = strainDAO.getStrain( Integer.parseInt(String.valueOf(object)));
                         if (strain != null)

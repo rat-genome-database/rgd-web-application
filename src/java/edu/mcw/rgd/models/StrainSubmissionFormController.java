@@ -45,7 +45,6 @@ public class StrainSubmissionFormController implements Controller {
             }
         }
         String action=request.getParameter("action");
-        System.out.println("ACTION:"+action);
         String fileLocation=request.getParameter("fileLocation");
           if(action!=null){
             if("submit".equals(action)){
@@ -136,7 +135,6 @@ public class StrainSubmissionFormController implements Controller {
                         System.out.println("SUBMITTED STRAINS DB CONNECTION ERROR WHILE GETTING STRAIN INFO FROM REED");
                         throw new Exception("SUBMITTED STRAINS DB CONNECTION ERROR WHILE GETTING STRAIN INFO FROM REED\n"+e);
                     }
-                    System.out.println("SUBMITTED STRAINS SIZE: "+ submittedStrains.size());
                 if(submittedStrains.size()>0){
                     submittedStrain=submittedStrains.get(0);
 

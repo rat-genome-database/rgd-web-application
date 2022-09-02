@@ -48,7 +48,6 @@ public class ImageUploadController implements Controller {
                     is=item.openStream();
 
                     String fileName = item.getName();
-                    System.out.println(item.getContentType());
                     String fn= new String();
                    if (fileName.lastIndexOf("\\") >= 0) {
                        byte[] b=fileName.substring(fileName.lastIndexOf("\\")).getBytes();

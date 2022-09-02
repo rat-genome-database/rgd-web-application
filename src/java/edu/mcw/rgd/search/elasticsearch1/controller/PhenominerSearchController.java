@@ -72,7 +72,6 @@ public class PhenominerSearchController implements Controller {
             }
 
             String redirUrl = this.getRedirectUrl(request, term, sb);
-            System.out.println("REDIRECT URL:"+ redirUrl);
             if (redirUrl != null) {
                 response.sendRedirect(redirUrl);
                 return null;
@@ -172,7 +171,6 @@ public class PhenominerSearchController implements Controller {
         String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
         String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
 
-        System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
       if (docId.matches("[0-9]+") && docId.length() > 2) {

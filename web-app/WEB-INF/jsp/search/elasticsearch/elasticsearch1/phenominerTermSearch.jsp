@@ -2,7 +2,6 @@
 
     LinkedHashMap<String,String> hm = new LinkedHashMap<String,String>();
     ModelMap mm = (ModelMap) request.getAttribute("model");
-    System.out.println(mm);
     List<SearchHit[]> hits = (List<SearchHit[]>)mm.get("hitArray");
 
     for (SearchHit[] sh: hits) {

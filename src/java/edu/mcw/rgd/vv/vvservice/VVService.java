@@ -569,7 +569,6 @@ public class VVService {
 
             }
         }catch (Exception e){
-            System.out.println("CONSCORE:"+conScores.get(0));
             e.printStackTrace();
         }
 

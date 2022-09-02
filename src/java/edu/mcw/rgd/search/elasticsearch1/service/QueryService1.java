@@ -187,7 +187,6 @@ public class QueryService1 {
         if(sb!=null) {
          //   if(!sb.isRedirect()) {
                 if(!term.equals("")){
-                    System.out.println("TERM IN DISMAXQUERY: "+ term);
                 dqb
                        // .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))

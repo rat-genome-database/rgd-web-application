@@ -41,7 +41,6 @@ public class DamagingVariantController implements Controller{
         Map m = MapManager.getInstance().getMap(assembly);
         try {
             obj = sampleDAO.getSampleBySampleId(sampleId);
-            System.out.println(obj.getAnalysisName());
         } catch(Exception e) {
             obj = new Sample();
             obj.setAnalysisName("");

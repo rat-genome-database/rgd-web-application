@@ -20,7 +20,6 @@ GeneDAO geneDAO= new GeneDAO();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String q= request.getParameter("term");
         List<Gene> genes= geneDAO.getAllGenesBySubSymbol(q, 3);
-        System.out.println("genes:" + genes.size());
         request.setAttribute("q", q);
         request.setAttribute("genes", genes);
         return new ModelAndView("/WEB-INF/jsp/models/getGenes.jsp");

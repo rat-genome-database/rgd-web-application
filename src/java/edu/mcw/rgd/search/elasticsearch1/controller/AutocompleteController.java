@@ -36,7 +36,6 @@ public class AutocompleteController implements Controller {
      //   if(request!=null) {
 
             String category = request.getParameter("category")!=null?request.getParameter("category").toLowerCase():"general";
-            System.out.println("Category:"+category);
             DisMaxQueryBuilder dqb = new DisMaxQueryBuilder();
             if (term != null ) {
                 switch (category) {

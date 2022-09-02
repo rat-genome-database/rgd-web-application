@@ -81,9 +81,7 @@ public class DistributionController extends HaplotyperController {
        try {
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
-           System.out.println(req.getParameter("geneList"));
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
-            System.out.println("SYMBOLS:"+ symbols);
 
             List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
             ObjectMapper om = new ObjectMapper();

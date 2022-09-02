@@ -138,7 +138,6 @@ public class ElasticSearchController implements Controller {
                 }
             }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
             {
-                System.out.println("RSID :"+ term);
                 redirUrl=Link.rsId(term);
                 return request.getScheme() + "://" + request.getServerName() + redirUrl;
 
@@ -180,7 +179,6 @@ public class ElasticSearchController implements Controller {
         String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
 
         String rsId=(String) sr.getHits().getHits()[0].getSourceAsMap().get("rsId");
-        System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
             if(rsId!=null && !rsId.equals("")){

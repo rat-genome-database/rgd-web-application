@@ -70,9 +70,7 @@ public class ChromosomeController implements Controller {
                 .get();
 */
         if(sr!=null) {
-            System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());
-            System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
         }
         return hitsList;
     }

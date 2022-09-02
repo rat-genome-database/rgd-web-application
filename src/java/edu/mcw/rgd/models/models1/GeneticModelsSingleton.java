@@ -58,7 +58,6 @@ public class GeneticModelsSingleton {
     }
     public static synchronized GeneticModelsSingleton getInstance(){
         if(instance==null){
-            System.out.println("Instance null");
             instance=new GeneticModelsSingleton();
             instance.init();
 
