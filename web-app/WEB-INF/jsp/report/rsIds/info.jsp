@@ -44,12 +44,11 @@
                 <br><label style="cursor: pointer;" v-on:click="downloadVars"><u>Download all</u></label>
             </form>
         </td>
-        <% } %>
     </tr>
     <tr>
         <td>Assembly:&nbsp;<a href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=map.getName()%></a></td>
     </tr>
-
+    <% } %>
     <% if (isGene){
         if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
     <tr>
@@ -122,6 +121,7 @@
             <th align="left">Variant Page</th>
             <% if (isGene) { %>
             <th align="left">rs ID</th> <% } %>
+            <th align="left">Assembly</th>
             <th align="left">Chr</th>
             <th align="left">Position</th>
             <th align="left">Type</th>
@@ -134,6 +134,7 @@
             <%}%>
         </tr>
         <% for (VariantMapData v : vars) {
+            Map m = mapDAO.getMap(v.getMapKey());
 //            VariantMapData v = vars.get(i);
             List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),mapKey);
 //            VariantTranscript transcript = null;
@@ -175,8 +176,13 @@
             <td><%=offset%>.</td>
             <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
             <% if (isGene) {
+                if (speciesType!=SpeciesType.HUMAN){
                 String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
-            <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <% } %>
+            <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <%}
+                else {%>
+                <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?v.getRsId():"-"%></td>
+             <% } } %>
+            <td><%=m.getName()%></td>
             <td><%=v.getChromosome()%></td>
             <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
             <td><%=v.getVariantType()%></td>
@@ -205,7 +211,7 @@
             <td><%=Utils.NVL(locName,"-")%></td>
             <td><%=Utils.NVL(isDamaging,"-")%></td>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
-            <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">
+            <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=mapKey%>">
                 <img src="/rgdweb/common/images/variantVisualizer-abr.png" width="30" height="15">
             </a></td>
             <% } %>
