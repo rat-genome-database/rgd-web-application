@@ -90,7 +90,9 @@
         </td>
             </c:if>
          <td><div class="mainContent"   style=";background-color: white"><jsp:include page="content.jsp"/></div></td>
+            <c:if test="${model.searchBean.category!='Variant'}">
          <td> <div class="sidebarTools"  style="background-color: white;padding-left:10px"><jsp:include page="toolsBar.jsp"/></div></td>
+            </c:if>
 
     </tr>
     </table>
