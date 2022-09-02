@@ -152,6 +152,10 @@
 
                 </c:if>
             </td>
+            <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
+                <!--td>Ref_Nucleotide</td>
+                <td>Var_Nucleotide</td-->
+            </c:if>
             <td>
                 <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     Chr
@@ -174,11 +178,13 @@
                 </c:if>
             </td>
             <td>
-                <c:if test="${!model.searchBean.category.equalsIgnoreCase('Reference')}">
+                <c:if test="${!model.searchBean.category.equalsIgnoreCase('Reference') && !model.searchBean.category.equalsIgnoreCase('Variant')}">
                     Annotations
                 </c:if>
             </td>
-            <td style="width: 10em;">
+
+
+<td style="width: 10em;">
                 <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
@@ -367,6 +373,7 @@
                     </td>
 
                     <td>
+                        <c:if test="${model.searchBean.category!='Variant'}">
                         <c:set var="symbl" value="${hit.getSourceAsMap().symbol}"/>
                         <c:set var="t" value="${model.term}"/>
                        ${f:format(symbl, t)}
@@ -377,6 +384,7 @@
                         <c:if test="${hit.getSourceAsMap().experimentRecordCount>0}">
                             <span style="color:blue;font-size:20px;font-weight:bold" title='Phenominer Data Available'>
                                 <img src="/rgdweb/images/PM_small.gif" ></span></c:if>
+                        </c:if>
                     </td>
 
                     <td  onmouseover="link=false;" onmouseout="link=true;" style="cursor: auto;">
@@ -395,6 +403,10 @@
                             </c:if>
                         </c:if>
                     </td>
+                    <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
+                        <!--td>Ref_Nucleotide</td>
+                        <td>Var_Nucleotide</td-->
+                    </c:if>
 
                     <td>
                         <c:choose>
@@ -524,7 +536,7 @@
                     <!--td>$--{hit.getSourceAsMap().type}</td-->
 
                     <td>
-                        <c:if test="${model.searchBean.category!='Ontology' && model.searchBean.category!='Reference'}">
+                        <c:if test="${model.searchBean.category!='Ontology' && model.searchBean.category!='Reference' && model.searchBean.category!='Variant'}">
                             ${hit.getSourceAsMap().annotationsCount}
                         </c:if>
                         <c:if test="${model.searchBean.category=='Ontology'}">
