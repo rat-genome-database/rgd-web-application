@@ -144,7 +144,7 @@
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
                 <prop key="report/variants/main.html">CNVariantReportController</prop>
-                <prop key="report/rsIds/main.html">CNVariantsRsIdController</prop>
+                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
