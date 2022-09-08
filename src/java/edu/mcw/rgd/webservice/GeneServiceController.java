@@ -51,7 +51,7 @@ public class GeneServiceController implements Controller {
 
         //System.out.println(this.getClass());
 
-        System.out.println(request.getParameter("method"));
+       // System.out.println(request.getParameter("method"));
 
 
         Method method = this.getClass().getMethod(request.getParameter("method"));

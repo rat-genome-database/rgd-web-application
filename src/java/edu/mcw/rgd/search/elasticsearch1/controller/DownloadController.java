@@ -360,7 +360,7 @@ public class DownloadController implements Controller {
             }
 
             if (objectKey.equals("7")) {
-                System.out.println("MAPKEY:"+mapKey);
+              //  System.out.println("MAPKEY:"+mapKey);
                 if(mapKey.equals("38") || mapKey.equals("17")) {
                     VariantInfoDAO vdao = new VariantInfoDAO();
                     List<VariantInfo> variants = new ArrayList<>();
