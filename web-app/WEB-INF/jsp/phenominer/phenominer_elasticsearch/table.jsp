@@ -93,8 +93,14 @@
     <main role="main" class="col" id="results">
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <h3>Phenominer Database Results (${sr.hits.totalHits})</h3>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
+            </div>
+            <div class="col-xs-2">
+                <input class="btn  btn-primary"  type="button" value="New Query" onclick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'">&nbsp;
             </div>
             <div class="col-xs-2">
                 <button class="btn btn-primary"><a href="download.html?fmt=3&terms=${terms}" style="text-decoration: none;color:white">Download all records</a></button>
