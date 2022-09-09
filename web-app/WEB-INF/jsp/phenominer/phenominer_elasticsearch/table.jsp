@@ -42,6 +42,8 @@
     })
 
 </script>
+<script src="/rgdweb/common/jquery.tabletoCSV.js"> </script>
+
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
 <div class="row" id="phenoController">
@@ -91,15 +93,21 @@
     <main role="main" class="col" id="results">
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <h3>Phenominer Database Results (${sr.hits.totalHits})</h3>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
+            </div>
+            <div class="col-xs-2">
+                <input class="btn  btn-primary"  type="button" value="New Query" onclick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'">&nbsp;
             </div>
             <div class="col-xs-2">
                 <button class="btn btn-primary"><a href="download.html?fmt=3&terms=${terms}" style="text-decoration: none;color:white">Download all records</a></button>
             </div>
             <c:if test="${facetSearch=='true'}">
                 <div class="col-xs-2">
-                    &nbsp;<button class="btn btn-primary"><a href="" style="text-decoration: none;color:white">Download table view records</a></button>
+                    &nbsp;<button class="btn btn-primary" onclick="downloadSelected()"><a href="" style="text-decoration: none;color:white">Download table view records</a></button>
                 </div>
             </c:if>
         </div>
@@ -160,6 +168,7 @@
     //    alert($(this).val());
         $('#phenominerReportForm').submit();
     })
+
 </script>
 
 <%@ include file="/common/compactFooterArea.jsp"%>
