@@ -34,7 +34,7 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: '<------Experiment Conditions------>',
+                      /*  labelString: '',*/
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
