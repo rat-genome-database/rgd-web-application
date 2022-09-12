@@ -145,8 +145,10 @@
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
                 <prop key="report/variants/main.html">CNVariantReportController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
+                <prop key="report/rsId/download.html">VariantDownloadController</prop>
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
+                <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
 
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
                 <prop key="elsevier/getReference.html">ElsevierImageGenerator</prop>
@@ -311,6 +313,7 @@
 
 
     <bean id="GeneReportController" class="edu.mcw.rgd.report.GeneReportController"/>
+    <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
@@ -334,6 +337,7 @@
     <bean id="PipelineEnsemblController" class="edu.mcw.rgd.pipeline.PipelineEnsemblController"/>
     <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
+    <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
 
     <bean id="TranscriptsController" class="edu.mcw.rgd.pipeline.TranscriptsController"/>
     <bean id="MirnaTargetsController" class="edu.mcw.rgd.report.MirnaTargetsController"/>
