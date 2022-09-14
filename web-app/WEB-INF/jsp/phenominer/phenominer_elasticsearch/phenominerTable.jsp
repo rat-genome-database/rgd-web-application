@@ -1,3 +1,5 @@
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
@@ -42,7 +44,9 @@
             }
         });
     });
-
+    function downloadSelected(){
+        $("#mytable").tableSelectionToCSV();
+    }
 </script>
 <div id="display"></div>
 <c:set var="missedColumCount" value="0"/>
@@ -57,7 +61,14 @@
     var missedColumnCount=${missedColumCount}
     console.log("MISSED COLUN COUNT:"+ missedColumnCount)
 </script>
+<%
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+
+%>
+<div id="fileCitation" style="display:none;">downloaded on: <%=dtf.format(now)%></div>
 <table id="mytable" class="tablesorter">
+    <caption style="display:none;">phenominer</caption>
     <thead>
         <tr>
             <th>Strain</th>
