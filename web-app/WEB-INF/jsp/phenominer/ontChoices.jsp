@@ -1339,7 +1339,11 @@
 
                 }else {
                     this.updateSessionStorage();
-                    location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
+                   // location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
+                    window.open(
+                        '/rgdweb/phenominer/table.html?species=3&terms='+tString,
+                        '_blank' // <- This is what makes it open in a new window.
+                    );
                 }
             },
 
