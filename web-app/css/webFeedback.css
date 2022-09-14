@@ -59,7 +59,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border: 1px solid #DFDFDF;
     border-radius: 20px;
     opacity: .8;
-    z-index: 500;
+    z-index: 5000000;
     box-sizing: border-box;
 }
 .hiddenBtns {
@@ -68,7 +68,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     height: 50px;
     width: 50px;
     position: fixed;
-    z-index: 500;
+    z-index: 5000000;
     box-sizing: border-box;
 }
 .openLikeBtn{
@@ -107,7 +107,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     bottom: 0;
     right: 15px;
     border: 3px solid #f1f1f1;
-    z-index: 501;
+    z-index: 5000001;
     box-sizing: border-box;
 }
 
