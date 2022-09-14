@@ -97,7 +97,7 @@
                 <h3>Phenominer Database Results (${sr.hits.totalHits})</h3>
             </div>
             <div class="col-xs-2">
-                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
+                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
             </div>
             <div class="col-xs-2">
                 <input class="btn  btn-primary"  type="button" value="New Query" onclick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'">&nbsp;
