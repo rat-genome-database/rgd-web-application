@@ -37,7 +37,7 @@
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
-       
+
     }
 
     .sidenav a {
