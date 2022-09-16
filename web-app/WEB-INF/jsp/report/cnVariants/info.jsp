@@ -138,7 +138,11 @@ boolean isEva = false;
                     <td><%=map.getName()%></td>
                     <% } %>
                     <td><%=v.getChromosome()%></td>
-                    <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
+                    <td><% if( (v.getEndPos()-v.getStartPos())==1 || (v.getEndPos()-v.getStartPos())==0 ){
+                        out.print( NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos()) );
+                    } else{%>
+                        <%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%>
+                        <%}%></td>
                 </tr>
                 <% } %>
             </table></td>
