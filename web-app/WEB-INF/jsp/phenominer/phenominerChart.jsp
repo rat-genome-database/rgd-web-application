@@ -1,151 +1,220 @@
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
-<style>
-    .conditionBox {
-        overflow: auto;
-        height: 100px;
-        border: 2px solid gray;
+<link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+
+
+<script>
+    $(function () {
+        $("#mytable").tablesorter({
+            theme: 'blue',
+            widthFixed: false,
+            widgets: ['zebra','resizable', 'stickyHeaders'],
+
+        })
+
+    .bind("sortEnd",function(e, t) {
+        updateChart();
+        });
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            content: function () {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            }
+
+        })
+            .on("focus", function () {
+                $(this).popover("show");
+            }).on("focusout", function () {
+            var _this = this;
+            if (!$(".popover:hover").length) {
+                $(this).popover("hide");
+            } else {
+                $('.popover').mouseleave(function () {
+                    $(_this).popover("hide");
+                    $(this).off('mouseleave');
+                });
+            }
+        });
+    });
+    function downloadSelected(){
+        $("#mytable").tableSelectionToCSV();
     }
+</script>
+<div id="display"></div>
+<c:set var="missedColumCount" value="0"/>
 
-    .phenoBullet {
-        height:10px;
-        width:10px;
-        background-color:#D7E4BD;
-
-    }
-
-    tr.oddRow td, tr.oddRow td {
-        padding-top:1px;
-        padding-left:5px;
-        padding-bottom:1px;
-    }
-
-    tr.evenRow td, tr.evenRow td {
-        background-color:#E2E2E2;
-        padding-top:1px;
-        padding-left:5px;
-        padding-bottom:1px;
-    }
-
-    .hoverbox {
-        background-color:white;
-        width:95%;
-        top:0%;
-        left:0%;
-        height:70px;
-        margin-top:10px;
-        margin-left:10px;
-        padding-top:10px;
-        background-color:#E2E2E2;
-        padding-left:10px;
-        padding-right:10px;
-        position:fixed;
-        z-index:1000;
-        border: 2px solid black;
-        display:none;
-    }
-
-    .styled-select select {
-        background: transparent;
-        border: none;
-        font-size: 16px;
-        padding: 5px; /* If you add too much padding here, the options won't show in IE */
-        color:white;
-    }
-
-    .styled-select option {
-        font-size:18px;
-        color: black;
-    }
-    .green   { background-color: #255992; }
-
-    .rounded {
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        border:none;
-    }
-
-
-
-</style>
-
+<c:if test="${columns.averageType==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+</c:if>
+<c:if test="${columns.formula==null}">
+    <c:set var="missedColumCount" value="${missedColumCount+1}"/>
+    </c:if>
+<script>
+    var missedColumnCount=${missedColumCount}
+    console.log("MISSED COLUN COUNT:"+ missedColumnCount)
+</script>
 <%
-    int format = 1;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
 
-    try {
-        format = Integer.parseInt(request.getParameter("fmt"));
-    }catch (Exception e) {
-        //ignored
-    }
 %>
-
-
-<div >
-
-
-
-    <table cellpadding="0" cellspacing="0" border="0" style="padding-top:20px;">
+<div id="fileCitation" style="display:none;">downloaded on: <%=dtf.format(now)%></div>
+<table id="mytable" class="tablesorter">
+    <thead>
         <tr>
-            <td style = "color: #2865a3; font-size: 20px; font-weight:700;">PhenoMiner Database Result <a name="ViewChart">
+            <th>Strain</th>
+            <th>Phenotype</th>
+            <th>Conditions</th>
 
-            </a> </td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td><a href="#ViewDataTable">View data table</a></td>
-            <td>&nbsp;|&nbsp;</td>
-            <td><a href="<%=tableUrl%>&fmt=3">Download data table</a></td>
-            <td>&nbsp;|&nbsp;</td>
-            <% if (format==2) { %>
-            <td><a href="<%=tableUrl%>&fmt=1">View compact data table</a></td>
-            <% } else { %>
-            <td><a href="<%=tableUrl%>&fmt=2">View expanded data table</a></td>
-            <% } %>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td align="right" colspan="2"><input type="button" value="Edit Query" onClick="location.href='/rgdweb/phenominer/ontChoices.html?terms=<%=request.getParameter("terms")%>&species=<%=speciesTypeKey%>'"/></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td align="right" colspan="2"><input type="button" value="New Query" onClick="location.href='/rgdweb/phenominer/home.jsp?species=<%=speciesTypeKey%>'"/></td>
+            <th>Study</th>
+            <th>Experiment Name</th>
+
+
+            <th>Sex</th>
+            <th>Age</th>
+            <th># of Animals</th>
+
+
+<c:if test="${columns.formula!=null}">
+
+<th>Formula</th>
+</c:if>
+
+<c:if test="${columns.averageType!=null}">
+            <th>Average Type</th>
+</c:if>
+            <th>Value</th>
+            <th>Units</th>
+            <th>SEM</th>
+            <th>SD</th>
+            <th>Method</th>
+<c:if test="${columns.methodSite!=null}">
+
+<th>Method Site</th>
+</c:if>
+            <th>Method Duration</th>
+
+<c:if test="${columns.postInsultType!=null}">
+
+<th>Post Insult Type</th>
+</c:if>
+            <th>Post Insult Time Value</th>
+<c:if test="${columns.postInsultTimeUnit!=null}">
+
+<th>Post Insult Time Unit</th>
+</c:if>
+            <c:if test="${columns.methodNotes!=null}">
+
+                <th>Method Notes</th>
+            </c:if>
+            <c:if test="${columns.clinicalMeasurementNotes!=null}">
+                <th>Clinical Measurement Notes</th>
+            </c:if>
+            <c:if test="${columns.sampleNotes!=null}">
+                <th>Sample Notes</th>
+            </c:if>
+            <c:if test="${columns.experimentNotes!=null}">
+                <th>Experiment Notes</th>
+            </c:if>
+            <th>Record ID</th>
+            <th>Study ID</th>
+            <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+            <th>Individual Records</th>
+            </c:if>
         </tr>
-    </table>
+    </thead>
+    <tbody>
+        <c:forEach items="${sr.hits.hits}" var="hit">
+            <tr>
+                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
+                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>
 
-    <hr>
+                <td>${hit.sourceAsMap.xcoTerm}</td>
+                <td>${hit.sourceAsMap.study}</td>
+                <td>${hit.sourceAsMap.experimentName}</td>
 
-    <br>
+                <td>${hit.sourceAsMap.sex}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${hit.sourceAsMap.ageLowBound==hit.sourceAsMap.ageHighBound}">
+                            ${hit.sourceAsMap.ageHighBound}&nbsp;days
+                        </c:when>
+                        <c:otherwise>
+                            ${hit.sourceAsMap.ageLowBound}&nbsp;days-${hit.sourceAsMap.ageHighBound}&nbsp;days</td>
 
+            </c:otherwise>
+                    </c:choose>
+                <td>${hit.sourceAsMap.numberOfAnimals}</td>
 
+                <c:if test="${columns.formula!=null}">
 
-    <br>
-    <table border="0" align="left">
-        <tr>
-            <td>
-                Minimum Value: <input ng-model="minValue" ng-change="pheno.updateChart()" type="text"  size="5">
-            </td>
-            <td>&nbsp;&nbsp;</td>
-            <td>
-                Maximum Value: <input ng-model="maxValue" ng-change="pheno.updateChart()" type="text" size="5">
-            </td>
-            <td>&nbsp;&nbsp;</td>
-            <td>
-                Sex: <select ng-init="sex = sexOptions[0]"
-                             ng-model="sex"
-                             ng-options="sexOption for sexOption in sexOptions"
-                             ng-change="pheno.updateChart()"
-            >
-            </select>
-            </td>
-        </tr>
+                <td>${hit.sourceAsMap.formula}</td>
+                </c:if>
 
-    </table>
+                <c:if test="${columns.averageType!=null}">
 
-    <br><br>
-    <!-- Plotly.js -->
-    <div class="hoverbox"  id="hoverinfo">&nbsp;</div>
+                <td>${hit.sourceAsMap.averageType}</td>
+                </c:if>
+                <td>${hit.sourceAsMap.value}</td>
+                <td>${hit.sourceAsMap.units}</td>
+                <td>${hit.sourceAsMap.sem}</td>
+                <td>${hit.sourceAsMap.sd}</td>
+                <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.mmoTermAcc}">${hit.sourceAsMap.mmoTerm}</a></td>
+                <c:if test="${columns.methodSite!=null}">
 
-    <div style="overflow-x: auto">
+                <td>${hit.sourceAsMap.methodSite}</td>
+                </c:if>
+                <td>${hit.sourceAsMap.methodDuration}</td>
 
-    <div id="myDiv" style="width: 450px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+                <c:if test="${columns.postInsultType!=null}">
+                <td>${hit.sourceAsMap.postInsultType}</td>
+                </c:if>
+                <td>${hit.sourceAsMap.postInsultTimeValue}</td>
+                <c:if test="${columns.postInsultTimeUnit!=null}">
 
-    </div>
-    <div ng-init="pheno.load()"></div>
+                <td>${hit.sourceAsMap.postInsultTimeUnit}</td>
+                </c:if>
+                <c:if test="${columns.methodNotes!=null}">
 
-</div> <!-- end of angular block -->
+                    <td>${hit.sourceAsMap.methodNotes}</td>
+                </c:if>
+                <c:if test="${columns.clinicalMeasurementNotes!=null}">
 
-<%@include file="phenominerRecordTable.jsp"%>
+                    <td>${hit.sourceAsMap.clinicalMeasurementNotes}</td>
+                </c:if>
+                <c:if test="${columns.sampleNotes!=null}">
+                    <td>${hit.sourceAsMap.sampleNotes}</td>
+                </c:if>
+                <c:if test="${columns.experimentNotes!=null}">
+                    <td>${hit.sourceAsMap.experimentNotes}</td>
+                </c:if>
+                <td>${hit.sourceAsMap.recordId}</td>
+                <td>${hit.sourceAsMap.studyId}</td>
+                <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+                <td>
+                    <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
+                    <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
+                        <span style="text-decoration:underline">View Values</span>
+                    </button>
+                    <div style="display: none" id="popover-${hit.sourceAsMap.recordId}">
+                        <div class="popover-body">
+                            <c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">
+                                ${r.animalId}:&nbsp;${r.measurementValue}<br>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    </c:if>
+                </td>
+                </c:if>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>

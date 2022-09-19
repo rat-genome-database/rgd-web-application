@@ -87,6 +87,7 @@ public class PhenominerService {
         if(termsMap.get("XCO")!=null)
                 builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", termsMap.get("XCO"))
                );
+
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
               /*  if(key.equalsIgnoreCase("cmoTerm")){
@@ -137,14 +138,17 @@ public class PhenominerService {
         return segregatedTermsMap;
     }
     public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
-        System.out.println();
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        dqb.add(QueryBuilders.termsQuery("cmoTermAcc.keyword", req.getParameter("terms").split(",")));
-        dqb.add(QueryBuilders.termsQuery("mmoTermAcc.keyword", req.getParameter("terms").split(",")));
-        dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
-        dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
-        dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
+        if(req.getParameter("refRgdId")!=null && !req.getParameter("refRgdId").equals("") && Integer.parseInt(req.getParameter("refRgdId"))>0){
+            dqb.add(QueryBuilders.termQuery("refRgdId", Integer.parseInt(req.getParameter("refRgdId"))));
 
+        }else {
+            dqb.add(QueryBuilders.termsQuery("cmoTermAcc.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.termsQuery("mmoTermAcc.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
+        }
         return dqb;
 
     }
@@ -225,7 +229,6 @@ public class PhenominerService {
         if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName")) ) {
             srb.query(this.boolQueryBuilder(req, null));
             //   srb.aggregation(this.buildSearchAggregations("category", category));
-            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
            String  filterField=filterMap.entrySet().iterator().next().getKey();
             if(filterField.equalsIgnoreCase("cmoTerm"))
             srb.aggregation(this.buildAggregations("units"));
