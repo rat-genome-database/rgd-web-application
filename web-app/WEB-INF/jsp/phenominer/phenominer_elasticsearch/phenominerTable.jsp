@@ -68,7 +68,6 @@
 %>
 <div id="fileCitation" style="display:none;">downloaded on: <%=dtf.format(now)%></div>
 <table id="mytable" class="tablesorter">
-    <caption style="display:none;">phenominer</caption>
     <thead>
         <tr>
             <th>Strain</th>
