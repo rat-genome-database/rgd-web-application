@@ -15,10 +15,7 @@
         $("#mytable").tablesorter({
             theme: 'blue',
             widthFixed: false,
-            widgets: ['zebra','resizable', 'stickyHeaders'],
-            widgetOptions: {
-                stickyHeaders_offset: 0
-            }
+            widgets: ['zebra','resizable'],
 
         })
 
