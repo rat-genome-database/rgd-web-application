@@ -269,6 +269,15 @@ public class  MapDataFormatter {
             case 372:
                 db = "data_rn7_2"; link = "mRatBN7.2";
                 break;
+            case 301:
+                db = "data_uth_shr"; link = "Rnor_SHR";
+                break;
+            case 302:
+                db = "data_uth_shrsp"; link = "Rnor_SHRSP";
+                break;
+            case 303:
+                db = "data_uth_wky"; link = "Rnor_WKY";
+                break;
 
             case 44: // chinchilla
                 db = "data_cl1_0"; link = "ChiLan1.0";
