@@ -10,7 +10,7 @@
         color:white;
     }
 </style>
-<div style="color: blueviolet; font-weight: bold">Table column sort  updates the order of the bars in the chart.</div>
+<div style="color: blueviolet; font-weight: bold">Table "column sort"  updates the order of the bars in the chart.</div>
 
 <div class="chart-container" id = "chartDiv" style="margin-top:2%" >
 
