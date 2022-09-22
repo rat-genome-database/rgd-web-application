@@ -6,8 +6,9 @@ import edu.mcw.rgd.datamodel.ontologyx.Relation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.process.Utils;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
+//add collections 4
 import java.util.*;
 
 /**
@@ -46,6 +47,7 @@ public class OTrees {
     }
 
     public OTree getFilteredTree(String ontId, String sex, int speciesTypeKey, String terms) throws Exception {
+
         // group filter terms by ontology
         Map<String, Set<String>> filterTermsByOnt = splitTermsByOntology(terms);
 
@@ -74,6 +76,7 @@ public class OTrees {
                 recordIds = recordIdsForOneOnt;
             } else {
                 recordIds = CollectionUtils.intersection(recordIds, recordIdsForOneOnt);
+
             }
         }
 
@@ -208,7 +211,6 @@ public class OTrees {
             String rootTermAcc = odao.getRootTerm(ontId);
             rootNode = new ONode(loadTerm(rootTermAcc));
             loadTerms(rootNode, rootTermAcc);
-            System.out.println("== OK loaded:  ont("+ontId+") sex("+sex+"), terms="+terms.size());
         }
 
         // get record count for root node
@@ -408,6 +410,8 @@ public class OTrees {
         }
 
         void createSubtreeChildren(ONode parentNode, ONode parentSubtreeNode, Collection<Integer> recordIds, OTree subtree) {
+
+
             if( parentNode.children==null ) {
                 return;
             }

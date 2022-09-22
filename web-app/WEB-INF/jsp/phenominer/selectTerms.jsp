@@ -17,128 +17,26 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 
+<script type="text/javascript" src="/rgdweb/js/xml2json.js"></script>
+
+
+
+
+<script>
+    var gviewer = null;
+</script>
 
 <script type="text/javascript" src="/rgdweb/js/dhtmlxTree/dhtmlxcommon.js"></script>
-<script type="text/javascript" src="/rgdweb/js/dhtmlxTree/dhtmlxtree.js"></script>
-<link rel="stylesheet" type="text/css" href="/rgdweb/js/dhtmlxTree/dhtmlxtree.css"/>
+<script type="text/javascript" src="/rgdweb/js/dhtmlxTree/dhtmlxtree.js?1"></script>
+<link rel="stylesheet" type="text/css" href="/rgdweb/js/dhtmlxTree/dhtmlxtree.css?3"/>
 
 <h1>PhenoMiner Database</h1>
 
 
-<% if( ont.equals("RS") ) { %>
-<div class="strain-article-title" style="color: black; background-color: #d7e4bd;">Rat Strains Selection</div>
-<ul><li>Select 1 or more Rat Strains from the list below. </li>
-    <li>Each selection will be used to filter remaining categories.</li>
-    <li>Click the plus (+) sign to expand sub topics.</li>
-    <li>To search for a strain, enter key words in the search box, e.g. "consomic ss bn", "inbred ss jr".</li>
-</ul>
-
-<% } else if( ont.equals("CMO") ) { %>
-
-<div class="strain-article-title" style="color: black; background-color: #ccc1da;">Clinical Measurements Selection</div>
-<ul><li>Select 1 or more Clinical Measurements from the list below. </li>
-    <li>Each selection will be used to filter remaining categories.</li>
-    <li>Click the plus (+) sign to expand sub topics.</li>
-    <li>To search for a strain, enter key words in the search box, e.g. "blood pressure", "wet weight".</li>
-</ul>
-
-<% } else if( ont.equals("XCO") ) { %>
-
-<div class="strain-article-title" style="color: black; background-color: #b9cde5;">Experimental Conditions Selection</div>
-<ul><li>Select 1 or more Experimental Conditions from the list below. </li>
-    <li>Each selection will be used to filter remaining categories.</li>
-    <li>Click the plus (+) sign to expand sub topics.</li>
-    <li>To search for a strain, enter key words in the search box, e.g. "oxygen", "sodium diet".</li>
-</ul>
-
-<% } else if( ont.equals("MMO") ) { %>
-
-<div class="strain-article-title" style="color: black; background-color: #fcd5b5;">Measurement Methods Selection</div>
-<ul><li>Select 1 or more Measurement Methods from the list below. </li>
-    <li>Each selection will be used to filter remaining categories.</li>
-    <li>Click the plus (+) sign to expand sub topics.</li>
-    <li>To search for a strain, enter key words in the search box, e.g. "indwelling", "volume pressure".</li>
-</ul>
-
-<% } %>
-
-<p>
-    Search: <input id="termSearch" size="40" style="border: 2px groove" class="ont-auto-complete"/>
-    <span id="dataStatus" style="color:red"></span>
-</p>
-<div id="extra" style="color:blue;background-color:yellow;">
-</div>
-
-<% if( ont.equals("RS") ) { %>
-<div>
-    <table cellspacing='0' style='background-color: #eff1f0;border: 1px solid #2865a3;'>
-        <tr>
-            <td style='font-weight:700;'>Sex:</td>
-            <td>&nbsp;&nbsp;&nbsp;male<input type="radio" name="sexSelect" value="male" <%=sex.equals("male")?"checked":""%>
-                onClick="location.href='/rgdweb/phenominer/selectTerms.html?sex=male&ont=RS'" /></td>
-            <td>&nbsp;&nbsp;&nbsp;female<input type="radio" name="sexSelect" value="female" <%=sex.equals("female")?"checked":""%>
-                onClick="location.href='/rgdweb/phenominer/selectTerms.html?sex=female&ont=RS'" /></td>
-            <td>&nbsp;&nbsp;&nbsp;both<input type="radio" name="sexSelect" value="both" <%=sex.equals("both")?"checked":""%>
-                onClick="location.href='/rgdweb/phenominer/selectTerms.html?sex=both&ont=RS'"/></td>
-        </tr>
-    </table>
-</div>
-<% } %>
-
-
-<!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
-<!--script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
-<script>
-//  var jq14 = jQuery.noConflict(true);
-</script>
-<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script-->
-<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
-
 <script>
     $(document).ready(function(){
 
-       $.get("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>", {}, function(data){
-            //$("#extra").html(data);
-            //alert("x:"+data);
-          //  console.log(data);
-            $("#termSearch").autocomplete('/OntoSolr/select', {
-                    extraParams:{
-                        <% if( ont.equals("RS") ) { %>
-                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1  synonym_str^2 synonym^1 def^1 anc^20',
-                        'bf': 'term_len_l^8',
-                        <% } else { %>
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1',
-                        'bf': 'term_len_l^2',
-                        <% } %>
 
-                        // original query, that does not work
-                        //   'fq': 'cat:<%=ont%> AND id_l:(' + data + ')',
-                        // that works, but has limited functionality
-                        'fq': 'cat:<%=ont%>',
-
-                        'wt': 'velocity',
-                        'v.template': 'termidselect'
-                    },
-                    max: 100,
-                    'termSeparator': ' OR '
-                }
-            );
-       }) ;
-
-        $('#termSearch').focus(function()
-        {
-            $("#dataStatus").html("");
-        });
-
-        $('#termSearch').result(function(data, value){
-
-            $("#dataStatus").html("");
-            selectByTermId(value[1]);
-        });
-        $("#termSearch").keyup(function(event){
-            if (event.which == 27) $(this).val("");
-        });
 
         keyFilterFunc = function(event){
             if (event.target.tagName == "INPUT") return true;
@@ -167,6 +65,28 @@
             goToNode(ontId+"_1");
             if (!idExist) $("#dataStatus").html("No data available for this term!");
         }
+    }
+
+
+    function hello() {
+
+        var list = tree.getAllSubItems("0");
+
+        var idArray = (list.toString().split(","));
+        for(var i in idArray) {
+            var newNodeOnt = idArray[i].match(/\w+:\d+/);
+            if(newNodeOnt === null) {
+                continue;
+            } else {
+                var treeNode = tree._idpull[idArray[i]].htmlNode;
+                //alert(treeNode.innerHTML);
+            }
+        }
+
+
+
+
+
     }
 
     /*
@@ -221,9 +141,65 @@
 
 </script>
 
-<div id="treebox" style="padding: 7px; width:500px; height:250px; font: 14px verdana, arial, helvetica, sans-serif; border: 1px solid black;" tabindex="0">
+
+<div id="phenominer" >
+
+    <br>
+    <table align="left" width="1000">
+        <tr>
+            <td colspan="2"style="font-size:24px;">Rat Strain Selection</td>
+        </tr>
+        <tr>
+            <td colspan="2"><input id="termSearch" placeholder="Enter Strain Symbol Here" v-model="searchTerm" size="45" style="border: 3px solid black;height:38px;width:800px;" v-on:input="search()"/></td>
+                        <input type="button" @click="update()" value="init"/>
+
+        </tr>
+        <tr>
+            <td width="700">
+                <div style="overflow:scroll;height:450px;width:700px;border: 1px solid black;">
+                    <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
+                    <ul >
+                        <li v-for="(key, value) in options" >
+                            <table width="98%" border="1">
+                                <tr>
+                                    <td width="15"><input type="button" value="select" @click="selectByTermId(key)" style="height:17px;padding-left:5px;"/></td>
+                                    <!--<td>{{key}}</td>-->
+                                    <td style="font-size:12px;" align="left">{{value}}</td>
+                                </tr>
+                            </table>
+
+                        </li>
+                    </ul>
+                </div>
+
+            </td>
+            <td align="left" valign="top" width="500">
+                <div id="placeholder" style="position:absolute;"></div>
+            </td>
+        </tr>
+            </table>
+
+    <span id="dataStatus" style="color:red"></span>
+    <div id="extra" style="color:blue;background-color:yellow;">
+    </div>
+
+</div>
+
+<div id="treebox" style="float:right; padding: 7px; width:700px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border: 1px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
+
+
+<table width="95%">
+    <tr>
+        <td width="50%">
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+
+
 
 <script type="text/javascript">
     var tree = new dhtmlXTreeObject("treebox","100%","100%",0);
@@ -350,10 +326,37 @@
         location.href = href;
     }
 
+
+
+
     tree.setXMLAutoLoading("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>&species=<%=species%>&terms=<%=terms%>");
     tree.loadXML("/rgdweb/phenominer/treeXml.html?ont=<%=ont%>&sex=<%=sex%>&species=<%=species%>&terms=<%=terms%>");
-</script>
 
+
+    function getElementTopLeft(id) {
+
+        var ele = document.getElementById(id);
+        var top = 0;
+        var left = 0;
+
+        while(ele.tagName != "BODY") {
+            top += ele.offsetTop;
+            left += ele.offsetLeft;
+            ele = ele.offsetParent;
+        }
+
+        return { top: top, left: left };
+
+    }
+
+
+
+    function loadMap() {
+
+    }
+
+
+</script>
 
 
 
@@ -365,6 +368,110 @@
     </div>
 </div>
 
+
+<script>
+
+    var div = '#phenominer';
+
+    var host = window.location.protocol + window.location.host;
+
+    if (window.location.host.indexOf('localhost') > -1) {
+        host =  'http://localhost:8080';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host = window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host = window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host = window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host = window.location.protocol + '//rest.rgd.mcw.edu';
+    }
+
+    var v = new Vue({
+        el: div,
+        data: {
+            optionsNotEmpty:  false,
+            title: "Hello World",
+            searchTerm: "",
+            hostName: host,
+            options:{},
+            symbolHash: {},
+        },
+        methods: {
+            selectByTermId: function(val) {
+                goToNode(val);
+                //tree.selectItem(val);
+                //selectByTermId(val);
+            },
+            search: function () {
+                v.options={};
+
+                v.optionsNotEmpty = true;
+                for (var key in v.symbolHash) {
+                    if (key.indexOf(v.searchTerm) != -1) {
+                        //console.log(key.indexOf(v.searchTerm));
+                        v.options[key] = v.symbolHash[key];
+                        v.optionsNotEmpty=false;
+                    }
+                }
+            },
+
+            update: function (aspect, s) {
+
+                document.getElementById("treebox").style.position="absolute";
+                document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
+                document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
+
+
+                axios
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=',
+                        {
+                            species: "hell",
+                        })
+                    .then(function (response) {
+                        var parser = new DOMParser();
+                        xmlDoc = parser.parseFromString(response.data + "","text/xml");
+
+                        var root = xmlDoc.getRootNode();
+                        //var root = xmlDoc.getElementsByTagName("tree");
+                        var children = root.getElementsByTagName("item");
+
+                        var tmpHash={};
+                        for (let i = 0; i < children.length; i++) {
+                            let item = children[i];
+                            tmpHash[item.getAttribute("text")] = item.getAttribute("id");
+                        }
+
+
+                        var keys = Object.keys(tmpHash);
+
+                        //v.symbolHash["HR Donors"]="HR";
+                        //v.symbolHash["HDRP Strains"]="HDRP";
+                        //v.symbolHash["HS Founder Strains"]="HS";
+
+                        keys.sort();
+                        v.options={};
+                        for (i=0; i< keys.length; i++) {
+                            v.options[keys[i]] = tmpHash[keys[i]];
+                            v.symbolHash[keys[i]] = tmpHash[keys[i]];
+                        }
+
+
+
+                        v.title="hello";
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        v.errored = true
+                    })
+            },
+
+        },
+    })
+
+
+setTimeout(v.update, 1000);
+</script>
 
 
 
