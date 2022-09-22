@@ -690,7 +690,7 @@
     }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
         host = window.location.protocol + '//pipelines.rgd.mcw.edu';
     }else {
-        host = window.location.protocol + '//rest.rgd.mcw.edu';
+        host = window.location.protocol + '//rgd.mcw.edu';
     }
 
     var v = new Vue({
