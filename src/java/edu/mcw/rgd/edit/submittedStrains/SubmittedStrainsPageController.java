@@ -19,9 +19,7 @@ import java.util.List;
  * Created by jthota on 10/5/2016.
  */
 public class SubmittedStrainsPageController extends EditHomePageController implements Controller {
-    SubmittedStrainDao sdao= new SubmittedStrainDao();
-    GeneDAO geneDAO= new GeneDAO();
-    SubmittedStrainAvailablityDAO adao= new SubmittedStrainAvailablityDAO();
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<SubmittedStrain> submittedStrains=  this.getSubmittedStrains("submitted");
