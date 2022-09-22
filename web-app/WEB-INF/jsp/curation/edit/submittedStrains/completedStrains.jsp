@@ -1,10 +1,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h3 style="color:grey">COMPLETED & DENIED STRAINS</h3>
+<h3 style="color:grey">COMPLETED & DENIED STRAINS (${fn:length(model.completedStrains)})</h3>
 
-<div style="background:#24609c;width:100%">
-    <p style="color:white"> Completed Strains Count=${fn:length(model.completedStrains)}</p>
-</div>
+<hr>
 <div>
 
     <table class="table table-striped" >
