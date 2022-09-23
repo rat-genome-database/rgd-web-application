@@ -306,7 +306,7 @@
             if(newArrayIndividuals.length>0) {
                 for(var p=0;p<sampleDataLength;p++) {
                     var sortedArray = [];
-                    for (var q = 0; q < sampleDataLength; q++) {
+                    for (var q = 0; q < newArrayIndividuals.length; q++) {
                         var array = newArrayIndividuals[q];
                         if(typeof array!='undefined')
                         sortedArray.push(array[p])
