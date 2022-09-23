@@ -10,7 +10,10 @@
         color:white;
     }
 </style>
+<div style="color: blueviolet; font-weight: bold">Table "column sort"  updates the order of the bars in the chart.</div>
+
 <div class="chart-container" id = "chartDiv" style="margin-top:2%" >
+
     <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
 </div>
@@ -303,7 +306,7 @@
             if(newArrayIndividuals.length>0) {
                 for(var p=0;p<sampleDataLength;p++) {
                     var sortedArray = [];
-                    for (var q = 0; q < sampleDataLength; q++) {
+                    for (var q = 0; q < newArrayIndividuals.length; q++) {
                         var array = newArrayIndividuals[q];
                         if(typeof array!='undefined')
                         sortedArray.push(array[p])
