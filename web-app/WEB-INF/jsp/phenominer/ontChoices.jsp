@@ -131,7 +131,7 @@
     </tr>
     <tr>
         <td>
-            <span style="font-size:16px;">Select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
+            <span style="font-size:16px;">Select a Category Tab in the lower right panel, then select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
         </td>
     </tr>
     <tr>
