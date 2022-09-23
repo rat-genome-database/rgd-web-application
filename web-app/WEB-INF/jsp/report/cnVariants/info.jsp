@@ -66,7 +66,7 @@ boolean isEva = false;
         <% if (!isEva){%>
         <td><%=var.getRsId()%></td>
         <% } else { %>
-        <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
+        <td><%=var.getRsId()%></td> <%-- <a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a> --%>
         <% } %>
     </tr>
     <% } %>
