@@ -63,11 +63,11 @@ boolean isEva = false;
     <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {%>
     <tr>
         <td class="label">RS ID:</td>
-        <% if (!isEva){%>
+<%--        <% if (!isEva){%>--%>
         <td><%=var.getRsId()%></td>
-        <% } else { %>
-        <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
-        <% } %>
+<%--        <% } else { %>--%>
+<%--        <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>--%>
+<%--        <% } %>--%>
     </tr>
     <% } %>
     <%if (!Utils.isStringEmpty(var.getClinvarId())) {%>

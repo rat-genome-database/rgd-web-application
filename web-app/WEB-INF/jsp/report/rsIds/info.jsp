@@ -177,7 +177,7 @@
             <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
             <% if (isGene) {
                 if (speciesType!=SpeciesType.HUMAN){
-                String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
+                String rsId = v.getRsId();//"<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
             <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <%}
                 else {%>
                 <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?v.getRsId():"-"%></td>
