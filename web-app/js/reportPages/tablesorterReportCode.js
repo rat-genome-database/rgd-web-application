@@ -31,16 +31,19 @@ function tableSorterReport() {
                 size: 3
             });
 
-        $('#sampleDetailsTable')
-            .tablesorter({
-                theme: 'blue',
-                widget: ['zebra']
-            })
+        $('#sampleDetailsTable').tablesorter({
+            theme: 'blue',
+            widgets: ['zebra', 'filter'],
+            widgetOptions: {
+                filter_external: '#sampleDetailsSearch',
+                filter_columnFilters: false
+            }
+        })
             .tablesorterPager({
                 container: $('.sampleDetailsPager'),
-                size: 20
+                size: 10
             });
-
+        
         $('#gwasDataTable')
             .tablesorter({
                 theme: 'blue',
