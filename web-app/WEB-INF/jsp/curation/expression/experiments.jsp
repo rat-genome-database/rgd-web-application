@@ -111,7 +111,7 @@
     <%
             for(String gse: records.keySet()) {
                 GeoRecord rec = records.get(gse);
-                String link = "<a href=/rgdweb/expression/experiments.html?gse="+gse+"&species="+species+" >Edit</a>";
+                String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+species+" >Edit</a>";
     %>
 
             <tr>
