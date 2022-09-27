@@ -211,7 +211,7 @@
             <td><%=Utils.NVL(locName,"-")%></td>
             <td><%=Utils.NVL(isDamaging,"-")%></td>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
-            <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=mapKey%>">
+            <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=v.getMapKey()%>">
                 <img src="/rgdweb/common/images/variantVisualizer-abr.png" width="30" height="15">
             </a></td>
             <% } %>
