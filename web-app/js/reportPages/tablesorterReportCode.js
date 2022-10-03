@@ -43,16 +43,19 @@ function tableSorterReport() {
                 container: $('.sampleDetailsPager'),
                 size: 10
             });
-        
-        $('#gwasDataTable')
-            .tablesorter({
-                theme: 'blue',
-                widgets: ['zebra']
-            })
+
+        $('#gwasDataTable').tablesorter({
+            theme: 'blue',
+            widgets: ['zebra', 'filter'],
+            widgetOptions: {
+                filter_external: '#gwasDataSearch',
+                filter_columnFilters: false
+            }
+        })
             .tablesorterPager({
-            container: $('.gwasDataPager'),
-            size: 20
-        });
+                container: $('.gwasDataPager'),
+                size: 20
+            });
 
         $('#ClinVarTable')
             .tablesorter({
