@@ -47,9 +47,7 @@
                 <tr><td><input type="button" value="Update" onclick="makePOSTRequest(this.form)"/></td>
                 <td><input type="hidden" name="contentType" value="<%=contentType%>"></td></tr>
                 <tr> <%--          Column names          --%>
-                    <%if(!contentType.equals("VIDEO")){%>
                     <td class="label">Date of Release</td>
-                    <%}%>
                     <td class="label">Display Text</td>
                     <td class="label">Redirect Link</td>
                     <td class="label">Strong Alert message (Red text)</td>
@@ -63,14 +61,12 @@
                     strong = "";%>
 
                 <tr id="articleRow<%=count%>">
-                    <%if(!contentType.equals("VIDEO")){
-                        if(article.getDate()!=null){%>
+                    <%if(article.getDate()!=null){%>
                     <td><input name="releaseDate" type="text" value="<%=article.getDate()%>" maxlength="10" placeholder="yyyy-MM-dd"></input></td>
                         <%}
                         else{%>
                     <td><input name="releaseDate" type="text" maxlength="10" placeholder="yyyy-MM-dd"></input></td>
-                    <% }
-                    }%>
+                    <% }%>
                     <td><input name="displayTxt" size="75" value="<%=article.getDisplayText()%>"></input></td>
                     <td><input name="redirectLink" size="75" value="<%=article.getRedirectLink()%>"></input></td>
                     <td><input name="Strong" size="75" value="<%=strong%>"></input></td>
