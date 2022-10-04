@@ -47,11 +47,8 @@ public class EditNewsArticleController implements Controller {
         String[] redirectText = request.getParameterValues("redirectLink");
         String[] contentType = request.getParameterValues("contentList");
         String[] strongText = request.getParameterValues("Strong");
-        String[] dates;
-        if (!content.equals("VIDEO"))
-            dates = request.getParameterValues("releaseDate");
-        else
-            dates = null;
+        String[] dates = request.getParameterValues("releaseDate");
+
 
         int rowCnt = displayNames.length;
 
