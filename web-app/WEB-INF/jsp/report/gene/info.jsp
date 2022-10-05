@@ -14,11 +14,11 @@
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
     <tr>
         <td class="label" valign="top">Symbol:</td>
-        <td class="geneList"><%=(obj.getEnsemblGeneSymbol()!=null && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(),obj.getEnsemblGeneSymbol())) ? obj.getSymbol() + "\t(Ensembl: "+obj.getEnsemblGeneSymbol()+")" : obj.getSymbol()%></td>
+        <td class="geneList"><%=obj.getSymbol()%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Name:</td>
-        <td><%=obj.getName()==null ? "" : (obj.getEnsemblFullName()!=null && !Utils.stringsAreEqualIgnoreCase(obj.getName(),obj.getEnsemblFullName())) ? obj.getName() +"\t(Ensembl:"+obj.getEnsemblFullName()+")" : obj.getName()%></td>
+        <td><%=obj.getName()==null ? "" : obj.getName()%></td>
     </tr>
 
     <tr>
@@ -84,7 +84,7 @@
 
     <tr>
         <td class="label" valign="top">Type:</td>
-        <td><%=(obj.getEnsemblGeneType()!=null && !Utils.stringsAreEqualIgnoreCase(obj.getType(),obj.getEnsemblGeneType())) ? obj.getType() + "\t(Ensembl: "+obj.getEnsemblGeneType()+")" : obj.getType() %>
+        <td><%=obj.getType()%>
 
             <%
                 List<Gene> geneVariants =  geneDAO.getGeneFromVariant(obj.getRgdId());
@@ -223,7 +223,6 @@
     <% }%>
 
     <%@ include file="../markerFor.jsp"%>
-    <%@ include file="candidateGenes.jsp"%>
     <tr>
         <td class="label" valign="top">Latest Assembly:</td>
         <td><%=refMap.getName()%> - <%=refMap.getDescription()%></td>
