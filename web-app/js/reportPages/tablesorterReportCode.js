@@ -2,6 +2,67 @@ tableSorterReport();
 function tableSorterReport() {
     $(function () {
 
+        $('#variantSamplesTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.variantSamplesPager'),
+                size: 20
+            });
+        $('#mapDataTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            });
+        //     .tablesorterPager({
+        //     container: $('.mapDataPager'),
+        //     size: 100
+        // });
+
+        $('#variantTranscriptsTable')
+            .tablesorter({
+                theme: 'blue',
+                widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.variantTranscriptsPager'),
+                size: 3
+            });
+
+        $('#sampleDetailsTable').tablesorter({
+            theme: 'blue',
+            widgets: ['zebra', 'filter'],
+            widgetOptions: {
+                filter_external: '#sampleDetailsSearch',
+                filter_columnFilters: false
+            }
+        })
+            .tablesorterPager({
+                container: $('.sampleDetailsPager'),
+                size: 10
+            });
+
+        $('#gwasDataTable').tablesorter({
+            theme: 'blue',
+            widgets: ['zebra', 'filter'],
+            widgetOptions: {
+                filter_external: '#gwasDataSearch',
+                filter_columnFilters: false
+            }
+        })
+            .tablesorterPager({
+                container: $('.gwasDataPager'),
+                size: 20
+            });
+
+        $('#ClinVarTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
+            });
+
         $('#annotationTable1')
             .tablesorter({
                 theme: 'blue',
@@ -325,6 +386,7 @@ function tableSorterReport() {
                 container: $('.mammalianPhenotypeAnnotationsPager'),
                 size: 20
             });
+
         $('#humanPhenotypeAnnotationsTable')
             .tablesorter({
                 theme: 'blue',
@@ -338,6 +400,7 @@ function tableSorterReport() {
                 container: $('.humanPhenotypeAnnotationsPager'),
                 size: 20
             });
+
         $('#humanPhenotypeManualAnnotationsTable')
             .tablesorter({
                 theme: 'blue',
@@ -365,6 +428,7 @@ function tableSorterReport() {
                 container: $('.humanPhenotypeClinVarAnnotationsPager'),
                 size: 20
             });
+        
         $('#cellOntologyTable')
             .tablesorter({
                 theme: 'blue',
@@ -601,14 +665,6 @@ function tableSorterReport() {
                 container: $('.strainQtlAssociationPager'),
                 size: 20
             });
-        $('#phenominerAssociationTable')
-            .tablesorter({
-                theme: 'dropbox',
-                widget: ['zebra']
-            })
-            .tablesorterPager({
-                container: $('.phenominerAssociationPager'),
-                size: 30
-            });
+
     });
 }
