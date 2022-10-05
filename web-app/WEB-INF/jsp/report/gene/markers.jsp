@@ -7,7 +7,7 @@
 <%//ui.dynOpen("markerAssociation", "Position Markers")%>
 
 <div id="positionMarkersTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="positionMarkers">Markers in Region</div>
+    <div class="sectionHeading" id="positionMarkers">Position Markers</div>
 
 <table border="0" id="positionMarkersTable">
     <thead></thead>

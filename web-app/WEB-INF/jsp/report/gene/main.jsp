@@ -188,17 +188,15 @@
                         sb.setSpeciesType(obj.getSpeciesTypeKey());
                     %>
 
-                    <%@ include file="comparativeMapData.jsp"%>
-                    <%@ include file="../cnVariants.jsp"%>
-                    <%@ include file="damagingVariants.jsp"%>
-                    <%@ include file="../rgdVariants.jsp"%>
-                    <%@ include file="../miRnaTargets.jsp"%>
-<%--                    <%@ include file="candidateGenes.jsp"%>--%>
-                    <%@ include file="../qtlsInRegion.jsp"%>
-                    <%@ include file="markers.jsp"%>
+                    <%@ include file="candidateGenes.jsp"%>
                     <%@ include file="../cellLines.jsp"%>
+                    <%@ include file="comparativeMapData.jsp"%>
+                    <%@ include file="markers.jsp"%>
+                    <%@ include file="../qtlsInRegion.jsp"%>
                     <%@ include file="../relatedStrains.jsp"%>
                     <%@ include file="../geneticModels.jsp"%>
+                    <%@ include file="../miRnaTargets.jsp"%>
+                    <%@ include file="../rgdVariants.jsp"%>
                     <!---Above expression table-->
                     <a name="expression"></a>
                     <br>
@@ -219,9 +217,8 @@
                     <%@ include file="../transcriptome.jsp"%>
                     <%@ include file="../promoters.jsp"%>
                     <%@ include file="clinicalVariants.jsp"%>
-<%--                    <%@ include file="../variants.jsp"%>--%>
-
-
+                    <%@ include file="../variants.jsp"%>
+                    <%@ include file="damagingVariants.jsp"%>
 
                     <!--above additional information--->
                     <a name="additional"></a>
@@ -230,7 +227,6 @@
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
-<%--                    <%@ include file="../rgdVariants.jsp"%>--%>
 
                 </td>
                 <td>&nbsp;</td>
