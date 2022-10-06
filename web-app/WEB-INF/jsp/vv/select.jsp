@@ -329,26 +329,26 @@
                     ArrayList<Sample> sampList1 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList2 = new ArrayList<Sample>();
                     ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-//                    if(mapKey==38 || mapKey==17 || mapKey==910 || mapKey==911 || mapKey==1311 || mapKey==35){
-//                        sampList1.add(samples.get(0));
-//                    }
-                    int num = 0;
-                    for (Sample samp: samples) {
-                        String sampleName =samp.getAnalysisName();
-                        if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
-                            continue;
-                        if (num < ((samples.size() / 3) )) {
-                            sampList1.add(samp);
-                        }else if (num < (((samples.size() / 3) ) * 2 )) {
-                            sampList2.add(samp);
+                    if(samples.size()==1){
+                        sampList1.add(samples.get(0));
+                    }else {
+                        int num = 0;
+                        for (Sample samp : samples) {
+                            String sampleName = samp.getAnalysisName();
+                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
+                                continue;
+                            if (num < ((samples.size() / 3))) {
+                                sampList1.add(samp);
+                            } else if (num < (((samples.size() / 3)) * 2)) {
+                                sampList2.add(samp);
 
-                        }else {
-                            sampList3.add(samp);
+                            } else {
+                                sampList3.add(samp);
+                            }
+                            num++;
                         }
-                        num++;
                     }
-
-
+System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
                     ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
                     try {
                         for (int i = 0; i < sampList1.size(); i++) {
