@@ -167,7 +167,6 @@
             .then(function (response) {
                 v.userloggedin = response.status;
             });*/
-        console.log("TOKEN:"+ v.token)
         $.ajax({
             url: 'https://api.github.com/orgs/rat-genome-database/members/'+name,
             beforeSend: function(xhr) {
