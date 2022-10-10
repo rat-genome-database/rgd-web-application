@@ -426,7 +426,7 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
                 "<p> <img src='/rgdweb/images/PM_small.gif' >&nbsp;<span style='font-size: x-small'>Indicates Phenominer data is available</span></p>";
             $toolsDiv.html(htmlStr);
         }
-        if(category=="Variant"){
+        if(category=="Variant" && species=="Human"){
             $toolsDiv.html(toolHeader+gviewer+excel+vv ); // add csv for next release
         }
         if(category=="QTL"){
@@ -485,7 +485,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
             "<p> <img src='/rgdweb/images/PM_small.gif' >&nbsp;<span style='font-size: x-small'>Indicates Phenominer data is available</span></p>";
 
     }
-    if(category=="Variant"){
+    if(category=="Variant" && species=='Human'){
        html= toolHeader+gviewer+excel+vv ; // add csv for next release
     }
     if(category=="QTL"){
@@ -582,8 +582,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog6=7;
         ortholog7=9;
         speciesTypeKey=4;
-        mapKey=44;
-    } else if(species=='Pig'){
+        mapKey=44;}
+    else if(species=='Pig'){
         ortholog1=1;
         ortholog2=3;
         ortholog3=2;

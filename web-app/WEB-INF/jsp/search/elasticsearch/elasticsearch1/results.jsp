@@ -89,7 +89,9 @@
             <c:choose>
                 <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                     <c:choose>
-                        <c:when test="${model.searchBean.species!='' || model.searchBean.subCat!='' || model.searchBean.category=='Reference' || fn:length(model.aggregations.species)==1 || fn:length(model.aggregations.ontology)==1}">
+                        <c:when test="${(model.searchBean.species!='' && (model.searchBean.species=='Human' && model.searchBean.category=='Variant'  ))
+                        || (model.searchBean.species!='' &&  model.searchBean.category!='Variant'  )
+                        || model.searchBean.subCat!='' || model.searchBean.category=='Reference' || fn:length(model.aggregations.species)==1 || fn:length(model.aggregations.ontology)==1}">
                             <td title="Toggle Check All"><input type="checkbox" onclick="toggle(this)"></td>
                         </c:when>
                         <c:otherwise>
@@ -227,7 +229,7 @@
                 <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location.href='${url}'">
                     <c:choose>
                         <c:when test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
-                                         || model.searchBean.category.equals('SSLP') || model.searchBean.category.equals('Variant') || model.searchBean.category.equals('Promoter') || model.searchBean.category.equals('Reference') || model.searchBean.category.equals('Cell line')}">
+                                         || model.searchBean.category.equals('SSLP') || ( model.searchBean.category.equals('Variant') && model.searchBean.species=='Human'  )|| model.searchBean.category.equals('Promoter') || model.searchBean.category.equals('Reference') || model.searchBean.category.equals('Cell line')}">
                             <c:choose>
                                 <c:when test="${model.searchBean.species!='' ||  fn:length(model.aggregations.species)==1 || model.searchBean.category.equals('Reference')}">
                                     <td  class="${hit.getSourceAsMap().species}" onmouseover="link=false;" onmouseout="link=true;">
