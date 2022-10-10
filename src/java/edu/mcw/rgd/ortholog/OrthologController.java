@@ -235,8 +235,7 @@ public class OrthologController implements Controller {
                 Object obj = symbolIt.next();
                 if (obj instanceof Gene) {
                     Gene g = (Gene) obj;
-                    if (!g.getSymbol().contains("NEWGENE_"))
-                        symbols.add(g.getSymbol());
+                    symbols.add(g.getSymbol());
                 }
             }
 
