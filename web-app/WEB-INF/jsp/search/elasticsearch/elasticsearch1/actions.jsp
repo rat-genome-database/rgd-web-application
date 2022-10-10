@@ -85,7 +85,7 @@
 
             <td>
                 <c:choose>
-                    <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')  && !model.searchBean.category.equalsIgnoreCase('Ontology') && !model.searchBean.category.equalsIgnoreCase('Reference')}">
+                    <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')  && !model.searchBean.category.equalsIgnoreCase('Ontology') && !model.searchBean.category.equalsIgnoreCase('Reference') && !model.searchBean.category.equalsIgnoreCase('Variant')}">
                         <label for="sortBy" style="font-size:x-small;font-weight: bold">Sort By</label><br>
                         <select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)" >
                         <option selected="selected" value="0">Relevance</option>
