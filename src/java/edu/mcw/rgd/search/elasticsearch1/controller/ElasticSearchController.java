@@ -43,6 +43,8 @@ public class ElasticSearchController implements Controller {
             }
             if( term.startsWith("RGD:") || term.startsWith("RGD_") )
                 term = term.substring(4);
+            else if(term.startsWith("RGD"))
+                term=term.substring(3);
             term=term.toLowerCase();
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
@@ -54,15 +56,16 @@ public class ElasticSearchController implements Controller {
             String sp1=new String();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
             String assembly=req.getParameter("assembly");
-            if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
+            System.out.println("ASSEMBLY PARAMETER:"+ assembly);
+          /*  if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
                 int speciesKey= SpeciesType.parse(sb.getSpecies());
                 edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
                 defaultAssemblyName=defaultAssembly.getDescription();
                     if(Objects.equals(assembly, "")){
                         assembly=defaultAssemblyName;
                     }
-            }
-        sb.setAssembly(assembly);
+            }*/
+            sb.setAssembly(assembly);
            boolean page =(req.getParameter("page").equals("true"));
            int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
            postCount= postCount+1;
@@ -147,11 +150,11 @@ public class ElasticSearchController implements Controller {
 
                     SearchService service = new SearchService();
                     SearchResponse sr;
-             if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
+           /*  if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
                    sr = service.getSearchResponse(request, term, sb);
-                }else{
-                    sr = service.getSearchResponse(request, term, null);
-                }
+                }else{*/
+                    sr = service.getSearchResponse(request, term, sb);
+           //     }
             //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
                     TotalHits hits=sr.getHits().getTotalHits();

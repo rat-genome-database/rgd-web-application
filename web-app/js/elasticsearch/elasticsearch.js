@@ -99,7 +99,9 @@ function getParameters() {
     if(objectSearch!='undefined'){
         $objectSearch= objectSearch.val();
     }
-    $objectAssembly= $('#objectAssembly').val()
+   /* $objectAssembly= $('#objectAssembly').val()*/
+    if(typeof $('#assembly').val()!='undefined')
+    $objectAssembly= $('#assembly').val()
 
     mapKey=$('#mapKey').val();
 
@@ -110,10 +112,10 @@ function setParameters(){
     $('#totalPages').text(totalPages);
     $('#sortBy').val(sortBy);
     $('#pageSize').val(pageSize);
-    $('#assembly').val($assembly);
+  //  $('#assembly').val($assembly);
     $('#filter').val($filterType);
     $('#subCat').val($subCat);
-
+    $('#assembly').val($objectAssembly);
 }
 function prevFunction(e, id) {
     getParameters();
@@ -319,8 +321,15 @@ function submitFunction(e) {
 
 }
 
-function filterClick(category, species,subCat, type, filter) {
+function filterClick(category, species,subCat, type, filter, objectAssembly) {
+    if(typeof objectAssembly=='undefined'){
+        objectAssembly=""
+    }
+    $('#assembly').val(objectAssembly)
+    $objectAssembly=objectAssembly
     getParameters();
+
+
     var $sampleExists;
     var filterType;
 
@@ -374,9 +383,9 @@ function filterClick(category, species,subCat, type, filter) {
     var term=$('#searchTerm').val();
 
    if($objectSearch == "true"){
-      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +$objectAssembly ;
+      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly ;
     } if($objectSearch != "true"){
-        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr ;
+        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly ;
     }
     console.log($url);
 

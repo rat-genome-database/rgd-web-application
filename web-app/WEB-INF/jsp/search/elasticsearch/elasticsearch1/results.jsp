@@ -119,7 +119,7 @@
             </td>
             <td>
                 <c:if test="${!model.searchBean.category.equals('Ontology')}">
-                    <c:if test="${model.searchBean.category.equals('General') || model.searchBean.category.equals('general')}">
+                    <c:if test="${model.searchBean.category.equals('General') || model.searchBean.category.equals('general') || model.searchBean.category.equals('')}">
                         Object
                     </c:if>
                 </c:if>
@@ -152,31 +152,28 @@
 
                 </c:if>
             </td>
+            <td>
+               RsId
+            </td>
             <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
                 <!--td>Ref_Nucleotide</td>
                 <td>Var_Nucleotide</td-->
             </c:if>
-            <td>
+            <td style="text-align: center">
                 <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
-                    Chr
+                   Location
                 </c:if>
                 <c:if test="${model.searchBean.category=='Reference'}">
                     Citation
                 </c:if>
             </td>
             <td>
-                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
-                    Start
-                </c:if>
+
                 <c:if test="${model.searchBean.category=='Reference'}">
                     Authors
                 </c:if>
             </td>
-            <td>
-                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
-                    Stop
-                </c:if>
-            </td>
+
             <td>
                 <c:if test="${!model.searchBean.category.equalsIgnoreCase('Reference') && !model.searchBean.category.equalsIgnoreCase('Variant')}">
                     Annotations
@@ -184,7 +181,7 @@
             </td>
 
 
-<td style="width: 10em;">
+                <td style="width: 10em;">
                 <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
@@ -362,7 +359,7 @@
 
 
                          <c:if test="${!hit.getSourceAsMap().category.equalsIgnoreCase('ontology') }">
-                             <c:if test="${model.searchBean.category.equalsIgnoreCase('General')}">
+                             <c:if test="${model.searchBean.category.equalsIgnoreCase('General') || model.searchBean.category.equals('')}">
                                   ${hit.getSourceAsMap().category}
                              </c:if>
                              <c:if test="${!model.searchBean.category.equalsIgnoreCase('General')}">
@@ -389,9 +386,16 @@
 
                     <td  onmouseover="link=false;" onmouseout="link=true;" style="cursor: auto;">
                         <a href="${url}">
+                            <c:if test="${hit.getSourceAsMap().category!='Variant' || fn:containsIgnoreCase(hit.getSourceAsMap().species, 'human' )}">
                             <c:set var="str" value="${hit.getSourceAsMap().name}${hit.getSourceAsMap().title}${hit.getSourceAsMap().term}"/>
+
                        ${f:format(str,t )}
+                            </c:if>
                         </a>
+                        <c:if test="${hit.getSourceAsMap().category=='Variant' && hit.getSourceAsMap().species!='Human' }">
+                            <b>(${hit.getSourceAsMap().mapDataList[0].map})</b>&nbsp;${hit.getSourceAsMap().mapDataList[0].chromosome}<b>:</b>&nbsp;${hit.getSourceAsMap().mapDataList[0].startPos}-${hit.getSourceAsMap().mapDataList[0].stopPos}${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
+                        </c:if>
+
                         <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'  && hit.getSourceAsMap().category!='Promoter'  && hit.getSourceAsMap().category!='Cell line'}">
                             <a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().term_acc}" title="click to browse the term" alt="browse term">
                                 <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
@@ -403,136 +407,33 @@
                             </c:if>
                         </c:if>
                     </td>
-                    <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
+                    <td>
+
+                        ${hit.getSourceAsMap().rsId}
                         <!--td>Ref_Nucleotide</td>
                         <td>Var_Nucleotide</td-->
-                    </c:if>
 
-                    <td>
-                        <c:choose>
-                            <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="chrMap">
-                                    <c:if test="${chrMap.map.equalsIgnoreCase(model.defaultAssembly)}">
-                                         ${chrMap.chromosome}<br>
-
-                                    </c:if>
-
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
-
-                                    <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
-                                          ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Human Genome Assembly GRCh38')}">
-                                         ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Dog CanFam3.1 Assembly')}">
-                                         ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Bonobo panpan1.1 Assembly')}">
-                                        ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Squirrel SpeTri2.0 Assembly')}">
-                                        ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('ChiLan1.0')}">
-                                          ${item.chromosome}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Mouse Genome Assembly GRCm38')}">
-                                         ${item.chromosome}
-                                    </c:if>
-
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
-
-                           ${f:format(hit.getSourceAsMap().citation,t )} </span>
-                        </c:if>
                     </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="startPosMap">
-                                    <c:if test="${startPosMap.map.equalsIgnoreCase(model.defaultAssembly)}">
-                                        ${startPosMap.startPos}<br>
-                                    </c:if>
-
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
-                                    <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
-                                        ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Human Genome Assembly GRCh38')}">
-                                         ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Dog CanFam3.1 Assembly')}">
-                                         ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Bonobo panpan1.1 Assembly')}">
-                                        ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Squirrel SpeTri2.0 Assembly')}">
-                                         ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('ChiLan1.0')}">
-                                         ${item.startPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Mouse Genome Assembly GRCm38')}">
-                                         ${item.startPos}
-                                    </c:if>
-
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
+                    <td > <!-- LOCATION--->
+                        <ul style="margin-left: 0">
+                        <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="chrMap">
+                            <li style="margin: 0;padding:0"><b>(${chrMap.map})</b>&nbsp;${chrMap.chromosome}<b>:</b>&nbsp;${chrMap.startPos}-${chrMap.stopPos}
+                                   <c:if test="${hit.getSourceAsMap().refNuc!=null}">
+                                    ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
+                                   </c:if>
+                            </li>
+                    </c:forEach>
+                        </ul>
                         <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
+                            ${f:format(hit.getSourceAsMap().citation,t )} </span>
+                        </c:if>
+                    </td> <!-- END LOCATION--->
+                    <td><c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().author, t )}
                         </c:if>
 
                     </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${model.defaultAssembly!=null}">
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="stopPosMap">
-                                    <c:if test="${stopPosMap.map.equalsIgnoreCase(model.defaultAssembly)}">
-                                       ${stopPosMap.stopPos}<br>
-                                    </c:if>
 
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="item">
-                                    <c:if test="${item.map.equalsIgnoreCase('RGSC Genome Assembly v6.0')}">
-                                       ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Human Genome Assembly GRCh38')}">
-                                       ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Dog CanFam3.1 Assembly')}">
-                                       ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Bonobo panpan1.1 Assembly')}">
-                                        ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Squirrel SpeTri2.0 Assembly')}">
-                                        ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('ChiLan1.0')}">
-                                        ${item.stopPos}
-                                    </c:if>
-                                    <c:if test="${item.map.equalsIgnoreCase('Mouse Genome Assembly GRCm38')}">
-                                        ${item.stopPos}
-                                    </c:if>
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-
-
-                    </td>
                     <!--td>$--{hit.getSourceAsMap().type}</td-->
 
                     <td>

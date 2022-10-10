@@ -17,7 +17,7 @@
             <td><input type="hidden" value="${model.defaultAssembly}" id="objectAssembly"/></td>
             <c:if test="${model.objectSearch=='true'}">
             <td>
-                <form  id="assemblyForm" action="elasticResults.html" method="post">
+                <!--form  id="assemblyForm" action="elasticResults.html" method="post">
                 <input type="hidden" name="category" value="${model.searchBean.category}">
                  <input type="hidden" name="species" value="${model.searchBean.species}"/>
 
@@ -50,13 +50,13 @@
                         </c:forEach>
                     </select>
 
-                    </form>
+                    </form-->
 
 
             </td>
             </c:if>
             <c:if test="${model.objectSearch!='true'}">
-            <td>
+            <!--td>
                 <c:if test="${model.searchBean.species!=null && model.searchBean.species!='' && model.defaultAssembly!=null}">
                     <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
                     <select class="assembly" id="assembly" onchange="assembly('change',this.value)">
@@ -71,11 +71,15 @@
                             </c:otherwise>
 
                         </c:choose>
+
                         </c:if>
                     </c:forEach>
+                        <c:if test="${model.defaultAssembly==null || model.defaultAssembly==''}">
+                        <option value="selected">None</option>
+                        </c:if>
                 </select>
                 </c:if>
-            </td>
+            </td-->
             </c:if>
             <td>&nbsp;</td>
 

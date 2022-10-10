@@ -15,6 +15,7 @@
             <input type="hidden" name="chr" id = "chr" value="${model.searchBean.chr}">
             <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
             <input type="hidden" name="stop" id = "stop" value="${model.searchBean.stop}"/>
+            <!--input type="hidden" name="assembly" id = "assembly" value="${model.searchBean.assembly}"/-->
 
             <button  type="submit" id="viewAll">View All Results</button>
         </form>
@@ -27,6 +28,7 @@
 <div id="jstree_results">
 
      <ul>
+
         <c:if test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
                     || model.searchBean.category.equals('SSLP') || model.searchBean.category.equals('Variant') || model.searchBean.viewAll
                     || model.searchBean.category.equals('Ontology') || model.searchBean.category.equals('Cell line') || model.searchBean.category.equals('Promoter')}" >
@@ -501,6 +503,16 @@
 
 
          </ul>
+         </li>
+         <li><span style="font-weight: bold;color:#24609c">Assembly</span>
+             <ul>
+                 <c:forEach items="${model.aggregations.assembly}"  var="item">
+                     <li  onclick="filterClick('', '','','','', '${item.key}')">${item.key}&nbsp;(${item.docCount})</li>
+                 </c:forEach>
+
+             </ul>
+
+
          </li>
          </ul>
 

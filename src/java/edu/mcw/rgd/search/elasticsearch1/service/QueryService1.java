@@ -71,7 +71,7 @@ public class QueryService1 {
                     }
                 }
 
-                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait"));
+                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait", "assembly"));
 
                 if (!sb.isPage()) {
 
@@ -106,7 +106,7 @@ public class QueryService1 {
                         srb.postFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
 
                     }
-                    if (!sb.getCategory().equalsIgnoreCase("general")) {
+                    if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equals("")) {
                         if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
 
                             if (sb.getSubCat() != null && sb.getSubCat() != "") {
@@ -131,7 +131,7 @@ public class QueryService1 {
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
-            if (!sb.getCategory().equalsIgnoreCase("general")) {
+            if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equalsIgnoreCase("")) {
                 builder.filter(QueryBuilders.termQuery("category.keyword", sb.getCategory()));
             }
             if (sb.getSpecies() != null && !sb.getSpecies().equals("")) {
@@ -149,6 +149,10 @@ public class QueryService1 {
                                     .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())), ScoreMode.None)));
 
                 }
+            }
+            System.out.println("ASSEMBLY:" +sb.getAssembly());
+            if (sb.getAssembly() != null && !sb.getAssembly().equals("")) {
+                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
             }
         }
         return builder;
@@ -207,63 +211,7 @@ public class QueryService1 {
                       //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
 
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                      /*  .add(QueryBuilders.matchQuery("name.name", term).operator(Operator.AND).boost(200))
-                        .add(QueryBuilders.matchQuery("name", term).operator(Operator.AND).boost(100))
-                       .add(QueryBuilders.matchQuery("synonyms.synonyms", term).operator(Operator.AND).boost(75))
-                        .add(QueryBuilders.matchQuery("synonyms", term).operator(Operator.AND).boost(30))
-                        .add(QueryBuilders.matchQuery("description.description", term).operator(Operator.AND).boost(10))
-                        .add(QueryBuilders.matchQuery("description", term).operator(Operator.AND).boost(5))
 
-                        .add(QueryBuilders.matchQuery("associations", term).operator(Operator.AND).boost(5))
-                        .add(QueryBuilders.matchPhraseQuery("genomicAlteration", term).boost(5))
-
-                    .add(QueryBuilders.matchQuery("term", term).operator(Operator.AND).boost(400))
-                    .add(QueryBuilders.matchQuery("term.term", term).operator(Operator.AND).boost(600))
-                      .add(QueryBuilders.matchPhrasePrefixQuery("term.symbol", term).boost(500))
-                     .add(QueryBuilders.matchPhraseQuery("term.symbol", term).boost(400))
-                //        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms", term).boost(400))
-                        .add(QueryBuilders.matchPhrasePrefixQuery("synonyms.symbol", term).boost(100))
-
-
-                        .add(QueryBuilders.matchQuery("term_def", term).operator(Operator.AND).boost(100))
-                        .add(QueryBuilders.matchQuery("term_def.term", term).operator(Operator.AND).boost(200))
-
-
-                        .add(QueryBuilders.matchQuery("title", term).operator(Operator.AND).boost(50))
-                        .add(QueryBuilders.matchQuery("title.title", term).operator(Operator.AND).boost(100))
-                        .add(QueryBuilders.matchQuery("citation", term).operator(Operator.AND).boost(100))
-
-
-                        .add(QueryBuilders.matchQuery("citation.citation", term).operator(Operator.AND).boost(100))
-
-                        .add(QueryBuilders.matchQuery("author", term).operator(Operator.AND).boost(50))
-                        .add(QueryBuilders.matchQuery("author.author", term).operator(Operator.AND).boost(100))
-                        .add(QueryBuilders.matchQuery("refAbstract", term).operator(Operator.AND).boost(10))
-                        .add(QueryBuilders.matchQuery("refAbstract.refAbstract", term).operator(Operator.AND).boost(30))
-
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-                                .must(QueryBuilders.matchQuery("citation.citation", term)))
-
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("title.title", term))
-                                .must(QueryBuilders.matchQuery("citation.cittion", term))
-                                .must(QueryBuilders.matchQuery("author.author", term)))
-
-
-                        .add(QueryBuilders.matchQuery("origin", term).operator(Operator.AND))
-                        .add(QueryBuilders.matchQuery("origin.origin", term).operator(Operator.AND))
-                        .add(QueryBuilders.matchQuery("source", term).operator(Operator.AND))
-                        .add(QueryBuilders.matchQuery("source.source", term).operator(Operator.AND))
-                        .add(QueryBuilders.matchQuery("trait", term).operator(Operator.AND).boost(2))
-
-                        .add(QueryBuilders.matchQuery("subTrait", term).operator(Operator.AND).boost(1))
-
-                        .add(QueryBuilders.matchQuery("promoters", term).operator(Operator.AND).boost(1))
-
-                        .add(QueryBuilders.matchQuery("protein_acc_ids", term).operator(Operator.AND).boost(1))
-                        .add(QueryBuilders.matchQuery("transcriptIds", term).operator(Operator.AND).boost(1))
-                        .add(QueryBuilders.matchQuery("type", term).operator(Operator.AND).boost(1))
-                        .add(QueryBuilders.matchQuery("xdbIdentifiers", term).operator(Operator.AND).boost(1))
-                        .add(QueryBuilders.termQuery("xdata", term).boost(1))*/
 
 
                         .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
@@ -275,7 +223,6 @@ public class QueryService1 {
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                      // .add(QueryBuilders.multiMatchQuery(term) .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).type(MultiMatchQueryBuilder.Type.PHRASE).boost(50))
                 ;
             }else{
                     dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
@@ -316,9 +263,17 @@ public class QueryService1 {
 
             return aggs;
         }
+        if(aggField.equalsIgnoreCase("assembly")) {
+          //  aggs = AggregationBuilders.terms(aggField).field("mapDataList.map" + ".keyword").size(20).order(BucketOrder.key(true))
+            ;
+            aggs=AggregationBuilders.nested("assemblyAggs", "mapDataList")
+                    .subAggregation(AggregationBuilders.terms(aggField).field("mapDataList.map").size(50).order(BucketOrder.key(true)));
+
+            return aggs;
+        }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                 .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
+                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)))
                        // .order(Terms.Order.term(true)))  deprecated in 6.4
         ;
        return aggs;
