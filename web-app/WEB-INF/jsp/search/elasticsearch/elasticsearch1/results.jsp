@@ -384,7 +384,7 @@
                         </c:if>
                     </td>
 
-                    <td  onmouseover="link=false;" onmouseout="link=true;" style="cursor: auto;">
+                    <td   style="cursor: auto;">
                         <a href="${url}">
                             <c:if test="${hit.getSourceAsMap().category!='Variant' || fn:containsIgnoreCase(hit.getSourceAsMap().species, 'human' )}">
                             <c:set var="str" value="${hit.getSourceAsMap().name}${hit.getSourceAsMap().title}${hit.getSourceAsMap().term}"/>
