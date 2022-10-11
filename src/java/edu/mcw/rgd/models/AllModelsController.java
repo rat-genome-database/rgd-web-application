@@ -76,7 +76,7 @@ public class AllModelsController extends GeneticModelsController implements Cont
                 }
             }
             if (bStrain.isEmpty())
-                bsl.put(gene,"No Background Strains");
+                bsl.put(gene,"No Background Strains Assigned");
             else
                 bsl.put(gene,bStrain);
         }

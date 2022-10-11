@@ -209,13 +209,57 @@
 
                 if (spc.getSpeciesTypeKey() == id.getSpeciesTypeKey() || orthoMap.containsKey(spc.getSpeciesTypeKey())) {
 
-                    String bgColor="#aaaaaa";
-                    if (spc.getSpeciesTypeKey() == 1) {
-                        bgColor="#eeeeee";
-                    }else if (spc.getSpeciesTypeKey()==2) {
-                        bgColor="#cccccc";
-                    }else {
-
+                    String bgColor="#FFFFFF";
+//                    if (spc.getSpeciesTypeKey() == 1) {
+//                        bgColor="#eeeeee";
+//                    }else if (spc.getSpeciesTypeKey()==2) {
+//                        bgColor="#cccccc";
+//                    }else {
+//
+//                    }
+                    switch (spc.getSpeciesTypeKey()){
+                        case SpeciesType.HUMAN:
+                            bgColor="#eeeeee";
+                            break;
+                        case SpeciesType.MOUSE:
+                            bgColor="#cccccc";
+                            break;
+                        case SpeciesType.RAT:
+                            bgColor="#aaaaaa";
+                            break;
+                        case SpeciesType.CHINCHILLA:
+                            bgColor="#71797E";
+                            break;
+                        case SpeciesType.BONOBO:
+                            bgColor="#E8E8E8";
+                            break;
+                        case SpeciesType.DOG:
+                            bgColor="#888888";
+                            break;
+                        case SpeciesType.SQUIRREL:
+                            bgColor="#7393B3";
+                            break;
+                        case SpeciesType.ZEBRAFISH:
+                            bgColor="#C8C8C8";
+                            break;
+                        case SpeciesType.PIG:
+                            bgColor="#696969";
+                            break;
+                        case SpeciesType.FRUITFLY:
+                            bgColor="#E5E4E2";
+                            break;
+                        case SpeciesType.ROUNDWORM:
+                            bgColor="#E0E0E0";
+                            break;
+                        case SpeciesType.VERVET:
+                            bgColor="#989898";
+                            break;
+                        case SpeciesType.NAKED_MOLE_RAT:
+                            bgColor="#B8B8B8";
+                            break;
+                        default:
+                            bgColor="#aaaaaa";
+                            break;
                     }
 
 
