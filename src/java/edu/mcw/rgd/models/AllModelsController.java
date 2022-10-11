@@ -49,8 +49,38 @@ public class AllModelsController extends GeneticModelsController implements Cont
         model.put("strains",strainsWithAliases );
         model.put("geneStrainMap", gsMap);
         model.put("headerChildMap",hcMap );
-
+        backgroundStrainList(gsMap,model);
         return new ModelAndView("/WEB-INF/jsp/models/allModels.jsp", "model", model);
 
+    }
+
+    public void backgroundStrainList(Map<String, List<GeneticModel>> gsMap, ModelMap mm) throws Exception{
+        Map<String, String> bsl = new HashedMap<>();
+        for (String gene : gsMap.keySet()){
+            String bStrain = "";
+            List<GeneticModel> models = gsMap.get(gene);
+            List<String> strainNames = new ArrayList<>();
+            for (int i = 0 ; i<models.size(); i++){
+                GeneticModel m = models.get(i);
+                try {
+                    String str = m.getBackgroundStrain();
+                    if (!strainNames.contains(str) && str!=null) {
+                        if (!bStrain.isEmpty())
+                            bStrain += ", ";
+                        bStrain += str;
+                        strainNames.add(str);
+                    }
+                }
+                catch (Exception ignore){
+
+                }
+            }
+            if (bStrain.isEmpty())
+                bsl.put(gene,"No Background Strains");
+            else
+                bsl.put(gene,bStrain);
+        }
+        mm.put("backStrainList", bsl);
+        return;
     }
 }
