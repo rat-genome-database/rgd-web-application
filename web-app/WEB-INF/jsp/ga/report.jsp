@@ -268,7 +268,7 @@
                             textColor = "black";
                             break;
                         case SpeciesType.NAKED_MOLE_RAT:
-                            bgColor="#B8B8B8";
+                            bgColor="#B0B0C0";
                             textColor = "black";
                             break;
                         default:
