@@ -209,20 +209,79 @@
 
                 if (spc.getSpeciesTypeKey() == id.getSpeciesTypeKey() || orthoMap.containsKey(spc.getSpeciesTypeKey())) {
 
-                    String bgColor="#aaaaaa";
-                    if (spc.getSpeciesTypeKey() == 1) {
-                        bgColor="#eeeeee";
-                    }else if (spc.getSpeciesTypeKey()==2) {
-                        bgColor="#cccccc";
-                    }else {
-
+                    String bgColor="#FFFFFF";
+                    String textColor = "black";
+//                    if (spc.getSpeciesTypeKey() == 1) {
+//                        bgColor="#eeeeee";
+//                    }else if (spc.getSpeciesTypeKey()==2) {
+//                        bgColor="#cccccc";
+//                    }else {
+//
+//                    }
+                    switch (spc.getSpeciesTypeKey()){
+                        case SpeciesType.HUMAN:
+                            bgColor="#eeeeee";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.MOUSE:
+                            bgColor="#cccccc";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.RAT:
+                            bgColor="#aaaaaa";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.CHINCHILLA:
+                            bgColor="#71797E";
+                            textColor = "white";
+                            break;
+                        case SpeciesType.BONOBO:
+                            bgColor="#E8E8E8";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.DOG:
+                            bgColor="#888888";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.SQUIRREL:
+                            bgColor="#7393B3";
+                            textColor = "white";
+                            break;
+                        case SpeciesType.ZEBRAFISH:
+                            bgColor="#C8C8C8";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.PIG:
+                            bgColor="#696969";
+                            textColor = "white";
+                            break;
+                        case SpeciesType.FRUITFLY:
+                            bgColor="#E5E4E2";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.ROUNDWORM:
+                            bgColor="#E0E0E0";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.VERVET:
+                            bgColor="#989898";
+                            textColor = "black";
+                            break;
+                        case SpeciesType.NAKED_MOLE_RAT:
+                            bgColor="#B0B0C0";
+                            textColor = "black";
+                            break;
+                        default:
+                            bgColor="#aaaaaa";
+                            textColor = "black";
+                            break;
                     }
 
 
                  %>
 
                 <tr >
-                    <td style="background-color:<%=bgColor%>"><%=SpeciesType.getCommonName(spc.getSpeciesTypeKey())%></td>
+                    <td style="background-color:<%=bgColor%>; color: <%=textColor%>"><%=SpeciesType.getCommonName(spc.getSpeciesTypeKey())%></td>
                     <td><a href="/rgdweb/ontology/annot.html?acc_id=<%=annot.getTermAcc()%>"><%=annot.getTermAcc()%></a></td>
                     <td><%=annot.getTerm()%></td>
                     <td ><a href="/rgdweb/report/annotation/main.html?term=<%=annot.getTermAcc()%>&id=<%=ortho.getRgdId()%>"><%=annot.getEvidence()%></a></td>
