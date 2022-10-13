@@ -186,9 +186,30 @@
                         <td> Squirrel</td>
                     </tr>
                     <% } %>
-
-
-
+                    <% if (!req.getParameter("species").equals("9")) { %>
+                    <tr>
+                        <td><input type="checkbox" name="ortholog"
+                                   value="9" <% if (req.isInParameterValues("ortholog","9")) out.print("checked"); %>>
+                        </td>
+                        <td> Pig</td>
+                    </tr>
+                    <% } %>
+                    <% if (!req.getParameter("species").equals("13")) { %>
+                    <tr>
+                        <td><input type="checkbox" name="ortholog"
+                                   value="13" <% if (req.isInParameterValues("ortholog","13")) out.print("checked"); %>>
+                        </td>
+                        <td> Green Monkey</td>
+                    </tr>
+                    <% } %>
+                    <% if (!req.getParameter("species").equals("14")) { %>
+                    <tr>
+                        <td><input type="checkbox" name="ortholog"
+                                   value="14" <% if (req.isInParameterValues("ortholog","14")) out.print("checked"); %>>
+                        </td>
+                        <td> Naked Mole-Rat</td>
+                    </tr>
+                    <% } %>
                 </table>
 
                 <br><br><br>
