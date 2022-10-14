@@ -128,7 +128,6 @@
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
-                <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
                 <prop key="report/marker/main.html">MarkerReportController</prop>
@@ -138,16 +137,18 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">CNVariantReportController</prop>
-                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
                 <prop key="report/associationsForGBrowseTracks.html">GbrowseTrackAssociationController</prop>
                 <prop key="report/genomeInformation/genomeInformation.html">genomeInformationController</prop>
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
+                <prop key="report/rsId/download.html">VariantDownloadController</prop>
                 <prop key="overgo/find.html">OvergoController</prop>
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
+                <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
 
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
                 <prop key="elsevier/getReference.html">ElsevierImageGenerator</prop>
@@ -322,8 +323,6 @@
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
-    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
-    <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
  <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
@@ -336,6 +335,9 @@
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
     <bean id="PipelineRecListController" class="edu.mcw.rgd.pipeline.PipelineRecListController"/>
     <bean id="PipelineEnsemblController" class="edu.mcw.rgd.pipeline.PipelineEnsemblController"/>
+    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
+    <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
+    <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
 
     <bean id="TranscriptsController" class="edu.mcw.rgd.pipeline.TranscriptsController"/>
     <bean id="MirnaTargetsController" class="edu.mcw.rgd.report.MirnaTargetsController"/>

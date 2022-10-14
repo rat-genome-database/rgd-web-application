@@ -148,7 +148,7 @@
                             </td>
 
                             <td align="right" style="color:white;" valign="center" colspan="3">
-                                <a href="/registration-entry.shtml">Submit Data</a>&nbsp;|&nbsp;
+                                <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
                                 <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
                                 <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
                                 <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
@@ -198,7 +198,7 @@
                                             <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
                                             <a href="/rgdweb/search/references.html?100">References</a>
                                             <a href="https://download.rgd.mcw.edu">Download</a>
-                                            <a href="/registration-entry.shtml">Submit Data</a>
+                                            <a href="/wg/registration-entry/">Submit Data</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">

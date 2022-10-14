@@ -3,6 +3,7 @@ package edu.mcw.rgd.search.elasticsearch1.controller;
 
 
 import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.spring.StringMapQuery;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -21,13 +22,15 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 /**
  * Created by jthota on 5/24/2017.
  */
 public class DownloadController implements Controller {
 
-
+    AssociationDAO associationDAO=new AssociationDAO();
+    AnnotationDAO annotationDAO=new AnnotationDAO();
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -83,8 +86,14 @@ public class DownloadController implements Controller {
                     cell.setCellValue("Start Position");
                     cell = row.createCell(cellnum++);
                     cell.setCellValue("Stop Position");
-                    cell = row.createCell(cellnum);
+                    cell = row.createCell(cellnum++);
                     cell.setCellValue("Assembly");
+                }
+                if(objectKey.equals("6")) {
+                    cell = row.createCell(cellnum++);
+                    cell.setCellValue("Trait");
+                    cell = row.createCell(cellnum);
+                    cell.setCellValue("Strains Crossed");
                 }
             } else {
                 if (!(objectKey.equals("0"))) {
@@ -301,7 +310,6 @@ public class DownloadController implements Controller {
             }
             if (objectKey.equals("6")) {
                 QTLDAO qdao = new QTLDAO();
-                List<QTL> qtls = new ArrayList<>();
                 for (int rgdId : rgdidsList) {
                     QTL qtl = new QTL();
                     qtl = qdao.getQTL(rgdId);
@@ -323,6 +331,11 @@ public class DownloadController implements Controller {
                         cell.setCellValue(md.getStopPos());
                         cell = row.createCell(cellnum++);
                         cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
+                        cell = row.createCell(cellnum++);
+                        cell.setCellValue(this.getTraitSubTrait(qtl.getRgdId(), "V"));
+                        cell = row.createCell(cellnum++);
+                        cell.setCellValue(this.getStrainsCrossed(qtl).stream().collect(Collectors.joining(" | ")));
+
 
                     } else {
                         row = sheet.createRow(rownum++);
@@ -465,5 +478,40 @@ public class DownloadController implements Controller {
 
         }
         return null;
+    }
+    public String getTraitSubTrait(int rgdid, String aspect) throws Exception {
+        NotesDAO notesDAO = new NotesDAO();
+        String notesString=new String();
+        if(aspect.equalsIgnoreCase("v")){
+            notesString="qtl_trait";
+        }
+        if(aspect.equalsIgnoreCase("l")){
+            notesString="qtl_subtrait";
+        }
+        String traitTerm = null;
+        for( StringMapQuery.MapPair pair: annotationDAO.getAnnotationTermAccIds(rgdid, aspect) ) {
+            traitTerm = pair.stringValue+" ("+pair.keyValue+")";
+        }
+
+        if( traitTerm==null ) {
+            List<Note> notes = notesDAO.getNotes(rgdid, notesString);
+            if( !notes.isEmpty() ) {
+                traitTerm = notes.get(0).getNotes();
+            }
+        }
+
+
+        return traitTerm;
+    }
+    public  List<String> getStrainsCrossed(QTL qtl) throws Exception {
+        List<Strain> sts = associationDAO.getStrainAssociationsForQTL(qtl.getRgdId());
+        List<String> strainsCrossed =new ArrayList<>();
+        if(qtl.getSpeciesTypeKey() == SpeciesType.RAT){
+            for (Strain strain: sts) {
+                strainsCrossed.add(strain.getSymbol());
+            }
+        }
+
+       return strainsCrossed;
     }
 }

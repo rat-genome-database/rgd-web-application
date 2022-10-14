@@ -74,7 +74,7 @@ public class DownloadController extends HaplotyperController {
             List<String> geneSymbols = null;
             if (!geneList.equals("") && !geneList.contains("|") && !geneList.contains("*")) {
                 geneSymbols = Utils.symbolSplit(geneList);
-                vsb.setGenes(geneSymbols);
+                vsb.setGenes(geneSymbols.stream().map(String::toLowerCase).collect(Collectors.toList()));
                 multipleGeneSymbols = geneSymbols.size()>1;
             }
             if( !multipleGeneSymbols ) {
@@ -101,7 +101,7 @@ public class DownloadController extends HaplotyperController {
     void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
                         boolean printHeader, boolean isHuman) throws Exception {
 
-
+System.out.println("GENERATING REPORT....");
         SampleDAO sdao = new SampleDAO();
         sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
@@ -133,7 +133,7 @@ public class DownloadController extends HaplotyperController {
             vsb.setMappedGenes(mappedGenes);
 
             for (MappedGene mg: vsb.getMappedGenes()) {
-                vsb.genes.add(mg.getGene().getSymbol());
+                vsb.genes.add(mg.getGene().getSymbol().toLowerCase());
             }
         }
 

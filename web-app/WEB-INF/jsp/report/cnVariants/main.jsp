@@ -188,9 +188,10 @@
                         <%@ include file="transcripts.jsp"%>
                     </div>
                     <div id="samples">
-                        <%@ include file="samples.jsp"%>
                         <% if (obj.getSpeciesTypeKey()!=1) {%>
                         <%@ include file="sampleDetails.jsp"%>
+                        <% } else {%>
+                        <%@ include file="samples.jsp"%>
                         <% } %>
                     </div>
 <%--                    <br><div class="subTitle" id="references">References</div>--%>

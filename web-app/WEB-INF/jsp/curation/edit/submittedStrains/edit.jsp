@@ -11,10 +11,10 @@
 <script src="/rgdweb/js/bootstrap.min.js"></script>
 <script>
     $(function () {
-        $('.edit-sub a').on('click' ,function (e) {
-            var action=this.text;
-            var URL;
-            var msg;
+        $('.edit-sub').on('click' ,function (e) {
+            var action=this.innerHTML;
+            var URL="";
+            var msg="";
           //alert("Success" + action);
             if(action=="Submitted Strains"){
                 URL="submittedStrains.html";
@@ -58,23 +58,26 @@
         })
     })
 </script>
-<div style="width:100%;background:#EEEEEE">
+<div class="card-header" style="background:#EEEEEE">
     <h3 style="text-align: center;color:#24609c">Edit Submitted Strains</h3>
 </div>
-<div class="container" style="border:1px solid #eee">
 
-    <div style="width:15%;float:left">
-        <ul class="nav nav-pills nav-stacked edit-sub">
-        <li role="presentation" class="edit-sub active" ><a class="edit" href="#">Submitted Strains</a></li>
-        <li role="presentation" class="edit-sub"><a class="edit" href="#">Completed Strains</a></li>
-        <li role="presentation"class="edit-sub"><a class="edit" href="#">New Strain</a></li>
-        <li role="presentation"class="edit-sub"><a class="edit" href="#">Curator Instructions</a></li>
-    </ul>
-    </div>
-    <div id="div1" style="margin-left:16%;">
-        <%@include file="submittedStrains.jsp"%>
+<div class="container-fluid"    style="padding-left:5%;padding-right: 5%">
+
+    <div>
+       <button class="btn btn-sm btn-primary edit-sub">Submitted Strains</button>
+        <button class="btn btn-sm btn-primary edit-sub">Completed Strains</button>
+        <button class="btn btn-sm btn-primary edit-sub">New Strain</button>
+        <button class="btn btn-sm btn-primary edit-sub">Curator Instructions</button>
+
     </div>
 
 
+    <hr>
+
+    <div id="div1">
+    <%@include file="submittedStrains.jsp"%>
+    </div>
 </div>
+
 <%@include file="/common/footerarea.jsp"%>

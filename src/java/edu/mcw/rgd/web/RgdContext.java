@@ -124,7 +124,7 @@ public class RgdContext {
                         indexName= index+"_index_prod";
                     }else
                     if( isPipelines() ) {
-                        indexName= index+"_index_cur";
+                        indexName= index+"_index_cur"+","+"variant_index_cur";
                     }else
                     if( isDev() ) {
                         indexName= index+"_index_dev"+","+"variant_index_dev";
@@ -150,12 +150,10 @@ public class RgdContext {
     public static String getESVariantIndexName(String index) {
         try {
             if( isProduction() ) {
-                //	return index+"_index_prod";
-                return index+"_cur";
+                return index+"_prod";
             }
             if( isPipelines() ) {
                 return index+"_cur";
-                //   return index+"_index_prod";
             }
             if( isDev() ) {
                 return index+"_dev";

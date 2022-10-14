@@ -77,7 +77,8 @@ public class PhenominerSearchController implements Controller {
                 response.sendRedirect(redirUrl);
                 return null;
             }else {
-                int defaultPageSize = (sb.getSize() > 0) ? sb.getSize() : 50;
+                int defaultPageSize = 1000;
+                sb.setSize(defaultPageSize);
                 SearchResponse sr = service.getSearchResponse(request, term, sb);
                 int totalPages = 0;
                 if (sr != null) {

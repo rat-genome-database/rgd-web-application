@@ -121,46 +121,63 @@
     var v = new Vue({
         el: '#curation',
         data: {
-
             name:"",
             userloggedin:"",
             token:""
         },
-        methods: {
-          getUser: function(){
-
-              axios
-                      .get('https://api.github.com/user',
-                              {
-                                  headers: {
-                                      'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
-                                  }
-                              })
-                      .then(function (response) {
-                          v.name = response.data.login;
-                          v.getRepos(v.name);
-                          v.token = "<%=request.getParameter("accessToken")%>";
-                      });
-          },
-          getRepos: function(name){
-              axios
-                      .get('https://api.github.com/orgs/rat-genome-database/members/'+name,
-                              {
-                                  headers: {
-                                      'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
-                                  }
-                              })
-                      .then(function (response) {
-                          v.userloggedin = response.status;
-                      });
-          }
-        },
         mounted: function(){
-            this.getUser();
+            getUser();
         }
 
     });
 
+    function getUser(){
 
-
+        /* $.get('https://api.github.com/user',
+                 {
+                     headers: {
+                         'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
+                    }
+                })
+            .then(function (response) {
+                v.name = response.data.login;
+                v.getRepos(v.name);
+                v.token = "<%=request.getParameter("accessToken")%>";
+            });*/
+        $.ajax({
+            url: 'https://api.github.com/user',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", 'Token ' + '<%=request.getParameter("accessToken")%>')
+            }
+        }).then(function (response) {
+            v.name = response.login;
+            v.token = "<%=request.getParameter("accessToken")%>";
+            getRepos(v.name);
+            // console.log("V.NAME:"+ v.name)
+        })
+    }
+    function getRepos(name){
+        /*   axios
+               $.get('https://api.github.com/orgs/rat-genome-database/members/'+name,
+                   {
+                       headers: {
+                           'Authorization': 'Token ' + '<%=request.getParameter("accessToken")%>'
+                    }
+                })
+            .then(function (response) {
+                v.userloggedin = response.status;
+            });*/
+        $.ajax({
+            url: 'https://api.github.com/orgs/rat-genome-database/members/'+name,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", 'Token ' + v.token)
+            },
+            method:"GET",
+            statusCode: {
+                204: function() {
+                    v.userloggedin=204
+                }
+            }
+        })
+    }
 </script>

@@ -72,7 +72,7 @@
                                         <td title="Gene" style="">${entry.key.gene}</td>
                                         <td  style="text-align: center;font-weight:bold;" title="No. of Models">${fn:length(entry.value)}</td>
                                         <!--td><span style="color:blue">Click Expand Button</span></td-->
-                                        <td style="" title="Click Epand/Collapse Button"></td>
+                                        <td style="" title="Click Epand/Collapse Button">${model.backStrainList[entry.key.geneSymbol]}</td>
                                         <td style="" title="Click Epand/Collapse Button"></td>
                                         <td style="" title="Click Epand/Collapse Button"></td>
                                         <td style="" title="Click Epand/Collapse Button"></td>
