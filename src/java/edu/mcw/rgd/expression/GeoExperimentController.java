@@ -4,11 +4,16 @@ import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
+import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +22,21 @@ import java.util.List;
 public class GeoExperimentController implements Controller {
 
     PhenominerDAO pdao = new PhenominerDAO();
-
+    public String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ArrayList<String> status = new ArrayList<>();
         ArrayList<String> error = new ArrayList<>();
+        String accessToken = null;
+        if(request.getCookies() != null && request.getCookies().length != 0)
+            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
+                accessToken = request.getCookies()[0].getValue();
 
+
+        if(!checkToken(accessToken)) {
+            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+            return null;
+        }
             if (request.getParameter("count") != null) {
                 Report r = new Report();
                 try {
@@ -41,7 +55,7 @@ public class GeoExperimentController implements Controller {
                     header.append("Age Low");
                     header.append("Sex");
                     r.append(header);
-                for (int i = 1; i < count; i++) {
+                for (int i = 0; i < count; i++) {
                     Sample s = new Sample();
                     Record rec = new Record();
                     s.setSex(request.getParameter("sex" + i));
@@ -51,6 +65,7 @@ public class GeoExperimentController implements Controller {
                     s.setGeoSampleAcc(request.getParameter("sampleId" + i));
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
+                    s.setLifeStage(request.getParameter("lifeStage" + i));
 
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
@@ -116,23 +131,25 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> ageLow = new HashMap<>();
                 HashMap<String,String> ageHigh = new HashMap<>();
                 HashMap<String,String> gender = new HashMap<>();
-                for(int i = 1; i < tcount;i++){
+                HashMap<String,String> lifeStage = new HashMap<>();
+                for(int i = 0; i < tcount;i++){
                     tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
                 }
-                for(int i = 1; i < scount;i++){
+                for(int i = 0; i < scount;i++){
                     strainMap.put(request.getParameter("strain" + i),request.getParameter("strainId"+i));
                 }
-                for(int i = 1; i < ageCount;i++){
+                for(int i = 0; i < ageCount;i++){
                     ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
                     ageHigh.put(request.getParameter("age" + i),request.getParameter("ageHigh"+i));
+                    lifeStage.put(request.getParameter("age"+i),request.getParameter("lifeStage"+i));
                 }
-                for(int i = 1; i < ctcount;i++){
+                for(int i = 0; i < ctcount;i++){
                     cellType.put(request.getParameter("cellType" + i),request.getParameter("cellTypeId"+i));
                 }
-                for(int i = 1; i < clcount;i++){
+                for(int i = 0; i < clcount;i++){
                     cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
                 }
-                for(int i = 1; i < gcount;i++){
+                for(int i = 0; i < gcount;i++){
                     gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
                 }
                 request.setAttribute("tissueMap",tissueMap);
@@ -144,6 +161,7 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("ageHigh",ageHigh);
                 request.setAttribute("species",species);
                 request.setAttribute("gse",gse);
+                request.setAttribute("lifeStage",lifeStage);
                 return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
             }
             if (request.getParameter("gse") != null) {
@@ -151,6 +169,32 @@ public class GeoExperimentController implements Controller {
             } else return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
 
         }
+    protected boolean checkToken(String token) throws Exception{
+        if(token == null || token.isEmpty()){
+            return false;
+        }else {
+            URL url = new URL("https://api.github.com/user");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("Authorization", "Token "+token);
 
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream())) ) {
+                String line = in.readLine();
+                JSONObject json = new JSONObject(line);
+                login = (String)json.get("login");
+                if(!login.equals("")){
+                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
+                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("Authorization", "Token "+token);
+                    if(connection.getResponseCode()== 204)
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
+    }
     }
 
