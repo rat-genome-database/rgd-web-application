@@ -209,6 +209,7 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
+                                            <a href="/vcmap">Virtual Comparative Map (VCMap)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
@@ -222,7 +223,6 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
 <%--                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>--%>
 <%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
-                                            <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
