@@ -106,7 +106,7 @@
         </td>
         <td>
             <div class="headerCard" style="width: 200px;height:auto;margin-right: 2%;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='http://ratmine.mcw.edu/ratmine/begin.do'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/vcmap'">.</div>
                 <div class="headerCardTitle">VCMap<br><span class="headerSubTitle">Synteny Browser</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/vcmap.png?"  border="0" /></span>
             </div>
