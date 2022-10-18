@@ -6,6 +6,8 @@
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -69,6 +71,7 @@
     HashMap<String,String> cellType = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
+    HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
 %>
 
 
@@ -128,12 +131,37 @@
                 <th>Age: </th>
                 <th>Age Low: </th>
                 <th>Age High: </th>
+                <th>Life Stage:</th>
             </tr>
                 <%
             }
 
-      int count = 1;
+      int count = 0;
      for(GeoRecord s: samples){
+         if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
+             {
+                 try{
+                 Set<String> keys = ageHigh.keySet();
+                 if (keys.isEmpty())
+                     keys = ageLow.keySet();
+                     s.setSampleAge(keys.iterator().next());
+                 }
+                 catch (Exception e){
+
+                 }
+             }
+         if (!gender.isEmpty() && s.getSampleGender()==null){
+try{
+    Set<String> gKeys = gender.keySet();
+    s.setSampleGender(gKeys.iterator().next());
+}
+catch (Exception e){}
+         }
+//         Sample sample = pdao.getSampleByGeoId(s.getGeoAccessionId());
+//         if (sample.getLifeStage()==null){
+//             sample.setLifeStage(lifeStage.get(s.getSampleAge()));
+//         }
+
   %>
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
@@ -150,6 +178,7 @@
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=Objects.toString(lifeStage.get(s.getSampleAge()) )%>"></td>
 
             </tr>
 
@@ -159,6 +188,7 @@
   %>
 
     </table>
+    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
     <input type="hidden" id="species" name="species" value="<%=species%>" />

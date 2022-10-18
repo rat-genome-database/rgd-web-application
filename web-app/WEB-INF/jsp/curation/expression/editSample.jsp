@@ -88,6 +88,7 @@
         if(samples.size() != 0) {
     %>
         <form action="experiments.html" method="POST">
+            <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <table  class="t">
                 <tr>
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
@@ -120,7 +121,7 @@
             <table class="table table-striped">
 
             <%
-      int tcount = 1;
+      int tcount = 0;
 
      for(String tissue: tissueMap.keySet()){
   %>
@@ -128,61 +129,87 @@
                 <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
                 <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
                 <td></td>
+                <td></td>
             </tr>
 
         <%
       tcount++;
       }
-                    int scount = 1;
+                    int scount = 0;
                     for(String strain: strainMap.keySet()){
                 %>
             <tr>
                 <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
                 <td><label for="strainId<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
                 <td></td>
+                <td></td>
             </tr>
 
         <%
                     scount++;
                 }
-            int clcount = 1;
+            int clcount = 0;
             for(String cellLine: cellLineMap.keySet()){
         %>
                 <tr>
                     <td><label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label><input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="<%=cellLine%>" readonly></td>
                     <td><label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label><input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value="<%=cellLineMap.get(cellLine)%>"> </td>
                     <td></td>
+                    <td></td>
                 </tr>
 
                 <%
                         clcount++;
                     }
-                    int cTcount = 1;
+                    int cTcount = 0;
                     for(String cellType: cellTypeMap.keySet()){
                 %>
                 <tr>
                     <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" readonly></td>
                     <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label><input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=cellTypeMap.get(cellType)%>"> </td>
                     <td></td>
+                    <td></td>
                 </tr>
 
                 <%
                         cTcount++;
                     }
-                  int ageCount = 1;
+                  int ageCount = 0;
+                    if (ages.isEmpty()){%>
+                <tr>
+                    <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in Days): &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" ></td>
+                    <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                    <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+                    <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
+                </tr>
+                <%ageCount++;}
+                    else {
                     for(String age: ages){
                 %>
             <tr>
-                <td><label for="age<%=tcount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
-                <td><label for="ageLow<%=tcount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
-                <td><label for="ageHigh<%=tcount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-
+                <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in Days): &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
+                <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+                <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
             </tr>
 
                 <%
                     ageCount++;
-                }
-                    int gcount = 1;
+                }   }
+                    int gcount = 0;
+                    if (gender.isEmpty()){%>
+                <tr>
+                    <td><label for="gender<%=gcount%>" style="color: #24609c; font-weight: bold;">Sex: &nbsp&nbsp </label><input type="text" name="gender<%=gcount%>" id="gender<%=gcount%>"></td>
+                    <td><label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label><select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="mixed">Mixed</option>
+                        <option value="not specified" selected>Not Specified</option>
+                    </select>
+                    </td>
+                </tr>
+                <%  gcount++;}
+                    else{
                     for(String g: gender){
                 %>
                 <tr>
@@ -197,7 +224,7 @@
 
                 <%
                         gcount++;
-                    }
+                    }   }
                 %>
 
     </table>
