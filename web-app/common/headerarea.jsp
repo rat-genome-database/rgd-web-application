@@ -36,7 +36,7 @@
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/browse/axios@1.1.0/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/rgdweb/js/webFeedback.js" defer></script>
@@ -209,6 +209,7 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
+                                            <a href="/vcmap">Synteny Browser (VCMap)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
@@ -222,7 +223,6 @@
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
 <%--                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>--%>
 <%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
-                                            <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
