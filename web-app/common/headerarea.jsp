@@ -209,7 +209,7 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
-                                            <a href="/vcmap">Synteny Browser (VCMap)</a>
+                                            <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
