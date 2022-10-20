@@ -2,6 +2,7 @@ package edu.mcw.rgd.edit;
 
 
 import edu.mcw.rgd.process.FileDownloader;
+import edu.mcw.rgd.web.RgdContext;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -11,39 +12,50 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
+
+import static edu.mcw.rgd.web.RgdContext.getGitHubProperties;
 
 
 public class CurationLoginController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         if (request.getParameter("code") != null) {
             String accessToken = getAccessToken(request.getParameter("code"));
             request.setAttribute("accessToken",accessToken);
+
             if(checkAccess(accessToken)) {
-                return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
+
+                return new ModelAndView("redirect:"+ RgdContext.getHostname()+"/rgdweb/curation/home.html?accessToken=" + accessToken);
             }
             else {
                 response.addHeader("Cache-Control","max-age=5, must-revalidate");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
-                response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+                response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
                 return null;
             }
 
         } else {
             response.addHeader("Cache-Control","max-age=5, must-revalidate");
             response.setHeader("Access-Control-Allow-Credentials", "true");
-             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+            response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
              return null;
         }
 
     }
+
     private String getAccessToken(String code) throws Exception {
         FileDownloader downloader = new FileDownloader();
-        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id=dc5513384190f8a788e5&client_secret=804a3b439b9babe0aa865aa94e7953e4f976914a&code="+code);
+        Properties properties=getGitHubProperties();
+        Object clientId=properties.get("CLIENT_ID");
+        Object clientSecret=properties.get("CLIENT_SECRET");
+        System.out.println("CLIENT_ID"+clientId );
+        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&redirect-uri="+RgdContext.getGithubOauthRedirectUrl());
         downloader.setLocalFile(null);
 
         String token =downloader.download();

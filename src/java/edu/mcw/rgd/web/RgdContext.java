@@ -4,8 +4,11 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.
@@ -163,5 +166,37 @@ public class RgdContext {
             return null;
         }
         return index+"_dev";
+    }
+    public static String getGithubOauthRedirectUrl(){
+        Properties properties=getGitHubProperties();
+        Object clientId=properties.get("CLIENT_ID");
+        String url="https://github.com/login/oauth/authorize?client_id="+clientId+"&scope=user&redirect_uri=";
+        String page="/rgdweb/curation/login.html";
+        return url+getHostname()+page;
+    }
+    public static String getHostname(){
+        return "http://127.0.0.1:8080";
+    }
+    public static Properties getGitHubProperties(){
+        Properties props= new Properties();
+        FileInputStream fis=null;
+
+
+        try{
+
+              fis=new FileInputStream("/data/properties/github-oauth.properties");
+            props.load(fis);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            if (fis != null) {
+                fis.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return props;
     }
 }

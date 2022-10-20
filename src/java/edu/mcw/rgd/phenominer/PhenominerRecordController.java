@@ -9,6 +9,7 @@ import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.process.pheno.SearchBean;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,8 @@ public class PhenominerRecordController extends PhenominerController {
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
                 String accessToken = request.getCookies()[0].getValue();
                 if(!checkToken(accessToken)) {
-                    response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+                 //   response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+                  response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
                     return null;
                 }
             }

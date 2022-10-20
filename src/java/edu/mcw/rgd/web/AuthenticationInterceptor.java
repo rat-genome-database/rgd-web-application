@@ -47,7 +47,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
         else {
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+           // response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+           response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
             return false;
         }
     }

@@ -3,6 +3,7 @@ package edu.mcw.rgd.edit;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.process.FileDownloader;
+import edu.mcw.rgd.web.RgdContext;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -97,7 +98,8 @@ public abstract class EditObjectController implements Controller {
         }
 
    if(!checkToken(accessToken)) {
-      response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+    //  response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+    response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
         return null;
    }
     if(geneType!=null)
