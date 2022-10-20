@@ -36,7 +36,7 @@
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://unpkg.com/browse/axios@1.1.0/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/rgdweb/js/webFeedback.js" defer></script>
