@@ -30,6 +30,7 @@ public class TermEditObjectController implements Controller {
         String synTabMsg = ""; // custom message for synonym table
         String dagTabMsg = ""; // custom message for dag table
         String xrefTabMsg = ""; // custom message for xref table
+        String statusMsg = null; // custom message for xref table
 
         // delete this term
         String formDelete = Utils.defaultString(request.getParameter("form_delete"));
@@ -48,11 +49,8 @@ public class TermEditObjectController implements Controller {
         if( !Utils.isStringEmpty(formObsolete) ) {
             // obsolete the term
             term = obsoleteTerm(termAcc);
-
-            ModelAndView mv = new ModelAndView("/WEB-INF/jsp/curation/edit/editTerm.jsp");
-            mv.addObject("term", term);
-            mv.addObject("statusMsg", "OK! Term "+termAcc+" ["+term.getTerm()+"] has been obsoleted!");
-            return mv;
+            statusMsg = "OK! Term "+termAcc+" ["+term.getTerm()+"] has been obsoleted!";
+            action = "update";
         }
 
         OntologyXDAO odao = new OntologyXDAO();
@@ -132,6 +130,9 @@ public class TermEditObjectController implements Controller {
         mv.addObject("dags", parentEdges);
         mv.addObject("dagTabMsg", dagTabMsg);
         mv.addObject("xrefTabMsg", xrefTabMsg);
+        if( statusMsg!=null ) {
+            mv.addObject("statusMsg", statusMsg);
+        }
         return mv;
     }
 
