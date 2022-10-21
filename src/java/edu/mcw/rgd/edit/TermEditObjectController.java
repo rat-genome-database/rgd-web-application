@@ -43,6 +43,18 @@ public class TermEditObjectController implements Controller {
             return mv;
         }
 
+        // obsolete this term
+        String formObsolete = Utils.defaultString(request.getParameter("form_obsolete"));
+        if( !Utils.isStringEmpty(formObsolete) ) {
+            // obsolete the term
+            term = obsoleteTerm(termAcc);
+
+            ModelAndView mv = new ModelAndView("/WEB-INF/jsp/curation/edit/editTerm.jsp");
+            mv.addObject("term", term);
+            mv.addObject("statusMsg", "OK! Term "+termAcc+" ["+term.getTerm()+"] has been obsoleted!");
+            return mv;
+        }
+
         OntologyXDAO odao = new OntologyXDAO();
 
         List<TermSynonym> synonyms = Collections.emptyList();
@@ -547,6 +559,30 @@ public class TermEditObjectController implements Controller {
         String sql = "DELETE FROM ont_terms WHERE term_acc=?";
         dao.update(sql, termAcc);
 
+        return term;
+    }
+
+    Term obsoleteTerm(String termAcc) throws Exception {
+
+        OntologyXDAO dao = new OntologyXDAO();
+
+        // the term must not have any parent/child relationships
+        if( dao.getCountOfAncestors(termAcc)!=0 || dao.getCountOfDescendants(termAcc)!=0 ) {
+            throw new Exception("Cannot obsolete a term "+termAcc+" having relationships!");
+        }
+
+        Term term = dao.getTermByAccId(termAcc);
+
+        if( term.isObsolete() ) {
+            throw new Exception("Cannot obsolete a term "+termAcc+" because it is already obsolete!");
+        }
+
+        // obsolete the term
+        String sql = "UPDATE ont_terms SET is_obsolete=4,modification_date=SYSDATE WHERE term_acc=?";
+        dao.update(sql, termAcc);
+
+        term.setObsolete(4);
+        term.setModificationDate(new Date());
         return term;
     }
 
