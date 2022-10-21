@@ -32,10 +32,45 @@
             return false;
 
         });
+
+        $(".filter-list ul").each(function () {
+            var liCount = $(this).children("li").length;
+            if (liCount > 5) {
+                $(this).next(".moremaps").addClass("showMe");
+            }
+        });
+
+        $(".moremaps").click(function () {
+            $(this).prev("ul").find("li").toggleClass("showList");
+            $(this).text(this.innerHTML.includes("more") ? "See less..." : "See more...");
+        });
+
     })
 
 </script>
+<style>
+    .filter-list ul li:nth-child(n + 2) {
+        display: none;
+    }
+    .filter-list ul li.showList:nth-child(n + 2) {
+        display: list-item;
+    }
+    .filter-list label.moremaps {
+        color: #f86843;
+        font-weight: 600;
+        font-style: oblique;
+        display: none;
+    }
+    .filter-list label.moremaps.showMe {
+        display: block;
+    }
+    .filter-list .moremaps {
+        cursor: pointer;
+    }
 
+
+
+</style>
 <table width="100%">
 
 <tr><td>
@@ -416,16 +451,19 @@
                         <td>Var_Nucleotide</td-->
 
                     </td>
-                    <td > <!-- LOCATION--->
-                        <ul style="margin-left: 0">
-                        <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="chrMap">
-                            <li style="margin: 0;padding:0"><b>(${chrMap.map})</b>&nbsp;${chrMap.chromosome}<b>:</b>&nbsp;${chrMap.startPos}-${chrMap.stopPos}
+                    <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+                        <div class="filter-list">
+                        <ul style="margin-left: 0" class="map-ul">
+                        <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                            <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
                                    <c:if test="${hit.getSourceAsMap().refNuc!=null}">
                                     ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
                                    </c:if>
                             </li>
                     </c:forEach>
                         </ul>
+                        <label class="moremaps" style="padding-left:10px">See more...</label>
+                            </div>
                         <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().citation,t )} </span>
                         </c:if>
