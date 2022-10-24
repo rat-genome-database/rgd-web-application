@@ -67,7 +67,12 @@
             </tr>
             <tr>
                 <td>
-                    <a v-bind:href="'/rgdweb/curation/expression/experiments.html?token='+token+'&login='+name">Edit Expressions</a>
+                    <a v-bind:href="'/rgdweb/curation/expression/experiments.html?token='+token+'&login='+name">Edit GEO Expressions</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a v-bind:href="'/rgdweb/curation/expression/editSamples.html?token='+token+'&login='+name">Edit Phenominer Sample by ID</a>
                 </td>
             </tr>
             <tr valign="top">

@@ -242,3 +242,4 @@
 
 </body>
 </html>
+<%@ include file="/common/footerarea.jsp"%>

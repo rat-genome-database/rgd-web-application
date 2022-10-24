@@ -138,18 +138,21 @@
 
       int count = 0;
      for(GeoRecord s: samples){
+         Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
+         if (sample == null)
+             sample = new Sample();
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
-             {
-                 try{
-                 Set<String> keys = ageHigh.keySet();
-                 if (keys.isEmpty())
-                     keys = ageLow.keySet();
-                     s.setSampleAge(keys.iterator().next());
-                 }
-                 catch (Exception e){
-
-                 }
+         {
+             try{
+             Set<String> keys = ageHigh.keySet();
+             if (keys.isEmpty())
+                 keys = ageLow.keySet();
+             s.setSampleAge(keys.iterator().next());
              }
+             catch (Exception e){
+
+             }
+         }
          if (!gender.isEmpty() && s.getSampleGender()==null){
 try{
     Set<String> gKeys = gender.keySet();
@@ -157,11 +160,6 @@ try{
 }
 catch (Exception e){}
          }
-//         Sample sample = pdao.getSampleByGeoId(s.getGeoAccessionId());
-//         if (sample.getLifeStage()==null){
-//             sample.setLifeStage(lifeStage.get(s.getSampleAge()));
-//         }
-
   %>
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
@@ -176,9 +174,9 @@ catch (Exception e){}
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
-                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
-                <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=Objects.toString(lifeStage.get(s.getSampleAge()) )%>"></td>
+                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(sample.getAgeDaysFromLowBound() != null) ?  sample.getAgeDaysFromLowBound():Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=(sample.getAgeDaysFromHighBound() != null) ?  sample.getAgeDaysFromHighBound():Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
 
             </tr>
 
@@ -198,3 +196,4 @@ catch (Exception e){}
 
 </body>
 </html>
+<%@ include file="/common/footerarea.jsp"%>
