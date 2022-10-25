@@ -149,6 +149,16 @@
                      .append(syn.getName().substring(7))
                      .append("\" title=\"view term at ICD-9\">").append(syn.getName()).append("</a>");
               }
+              else if( syn.getName().startsWith("EFO:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(93).getUrl())
+                     .append("EFO_").append(syn.getName().substring(4))
+                     .append("\" title=\"view term at EBI\">").append(syn.getName()).append("</a>");
+              }
+              else if( syn.getName().startsWith("MONDO:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(145).getUrl())
+                     .append("MONDO_").append(syn.getName().substring(6))
+                     .append("\" title=\"view term at EBI\">").append(syn.getName()).append("</a>");
+              }
 
               // link outs to strain report pages for rat strain ontology terms having assigned rgd ids
               else if( syn.getName().startsWith("RGD ID:") ) {
