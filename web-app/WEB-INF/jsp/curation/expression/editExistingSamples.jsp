@@ -24,8 +24,8 @@
             <th>Tissue ID: </th>
             <th>GEO Sample:</th>
             <th>Sex: </th>
-            <th>Age Low: </th>
-            <th>Age High: </th>
+            <th>Age (in days) Low: </th>
+            <th>Age (in days) High: </th>
             <th>Life Stage:</th>
         </tr>
         <%  int cnt = 0;

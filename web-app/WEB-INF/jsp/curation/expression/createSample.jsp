@@ -129,8 +129,8 @@
                 <th>Tissue: </th>
                 <th>Sex: </th>
                 <th>Age: </th>
-                <th>Age Low: </th>
-                <th>Age High: </th>
+                <th>Age (in days) Low: </th>
+                <th>Age (in days) High: </th>
                 <th>Life Stage:</th>
             </tr>
                 <%

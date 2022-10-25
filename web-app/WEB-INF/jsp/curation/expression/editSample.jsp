@@ -178,8 +178,8 @@
                     if (ages.isEmpty()){%>
                 <tr>
                     <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in Days): &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" ></td>
-                    <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
-                    <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+                    <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                    <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
                     <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
                 </tr>
                 <%ageCount++;}
@@ -188,8 +188,8 @@
                 %>
             <tr>
                 <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in Days): &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
-                <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
-                <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
+                <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
+                <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
                 <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
             </tr>
 

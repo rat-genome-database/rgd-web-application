@@ -72,7 +72,10 @@ public class SampleEditController implements Controller {
         }
         String id = request.getParameter("sampleSearch");
         String geoId = request.getParameter("gse");
-        if (Utils.isStringEmpty(id) && Utils.isStringEmpty(geoId)){
+        String studyExper = request.getParameter("studyExperBtn");
+        String studyExperID = request.getParameter("studyExperSearch");
+
+        if (Utils.isStringEmpty(id) && Utils.isStringEmpty(geoId) && Utils.isStringEmpty(studyExperID)){
             return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "searchSample.jsp");
         }
         if (!Utils.isStringEmpty(id)) {
@@ -86,6 +89,22 @@ public class SampleEditController implements Controller {
                 return new ModelAndView("/WEB-INF/jsp/curation/expression/editExistingSamples.jsp");
             } catch (Exception ignore) {
                 error.add("Invalid sample! " + ignore.getMessage());
+            }
+        }
+        if (!Utils.isStringEmpty(studyExperID) && !Utils.isStringEmpty(studyExper)){
+            try {
+                if (studyExper.equals("Study")) {
+                    List<Sample> studySamples =pdao.getSamplesByStudyId(Integer.parseInt(studyExperID));
+                    request.setAttribute("samples", studySamples);
+                    return new ModelAndView("/WEB-INF/jsp/curation/expression/editExistingSamples.jsp");
+                } else if (studyExper.equals("Experiment")) {
+                    List<Sample> experimentSamples =pdao.getSamplesByExperimentId(Integer.parseInt(studyExperID));
+                    request.setAttribute("samples", experimentSamples);
+                    return new ModelAndView("/WEB-INF/jsp/curation/expression/editExistingSamples.jsp");
+                }
+            }
+            catch (Exception e){
+                error.add("Study or Experiment ID! "+e.getMessage());
             }
         }
         if (!Utils.isStringEmpty(geoId)){

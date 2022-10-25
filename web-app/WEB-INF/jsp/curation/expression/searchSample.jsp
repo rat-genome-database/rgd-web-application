@@ -22,7 +22,27 @@
             </tr>
         </table>
     </form>
-
+<hr>
+    <form action="editSamples.html" method="post">
+        <table>
+            <tr>
+                <td>Insert Study ID or Experiment ID</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="studyExperBtn" id="Study" value="Study">&nbsp;<label>Study ID</label>
+                </td>
+                <td>
+                    <input type="radio" name="studyExperBtn" id="Experiment" value="Experiment">&nbsp;<label>Experiment ID</label>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="text" id="studyExperSearch" name="studyExperSearch"></td>
+                <td><button type="submit">Search</button></td>
+            </tr>
+        </table>
+    </form>
+<hr>
     <form action="editSamples.html" method="get">
         <table>
             <tr><td><label>Geo ID search</label></td></tr>
