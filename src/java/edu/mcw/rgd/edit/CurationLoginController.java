@@ -55,7 +55,7 @@ public class CurationLoginController implements Controller {
         Object clientId=properties.get("CLIENT_ID");
         Object clientSecret=properties.get("CLIENT_SECRET");
         System.out.println("CLIENT_ID"+clientId );
-        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&redirect-uri="+RgdContext.getGithubOauthRedirectUrl());
+        downloader.setExternalFile("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code);
         downloader.setLocalFile(null);
 
         String token =downloader.download();

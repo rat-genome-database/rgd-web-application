@@ -171,11 +171,28 @@ public class RgdContext {
         Properties properties=getGitHubProperties();
         Object clientId=properties.get("CLIENT_ID");
         String url="https://github.com/login/oauth/authorize?client_id="+clientId+"&scope=user&redirect_uri=";
+        String redirectURI="https://pipelines.rgd.mcw.edu";
         String page="/rgdweb/curation/login.html";
-        return url+getHostname()+page;
+        return url+redirectURI+page;
     }
     public static String getHostname(){
-        return "http://127.0.0.1:8080";
+        try {
+            if( isProduction() ) {
+                return "https://rgd.mcw.edu";
+            }
+            if( isPipelines() ) {
+                return "https://pipelines.rgd.mcw.edu";
+            }
+            if( isDev() ) {
+                return "https://dev.rgd.mcw.edu";
+            }
+
+        } catch( UnknownHostException e ) {
+            return null;
+        }
+        return "http://localhost:8080";
+
+      //  return "http://127.0.0.1:8080";
     }
     public static Properties getGitHubProperties(){
         Properties props= new Properties();
@@ -183,8 +200,8 @@ public class RgdContext {
 
 
         try{
-
-              fis=new FileInputStream("/data/properties/github-oauth.properties");
+            fis=new FileInputStream("C:/Apps/github-oauth.properties");
+             // fis=new FileInputStream("/data/properties/github-oauth.properties");
             props.load(fis);
 
         }catch (Exception e){
