@@ -164,15 +164,15 @@ catch (Exception e){}
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
+                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
-                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
-                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>"> </td>
+                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
-                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
+                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=!Utils.isStringEmpty(sample.getSex())? sample.getSex():Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(sample.getAgeDaysFromLowBound() != null) ?  sample.getAgeDaysFromLowBound():Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=(sample.getAgeDaysFromHighBound() != null) ?  sample.getAgeDaysFromHighBound():Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>

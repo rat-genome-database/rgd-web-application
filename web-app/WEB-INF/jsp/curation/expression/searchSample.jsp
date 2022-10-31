@@ -37,7 +37,7 @@
                 </td>
             </tr>
             <tr>
-                <td><input type="text" id="studyExperSearch" name="studyExperSearch"></td>
+                <td><input type="text" id="studyExperSearch" name="studyExperSearch" required></td>
                 <td><button type="submit">Search</button></td>
             </tr>
         </table>
