@@ -171,8 +171,9 @@ public class ElasticSearchController implements Controller {
            /*  if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
                    sr = service.getSearchResponse(request, term, sb);
                 }else{*/
+                if(sb.isRedirect()) {
                     sr = service.getSearchResponse(request, term, sb);
-           //     }
+
             //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
                     TotalHits hits=sr.getHits().getTotalHits();
@@ -181,7 +182,7 @@ public class ElasticSearchController implements Controller {
                         else return null;
                     }
                     return null;
-                }
+                }}
 
         }catch (Exception e){
 
