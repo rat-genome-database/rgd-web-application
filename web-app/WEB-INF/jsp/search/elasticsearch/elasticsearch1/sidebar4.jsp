@@ -505,13 +505,22 @@
          </ul>
          </li>
          <li><span style="font-weight: bold;color:#24609c">Assembly</span>
-             <ul>
+             <!--ul>
                  <c:forEach items="${model.aggregations.assembly}"  var="item">
                      <li  onclick="filterClick('', '','','','', '${item.key}')">${item.key}&nbsp;(${item.docCount})</li>
                  </c:forEach>
 
-             </ul>
+             </ul-->
+             <ul>
+                 <c:forEach items="${model.assemblyMapsByRank}"  var="item">
+                    <c:forEach items="${model.aggregations.assembly}" var="map">
+                        <c:if test="${map.key==item.value}">
+                     <li  onclick="filterClick('', '','','','', '${map.key}')">${map.key}&nbsp;(${map.docCount})</li>
+                        </c:if>
+                    </c:forEach>
+                 </c:forEach>
 
+             </ul>
 
          </li>
          </ul>

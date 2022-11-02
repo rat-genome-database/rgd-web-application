@@ -1,8 +1,10 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
+import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SearchLog;
 import edu.mcw.rgd.datamodel.SpeciesType;
@@ -28,6 +30,21 @@ import java.util.*;
  * Created by jthota on 2/22/2017.
  */
 public class ElasticSearchController implements Controller {
+
+    static  java.util.Map<Integer, String> maps=new LinkedHashMap<>();
+    static {
+        MapDAO mapDAO=new MapDAO();
+        try {
+            List<Map> mapList=mapDAO.getActiveMapsByRankASC();
+            java.util.Map<Integer, String> rgdMaps=new LinkedHashMap<>();
+            for(Map m:mapList){
+              rgdMaps.put( m.getRank(),m.getDescription());
+            }
+            maps= Collections.unmodifiableMap(rgdMaps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -95,6 +112,7 @@ public class ElasticSearchController implements Controller {
             }
 
             model.addAttribute("assemblyMaps", assemblyMaps);
+                model.addAttribute("assemblyMapsByRank", maps);
             model.addAttribute("defaultAssembly", assembly);
             model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
             model.addAttribute("totalPages", totalPages);
