@@ -169,9 +169,9 @@ public class RgdContext {
     }
     public static String getGithubOauthRedirectUrl(){
         Properties properties=getGitHubProperties();
-        Object clientId=properties.get("CLIENT_ID");
+        Object clientId=properties.getProperty("CLIENT_ID");
         String url="https://github.com/login/oauth/authorize?client_id="+clientId+"&scope=user&redirect_uri=";
-        String redirectURI="https://pipelines.rgd.mcw.edu";
+        String redirectURI="'https://pipelines.rgd.mcw.edu'";
         String page="/rgdweb/curation/login.html";
         return url+redirectURI+page;
     }
@@ -200,8 +200,8 @@ public class RgdContext {
 
 
         try{
-            fis=new FileInputStream("C:/Apps/github-oauth.properties");
-             // fis=new FileInputStream("/data/properties/github-oauth.properties");
+          //  fis=new FileInputStream("C:/Apps/github-oauth.properties");
+             fis=new FileInputStream("/data/properties/github-oauth.properties");
             props.load(fis);
 
         }catch (Exception e){
