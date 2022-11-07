@@ -25,7 +25,7 @@
                 <td>${s.submittedStrainKey}</td>
                 <td><a href="/rgdweb/report/gene/main.html?id=${s.geneRgdId}" title="RGD Gene Report" target="_blank">${s.geneSymbol}</a></td>
                 <td><a href="/rgdweb/report/gene/main.html?id=${s.alleleRgdId}" title="RGD Allele Report" target="_blank">${s.alleleSymbol}</a></td>
-                <td><a href="/rgdweb/report/strain/main.html?id=${s.strainRgdId}" title="RGD Gene Report"target="_blank">${s.strainSymbol}</a></td>
+                <td><a href="/rgdweb/report/strain/main.html?id=${s.strainRgdId}" title="RGD Strain Report" target="_blank">${s.strainSymbol}</a></td>
                 <td>${s.displayStatus}</td>
                 <td>${s.source}</td>
                 <td>${s.last_updated_date}</td>
