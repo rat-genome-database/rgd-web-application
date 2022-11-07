@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
+<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script>
+    let jq = jQuery.noConflict(true);
+</script>
 <html>
 <body style="background-color: white">
 <style>
@@ -43,6 +48,7 @@
     }
 
 </style>
+
 <%
 
     String pageTitle = "Create Geo Sample";
@@ -79,8 +85,26 @@
             cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
 
     }
+    int size = 0;
+    String idName = "";
 %>
+<script>
 
+    (function ($) {
+
+        $(document).ready(function(){
+
+            <% String ontId = "uberon"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+            <% ontId = "cl"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+            <% ontId = "rs"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+        });
+
+    }(jq));
+
+</script>
 
 <br>
 <div>
@@ -122,25 +146,64 @@
 
             <%
       int tcount = 0;
+if (tissueMap.isEmpty()){ %>
+                <tr>
+                    <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="None imported!" readonly></td>
+                    <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
+                        <input type="hidden" id="uberon_term" name="<%=ontId%>_term" value=""/>
+                        <a href="" id="uberon_popup<%=tcount%>" style="color:black;">Ont Tree</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
-     for(String tissue: tissueMap.keySet()){
+ <%tcount++;}
+   else {  for(String tissue: tissueMap.keySet()){
   %>
             <tr>
                 <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
-                <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
+                <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+<%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>" value="" onblur="lostFocus('uberon')">
+                    <input type="hidden" id="uberon_term" name="<%=ontId%>_term" value=""/>
+                    <a href="" id="uberon_popup<%=tcount%>" style="color:black;">Ont Tree</a>
+                </td>
                 <td></td>
                 <td></td>
             </tr>
 
-        <%
-      tcount++;
+        <%tcount++;}
+
       }
                     int scount = 0;
-                    for(String strain: strainMap.keySet()){
+        if (strainMap.isEmpty()){%>
+                <tr>
+                    <td><label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="No strains imported!" readonly></td>
+                    <td>
+                        <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
+<%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
+                        <input type="text" name="strainId<%=scount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('rs')">
+                        <input type="hidden" id="rs_term" name="<%=ontId%>_term" value=""/>
+                        <a href="" id="rs_popup<%=scount%>" style="color:black;">Ont Tree</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+<% scount++;}
+   else {
+          for(String strain: strainMap.keySet()){
                 %>
             <tr>
                 <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
-                <td><label for="strainId<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
+                <td>
+                                            <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
+<%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
+                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value=""  value="" onblur="lostFocus('rs')">
+                    <input type="hidden" id="rs_term" name="<%=ontId%>_term" value=""/>
+                    <a href="" id="rs_popup<%=scount%>" style="color:black;">Ont Tree</a>
+                </td>
                 <td></td>
                 <td></td>
             </tr>
@@ -148,8 +211,18 @@
         <%
                     scount++;
                 }
+            }
             int clcount = 0;
-            for(String cellLine: cellLineMap.keySet()){
+   if (cellLineMap.isEmpty()) { %>
+                <tr>
+                    <td><label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label><input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="" readonly></td>
+                    <td><label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label><input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value=""> </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%clcount++;
+   }
+      else for(String cellLine: cellLineMap.keySet()){
         %>
                 <tr>
                     <td><label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label><input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="<%=cellLine%>" readonly></td>
@@ -158,21 +231,38 @@
                     <td></td>
                 </tr>
 
-                <%
-                        clcount++;
+                <%    clcount++;
                     }
                     int cTcount = 0;
-                    for(String cellType: cellTypeMap.keySet()){
-                %>
+                    if (cellTypeMap.isEmpty()) {%>
                 <tr>
-                    <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" readonly></td>
-                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label><input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=cellTypeMap.get(cellType)%>"> </td>
+                    <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="No cell types imported!" readonly></td>
+                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+<%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
+                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
+                        <input type="hidden" id="cl_term" name="cl_term" value=""/>
+                        <a href="" id="cl_popup<%=cTcount%>" style="color:black;">Ont Tree</a>
+                    </td>
                     <td></td>
                     <td></td>
                 </tr>
+                <%   cTcount++;
+                    }
+                else for(String cellType: cellTypeMap.keySet()){
+                %>
+                <tr>
+                    <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" readonly></td>
+                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+                        <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
+                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
+                        <input type="hidden" id="cl_term" name="cl_term" value=""/>
+                        <a href="" id="cl_popup<%=cTcount%>" style="color:black;">Ont Tree</a>
+                    </td>
+                    <td></td>
+                </tr>
 
-                <%
-                        cTcount++;
+
+                <%   cTcount++;
                     }
                   int ageCount = 0;
                     if (ages.isEmpty()){%>
@@ -203,7 +293,7 @@
                     <td><label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label><select name="sex<%=gcount%>" id="sex<%=gcount%>">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="mixed">Mixed</option>
+                        <option value="both">Both</option>
                         <option value="not specified" selected>Not Specified</option>
                     </select>
                     </td>
@@ -217,7 +307,7 @@
                     <td><label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label><select name="sex<%=gcount%>" id="sex<%=gcount%>">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="mixed">Mixed</option>
+                        <option value="both">Both</option>
                         <option value="not specified">Not Specified</option>
                     </select></td>
                  </tr>
@@ -228,6 +318,9 @@
                 %>
 
     </table>
+<%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
+<%--            <input type="hidden" id="<%=ontId%>_term" name="<%=ontId%>_term" value=""/>--%>
+<%--            <a href="" id="<%=ontId%>_popup" style="color:black;">Ont Tree</a>--%>
     <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
             <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
     <input type="hidden" id="scount" name="scount" value="<%=scount%>" />

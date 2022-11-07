@@ -8,6 +8,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -18,6 +19,9 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
 <html>
+
+<script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
+<link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 <body style="background-color: white">
 <style>
     .t{
@@ -47,6 +51,7 @@
     }
 
 </style>
+
 <%
 
     String pageTitle = "Create Geo Sample";
@@ -117,21 +122,21 @@
             if(samples.size() != 0) {
         %>
             <tr>
-                <th>Sample ID: </th>
+                <th>GEO Sample ID: </th>
                 <th>Sample Organism</th>
-                <th>Strain ID: </th>
-                <th>Strain: </th>
-                <th>Cell Type ID: </th>
-                <th>Cell Type: </th>
-                <th>Cell Line ID: </th>
-                <th>Cell Line: </th>
-                <th>Tissue ID: </th>
-                <th>Tissue: </th>
-                <th>Sex: </th>
-                <th>Age: </th>
-                <th>Age (in days) Low: </th>
-                <th>Age (in days) High: </th>
-                <th>Life Stage:</th>
+                <th>Strain ID (SAMPLE): </th>
+                <th>Strain (RNA_SEQ): </th>
+                <th>Cell Type ID (SAMPLE): </th>
+                <th>Cell Type (RNA_SEQ): </th>
+                <th>Cell Line ID (SAMPLE): </th>
+                <th>Cell Line (RNA_SEQ): </th>
+                <th>Tissue ID (SAMPLE): </th>
+                <th>Tissue (RNA_SEQ): </th>
+                <th>Sex (SAMPLE): </th>
+                <th>Age (RNA_SEQ): </th>
+                <th>Age (in days) Low (SAMPLE): </th>
+                <th>Age (in days) High (SAMPLE): </th>
+                <th>Life Stage (SAMPLE):</th>
             </tr>
                 <%
             }
@@ -170,9 +175,18 @@ catch (Exception e){}
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
                 <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
-                <td><input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>"> </td>
+                <td>
+                    <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
+                </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
-                <td><input type="text" name="sex<%=count%>" id="sex<%=count%>" value="<%=!Utils.isStringEmpty(sample.getSex())? sample.getSex():Objects.toString(gender.get(s.getSampleGender()),"not specified")%>"> </td>
+                <td>
+                    <select name="sex<%=count%>" id="sex<%=count%>">
+                        <option value="male" <%=Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
+                        <option value="female" <%=Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ? "selected":""%>>Female</option>
+                        <option value="both" <%=Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ? "selected":""%>>both</option>
+                        <option value="not specified" <%=Utils.stringsAreEqual(sample.getSex(),"not specified") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ? "selected":""%>>Not Specified</option>
+                    </select>
+                </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(sample.getAgeDaysFromLowBound() != null) ?  sample.getAgeDaysFromLowBound():Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=(sample.getAgeDaysFromHighBound() != null) ?  sample.getAgeDaysFromHighBound():Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
@@ -184,7 +198,6 @@ catch (Exception e){}
       count++;
       }
   %>
-
     </table>
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />
