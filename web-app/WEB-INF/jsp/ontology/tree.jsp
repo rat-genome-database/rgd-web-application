@@ -128,6 +128,10 @@
               <a href="<%=XDBIndex.getInstance().getXDB(129).getUrl()%><%=syn.getName().substring(8)%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("ICD9CM:") ) { %>
               <a href="<%=XDBIndex.getInstance().getXDB(130).getUrl()%><%=syn.getName().substring(7)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("MONDO:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(145).getUrl()%>MONDO_<%=syn.getName().substring(6)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("EFO:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(93).getUrl()%>EFO_<%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
           <% } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
