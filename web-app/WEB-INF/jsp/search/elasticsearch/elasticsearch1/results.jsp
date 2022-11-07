@@ -454,13 +454,26 @@
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
                         <ul style="margin-left: 0" class="map-ul">
-                        <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
-                            <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
-                                   <c:if test="${hit.getSourceAsMap().refNuc!=null}">
-                                    ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
-                                   </c:if>
-                            </li>
-                    </c:forEach>
+                            <c:if test="${model.defaultAssembly!=null}">
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                    <c:if test="${model.defaultAssembly==mapData.map}">
+                                        <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
+                                            <c:if test="${hit.getSourceAsMap().refNuc!=null}">
+                                                ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
+                                            </c:if>
+                                        </li>
+                                    </c:if >
+                                </c:forEach>
+                            </c:if>
+                            <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                <c:if test="${model.defaultAssembly!=mapData.map}">
+                                    <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
+                                        <c:if test="${hit.getSourceAsMap().refNuc!=null}">
+                                            ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
+                                        </c:if>
+                                    </li>
+                                </c:if >
+                            </c:forEach>
                         </ul>
                         <label class="moremaps" style="padding-left:10px">See more...</label>
                             </div>
