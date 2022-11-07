@@ -46,6 +46,7 @@
 				<prop key="search/searchByPosition.html">searchByPosController</prop>
 				
 				<prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
+				<prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
@@ -230,6 +231,7 @@
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
     <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
