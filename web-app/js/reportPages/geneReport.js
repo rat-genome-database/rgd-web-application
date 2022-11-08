@@ -138,7 +138,8 @@ function addHeadAndIdToTable(tableDivId, tableNumber){
 }
 
 function addClassAndId(table, className, idName){
-    table.className = className;
+    if (!table.className.startsWith(className))
+        table.className = className + ' '+table.className;
     table.id = idName;
 }
 
