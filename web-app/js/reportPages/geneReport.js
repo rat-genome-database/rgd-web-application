@@ -138,7 +138,7 @@ function addHeadAndIdToTable(tableDivId, tableNumber){
 }
 
 function addClassAndId(table, className, idName){
-    table.className = className;
+    // table.className = className;
     table.id = idName;
 }
 
