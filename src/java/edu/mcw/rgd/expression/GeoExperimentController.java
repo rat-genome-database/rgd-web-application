@@ -54,6 +54,7 @@ public class GeoExperimentController implements Controller {
                     header.append("Age High");
                     header.append("Age Low");
                     header.append("Sex");
+                    header.append("Life Stage");
                     r.append(header);
                 for (int i = 0; i < count; i++) {
                     Sample s = new Sample();
@@ -93,6 +94,7 @@ public class GeoExperimentController implements Controller {
                     rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
                     rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
                     rec.append(s.getSex());
+                    rec.append(s.getLifeStage());
                     r.append(rec);
                 }
 
