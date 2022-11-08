@@ -24,12 +24,14 @@
                 return;
             }
         }
-        <%=ontId%>_popup<%=i%>_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=<%=ontId.toUpperCase()%>&sel_term=<%=ontId%>_term&sel_acc_id=<%=idName+i%>&term=&curationTool=1"
-               +document.getElementById("<%=ontId%>_term").value,
+        <%=ontId%>_popup<%=i%>_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=<%=ontId.toUpperCase()%>&sel_term=<%=ontId%>_term<%=i%>&sel_acc_id=<%=idName+i%>&curationTool=1&acc_id="
+               +document.getElementById("<%=idName+i%>").value,
                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
         return false;
     });
-
+<%--    $('#<%=ontId%>_term<%=i%>').result(function(data, value){--%>
+<%--    document.getElementById("<%=idName+i%>").value= value[1];--%>
+<%--    });--%>
 <% } %>
 
 <%--    $("input[name='<%=ontId%>_term']").autocomplete('/OntoSolr/select', {--%>
@@ -45,20 +47,3 @@
 <%--      'termSeparator': ' OR '--%>
 <%--    }--%>
 <%--    );--%>
-
-<%--    $("#<%=ontId%>_popup").click(function(){--%>
-<%--        if( <%=ontId%>_popup_wnd!=null ) {--%>
-<%--            if( !<%=ontId%>_popup_wnd.closed ) {--%>
-<%--                <%=ontId%>_popup_wnd.focus();--%>
-<%--                return;--%>
-<%--            }--%>
-<%--        }--%>
-<%--        <%=ontId%>_popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=<%=ontId.toUpperCase()%>&sel_term=<%=ontId%>_term&sel_acc_id=<%=ontId%>_acc_id&term="--%>
-<%--            +document.getElementById("<%=ontId%>_term").value,--%>
-<%--            '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");--%>
-<%--        return false;--%>
-<%--    });--%>
-
-<%--    $('#<%=ontId%>_term').result(function(data, value){--%>
-<%--    document.getElementById("<%=ontId%>_acc_id").value= value[1];--%>
-<%--    });--%>

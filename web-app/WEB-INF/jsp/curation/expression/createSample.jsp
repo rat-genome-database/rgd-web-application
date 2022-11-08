@@ -144,8 +144,7 @@
       int count = 0;
      for(GeoRecord s: samples){
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
-         if (sample == null)
-             sample = new Sample();
+        boolean bool = !(sample.getAgeDaysFromLowBound()==0 && Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound()) );
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
          {
              try{
@@ -188,8 +187,8 @@ catch (Exception e){}
                     </select>
                 </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(sample.getAgeDaysFromLowBound() != null) ?  sample.getAgeDaysFromLowBound():Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
-                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=(sample.getAgeDaysFromHighBound() != null) ?  sample.getAgeDaysFromHighBound():Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(bool) ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
 
             </tr>
