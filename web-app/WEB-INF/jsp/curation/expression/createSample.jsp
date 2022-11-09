@@ -124,27 +124,34 @@
             <tr>
                 <th>GEO Sample ID: </th>
                 <th>Sample Organism</th>
-                <th>Strain ID (SAMPLE): </th>
-                <th>Strain (RNA_SEQ): </th>
-                <th>Cell Type ID (SAMPLE): </th>
-                <th>Cell Type (RNA_SEQ): </th>
-                <th>Cell Line ID (SAMPLE): </th>
-                <th>Cell Line (RNA_SEQ): </th>
-                <th>Tissue ID (SAMPLE): </th>
-                <th>Tissue (RNA_SEQ): </th>
-                <th>Sex (SAMPLE): </th>
-                <th>Age (RNA_SEQ): </th>
-                <th>Age (in days) Low (SAMPLE): </th>
-                <th>Age (in days) High (SAMPLE): </th>
-                <th>Life Stage (SAMPLE):</th>
+                <th>Strain (Source): </th>
+                <th>Strain ID (Curated): </th>
+                <th>Cell Type (Source): </th>
+                <th>Cell Type ID (Curated): </th>
+                <th>Cell Line (Source): </th>
+                <th>Cell Line ID (Curated): </th>
+                <th>Tissue (Source): </th>
+                <th>Tissue ID (Curated): </th>
+                <th>Sex (Curated): </th>
+                <th>Age (Source): </th>
+                <th>Age (in days) Low (Curated): </th>
+                <th>Age (in days) High (Curated): </th>
+                <th>Life Stage (Curated):</th>
             </tr>
                 <%
             }
 
       int count = 0;
      for(GeoRecord s: samples){
+boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
-        boolean bool = !(sample.getAgeDaysFromLowBound()==0 && Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound()) );
+          try{
+         if (sample == null)
+             sample = new Sample();
+         bool = !(sample.getAgeDaysFromLowBound()==0 && ( sample.getAgeDaysFromHighBound()== sample.getAgeDaysFromLowBound() ) );
+        }catch (Exception ignore){
+              // number is null
+        }
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
          {
              try{
@@ -164,20 +171,21 @@ try{
 }
 catch (Exception e){}
          }
+
   %>
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
-                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
                     <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
                 </td>
-                <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
                         <option value="male" <%=Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
@@ -187,7 +195,7 @@ catch (Exception e){}
                     </select>
                 </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(bool) ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=bool ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
 
