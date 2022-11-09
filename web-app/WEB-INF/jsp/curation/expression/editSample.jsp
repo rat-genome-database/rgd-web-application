@@ -184,7 +184,7 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
 <%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
-                        <input type="text" name="strainId<%=scount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('rs')">
+                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" value="" onblur="lostFocus('rs')">
                         <input type="hidden" id="rs_term<%=scount%>" name="rs_term<%=scount%>" value=""/>
                         <a href="" id="rs_popup<%=scount%>" style="color:black;">Ont Tree</a>
                     </td>
@@ -196,7 +196,7 @@ if (tissueMap.isEmpty()){ %>
           for(String strain: strainMap.keySet()){
                 %>
             <tr>
-                <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
+                <td><label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
                 <td>
                                             <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
 <%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
