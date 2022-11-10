@@ -135,10 +135,16 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> gender = new HashMap<>();
                 HashMap<String,String> lifeStage = new HashMap<>();
                 for(int i = 0; i < tcount;i++){
-                    tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
+                    if (request.getParameter("tissue" + i).contains("imported!"))
+                        tissueMap.put(null,request.getParameter("tissueId"+i));
+                    else
+                        tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
                 }
                 for(int i = 0; i < scount;i++){
-                    strainMap.put(request.getParameter("strain" + i),request.getParameter("strainId"+i));
+                    if (request.getParameter("strain" + i).contains("imported!"))
+                        strainMap.put(null,request.getParameter("strainId"+i));
+                    else
+                        strainMap.put(request.getParameter("strain" + i),request.getParameter("strainId"+i));
                 }
                 for(int i = 0; i < ageCount;i++){
                     ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
@@ -146,10 +152,16 @@ public class GeoExperimentController implements Controller {
                     lifeStage.put(request.getParameter("age"+i),request.getParameter("lifeStage"+i));
                 }
                 for(int i = 0; i < ctcount;i++){
-                    cellType.put(request.getParameter("cellType" + i),request.getParameter("cellTypeId"+i));
+                    if (request.getParameter("cellType"+i).contains("imported!"))
+                        cellType.put(null,request.getParameter("cellTypeId"+i));
+                    else
+                        cellType.put(request.getParameter("cellType" + i),request.getParameter("cellTypeId"+i));
                 }
                 for(int i = 0; i < clcount;i++){
-                    cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
+                    if (request.getParameter("cellLine" + i).contains("imported!"))
+                        cellLine.put(null,request.getParameter("cellLineId"+i));
+                    else
+                        cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
                 }
                 for(int i = 0; i < gcount;i++){
                     gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
