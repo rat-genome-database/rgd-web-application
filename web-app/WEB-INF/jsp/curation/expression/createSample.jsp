@@ -51,7 +51,11 @@
     }
 
 </style>
-
+<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script>
+    let jq = jQuery.noConflict(true);
+</script>
 <%
 
     String pageTitle = "Create Geo Sample";
@@ -70,15 +74,37 @@
     PhenominerDAO pdao = new PhenominerDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
+    HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
     HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
+    HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
-    HashMap<String,String> cellType = (HashMap)request.getAttribute("cellType");
+    HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
+    HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
     HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
+    int size = samples.size();
+    String idName = "";
+    boolean createSample = true;
 %>
+<script>
 
+    (function ($) {
+
+        $(document).ready(function(){
+
+            <% String ontId = "uberon"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+            <% ontId = "cl"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+            <% ontId = "rs"; %>
+            <%@ include file="ontPopupConfig.jsp" %>
+        });
+
+    }(jq));
+
+</script>
 
 <br>
 <div>
@@ -177,14 +203,20 @@ catch (Exception e){}
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>"> </td>
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
+                    <br><input type="text" id="rs_term<%=count%>" name="rs_term<%=count%>" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="rs_popup<%=count%>" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
-                <td><input type="text" name="cellId<%=count%>" id="cellId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellType.get(s.getSampleCellType()),"")%>"> </td>
+                <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
+                    <br><input type="text" id="cl_term<%=count%>" name="cl_term<%=count%>" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="cl_popup<%=count%>" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
                 <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
                     <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
+                    <br><input type="text" id="uberon_term<%=count%>" name="uberon_term<%=count%>" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="uberon_popup<%=count%>" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">

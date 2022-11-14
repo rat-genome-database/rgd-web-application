@@ -61,7 +61,7 @@ public class GeoExperimentController implements Controller {
                     Record rec = new Record();
                     s.setSex(request.getParameter("sex" + i));
                     s.setTissueAccId(request.getParameter("tissueId" + i));
-                    s.setCellTypeAccId(request.getParameter("cellId" + i));
+                    s.setCellTypeAccId(request.getParameter("cellTypeId" + i));
                     s.setCellLineId(request.getParameter("cellLineId" + i));
                     s.setGeoSampleAcc(request.getParameter("sampleId" + i));
                     s.setStrainAccId(request.getParameter("strainId" + i));
@@ -127,24 +127,35 @@ public class GeoExperimentController implements Controller {
                 String gse = request.getParameter("gse");
                 String species = request.getParameter("species");
                 HashMap<String,String> tissueMap = new HashMap();
+                HashMap<String, String> tissuneNameMap = new HashMap<>();
                 HashMap<String,String> strainMap = new HashMap();
+                HashMap<String,String> strainNameMap = new HashMap<>();
                 HashMap<String,String> cellType = new HashMap();
+                HashMap<String,String> cellNameMap = new HashMap<>();
                 HashMap<String,String> cellLine = new HashMap();
                 HashMap<String,String> ageLow = new HashMap<>();
                 HashMap<String,String> ageHigh = new HashMap<>();
                 HashMap<String,String> gender = new HashMap<>();
                 HashMap<String,String> lifeStage = new HashMap<>();
                 for(int i = 0; i < tcount;i++){
-                    if (request.getParameter("tissue" + i).contains("imported!"))
-                        tissueMap.put(null,request.getParameter("tissueId"+i));
-                    else
-                        tissueMap.put(request.getParameter("tissue" + i),request.getParameter("tissueId"+i));
+                    if (request.getParameter("tissue" + i).contains("imported!")) {
+                        tissueMap.put(null, request.getParameter("tissueId" + i));
+                        tissuneNameMap.put(null,request.getParameter("uberon_term"+i));
+                    }
+                    else {
+                        tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
+                        tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon_term"+i));
+                    }
                 }
                 for(int i = 0; i < scount;i++){
-                    if (request.getParameter("strain" + i).contains("imported!"))
-                        strainMap.put(null,request.getParameter("strainId"+i));
-                    else
-                        strainMap.put(request.getParameter("strain" + i),request.getParameter("strainId"+i));
+                    if (request.getParameter("strain" + i).contains("imported!")) {
+                        strainMap.put(null, request.getParameter("strainId" + i));
+                        strainNameMap.put(null,request.getParameter("rs_term"+i));
+                    }
+                    else {
+                        strainMap.put(request.getParameter("strain" + i), request.getParameter("strainId" + i));
+                        strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs_term"+i));
+                    }
                 }
                 for(int i = 0; i < ageCount;i++){
                     ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
@@ -152,10 +163,14 @@ public class GeoExperimentController implements Controller {
                     lifeStage.put(request.getParameter("age"+i),request.getParameter("lifeStage"+i));
                 }
                 for(int i = 0; i < ctcount;i++){
-                    if (request.getParameter("cellType"+i).contains("imported!"))
-                        cellType.put(null,request.getParameter("cellTypeId"+i));
-                    else
-                        cellType.put(request.getParameter("cellType" + i),request.getParameter("cellTypeId"+i));
+                    if (request.getParameter("cellType"+i).contains("imported!")) {
+                        cellType.put(null, request.getParameter("cellTypeId" + i));
+                        cellNameMap.put(null,request.getParameter("cl_term"+i));
+                    }
+                    else {
+                        cellType.put(request.getParameter("cellType" + i), request.getParameter("cellTypeId" + i));
+                        cellNameMap.put(request.getParameter("cellType" + i),request.getParameter("cl_term"+i));
+                    }
                 }
                 for(int i = 0; i < clcount;i++){
                     if (request.getParameter("cellLine" + i).contains("imported!"))
@@ -167,9 +182,12 @@ public class GeoExperimentController implements Controller {
                     gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
                 }
                 request.setAttribute("tissueMap",tissueMap);
+                request.setAttribute("tissueNameMap", tissuneNameMap);
                 request.setAttribute("strainMap",strainMap);
+                request.setAttribute("strainNameMap",strainNameMap);
                 request.setAttribute("cellLine",cellLine);
                 request.setAttribute("cellType",cellType);
+                request.setAttribute("cellNameMap",cellNameMap);
                 request.setAttribute("gender",gender);
                 request.setAttribute("ageLow",ageLow);
                 request.setAttribute("ageHigh",ageHigh);

@@ -1,16 +1,21 @@
 
 <%
-    if (ontId.equals("uberon")){
-        size = tissueMap.size();
-        idName = "tissueId";
-    }
-    else if (ontId.equals("rs")){
-        size = strainMap.size();
-        idName = "strainId";
-    }
-    else if (ontId.equals("cl")){
-        size = cellTypeMap.size();
-        idName = "cellTypeId";
+    switch (ontId) {
+        case "uberon":
+            if (!createSample)
+                size = tissueMap.size();
+            idName = "tissueId";
+            break;
+        case "rs":
+            if (!createSample)
+                size = strainMap.size();
+            idName = "strainId";
+            break;
+        case "cl":
+            if (!createSample)
+                size = cellTypeMap.size();
+            idName = "cellTypeId";
+            break;
     }
     if (size==0)
         size=1;
