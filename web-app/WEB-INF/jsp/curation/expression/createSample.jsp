@@ -84,6 +84,7 @@
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
     HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
+    HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
@@ -139,7 +140,7 @@
 
     <table class="table table-striped">
 
-        <form action="experiments.html" method="POST">
+        <form action="experiments.html" method="POST" id="createSample">
 
             <tr>
                 <td align="left"><input type="submit" value="Load Samples"/></td>
@@ -163,6 +164,7 @@
                 <th>Age (in days) Low (Curated): </th>
                 <th>Age (in days) High (Curated): </th>
                 <th>Life Stage (Curated):</th>
+                <th>Notes (Curated):</th>
             </tr>
                 <%
             }
@@ -171,6 +173,7 @@
      for(GeoRecord s: samples){
 boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
+
           try{
          if (sample == null)
              sample = new Sample();
@@ -197,7 +200,6 @@ try{
 }
 catch (Exception e){}
          }
-
   %>
             <tr>
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
@@ -215,7 +217,7 @@ catch (Exception e){}
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
                     <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
-                    <br><input type="text" id="uberon_term<%=count%>" name="uberon_term<%=count%>" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <br><input type="text" id="uberon_term<%=count%>" name="uberon_term<%=count%>" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" style="border: none; background: transparent;" readonly/>
                     <a href="" id="uberon_popup<%=count%>" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
@@ -230,7 +232,7 @@ catch (Exception e){}
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=bool ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
-
+                <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
             </tr>
 
                 <%

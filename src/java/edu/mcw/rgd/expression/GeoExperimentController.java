@@ -67,6 +67,7 @@ public class GeoExperimentController implements Controller {
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
                     s.setLifeStage(request.getParameter("lifeStage" + i));
+                    s.setNotes(request.getParameter("notes"+i));
 
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
@@ -124,6 +125,7 @@ public class GeoExperimentController implements Controller {
                 int clcount = Integer.parseInt(request.getParameter("clcount"));
                 int ageCount = Integer.parseInt(request.getParameter("agecount"));
                 int gcount = Integer.parseInt(request.getParameter("gcount"));
+                int noteCnt = Integer.parseInt(request.getParameter("notescount"));
                 String gse = request.getParameter("gse");
                 String species = request.getParameter("species");
                 HashMap<String,String> tissueMap = new HashMap();
@@ -137,6 +139,7 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> ageHigh = new HashMap<>();
                 HashMap<String,String> gender = new HashMap<>();
                 HashMap<String,String> lifeStage = new HashMap<>();
+                HashMap<String,String> notes = new HashMap<>();
                 for(int i = 0; i < tcount;i++){
                     if (request.getParameter("tissue" + i).contains("imported!")) {
                         tissueMap.put(null, request.getParameter("tissueId" + i));
@@ -181,6 +184,9 @@ public class GeoExperimentController implements Controller {
                 for(int i = 0; i < gcount;i++){
                     gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
                 }
+                for (int i = 0; i < noteCnt ; i++){
+                    notes.put(null,request.getParameter("notesId"+i));
+                }
                 request.setAttribute("tissueMap",tissueMap);
                 request.setAttribute("tissueNameMap", tissuneNameMap);
                 request.setAttribute("strainMap",strainMap);
@@ -194,6 +200,7 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("species",species);
                 request.setAttribute("gse",gse);
                 request.setAttribute("lifeStage",lifeStage);
+                request.setAttribute("notesMap",notes);
                 return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
             }
             if (request.getParameter("gse") != null) {

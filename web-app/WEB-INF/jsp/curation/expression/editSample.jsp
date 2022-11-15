@@ -70,6 +70,7 @@
     Set<String> gender = new TreeSet<>();
     HashMap<String,String> cellTypeMap = new HashMap<>();
     HashMap<String,String> cellLineMap = new HashMap<>();
+    Set<String> notes = new TreeSet<>();
     for(GeoRecord s:samples){
         if(s.getSampleTissue() != null)
             tissueMap.put(s.getSampleTissue(),Objects.toString(s.getRgdTissueTermAcc(),""));
@@ -83,7 +84,6 @@
             cellLineMap.put(s.getSampleCellLine(),Objects.toString(s.getRgdCellTermAcc(),""));
         if(s.getSampleCellType() != null)
             cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
-
     }
     int size = 0;
     String idName = "";
@@ -309,12 +309,21 @@ if (tissueMap.isEmpty()){ %>
                         <option value="both">Both</option>
                         <option value="not specified">Not Specified</option>
                     </select></td>
+                    <td></td>
+                    <td></td>
                  </tr>
 
                 <%
                         gcount++;
                     }   }
-                %>
+                    int notesCnt = 0;%>
+                <tr>
+                    <td><label for="notes<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Notes: &nbsp&nbsp </label><textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%notesCnt++;%>
 
     </table>
 <%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
@@ -326,6 +335,7 @@ if (tissueMap.isEmpty()){ %>
     <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
     <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
     <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
+    <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
     <input type="hidden" id="species" name="species" value="<%=species%>" />
     </form>
