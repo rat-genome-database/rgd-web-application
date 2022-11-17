@@ -156,13 +156,13 @@
 </table>
 </form>
 
-<h3>RDO Term Merge</h3>
+<h3>Term Merge (RDO/CMO/MMO/XCO/RS/PW)</h3>
 <form action="termMerge.html">
 
 <TABLE>
     <TR>
-        <td class="label">RDO Term Acc From:</td><td><input type="text" name="termAccFrom" value="" /></td>
-        <td class="label">RDO Term Acc To:</td><td><input type="text" name="termAccTo" value="" /></td>
+        <td class="label">Term Acc From:</td><td><input type="text" name="termAccFrom" value="" /></td>
+        <td class="label">Term Acc To:</td><td><input type="text" name="termAccTo" value="" /></td>
         <td><input type="submit" name="Submit" value="Submit"/></td>
     </TR>
 </table>
