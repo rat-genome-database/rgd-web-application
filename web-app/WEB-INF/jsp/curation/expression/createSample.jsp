@@ -85,6 +85,7 @@
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
     HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
     HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
+    HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
@@ -164,7 +165,8 @@
                 <th>Age (in days) Low (Curated): </th>
                 <th>Age (in days) High (Curated): </th>
                 <th>Life Stage (Curated):</th>
-                <th>Notes (Curated):</th>
+                <th>Public Notes:</th>
+                <th>Curator Notes:</th>
             </tr>
                 <%
             }
@@ -233,6 +235,7 @@ catch (Exception e){}
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
+                <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
             </tr>
 
                 <%

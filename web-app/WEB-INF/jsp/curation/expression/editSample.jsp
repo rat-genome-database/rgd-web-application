@@ -318,8 +318,8 @@ if (tissueMap.isEmpty()){ %>
                     }   }
                     int notesCnt = 0;%>
                 <tr>
-                    <td><label for="notes<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Notes: &nbsp&nbsp </label><textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></td>
-                    <td></td>
+                    <td><label for="notesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Public Notes: &nbsp&nbsp </label><textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></td>
+                    <td><label for="cNotesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Curator Notes: &nbsp&nbsp </label><textarea name="cNotesId<%=notesCnt%>" id="cNotesId<%=notesCnt%>" style="height: 60px"></textarea></td>
                     <td></td>
                     <td></td>
                 </tr>
