@@ -86,6 +86,7 @@
             <td><input name="ageHigh<%=cnt%>" id="ageHigh<%=cnt%>" value="<%=Objects.toString(s.getAgeDaysFromHighBound(),"")%>"></td>
             <td><input name="lifeStage<%=cnt%>" id="lifeStage<%=cnt%>" value="<%=Objects.toString(s.getLifeStage(),"")%>"></td>
             <td><textarea name="notes<%=cnt%>" id="notes<%=cnt%>"><%=Objects.toString(s.getNotes(),"")%></textarea></td>
+            <td><textarea name="cNotes<%=cnt%>" id="cNotes<%=cnt%>"><%=Objects.toString(s.getCuratorNotes(),"")%></textarea></td>
         </tr>
         <% cnt++;} %>
         <input type="hidden" id="count" name="count" value="<%=cnt%>" />

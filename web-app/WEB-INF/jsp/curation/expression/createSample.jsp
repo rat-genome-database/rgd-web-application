@@ -51,11 +51,7 @@
     }
 
 </style>
-<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
-<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
-<script>
-    let jq = jQuery.noConflict(true);
-</script>
+<script type="text/javascript" src="/rgdweb/js/ontPopupBrowser.js"></script>
 <%
 
     String pageTitle = "Create Geo Sample";
@@ -90,23 +86,7 @@
     String idName = "";
     boolean createSample = true;
 %>
-<script>
 
-    (function ($) {
-
-        $(document).ready(function(){
-
-            <% String ontId = "uberon"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "cl"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "rs"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-        });
-
-    }(jq));
-
-</script>
 
 <br>
 <div>
@@ -167,6 +147,7 @@
                 <th>Life Stage (Curated):</th>
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
+                <th>Status:</th>
             </tr>
                 <%
             }
@@ -208,19 +189,19 @@ catch (Exception e){}
                 <td><%=s.getSampleOrganism()%></td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
                 <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
-                    <br><input type="text" id="rs_term<%=count%>" name="rs_term<%=count%>" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;" readonly/>
-                    <a href="" id="rs_popup<%=count%>" style="color:black;">Ont Tree</a></td>
+                    <br><input type="text" id="rs<%=count%>_term" name="rs<%=count%>_term" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="rs<%=count%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=count%>'),'<%=count%>')" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
                 <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
-                    <br><input type="text" id="cl_term<%=count%>" name="cl_term<%=count%>" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;" readonly/>
-                    <a href="" id="cl_popup<%=count%>" style="color:black;">Ont Tree</a></td>
+                    <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="cl<%=count%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=count%>'),'<%=count%>')" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
                 <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
                     <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
-                    <br><input type="text" id="uberon_term<%=count%>" name="uberon_term<%=count%>" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" style="border: none; background: transparent;" readonly/>
-                    <a href="" id="uberon_popup<%=count%>" style="color:black;">Ont Tree</a>
+                    <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" style="border: none; background: transparent;" readonly/>
+                    <a href="" id="uberon<%=count%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=count%>'),'<%=count%>')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
@@ -236,6 +217,12 @@ catch (Exception e){}
                 <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
                 <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
+                <td><select id="status<%=count%>" name="status<%=count%>">
+                    <option value="loaded" <%=s.getCurationStatus().equals("loaded")? "selected":""%>>Loaded</option>
+                    <option  value="not4Curation" <%=s.getCurationStatus().equals("not4Curation")? "selected":""%>>Not For Curation</option>
+                    <option  value="pending" <%=s.getCurationStatus().equals("pending")? "selected":""%>>Pending</option>
+                </select>
+                </td>
             </tr>
 
                 <%

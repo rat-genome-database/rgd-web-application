@@ -70,6 +70,7 @@ public class GeoExperimentController implements Controller {
                     s.setLifeStage(request.getParameter("lifeStage" + i));
                     s.setNotes(request.getParameter("notes"+i));
                     s.setCuratorNotes(request.getParameter("cNotes"+i));
+                    String curStatus = request.getParameter("status"+i);
 
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
@@ -100,9 +101,12 @@ public class GeoExperimentController implements Controller {
                     rec.append(s.getLifeStage());
                     rec.append(s.getNotes());
                     r.append(rec);
+
+                    pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),curStatus,species);
                 }
 
-                pdao.updateGeoStudyStatus(gse, "loaded",species);
+
+//                pdao.updateGeoStudyStatus(gse, "loaded",species);
 
             }catch (Exception e){
                     error.add("Sample insertion failed for" + e.getMessage());

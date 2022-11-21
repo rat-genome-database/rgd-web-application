@@ -13,11 +13,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
-<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
-<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
-<script>
-    let jq = jQuery.noConflict(true);
-</script>
+<script type="text/javascript" src="/rgdweb/js/ontPopupBrowser.js"></script>
 <html>
 <body style="background-color: white">
 <style>
@@ -89,23 +85,7 @@
     String idName = "";
     boolean createSample = false;
 %>
-<script>
 
-    (function ($) {
-
-        $(document).ready(function(){
-
-            <% String ontId = "uberon"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "cl"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "rs"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-        });
-
-    }(jq));
-
-</script>
 
 <br>
 <div>
@@ -153,8 +133,8 @@ if (tissueMap.isEmpty()){ %>
                     <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                         <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
-                        <input type="text" id="uberon_term<%=tcount%>" name="uberon_term<%=tcount%>" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="uberon_popup<%=tcount%>" style="color:black;">Ont Tree</a>
+                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                        <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=tcount%>'),'<%=tcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -168,8 +148,8 @@ if (tissueMap.isEmpty()){ %>
                 <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
 <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                     <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>" value="" onblur="lostFocus('uberon')">
-                    <input type="text" id="uberon_term<%=tcount%>" name="uberon_term<%=tcount%>" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="uberon_popup<%=tcount%>" style="color:black;">Ont Tree</a>
+                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=tcount%>'),'<%=tcount%>')" style="color:black;">Ont Tree</a>
                 </td>
                 <td></td>
                 <td></td>
@@ -186,8 +166,8 @@ if (tissueMap.isEmpty()){ %>
                         <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
 <%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
                         <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" value="" onblur="lostFocus('rs')">
-                        <input type="text" id="rs_term<%=scount%>" name="rs_term<%=scount%>" style="border: none; background: transparent;" value=""readonly/>
-                        <a href="" id="rs_popup<%=scount%>" style="color:black;">Ont Tree</a>
+                        <input type="text" id="rs<%=tcount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                        <a href="" id="rs<%=tcount%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=scount%>'),'<%=scount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -202,8 +182,8 @@ if (tissueMap.isEmpty()){ %>
                     <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
 <%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
                     <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value=""  value="" onblur="lostFocus('rs')">
-                    <input type="text" id="rs_term<%=scount%>" name="rs_term<%=scount%>" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="rs_popup<%=scount%>" style="color:black;">Ont Tree</a>
+                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=scount%>'),'<%=scount%>')" style="color:black;">Ont Tree</a>
                 </td>
                 <td></td>
                 <td></td>
@@ -239,8 +219,8 @@ if (tissueMap.isEmpty()){ %>
                     <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
 <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
                         <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
-                        <input type="text" id="cl_term<%=cTcount%>" name="cl_term<%=cTcount%>" value="" style="border: none; background: transparent;" readonly/>
-                        <a href="" id="cl_popup<%=cTcount%>" style="color:black;">Ont Tree</a>
+                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=cTcount%>'),'<%=cTcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -254,8 +234,8 @@ if (tissueMap.isEmpty()){ %>
                     <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
                         <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
                         <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
-                        <input type="text" id="cl_term<%=cTcount%>" name="cl_term<%=cTcount%>" value="" style="border: none; background: transparent;" readonly/>
-                        <a href="" id="cl_popup<%=cTcount%>" style="color:black;">Ont Tree</a>
+                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=cTcount%>'),'<%=cTcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                 </tr>
