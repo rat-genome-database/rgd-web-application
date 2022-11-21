@@ -66,7 +66,6 @@ public class ClientInit {
 
         if(client!=null) {
             client.close();
-         //   client.threadPool().shutdownNow();
             InternalThreadLocalMap.remove();
             client=null;
             esClientFactory=null;
@@ -86,7 +85,6 @@ public class ClientInit {
 
 
         try{
-         //    fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
           fis=new FileInputStream("/data/properties/elasticsearchProps.properties");
             props.load(fis);
 
