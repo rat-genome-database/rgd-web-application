@@ -42,7 +42,9 @@
     .t tr:hover {
         background-color: #daeffc;
     }
-
+    .formfield * {
+        vertical-align: middle;
+    }
 </style>
 
 <%
@@ -134,7 +136,7 @@ if (tissueMap.isEmpty()){ %>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                         <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
                         <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=tcount%>'),'<%=tcount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=tcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -149,7 +151,7 @@ if (tissueMap.isEmpty()){ %>
 <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                     <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>" value="" onblur="lostFocus('uberon')">
                     <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=tcount%>'),'<%=tcount%>')" style="color:black;">Ont Tree</a>
+                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=tcount%>')" style="color:black;">Ont Tree</a>
                 </td>
                 <td></td>
                 <td></td>
@@ -167,7 +169,7 @@ if (tissueMap.isEmpty()){ %>
 <%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
                         <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" value="" onblur="lostFocus('rs')">
                         <input type="text" id="rs<%=tcount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="rs<%=tcount%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=scount%>'),'<%=scount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="rs<%=tcount%>_popup" onclick="ontPopupGroup('strainId','rs','<%=scount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -183,7 +185,7 @@ if (tissueMap.isEmpty()){ %>
 <%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
                     <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value=""  value="" onblur="lostFocus('rs')">
                     <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=scount%>'),'<%=scount%>')" style="color:black;">Ont Tree</a>
+                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopupGroup('strainId','rs','<%=scount%>')" style="color:black;">Ont Tree</a>
                 </td>
                 <td></td>
                 <td></td>
@@ -220,7 +222,7 @@ if (tissueMap.isEmpty()){ %>
 <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
                         <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
                         <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=cTcount%>'),'<%=cTcount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl','<%=cTcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -235,7 +237,7 @@ if (tissueMap.isEmpty()){ %>
                         <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
                         <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
                         <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=cTcount%>'),'<%=cTcount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl','<%=cTcount%>')" style="color:black;">Ont Tree</a>
                     </td>
                     <td></td>
                 </tr>
@@ -249,7 +251,18 @@ if (tissueMap.isEmpty()){ %>
                     <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" ></td>
                     <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
                     <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-                    <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
+                    <td>
+                        <fieldset>
+                            <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="embryonic"> embryonic</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="neonatal"> neonatal</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="weanling"> weanling</label><br>
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="juvenile"> juvenile</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="adult"> adult</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="aged"> aged</label>
+                            <%--                            <input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>">--%>
+                        </fieldset>
+                    </td>
                 </tr>
                 <%ageCount++;}
                     else {
@@ -259,7 +272,18 @@ if (tissueMap.isEmpty()){ %>
                 <td><label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
                 <td><label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
                 <td><label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-                <td><label for="lifeStage<%=ageCount%>" style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </label><input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>"></td>
+                <td>
+                    <fieldset>
+                        <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="embryonic"> embryonic</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="neonatal"> neonatal</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="weanling"> weanling</label><br>
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="juvenile"> juvenile</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="adult"> adult</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="aged"> aged</label>
+                        <%--                            <input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>">--%>
+                    </fieldset>
+                </td>
             </tr>
 
                 <%
@@ -298,8 +322,8 @@ if (tissueMap.isEmpty()){ %>
                     }   }
                     int notesCnt = 0;%>
                 <tr>
-                    <td><label for="notesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Public Notes: &nbsp&nbsp </label><textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></td>
-                    <td><label for="cNotesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Curator Notes: &nbsp&nbsp </label><textarea name="cNotesId<%=notesCnt%>" id="cNotesId<%=notesCnt%>" style="height: 60px"></textarea></td>
+                    <td><p class="formfield"><label for="notesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Public Notes: &nbsp&nbsp </label><textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></p></td>
+                    <td><p class="formfield"><label for="cNotesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Curator Notes: &nbsp&nbsp </label><textarea name="cNotesId<%=notesCnt%>" id="cNotesId<%=notesCnt%>" style="height: 60px"></textarea></p></td>
                     <td></td>
                     <td></td>
                 </tr>

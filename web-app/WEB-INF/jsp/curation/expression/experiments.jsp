@@ -95,7 +95,7 @@
             String species = request.getParameter("species");
             PhenominerDAO pdao = new PhenominerDAO();
             HashMap<String,GeoRecord> records = pdao.getGeoStudies(species,request.getParameter("status"));
-            System.out.println(records.size());
+//            System.out.println(records.size());
 
     %>
             <table id="t">
