@@ -214,7 +214,30 @@ catch (Exception e){}
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
                 <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=bool ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
-                <td><input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="<%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage():Objects.toString(lifeStage.get(s.getSampleAge()),"" )%>"></td>
+                <td>
+                    <fieldset>
+                        <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="embryonic"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("embryonic") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":""%>> embryonic</label>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="neonatal"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("neonatal") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("neonatal") ? "checked":""%>> neonatal</label>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="weanling"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("weanling") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("weanling") ? "checked":""%>> weanling</label><br>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="juvenile"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("juvenile") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("juvenile") ? "checked":""%>> juvenile</label>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="adult"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("adult") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("adult") ? "checked":""%>> adult</label>
+                        <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="aged"
+                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("aged") ? "checked": "":
+                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":""%>> aged</label>
+                        <%--                            <input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>">--%>
+                    </fieldset>
+                </td>
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
                 <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
                 <td><select id="status<%=count%>" name="status<%=count%>">

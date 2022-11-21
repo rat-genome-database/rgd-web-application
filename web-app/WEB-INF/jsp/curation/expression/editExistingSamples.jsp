@@ -3,11 +3,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="java.util.HashMap" %>
-<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
-<script type="text/javascript" src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
-<script>
-    let jq = jQuery.noConflict(true);
-</script>
+<script type="text/javascript" src="/rgdweb/js/ontPopupBrowser.js"></script>
 <%
     String pageHeader="Edit Samples";
     String pageTitle="Edit Samples";
@@ -22,23 +18,7 @@
     String idName = "";
     boolean createSample = true;
 %>
-<script>
 
-    (function ($) {
-
-        $(document).ready(function(){
-
-            <% String ontId = "uberon"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "cl"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-            <% ontId = "rs"; %>
-            <%@ include file="ontPopupConfig.jsp" %>
-        });
-
-    }(jq));
-
-</script>
 <%@ include file="/common/headerarea.jsp"%>
 <table class="table table-striped">
 
@@ -65,16 +45,16 @@
         <tr>
             <td><input name="sample<%=cnt%>" id="sample<%=cnt%>" value="<%=s.getId()%>" readonly></td>
             <td><input name="strainId<%=cnt%>" id="strainId<%=cnt%>" value="<%=Objects.toString(s.getStrainAccId(),"")%>">
-            <br><input type="text" id="rs_term<%=cnt%>" name="rs_term<%=cnt%>" value="" style="border: none; background: transparent;" readonly/>
-            <a href="" id="rs_popup<%=cnt%>" style="color:black;">Ont Tree</a></td>
+            <br><input type="text" id="rs<%=cnt%>_term" name="rs<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
+            <a href="" id="rs<%=cnt%>_popup" onclick="ontPopupGroup('strainId','rs',document.getElementById('strainId<%=cnt%>'),'<%=cnt%>')" style="color:black;">Ont Tree</a></td>
 
             <td><input name="cellTypeId<%=cnt%>" id="cellTypeId<%=cnt%>" value="<%=Objects.toString(s.getCellTypeAccId(),"")%>">
-                <br><input type="text" id="cl_term<%=cnt%>" name="cl_term<%=cnt%>" value="" style="border: none; background: transparent;" readonly/>
-                <a href="" id="cl_popup<%=cnt%>" style="color:black;">Ont Tree</a></td>
+                <br><input type="text" id="cl<%=cnt%>_term" name="cl<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
+                <a href="" id="cl<%=cnt%>_popup" onclick="ontPopupGroup('cellTypeId','cl',document.getElementById('cellTypeId<%=cnt%>'),'<%=cnt%>')" style="color:black;">Ont Tree</a></td>
             <td><input name="cellLine<%=cnt%>" id="cellLine<%=cnt%>" value="<%=Objects.toString(s.getCellLineId(),"")%>"></td>
             <td><input name="tissueId<%=cnt%>" id="tissueId<%=cnt%>" value="<%=Objects.toString(s.getTissueAccId(),"")%>">
-                <br><input type="text" id="uberon_term<%=cnt%>" name="uberon_term<%=cnt%>" value="" style="border: none; background: transparent;" readonly/>
-                <a href="" id="uberon_popup<%=cnt%>" style="color:black;">Ont Tree</a></td>
+                <br><input type="text" id="uberon<%=cnt%>_term" name="uberon<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
+                <a href="" id="uberon<%=cnt%>_popup" onclick="ontPopupGroup('tissueId','uberon',document.getElementById('tissueId<%=cnt%>'),'<%=cnt%>')" style="color:black;">Ont Tree</a></td>
             <td><input name="geoAcc<%=cnt%>" id="geoAcc<%=cnt%>" value="<%=Objects.toString(s.getGeoSampleAcc(),"")%>"></td>
             <td><select name="sex<%=cnt%>" id="sex<%=cnt%>">
                 <option value="male" <%=Utils.stringsAreEqual(s.getSex(),"male") ? "selected" : ""%>>Male</option>

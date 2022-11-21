@@ -67,7 +67,16 @@ public class GeoExperimentController implements Controller {
                     s.setGeoSampleAcc(request.getParameter("sampleId" + i));
                     s.setStrainAccId(request.getParameter("strainId" + i));
                     s.setBioSampleId(request.getParameter("sampleId" + i));
-                    s.setLifeStage(request.getParameter("lifeStage" + i));
+                    String[] lifeStages = request.getParameterValues("lifeStage"+i);
+                    String stage = "";
+                    if (lifeStages!=null) {
+                        for (int j = 0; j < lifeStages.length; j++) {
+                            stage += lifeStages[j];
+                            if (j != lifeStages.length - 1)
+                                stage += ";";
+                        }
+                    }
+                    s.setLifeStage(stage);
                     s.setNotes(request.getParameter("notes"+i));
                     s.setCuratorNotes(request.getParameter("cNotes"+i));
                     String curStatus = request.getParameter("status"+i);
@@ -151,32 +160,41 @@ public class GeoExperimentController implements Controller {
                 for(int i = 0; i < tcount;i++){
                     if (request.getParameter("tissue" + i).contains("imported!")) {
                         tissueMap.put(null, request.getParameter("tissueId" + i));
-                        tissuneNameMap.put(null,request.getParameter("uberon_term"+i));
+                        tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
                     }
                     else {
                         tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
-                        tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon_term"+i));
+                        tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
                     }
                 }
                 for(int i = 0; i < scount;i++){
                     if (request.getParameter("strain" + i).contains("imported!")) {
                         strainMap.put(null, request.getParameter("strainId" + i));
-                        strainNameMap.put(null,request.getParameter("rs_term"+i));
+                        strainNameMap.put(null,request.getParameter("rs"+i+"_term"));
                     }
                     else {
                         strainMap.put(request.getParameter("strain" + i), request.getParameter("strainId" + i));
-                        strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs_term"+i));
+                        strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs"+i+"_term"));
                     }
                 }
                 for(int i = 0; i < ageCount;i++){
                     ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
                     ageHigh.put(request.getParameter("age" + i),request.getParameter("ageHigh"+i));
-                    lifeStage.put(request.getParameter("age"+i),request.getParameter("lifeStage"+i));
+                    String[] lifeStages = request.getParameterValues("lifeStage"+i);
+                    String stage = "";
+                    if (lifeStages!=null) {
+                        for (int j = 0; j < lifeStages.length; j++) {
+                            stage += lifeStages[j];
+                            if (j != lifeStages.length - 1)
+                                stage += ";";
+                        }
+                    }
+                    lifeStage.put(request.getParameter("age"+i),stage);
                 }
                 for(int i = 0; i < ctcount;i++){
                     if (request.getParameter("cellType"+i).contains("imported!")) {
                         cellType.put(null, request.getParameter("cellTypeId" + i));
-                        cellNameMap.put(null,request.getParameter("cl_term"+i));
+                        cellNameMap.put(null,request.getParameter("cl"+i+"_term"));
                     }
                     else {
                         cellType.put(request.getParameter("cellType" + i), request.getParameter("cellTypeId" + i));
