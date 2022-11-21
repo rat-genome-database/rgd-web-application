@@ -44,13 +44,15 @@ public class OntBrowser extends SimpleTagSupport {
 
     // true if we are on CURATOR server
     private boolean isCurator = false;
-
+    //
+    private String curationTool;
     public void setAcc_id(String accId) {
 
         bean = new OntViewBean();
         try {
             ServletRequest req = ((PageContext)getJspContext()).getRequest();
             diagramMode = Utils.NVL(req.getParameter("dia"),"0").equals("1");
+            curationTool = Utils.NVL(req.getParameter("curationTool"), "");
             bean.setDiagramMode(diagramMode);
 
             this.filter = req.getParameter("filter");
@@ -325,7 +327,9 @@ public class OntBrowser extends SimpleTagSupport {
 
     private void generateTermsPane(StringBuilder out, String width, String id,
                                    Collection<OntDagNode> nodes, String showRelImages) {
-
+        String curTool = "";
+        if (!Utils.isStringEmpty(curationTool))
+            curTool = "&curationTool=1";
         out.append("<td valign=\"top\" width=").append(width).append(">\n");
         out.append("  <div id=\"").append(id).append("\" class=\"tree_box\">\n");
 
@@ -360,7 +364,7 @@ public class OntBrowser extends SimpleTagSupport {
 
 
                 }else {
-                    out.append("<a id=\"").append(node.getTermAcc()).append("\" href=\"").append(this.url).append("acc_id=").append(node.getTermAcc()).append("\">").append(node.getTerm().replace('_', ' ')).append("</a>");
+                    out.append("<a id=\"").append(node.getTermAcc()).append("\" href=\"").append(this.url).append("acc_id=").append(node.getTermAcc()).append(curTool).append("\">").append(node.getTerm().replace('_', ' ')).append("</a>");
                 }
 
                 // write '+' if child terms are present
@@ -466,7 +470,7 @@ public class OntBrowser extends SimpleTagSupport {
 
     private String generateSelectButton(OntDagNode node) {
 
-        if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 ) {
+        if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 || !Utils.isStringEmpty(this.curationTool)) {
             return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+node.getTerm().replaceAll("'s","")+"')\">select</span>&nbsp;";
         } else {
             return "<span class='term_select_disabled'>select</span>&nbsp;";
@@ -474,6 +478,9 @@ public class OntBrowser extends SimpleTagSupport {
     }
 
     private String getScript() {
+        String curTool = "";
+        if (!Utils.isStringEmpty(curationTool))
+            curTool = "&curationTool=1";
         String selectTermFunction = "function selectTerm(accId,termName) {\n";
         String opener = iframe ? "  window.parent" : "  window.opener";
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
@@ -493,7 +500,7 @@ public class OntBrowser extends SimpleTagSupport {
                 "    function keepY(obj) {\n" +
                 "        var v = document.getElementById(\"viewer\");\n" +
                 "        var offset = obj.offsetTop - v.scrollTop;\n" +
-                "        location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset ;\n" +
+                "        location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset +\""+curTool+"\";\n" +
                 "    }\n" +
                 "\n" +
                 "    function loadIt() {\n" +
@@ -510,5 +517,9 @@ public class OntBrowser extends SimpleTagSupport {
                 "    onload=loadIt;\n" +
                 "\n" +
                 "</script>";
+    }
+
+    public void setCurationTool(String curationTool) {
+        this.curationTool = curationTool;
     }
 }

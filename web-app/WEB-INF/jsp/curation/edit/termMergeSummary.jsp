@@ -7,7 +7,7 @@
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"/rgdweb/common/search.css\">\n"+
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"/rgdweb/css/ontology.css\">\n";
 
-   String pageTitle = "RDO Term Merge - Object Edit - Rat Genome Database";
+   String pageTitle = "Term Merge - Object Edit - Rat Genome Database";
    String pageDescription = pageTitle;
 
    String accIdFrom = bean.getTermFrom().getAccId();

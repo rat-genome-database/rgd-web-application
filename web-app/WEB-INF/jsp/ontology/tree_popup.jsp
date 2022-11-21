@@ -30,11 +30,14 @@
     // url for browsing the tree should include 'sel_acc_id' and 'sel_term' parameters if available
     String selAccId = request.getParameter("sel_acc_id");
     String selTerm = request.getParameter("sel_term");
+    String curationTool = request.getParameter("curation");
     String url = "/rgdweb/ontology/view.html?mode=popup";
     if( !Utils.isStringEmpty(selAccId) )
         url += "&sel_acc_id="+selAccId;
     if( !Utils.isStringEmpty(selTerm) )
         url += "&sel_term="+selTerm;
+    if (!Utils.isStringEmpty(curationTool))
+        url += "&curation="+curationTool;
     if( Utils.NVL(request.getParameter("dia"),"0").equals("1") ) {
         url += "&dia=1";
     }

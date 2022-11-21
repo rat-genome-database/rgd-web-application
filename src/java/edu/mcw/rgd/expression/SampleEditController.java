@@ -49,13 +49,14 @@ public class SampleEditController implements Controller {
                     Sample s = new Sample();
                     int sampleId = Integer.parseInt(request.getParameter("sample"+i));
                     s.setId(sampleId);
-                    s.setStrainAccId(request.getParameter("strain"+i));
-                    s.setCellTypeAccId(request.getParameter("cellType"+i));
+                    s.setStrainAccId(request.getParameter("strainId"+i));
+                    s.setCellTypeAccId(request.getParameter("cellTypeId"+i));
                     s.setCellLineId(request.getParameter("cellLine"+i));
-                    s.setTissueAccId(request.getParameter("tissue"+i));
+                    s.setTissueAccId(request.getParameter("tissueId"+i));
                     s.setGeoSampleAcc(request.getParameter("geoAcc"+i));
                     s.setSex(request.getParameter("sex"+i));
                     s.setLifeStage(request.getParameter("lifeStage" + i));
+                    s.setNotes(request.getParameter("notes"+i));
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
                     if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() )
