@@ -20,7 +20,6 @@ import java.util.*;
  */
 public class ClientInit {
     private static RestHighLevelClient client=null;
-   // private static List<String> hosts;
     private static ClientInit esClientFactory=null;
     public static void init() throws UnknownHostException {
         if(esClientFactory==null){
@@ -35,7 +34,7 @@ public class ClientInit {
 
     }
     private static RestHighLevelClient getInstance() throws UnknownHostException {
-     //   Properties props= getProperties();
+        Properties props= getProperties();
         if(RgdContext.isProduction() || RgdContext.isPipelines())
         return new RestHighLevelClient(
                 RestClient.builder(
@@ -49,7 +48,12 @@ public class ClientInit {
         else
             return new RestHighLevelClient(
                     RestClient.builder(
-                            new HttpHost("travis.rgd.mcw.edu", 9200, "http")
+                           new HttpHost((String) props.get("DEV_HOST"), 9200, "http")
+                         /*   new HttpHost((String) props.get("HOST1"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST2"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST3"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST4"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST5"), 9200, "http")*/
 
                     ));
     }
@@ -75,17 +79,7 @@ public class ClientInit {
         return client;
     }
 
-  /*  public static List<String> getHosts() {
-        return hosts;
-}
 
-    public static void setHosts(List<String> hosts) {
-        ClientInit.hosts = hosts;
-    }
-   /* public List<String> getHostNames(){
-          return this.getNodeURLs();
-
-    }*/
     static Properties getProperties(){
         Properties props= new Properties();
         FileInputStream fis=null;
@@ -93,7 +87,7 @@ public class ClientInit {
 
         try{
          //    fis=new FileInputStream("C:/Apps/elasticsearchProps.properties");
-        //   fis=new FileInputStream("/data/pipelines/properties/es_properties.properties");
+          fis=new FileInputStream("/data/properties/elasticsearchProps.properties");
             props.load(fis);
 
         }catch (Exception e){
