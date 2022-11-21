@@ -38,11 +38,11 @@ public class ClientInit {
         if(RgdContext.isProduction() || RgdContext.isPipelines())
         return new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost("erika01.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("erika02.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("erika03.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("erika04.rgd.mcw.edu", 9200, "http"),
-                        new HttpHost("erika05.rgd.mcw.edu", 9200, "http")
+                        new HttpHost((String) props.get("HOST1"), 9200, "http"),
+                        new HttpHost((String) props.get("HOST2"), 9200, "http"),
+                        new HttpHost((String) props.get("HOST3"), 9200, "http"),
+                        new HttpHost((String) props.get("HOST4"), 9200, "http"),
+                        new HttpHost((String) props.get("HOST5"), 9200, "http")
 
                 ));
         else
