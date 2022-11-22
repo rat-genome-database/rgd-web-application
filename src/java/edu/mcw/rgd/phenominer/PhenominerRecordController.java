@@ -9,7 +9,6 @@ import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.process.pheno.SearchBean;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +46,7 @@ public class PhenominerRecordController extends PhenominerController {
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
                 String accessToken = request.getCookies()[0].getValue();
                 if(!checkToken(accessToken)) {
-                 //   response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
-                  response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
+                    response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
                     return null;
                 }
             }
@@ -65,7 +63,19 @@ public class PhenominerRecordController extends PhenominerController {
 
                 List<Record> records = dao.getRecords(idList);
                 report = buildReport(records, dao, false);
-            } else if (action.equals("edit_experiment_records")) {
+            } else if (action.equals("editSS")) {
+                viewPath = "/WEB-INF/jsp/curation/phenominer/editRecordSS.jsp";
+                List<String> idList = req.getParameterValues("id");
+
+                if (idList.size() > 999) {
+                    idList = idList.subList(0, 999);
+                    status.add("More than 1000 results found.  Displaying first 1000");
+                }
+
+                List<Record> records = dao.getRecords(idList);
+                report = buildReport(records, dao, false);
+
+            }else if (action.equals("edit_experiment_records")) {
                 viewPath = "/WEB-INF/jsp/curation/phenominer/records.jsp";
                 List<String> expIdList = req.getParameterValues("expId");
 
@@ -100,6 +110,122 @@ public class PhenominerRecordController extends PhenominerController {
                 report = this.buildReport(records, dao, true);
             } else if (action.equals("new")) {
                 viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
+            } else if (action.equals("saveSS")) {
+                System.out.println("in save");
+                try {
+                    String mode = req.getParameter("mode");
+                    if (mode != null && mode.equals("addUnit")) {
+
+                        Enumerable e = new Enumerable();
+                        String unitType = request.getParameter("unitType");
+                        e.setType(Integer.parseInt(unitType));
+                        String unitValue = request.getParameter("unitValue");
+                        String description = request.getParameter("description");
+                        e.setValue(unitValue);
+                        e.setLabel(unitValue);
+                        e.setDescription(description);
+
+                        if (Integer.parseInt(unitType) == 3) {
+                            List<String> existingCMO = dao.getDistinct("PHENOMINER_ENUMERABLES where type=3  ", "label", true);
+                            if (!existingCMO.contains(unitValue)) {
+                                if (unitValue != null && unitValue != "")
+                                    dao.insertEnumerable(e);
+                            }
+                            String termAcc = request.getParameter("accId");
+                            if (request.getParameterMap().containsKey("termScale")) {
+                                String termScale = request.getParameter("termScale");
+                                dao.insertUnitConversion(termAcc, unitValue, termScale);
+                            } else dao.checkUnitConversion(termAcc, unitValue);
+
+                        } else {
+                            List<String> existingXCO = dao.getDistinct("PHENOMINER_ENUMERABLES where type=2  ", "label", true);
+                            if (!existingXCO.contains(unitValue)) {
+                                if (unitValue != null && unitValue != "")
+                                    dao.insertEnumerable(e);
+                            }
+                        }
+                    }
+                    System.out.println("here");
+                    List<String> idList = req.getParameterValues("id");
+                    List<String> ids = new ArrayList<String>();
+
+                    for(String id: idList) {
+                        if (!id.startsWith("_")) {
+                            ids.add(id);
+                        }
+                    }
+
+
+                    if (ids.size() == 0) {
+                        viewPath = "/WEB-INF/jsp/curation/phenominer/records.jsp";
+
+                        Record r = new Record();
+                        try {
+                            this.validate(req, false);
+                            r = this.buildRecord(req, r, false);
+                            r.setLastModifiedBy(login);
+                            r.setCreatedBy(login);
+                            dao.insertRecord(r);
+                            status.add("Record Create Successful");
+                            response.getWriter().println("Record Create Successful " + r.getId());
+                            return null;
+
+                        } catch (Exception e) {
+                            viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
+                            throw e;
+                        }
+
+
+                        //List<Record> records = dao.getRecords(Integer.parseInt(req.getParameter("expId")));
+                        //report = buildReport(records, dao, true);
+
+
+                    } else {
+
+                        viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
+
+                        for (String id : ids) {
+                            Record r = dao.getRecord(Integer.parseInt(id));
+
+                            r = this.buildRecord(req, r, ids.size() > 1);
+                            try {
+                                this.validate(req, ids.size() > 1);
+                            } catch (Exception e) {
+                                List<Record> records = dao.getRecords(ids);
+                                report = buildReport(records, dao, false);
+                                throw e;
+                            }
+                            r.setLastModifiedBy(login);
+                            dao.updateRecord(r);
+
+                            String[] cDelete = req.getRequest().getParameterValues("cDelete");
+
+                            if (cDelete != null) {
+                                for (String aCDelete : cDelete) {
+                                    Integer cId = Integer.parseInt(aCDelete);
+                                    if (cId > 0) {
+                                        dao.deleteExperimentCondition(cId);
+                                    } else {
+                                        List<Condition> rCond = r.getConditions();
+                                        Integer cIdReal = rCond.get(-1 - cId).getId();
+                                        dao.deleteExperimentCondition(cIdReal);
+                                    }
+                                }
+                            }
+                        }
+
+                        status.add("Record Update Successful");
+
+                        response.getWriter().println("Update Successful");
+                        return null;
+                    }
+
+                }catch (Exception e3){
+                    response.getWriter().println("Save Faile: " + e3.getMessage());
+                    e3.printStackTrace();
+                    return null;
+
+                }
             } else if (action.equals("save")) {
                 String mode = req.getParameter("mode");
                 if (mode != null && mode.equals("addUnit")) {
