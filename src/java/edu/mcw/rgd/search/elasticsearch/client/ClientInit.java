@@ -48,13 +48,7 @@ public class ClientInit {
         else
             return new RestHighLevelClient(
                     RestClient.builder(
-                         /*    new HttpHost("travis.rgd.mcw.edu", 9200, "http")*/
-                          new HttpHost((String) props.get("HOST1"), 9200, "http"),
-                            new HttpHost((String) props.get("HOST2"), 9200, "http"),
-                            new HttpHost((String) props.get("HOST3"), 9200, "http"),
-                            new HttpHost((String) props.get("HOST4"), 9200, "http"),
-                            new HttpHost((String) props.get("HOST5"), 9200, "http")
-
+                             new HttpHost("travis.rgd.mcw.edu", 9200, "http")
                     ));
     }
     public static void setClient(RestHighLevelClient client) {
