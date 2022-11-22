@@ -216,7 +216,6 @@ catch (Exception e){}
                 <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td>
                     <fieldset>
-                        <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="embryonic"
                             <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("embryonic") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":""%>> embryonic</label>
@@ -241,9 +240,9 @@ catch (Exception e){}
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
                 <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
                 <td><select id="status<%=count%>" name="status<%=count%>">
-                    <option value="loaded" <%=s.getCurationStatus().equals("loaded")? "selected":""%>>Loaded</option>
-                    <option  value="not4Curation" <%=s.getCurationStatus().equals("not4Curation")? "selected":""%>>Not For Curation</option>
-                    <option  value="pending" <%=s.getCurationStatus().equals("pending")? "selected":""%>>Pending</option>
+                    <option value="loaded" selected>Loaded</option>
+                    <option  value="not4Curation">Not For Curation</option>
+                    <option  value="pending">Pending</option>
                 </select>
                 </td>
             </tr>

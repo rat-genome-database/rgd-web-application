@@ -76,6 +76,8 @@ public class GeoExperimentController implements Controller {
                                 stage += ";";
                         }
                     }
+                    if (stage.isEmpty())
+                        stage=null;
                     s.setLifeStage(stage);
                     s.setNotes(request.getParameter("notes"+i));
                     s.setCuratorNotes(request.getParameter("cNotes"+i));

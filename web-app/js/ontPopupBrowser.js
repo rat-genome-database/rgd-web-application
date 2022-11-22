@@ -1,3 +1,4 @@
+// needs an input with name {ontCode}_term for the ontology name and an input for the ontology ACC ID, {callback}
 function ontPopupGroup(callback, ontCode, cnt){
     var _popup_wnd = null;
 
