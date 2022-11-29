@@ -234,11 +234,10 @@ catch (Exception e){}
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="aged"
                             <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("aged") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":""%>> aged</label>
-                        <%--                            <input type="text" name="lifeStage<%=count%>" id="lifeStage<%=count%>">--%>
                     </fieldset>
                 </td>
-                <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
-                <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
+                <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 120px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
+                <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 120px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
                 <td><select id="status<%=count%>" name="status<%=count%>">
                     <option value="loaded" selected>Loaded</option>
                     <option  value="not4Curation">Not For Curation</option>
