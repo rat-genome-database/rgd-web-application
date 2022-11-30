@@ -51,7 +51,7 @@
     }
 
 </style>
-<script type="text/javascript" src="/rgdweb/js/ontPopupBrowser.js"></script>
+<script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <%
 
     String pageTitle = "Create Geo Sample";
