@@ -33,6 +33,7 @@
                 <prop key="curation/phenominer/studies.html">PhenominerStudyController</prop>
                 <prop key="curation/phenominer/experiments.html">PhenominerExperimentController</prop>
                 <prop key="curation/phenominer/records.html">PhenominerRecordController</prop>
+                <prop key="curation/phenominer/ssrecords.html">PhenominerRecordController</prop>
                 <prop key="curation/phenominer/phenominerUnits.html">PhenominerUnitsController</prop>
                 <prop key="curation/phenominer/phenominerUnitTables.html">PhenominerUnitTablesController</prop>
 
