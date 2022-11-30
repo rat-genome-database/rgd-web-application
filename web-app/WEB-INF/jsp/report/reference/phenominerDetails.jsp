@@ -30,7 +30,7 @@
                     <ul>
 <%--                         if( bean.getAccId().startsWith("RS:") ) {--%>
                     <%    for( Term term: bean.getPhenoStrains() ) { %>
-                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>" title="view strain phenotype data"><%=term.getTerm()%></a></li>
+                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>&refRgdId=<%=rgdId%>" title="view strain phenotype data"><%=term.getTerm()%></a></li>
                         <%    } %>
 <%--                        } else {--%>
 <%--                            for( Term term: bean.getPhenoStrains() ) { %>--%>
@@ -45,7 +45,7 @@
                     <ul>
 <%--                        if( bean.getAccId().startsWith("CMO:") ) {--%>
                         <%   for( Term term: bean.getPhenoCmoTerms() ) { %>
-                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>" title="view clinical measurement phenotype data"><%=term.getTerm()%></a></li>
+                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>&refRgdId=<%=rgdId%>" title="view clinical measurement phenotype data"><%=term.getTerm()%></a></li>
                         <%    } %>
 <%--                        } else {--%>
 <%--                            for( Term term: bean.getPhenoCmoTerms() ) { %>--%>
@@ -59,7 +59,7 @@
                     <ul>
 <%--                         if( bean.getAccId().startsWith("XCO:") ) {--%>
                         <%   for( Term term: bean.getPhenoXcoTerms() ) { %>
-                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>" title="view experimental condition phenotype data"><%=term.getTerm()%></a></li>
+                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>&refRgdId=<%=rgdId%>" title="view experimental condition phenotype data"><%=term.getTerm()%></a></li>
                         <%    } %>
 <%--                        } else {--%>
 <%--                            for( Term term: bean.getPhenoXcoTerms() ) { %>--%>
@@ -73,7 +73,7 @@
                     <ul>
 <%--                         if( bean.getAccId().startsWith("MMO:") ) {--%>
                         <%   for( Term term: bean.getPhenoMmoTerms() ) { %>
-                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>" title="view measurement method phenotype data"><%=term.getTerm()%></a></li>
+                        <li><a href="/rgdweb/phenominer/table.html?species=3&terms=<%=term.getAccId()%>&refRgdId=<%=rgdId%>" title="view measurement method phenotype data"><%=term.getTerm()%></a></li>
                         <%    } %>
 <%--                        } else {--%>
 <%--                            for( Term term: bean.getPhenoMmoTerms() ) { %>--%>
