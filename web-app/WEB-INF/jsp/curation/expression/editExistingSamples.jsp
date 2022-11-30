@@ -3,7 +3,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="java.util.HashMap" %>
-<script type="text/javascript" src="/rgdweb/js/ontPopupBrowser.js"></script>
+<script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <%
     String pageHeader="Edit Samples";
     String pageTitle="Edit Samples";
