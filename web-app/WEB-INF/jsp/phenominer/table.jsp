@@ -7,6 +7,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="org.elasticsearch.action.search.SearchResponse" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta name="referrer" content="no-referrer" />
@@ -43,7 +44,9 @@
 
 </script>
 <script src="/rgdweb/common/jquery.tabletoCSV.js"> </script>
-
+<%
+    SearchResponse sr= (SearchResponse) request.getAttribute("sr");
+%>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
 <div class="row" id="phenoController">
@@ -94,7 +97,7 @@
 
         <div class="row">
             <div class="col-sm-5">
-                <h3>Phenominer Database Results (${sr.hits.totalHits})</h3>
+                <h3>Phenominer Database Results (<%=sr.getHits().getTotalHits().value%>&nbsp;results)</h3>
             </div>
             <div class="col-xs-2">
                 <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
