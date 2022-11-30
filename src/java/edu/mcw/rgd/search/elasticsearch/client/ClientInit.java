@@ -34,17 +34,19 @@ public class ClientInit {
 
     }
     private static RestHighLevelClient getInstance() throws UnknownHostException {
-        Properties props= getProperties();
-        if(RgdContext.isProduction() || RgdContext.isPipelines())
-        return new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost((String) props.get("HOST1"), 9200, "http"),
-                        new HttpHost((String) props.get("HOST2"), 9200, "http"),
-                        new HttpHost((String) props.get("HOST3"), 9200, "http"),
-                        new HttpHost((String) props.get("HOST4"), 9200, "http"),
-                        new HttpHost((String) props.get("HOST5"), 9200, "http")
 
-                ));
+        if(RgdContext.isProduction() || RgdContext.isPipelines()) {
+            Properties props = getProperties();
+            return new RestHighLevelClient(
+                    RestClient.builder(
+                            new HttpHost((String) props.get("HOST1"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST2"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST3"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST4"), 9200, "http"),
+                            new HttpHost((String) props.get("HOST5"), 9200, "http")
+
+                    ));
+        }
         else
             return new RestHighLevelClient(
                     RestClient.builder(
