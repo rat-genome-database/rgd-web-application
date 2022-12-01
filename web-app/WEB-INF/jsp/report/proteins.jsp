@@ -5,9 +5,6 @@
     List<GenomicElement> pdomains = geDAO.getProteinDomainsForGene(obj.getRgdId());
     if( pei.size()+pdomains.size()>0 ) {
 %>
-    <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
-
-
 
 <div id="proteinSequencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
@@ -74,7 +71,7 @@
       <% } else { %>
            <td style="background-color:<%=bkColor%>;">&nbsp;</td>
        <% } %>
-        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getLinkText()%>"><%=pxid.getAccId()%></a></td>
+        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>"><%=Utils.NVL(pxid.getLinkText(),pxid.getAccId())%></a></td>
         <% if (!xdb.getName().contains("Ensembl") ) {%>
         <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>?report=fasta">(Get FASTA)</a></td>
         <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=pxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
@@ -242,8 +239,6 @@
   <% } %>
 <% } %><p>
 </div>
-    <%//ui.dynClose("protAssociation")%>
 <% } %>
-
 
 <%@ include file="sectionFooter.jsp"%>
