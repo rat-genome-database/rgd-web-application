@@ -467,7 +467,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         .mainDiv {
             idth: 1200px;
             overflow-x: scroll;
-            margin-left: 107px;
+            margin-left: 167px;
             verflow-y: scroll;
             eight:500px;
             padding: 0;
@@ -476,7 +476,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         .headcol {
             position: absolute;
             width: 5em;
-            left: 15;
+            left: 25;
             top: auto;
             border: 0px solid black;
             /*only relevant for first row*/
@@ -487,7 +487,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         .headrow {
             position: absolute;
             width: 5em;
-            left: 15;
+            left: 25;
             top: auto;
             border: 0px solid black;
             /*only relevant for first row*/
@@ -518,14 +518,35 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
     <script>
 
+        changeLog=[];
+
+
         // Enable navigation prompt
         window.onbeforeunload = function() {
             return true;
         };
 
-        function changed(obj,recordId) {
+        function revert(recordId) {
+            if (changeLog[recordId]) {
+                document.getElementById("tr_" + recordId).innerHTML = changeLog[recordId];
+            }else {
+                alert("This record has not been modified");
+            }
+        }
+
+        function changed(obj) {
+            var recordId=parseId(obj.name);
+
+            if (!changeLog[recordId]) {
+                changeLog[recordId] = document.getElementById("tr_" + recordId).innerHTML;
+            }
+
+
             obj.style.backgroundColor="#F6F1A3";
             document.getElementById("save*" + recordId).style.backgroundColor="#F6F1A3";
+            document.getElementById("tr_" + recordId).style.outlineStyle="dashed";
+            document.getElementById("tr_" + recordId).style.outlineColor="red";
+            document.getElementById("tr_" + recordId).style.outlineWidth="2px";
         }
 
         function deleteRecord() {
@@ -533,7 +554,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
       }
 
-      function getRecordId(inputName) {
+      function parseId(inputName) {
             return inputName.substring(inputName.indexOf("*")+1);
       }
 
@@ -549,7 +570,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                   if (elements[i].id.startsWith("save")) {
                       //alert(elements[i].style.backgroundColor);
                       if (elements[i].style.backgroundColor==="rgb(246, 241, 163)") {
-                          saveRecord(getRecordId(elements[i].id));
+                          saveRecord(parseId(elements[i].id));
                       }
                   }
 
@@ -600,6 +621,12 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                       var elements=document.getElementById("editRecordForm").elements;
 
                       alert(recordId);
+
+                      document.getElementById("tr_" + recordId).style.outlineStyle="solid";
+                      document.getElementById("tr_" + recordId).style.outlineColor="black";
+                      document.getElementById("tr_" + recordId).style.outlineWidth="1px";
+
+
                       for (i=0; i<elements.length; i++){
 
                           if (elements[i].name.indexOf(recordId) > -1) {
