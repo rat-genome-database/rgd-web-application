@@ -95,6 +95,9 @@
             <th>Units</th>
             <th>SEM</th>
             <th>SD</th>
+            <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+                <th>Individual Records</th>
+            </c:if>
             <th>Method</th>
 <c:if test="${columns.methodSite!=null}">
 
@@ -126,9 +129,7 @@
             </c:if>
             <th>Record ID</th>
             <th>Study ID</th>
-            <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
-            <th>Individual Records</th>
-            </c:if>
+
         </tr>
     </thead>
     <tbody>
@@ -167,6 +168,22 @@
                 <td>${hit.sourceAsMap.units}</td>
                 <td>${hit.sourceAsMap.sem}</td>
                 <td>${hit.sourceAsMap.sd}</td>
+                <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
+                    <td>
+                        <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
+                            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
+                                <span style="text-decoration:underline">View Values</span>
+                            </button>
+                            <div style="display: none" id="popover-${hit.sourceAsMap.recordId}">
+                                <div class="popover-body">
+                                    <c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">
+                                        ${r.animalId}:&nbsp;${r.measurementValue}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </c:if>
+                    </td>
+                </c:if>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.mmoTermAcc}">${hit.sourceAsMap.mmoTerm}</a></td>
                 <c:if test="${columns.methodSite!=null}">
 
@@ -198,22 +215,7 @@
                 </c:if>
                 <td>${hit.sourceAsMap.recordId}</td>
                 <td>${hit.sourceAsMap.studyId}</td>
-                <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
-                <td>
-                    <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
-                    <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
-                        <span style="text-decoration:underline">View Values</span>
-                    </button>
-                    <div style="display: none" id="popover-${hit.sourceAsMap.recordId}">
-                        <div class="popover-body">
-                            <c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">
-                                ${r.animalId}:&nbsp;${r.measurementValue}<br>
-                            </c:forEach>
-                        </div>
-                    </div>
-                    </c:if>
-                </td>
-                </c:if>
+
             </tr>
         </c:forEach>
     </tbody>
