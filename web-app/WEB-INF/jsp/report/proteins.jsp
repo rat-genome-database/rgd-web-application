@@ -5,9 +5,6 @@
     List<GenomicElement> pdomains = geDAO.getProteinDomainsForGene(obj.getRgdId());
     if( pei.size()+pdomains.size()>0 ) {
 %>
-    <%//ui.dynOpen("protAssociation", "Protein Sequences")%>
-
-
 
 <div id="proteinSequencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="proteinSequences">Protein Sequences</div>
@@ -47,7 +44,7 @@
 <%
     int row = 0;
     int prevRefSeqCode = -1;
-    String prevAccId = null;
+    String prevAccId = null, preName="";
 
     for (XdbId pxid: pei) {
         if( Utils.stringsAreEqual(prevAccId, pxid.getAccId()) ) {
@@ -65,14 +62,20 @@
            int refSeqCode = (pxid.getAccId()!=null && pxid.getAccId().length()>3 && pxid.getAccId().charAt(2)=='_') ? 1 : 0;
            if( refSeqCode != prevRefSeqCode ) {
                prevRefSeqCode = refSeqCode;
+               preName = xdb.getName();
        %>
            <td style="background-color:<%=bkColor%>;"><b><%=refSeqCode>0 ? "Protein RefSeqs" : xdb.getName()%></b></td>
-       <% } else {%>
+       <% } else if ( !preName.equals(xdb.getName()) ) {
+            preName = xdb.getName(); %>
+        <td style="background-color:<%=bkColor%>;"><b><%=xdb.getName()%></b></td>
+      <% } else { %>
            <td style="background-color:<%=bkColor%>;">&nbsp;</td>
        <% } %>
-        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getLinkText()%>"><%=pxid.getAccId()%></a></td>
+        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>"><%=Utils.NVL(pxid.getLinkText(),pxid.getAccId())%></a></td>
+        <% if (!xdb.getName().contains("Ensembl") ) {%>
         <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>?report=fasta">(Get FASTA)</a></td>
         <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=pxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
+        <% } else {out.print("<td style=\"background-color:"+bkColor+";\"></td><td style=\"background-color:"+bkColor+";\"></td>");}%>
     </tr>
 <% } %>
 </table>
@@ -108,8 +111,6 @@
 
     <span class="highlight"><u>Reference Sequences</u></span>
 
-
-
     <div class="modelsViewContent" >
         <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
             <form>
@@ -129,9 +130,6 @@
             </form>
         </div>
     </div>
-
-
-
 
 <%
 
@@ -162,8 +160,6 @@
             }
         }
     %>
-
-
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
     <tr>
         <td class="label" valign="top" width="110">RefSeq Acc Id:</td>
@@ -227,8 +223,9 @@
             </form>
         </div>
     </div>
-<% } %>
 </div>
+<% } %>
+
 <%  // PROTEIN DOMAINS
     if (pdomains.size() > 0) {
 %>
@@ -242,8 +239,6 @@
   <% } %>
 <% } %><p>
 </div>
-    <%//ui.dynClose("protAssociation")%>
 <% } %>
-
 
 <%@ include file="sectionFooter.jsp"%>
