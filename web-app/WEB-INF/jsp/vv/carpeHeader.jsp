@@ -195,14 +195,15 @@
         gene = gene.replaceAll("|","%7C");
 
         var qString="<%=request.getQueryString()%>";
+        console.log("QSTRING:"+ qString)
         var queryString="?";
         if(qString!=null && qString!="null")
         {
          queryString = queryString+"<%=request.getQueryString()%>";
         }
-        queryString = addParam("chr","",queryString);
-        queryString = addParam("start","",queryString);
-        queryString = addParam("stop","",queryString);
+     //   queryString = addParam("chr","",queryString);
+      //  queryString = addParam("start","",queryString);
+      //  queryString = addParam("stop","",queryString);
         queryString = addParam("geneList",gene,queryString);
         queryString = addParam("geneStart","",queryString);
         queryString = addParam("geneStop","",queryString);
