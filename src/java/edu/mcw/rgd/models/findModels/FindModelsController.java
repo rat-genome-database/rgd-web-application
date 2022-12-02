@@ -53,6 +53,8 @@ public class FindModelsController implements Controller {
             model.put("aggregations", aggregations);
             model.put("searchHits", searchHits);
             model.put("hitsCount", hitsCount);
+            model.put("strainType", strainType);
+            model.put("condition", condition);
             if(!qualifier.equals("")){
                 return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp", "model", model);
             }else
