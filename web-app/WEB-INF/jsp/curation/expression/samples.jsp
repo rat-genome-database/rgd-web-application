@@ -20,7 +20,12 @@
         width: 100%;
         text-align: center;
         font-size: 12px;
+    }
 
+    table tr td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 15px;
     }
     #t th{
         background: rgb(246,248,249); /* Old browsers */
@@ -32,7 +37,7 @@
     #t td{
         max-width: 15px;
         min-width: 5px;
-        padding: 2px;
+        padding: 10px;
 
     }
     #t  tr:nth-child(odd) {background-color: #f2f2f2}

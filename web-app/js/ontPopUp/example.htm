@@ -1,14 +1,18 @@
 <script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 
-<input type="text" name="strainId" id="strainId" value="">
-<br><input type="text" id="rs_term" name="rs_term" value="" style="border: none; background: transparent;" readonly/>
+<!--
+ ontPopup(<ont acc input>, <ontId>)
+ -->
+<input type="text" name="strainId" id="strainId" value="RS:0000681">
+<input type="text" id="rs_term" name="rs_term" value="" style="border: none; background: transparent;" readonly/>
 <a href="" id="rs_popup" onclick="ontPopup('strainId','rs')" style="color:black;">Ont Tree</a>
 
 
 
-<!-- in java loop -->
+<!-- in java loop
 <% for (int count = 0; count < obj.size; count++) {%>
 <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="">
 <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="" style="border: none; background: transparent;" readonly/>
 <a href="" id="uberon<%=count%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=count%>')" style="color:black;">Ont Tree</a>
 <% } %>
+-->

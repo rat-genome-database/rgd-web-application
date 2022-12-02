@@ -45,6 +45,9 @@
     .formfield * {
         vertical-align: middle;
     }
+    table input{
+        font-size: 14px;
+    }
 </style>
 
 <%
@@ -126,8 +129,14 @@
         <form action="experiments.html" method="POST">
 
             <input type="submit" value="Create Samples"/> <br><br>
-            <table class="table table-striped">
 
+            <table class="table table-striped">
+                <tr style="all: revert;">
+                    <th>GEO</th>
+                    <th>RGD</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             <%
       int tcount = 0;
 if (tissueMap.isEmpty()){ %>
