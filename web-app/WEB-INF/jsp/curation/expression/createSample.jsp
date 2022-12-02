@@ -49,6 +49,9 @@
     .t tr:hover {
         background-color: #daeffc;
     }
+    table input{
+        font-size: 14px;
+    }
 
 </style>
 <script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>

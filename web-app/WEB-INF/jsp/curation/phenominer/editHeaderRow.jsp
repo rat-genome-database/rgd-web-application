@@ -1,5 +1,5 @@
 <tr>
-    <td class="headcol"><input style="background-color:#25C780;" type="button" value="Save All" onClick="saveAll()"/>
+    <td class="headcol"><input style="background-color:#25C780; width:155px" type="button" value="Save All" onClick="saveAll()"/>
     </td>
     <td class="phenominerTableHeader" >
         SID
@@ -14,7 +14,7 @@
         Curation Status
     </td>
     <td class="phenominerTableHeader">
-        Clinical Measurement <%=requiredFieldIndicator%>:
+        Clinical Measurement <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         Site
@@ -47,7 +47,7 @@
         Note
     </td>
     <td class="phenominerTableHeader">
-        Measurement Method <%=requiredFieldIndicator%>ACC ID:
+        Measurement Method <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         Duration
@@ -71,7 +71,7 @@
         Notes
     </td>
     <td class="phenominerTableHeader">
-        Strain <%=requiredFieldIndicator%>ACC ID:
+        Strain <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         <%=requiredFieldIndicator%>Animal Count
@@ -87,7 +87,7 @@
     </td>
     <td class="phenominerTableHeader">BioSample ID</td>
     <td class="phenominerTableHeader">
-        Experimental Condition 1 <%=requiredFieldIndicator%>ACC ID:
+        Experimental Condition 1 <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         Min Value

@@ -2,7 +2,7 @@
 
 <input type="hidden" name="id<%=rid%>" value="<%=rec.getId()%>"/>
 
-    <tr id="tr_<%=rec.getId()%>">
+    <tr id="tr_<%=rec.getId()%>" style="outline: thin solid;">
 
     <td class="headcol">
         <table>
@@ -13,6 +13,9 @@
                 <td>
                     <input style="background-color:#24C780; margin-top:6px; height:50px; width:50px" type="button" value="Clone" onClick="cloneRecord(this.form,'<%=rec.getId()%>')"/>
                 </td>
+                <td>
+                    <input style="background-color:#24C780; margin-top:6px; height:50px; width:50px" type="button" value="Revert" onClick="revert(<%=rec.getId()%>)"/>
+                </td>
             </tr>
         </table>
     </td>
@@ -21,7 +24,7 @@
     </td>
     <td class="phenominerTableCell">
         <!-- experiment id -->
-        <table><tr><td><input onChange="changed(this,'<%=rec.getId()%>')" type="text" id="expId<%=rid%>" size='6' name="expId<%=rid%>" value="<%=req.getParameter("expId")%>" style="background-color: #dddddd" readonly="true"/></td>
+        <table><tr><td><input onChange="changed(this)" type="text" id="expId<%=rid%>" size='6' name="expId<%=rid%>" value="<%=req.getParameter("expId")%>" style="background-color: #dddddd" readonly="true"/></td>
             <td><button type="button" onclick="editField('#expId'+rid)" class="butEdit"></button></td></tr></table>
     </td>
     <td class="phenominerTableCell">
@@ -37,7 +40,7 @@
         <table>
             <tr>
                 <td colspan="2">
-                    <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" id="cmAccId<%=rid%>" name="cmAccId<%=rid%>" size="40" value="<%=dm.out("cmAccId"+rid, rec.getClinicalMeasurement().getAccId())%>"/>
+                    <input  onChange="changed(this)" type="text" id="cmAccId<%=rid%>" name="cmAccId<%=rid%>" size="40" value="<%=dm.out("cmAccId"+rid, rec.getClinicalMeasurement().getAccId())%>"/>
                 </td>
             </tr>
             <tr>
@@ -57,7 +60,7 @@
         <table>
             <tr>
                 <td>
-                    <input  onChange="changed(this,'<%=rec.getId()%>')" id="cmSite<%=rid%>" size="40" type="text" name="cmSite<%=rid%>" value="<%=dm.out("cmSite"+rid, rec.getClinicalMeasurement().getSite())%>" style="background-color: #dddddd" readonly="true">
+                    <input  onChange="changed(this)" id="cmSite<%=rid%>" size="40" type="text" name="cmSite<%=rid%>" value="<%=dm.out("cmSite"+rid, rec.getClinicalMeasurement().getSite())%>" style="background-color: #dddddd" readonly="true">
                 </td>
                 <td>
                     <button type="button" onclick="editField('#cmSite<%=rid%>')" class="butEdit"></button>
@@ -67,12 +70,12 @@
     </td>
     <td class="phenominerTableCell">
         <!-- Site ACC IDs -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" id="cmSiteAccID<%=rid%>" size="40" type="text" name="cmSiteAccID<%=rid%>" value="<%=dm.out("cmSiteAccID"+rid, rec.getClinicalMeasurement().getSiteOntIds())%>"/>
+        <input  onChange="changed(this)" id="cmSiteAccID<%=rid%>" size="40" type="text" name="cmSiteAccID<%=rid%>" value="<%=dm.out("cmSiteAccID"+rid, rec.getClinicalMeasurement().getSiteOntIds())%>"/>
     </td>
 
     <td class="phenominerTableCell">
         <!-- Value -->
-        <input onChange="changed(this,'<%=rec.getId()%>')" style="height:50px; border:0px solid black;" type="text" name="cmValue<%=rid%>" size="10" value="<%=dm.out("cmValue"+rid, rec.getMeasurementValue())%>"/>
+        <input onChange="changed(this)" style="height:50px; border:0px solid black;" type="text" name="cmValue<%=rid%>" size="10" value="<%=dm.out("cmValue"+rid, rec.getMeasurementValue())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Unit -->
@@ -80,15 +83,15 @@
     </td>
     <td class="phenominerTableCell">
         <!-- SD -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" name="cmSD<%=rid%>" size="10" value="<%=dm.out("cmSD"+rid, rec.getMeasurementSD())%>"/>
+        <input  onChange="changed(this)" type="text" name="cmSD<%=rid%>" size="10" value="<%=dm.out("cmSD"+rid, rec.getMeasurementSD())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- SEM -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" name="cmSEM<%=rid%>" size="10" value="<%=dm.out("cmSEM" + rid, rec.getMeasurementSem())%>"/>
+        <input  onChange="changed(this)" type="text" name="cmSEM<%=rid%>" size="10" value="<%=dm.out("cmSEM" + rid, rec.getMeasurementSem())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Error -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" name="cmError<%=rid%>" value="<%=dm.out("cmError"+rid, rec.getMeasurementError())%>"/>
+        <input  onChange="changed(this)" type="text" name="cmError<%=rid%>" value="<%=dm.out("cmError"+rid, rec.getMeasurementError())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Average Type -->
@@ -96,18 +99,18 @@
     </td>
     <td class="phenominerTableCell">
         <!-- Formula -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" name="cmFormula<%=rid%>" value="<%=dm.out("cmFormula"+rid, rec.getClinicalMeasurement().getFormula())%>"/>
+        <input  onChange="changed(this)" type="text" name="cmFormula<%=rid%>" value="<%=dm.out("cmFormula"+rid, rec.getClinicalMeasurement().getFormula())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Note -->
-        <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" size="30" name="cmNote<%=rid%>" value="<%=dm.out("cmNote"+rid, rec.getClinicalMeasurement().getNotes())%>"/>
+        <input  onChange="changed(this)" type="text" size="30" name="cmNote<%=rid%>" value="<%=dm.out("cmNote"+rid, rec.getClinicalMeasurement().getNotes())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Measurement Method -->
         <table>
             <tr>
                 <td>
-                    <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" id="mmAccId<%=rid%>" name="mmAccId<%=rid%>" size="40" value="<%=dm.out("mmAccId"+rid, rec.getMeasurementMethod().getAccId())%>"/>
+                    <input  onChange="changed(this)" type="text" id="mmAccId<%=rid%>" name="mmAccId<%=rid%>" size="40" value="<%=dm.out("mmAccId"+rid, rec.getMeasurementMethod().getAccId())%>"/>
                 </td>
                 <td>
                     <a href="javascript:lookup_treeRender('mmAccId<%=rid%>', 'MMO', 'MMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
@@ -124,7 +127,7 @@
         <table>
             <tr>
                 <td>
-                    <input  onChange="changed(this,'<%=rec.getId()%>')" type="text" size="7" name="mmDuration<%=rid%>" value="<%=dm.out("mmDuration"+rid, (mmDuration == -1111L ? rec.getMeasurementMethod().getDuration() :(mmDuration > 0 ? mmDuration.toString() : "")))%>" onchange="document.getElementsByName('mmDurationUnits<%=rid%>')[0].style.color='red'"/>
+                    <input  onChange="changed(this)" type="text" size="7" name="mmDuration<%=rid%>" value="<%=dm.out("mmDuration"+rid, (mmDuration == -1111L ? rec.getMeasurementMethod().getDuration() :(mmDuration > 0 ? mmDuration.toString() : "")))%>" onchange="document.getElementsByName('mmDurationUnits<%=rid%>')[0].style.color='red'"/>
                 </td>
                 <td>
                     <%=fu.buildSelectList("mmDurationUnits"+rid, timeUnits, (mmDuration == -1111L || mmDuration > 0) ? "" : Condition.convertDurationBoundToString(mmDuration),"changed(this)")%>

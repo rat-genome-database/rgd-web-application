@@ -56,6 +56,7 @@ public class GeoExperimentController implements Controller {
                     header.append("Sex");
                     header.append("Life Stage");
                     header.append("Notes");
+                    header.append("Curator Notes");
                     r.append(header);
                 for (int i = 0; i < count; i++) {
                     Sample s = new Sample();
@@ -111,6 +112,7 @@ public class GeoExperimentController implements Controller {
                     rec.append(s.getSex());
                     rec.append(s.getLifeStage());
                     rec.append(s.getNotes());
+                    rec.append(s.getCuratorNotes());
                     r.append(rec);
 
                     pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),curStatus,species);
