@@ -53,6 +53,8 @@ public class FindModelsController implements Controller {
             model.put("aggregations", aggregations);
             model.put("searchHits", searchHits);
             model.put("hitsCount", hitsCount);
+            model.put("strainType", strainType);
+            model.put("condition", condition);
             if(!qualifier.equals("")){
                 return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp", "model", model);
             }else
@@ -234,7 +236,6 @@ public class FindModelsController implements Controller {
            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
         if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
-        System.out.println("QUALIFIER:"+ qualifier);
          query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
         }
         if(!strainType.equals("")){
