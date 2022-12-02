@@ -30,7 +30,7 @@
                 <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor:hand;font-weight: bold;color:steelblue">Disease (${aspect.docCount})</a>
                 <ul class="list-group">
                 <c:forEach items="${model.aggregations.D}" var="dm">
-                    <li class="list-group-item" style="padding: 0"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
+                    <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
                 </c:forEach>
                 </ul>
             </c:if>
@@ -39,12 +39,12 @@
                 <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor:hand;font-weight: bold;color:steelblue"> Phenotype (${aspect.docCount})</a>
                 <ul class="list-group">
                     <c:forEach items="${model.aggregations.N}" var="pm">
-                        <li class="list-group-item" style="padding: 0"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
+                        <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
                     </c:forEach>
                 </ul>
             </c:if>
                 <c:if test="${aspect.key!='N' && aspect.key!='D'}">
-                    <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
+                    <a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
                     <c:if test="${aspect.key=='V'}">
                         Vertebrate Trait Ontology (${aspect.docCount})
 
@@ -59,7 +59,7 @@
             </li>
             </c:if>
             <c:if test="${model.aspect=='MODEL'}">
-                <li class="list-group-item" style="padding: 0"><a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline;font-weight: bold;color:steelblue">
+                <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline;font-weight: bold;color:steelblue">
                     <c:if test="${aspect.key=='D'}">
                     Disease (${aspect.docCount})
 
