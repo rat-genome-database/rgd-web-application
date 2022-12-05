@@ -83,6 +83,7 @@
         <option  value="pending">Pending</option>
         <option value="loaded">Loaded</option>
         <option  value="not4Curation">Not For Curation</option>
+        <option value="futureCuration">Future Curation</option>
     </select>
 <br><br>
 

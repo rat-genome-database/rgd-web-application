@@ -107,6 +107,7 @@
                     <td><select id="status" name="status" >
                         <option value="loaded">Loaded</option>
                         <option  value="not4Curation">Not For Curation</option>
+                        <option value="futureCuration">Future Curation</option>
                         <option  value="pending">Pending</option>
                     </select>
                     </td>
@@ -244,6 +245,7 @@ catch (Exception e){}
                 <td><select id="status<%=count%>" name="status<%=count%>">
                     <option value="loaded" selected>Loaded</option>
                     <option  value="not4Curation">Not For Curation</option>
+                    <option value="futureCuration">Future Curation</option>
                     <option  value="pending">Pending</option>
                 </select>
                 </td>
