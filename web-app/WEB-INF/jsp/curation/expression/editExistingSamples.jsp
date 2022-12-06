@@ -45,16 +45,16 @@
         <tr>
             <td><input name="sample<%=cnt%>" id="sample<%=cnt%>" value="<%=s.getId()%>" readonly></td>
             <td><input name="strainId<%=cnt%>" id="strainId<%=cnt%>" value="<%=Objects.toString(s.getStrainAccId(),"")%>">
-            <br><input type="text" id="rs<%=cnt%>_term" name="rs<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
-            <a href="" id="rs<%=cnt%>_popup" onclick="ontPopupGroup('strainId','rs','<%=cnt%>')" style="color:black;">Ont Tree</a></td>
+            <br><input type="text" id="rs<%=cnt%>_term" name="rs<%=cnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+            <a href="" id="rs<%=cnt%>_popup" onclick="ontPopup('strainId<%=cnt%>','rs','rs<%=cnt%>_term')" style="color:black;">Ont Tree</a></td>
 
             <td><input name="cellTypeId<%=cnt%>" id="cellTypeId<%=cnt%>" value="<%=Objects.toString(s.getCellTypeAccId(),"")%>">
-                <br><input type="text" id="cl<%=cnt%>_term" name="cl<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
-                <a href="" id="cl<%=cnt%>_popup" onclick="ontPopupGroup('cellTypeId','cl','<%=cnt%>')" style="color:black;">Ont Tree</a></td>
+                <br><input type="text" id="cl<%=cnt%>_term" name="cl<%=cnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                <a href="" id="cl<%=cnt%>_popup" onclick="ontPopup('cellTypeId<%=cnt%>','cl','cl<%=cnt%>_term')" style="color:black;">Ont Tree</a></td>
             <td><input name="cellLine<%=cnt%>" id="cellLine<%=cnt%>" value="<%=Objects.toString(s.getCellLineId(),"")%>"></td>
             <td><input name="tissueId<%=cnt%>" id="tissueId<%=cnt%>" value="<%=Objects.toString(s.getTissueAccId(),"")%>">
-                <br><input type="text" id="uberon<%=cnt%>_term" name="uberon<%=cnt%>_term" value="" style="border: none; background: transparent;" readonly/>
-                <a href="" id="uberon<%=cnt%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=cnt%>')" style="color:black;">Ont Tree</a></td>
+                <br><input type="text" id="uberon<%=cnt%>_term" name="uberon<%=cnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                <a href="" id="uberon<%=cnt%>_popup" onclick="ontPopup('tissueId<%=cnt%>','uberon','uberon<%=cnt%>_term')" style="color:black;">Ont Tree</a></td>
             <td><input name="geoAcc<%=cnt%>" id="geoAcc<%=cnt%>" value="<%=Objects.toString(s.getGeoSampleAcc(),"")%>"></td>
             <td><select name="sex<%=cnt%>" id="sex<%=cnt%>">
                 <option value="male" <%=Utils.stringsAreEqual(s.getSex(),"male") ? "selected" : ""%>>Male</option>

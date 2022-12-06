@@ -4,6 +4,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
+<%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -60,7 +63,7 @@
 
 <%@ include file="/common/headerarea.jsp" %>
 <%
-
+    OntologyXDAO ontologyXDAO = new OntologyXDAO();
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
     PhenominerDAO pdao = new PhenominerDAO();
@@ -151,9 +154,10 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                        <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
-                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=tcount%>')" style="color:black;">Ont Tree</a>
+                            <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
+                            <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+
                     </td>
                     <td></td>
                     <td></td>
@@ -162,6 +166,10 @@ if (tissueMap.isEmpty()){ %>
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
+       String ontAccId = tissueMap.get(tissue);
+        Term t = new Term();
+       if (ontAccId!=null && !ontAccId.isEmpty()){
+        t = ontologyXDAO.getTerm(ontAccId);}
   %>
             <tr>
                 <td>
@@ -174,9 +182,10 @@ if (tissueMap.isEmpty()){ %>
                 </td>
                 <td>
 <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>" value="" onblur="lostFocus('uberon')">
-                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopupGroup('tissueId','uberon','<%=tcount%>')" style="color:black;">Ont Tree</a>
+                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=ontAccId%>" onblur="lostFocus('uberon')">
+                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+
                 </td>
                 <td></td>
                 <td></td>
@@ -201,8 +210,9 @@ if (tissueMap.isEmpty()){ %>
                     <td>
 <%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
                         <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" value="" onblur="lostFocus('rs')">
-                        <input type="text" id="rs<%=tcount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="rs<%=tcount%>_popup" onclick="ontPopupGroup('strainId','rs','<%=scount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+
                     </td>
                     <td></td>
                     <td></td>
@@ -211,6 +221,10 @@ if (tissueMap.isEmpty()){ %>
 <% scount++;}
    else {
           for(String strain: strainMap.keySet()){
+              String ontAccId = strainMap.get(strain);
+              Term t = new Term();
+              if (ontAccId!=null && !ontAccId.isEmpty()){
+                  t = ontologyXDAO.getTerm(ontAccId);}
                 %>
             <tr>
                 <td>
@@ -224,9 +238,10 @@ if (tissueMap.isEmpty()){ %>
                 </td>
                 <td>
 <%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
-                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value=""  value="" onblur="lostFocus('rs')">
-                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopupGroup('strainId','rs','<%=scount%>')" style="color:black;">Ont Tree</a>
+                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=ontAccId%>" onblur="lostFocus('rs')">
+                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%"  readonly/>
+
                 </td>
                 <td></td>
                 <td></td>
@@ -292,8 +307,9 @@ if (tissueMap.isEmpty()){ %>
                     <td>
 <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
                         <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
-                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl','<%=cTcount%>')" style="color:black;">Ont Tree</a>
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+
                     </td>
                     <td></td>
                     <td></td>
@@ -302,6 +318,10 @@ if (tissueMap.isEmpty()){ %>
                 <%   cTcount++;
                     }
                 else for(String cellType: cellTypeMap.keySet()){
+                        String ontAccId = cellTypeMap.get(cellType);
+                        Term t = new Term();
+                        if (ontAccId!=null && !ontAccId.isEmpty()){
+                            t = ontologyXDAO.getTerm(ontAccId);}
                 %>
                 <tr>
                     <td>
@@ -314,9 +334,11 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
-                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
-                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;" value="" readonly/>
-                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopupGroup('cellTypeId','cl','<%=cTcount%>')" style="color:black;">Ont Tree</a>
+
+                            <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=ontAccId%>" onblur="lostFocus('cl')">
+                            <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
+                            <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+
                     </td>
                     <td></td>
                     <td></td>
@@ -420,6 +442,10 @@ if (tissueMap.isEmpty()){ %>
                         <option value="not specified" selected>Not Specified</option>
                     </select>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <%  gcount++;}
                     else{
