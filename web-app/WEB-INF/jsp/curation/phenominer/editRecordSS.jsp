@@ -17,11 +17,8 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 <%@ include file="editHeader.jsp" %>
 
 <br>
-<!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
-<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
-<script type="text/javascript" src="/rgdweb/OntoSolr/ont_util.js"></script>
-
+<script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <%
     OntologyXDAO ontDao = new OntologyXDAO();
     List<String> idList = req.getParameterValues("id");
@@ -175,6 +172,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
 
     <%
+        /*
         String cmTerm = "";
         try {
             if (rec.getClinicalMeasurement().getAccId() != null) {
@@ -184,9 +182,6 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             cmTerm = "ERROR: TERM NOT FOUND!!!!!";
             e.printStackTrace();
         }
-    %>
-
-    <%
         String sTerm = "";
         try {
             if (rec.getSample().getStrainAccId() != null) {
@@ -196,149 +191,15 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             sTerm = "ERROR: TERM NOT FOUND!!!!!";
             e.printStackTrace();
         }
-    %>
-
-    <script>
-        function editField(fieldID) {
-            $(fieldID).attr('readonly', false);
-            $(fieldID).css('background-color', 'white');
-            $(fieldID).focus();
-        }
-        function lockField(fieldID) {
-            $(fieldID).attr('readonly', true);
-            $(fieldID).css('background-color', '#dddddd');
-        }
-    </script>
-
-
-    <script>
-        var justLoaded = true;
-        var lastIndex = 0;
-        $(document).ready(function () {
-            var not4Curation = ' AND NOT Not4Curation';
-            $(".butEdit").button({icons: {primary: "ui-icon-unlocked"}, text: false});
-            $("#expId").focusout(function () {
-                lockField('#expId')
-            });
-            $("#cmSite").focusout(function () {
-                lockField('#cmSite')
-            });
-            $("#mmSite").focusout(function () {
-                lockField('#mmSite')
-            });
-            $("#sAccId").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
-                        'bf': 'term_len_l^8',
-                        'fq': 'cat:RS AND synonym:(+RGD +ID)' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'curtermselect'
-                    },
-                    max: 10000
-                }
-            );
-            $("#sAccId").result(function (data, value) {
-                $("#sAccId").val(value[1]);
-                $("#sTerm").html(value[0]);
-            });
-            $("#cmAccId").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
-                        'bf': 'term_len_l^2',
-                        'fq': 'cat:CMO' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'curtermselect'
-                    },
-                    max: 10000
-                }
-            );
-            $("#cmAccId").result(function (data, value) {
-                $("#cmAccId").val(value[1]);
-                $("#cmTerm").html(value[0]);
-            });
-            $("#mmAccId").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
-                        'bf': 'term_len_l^2',
-                        'fq': 'cat:MMO' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'curtermselect'
-                    },
-                    max: 10000
-                }
-            );
-            $("#mmAccId").result(function (data, value) {
-                $("#mmAccId").val(value[1]);
-                $("#mmTerm").html(value[0]);
-            });
-            <% for (int i = 0; i < 15; i++) { %>
-            $("#cAccId<%=i%>").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
-                        'bf': 'term_len_l^2',
-                        'fq': 'cat:XCO' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'curtermselect'
-                    },
-                    max: 10000
-                }
-            );
-            $("#cAccId<%=i%>").result(function (data, value) {
-                $("#cAccId<%=i%>").val(value[1]);
-                $("#cTerm<%=i%>").html(value[0]);
-            });
-            <%};%>
-            $("#mmSiteAccID").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
-                        'bf': 'term_len_l^2',
-                        'fq': 'cat:UBERON' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'termidsel_cur'
-                    },
-                    max: 10000,
-                    multiple: true,
-                    multipleSeparator: '|'
-                }
-            );
-            $("#mmSiteAccID").result(function (data, value) {
-//       $("#mmSite").val($("#mmSite").val()+value[1]);
-                var siteStr = $("#mmSiteAccID").val();
-                $("#mmSiteAccID").val(siteStr.substring(0, siteStr.lastIndexOf('|') + 1) + value[1]);
-                getOntTerms($("#mmSiteAccID").val(), "#mmSite");
-            });
-            $("#mmSiteAccID").keyup(function (event) {
-                getOntTerms($("#mmSiteAccID").val(), "#mmSite");
-                $("#mmSite").css("color", "red");
-            });
-            $("#cmSiteAccID").autocomplete('/OntoSolr/select', {
-                    extraParams: {
-                        'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
-                        'bf': 'term_len_l^2',
-                        'fq': 'cat:(UBERON CL) ' + not4Curation,
-                        'wt': 'velocity',
-                        'v.template': 'termidsel_cur'
-                    },
-                    max: 10000,
-                    multiple: true,
-                    multipleSeparator: '|'
-                }
-            );
-            $("#cmSiteAccID").result(function (data, value) {
-//       $("#mmSite").val($("#mmSite").val()+value[1]);
-                var siteStr = $("#cmSiteAccID").val();
-                $("#cmSiteAccID").val(siteStr.substring(0, siteStr.lastIndexOf('|') + 1) + value[1]);
-                getOntTerms($("#cmSiteAccID").val(), "#cmSite");
-            });
-            $("#cmSiteAccID").keyup(function (event) {
-                getOntTerms($("#cmSiteAccID").val(), "#cmSite");
-                $("#cmSite").css("color", "red");
-            });
-        });
-    </script>
-
-    <%
         String mmTerm = "";
+        try {
+            if (rec.getMeasurementMethod().getAccId() != null) {
+                mmTerm = ontDao.getTermByAccId(rec.getMeasurementMethod().getAccId()).getTerm();
+            }
+        } catch (Exception e) {
+            mmTerm = "ERROR: TERM NOT FOUND!!!!!";
+        }
+        */
         Long mmDuration;
         if (rec.getMeasurementMethod().getDuration() != null) {
             try {
@@ -349,13 +210,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         } else {
             mmDuration = new Long(0);
         }
-        try {
-            if (rec.getMeasurementMethod().getAccId() != null) {
-                mmTerm = ontDao.getTermByAccId(rec.getMeasurementMethod().getAccId()).getTerm();
-            }
-        } catch (Exception e) {
-            mmTerm = "ERROR: TERM NOT FOUND!!!!!";
-        }
+
     %>
 
     <%
@@ -386,6 +241,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     %>
 
     <script type="text/javascript">
+      /*
         var conditions = new Array();
         cCount =<%=rec.getConditions().size()%>;
         function addCondition() {
@@ -393,21 +249,11 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             thisCondition.style.display = "block";
             cCount++;
         }
+        */
     </script>
 
-    <%
-        int conditionCount = 0;
-        System.out.println("im here" + rec.getConditions());
-        for (Condition cond : rec.getConditions()) {
-            String cTerm = "";
-            try {
-                if (cond.getOntologyId() != null) {
-                    cTerm = ontDao.getTerm(cond.getOntologyId()).getTerm();
-                }
-            } catch (Exception e) {
-                cTerm = "ERROR: TERM NOT FOUND!!!!!";
-            }
-    %>
+
+
 
     <style>
         .phenominerTableHeader {
@@ -467,7 +313,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         .mainDiv {
             idth: 1200px;
             overflow-x: scroll;
-            margin-left: 167px;
+            margin-left: 169px;
             verflow-y: scroll;
             eight:500px;
             padding: 0;
@@ -507,7 +353,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
         input {
             border:0px solid black;
-            height:40px;
+            height:30px;
         }
         select{
             border:0px solid black;
@@ -520,6 +366,19 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
         changeLog=[];
 
+        function unlock(obj) {
+            if (obj.readOnly) {
+                if (!confirm("This field is locked and is not usually changed.  Would you like to edit the field?")) {
+                    obj.blur();
+                    return;
+                }
+            }
+
+            //var obj = document.getElementById(fieldId);
+            obj.readOnly=false;
+            obj.focus();
+
+        }
 
         // Enable navigation prompt
         window.onbeforeunload = function() {
@@ -527,20 +386,30 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         };
 
         function revert(recordId) {
+
+            if (document.getElementById("revert*" + recordId).value=="Delete") {
+                document.getElementById("tr_" + recordId).remove();
+                return;
+            }
+
             if (changeLog[recordId]) {
                 document.getElementById("tr_" + recordId).innerHTML = changeLog[recordId];
+                document.getElementById("save*"+recordId).style.backgroundColor="#25C780";
+                document.getElementById("tr_" + recordId).style.outlineStyle="solid";
+                document.getElementById("tr_" + recordId).style.outlineColor="black";
+                document.getElementById("tr_" + recordId).style.outlineWidth="1px";
+
             }else {
                 alert("This record has not been modified");
             }
         }
 
         function changed(obj) {
-            var recordId=parseId(obj.name);
+            var recordId=parseId(obj.name,"*");
 
             if (!changeLog[recordId]) {
                 changeLog[recordId] = document.getElementById("tr_" + recordId).innerHTML;
             }
-
 
             obj.style.backgroundColor="#F6F1A3";
             document.getElementById("save*" + recordId).style.backgroundColor="#F6F1A3";
@@ -549,19 +418,18 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             document.getElementById("tr_" + recordId).style.outlineWidth="2px";
         }
 
-        function deleteRecord() {
-
-
+      function parseId(str, delimiter) {
+            return str.substring(str.indexOf(delimiter)+1);
       }
 
-      function parseId(inputName) {
-            return inputName.substring(inputName.indexOf("*")+1);
+      function parseRoot(inputName) {
+          return inputName.substring(0,inputName.indexOf("*"));
       }
 
       function saveAll() {
 
           var elements = document.getElementById("editRecordForm").elements;
-
+          var found=false;
           for (i = 0; i < elements.length; i++) {
 
               if (elements[i].type === "button") {
@@ -570,12 +438,16 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                   if (elements[i].id.startsWith("save")) {
                       //alert(elements[i].style.backgroundColor);
                       if (elements[i].style.backgroundColor==="rgb(246, 241, 163)") {
-                          saveRecord(parseId(elements[i].id));
+                          saveRecord(parseId(elements[i].id,"*"));
+                          found=true;
                       }
                   }
 
               }
 
+          }
+          if (!found) {
+              alert("Modifications to the page haven't been found.  Save failed.")
           }
       }
 
@@ -617,16 +489,14 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
                   if (response.data.startsWith("Update")) {
                       document.getElementById("save*"+recordId).style.backgroundColor="#25C780";
-
-                      var elements=document.getElementById("editRecordForm").elements;
-
-                      alert(recordId);
+                      document.getElementById("save*" + recordId).value="Save";
+                      document.getElementById("revert*" + recordId).value="Revert";
 
                       document.getElementById("tr_" + recordId).style.outlineStyle="solid";
                       document.getElementById("tr_" + recordId).style.outlineColor="black";
                       document.getElementById("tr_" + recordId).style.outlineWidth="1px";
 
-
+                      var elements=document.getElementById("editRecordForm").elements;
                       for (i=0; i<elements.length; i++){
 
                           if (elements[i].name.indexOf(recordId) > -1) {
@@ -647,10 +517,30 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
       }
 
+      function getSiblingIdList(inputObj) {
+          var inputName = inputObj.name;
 
+          var table = document.getElementById("mainTable");
+          var currentRowId = "tr_" + id;
 
+          var idList = [];
+          var root = parseRoot(inputName);
 
-      function cloneRecord(frm,recordId) {
+          for (var i=0; i<table.rows.length;i++) {
+              if (table.rows[i].id.indexOf("tr_") > -1) {
+                  var id = parseId(table.rows[i].id, "_");
+                  idList[idList.length] = root + "*" + id;
+              }
+          }
+          return idList;
+      }
+
+      function newRecord() {
+
+            cloneRecord("99");
+      }
+
+      function cloneRecord(recordId) {
 
             var numRecs = prompt("how many records would you like to create");
 
@@ -667,32 +557,32 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                 var htm = recTr.innerHTML.replaceAll(recordId, tempId);
                 row.innerHTML = htm;
 
-                document.getElementById("save*" + tempId).style.backgroundColor = "#F6F1A3";
+                document.getElementById("save*" + tempId).style.backgroundColor = "orange";
+                document.getElementById("save*" + tempId).value="Create";
+                document.getElementById("revert*" + tempId).value="Delete";
+
             }
             }
-
-      function addNew() {
-
-      }
 
       //Enable tab to go vertically
         document.addEventListener('keydown', function(event)
         {
+            //alert("hey");
             var code = event.keyCode || event.which;
             if (code === 9) {
                 event.preventDefault();
                 var inputName = event.target.name;
-                var inputs = document.getElementsByName(inputName);
+                var list = getSiblingIdList(event.target);
 
-                var hasFocus=false;
-                for (var i=0;i<inputs.length; i++) {
-                    if (hasFocus) {
-                        inputs[i].focus();
-                        inputs[i].select();
-                        break;
-                    }
-                    if (document.activeElement==inputs[i]) {
-                        hasFocus=true;
+                for (var i=0; i< list.length;i++) {
+                    if (list[i] == inputName) {
+                        if (list.length==i+1) {
+                            document.getElementsByName(list[0])[0].focus();
+                            document.getElementsByName(list[0])[0].select();
+                        } else {
+                            document.getElementsByName(list[i+1])[0].focus();
+                            document.getElementsByName(list[i+1])[0].select();
+                        }
                     }
                 }
             }
@@ -757,7 +647,6 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
      table { border-collapse: collapse; }
     tr:nth-child(3) { border: solid thin; }
 </style>
-</style>
 
 
 <%
@@ -790,26 +679,32 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     columns.add("Max Age");
     columns.add("Sex");
     columns.add("BioSample ID");
-    columns.add("Experimental Condition 1");
-    columns.add("Min Value");
-    columns.add("Max Value");
-    columns.add("Unit");
-    columns.add("Min Dur");
-    columns.add("Max Dur");
-    columns.add("Application Method");
-    columns.add("Ordinality");
-    columns.add("Notes");
 
+    int conditionCount=1;
+    for (Condition condition: rec.getConditions()) {
+        columns.add("Experimental Condition " + conditionCount);
+        columns.add("Min Value");
+        columns.add("Max Value");
+        columns.add("Unit");
+        columns.add("Min Dur");
+        columns.add("Max Dur");
+        columns.add("Application Method");
+        columns.add("Ordinality");
+        columns.add("Notes");
+        conditionCount++;
+    }
 %>
 
-
-
-<div id="options" style="display:none;padding:10px;">
+<div id="options" style="display:none;padding:10px; margin-bottom:5px; border:2px solid black;background-color:rgb(234,237,237);">
 <table >
 <tr>
-    <td colspan="2"><a href="javascript:selectAllToggleOptions()">Select All</a></td>
-    <td colspan="2"><a href="javascript:removeAllToggleOptions()">Remove All</a></td>
+    <td colspan="6"><a href="javascript:selectAllToggleOptions()">Select All</a>&nbsp;&nbsp;&nbsp;
+    <a href="javascript:removeAllToggleOptions()">Remove All</a>&nbsp;&nbsp;&nbsp;
+    <a href="javascript:toggleOptions()">Hide Options</a></td>
 </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
     <tr>
 
 <%
@@ -826,9 +721,6 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 </table>
 </div>
 
-
-
-
     <div class="mainDiv">
 
         <form name= "editRecordForm" action="records.html" id="editRecordForm">
@@ -844,15 +736,25 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     for(Record rec1: records) {
         String rid="*" + rec1.getId();
         rec=rec1;
-    %>
+
+%>
 
         <%@ include file="editRecordRow.jsp"%>
 
 
 <% }
-
-}
+    String rid="*" + "99";
+    rec = new Record();
+    rec.setCurationStatus(1);
+    rec.setExperimentId(Integer.parseInt(req.getParameter("expId")));
+    rec.setMeasurementError("");
+    rec.setMeasurementSD("");
+    rec.setMeasurementUnits("");
+    rec.setMeasurementValue("");
+    rec.setId(99);
 %>
+
+            <%@ include file="editRecordRow.jsp"%>
 
 </table>
         </form>

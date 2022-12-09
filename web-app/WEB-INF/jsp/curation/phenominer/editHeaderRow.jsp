@@ -1,5 +1,11 @@
 <tr>
-    <td class="headcol"><input style="background-color:#25C780; width:155px" type="button" value="Save All" onClick="saveAll()"/>
+    <td class="headcol">
+        <table>
+            <tr>
+                <td><input style="font-weight:700;background-color:#25C780; width:76px; border-radius: 10px; height:49px;"  type="button" value="Save All" onClick="saveAll()"/></td>
+                <td><input style="font-weight:700;background-color:#25C780; width:76px; border-radius: 10px; height:49px;"  type="button" value="New" onClick="newRecord()"/></td>
+            </tr>
+        </table>
     </td>
     <td class="phenominerTableHeader" >
         SID
@@ -74,43 +80,47 @@
         Strain <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Animal Count
+        Animal Count <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Min Age
+        Min Age <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Max Age
+        Max Age <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Sex
+        Sex <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">BioSample ID</td>
-    <td class="phenominerTableHeader">
-        Experimental Condition 1 <%=requiredFieldIndicator%>
-    </td>
-    <td class="phenominerTableHeader">
-        Min Value
-    </td>
-    <td class="phenominerTableHeader">
-        Max Value
-    </td>
-    <td class="phenominerTableHeader">
-        Unit
-    </td>
-    <td class="phenominerTableHeader">
-        Min Dur
-    </td>
-    <td class="phenominerTableHeader">
-        Max Dur
-    </td>
-    <td class="phenominerTableHeader">
-        Application Method
-    </td>
-    <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Ordinality
-    </td>
-    <td class="phenominerTableHeader">
-        Notes
-    </td>
+    <%
+     for (conditionCount=1;conditionCount<15;conditionCount++) {
+         %>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Experimental Condition <%=requiredFieldIndicator%>
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Min Value
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Max Value
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Unit
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Minimum Duration
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Maximum Duration
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Application Method
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Ordinality <%=requiredFieldIndicator%>
+        </td>
+        <td class="phenominerTableHeader">
+            <span style="background-color:white;border:3px solid black; border-radius:20px; font-size:22px; font-weight:700;padding-left:6px; padding-right:6px;margin-left:2px;margin-right:5px;"><%=conditionCount%></span>&nbsp;Notes
+        </td>
+    <% } %>
 </tr>

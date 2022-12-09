@@ -39,6 +39,8 @@
         <% if (req.getParameter("studyId") != null && req.getParameter("studyId").length() > 0) { %>
         <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
         <td><a href="experiments.html?studyId=<%=req.getParameter("studyId")%>">All Experiments</a></td>
+        <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
+        <td><a href="ssrecords.html?expId=<%=req.getParameter("expId")%>">Edit All Records</a></td>
         <% } %>
         <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png" /></td>
         <td><a href='studies.html'>List All Studies</a></td>

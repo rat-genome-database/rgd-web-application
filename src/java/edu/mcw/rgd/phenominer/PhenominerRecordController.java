@@ -111,7 +111,6 @@ public class PhenominerRecordController extends PhenominerController {
             } else if (action.equals("new")) {
                 viewPath = "/WEB-INF/jsp/curation/phenominer/editRecord.jsp";
             } else if (action.equals("saveSS")) {
-                System.out.println("in save");
                 try {
                     String mode = req.getParameter("mode");
                     if (mode != null && mode.equals("addUnit")) {
@@ -145,7 +144,6 @@ public class PhenominerRecordController extends PhenominerController {
                             }
                         }
                     }
-                    System.out.println("here");
                     List<String> idList = req.getParameterValues("id");
                     List<String> ids = new ArrayList<String>();
 
@@ -155,10 +153,8 @@ public class PhenominerRecordController extends PhenominerController {
                         }
                     }
 
-
                     if (ids.size() == 0) {
                         viewPath = "/WEB-INF/jsp/curation/phenominer/records.jsp";
-
                         Record r = new Record();
                         try {
                             this.validate(req, false);
@@ -167,7 +163,7 @@ public class PhenominerRecordController extends PhenominerController {
                             r.setCreatedBy(login);
                             dao.insertRecord(r);
                             status.add("Record Create Successful");
-                            response.getWriter().println("Record Create Successful " + r.getId());
+                            response.getWriter().println("Update Successful:" + r.getId());
                             return null;
 
                         } catch (Exception e) {
@@ -221,7 +217,7 @@ public class PhenominerRecordController extends PhenominerController {
                     }
 
                 }catch (Exception e3){
-                    response.getWriter().println("Save Faile: " + e3.getMessage());
+                    response.getWriter().println("Save Failed: " + e3.getMessage());
                     e3.printStackTrace();
                     return null;
 
@@ -560,6 +556,15 @@ public class PhenominerRecordController extends PhenominerController {
                     throw new Exception("Clinical Measurement ACC ID: " + cmAccID + " is not for curation!");
             }
         }
+
+        try {
+            Long.parseLong(req.getParameter("cmValue"));
+        }catch (Exception ignored) {
+            if (!bulkMode) {
+                throw new Exception("Clinical Measurement value is not numeric");
+            }
+        }
+
 
         if (cmUnits.equals("")) {
             if (!bulkMode) throw new Exception("Clinical measurement unit is required");

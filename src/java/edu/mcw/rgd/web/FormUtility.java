@@ -268,6 +268,25 @@ public class FormUtility {
         return ret.toString();
     }
 
+    public String buildSelectListLabelsNewValue(String name, List<String> labelValues, String selectedValue) {
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\">");
+        String newValueStr = "REQUEST NEW VALUE";
+        for (int i = 0; i < labelValues.size(); i++) {
+            String[] strings = labelValues.get(i).split("\\|");
+            int value_index = i>0 ? 1 : 0;
+            ret.append("<option ").append(this.optionParams(selectedValue, strings[value_index])).append(">")
+                    .append(strings[0]).append("</option>");
+        }
+
+        ret.append("<option ").append(this.optionParams(selectedValue, newValueStr)).append(">")
+                .append(newValueStr).append("</option>");
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
+
     public String buildAutoComplete(String name, List<String> values, String selectedValue) {
         StringBuilder ret = new StringBuilder();
         ret.append("<div class=\"ui-widget\">");
@@ -286,6 +305,20 @@ public class FormUtility {
 
         StringBuilder ret = new StringBuilder();
         ret.append("<select onChange=\"" + onChange + "\" name=\"").append(name).append("\">");
+
+        for (String key : values.keySet()) {
+            String value = values.get(key);
+            ret.append("<option ").append(this.optionParams(selectedValue, key)).append(">")
+                    .append(value).append("</option>");
+        }
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+    public String buildSelectList(String name, Map<String, String> values, String selectedValue) {
+
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\">");
 
         for (String key : values.keySet()) {
             String value = values.get(key);
