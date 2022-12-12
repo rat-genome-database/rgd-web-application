@@ -22,7 +22,7 @@
 <%@ include file="/common/headerarea.jsp"%>
 
 
-    <form action="editSamples.html" method="POST">
+    <form action="editSamples.html" method="POST" id="updateSample">
         <input type="submit" value="Update Samples" style="float: right;"/>
         <table class="table table-striped">
         <tr>
@@ -55,6 +55,7 @@
                 <a href="" id="uberon<%=cnt%>_popup" onclick="ontPopup('tissueId<%=cnt%>','uberon','uberon<%=cnt%>_term')" style="color:black;">Ont Tree</a></td>
             <td><input name="geoAcc<%=cnt%>" id="geoAcc<%=cnt%>" value="<%=Objects.toString(s.getGeoSampleAcc(),"")%>"></td>
             <td><select name="sex<%=cnt%>" id="sex<%=cnt%>">
+                <option value=""></option>
                 <option value="male" <%=Utils.stringsAreEqual(s.getSex(),"male") ? "selected" : ""%>>Male</option>
                 <option value="female" <%=Utils.stringsAreEqual(s.getSex(),"female") ? "selected" : ""%>>Female</option>
                 <option value="both" <%=Utils.stringsAreEqual(s.getSex(),"both") ? "selected" : ""%>>both</option>
@@ -96,4 +97,28 @@
             $(this).attr('title', $txt);
         })
     })
+    function submitForm()
+    {
+        var ageLow = document.querySelectorAll('[id^="ageLow"]');
+        var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
+        var submittable = true;
+        for (var i = 0 ; i < ageLow.length; i++){
+            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+                ageLow[i].focus();
+                submittable = false;
+                break;
+            }
+            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+                ageHigh[i].focus();
+                submittable = false;
+                break;
+            }
+            if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
+                ageHigh[i].focus();
+                submittable = false;
+            }
+        }
+        if (submittable)
+            document.getElementById("updateSample").submit();
+    }
 </script>

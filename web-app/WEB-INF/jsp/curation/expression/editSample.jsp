@@ -132,9 +132,9 @@
     </div>
     <% } %>
 
-        <form action="experiments.html" method="POST">
+        <form id="expressionSub" action="experiments.html" method="POST">
 
-            <input type="submit" value="View Samples" style="float: right;"/> <br><br>
+            <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/> <br><br>
 
             <table class="table table-striped">
                 <tr style="all: revert;">
@@ -439,7 +439,7 @@ if (tissueMap.isEmpty()){ %>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="both">Both</option>
-                        <option value="not specified" selected>Not Specified</option>
+                        <option value="not specified" >Not Specified</option>
                     </select>
                     </td>
                     <td></td>
@@ -498,17 +498,17 @@ if (tissueMap.isEmpty()){ %>
 <%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
 <%--            <input type="hidden" id="<%=ontId%>_term" name="<%=ontId%>_term" value=""/>--%>
 <%--            <a href="" id="<%=ontId%>_popup" style="color:black;">Ont Tree</a>--%>
-    <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
-            <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
-    <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
-    <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
-    <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
-    <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
-    <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
-    <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
-    <input type="hidden" id="species" name="species" value="<%=species%>" />
-            <input type="hidden" id="samplesExist" name="samplesExist" value="<%=sampleList.isEmpty() ? 0 : sampleList.size()%>">
-            <input type="submit" value="View Samples" style="float: right;"/>
+        <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
+        <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
+        <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
+        <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
+        <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
+        <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
+        <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
+        <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
+        <input type="hidden" id="species" name="species" value="<%=species%>" />
+        <input type="hidden" id="samplesExist" name="samplesExist" value="<%=sampleList.isEmpty() ? 0 : sampleList.size()%>">
+      <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/>
     </form>
 </div>
 
@@ -523,4 +523,28 @@ if (tissueMap.isEmpty()){ %>
             $(this).attr('title', $txt);
         })
     })
+    function submitForm()
+    {
+        var ageLow = document.querySelectorAll('[id^="ageLow"]');
+        var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
+        var bool = true;
+        for (var i = 0 ; i < ageLow.length; i++){
+            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+                ageLow[i].focus();
+                bool = false;
+                break;
+            }
+            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+                ageHigh[i].focus();
+                bool = false;
+                break;
+            }
+            if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
+                ageHigh[i].focus();
+                bool = false;
+            }
+        }
+        if (bool)
+            document.getElementById("expressionSub").submit();
+    }
 </script>

@@ -130,7 +130,7 @@
 
 
         <form action="experiments.html" method="POST" id="createSample">
-            <input type="submit" value="Load Samples" style="float: right;"/>
+            <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
             <table class="table table-striped">
 
                 <%
@@ -266,7 +266,7 @@ catch (Exception e){}
       }
   %>
     </table>
-            <input type="submit" value="Load Samples" style="float: right;"/>
+            <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
@@ -285,4 +285,29 @@ catch (Exception e){}
             $(this).attr('title', $txt);
         })
     })
+
+    function submitForm()
+    {
+        var ageLow = document.querySelectorAll('[id^="ageLow"]');
+        var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
+        var submittable = true;
+        for (var i = 0 ; i < ageLow.length; i++){
+            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+                ageLow[i].focus();
+                submittable = false;
+                break;
+            }
+            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+                ageHigh[i].focus();
+                submittable = false;
+                break;
+            }
+            if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
+                ageHigh[i].focus();
+                submittable = false;
+            }
+        }
+        if (submittable)
+            document.getElementById("createSample").submit();
+    }
 </script>
