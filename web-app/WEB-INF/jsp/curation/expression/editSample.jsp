@@ -89,11 +89,10 @@
         if(s.getSampleCellType() != null)
             cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
     }
-    int size = 0;
-    String idName = "";
+    List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
+    boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
 %>
-
 
 <br>
 <div>
@@ -126,13 +125,16 @@
         </form>
     <%
         }
+        if (existingSample){
     %>
-
-
+    <div>
+        <p style="color: red;font-size: xx-large;">Mappings already exist. Changes will apply to all samples! </p>
+    </div>
+    <% } %>
 
         <form action="experiments.html" method="POST">
 
-            <input type="submit" value="Create Samples"/> <br><br>
+            <input type="submit" value="View Samples" style="float: right;"/> <br><br>
 
             <table class="table table-striped">
                 <tr style="all: revert;">
@@ -150,14 +152,14 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                             <input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="None imported!" style="border: none; background: transparent;" readonly>
                     </td>
-                    <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+                    <td>
+                        <label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
                     </td>
                     <td>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                            <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" value="" onblur="lostFocus('uberon')">
+                            <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" onblur="lostFocus('uberon')">
                             <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
                         <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
-
                     </td>
                     <td></td>
                     <td></td>
@@ -168,7 +170,7 @@ if (tissueMap.isEmpty()){ %>
    else {  for(String tissue: tissueMap.keySet()){
        String ontAccId = tissueMap.get(tissue);
         Term t = new Term();
-       if (ontAccId!=null && !ontAccId.isEmpty()){
+       if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
         t = ontologyXDAO.getTerm(ontAccId);}
   %>
             <tr>
@@ -178,14 +180,14 @@ if (tissueMap.isEmpty()){ %>
                 <td>
                     <input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" style="border: none; background: transparent;" readonly>
                 </td>
-                <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+                <td>
+                    <label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
                 </td>
                 <td>
 <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=ontAccId%>" onblur="lostFocus('uberon')">
+                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('uberon')">
                     <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
-
+                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
                 <td></td>
                 <td></td>
@@ -209,10 +211,9 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
 <%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
-                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" value="" onblur="lostFocus('rs')">
+                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" onblur="lostFocus('rs')">
                         <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
                         <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
-
                     </td>
                     <td></td>
                     <td></td>
@@ -223,7 +224,7 @@ if (tissueMap.isEmpty()){ %>
           for(String strain: strainMap.keySet()){
               String ontAccId = strainMap.get(strain);
               Term t = new Term();
-              if (ontAccId!=null && !ontAccId.isEmpty()){
+              if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
                   t = ontologyXDAO.getTerm(ontAccId);}
                 %>
             <tr>
@@ -238,10 +239,9 @@ if (tissueMap.isEmpty()){ %>
                 </td>
                 <td>
 <%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
-                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=ontAccId%>" onblur="lostFocus('rs')">
+                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('rs')">
                     <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
-                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%"  readonly/>
-
+                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%"  readonly/>
                 </td>
                 <td></td>
                 <td></td>
@@ -302,14 +302,14 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="No cell types imported!" style="border: none; background: transparent;" readonly>
                     </td>
-                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+                    <td>
+                        <label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
                     </td>
                     <td>
 <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
-                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""  value="" onblur="lostFocus('cl')">
+                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="" onblur="lostFocus('cl')">
                         <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
                         <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
-
                     </td>
                     <td></td>
                     <td></td>
@@ -320,7 +320,7 @@ if (tissueMap.isEmpty()){ %>
                 else for(String cellType: cellTypeMap.keySet()){
                         String ontAccId = cellTypeMap.get(cellType);
                         Term t = new Term();
-                        if (ontAccId!=null && !ontAccId.isEmpty()){
+                        if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
                             t = ontologyXDAO.getTerm(ontAccId);}
                 %>
                 <tr>
@@ -330,15 +330,14 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" style="border: none; background: transparent;" readonly>
                     </td>
-                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+                    <td>
+                        <label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
                     </td>
                     <td>
                         <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
-
-                            <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=ontAccId%>" onblur="lostFocus('cl')">
+                            <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('cl')">
                             <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
-                            <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
-
+                            <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
                     <td></td>
                     <td></td>
@@ -436,6 +435,7 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                            <option value=""selected></option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="both">Both</option>
@@ -463,11 +463,13 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                            <option value=""selected></option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="both">Both</option>
                         <option value="not specified">Not Specified</option>
-                    </select></td>
+                    </select>
+                    </td>
                     <td></td>
                     <td></td>
                  </tr>
@@ -490,10 +492,8 @@ if (tissueMap.isEmpty()){ %>
                         <textarea name="cNotesId<%=notesCnt%>" id="cNotesId<%=notesCnt%>" style="height: 60px"></textarea>
                     </td>
                     <td></td>
-
                 </tr>
                 <%notesCnt++;%>
-
     </table>
 <%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
 <%--            <input type="hidden" id="<%=ontId%>_term" name="<%=ontId%>_term" value=""/>--%>
@@ -507,6 +507,8 @@ if (tissueMap.isEmpty()){ %>
     <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
     <input type="hidden" id="species" name="species" value="<%=species%>" />
+            <input type="hidden" id="samplesExist" name="samplesExist" value="<%=sampleList.isEmpty() ? 0 : sampleList.size()%>">
+            <input type="submit" value="View Samples" style="float: right;"/>
     </form>
 </div>
 
@@ -514,3 +516,11 @@ if (tissueMap.isEmpty()){ %>
 </body>
 </html>
 <%@ include file="/common/footerarea.jsp"%>
+<script>
+    $(document).ready(function() {
+        $('input').mouseenter(function() {
+            var $txt = $(this).val();
+            $(this).attr('title', $txt);
+        })
+    })
+</script>
