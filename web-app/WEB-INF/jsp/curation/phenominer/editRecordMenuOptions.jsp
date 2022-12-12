@@ -39,7 +39,6 @@
             } else {
                 if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) {
             %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
             <td><a href="records.html?expId=<%=req.getParameter("expId")%>">All Records</a></td>
             <td><a href="ssrecords.html?expId=<%=req.getParameter("expId")%>">Edit All Records</a></td>
             <% }
