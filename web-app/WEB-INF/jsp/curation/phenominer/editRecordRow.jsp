@@ -14,13 +14,13 @@
         <table>
             <tr>
                 <td>
-                    <input style="background-color:#24C780; margin-top:6px; height:50px; width:50px" type="button" value="Save" id="save<%=rid%>" onClick="saveRecord('<%=rec.getId()%>')"/>
+                    <input style="background-color:#E9C893; opacity:.3; margin-top:6px; height:50px; width:50px" type="button" value="Save" id="save<%=rid%>" onClick="saveRecord('<%=rec.getId()%>')"/>
                 </td>
                 <td>
                     <input id="clone<%=rid%>" style="background-color:#24C780; margin-top:6px; height:50px; width:50px" type="button" value="Clone" onClick="cloneRecord('<%=rec.getId()%>')"/>
                 </td>
                 <td>
-                    <input id="revert<%=rid%>" style="background-color:#24C780; margin-top:6px; height:50px; width:50px" type="button" value="Revert" onClick="revert('<%=rec.getId()%>')"/>
+                    <input id="revert<%=rid%>" style="background-color:#24C780; opacity:.3; margin-top:6px; height:50px; width:50px" type="button" value="Revert" onClick="revert('<%=rec.getId()%>')"/>
                 </td>
             </tr>
         </table>
@@ -47,7 +47,7 @@
         <table>
             <tr>
                 <td colspan="2">
-                    <input  onChange="changed(this)" type="text" id="cmAccId<%=rid%>" name="cmAccId<%=rid%>" size="40" value="<%=dm.out("cmAccId"+rid, rec.getClinicalMeasurement().getAccId())%>"/>
+                    <input  onChange="changed(this)" style="height:30px; border:1px solid #E1E3E3;" type="text" id="cmAccId<%=rid%>" name="cmAccId<%=rid%>" size="40" value="<%=dm.out("cmAccId"+rid, rec.getClinicalMeasurement().getAccId())%>"/>
                 </td>
             </tr>
             <tr>
@@ -62,7 +62,7 @@
                         }catch (Exception ignored) {
                         }
                     %>
-                    <input type="text" id="cmTerm<%=rid%>" name="cmTerm<%=rid%>" value="<%=cmTerm%>"  style="width:250px;" readonly/>
+                    <input  style="height:30px;" type="text" id="cmTerm<%=rid%>" name="cmTerm<%=rid%>" value="<%=cmTerm%>"  style="width:250px;" readonly/>
                 </td>
             </tr>
         </table>
@@ -79,7 +79,7 @@
 
     <td class="phenominerTableCell">
         <!-- Value -->
-        <input onChange="changed(this)" style="height:50px; border:0px solid black;" type="text" name="cmValue<%=rid%>" size="10" value="<%=dm.out("cmValue"+rid, rec.getMeasurementValue())%>"/>
+        <input onChange="changed(this)" style=" border:0px solid black;" type="text" name="cmValue<%=rid%>" size="10" value="<%=dm.out("cmValue"+rid, rec.getMeasurementValue())%>"/>
     </td>
     <td class="phenominerTableCell">
         <!-- Unit -->
@@ -114,7 +114,7 @@
         <table>
             <tr>
                 <td colspan="2">
-                    <input  onChange="changed(this)" type="text" id="mmAccId<%=rid%>" name="mmAccId<%=rid%>" size="40" value="<%=dm.out("mmAccId"+rid, rec.getMeasurementMethod().getAccId())%>"/>
+                    <input  onChange="changed(this)" style="height:30px; border:1px solid #E1E3E3;" type="text" id="mmAccId<%=rid%>" name="mmAccId<%=rid%>" size="40" value="<%=dm.out("mmAccId"+rid, rec.getMeasurementMethod().getAccId())%>"/>
                 </td>
             </tr>
             <tr>
@@ -130,7 +130,7 @@
                         }
                     %>
 
-                    <input type="text" id="mmTerm<%=rid%>" name="mmTerm<%=rid%>" value="<%=mmTerm%>"  style="width:250px;" readonly/>
+                    <input  style="height:30px;" type="text" id="mmTerm<%=rid%>" name="mmTerm<%=rid%>" value="<%=mmTerm%>"  style="width:250px;" readonly/>
                 </td>
             </tr>
         </table>
@@ -180,7 +180,7 @@
         <table>
             <tr>
                 <td colspan="2">
-                    <input  onChange="changed(this)" type="text" id="sAccId<%=rid%>" name="sAccId<%=rid%>" size="40" value="<%=dm.out("sAccId"+rid, rec.getSample().getStrainAccId())%>"/>
+                    <input  onChange="changed(this)" style="height:30px; border:1px solid #E1E3E3;" type="text" id="sAccId<%=rid%>" name="sAccId<%=rid%>" size="40" value="<%=dm.out("sAccId"+rid, rec.getSample().getStrainAccId())%>"/>
                 </td>
             </tr>
             <tr>
@@ -196,7 +196,7 @@
                         }
                     %>
 
-                    <input type="text" id="sTerm<%=rid%>" name="sTerm<%=rid%>" value="<%=sTerm%>"  style="width:250px;" readonly/>
+                    <input  style="height:30px;" type="text" id="sTerm<%=rid%>" name="sTerm<%=rid%>" value="<%=sTerm%>"  style="width:250px;" readonly/>
                 </td>
             </tr>
         </table>
@@ -233,23 +233,23 @@
     %>
     <td class="phenominerTableCell">
         <!-- Condition 1 -->
-        <table>
+        <table >
             <tr>
                 <td colspan="2">
-                    <table>
+                    <table >
                         <tr>
                             <td>
-                                <span style="border:3px solid black; border-radius:20px; font-size:20px; font-weight:700;padding-left:6px; padding-right:6px;margin-right:5px;"><%=conditionCount%></span>
+                                <span style="border:3px solid black; height:30px; border-radius:20px; font-size:20px; font-weight:700;padding-left:6px; padding-right:6px;margin-right:5px;"><%=conditionCount%></span>
                             </td>
                             <td>
-                                <input  onChange="changed(this)" type="text" id="cAccId<%=conditionCount%><%=rid%>" name="cAccId<%=rid%>" size="40" value="<%=dm.out("cAccId"+rid, cond.getOntologyId(),conditionCount)%>"/>
+                                <input  onChange="changed(this)" style="height:30px; border:1px solid #E1E3E3;" type="text" id="cAccId<%=conditionCount%><%=rid%>" name="cAccId<%=rid%>" size="40" value="<%=dm.out("cAccId"+rid, cond.getOntologyId(),conditionCount)%>"/>
                             </td>
                         </tr>
                     </table>
                 </td>
             <% if (!multiEdit || enabledConditionInsDel) {%>
             &nbsp;<td>&nbsp;Delete?</td>
-            <td><input  onChange="changed(this)" name="cDelete<%=rid%>" value="<%=cond.getId()>0?cond.getId():-conditionCount-1%>" type="checkbox"/></td>
+            <td><input  style="height:30px;" onChange="changed(this)" name="cDelete<%=rid%>" value="<%=cond.getId()>0?cond.getId():-conditionCount-1%>" type="checkbox"/></td>
             <% } %>
             </tr>
             <tr>
@@ -257,7 +257,7 @@
                     <a href="javascript:ontPopup('cAccId<%=conditionCount%><%=rid%>', 'xco', 'cTerm<%=conditionCount%><%=rid%>')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
                 </td>
                 <td>
-                    <input type="text" id="cTerm<%=conditionCount%><%=rid%>" value="<%=ontDao.getTerm(cond.getOntologyId()).getTerm()%>"  style="width:250px;" readonly/>
+                    <input style="height:30px;" type="text" id="cTerm<%=conditionCount%><%=rid%>" value="<%=ontDao.getTerm(cond.getOntologyId()).getTerm()%>"  style="width:250px;" readonly/>
                 </td>
             </tr>
         </table>
@@ -332,16 +332,12 @@
                                     <span style="border:3px solid black; border-radius:20px; font-size:20px; font-weight:700;padding-left:6px; padding-right:6px;margin-right:5px;"><%=conditionCount%></span>
                                 </td>
                                 <td>
-                                    <input  onChange="changed(this)" type="text" id="cAccId<%=conditionCount%><%=rid%>" name="cAccId<%=rid%>" size="40" value=""/>
+                                    <input  style="height:30px; border:1px solid #E1E3E3;" onChange="changed(this)" type="text" id="cAccId<%=conditionCount%><%=rid%>" name="cAccId<%=rid%>" size="40" value=""/>
                                 </td>
                             </tr>
                         </table>
 
                     </td>
-                    <% if (!multiEdit || enabledConditionInsDel) {%>
-                    &nbsp;<td>&nbsp;Delete?</td>
-                    <td><input  onChange="changed(this)" name="cDelete<%=rid%>" value="" type="checkbox"/></td>
-                    <% } %>
                 </tr>
                 <tr>
                     <td>

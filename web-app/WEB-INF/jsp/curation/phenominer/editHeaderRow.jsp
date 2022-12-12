@@ -2,7 +2,7 @@
     <td class="headcol">
         <table>
             <tr>
-                <td><input style="font-weight:700;background-color:#25C780; width:76px; border-radius: 10px; height:49px;"  type="button" value="Save All" onClick="saveAll()"/></td>
+                <td><input style="color:white;font-weight:700;background-color:#1e392a; width:76px; border-radius: 10px; height:49px;"  type="button" value="Save All" onClick="saveAll()"/></td>
                 <td><input style="font-weight:700;background-color:#25C780; width:76px; border-radius: 10px; height:49px;"  type="button" value="New" onClick="newRecord()"/></td>
             </tr>
         </table>
@@ -32,7 +32,7 @@
         Value
     </td>
     <td class="phenominerTableHeader">
-        <%=requiredFieldIndicator%>Unit
+        Unit <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         SD

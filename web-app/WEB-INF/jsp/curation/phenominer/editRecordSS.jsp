@@ -172,34 +172,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
 
     <%
-        /*
-        String cmTerm = "";
-        try {
-            if (rec.getClinicalMeasurement().getAccId() != null) {
-                cmTerm = ontDao.getTermByAccId(rec.getClinicalMeasurement().getAccId()).getTerm();
-            }
-        } catch (Exception e) {
-            cmTerm = "ERROR: TERM NOT FOUND!!!!!";
-            e.printStackTrace();
-        }
-        String sTerm = "";
-        try {
-            if (rec.getSample().getStrainAccId() != null) {
-                sTerm = ontDao.getTermByAccId(rec.getSample().getStrainAccId()).getTerm();
-            }
-        } catch (Exception e) {
-            sTerm = "ERROR: TERM NOT FOUND!!!!!";
-            e.printStackTrace();
-        }
-        String mmTerm = "";
-        try {
-            if (rec.getMeasurementMethod().getAccId() != null) {
-                mmTerm = ontDao.getTermByAccId(rec.getMeasurementMethod().getAccId()).getTerm();
-            }
-        } catch (Exception e) {
-            mmTerm = "ERROR: TERM NOT FOUND!!!!!";
-        }
-        */
+
         Long mmDuration;
         if (rec.getMeasurementMethod().getDuration() != null) {
             try {
@@ -239,21 +212,6 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             rec.getConditions().add(c);
         }
     %>
-
-    <script type="text/javascript">
-      /*
-        var conditions = new Array();
-        cCount =<%=rec.getConditions().size()%>;
-        function addCondition() {
-            var thisCondition = document.getElementById("condition" + cCount);
-            thisCondition.style.display = "block";
-            cCount++;
-        }
-        */
-    </script>
-
-
-
 
     <style>
         .phenominerTableHeader {
@@ -353,7 +311,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
         input {
             border:0px solid black;
-            height:30px;
+            height:50px;
         }
         select{
             border:0px solid black;
@@ -386,6 +344,9 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
         };
 
         function revert(recordId) {
+            if (document.getElementById("revert*" + recordId).style.opacity != 1) {
+                return;
+            }
 
             if (document.getElementById("revert*" + recordId).value=="Delete") {
                 document.getElementById("tr_" + recordId).remove();
@@ -394,13 +355,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
             if (changeLog[recordId]) {
                 document.getElementById("tr_" + recordId).innerHTML = changeLog[recordId];
-                document.getElementById("save*"+recordId).style.backgroundColor="#25C780";
-                document.getElementById("tr_" + recordId).style.outlineStyle="solid";
-                document.getElementById("tr_" + recordId).style.outlineColor="black";
-                document.getElementById("tr_" + recordId).style.outlineWidth="1px";
-
-            }else {
-                alert("This record has not been modified");
+                disableSave(recordId);
             }
         }
 
@@ -411,11 +366,8 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                 changeLog[recordId] = document.getElementById("tr_" + recordId).innerHTML;
             }
 
-            obj.style.backgroundColor="#F6F1A3";
-            document.getElementById("save*" + recordId).style.backgroundColor="#F6F1A3";
-            document.getElementById("tr_" + recordId).style.outlineStyle="dashed";
-            document.getElementById("tr_" + recordId).style.outlineColor="red";
-            document.getElementById("tr_" + recordId).style.outlineWidth="2px";
+            obj.style.backgroundColor="#e9c893";
+            enableSave(recordId);
         }
 
       function parseId(str, delimiter) {
@@ -427,6 +379,11 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
       }
 
       function saveAll() {
+
+          if (!confirm("This will save all changes. Select OK to continue.")) {
+
+              return;
+          }
 
           var elements = document.getElementById("editRecordForm").elements;
           var found=false;
@@ -452,6 +409,10 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
       }
 
       function saveRecord(recordId) {
+          if (document.getElementById("save*" + recordId).style.opacity != 1) {
+              return;
+          }
+
           const formData = new FormData(document.getElementById("editRecordForm"));
 
           var params = new URLSearchParams(formData);
@@ -488,13 +449,10 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                   //alert(response.data);
 
                   if (response.data.startsWith("Update")) {
-                      document.getElementById("save*"+recordId).style.backgroundColor="#25C780";
+                      disableSave(recordId);
+
                       document.getElementById("save*" + recordId).value="Save";
                       document.getElementById("revert*" + recordId).value="Revert";
-
-                      document.getElementById("tr_" + recordId).style.outlineStyle="solid";
-                      document.getElementById("tr_" + recordId).style.outlineColor="black";
-                      document.getElementById("tr_" + recordId).style.outlineWidth="1px";
 
                       var elements=document.getElementById("editRecordForm").elements;
                       for (i=0; i<elements.length; i++){
@@ -517,6 +475,33 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
       }
 
+      //if offerDelete is true a delete option will be rendered on screen
+      function enableSave(recordId, offerDelete) {
+          document.getElementById("save*" + recordId).style.opacity=1;
+        //  document.getElementById("tr_" + recordId).style.out
+
+          document.getElementById("tr_" + recordId).style.outlineStyle="solid";
+          document.getElementById("tr_" + recordId).style.outlineColor="#E9C893";
+          document.getElementById("tr_" + recordId).style.outlineWidth="3px";
+
+          document.getElementById("revert*" + recordId).style.opacity=1;
+
+          if (offerDelete) {
+              document.getElementById("revert*" + recordId).value="Delete";
+          }else {
+              document.getElementById("revert*" + recordId).value="Revert";
+          }
+      }
+      function disableSave(recordId) {
+          document.getElementById("save*" + recordId).style.opacity=.3;
+          document.getElementById("tr_" + recordId).style.outlineStyle="solid";
+          document.getElementById("tr_" + recordId).style.outlineColor="black";
+          document.getElementById("tr_" + recordId).style.outlineWidth="1px";
+
+          document.getElementById("revert*" + recordId).style.opacity=.3;
+
+      }
+
       function getSiblingIdList(inputObj) {
           var inputName = inputObj.name;
 
@@ -536,11 +521,14 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
       }
 
       function newRecord() {
-
-            cloneRecord("99");
+            cloneRecord();
       }
 
       function cloneRecord(recordId) {
+
+            if (!recordId) {
+                recordId=99;
+            }
 
             var numRecs = prompt("how many records would you like to create");
 
@@ -557,12 +545,9 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                 var htm = recTr.innerHTML.replaceAll(recordId, tempId);
                 row.innerHTML = htm;
 
-                document.getElementById("save*" + tempId).style.backgroundColor = "orange";
-                document.getElementById("save*" + tempId).value="Create";
-                document.getElementById("revert*" + tempId).value="Delete";
-
+                    enableSave(tempId,true);
             }
-            }
+      }
 
       //Enable tab to go vertically
         document.addEventListener('keydown', function(event)
@@ -727,7 +712,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             <input type="hidden" name="act" value="save"/>
             <input type="hidden" name="studyId" value="<%=req.getParameter("studyId")%>"/>
 
-        <table  class="mainTable" cellpadding="0" cellspacing="0" id="mainTable">
+        <table  style="border-collapse: separate;border-spacing: 0;border-top: 1px solid grey;border-color:#e2e3e3;" lass="table-sort" cellpadding="0" cellspacing="0" id="mainTable">
     <%@ include file="editHeaderRow.jsp"%>
 
     <%
