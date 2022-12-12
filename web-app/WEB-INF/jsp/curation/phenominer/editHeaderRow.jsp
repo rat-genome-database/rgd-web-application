@@ -19,73 +19,73 @@
     <td class="phenominerTableHeader">
         Curation Status
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmAccId')">
         Clinical Measurement <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">
         Site
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmSiteAccID')">
         Site Acc IDs ("|" separated)
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmValue')">
         Value
     </td>
     <td class="phenominerTableHeader">
         Unit <%=requiredFieldIndicator%>
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmSD')">
         SD
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmSEM')">
         SEM
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmError')">
         Error
     </td>
     <td class="phenominerTableHeader">
         Average Type
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmFormula')">
         Formula
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'cmNote')">
         Note
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmAccId')">
         Measurement Method <%=requiredFieldIndicator%>
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmDuration')">
         Duration
     </td>
     <td class="phenominerTableHeader">
         Site
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmSiteAccID')">
         Site Acc IDs ("|" separated)
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmPostInsultType')">
         PI Type
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmPostInsultTime')">
         PI Time
     </td>
     <td class="phenominerTableHeader">
         PI Time Unit
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'mmNotes')">
         Notes
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'sAccId')">
         Strain <%=requiredFieldIndicator%>
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'sAnimalCount')">
         Animal Count <%=requiredFieldIndicator%>
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'sMinAge')">
         Min Age <%=requiredFieldIndicator%>
     </td>
-    <td class="phenominerTableHeader">
+    <td class="phenominerTableHeader" onClick="showUploadWindow(event, 'sMaxAge')">
         Max Age <%=requiredFieldIndicator%>
     </td>
     <td class="phenominerTableHeader">

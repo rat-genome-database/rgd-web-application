@@ -40,7 +40,8 @@
                 if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) {
             %>
             <td><a href="records.html?expId=<%=req.getParameter("expId")%>">All Records</a></td>
-            <td><a href="ssrecords.html?expId=<%=req.getParameter("expId")%>">Edit All Records</a></td>
+            <td><a href="records.html?act=editSS&expId=<%=req.getParameter("expId")%>&studyId=<%=req.getParameter("studyId")%>">Edit All
+                Records</a></td>
             <% }
             }%>
             <td><a href="javascript:toggleOptions()">Configure</a></td>

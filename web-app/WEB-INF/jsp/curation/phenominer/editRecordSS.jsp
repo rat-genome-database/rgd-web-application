@@ -338,6 +338,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
         }
 
+
         // Enable navigation prompt
         window.onbeforeunload = function() {
             return true;
@@ -443,8 +444,8 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
           }
 
           axios
-              //.get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
-              .get("https://dev.rgd.mcw.edu/rgdweb/curation/phenominer/records.html?" + paramString)
+              .get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
+              //.get("https://dev.rgd.mcw.edu/rgdweb/curation/phenominer/records.html?" + paramString)
               .then(function (response) {
                   //alert(response.data);
 
@@ -614,6 +615,40 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             }
         }
 
+        var activeColumn="";
+        function showUploadWindow(event, column) {
+            var offset = -800;
+            if (event.clientX < 800) {
+                offset = 200;
+            }
+            activeColumn=column;
+            document.getElementById('uploadWindow').style.display='block'
+            document.getElementById('uploadWindow').style.top=150;
+            document.getElementById('uploadWindow').style.left=event.pageX + offset;
+        }
+        function uploadList() {
+
+            var elements = document.getElementById("editRecordForm").elements;
+            var found=false;
+
+            var inputs = document.getElementById('uploadValue').value.replace(/\r\n/g,"\n").split("\n");
+
+            var count=0;
+            for (i = 0; i < elements.length; i++) {
+                if (elements[i].name.indexOf(activeColumn) != -1) {
+                    //alert(inputs.length + " " + count);
+                    if (inputs.length > count) {
+                        if (inputs[count].trim() != "") {
+                            elements[i].value = inputs[count];
+                            changed(elements[i]);
+                            count++;
+                        }
+                    }
+                }
+            }
+
+        }
+
     </script>
 
 <style>
@@ -757,6 +792,47 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     }
 
 </script>
+
+
+<div id="uploadWindow" style="position:absolute; display:none;z-index:1000; background-color:#1E392A; padding:10px;">
+
+    <table >
+        <tr>
+            <td style="color:white;" valign="top">
+                <div style="margin-top:28px;">
+                <%for (int i=0; i< 20; i++) { %>
+                    <div style="height:18px;"><%=i+1%></div>
+                <%   }%>
+                </div>
+            </td>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td colspan="2" style="font-size:18px;color:white;">
+                            &nbsp;Upload&nbsp;List
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea style="font-size:16px;" id="uploadValue" name="uploadValue" rows="20" cols="80"></textarea><br>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input style="margin:10px;height:30px;" type="button" value="Cancel" onClick="document.getElementById('uploadWindow').style.display='none'"/>
+                        </td>
+                        <td align="right">
+                            <input type="button" value="Upload List" onClick="uploadList()" style="margin:10px;height:30px;"/>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</div>
 
 
 
