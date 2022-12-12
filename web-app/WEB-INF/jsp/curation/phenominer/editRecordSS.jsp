@@ -444,8 +444,8 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
           }
 
           axios
-              .get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
-              //.get("https://dev.rgd.mcw.edu/rgdweb/curation/phenominer/records.html?" + paramString)
+              //.get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
+              .get("https://dev.rgd.mcw.edu/rgdweb/curation/phenominer/records.html?" + paramString)
               .then(function (response) {
                   //alert(response.data);
 
