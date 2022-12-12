@@ -146,6 +146,7 @@ public class GeoExperimentController implements Controller {
                 int ageCount = Integer.parseInt(request.getParameter("agecount"));
                 int gcount = Integer.parseInt(request.getParameter("gcount"));
                 int noteCnt = Integer.parseInt(request.getParameter("notescount"));
+                int sampleSize = Integer.parseInt(request.getParameter("samplesExist"));
                 String gse = request.getParameter("gse");
                 String species = request.getParameter("species");
                 HashMap<String,String> tissueMap = new HashMap();
@@ -233,6 +234,7 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("lifeStage",lifeStage);
                 request.setAttribute("notesMap",notes);
                 request.setAttribute("curNotesMap",curNotes);
+                request.setAttribute("samplesExist", sampleSize);
                 return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
             }
             if (request.getParameter("gse") != null) {

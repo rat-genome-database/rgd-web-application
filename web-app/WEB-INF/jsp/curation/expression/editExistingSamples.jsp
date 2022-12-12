@@ -20,13 +20,11 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
-<table class="table table-striped">
+
 
     <form action="editSamples.html" method="POST">
-
-        <tr>
-            <td align="left"><input type="submit" value="Load Samples"/></td>
-        </tr>
+        <input type="submit" value="Update Samples" style="float: right;"/>
+        <table class="table table-striped">
         <tr>
             <th>Sample ID: </th>
             <th>Strain ID: </th>
@@ -86,6 +84,16 @@
         </tr>
         <% cnt++;} %>
         <input type="hidden" id="count" name="count" value="<%=cnt%>" />
+        </table>
+        <input type="submit" value="Update Samples" style="float: right;"/>
     </form>
-</table>
+
 <%@ include file="/common/footerarea.jsp"%>
+<script>
+    $(document).ready(function() {
+        $('input').mouseenter(function() {
+            var $txt = $(this).val();
+            $(this).attr('title', $txt);
+        })
+    })
+</script>

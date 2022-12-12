@@ -8,6 +8,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -21,7 +22,7 @@
 <html>
 
 <script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
-<link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+
 <body style="background-color: white">
 <style>
     .t{
@@ -71,6 +72,7 @@
     HttpRequestFacade req = new HttpRequestFacade(request);
     DisplayMapper dm = new DisplayMapper(req,error);
     PhenominerDAO pdao = new PhenominerDAO();
+    OntologyXDAO xdao = new OntologyXDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
     HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
@@ -85,6 +87,8 @@
     HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
     HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
     HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
+    int sampleSize = (int) request.getAttribute("samplesExist");
+    boolean updateSample = sampleSize!=0;
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
@@ -123,13 +127,12 @@
     %>
 
 
-    <table class="table table-striped">
+
 
         <form action="experiments.html" method="POST" id="createSample">
+            <input type="submit" value="Load Samples" style="float: right;"/>
+            <table class="table table-striped">
 
-            <tr>
-                <td align="left"><input type="submit" value="Load Samples"/></td>
-            </tr>
                 <%
             if(samples.size() != 0) {
         %>
@@ -192,56 +195,63 @@ catch (Exception e){}
                 <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
-                    <br><input type="text" id="rs<%=count%>_term" name="rs<%=count%>_term" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=(updateSample && !Objects.toString(strainMap.get(s.getSampleStrain()),"").isEmpty()) ? Objects.toString(strainMap.get(s.getSampleStrain()),"") :!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
+                    <br><input type="text" id="rs<%=count%>_term" name="rs<%=count%>_term" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" title="<%=Utils.NVL(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="rs<%=count%>_popup" onclick="ontPopup('strainId<%=count%>','rs','rs<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
-                <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
-                    <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+                <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=(updateSample && !Objects.toString(cellTypeMap.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cellTypeMap.get(s.getSampleCellType()),"") :!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
+                    <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>"  title="<%=Utils.NVL(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cl<%=count%>_popup" onclick="ontPopup('cellTypeId<%=count%>','cl','cl<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
-                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=(updateSample && !Objects.toString(cellLine.get(s.getSampleCellLine()),"").isEmpty()) ? Objects.toString(cellLine.get(s.getSampleCellLine()),"") : !Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
-                    <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
-                    <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+                    <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=(updateSample && !Objects.toString(tissueMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(tissueMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
+                    <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(tissueNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
-                        <option value="male" <%=Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
-                        <option value="female" <%=Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ? "selected":""%>>Female</option>
-                        <option value="both" <%=Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ? "selected":""%>>both</option>
-                        <option value="not specified" <%=Utils.stringsAreEqual(sample.getSex(),"not specified") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ? "selected":""%>>Not Specified</option>
+                        <option value=""></option>
+                        <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
+                        <option value="female" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ? "selected":""%>>Female</option>
+                        <option value="both" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ? "selected":""%>>both</option>
+                        <option value="not specified" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"not specified") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ? "selected":""%>>Not Specified</option>
                     </select>
                 </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
-                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=bool ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
-                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageLow<%=count%>" id="ageLow<%=count%>" value="<%=(updateSample && !Objects.toString(ageLow.get(s.getSampleAge()),"").isEmpty()) ? Objects.toString(ageLow.get(s.getSampleAge()),"") :bool ?  sample.getAgeDaysFromLowBound() : Objects.toString(ageLow.get(s.getSampleAge()),"")%>"> </td>
+                <td><input type="text" name="ageHigh<%=count%>" id="ageHigh<%=count%>" value="<%=(updateSample && !Objects.toString(ageHigh.get(s.getSampleAge()),"").isEmpty())? Objects.toString(ageHigh.get(s.getSampleAge()),"") : bool ?  sample.getAgeDaysFromHighBound() : Objects.toString(ageHigh.get(s.getSampleAge()),"")%>"> </td>
                 <td>
                     <fieldset>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="embryonic"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("embryonic") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("embryonic") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":""%>> embryonic</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="neonatal"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("neonatal") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("neonatal") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("neonatal") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("neonatal") ? "checked":""%>> neonatal</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="weanling"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("weanling") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("weanling") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("weanling") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("weanling") ? "checked":""%>> weanling</label><br>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="juvenile"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("juvenile") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("juvenile") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("juvenile") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("juvenile") ? "checked":""%>> juvenile</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="adult"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("adult") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("adult") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("adult") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("adult") ? "checked":""%>> adult</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="aged"
-                            <%=!Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("aged") ? "checked": "":
+                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":"":
+                            !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("aged") ? "checked": "":
                             Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":""%>> aged</label>
                     </fieldset>
                 </td>
-                <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 120px"><%=sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
-                <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 120px"><%=sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
+                <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 120px"><%=(updateSample && !Objects.toString(notes.get(null),"").isEmpty()) ? Objects.toString(notes.get(null),"") :sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
+                <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 120px"><%=(updateSample && !Objects.toString(curNotes.get(null),"").isEmpty()) ? Objects.toString(curNotes.get(null),"") : sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
                 <td><select id="status<%=count%>" name="status<%=count%>">
                     <option value="loaded" selected>Loaded</option>
                     <option  value="not4Curation">Not For Curation</option>
@@ -256,6 +266,7 @@ catch (Exception e){}
       }
   %>
     </table>
+            <input type="submit" value="Load Samples" style="float: right;"/>
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
@@ -267,3 +278,11 @@ catch (Exception e){}
 </body>
 </html>
 <%@ include file="/common/footerarea.jsp"%>
+<script>
+    $(document).ready(function() {
+        $('input').mouseenter(function() {
+            var $txt = $(this).val();
+            $(this).attr('title', $txt);
+        })
+    })
+</script>
