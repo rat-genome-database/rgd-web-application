@@ -26,6 +26,7 @@
         color:white;
         margin-top:10px;
         padding:5px;
+        margin-bottom:10px;
     }
     .phenominerNavBar a{
         color:white;
