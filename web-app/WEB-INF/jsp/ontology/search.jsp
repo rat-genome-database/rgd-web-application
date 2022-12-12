@@ -70,7 +70,24 @@
     <div>
        <table cellpadding=0 cellspacing=0>
            <tr>
-               <td>Keyword:&nbsp;&nbsp;&nbsp; </td>
+               <td><select name="subCat">
+                   <option value="">Any Ontology</option>
+                       <%
+          for( Ontology o: bean.getOntologies() ) {
+
+              if( !o.isPublic() )
+                  continue;
+              // show only subset of ontologies for chinchilla
+              if( RgdContext.isChinchilla(request) ) {
+                  if( !(o.getId().equals("BP") || o.getId().equals("CC") || o.getId().equals("MF") ||
+                   o.getId().equals("RDO") || o.getId().equals("MP") || o.getId().equals("PW")))
+                      continue;
+              }
+              %>
+                   <option value="<%=o.getName()%>"><%=o.getName()%></option>
+                   <%}%>
+
+               </select></td>
                <td><input name="term" size="60" class="searchKeyword" value="" type="text" /></td>
                <td><input type="submit" value="Search" alt="Search RGD" class="searchButton" /></td>
            </tr>
@@ -80,8 +97,9 @@
     </div>
   </div>
 </div>
-</div>
 
+</div>
+    </form>
 <div style="border: 1px solid black;background-color:white;margin-bottom: 10px; padding-left:8px; padding-rigth:8px;padding-bottom:5px;">
 <h2>Browse Ontologies</h2>
 
@@ -136,21 +154,21 @@
             <%
                 switch (oo.getId()){
                     case "MF":  %>
-            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/go-logo.png" alt="<%=oo.getName()%>"/></a></th>
-            <td class="credittext"><%=oo.getDescription()%></td>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/go-logo.png" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
             <%      break;
-                case "MP": %>
-            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/mgi_logo.gif" alt="<%=oo.getName()%>"/></a></th>
-            <td class="credittext"><%=oo.getDescription()%></td>
+                    case "MP": %>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/mgi_logo.gif" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
             <%      break;
-                default:    %>
-            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>
-            <td class="credittext"><%=oo.getDescription()%></td>
+                    default:    %>
+                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>
+                        <td class="credittext"><%=oo.getDescription()%></td>
             <%
                 } // end switch
             %>
-            <%--            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>--%>
-            <%--            <td class="credittext"><%=oo.getDescription()%></td>--%>
+<%--            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>--%>
+<%--            <td class="credittext"><%=oo.getDescription()%></td>--%>
         </tr>
     <% } %>
     </table>
@@ -170,5 +188,5 @@
     <% } %>
   <p>
   </p>
-</form>
+
 <%@ include file="/common/footerarea.jsp"%>
