@@ -715,12 +715,12 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     }
 %>
 
-<div id="options" style="display:none;padding:10px; margin-bottom:5px; border:2px solid black;background-color:rgb(234,237,237);">
+<div id="options" style="color:white;display:none;padding:10px; margin-bottom:5px; border:2px solid black;background-color:#1E392A;">
 <table >
 <tr>
-    <td colspan="6"><a href="javascript:selectAllToggleOptions()">Select All</a>&nbsp;&nbsp;&nbsp;
-    <a href="javascript:removeAllToggleOptions()">Remove All</a>&nbsp;&nbsp;&nbsp;
-    <a href="javascript:toggleOptions()">Hide Options</a></td>
+    <td colspan="6"><a style="color:white;" href="javascript:selectAllToggleOptions()">Select All</a>&nbsp;&nbsp;&nbsp;
+    <a  style="color:white;" href="javascript:removeAllToggleOptions()">Remove All</a>&nbsp;&nbsp;&nbsp;
+    <a  style="color:white;" href="javascript:toggleOptions()">Hide Options</a></td>
 </tr>
     <tr>
         <td>&nbsp;</td>
@@ -731,7 +731,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
     int count=3;
     for(String column: columns) {
 %>
-        <td class="phenominerTableHeader" valign="center" align="center">
+        <td style="background-color:#E1E3E3;" class="phenominerTableHeader" valign="center" align="center">
             <%=column%><br><input id="toggle<%=count%>" type="checkbox" onClick="toggleColumn(this,<%=count%>)" checked/>
         </td>
         <%
