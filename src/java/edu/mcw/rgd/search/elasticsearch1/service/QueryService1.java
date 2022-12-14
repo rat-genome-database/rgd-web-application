@@ -126,10 +126,9 @@ public class QueryService1 {
         return sr;
     }
 
-    public BoolQueryBuilder boolQueryBuilder(String searchTerm, SearchBean sb){
+    public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
                                              //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
-        String term=searchTerm.replaceAll("[^\\w\\s]","");
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
             if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equalsIgnoreCase("")) {
