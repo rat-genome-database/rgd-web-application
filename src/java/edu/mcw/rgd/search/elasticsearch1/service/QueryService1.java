@@ -126,9 +126,10 @@ public class QueryService1 {
         return sr;
     }
 
-    public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
+    public BoolQueryBuilder boolQueryBuilder(String searchTerm, SearchBean sb){
                                              //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
+        String term=searchTerm.replaceAll("[^\\w\\s]","");
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
             if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equalsIgnoreCase("")) {
@@ -151,7 +152,7 @@ public class QueryService1 {
                 }
             }
             System.out.println("ASSEMBLY:" +sb.getAssembly());
-            if (sb.getAssembly() != null && !sb.getAssembly().equals("")) {
+            if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
                 builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
             }
         }
@@ -187,11 +188,15 @@ public class QueryService1 {
     }
 
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
-     DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        if(sb!=null) {
-         //   if(!sb.isRedirect()) {
-                if(!term.equals("")){
-                dqb
+        DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
+
+        if(term==null || term.equals("")){
+           return dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
+        }
+        if(sb==null) {
+           return dqb.add(QueryBuilders.termQuery("term_acc", term));
+        }
+             dqb
                        // .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
                         .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
 
@@ -223,18 +228,21 @@ public class QueryService1 {
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                ;
-            }else{
-                    dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
-                }
-        //    }
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+        String[] tokens=term.split("[\\s,]+");
+        if(tokens.length>0){
+            String searchString=String.join(" ", term.toLowerCase().split("[\\s,]+"));
+            System.out.println("SEARCH STRING:"+ searchString);
+            dqb.add(QueryBuilders.multiMatchQuery(searchString)
+                   // .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                    .operator(Operator.AND)
+                   // .analyzer("stop")
 
-        } else{
-            if(term.equals("")){
-                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-            }else
-            dqb.add(QueryBuilders.termQuery("term_acc", term));
+            );
+
         }
+
         return dqb;
 
     }

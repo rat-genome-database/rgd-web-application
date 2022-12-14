@@ -52,28 +52,31 @@ public class ElasticSearchController implements Controller {
         ModelMap model = new ModelMap();
         SearchService service = new SearchService();
 
-            String term = req.getParameter("term").trim();
-            term=term.replaceAll("\"", "");
-            if(term.length()>100){
+            String searchTerm = req.getParameter("term").trim();
+          //  term=term.replaceAll("\"", "");
+            if(searchTerm.length()>100){
                 response.sendRedirect(request.getContextPath());
                 return null;
             }
-            if( term.startsWith("RGD:") || term.startsWith("RGD_") )
-                term = term.substring(4);
-            else if(term.startsWith("RGD"))
-                term=term.substring(3);
-            term=term.toLowerCase();
+            if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") )
+                searchTerm = searchTerm.substring(4);
+            else if(searchTerm.startsWith("RGD"))
+                searchTerm=searchTerm.substring(3);
+            searchTerm=searchTerm.toLowerCase();
+            String term=searchTerm.replaceAll("[^\\w\\s]","");
+
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
 
             boolean log= (req.getParameter("log").equals("true"));
 
-            String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
             String assembly=req.getParameter("assembly");
-            System.out.println("ASSEMBLY PARAMETER:"+ assembly);
+            if(assembly.equals("")){
+                assembly="all";
+            }
           /*  if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
                 int speciesKey= SpeciesType.parse(sb.getSpecies());
                 edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);

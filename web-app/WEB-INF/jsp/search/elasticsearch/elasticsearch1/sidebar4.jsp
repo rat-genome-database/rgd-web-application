@@ -8,14 +8,14 @@
     <div style="width:40%;float:right">
         <form action="/rgdweb/elasticResults.html" id="viewAllForm">
             <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
-            <input type="hidden" value="${model.cat1}" id="searchCategory" name="category"/>
-            <input type="hidden" name="species" id = "sp1" value="${model.sp1}">
+            <input type="hidden" value="general" id="searchCategory" name="category"/>
+            <!--input type="hidden" name="species" id = "sp1" value="${model.sp1}"-->
             <input type="hidden" name="type" id = "type" >
             <input type="hidden" name="viewall" value="true"/>
             <input type="hidden" name="chr" id = "chr" value="${model.searchBean.chr}">
             <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
             <input type="hidden" name="stop" id = "stop" value="${model.searchBean.stop}"/>
-            <!--input type="hidden" name="assembly" id = "assembly" value="${model.searchBean.assembly}"/-->
+            <input type="hidden" name="assembly" id = "assembly" value="all"/>
 
             <button  type="submit" id="viewAll">View All Results</button>
         </form>
@@ -504,14 +504,14 @@
 
          </ul>
          </li>
-         <li><span style="font-weight: bold;color:#24609c">Assembly</span>
+         <!--li><span style="font-weight: bold;color:#24609c">Assembly</span-->
              <!--ul>
                  <c:forEach items="${model.aggregations.assembly}"  var="item">
                      <li  onclick="filterClick('', '','','','', '${item.key}')">${item.key}&nbsp;(${item.docCount})</li>
                  </c:forEach>
 
              </ul-->
-             <ul>
+             <!--ul>
                  <c:forEach items="${model.assemblyMapsByRank}"  var="item">
                     <c:forEach items="${model.aggregations.assembly}" var="map">
                         <c:if test="${map.key==item.value}">
@@ -522,7 +522,7 @@
 
              </ul>
 
-         </li>
+         </li-->
          </ul>
 
        </div>
