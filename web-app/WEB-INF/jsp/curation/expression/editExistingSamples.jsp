@@ -115,6 +115,8 @@
             }
             if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
                 ageHigh[i].focus();
+                ageHigh[i].style.border="1px solid red";
+                ageLow[i].style.border="1px solid red";
                 submittable = false;
             }
         }
