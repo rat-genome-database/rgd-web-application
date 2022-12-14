@@ -187,54 +187,38 @@ public class QueryService1 {
     }
 
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
-     DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        if(sb!=null) {
-         //   if(!sb.isRedirect()) {
-                if(!term.equals("")){
-                dqb
-                       // .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(300))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
+        DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
 
-                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(200))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
-
-                     //   .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(300))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
-
-                     //   .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(300))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
-
-                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(300))
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
-
-                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol", term)))
-                      //  .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)))
-
-                        .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-
-
-
-                        .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
-                        .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
-
-                        .add(QueryBuilders.multiMatchQuery(term)
-                              .field("symbol.symbol", 100)
-                              .field("term.symbol", 100)
-                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-                        .add(QueryBuilders.multiMatchQuery(term)
-                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                ;
-            }else{
-                    dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
-                }
-        //    }
-
-        } else{
-            if(term.equals("")){
-                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()));
-            }else
-            dqb.add(QueryBuilders.termQuery("term_acc", term));
+        if(term==null || term.equals("")){
+            return dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.matchQuery("category", sb.getCategory())));
         }
+        if(sb==null) {
+            return dqb.add(QueryBuilders.termQuery("term_acc", term));
+        }
+        dqb
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
+                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
+                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
+                .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
+
+                .add(QueryBuilders.multiMatchQuery(term)
+                        .field("symbol.symbol", 100)
+                        .field("term.symbol", 100)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
+                .add(QueryBuilders.multiMatchQuery(term)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                .add(QueryBuilders.multiMatchQuery(term)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+        String[] tokens=term.split("[\\s,]+");
+        if(tokens.length>0){
+            dqb.add(QueryBuilders.multiMatchQuery(term)
+                            .operator(Operator.AND));
+        }
+
         return dqb;
 
     }
