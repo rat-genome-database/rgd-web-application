@@ -212,7 +212,6 @@ catch (Exception e){}
                 </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
-                        <option value=""></option>
                         <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
                         <option value="female" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ? "selected":""%>>Female</option>
                         <option value="both" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ? "selected":""%>>both</option>
@@ -290,26 +289,35 @@ catch (Exception e){}
     {
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
-        var submittable = true;
+        var bool = true;
+        var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
-            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+            var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
+            if ((ageLow[i].value === "" && ageHigh[i].value !=="") || !numbool) {
                 ageLow[i].focus();
-                submittable = false;
-                break;
+                ageLow[i].style.border="2px solid red";
+                bool = false;
             }
-            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+            else{
+                ageLow[i].style.border="1px solid black";
+            }
+            numbool = ageHigh[i].value === "" || regex.test(ageHigh[i].value);
+            if (( ageHigh[i].value === "" && ageLow[i].value!=="") || !numbool){
                 ageHigh[i].focus();
-                submittable = false;
-                break;
+                ageHigh[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                ageHigh[i].style.border="1px solid black";
             }
             if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
                 ageHigh[i].focus();
-                ageHigh[i].style.border="1px solid red";
-                ageLow[i].style.border="1px solid red";
-                submittable = false;
+                ageHigh[i].style.border="2px solid red";
+                ageLow[i].style.border="2px solid red";
+                bool = false;
             }
         }
-        if (submittable)
+        if (bool)
             document.getElementById("createSample").submit();
     }
 </script>

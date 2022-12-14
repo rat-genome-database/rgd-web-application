@@ -55,7 +55,6 @@
                 <a href="" id="uberon<%=cnt%>_popup" onclick="ontPopup('tissueId<%=cnt%>','uberon','uberon<%=cnt%>_term')" style="color:black;">Ont Tree</a></td>
             <td><input name="geoAcc<%=cnt%>" id="geoAcc<%=cnt%>" value="<%=Objects.toString(s.getGeoSampleAcc(),"")%>"></td>
             <td><select name="sex<%=cnt%>" id="sex<%=cnt%>">
-                <option value=""></option>
                 <option value="male" <%=Utils.stringsAreEqual(s.getSex(),"male") ? "selected" : ""%>>Male</option>
                 <option value="female" <%=Utils.stringsAreEqual(s.getSex(),"female") ? "selected" : ""%>>Female</option>
                 <option value="both" <%=Utils.stringsAreEqual(s.getSex(),"both") ? "selected" : ""%>>both</option>
@@ -101,26 +100,35 @@
     {
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
-        var submittable = true;
+        var bool = true;
+        var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
-            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+            var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
+            if ((ageLow[i].value === "" && ageHigh[i].value !=="") || !numbool) {
                 ageLow[i].focus();
-                submittable = false;
-                break;
+                ageLow[i].style.border="2px solid red";
+                bool = false;
             }
-            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+            else{
+                ageLow[i].style.border="1px solid black";
+            }
+            numbool = ageHigh[i].value === "" || regex.test(ageHigh[i].value);
+            if (( ageHigh[i].value === "" && ageLow[i].value!=="") || !numbool){
                 ageHigh[i].focus();
-                submittable = false;
-                break;
+                ageHigh[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                ageHigh[i].style.border="1px solid black";
             }
             if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
                 ageHigh[i].focus();
-                ageHigh[i].style.border="1px solid red";
-                ageLow[i].style.border="1px solid red";
-                submittable = false;
+                ageHigh[i].style.border="2px solid red";
+                ageLow[i].style.border="2px solid red";
+                bool = false;
             }
         }
-        if (submittable)
+        if (bool)
             document.getElementById("updateSample").submit();
     }
 </script>
