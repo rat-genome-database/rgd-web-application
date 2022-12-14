@@ -435,7 +435,7 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
-                            <option value=""selected></option>
+                            <%=existingSample ? "<option value=\"\" selected></option>":""%>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="both">Both</option>
@@ -463,7 +463,7 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
-                            <option value=""selected></option>
+                            <%=existingSample ? "<option value=\"\" selected></option>":""%>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="both">Both</option>
@@ -507,7 +507,7 @@ if (tissueMap.isEmpty()){ %>
         <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
         <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
         <input type="hidden" id="species" name="species" value="<%=species%>" />
-        <input type="hidden" id="samplesExist" name="samplesExist" value="<%=sampleList.isEmpty() ? 0 : sampleList.size()%>">
+        <input type="hidden" id="samplesExist" name="samplesExist" value="<%=!existingSample ? 0 : sampleList.size()%>">
       <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/>
     </form>
 </div>
@@ -528,19 +528,30 @@ if (tissueMap.isEmpty()){ %>
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
         var bool = true;
+        var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
-            if (ageLow[i].value === "" && ageHigh[i].value !=="") {
+            var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
+            if ((ageLow[i].value === "" && ageHigh[i].value !=="") || !numbool) {
                 ageLow[i].focus();
+                ageLow[i].style.border="2px solid red";
                 bool = false;
-                break;
             }
-            if ( ageHigh[i].value === "" && ageLow[i].value!==""){
+            else{
+                ageLow[i].style.border="1px solid black";
+            }
+            numbool = ageHigh[i].value === "" || regex.test(ageHigh[i].value);
+            if (( ageHigh[i].value === "" && ageLow[i].value!=="") || !numbool){
                 ageHigh[i].focus();
+                ageHigh[i].style.border="2px solid red";
                 bool = false;
-                break;
+            }
+            else{
+                ageHigh[i].style.border="1px solid black";
             }
             if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
                 ageHigh[i].focus();
+                ageHigh[i].style.border="2px solid red";
+                ageLow[i].style.border="2px solid red";
                 bool = false;
             }
         }

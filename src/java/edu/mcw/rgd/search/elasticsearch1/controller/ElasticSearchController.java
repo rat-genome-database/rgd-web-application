@@ -64,12 +64,12 @@ public class ElasticSearchController implements Controller {
                 searchTerm=searchTerm.substring(3);
             searchTerm=searchTerm.toLowerCase();
             String term=searchTerm.replaceAll("[^\\w\\s]","");
-
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
 
             boolean log= (req.getParameter("log").equals("true"));
 
+            String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
