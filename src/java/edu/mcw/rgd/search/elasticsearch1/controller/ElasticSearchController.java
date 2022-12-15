@@ -58,10 +58,13 @@ public class ElasticSearchController implements Controller {
                 response.sendRedirect(request.getContextPath());
                 return null;
             }
-            if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") )
-                searchTerm = searchTerm.substring(4);
-            else if(searchTerm.startsWith("RGD"))
-                searchTerm=searchTerm.substring(3);
+        if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
+            searchTerm = searchTerm.substring(4);
+        else if(searchTerm.startsWith("RGD"))
+            searchTerm=searchTerm.substring(3);
+        else {
+            searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
+        }
             searchTerm=searchTerm.toLowerCase();
             String term=searchTerm.replaceAll("[^\\w\\s]","");
             SearchBean sb= service.getSearchBean(req, term);
