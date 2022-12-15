@@ -63,6 +63,7 @@
 
     <div class="container">
 <form action="experiments.html">
+    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <label for="species" style="color: #24609c; font-weight: bold;">Select a Species:</label>
     <select id="species" name="species" >
         <option value="Rattus">Rat</option>
@@ -73,6 +74,8 @@
         <option  value="Canis">Dog</option>
         <option  value="Ictidomys">Squirrel</option>
         <option value="Sus">Pig</option>
+        <option value="Glaber">Naked Mole-Rat</option>
+        <option value="Sabaeus">Green Monkey</option>
     </select>
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
@@ -80,6 +83,7 @@
         <option  value="pending">Pending</option>
         <option value="loaded">Loaded</option>
         <option  value="not4Curation">Not For Curation</option>
+        <option value="futureCuration">Future Curation</option>
     </select>
 <br><br>
 
@@ -92,7 +96,7 @@
             String species = request.getParameter("species");
             PhenominerDAO pdao = new PhenominerDAO();
             HashMap<String,GeoRecord> records = pdao.getGeoStudies(species,request.getParameter("status"));
-            System.out.println(records.size());
+//            System.out.println(records.size());
 
     %>
             <table id="t">

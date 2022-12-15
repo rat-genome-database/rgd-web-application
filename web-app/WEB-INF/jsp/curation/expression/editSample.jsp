@@ -4,6 +4,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
+<%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -13,6 +16,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/enrichment/analysis.css">
+<script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <html>
 <body style="background-color: white">
 <style>
@@ -41,8 +45,14 @@
     .t tr:hover {
         background-color: #daeffc;
     }
-
+    .formfield * {
+        vertical-align: middle;
+    }
+    table input{
+        font-size: 14px;
+    }
 </style>
+
 <%
 
     String pageTitle = "Create Geo Sample";
@@ -53,7 +63,7 @@
 
 <%@ include file="/common/headerarea.jsp" %>
 <%
-
+    OntologyXDAO ontologyXDAO = new OntologyXDAO();
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
     PhenominerDAO pdao = new PhenominerDAO();
@@ -64,6 +74,7 @@
     Set<String> gender = new TreeSet<>();
     HashMap<String,String> cellTypeMap = new HashMap<>();
     HashMap<String,String> cellLineMap = new HashMap<>();
+    Set<String> notes = new TreeSet<>();
     for(GeoRecord s:samples){
         if(s.getSampleTissue() != null)
             tissueMap.put(s.getSampleTissue(),Objects.toString(s.getRgdTissueTermAcc(),""));
@@ -77,10 +88,11 @@
             cellLineMap.put(s.getSampleCellLine(),Objects.toString(s.getRgdCellTermAcc(),""));
         if(s.getSampleCellType() != null)
             cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
-
     }
+    List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
+    boolean existingSample = (sampleList != null && !sampleList.isEmpty());
+    boolean createSample = false;
 %>
-
 
 <br>
 <div>
@@ -88,7 +100,9 @@
         if(samples.size() != 0) {
     %>
         <form action="experiments.html" method="POST">
+            <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <table  class="t">
+
                 <tr>
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td style="color: #24609c; font-weight: bold;">Geo Accession Id: </td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
@@ -98,6 +112,7 @@
                     <td><select id="status" name="status" >
                         <option value="loaded">Loaded</option>
                         <option  value="not4Curation">Not For Curation</option>
+                        <option value="futureCuration">Future Curation</option>
                         <option  value="pending">Pending</option>
                     </select>
                     </td>
@@ -110,108 +125,437 @@
         </form>
     <%
         }
+        if (existingSample){
     %>
+    <div>
+        <p style="color: red;font-size: xx-large;">Mappings already exist. Changes will apply to all samples! </p>
+    </div>
+    <% } %>
 
+        <form id="expressionSub" action="experiments.html" method="POST">
 
+            <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/> <br><br>
 
-        <form action="experiments.html" method="POST">
-
-            <input type="submit" value="Create Samples"/> <br><br>
             <table class="table table-striped">
-
+                <tr style="all: revert;">
+                    <th>GEO</th>
+                    <th></th>
+                    <th>RGD</th>
+                </tr>
             <%
-      int tcount = 1;
+      int tcount = 0;
+if (tissueMap.isEmpty()){ %>
+                <tr>
+                    <td>
+                        <label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label>
+                    </td>
+                    <td>
+                            <input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="None imported!" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                            <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" onblur="lostFocus('uberon')">
+                            <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
-     for(String tissue: tissueMap.keySet()){
+ <%tcount++;}
+   else {  for(String tissue: tissueMap.keySet()){
+       String ontAccId = tissueMap.get(tissue);
+        Term t = new Term();
+       if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
+        t = ontologyXDAO.getTerm(ontAccId);}
   %>
             <tr>
-                <td><label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label><input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" readonly></td>
-                <td><label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label><input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>"> </td>
+                <td>
+                    <label for="tissue<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue:  &nbsp&nbsp</label>
+                </td>
+                <td>
+                    <input type="text" name="tissue<%=tcount%>" id="tissue<%=tcount%>" value="<%=tissue%>" style="border: none; background: transparent;" readonly>
+                </td>
+                <td>
+                    <label for="tissueId<%=tcount%>" style="color: #24609c; font-weight: bold;">Tissue Id: &nbsp&nbsp </label>
+                </td>
+                <td>
+<%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('uberon')">
+                    <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+                </td>
+                <td></td>
+                <td></td>
                 <td></td>
             </tr>
 
-        <%
-      tcount++;
+        <%tcount++;}
+
       }
-                    int scount = 1;
-                    for(String strain: strainMap.keySet()){
+                    int scount = 0;
+        if (strainMap.isEmpty()){%>
+                <tr>
+                    <td>
+                        <label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="No strains imported!" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+<%--                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
+                        <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="" onblur="lostFocus('rs')">
+                        <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+<% scount++;}
+   else {
+          for(String strain: strainMap.keySet()){
+              String ontAccId = strainMap.get(strain);
+              Term t = new Term();
+              if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
+                  t = ontologyXDAO.getTerm(ontAccId);}
                 %>
             <tr>
-                <td><label for="strain<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label><input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" readonly></td>
-                <td><label for="strainId<%=tcount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label><input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=strainMap.get(strain)%>"> </td>
+                <td>
+                    <label for="strain<%=scount%>" style="color: #24609c; font-weight: bold;">Strain: &nbsp&nbsp </label>
+                </td>
+                <td>
+                    <input type="text" name="strain<%=scount%>" id="strain<%=scount%>" value="<%=strain%>" style="border: none; background: transparent;" readonly>
+                </td>
+                <td>
+                    <label for="strainId<%=scount%>" style="color: #24609c; font-weight: bold;">Strain Id: &nbsp&nbsp </label>
+                </td>
+                <td>
+<%--                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="">--%>
+                    <input type="text" name="strainId<%=scount%>" id="strainId<%=scount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('rs')">
+                    <a href="" id="rs<%=scount%>_popup" onclick="ontPopup('strainId<%=scount%>','rs','rs<%=scount%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="rs<%=scount%>_term" name="rs<%=scount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%"  readonly/>
+                </td>
+                <td></td>
+                <td></td>
                 <td></td>
             </tr>
-
-        <%
-                    scount++;
+                <%      scount++;
                 }
-            int clcount = 1;
-            for(String cellLine: cellLineMap.keySet()){
+            }
+            int clcount = 0;
+   if (cellLineMap.isEmpty()) { %>
+                <tr>
+                    <td>
+                        <label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="No cell lines imported!" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value="">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%clcount++;
+   }
+      else for(String cellLine: cellLineMap.keySet()){
         %>
                 <tr>
-                    <td><label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label><input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="<%=cellLine%>" readonly></td>
-                    <td><label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label><input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value="<%=cellLineMap.get(cellLine)%>"> </td>
+                    <td>
+                        <label for="cellLine<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellLine<%=clcount%>" id="cellLine<%=clcount%>" value="<%=cellLine%>" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="cellLineId<%=clcount%>" style="color: #24609c; font-weight: bold;">cellLine Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellLineId<%=clcount%>" id="cellLineId<%=clcount%>" value="<%=cellLineMap.get(cellLine)%>">
+                    </td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
 
-                <%
-                        clcount++;
+                <%    clcount++;
                     }
-                    int cTcount = 1;
-                    for(String cellType: cellTypeMap.keySet()){
+                    int cTcount = 0;
+                    if (cellTypeMap.isEmpty()) {%>
+                <tr>
+                    <td>
+                        <label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="No cell types imported!" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+<%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
+                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="" onblur="lostFocus('cl')">
+                        <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%   cTcount++;
+                    }
+                else for(String cellType: cellTypeMap.keySet()){
+                        String ontAccId = cellTypeMap.get(cellType);
+                        Term t = new Term();
+                        if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
+                            t = ontologyXDAO.getTerm(ontAccId);}
                 %>
                 <tr>
-                    <td><label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label><input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" readonly></td>
-                    <td><label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label><input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=cellTypeMap.get(cellType)%>"> </td>
+                    <td>
+                        <label for="cellType<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="cellType<%=cTcount%>" id="cellType<%=cTcount%>" value="<%=cellType%>" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="cellTypeId<%=cTcount%>" style="color: #24609c; font-weight: bold;">cellType Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                        <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value=""> --%>
+                            <input type="text" name="cellTypeId<%=cTcount%>" id="cellTypeId<%=cTcount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('cl')">
+                            <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
+                            <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
 
-                <%
-                        cTcount++;
+
+                <%   cTcount++;
                     }
-                  int ageCount = 1;
+                  int ageCount = 0;
+                    if (ages.isEmpty()){%>
+                <tr>
+                    <td>
+                        <label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label>
+                    </td>
+                    <td>
+                        <input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" >
+                    </td>
+                    <td>
+                        <label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" >
+                    </td>
+                    <td>
+                        <fieldset>
+                            <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="embryonic"> embryonic</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="neonatal"> neonatal</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="weanling"> weanling</label><br>
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="juvenile"> juvenile</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="adult"> adult</label>&nbsp;&nbsp;
+                            <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="aged"> aged</label>
+                            <%--                            <input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>">--%>
+                        </fieldset>
+                    </td>
+                </tr>
+                <%ageCount++;}
+                    else {
                     for(String age: ages){
                 %>
             <tr>
-                <td><label for="age<%=tcount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label><input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" readonly></td>
-                <td><label for="ageLow<%=tcount%>" style="color: #24609c; font-weight: bold;">Age Low:  &nbsp&nbsp</label><input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" > </td>
-                <td><label for="ageHigh<%=tcount%>" style="color: #24609c; font-weight: bold;">Age High: &nbsp&nbsp </label><input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" > </td>
-
+                <td>
+                    <label for="age<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age: &nbsp&nbsp </label>
+                </td>
+                <td>
+                    <input type="text" name="age<%=ageCount%>" id="age<%=ageCount%>" value="<%=age%>" style="border: none; background: transparent;" readonly>
+                </td>
+                <td>
+                    <label for="ageLow<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) Low:  &nbsp&nbsp</label>
+                </td>
+                <td>
+                    <input type="text" name="ageLow<%=ageCount%>" id="ageLow<%=ageCount%>" >
+                </td>
+                <td>
+                    <label for="ageHigh<%=ageCount%>" style="color: #24609c; font-weight: bold;">Age (in days) High: &nbsp&nbsp </label>
+                </td>
+                <td>
+                    <input type="text" name="ageHigh<%=ageCount%>" id="ageHigh<%=ageCount%>" >
+                </td>
+                <td>
+                    <fieldset>
+                        <legend style="color: #24609c; font-weight: bold;"> Life Stage: &nbsp&nbsp </legend>
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="embryonic"> embryonic</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="neonatal"> neonatal</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="weanling"> weanling</label><br>
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="juvenile"> juvenile</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="adult"> adult</label>&nbsp;&nbsp;
+                        <label><input type="checkbox" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>" value="aged"> aged</label>
+                        <%--                            <input type="text" name="lifeStage<%=ageCount%>" id="lifeStage<%=ageCount%>">--%>
+                    </fieldset>
+                </td>
             </tr>
 
                 <%
                     ageCount++;
-                }
-                    int gcount = 1;
+                }   }
+                    int gcount = 0;
+                    if (gender.isEmpty()){%>
+                <tr>
+                    <td>
+                        <label for="gender<%=gcount%>" style="color: #24609c; font-weight: bold;">Sex: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="gender<%=gcount%>" id="gender<%=gcount%>" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label>
+                    </td>
+                    <td>
+                        <select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                            <%=existingSample ? "<option value=\"\" selected></option>":""%>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="both">Both</option>
+                        <option value="not specified" >Not Specified</option>
+                    </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <%  gcount++;}
+                    else{
                     for(String g: gender){
                 %>
                 <tr>
-                    <td><label for="gender<%=gcount%>" style="color: #24609c; font-weight: bold;">Sex: &nbsp&nbsp </label><input type="text" name="gender<%=gcount%>" id="gender<%=gcount%>" value="<%=g%>" readonly></td>
-                    <td><label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label><select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                    <td>
+                        <label for="gender<%=gcount%>" style="color: #24609c; font-weight: bold;">Sex: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="gender<%=gcount%>" id="gender<%=gcount%>" value="<%=g%>" style="border: none; background: transparent;" readonly>
+                    </td>
+                    <td>
+                        <label for="sex<%=gcount%>" style="color: #24609c; font-weight: bold;">Select Sex:  &nbsp&nbsp</label>
+                    </td>
+                    <td>
+                        <select name="sex<%=gcount%>" id="sex<%=gcount%>">
+                            <%=existingSample ? "<option value=\"\" selected></option>":""%>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="mixed">Mixed</option>
+                        <option value="both">Both</option>
                         <option value="not specified">Not Specified</option>
-                    </select></td>
+                    </select>
+                    </td>
+                    <td></td>
+                    <td></td>
                  </tr>
 
                 <%
                         gcount++;
-                    }
-                %>
-
+                    }   }
+                    int notesCnt = 0;%>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><label for="notesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Public Notes: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <textarea name="notesId<%=notesCnt%>" id="notesId<%=notesCnt%>" style="height: 60px"></textarea></p>
+                    </td>
+                    <td><label for="cNotesId<%=notesCnt%>" style="color: #24609c; font-weight: bold;">Curator Notes: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <textarea name="cNotesId<%=notesCnt%>" id="cNotesId<%=notesCnt%>" style="height: 60px"></textarea>
+                    </td>
+                    <td></td>
+                </tr>
+                <%notesCnt++;%>
     </table>
-    <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
-            <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
-    <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
-    <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
-    <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
-    <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
-    <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
-    <input type="hidden" id="species" name="species" value="<%=species%>" />
+<%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
+<%--            <input type="hidden" id="<%=ontId%>_term" name="<%=ontId%>_term" value=""/>--%>
+<%--            <a href="" id="<%=ontId%>_popup" style="color:black;">Ont Tree</a>--%>
+        <input type="hidden" id="tcount" name="tcount" value="<%=tcount%>" />
+        <input type="hidden" id="gcount" name="gcount" value="<%=gcount%>" />
+        <input type="hidden" id="scount" name="scount" value="<%=scount%>" />
+        <input type="hidden" id="ctcount" name="ctcount" value="<%=cTcount%>" />
+        <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
+        <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
+        <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
+        <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
+        <input type="hidden" id="species" name="species" value="<%=species%>" />
+        <input type="hidden" id="samplesExist" name="samplesExist" value="<%=!existingSample ? 0 : sampleList.size()%>">
+      <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/>
     </form>
 </div>
 
 
 </body>
 </html>
+<%@ include file="/common/footerarea.jsp"%>
+<script>
+    $(document).ready(function() {
+        $('input').mouseenter(function() {
+            var $txt = $(this).val();
+            $(this).attr('title', $txt);
+        })
+    })
+    function submitForm()
+    {
+        var ageLow = document.querySelectorAll('[id^="ageLow"]');
+        var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
+        var bool = true;
+        var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
+        for (var i = 0 ; i < ageLow.length; i++){
+            var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
+            if ((ageLow[i].value === "" && ageHigh[i].value !=="") || !numbool) {
+                ageLow[i].focus();
+                ageLow[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                ageLow[i].style.border="1px solid black";
+            }
+            numbool = ageHigh[i].value === "" || regex.test(ageHigh[i].value);
+            if (( ageHigh[i].value === "" && ageLow[i].value!=="") || !numbool){
+                ageHigh[i].focus();
+                ageHigh[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                ageHigh[i].style.border="1px solid black";
+            }
+            if (Number(ageLow[i].value) > Number(ageHigh[i].value) ) {
+                ageHigh[i].focus();
+                ageHigh[i].style.border="2px solid red";
+                ageLow[i].style.border="2px solid red";
+                bool = false;
+            }
+        }
+        if (bool)
+            document.getElementById("expressionSub").submit();
+    }
+</script>
