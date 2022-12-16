@@ -15,7 +15,6 @@
             <input type="hidden" name="chr" id = "chr" value="${model.searchBean.chr}">
             <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
             <input type="hidden" name="stop" id = "stop" value="${model.searchBean.stop}"/>
-            <input type="hidden" name="assembly" id = "assembly" value="all"/>
 
             <button  type="submit" id="viewAll">View All Results</button>
         </form>
@@ -31,11 +30,12 @@
 
         <c:if test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
                     || model.searchBean.category.equals('SSLP') || model.searchBean.category.equals('Variant') || model.searchBean.viewAll
-                    || model.searchBean.category.equals('Ontology') || model.searchBean.category.equals('Cell line') || model.searchBean.category.equals('Promoter')}" >
+                    || model.searchBean.category.equals('Ontology') || model.searchBean.category.equals('Cell line') || model.searchBean.category.equals('Promoter')
+                    || (model.defaultAssembly !=null)}" >
             <c:if test="${fn:length(model.aggregations.species)>0}">
                 <c:forEach items="${model.aggregations.species}" var="item">
                     <c:if test="${item.key.equalsIgnoreCase('rat')}">
-                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.searchBean.category}', '${item.key}','', '')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
+                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.searchBean.category}', '${item.key}','', '${model.defaultAssembly}')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
                             <ul>
                                 <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                     <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->

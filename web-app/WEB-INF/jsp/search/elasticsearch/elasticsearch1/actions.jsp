@@ -14,8 +14,8 @@
 
     <table>
         <tr>
-            <td><input type="text" value="${model.defaultAssembly}" id="objectAssembly"/></td>
-            <!--c:if test="${model.objectSearch=='true'}"-->
+            <td><input type="hidden" value="${model.defaultAssembly}" id="objectAssembly"/></td>
+            <!--c:if test="$-{model.objectSearch=='true'}"-->
             <td>
                 <form  id="assemblyForm" action="elasticResults.html" method="post">
                 <input type="hidden" name="category" value="${model.searchBean.category}">
@@ -33,8 +33,8 @@
                     <input type="hidden" name="size" value="50">
                     <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
 
-                    <label for="objectSearchAssembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
-                    <select  id="objectSearchAssembly" name="assembly">
+                    <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
+                    <select  id="assembly" name="assembly" >
 
                         <option selected value="${model.defaultAssembly}">${model.defaultAssembly}</option>
 

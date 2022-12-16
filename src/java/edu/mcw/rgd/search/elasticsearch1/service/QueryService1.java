@@ -213,11 +213,11 @@ public class QueryService1 {
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-        String[] tokens=term.split("[\\s,]+");
-        if(tokens.length>0){
+     //   String[] tokens=term.split("[\\s,]+");
+      //  if(tokens.length>0){
             dqb.add(QueryBuilders.multiMatchQuery(term)
                             .operator(Operator.AND));
-        }
+      //  }
 
         return dqb;
 
