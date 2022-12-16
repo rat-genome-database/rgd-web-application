@@ -4,6 +4,9 @@
 <%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
 <!DOCTYPE html>
 <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
+
 <%
 
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
@@ -42,10 +45,235 @@
         url += "&dia=1";
     }
 %>
-<ontbrowser:tree acc_id="<%=accId%>"
+
+<style>
+    .ontologySearchInputBox {
+        font-family:arial;
+        cursor:pointer;
+        postion:absolute;
+        display:none;
+        overflow:scroll;
+        height:400px;
+        width:605px;
+        border: 1px solid black;"
+        display:none;
+    }
+    .ontologySearchInputBox hover {
+        diplay:block;
+    }
+</style>
+
+<div id="ontSearchBox" >
+
+<table align="center" border="0">
+    <tr>
+        <td>
+            Search Onotology Tree:
+        </td>
+        <td>
+
+                <input  id="termSearch" :placeholder="examples" v-model="searchTerm" size="60" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
+    </td>
+    </tr>
+    <tr>
+        <td>
+            &nbsp;
+        </td>
+    <td>
+        <div id="searchResult" class="ontologySearchInputBox" >
+            <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
+            <table>
+                <tr v-for="(key, value) in options" >
+                    <td style="font-size:16px;" align="left"><div @click="selectByTermId(value)"><span style="font-weight:500;font-family:arial;">{{key}}</span>&nbsp;({{value}}}</div></td>
+                </tr>
+            </table>
+        </div>
+
+    </td>
+</tr>
+
+
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+    <ontbrowser:tree acc_id="<%=accId%>"
                  url="<%=url%>"
                  offset="<%=request.getParameter(\"offset\")%>"
                  opener_sel_acc_id="<%=selAccId%>"
                  opener_sel_term="<%=selTerm%>"
                  filter="<%=request.getParameter(\"filter\")%>"
         />
+
+
+<script>
+
+    var div = '#ontSearchBox';
+
+    var host = window.location.protocol + window.location.host;
+
+    if (window.location.host.indexOf('localhost') > -1) {
+        host =  'http://localhost:8080';
+    } else if (window.location.host.indexOf('dev.rgd') > -1) {
+        host = window.location.protocol + '//dev.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('test.rgd') > -1) {
+        host = window.location.protocol + '//test.rgd.mcw.edu';
+    }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+        host = window.location.protocol + '//pipelines.rgd.mcw.edu';
+    }else {
+        host = window.location.protocol + '//rgd.mcw.edu';
+    }
+
+    var v = new Vue({
+        el: div,
+        data: {
+            optionsNotEmpty:  false,
+            title: "",
+            searchTerm: "",
+            hostName: host,
+            options:{},
+            symbolHash: {},
+            keyMap: {},
+            currentOnt: "<%=request.getParameter("ont")%>",
+            examples: "",
+            axiosRequest: new AbortController(),
+        },
+        methods: {
+            selectByTermId: function(val) {
+                document.getElementById("searchResult").style.display="none";
+
+                var url = "/rgdweb/ontology/view.html?mode=popup&ont=" + v.currentOnt + "&sel_term=<%=request.getParameter("sel_term")%>&sel_acc_id=<%=request.getParameter("sel_acc_id")%>>&curationTool=1&acc_id=" + val;
+                location.href=url;
+                },
+            search: function () {
+
+                this.axiosRequest.abort();
+
+                v.options={};
+
+                v.optionsNotEmpty = true;
+
+
+
+                var subCat = 'RS:%20Rat%20Strains';
+                if (this.currentOnt === "MMO") {
+                    var subCat = 'MMO:%20Measurement%20Methods';
+
+                }else if (this.currentOnt === "XCO") {
+                    var subCat = 'XCO:%20Experimental%20Condition';
+
+                }else if (this.currentOnt === "CMO") {
+                    var subCat = 'CMO:%20Clinical%20Measurement';
+
+                }
+
+                    axios
+                        .get(this.hostName + '/rgdweb/phenominerTermSearch.html?term=' + v.searchTerm + '&category=Ontology&subCat=' + subCat + '&species=&cat1=General&sp1=&postCount=1',
+                            {
+                                species: "hell",
+                            })
+                        .then(function (response) {
+                            for (var searchKey in response.data) {
+                                v.options=response.data;
+                                v.optionsNotEmpty = false;
+
+                                document.getElementById("searchResult").style.display="block";
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                            v.errored = true
+                        })
+
+
+            },
+
+            updateConditionBox: function() {
+                if (JSON.stringify(v.selectedConditions) === "{}") {
+                    return;
+                }
+                v.block();
+                document.getElementById("conditionMessageTable").style.visibility="hidden";
+                document.getElementById("conditionMessageUpdate").style.display="block";
+
+                axios
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=XCO&sex=both&species=3&terms=' + v.getAllTerms(),
+                        {
+                            species: "hell",
+                        })
+                    .then(function (response) {
+                        var parser = new DOMParser();
+                        xmlDoc = parser.parseFromString(response.data + "", "text/xml");
+
+                        var root = xmlDoc.getRootNode();
+                        //var root = xmlDoc.getElementsByTagName("tree");
+                        var childNodes = root.getElementsByTagName("item");
+
+                        var children = v.getLeafNodes(childNodes);
+
+                        //find out if a selection is now gone
+                        var tmpHash = {};
+                        for (var key in v.selectedConditions) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
+                                var idArr = (item.getAttribute("id") + "").split("_");
+                                var id = idArr[0];
+
+                                if (v.selectedConditions[key] === id) {
+                                    tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
+                                }
+                            }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedConditions[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedConditions[key];
+                                }
+
+                            }
+                        }
+
+
+                        v.selectedConditions = {};
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedConditions[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedConditions[key] = tmpHash[key];
+                            }
+                        }
+
+                        //v.selectedConditions = tmpHash;
+                        document.getElementById("conditionMessageTable").style.visibility="visible";
+                        document.getElementById("conditionMessageUpdate").style.display="none";
+                        v.unblock();
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        v.errored = true
+                    })
+
+            },
+
+
+        },
+    })
+
+
+    setTimeout(v.init, 10);
+
+
+
+</script>

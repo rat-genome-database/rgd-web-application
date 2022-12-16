@@ -13,7 +13,6 @@
     String headContent = "";
     String pageDescription = "";
 %>
-var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 <%@ include file="editHeader.jsp" %>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
