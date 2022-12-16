@@ -1,5 +1,7 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
+import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
@@ -47,8 +49,9 @@ public class QueryService1 {
         String sortField=null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
+        System.out.println("SB.CATEGORY:"+sb.getCategory());
             if(sb != null) {
-                if (sb.getSortBy().equalsIgnoreCase("relevance")) {
+                if (sb.getSortBy().equalsIgnoreCase("relevance") && !sb.getCategory().equalsIgnoreCase("variant")) {
                     srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
                 } else {
                     if (sb.getSortBy().equalsIgnoreCase("symbol")) {
@@ -59,16 +62,23 @@ public class QueryService1 {
                             srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
                         }
                     } else {
-                        sortField = "mapDataList." + sb.getSortBy();
-                        if (sb.getSortOrder().equalsIgnoreCase("asc")) {
-                            //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
-                            );
+                        if (sb.getCategory().equalsIgnoreCase("variant")) {
+                            sortField = "mapDataList.rank";
+                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC));
+
                         } else {
-                            //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
+                            sortField = "mapDataList." + sb.getSortBy();
+                            if (sb.getSortOrder().equalsIgnoreCase("asc")) {
+                                //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                                srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
+                                );
+                            } else {
+                                //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                                srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
+                            }
                         }
                     }
+
                 }
 
                 List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait", "assembly"));
@@ -218,7 +228,24 @@ public class QueryService1 {
             dqb.add(QueryBuilders.multiMatchQuery(term)
                             .operator(Operator.AND));
       //  }
+    /*    if(sb.getSpecies()!=null && !sb.getSpecies().equals("") && sb.getCategory().equalsIgnoreCase("variant")) {
+            String defaultAssemblyName = new String();
+            if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
+                defaultAssemblyName = sb.getAssembly().trim();
 
+            } else {
+                int speciesKey = SpeciesType.parse(sb.getSpecies());
+                edu.mcw.rgd.datamodel.Map defaultAssembly = null;
+                try {
+                    defaultAssembly = MapManager.getInstance().getReferenceAssembly(speciesKey);
+                    defaultAssemblyName = defaultAssembly.getDescription();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            dqb.add(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map", defaultAssemblyName.trim()), ScoreMode.Max).boost(100));
+        }*/
         return dqb;
 
     }

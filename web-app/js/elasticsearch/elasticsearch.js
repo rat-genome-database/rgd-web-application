@@ -31,7 +31,7 @@ $(function () {
 
     });*/
 
-    $('#objectSearchAssembly').on('change', function (e) {
+    $('#assembly').on('change', function (e) {
 
                 $('#objectAssembly').val($(this).val());
                 $('#assemblyForm').submit();
