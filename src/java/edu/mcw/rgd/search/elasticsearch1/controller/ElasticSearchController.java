@@ -35,15 +35,21 @@ public class ElasticSearchController implements Controller {
         ModelMap model = new ModelMap();
         SearchService service = new SearchService();
 
-            String term = req.getParameter("term").trim();
-            term=term.replaceAll("\"", "");
-            if(term.length()>100){
+            String searchTerm = req.getParameter("term").trim();
+          //  term=term.replaceAll("\"", "");
+            if(searchTerm.length()>100){
                 response.sendRedirect(request.getContextPath());
                 return null;
             }
-            if( term.startsWith("RGD:") || term.startsWith("RGD_") )
-                term = term.substring(4);
-            term=term.toLowerCase();
+        if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
+            searchTerm = searchTerm.substring(4);
+        else if(searchTerm.startsWith("RGD"))
+            searchTerm=searchTerm.substring(3);
+        else {
+            searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
+        }
+            searchTerm=searchTerm.toLowerCase();
+            String term=searchTerm.replaceAll("[^\\w\\s]","");
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
 
