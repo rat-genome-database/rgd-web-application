@@ -35,15 +35,21 @@ public class ElasticSearchController implements Controller {
         ModelMap model = new ModelMap();
         SearchService service = new SearchService();
 
-            String term = req.getParameter("term").trim();
-            term=term.replaceAll("\"", "");
-            if(term.length()>100){
+            String searchTerm = req.getParameter("term").trim();
+          //  term=term.replaceAll("\"", "");
+            if(searchTerm.length()>100){
                 response.sendRedirect(request.getContextPath());
                 return null;
             }
-            if( term.startsWith("RGD:") || term.startsWith("RGD_") )
-                term = term.substring(4);
-            term=term.toLowerCase();
+        if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
+            searchTerm = searchTerm.substring(4);
+        else if(searchTerm.startsWith("RGD"))
+            searchTerm=searchTerm.substring(3);
+        else {
+            searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
+        }
+            searchTerm=searchTerm.toLowerCase();
+            String term=searchTerm.replaceAll("[^\\w\\s]","");
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
 
@@ -138,7 +144,6 @@ public class ElasticSearchController implements Controller {
                 }
             }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
             {
-                System.out.println("RSID :"+ term);
                 redirUrl=Link.rsId(term);
                 return request.getScheme() + "://" + request.getServerName() + redirUrl;
 
@@ -180,7 +185,6 @@ public class ElasticSearchController implements Controller {
         String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
 
         String rsId=(String) sr.getHits().getHits()[0].getSourceAsMap().get("rsId");
-        System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
             if(rsId!=null && !rsId.equals("")){
