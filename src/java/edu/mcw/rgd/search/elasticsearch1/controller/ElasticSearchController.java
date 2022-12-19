@@ -49,7 +49,9 @@ public class ElasticSearchController implements Controller {
             searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
         }
             searchTerm=searchTerm.toLowerCase();
-            String term=searchTerm.replaceAll("[^\\w\\s]","");
+        //String term=searchTerm.replaceAll("[^\\w\\s]"," ");
+        String term=searchTerm.replaceAll("\\[", "").replaceAll("\\]","").replaceAll("\\(", "").replaceAll("\\)", "")
+                .replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("\"", "");
             SearchBean sb= service.getSearchBean(req, term);
             String objectSearch= req.getParameter("objectSearch");
 
