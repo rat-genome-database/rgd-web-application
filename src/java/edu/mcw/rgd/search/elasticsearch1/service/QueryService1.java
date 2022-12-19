@@ -202,7 +202,6 @@ public class QueryService1 {
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
                 .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
 
                 .add(QueryBuilders.multiMatchQuery(term)
@@ -213,11 +212,10 @@ public class QueryService1 {
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-        String[] tokens=term.split("[\\s,]+");
-        if(tokens.length>0){
-            dqb.add(QueryBuilders.multiMatchQuery(term)
+        
+            dqb.add(QueryBuilders.multiMatchQuery(term).fuzziness("AUTO")
                             .operator(Operator.AND));
-        }
+
 
         return dqb;
 
