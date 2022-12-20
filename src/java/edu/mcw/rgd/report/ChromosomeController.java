@@ -5,7 +5,7 @@ import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -62,7 +62,7 @@ public class ChromosomeController implements Controller {
 
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("chromosome"));
         searchRequest.source(srb);
-        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
       /*  SearchResponse sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("chromosome"))
                 .setTypes("chromosome")
                 .setQuery(QueryBuilders.matchAllQuery())
@@ -70,9 +70,7 @@ public class ChromosomeController implements Controller {
                 .get();
 */
         if(sr!=null) {
-            System.out.println("PRIMARY ASSEMBLIES:"+sr.getHits().getTotalHits());
             hitsList.add(sr.getHits().getHits());
-            System.out.println("TOTAL HITS:" + sr.getHits().getTotalHits());
         }
         return hitsList;
     }

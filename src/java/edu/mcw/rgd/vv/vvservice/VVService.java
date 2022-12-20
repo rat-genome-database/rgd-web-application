@@ -9,9 +9,8 @@ import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
-import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
+
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
@@ -31,11 +30,9 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -253,7 +250,7 @@ public class VVService {
         if(req.getParameter("possibly").equals("true")){pPredictions.add("possibly damaging");}
         if(req.getParameter("probably").equals("true")){pPredictions.add("probably damaging");}
         if(pPredictions.size()>0){
-            builder.filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray()));
+            builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray())));
         }
 
         List<String> clinicalSignificance=new ArrayList<>();
@@ -265,7 +262,6 @@ public class VVService {
         if(clinicalSignificance.size()>0){
             builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("clinicalSignificance.keyword", clinicalSignificance.toArray())));
         }
-      
 
         /***************************zygosity************************************/
       if(req.getParameter("het").equals("true")){
@@ -352,7 +348,8 @@ public class VVService {
                 qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
-            && req.getParameter("geneList").equals("")) {
+            && req.getParameter("geneList").equals("")
+            ) {
             //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
@@ -570,7 +567,6 @@ public class VVService {
 
             }
         }catch (Exception e){
-            System.out.println("CONSCORE:"+conScores.get(0));
             e.printStackTrace();
         }
 
