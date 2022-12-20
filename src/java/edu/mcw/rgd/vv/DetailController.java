@@ -1,7 +1,7 @@
 package edu.mcw.rgd.vv;
 
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.datamodel.*;

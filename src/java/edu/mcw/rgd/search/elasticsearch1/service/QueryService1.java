@@ -1,8 +1,8 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -122,7 +122,7 @@ public class QueryService1 {
             }
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
-        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         return sr;
     }
 
@@ -212,7 +212,7 @@ public class QueryService1 {
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-        
+
             dqb.add(QueryBuilders.multiMatchQuery(term).fuzziness("AUTO")
                             .operator(Operator.AND));
 

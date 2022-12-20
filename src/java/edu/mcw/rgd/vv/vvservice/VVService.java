@@ -9,9 +9,8 @@ import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
-import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
+
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
@@ -31,11 +30,9 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
