@@ -3,7 +3,7 @@ package edu.mcw.rgd.phenominer.elasticsearch.service;
 
 
 
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;

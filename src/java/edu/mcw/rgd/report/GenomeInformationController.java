@@ -6,7 +6,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -136,7 +136,7 @@ public class GenomeInformationController implements Controller{
         }
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("genome"));
         searchRequest.source(srb);
-        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
             hitsList.add(sr.getHits().getHits());
 

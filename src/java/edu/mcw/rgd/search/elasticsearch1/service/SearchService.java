@@ -3,11 +3,11 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import edu.mcw.rgd.search.elasticsearch1.model.Species;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
@@ -15,6 +15,7 @@ import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 
+import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
@@ -48,7 +49,7 @@ public class SearchService {
         speciesCatArray[5][0]="Promoter";
         speciesCatArray[6][0]="Cell line";
 
-        Terms speciesAgg, categoryAgg, typeAgg;
+        Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
         Filter chromosomeAgg;
         long totalTerms = 0;
         int nvCount=0;
@@ -174,6 +175,18 @@ public class SearchService {
 
                 typeAgg = sr.getAggregations().get("type");
                 aggregations.put("type", typeAgg.getBuckets());
+            //    assembly = sr.getAggregations().get("assembly");
+                Nested assemblyAggs= sr.getAggregations().get("assemblyAggs");
+                Terms assemblies=assemblyAggs.getAggregations().get("assembly");
+             /*   List<Terms.Bucket> assemblyList=new ArrayList<>();
+                for(Terms.Bucket agg:assemblies.getBuckets()) {
+                    System.out.println("ASSEMBLY BKTS:"+agg.getKey()+"\t"+agg.getDocCount());
+                    Terms assembly1 =agg.getAggregations().get("assembly");
+                    if(assembly1!=null)
+                    assemblyList.addAll(assembly1.getBuckets());
+                }*/
+
+                aggregations.put("assembly", assemblies.getBuckets());
             }
        TotalHits hits= sr.getHits().getTotalHits();
            totalHits =hits.value ;

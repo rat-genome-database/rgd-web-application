@@ -1,8 +1,8 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -71,7 +71,7 @@ public class QueryService1 {
                     }
                 }
 
-                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait"));
+                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait", "assembly"));
 
                 if (!sb.isPage()) {
 
@@ -106,7 +106,7 @@ public class QueryService1 {
                         srb.postFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
 
                     }
-                    if (!sb.getCategory().equalsIgnoreCase("general")) {
+                    if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equals("")) {
                         if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
 
                             if (sb.getSubCat() != null && sb.getSubCat() != "") {
@@ -122,7 +122,7 @@ public class QueryService1 {
             }
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
-        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         return sr;
     }
 
@@ -131,7 +131,7 @@ public class QueryService1 {
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
-            if (!sb.getCategory().equalsIgnoreCase("general")) {
+            if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equalsIgnoreCase("")) {
                 builder.filter(QueryBuilders.termQuery("category.keyword", sb.getCategory()));
             }
             if (sb.getSpecies() != null && !sb.getSpecies().equals("")) {
@@ -149,6 +149,10 @@ public class QueryService1 {
                                     .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())), ScoreMode.None)));
 
                 }
+            }
+            System.out.println("ASSEMBLY:" +sb.getAssembly());
+            if (sb.getAssembly() != null && !sb.getAssembly().equals("")) {
+                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
             }
         }
         return builder;
@@ -198,7 +202,6 @@ public class QueryService1 {
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
                 .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
 
                 .add(QueryBuilders.multiMatchQuery(term)
@@ -209,11 +212,10 @@ public class QueryService1 {
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-        String[] tokens=term.split("[\\s,]+");
-        if(tokens.length>0){
-            dqb.add(QueryBuilders.multiMatchQuery(term)
+
+            dqb.add(QueryBuilders.multiMatchQuery(term).fuzziness("AUTO")
                             .operator(Operator.AND));
-        }
+
 
         return dqb;
 
@@ -240,6 +242,14 @@ public class QueryService1 {
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                           //  .order(Terms.Order.term(true)))  deprecated in 6.4
             ;
+
+            return aggs;
+        }
+        if(aggField.equalsIgnoreCase("assembly")) {
+          //  aggs = AggregationBuilders.terms(aggField).field("mapDataList.map" + ".keyword").size(20).order(BucketOrder.key(true))
+            ;
+            aggs=AggregationBuilders.nested("assemblyAggs", "mapDataList")
+                    .subAggregation(AggregationBuilders.terms(aggField).field("mapDataList.map").size(100).order(BucketOrder.key(true)));
 
             return aggs;
         }
