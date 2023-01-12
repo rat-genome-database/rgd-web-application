@@ -154,7 +154,7 @@
                 <th>Life Stage (Curated):</th>
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
-                <th>Status:</th>
+                <th>Status/Action:</th>
             </tr>
                 <%
             }
@@ -163,7 +163,7 @@
      for(GeoRecord s: samples){
 boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
-
+//System.out.println(s.getSampleAccessionId()+"|"+s.getCurationStatus());
           try{
          if (sample == null)
              sample = new Sample();
@@ -251,12 +251,18 @@ catch (Exception e){}
                 </td>
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 120px"><%=(updateSample && !Objects.toString(notes.get(null),"").isEmpty()) ? Objects.toString(notes.get(null),"") :sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
                 <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 120px"><%=(updateSample && !Objects.toString(curNotes.get(null),"").isEmpty()) ? Objects.toString(curNotes.get(null),"") : sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
-                <td><select id="status<%=count%>" name="status<%=count%>">
-                    <option value="loaded" selected>Loaded</option>
-                    <option  value="not4Curation">Not For Curation</option>
-                    <option value="futureCuration">Future Curation</option>
-                    <option  value="pending">Pending</option>
+                <td><select id="status<%=count%>" name="status<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','status')">
+                    <option value="loaded" <%=s.getCurationStatus().equals("loaded") ? "selected":""%>>Loaded</option>
+                    <option  value="not4Curation" <%=s.getCurationStatus().equals("not4Curation") ? "selected":""%>>Not For Curation</option>
+                    <option value="futureCuration" <%=s.getCurationStatus().equals("futureCuration") ? "selected":""%>>Future Curation</option>
+                    <option  value="pending" <%=s.getCurationStatus().equals("pending") ? "selected":""%>>Pending</option>
                 </select>
+                    <br>
+                    <select id="action<%=count%>" name="action<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','action')">
+                        <option value="load" <%=s.getCurationStatus().equals("pending") ? "selected":""%>>Load</option>
+                        <option value="ignore" <%=(s.getCurationStatus().equals("not4Curation") || s.getCurationStatus().equals("futureCuration")) ? "selected":""%>>Ignore</option>
+                        <option value="edit" <%=s.getCurationStatus().equals("loaded") ? "selected":""%>>Edit</option>
+                    </select>
                 </td>
             </tr>
 
@@ -289,6 +295,8 @@ catch (Exception e){}
     {
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
+        // var status = document.querySelectorAll('[id^="status"]');
+        // var action = document.querySelectorAll('[id^="action"]');
         var bool = true;
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
@@ -316,8 +324,39 @@ catch (Exception e){}
                 ageLow[i].style.border="2px solid red";
                 bool = false;
             }
+
         }
         if (bool)
             document.getElementById("createSample").submit();
+    }
+    function checkDropdown(actionId, statusId, act){
+        var action = document.getElementById(actionId);
+        var status = document.getElementById(statusId);
+        if (act === "status"){
+            if (status.value === "loaded"){
+                action.value = "edit";
+            }
+            else if (status.value === "not4Curation" || status.value === "futureCuration"){
+                action.value = "ignore";
+            }
+            else if (status.value === "pending"){
+                action.value = "load";
+            }
+        }
+        else if (act === "action"){
+            if (status.value === "loaded" && action.value==="load"){
+                action.value = "edit";
+            }
+            else if (status.value === "pending" && action.value === "edit"){
+                action.value = "load";
+            }
+            else if (status.value === "not4Curation" && action.value === "edit"){
+                action.value = "load";
+            }
+            else if (status.value === "futureCuration" && action.value === "edit"){
+                action.value = "load";
+            }
+        }
+
     }
 </script>

@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -123,7 +124,7 @@
 
             <tr>
                 <td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=rec.getGeoAccessionId()%>" target="_blank"><%=rec.getGeoAccessionId()%></a></td>
-                <td><%=rec.getPubmedId()%></td>
+                <td><%=Utils.NVL(rec.getPubmedId(),"")%></td>
                 <td><%=rec.getStudyTitle()%></td>
                 <td><%=rec.getCurationStatus()%></td>
                 <td><%=link%></td>

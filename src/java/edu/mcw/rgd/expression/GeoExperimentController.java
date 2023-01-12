@@ -83,6 +83,7 @@ public class GeoExperimentController implements Controller {
                     s.setNotes(request.getParameter("notes"+i));
                     s.setCuratorNotes(request.getParameter("cNotes"+i));
                     String curStatus = request.getParameter("status"+i);
+                    String curAction = request.getParameter("action"+i);
 
                     if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
                         s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
@@ -93,29 +94,47 @@ public class GeoExperimentController implements Controller {
                     int sampleId = 0;
                     Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
 
-                    if(sample == null)
+
+                    if(sample == null && curAction.equals("load"))
                         sampleId = pdao.insertSample(s);
-                    else {
+                    else if (curAction.equals("load") || curAction.equals("edit")){
                         s.setId(sample.getId());
                         sampleId = sample.getId();
                         pdao.updateSample(s);
                     }
-
-                    rec.append(String.valueOf(sampleId));
-                    rec.append(s.getGeoSampleAcc());
-                    rec.append(s.getTissueAccId());
-                    rec.append(s.getStrainAccId());
-                    rec.append(s.getCellTypeAccId());
-                    rec.append(s.getCellLineId());
-                    rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
-                    rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
-                    rec.append(s.getSex());
-                    rec.append(s.getLifeStage());
-                    rec.append(s.getNotes());
-                    rec.append(s.getCuratorNotes());
-                    r.append(rec);
-
-                    pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),curStatus,species);
+                    if (curAction.equals("load") || curAction.equals("edit")) {
+                        rec.append(String.valueOf(sampleId));
+                        rec.append(s.getGeoSampleAcc());
+                        rec.append(s.getTissueAccId());
+                        rec.append(s.getStrainAccId());
+                        rec.append(s.getCellTypeAccId());
+                        rec.append(s.getCellLineId());
+                        rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
+                        rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
+                        rec.append(s.getSex());
+                        rec.append(s.getLifeStage());
+                        rec.append(s.getNotes());
+                        rec.append(s.getCuratorNotes());
+                        r.append(rec);
+                    }
+                    if (curStatus.equals("pending") && curAction.equals("load"))
+                        pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
+                    else {
+                        switch (curStatus) {
+                            case "loaded":
+                                pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "loaded", species);
+                                break;
+                            case "not4Curation":
+                                pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "not4Curation", species);
+                                break;
+                            case "futureCuration":
+                                pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "futureCuration", species);
+                                break;
+                            case "pending":
+                                pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "pending", species);
+                                break;
+                        }
+                    }
                 }
 
 
