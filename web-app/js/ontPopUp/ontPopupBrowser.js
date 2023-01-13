@@ -13,6 +13,18 @@ function ontPopup(callback, ontCode, selTerm){
     return false;
 
 }
+function ontPopupPublic(callback, ontCode, selTerm){
+    if( _popup_wnd!=null ) {
+        if( !_popup_wnd.closed ) {
+            _popup_wnd.focus();
+            return;
+        }
+    }
+    _popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont="+ontCode.toUpperCase()+"&sel_term="+selTerm+"&sel_acc_id="+callback+"&acc_id="
+        +document.getElementById(callback+'').value, '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
+    return false;
+
+}
 function lostFocus(ont) {
     setTimeout("checkForValidTerm('" + ont + "')", 200);
 }
