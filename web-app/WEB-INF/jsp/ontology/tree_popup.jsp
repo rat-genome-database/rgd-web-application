@@ -8,6 +8,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
 
 <%
+    OntologyXDAO xdao = new OntologyXDAO();
+    boolean nestedWindows = false;
+
+    if (request.getParameter("nestedWindows") != null) {
+        nestedWindows=true;
+    }
 
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
     // for browsing
@@ -20,19 +26,23 @@
             // try a term parameter
             String termName = request.getParameter("term");
             if( !Utils.isStringEmpty(termName) ) {
-                Term term = new OntologyXDAO().getTermByTermName(termName, ontId);
+                Term term = xdao.getTermByTermName(termName, ontId);
                 if( term!=null )
                     accId = term.getAccId();
             }
 
             if( Utils.isStringEmpty(accId) )
-                accId = new OntologyXDAO().getRootTerm(ontId);
+                accId = xdao.getRootTerm(ontId);
         }
     }
 
     // url for browsing the tree should include 'sel_acc_id' and 'sel_term' parameters if available
     String selAccId = request.getParameter("sel_acc_id");
     String selTerm = request.getParameter("sel_term");
+    String termName="";
+    if (selTerm !=null && !selTerm.equals("")) {
+        termName = xdao.getTerm(accId).getTerm();
+    }
     String curationTool = request.getParameter("curation");
     String url = "/rgdweb/ontology/view.html?mode=popup";
     if( !Utils.isStringEmpty(selAccId) )
@@ -57,11 +67,33 @@
         width:605px;
         border: 1px solid black;"
         display:none;
+        top:0;
+        left:0;
+        background-color:white;
     }
     .ontologySearchInputBox hover {
         diplay:block;
     }
 </style>
+
+<script>
+    function postMessage(accIdAndTerm, str) {
+        var returnArr = accIdAndTerm.split("|");
+        var accId = returnArr[0];
+        var term = returnArr[1];
+
+        window.opener.document.getElementById('<%=request.getParameter("sel_acc_id")%>').value=accId;
+        window.opener.document.getElementById('<%=request.getParameter("sel_term")%>').value=term;
+        window.close();
+
+    }
+
+
+    //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+
+</script>
+
+<% if (nestedWindows) { %>
 
 <div id="ontSearchBox" >
 
@@ -71,8 +103,7 @@
             Search Onotology Tree:
         </td>
         <td>
-
-                <input  id="termSearch" :placeholder="examples" v-model="searchTerm" size="60" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
+            <input  id="termSearch" :placeholder="examples" v-model="searchTerm" size="60" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
     </td>
     </tr>
     <tr>
@@ -97,8 +128,15 @@
     </tr>
 </table>
 </div>
+<% } %>
 
+<%
+    if (nestedWindows) {
+    //if (request.getParameter("nestedWindows") != null) {
+%>
 
+    <iframe style="height:500px; width:100%;" id="treeWindow" src="/rgdweb/ontology/view.html?mode=iframe&ont=<%=request.getParameter("ont")%>&sel_term=<%=selTerm%>&sel_acc_id=<%=selAccId%>&curationTool=1&acc_id=<%=accId%>">
+<% } %>
 
     <ontbrowser:tree acc_id="<%=accId%>"
                  url="<%=url%>"
@@ -109,8 +147,11 @@
         />
 
 
-<script>
+<% if (nestedWindows) {%>
+    </iframe>
+<% } %>
 
+<script>
     var div = '#ontSearchBox';
 
     var host = window.location.protocol + window.location.host;
@@ -145,8 +186,11 @@
             selectByTermId: function(val) {
                 document.getElementById("searchResult").style.display="none";
 
-                var url = "/rgdweb/ontology/view.html?mode=popup&ont=" + v.currentOnt + "&sel_term=<%=request.getParameter("sel_term")%>&sel_acc_id=<%=request.getParameter("sel_acc_id")%>>&curationTool=1&acc_id=" + val;
-                location.href=url;
+                var url = "/rgdweb/ontology/view.html?mode=iframe&ont=" + v.currentOnt + "&sel_term=<%=request.getParameter("sel_term")%>&sel_acc_id=<%=request.getParameter("sel_acc_id")%>&curationTool=1&acc_id=" + val;
+                //document.getElementById("treeWindow").location.href=url;
+
+                document.getElementById("treeWindow").src= url;
+
                 },
             search: function () {
 
