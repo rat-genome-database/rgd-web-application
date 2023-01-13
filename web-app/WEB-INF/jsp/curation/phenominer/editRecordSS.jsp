@@ -13,7 +13,6 @@
     String headContent = "";
     String pageDescription = "";
 %>
-var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 <%@ include file="editHeader.jsp" %>
 
 <br>
