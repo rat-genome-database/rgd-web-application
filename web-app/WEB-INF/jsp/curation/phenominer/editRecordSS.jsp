@@ -67,7 +67,7 @@
 
 <span class="phenominerPageHeader"><%=title%></span>
 
-<%@ include file="editRecordMenuOptions.jsp"%>
+<%@ include file="spreadSheetMenuOptions.jsp"%>
 
 
 
