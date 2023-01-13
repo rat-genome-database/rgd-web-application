@@ -261,9 +261,9 @@ catch (Exception e){}
                 </select>
                     <br>
                     <select id="action<%=count%>" name="action<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','action')">
-                        <option value="load" <%=s.getCurationStatus().equals("pending") ? "selected":""%>>Load</option>
+                        <option value="load" <%=s.getCurationStatus().equals("pending") && sample.getId()==0 ? "selected":""%>>Load</option>
                         <option value="ignore" <%=(s.getCurationStatus().equals("not4Curation") || s.getCurationStatus().equals("futureCuration")) ? "selected":""%>>Ignore</option>
-                        <option value="edit" <%=s.getCurationStatus().equals("loaded") ? "selected":""%>>Edit</option>
+                        <option value="edit" <%=s.getCurationStatus().equals("loaded") || sample.getId()!=0 ? "selected":""%>>Edit</option>
                     </select>
                 </td>
             </tr>
@@ -297,8 +297,6 @@ catch (Exception e){}
     {
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
-        // var status = document.querySelectorAll('[id^="status"]');
-        // var action = document.querySelectorAll('[id^="action"]');
         var bool = true;
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
