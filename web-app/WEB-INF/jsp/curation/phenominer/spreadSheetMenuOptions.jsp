@@ -22,10 +22,6 @@
             <td><a href='home.html'>Home</a></td>
             <td><a href='search.html'>Search</a></td>
             <td><a href='studies.html'>List All Studies</a></td>
-            <% if (!multiEdit || enabledConditionInsDel) { %>
-            <td><a href="javascript:addCondition()">Add Condition</a></td>
-            <% } %>
-            <td><a href="javascript:addUnit()">Add Unit</a></td>
             <% if (req.getParameter("studyId") != null && req.getParameter("studyId").length() > 0) {
                 if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) { %>
             <td><a href="records.html?expId=<%=req.getParameter("expId")%>&studyId=<%=req.getParameter("studyId")%>">All
@@ -44,6 +40,7 @@
                 Records</a></td>
             <% }
             }%>
+            <td><a href="javascript:toggleOptions()">Configure</a></td>
         </tr>
     </table>
 </div>

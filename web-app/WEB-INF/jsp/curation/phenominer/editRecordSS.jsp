@@ -158,7 +158,7 @@
         unit.style.display = "none";
     }
 
-    //check for presence of value in existing units options
+    //check for presence of value in existing units optionsƒ
     function CheckPresence(existing,unitValue){
         for (i = 0; i < existing.length; i++) {
             var val = existing[i].value;
@@ -166,6 +166,11 @@
                 alert("Unit exists in the database - Only conversion will be added");
         }
     }
+
+    function postMessage(inputBox,acc,term) {
+        changed(inputBox);
+    }
+
 </script>
 
 

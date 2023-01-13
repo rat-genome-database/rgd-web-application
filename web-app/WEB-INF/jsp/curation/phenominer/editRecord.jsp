@@ -167,6 +167,8 @@
                 alert("Unit exists in the database - Only conversion will be added");
         }
     }
+
+
 </script>
 
 <form name= "editRecordForm" action="records.html" method="get">

@@ -82,8 +82,14 @@
         var accId = returnArr[0];
         var term = returnArr[1];
 
+        try {
+            window.opener.postMessage(window.opener.document.getElementById('<%=request.getParameter("sel_acc_id")%>'),accId, term);
+        }catch {
+        }
+
         window.opener.document.getElementById('<%=request.getParameter("sel_acc_id")%>').value=accId;
         window.opener.document.getElementById('<%=request.getParameter("sel_term")%>').value=term;
+
         window.close();
 
     }
