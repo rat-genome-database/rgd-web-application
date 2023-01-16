@@ -190,6 +190,7 @@
 
                     <%@ include file="comparativeMapData.jsp"%>
                     <%@ include file="../cnVariants.jsp"%>
+                    <%@ include file="clinicalVariants.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>
@@ -218,7 +219,6 @@
 
                     <%@ include file="../transcriptome.jsp"%>
                     <%@ include file="../promoters.jsp"%>
-                    <%@ include file="clinicalVariants.jsp"%>
 <%--                    <%@ include file="../variants.jsp"%>--%>
 
 
