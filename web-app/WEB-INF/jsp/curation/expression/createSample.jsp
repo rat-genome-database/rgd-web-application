@@ -260,6 +260,7 @@ catch (Exception e){}
                     <option  value="pending" <%=s.getCurationStatus().equals("pending") ? "selected":""%>>Pending</option>
                 </select>
                     <br>
+                    <br>
                     <select id="action<%=count%>" name="action<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','action')">
                         <option value="load" <%=s.getCurationStatus().equals("pending") && sample.getId()==0 ? "selected":""%>>Load</option>
                         <option value="ignore" <%=(s.getCurationStatus().equals("not4Curation") || s.getCurationStatus().equals("futureCuration")) ? "selected":""%>>Ignore</option>
