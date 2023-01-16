@@ -9,6 +9,9 @@
 %>
 <%@ include file="/common/headerarea.jsp" %>
 
+<%=request.getHeader("referer")%>
+
+
 <div id="curation">
 <section v-if="userloggedin == 204">
 
