@@ -232,7 +232,7 @@
             e.printStackTrace();
         }
     %>
-    <br>
+
     <script>
         function editField(fieldID) {
             $(fieldID).attr('readonly', false);

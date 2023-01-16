@@ -4,14 +4,17 @@
         color:white;
         margin-top:10px;
         padding:5px;
+        margin-bottom:10px;
     }
     .phenominerNavBar a{
         color:white;
         text-decoration: none;
         font-weight:700;
         margin-left:20px;
+        cursor:pointer;
     }
 </style>
+
 
 <div class="phenominerNavBar">
     <table >
