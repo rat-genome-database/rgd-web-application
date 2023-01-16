@@ -14,15 +14,15 @@
 
 <h1 > Welcome {{name}} !!!</h1>
 <% if (request.getRequestURL().toString().startsWith("https://pipelines")) { %>
-Current Server: <span style="color:green; font-size:16px;">PIPELINES</span>  <a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
+Current Server: <span style="color:green; font-size:18px;">PIPELINES</span>&nbsp;&nbsp;&nbsp;&nbsp; <a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
 <% } %>
 
 <% if (request.getRequestURL().toString().startsWith("https://dev")) { %>
-Current Server: <span style="color:red; font-size:16px;">DEV</span> 
+Current Server: <span style="color:red; font-size:18px;">DEV</span>
 <% } %>
 
 <% if (request.getRequestURL().toString().startsWith("http://localhost")) { %>
-Current Server: <span style="color:purple; font-size:16px;">LOCALHOST</span> <a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
+Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbsp;&nbsp;&nbsp;&nbsp;<a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
 <% } %>
 
 

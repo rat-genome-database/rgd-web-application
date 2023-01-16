@@ -217,7 +217,6 @@
 
                 }else if (this.currentOnt === "CMO") {
                     var subCat = 'CMO:%20Clinical%20Measurement';
-
                 }
 
                     axios
