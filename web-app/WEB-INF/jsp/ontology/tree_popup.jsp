@@ -106,10 +106,10 @@
 <table align="center" border="0">
     <tr>
         <td>
-            Search Onotology Tree:
+            Search:
         </td>
         <td>
-            <input  id="termSearch" :placeholder="examples" v-model="searchTerm" size="60" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
+            <input  id="termSearch" :placeholder="examples" v-model="searchTerm" size="60" style="border: 3px solid black;height:30px;width:600px;" v-on:input="search()"/></td>
     </td>
     </tr>
     <tr>
@@ -120,6 +120,10 @@
         <div id="searchResult" class="ontologySearchInputBox" >
             <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
             <table>
+                <tr>
+                    <td align="right">
+                        <a @click="hideSearchWindow()"  href="#">Close Search Window</a>&nbsp;&nbsp;&nbsp;
+                    </td></tr>
                 <tr v-for="(key, value) in options" >
                     <td style="font-size:16px;" align="left"><div @click="selectByTermId(value)"><span style="font-weight:500;font-family:arial;">{{key}}</span>&nbsp;({{value}}}</div></td>
                 </tr>
@@ -189,6 +193,11 @@
             axiosRequest: new AbortController(),
         },
         methods: {
+            hideSearchWindow: function() {
+                document.getElementById("searchResult").style.display="none";
+                v.searchTerm="";
+            },
+
             selectByTermId: function(val) {
                 document.getElementById("searchResult").style.display="none";
 
