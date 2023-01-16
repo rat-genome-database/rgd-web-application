@@ -9,6 +9,23 @@
 %>
 <%@ include file="/common/headerarea.jsp" %>
 
+<%
+
+    if (request.getHeader("referer").equals("https://dev.rgd.mcw.edu/")) {
+        response.sendRedirect("https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken=" + request.getParameter("accessToken"));
+    }
+
+
+    if (request.getRequestURI().startsWith("https://dev.rgd.mcw.edu")) {
+%>
+<%=request.getRequestURI()%>
+DEV SITE
+<%
+    }
+%>
+
+
+
 <div id="curation">
 <section v-if="userloggedin == 204">
 
