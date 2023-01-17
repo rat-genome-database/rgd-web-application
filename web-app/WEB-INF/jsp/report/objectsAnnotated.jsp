@@ -12,6 +12,9 @@
     List<Annotation> objTypeListGenesMouse = new ArrayList<Annotation>();
     List<Annotation> objTypeListGenesHuman = new ArrayList<Annotation>();
     List<Annotation> objTypeListGenesChinchilla = new ArrayList<Annotation>();
+    List<Annotation> objTypeListGenesPig = new ArrayList<>();
+    List<Annotation> objTypeListGenesDog = new ArrayList<>();
+    List<Annotation> objTypeListGenesVervet = new ArrayList<>();
     List<Annotation> objTypeListQtls = new ArrayList<Annotation>();
     List<Annotation> objTypeListStrains = new ArrayList<Annotation>();
     List<Annotation> objTypeListSslps = new ArrayList<Annotation>();
@@ -76,6 +79,18 @@
                     if (checkAnnotInList(annot, objTypeListGenesHuman) == 0) {
                         objTypeListGenesHuman.add(annot);
                     }
+                } else if (annot.getSpeciesTypeKey() == SpeciesType.PIG) {
+                    if (checkAnnotInList(annot, objTypeListGenesPig) == 0) {
+                        objTypeListGenesPig.add(annot);
+                    }
+                } else if (annot.getSpeciesTypeKey() == SpeciesType.DOG) {
+                    if (checkAnnotInList(annot, objTypeListGenesDog) == 0) {
+                        objTypeListGenesDog.add(annot);
+                    }
+                } else if (annot.getSpeciesTypeKey() == SpeciesType.VERVET) {
+                    if (checkAnnotInList(annot, objTypeListGenesVervet) == 0) {
+                        objTypeListGenesVervet.add(annot);
+                    }
                 }
             } else if (annot.getRgdObjectKey() == RgdId.OBJECT_KEY_QTLS) {
                 if (checkAnnotInList(annot, objTypeListQtls) == 0) {
@@ -134,6 +149,27 @@
 
     <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.CHINCHILLA)%>)</u></span><br></span>
         <%=af.createGridFormatAnnotatedObjects(objTypeListGenesChinchilla, 3)%>
+    </div>
+    <% } %>
+    <% if (objTypeListGenesPig.size() > 0) { %>
+    <div id="objectsAnnotatedPigTable">
+
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.PIG)%>)</u></span><br></span>
+        <%=af.createGridFormatAnnotatedObjects(objTypeListGenesPig, 3)%>
+    </div>
+    <% } %>
+    <% if (objTypeListGenesVervet.size() > 0) { %>
+    <div id="objectsAnnotatedVervetTable">
+
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.VERVET)%>)</u></span><br></span>
+        <%=af.createGridFormatAnnotatedObjects(objTypeListGenesVervet, 3)%>
+    </div>
+    <% } %>
+    <% if (objTypeListGenesDog.size() > 0) { %>
+    <div id="objectsAnnotatedDogTable">
+
+        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Genes (<%=SpeciesType.getTaxonomicName(SpeciesType.DOG)%>)</u></span><br></span>
+        <%=af.createGridFormatAnnotatedObjects(objTypeListGenesDog, 3)%>
     </div>
     <% } %>
     <% if (objTypeListQtls.size() > 0) { %>
