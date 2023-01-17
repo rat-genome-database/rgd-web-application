@@ -558,7 +558,7 @@ public class PhenominerRecordController extends PhenominerController {
         }
 
         try {
-            Long.parseLong(req.getParameter("cmValue"));
+            Double.parseDouble(req.getParameter("cmValue"));
         }catch (Exception ignored) {
             if (!bulkMode) {
                 throw new Exception("Clinical Measurement value is not numeric");
