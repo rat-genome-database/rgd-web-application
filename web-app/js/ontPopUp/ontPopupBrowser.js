@@ -1,12 +1,26 @@
 var _popup_wnd = null;
 function ontPopup(callback, ontCode, selTerm){
     if( _popup_wnd!=null ) {
+        _popup_wnd.close();
+
+      //  if( !_popup_wnd.closed ) {
+      //      _popup_wnd.focus();
+      //      return;
+      //  }
+    }
+    _popup_wnd = window.open("/rgdweb/ontology/view.html?nestedWindows=1&mode=popup&ont="+ontCode.toUpperCase()+"&sel_term="+selTerm+"&sel_acc_id="+callback+"&curationTool=1&acc_id="
+        +document.getElementById(callback+'').value, '', "width=900,height=600,resizable=1,scrollbars=1,center=1,toolbar=1");
+    return false;
+
+}
+function ontPopupPublic(callback, ontCode, selTerm){
+    if( _popup_wnd!=null ) {
         if( !_popup_wnd.closed ) {
             _popup_wnd.focus();
             return;
         }
     }
-    _popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont="+ontCode.toUpperCase()+"&sel_term="+selTerm+"&sel_acc_id="+callback+"&curationTool=1&acc_id="
+    _popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont="+ontCode.toUpperCase()+"&sel_term="+selTerm+"&sel_acc_id="+callback+"&acc_id="
         +document.getElementById(callback+'').value, '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
     return false;
 
