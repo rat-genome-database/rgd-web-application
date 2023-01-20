@@ -227,6 +227,13 @@
                 }else if (this.currentOnt === "CMO") {
                     var subCat = 'CMO:%20Clinical%20Measurement';
                 }
+                else if (this.currentOnt === "UBERON"){
+                    var subCat = 'UBERON:%20Cross-Species%20Anatomy';
+                }
+                else if (this.currentOnt === "CL"){
+                    var subCat = 'CL:%20Cell%20Ontology';
+                }
+
 
                     axios
                         .get(this.hostName + '/rgdweb/phenominerTermSearch.html?term=' + v.searchTerm + '&category=Ontology&subCat=' + subCat + '&species=&cat1=General&sp1=&postCount=1',
