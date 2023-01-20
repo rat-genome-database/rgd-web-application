@@ -532,7 +532,7 @@
       function cloneRecord(recordId) {
 
             if (!recordId) {
-                recordId=99;
+                recordId=999999999;
             }
 
             var numRecs = prompt("how many records would you like to create");
@@ -767,7 +767,7 @@
 
 
 <% }
-    String rid="*" + "99";
+    String rid="*" + "999999999";
     rec = new Record();
     rec.setCurationStatus(1);
     rec.setExperimentId(Integer.parseInt(req.getParameter("expId")));
@@ -775,7 +775,7 @@
     rec.setMeasurementSD("");
     rec.setMeasurementUnits("");
     rec.setMeasurementValue("");
-    rec.setId(99);
+    rec.setId(999999999);
 %>
 
             <%@ include file="editRecordRow.jsp"%>
