@@ -400,7 +400,6 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
         // $('#viewAllBtn').show();
         mapKey=$('#mapKey').val();
 
-
         $("body").scrollTop(0);
         $('#viewAll').show();
         $sampleExists=$('#sampleExists').val();
@@ -470,8 +469,11 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
         if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo' && species!='Pig'){
             html=html+interviewer+gviewer+moet;
         }
-        if(species=='Human' || species=='Rat' || species=='Dog'){
+        if(species=='Human' || species=='Rat'){
             html=html+damage+vv;
+        }
+        if (species=='Pig' || species=='Green Monkey' || species=='Mouse' || species=='Dog'){
+            html=html+vv;
         }
 
     }
