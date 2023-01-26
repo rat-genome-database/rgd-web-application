@@ -124,7 +124,7 @@
     <a name="annot"></a>
     <table border="0" style="padding-top:20px;" width="100%">
         <tr>
-            <td colspan="2"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
+            <td colspan="1"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
                 show annotations for term's descendants
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:<%=fu.buildSelectList("sort_by\" onChange=\"addParamToLocHref('sort_by',this.options[selectedIndex].text,'#annot')", bean.getSortByChoices(), bean.getSortBy())%>
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
@@ -133,16 +133,26 @@
                         <input type="button" value="download annotations" onclick="addParamToLocHref('d','1','#annot')" title="download to file">
 
             </td>
-        </tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr>
             <td>
                 <%
                     OntologyXDAO xdao = new OntologyXDAO();
                     TermWithStats tws = xdao.getTermWithStatsCached(bean.getAccId());
+
+                    edu.mcw.rgd.datamodel.Map refMap = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
+                    int mapKey = refMap!=null ? refMap.getKey() : 0;
                 %>
 
-    <div id="searchResultHeader">
+
+                <% if( bean.getObjectKey()==1 && mapKey!=0 ) { %>
+                <img src="/rgdweb/common/images/tools-white-50.png" style="margin-bottom:10px;cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list1',<%=bean.getSpeciesTypeKey()%>,<%=mapKey%>,1 , '')"/>
+                <% } %>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+
+                <div id="searchResultHeader">
         <ul style="border-bottom:2px solid #2865A3;">
             <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#gviewer')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
             <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#gviewer')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
@@ -163,7 +173,7 @@
     </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 <div id="searchResultHeader">
                     <ul>
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids) > 0) { %>
@@ -191,8 +201,9 @@
 
     </table>
 
-    <%  edu.mcw.rgd.datamodel.Map refMap = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
-        int mapKey = refMap!=null ? refMap.getKey() : 0;
+    <%
+        //edu.mcw.rgd.datamodel.Map refMap = MapManager.getInstance().getReferenceAssembly(bean.getSpeciesTypeKey());
+        //int mapKey = refMap!=null ? refMap.getKey() : 0;
 
         if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),bean.getObjectKey(),withKids) > 2000) { %>
 
@@ -246,12 +257,6 @@
                          <td><a style="font-size:16px;" href="<%=Link.ontAnnot(term.getAccId())%>&species=<%=bean.getSpecies()%>"><%=term.getTerm()%></a>
                              <a href="<%=Link.ontView(term.getAccId())%>"><img src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser" border="0"></a>
                          </td>
-                         <td align="right">
-
-                             <% if( bean.getObjectKey()==1 && mapKey!=0 ) { %>
-                                <img src="/rgdweb/common/images/tools-white-50.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('list<%=sectionCount%>',<%=bean.getSpeciesTypeKey()%>,<%=mapKey%>,1 , '')"/>
-                            <% } %>
-                         </td>
                      </tr>
 
                  </table>
@@ -299,7 +304,8 @@
                 <% //check to see if symbol should be used by tool submit logic
                     String toolSubmitClass=" ";
                     if (annot.getRgdObjectName().equals("gene")) {
-                        toolSubmitClass=" class='list" + sectionCount + "' ";
+                        //toolSubmitClass=" class='list" + sectionCount + "' ";
+                        toolSubmitClass=" class='list1'";
                     }
                 %>
                 <td><a <%=toolSubmitClass%> href="/rgdweb/report/<%=annot.getRgdObjectName()%>/main.html?id=<%=annot.getRgdId()%>"><%=annot.getSymbol()%></a></td>
