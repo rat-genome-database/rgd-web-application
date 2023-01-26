@@ -162,7 +162,7 @@
                         String percentRead = result.getVariant().getZygosityPercentRead() + "%";
                         String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
 
-                        if (percentRead.equals("0.0%")) {
+                        if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";
                         }
                         if (numAlleles.equals("0")) {
