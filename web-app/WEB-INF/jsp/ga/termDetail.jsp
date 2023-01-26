@@ -69,8 +69,8 @@
         %>
 
 
-        <div id="<%=tw.getTerm().getAccId()%>_content" style="background-color:#F0F6F9; border 3px solid red;">
-        <table border=0  style="border: 1px dashed black; padding:3px; margin: 2px;">
+        <div id="<%=tw.getTerm().getAccId()%>_content" style="background-color:#F0F6F9;padding:3px;">
+        <table border=0  style="padding:3px; margin: 2px;">
 
         <%
             Iterator git = tw.refs.iterator();
