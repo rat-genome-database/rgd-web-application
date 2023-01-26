@@ -507,7 +507,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 
 function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
-    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7,speciesTypeKey, mapKey, objectkey;
+    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7, ortholog8,speciesTypeKey, mapKey, objectkey;
     objectkey=objectType=='genes'?1:objectType=='strains'?5:objectType=="qtls"?6:objectType=="sslps"?3:objectType=="variants"?7:objectType=="reference"?12:objectType=="ontology"?0:objectType=="cell lines"?11:objectType=="promoters"?16:"unknown";
     if(species=='Rat'){
         ortholog1=1;
@@ -517,6 +517,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=3;
         mapKey=360;
     }
@@ -528,6 +529,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=1;
        mapKey=38;
     }
@@ -539,6 +541,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=2;
         mapKey=35;
     }
@@ -550,6 +553,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=2;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=6;
         mapKey=631;
     }
@@ -561,6 +565,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=2;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=7;
         mapKey=720;
     }
@@ -572,6 +577,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=5;
         mapKey=511;
     }
@@ -583,6 +589,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=4;
         mapKey=44;}
     else if(species=='Pig'){
@@ -593,8 +600,22 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=4;
+        ortholog8=13;
         speciesTypeKey=9;
+
         mapKey=911;
+    }else if(species=='Green Monkey'){
+        ortholog1=1;
+        ortholog2=3;
+        ortholog3=2;
+        ortholog4=5;
+        ortholog5=6;
+        ortholog6=7;
+        ortholog7=4;
+        ortholog8=9;
+
+        speciesTypeKey=13;
+        mapKey=1311;
     }
     if(mKey!=0){
         mapKey=mKey;
@@ -611,7 +632,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         }
         if(tool=='functionalAnnot') {
             href=  "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+
-                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
+                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                 "&species=" + speciesTypeKey + "&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
             _this.href=href;
         }
@@ -696,7 +717,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             if (objectType == 'genes') {
 
                 href = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog=" +
-                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+
+                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                     "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
             }else{
                 href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;}
@@ -722,7 +743,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         }
         if(tool=='annotComparison') {
             href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
-                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
+                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                 "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
 
             _this.href=href;
