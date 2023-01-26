@@ -213,7 +213,8 @@ public class QueryService1 {
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
 
-            dqb.add(QueryBuilders.multiMatchQuery(term).fuzziness("AUTO")
+            dqb.add(QueryBuilders.multiMatchQuery(term)
+                    //.fuzziness("AUTO")
                             .operator(Operator.AND));
 
 
