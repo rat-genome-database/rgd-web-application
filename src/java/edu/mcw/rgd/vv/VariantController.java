@@ -168,7 +168,7 @@ public class VariantController extends HaplotyperController {
             v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
             v.conservationScore.add(mapConservation(m));
             vr.setVariant(v);
-            if(requiredTranscripts) {
+            if(requiredTranscripts && hits.size()<=20000) {
                 List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
                 vr.setTranscriptResults(trs);
             }
