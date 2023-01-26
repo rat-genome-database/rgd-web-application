@@ -111,7 +111,7 @@ public class VVService {
 
                 do {
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                    scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                    scrollRequest.scroll(TimeValue.timeValueSeconds(100));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -372,54 +372,7 @@ public class VVService {
         return dqb;
 
     }
-    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
-        VVService service= new VVService();
-        List<SearchHit> hits=service.getVariants(vsb,req);
-        List<VariantResult> variantResults=new ArrayList<>();
-        for (SearchHit h : hits) {
-            java.util.Map<String, Object> m = h.getSourceAsMap();
-            VariantResult vr = new VariantResult();
 
-            Variant v = new Variant();
-            v.setId((Integer) m.get("variant_id"));
-            v.setChromosome((String) m.get("chromosome"));
-            v.setStartPos((int) m.get("startPos"));
-            v.setEndPos((int) m.get("endPos"));
-            v.setReferenceNucleotide((String) m.get("refNuc"));
-            v.setVariantNucleotide((String) m.get("varNuc"));
-            v.setGenicStatus((String) m.get("genicStatus"));
-            v.setPaddingBase((String) m.get("paddingBase"));
-            v.setRegionName(m.get("regionName").toString());
-            v.setVariantType((String) m.get("variantType"));
-            v.setSampleId((int) m.get("sampleId"));
-            v.setVariantFrequency((int) m.get("varFreq"));
-            v.setDepth((Integer) m.get("totalDepth"));
-            if(m.get("qualityScore")!=null)
-                v.setQualityScore((int) m.get("qualityScore"));
-            v.setZygosityStatus((String) m.get("zygosityStatus"));
-            v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
-            v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
-            double p= (double) m.get("zygosityPercentRead");
-            v.setZygosityPercentRead((int) p);
-            v.setZygosityPossibleError((String) m.get("zygosityPossError"));
-            v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
-            v.conservationScore.add(mapConservation(m));
-            vr.setVariant(v);
-            if(requiredTranscripts) {
-                List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
-                vr.setTranscriptResults(trs);
-            }
-
-            if(vsb.getMapKey()==38){
-                VariantInfo clinvar=getClinvarInfo(v.getId());
-                vr.setClinvarInfo(clinvar);
-            }
-            variantResults.add(vr);
-
-        }
-
-        return variantResults;
-    }
     List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List<VariantTranscript> transcripts=new ArrayList<>();

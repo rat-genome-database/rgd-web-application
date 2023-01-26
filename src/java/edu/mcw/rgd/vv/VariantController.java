@@ -77,7 +77,6 @@ public class VariantController extends HaplotyperController {
             }
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
             long count=variantResults.size();
-            System.out.println("count:"+ count);
             if (count < 2000 || searchType.equals("GENE")) {
                 SNPlotyper snplotyper = new SNPlotyper();
 
@@ -169,7 +168,7 @@ public class VariantController extends HaplotyperController {
             v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
             v.conservationScore.add(mapConservation(m));
             vr.setVariant(v);
-            if(requiredTranscripts) {
+            if(requiredTranscripts && hits.size()<=20000) {
                 List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
                 vr.setTranscriptResults(trs);
             }
