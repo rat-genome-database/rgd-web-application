@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  * @author jdepons
  * @since 10/25/11
  */
-public class DownloadController extends HaplotyperController {
+public class DownloadController extends VariantController {
 
     VVService service=new VVService();
     GeneDAO gdao = new GeneDAO();
@@ -140,7 +140,7 @@ System.out.println("GENERATING REPORT....");
         //     while (mark <= stop) {
 
         vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
-        List<VariantResult> variantResults = service.getVariantResults(vsb, req, true);
+        List<VariantResult> variantResults = getVariantResults(vsb, req, true);
         //  start=mark;
         //  mark= Math.min(mark + limit, stop);
         TreeMap<String, List<VariantResult>> vrsMap=new TreeMap<>();
