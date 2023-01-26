@@ -47,79 +47,79 @@ public class QueryService1 {
         String sortField=null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-            if(sb != null) {
-                if (sb.getSortBy().equalsIgnoreCase("relevance")) {
-                    srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
-                } else {
-                    if (sb.getSortBy().equalsIgnoreCase("symbol")) {
-                        sortField = sb.getSortBy() + ".keyword";
-                        if (sb.getSortOrder().equalsIgnoreCase("asc")) {
-                            srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
-                        } else {
-                            srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
-                        }
+        if(sb != null) {
+            if (sb.getSortBy().equalsIgnoreCase("relevance")) {
+                srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
+            } else {
+                if (sb.getSortBy().equalsIgnoreCase("symbol")) {
+                    sortField = sb.getSortBy() + ".keyword";
+                    if (sb.getSortOrder().equalsIgnoreCase("asc")) {
+                        srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC));
                     } else {
-                        sortField = "mapDataList." + sb.getSortBy();
-                        if (sb.getSortOrder().equalsIgnoreCase("asc")) {
-                            //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
-                            );
-                        } else {
-                            //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
-                        }
-                    }
-                }
-
-                List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait", "assembly"));
-
-                if (!sb.isPage()) {
-
-                    for (String field : aggFields) {
-                        AggregationBuilder aggs = this.buildAggregations(field);
-                        if (aggs != null)
-                            srb.aggregation(aggs);
-                    }
-                }
-
-                srb
-                        .highlighter(this.buildHighlights())
-                        .from(sb.getFrom())
-                        .size(sb.getSize());
-
-                if (!Objects.equals(sb.getSpecies(), "") && !sb.getCategory().equalsIgnoreCase("general")) {
-                    if (sb.getType() != null && !Objects.equals(sb.getType(), "")) {
-                        if (!Objects.equals(sb.getType(), "null")) {
-                            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("type.keyword", sb.getType())));
-                        }
-
-                    }
-
-                    if (!sb.getTrait().equals("")) {
-                        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
-                    }
-                    if (sb.getType() != null && sb.getType().equals("") && sb.getTrait().equalsIgnoreCase("")) {
-                        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                        srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC));
                     }
                 } else {
-                    if (!Objects.equals(sb.getSpecies(), "")) {
-                        srb.postFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
-
-                    }
-                    if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equals("")) {
-                        if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
-
-                            if (sb.getSubCat() != null && sb.getSubCat() != "") {
-                                srb.postFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat()))));
-                            } else {
-                                srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
-                            }
-                        } else
-                            srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
-
+                    sortField = "mapDataList." + sb.getSortBy();
+                    if (sb.getSortOrder().equalsIgnoreCase("asc")) {
+                        //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                        srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
+                        );
+                    } else {
+                        //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
+                        srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
                     }
                 }
             }
+
+            List<String> aggFields = new ArrayList<>(Arrays.asList("species", "category", "type", "trait"));
+
+            if (!sb.isPage()) {
+
+                for (String field : aggFields) {
+                    AggregationBuilder aggs = this.buildAggregations(field);
+                    if (aggs != null)
+                        srb.aggregation(aggs);
+                }
+            }
+
+            srb
+                    .highlighter(this.buildHighlights())
+                    .from(sb.getFrom())
+                    .size(sb.getSize());
+
+            if (!Objects.equals(sb.getSpecies(), "") && !sb.getCategory().equalsIgnoreCase("general")) {
+                if (sb.getType() != null && !Objects.equals(sb.getType(), "")) {
+                    if (!Objects.equals(sb.getType(), "null")) {
+                        srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("type.keyword", sb.getType())));
+                    }
+
+                }
+
+                if (!sb.getTrait().equals("")) {
+                    srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
+                }
+                if (sb.getType() != null && sb.getType().equals("") && sb.getTrait().equalsIgnoreCase("")) {
+                    srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                }
+            } else {
+                if (!Objects.equals(sb.getSpecies(), "")) {
+                    srb.postFilter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
+
+                }
+                if (!sb.getCategory().equalsIgnoreCase("general")) {
+                    if (sb.getCategory().equalsIgnoreCase(("Ontology"))) {
+
+                        if (sb.getSubCat() != null && sb.getSubCat() != "") {
+                            srb.postFilter((QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat()))));
+                        } else {
+                            srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+                        }
+                    } else
+                        srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
+
+                }
+            }
+        }
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -127,11 +127,11 @@ public class QueryService1 {
     }
 
     public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
-                                             //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
+        //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
-            if (!sb.getCategory().equalsIgnoreCase("general") && !sb.getCategory().equalsIgnoreCase("")) {
+            if (!sb.getCategory().equalsIgnoreCase("general")) {
                 builder.filter(QueryBuilders.termQuery("category.keyword", sb.getCategory()));
             }
             if (sb.getSpecies() != null && !sb.getSpecies().equals("")) {
@@ -150,40 +150,36 @@ public class QueryService1 {
 
                 }
             }
-            System.out.println("ASSEMBLY:" +sb.getAssembly());
-            if (sb.getAssembly() != null && !sb.getAssembly().equals("")) {
-                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
-            }
         }
         return builder;
-         }
+    }
 
 
     public BoolQueryBuilder getCategoryOrSpeciesQuery(String term,Map<String, String> filterMap){
-    BoolQueryBuilder builder=new BoolQueryBuilder();
+        BoolQueryBuilder builder=new BoolQueryBuilder();
 
-    List<String> speciesList=new ArrayList<>(Arrays.asList("rat", "human", "mouse", "bonobo", "squirrel","dog","chinchilla"));
-    List<String> categories=new ArrayList<>(Arrays.asList("gene","genes","strain","strains", "qtl","qtls", "sslp","sslps", "reference","references", "ontology","ontologies","variant","variants","promoter", "promoters", "cell lines","cell line" ));
-          if(speciesList.contains(term)){
-          builder
-                .must(QueryBuilders.matchPhraseQuery("species", term));
-        return builder;
-    }
-    if(categories.contains(term)){
-        if(!term.equalsIgnoreCase("sslp")) {
-            if (term.lastIndexOf('s') != -1) {
-            String stripedTerm=term.substring(0, term.lastIndexOf('s'));
-            builder.must(QueryBuilders.matchPhraseQuery("category", stripedTerm));
+        List<String> speciesList=new ArrayList<>(Arrays.asList("rat", "human", "mouse", "bonobo", "squirrel","dog","chinchilla"));
+        List<String> categories=new ArrayList<>(Arrays.asList("gene","genes","strain","strains", "qtl","qtls", "sslp","sslps", "reference","references", "ontology","ontologies","variant","variants","promoter", "promoters", "cell lines","cell line" ));
+        if(speciesList.contains(term)){
+            builder
+                    .must(QueryBuilders.matchPhraseQuery("species", term));
             return builder;
         }
-        }else{
-           return builder.must(QueryBuilders.matchPhraseQuery("category",term));
+        if(categories.contains(term)){
+            if(!term.equalsIgnoreCase("sslp")) {
+                if (term.lastIndexOf('s') != -1) {
+                    String stripedTerm=term.substring(0, term.lastIndexOf('s'));
+                    builder.must(QueryBuilders.matchPhraseQuery("category", stripedTerm));
+                    return builder;
+                }
+            }else{
+                return builder.must(QueryBuilders.matchPhraseQuery("category",term));
+            }
+            builder.must(QueryBuilders.matchPhraseQuery("category", term));
+            return builder;
         }
-         builder.must(QueryBuilders.matchPhraseQuery("category", term));
-        return builder;
-    }
 
-    return null;
+        return null;
     }
 
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
@@ -202,6 +198,7 @@ public class QueryService1 {
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
                 .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
+                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
                 .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
 
                 .add(QueryBuilders.multiMatchQuery(term)
@@ -212,10 +209,11 @@ public class QueryService1 {
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
                 .add(QueryBuilders.multiMatchQuery(term)
                         .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-
-            dqb.add(QueryBuilders.multiMatchQuery(term).fuzziness("AUTO")
-                            .operator(Operator.AND));
-
+        String[] tokens=term.split("[\\s,]+");
+        if(tokens.length>0){
+            dqb.add(QueryBuilders.multiMatchQuery(term)
+                    .operator(Operator.AND));
+        }
 
         return dqb;
 
@@ -223,42 +221,34 @@ public class QueryService1 {
     public AggregationBuilder buildAggregations(String aggField) {
 
         AggregationBuilder   aggs=null;
-       if(aggField.equalsIgnoreCase("species")) {
+        if(aggField.equalsIgnoreCase("species")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword").subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                    .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
+                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)))
-                       //    .order(Terms.Order.term(true))) deprecated in 6.4
+            //    .order(Terms.Order.term(true))) deprecated in 6.4
 
             ;
 
-           return aggs;
-     }
+            return aggs;
+        }
         if(aggField.equalsIgnoreCase("category")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
-                          //  .order(Terms.Order.term(true)))  deprecated in 6.4
+            //  .order(Terms.Order.term(true)))  deprecated in 6.4
             ;
-
-            return aggs;
-        }
-        if(aggField.equalsIgnoreCase("assembly")) {
-          //  aggs = AggregationBuilders.terms(aggField).field("mapDataList.map" + ".keyword").size(20).order(BucketOrder.key(true))
-            ;
-            aggs=AggregationBuilders.nested("assemblyAggs", "mapDataList")
-                    .subAggregation(AggregationBuilders.terms(aggField).field("mapDataList.map").size(100).order(BucketOrder.key(true)));
 
             return aggs;
         }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                 .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
                 .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(100).order(BucketOrder.key(true)))
-                       // .order(Terms.Order.term(true)))  deprecated in 6.4
+        // .order(Terms.Order.term(true)))  deprecated in 6.4
         ;
-       return aggs;
+        return aggs;
     }
 
     public HighlightBuilder buildHighlights(){
