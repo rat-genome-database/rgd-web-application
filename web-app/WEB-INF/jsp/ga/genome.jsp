@@ -132,7 +132,6 @@
 
 
      <%
-         MapDAO mdao = new MapDAO();
 
          String errors = "";
          Report r = new Report();
