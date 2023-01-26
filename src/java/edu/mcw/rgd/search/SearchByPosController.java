@@ -1,13 +1,8 @@
 package edu.mcw.rgd.search;
 
 
-import edu.mcw.rgd.dao.impl.GeneDAO;
-import edu.mcw.rgd.dao.impl.QTLDAO;
-import edu.mcw.rgd.dao.impl.ReportDAO;
-import edu.mcw.rgd.dao.impl.SSLPDAO;
-import edu.mcw.rgd.datamodel.MappedGene;
-import edu.mcw.rgd.datamodel.MappedQTL;
-import edu.mcw.rgd.datamodel.MappedSSLP;
+import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
@@ -94,6 +89,30 @@ public class SearchByPosController implements Controller {
                     report.append(record);
                 }
 
+            }
+            if (objType.equalsIgnoreCase("strain") || objType.equalsIgnoreCase("all")){
+                StrainDAO strainDAO = new StrainDAO();
+                MapDAO mdao = new MapDAO();
+                List<Strain> strains = strainDAO.getActiveStrainsSortedBySymbol(chr,start,stop,mapKey);
+                for (Strain s : strains){
+                    MapData map = new MapData();
+                    List<MapData> mapData = mdao.getMapData(s.getRgdId(),mapKey);
+                    for (MapData m : mapData){
+                        if (m.getChromosome().equalsIgnoreCase(chr)) {
+                            map = m;
+                            break;
+                        }
+                    }
+                    Record record = new Record();
+                    record.append(String.valueOf(s.getRgdId()));
+                    record.append(s.getSymbol());
+                    record.append(s.getName());
+                    record.append("STRAIN");
+                    record.append(s.getChrAltered());
+                    record.append(String.valueOf(map.getStartPos()) );
+                    record.append(String.valueOf(map.getStopPos()) );
+                    report.append(record);
+                }
             }
             request.setAttribute("report",report);
             return new ModelAndView(path + "report_csv.jsp");
