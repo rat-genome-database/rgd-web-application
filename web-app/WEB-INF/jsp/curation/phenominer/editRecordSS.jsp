@@ -529,8 +529,9 @@
             cloneRecord();
       }
 
-      function cloneRecord(recordId) {
+      var lastRecordId = "";
 
+      function cloneRecord(recordId) {
             if (!recordId) {
                 recordId=999999999;
             }
@@ -545,19 +546,24 @@
 
                 var epoch = Date.now() + "";
                 var tempId = "_" + epoch.substr(8);
+
                 row.id = "tr_" + tempId;
+                //lastRecordId=row.id;
+                //console.log(recTr.innerHTML);
+                //console.log("*****************");
 
                 var htm = recTr.innerHTML.replaceAll(recordId, tempId);
+                //console.log(htm);
+                //console.log("*****************");
                 row.innerHTML = htm;
 
-                    enableSave(tempId,true);
+                enableSave(tempId,true);
             }
       }
 
       //Enable tab to go vertically
         document.addEventListener('keydown', function(event)
         {
-            //alert("hey");
             var code = event.keyCode || event.which;
             if (code === 9) {
                 event.preventDefault();

@@ -607,19 +607,22 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         var href;
         if(tool=='interviewer') {
             href = "/rgdweb/cytoscape/cy.html?browser=12&species="+speciesTypeKey+"&identifiers=" + selected;
-            _this.href = href;
+            //_this.href = href;
+            window.open(href);
         }
         if(tool=='functionalAnnot') {
             href=  "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+
                 ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey + "&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='annotDistribution') {
 
             href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='olga') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -631,7 +634,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             }else {
                 href = "/rgdweb/generator/list.html?mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '[');
             }
-            _this.href=href;
+ //           _this.href=href;
+            window.open(href);
         }
         var sampleExists=0;
         $('.checkedObjects:checked').each(function () {
@@ -644,7 +648,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                
                 href="variantVisualizer.html?species="+species +"&assembly="+$assembly +"&mapKey="+mapKey +"&rgdIds=" +selected;
 
-                _this.href = href;
+               // _this.href = href;
+                window.open(href);
             } else {
 
                 var strainSymbols = $('.checkedObjects:checked').map(function () {
@@ -685,7 +690,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                     }
 
 
-                    _this.href = href;
+                    //_this.href = href;
+                    window.open(href);
                 }
             }
         }
@@ -700,7 +706,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                     "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
             }else{
                 href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;}
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='moet') {
             /*   if(objectType=='sslps'){
@@ -710,7 +717,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
                 href = "/rgdweb/enrichment/analysis.html"+"?genes=" + selected+ "&species=" + speciesTypeKey +"&o=RDO";
             }
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='damage') {
             if(species=='Human')
@@ -718,14 +726,16 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
             else
                 href= "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=" + "&mapKey=" + mapKey + "&con=&probably=true&possibly=true&depthLowBound=8&depthHighBound=&excludePossibleError=true&sample1=all&geneList=" + selected;
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='annotComparison') {
             href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
                 +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
 
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='excel') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -741,7 +751,9 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
               //      href = "/rgdweb/generator/process.html?&mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=excel&a=" + "~lst:" + selected.replace(/\,/g, '[');
                 if(objectType=='ontology')
                     href="search/excelDownload.html?rgdIds=" +selected +"&oKey=" +objectkey+"&format=excel" ;
-            } _this.href=href;
+            }
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='tab') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -754,7 +766,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
                 href="search/excelDownload.html?rgdIds=" +rgdids +"&oKey=" +objectkey +"&mapKey=" + mapKey+"&format=tab";
 
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         var count=0;
         $('.checkedObjects:checked').each(function () {
@@ -785,7 +798,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             var dbJBrowser="data_hg38";
             var tracks="ARGD_curated_genes";
             href="/jbrowse/?data="+dbJBrowser+"&tracks="+tracks+"&highlight=&tracklist=1&nav=1&overview=1&loc="+"Chr"+12+"%3A"+9067708 +".."+9115962   ;
-            _this.href = href;
+           // _this.href = href;
+            window.open(href);
         }
     }
     else{
