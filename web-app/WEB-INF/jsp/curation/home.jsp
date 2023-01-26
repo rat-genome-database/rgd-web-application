@@ -10,13 +10,28 @@
 <%@ include file="/common/headerarea.jsp" %>
 
 <div id="curation">
-<section v-if="userloggedin == 204">
+    <section v-if="userloggedin == 204">
+
+<h1 > Welcome {{name}} !!!</h1>
+<% if (request.getRequestURL().toString().startsWith("https://pipelines")) { %>
+Current Server: <span style="color:green; font-size:18px;">PIPELINES</span>&nbsp;&nbsp;&nbsp;&nbsp; <a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
+<% } %>
+
+<% if (request.getRequestURL().toString().startsWith("https://dev")) { %>
+Current Server: <span style="color:red; font-size:18px;">DEV</span>
+<% } %>
+
+<% if (request.getRequestURL().toString().startsWith("http://localhost")) { %>
+Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbsp;&nbsp;&nbsp;&nbsp;<a v-bind:href="'https://dev.rgd.mcw.edu/rgdweb/curation/home.html?accessToken='+token">Access DEVELOPMENT site</a>
+<% } %>
+
+
+<hr />
+
 
 <table border="0" width="100%" >
     <tbody>
     <tr>
-<h1 > Welcome {{name}} !!!</h1>
-        <hr />
 
         <table border="0" width="100%" cellpadding="4">
             <tbody>
