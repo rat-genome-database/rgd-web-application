@@ -255,7 +255,8 @@ public class VVService {
 
         List<String> clinicalSignificance=new ArrayList<>();
         if(req.getParameter("cs_pathogenic").equals("true")){clinicalSignificance.add("pathogenic");
-        clinicalSignificance.add("pathogenic|likely pathogenic");}
+        clinicalSignificance.add("pathogenic|likely pathogenic");
+        clinicalSignificance.add("likely pathogenic");}
         if(req.getParameter("cs_benign").equals("true")){clinicalSignificance.add("benign");
         clinicalSignificance.add("likely benign");}
         if(req.getParameter("cs_other").equals("true")){clinicalSignificance.add("uncertain significance");}
