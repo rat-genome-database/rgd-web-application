@@ -1,3 +1,8 @@
+<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=windows-1252" %>
 <%
     String pageTitle = "Web Genome Viewer - Rat Genome Database";
@@ -95,6 +100,8 @@ table.ontlist label{
     cursor:help;
 }
 </style>
+
+
 
 
 
