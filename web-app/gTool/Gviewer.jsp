@@ -424,11 +424,11 @@ function pageRequest(url, divId) {
         if (http_request.status == 200) {
             document.getElementById(divId).innerHTML =http_request.responseText;
 
-            forEach(document.getElementsByTagName('table'), function(table) {
-                if (table.className.search(/\bsortable\b/) != -1) {
-                    sorttable.makeSortable(table);
-                }
-            });
+            //forEach(document.getElementsByTagName('table'), function(table) {
+            //    if (table.className.search(/\bsortable\b/) != -1) {
+            //        sorttable.makeSortable(table);
+            //    }
+            //});
 
         } else {
             alert(http_request.responseText);
