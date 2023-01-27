@@ -2,9 +2,9 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
@@ -132,7 +132,7 @@ public class QueryService1 {
             }
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
-        SearchResponse sr=ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         return sr;
     }
 
