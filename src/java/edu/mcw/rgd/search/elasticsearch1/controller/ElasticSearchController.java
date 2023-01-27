@@ -1,7 +1,6 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
 import edu.mcw.rgd.datamodel.Map;
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jthota on 2/22/2017.
@@ -51,35 +51,33 @@ public class ElasticSearchController implements Controller {
         HttpRequestFacade req=new HttpRequestFacade(request);
         ModelMap model = new ModelMap();
         SearchService service = new SearchService();
-
-            String searchTerm = req.getParameter("term").trim();
-          //  term=term.replaceAll("\"", "");
-            if(searchTerm.length()>100){
-                response.sendRedirect(request.getContextPath());
-                return null;
-            }
+        String searchTerm = req.getParameter("term").trim();
+        if(searchTerm.length()>100){
+            response.sendRedirect(request.getContextPath());
+            return null;
+        }
         if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
             searchTerm = searchTerm.substring(4);
         else if(searchTerm.startsWith("RGD"))
             searchTerm=searchTerm.substring(3);
         else {
-            searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
+          searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
         }
-            searchTerm=searchTerm.toLowerCase();
-        //String term=searchTerm.replaceAll("[^\\w\\s]"," ");
-        String term=searchTerm.replaceAll("\\[", "").replaceAll("\\]","").replaceAll("\\(", "").replaceAll("\\)", "")
-                .replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("\"", "");
-            SearchBean sb= service.getSearchBean(req, term);
-            String objectSearch= req.getParameter("objectSearch");
+
+        searchTerm=searchTerm.toLowerCase();
+        String term=searchTerm.replaceAll("[^\\w\\s]","");
+
+        SearchBean sb= service.getSearchBean(req, term);
+        String objectSearch= req.getParameter("objectSearch");
 
             boolean log= (req.getParameter("log").equals("true"));
-
-            String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
             List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
             String assembly=req.getParameter("assembly");
-            System.out.println("ASSEMBLY PARAMETER:"+ assembly);
+            if(assembly.equals("")){
+                assembly="all";
+            }
           /*  if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
                 int speciesKey= SpeciesType.parse(sb.getSpecies());
                 edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
@@ -118,7 +116,7 @@ public class ElasticSearchController implements Controller {
             }
 
             model.addAttribute("assemblyMaps", assemblyMaps);
-                model.addAttribute("assemblyMapsByRank", maps);
+            model.addAttribute("assemblyMapsByRank", maps);
             model.addAttribute("defaultAssembly", assembly);
             model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
             model.addAttribute("totalPages", totalPages);
@@ -159,7 +157,6 @@ public class ElasticSearchController implements Controller {
                 }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
-                    //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
                     return request.getScheme() + "://" + request.getServerName() + redirUrl;
 
                 }
@@ -170,18 +167,12 @@ public class ElasticSearchController implements Controller {
 
             }
             else {
-
-
-                    SearchService service = new SearchService();
-                    SearchResponse sr;
-           /*  if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
-                   sr = service.getSearchResponse(request, term, sb);
-                }else{*/
+                SearchService service = new SearchService();
+                SearchResponse sr;
+             // if in the summarys results there is only one result, then redirect to report page directly.
                 if(sb.isRedirect()) {
                     sr = service.getSearchResponse(request, term, sb);
-
-            //    sr = service.getSearchResponse(request, term, sb);
-                if (sr != null) {
+                    if (sr != null) {
                     TotalHits hits=sr.getHits().getTotalHits();
                         if (sr.getHits() != null && hits.value == 1)
                             return getUrl(sr, request, term);
