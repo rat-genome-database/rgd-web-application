@@ -470,7 +470,7 @@ $(document).ready(function(){
         .result(function(data, value){
 
             $("#dataStatus").html("");
-            selectByTermId(value[1]);
+            //selectByTermId(value[1]);
         });
 
 });
