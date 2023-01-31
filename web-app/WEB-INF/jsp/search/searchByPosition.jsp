@@ -504,18 +504,18 @@
                                     <th>RGD ID</th>
                                     <th>Symbol</th>
                                     <th>Name</th>
-<%--                                    <th>Chr</th>--%>
-<%--                                    <th>Start</th>--%>
-<%--                                    <th>Stop</th>--%>
+                                    <th>Chr</th>
+                                    <th>Start</th>
+                                    <th>Stop</th>
                                 </tr>
                                 <tr v-for="record in strainData"
                                     class="record">
-                                    <td>{{record.rgdId}}</td>
-                                    <td><a :href="strainUrl+record.rgdId" class="geneList" v-html="record.symbol"></a></td>
-                                    <td  v-html="record.symbol"></td>
-<%--                                    <td>{{record.chromosome}}</td>--%>
-<%--                                    <td>{{record.start}}</td>--%>
-<%--                                    <td>{{record.stop}}</td>--%>
+                                    <td>{{record.strain.rgdId}}</td>
+                                    <td><a :href="strainUrl+record.strain.rgdId" class="geneList" v-html="record.strain.symbol"></a></td>
+                                    <td  v-html="record.strain.symbol"></td>
+                                    <td>{{record.chromosome}}</td>
+                                    <td>{{record.start}}</td>
+                                    <td>{{record.stop}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -668,7 +668,7 @@
                         console.log(error)
                     });
                     axios
-                        .get(this.hostName + '/rgdws/strains/' + chr + '/' + start + '/' + stop + '/' + mapKey)
+                        .get(this.hostName + '/rgdws/strains/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
                             v.strainData = response.data;
                             if (v.strainData.length != 0) {

@@ -92,25 +92,16 @@ public class SearchByPosController implements Controller {
             }
             if (objType.equalsIgnoreCase("strain") || objType.equalsIgnoreCase("all")){
                 StrainDAO strainDAO = new StrainDAO();
-                MapDAO mdao = new MapDAO();
-                List<Strain> strains = strainDAO.getActiveStrainsSortedBySymbol(chr,start,stop,mapKey);
-                for (Strain s : strains){
-                    MapData map = new MapData();
-                    List<MapData> mapData = mdao.getMapData(s.getRgdId(),mapKey);
-                    for (MapData m : mapData){
-                        if (m.getChromosome().equalsIgnoreCase(chr)) {
-                            map = m;
-                            break;
-                        }
-                    }
+                List<MappedStrain> strains = strainDAO.getActiveMappedStrainPositions(chr,start,stop,mapKey);
+                for (MappedStrain s : strains){
                     Record record = new Record();
-                    record.append(String.valueOf(s.getRgdId()));
-                    record.append(s.getSymbol());
-                    record.append(s.getName());
+                    record.append(String.valueOf(s.getStrain().getRgdId()));
+                    record.append(s.getStrain().getSymbol());
+                    record.append(s.getStrain().getName());
                     record.append("STRAIN");
-                    record.append(s.getChrAltered());
-                    record.append(String.valueOf(map.getStartPos()) );
-                    record.append(String.valueOf(map.getStopPos()) );
+                    record.append(s.getChromosome());
+                    record.append(String.valueOf(s.getStart()) );
+                    record.append(String.valueOf(s.getStop()) );
                     report.append(record);
                 }
             }
