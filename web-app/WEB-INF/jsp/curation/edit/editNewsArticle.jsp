@@ -67,8 +67,8 @@
                         else{%>
                     <td><input name="releaseDate" type="text" maxlength="10" placeholder="yyyy-MM-dd"></input></td>
                     <% }%>
-                    <td><input name="displayTxt" size="75" value="<%=article.getDisplayText()%>"></input></td>
-                    <td><input name="redirectLink" size="75" value="<%=article.getRedirectLink()%>"></input></td>
+                    <td><input name="displayTxt" size="255" value="<%=article.getDisplayText()%>"></input></td>
+                    <td><input name="redirectLink" size="255" value="<%=article.getRedirectLink()%>"></input></td>
                     <td><input name="Strong" size="75" value="<%=strong%>"></input></td>
                     <td><%=fu.buildSelectList("contentList",list, contentType)%></td>
                         <td align="right">
