@@ -44,14 +44,14 @@
     <table id="insertTable">
         <tr><td class="label">Release Date</td><td><input type="date" id="date" value="<%=format.format(d1)%>" placeholder="yyyy-MM-dd" ></td>
             <td>Ex: yyyy-MM-dd, MM/dd/yyyy</td></tr>
-        <tr><td class="label">Display Text</td><td><input v-model="display" type="text" id="displayText" name="words" size="75"></td></tr>
-        <tr><td class="label">Redirect Link</td><td><input v-model="hyperlink" type="url" id="redirectLink" size="75"></td></tr>
+        <tr><td class="label">Display Text</td><td><input v-model="display" type="text" id="displayText" name="words" size="255"></td></tr>
+        <tr><td class="label">Redirect Link</td><td><input v-model="hyperlink" type="url" id="redirectLink" size="255"></td></tr>
         <tr><td class="label">Content</td><td><select id="contentList">
                 <option value="NEWS">NEWS</option>
                 <option value="CONFERENCE">CONFERENCE</option>
                 <option value="VIDEO">VIDEO</option>
             </select></td></tr>
-        <tr><td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)" size="75" maxlength="50"></td></tr>
+        <tr><td class="label">ALERT Message</td><td><input v-model="strong" type="text" id="strongText" placeholder="(NEW) or (ONLINE)" size="50" maxlength="50"></td></tr>
             <td><button v-on:click="submitData">Submit</button></td>
 
         <tr><td><button v-on:click="showExample">Test View</button></td><td>{{message}}</td></tr>
