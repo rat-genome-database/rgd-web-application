@@ -265,7 +265,7 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
                 }else {
@@ -358,7 +358,7 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
 
@@ -469,9 +469,8 @@ public class OntBrowser extends SimpleTagSupport {
     }
 
     private String generateSelectButton(OntDagNode node) {
-
         if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 || !Utils.isStringEmpty(this.curationTool)) {
-            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+node.getTerm().replaceAll("'s","")+"')\">select</span>&nbsp;";
+            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+ node.getTerm().replaceAll("\'","\\\\'")+"')\">select</span>&nbsp;";
         } else {
             return "<span class='term_select_disabled'>select</span>&nbsp;";
         }
@@ -479,13 +478,22 @@ public class OntBrowser extends SimpleTagSupport {
 
     private String getScript() {
         String curTool = "";
-        if (!Utils.isStringEmpty(curationTool))
+        if (!Utils.isStringEmpty(curationTool)) {
             curTool = "&curationTool=1";
+        }
         String selectTermFunction = "function selectTerm(accId,termName) {\n";
-        String opener = iframe ? "  window.parent" : "  window.opener";
+        //String opener = iframe ? "  window.parent" : "  window.opener";
+        String opener = "window.parent";
+
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
-            selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
-                     ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+            //selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
+              //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+            selectTermFunction += opener + (true ? ".postMessage(accId+'|'+termName, '*');\n" :
+                   ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+        }
+        if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
+            selectTermFunction +=
+                    opener + ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n";
         }
         if( !Utils.isStringEmpty(this.opener_sel_term) ) {
             selectTermFunction +=
@@ -500,7 +508,7 @@ public class OntBrowser extends SimpleTagSupport {
                 "    function keepY(obj) {\n" +
                 "        var v = document.getElementById(\"viewer\");\n" +
                 "        var offset = obj.offsetTop - v.scrollTop;\n" +
-                "        location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset +\""+curTool+"\";\n" +
+                "        window.self.location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset +\""+curTool+"\";\n" +
                 "    }\n" +
                 "\n" +
                 "    function loadIt() {\n" +
