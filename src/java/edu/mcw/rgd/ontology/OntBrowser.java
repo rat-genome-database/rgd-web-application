@@ -469,7 +469,6 @@ public class OntBrowser extends SimpleTagSupport {
     }
 
     private String generateSelectButton(OntDagNode node) {
-
         if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 || !Utils.isStringEmpty(this.curationTool)) {
             return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+ node.getTerm().replaceAll("\'","\\\\'")+"')\">select</span>&nbsp;";
         } else {
