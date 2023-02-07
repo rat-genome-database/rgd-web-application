@@ -50,13 +50,14 @@ public abstract class AssociationEditObjectController implements Controller {
             int assocRgdId = getRgdIdForAssociatedObject(aCurrAcc);
             boolean found = false;
 
-            for (int i = 0; i < associations.length; i++) {
+            for (String association : associations) {
 
-                if (associations[i].equals("")) {
+                String assoc = association.trim();
+                if (assoc.equals("")) {
                     continue;
                 }
 
-                if (Integer.parseInt(associations[i]) == assocRgdId) {
+                if (Integer.parseInt(assoc) == assocRgdId) {
                     found = true;
                 }
             }
