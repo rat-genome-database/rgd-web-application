@@ -89,10 +89,10 @@
                         <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=result.getVariant().getReferenceNucleotide()%></td>
+                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getReferenceNucleotide(),"-")%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=result.getVariant().getVariantNucleotide()%></td>
+                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getVariantNucleotide(),"-")%></td>
                     </tr>
                     <tr>
                         <td class="carpeLabel">Location:</td><td><%=result.getVariant().getGenicStatus()%></td>
