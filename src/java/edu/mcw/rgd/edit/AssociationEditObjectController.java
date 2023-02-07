@@ -11,7 +11,6 @@ import java.util.Iterator;
  * Created by IntelliJ IDEA.
  * User: jdepons
  * Date: Jun 2, 2008
- * Time: 8:59:47 AM
  */
 
 public abstract class AssociationEditObjectController implements Controller {
@@ -28,6 +27,7 @@ public abstract class AssociationEditObjectController implements Controller {
 
         for (String association : associations) {
 
+            association = association.trim();
             if (association.equals("")) {
                 continue;
             }
