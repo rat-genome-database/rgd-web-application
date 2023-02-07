@@ -1,9 +1,12 @@
 package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
+import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Sample;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.web.HttpRequestFacade;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -95,11 +98,14 @@ public class GeoExperimentController implements Controller {
                     Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
 
 
-                    if(sample == null && curAction.equals("load"))
+                    if(sample == null && curAction.equals("load")) {
+                        s.setCreatedBy(login);
                         sampleId = pdao.insertSample(s);
+                    }
                     else if (curAction.equals("load") || curAction.equals("edit")){
                         s.setId(sample.getId());
                         sampleId = sample.getId();
+                        s.setLastModifiedBy(login);
                         pdao.updateSample(s);
                     }
                     if (curAction.equals("load") || curAction.equals("edit")) {
@@ -135,6 +141,8 @@ public class GeoExperimentController implements Controller {
                                 break;
                         }
                     }
+
+                    // stuff with experimental conditions
                 }
 
 
@@ -165,6 +173,7 @@ public class GeoExperimentController implements Controller {
                 int ageCount = Integer.parseInt(request.getParameter("agecount"));
                 int gcount = Integer.parseInt(request.getParameter("gcount"));
                 int noteCnt = Integer.parseInt(request.getParameter("notescount"));
+                int condCnt = Integer.parseInt(request.getParameter("conditionCount"));
                 int sampleSize = Integer.parseInt(request.getParameter("samplesExist"));
                 String gse = request.getParameter("gse");
                 String species = request.getParameter("species");
@@ -181,6 +190,8 @@ public class GeoExperimentController implements Controller {
                 HashMap<String,String> lifeStage = new HashMap<>();
                 HashMap<String,String> notes = new HashMap<>();
                 HashMap<String, String> curNotes = new HashMap<>();
+                HashMap<String,String> xcoMap = new HashMap<>();
+                List<Condition> conditions = new ArrayList<Condition>();
                 for(int i = 0; i < tcount;i++){
                     if (request.getParameter("tissue" + i).contains("imported!")) {
                         tissueMap.put(null, request.getParameter("tissueId" + i));
@@ -238,6 +249,41 @@ public class GeoExperimentController implements Controller {
                     notes.put(null,request.getParameter("notesId"+i));
                     curNotes.put(null,request.getParameter("cNotesId"+i));
                 }
+
+                HttpRequestFacade req = new HttpRequestFacade(request);
+                String[] cValueMin = req.getRequest().getParameterValues("cValueMin");
+                String[] cValueMax = req.getRequest().getParameterValues("cValueMax");
+                String[] cUnits = req.getRequest().getParameterValues("cUnits");
+                String[] cMinDuration = req.getRequest().getParameterValues("cMinDuration");
+                String[] cMinDurationUnits = req.getRequest().getParameterValues("cMinDurationUnits");
+                String[] cMaxDuration = req.getRequest().getParameterValues("cMaxDuration");
+                String[] cMaxDurationUnits = req.getRequest().getParameterValues("cMaxDurationUnits");
+                String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod");
+                String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality");
+                String[] cNotes = req.getRequest().getParameterValues("cNotes");
+                for (int i = 0; i < condCnt; i++) {
+                    String xcoId = request.getParameter("xcoId"+i);
+                    if (!Utils.isStringEmpty(xcoId) && !Utils.isStringEmpty(cOrdinality[i]) ) {
+                        String xcoTerm = request.getParameter("xco"+i+"_term");
+                        xcoMap.put(xcoId, xcoTerm);
+                        Condition c = new Condition();
+                        c.setOntologyId(xcoId);
+                        c.setValueMin(cValueMin[i]);
+                        c.setValueMax(cValueMax[i]);
+                        c.setUnits(cUnits[i]);
+                        if (!Utils.isStringEmpty(cMinDuration[i])) {
+                            c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[i]),cMinDurationUnits[i]) );
+                        }
+                        if (!Utils.isStringEmpty(cMaxDuration[i])) {
+                            c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[i]),cMaxDurationUnits[i]) );
+                        }
+                        c.setApplicationMethod(cApplicationMethod[i]);
+                        c.setOrdinality(i);
+                        c.setNotes(cNotes[i]);
+                        conditions.add(c);
+                    }
+                }
+
                 request.setAttribute("tissueMap",tissueMap);
                 request.setAttribute("tissueNameMap", tissuneNameMap);
                 request.setAttribute("strainMap",strainMap);
@@ -254,6 +300,8 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("notesMap",notes);
                 request.setAttribute("curNotesMap",curNotes);
                 request.setAttribute("samplesExist", sampleSize);
+                request.setAttribute("conditions", conditions);
+                request.setAttribute("xcoTerms", xcoMap);
                 return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
             }
             if (request.getParameter("gse") != null) {
@@ -288,5 +336,25 @@ public class GeoExperimentController implements Controller {
             return false;
         }
     }
+    private double convertToSeconds(double value, String units) {
+
+        if (units.equals("secs")) {
+            return value;
+        } else if (units.equals("mins")) {
+            return value * 60;
+        } else if (units.equals("hours")) {
+            return value * 60 * 60;
+        } else if (units.equals("days")) {
+            return value * 60 * 60 * 24;
+        } else if (units.equals("weeks")) {
+            return value * 60 * 60 * 24 * 7;
+        } else if (units.equals("months")) {
+            return value * 60 * 60 * 24 * (365 / 12);
+        } else if (units.equals("years")) {
+            return value * 60 * 60 * 24 * 365;
+        }
+
+        return Condition.convertStringToDurationBound(units);
     }
+}
 

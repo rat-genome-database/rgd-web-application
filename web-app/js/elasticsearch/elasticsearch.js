@@ -31,8 +31,9 @@ $(function () {
 
     });*/
 
-    $('#objectSearchAssembly').on('change', function (e) {
-     
+    $('#assembly').on('change', function (e) {
+
+                $('#objectAssembly').val($(this).val());
                 $('#assemblyForm').submit();
            });
 
@@ -100,9 +101,9 @@ function getParameters() {
         $objectSearch= objectSearch.val();
     }
    /* $objectAssembly= $('#objectAssembly').val()*/
-    if(typeof $('#assembly').val()!='undefined')
+  //  if(typeof $('#assembly').val()!='undefined')
     $objectAssembly= $('#assembly').val()
-
+    console.log("assembly:"+$objectAssembly)
     mapKey=$('#mapKey').val();
 
 }
@@ -223,7 +224,7 @@ function sortFunction(e, value) {
     })
 }
 
-function assembly(){
+/*function assembly(){
    getParameters();
     var totalPages=getTotalPages(totalHits, pageSize);
     $totalPages.text(totalPages);
@@ -248,7 +249,7 @@ function assembly(){
         $('#pageSize').val(pageSize)
 
     });
-  }
+  }*/
 function pagesizeFunction(e, id){
     getParameters();
     $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
@@ -322,13 +323,14 @@ function submitFunction(e) {
 }
 
 function filterClick(category, species,subCat, type, filter, objectAssembly) {
-    if(typeof objectAssembly=='undefined'){
+   /* if(typeof objectAssembly=='undefined'){
         objectAssembly=""
-    }
-    $('#assembly').val(objectAssembly)
-    $objectAssembly=objectAssembly
-    getParameters();
+    }*/
+   // $('#assembly').val(objectAssembly)
 
+    getParameters();
+    if(typeof objectAssembly=='undefined' || objectAssembly=='' )
+    objectAssembly= $objectAssembly;
 
     var $sampleExists;
     var filterType;
@@ -396,6 +398,7 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
         $content.html(data);
         $("#filter").val(filterType);
         $('#objectSearch').val($objectSearch);
+        $('assembly').val($objectAssembly)
      //   $('#objectSearchAssembly').val($objectSearchAssembly);
         // $('#viewAllBtn').show();
         mapKey=$('#mapKey').val();
@@ -507,7 +510,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 
 function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
-    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7,speciesTypeKey, mapKey, objectkey;
+    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7, ortholog8,speciesTypeKey, mapKey, objectkey;
     objectkey=objectType=='genes'?1:objectType=='strains'?5:objectType=="qtls"?6:objectType=="sslps"?3:objectType=="variants"?7:objectType=="reference"?12:objectType=="ontology"?0:objectType=="cell lines"?11:objectType=="promoters"?16:"unknown";
     if(species=='Rat'){
         ortholog1=1;
@@ -517,6 +520,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=3;
         mapKey=360;
     }
@@ -528,6 +532,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=1;
        mapKey=38;
     }
@@ -539,6 +544,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=2;
         mapKey=35;
     }
@@ -550,6 +556,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=2;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=6;
         mapKey=631;
     }
@@ -561,6 +568,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=2;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=7;
         mapKey=720;
     }
@@ -572,6 +580,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=5;
         mapKey=511;
     }
@@ -583,6 +592,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=9;
+        ortholog8=13;
         speciesTypeKey=4;
         mapKey=44;}
     else if(species=='Pig'){
@@ -593,8 +603,22 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         ortholog5=6;
         ortholog6=7;
         ortholog7=4;
+        ortholog8=13;
         speciesTypeKey=9;
+
         mapKey=911;
+    }else if(species=='Green Monkey'){
+        ortholog1=1;
+        ortholog2=3;
+        ortholog3=2;
+        ortholog4=5;
+        ortholog5=6;
+        ortholog6=7;
+        ortholog7=4;
+        ortholog8=9;
+
+        speciesTypeKey=13;
+        mapKey=1311;
     }
     if(mKey!=0){
         mapKey=mKey;
@@ -607,19 +631,22 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
         var href;
         if(tool=='interviewer') {
             href = "/rgdweb/cytoscape/cy.html?browser=12&species="+speciesTypeKey+"&identifiers=" + selected;
-            _this.href = href;
+            //_this.href = href;
+            window.open(href);
         }
         if(tool=='functionalAnnot') {
             href=  "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+
-                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
+                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                 "&species=" + speciesTypeKey + "&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='annotDistribution') {
 
             href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
                 "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='olga') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -631,7 +658,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             }else {
                 href = "/rgdweb/generator/list.html?mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '[');
             }
-            _this.href=href;
+ //           _this.href=href;
+            window.open(href);
         }
         var sampleExists=0;
         $('.checkedObjects:checked').each(function () {
@@ -644,7 +672,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                
                 href="variantVisualizer.html?species="+species +"&assembly="+$assembly +"&mapKey="+mapKey +"&rgdIds=" +selected;
 
-                _this.href = href;
+               // _this.href = href;
+                window.open(href);
             } else {
 
                 var strainSymbols = $('.checkedObjects:checked').map(function () {
@@ -685,7 +714,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                     }
 
 
-                    _this.href = href;
+                    //_this.href = href;
+                    window.open(href);
                 }
             }
         }
@@ -696,11 +726,12 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             if (objectType == 'genes') {
 
                 href = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog=" +
-                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+
+                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                     "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
             }else{
                 href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;}
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='moet') {
             /*   if(objectType=='sslps'){
@@ -710,7 +741,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
                 href = "/rgdweb/enrichment/analysis.html"+"?genes=" + selected+ "&species=" + speciesTypeKey +"&o=RDO";
             }
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='damage') {
             if(species=='Human')
@@ -718,14 +750,16 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
             else
                 href= "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=" + "&mapKey=" + mapKey + "&con=&probably=true&possibly=true&depthLowBound=8&depthHighBound=&excludePossibleError=true&sample1=all&geneList=" + selected;
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='annotComparison') {
             href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
-                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
+                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
                 "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
 
-            _this.href=href;
+           // _this.href=href;
+            window.open(href);
         }
         if(tool=='excel') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -741,7 +775,9 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
               //      href = "/rgdweb/generator/process.html?&mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=excel&a=" + "~lst:" + selected.replace(/\,/g, '[');
                 if(objectType=='ontology')
                     href="search/excelDownload.html?rgdIds=" +selected +"&oKey=" +objectkey+"&format=excel" ;
-            } _this.href=href;
+            }
+            //_this.href=href;
+            window.open(href);
         }
         if(tool=='tab') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
@@ -754,7 +790,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
 
                 href="search/excelDownload.html?rgdIds=" +rgdids +"&oKey=" +objectkey +"&mapKey=" + mapKey+"&format=tab";
 
-            _this.href=href;
+            //_this.href=href;
+            window.open(href);
         }
         var count=0;
         $('.checkedObjects:checked').each(function () {
@@ -785,7 +822,8 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             var dbJBrowser="data_hg38";
             var tracks="ARGD_curated_genes";
             href="/jbrowse/?data="+dbJBrowser+"&tracks="+tracks+"&highlight=&tracklist=1&nav=1&overview=1&loc="+"Chr"+12+"%3A"+9067708 +".."+9115962   ;
-            _this.href = href;
+           // _this.href = href;
+            window.open(href);
         }
     }
     else{

@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.web.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.Map" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 
 
 <%
@@ -34,18 +35,28 @@
     List<Map> moleMaps = mdao.getMaps(SpeciesType.NAKED_MOLE_RAT,"bp");
     List<Map> monkeyMaps = mdao.getMaps(SpeciesType.VERVET,"bp");
 
+    /*
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
     List<Chromosome> mouseChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
     List<Chromosome> humanChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.HUMAN).getKey());
-    //List<Chromosome> chinchillaChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.CHINCHILLA).getKey());
-    List<Chromosome> chinchillaChr = new ArrayList<Chromosome>();
+    List<Chromosome> chinchillaChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.CHINCHILLA).getKey());
     List<Chromosome> bonoboChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.BONOBO).getKey());
     List<Chromosome> dogChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.DOG).getKey());
-    //List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
-    List<Chromosome> squirrelChr = new ArrayList<Chromosome>();
+    List<Chromosome> squirrelChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
     List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
     List<Chromosome> moleChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
     List<Chromosome> monkeyChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
+*/
+    List<Chromosome> ratChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
+    List<Chromosome> mouseChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
+    List<Chromosome> humanChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.HUMAN).getKey());
+    List<Chromosome> chinchillaChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.CHINCHILLA).getKey());
+    List<Chromosome> bonoboChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.BONOBO).getKey());
+    List<Chromosome> dogChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.DOG).getKey());
+    List<Chromosome> squirrelChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.SQUIRREL).getKey());
+    List<Chromosome> pigChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
+    List<Chromosome> moleChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
+    List<Chromosome> monkeyChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
 
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
@@ -180,6 +191,11 @@
             chroms.innerHTML=ratChrHtml;
         }
     }
+
+    function clearAll() {
+        document.getElementById("genes").value="";
+    }
+
 </script>
 
 <%
@@ -259,7 +275,16 @@
              </table>
         </td>
         <td style="padding-left:30px;">
-            Example: a2m,xiap,lepr,tnf<br>
+            <table width="400">
+                <tr>
+                    <td>
+                        Example: a2m,xiap,lepr,tnf
+                    </td>
+                    <td align="right">
+                        <input type="button" value="Clear All" onclick="clearAll()"/>
+                    </td>
+                </tr>
+            </table>
             <textarea placeholder="When entering multiple identifiers your list can be separated by commas, spaces, tabs, or line feeds" id="genes" name="genes" rows="12" cols=70  ><%=dm.out("genes",req.getParameter("genes"))%></textarea>
             <!--
             <textarea name="genes" rows="12" cols=70 ng-model="importTarget" >

@@ -71,7 +71,7 @@
             <c:if test="${model.totalHits == 10000}">
         <span style="font-weight: bold">Showing Top</span>
         </c:if>
-            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}"
+            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}" in assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
         </p>
 
     </div>

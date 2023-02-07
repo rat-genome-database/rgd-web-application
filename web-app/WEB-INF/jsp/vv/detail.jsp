@@ -162,7 +162,7 @@
                         String percentRead = result.getVariant().getZygosityPercentRead() + "%";
                         String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
 
-                        if (percentRead.equals("0.0%")) {
+                        if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";
                         }
                         if (numAlleles.equals("0")) {
@@ -194,7 +194,7 @@
                     </tr>
                     <% } %>
                     <tr>
-                        <td><a href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>
+                        <td><a target="_blank" href="/rgdweb/report/variants/main.html?id=<%=result.getVariant().getId()%>">Go to Variant Page</a></td>
                     </tr>
                 </table>
 

@@ -15,9 +15,9 @@
     <table>
         <tr>
             <td><input type="hidden" value="${model.defaultAssembly}" id="objectAssembly"/></td>
-            <c:if test="${model.objectSearch=='true'}">
+            <!--c:if test="$-{model.objectSearch=='true'}"-->
             <td>
-                <!--form  id="assemblyForm" action="elasticResults.html" method="post">
+                <form  id="assemblyForm" action="elasticResults.html" method="post">
                 <input type="hidden" name="category" value="${model.searchBean.category}">
                  <input type="hidden" name="species" value="${model.searchBean.species}"/>
 
@@ -33,28 +33,28 @@
                     <input type="hidden" name="size" value="50">
                     <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
 
-                    <label for="objectSearchAssembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
-                    <select  id="objectSearchAssembly" name="assembly">
+                    <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
+                    <select  id="assembly" name="assembly" >
+
+                        <option selected value="${model.defaultAssembly}">${model.defaultAssembly}</option>
+
                         <c:forEach items="${model.assemblyMaps}" var="map">
                             <c:if test="${map.key!=6 && map.key!=7 && map.key!=8 && map.key!=19 && map.key!=21 && map.key!=36}">
-                                <c:choose>
-                                    <c:when test="${map.description==model.defaultAssembly}">
-                                        <option selected value="${map.description}">${map.name}</option>
-                                    </c:when>
-                                    <c:otherwise>
+                                <c:if test="${map.description!=model.defaultAssembly}">
                                         <option value="${map.description}">${map.name}</option>
-                                    </c:otherwise>
-
-                                </c:choose>
+                                </c:if>
                             </c:if>
                         </c:forEach>
+                        <c:if test="${model.defaultAssembly!='all'}">
+                            <option value="all">all</option>
+                        </c:if>
                     </select>
 
-                    </form-->
+                    </form>
 
 
             </td>
-            </c:if>
+            <!--/c:if-->
             <c:if test="${model.objectSearch!='true'}">
             <!--td>
                 <c:if test="${model.searchBean.species!=null && model.searchBean.species!='' && model.defaultAssembly!=null}">

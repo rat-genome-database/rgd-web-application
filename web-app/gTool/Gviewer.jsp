@@ -1,3 +1,8 @@
+<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=windows-1252" %>
 <%
     String pageTitle = "Web Genome Viewer - Rat Genome Database";
@@ -95,6 +100,8 @@ table.ontlist label{
     cursor:help;
 }
 </style>
+
+
 
 
 
@@ -417,11 +424,11 @@ function pageRequest(url, divId) {
         if (http_request.status == 200) {
             document.getElementById(divId).innerHTML =http_request.responseText;
 
-            forEach(document.getElementsByTagName('table'), function(table) {
-                if (table.className.search(/\bsortable\b/) != -1) {
-                    sorttable.makeSortable(table);
-                }
-            });
+            //forEach(document.getElementsByTagName('table'), function(table) {
+            //    if (table.className.search(/\bsortable\b/) != -1) {
+            //        sorttable.makeSortable(table);
+            //    }
+            //});
 
         } else {
             alert(http_request.responseText);
@@ -463,7 +470,7 @@ $(document).ready(function(){
         .result(function(data, value){
 
             $("#dataStatus").html("");
-            selectByTermId(value[1]);
+            //selectByTermId(value[1]);
         });
 
 });

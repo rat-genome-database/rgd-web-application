@@ -125,7 +125,7 @@
 </style>
 
 <%
-    String pageHeader = "Search for genes, SSLPs and QTLs by position";
+    String pageHeader = "Search for genes, SSLPs, QTLs, and Strains by position";
     String pageTitle = "Search By Position";
     String headContent = "";
     String pageDescription = "Search all objects using Position";
@@ -299,6 +299,9 @@
                     <br>
                     <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick=checkActiveStatus('sslp')
                                                          style="font-size: medium;">SSLPs</a></li>
+                    <br>
+                    <li class="nav-item sub-nav-item" v-if="strains"><a class="nav-link" href="#searchStrainsResultId" onclick=checkActiveStatus('strain')
+                                                                      style="font-size: medium;">Strains</a></li>
                 </ul>
             </nav>
         </div>
@@ -344,6 +347,16 @@
                                                 <button class="downloadbtn" @click="download('sslp')"><i
                                                         class="fa fa-download" style="align-self: auto"
                                                         title="Download SSLPs"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: large">Strains -
+                                                {{strainCount}}
+                                            </td>
+                                            <td>
+                                                <button class="downloadbtn" @click="download('strain')"><i
+                                                        class="fa fa-download" style="align-self: auto"
+                                                        title="Download Strains"></i></button>
                                             </td>
                                         </tr>
                                     </table>
@@ -472,6 +485,42 @@
                         </div>
                     </td>
                 </tr>
+                <tr> <!-- Strain section -->
+                    <td>
+                        <div class="bordereddiv" id="searchStrainsResultId" style="display: none">
+                            <div style="display: flex;flex-direction: row;padding: 10px">
+                                <div style="padding: 10px">
+                                    <h2>Strains</h2>
+                                </div>
+                                <div style="padding: 10px">
+                                    <button class="downloadbtn" @click="download('strain')"><i class="fa fa-download"
+                                                                                             style="align-self: auto"
+                                                                                             title="Download Strains"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="t" role="grid">
+                                <tr role="row">
+                                    <th>RGD ID</th>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Chr</th>
+                                    <th>Start</th>
+                                    <th>Stop</th>
+                                </tr>
+                                <tr v-for="record in strainData"
+                                    class="record">
+                                    <td>{{record.strain.rgdId}}</td>
+                                    <td><a :href="strainUrl+record.strain.rgdId" class="geneList" v-html="record.strain.symbol"></a></td>
+                                    <td  v-html="record.strain.symbol"></td>
+                                    <td>{{record.chromosome}}</td>
+                                    <td>{{record.start}}</td>
+                                    <td>{{record.stop}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
@@ -482,7 +531,7 @@
     var div = '#search';
     var host = window.location.protocol + window.location.host;
     if (window.location.host.indexOf('localhost') > -1) {
-        host = window.location.protocol + '//localhost';
+        host = 'https://dev.rgd.mcw.edu';
     } else if (window.location.host.indexOf('dev.rgd') > -1) {
         host = window.location.protocol + '//dev.rgd.mcw.edu';
     } else if (window.location.host.indexOf('test.rgd') > -1) {
@@ -492,7 +541,7 @@
     } else {
         host = window.location.protocol + '//rest.rgd.mcw.edu';
     }
-    //host = 'https://dev.rgd.mcw.edu';
+    // host = 'https://dev.rgd.mcw.edu';
     var v = new Vue({
         el: div,
         data: {
@@ -505,9 +554,12 @@
             geneData: {},
             qtlData: {},
             sslpData: {},
+            strainData: {},
             geneCount: 0,
             qtlCount: 0,
             sslpCount: 0,
+            strainCount: 0,
+            strains: false,
             qtls: false,
             sslps: false,
             genes: false,
@@ -515,7 +567,8 @@
             errors : [],
             geneUrl : "/rgdweb/report/gene/main.html?id=",
             qtlUrl : "/rgdweb/report/qtl/main.html?id=",
-            sslpUrl : "/rgdweb/report/marker/main.html?id="
+            sslpUrl : "/rgdweb/report/marker/main.html?id=",
+            strainUrl: "/rgdweb/report/strain/main.html?id="
         },
         methods: {
             getData: function (e) {
@@ -532,8 +585,10 @@
                 v.geneCount = 0;
                 v.qtlCount = 0;
                 v.sslpCount = 0;
+                v.strainCount = 0;
                 v.sslps = false;
                 v.genes = false;
+                v.strains = false;
 
                 this.errors = [];
                 //var start = document.getElementById('start').value;
@@ -608,6 +663,26 @@
                                 document.getElementById('reportMainSidebar').style.height = "20vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'none';
+                            }
+                        }).catch(function (error) {
+                        console.log(error)
+                    });
+                    axios
+                        .get(this.hostName + '/rgdws/strains/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
+                        .then(function (response) {
+                            v.strainData = response.data;
+                            if (v.strainData.length != 0) {
+                                v.strainCount = v.strainData.length;
+                                v.strains = true;
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "30vh";
+                                document.getElementById('page-container').style.display = 'block';
+                                document.getElementById('searchStrainsResultId').style.display = 'block';
+                            }else{
+                                document.getElementById('resultDataLink').className = 'active';
+                                document.getElementById('reportMainSidebar').style.height = "20vh";
+                                document.getElementById('page-container').style.display = 'block';
+                                document.getElementById('searchStrainsResultId').style.display = 'none';
                             }
                         }).catch(function (error) {
                         console.log(error)
