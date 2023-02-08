@@ -123,6 +123,9 @@ String pageDescription = "Define Region";
         if (mapKey==631) {
             selectTitle="Select Breeds";
         }
+        if (mapKey==910 || mapKey==911 || mapKey==1311 || mapKey==35 || mapKey==239){
+            selectTitle="View EVA Variants";
+        }
 
     %>
 
