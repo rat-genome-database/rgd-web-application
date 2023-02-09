@@ -119,11 +119,13 @@
                 <tr>
                     <td>&nbsp;</td>
                 </tr>
+                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.HUMAN) {%>
                 <tr>
                     <td colspan=3><div class="typerSubTitle" >Protein</div></td>
                 </tr>
 
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG ) { %>
+                <%}
+                    if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG ) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Amino Acid Change</td>
