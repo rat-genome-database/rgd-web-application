@@ -143,6 +143,7 @@ public class GeoExperimentController implements Controller {
                     }
 
                     // stuff with experimental conditions
+                    edu.mcw.rgd.datamodel.pheno.Record record = new edu.mcw.rgd.datamodel.pheno.Record();
                 }
 
 

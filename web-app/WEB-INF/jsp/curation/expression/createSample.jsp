@@ -1,14 +1,14 @@
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Objects" %>
-<%@ page import="java.util.Set" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.web.FormUtility" %>
+<%@ page import="java.text.DecimalFormat" %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -66,12 +66,27 @@
 
 <%@ include file="/common/headerarea.jsp" %>
 <%
-
+    DisplayMapper dm = new DisplayMapper(new HttpRequestFacade(request), (ArrayList) request.getAttribute("error"));
+    FormUtility fu = new FormUtility();
+    PhenominerDAO pdao = new PhenominerDAO();
+    List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
+    final DecimalFormat d_f = new DecimalFormat("0.####");
+    List timeUnits = new ArrayList();
+    timeUnits.add("secs");
+    timeUnits.add("mins");
+    timeUnits.add("hours");
+    timeUnits.add("days");
+    timeUnits.add("weeks");
+    timeUnits.add("months");
+    timeUnits.add("years");
+    timeUnits.add("exhaustion");
+    timeUnits.add("death");
+    timeUnits.add("end of the experiment");
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
     HttpRequestFacade req = new HttpRequestFacade(request);
-    DisplayMapper dm = new DisplayMapper(req,error);
-    PhenominerDAO pdao = new PhenominerDAO();
+
+
     OntologyXDAO xdao = new OntologyXDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
@@ -87,6 +102,8 @@
     HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
     HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
     HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
+    HashMap<String,String> xcoMap = (HashMap) request.getAttribute("xcoTerms");
+    List<Condition> conditions = (ArrayList) request.getAttribute("conditions");
     int sampleSize = (int) request.getAttribute("samplesExist");
     boolean updateSample = sampleSize!=0;
     int size = samples.size();
@@ -101,7 +118,7 @@
         if(samples.size() != 0) {
     %>
         <form action="experiments.html" method="POST">
-            <table  class="t">
+            <table  class="t" style="width: 1880px">
                 <tr>
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td><b>Geo Accession Id: </b></td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
@@ -155,6 +172,29 @@
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
                 <th>Status/Action:</th>
+                <% int k = 0;
+                    for (k = 0; k < conditions.size(); k++){%>
+                <th>AccId <%=k+1%>:</th>
+                <th>Min Value <%=k+1%>:</th>
+                <th>Max Value <%=k+1%>:</th>
+                <th>Unit <%=k+1%>:</th>
+                <th>Min Dur <%=k+1%>:</th>
+                <th>Max Dur <%=k+1%>:</th>
+                <th>Application Method <%=k+1%>:</th>
+                <th>Ordinality <%=k+1%>:</th>
+                <th>Condition Notes <%=k+1%>:</th>
+                <% }
+                for (int i = k; i < 15; i++) {%>
+                <th>AccId <%=i+1%>:</th>
+                <th>Min Value <%=i+1%>:</th>
+                <th>Max Value <%=i+1%>:</th>
+                <th>Unit <%=i+1%>:</th>
+                <th>Min Dur <%=i+1%>:</th>
+                <th>Max Dur <%=i+1%>:</th>
+                <th>Application Method <%=i+1%>:</th>
+                <th>Ordinality <%=i+1%>:</th>
+                <th>Condition Notes <%=i+1%>:</th>
+                <% } %>
             </tr>
                 <%
             }
@@ -267,6 +307,47 @@ catch (Exception e){}
                         <option value="edit" <%=s.getCurationStatus().equals("loaded") || sample.getId()!=0 ? "selected":""%>>Edit</option>
                     </select>
                 </td>
+                <%int j = 0;
+                    for (j = 0; j < conditions.size(); j++){%>
+                <td>
+                    <input name="xcoId<%=count%><%=j%>" id="xcoId<%=count%><%=j%>" value="<%=conditions.get(j).getOntologyId()%>">
+                    <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%><%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="xco<%=count%><%=j%>_term" name="xco<%=count%><%=j%>_term" value="<%=xcoMap.get(conditions.get(j).getOntologyId())%>" style="border: none; background: transparent;width: 100%" readonly/>
+                </td>
+                <td><input type="text" size="7" name="cValueMin" value="<%=conditions.get(j).getValueMin()%>"/></td>
+                <td><input type="text" size="7" name="cValueMax" value="<%=conditions.get(j).getValueMax()%>"/></td>
+                <td><%=fu.buildSelectListNewValue("cUnits"+j, unitList, "",true)%><!--i added for RGD1797-->
+                </td>
+                <td><input type="text" size="12" name="cMinDuration"
+                           value="<%=conditions.get(j).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="12" name="cMaxDuration"
+                           value="<%=conditions.get(j).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="30" name="cApplicationMethod" value="<%=conditions.get(j).getApplicationMethod()%>"/></td>
+                <td><input type="text" size="7" name="cOrdinality" value="<%=conditions.get(j).getOrdinality()%>"/></td>
+                <td><input type="text" size="30" name="cNotes" value="<%=conditions.get(j).getNotes()%>"/></td>
+                <% }
+                for (int i = j; i < 15; i++) {%>
+                <td>
+                    <input name="xcoId<%=count%><%=i%>" id="xcoId<%=count%><%=i%>" value="">
+                    <a href="" id="xco<%=count%><%=i%>_popup" onclick="ontPopup('xcoId<%=count%><%=i%>','xco','xco<%=count%><%=i%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="xco<%=count%><%=i%>_term" name="xco<%=count%><%=i%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                </td>
+                <td><input type="text" size="7" name="cValueMin" value=""/></td>
+                <td><input type="text" size="7" name="cValueMax" value=""/></td>
+                <td><%=fu.buildSelectListNewValue("cUnits"+i, unitList, "",true)%><!--i added for RGD1797-->
+                </td>
+                <td><input type="text" size="12" name="cMinDuration"
+                           value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="12" name="cMaxDuration"
+                           value=""/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="30" name="cApplicationMethod" value=""/></td>
+                <td><input type="text" size="7" name="cOrdinality" value=""/></td>
+                <td><input type="text" size="30" name="cNotes" value=""/></td>
+                <% } %>
             </tr>
 
                 <%
