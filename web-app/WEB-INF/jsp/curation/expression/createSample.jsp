@@ -54,6 +54,52 @@
         font-size: 14px;
     }
 
+    .sticky-table{
+        height: 650px;
+        max-width: 98vw;
+        overflow-x: auto;
+        /*position: relative;*/
+        margin-top: 25px;
+    }
+    .sticky-table thead{
+
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        top: 0;
+        z-index: 10;
+    }
+    /*.sticky-table th, td {*/
+    /*    padding: 10px 100px;*/
+    /*    text-transform: capitalize;*/
+    /*}*/
+    .sticky-table th {
+        background: white;
+        color: black;
+        white-space: nowrap;
+
+    }
+    .sticky-table th:first-child {
+             position: -webkit-sticky;
+             position: sticky;
+             left: 0px;
+             z-index: 3;
+             width: 200px;
+    }
+    .sticky-table td:first-child {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0px;
+        z-index: 3;
+        width: 200px;
+    }
+    .sticky-table tr:nth-child(odd) td:first-child {
+            background: #f1f1f1;
+    }
+    .sticky-table tr:nth-child(even) td:first-child {
+        background: white;
+    }
+
 </style>
 <script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <%
@@ -148,11 +194,14 @@
 
         <form action="experiments.html" method="POST" id="createSample">
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
+            <br>
+            <div class="sticky-table">
             <table class="table table-striped">
 
                 <%
             if(samples.size() != 0) {
         %>
+            <thead>
             <tr>
                 <th>GEO Sample ID: </th>
                 <th>Sample Organism</th>
@@ -196,6 +245,8 @@
                 <th>Condition Notes <%=i+1%>:</th>
                 <% } %>
             </tr>
+            </thead>
+                <tbody>
                 <%
             }
 
@@ -232,7 +283,7 @@ catch (Exception e){}
          }
   %>
             <tr>
-                <td><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
+                <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
                 <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=(updateSample && !Objects.toString(strainMap.get(s.getSampleStrain()),"").isEmpty()) ? Objects.toString(strainMap.get(s.getSampleStrain()),"") :!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
@@ -316,7 +367,10 @@ catch (Exception e){}
                 </td>
                 <td><input type="text" size="7" name="cValueMin" value="<%=conditions.get(j).getValueMin()%>"/></td>
                 <td><input type="text" size="7" name="cValueMax" value="<%=conditions.get(j).getValueMax()%>"/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits"+j, unitList, "",true)%><!--i added for RGD1797-->
+                <td><select>
+                    <% for (String unit : unitList){%>
+                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(conditions.get(j).getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
+                <% } %></select>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value="<%=conditions.get(j).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
@@ -336,7 +390,10 @@ catch (Exception e){}
                 </td>
                 <td><input type="text" size="7" name="cValueMin" value=""/></td>
                 <td><input type="text" size="7" name="cValueMax" value=""/></td>
-                <td><%=fu.buildSelectListNewValue("cUnits"+i, unitList, "",true)%><!--i added for RGD1797-->
+                <td><select>
+                    <% for (String unit : unitList){%>
+                    <option value="<%=unit%>"><%=unit%></option>
+                    <% } %></select>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration"
                            value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
@@ -353,8 +410,10 @@ catch (Exception e){}
                 <%
       count++;
       }
-  %>
+  %></tbody>
     </table>
+            </div>
+            <br>
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />

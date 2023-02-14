@@ -279,7 +279,7 @@ public class GeoExperimentController implements Controller {
                             c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[i]),cMaxDurationUnits[i]) );
                         }
                         c.setApplicationMethod(cApplicationMethod[i]);
-                        c.setOrdinality(i);
+                        c.setOrdinality(Integer.parseInt(cOrdinality[i]));
                         c.setNotes(cNotes[i]);
                         conditions.add(c);
                     }
