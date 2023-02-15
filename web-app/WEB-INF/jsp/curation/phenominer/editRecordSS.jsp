@@ -447,9 +447,24 @@
 
           }
 
+          var host = window.location.protocol + window.location.host;
+
+          if (window.location.host.indexOf('localhost') > -1) {
+              host =  'https://dev.rgd.mcw.edu';
+          } else if (window.location.host.indexOf('dev.rgd') > -1) {
+              host = window.location.protocol + '//dev.rgd.mcw.edu';
+          }else if (window.location.host.indexOf('test.rgd') > -1) {
+              host = window.location.protocol + '//test.rgd.mcw.edu';
+          }else if (window.location.host.indexOf('pipelines.rgd') > -1) {
+              host = window.location.protocol + '//pipelines.rgd.mcw.edu';
+          }else {
+              host = window.location.protocol + '//rest.rgd.mcw.edu';
+          }
+
+
           axios
               //.get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
-              .get("https://dev.rgd.mcw.edu/rgdweb/curation/phenominer/records.html?" + paramString)
+              .get("https:" + host + "/rgdweb/curation/phenominer/records.html?" + paramString)
               .then(function (response) {
                   //alert(response.data);
 
