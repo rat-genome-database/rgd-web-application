@@ -56,7 +56,14 @@
     %>
     <tr>
         <td class="label">Pubmed:</td>
-        <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>">(View Article at PubMed) </a>PMID:<%=pmId%></td>
+        <td>PMID:<%=pmId%> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>">(View Abstract at PubMed)</a></td>
+    </tr>
+    <% } %>
+
+    <% if( !pmcId.isEmpty() ) {%>
+    <tr>
+        <td class="label">PMCID:</td>
+        <td><%=pmcId%> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/<%=pmcId%>">(View Article at PubMed Central)</a></td>
     </tr>
     <% } %>
 
@@ -65,14 +72,7 @@
     %>
     <tr>
         <td class="label">DOI:</td>
-        <td>Full-text: <a href="http://dx.doi.org/<%=obj.getDoi()%>">DOI:<%=obj.getDoi()%></a></td>
-    </tr>
-    <% } %>
-
-    <% if( !pmcId.isEmpty() ) {%>
-    <tr>
-        <td class="label">PMCID:</td>
-        <td>Free PMC article: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/<%=pmcId%>"><%=pmcId%></a></td>
+        <td>DOI:<%=obj.getDoi()%> &nbsp; <a href="http://dx.doi.org/<%=obj.getDoi()%>">(Journal Full-text)</a></td>
     </tr>
     <% } %>
 
@@ -80,7 +80,6 @@
     <%
         if(req.getParameter("abstract")!=null){
             if(!(req.getParameter("abstract").equals("0"))){
-
     %>
     <tr>
         <td colspan="2"><br>
