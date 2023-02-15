@@ -464,7 +464,7 @@
             alert(host);
           axios
               //.get("http://localhost:8080/rgdweb/curation/phenominer/records.html?" + paramString)
-              .get("https:" + host + "/rgdweb/curation/phenominer/records.html?" + paramString)
+              .get(host + "/rgdweb/curation/phenominer/records.html?" + paramString)
               .then(function (response) {
                   //alert(response.data);
 
