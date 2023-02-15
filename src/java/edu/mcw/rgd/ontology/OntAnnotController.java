@@ -588,6 +588,10 @@ public class OntAnnotController implements Controller {
             buf.append("data_squirrel2_0");
         }else if (speciesTypeKey==SpeciesType.PIG) {
             buf.append("data_pig11_1");
+        }else if (speciesTypeKey==SpeciesType.NAKED_MOLE_RAT) {
+            buf.append("HetGla 1.0");
+        }else if (speciesTypeKey==SpeciesType.VERVET) {
+            buf.append("ChlSab1.1");
         }
 
         if( a.isGene() ) {
@@ -729,7 +733,7 @@ public class OntAnnotController implements Controller {
     }
 
     static public void loadAnnotationsForReference(OntAnnotBean bean, OntologyXDAO dao, int rgdId, String species, String displayDescendants,
-                                                   String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount) throws Exception {
+                                       String sortBy, String sortDesc, String objectKey, String extendedView, int maxAnnotCount) throws Exception {
 
         bean.setExtendedView(false);
         if( extendedView!=null ) {
@@ -911,5 +915,7 @@ public class OntAnnotController implements Controller {
         bean.setPhenoMmoTerms(mmoTerms);
         bean.setPhenoXcoTerms(xcoTerms);
     }
+
+
 }
 

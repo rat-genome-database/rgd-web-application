@@ -367,6 +367,10 @@ public class OntAnnotation  {
                     buf.append("data_squirrel2_0");
                 }else if (speciesTypeKey==SpeciesType.PIG) {
                     buf.append("data_pig11_1");
+                }else if (speciesTypeKey==SpeciesType.NAKED_MOLE_RAT) {
+                    buf.append("HetGla 1.0");
+                }else if (speciesTypeKey==SpeciesType.VERVET) {
+                    buf.append("ChlSab1.1");
                 }
 
                 if( isGene() ) {

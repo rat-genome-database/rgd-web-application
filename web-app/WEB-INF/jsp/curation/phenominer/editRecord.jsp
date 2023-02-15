@@ -13,7 +13,6 @@
     String headContent = "";
     String pageDescription = "";
 %>
-var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 <%@ include file="editHeader.jsp" %>
 <!--script type="text/javascript" src="/OntoSolr/files/jquery.autocomplete.js"></script-->
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
@@ -70,44 +69,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
 
 <span class="phenominerPageHeader"><%=title%></span>
 
-<div class="phenoNavBar">
-    <table>
-        <tr>
-            <% if (!req.getParameter("expId").equals("")) { %>
-            <td><a href='records.html?act=new&expId=<%=req.getParameter("expId")%>'>Create New Record</a></td>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <% } %>
-            <td><a href='home.html'>Home</a></td>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href='search.html'>Search</a></td>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href='studies.html'>List All Studies</a></td>
-            <% if (!multiEdit || enabledConditionInsDel) { %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href="javascript:addCondition()">Add Condition</a></td>
-            <% } %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href="javascript:addUnit()">Add Unit</a></td>
-            <% if (req.getParameter("studyId") != null && req.getParameter("studyId").length() > 0) {
-                if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) { %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href="records.html?expId=<%=req.getParameter("expId")%>&studyId=<%=req.getParameter("studyId")%>">All
-                Records</a></td>
-            <% } %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href="experiments.html?studyId=<%=req.getParameter("studyId")%>">All Experiments</a></td>
-            <%
-            } else {
-                if (req.getParameter("expId") != null && req.getParameterValues("expId").size() == 1) {
-            %>
-            <td align="center"><img src="http://rgd.mcw.edu/common/images/icons/asterisk_yellow.png"/></td>
-            <td><a href="records.html?expId=<%=req.getParameter("expId")%>">All Records</a></td>
-            <% }
-            }%>
-
-        </tr>
-    </table>
-</div>
+<%@ include file="editRecordMenuOptions.jsp"%>
 
 
 <%
@@ -205,6 +167,8 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
                 alert("Unit exists in the database - Only conversion will be added");
         }
     }
+
+
 </script>
 
 <form name= "editRecordForm" action="records.html" method="get">
@@ -268,7 +232,7 @@ var cCount = 0;<!--cCount made glogal variable for RGD1797-->
             e.printStackTrace();
         }
     %>
-    <br>
+
     <script>
         function editField(fieldID) {
             $(fieldID).attr('readonly', false);

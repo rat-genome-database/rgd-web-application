@@ -6,7 +6,10 @@ import edu.mcw.rgd.datamodel.variants.VariantMapData;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -120,7 +123,7 @@ public class FormUtility {
 
     }
 
-    public String render(String param, String value, HttpRequestFacade req, ArrayList errors) {
+    public String render(String param, String value, edu.mcw.rgd.web.HttpRequestFacade req, ArrayList errors) {
         if (errors.size() > 0) {
             return req.getParameter("param");
         }else {
@@ -128,7 +131,7 @@ public class FormUtility {
         }
     }
 
-    public String render(String param, int value, HttpRequestFacade req, ArrayList errors) {
+    public String render(String param, int value, edu.mcw.rgd.web.HttpRequestFacade req, ArrayList errors) {
         return render(param, Integer.toString(value), req, errors);
     }
 
@@ -147,6 +150,19 @@ public class FormUtility {
         ret.append("</select>");
         return ret.toString();
     }
+
+    public String buildSelectList(String name, List<String> values, String selectedValue,String onChange) {
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select onChange=\"" + onChange + "\" name=\"").append(name).append("\">");
+        for (String nxt : values) {
+            ret.append("<option ").append(this.optionParams(selectedValue, nxt)).append(">")
+                    .append(nxt).append("</option>");
+        }
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
 
     public String buildSelectListWithCss(String name, List<String> values, String selectedValue,String className) {
         StringBuilder ret = new StringBuilder();
@@ -206,6 +222,25 @@ public class FormUtility {
         return ret.toString();
     }
 
+    public String buildSelectListNewValue(String name, List<String> values, String selectedValue, boolean isCUnits, String onChange ) {
+        StringBuilder ret = new StringBuilder();
+        if(isCUnits){//Added to create both name & id (dynamic)
+            ret.append("<select onChange=\"" + onChange + "\" name= \"cUnits\"").append("id=\"").append(name).append("\">");
+        }else //For any other input other than cUnit(earlier code)
+            ret.append("<select onChange=\"" + onChange + "\" name=\"").append(name).append("\">");
+        String newValueStr = "REQUEST NEW VALUE";
+        for (String nxt : values) {
+            ret.append("<option ").append(this.optionParams(selectedValue, nxt)).append(">")
+                    .append(nxt).append("</option>");
+        }
+
+        ret.append("<option ").append(this.optionParams(selectedValue, newValueStr)).append(">")
+                .append(newValueStr).append("</option>");
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
     public String blank(String str) {
         if (str == null) {
             return "&nbsp;";
@@ -215,9 +250,9 @@ public class FormUtility {
 
     }
 
-    public String buildSelectListLabelsNewValue(String name, List<String> labelValues, String selectedValue) {
+    public String buildSelectListLabelsNewValue(String name, List<String> labelValues, String selectedValue,String onChange) {
         StringBuilder ret = new StringBuilder();
-        ret.append("<select name=\"").append(name).append("\">");
+        ret.append("<select onChange=\"" + onChange + "\" name=\"").append(name).append("\">");
         String newValueStr = "REQUEST NEW VALUE";
         for (int i = 0; i < labelValues.size(); i++) {
             String[] strings = labelValues.get(i).split("\\|");
@@ -233,6 +268,25 @@ public class FormUtility {
         return ret.toString();
     }
 
+    public String buildSelectListLabelsNewValue(String name, List<String> labelValues, String selectedValue) {
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select name=\"").append(name).append("\">");
+        String newValueStr = "REQUEST NEW VALUE";
+        for (int i = 0; i < labelValues.size(); i++) {
+            String[] strings = labelValues.get(i).split("\\|");
+            int value_index = i>0 ? 1 : 0;
+            ret.append("<option ").append(this.optionParams(selectedValue, strings[value_index])).append(">")
+                    .append(strings[0]).append("</option>");
+        }
+
+        ret.append("<option ").append(this.optionParams(selectedValue, newValueStr)).append(">")
+                .append(newValueStr).append("</option>");
+
+        ret.append("</select>");
+        return ret.toString();
+    }
+
+
     public String buildAutoComplete(String name, List<String> values, String selectedValue) {
         StringBuilder ret = new StringBuilder();
         ret.append("<div class=\"ui-widget\">");
@@ -247,6 +301,20 @@ public class FormUtility {
         return ret.toString();
     }
 
+    public String buildSelectList(String name, Map<String, String> values, String selectedValue, String onChange) {
+
+        StringBuilder ret = new StringBuilder();
+        ret.append("<select onChange=\"" + onChange + "\" name=\"").append(name).append("\">");
+
+        for (String key : values.keySet()) {
+            String value = values.get(key);
+            ret.append("<option ").append(this.optionParams(selectedValue, key)).append(">")
+                    .append(value).append("</option>");
+        }
+
+        ret.append("</select>");
+        return ret.toString();
+    }
     public String buildSelectList(String name, Map<String, String> values, String selectedValue) {
 
         StringBuilder ret = new StringBuilder();
@@ -359,6 +427,7 @@ public class FormUtility {
                 && start!=null
                 && stop!=null;
     }
+
     // return a locus string that could be passed to JBrowse
     // f.e. http://dev.rgd.mcw.edu/jbrowse/?data=data_mm37&loc=Chr8%3A74430455..74444798&tracks=ARGD_curated_genes&highlight=
     static public String getJBrowseLoc(MapData md) {
