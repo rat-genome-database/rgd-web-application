@@ -420,7 +420,7 @@
             <tr>
                 <td colspan="2"><textarea rows="20" cols="160" id="emailMessage" v-model="message" ></textarea></td>
             </tr>
-            <tr><td><div class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
+            <tr><td><div class="g-recaptcha" data-sitekey="6LfhLo0aAAAAAImgKJ2NesbBS0Vx1PB4KrFh9ygY" data-callback="enableBtn" data-expired-callback="expired"></div></td></tr>
             <tr>
                 <td>
                     <button type="button" id="submitBtn" v-on:click="sendEmail" disabled="disabled">Submit</button></td>

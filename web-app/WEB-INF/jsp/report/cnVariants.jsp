@@ -15,11 +15,10 @@
     }
     int totalVars = 0;
     try {
-         totalVars = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), map.getChromosome(), map.getStartPos(), map.getStopPos());
+        totalVars = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), map.getChromosome(), map.getStartPos(), map.getStopPos());
     }catch (Exception e){
 //        System.out.println(e);
     }
-
 %>
 <% if (totalVars>0){%>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
@@ -27,17 +26,17 @@
     <div class="sectionHeading" id="cnVariants">Variants</div>
     <br>
     <table>
-    <tr>
-        <td><div class="headerCard" style="width: 200px;text-align: center;">
-            <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>'">.</div>
-            <div class="headerCardTitle">Variants in <%=obj.getSymbol()%><br><span class="headerSubTitle"><%=totalVars%> total Variants</span></div>
-            <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/variantPage.png" height="175" width="270" border="0" /></span>
-        </div></td>
-<%--        <td><b><a style="font-size: 20px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b></td>--%>
-<%--        <td><a  href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>" ><input type="image" style="cursor: pointer;"  src="/rgdweb/common/images/variantPage.png"></a></td> &lt;%&ndash; title="View variants in Variant Visualizer" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=obj.getSymbol()%>&mapKey=<%=activeMap.getKey()%>" &ndash;%&gt;--%>
-    </tr>
+        <tr>
+            <td><div class="headerCard" style="width: 200px;text-align: center;">
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>'">.</div>
+                <div class="headerCardTitle">Variants in <%=obj.getSymbol()%><br><span class="headerSubTitle"><%=totalVars%> total Variants</span></div>
+                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/variantPage.png" height="175" width="270" border="0" /></span>
+            </div></td>
+            <%--        <td><b><a style="font-size: 20px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b></td>--%>
+            <%--        <td><a  href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>" ><input type="image" style="cursor: pointer;"  src="/rgdweb/common/images/variantPage.png"></a></td> &lt;%&ndash; title="View variants in Variant Visualizer" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=obj.getSymbol()%>&mapKey=<%=activeMap.getKey()%>" &ndash;%&gt;--%>
+        </tr>
     </table>
-    </div>
+</div>
 </div>
 <% } %>
 <style>
@@ -57,12 +56,9 @@
         order:1px solid black;
         z-index:20;
     }
-
     .headerSubTitle {
         font-size:12px;
     }
-
-
     .headerCardOverlay {
         position:absolute;
         background-color:#2865a3;
@@ -72,12 +68,10 @@
         z-index:30;
         opacity:0;
     }
-
     .headerCardOverlay:hover {
         opacity:.5;
         cursor:pointer;
     }
-
     .headerCardImage {
         margin:10px;
         border:1px solid black;
@@ -91,7 +85,6 @@
         border: 1px solid rgba(0,0,0,.125);
         margin:5px;
     }
-
 </style>
 
 <%@ include file="sectionFooter.jsp"%>

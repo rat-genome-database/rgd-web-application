@@ -142,7 +142,7 @@ boolean isEva = false;
                         out.print( NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos()) );
                     } else{%>
                         <%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%>
-                    <%}%></td>
+                        <%}%></td>
                 </tr>
                 <% } %>
             </table></td>
