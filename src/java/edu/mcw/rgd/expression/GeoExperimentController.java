@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -143,7 +144,7 @@ public class GeoExperimentController implements Controller {
                     }
 
                     // stuff with experimental conditions
-                    edu.mcw.rgd.datamodel.pheno.Record record = new edu.mcw.rgd.datamodel.pheno.Record();
+//                    edu.mcw.rgd.datamodel.pheno.Record record = new edu.mcw.rgd.datamodel.pheno.Record();
                 }
 
 
@@ -262,9 +263,10 @@ public class GeoExperimentController implements Controller {
                 String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod");
                 String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality");
                 String[] cNotes = req.getRequest().getParameterValues("cNotes");
+                HashMap<String, List<Integer>> ordinality = new HashMap<>(condCnt);
                 for (int i = 0; i < condCnt; i++) {
                     String xcoId = request.getParameter("xcoId"+i);
-                    if (!Utils.isStringEmpty(xcoId) && !Utils.isStringEmpty(cOrdinality[i]) ) {
+                    if (!Utils.isStringEmpty(xcoId) && (!Utils.isStringEmpty(cOrdinality[i]) || cOrdinality[i].equals("0")) ) {
                         String xcoTerm = request.getParameter("xco"+i+"_term");
                         xcoMap.put(xcoId, xcoTerm);
                         Condition c = new Condition();
@@ -279,11 +281,32 @@ public class GeoExperimentController implements Controller {
                             c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[i]),cMaxDurationUnits[i]) );
                         }
                         c.setApplicationMethod(cApplicationMethod[i]);
+
                         c.setOrdinality(Integer.parseInt(cOrdinality[i]));
+                        if (ordinality.get(xcoId)==null) {
+                            List<Integer> temp = new ArrayList<>();
+                            temp.add(Integer.parseInt(cOrdinality[i]) );
+                            ordinality.put(xcoId, temp);
+                        }
+                        else{
+                            List<Integer> temp = ordinality.get(xcoId);
+                            temp.add(Integer.parseInt(cOrdinality[i]) );
+                            ordinality.put(xcoId, temp);
+                        }
                         c.setNotes(cNotes[i]);
                         conditions.add(c);
                     }
+
                 }
+
+//                for (String xco : ordinality.keySet()){
+//                    Collections.sort(ordinality.get(xco));
+//                }
+//                for (Condition c : conditions){
+//                    List<Integer> temp = ordinality.get(c.getOntologyId());
+//                    int ord = temp.indexOf(Integer.parseInt(c.getOrdinality().toString()));
+//                    c.setOrdinality(ord);
+//                }
 
                 request.setAttribute("tissueMap",tissueMap);
                 request.setAttribute("tissueNameMap", tissuneNameMap);
@@ -357,5 +380,6 @@ public class GeoExperimentController implements Controller {
 
         return Condition.convertStringToDurationBound(units);
     }
+
 }
 

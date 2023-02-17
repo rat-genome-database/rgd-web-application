@@ -99,7 +99,17 @@
     .sticky-table tr:nth-child(even) td:first-child {
         background: white;
     }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 <script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
 <%
@@ -379,7 +389,7 @@ catch (Exception e){}
                            value="<%=conditions.get(j).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
                 </td>
                 <td><input type="text" size="30" name="cApplicationMethod" value="<%=conditions.get(j).getApplicationMethod()%>"/></td>
-                <td><input type="text" size="7" name="cOrdinality" value="<%=conditions.get(j).getOrdinality()%>"/></td>
+                <td><input type="number" size="7" name="cOrdinality" value="<%=conditions.get(j).getOrdinality()%>"/></td>
                 <td><input type="text" size="30" name="cNotes" value="<%=conditions.get(j).getNotes()%>"/></td>
                 <% }
                 for (int i = j; i < 15; i++) {%>
@@ -402,7 +412,7 @@ catch (Exception e){}
                            value=""/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
                 </td>
                 <td><input type="text" size="30" name="cApplicationMethod" value=""/></td>
-                <td><input type="text" size="7" name="cOrdinality" value=""/></td>
+                <td><input type="number" size="7" name="cOrdinality" value=""/></td>
                 <td><input type="text" size="30" name="cNotes" value=""/></td>
                 <% } %>
             </tr>

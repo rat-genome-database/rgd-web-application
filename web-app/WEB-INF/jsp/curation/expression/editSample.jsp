@@ -55,6 +55,17 @@
     table input{
         font-size: 14px;
     }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 
 <%
@@ -558,7 +569,7 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <label for="xcoId<%=xcoCnt%>">*AccId</label>
                         <input name="xcoId<%=xcoCnt%>" id="xcoId<%=xcoCnt%>" value="">
-                        <a href="" id="xco<%=xcoCnt%>_popup" onclick="ontPopup('xcoId<%=xcoCnt%>','xco','xco<%=xcoCnt%>_term')" style="color:black;">Ont Tree</a><br>
+                        <a href="" id="xco<%=xcoCnt%>_popup" onclick="ontPopup('xcoId<%=xcoCnt%>','xco','xco<%=xcoCnt%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
                         <input type="text" id="xco<%=xcoCnt%>_term" name="xco<%=xcoCnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
                 </tr>
@@ -592,7 +603,7 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td><input type="text" size="30" name="cApplicationMethod"
                                value="<%=dm.out("cApplicationMethod", cond.getApplicationMethod(), xcoCnt)%>"/></td>
-                    <td><input type="text" size="7" name="cOrdinality"
+                    <td><input type="number" size="7" name="cOrdinality"
                                value="<%=dm.out("cOrdinality", cond.getOrdinality(), xcoCnt)%>"/></td>
                     <td><input type="text" size="30" name="cNotes"
                                value="<%=dm.out("cNotes", cond.getNotes(), xcoCnt + 1)%>"/></td>
@@ -616,7 +627,7 @@ if (tissueMap.isEmpty()){ %>
                             <td>
                                 <label for="xcoId<%=i%>">*AccId</label>
                                 <input name="xcoId<%=i%>" id="xcoId<%=i%>" value="">
-                                <a href="" id="xco<%=i%>_popup" onclick="ontPopup('xcoId<%=i%>','xco','xco<%=i%>_term')" style="color:black;">Ont Tree</a><br>
+                                <a href="" id="xco<%=i%>_popup" onclick="ontPopup('xcoId<%=i%>','xco','xco<%=i%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
                                 <input type="text" id="xco<%=i%>_term" name="xco<%=i%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                             </td>
                             <td>
@@ -648,7 +659,7 @@ if (tissueMap.isEmpty()){ %>
                                        value=""/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
                             </td>
                             <td><input type="text" size="30" name="cApplicationMethod" value=""/></td>
-                            <td><input type="text" size="7" name="cOrdinality" value=""/></td>
+                            <td><input type="number" size="7" name="cOrdinality" value=""/></td>
                             <td><input type="text" size="30" name="cNotes" value=""/></td>
                         </tr>
                     </table>
