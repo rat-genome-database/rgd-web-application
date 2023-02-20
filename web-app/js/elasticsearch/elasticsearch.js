@@ -102,7 +102,8 @@ function getParameters() {
    /* $objectAssembly= $('#objectAssembly').val()*/
     if(typeof $('#assembly').val()!='undefined')
     $objectAssembly= $('#assembly').val()
-
+    else
+        $objectAssembly= $('#objectSearchAssembly').val()
     mapKey=$('#mapKey').val();
 
 }
