@@ -34,7 +34,7 @@ public class SearchService {
         ModelMap model= new ModelMap();
         List<SearchHit[]> searchHits=new ArrayList<>();
 
-    //    String scrollId= sr.getScrollId();
+        //    String scrollId= sr.getScrollId();
 
         long totalHits=0;
 
@@ -53,48 +53,48 @@ public class SearchService {
         long totalTerms = 0;
         int nvCount=0;
 
-            if (sr.getAggregations() != null) {
-                speciesAgg = sr.getAggregations().get("species");
+        if (sr.getAggregations() != null) {
+            speciesAgg = sr.getAggregations().get("species");
 
-                aggregations.put("species", speciesAgg.getBuckets());
-                categoryAgg = sr.getAggregations().get("category");
-                List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
+            aggregations.put("species", speciesAgg.getBuckets());
+            categoryAgg = sr.getAggregations().get("category");
+            List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
 
-                aggregations.put("category", catBuckets);
-                for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
-                   Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
-                   String species = new String();
-                    species=   speciesBkt.getKey().toString().toLowerCase().replace(" ", "").replace("-","");
+            aggregations.put("category", catBuckets);
+            for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
+                Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
+                String species = new String();
+                species=   speciesBkt.getKey().toString().toLowerCase().replace(" ", "").replace("-","");
 
-                    aggregations.put(species, catFilterAgg.getBuckets());
-                   for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
-                       Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
-                       Terms traitFilterAgg=bucket.getAggregations().get("trait");
-                       if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                           aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
-                       }else
-                       aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
+                aggregations.put(species, catFilterAgg.getBuckets());
+                for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
+                    Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
+                    Terms traitFilterAgg=bucket.getAggregations().get("trait");
+                    if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
+                        aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
+                    }else
+                        aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
 
-                   }
-               }
-                chromosomeAgg=sr.getAggregations().get("chromosome");
-                 for (Terms.Bucket bucket :catBuckets) {
+                }
+            }
+            chromosomeAgg=sr.getAggregations().get("chromosome");
+            for (Terms.Bucket bucket :catBuckets) {
 
-                    String bucketType = bucket.getKey().toString();
-                    String bType = new String();
-                    bType = bucketType;
+                String bucketType = bucket.getKey().toString();
+                String bType = new String();
+                bType = bucketType;
 
-                    if(bucketType.equalsIgnoreCase("ontology")){
-                        Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
-                        aggregations.put("ontology", ontologySubcatAgg.getBuckets());
-                    }
+                if(bucketType.equalsIgnoreCase("ontology")){
+                    Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
+                    aggregations.put("ontology", ontologySubcatAgg.getBuckets());
+                }
 
-                    Terms subAgg = bucket.getAggregations().get("subspecies");
-                    int k = 0;
-                    for (Terms.Bucket b : subAgg.getBuckets()) {
-                        String key = (String) b.getKey();
-                        int speciesTypeKey= SpeciesType.parse(key);
-                        if(SpeciesType.isSearchable(speciesTypeKey)){
+                Terms subAgg = bucket.getAggregations().get("subspecies");
+                int k = 0;
+                for (Terms.Bucket b : subAgg.getBuckets()) {
+                    String key = (String) b.getKey();
+                    int speciesTypeKey= SpeciesType.parse(key);
+                    if(SpeciesType.isSearchable(speciesTypeKey)){
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
 
@@ -120,9 +120,9 @@ public class SearchService {
                             k = 10;
                         }
 
-                            switch (bType) {
+                        switch (bType) {
                             case "Gene":
-                         //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
+                                //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
                                 speciesCatArray[0][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
@@ -138,7 +138,7 @@ public class SearchService {
                             case "QTL":
                                 speciesCatArray[2][k] =  String.valueOf(b.getDocCount());
                                 speciesCatArray[2][11] =  String.valueOf(bucket.getDocCount()) ;
-                              //  System.out.println(key + " : "+ b.getDocCount());
+                                //  System.out.println(key + " : "+ b.getDocCount());
                                 break;
                             case "SSLP":
                                 speciesCatArray[3][k] = String.valueOf(b.getDocCount());
@@ -159,41 +159,41 @@ public class SearchService {
                                 break;
                         }
                     }}
-                }
+            }
 
-             for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 7; j++) {
 
-                    for (int l = 0; l < 10; l++) {
-                        if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
-                            nvCount=nvCount+1;
-                            speciesCatArray[j][l] = "-";
-                        }
+                for (int l = 0; l < 10; l++) {
+                    if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
+                        nvCount=nvCount+1;
+                        speciesCatArray[j][l] = "-";
                     }
                 }
-
-
-                typeAgg = sr.getAggregations().get("type");
-                aggregations.put("type", typeAgg.getBuckets());
             }
-       TotalHits hits= sr.getHits().getTotalHits();
-           totalHits =hits.value ;
-            searchHits.add(sr.getHits().getHits());
+
+
+            typeAgg = sr.getAggregations().get("type");
+            aggregations.put("type", typeAgg.getBuckets());
+        }
+        TotalHits hits= sr.getHits().getTotalHits();
+        totalHits =hits.value ;
+        searchHits.add(sr.getHits().getHits());
           /*  SearchHit[] hitsarray= sr.getHits().getHits();
         for(SearchHit h:hitsarray){
            Map map=h.getSourceAsMap();  }*/
 
-  //      }
+        //      }
         int matrixResultsExists=0;
 
         if(nvCount<63){
-          matrixResultsExists=1;
+            matrixResultsExists=1;
         }
         String message=new String();
         if(totalHits==0){
             message="0 results found for \"" + term + "\"";
         }
 
-       model.addAttribute("totalHits", totalHits);
+        model.addAttribute("totalHits", totalHits);
         model.addAttribute("aggregations", aggregations);
         model.addAttribute("hitArray", searchHits);
         model.addAttribute("speciesCatArray", speciesCatArray);
@@ -201,24 +201,24 @@ public class SearchService {
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
         model.addAttribute("took", sr.getTook());
-    //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
+        //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
-   public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
-           try {
+    public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
+        try {
             QueryService1 qs = new QueryService1();
-           return qs.getSearchResponse(term, sb);
-                   //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
+            return qs.getSearchResponse(term, sb);
+            //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception e){
-        System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
+            System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
             e.printStackTrace();
-        reInitiateClient();
-        try{
+            reInitiateClient();
+            try{
 
-            QueryService1 qs = new QueryService1();
-            return qs.getSearchResponse(term,sb);
-                    //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
-        }catch (Exception exception){e.printStackTrace();}}
+                QueryService1 qs = new QueryService1();
+                return qs.getSearchResponse(term,sb);
+                //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
+            }catch (Exception exception){e.printStackTrace();}}
         return null;
     }
 
