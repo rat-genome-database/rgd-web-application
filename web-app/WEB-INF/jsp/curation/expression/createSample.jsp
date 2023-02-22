@@ -203,6 +203,7 @@
 
 
         <form action="experiments.html" method="POST" id="createSample">
+            <input type="button" value="Show/Hide Conditions" onclick="showColumns()">
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
             <br>
             <div class="sticky-table">
@@ -211,6 +212,13 @@
                 <%
             if(samples.size() != 0) {
         %>
+                <colgroup>
+                    <col span="18">
+                    <% for (int i = 0; i < 15; i ++){%>
+                    <col span="1">
+                    <col id="showMe<%=i%>" span="9" style="visibility: collapse">
+                    <%}%>
+                </colgroup>
             <thead>
             <tr>
                 <th>GEO Sample ID: </th>
@@ -233,6 +241,7 @@
                 <th>Status/Action:</th>
                 <% int k = 0;
                     for (k = 0; k < conditions.size(); k++){%>
+                <th>Condition <%=k+1%></th>
                 <th>AccId <%=k+1%>:</th>
                 <th>Min Value <%=k+1%>:</th>
                 <th>Max Value <%=k+1%>:</th>
@@ -244,15 +253,16 @@
                 <th>Condition Notes <%=k+1%>:</th>
                 <% }
                 for (int i = k; i < 15; i++) {%>
-                <th>AccId <%=i+1%>:</th>
-                <th>Min Value <%=i+1%>:</th>
-                <th>Max Value <%=i+1%>:</th>
-                <th>Unit <%=i+1%>:</th>
-                <th>Min Dur <%=i+1%>:</th>
-                <th>Max Dur <%=i+1%>:</th>
-                <th>Application Method <%=i+1%>:</th>
-                <th>Ordinality <%=i+1%>:</th>
-                <th>Condition Notes <%=i+1%>:</th>
+                <th>Condition <%=i+1%></th>
+                    <th>AccId <%=i+1%>:</th>
+                    <th>Min Value <%=i+1%>:</th>
+                    <th>Max Value <%=i+1%>:</th>
+                    <th>Unit <%=i+1%>:</th>
+                    <th>Min Dur <%=i+1%>:</th>
+                    <th>Max Dur <%=i+1%>:</th>
+                    <th>Application Method <%=i+1%>:</th>
+                    <th>Ordinality <%=i+1%>:</th>
+                    <th>Condition Notes <%=i+1%>:</th>
                 <% } %>
             </tr>
             </thead>
@@ -370,6 +380,9 @@ catch (Exception e){}
                 </td>
                 <%int j = 0;
                     for (j = 0; j < conditions.size(); j++){%>
+                <td align="right">
+                <input type="checkbox" value="accept" name="expCondition<%=j%>" id="expCondition<%=j%>" checked>
+                </td>
                 <td>
                     <input name="xcoId<%=count%><%=j%>" id="xcoId<%=count%><%=j%>" value="<%=conditions.get(j).getOntologyId()%>">
                     <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%><%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
@@ -393,6 +406,9 @@ catch (Exception e){}
                 <td><input type="text" size="30" name="cNotes" value="<%=conditions.get(j).getNotes()%>"/></td>
                 <% }
                 for (int i = j; i < 15; i++) {%>
+                <td align="right">
+                    <input type="checkbox" value="accept" name="expCondition<%=j%>" id="expCondition<%=j%>">
+                </td>
                 <td>
                     <input name="xcoId<%=count%><%=i%>" id="xcoId<%=count%><%=i%>" value="">
                     <a href="" id="xco<%=count%><%=i%>_popup" onclick="ontPopup('xcoId<%=count%><%=i%>','xco','xco<%=count%><%=i%>_term')" style="color:black;">Ont Tree</a><br>
@@ -416,7 +432,6 @@ catch (Exception e){}
                 <td><input type="text" size="30" name="cNotes" value=""/></td>
                 <% } %>
             </tr>
-
                 <%
       count++;
       }
@@ -509,5 +524,14 @@ catch (Exception e){}
             }
         }
 
+    }
+    function showColumns() {
+        for (var i = 0; i < 15; i++) {
+            var col = document.getElementById("showMe"+i);
+            if (col.style.visibility === "collapse")
+                col.style.visibility = "visible";
+            else
+                col.style.visibility = "collapse";
+        }
     }
 </script>
