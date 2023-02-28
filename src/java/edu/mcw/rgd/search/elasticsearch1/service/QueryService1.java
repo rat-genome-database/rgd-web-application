@@ -49,7 +49,6 @@ public class QueryService1 {
         String sortField=null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-        System.out.println("SB.CATEGORY:"+sb.getCategory());
             if(sb != null) {
                 if (sb.getSortBy().equalsIgnoreCase("relevance") && !sb.getCategory().equalsIgnoreCase("variant")) {
                     srb.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
