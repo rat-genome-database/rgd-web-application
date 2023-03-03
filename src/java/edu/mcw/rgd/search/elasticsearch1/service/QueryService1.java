@@ -19,6 +19,7 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.NestedSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 
@@ -63,17 +64,16 @@ public class QueryService1 {
                     } else {
                         if (sb.getCategory().equalsIgnoreCase("variant")) {
                             sortField = "mapDataList.rank";
-                            srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC));
+                            srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC).setNestedSort(new NestedSortBuilder("mapDataList")));
 
                         } else {
                             sortField = "mapDataList." + sb.getSortBy();
                             if (sb.getSortOrder().equalsIgnoreCase("asc")) {
                                 //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                                srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.ASC)
-                                );
+                                srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC).setNestedSort(new NestedSortBuilder("mapDataList")));
                             } else {
                                 //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
-                                srb.sort(SortBuilders.fieldSort(sortField).setNestedPath("mapDataList").missing("_last").order(SortOrder.DESC));
+                                srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC).setNestedSort(new NestedSortBuilder("mapDataList")));
                             }
                         }
                     }
