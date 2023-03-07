@@ -125,7 +125,7 @@
     boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
 %>
-
+<input type="hidden" id="exist" value="<%=existingSample%>">
 <br>
 <div>
     <%
@@ -197,6 +197,38 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="vtId<%=tcount%>" style="color: #24609c; font-weight: bold;">Vertebrate Trait Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="" onblur="lostFocus('vt')">
+                        <a href="" id="vt<%=tcount%>_popup" onclick="ontPopup('vtId<%=tcount%>','vt','vt<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">
+                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
@@ -225,7 +257,38 @@ if (tissueMap.isEmpty()){ %>
                 <td></td>
                 <td></td>
             </tr>
-
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="vtId<%=tcount%>" style="color: #24609c; font-weight: bold;">Vertebrate Trait Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="" onblur="lostFocus('vt')">
+                        <a href="" id="vt<%=tcount%>_popup" onclick="ontPopup('vtId<%=tcount%>','vt','vt<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">
+                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
         <%tcount++;}
 
       }
@@ -591,7 +654,10 @@ if (tissueMap.isEmpty()){ %>
                                value="<%=dm.out("cValueMin", cond.getValueMin(), xcoCnt)%>"/></td>
                     <td><input type="text" size="7" name="cValueMax"
                                value="<%=dm.out("cValueMax", cond.getValueMax(), xcoCnt)%>"/></td>
-                    <td><%=fu.buildSelectListNewValue("cUnits"+xcoCnt, unitList, dm.out("cUnits", cond.getUnits(), xcoCnt),true)%><!--xcoCnt added for RGD1797-->
+                    <td><select name="cUnits" id="cUnits">
+                        <% for (String unit : unitList){%>
+                        <option value="<%=unit%>"><%=unit%></option>
+                        <% } %></select>
                     </td>
                     <td><input type="text" size="12" name="cMinDuration"
                                value="<%=dm.out("cMinDuration", (cond.getDurationLowerBound() > 0 ? d_f.format(cond.getDurationLowerBound()) : ""), xcoCnt)%>"
@@ -650,7 +716,10 @@ if (tissueMap.isEmpty()){ %>
                             <input type="hidden" name="cId" value=""/>
                             <td><input type="text" size="7" name="cValueMin" value=""/></td>
                             <td><input type="text" size="7" name="cValueMax" value=""/></td>
-                            <td><%=fu.buildSelectListNewValue("cUnits"+i, unitList, "",true)%><!--i added for RGD1797-->
+                            <td><select name="cUnits" id="cUnits">
+                                <% for (String unit : unitList){%>
+                                <option value="<%=unit%>"><%=unit%></option>
+                                <% } %></select>
                             </td>
                             <td><input type="text" size="12" name="cMinDuration"
                                        value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
@@ -700,6 +769,7 @@ if (tissueMap.isEmpty()){ %>
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
         var bool = true;
+
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
             var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
@@ -727,17 +797,33 @@ if (tissueMap.isEmpty()){ %>
                 bool = false;
             }
         }
+        var existing = document.getElementById("exist").value;
         var allConditionDiv = document.getElementsByClassName("condition");
         var conditionCount = 0;
-        for (var j = 0; j < allConditionDiv.length; j++){
-            var xco = document.getElementById("xcoId"+j);
-            if (j==0 || allConditionDiv.item(j).style.display === 'block'){
-                if (xco.value === "" ){
-                    xco.style.border="2px solid red";
-                    bool = false;
+        var ordinal = document.getElementsByName("cOrdinality");
+        if (existing !== "true") {
+            for (var j = 0; j < allConditionDiv.length; j++) {
+                var xco = document.getElementById("xcoId" + j);
+                var hasXco = j == 0 || allConditionDiv.item(j).style.display === 'block';
+                var hasOrdinality = ordinal[j].value === "";
+                if (hasXco) {
+                    if (xco.value === "" && !hasOrdinality) {
+                        xco.style.border = "2px solid red";
+                        ordinal[j].style.border = "1px solid black";
+                        bool = false;
+                    } else if (xco.value === "" && hasOrdinality) {
+                        xco.style.border = "2px solid red";
+                        ordinal[j].style.border = "2px solid red";
+                        bool = false;
+                    } else if (xco.value !== "" && hasOrdinality) {
+                        xco.style.border = "1px solid black";
+                        ordinal[j].style.border = "2px solid red";
+                        bool = false;
+                    } else {
+                        xco.style.border = "1px solid black";
+                        ordinal[j].style.border = "1px solid black";
+                    }
                 }
-                else
-                    xco.style.border="1px solid black";
             }
         }
         if (bool)
@@ -747,5 +833,17 @@ if (tissueMap.isEmpty()){ %>
         document.getElementById(divName).style.display = 'none';
         document.getElementById("xcoId"+i).value="";
         document.getElementById("xco"+i+"_term").value="";
+        document.getElementsByName("cValueMin")[i].value="";
+        document.getElementsByName("cValueMax")[i].value="";
+        document.getElementsByName("cUnits")[i].value="";
+        document.getElementsByName("cMinDuration")[i].value="";
+        document.getElementsByName("cMinDurationUnits")[i].value="secs";
+        document.getElementsByName("cMaxDuration")[i].value="";
+        document.getElementsByName("cMaxDurationUnits")[i].value="secs";
+        document.getElementsByName("cApplicationMethod")[i].value="";
+        document.getElementsByName("cOrdinality")[i].value="";
+        document.getElementsByName("cNotes")[i].value="";
+        document.getElementsByName("cOrdinality")[i].style.border = "1px solid black";
+        document.getElementById("xcoId"+i).style.border = "1px solid black";
     }
 </script>

@@ -1,14 +1,14 @@
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneExpressionDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -125,6 +125,7 @@
     DisplayMapper dm = new DisplayMapper(new HttpRequestFacade(request), (ArrayList) request.getAttribute("error"));
     FormUtility fu = new FormUtility();
     PhenominerDAO pdao = new PhenominerDAO();
+    GeneExpressionDAO geDAO = new GeneExpressionDAO();
     List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
@@ -147,6 +148,10 @@
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
     HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
+    HashMap<String,String> vtMap = (HashMap) request.getAttribute("vtMap");
+    HashMap<String,String> vtNameMap = (HashMap) request.getAttribute("vtNameMap");
+    HashMap<String,String> cmoMap = (HashMap) request.getAttribute("cmoMap");
+    HashMap<String,String> cmoNameMap = (HashMap) request.getAttribute("cmoNameMap");
     HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
     HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
@@ -165,6 +170,7 @@
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
+    Study study = new Study();
 %>
 
 
@@ -172,6 +178,7 @@
 <div>
     <%
         if(samples.size() != 0) {
+            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
     %>
         <form action="experiments.html" method="POST">
             <table  class="t" style="width: 1880px">
@@ -213,10 +220,10 @@
             if(samples.size() != 0) {
         %>
                 <colgroup>
-                    <col span="18">
+                    <col span="20">
                     <% for (int i = 0; i < 15; i ++){%>
-                    <col span="1">
-                    <col id="showMe<%=i%>" span="9" style="visibility: collapse">
+                    <col span="2">
+                    <col id="showMe<%=i%>" span="8" style="visibility: collapse">
                     <%}%>
                 </colgroup>
             <thead>
@@ -231,6 +238,8 @@
                 <th>Cell Line ID (Curated): </th>
                 <th>Tissue (Source): </th>
                 <th>Tissue ID (Curated): </th>
+                <th>Vertebrate Trait  ID (Curated): </th>
+                <th>Clinical Measurement ID (Curated): </th>
                 <th>Sex (Curated): </th>
                 <th>Age (Source): </th>
                 <th>Age (in days) Low (Curated): </th>
@@ -241,7 +250,7 @@
                 <th>Status/Action:</th>
                 <% int k = 0;
                     for (k = 0; k < conditions.size(); k++){%>
-                <th>Condition <%=k+1%></th>
+                <th><b style="font-size: x-large"><%=k+1%></b> <input type="checkbox" name="checkAll<%=k%>" id="checkAll<%=k%>" value="<%=k%>" onclick="checkedAll('<%=k%>', this)" checked></th>
                 <th>AccId <%=k+1%>:</th>
                 <th>Min Value <%=k+1%>:</th>
                 <th>Max Value <%=k+1%>:</th>
@@ -253,7 +262,7 @@
                 <th>Condition Notes <%=k+1%>:</th>
                 <% }
                 for (int i = k; i < 15; i++) {%>
-                <th>Condition <%=i+1%></th>
+                <th><b style="font-size: x-large"><%=i+1%></b> <input type="checkbox" name="checkAll<%=i%>" id="checkAll<%=i%>" value="<%=i%>" onclick="checkedAll('<%=i%>', this)"></th>
                     <th>AccId <%=i+1%>:</th>
                     <th>Min Value <%=i+1%>:</th>
                     <th>Max Value <%=i+1%>:</th>
@@ -274,10 +283,28 @@
      for(GeoRecord s: samples){
 boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
+         List<Experiment> experiments = new ArrayList<>();
+         Experiment exp = new Experiment();
+         GeneExpressionRecord gre = new GeneExpressionRecord();
+         List<Condition> conds = new ArrayList<>();
+         int j = 0, n = 0;
 //System.out.println(s.getSampleAccessionId()+"|"+s.getCurationStatus());
           try{
          if (sample == null)
              sample = new Sample();
+
+          if (sample.getId() != 0 && Utils.stringsAreEqual(study.getGeoSeriesAcc(), samples.get(0).getGeoAccessionId())) {
+              experiments = pdao.getExperiments(study.getId());
+              if (!experiments.isEmpty()) {
+                  exp = experiments.get(0);
+                  gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sample.getId());
+                  if (gre.getConditions()!= null && !gre.getConditions().isEmpty())
+                    conds = gre.getConditions();//geDAO.getConditions(gre.getId());
+
+              }
+
+          }
+
          bool = !(sample.getAgeDaysFromLowBound()==0 && ( sample.getAgeDaysFromHighBound()== sample.getAgeDaysFromLowBound() ) );
         }catch (Exception ignore){
               // number is null
@@ -320,6 +347,16 @@ catch (Exception e){}
                     <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=(updateSample && !Objects.toString(tissueMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(tissueMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
                     <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(tissueNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
+                </td>
+                <td>
+                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=(updateSample && !Objects.toString(vtMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(vtMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(vtMap.get(s.getSampleTissue()),"")%>">
+                    <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
+                </td>
+                <td>
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(cmoMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(cmoMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(cmoMap.get(s.getSampleTissue()),"")%>">
+                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(cmoNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(cmoNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
@@ -378,58 +415,87 @@ catch (Exception e){}
                         <option value="edit" <%=s.getCurationStatus().equals("loaded") || sample.getId()!=0 ? "selected":""%>>Edit</option>
                     </select>
                 </td>
-                <%int j = 0;
-                    for (j = 0; j < conditions.size(); j++){%>
+                <%try{ for (n = 0; n < conds.size(); n++) {%>
                 <td align="right">
-                <input type="checkbox" value="accept" name="expCondition<%=j%>" id="expCondition<%=j%>" checked>
+                    <input type="checkbox" value="<%=n%>" class="expCondition<%=n%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
+                    <input type="hidden" name="cId<%=count%>" id="cId<%=count%>" value="<%=conds.get(n).getId()%>">
                 </td>
                 <td>
-                    <input name="xcoId<%=count%><%=j%>" id="xcoId<%=count%><%=j%>" value="<%=conditions.get(j).getOntologyId()%>">
-                    <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%><%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
-                    <input type="text" id="xco<%=count%><%=j%>_term" name="xco<%=count%><%=j%>_term" value="<%=xcoMap.get(conditions.get(j).getOntologyId())%>" style="border: none; background: transparent;width: 100%" readonly/>
+                    <input name="xcoId<%=count%>_<%=n%>" id="xcoId<%=count%>_<%=n%>" value="<%=conds.get(n).getOntologyId()%>">
+                    <a href="" id="xco<%=count%><%=n%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=n%>','xco','xco<%=count%><%=n%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="xco<%=count%><%=n%>_term" name="xco<%=count%><%=n%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
-                <td><input type="text" size="7" name="cValueMin" value="<%=conditions.get(j).getValueMin()%>"/></td>
-                <td><input type="text" size="7" name="cValueMax" value="<%=conditions.get(j).getValueMax()%>"/></td>
-                <td><select>
+                <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=conds.get(n).getValueMin()%>"/></td>
+                <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=conds.get(n).getValueMax()%>"/></td>
+                <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
                     <% for (String unit : unitList){%>
-                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(conditions.get(j).getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
+                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(conds.get(n).getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
+                    <% } %></select>
+                </td>
+                <td><input type="text" size="12" name="cMinDuration<%=count%>"
+                           value="<%=conds.get(n).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="12" name="cMaxDuration<%=count%>"
+                           value="<%=conds.get(n).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                </td>
+                <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=Utils.NVL(conds.get(n).getApplicationMethod(),"")%>"/></td>
+                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=conds.get(n).getOrdinality()%>"/></td>
+                <td><input type="text" size="30" name="cNotes<%=count%>" value="<%=Utils.NVL(conds.get(n).getNotes(),"")%>"/></td>
+                <%}}
+                catch (Exception e){System.out.println(e);}
+                j=n;
+                    for (Condition c : conditions){%>
+                <td align="right">
+                <input type="checkbox" value="<%=j%>" class="expCondition<%=j%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
+                <input type="hidden" value="" name="cId<%=count%>" id="cId<%=count%>">
+                </td>
+                <td>
+                    <input name="xcoId<%=count%>_<%=j%>" id="xcoId<%=count%>_<%=j%>" value="<%=c.getOntologyId()%>">
+                    <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="xco<%=count%><%=j%>_term" name="xco<%=count%><%=j%>_term" value="<%=xcoMap.get(c.getOntologyId())%>" style="border: none; background: transparent;width: 100%" readonly/>
+                </td>
+                <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=c.getValueMin()%>"/></td>
+                <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=c.getValueMax()%>"/></td>
+                <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
+                    <% for (String unit : unitList){%>
+                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(c.getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
                 <% } %></select>
                 </td>
-                <td><input type="text" size="12" name="cMinDuration"
-                           value="<%=conditions.get(j).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                <td><input type="text" size="12" name="cMinDuration<%=count%>"
+                           value="<%=c.getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
                 </td>
-                <td><input type="text" size="12" name="cMaxDuration"
-                           value="<%=conditions.get(j).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                <td><input type="text" size="12" name="cMaxDuration<%=count%>"
+                           value="<%=c.getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
                 </td>
-                <td><input type="text" size="30" name="cApplicationMethod" value="<%=conditions.get(j).getApplicationMethod()%>"/></td>
-                <td><input type="number" size="7" name="cOrdinality" value="<%=conditions.get(j).getOrdinality()%>"/></td>
-                <td><input type="text" size="30" name="cNotes" value="<%=conditions.get(j).getNotes()%>"/></td>
-                <% }
+                <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=c.getApplicationMethod()%>"/></td>
+                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=c.getOrdinality()%>"/></td>
+                <td><input type="text" size="30" name="cNotes<%=count%>" value="<%=c.getNotes()%>"/></td>
+                <% j++;}
                 for (int i = j; i < 15; i++) {%>
                 <td align="right">
-                    <input type="checkbox" value="accept" name="expCondition<%=j%>" id="expCondition<%=j%>">
+                    <input type="checkbox" value="<%=i%>" class="expCondition<%=i%>" name="expCondition<%=count%>" id="expCondition<%=count%>">
                 </td>
                 <td>
-                    <input name="xcoId<%=count%><%=i%>" id="xcoId<%=count%><%=i%>" value="">
-                    <a href="" id="xco<%=count%><%=i%>_popup" onclick="ontPopup('xcoId<%=count%><%=i%>','xco','xco<%=count%><%=i%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input name="xcoId<%=count%>_<%=i%>" id="xcoId<%=count%>_<%=i%>" value="">
+                    <a href="" id="xco<%=count%><%=i%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=i%>','xco','xco<%=count%><%=i%>_term')" style="color:black;">Ont Tree</a><br>
                     <input type="text" id="xco<%=count%><%=i%>_term" name="xco<%=count%><%=i%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
-                <td><input type="text" size="7" name="cValueMin" value=""/></td>
-                <td><input type="text" size="7" name="cValueMax" value=""/></td>
-                <td><select>
+                <td><input type="text" size="7" name="cValueMin<%=count%>" value=""/></td>
+                <td><input type="text" size="7" name="cValueMax<%=count%>" value=""/></td>
+                <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
                     <% for (String unit : unitList){%>
                     <option value="<%=unit%>"><%=unit%></option>
                     <% } %></select>
                 </td>
-                <td><input type="text" size="12" name="cMinDuration"
-                           value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                <td><input type="text" size="12" name="cMinDuration<%=count%>"
+                           value=""/><%=fu.buildSelectList("cMinDurationUnits"+count, timeUnits, "")%>
                 </td>
-                <td><input type="text" size="12" name="cMaxDuration"
-                           value=""/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                <td><input type="text" size="12" name="cMaxDuration<%=count%>"
+                           value=""/><%=fu.buildSelectList("cMaxDurationUnits"+count, timeUnits, "")%>
                 </td>
-                <td><input type="text" size="30" name="cApplicationMethod" value=""/></td>
-                <td><input type="number" size="7" name="cOrdinality" value=""/></td>
-                <td><input type="text" size="30" name="cNotes" value=""/></td>
+                <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value=""/></td>
+                <td><input type="number" size="7" name="cOrdinality<%=count%>" value=""/></td>
+                <td><input type="text" size="30" name="cNotes<%=count%>" value=""/></td>
                 <% } %>
             </tr>
                 <%
@@ -443,6 +509,7 @@ catch (Exception e){}
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" id="count" name="count" value="<%=count%>" />
     <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
+    <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
     <input type="hidden" id="species" name="species" value="<%=species%>" />
     </form>
 </div>
@@ -525,6 +592,7 @@ catch (Exception e){}
         }
 
     }
+
     function showColumns() {
         for (var i = 0; i < 15; i++) {
             var col = document.getElementById("showMe"+i);
@@ -532,6 +600,22 @@ catch (Exception e){}
                 col.style.visibility = "visible";
             else
                 col.style.visibility = "collapse";
+        }
+    }
+
+    function checkedAll(col, o) {
+        var conBox = confirm("Select/deselect All?");
+        if (conBox) {
+            var elements = document.getElementsByClassName('expCondition' + col);
+            for (var i = elements.length; i--;) {
+                if (elements[i].type === 'checkbox') {
+                    elements[i].checked = o.checked;
+                }
+            }
+        }
+        else {
+            var check = document.getElementById('checkAll'+col).checked == true;
+            document.getElementById('checkAll' + col).checked = !check;
         }
     }
 </script>
