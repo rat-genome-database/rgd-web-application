@@ -52,7 +52,9 @@ public class GeoExperimentController implements Controller {
                     String species = request.getParameter("species");
                     List<Experiment> eList = new ArrayList<>();
 //                    List<Study> studyList = new ArrayList<>();
-//                    List<Sample> sampleList = new ArrayList<>();
+                    List<Sample> sampleList = new ArrayList<>();
+                    HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
+                    HashMap<Integer, List<Experiment>> sampleExperiment = new HashMap<>();
                     int speciesType = SpeciesType.RAT;
                     switch (species.toLowerCase()){
                         case "mus":
@@ -86,23 +88,10 @@ public class GeoExperimentController implements Controller {
                             break;
                     }
 
-                    Record header = new Record();
-                    header.append("Sample ID");
-                    header.append("Geo Accession ID");
-                    header.append("Tissue ID");
-                    header.append("Strain ID");
-                    header.append("Cell ID");
-                    header.append("Cell Line ID");
-                    header.append("Age High");
-                    header.append("Age Low");
-                    header.append("Sex");
-                    header.append("Life Stage");
-                    header.append("Notes");
-                    header.append("Curator Notes");
-                    r.append(header);
                 for (int i = 0; i < count; i++) {
                     Sample s = new Sample();
-                    Record rec = new Record();
+
+                    List<Condition> conditions = new ArrayList<>();
                     s.setSex(request.getParameter("sex" + i));
                     s.setTissueAccId(request.getParameter("tissueId" + i));
                     s.setCellTypeAccId(request.getParameter("cellTypeId" + i));
@@ -140,29 +129,31 @@ public class GeoExperimentController implements Controller {
                     if(sample == null && curAction.equals("load")) {
                         s.setCreatedBy(login);
                         sampleId = pdao.insertSample(s);
+                        sampleList.add(s);
                     }
                     else if (loadIt){
                         s.setId(sample.getId());
                         sampleId = sample.getId();
                         s.setLastModifiedBy(login);
                         pdao.updateSample(s);
+                        sampleList.add(s);
                     }
-                    if (loadIt) {
+//                    if (loadIt) {
 //                        sampleList.add(s);
-                        rec.append(String.valueOf(sampleId));
-                        rec.append(s.getGeoSampleAcc());
-                        rec.append(s.getTissueAccId());
-                        rec.append(s.getStrainAccId());
-                        rec.append(s.getCellTypeAccId());
-                        rec.append(s.getCellLineId());
-                        rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
-                        rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
-                        rec.append(s.getSex());
-                        rec.append(s.getLifeStage());
-                        rec.append(s.getNotes());
-                        rec.append(s.getCuratorNotes());
-                        r.append(rec);
-                    }
+//                        rec.append(String.valueOf(sampleId));
+//                        rec.append(s.getGeoSampleAcc());
+//                        rec.append(s.getTissueAccId());
+//                        rec.append(s.getStrainAccId());
+//                        rec.append(s.getCellTypeAccId());
+//                        rec.append(s.getCellLineId());
+//                        rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
+//                        rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
+//                        rec.append(s.getSex());
+//                        rec.append(s.getLifeStage());
+//                        rec.append(s.getNotes());
+//                        rec.append(s.getCuratorNotes());
+//                        r.append(rec);
+//                    }
                     if (curStatus.equals("pending") && curAction.equals("load"))
                         pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
                     else {
@@ -212,15 +203,20 @@ public class GeoExperimentController implements Controller {
                             pdao.insertExperiment(e);
                             eList.add(e);
                         }
-                        else {
-                            Experiment e = eList.get(0);
+                        else { // need to find correct experiment based on VT
+                            Experiment e = new Experiment();
                             String vtId = request.getParameter("vtId" + i);
+                            for (Experiment experiment : eList){
+                                if (Utils.stringsAreEqual(experiment.getTraitOntId(),vtId))
+                                    e = experiment;
+                            }
+
                             if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(e.getTraitOntId(),vtId)) {
                                 e.setTraitOntId(vtId);
                                 pdao.updateExperiment(e);
                             }
                         }
-
+                        sampleExperiment.put(sampleId, eList);
 
                         // find/create gene_expression_exp_record by experiment
 
@@ -240,7 +236,7 @@ public class GeoExperimentController implements Controller {
                             } else
                                 geId = gre.getId();
                             // find/create experiment conditions by gene_expression_exp_record
-                            List<Condition> conditions = new ArrayList<>(); // check if empty/null or do this on previous page
+
                             HttpRequestFacade req = new HttpRequestFacade(request);
                             String[] checkboxes = request.getParameterValues("expCondition" + i);
                             String[] cId = request.getParameterValues("cId" + i);
@@ -254,6 +250,8 @@ public class GeoExperimentController implements Controller {
                             String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod" + i);
                             String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality" + i);
                             String[] cNotes = req.getRequest().getParameterValues("cNotes" + i);
+                            if (checkboxes==null)
+                                continue;
                             for (String j : checkboxes) {
                                 int k = Integer.parseInt(j);
                                 String xcoId = request.getParameter("xcoId" + i +"_"+ k);
@@ -273,26 +271,173 @@ public class GeoExperimentController implements Controller {
                                 c.setNotes(cNotes[k]);
                                 c.setGeneExpressionRecordId(geId);
 
-                                if (Utils.isStringEmpty(cId[k]))
+                                if (Utils.isStringEmpty(cId[k])) {
                                     pdao.insertCondition(c);
+                                    conditions.add(c);
+                                }
                                 else {
                                     c.setId(Integer.parseInt(cId[k]));
                                     pdao.updateCondition(c);
+                                    conditions.add(c);
                                 }
 //                                conditions.add(c);
                             }
 
                         }
                     } // end condition addons
-
+                    if (loadIt)
+                        sampleConditions.put(sampleId, conditions);
 
                 } // end for
+                int tissue = 0, strain = 0, cell = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
+                int maxCond = 0, vtId = 0, cmoId = 0;
+                List<Integer> minMaxVals = new ArrayList<>(), minMaxDurs = new ArrayList<>(), appMethods = new ArrayList<>(), condNotes = new ArrayList<>();
+                for (Sample s : sampleList){
+                    // go through samples and conditions/VT to filter columns
+                    // ints and doubles should be checked if both values are 0, if both zero then time was not used
+                    if (!Utils.isStringEmpty(s.getTissueAccId()))
+                        tissue++;
+                    if (!Utils.isStringEmpty(s.getStrainAccId()))
+                        strain++;
+                    if (!Utils.isStringEmpty(s.getCellTypeAccId()))
+                        cell++;
+                    if (!Utils.isStringEmpty(s.getCellLineId()))
+                        cellLine++;
+                    if ((s.getAgeDaysFromLowBound() != null && s.getAgeDaysFromHighBound() != null) &&
+                            (s.getAgeDaysFromLowBound() != 0 && s.getAgeDaysFromHighBound() != 0))
+                        age++;
+                    if (!Utils.isStringEmpty(s.getLifeStage()))
+                        lifeStage++;
+                    if (!Utils.isStringEmpty(s.getNotes()))
+                        notes++;
+                    if (!Utils.isStringEmpty(s.getCuratorNotes()))
+                        cNotes++;
 
-//                for (Sample s : sampleList) {
-//
-//
-//                }
-//                pdao.updateGeoStudyStatus(gse, "loaded",species);
+                    List<Experiment> expList = sampleExperiment.get(s.getId());
+                    List<Condition> condList = sampleConditions.get(s.getId());
+                    if (condList.size() > maxCond)
+                        maxCond = condList.size();
+
+                    for (Experiment e : expList){
+                        if (!Utils.isStringEmpty(e.getTraitOntId()))
+                            vtId++;
+                    }
+                    for (int i = 0; i < condList.size() ; i++){
+                        //
+                        int minMaxVal = 0, minMaxDur = 0, appMethod = 0, condNote = 0;
+                        Condition c = condList.get(i);
+                        if (!Utils.isStringEmpty(c.getValueMin()) && !Utils.isStringEmpty(c.getValueMax()) && !Utils.isStringEmpty(c.getUnits())){
+                            minMaxVal++;
+                        }
+                        if (c.getDurationLowerBound()!=0 && c.getDurationUpperBound()!=0)
+                            minMaxDur++;
+                        if (!Utils.isStringEmpty(c.getApplicationMethod()))
+                            appMethod++;
+                        if (!Utils.isStringEmpty(c.getNotes()))
+                            condNote++;
+                        minMaxVals.add(minMaxVal);
+                        minMaxDurs.add(minMaxDur);
+                        appMethods.add(appMethod);
+                        condNotes.add(condNote);
+                    }
+
+                }
+
+                    Record header = new Record();
+                    header.append("Sample ID");
+                    header.append("Geo Accession ID");
+                    if (tissue != 0)
+                        header.append("Tissue ID");
+                    if (vtId != 0)
+                        header.append("Vertebrate Trait");
+                    if (strain != 0)
+                        header.append("Strain ID");
+                    if (cell != 0)
+                        header.append("Cell ID");
+                    if (cellLine != 0)
+                        header.append("Cell Line ID");
+                    if (age != 0) {
+                        header.append("Age High");
+                        header.append("Age Low");
+                    }
+                    header.append("Sex");
+                    if (lifeStage != 0)
+                        header.append("Life Stage");
+                    if (notes != 0)
+                        header.append("Notes");
+                    if (cNotes != 0)
+                        header.append("Curator Notes");
+
+                    for (int i = 0 ; i < maxCond; i++){
+                        int num = i+1;
+                        header.append("XCO Id " + num);
+                        if (minMaxVals.get(i)!=0) {
+                            header.append("Min value " + num);
+                            header.append("Max Value " + num);
+                            header.append("Unit " + num);
+                        }
+                        if (minMaxDurs.get(i) != 0){
+                            header.append("Min Dur " + num);
+                            header.append("Max Dur " + num);
+                        }
+                        if (appMethods.get(i) != 0)
+                            header.append("Application Method " + num);
+                        header.append("Ordinality " + num);
+                        if (condNotes.get(i)!=0)
+                            header.append("Condition Notes " + num);
+
+                    }
+                    r.append(header);
+                    for (Sample s : sampleList){
+                        Record rec = new Record();
+                        rec.append(s.getId()+"");
+                        rec.append(s.getGeoSampleAcc());
+                        if (tissue != 0)
+                            rec.append(s.getTissueAccId());
+                        if (vtId != 0) {
+                            Experiment e = sampleExperiment.get(s.getId()).get(0);
+                            rec.append(e.getTraitOntId());
+                        }
+                        if (strain != 0)
+                            rec.append(s.getStrainAccId());
+                        if (cell != 0)
+                            rec.append(s.getCellTypeAccId());
+                        if (cellLine != 0)
+                            rec.append(s.getCellLineId());
+                        if (age != 0) {
+                            rec.append(s.getAgeDaysFromHighBound()+"");
+                            rec.append(s.getAgeDaysFromLowBound()+"");
+                        }
+                        rec.append(s.getSex());
+                        if (lifeStage != 0)
+                            rec.append(s.getLifeStage());
+                        if (notes != 0)
+                            rec.append(s.getNotes());
+                        if (cNotes != 0)
+                            rec.append(s.getCuratorNotes());
+
+                        List<Condition> conds = sampleConditions.get(s.getId());
+                        for (int i = 0; i < conds.size(); i++){
+                            Condition c = conds.get(i);
+                            rec.append(c.getOntologyId());
+                            if (minMaxVals.get(i) != 0) {
+                                rec.append(c.getValueMin());
+                                rec.append(c.getValueMax());
+                                rec.append(c.getUnits());
+                            }
+                            if (minMaxDurs.get(i) != 0){
+                                rec.append(c.getDurationLowerBound()+"");
+                                rec.append(c.getDurationUpperBound()+"");
+                            }
+                            if (appMethods.get(i) != 0)
+                                rec.append(c.getApplicationMethod());
+                            rec.append(c.getOrdinality()+"");
+                            if (condNotes.get(i) != 0)
+                                rec.append(c.getNotes());
+                        }
+
+                        r.append(rec);
+                    }
 
             }catch (Exception e){
                     error.add("Sample insertion failed for " + e.getMessage());
