@@ -126,7 +126,7 @@
     FormUtility fu = new FormUtility();
     PhenominerDAO pdao = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
-    List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
+    List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
     timeUnits.add("secs");
@@ -349,12 +349,12 @@ catch (Exception e){}
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=(updateSample && !Objects.toString(vtMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(vtMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(vtMap.get(s.getSampleTissue()),"")%>">
-                    <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
+                    <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(vtNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(cmoMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(cmoMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(cmoMap.get(s.getSampleTissue()),"")%>">
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(cmoMap.get(s.getSampleTissue()), "")%>">
                     <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(cmoNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(cmoNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>

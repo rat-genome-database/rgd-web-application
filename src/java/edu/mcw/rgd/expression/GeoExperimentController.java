@@ -8,6 +8,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.commons.math3.analysis.function.Exp;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -54,7 +55,7 @@ public class GeoExperimentController implements Controller {
 //                    List<Study> studyList = new ArrayList<>();
                     List<Sample> sampleList = new ArrayList<>();
                     HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
-                    HashMap<Integer, List<Experiment>> sampleExperiment = new HashMap<>();
+                    HashMap<Integer, Experiment> sampleExperiment = new HashMap<>();
                     int speciesType = SpeciesType.RAT;
                     switch (species.toLowerCase()){
                         case "mus":
@@ -193,6 +194,7 @@ public class GeoExperimentController implements Controller {
                         // find/create experiment by study
 
                         eList = pdao.getExperiments(study.getId());
+                        Experiment exp = new Experiment();
                         if (eList == null || eList.isEmpty()) {
                             eList = new ArrayList<>();
                             Experiment e = new Experiment();
@@ -201,14 +203,26 @@ public class GeoExperimentController implements Controller {
                             e.setCreatedBy(login);
                             e.setTraitOntId(request.getParameter("vtId" + i));
                             pdao.insertExperiment(e);
+                            exp = e;
                             eList.add(e);
                         }
                         else { // need to find correct experiment based on VT
-                            Experiment e = new Experiment();
+                            Experiment e = null;
                             String vtId = request.getParameter("vtId" + i);
                             for (Experiment experiment : eList){
                                 if (Utils.stringsAreEqual(experiment.getTraitOntId(),vtId))
                                     e = experiment;
+                            }
+
+                            if (e==null){
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                pdao.insertExperiment(e);
+                                exp = e;
+                                eList.add(e);
                             }
 
                             if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(e.getTraitOntId(),vtId)) {
@@ -216,18 +230,18 @@ public class GeoExperimentController implements Controller {
                                 pdao.updateExperiment(e);
                             }
                         }
-                        sampleExperiment.put(sampleId, eList);
+                        sampleExperiment.put(sampleId, exp);
 
                         // find/create gene_expression_exp_record by experiment
 
-                        for (Experiment ex : eList) {
+//                        for (Experiment ex : eList) {
                             if (sampleId == 0)
                                 continue;
                             int geId = 0;
-                            GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(ex.getId(), sampleId);
+                            GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
                             if (gre == null) {
                                 gre = new GeneExpressionRecord();
-                                gre.setExperimentId(ex.getId());
+                                gre.setExperimentId(exp.getId());
                                 gre.setSampleId(sampleId);
                                 gre.setCurationStatus(35);
                                 gre.setSpeciesTypeKey(speciesType);
@@ -283,7 +297,7 @@ public class GeoExperimentController implements Controller {
 //                                conditions.add(c);
                             }
 
-                        }
+//                        }
                     } // end condition addons
                     if (loadIt)
                         sampleConditions.put(sampleId, conditions);
@@ -313,15 +327,16 @@ public class GeoExperimentController implements Controller {
                     if (!Utils.isStringEmpty(s.getCuratorNotes()))
                         cNotes++;
 
-                    List<Experiment> expList = sampleExperiment.get(s.getId());
+//                    List<Experiment> expList = sampleExperiment.get(s.getId());
+                    Experiment e = sampleExperiment.get(s.getId());
                     List<Condition> condList = sampleConditions.get(s.getId());
                     if (condList.size() > maxCond)
                         maxCond = condList.size();
 
-                    for (Experiment e : expList){
-                        if (!Utils.isStringEmpty(e.getTraitOntId()))
-                            vtId++;
-                    }
+//                    for (Experiment e : expList){
+                    if (!Utils.isStringEmpty(e.getTraitOntId()))
+                        vtId++;
+//                    }
                     for (int i = 0; i < condList.size() ; i++){
                         //
                         int minMaxVal = 0, minMaxDur = 0, appMethod = 0, condNote = 0;
@@ -395,7 +410,7 @@ public class GeoExperimentController implements Controller {
                         if (tissue != 0)
                             rec.append(s.getTissueAccId());
                         if (vtId != 0) {
-                            Experiment e = sampleExperiment.get(s.getId()).get(0);
+                            Experiment e = sampleExperiment.get(s.getId());
                             rec.append(e.getTraitOntId());
                         }
                         if (strain != 0)
