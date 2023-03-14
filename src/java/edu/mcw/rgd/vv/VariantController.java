@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -38,8 +39,12 @@ import java.util.stream.Collectors;
 public class VariantController extends HaplotyperController {
 
     GeneDAO gdao = new GeneDAO();
+    Gson gson=new Gson();
+    TranscriptDAO tdao=new TranscriptDAO();
 
     VariantTranscriptDao dao=new VariantTranscriptDao();
+    HashMap<Integer, List<PolyPhenPrediction>> polyphenPredictionCache=new HashMap<>();
+    HashMap<Integer, String> transcriptSymbolCache=new HashMap<>();
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
@@ -135,9 +140,12 @@ public class VariantController extends HaplotyperController {
     }
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
+        Gson gson=new Gson();
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
+        System.out.println("HITS SIZE:" + hits.size());
+        Map<Integer, List<TranscriptResult>> transcriptMap=new HashMap<>();
         for (SearchHit h : hits) {
             java.util.Map<String, Object> m = h.getSourceAsMap();
             VariantResult vr = new VariantResult();
@@ -168,9 +176,26 @@ public class VariantController extends HaplotyperController {
             v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
             v.conservationScore.add(mapConservation(m));
             vr.setVariant(v);
-            if(requiredTranscripts && hits.size()<=20000) {
-                List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
-                vr.setTranscriptResults(trs);
+            if(requiredTranscripts) {
+                List<TranscriptResult> trs = new ArrayList<>();
+                List<VariantTranscript> transcripts = (List<VariantTranscript>) m.get("variantTranscripts");
+             //   System.out.println(gson.toJson(transcripts));
+              /*  if(transcriptMap.get(m.get("variant_id"))==null) {
+                     trs.addAll(this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey()));
+                     transcriptMap.put((Integer) m.get("variant_id"), transcriptMap.get(m.get("variant_id")));
+                }else{
+                    trs.addAll(transcriptMap.get(m.get("variant_id")));
+                }*/
+
+                if (transcripts != null && transcripts.size() > 0) {
+                    try {
+                        trs = getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if(trs!=null && trs.size()>0)
+                    vr.setTranscriptResults(trs);
+                }
             }
 
             if(vsb.getMapKey()==38){
@@ -192,54 +217,80 @@ public class VariantController extends HaplotyperController {
     }
     List<TranscriptResult> getTranscriptResults(Object object, int variantId) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
-        List list=(List)object;
+        List objects= (List) object;
+        ObjectMapper objectMapper=new ObjectMapper();
+        for(Object o:objects) {
+            VariantTranscript t=new VariantTranscript();
+             if(o!=null){
+                t= objectMapper.readValue(gson.toJson(o),VariantTranscript.class);
+             }
+          //  for (VariantTranscript t : transcripts) {
+                if (t != null && t.getTranscriptRgdId() != 0) {
+                    TranscriptResult tr = new TranscriptResult();
+                    AminoAcidVariant aa = new AminoAcidVariant();
+                    if (t.getTripletError() != null)
+                        aa.setTripletError(t.getTripletError());
+                    if (t.getSynStatus() != null)
+                        aa.setSynonymousFlag(t.getSynStatus());
+                    if (t.getPolyphenStatus() != null)
+                        aa.setPolyPhenStatus(t.getPolyphenStatus());
+                    if (t.getNearSpliceSite() != null)
+                        aa.setNearSpliceSite(t.getNearSpliceSite());
 
-        for(Object o: list){
-            Gson g=new Gson();
-            String json=g.toJson(o);
-            ObjectMapper mapper= new ObjectMapper();
-            VariantTranscript t= mapper.readValue(json, VariantTranscript.class);
-            if(t.getTranscriptRgdId()!=0) {
-                TranscriptResult tr = new TranscriptResult();
-                AminoAcidVariant aa = new AminoAcidVariant();
-                aa.setTripletError(t.getTripletError());
-                aa.setSynonymousFlag(t.getSynStatus());
-                aa.setPolyPhenStatus(t.getPolyphenStatus());
-                aa.setNearSpliceSite(t.getNearSpliceSite());
-
-                // tr.set.setFrameShift((String) source.get("frameShift"));
-                tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
-                aa.setLocation(t.getLocationName());
-                aa.setReferenceAminoAcid(t.getRefAA());
-                aa.setVariantAminoAcid(t.getVarAA());
+                    // tr.set.setFrameShift((String) source.get("frameShift"));
+                    if (t.getTranscriptRgdId() != 0)
+                        tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
+                    if (t.getLocationName() != null)
+                        aa.setLocation(t.getLocationName());
+                    if (t.getRefAA() != null)
+                        aa.setReferenceAminoAcid(t.getRefAA());
+                    if (t.getVarAA() != null)
+                        aa.setVariantAminoAcid(t.getVarAA());
        /*  if (source.get("fullRefAA") != null)
              aa.setAASequence(source.get("fullRefAA").toString());
          if (source.get("fullRefNuc") != null)
              aa.setDNASequence(source.get("fullRefNuc").toString());*/
-                if (t.getFullRefAASeqKey() != 0) {
-                    aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+                    if (t.getFullRefAASeqKey() != 0) {
+                        aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
+                    }
+                    if (t.getFullRefNucSeqKey() != 0) {
+                        aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
+                    }
+                    if (t.getFullRefAAPos() != null) {
+                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
+                        aa.setAaPosition(t.getFullRefAAPos());
+                    }
+                    if (t.getFullRefNucPos() != null) {
+                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
+                        aa.setDnaPosition(t.getFullRefNucPos());
+                    }
+                    if (tr.getTranscriptId() != null && !tr.getTranscriptId().equals("0")) {
+                        String trSymbol = transcriptSymbolCache.get(Integer.parseInt(tr.getTranscriptId()));
+                        if(trSymbol!=null){
+                           trSymbol= transcriptSymbolCache.get(Integer.parseInt(tr.getTranscriptId()));
+                        }else{
+                         trSymbol=   getTranscriptSymbol(tr.getTranscriptId());
+                         transcriptSymbolCache.put(Integer.parseInt(tr.getTranscriptId()), trSymbol);
+                        }
+                        if (trSymbol != null)
+                            aa.setTranscriptSymbol(trSymbol);
+                    }
+                    tr.setAminoAcidVariant(aa);
+                    //********************************************Polyphenprediction********//
+                    List<PolyPhenPrediction> polyPhenPredictions=new ArrayList<>();
+                    if(polyphenPredictionCache.get(variantId)!=null){
+                        polyPhenPredictions.addAll(polyphenPredictionCache.get(variantId));
+                    }else {
+
+                         List<PolyPhenPrediction> predictions=getPolphenPredictionByVariantId(variantId, t.getTranscriptRgdId());
+                        polyPhenPredictions.addAll(predictions);
+                        polyphenPredictionCache.put(variantId, predictions);
+                    }
+                    if ( polyPhenPredictions.size() > 0)
+                        tr.setPolyPhenPrediction(polyPhenPredictions);
+                    trs.add(tr);
                 }
-                if (t.getFullRefNucSeqKey() != 0) {
-                    aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
-                }
-                if (t.getFullRefAAPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
-                    aa.setAaPosition(t.getFullRefAAPos());
-                }
-                if (t.getFullRefNucPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
-                    aa.setDnaPosition(t.getFullRefNucPos());
-                }
-                String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
-                if (trSymbol != null)
-                    aa.setTranscriptSymbol(trSymbol);
-                tr.setAminoAcidVariant(aa);
-                //********************************************Polyphenprediction********//
-                List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
-                if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
-                    tr.setPolyPhenPrediction(polyPhenPredictions);
-                trs.add(tr);
-            }
+           // }
         }
         return  trs;
     }
@@ -326,7 +377,6 @@ public class VariantController extends HaplotyperController {
         return null;
     }
     public String getTranscriptSymbol(String transcriptId){
-        TranscriptDAO tdao=new TranscriptDAO();
         Transcript tr= null;
         try {
             tr = tdao.getTranscript(Integer.parseInt(transcriptId));
