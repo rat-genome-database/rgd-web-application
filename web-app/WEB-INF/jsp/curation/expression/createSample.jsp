@@ -126,7 +126,7 @@
     FormUtility fu = new FormUtility();
     PhenominerDAO pdao = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
-    List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "value", true);
+    List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
     timeUnits.add("secs");
@@ -433,10 +433,10 @@ catch (Exception e){}
                     <% } %></select>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration<%=count%>"
-                           value="<%=conds.get(n).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                           value="<%=conds.get(n).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits"+count, timeUnits, "")%>
                 </td>
                 <td><input type="text" size="12" name="cMaxDuration<%=count%>"
-                           value="<%=conds.get(n).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                           value="<%=conds.get(n).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits"+count, timeUnits, "")%>
                 </td>
                 <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=Utils.NVL(conds.get(n).getApplicationMethod(),"")%>"/></td>
                 <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=conds.get(n).getOrdinality()%>"/></td>
@@ -462,10 +462,10 @@ catch (Exception e){}
                 <% } %></select>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration<%=count%>"
-                           value="<%=c.getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                           value="<%=c.getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits" + count, timeUnits, "")%>
                 </td>
                 <td><input type="text" size="12" name="cMaxDuration<%=count%>"
-                           value="<%=c.getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                           value="<%=c.getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits" + count, timeUnits, "")%>
                 </td>
                 <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=c.getApplicationMethod()%>"/></td>
                 <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=c.getOrdinality()%>"/></td>

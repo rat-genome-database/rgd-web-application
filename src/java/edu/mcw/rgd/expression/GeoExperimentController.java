@@ -224,6 +224,8 @@ public class GeoExperimentController implements Controller {
                                 exp = e;
                                 eList.add(e);
                             }
+                            else
+                                exp = e;
 
                             if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(e.getTraitOntId(),vtId)) {
                                 e.setTraitOntId(vtId);
@@ -275,7 +277,7 @@ public class GeoExperimentController implements Controller {
                                 c.setValueMax(Utils.isStringEmpty(cValueMax[k]) ? null : cValueMax[k]);
                                 c.setUnits(cUnits[k]);
                                 if (!Utils.isStringEmpty(cMinDuration[k])) {
-                                    c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[k]), cMinDurationUnits[k]));
+                                    c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[k]), cMinDurationUnits[k])); // new var instead of k for mindurunits
                                 }
                                 if (!Utils.isStringEmpty(cMaxDuration[k])) {
                                     c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[k]), cMaxDurationUnits[k]));

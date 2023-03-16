@@ -82,7 +82,7 @@
     PhenominerDAO dao = new PhenominerDAO();
     DisplayMapper dm = new DisplayMapper(new HttpRequestFacade(request), (ArrayList) request.getAttribute("error"));
     FormUtility fu = new FormUtility();
-    List<String> unitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "value", true);
+    List<String> unitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
     timeUnits.add("secs");
