@@ -14,7 +14,7 @@
 
     if (request.getParameter("species") != null && !request.getParameter("species").equals("")) {
         species=Integer.parseInt(request.getParameter("species"));
-        String speciesOntology="CS";
+        speciesOntology="CS";
     }
 
 
