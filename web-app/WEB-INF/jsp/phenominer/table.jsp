@@ -67,7 +67,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="/rgdweb/phenominer/table.html?terms=${terms}"><button type="button" class="btn btn-primary" id="zeroResultButton">Ok</button></a>
+                    <a href="/rgdweb/phenominer/table.html?terms=${terms}&species=${species}"><button type="button" class="btn btn-primary" id="zeroResultButton">Ok</button></a>
                 </div>
             </div>
         </div>
@@ -100,13 +100,13 @@
                 <h3>Phenominer Database Results (<%=sr.getHits().getTotalHits().value%>&nbsp;results)</h3>
             </div>
             <div class="col-xs-2">
-                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
+                <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}&species=${species}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
             </div>
             <div class="col-xs-2">
-                <input class="btn  btn-primary"  type="button" value="New Query" onclick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'">&nbsp;
+                <input class="btn  btn-primary"  type="button" value="New Query" onclick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html?species=${species}'">&nbsp;
             </div>
             <div class="col-xs-2">
-                <button class="btn btn-primary"><a href="download.html?fmt=3&terms=${terms}" style="text-decoration: none;color:white">Download all records</a></button>
+                <button class="btn btn-primary"><a href="download.html?fmt=3&terms=${terms}&species=${species}" style="text-decoration: none;color:white">Download all records</a></button>
             </div>
             <c:if test="${facetSearch=='true'}">
                 <div class="col-xs-2">
@@ -117,7 +117,7 @@
         <hr>
         <c:if test="${fn:length(selectedFilters)>0}">
         <span><strong style="color:black">Remove Filters:</strong>
-            <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}&refRgdId=${refRgdId}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
+            <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}&refRgdId=${refRgdId}&species=${species}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
             <c:if test="${fn:length(sr.hits.hits)>0}">
             <c:forEach items="${selectedFilters}" var="termList">
             <c:forEach items="${termList.value}" var="filter">
