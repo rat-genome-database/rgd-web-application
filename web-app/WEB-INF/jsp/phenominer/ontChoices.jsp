@@ -121,14 +121,38 @@
         sessionStorage.clear();
         location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
     }
+    $(function () {
+       // $('input[name="species"]').prop('checked',false)
+        var radioNodeList=$('input[name="species"]');
+        $.each(radioNodeList, function () {
+         //   alert("SPECIES:"+$(this).val() );
+            var species=$(this).val();
+            if(species==<%=request.getAttribute("species")%>){
+                $(this).attr('checked', true);
+            }
+
+        })
+
+        $('input[name="species"]').on('change', function () {
+            $('#speciesSelectForm').submit()
+        })
+    })
+
 </script>
 
 
 
 <table width="95%" cellspacing="1px" border="0">
     <tr>
-        <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading Rat Strain Ontology....</div>
+        <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database &nbsp;
+            <form action="/rgdweb/phenominer/ontChoices.html" id="speciesSelectForm">
+                <span class="btn btn-primary" style="font-size: 16px">
+                    <input type="radio" name="species" value="3">&nbsp;Rat &nbsp;
+                    <input type="radio" name="species" value="4">&nbsp;Chinchilla
+                </span>
+            </form>
+        </td>
+        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading Rat ${species} Ontology....</div>
         </td>
         <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
