@@ -95,6 +95,13 @@ public class PhenominerService {
                 }else*/
                builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
             }
+        int speciesTypeKey=3;
+            if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
+                speciesTypeKey= Integer.parseInt(req.getParameter("species"));
+            if(speciesTypeKey>0){
+                builder.filter(QueryBuilders.termQuery("speciesTypeKey"+".keyword", speciesTypeKey));
+
+            }
        // System.out.println(builder);
         return builder;
     }
