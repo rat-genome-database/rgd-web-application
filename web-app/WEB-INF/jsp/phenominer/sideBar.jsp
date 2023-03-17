@@ -167,7 +167,7 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?species=3" method="post" >
+    <form id="phenominerReportForm" action="/rgdweb/phenominer/table.html?" method="post" >
         <input type="hidden" name="terms" value="${terms}"/>
         <input type="hidden" name="facetSearch" value="true"/>
         <input type="hidden" name="legendJson" value='${legendJson}'/>
@@ -177,6 +177,7 @@
 
         <input type="hidden" name="colorBy"  value='${colorBy}'/>
         <input type="hidden" name="refRgdId" value="${refRgdId}"/>
+        <input type="hidden" name="species" value="${species}"/>
 
         <table align="center" border="0" style="margin-left:35px;">
 
@@ -232,10 +233,10 @@
                             Strains</div></td>
                     </tr>
                     <tr>
-                        <td>
+                        <td><h1>${species}</h1>
                             <div class="recordFilterBlock">
                                 <table>
-
+                                    <c:if test="${species==3}">
                                     <c:forEach items="${aggregations.rsTermBkts}" var="rsBkt" >
                                         <tr>
                                             <td>
@@ -253,6 +254,15 @@
                                             </td>
                                         </tr>
                                     </c:forEach>
+                                    </c:if>
+                                    <c:if test="${species==4}">
+                                        <c:forEach items="${aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
+                                            <tr><td>
+                                                <input class="formCheckInput ${rsClassName}" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;(${rsTermBkt.docCount})
+                                            </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
                                 </table>
                             </div>
                         </td>
