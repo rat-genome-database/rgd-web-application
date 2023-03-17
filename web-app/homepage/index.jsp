@@ -158,11 +158,8 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:24px;color:#8A0000;">&nbsp;RGD virtual office hours are now by appointment.</span></td>
+                <td ><span style="font-size:14px;color:#8A0000;">&nbsp;RGD virtual office hours are available by appointment. </span> <a href="/rgdweb/contact/contactus.html">Contact us</a> to schedule a time.</td>
             </tr>
-        </table>
-        <table align="center">
-            <td ><span style="font-size:14px;color:#8A0000;"><b>When:</b> At your convenience!  <a href="/rgdweb/contact/contactus.html">Contact us</a> to schedule a time.<br><b>Who:</b> Anyone is welcome!</span></td>
         </table>
     </td>
     </tr>

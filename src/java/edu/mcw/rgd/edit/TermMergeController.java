@@ -203,6 +203,10 @@ public class TermMergeController implements Controller {
     }
 
     void commit(TermMergeBean bean) throws Exception {
+        if( !bean.getTermFrom().getOntologyId().equals(bean.getTermTo().getOntologyId()) ) {
+            throw new Exception("terms from different ontologies may not be merged!");
+        }
+
         // obsolete from term
         bean.getTermFrom().setObsolete(1);
         bean.getTermFrom().setModificationDate(new Date());

@@ -54,7 +54,7 @@
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Green%20Monkey&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Green Monkey Results" style="font-weight: bold">Green Monkey</a></td>
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Naked%20Mole-rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-rat</a></td>
 
-                                <td >All</td>
+                                <td ><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" title="View results for all species" style="font-weight: bold">All</a></td>
                             </tr>
                             </thead>
                             <tbody>

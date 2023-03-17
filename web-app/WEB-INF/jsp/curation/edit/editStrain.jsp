@@ -245,6 +245,7 @@
 <%@ include file="strain2sslpAssociationData.jsp" %>
 <%@ include file="strainAssociationData.jsp" %>
 <%@ include file="notesData.jsp" %>
+<%@ include file="externalLinksData.jsp" %>
 
 <%@ include file="/common/footerarea.jsp" %>
 

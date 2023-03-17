@@ -89,6 +89,11 @@
             <% if( term.getCreationDate()!=null ) { %>, &nbsp; &nbsp; date created: <b><%=term.getCreationDate().toString().substring(0, 10)%></b> <% } %>
         </td>
     </tr>
+    <tr>
+        <td class="label">Last Modified:</td>
+        <td><% if( term.getModificationDate()!=null ) { %>date modified: <b><%=term.getModificationDate().toString().substring(0, 10)%></b> <% } %>
+        </td>
+    </tr>
 
     <tr>
         <td class="label">Name:</td>
@@ -210,6 +215,7 @@
             <td align="right"><input type="submit" name="form_upsert" id="upsert" value="<%=isNewCustomTerm?"Insert Custom Term":"Update Term"%>"></td>
             <% if( !isNewCustomTerm && parentEdges.isEmpty() ) { %>
             <td align="right"><input type="submit" name="form_delete" value="Delete from database" style="font-weight:bold;color:red"></td>
+            <td align="right"><input type="submit" name="form_obsolete" value="Obsolete term" style="font-weight:bold;color:orangered"></td>
             <% } %>
         </tr></table></td>
     </tr>

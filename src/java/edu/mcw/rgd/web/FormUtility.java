@@ -2,6 +2,7 @@ package edu.mcw.rgd.web;
 
 import edu.mcw.rgd.datamodel.Chromosome;
 import edu.mcw.rgd.datamodel.MapData;
+import edu.mcw.rgd.datamodel.variants.VariantMapData;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -348,7 +349,16 @@ public class FormUtility {
             && md.getStartPos()!=null
             && md.getStopPos()!=null;
     }
-
+    public boolean mapPosIsValid(VariantMapData vmd) {
+        Long start = vmd.getStartPos();
+        Long stop = vmd.getEndPos();
+        return vmd!=null
+                && vmd.getChromosome()!=null
+                && !vmd.getChromosome().equals("MT")
+                && !vmd.getChromosome().equals("Un")
+                && start!=null
+                && stop!=null;
+    }
     // return a locus string that could be passed to JBrowse
     // f.e. http://dev.rgd.mcw.edu/jbrowse/?data=data_mm37&loc=Chr8%3A74430455..74444798&tracks=ARGD_curated_genes&highlight=
     static public String getJBrowseLoc(MapData md) {
@@ -360,6 +370,16 @@ public class FormUtility {
             startPos = 1;
         int stopPos = md.getStopPos() + locusAdj/2;
         return (md.getChromosome().length()>2?"":"Chr")+md.getChromosome()+"%3A"+startPos+".."+stopPos;
+    }
+    static public String getJBrowseLoc(VariantMapData vmd) {
+        // increase the locus region in JBrowse by 30% to left side and by 4% to the right side
+        // for better visibility of the object
+        long locusAdj = (vmd.getEndPos()-vmd.getStartPos()) / 10;
+        long startPos = vmd.getStartPos() - 6*locusAdj;
+        if( startPos<0 )
+            startPos = 1;
+        long stopPos = vmd.getEndPos() + locusAdj/2;
+        return (vmd.getChromosome().length()>2?"":"Chr")+vmd.getChromosome()+"%3A"+startPos+".."+stopPos;
     }
 
     public String buildHiddenFormFieldsFromQueryString(String queryString) {

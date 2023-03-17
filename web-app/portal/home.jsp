@@ -28,7 +28,7 @@
             filter = "DOID:9007801";
             break;
         case 2:
-            title = "Cancer";
+            title = "Cancer & Neoplastic Disease";
             //filter = "RDO:0005309";
             filter = "DOID:14566";
             break;

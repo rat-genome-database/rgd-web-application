@@ -2,30 +2,49 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script src="/rgdweb/jquery/jquery-1.12.4.min.js"></script>
 <script src="/rgdweb/js/lookup.js"></script>
 <script src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
+<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
 
-<div id="div1"></div>
+<script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
+<link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
+
+<link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+<script>
+$(function() {
+$("#submittedStrains").tablesorter({
+theme : 'blue'
+
+});
+});
+</script>
 <div><span style="color:green">${model.msg}</span></div>
-<h3 style="color:grey">SUBMITTED & INCOMPLETE STRAINS</h3>
-<div style="background:#24609c;width:100%">
-   <p style="color:white"> Submitted Strains Count=${fn:length(model.submittedStrains)}</p>
-</div>
+<h3 style="color:grey">Submitted & Incomplete Strains (${fn:length(model.submittedStrains)})</h3>
+<hr>
 <div>
 
-        <table class="table table-striped" >
+        <table class="tablesorter" id="submittedStrains">
             <thead>
             <tr>
                 <th style="font-size:small;">Key</th>
-                <th style="font-size:small;">Gene Symbol</th>
-                <th style="font-size:small;">Allele Symbol</th>
-                <th style="font-size:small;">Strain Symbol</th>
+                <th style="font-size:small;">Submitted Gene</th>
+                <th style="font-size:small;">Submitted Allele</th>
+                <th style="font-size:small;">Submitted Strain</th>
+                <th style="font-size:small;">Submitted Gene RgdId</th>
+                <th style="font-size:small;">Submitted Allele RgdId</th>
+                <th style="font-size:small;">Submitted Strain RgdId</th>
+                <th style="font-size:small;">Matched RGD Gene</th>
+                <th style="font-size:small;">Matched RGD Allele</th>
+                <th style="font-size:small;">Matched RGD Strain </th>
+
                 <th style="font-size:small">Display Status</th>
                 <th style="font-size:small;width:15%">Origination</th>
-                <th style="font-size:small">Status</th>
-                <th style="font-size:small;">Action</th>
+                <th style="font-size:small" class="sorter-false">Status</th>
+                <th style="font-size:small;" class="sorter-false">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -34,16 +53,16 @@
             <tr>
                 <td id="key">${s.submittedStrainKey}</td>
                 <c:choose>
-                    <c:when test="${s.geneRgdId!=0}">
-                        <td><a href="/rgdweb/report/gene/main.html?id=${s.geneRgdId}" title="RGD Gene Report" target="_blank">${s.geneSymbol}</a></td>
+                    <c:when test="${fn:toLowerCase(s.geneSymbol)==fn:toLowerCase(s.gene.symbol)}">
+                        <td>${s.geneSymbol}</td>
                     </c:when>
                     <c:otherwise>
                         <td><span style="color:red" title="Gene not in RGD, Click to create"><a href="editSubmittedGeneObject.html?submissionKey=${s.submittedStrainKey}&geneType=gene" target="_blank" style="color:red;text-decoration: underline"><c:out value="${s.geneSymbol}"/></a></span></td>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
-                    <c:when test="${s.alleleRgdId!=0}">
-                        <td><a href="/rgdweb/report/gene/main.html?id=${s.alleleRgdId}" title="RGD Allele Report" target="_blank">${s.alleleSymbol}</a></td>
+                    <c:when test="${fn:toLowerCase(s.alleleSymbol)==fn:toLowerCase(s.allele.symbol)}">
+                        <td>${s.alleleSymbol}</td>
                     </c:when>
                     <c:otherwise>
                         <td><span style="color:red" title="Allele not in RGD, click 'create allele' button to create">${s.alleleSymbol}</span></td>
@@ -52,35 +71,58 @@
                 </c:choose>
                     <!--td>$--{s.alleleSymbol}</td-->
                 <c:choose>
-                    <c:when test="${s.strainRgdId>0}">
-                        <td><a href="/rgdweb/report/strain/main.html?id=${s.strainRgdId}" target="_blank">${s.strainSymbol}</a></td>
+                    <c:when test="${fn:toLowerCase(s.strain.name)==fn:toLowerCase(s.strainSymbol)}">
+                        <td>${s.strainSymbol}</td>
                     </c:when>
                     <c:otherwise>
-                        <td>${s.strainSymbol}</td>
+                        <td style="color:red">${s.strainSymbol}</td>
                     </c:otherwise>
                 </c:choose>
 
+                <td><c:choose>
+                    <c:when test="${s.geneRgdId>0 && s.geneRgdId==s.gene.rgdId}">
+                        ${s.geneRgdId}
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${s.geneRgdId>0}">
+                        <span style="color:red">${s.geneRgdId}</span>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+                </td>
+                <td><c:choose>
+                    <c:when test="${s.alleleRgdId>0 && s.alleleRgdId==s.allele.rgdId}">
+                        ${s.alleleRgdId}
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${s.alleleRgdId>0}">
+                            <span style="color:red">${s.alleleRgdId}</span>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+                </td>
+<td>
+                <c:choose>
+                    <c:when test="${s.strain.rgdId>0 && s.strain.rgdId==s.strainRgdId}">
+                        ${s.strainRgdId}
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${s.strainRgdId>0}">
+                        <span style="color:red">${s.strainRgdId}</span>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+</td>
+                <td><a href="/rgdweb/report/gene/main.html?id=${s.gene.rgdId}">${s.gene.symbol}</a></td>
+                <td><a href="/rgdweb/report/gene/main.html?id=${s.allele.rgdId}">${s.allele.symbol}</a></td>
+                <td><a href="/rgdweb/report/gene/main.html?id=${s.strain.rgdId}">${s.strain.symbol}</a></td>
 
                 <td>${s.displayStatus}</td>
-                    <!--td>
-                        <!--c:set var="first" value="true"/>
-                        <!--c:forEach items="$--{s.availList}" var="a">
-                            <!--c:choose>
-                                <!--c:when  test="$--{first=='true'}">
-                                    <!--c:out value="$--{a.availabilityType}"/>
-                                    <!--c:set var="first" value="false"/>
-                                 <!--/c:when>
-                                <!--c:otherwise>
-                                    <!--c:out value=",  $--{a.availabilityType}"/>
-                                <!--/c:otherwise>
-                            <!--/c:choose>
 
-                        <!--/c:forEach-->
-                        <!--/td-->
                     <td>${s.source}</td>
-                <td>
+                <td style="width: 10%">
                 <form action="editStrains.html?statusUpdate=true&submissionKey=${s.submittedStrainKey}" method="post">
-                <select class="form-control" class="status" name="status" onchange="this.form.submit()" >
+                <select class="form-control " class="status" name="status" onchange="this.form.submit()" >
                     <option  value="${s.approvalStatus}" selected >${s.approvalStatus}</option>
                     <c:if test="${s.approvalStatus!='submitted'}">
                         <option value="submitted">submitted</option>

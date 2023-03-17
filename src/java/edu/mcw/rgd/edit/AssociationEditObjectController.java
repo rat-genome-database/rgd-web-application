@@ -11,7 +11,6 @@ import java.util.Iterator;
  * Created by IntelliJ IDEA.
  * User: jdepons
  * Date: Jun 2, 2008
- * Time: 8:59:47 AM
  */
 
 public abstract class AssociationEditObjectController implements Controller {
@@ -28,6 +27,7 @@ public abstract class AssociationEditObjectController implements Controller {
 
         for (String association : associations) {
 
+            association = association.trim();
             if (association.equals("")) {
                 continue;
             }
@@ -50,13 +50,14 @@ public abstract class AssociationEditObjectController implements Controller {
             int assocRgdId = getRgdIdForAssociatedObject(aCurrAcc);
             boolean found = false;
 
-            for (int i = 0; i < associations.length; i++) {
+            for (String association : associations) {
 
-                if (associations[i].equals("")) {
+                String assoc = association.trim();
+                if (assoc.equals("")) {
                     continue;
                 }
 
-                if (Integer.parseInt(associations[i]) == assocRgdId) {
+                if (Integer.parseInt(assoc) == assocRgdId) {
                     found = true;
                 }
             }

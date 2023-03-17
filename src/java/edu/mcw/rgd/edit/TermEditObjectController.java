@@ -30,6 +30,7 @@ public class TermEditObjectController implements Controller {
         String synTabMsg = ""; // custom message for synonym table
         String dagTabMsg = ""; // custom message for dag table
         String xrefTabMsg = ""; // custom message for xref table
+        String statusMsg = null; // custom message for xref table
 
         // delete this term
         String formDelete = Utils.defaultString(request.getParameter("form_delete"));
@@ -41,6 +42,15 @@ public class TermEditObjectController implements Controller {
             mv.addObject("term", term);
             mv.addObject("statusMsg", "OK! Term "+termAcc+" ["+term.getTerm()+"] has been deleted!");
             return mv;
+        }
+
+        // obsolete this term
+        String formObsolete = Utils.defaultString(request.getParameter("form_obsolete"));
+        if( !Utils.isStringEmpty(formObsolete) ) {
+            // obsolete the term
+            term = obsoleteTerm(termAcc);
+            statusMsg = "OK! Term "+termAcc+" ["+term.getTerm()+"] has been obsoleted!";
+            action = "update";
         }
 
         OntologyXDAO odao = new OntologyXDAO();
@@ -60,8 +70,8 @@ public class TermEditObjectController implements Controller {
         else {
             if( !(termAcc.startsWith("DOID:") || termAcc.startsWith("CHEBI:") || termAcc.startsWith("MP:")
                     || termAcc.startsWith("PW:") || termAcc.startsWith("CMO:") || termAcc.startsWith("MMO:")
-                    || termAcc.startsWith("XCO:") || termAcc.startsWith("RS:")) ) {
-                throw new Exception("Term Edit is allowed only for DO+ (RDO), PW, MP, RS, CMO, MMO, XCO and CHEBI ontologies!");
+                    || termAcc.startsWith("XCO:") || termAcc.startsWith("RS:") || termAcc.startsWith("HP:")) ) {
+                throw new Exception("Term Edit is allowed only for DO+ (RDO), PW, MP, HP, RS, CMO, MMO, XCO and CHEBI ontologies!");
             }
 
             if( action.equals("update") ) {
@@ -120,6 +130,9 @@ public class TermEditObjectController implements Controller {
         mv.addObject("dags", parentEdges);
         mv.addObject("dagTabMsg", dagTabMsg);
         mv.addObject("xrefTabMsg", xrefTabMsg);
+        if( statusMsg!=null ) {
+            mv.addObject("statusMsg", statusMsg);
+        }
         return mv;
     }
 
@@ -409,7 +422,11 @@ public class TermEditObjectController implements Controller {
                 "SELECT 'DOID:9'||lpad(1+to_number(substr(term_acc,7)),6,'0') FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE ont_id='RDO' AND term_acc like 'DOID:9______')\n" +
                 ") ORDER BY DBMS_RANDOM.RANDOM";
-        return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+
+        String acc1 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+        String acc2 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
+        // return a smaller term acc from two random picks
+        return acc1.compareTo(acc2)<0 ? acc1 : acc2;
     }
 
     String getUnusedPwTermAcc(OntologyXDAO dao) throws Exception {
@@ -543,6 +560,30 @@ public class TermEditObjectController implements Controller {
         String sql = "DELETE FROM ont_terms WHERE term_acc=?";
         dao.update(sql, termAcc);
 
+        return term;
+    }
+
+    Term obsoleteTerm(String termAcc) throws Exception {
+
+        OntologyXDAO dao = new OntologyXDAO();
+
+        // the term must not have any parent/child relationships
+        if( dao.getCountOfAncestors(termAcc)!=0 || dao.getCountOfDescendants(termAcc)!=0 ) {
+            throw new Exception("Cannot obsolete a term "+termAcc+" having relationships!");
+        }
+
+        Term term = dao.getTermByAccId(termAcc);
+
+        if( term.isObsolete() ) {
+            throw new Exception("Cannot obsolete a term "+termAcc+" because it is already obsolete!");
+        }
+
+        // obsolete the term
+        String sql = "UPDATE ont_terms SET is_obsolete=4,modification_date=SYSDATE WHERE term_acc=?";
+        dao.update(sql, termAcc);
+
+        term.setObsolete(4);
+        term.setModificationDate(new Date());
         return term;
     }
 

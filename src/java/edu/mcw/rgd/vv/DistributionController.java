@@ -78,11 +78,14 @@ public class DistributionController extends HaplotyperController {
         vsb = new VariantSearchBean(mapKey);
         vsb.setPosition(chromosome, start, stop);
 
-        try {
+       try {
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
+           System.out.println(req.getParameter("geneList"));
             symbols= Utils.symbolSplit(req.getParameter("geneList"));
-           List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
+            System.out.println("SYMBOLS:"+ symbols);
+
+            List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
             ObjectMapper om = new ObjectMapper();
             om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
             List result= om.getMapped();
@@ -92,6 +95,10 @@ public class DistributionController extends HaplotyperController {
             while (it.hasNext()) {
                 Object o = it.next();
                 if (o instanceof Gene) {
+                    Gene gene= (Gene) o;
+                    if(gene.getSymbol().contains("'")){
+                        gene.setSymbol(gene.getSymbol().replace("'", "''"));
+                    }
                     genes.add((Gene) o);
                 }else {
                     errors.add("Symbol <b>" + (String) o + "</b> not found. ");
@@ -295,10 +302,10 @@ public class DistributionController extends HaplotyperController {
         }*/
         return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
 
-         }catch (Exception e) {
-            if(e.getMessage().contains("Elasticsearch exception"))
+       }catch (Exception e) {
+          /*  if(e.getMessage().contains("Elasticsearch exception"))
                 errors.add("Please reduce the number of samples or genes using the EDIT buttons");
-            else
+            else*/
            errors.add(e.getMessage());
             request.setAttribute("error", errors);
             request.setAttribute("regionList", regionList);

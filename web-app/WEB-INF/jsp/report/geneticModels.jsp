@@ -19,8 +19,8 @@ This gene  <span class="highlight"><%=displayName%></span> is modified in the fo
 <div id="geneticModelsTableDiv">
 <%
     List records = new ArrayList();
-    for (GeneticModel m : modelList) {
-        records.add("<tr><td><a href=\"" + Link.strain(m.getStrainRgdId()) + "\">" + m.getStrainSymbol() + "</a></td></tr>");
+    for (GeneticModel model : modelList) {
+        records.add("<tr><td><a href=\"" + Link.strain(model.getStrainRgdId()) + "\">" + model.getStrainSymbol() + "</a></td></tr>");
     }
     out.print(formatter.buildTable(records, 4));
 %>

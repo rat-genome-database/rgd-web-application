@@ -63,14 +63,12 @@
                     strong = "";%>
 
                 <tr id="articleRow<%=count%>">
-                    <%if(!contentType.equals("VIDEO")){
-                        if(article.getDate()!=null){%>
+                    <%if(article.getDate()!=null){%>
                     <td><input name="releaseDate" type="text" value="<%=article.getDate()%>" maxlength="10" placeholder="yyyy-MM-dd"></input></td>
                         <%}
                         else{%>
                     <td><input name="releaseDate" type="text" maxlength="10" placeholder="yyyy-MM-dd"></input></td>
-                    <% }
-                    }%>
+                    <% } %>
                     <td><input name="displayTxt" size="75" value="<%=article.getDisplayText()%>"></input></td>
                     <td><input name="redirectLink" size="75" value="<%=article.getRedirectLink()%>"></input></td>
                     <td><input name="Strong" size="75" value="<%=strong%>"></input></td>

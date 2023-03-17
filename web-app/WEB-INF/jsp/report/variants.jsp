@@ -32,7 +32,7 @@
 
 
 <div id="strainSequenceVariantsTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (MRatBN7.2)</div>
+    <div class="sectionHeading" id="strainSequenceVariants">Strain Sequence Variants (mRatBN7.2)</div>
 
 <div class="search-and-pager">
 

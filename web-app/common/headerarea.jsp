@@ -36,7 +36,7 @@
     <script type="text/javascript" src="/rgdweb/common/modalDialog/subModal.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/rgdweb/js/webFeedback.js" defer></script>
@@ -49,7 +49,15 @@
         _uacct = "UA-2739107-2";
         urchinTracker();
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BTF869XJFG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-BTF869XJFG');
+    </script>
     <script type="text/javascript" src="/rgdweb/js/rgdHomeFunctions-3.js"></script>
 
     <%
@@ -148,7 +156,7 @@
                             </td>
 
                             <td align="right" style="color:white;" valign="center" colspan="3">
-                                <a href="/registration-entry.shtml">Submit Data</a>&nbsp;|&nbsp;
+                                <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
                                 <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
                                 <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
                                 <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
@@ -198,7 +206,7 @@
                                             <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
                                             <a href="/rgdweb/search/references.html?100">References</a>
                                             <a href="https://download.rgd.mcw.edu">Download</a>
-                                            <a href="/registration-entry.shtml">Submit Data</a>
+                                            <a href="/wg/registration-entry/">Submit Data</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
@@ -209,20 +217,18 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
+                                            <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                             <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
-                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quatitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner (Quatitative Phenotypes)</a>
                                             <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
-                                            <a href="http://ratmine.mcw.edu/ratmine/begin.do">RatMine</a>
+                                            <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
                                             <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
-<%--                                            <a href="/ACPHAPLOTYPER/">ACP Haplotyper</a>--%>
-<%--                                            <a href="/GENOMESCANNER/">Genome Scanner</a>--%>
-                                            <a href="/wg/tool-menu-vcmap/">VCMap</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
@@ -231,7 +237,7 @@
                                         </button>
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
-                                            <a href="/rgdweb/portal/home.jsp?p=2">Cancer</a>
+                                            <a href="/rgdweb/portal/home.jsp?p=2">Cancer & Neoplastic Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=14">COVID-19</a>
                                             <a href="/rgdweb/portal/home.jsp?p=12">Developmental Disease</a>
@@ -257,9 +263,9 @@
                                             <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
                                             <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                             <a href="/wg/autism-rat-model-resource/">Autism Models</a>
-                                            <a href="/rgdweb/phenominer/home.jsp">PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner (Quantitative Phenotypes)</a>
                                             <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
-                                            <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                             <a href="/wg/phenotype-data13/">Phenotypes</a>
                                             <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
@@ -307,6 +313,7 @@
                                 <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
                                 <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
                                 <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
+                                <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
 
                             </td>
                         </tr>

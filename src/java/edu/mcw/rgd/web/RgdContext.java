@@ -60,7 +60,7 @@ public class RgdContext {
 
             hostname = InetAddress.getLocalHost().getHostName().toLowerCase();
 			
-            isProduction = hostname.contains("hancock") || hostname.contains("owen");
+            isProduction = hostname.contains("apollo") || hostname.contains("booker");
             isPipelines = hostname.contains("reed");
             isDev = hostname.contains("hansen");
             isCurator = isPipelines || isDev;
@@ -98,31 +98,62 @@ public class RgdContext {
     }
 	
 	public static String getESIndexName(String index) {
-		try {
-			if( isProduction() ) {
-                return index+"_index_prod";
-			}
-			if( isPipelines() ) {
-				return index+"_index_cur";
-			}
-			if( isDev() ) {
-				return index+"_index_dev";
-			}
-			
-		} catch( UnknownHostException e ) {
-			return null;
-		}
-        return index+"_index_dev" +","+ "variant_index_dev2";
+        String indexName=null;
+        try {
+            switch(index){
+                case "chromosome":
+                case "genome":
+                case "phenominer":
+                case "models":
+                    if( isProduction() ) {
+                        indexName= index+"_index_prod";
+                    }else
+                    if( isPipelines() ) {
+                        indexName= index+"_index_cur";
+                    }else
+                    if( isDev() ) {
+                        indexName= index+"_index_dev";
+                    }else
+                        indexName= index+"_index_dev";
+                    break;
+
+
+                case "search":
+                case "variant": // variants part of general search
+                    if( isProduction() ) {
+                        indexName= index+"_index_prod";
+                    }else
+                    if( isPipelines() ) {
+                        indexName= index+"_index_cur";
+                    }else
+                    if( isDev() ) {
+                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                    }else
+                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                    break;
+
+                default:
+            }
+
+
+        } catch( UnknownHostException e ) {
+            return null;
+        }
+        return indexName;
 	}
+
+    /**
+     * Variant Visualizer index
+     * @param index
+     * @return
+     */
     public static String getESVariantIndexName(String index) {
         try {
             if( isProduction() ) {
-                //	return index+"_index_prod";
-                return index+"_cur";
+                return index+"_prod";
             }
             if( isPipelines() ) {
                 return index+"_cur";
-                //   return index+"_index_prod";
             }
             if( isDev() ) {
                 return index+"_dev";
@@ -131,6 +162,6 @@ public class RgdContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return index+"_prod";
+        return index+"_dev";
     }
 }

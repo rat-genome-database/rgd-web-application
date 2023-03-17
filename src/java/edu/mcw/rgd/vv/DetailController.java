@@ -1,13 +1,10 @@
 package edu.mcw.rgd.vv;
 
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
-import edu.mcw.rgd.vv.vvservice.VariantIndexClient;
-import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
@@ -66,7 +63,7 @@ public class DetailController extends HaplotyperController {
 
         String index = new String();
         String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
+        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + mapKey);
         VVService.setVariantIndex(index);
 
         List<SearchResult> allResults = new ArrayList<SearchResult>();

@@ -21,8 +21,11 @@
         a=request.getParameter("a");
     }
     String key = request.getParameter("mapKey");
+    MapDAO mdao = new MapDAO();
+    String speciesName = "";
     try{
         mapKey = Integer.parseInt(key);
+        speciesName = mdao.getMap(mapKey).getName();
     }
     catch (Exception e){
 
@@ -36,6 +39,7 @@
         <td align="left" width="10%">
             <table cellpadding=0 cellspacing=0  >
             <tr>
+                <td><%=speciesName%></td>
                 <td>&nbsp;</td>
                 <td style="font-style: italic;font-weight:700;">Options:&nbsp;&nbsp;</td>
                 <td><img src="/rgdweb/common/images/bullet_green.png"/></td>
@@ -60,7 +64,7 @@
                         <!--<td><a href="javascript:void(0);" onclick="viewGviewer()">Genome&nbsp;Plot</a></td>-->
                     <% } %>
                     <td valign="center"><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 2px solid black;" border="0" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '<%=a%>')"/></td>
-                    <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '<%=a%>')">All Analysis Tools</a></td>
+                    <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList','<%=species%>','<%=mapKey%>',1, '<%=a%>')">All&nbsp;Analysis&nbsp;Tools</a></td>
 
                     </td>
                 </tr>

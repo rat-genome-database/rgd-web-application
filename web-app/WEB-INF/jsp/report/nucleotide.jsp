@@ -1,7 +1,5 @@
 <%@ include file="sectionHeader.jsp"%>
 
-<%//ui.dynOpen("nucAssociation", "Nucleotide Sequences")%>
-
 <div id="nucleotideSequencesTableDiv" class="light-table-border">
 
     <div class="sectionHeading" id="nucleotideSequences">Nucleotide Sequences</div>
@@ -68,7 +66,7 @@
            <td style="background-color:<%=bkColor%>;">&nbsp;</td>
        <% } %>
 
-        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkN%><%=nxid.getLinkText()%>"><%=nxid.getAccId()%></a></td>
+        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkN%><%=nxid.getAccId()%>"><%=Utils.NVL(nxid.getLinkText(), nxid.getAccId())%></a></td>
         <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkN%><%=nxid.getAccId()%>?report=fasta">(Get FASTA)</a> </td>
         <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=nxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
         <td style="background-color:<%=bkColor%>;"><a href="<%=geoUrl%><%=nxid.getAccId()%>">Search GEO for Microarray Profiles</a></td>
@@ -100,17 +98,11 @@
     </div>
 
 
-
-
-
-
 </div>
 <br>
 
 <% if( objectType.equals("gene") ) { %>
 <%@ include file="gene/transcripts.jsp"%>
 <% } %>
-
-<%//ui.dynClose("nucAssociation")%>
 
 <%@ include file="sectionFooter.jsp"%>

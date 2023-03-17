@@ -1,5 +1,7 @@
 package edu.mcw.rgd.gviewer;
 
+import edu.mcw.rgd.process.mapping.MapManager;
+
 import javax.servlet.ServletRequest;
 import java.util.List;
 
@@ -104,12 +106,16 @@ public class GViewerBean {
         return sql.toString();
     }
 
-    public String buildSqlForGViewerAnnotations() {
+    public String buildSqlForGViewerAnnotations() throws Exception{
+        return buildSqlForGViewerAnnotations(MapManager.getInstance().getReferenceAssembly(3).getKey());
+    }
+
+    public String buildSqlForGViewerAnnotations(int mapKey) {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos,z.rgd_id,z.object_symbol,z.object_type \n");
         sql.append("FROM maps_data m,(\n").append(buildSqlForAnnotations()).append(")z\n");
-        sql.append("WHERE z.rgd_id=m.rgd_id AND m.map_key=60\n");
+        sql.append("WHERE z.rgd_id=m.rgd_id AND m.map_key=" + mapKey + "\n");
         sql.append("ORDER BY z.object_type,z.object_symbol");
 
         return sql.toString();

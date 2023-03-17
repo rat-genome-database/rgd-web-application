@@ -9,16 +9,15 @@ import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
-import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
-import edu.mcw.rgd.search.elasticsearch.client.ElasticSearchClient;
+
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -31,11 +30,9 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -103,7 +100,7 @@ public class VVService {
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
-                } while (sr.getHits().getHits().length != 0);
+                } while (sr.getHits()!=null && sr.getHits().getHits()!=null && sr.getHits().getHits().length != 0);
                 return this.excludeCommonVariants(searchHits, vsb);
 
             } else {
@@ -114,7 +111,7 @@ public class VVService {
 
                 do {
                     SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                    scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                    scrollRequest.scroll(TimeValue.timeValueSeconds(100));
                     sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
@@ -258,7 +255,8 @@ public class VVService {
 
         List<String> clinicalSignificance=new ArrayList<>();
         if(req.getParameter("cs_pathogenic").equals("true")){clinicalSignificance.add("pathogenic");
-        clinicalSignificance.add("pathogenic|likely pathogenic");}
+        clinicalSignificance.add("pathogenic|likely pathogenic");
+        clinicalSignificance.add("likely pathogenic");}
         if(req.getParameter("cs_benign").equals("true")){clinicalSignificance.add("benign");
         clinicalSignificance.add("likely benign");}
         if(req.getParameter("cs_other").equals("true")){clinicalSignificance.add("uncertain significance");}
@@ -351,7 +349,8 @@ public class VVService {
                 qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
-            && req.getParameter("geneList").equals("")) {
+            && req.getParameter("geneList").equals("")
+            ) {
             //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
@@ -362,7 +361,7 @@ public class VVService {
             dqb.add(qb);
         }else{
 
-                if(vsb.getVariantId()!=0 && vsb.getSampleIds().size()>0 ){
+                if(vsb.getVariantId()>0 && vsb.getSampleIds().size()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
                     );
@@ -374,54 +373,7 @@ public class VVService {
         return dqb;
 
     }
-    public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
-        VVService service= new VVService();
-        List<SearchHit> hits=service.getVariants(vsb,req);
-        List<VariantResult> variantResults=new ArrayList<>();
-        for (SearchHit h : hits) {
-            java.util.Map<String, Object> m = h.getSourceAsMap();
-            VariantResult vr = new VariantResult();
 
-            Variant v = new Variant();
-            v.setId((Integer) m.get("variant_id"));
-            v.setChromosome((String) m.get("chromosome"));
-            v.setStartPos((int) m.get("startPos"));
-            v.setEndPos((int) m.get("endPos"));
-            v.setReferenceNucleotide((String) m.get("refNuc"));
-            v.setVariantNucleotide((String) m.get("varNuc"));
-            v.setGenicStatus((String) m.get("genicStatus"));
-            v.setPaddingBase((String) m.get("paddingBase"));
-            v.setRegionName(m.get("regionName").toString());
-            v.setVariantType((String) m.get("variantType"));
-            v.setSampleId((int) m.get("sampleId"));
-            v.setVariantFrequency((int) m.get("varFreq"));
-            v.setDepth((Integer) m.get("totalDepth"));
-            if(m.get("qualityScore")!=null)
-                v.setQualityScore((int) m.get("qualityScore"));
-            v.setZygosityStatus((String) m.get("zygosityStatus"));
-            v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
-            v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
-            double p= (double) m.get("zygosityPercentRead");
-            v.setZygosityPercentRead((int) p);
-            v.setZygosityPossibleError((String) m.get("zygosityPossError"));
-            v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
-            v.conservationScore.add(mapConservation(m));
-            vr.setVariant(v);
-            if(requiredTranscripts) {
-                List<TranscriptResult> trs = this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey());
-                vr.setTranscriptResults(trs);
-            }
-
-            if(vsb.getMapKey()==38){
-                VariantInfo clinvar=getClinvarInfo(v.getId());
-                vr.setClinvarInfo(clinvar);
-            }
-            variantResults.add(vr);
-
-        }
-
-        return variantResults;
-    }
     List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List<VariantTranscript> transcripts=new ArrayList<>();
@@ -569,7 +521,6 @@ public class VVService {
 
             }
         }catch (Exception e){
-            System.out.println("CONSCORE:"+conScores.get(0));
             e.printStackTrace();
         }
 

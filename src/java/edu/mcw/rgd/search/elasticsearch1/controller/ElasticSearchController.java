@@ -35,57 +35,65 @@ public class ElasticSearchController implements Controller {
         ModelMap model = new ModelMap();
         SearchService service = new SearchService();
 
-        String term = req.getParameter("term").trim();
-        term=term.replaceAll("\"", "");
-        if(term.length()>100){
-            response.sendRedirect(request.getContextPath());
-            return null;
-        }
-        if( term.startsWith("RGD:") || term.startsWith("RGD_") )
-            term = term.substring(4);
-        term=term.toLowerCase();
-        SearchBean sb= service.getSearchBean(req, term);
-        String objectSearch= req.getParameter("objectSearch");
-
-        boolean log= (req.getParameter("log").equals("true"));
-
-        String defaultAssemblyName=null;
-        String cat1= new String();
-        String sp1=new String();
-        List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
-        String assembly=req.getParameter("assembly");
-        if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
-            int speciesKey= SpeciesType.parse(sb.getSpecies());
-            edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
-            defaultAssemblyName=defaultAssembly.getDescription();
-            if(Objects.equals(assembly, "")){
-                assembly=defaultAssemblyName;
+            String searchTerm = req.getParameter("term").trim();
+          //  term=term.replaceAll("\"", "");
+            if(searchTerm.length()>100){
+                response.sendRedirect(request.getContextPath());
+                return null;
             }
+        if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
+            searchTerm = searchTerm.substring(4);
+        else if(searchTerm.startsWith("RGD"))
+            searchTerm=searchTerm.substring(3);
+        else {
+            searchTerm=searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
         }
+            searchTerm=searchTerm.toLowerCase();
+        //String term=searchTerm.replaceAll("[^\\w\\s]"," ");
+        String term=searchTerm.replaceAll("\\[", "").replaceAll("\\]","").replaceAll("\\(", "").replaceAll("\\)", "")
+                .replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("\"", "");
+            SearchBean sb= service.getSearchBean(req, term);
+            String objectSearch= req.getParameter("objectSearch");
+
+            boolean log= (req.getParameter("log").equals("true"));
+
+            String defaultAssemblyName=null;
+            String cat1= new String();
+            String sp1=new String();
+            List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
+            String assembly=req.getParameter("assembly");
+            if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
+                int speciesKey= SpeciesType.parse(sb.getSpecies());
+                edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
+                defaultAssemblyName=defaultAssembly.getDescription();
+                    if(Objects.equals(assembly, "")){
+                        assembly=defaultAssemblyName;
+                    }
+            }
         sb.setAssembly(assembly);
-        boolean page =(req.getParameter("page").equals("true"));
-        int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
-        postCount= postCount+1;
-        if(postCount<=1){
-            cat1=sb.getCategory();
-            sp1=sb.getSpecies();
-        }else{
-            cat1=req.getParameter("cat1");
-            sp1=req.getParameter("sp1");
-        }
+           boolean page =(req.getParameter("page").equals("true"));
+           int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
+           postCount= postCount+1;
+           if(postCount<=1){
+                cat1=sb.getCategory();
+                sp1=sb.getSpecies();
+            }else{
+                cat1=req.getParameter("cat1");
+                sp1=req.getParameter("sp1");
+            }
 
-        String redirUrl = this.getRedirectUrl(request, term, sb);
+            String redirUrl = this.getRedirectUrl(request, term, sb);
 
-        if (redirUrl != null) {
-            response.sendRedirect(redirUrl);
-            return null;
-        }else{
+            if (redirUrl != null) {
+                response.sendRedirect(redirUrl);
+                return null;
+            }else{
             int defaultPageSize=(sb.getSize()>0)?sb.getSize():50;
             SearchResponse sr=service.getSearchResponse(request,term, sb);
             int totalPages= 0;
             if(sr!=null){
-                TotalHits hits=sr.getHits().getTotalHits();
-                totalPages= (int)((hits.value/defaultPageSize)) + (((int) (hits.value)%defaultPageSize>0)?1:0);
+               TotalHits hits=sr.getHits().getTotalHits();
+                       totalPages= (int)((hits.value/defaultPageSize)) + (((int) (hits.value)%defaultPageSize>0)?1:0);
                 ModelMap resultsMap=service.getResultsMap(sr,term);
                 if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), hits.value);}
                 model.putAll(resultsMap);
@@ -105,63 +113,49 @@ public class ElasticSearchController implements Controller {
 
             if (page) { return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);}
 
-            if (sb.getCategory() != null ) {
-                if(sb.getSpecies()!=null){
-                    if (sb.getCategory().equalsIgnoreCase("general") && sb.getSpecies().equals("") && !sb.isViewAll()) {
-                        return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResultsSummary.jsp", "model", model);
-                    }else
-                        return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
-                }}
-            return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
+        if (sb.getCategory() != null ) {
+            if(sb.getSpecies()!=null){
+            if (sb.getCategory().equalsIgnoreCase("general") && sb.getSpecies().equals("") && !sb.isViewAll()) {
+               return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResultsSummary.jsp", "model", model);
+            }else
+              return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
+        }}
+        return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp", "model", model);
         }
-    }
+     }
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
-        String redirUrl =null;
+
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
                 int rgdid = Integer.parseInt(term);
                 RgdId id = rdao.getRgdId2(rgdid);
-                if(id != null) {
-                    if(id.getSpeciesTypeKey()!=1 && id.getObjectKey()==7)
-                        redirUrl="/rgdweb/report/variants/main.html?id="+id.getRgdId();
-                    else
-                        redirUrl= Link.it(rgdid, id.getObjectKey()) ;
-
-                }
+                String redirUrl = (id != null) ? Link.it(rgdid, id.getObjectKey()) : null;
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
                     //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                    return request.getScheme() + "://" + request.getServerName() + redirUrl;
-
+                    redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+                    return redirUrl;
                 }
-            }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
-            {
-                System.out.println("RSID :"+ term);
-                redirUrl=Link.rsId(term);
-                return request.getScheme() + "://" + request.getServerName() + redirUrl;
+            }else {
 
-            }
-            else {
-
-
-                SearchService service = new SearchService();
-                SearchResponse sr;
-                if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
-                    sr = service.getSearchResponse(request, term, sb);
+                    SearchService service = new SearchService();
+                    SearchResponse sr;
+             if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
+                   sr = service.getSearchResponse(request, term, sb);
                 }else{
                     sr = service.getSearchResponse(request, term, null);
                 }
-                //    sr = service.getSearchResponse(request, term, sb);
+            //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
                     TotalHits hits=sr.getHits().getTotalHits();
-                    if (sr.getHits() != null && hits.value == 1)
-                        return getUrl(sr, request, term);
-                    else return null;
+                        if (sr.getHits() != null && hits.value == 1)
+                            return getUrl(sr, request, term);
+                        else return null;
+                    }
+                    return null;
                 }
-                return null;
-            }
 
         }catch (Exception e){
 
@@ -176,37 +170,23 @@ public class ElasticSearchController implements Controller {
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
         String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
-        String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
-        String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
-
-        String rsId=(String) sr.getHits().getHits()[0].getSourceAsMap().get("rsId");
         System.out.println("DOC ID: " +sr.getHits().getHits()[0].getSourceAsMap().get("term_acc"));
 
         try {
-            if(rsId!=null && !rsId.equals("")){
-                redirUrl = Link.rsId(rsId);
-            }else
-            if (docId.matches("[0-9]+") && docId.length() > 2) {
+      if (docId.matches("[0-9]+") && docId.length() > 2) {
                 rgdIdValue = Integer.parseInt(docId);
                 RgdId  id = rdao.getRgdId2(rgdIdValue);
-                if (id != null) {
-                    if(!category.equalsIgnoreCase("variant") || species.equalsIgnoreCase("human"))
-                        redirUrl = Link.it(rgdIdValue, id.getObjectKey());
-                        // Link.it handles this rgd_id with this object_key -- redirect to right report page
-                    else {
-                        if(category.equalsIgnoreCase("variant") && !species.equalsIgnoreCase("human")){
-                            redirUrl="/rgdweb/report/variants/main.html?id="+rgdIdValue;
-                        }
-                    }
-                }
-            }else {
-                if(docId.contains(":"))
-                    redirUrl = Link.ontAnnot(docId);
-
+           if (id != null) {
+               redirUrl = Link.it(rgdIdValue, id.getObjectKey());
+                // Link.it handles this rgd_id with this object_key -- redirect to right report page
             }
+        }else {
+          if(docId.contains(":"))
+              redirUrl = Link.ontAnnot(docId);
+      }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-                //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+            //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
+              redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
@@ -230,13 +210,13 @@ public class ElasticSearchController implements Controller {
 
         int mapKey=0;
 
-        List<edu.mcw.rgd.datamodel.Map> maps= MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
-        for(edu.mcw.rgd.datamodel.Map m:maps){
-            if(m.getDescription().equalsIgnoreCase(assembly)){
-                mapKey=m.getKey();
-                break;
+       List<edu.mcw.rgd.datamodel.Map> maps= MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
+            for(edu.mcw.rgd.datamodel.Map m:maps){
+                if(m.getDescription().equalsIgnoreCase(assembly)){
+                    mapKey=m.getKey();
+                    break;
+                    }
             }
-        }
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){

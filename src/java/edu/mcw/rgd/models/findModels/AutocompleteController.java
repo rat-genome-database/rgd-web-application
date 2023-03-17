@@ -1,7 +1,7 @@
 package edu.mcw.rgd.models.findModels;
 
 import com.google.gson.Gson;
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
@@ -70,7 +70,7 @@ public class AutocompleteController implements Controller {
         srb.query(query);
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_prod");
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("models"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
     //    List<String> autocompleteList=new ArrayList<>(Arrays.asList("Hello", "Jyothi", "How", "are"));

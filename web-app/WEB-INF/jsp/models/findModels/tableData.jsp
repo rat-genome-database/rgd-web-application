@@ -26,12 +26,19 @@
 </style>
 <h3>${model.hitsCount} results for term "${model.term}
     <c:if test="${model.aspect=='D'}">
-        Disease
+        &nbsp;&&nbsp;Disease&nbsp;${model.qualifier}
     </c:if>
     <c:if test="${model.aspect=='N'}">
-        Phenotype
+        &nbsp;&&nbsp;Phenotype&nbsp;${model.qualifier}
     </c:if>
-    ${model.qualifier}"</h3>
+    <c:if test="${model.strainType!=null && model.strainType!=''}">
+        &nbsp;&&nbsp;${model.strainType}
+    </c:if>
+    <c:if test="${model.condition!=null && model.condition!=''}">
+       &nbsp;&&nbsp;${model.condition}
+    </c:if>
+    "
+   </h3>
 <table id="findModelsTable" class="tablesorter">
     <thead>
     <tr>

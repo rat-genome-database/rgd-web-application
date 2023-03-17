@@ -1,10 +1,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h3 style="color:grey">COMPLETED & DENIED STRAINS</h3>
+<h3 style="color:grey">COMPLETED & DENIED STRAINS (${fn:length(model.completedStrains)})</h3>
 
-<div style="background:#24609c;width:100%">
-    <p style="color:white"> Completed Strains Count=${fn:length(model.completedStrains)}</p>
-</div>
+<hr>
 <div>
 
     <table class="table table-striped" >
@@ -27,7 +25,7 @@
                 <td>${s.submittedStrainKey}</td>
                 <td><a href="/rgdweb/report/gene/main.html?id=${s.geneRgdId}" title="RGD Gene Report" target="_blank">${s.geneSymbol}</a></td>
                 <td><a href="/rgdweb/report/gene/main.html?id=${s.alleleRgdId}" title="RGD Allele Report" target="_blank">${s.alleleSymbol}</a></td>
-                <td><a href="/rgdweb/report/strain/main.html?id=${s.strainRgdId}" title="RGD Gene Report"target="_blank">${s.strainSymbol}</a></td>
+                <td><a href="/rgdweb/report/strain/main.html?id=${s.strainRgdId}" title="RGD Strain Report"target="_blank">${s.strainSymbol}</a></td>
                 <td>${s.displayStatus}</td>
                 <td>${s.source}</td>
                 <td>${s.last_updated_date}</td>

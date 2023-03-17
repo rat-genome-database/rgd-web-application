@@ -26,7 +26,28 @@
 
     });
 </script>
+<script>
 
+    $(function () {
+        $('#phenotypeTab').addClass('active')
+        $('#phenotypes').addClass('active')
+        $('#strainTab').removeClass('active')
+        $('#strains').removeClass('active')
+    })
+    function switchView(view) {
+        if(view=='phenotypeTab'){
+            $('#strainTab').removeClass('active')
+            $('#strains').removeClass('active')
+            $('#phenotypeTab').addClass('active')
+            $('#phenotypes').addClass('active')
+        }else{
+            $('#strainTab').addClass('active')
+            $('#strains').addClass('active')
+            $('#phenotypeTab').removeClass('active')
+            $('#phenotypes').removeClass('active')
+        }
+    }
+</script>
 <div class="wrapper1">
 
     <!-- Sidebar -->
@@ -58,8 +79,8 @@
 
             <h3>PhenoMiner Expected Ranges <c:if test="${model.trait!=null}"> - <span style="color:deepskyblue;text-transform: capitalize">${model.trait}</span></c:if></h3>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#phenotypes" role="tab" data-toggle="tab"><strong>Phenotypes with Expected Ranges</strong></a></li>
-                <li><a href="#strains" role="tab" data-toggle="tab"><strong>Strains</strong></a></li>
+                <li class="nav-item"><a class="nav-link" href="#phenotypes" role="tab" data-toggle="tab" id="phenotypeTab"><strong>Phenotypes with Expected Ranges</strong></a></li>
+                <li class="nav-item"><a class="nav-link" href="#strains" role="tab" data-toggle="tab" id="strainTab"><strong>Strains</strong></a></li>
             </ul>
             <div class="tab-content">
                 <!----Phenotypes TAB--->

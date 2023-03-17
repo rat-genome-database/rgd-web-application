@@ -36,7 +36,15 @@
 _uacct = "UA-2739107-2";
 urchinTracker();
 </script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-BTF869XJFG"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
+		gtag('config', 'G-BTF869XJFG');
+	</script>
 
 <script type="text/javascript" src="http://rgd.mcw.edu/common/js/ddtabmenu.js">
 
@@ -1281,7 +1289,15 @@ if(typeof(urchinTracker)!='function')document.write('<sc'+'ript src="'+
 _uacct = 'UA-2739107-3';
 urchinTracker("/1110218286/test");
 </script>
+				<!-- Google tag (gtag.js) -->
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-BTF869XJFG"></script>
+				<script>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
 
+					gtag('config', 'G-BTF869XJFG');
+				</script>
 <!--script>
 document.forms[0].term.focus();    
 </script--></div>

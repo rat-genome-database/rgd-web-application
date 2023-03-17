@@ -1,6 +1,6 @@
 package edu.mcw.rgd.models.findModels;
 
-import edu.mcw.rgd.search.elasticsearch.client.ClientInit;
+import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
@@ -53,6 +53,8 @@ public class FindModelsController implements Controller {
             model.put("aggregations", aggregations);
             model.put("searchHits", searchHits);
             model.put("hitsCount", hitsCount);
+            model.put("strainType", strainType);
+            model.put("condition", condition);
             if(!qualifier.equals("")){
                 return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp", "model", model);
             }else
@@ -234,7 +236,6 @@ public class FindModelsController implements Controller {
            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
         }
         if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
-        System.out.println("QUALIFIER:"+ qualifier);
          query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
         }
         if(!strainType.equals("")){
@@ -250,7 +251,7 @@ public class FindModelsController implements Controller {
         srb.aggregation(getAggregations("infoTerms.term"));
     //    srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
         srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("models_index_prod");
+        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("models"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
         if(sr!=null) {
