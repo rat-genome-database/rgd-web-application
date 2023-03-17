@@ -23,22 +23,11 @@ import java.util.List;
  * Date: Feb 22, 2012
  */
 public class ClinVarReportController extends ReportController {
-    VariantDAO variantDAO=new VariantDAO();
-    CarpenovoVariantInfoDAO carpenovoVariantInfoDAO=new CarpenovoVariantInfoDAO();
-
     public String getViewUrl() throws Exception {
-
-        return "variant/main.jsp";
-
+        return "cnVariants/main.jsp";
     }
 
     public Object getObject(int rgdId) throws Exception{
-        int  mapKey=variantDAO.getMapKeyByVariantId(rgdId);
-        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        System.out.println("SPECIES:" +species);
-        if(!species.equalsIgnoreCase("human")){
-            return carpenovoVariantInfoDAO.getVariant(rgdId);
-        }else
-        return new VariantInfoDAO().getVariant(rgdId);
+        return new VariantDAO().getVariant(rgdId);
     }
 }
