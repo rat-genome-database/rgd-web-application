@@ -135,7 +135,13 @@
         })
 
         $('input[name="species"]').on('change', function () {
-            $('#speciesSelectForm').submit()
+            var species=$(this).val();
+            sessionStorage.clear();
+            if(species==3)
+            location.href='/rgdweb/phenominer/ontChoices.html'
+                else
+                location.href='/rgdweb/phenominer/ontChoices.html?species='+species
+
         })
     })
 
@@ -146,12 +152,12 @@
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database &nbsp;
-            <form action="/rgdweb/phenominer/ontChoices.html" id="speciesSelectForm">
+
                 <span class="btn btn-primary" style="font-size: 16px">
                     <input type="radio" name="species" value="3">&nbsp;Rat &nbsp;
                     <input type="radio" name="species" value="4">&nbsp;Chinchilla
                 </span>
-            </form>
+
         </td>
         <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading <%=SpeciesType.getCommonName((int) request.getAttribute("species"))%> Ontology....</div>
         </td>
@@ -185,8 +191,8 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
 
-                <div id="strainMessageUpdate" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
-                <table id="strainMessageTable">
+                <div id="strainMessageUpdateR" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
+                <table id="strainMessageTableR">
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'<%=speciesOntology%>')" src="/rgdweb/common/images/del.jpg"/></td>
 
