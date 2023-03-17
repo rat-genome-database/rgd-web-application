@@ -229,11 +229,11 @@
                 <table>
                     <tr>
                         <td  ><div class="recordFilterTitle">
-                            <input  id="rsAll" name="rsAll"  type="checkbox" >&nbsp;
+                              <input  id="rsAll" name="rsAll"  type="checkbox" >&nbsp;
                             Strains</div></td>
                     </tr>
                     <tr>
-                        <td><h1>${species}</h1>
+                        <td>
                             <div class="recordFilterBlock">
                                 <table>
                                     <c:if test="${species==3}">
@@ -256,7 +256,7 @@
                                     </c:forEach>
                                     </c:if>
                                     <c:if test="${species==4}">
-                                        <c:forEach items="${aggregations.get('rsTerm').buckets}" var="rsTermBkt" >
+                                        <c:forEach items="${aggregations.get('rsTerms')}" var="rsTermBkt" >
                                             <tr><td>
                                                 <input class="formCheckInput ${rsClassName}" name="rsTerm"  type="checkbox" value="${rsTermBkt.key}">&nbsp;${rsTermBkt.key}&nbsp;(${rsTermBkt.docCount})
                                             </td>

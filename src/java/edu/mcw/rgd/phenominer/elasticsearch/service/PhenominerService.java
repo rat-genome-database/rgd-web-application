@@ -209,7 +209,7 @@ public class PhenominerService {
             if (rsTermAggs != null) {
                 aggregations.put("rsTerms", (List<Terms.Bucket>) rsTermAggs.getBuckets());
                 for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
-                   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                   System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
                 }
             }
         }
