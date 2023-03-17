@@ -108,7 +108,7 @@ public class OntChoicesController implements Controller {
         request.setAttribute("termString", termString);
         request.setAttribute("speciesTypeKey", speciesTypeKey);
         request.setAttribute("filteredRecCount", filteredRecordCount);
-
+        request.setAttribute("species", speciesTypeKey);
         return new ModelAndView("/WEB-INF/jsp/phenominer/ontChoices.jsp", "", null);
     }
 
