@@ -3,6 +3,7 @@ package edu.mcw.rgd.phenominer.elasticsearch.service;
 
 
 
+import com.google.gson.Gson;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -29,7 +30,7 @@ import java.util.*;
 
 public class PhenominerService {
     private static String phenominerIndex;
-
+    private static int speciesTypeKey=3;
     public static void setPhenominerIndex(String phenominerIndex) {
         PhenominerService.phenominerIndex = phenominerIndex;
     }
@@ -37,7 +38,10 @@ public class PhenominerService {
 
     public SearchResponse getSearchResponse(HttpRequestFacade req, Map<String,String> filterMap) throws VVException, IOException {
 
+
         BoolQueryBuilder builder=this.boolQueryBuilder(req, filterMap);
+        if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
+            speciesTypeKey= Integer.parseInt(req.getParameter("species"));
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
         srb.size(10000);
@@ -55,6 +59,7 @@ public class PhenominerService {
 
     }
     public AggregationBuilder buildAggregations(String fieldName){
+        System.out.println("SPECIES TYPE KEY IN AGGS:" + speciesTypeKey);
         AggregationBuilder aggs= null;
         if(fieldName.equalsIgnoreCase("units")){
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
@@ -63,10 +68,11 @@ public class PhenominerService {
                             .subAggregation(AggregationBuilders.terms("cmoTerm").field("cmoTerm.keyword"))
                    );
         }else
-            if(fieldName.equalsIgnoreCase("rsTerm")){
+            if(fieldName.equalsIgnoreCase("rsTerm") && speciesTypeKey==3){
                 aggs= AggregationBuilders.terms("rsTopLevelTerm").field("rsTopLevelTerm"+".keyword")
                         .size(1000).order(BucketOrder.key(true))
                                 .subAggregation(AggregationBuilders.terms(fieldName).field(fieldName+".keyword"));
+
             }else
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
                     .size(1000).order(BucketOrder.key(true));
@@ -95,9 +101,7 @@ public class PhenominerService {
                 }else*/
                builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
             }
-        int speciesTypeKey=3;
-            if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
-                speciesTypeKey= Integer.parseInt(req.getParameter("species"));
+
             if(speciesTypeKey>0){
                 builder.filter(QueryBuilders.termQuery("speciesTypeKey", speciesTypeKey));
 
@@ -133,7 +137,7 @@ public class PhenominerService {
                 mmoTerms.add(term);
                 segregatedTermsMap.put("MMO", mmoTerms);
             }
-            if(term.contains("RS")){
+            if(term.contains("RS") || term.contains("CS")){
                 List<String> rsTerms=segregatedTermsMap.get("RS");
                 if(rsTerms==null) {
                     rsTerms=new ArrayList<>();
@@ -142,6 +146,8 @@ public class PhenominerService {
                 segregatedTermsMap.put("RS", rsTerms);
             }
         }
+      //  Gson gson=new Gson();
+      //  System.out.println("TERMS MAP:"+ gson.toJson(segregatedTermsMap));
         return segregatedTermsMap;
     }
     public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
@@ -165,43 +171,48 @@ public class PhenominerService {
     }
     public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
-        if(sr!=null && sr.getAggregations()!=null){
-        Terms cmoAggs=sr.getAggregations().get("cmoTerm");
-        if(cmoAggs!=null){
-        aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
-        for(Terms.Bucket bkt:cmoAggs.getBuckets()){
-         //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}
+        if(sr!=null && sr.getAggregations()!=null) {
+            Terms cmoAggs = sr.getAggregations().get("cmoTerm");
+            if (cmoAggs != null) {
+                aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
+                for (Terms.Bucket bkt : cmoAggs.getBuckets()) {
+                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                }
+            }
        /*     Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
             if(cmoAggs!=null){
                 aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
                 for(Terms.Bucket bkt:cmoAggs.getBuckets()){
                 //    System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
                 }}*/
-        Terms mmoAggs=sr.getAggregations().get("mmoTerm");
-        if(mmoAggs!=null){
-        aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
-        for(Terms.Bucket bkt:mmoAggs.getBuckets()){
-         //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}
-        Terms xcoAggs=sr.getAggregations().get("xcoTerm");
-        if(xcoAggs!=null){
-        aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
-        for(Terms.Bucket bkt:xcoAggs.getBuckets()){
-           // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}
-        Terms rsTopLevelTerm=sr.getAggregations().get("rsTopLevelTerm");
+            Terms mmoAggs = sr.getAggregations().get("mmoTerm");
+            if (mmoAggs != null) {
+                aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
+                for (Terms.Bucket bkt : mmoAggs.getBuckets()) {
+                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                }
+            }
+            Terms xcoAggs = sr.getAggregations().get("xcoTerm");
+            if (xcoAggs != null) {
+                aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
+                for (Terms.Bucket bkt : xcoAggs.getBuckets()) {
+                    // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                }
+            }
+            Terms rsTopLevelTerm = sr.getAggregations().get("rsTopLevelTerm");
             if (rsTopLevelTerm != null) {
                 aggregations.put("rsTermBkts", (List<Terms.Bucket>) rsTopLevelTerm.getBuckets());
 
             }
-
-    /*    Terms rsTermAggs=sr.getAggregations().get("rsTerm");
-        if(rsTermAggs!=null){
-        aggregations.put("rsTermBkts", (List<Terms.Bucket>) rsTermAggs.getBuckets());
-        for(Terms.Bucket bkt:rsTermAggs.getBuckets()){
-          //  System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}*/
+            if (speciesTypeKey == 4){
+                Terms rsTermAggs = sr.getAggregations().get("rsTerm");
+            if (rsTermAggs != null) {
+                aggregations.put("rsTerms", (List<Terms.Bucket>) rsTermAggs.getBuckets());
+                for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
+                   System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
+                }
+            }
+        }
         Terms sexAggs=sr.getAggregations().get("sex");
         if(sexAggs!=null){
         aggregations.put("sexBkts", (List<Terms.Bucket>) sexAggs.getBuckets());
