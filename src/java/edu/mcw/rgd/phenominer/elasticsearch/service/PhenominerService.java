@@ -99,7 +99,7 @@ public class PhenominerService {
             if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
                 speciesTypeKey= Integer.parseInt(req.getParameter("species"));
             if(speciesTypeKey>0){
-                builder.filter(QueryBuilders.termQuery("speciesTypeKey"+".keyword", speciesTypeKey));
+                builder.filter(QueryBuilders.termQuery("speciesTypeKey", speciesTypeKey));
 
             }
        // System.out.println(builder);
