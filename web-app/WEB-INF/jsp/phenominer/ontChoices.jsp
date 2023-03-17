@@ -1390,7 +1390,7 @@
                 }
                 if (ont==="CS") {
                     v.title="Chinchilla Source Selection";
-                    v.examples="Ex: Rrcjo:Chin, Wkdmw:Chin";
+                    v.examples="Please select a Chinchilla source from the list below";
                     document.getElementById("treebox").style.borderColor="#D7E4BD";
 
                 }
