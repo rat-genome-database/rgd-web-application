@@ -89,10 +89,10 @@
                         <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=result.getVariant().getReferenceNucleotide()%></td>
+                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getReferenceNucleotide(),"-")%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=result.getVariant().getVariantNucleotide()%></td>
+                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getVariantNucleotide(),"-")%></td>
                     </tr>
                     <tr>
                         <td class="carpeLabel">Location:</td><td><%=result.getVariant().getGenicStatus()%></td>
@@ -162,7 +162,7 @@
                         String percentRead = result.getVariant().getZygosityPercentRead() + "%";
                         String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
 
-                        if (percentRead.equals("0.0%")) {
+                        if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";
                         }
                         if (numAlleles.equals("0")) {
