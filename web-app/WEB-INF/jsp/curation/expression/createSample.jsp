@@ -171,6 +171,7 @@
     String idName = "";
     boolean createSample = true;
     Study study = new Study();
+    int count = 0;
 %>
 
 
@@ -279,9 +280,9 @@
                 <%
             }
 
-      int count = 0;
+
      for(GeoRecord s: samples){
-boolean bool = false;
+         boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
          List<Experiment> experiments = new ArrayList<>();
          Experiment exp = new Experiment();
@@ -559,8 +560,13 @@ catch (Exception e){}
             }
 
         }
-        if (bool)
-            document.getElementById("createSample").submit();
+        if (bool) {
+            var count = document.getElementById("count");
+            if (count.value === "")
+                alert("Count is empty for an unknown reason. Unable to insert/edit");
+            else
+                document.getElementById("createSample").submit();
+        }
     }
     function checkDropdown(actionId, statusId, act){
         var action = document.getElementById(actionId);

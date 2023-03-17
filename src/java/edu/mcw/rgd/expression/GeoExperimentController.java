@@ -139,22 +139,6 @@ public class GeoExperimentController implements Controller {
                         pdao.updateSample(s);
                         sampleList.add(s);
                     }
-//                    if (loadIt) {
-//                        sampleList.add(s);
-//                        rec.append(String.valueOf(sampleId));
-//                        rec.append(s.getGeoSampleAcc());
-//                        rec.append(s.getTissueAccId());
-//                        rec.append(s.getStrainAccId());
-//                        rec.append(s.getCellTypeAccId());
-//                        rec.append(s.getCellLineId());
-//                        rec.append(String.valueOf(s.getAgeDaysFromHighBound()));
-//                        rec.append(String.valueOf(s.getAgeDaysFromLowBound()));
-//                        rec.append(s.getSex());
-//                        rec.append(s.getLifeStage());
-//                        rec.append(s.getNotes());
-//                        rec.append(s.getCuratorNotes());
-//                        r.append(rec);
-//                    }
                     if (curStatus.equals("pending") && curAction.equals("load"))
                         pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
                     else {
@@ -277,7 +261,7 @@ public class GeoExperimentController implements Controller {
                                 c.setValueMax(Utils.isStringEmpty(cValueMax[k]) ? null : cValueMax[k]);
                                 c.setUnits(cUnits[k]);
                                 if (!Utils.isStringEmpty(cMinDuration[k])) {
-                                    c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[k]), cMinDurationUnits[k])); // new var instead of k for mindurunits
+                                    c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[k]), cMinDurationUnits[k]));
                                 }
                                 if (!Utils.isStringEmpty(cMaxDuration[k])) {
                                     c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[k]), cMaxDurationUnits[k]));
