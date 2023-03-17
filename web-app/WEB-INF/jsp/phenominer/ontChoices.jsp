@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%
     String pageTitle = "Phenominer";
     String headContent = "";
@@ -152,7 +153,7 @@
                 </span>
             </form>
         </td>
-        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading Rat ${species} Ontology....</div>
+        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading <%=SpeciesType.getCommonName((int) request.getAttribute("species"))%> Ontology....</div>
         </td>
         <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
