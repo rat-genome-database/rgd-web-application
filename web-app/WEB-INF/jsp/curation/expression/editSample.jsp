@@ -213,22 +213,22 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>
-                    </td>
-                    <td>
-                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">
-                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                    <td>--%>
+<%--                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        &lt;%&ndash;                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">&ndash;%&gt;--%>
+<%--                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">--%>
+<%--                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>--%>
+<%--                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>--%>
+<%--                    </td>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                </tr>--%>
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
@@ -273,22 +273,22 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>
-                    </td>
-                    <td>
-                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">
-                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                    <td>--%>
+<%--                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        &lt;%&ndash;                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">&ndash;%&gt;--%>
+<%--                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">--%>
+<%--                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>--%>
+<%--                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>--%>
+<%--                    </td>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                    <td></td>--%>
+<%--                </tr>--%>
         <%tcount++;}
 
       }

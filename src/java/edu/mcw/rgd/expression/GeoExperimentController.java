@@ -249,7 +249,7 @@ public class GeoExperimentController implements Controller {
                             String[] cMaxDurationUnits = req.getRequest().getParameterValues("cMaxDurationUnits" + i);
                             String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod" + i);
                             String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality" + i);
-                            String[] cNotes = req.getRequest().getParameterValues("cNotes" + i);
+                            String[] cNotes = req.getRequest().getParameterValues("conNotes" + i);
                             if (checkboxes==null)
                                 continue;
                             for (String j : checkboxes) {
@@ -291,7 +291,11 @@ public class GeoExperimentController implements Controller {
                 } // end for
                 int tissue = 0, strain = 0, cell = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
                 int maxCond = 0, vtId = 0, cmoId = 0;
-                List<Integer> minMaxVals = new ArrayList<>(), minMaxDurs = new ArrayList<>(), appMethods = new ArrayList<>(), condNotes = new ArrayList<>();
+//                List<Integer> minMaxVals = new ArrayList<>(), minMaxDurs = new ArrayList<>(), appMethods = new ArrayList<>(), condNotes = new ArrayList<>();
+                HashMap<String, Integer> minMaxVals = new HashMap<>();
+                HashMap<String, Integer> minMaxDurs = new HashMap<>();
+                HashMap<String, Integer> appMethods = new HashMap<>();
+                HashMap<String, Integer> condNotes = new HashMap<>();
                 for (Sample s : sampleList){
                     // go through samples and conditions/VT to filter columns
                     // ints and doubles should be checked if both values are 0, if both zero then time was not used
@@ -336,10 +340,14 @@ public class GeoExperimentController implements Controller {
                             appMethod++;
                         if (!Utils.isStringEmpty(c.getNotes()))
                             condNote++;
-                        minMaxVals.add(minMaxVal);
-                        minMaxDurs.add(minMaxDur);
-                        appMethods.add(appMethod);
-                        condNotes.add(condNote);
+                        if (minMaxVals.get("cond"+i) == null || minMaxVal>0)
+                            minMaxVals.put("cond"+i,minMaxVal);
+                        if (minMaxDurs.get("cond"+i) == null || minMaxDur>0)
+                            minMaxDurs.put("cond"+i,minMaxDur);
+                        if (appMethods.get("cond"+i) == null || appMethod>0)
+                            appMethods.put("cond"+i,appMethod);
+                        if (condNotes.get("cond"+i) == null || condNote>0)
+                            condNotes.put("cond"+i,condNote);
                     }
 
                 }
@@ -372,23 +380,24 @@ public class GeoExperimentController implements Controller {
                     for (int i = 0 ; i < maxCond; i++){
                         int num = i+1;
                         header.append("XCO Id " + num);
-                        if (minMaxVals.get(i)!=0) {
+                        if (minMaxVals.get("cond"+i)!=0) {
                             header.append("Min value " + num);
                             header.append("Max Value " + num);
                             header.append("Unit " + num);
                         }
-                        if (minMaxDurs.get(i) != 0){
+                        if (minMaxDurs.get("cond"+i) != 0){
                             header.append("Min Dur " + num);
                             header.append("Max Dur " + num);
                         }
-                        if (appMethods.get(i) != 0)
+                        if (appMethods.get("cond"+i) != 0)
                             header.append("Application Method " + num);
                         header.append("Ordinality " + num);
-                        if (condNotes.get(i)!=0)
+                        if (condNotes.get("cond"+i)!=0)
                             header.append("Condition Notes " + num);
 
                     }
                     r.append(header);
+
                     for (Sample s : sampleList){
                         Record rec = new Record();
                         rec.append(s.getId()+"");
@@ -421,19 +430,19 @@ public class GeoExperimentController implements Controller {
                         for (int i = 0; i < conds.size(); i++){
                             Condition c = conds.get(i);
                             rec.append(c.getOntologyId());
-                            if (minMaxVals.get(i) != 0) {
+                            if (minMaxVals.get("cond"+i) != 0) {
                                 rec.append(c.getValueMin());
                                 rec.append(c.getValueMax());
                                 rec.append(c.getUnits());
                             }
-                            if (minMaxDurs.get(i) != 0){
+                            if (minMaxDurs.get("cond"+i) != 0){
                                 rec.append(c.getDurationLowerBound()+"");
                                 rec.append(c.getDurationUpperBound()+"");
                             }
-                            if (appMethods.get(i) != 0)
+                            if (appMethods.get("cond"+i) != 0)
                                 rec.append(c.getApplicationMethod());
                             rec.append(c.getOrdinality()+"");
-                            if (condNotes.get(i) != 0)
+                            if (condNotes.get("cond"+i) != 0)
                                 rec.append(c.getNotes());
                         }
 
@@ -494,16 +503,16 @@ public class GeoExperimentController implements Controller {
                         tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
                         vtMap.put(null,request.getParameter("vtId"+i));
                         vtNameMap.put(null, request.getParameter("vt"+i+"_term"));
-                        cmoMap.put(null,request.getParameter("cmoId"+i));
-                        cmoNameMap.put(null, request.getParameter("cmo"+i+"_term"));
+//                        cmoMap.put(null,request.getParameter("cmoId"+i));
+//                        cmoNameMap.put(null, request.getParameter("cmo"+i+"_term"));
                     }
                     else {
                         tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
                         tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
                         vtMap.put(request.getParameter("tissue" + i),request.getParameter("vtId"+i));
                         vtNameMap.put(request.getParameter("tissue" + i), request.getParameter("vt"+i+"_term"));
-                        cmoMap.put(request.getParameter("tissue" + i),request.getParameter("cmoId"+i));
-                        cmoNameMap.put(request.getParameter("tissue" + i), request.getParameter("cmo"+i+"_term"));
+//                        cmoMap.put(request.getParameter("tissue" + i),request.getParameter("cmoId"+i));
+//                        cmoNameMap.put(request.getParameter("tissue" + i), request.getParameter("cmo"+i+"_term"));
                     }
                 }
                 for(int i = 0; i < scount;i++){
@@ -585,16 +594,16 @@ public class GeoExperimentController implements Controller {
                         c.setApplicationMethod(cApplicationMethod[i]);
 
                         c.setOrdinality(Integer.parseInt(cOrdinality[i]));
-                        if (ordinality.get(xcoId)==null) {
-                            List<Integer> temp = new ArrayList<>();
-                            temp.add(Integer.parseInt(cOrdinality[i]) );
-                            ordinality.put(xcoId, temp);
-                        }
-                        else{
-                            List<Integer> temp = ordinality.get(xcoId);
-                            temp.add(Integer.parseInt(cOrdinality[i]) );
-                            ordinality.put(xcoId, temp);
-                        }
+//                        if (ordinality.get(xcoId)==null) {
+//                            List<Integer> temp = new ArrayList<>();
+//                            temp.add(Integer.parseInt(cOrdinality[i]) );
+//                            ordinality.put(xcoId, temp);
+//                        }
+//                        else{
+//                            List<Integer> temp = ordinality.get(xcoId);
+//                            temp.add(Integer.parseInt(cOrdinality[i]) );
+//                            ordinality.put(xcoId, temp);
+//                        }
                         c.setNotes(cNotes[i]);
                         conditions.add(c);
                     }
