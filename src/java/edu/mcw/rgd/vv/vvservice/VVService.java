@@ -220,8 +220,8 @@ public class VVService {
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("genicStatus.keyword", genicStats.toArray())));
         }
         if(req.getParameter("snv").equals("true")){ vTypes.add("snv");}
-        if(req.getParameter("ins").equals("true")){ vTypes.add("ins");}
-        if(req.getParameter("del").equals("true")){ vTypes.add("del");}
+        if(req.getParameter("ins").equals("true")){ vTypes.add("ins");vTypes.add("insertion");}
+        if(req.getParameter("del").equals("true")){ vTypes.add("del");vTypes.add("deletion");}
         if(vTypes.size()>0){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantType.keyword", vTypes.toArray())));
         }
