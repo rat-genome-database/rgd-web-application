@@ -1,6 +1,5 @@
 package edu.mcw.rgd.report;
 
-
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 /**
  * Created by IntelliJ IDEA.
