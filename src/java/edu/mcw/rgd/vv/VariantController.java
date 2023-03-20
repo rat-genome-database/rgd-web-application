@@ -178,7 +178,7 @@ public class VariantController extends HaplotyperController {
             vr.setVariant(v);
             if(requiredTranscripts) {
                 List<TranscriptResult> trs = new ArrayList<>();
-             //   List<VariantTranscript> transcripts = (List<VariantTranscript>) m.get("variantTranscripts");
+                List<VariantTranscript> transcripts = (List<VariantTranscript>) m.get("variantTranscripts");
              //   System.out.println(gson.toJson(transcripts));
               /*  if(transcriptMap.get(m.get("variant_id"))==null) {
                      trs.addAll(this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey()));
@@ -187,7 +187,7 @@ public class VariantController extends HaplotyperController {
                     trs.addAll(transcriptMap.get(m.get("variant_id")));
                 }*/
 
-                if (m.get("variantTranscripts")!=null) {
+                if (transcripts != null && transcripts.size() > 0) {
                     try {
                         trs = getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
                     }catch (Exception e){
