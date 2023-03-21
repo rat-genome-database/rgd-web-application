@@ -220,8 +220,8 @@ public class VVService {
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("genicStatus.keyword", genicStats.toArray())));
         }
         if(req.getParameter("snv").equals("true")){ vTypes.add("snv");}
-        if(req.getParameter("ins").equals("true")){ vTypes.add("ins");}
-        if(req.getParameter("del").equals("true")){ vTypes.add("del");}
+        if(req.getParameter("ins").equals("true")){ vTypes.add("ins");vTypes.add("insertion");}
+        if(req.getParameter("del").equals("true")){ vTypes.add("del");vTypes.add("deletion");}
         if(vTypes.size()>0){
             builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantType.keyword", vTypes.toArray())));
         }
@@ -254,14 +254,21 @@ public class VVService {
         }
 
         List<String> clinicalSignificance=new ArrayList<>();
-        if(req.getParameter("cs_pathogenic").equals("true")){clinicalSignificance.add("pathogenic");
+        if(req.getParameter("cs_pathogenic").equals("true")){
+            clinicalSignificance.add("pathogenic");
         clinicalSignificance.add("pathogenic|likely pathogenic");
         clinicalSignificance.add("likely pathogenic");}
         if(req.getParameter("cs_benign").equals("true")){clinicalSignificance.add("benign");
         clinicalSignificance.add("likely benign");}
         if(req.getParameter("cs_other").equals("true")){clinicalSignificance.add("uncertain significance");}
-        if(clinicalSignificance.size()>0){
-            builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("clinicalSignificance.keyword", clinicalSignificance.toArray())));
+        if(req.getParameter("cs_pathogenic").equals("true")){
+            builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "pathogenic")));
+        }
+        if(req.getParameter("cs_benign").equals("true")){
+            builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "benign")));
+        }
+        if(req.getParameter("cs_other").equals("true")){
+            builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "uncertain significance")));
         }
 
         /***************************zygosity************************************/
