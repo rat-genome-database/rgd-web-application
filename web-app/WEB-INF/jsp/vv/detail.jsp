@@ -241,11 +241,11 @@
                                         <td class="carpeLabel" >Location:</td><td><%=tr.getAminoAcidVariant().getLocation()%></td>
                                     </tr>
 
-                                    <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
+                                    <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getVariantAminoAcid().equals("") && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
                                     <tr>
                                         <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getReferenceAminoAcid()%> to  <%=tr.getAminoAcidVariant().getVariantAminoAcid()%> (<%=tr.getAminoAcidVariant().getSynonymousFlag()%>)</td>
                                     </tr>
-                                    <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
+                                    <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null && !tr.getAminoAcidVariant().getSynonymousFlag() .equals("")){ %>
                                     <tr>
                                         <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getSynonymousFlag()%></td>
                                     </tr>
