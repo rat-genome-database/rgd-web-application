@@ -191,8 +191,8 @@
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
 
-                <div id="strainMessageUpdateR" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
-                <table id="strainMessageTableR">
+                <div id="strainMessageUpdate" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
+                <table id="strainMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
                         <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'<%=speciesOntology%>')" src="/rgdweb/common/images/del.jpg"/></td>
 
@@ -794,6 +794,7 @@
                 if (JSON.stringify(v.selectedConditions) === "{}") {
                     return;
                 }
+
                 v.block();
                 document.getElementById("conditionMessageTable").style.visibility="hidden";
                 document.getElementById("conditionMessageUpdate").style.display="block";
@@ -856,6 +857,7 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("conditionMessageTable").style.visibility="visible";
                         document.getElementById("conditionMessageUpdate").style.display="none";
+
                         v.unblock();
 
                     })
@@ -887,20 +889,17 @@
             },
 
             block: function() {
-                //alert("in block");
                 document.getElementById("block").style.display="block";
-
             },
             unblock: function() {
-                //alert("in unblock");
                 document.getElementById("block").style.display="none";
-
             },
             updateStrainBox: function() {
 
                 if (JSON.stringify(v.selectedStrains) === "{}") {
                     return;
                 }
+
                 v.block();
                 document.getElementById("strainMessageTable").style.visibility="hidden";
                 document.getElementById("strainMessageUpdate").style.display="block";
@@ -978,6 +977,7 @@
                 if (JSON.stringify(v.selectedMethods) === "{}") {
                     return;
                 }
+
                 v.block();
                 document.getElementById("methodMessageTable").style.visibility="hidden";
                 document.getElementById("methodMessageUpdate").style.display="block";
@@ -1057,9 +1057,9 @@
                 }
 
                 v.block();
+
                 document.getElementById("cmoMessageTable").style.visibility="hidden";
                 document.getElementById("cmoMessageUpdate").style.display="block";
-
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=CMO&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
                         {
@@ -1074,7 +1074,6 @@
                         var childNodes = root.getElementsByTagName("item");
 
                         var children = v.getLeafNodes(childNodes);
-
 
                         //find out if a selection is now gone
                         var tmpHash = {};
@@ -1118,9 +1117,11 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("cmoMessageTable").style.visibility="visible";
                         document.getElementById("cmoMessageUpdate").style.display="none";
+                        System.out.println("unbloack");
                         v.unblock();
                     })
                     .catch(function (error) {
+                       System.out.println("in error");
                         console.log(error)
                         v.errored = true
                     })
@@ -1338,8 +1339,6 @@
 
             generateReport: function () {
                 var tString = v.getAllTerms(true);
-
-
 
                 if (tString === "") {
                     alert("Please select one or more terms below to generate a Phenominer report.");
