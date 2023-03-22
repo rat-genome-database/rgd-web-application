@@ -1,6 +1,7 @@
 package edu.mcw.rgd.vv;
 
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
+import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
@@ -80,7 +81,12 @@ public class DetailController extends HaplotyperController {
 
             vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
 
-            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, false);
+            for(VariantResult variantResult:vr){
+                List<TranscriptResult> trs=getTranscriptResultsOfVariant(variantResult.getVariant(),vsb.getMapKey());
+                if(trs!=null && trs.size()>0)
+                    variantResult.setTranscriptResults(trs);
+            }
             SearchResult sr = new SearchResult();
 
             sr.setVariantResults(vr);
@@ -91,13 +97,18 @@ public class DetailController extends HaplotyperController {
 
        }else{
              if(vid !=null && !vid.isEmpty() && !vid.equals("0")) {
-
+                System.out.println("VID:"+ vid);
                  String[] vids = vid.split("\\|");
                  for (int i = 0; i < vids.length; i++) {
                      SearchResult sr = new SearchResult();
 
                      vsb.setVariantId(Long.parseLong(vids[i]));
-                     List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
+                     List<VariantResult> vr = ctrl.getVariantResults(vsb, req, false);
+                     for(VariantResult variantResult:vr){
+                         List<TranscriptResult> trs=getTranscriptResultsOfVariant(variantResult.getVariant(),vsb.getMapKey());
+                         if(trs!=null && trs.size()>0)
+                         variantResult.setTranscriptResults(trs);
+                     }
                      sr.setVariantResults(vr);
                      allResults.add(sr);
                  }}
@@ -105,6 +116,11 @@ public class DetailController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp");
 
        }
+    }
+    public List<TranscriptResult> getTranscriptResultsOfVariant(Variant v, int mapKey) throws IOException {
+        List<TranscriptResult> trs = new ArrayList<>();
+        trs.addAll(ctrl.getVariantTranscriptResults((int) v.getId(),mapKey ));
+        return trs;
     }
 
 
