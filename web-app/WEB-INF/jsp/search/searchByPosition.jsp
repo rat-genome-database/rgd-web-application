@@ -44,8 +44,6 @@
     }
 
     .t td {
-        max-width: 30px;
-        min-width: 20px;
         padding: 5px;
         border-left: 1px solid #c3c3c3;
         border-right: 1px solid #c3c3c3;
