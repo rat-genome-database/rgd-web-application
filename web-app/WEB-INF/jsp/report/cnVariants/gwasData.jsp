@@ -34,6 +34,7 @@
                 <td>GWAS Catalog Study</td>
                 <td>Disease&nbsp;Trait</td>
                 <td>Study&nbsp;Size</td>
+                <td>Risk&nbsp;Allele</td>
                 <td>Risk&nbsp;Allele&nbsp;Frequency</td>
                 <td>P&nbsp;Value</td>
                 <td>P Value MLOG</td>
@@ -77,6 +78,7 @@
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
+                <td><%=gwas.getStrongSnpRiskallele()%></td>
                 <td><%=gwas.getRiskAlleleFreq()%></td>
                 <td><%=gwas.getpVal()%></td>
                 <td><%=gwas.getpValMlog()%></td>
