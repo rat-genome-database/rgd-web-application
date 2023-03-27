@@ -30,6 +30,7 @@ function EnrichmentVue(divId, hostname) {
             info: [],
             hostName: host,
             species: [],
+            originalSpecies:0,
             ontology: [],
             allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig","Naked Mole-rat","Green Monkey"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
@@ -41,6 +42,7 @@ function EnrichmentVue(divId, hostname) {
             pvalueLimit: 0.05,
             geneData: {},
             genes: [],
+            originalGenes: [],
             currentSort: 'pvalue',
             currentSortDir: 'asc',
             selectedAll: false,
@@ -118,6 +120,8 @@ function EnrichmentVue(divId, hostname) {
                 document.getElementById(v.ontology[0]).innerHTML = "";
               v.ontology = [ont];
               v.species = [species];
+              v.originalSpecies = species;
+              v.originalGenes = genes;
               v.genes = genes;
               v.graph = graph;
               v.table = table;
@@ -197,7 +201,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                         v.info.push({
@@ -221,7 +226,8 @@ function EnrichmentVue(divId, hostname) {
                         {
                             species: s,
                             genes: this.genes,
-                            aspect: aspect
+                            aspect: aspect,
+                            originalSpecies: this.originalSpecies
                         })
                     .then(function (response) {
                             v.info.push({
