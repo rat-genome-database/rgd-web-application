@@ -93,6 +93,8 @@ public class GeoExperimentController implements Controller {
                     Sample s = new Sample();
 
                     List<Condition> conditions = new ArrayList<>();
+                    List<Condition> insConds = new ArrayList<>();
+                    List<Condition> updateConds = new ArrayList<>();
                     s.setSex(request.getParameter("sex" + i));
                     s.setTissueAccId(request.getParameter("tissueId" + i));
                     s.setCellTypeAccId(request.getParameter("cellTypeId" + i));
@@ -272,21 +274,27 @@ public class GeoExperimentController implements Controller {
                                 c.setGeneExpressionRecordId(geId);
 
                                 if (Utils.isStringEmpty(cId[k])) {
-                                    pdao.insertCondition(c);
+//                                    pdao.insertCondition(c);
+                                    c.setId(-1);
                                     conditions.add(c);
+
+//                                    insConds.add(c);
                                 }
                                 else {
                                     c.setId(Integer.parseInt(cId[k]));
-                                    pdao.updateCondition(c);
+//                                    pdao.updateCondition(c);
                                     conditions.add(c);
+//                                    updateConds.add(c);
                                 }
-//                                conditions.add(c);
+
                             }
 
 //                        }
                     } // end condition addons
-                    if (loadIt)
+                    if (loadIt) {
+                        insertConditions(conditions);
                         sampleConditions.put(sampleId, conditions);
+                    }
 
                 } // end for
                 int tissue = 0, strain = 0, cell = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
@@ -694,6 +702,46 @@ public class GeoExperimentController implements Controller {
         }
 
         return Condition.convertStringToDurationBound(units);
+    }
+
+    private void insertConditions(List<Condition> conds) throws Exception{
+        List<String> ords = new ArrayList<>();
+        HashMap<String, List<Condition>> conMap = new HashMap<>();
+        for (Condition c : conds){
+            // check ordinality
+            if (conMap.get(c.getOntologyId())==null) {
+                List<Condition> condList = new ArrayList<>();
+                condList.add(c);
+                conMap.put(c.getOntologyId(), condList);
+            }
+            else{
+                List<Condition> clist = conMap.get(c.getOntologyId());
+                clist.add(c);
+                conMap.put(c.getOntologyId(),clist);
+            }
+        }
+
+        for (String xco : conMap.keySet()){
+            List<Condition> x = conMap.get(xco);
+            for (int i = 0 ; i < x.size(); i++){
+                Condition c = x.get(i);
+                if (c.getOrdinality()==1)
+                    break;
+                else if (i==(x.size()-1) || c.getOrdinality() <= 0){
+                    conds.get(conds.indexOf(c)).setOrdinality(1);
+                }
+            }
+        }
+
+        for (Condition c : conds){
+            // insert/update
+            if (c.getId()==-1){
+                pdao.insertCondition(c);
+            }
+            else {
+                pdao.updateCondition(c);
+            }
+        }
     }
 
 }
