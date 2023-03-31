@@ -43,9 +43,9 @@
             <label for="symbol">Strain Symbol</label>&nbsp;&nbsp;<span style="color:red">*</span>
             <input type="text" class="form-control" id="symbol" name="symbol" aria-describedby="emailHelp" placeholder="Enter strain symbol" required>
             <small id="symbolHelp" class="form-text text-muted">
-                Please enter a symbol for the strain being submitted, for example: BN/Crl, or SHR.BN-(D13Arb5-Ren)/Ipcv. For more information, please refer to the <a href="http://www.rgd.mcw.edu/nomen/rules-for-nomen.shtml">rules for strain nomenclature</a>. For help naming your strain please contact <a href="mailto:RGD.Data@mcw.edu">RGD.Data@mcw.edu</a>.
+                Please enter a symbol for the strain being submitted, for example: BN/Crl, or SHR.BN-(D13Arb5-Ren)/Ipcv. For more information, please refer to the <a href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml">rules for strain nomenclature</a> and the <a href="https://www.informatics.jax.org/mgihome/nomen/gene.shtml#endim">rules for naming  endonuclease-mediated mutants</a> for strains produced using CRISPR/Cas, TALEN or ZFN mutagenesis.”  The text “rules for naming  endonuclease-mediated mutants” should be the link to the gene/allele guidelines. For help naming your strain please contact <a href="mailto:RGD.Data@mcw.edu">RGD.Data@mcw.edu</a>.
 
-               </small>
+            </small>
         </div>
         <div class="form-group" style="width:100%">
         <div class="form-group" style="width:30%;float:left">
