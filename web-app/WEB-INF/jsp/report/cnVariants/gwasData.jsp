@@ -48,7 +48,7 @@
             String lessTerms = "";
             String moreTerms = "";
             List<Term> gwasTerms = new ArrayList<>();
-            
+
             String gwasTerm = gwas.getEfoId().replace('_', ':');
             String[] terms = gwasTerm.split(",");
 
@@ -81,7 +81,7 @@
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
                 <td><%=gwas.getStrongSnpRiskallele()%></td>
-                <td><%=gwas.getRiskAlleleFreq()%></td>
+                <td><%=Utils.NVL(gwas.getRiskAlleleFreq(),"N/A")%></td>
                 <td><%=gwas.getpVal()%></td>
                 <td><%=gwas.getpValMlog()%></td>
                 <td><%=gwas.getSnpPassQc()%></td>
