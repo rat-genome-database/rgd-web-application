@@ -72,7 +72,7 @@
             break;
     }
     Term t = new Term();
-    List<Term> gwasTerms = new ArrayList<>();
+
     List<GWASCatalog> gwasList = new ArrayList<>();
     if (!Utils.isStringEmpty(var.getRsId()))
         gwasList = gwasDao.getGWASListByRsId(var.getRsId());
