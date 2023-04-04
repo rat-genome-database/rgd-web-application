@@ -253,13 +253,13 @@
                     for (k = 0; k < conditions.size(); k++){%>
                 <th><b style="font-size: x-large"><%=k+1%></b> <input type="checkbox" name="checkAll<%=k%>" id="checkAll<%=k%>" value="<%=k%>" onclick="checkedAll('<%=k%>', this)" checked></th>
                 <th>AccId <%=k+1%>:</th>
+                <th title="Ordinality <%=k+1%>">Ord <%=k+1%>:</th>
                 <th>Min Value <%=k+1%>:</th>
                 <th>Max Value <%=k+1%>:</th>
                 <th>Unit <%=k+1%>:</th>
                 <th>Min Dur <%=k+1%>:</th>
                 <th>Max Dur <%=k+1%>:</th>
                 <th>Application Method <%=k+1%>:</th>
-                <th>Ordinality <%=k+1%>:</th>
                 <th>Condition Notes <%=k+1%>:</th>
                 <% }
                 for (int i = k; i < 15; i++) {%>
