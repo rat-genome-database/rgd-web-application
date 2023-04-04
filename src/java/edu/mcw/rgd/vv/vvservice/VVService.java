@@ -368,11 +368,13 @@ public class VVService {
             dqb.add(qb);
         }else{
 
-                if(vsb.getVariantId()>0 && vsb.getSampleIds().size()>0 ){
+                if(vsb.getVariantId()>0 ){
                     BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                             QueryBuilders.termQuery("variant_id", vsb.getVariantId())
                     );
-                    qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
+                    if(vsb.getSampleIds().size()>0) {
+                        qb.filter(QueryBuilders.termsQuery("sampleId", vsb.sampleIds.toArray()));
+                    }
                     dqb.add(qb);
                 }
             }

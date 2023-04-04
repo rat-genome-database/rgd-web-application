@@ -52,6 +52,7 @@ public class DetailController extends HaplotyperController {
 
         String vid = req.getParameter("vid");
         String sid = req.getParameter("sid");
+        String sampleIdJbrowse = req.getParameter("sample");
 
         int mapKey = 360; // map key defaults to rat assembly 6.0
         String mapKeyStr = request.getParameter("mapKey");
@@ -70,6 +71,11 @@ public class DetailController extends HaplotyperController {
         List<SearchResult> allResults = new ArrayList<SearchResult>();
 
         VariantSearchBean vsb = new VariantSearchBean(mapKey);
+        if(sampleIdJbrowse!=null){
+            if(sampleIdJbrowse.contains("_")){
+                vsb.sampleIds.add(Integer.parseInt(sampleIdJbrowse.substring(sampleIdJbrowse.indexOf("_")+1)));
+            }
+        }
         if (!sid.isEmpty())
             vsb.sampleIds.add(Integer.parseInt(sid));
         if(req.getParameter("chr")!=null &&
