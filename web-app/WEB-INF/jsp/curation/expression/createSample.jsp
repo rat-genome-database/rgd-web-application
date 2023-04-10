@@ -127,6 +127,7 @@
     PhenominerDAO pdao = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
     List<String> unitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
+    List<String> cultureUnitList = pdao.getDistinct("PHENOMINER_ENUMERABLES where type=7", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
     timeUnits.add("secs");
@@ -160,10 +161,12 @@
     HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
     HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
-    HashMap<String, String> lifeStage = (HashMap)request.getAttribute("lifeStage");
+    HashMap<String,String> lifeStage = (HashMap)request.getAttribute("lifeStage");
     HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
     HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
     HashMap<String,String> xcoMap = (HashMap) request.getAttribute("xcoTerms");
+    HashMap<String,String> culture = (HashMap) request.getAttribute("cultureDur");
+    HashMap<String,String> cultureUnit = (HashMap) request.getAttribute("cultureUnit");
     List<Condition> conditions = (ArrayList) request.getAttribute("conditions");
     int sampleSize = (int) request.getAttribute("samplesExist");
     boolean updateSample = sampleSize!=0;
@@ -210,7 +213,7 @@
 
 
 
-        <form action="experiments.html" method="POST" id="createSample">
+        <form action="/rgdweb/curation/expression/experiments.html" method="POST" id="createSample">
             <input type="button" value="Show/Hide Conditions" onclick="showColumns()">
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
             <br>
@@ -235,6 +238,7 @@
                 <th>Strain ID (Curated): </th>
                 <th>Cell Type (Source): </th>
                 <th>Cell Type ID (Curated): </th>
+                <th>Culture Duration (Curated)</th>
                 <th>Cell Line (Source): </th>
                 <th>Cell Line ID (Curated): </th>
                 <th>Tissue (Source): </th>
@@ -341,6 +345,14 @@ catch (Exception e){}
                 <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=(updateSample && !Objects.toString(cellTypeMap.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cellTypeMap.get(s.getSampleCellType()),"") :!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
                     <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>"  title="<%=Utils.NVL(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cl<%=count%>_popup" onclick="ontPopup('cellTypeId<%=count%>','cl','cl<%=count%>_term')" style="color:black;">Ont Tree</a></td>
+                <td>
+                    <input name="cultureDur<%=count%>" id="cultureDur<%=count%>" value="<%=(updateSample && !Objects.toString(culture.get(s.getSampleCellType()), "").isEmpty()) ? Objects.toString(culture.get(s.getSampleCellType()), "") : sample.getCultureDur()!=null ? sample.getCultureDur() : ""%>">
+                    <select name="cultureUnits<%=count%>" id="cultureUnits<%=count%>">
+                        <% for (String unit : cultureUnitList){%>
+                        <option value="<%=unit%>" <%=(updateSample && !Objects.toString(cultureUnit.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cultureUnit.get(s.getSampleCellType()),"").equals(unit) ? "selected" : "" : ( !Utils.isStringEmpty(sample.getCultureDurUnit()) && sample.getCultureDurUnit().equals(unit) ) ? "selected" : ""%>><%=unit%></option>
+                        <% } %>
+                    </select>
+                </td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
                 <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=(updateSample && !Objects.toString(cellLine.get(s.getSampleCellLine()),"").isEmpty()) ? Objects.toString(cellLine.get(s.getSampleCellLine()),"") : !Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
@@ -629,4 +641,13 @@ catch (Exception e){}
             document.getElementById('checkAll' + col).checked = !check;
         }
     }
+    window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted ||
+            ( typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
 </script>

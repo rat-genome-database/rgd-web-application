@@ -83,6 +83,7 @@
     DisplayMapper dm = new DisplayMapper(new HttpRequestFacade(request), (ArrayList) request.getAttribute("error"));
     FormUtility fu = new FormUtility();
     List<String> unitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
+    List<String> cultureUnitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=7", "value", true);
     final DecimalFormat d_f = new DecimalFormat("0.####");
     List timeUnits = new ArrayList();
     timeUnits.add("secs");
@@ -213,22 +214,7 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-<%--                <tr>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                    <td>--%>
-<%--                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>--%>
-<%--                    </td>--%>
-<%--                    <td>--%>
-<%--                        &lt;%&ndash;                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">&ndash;%&gt;--%>
-<%--                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">--%>
-<%--                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>--%>
-<%--                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                </tr>--%>
+
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
@@ -273,22 +259,7 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-<%--                <tr>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                    <td>--%>
-<%--                        <label for="cmoId<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement Id: &nbsp&nbsp </label>--%>
-<%--                    </td>--%>
-<%--                    <td>--%>
-<%--                        &lt;%&ndash;                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">&ndash;%&gt;--%>
-<%--                        <input type="text" name="cmoId<%=tcount%>" id="cmoId<%=tcount%>" value="" onblur="lostFocus('cmo')">--%>
-<%--                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('cmoId<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>--%>
-<%--                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                    <td></td>--%>
-<%--                </tr>--%>
+
         <%tcount++;}
 
       }
@@ -406,8 +377,15 @@ if (tissueMap.isEmpty()){ %>
                         <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
                         <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td><label for="cultureDur<%=cTcount%>" style="color: #24609c; font-weight: bold;">Culture Duration:</label></td>
+                    <td>
+                        <input name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
+                        <select name="cultureUnits<%=cTcount%>" id="cultureUnits<%=cTcount%>">
+                        <% for (String unit : cultureUnitList){%>
+                        <option value="<%=unit%>"><%=unit%></option>
+                        <% } %>
+                        </select>
+                    </td>
                     <td></td>
                 </tr>
                 <%   cTcount++;
@@ -434,8 +412,15 @@ if (tissueMap.isEmpty()){ %>
                             <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
                             <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td><label for="cultureDur<%=cTcount%>" style="color: #24609c; font-weight: bold;">Culture Duration:</label></td>
+                    <td>
+                        <input name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
+                        <select name="cultureUnits<%=cTcount%>" id="cultureUnits<%=cTcount%>">
+                            <% for (String unit : cultureUnitList){%>
+                            <option value="<%=unit%>"><%=unit%></option>
+                            <% } %>
+                        </select>
+                    </td>
                     <td></td>
                 </tr>
 
