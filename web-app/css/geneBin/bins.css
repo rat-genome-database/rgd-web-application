@@ -1,0 +1,147 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding: 0;
+    flex: 0.2;
+    margin-right: 10px;
+    background-color: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar > a {
+    display: block;
+    color: black;
+    padding: 8px;
+    text-decoration: none;
+}
+
+.sidebar > a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.sidebar > a:hover:not(.active) {
+    background-color: #2865A3;
+    color: white;
+}
+
+.gene_bin_content {
+    display: flex;
+    flex-direction: column;
+    flex: 0.80;
+    padding: 1px 16px;
+    height: 100%;
+}
+.main_body, .assignee_form, .assignee_change_form{
+    display: flex;
+    width: 100%;
+    max-height: 500px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.assignee_form > form{
+    border: 0.5px solid black;
+    padding: 7px 10px;
+}
+.assignee_form > form > input{
+    margin-left: 5px;
+}
+.gene_bin_header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#changeCurator {
+    width:100%;
+    height:100%;
+    opacity:.9;
+    top:0;
+    left:0;
+    display:none;
+    position:fixed;
+    background-color:#313131;
+    z-index: 1;
+}
+#closeForm {
+    float: right;
+    cursor:pointer
+}
+div#popupChangeCurator {
+    display: flex;
+    width: 40%;
+    height:40%;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+#form {
+    width: 100%;
+    padding:10px 50px;
+    border:2px solid gray;
+    border-radius:10px;
+    font-family:raleway;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#fff
+}
+
+.popupChangeCuratorButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.geneBinTableRow{
+    border: none;
+}
+
+.geneBinTable{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.tableBodyDiv{
+    display: flex;
+    width: 50%;
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.geneBinTableData{
+    padding: 4px;
+}
+
+.geneBinTableRow:nth-child(even) {
+    background-color: #f5ebeb;
+}
+
+.dhtmlxTree, #treeboxbox_tree{
+    display: flex;
+    width: 50%;
+    max-height: 340px;
+    margin-left: 20px;
+}
+
+.bin_content_tree{
+    display: flex;
+}
+
+.change_btn{
+    padding: 5px;
+}
+
+.binCompleted{
+    background-color: red;
+}
