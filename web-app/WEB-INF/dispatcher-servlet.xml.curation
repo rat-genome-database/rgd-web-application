@@ -273,6 +273,11 @@
                                 <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
                                   <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
+
+
+                <prop key="/geneBinning/index.html">GeneBinningController</prop>
+                <prop key="/geneBinning/bins.html">PerformBinningController</prop>
+
             </props>
         </property>
     </bean>
@@ -538,7 +543,11 @@
 
     <bean id="OrthologSelectController" class="edu.mcw.rgd.ortholog.OrthologSelectController"/>
     <bean id="OrthologController" class="edu.mcw.rgd.ortholog.OrthologController" />
-        <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
-        <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
+    <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
+    <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
+
+    <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
+    <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+
     </beans>
 
