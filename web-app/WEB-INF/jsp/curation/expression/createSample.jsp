@@ -216,6 +216,8 @@
         <form action="/rgdweb/curation/expression/experiments.html" method="POST" id="createSample">
             <input type="button" value="Show/Hide Conditions" onclick="showColumns()">
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
+            <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
+            <input type="hidden" id="count" name="count" value="<%=samples.size()%>" />
             <br>
             <div class="sticky-table">
             <table class="table table-striped">
@@ -224,7 +226,7 @@
             if(samples.size() != 0) {
         %>
                 <colgroup>
-                    <col span="19">
+                    <col span="20">
                     <% for (int i = 0; i < 15; i ++){%>
                     <col span="3">
                     <col id="showMe<%=i%>" span="7" style="visibility: collapse">
@@ -346,7 +348,7 @@ catch (Exception e){}
                     <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>"  title="<%=Utils.NVL(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cl<%=count%>_popup" onclick="ontPopup('cellTypeId<%=count%>','cl','cl<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td>
-                    <input name="cultureDur<%=count%>" id="cultureDur<%=count%>" value="<%=(updateSample && !Objects.toString(culture.get(s.getSampleCellType()), "").isEmpty()) ? Objects.toString(culture.get(s.getSampleCellType()), "") : sample.getCultureDur()!=null ? sample.getCultureDur() : ""%>">
+                    <input type="number" name="cultureDur<%=count%>" id="cultureDur<%=count%>" value="<%=(updateSample && !Objects.toString(culture.get(s.getSampleCellType()), "").isEmpty()) ? Objects.toString(culture.get(s.getSampleCellType()), "") : sample.getCultureDur()!=null ? sample.getCultureDur() : ""%>">
                     <select name="cultureUnits<%=count%>" id="cultureUnits<%=count%>">
                         <% for (String unit : cultureUnitList){%>
                         <option value="<%=unit%>" <%=(updateSample && !Objects.toString(cultureUnit.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cultureUnit.get(s.getSampleCellType()),"").equals(unit) ? "selected" : "" : ( !Utils.isStringEmpty(sample.getCultureDurUnit()) && sample.getCultureDurUnit().equals(unit) ) ? "selected" : ""%>><%=unit%></option>
@@ -524,11 +526,9 @@ catch (Exception e){}
             </div>
             <br>
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
-    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
-    <input type="hidden" id="count" name="count" value="<%=count%>" />
-    <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
-    <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
-    <input type="hidden" id="species" name="species" value="<%=species%>" />
+            <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
+            <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
+            <input type="hidden" id="species" name="species" value="<%=species%>" />
     </form>
 </div>
 
@@ -578,11 +578,7 @@ catch (Exception e){}
 
         }
         if (bool) {
-            var count = document.getElementById("count");
-            if (count.value === "")
-                alert("Count is empty for an unknown reason. Unable to insert/edit");
-            else
-                document.getElementById("createSample").submit();
+            document.getElementById("createSample").submit();
         }
     }
     function checkDropdown(actionId, statusId, act){

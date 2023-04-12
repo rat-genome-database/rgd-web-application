@@ -96,7 +96,7 @@ public class GeoExperimentController implements Controller {
                 s.setSex(request.getParameter("sex" + i));
                 s.setTissueAccId(request.getParameter("tissueId" + i));
                 s.setCellTypeAccId(request.getParameter("cellTypeId" + i));
-                s.setCultureDur(Integer.parseInt(request.getParameter("cultureDur"+i)));
+                s.setCultureDur(!Utils.isStringEmpty(request.getParameter("cultureDur"+i)) ? Integer.parseInt(request.getParameter("cultureDur"+i)) : null);
                 s.setCultureDurUnit(request.getParameter("cultureUnits"+i));
                 s.setCellLineId(request.getParameter("cellLineId" + i));
                 s.setGeoSampleAcc(request.getParameter("sampleId" + i));
@@ -127,7 +127,8 @@ public class GeoExperimentController implements Controller {
                 s.setNumberOfAnimals(1);
                 int sampleId = 0;
                 Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
-
+                if (i>=45)
+                    System.out.println("here");
                 boolean loadIt = curAction.equals("load") || curAction.equals("edit");
                 if(sample == null && curAction.equals("load")) {
                     s.setCreatedBy(login);
@@ -330,8 +331,10 @@ public class GeoExperimentController implements Controller {
 //                    List<Experiment> expList = sampleExperiment.get(s.getId());
                 Experiment e = sampleExperiment.get(s.getId());
                 List<Condition> condList = sampleConditions.get(s.getId());
-                if (condList.size() > maxCond)
+                if (condList != null && condList.size() > maxCond)
                     maxCond = condList.size();
+                if (condList==null)
+                    condList=new ArrayList<>();
 
 //                    for (Experiment e : expList){
                 if (!Utils.isStringEmpty(e.getTraitOntId()))
@@ -445,6 +448,8 @@ public class GeoExperimentController implements Controller {
                         rec.append(s.getCuratorNotes());
 
                     List<Condition> conds = sampleConditions.get(s.getId());
+                    if (conds == null)
+                        conds = new ArrayList<>();
                     for (int i = 0; i < conds.size(); i++){
                         Condition c = conds.get(i);
                         rec.append(c.getOntologyId());
@@ -469,6 +474,7 @@ public class GeoExperimentController implements Controller {
 
         }catch (Exception e){
                 error.add("Sample insertion failed for " + e.getMessage());
+                e.printStackTrace();
 
         }
             request.setAttribute("error", error);

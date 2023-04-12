@@ -414,7 +414,7 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td><label for="cultureDur<%=cTcount%>" style="color: #24609c; font-weight: bold;">Culture Duration:</label></td>
                     <td>
-                        <input name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
+                        <input type="number" name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
                         <select name="cultureUnits<%=cTcount%>" id="cultureUnits<%=cTcount%>">
                             <% for (String unit : cultureUnitList){%>
                             <option value="<%=unit%>"><%=unit%></option>
