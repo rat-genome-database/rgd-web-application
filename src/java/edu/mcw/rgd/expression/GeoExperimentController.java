@@ -314,7 +314,7 @@ public class GeoExperimentController implements Controller {
                     strain++;
                 if (!Utils.isStringEmpty(s.getCellTypeAccId()))
                     cell++;
-                if (!Utils.isStringEmpty(s.getCultureDur().toString()))
+                if (s.getCultureDur()!=null)
                     culture++;
                 if (!Utils.isStringEmpty(s.getCellLineId()))
                     cellLine++;
