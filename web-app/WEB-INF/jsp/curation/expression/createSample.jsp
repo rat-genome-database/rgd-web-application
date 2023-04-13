@@ -151,8 +151,6 @@
     HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
     HashMap<String,String> vtMap = (HashMap) request.getAttribute("vtMap");
     HashMap<String,String> vtNameMap = (HashMap) request.getAttribute("vtNameMap");
-    HashMap<String,String> cmoMap = (HashMap) request.getAttribute("cmoMap");
-    HashMap<String,String> cmoNameMap = (HashMap) request.getAttribute("cmoNameMap");
     HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
     HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
@@ -348,10 +346,10 @@ catch (Exception e){}
                     <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>"  title="<%=Utils.NVL(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cl<%=count%>_popup" onclick="ontPopup('cellTypeId<%=count%>','cl','cl<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td>
-                    <input type="number" name="cultureDur<%=count%>" id="cultureDur<%=count%>" value="<%=(updateSample && !Objects.toString(culture.get(s.getSampleCellType()), "").isEmpty()) ? Objects.toString(culture.get(s.getSampleCellType()), "") : sample.getCultureDur()!=null ? sample.getCultureDur() : ""%>">
+                    <input type="number" name="cultureDur<%=count%>" id="cultureDur<%=count%>" value="<%=(updateSample && !Objects.toString(culture.get(s.getSampleCellType()), "").isEmpty()) ? Objects.toString(culture.get(s.getSampleCellType()), "") : sample.getCultureDur()!=null ? sample.getCultureDur() : Objects.toString(culture.get(s.getSampleCellType()), "")%>">
                     <select name="cultureUnits<%=count%>" id="cultureUnits<%=count%>">
                         <% for (String unit : cultureUnitList){%>
-                        <option value="<%=unit%>" <%=(updateSample && !Objects.toString(cultureUnit.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cultureUnit.get(s.getSampleCellType()),"").equals(unit) ? "selected" : "" : ( !Utils.isStringEmpty(sample.getCultureDurUnit()) && sample.getCultureDurUnit().equals(unit) ) ? "selected" : ""%>><%=unit%></option>
+                        <option value="<%=unit%>" <%=(updateSample && !Objects.toString(cultureUnit.get(s.getSampleCellType()),"").isEmpty()) ? (Objects.toString(cultureUnit.get(s.getSampleCellType()),"").equals(unit) ? "selected" : "") : ( !Utils.isStringEmpty(sample.getCultureDurUnit()) && sample.getCultureDurUnit().equals(unit) ) ? "selected" : Objects.toString(cultureUnit.get(s.getSampleCellType()),"").equals(unit) ? "selected" : ""%>><%=unit%></option>
                         <% } %>
                     </select>
                 </td>
