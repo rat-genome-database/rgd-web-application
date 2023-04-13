@@ -430,7 +430,7 @@ public class GeoExperimentController implements Controller {
                     if (cell != 0)
                         rec.append(s.getCellTypeAccId());
                     if (culture != 0){
-                        rec.append(s.getCultureDur().toString());
+                        rec.append(Utils.NVL(String.valueOf(s.getCultureDur()),""));
                         rec.append(s.getCultureDurUnit());
                     }
                     if (cellLine != 0)
@@ -730,12 +730,12 @@ public class GeoExperimentController implements Controller {
 
     private void insertConditions(List<Condition> conds) throws Exception{
         List<String> ords = new ArrayList<>();
-        for (int i = 0; i < conds.size(); i++){
+        for (int i = conds.size()-1; i >= 0 ; i--){
             // check ordinality
                 Condition c = conds.get(i);
                 if (c.getOrdinality()==1)
                     break;
-                else if (i==(conds.size()-1) || c.getOrdinality() <= 0){
+                else if (i==0 || c.getOrdinality() <= 0){
                     conds.get(conds.indexOf(c)).setOrdinality(1);
                 }
         }
