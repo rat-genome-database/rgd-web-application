@@ -13,9 +13,9 @@
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
 %>
 <%@ include file="/common/headerarea.jsp" %>
-<script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script>
-<link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
+<script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+
+<link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>

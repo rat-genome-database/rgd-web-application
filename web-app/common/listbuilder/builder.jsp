@@ -2,8 +2,7 @@
 <link href="http://dev.rgd.mcw.edu/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" />
 
 
-<!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
+
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
 <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
