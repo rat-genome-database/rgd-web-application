@@ -27,8 +27,7 @@
 <link rel="stylesheet" href="/rgdweb/js/windowfiles/dhtmlwindow.css" type="text/css"/>
 <script type="text/javascript" src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
 <script type="text/javascript" src="/rgdweb/js/ontologyLookup.js"></script>
-<!--script type="text/javascript"  src="/OntoSolr/files/jquery-1.4.3.min.js"></script>
-<script type="text/javascript"  src="/OntoSolr/files/jquery.autocomplete.js"></script-->
+
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
 <script type="text/javascript"  src="/rgdweb/OntoSolr/ont_util.js"></script>
