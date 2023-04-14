@@ -39,7 +39,6 @@ public class GeoExperimentController implements Controller {
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken"))
                 accessToken = request.getCookies()[0].getValue();
 
-
         if(!checkToken(accessToken)) {
             response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
             return null;
@@ -127,8 +126,6 @@ public class GeoExperimentController implements Controller {
                 s.setNumberOfAnimals(1);
                 int sampleId = 0;
                 Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
-                if (i>=45)
-                    System.out.println("here");
                 boolean loadIt = curAction.equals("load") || curAction.equals("edit");
                 if(sample == null && curAction.equals("load")) {
                     s.setCreatedBy(login);
@@ -702,8 +699,6 @@ public class GeoExperimentController implements Controller {
                         return true;
                 }
             }
-
-
             return false;
         }
     }
