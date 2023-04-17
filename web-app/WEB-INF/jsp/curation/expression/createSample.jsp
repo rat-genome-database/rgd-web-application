@@ -157,9 +157,9 @@
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
     HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
-    HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
-    HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
-    HashMap<String,String> lifeStage = (HashMap)request.getAttribute("lifeStage");
+    HashMap<String,String> cellLines = (HashMap)request.getAttribute("cellLine");
+    HashMap<String,String> genders = (HashMap)request.getAttribute("gender");
+    HashMap<String,String> lifeStages = (HashMap)request.getAttribute("lifeStage");
     HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
     HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
     HashMap<String,String> xcoMap = (HashMap) request.getAttribute("xcoTerms");
@@ -310,10 +310,22 @@
 
           }
 
+
+
          bool = !(sample.getAgeDaysFromLowBound()==0 && ( sample.getAgeDaysFromHighBound()== sample.getAgeDaysFromLowBound() ) );
         }catch (Exception ignore){
               // number is null
         }
+         String strain = Utils.NVL(strainMap.get(s.getSampleStrain()),"");
+         String cellType = Utils.NVL(cellTypeMap.get(s.getSampleCellType()),"");
+         String cellLine = Utils.NVL(cellLines.get(s.getSampleCellLine()),"");
+         String tissue = Utils.NVL(tissueMap.get(s.getSampleTissue()),"");
+         String gender = Utils.NVL(genders.get(s.getSampleGender()),"");
+         String lifeStage = Objects.toString(lifeStages.get(s.getSampleAge()),"");
+
+//         System.out.println(strainMap);
+//         System.out.println( s.getSampleStrain()+"|"+strain + "|" + cellType +"|"+cellLine+"|"+tissue+"|"+gender+"|");
+
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
          {
              try{
@@ -328,7 +340,7 @@
          }
          if (!gender.isEmpty() && s.getSampleGender()==null){
 try{
-    Set<String> gKeys = gender.keySet();
+    Set<String> gKeys = genders.keySet();
     s.setSampleGender(gKeys.iterator().next());
 }
 catch (Exception e){}
@@ -338,11 +350,11 @@ catch (Exception e){}
                 <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
                 <td><%=s.getSampleOrganism()%></td>
                 <td><%=Objects.toString(s.getSampleStrain(),"")%></td>
-                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=(updateSample && !Objects.toString(strainMap.get(s.getSampleStrain()),"").isEmpty()) ? Objects.toString(strainMap.get(s.getSampleStrain()),"") :!Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : Objects.toString(strainMap.get(s.getSampleStrain()),"")%>">
+                <td><input type="text" name="strainId<%=count%>" id="strainId<%=count%>" value="<%=(updateSample && !strain.isEmpty()) ? strain : !Utils.isStringEmpty(sample.getStrainAccId()) ? sample.getStrainAccId() : strain%>">
                     <br><input type="text" id="rs<%=count%>_term" name="rs<%=count%>_term" value="<%=Objects.toString(strainNameMap.get(s.getSampleStrain()),"")%>" title="<%=Utils.NVL(strainNameMap.get(s.getSampleStrain()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="rs<%=count%>_popup" onclick="ontPopup('strainId<%=count%>','rs','rs<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td><%=Objects.toString(s.getSampleCellType(),"")%></td>
-                <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=(updateSample && !Objects.toString(cellTypeMap.get(s.getSampleCellType()),"").isEmpty()) ? Objects.toString(cellTypeMap.get(s.getSampleCellType()),"") :!Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : Objects.toString(cellTypeMap.get(s.getSampleCellType()),"")%>">
+                <td><input type="text" name="cellTypeId<%=count%>" id="cellTypeId<%=count%>" value="<%=(updateSample && !cellType.isEmpty()) ? cellType : !Utils.isStringEmpty(sample.getCellTypeAccId()) ? sample.getCellTypeAccId() : cellType%>">
                     <br><input type="text" id="cl<%=count%>_term" name="cl<%=count%>_term" value="<%=Objects.toString(cellNameMap.get(s.getSampleCellType()),"")%>"  title="<%=Utils.NVL(cellNameMap.get(s.getSampleCellType()),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cl<%=count%>_popup" onclick="ontPopup('cellTypeId<%=count%>','cl','cl<%=count%>_term')" style="color:black;">Ont Tree</a></td>
                 <td>
@@ -354,10 +366,10 @@ catch (Exception e){}
                     </select>
                 </td>
                 <td><%=Objects.toString(s.getSampleCellLine(),"")%></td>
-                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=(updateSample && !Objects.toString(cellLine.get(s.getSampleCellLine()),"").isEmpty()) ? Objects.toString(cellLine.get(s.getSampleCellLine()),"") : !Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : Objects.toString(cellLine.get(s.getSampleCellLine()),"")%>"> </td>
+                <td><input type="text" name="cellLineId<%=count%>" id="cellLineId<%=count%>" value="<%=(updateSample && !cellLine.isEmpty()) ? cellLine : !Utils.isStringEmpty(sample.getCellLineId()) ? sample.getCellLineId() : cellLine%>"> </td>
                 <td><%=Objects.toString(s.getSampleTissue(),"")%></td>
                 <td>
-                    <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=(updateSample && !Objects.toString(tissueMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(tissueMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(tissueMap.get(s.getSampleTissue()),"")%>">
+                    <input type="text" name="tissueId<%=count%>" id="tissueId<%=count%>" value="<%=(updateSample && !tissue.isEmpty()) ? tissue :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : tissue%>">
                     <br><input type="text" id="uberon<%=count%>_term" name="uberon<%=count%>_term" value="<%=Objects.toString(tissueNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(tissueNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
@@ -373,10 +385,10 @@ catch (Exception e){}
 <%--                </td>--%>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
-                        <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
-                        <option value="female" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"female") ? "selected":""%>>Female</option>
-                        <option value="both" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"both") ? "selected":""%>>both</option>
-                        <option value="not specified" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"not specified") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"not specified") ? "selected":""%>>Not Specified</option>
+                        <option value="male" <%=(updateSample && !gender.isEmpty())? Utils.stringsAreEqual(gender ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(gender ,"male") ? "selected":""%>>Male</option>
+                        <option value="female" <%=(updateSample && !gender.isEmpty())? Utils.stringsAreEqual(gender ,"female") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"female") ? "selected" : Utils.stringsAreEqual(gender ,"female") ? "selected":""%>>Female</option>
+                        <option value="both" <%=(updateSample && !gender.isEmpty())? Utils.stringsAreEqual(gender ,"both") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"both") ? "selected" : Utils.stringsAreEqual(gender ,"both") ? "selected":""%>>both</option>
+                        <option value="not specified" <%=(updateSample && !gender.isEmpty())? Utils.stringsAreEqual(gender ,"not specified") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"not specified") ? "selected" : Utils.stringsAreEqual(gender ,"not specified") ? "selected":""%>>Not Specified</option>
                     </select>
                 </td>
                 <td><%=Objects.toString(s.getSampleAge(),"")%> </td>
@@ -385,29 +397,29 @@ catch (Exception e){}
                 <td>
                     <fieldset>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="embryonic"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("embryonic") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("embryonic") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("embryonic") ? "checked":""%>> embryonic</label>
+                            lifeStage.contains("embryonic") ? "checked":""%>> embryonic</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="neonatal"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("neonatal") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("neonatal") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("neonatal") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("neonatal") ? "checked":""%>> neonatal</label>
+                            lifeStage.contains("neonatal") ? "checked":""%>> neonatal</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="weanling"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("weanling") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("weanling") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("weanling") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("weanling") ? "checked":""%>> weanling</label><br>
+                            lifeStage.contains("weanling") ? "checked":""%>> weanling</label><br>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="juvenile"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("juvenile") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("juvenile") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("juvenile") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("juvenile") ? "checked":""%>> juvenile</label>
+                            lifeStage.contains("juvenile") ? "checked":""%>> juvenile</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="adult"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("adult") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("adult") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("adult") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("adult") ? "checked":""%>> adult</label>
+                            lifeStage.contains("adult") ? "checked":""%>> adult</label>
                         <label><input type="checkbox" name="lifeStage<%=count%>" id="lifeStage<%=count%>" value="aged"
-                            <%=(updateSample && !Objects.toString(lifeStage.get(s.getSampleAge()),"" ).isEmpty())?Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":"":
+                            <%=(updateSample && !lifeStage.isEmpty())?lifeStage.contains("aged") ? "checked":"":
                             !Utils.isStringEmpty(sample.getLifeStage()) ?  sample.getLifeStage().contains("aged") ? "checked": "":
-                            Objects.toString(lifeStage.get(s.getSampleAge()),"" ).contains("aged") ? "checked":""%>> aged</label>
+                            lifeStage.contains("aged") ? "checked":""%>> aged</label>
                     </fieldset>
                 </td>
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=(updateSample && !Objects.toString(notes.get(null),"").isEmpty()) ? Objects.toString(notes.get(null),"") :sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
