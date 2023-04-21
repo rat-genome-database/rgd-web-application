@@ -216,6 +216,9 @@
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
             <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <input type="hidden" id="count" name="count" value="<%=samples.size()%>" />
+            <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
+            <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
+            <input type="hidden" id="species" name="species" value="<%=species%>" />
             <br>
             <div class="sticky-table">
             <table class="table table-striped">
@@ -524,9 +527,6 @@ catch (Exception e){}
             </div>
             <br>
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
-            <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
-            <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
-            <input type="hidden" id="species" name="species" value="<%=species%>" />
     </form>
 </div>
 
