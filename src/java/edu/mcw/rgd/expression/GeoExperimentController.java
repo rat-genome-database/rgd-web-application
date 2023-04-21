@@ -8,6 +8,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.commons.math3.analysis.function.Exp;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -619,11 +621,30 @@ public class GeoExperimentController implements Controller {
                     c.setApplicationMethod(cApplicationMethod[i]);
 
                     c.setOrdinality(Integer.parseInt(cOrdinality[i]));
+//                        if (ordinality.get(xcoId)==null) {
+//                            List<Integer> temp = new ArrayList<>();
+//                            temp.add(Integer.parseInt(cOrdinality[i]) );
+//                            ordinality.put(xcoId, temp);
+//                        }
+//                        else{
+//                            List<Integer> temp = ordinality.get(xcoId);
+//                            temp.add(Integer.parseInt(cOrdinality[i]) );
+//                            ordinality.put(xcoId, temp);
+//                        }
                     c.setNotes(cNotes[i]);
                     conditions.add(c);
                 }
 
             }
+
+//                for (String xco : ordinality.keySet()){
+//                    Collections.sort(ordinality.get(xco));
+//                }
+//                for (Condition c : conditions){
+//                    List<Integer> temp = ordinality.get(c.getOntologyId());
+//                    int ord = temp.indexOf(Integer.parseInt(c.getOrdinality().toString()));
+//                    c.setOrdinality(ord);
+//                }
 
             request.setAttribute("tissueMap",tissueMap);
             request.setAttribute("tissueNameMap", tissuneNameMap);
