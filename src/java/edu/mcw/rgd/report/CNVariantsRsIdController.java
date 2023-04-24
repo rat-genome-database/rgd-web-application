@@ -99,7 +99,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
                             }
                             else if (intron){
                                 size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron");
@@ -109,7 +109,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
                             }
                             else {
                                 size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
@@ -119,7 +119,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
+                                objects = vdao.getActiveVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
                             }
                             request.setAttribute("p",page);
                             request.setAttribute("maxPage", maxPage);
