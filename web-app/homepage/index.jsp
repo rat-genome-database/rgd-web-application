@@ -260,6 +260,32 @@
     </tr>
 </table>
 
+
+<% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
+<table style="border: 1px solid black;">
+    <tr>
+        <td style="color:white; font-weight:700; background-color:black;">RGD Zoom Links</td>
+    </tr>
+    <tr>
+        <td><a href="https://zoom.us/j/909448652?pwd=SlZUQ0FsZ0w0Nko0Ym1kUWx3TjE5dz09">Developer Zoom Channel </a></td>
+    </tr>
+    <tr>
+        <td><a href="https://mcw-edu.zoom.us/j/965121883?pwd=SEVIbStmaEV6UlJvYk16a2J1VHVXZz09">Curation Zoom Channel </a></td>
+    </tr>
+    <tr>
+        <td><a href="https://mcw-edu.zoom.us/j/97077035993?pwd=cHk3QlE1UzBaeTY5NmVQQzVnc3dKUT09">SCGE Toolkit Zoom Channel </a></td>
+    </tr>
+    <tr>
+        <td><a href="https://mcw-edu.zoom.us/j/99583555634?pwd=TnVra0ZQYTMzcG5tYzl5c1pFNGV3dz09">Alliance Scrum Zoom Channel </a></td>
+    </tr>
+</table>
+
+<%}%>
+
+
+
+
+
     <%@ include file="/common/footerarea.jsp"%>
 
 
