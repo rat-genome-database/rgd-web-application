@@ -17,8 +17,12 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/curation/edit/*" />
+            <mvc:mapping path="/curation/expression/*" />
             <mvc:mapping path="/curation/nomen/*" />
             <mvc:mapping path="/curation/pathway/*" />
+            <mvc:mapping path="/curation/phenominer/*" />
+            <mvc:mapping path="/curation/pipeline/*" />
+            <mvc:mapping path="/curation/gene_binning/*" />
 
             <mvc:mapping path="/curation/strainFileUpload*" />
             <beans:bean id="authInterceptor" class="edu.mcw.rgd.web.AuthenticationInterceptor"></beans:bean>
