@@ -125,7 +125,7 @@ public class GeoExperimentController implements Controller {
                 int sampleId = 0;
                 Sample sample = null;//pdao.getSampleByGeoId(s.getBioSampleId());
                 boolean loadIt = curAction.equals("load") || curAction.equals("edit");
-                if(sample == null){// && curAction.equals("load")) {
+                if(sample == null && loadIt){//curAction.equals("load")) {
                     s.setCreatedBy(login);
                     sampleId = pdao.insertSample(s);
                     sampleList.add(s);
@@ -468,7 +468,7 @@ public class GeoExperimentController implements Controller {
                 }
 
         }catch (Exception e){
-                error.add("Sample insertion failed for " + e.getMessage());
+                error.add("Sample insertion failed for " + e);
                 e.printStackTrace();
 
         }
