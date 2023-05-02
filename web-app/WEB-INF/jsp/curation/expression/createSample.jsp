@@ -290,7 +290,7 @@
 
      for(GeoRecord s: samples){
          boolean bool = false;
-         Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
+         Sample sample = null;// pdao.getSampleByGeoId(s.getSampleAccessionId());
          List<Experiment> experiments = new ArrayList<>();
          Experiment exp = new Experiment();
          GeneExpressionRecord gre = new GeneExpressionRecord();
