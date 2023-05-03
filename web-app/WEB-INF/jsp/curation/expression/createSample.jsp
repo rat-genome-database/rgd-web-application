@@ -426,9 +426,9 @@ catch (Exception e){}
                     <br>
                     <br>
                     <select id="action<%=count%>" name="action<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','action')">
-                        <option value="load" <%=s.getCurationStatus().equals("pending") && sample.getId()==0 ? "selected":""%>>Load</option>
+                        <option value="load" <%=s.getCurationStatus().equals("pending") ? "selected":""%>>Load</option>
                         <option value="ignore" <%=(s.getCurationStatus().equals("not4Curation") || s.getCurationStatus().equals("futureCuration")) ? "selected":""%>>Ignore</option>
-                        <option value="edit" <%=s.getCurationStatus().equals("loaded") || sample.getId()!=0 ? "selected":""%>>Edit</option>
+                        <option value="edit" <%=s.getCurationStatus().equals("loaded")  ? "selected":""%>>Edit</option><!-- || sample.getId()!=0  && sample.getId()==0 -->
                     </select>
                 </td>
 
@@ -442,7 +442,7 @@ catch (Exception e){}
                     <a href="" id="xco<%=count%><%=n%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=n%>','xco','xco<%=count%><%=n%>_term')" style="color:black;">Ont Tree</a><br>
                     <input type="text" id="xco<%=count%><%=n%>_term" name="xco<%=count%><%=n%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
-                <td><input type="number" name="cOrdinality<%=count%>" value="<%=conds.get(n).getOrdinality()%>" style="width: 30px"/></td>
+                <td><input type="number" name="cOrdinality<%=count%>" value="<%=conds.get(n).getOrdinality()%>" min="0" oninput="this.value = Math.abs(this.value)" style="width: 30px"/></td>
                 <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=conds.get(n).getValueMin()%>"/></td>
                 <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=conds.get(n).getValueMax()%>"/></td>
                 <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
@@ -472,7 +472,7 @@ catch (Exception e){}
                     <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
                     <input type="text" id="xco<%=count%><%=j%>_term" name="xco<%=count%><%=j%>_term" value="<%=xcoMap.get(c.getOntologyId())%>" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
-                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=c.getOrdinality()%>" style="width: 30px"/></td>
+                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="<%=c.getOrdinality()%>" min="0" oninput="this.value = Math.abs(this.value)" style="width: 30px"/></td>
                 <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=c.getValueMin()%>"/></td>
                 <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=c.getValueMax()%>"/></td>
                 <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
@@ -500,7 +500,7 @@ catch (Exception e){}
                     <a href="" id="xco<%=count%><%=i%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=i%>','xco','xco<%=count%><%=i%>_term')" style="color:black;">Ont Tree</a><br>
                     <input type="text" id="xco<%=count%><%=i%>_term" name="xco<%=count%><%=i%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                 </td>
-                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="" style="width: 30px"/></td>
+                <td><input type="number" size="7" name="cOrdinality<%=count%>" value="" min="0" oninput="this.value = Math.abs(this.value)" style="width: 30px"/></td>
                 <td><input type="text" size="7" name="cValueMin<%=count%>" value=""/></td>
                 <td><input type="text" size="7" name="cValueMax<%=count%>" value=""/></td>
                 <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
