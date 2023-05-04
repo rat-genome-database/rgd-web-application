@@ -123,7 +123,7 @@ public class GeoExperimentController implements Controller {
 
                 s.setNumberOfAnimals(1);
                 int sampleId = 0;
-                Sample sample = null;//pdao.getSampleByGeoId(s.getBioSampleId());
+                Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
                 boolean loadIt = curAction.equals("load") || curAction.equals("edit");
                 if(sample == null && loadIt){//curAction.equals("load")) {
                     s.setCreatedBy(login);

@@ -290,7 +290,7 @@
 
      for(GeoRecord s: samples){
          boolean bool = false;
-         Sample sample = null;// pdao.getSampleByGeoId(s.getSampleAccessionId());
+         Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
          List<Experiment> experiments = new ArrayList<>();
          Experiment exp = new Experiment();
          GeneExpressionRecord gre = new GeneExpressionRecord();
@@ -336,7 +336,7 @@ try{
 }
 catch (Exception e){}
          }
-//         System.out.println(s.getGeoAccessionId() + "|" + s.getCurationStatus());
+//         System.out.println(s.getSampleAccessionId() + "|" + s.getSampleTitle());
   %>
             <tr>
                 <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>

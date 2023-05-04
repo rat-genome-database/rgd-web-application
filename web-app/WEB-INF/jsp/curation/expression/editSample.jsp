@@ -123,7 +123,7 @@
             cellTypeMap.put(s.getSampleCellType(),Objects.toString(s.getRgdCellTermAcc(),""));
     }
     List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
-    boolean existingSample = false;//= (sampleList != null && !sampleList.isEmpty());
+    boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
 %>
 <input type="hidden" id="exist" value="<%=existingSample%>">
