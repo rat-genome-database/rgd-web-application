@@ -101,6 +101,7 @@ public class GeoExperimentController implements Controller {
                 s.setBioSampleId(request.getParameter("sampleId" + i));
                 String[] lifeStages = request.getParameterValues("lifeStage"+i);
                 String stage = "";
+                System.out.println(s.getGeoSampleAcc());
                 if (lifeStages!=null) {
                     for (int j = 0; j < lifeStages.length; j++) {
                         stage += lifeStages[j];
