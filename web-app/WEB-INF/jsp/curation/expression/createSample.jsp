@@ -336,6 +336,7 @@ try{
 }
 catch (Exception e){}
          }
+//         System.out.println(s.getGeoAccessionId() + "|" + s.getCurationStatus());
   %>
             <tr>
                 <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
@@ -416,7 +417,7 @@ catch (Exception e){}
                 <td><textarea name="notes<%=count%>" id="notes<%=count%>" style="height: 60px"><%=(updateSample && !Objects.toString(notes.get(null),"").isEmpty()) ? Objects.toString(notes.get(null),"") :sample.getNotes()!=null ? sample.getNotes() : Objects.toString(notes.get(null),"")%></textarea></td>
                 <td><textarea name="cNotes<%=count%>" id="cNotes<%=count%>" style="height: 60px"><%=(updateSample && !Objects.toString(curNotes.get(null),"").isEmpty()) ? Objects.toString(curNotes.get(null),"") : sample.getCuratorNotes()!=null ? sample.getCuratorNotes() : Objects.toString(curNotes.get(null),"")%></textarea></td>
                 <td><select id="status<%=count%>" name="status<%=count%>" onchange="checkDropdown('action<%=count%>','status<%=count%>','status')">
-                    <%if (sample.getId()!=0){%>
+                    <%if (sample.getId()!=0 || s.getCurationStatus().equals("loaded")){%>
                     <option value="loaded" <%=s.getCurationStatus().equals("loaded") ? "selected":""%>>Loaded</option>
                     <%}%>
                     <option  value="not4Curation" <%=s.getCurationStatus().equals("not4Curation") ? "selected":""%>>Not For Curation</option>
