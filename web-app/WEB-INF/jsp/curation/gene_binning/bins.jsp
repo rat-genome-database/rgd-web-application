@@ -118,14 +118,14 @@
                                         ${term.getTerm()}- ${term.getTermAcc()}
                                     <br>
                                     [
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${term.getAssignee() == null}">--%>
-<%--                                            <b>Assigned to: </b> ${term.getAssignee()},--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:otherwise>--%>
-<%--                                            <b>Unassigned</b>,--%>
-<%--                                        </c:otherwise>--%>
-<%--                                      </c:choose>--%>
+                                    <c:choose>
+                                        <c:when test="${term.getAssignee() == null}">
+                                            <b>Assigned to: </b> ${term.getAssignee()},
+                                        </c:when>
+                                        <c:otherwise>
+                                            <b>Unassigned</b>,
+                                        </c:otherwise>
+                                      </c:choose>
                                     <b>Genes: </b>(${term.getTotalGenes()}) ]
                                 </div>
                             </a>
