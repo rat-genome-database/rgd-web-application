@@ -8,7 +8,8 @@ import edu.mcw.rgd.datamodel.GeneBin.GeneBinChild;
 import edu.mcw.rgd.datamodel.GeneBin.GeneBinCountGenes;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
-import edu.mcw.rgd.datamodel.skygen.User;
+import edu.mcw.rgd.security.User;
+import edu.mcw.rgd.security.UserManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.springframework.ui.ModelMap;
@@ -129,9 +130,9 @@ public class PerformBinningController implements Controller {
         ModelMap model = new ModelMap();
 
 //      Get the current logged-in user
-//        User u = UserManager.getInstance().getUser(request.getParameter("accessToken"));
-//        System.out.println(u.getUsername());
-        username = "Sharath";
+        User u = UserManager.getInstance().getUser(request.getParameter("accessToken"));
+        System.out.println(u.getUsername());
+        username = u.getUsername();
 
 //      Getting all the child termAcc for bin category
         parentChildTermsAcc = getBinChildren();
