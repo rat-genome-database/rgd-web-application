@@ -303,6 +303,12 @@ function hideAllOrthos() {
             case 12 :
                 imageSource += "alliance_logo_sgd.png";
                 break;
+            case 15 :
+                imageSource += "alliance_logo_zenbase15.png";
+                break;
+            case 16 :
+                imageSource += "alliance_logo_zenbase16.png";
+                break;
 
         }
         return imageSource;
