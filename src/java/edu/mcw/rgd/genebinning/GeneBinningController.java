@@ -32,6 +32,7 @@ public class GeneBinningController implements Controller {
         ModelMap model = new ModelMap();
         model.put("pepDetail", pepDetail);
         model.put("username", username);
+        model.put("accessToken", httpServletRequest.getParameter("accessToken"));
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/index.jsp","model", model);
     }
 }

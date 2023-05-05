@@ -139,7 +139,7 @@
     <div class="gene_bin_content">
         <div class="gene_bin_header">
             <h3 id="binCategory" style="text-decoration:underline;"><c:out value="${model.termString}"/> (<c:out value="${model.termAccString}"/>)</h3>
-            <a href="/rgdweb/curation/geneBinning/index.html?username=${model.username}" class="btn btn-info btn-md" style="text-decoration: none; border: none; background-color:#FF7B23; color: white; width: 100px"> << Back</a>
+            <a href="/rgdweb/curation/geneBinning/index.html?accessToken=${model.accessToken}" class="btn btn-info btn-md" style="text-decoration: none; border: none; background-color:#FF7B23; color: white; width: 100px"> << Back</a>
         </div>
         <c:if test="${model.childTermString != null}">
             <h5><b>Sub Category:</b> <span  id="subBinCategory" style="text-decoration:underline;">

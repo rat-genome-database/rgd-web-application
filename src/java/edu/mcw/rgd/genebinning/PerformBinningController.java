@@ -128,7 +128,9 @@ public class PerformBinningController implements Controller {
         String isParent = request.getParameter("parent");
         String unassignFlag = request.getParameter("unassignFlag");
         String username = request.getParameter("username");
+        String accessToken = request.getParameter("accessToken");
         ModelMap model = new ModelMap();
+
 
 //      Getting all the child termAcc for bin category
         parentChildTermsAcc = getBinChildren();
@@ -300,6 +302,7 @@ public class PerformBinningController implements Controller {
         model.put("parent", Integer.parseInt(isParent));
         model.put("childBinCountMap", childBinCountMap);
         model.put("username", username);
+        model.put("accessToken", accessToken);
 
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/bins.jsp","model", model);
     }

@@ -42,12 +42,12 @@
     <div class="show_bins">
         <button>
             <c:if test="${model.pepDetail.getTotalGenes() > 15}">
-                <a style="text-decoration: none" href="/rgdweb/curation/geneBinning/bins.html?termAcc=GO:0008233&term=peptidase activity&parent=0&childTermAcc=GO:0070001&childTerm=aspartic-type peptidase activity&username=${model.username}">
+                <a style="text-decoration: none" href="/rgdweb/curation/geneBinning/bins.html?termAcc=GO:0008233&term=peptidase activity&parent=0&childTermAcc=GO:0070001&childTerm=aspartic-type peptidase activity&username=${model.username}&accessToken=${model.accessToken}">
                     Show Gene Bins
                 </a>
             </c:if>
             <c:if test="${model.pepDetail.getTotalGenes() <= 15}">
-                <a style="text-decoration: none" href="/rgdweb/curation/geneBinning/bins.html?termAcc=GO:0008233&term=peptidase activity&parent=1&username=${model.username}">
+                <a style="text-decoration: none" href="/rgdweb/curation/geneBinning/bins.html?termAcc=GO:0008233&term=peptidase activity&parent=1&username=${model.username}&accessToken=${model.accessToken}">
                     Show Gene Bins
                 </a>
             </c:if>
@@ -59,6 +59,7 @@
             <input type="hidden" name="termAcc" value="GO:0008233" />
             <input type="hidden" name="term" value="peptidase activity" />
             <input type="hidden" name="username" value="${model.username}"/>
+            <input type="hidden" name="accessToken" value="${model.accessToken}"/>
             <c:if test="${model.pepDetail.getTotalGenes() > 15}">
                 <input type="hidden" name="parent" value="0">
                 <input type="hidden" name="childTermAcc" value="GO:0070001" />
