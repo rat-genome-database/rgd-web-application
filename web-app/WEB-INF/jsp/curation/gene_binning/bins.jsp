@@ -70,8 +70,8 @@
                                                             ${child.getTerm()} - ${child.getTermAcc()}
                                                                 <br>
                                                                 <c:choose>
-                                                                    <c:when test="${term.getAssignee() != null}">
-                                                                        <b>Assigned to: </b> ${term.getAssignee()},
+                                                                    <c:when test="${child.getAssignee() != null}">
+                                                                        <b>Assigned to: </b> ${child.getAssignee()},
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <b>Unassigned</b>,
@@ -112,7 +112,7 @@
                                                             <br>
                                                             <c:choose>
                                                                 <c:when test="${term.getAssignee() != null}">
-                                                                    <b>Assigned to: </b> ${term.getAssignee()},
+                                                                    <b>Assigned to: </b> ${child.getAssignee()},
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <b>Unassigned</b>,
