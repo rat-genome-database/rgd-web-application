@@ -67,7 +67,17 @@
                                                 <li>
                                                     <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}"
                                                        style='<c:if test="${child.getCompleted() == 1}">color:red; text-decoration: line-through;</c:if>'>
-                                                            ${child.getTerm()} - ${child.getTermAcc()} - (${model.childBinCountMap.get(child.getTermAcc())})
+                                                            ${child.getTerm()} - ${child.getTermAcc()}
+                                                                <br>
+                                                                <c:choose>
+                                                                    <c:when test="${term.getAssignee() != null}">
+                                                                        <b>Assigned to: </b> ${term.getAssignee()},
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <b>Unassigned</b>,
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <b>Genes: </b>- (${model.childBinCountMap.get(child.getTermAcc())})
                                                     </a>
                                                 </li>
                                             </div>
@@ -98,7 +108,17 @@
                                             <li>
                                                 <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}"
                                                    style='<c:if test="${child.getCompleted() == 1}">color:red; text-decoration: line-through;</c:if>'>
-                                                        ${child.getTerm()} - ${child.getTermAcc()} - (${model.childBinCountMap.get(child.getTermAcc())})
+                                                        ${child.getTerm()} - ${child.getTermAcc()}
+                                                            <br>
+                                                            <c:choose>
+                                                                <c:when test="${term.getAssignee() != null}">
+                                                                    <b>Assigned to: </b> ${term.getAssignee()},
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <b>Unassigned</b>,
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <b>Genes: </b>- (${model.childBinCountMap.get(child.getTermAcc())})
 
                                                 </a>
                                             </li>
@@ -117,7 +137,6 @@
                                     </c:if>
                                         ${term.getTerm()}- ${term.getTermAcc()}
                                     <br>
-                                    
                                     <c:choose>
                                         <c:when test="${term.getAssignee() != null}">
                                             <b>Assigned to: </b> ${term.getAssignee()},
