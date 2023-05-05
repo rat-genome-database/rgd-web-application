@@ -127,12 +127,8 @@ public class PerformBinningController implements Controller {
         String inputCompleted = request.getParameter("completed");
         String isParent = request.getParameter("parent");
         String unassignFlag = request.getParameter("unassignFlag");
+        String username = request.getParameter("username");
         ModelMap model = new ModelMap();
-
-//      Get the current logged-in user
-        User u = UserManager.getInstance().getUser(request.getParameter("accessToken"));
-        System.out.println(u.getUsername());
-        username = u.getUsername();
 
 //      Getting all the child termAcc for bin category
         parentChildTermsAcc = getBinChildren();
