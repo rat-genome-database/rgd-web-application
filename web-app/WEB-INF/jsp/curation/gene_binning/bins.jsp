@@ -96,9 +96,8 @@
                                         </c:if>
                                             ${term.getTerm()}- ${term.getTermAcc()}
                                         <br>
-                                        [
                                         <b>Genes: </b>(${term.getTotalGenes()})
-                                        ]
+
                                     </a>
                                 </summary>
 <%--                            Store the children of the bin categories here --%>
@@ -111,7 +110,7 @@
                                                         ${child.getTerm()} - ${child.getTermAcc()}
                                                             <br>
                                                             <c:choose>
-                                                                <c:when test="${term.getAssignee() != null}">
+                                                                <c:when test="${child.getAssignee() != null}">
                                                                     <b>Assigned to: </b> ${child.getAssignee()},
                                                                 </c:when>
                                                                 <c:otherwise>
