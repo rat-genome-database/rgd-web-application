@@ -1,9 +1,139 @@
+a:hover{
+    color: white;
+}
+
+/*.assignee_form > form{*/
+/*    border: 0.5px solid black;*/
+/*    padding: 7px 10px;*/
+/*}*/
+
+.assignee_form > form > input{
+    margin-left: 5px;
+}
+
+.bin_content_tree{
+    display: flex;
+    flex-direction: row;
+}
+
+.binCompleted{
+    background-color: red;
+}
+
+.change_btn{
+    padding: 5px;
+}
+
+#changeCurator {
+    width:100%;
+    height:100%;
+    opacity:.9;
+    top:0;
+    left:0;
+    display:none;
+    position:fixed;
+    background-color:#313131;
+    z-index: 1;
+}
+
+#closeForm {
+    float: right;
+    cursor:pointer
+}
+
+div#popupChangeCurator {
+    display: flex;
+    width: 40%;
+    height:40%;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.dhtmlxTree, #treeboxbox_tree{
+    display: flex;
+    width: 50%;
+    max-height: 340px;
+    margin-left: 20px;
+}
+
+#form {
+    width: 100%;
+    padding:10px 50px;
+    border:2px solid gray;
+    border-radius:10px;
+    font-family:raleway;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#fff
+}
+
+.gene_bin_header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gene_bin_content {
+    display: flex;
+    flex-direction: column;
+    flex: 0.80;
+    padding: 1px 16px;
+    height: 100%;
+}
+
+.geneBinTableRow{
+    border: none;
+}
+
+.geneBinTable{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.geneBinTableData{
+    padding: 4px;
+}
+
+.geneBinTableRow:nth-child(even) {
+    background-color: #f5ebeb;
+}
+
+.gene_heading_count{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.main_body, .assignee_form, .assignee_change_form{
+    display: flex;
+    width: 100%;
+    max-height: 525px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.popupChangeCuratorButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 100%;
+}
+
 .sidebar {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     padding: 0;
-    flex: 0.2;
+    flex: 0.3;
+    width: 100%;
     margin-right: 10px;
     background-color: #f1f1f1;
 }
@@ -29,119 +159,84 @@
     color: white;
 }
 
-.gene_bin_content {
-    display: flex;
-    flex-direction: column;
-    flex: 0.80;
-    padding: 1px 16px;
-    height: 100%;
-}
-.main_body, .assignee_form, .assignee_change_form{
-    display: flex;
+.sidebar-row, .sidebar-row-nested{
     width: 100%;
-    max-height: 500px;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.assignee_form > form{
-    border: 0.5px solid black;
-    padding: 7px 10px;
-}
-.assignee_form > form > input{
-    margin-left: 5px;
-}
-.gene_bin_header{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-#changeCurator {
-    width:100%;
-    height:100%;
-    opacity:.9;
-    top:0;
-    left:0;
-    display:none;
-    position:fixed;
-    background-color:#313131;
-    z-index: 1;
-}
-#closeForm {
-    float: right;
-    cursor:pointer
-}
-div#popupChangeCurator {
-    display: flex;
-    width: 40%;
-    height:40%;
-    flex-direction: column;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-}
-#form {
-    width: 100%;
-    padding:10px 50px;
-    border:2px solid gray;
-    border-radius:10px;
-    font-family:raleway;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:#fff
+    margin:5px 2px;
+    padding: 5px 2px;
 }
 
-.popupChangeCuratorButtons{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    margin-left: 10px;
+.sidebar-row:hover{
     width: 100%;
+    background-color: #2865A3;
+    color: white;
 }
 
-.geneBinTableRow{
-    border: none;
+.sidebar-row-nested:hover{
+    background-color: #2865A3;
 }
 
-.geneBinTable{
+.sidebar-row-nested:hover > li > a{
     width: 100%;
-    border: 1px solid black;
+    text-decoration: none;
+    color: white;
+    background-color: #2865A3;
+}
+
+.sidebar-row-nested:hover a{
+    background-color: #2865A3;
+    width: 100%;
 }
 
 .tableBodyDiv{
     display: flex;
     width: 50%;
     max-height: 340px;
+    margin: 10px;
     overflow-y: auto;
 }
 
-.geneBinTableData{
-    padding: 4px;
-}
-
-.geneBinTableRow:nth-child(even) {
-    background-color: #f5ebeb;
-}
-
-.dhtmlxTree, #treeboxbox_tree{
-    display: flex;
+.tableBodyDivIncorrectGene{
     width: 50%;
     max-height: 340px;
-    margin-left: 20px;
+    margin: 10px;
+    overflow-y: auto;
 }
 
-.bin_content_tree{
+/**
+Sidebar Tree View
+ */
+
+.treeList{
+    list-style-type: none;
+}
+
+.tree{
+    margin-left: 0px;
+}
+
+.tree > li{
+    list-style-type: none;
+    display      : block;
+    position     : relative;
+    padding-bottom: 50px;
+}
+
+.tree > ul{
+    padding-left : 0;
+    margin-bottom: 2px;
+}
+
+.tree > a{
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none; /* Firefox */
+}
+
+.user_buttons{
     display: flex;
-}
-
-.change_btn{
-    padding: 5px;
-}
-
-.binCompleted{
-    background-color: red;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 10px;
 }
