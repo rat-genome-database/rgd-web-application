@@ -203,12 +203,16 @@
         </c:if>
 
         <%-- DO disease link to AGR --%>
-        <% if( bean.getAccId().startsWith("DOID:") ) { %>
+        <% if( bean.getAccId().startsWith("DOID:") ) {
+            String doPlus = bean.getAccId().substring(5);
+//            System.out.println(doPlus);
+            if (!doPlus.startsWith("9") && doPlus.length() != 7){
+        %>
         <tr><td colspan="3" align="center" style="padding-top: 12px; font-weight: bolder">
                 For additional species annotation, visit the
                 <a href="<%=XDBIndex.getInstance().getXDB(64).getUrl()+bean.getAccId()%>" title="Alliance of Genome Resources" style="color:#0275d8; font-weight: bolder">Alliance of Genome Resources</a>.
             </td></tr>
-        <% } %>
+        <% } } %>
     </table></td>
     <td valign="top">
         <%-- PATHWAY SMALL IMAGE - TO THE RIGHT --%>
