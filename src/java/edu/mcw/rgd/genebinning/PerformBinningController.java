@@ -108,6 +108,10 @@ public class PerformBinningController implements Controller {
         }
     }
 
+    private void updateCuratorAssignment(String assigneeName, String termAcc) throws Exception {
+        geneBinAssigneeDAO.updateAssigneeName(assigneeName, termAcc);
+    }
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -239,66 +243,35 @@ public class PerformBinningController implements Controller {
             model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
         }
 
+//      Assignment and unassignment of Curators
         if(Objects.equals(isParent, "1")){
             int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
             if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
                 if(inputAssigneeName != null && !inputAssigneeName.equals("")){
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001");
+                    updateCuratorAssignment(inputAssigneeName, "GO:0070001");
                 }
                 if(unassignFlag != null){
-                    geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001");
+                    updateCuratorAssignment(null, "GO:0070001");
                 }
                 model.put("childTermAccString", "GO:0070001");
                 model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
             } else{
                 if(inputAssigneeName != null && !inputAssigneeName.equals("")){
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputTermAcc);
+                    updateCuratorAssignment(inputAssigneeName, inputTermAcc);
                 }
                 if(unassignFlag != null){
-                    geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc);
+                    updateCuratorAssignment(null, inputTermAcc);
                 }
             }
         }else{
             if(inputAssigneeName != null && !inputAssigneeName.equals("")){
-                geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputChildTermAcc);
+                updateCuratorAssignment(inputAssigneeName, inputChildTermAcc);
             }
             if(unassignFlag != null){
-                geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc);
+                updateCuratorAssignment(null, inputChildTermAcc);
             }
         }
-/*
-//      Insert the new Assignee in the database
-        if(inputAssigneeName != null && !inputAssigneeName.equals("")){
-            if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001");
-                    model.put("childTermAccString", "GO:0070001");
-                    model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
-                } else{
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputTermAcc);
-                }
-            } else {
-                geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc);
-            }
-        }
-
-//      Unassign the Bin
-        if(unassignFlag != null){
-            if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                    geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001");
-                    model.put("childTermAccString", "GO:0070001");
-                    model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
-                } else{
-                    geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc);
-                }
-            } else {
-                geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc);
-            }
-        }
-*/
+        
 //      Fetching the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
             int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
@@ -314,8 +287,6 @@ public class PerformBinningController implements Controller {
             assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
             model.put("assignee", assigneeName.get(0));
         }
-
-
 
 //      Fetch all the bin details
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
@@ -336,5 +307,4 @@ public class PerformBinningController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/bins.jsp","model", model);
     }
-
 }
