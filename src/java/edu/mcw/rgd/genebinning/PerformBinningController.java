@@ -198,7 +198,7 @@ public class PerformBinningController implements Controller {
             }
         }
 
-//      If someone completed the bin curation, then update the bin completedFlag in the table
+//      Completed Action
         if(inputCompleted != null && Integer.parseInt(inputCompleted) == 1){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
@@ -239,8 +239,7 @@ public class PerformBinningController implements Controller {
             model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
         }
 
-
-//      Insert the new Assignee in the database
+//      Insert the new Assignee
         if(inputAssigneeName != null && !inputAssigneeName.equals("")){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
@@ -271,7 +270,6 @@ public class PerformBinningController implements Controller {
                 geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc);
             }
         }
-
         
 //      Fetching the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
