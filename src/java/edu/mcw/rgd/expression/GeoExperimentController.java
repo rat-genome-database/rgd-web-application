@@ -266,7 +266,14 @@ public class GeoExperimentController implements Controller {
                                 c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[k]), cMaxDurationUnits[k]));
                             }
                             c.setApplicationMethod(cApplicationMethod[k]);
-                            c.setOrdinality(Integer.parseInt(cOrdinality[k]));
+                            int ord;
+                            try{
+                                ord = Integer.parseInt(cOrdinality[k]);
+                            }
+                            catch (Exception e){
+                                ord = 1;
+                            }
+                            c.setOrdinality(ord);
                             c.setNotes(cNotes[k]);
                             c.setGeneExpressionRecordId(geId);
 
