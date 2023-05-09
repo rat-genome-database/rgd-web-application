@@ -263,26 +263,29 @@ public class PerformBinningController implements Controller {
                     geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001");
                     model.put("childTermAccString", "GO:0070001");
                     model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
-
-//                  Fetching the assignee details of the current bin
-                    assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001");
-                    model.put("assignee", assigneeName.get(0));
                 } else{
                     geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc);
-
-//                  Fetching the assignee details of the current bin
-                    assigneeName = geneBinAssigneeDAO.getAssigneeName(inputTermAcc);
-                    model.put("assignee", assigneeName.get(0));
                 }
             } else {
                 geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc);
+            }
+        }
 
-//              Fetching the assignee details of the current bin
-                assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
+//      Fetching the assignee details of the current bin
+        if(Objects.equals(isParent, "1")){
+            int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
+            if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
+                assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001");
+                model.put("assignee", assigneeName.get(0));
+            }else{
+                assigneeName = geneBinAssigneeDAO.getAssigneeName(inputTermAcc);
                 model.put("assignee", assigneeName.get(0));
             }
         }
-        
+        else{
+            assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
+            model.put("assignee", assigneeName.get(0));
+        }
 
 //      Fetch all the bin details
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
