@@ -225,8 +225,6 @@ public class PerformBinningController implements Controller {
             childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
         }
 
-//      Fetch updated children of each bin
-        parentChildTermsAcc = getBinChildren();
 
 //      Fetch all the bin details
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
@@ -292,6 +290,9 @@ public class PerformBinningController implements Controller {
             assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
             model.put("assignee", assigneeName.get(0));
         }
+        
+//      Fetch updated children of each bin
+        parentChildTermsAcc = getBinChildren();
 
         model.put("assignees", allAssignees);
         model.put("termAccString", inputTermAcc);
