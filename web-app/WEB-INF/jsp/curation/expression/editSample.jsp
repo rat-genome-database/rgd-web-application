@@ -7,6 +7,10 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Record" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
+<%@ page import="edu.mcw.rgd.web.FormUtility" %>
+<%@ page import="java.text.DecimalFormat" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -51,6 +55,17 @@
     table input{
         font-size: 14px;
     }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 
 <%
@@ -64,6 +79,24 @@
 <%@ include file="/common/headerarea.jsp" %>
 <%
     OntologyXDAO ontologyXDAO = new OntologyXDAO();
+    PhenominerDAO dao = new PhenominerDAO();
+    DisplayMapper dm = new DisplayMapper(new HttpRequestFacade(request), (ArrayList) request.getAttribute("error"));
+    FormUtility fu = new FormUtility();
+    List<String> unitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true);
+    List<String> cultureUnitList = dao.getDistinct("PHENOMINER_ENUMERABLES where type=7", "value", true);
+    final DecimalFormat d_f = new DecimalFormat("0.####");
+    List timeUnits = new ArrayList();
+    timeUnits.add("secs");
+    timeUnits.add("mins");
+    timeUnits.add("hours");
+    timeUnits.add("days");
+    timeUnits.add("weeks");
+    timeUnits.add("months");
+    timeUnits.add("years");
+    timeUnits.add("exhaustion");
+    timeUnits.add("death");
+    timeUnits.add("end of the experiment");
+
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
     PhenominerDAO pdao = new PhenominerDAO();
@@ -93,7 +126,7 @@
     boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
 %>
-
+<input type="hidden" id="exist" value="<%=existingSample%>">
 <br>
 <div>
     <%
@@ -165,6 +198,23 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="vtId<%=tcount%>" style="color: #24609c; font-weight: bold;">Vertebrate Trait Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="" onblur="lostFocus('vt')">
+                        <a href="" id="vt<%=tcount%>_popup" onclick="ontPopup('vtId<%=tcount%>','vt','vt<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
@@ -193,6 +243,22 @@ if (tissueMap.isEmpty()){ %>
                 <td></td>
                 <td></td>
             </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="vtId<%=tcount%>" style="color: #24609c; font-weight: bold;">Vertebrate Trait Id: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
+                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="" onblur="lostFocus('vt')">
+                        <a href="" id="vt<%=tcount%>_popup" onclick="ontPopup('vtId<%=tcount%>','vt','vt<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
         <%tcount++;}
 
@@ -311,8 +377,15 @@ if (tissueMap.isEmpty()){ %>
                         <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
                         <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td><label for="cultureDur<%=cTcount%>" style="color: #24609c; font-weight: bold;">Culture Duration:</label></td>
+                    <td>
+                        <input name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
+                        <select name="cultureUnits<%=cTcount%>" id="cultureUnits<%=cTcount%>">
+                        <% for (String unit : cultureUnitList){%>
+                        <option value="<%=unit%>"><%=unit%></option>
+                        <% } %>
+                        </select>
+                    </td>
                     <td></td>
                 </tr>
                 <%   cTcount++;
@@ -339,8 +412,15 @@ if (tissueMap.isEmpty()){ %>
                             <a href="" id="cl<%=cTcount%>_popup" onclick="ontPopup('cellTypeId<%=cTcount%>','cl','cl<%=cTcount%>_term')" style="color:black;">Ont Tree</a><br>
                             <input type="text" id="cl<%=cTcount%>_term" name="cl<%=cTcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td><label for="cultureDur<%=cTcount%>" style="color: #24609c; font-weight: bold;">Culture Duration:</label></td>
+                    <td>
+                        <input type="number" name="cultureDur<%=cTcount%>" id="cultureDur<%=cTcount%>">
+                        <select name="cultureUnits<%=cTcount%>" id="cultureUnits<%=cTcount%>">
+                            <% for (String unit : cultureUnitList){%>
+                            <option value="<%=unit%>"><%=unit%></option>
+                            <% } %>
+                        </select>
+                    </td>
                     <td></td>
                 </tr>
 
@@ -494,7 +574,152 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                 </tr>
                 <%notesCnt++;%>
+
     </table>
+                <%
+                    int xcoCnt=0;
+                    Record r = new Record();
+                    Condition c = new Condition();
+                    c.setOrdinality(1);
+                    r.getConditions().add(c);
+                %>
+                <div style="all: revert;">
+                <script type="text/javascript">
+                    var conditions = new Array();
+                    cCount =<%=r.getConditions().size()%>;
+                    function addCondition() {
+                        var allConditionDiv = document.getElementsByClassName("condition");
+                        for (var j = 1; j < allConditionDiv.length; j++){
+                            if (allConditionDiv.item(j).style.display !== 'block'){
+                                cCount=j;
+                                var thisCondition = allConditionDiv.item(j);
+                                thisCondition.style.display = "block";
+                                break;
+                            }
+                        }
+                    }
+                </script>
+                    <table>
+                        <tr>
+                            <td><h2>Experimental Conditions</h2></td>
+                            <td style="padding-left: 50px"><input onclick="addCondition()" type="button" value="Add Condition"></td>
+                        </tr>
+                    </table>
+
+                <%for (Condition cond : r.getConditions()){%>
+            <div id="condition<%=xcoCnt%>" class="condition">
+                <table class="table table-striped">
+                    <tr></tr>
+                <tr>
+                    <td>
+                        Experimental Condition <%=xcoCnt+1%>
+                    </td>
+                    <td>
+                        <label for="xcoId<%=xcoCnt%>">*AccId</label>
+                        <input name="xcoId<%=xcoCnt%>" id="xcoId<%=xcoCnt%>" value="">
+                        <a href="" id="xco<%=xcoCnt%>_popup" onclick="ontPopup('xcoId<%=xcoCnt%>','xco','xco<%=xcoCnt%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
+                        <input type="text" id="xco<%=xcoCnt%>_term" name="xco<%=xcoCnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Min Value</td>
+                    <td>Max Value</td>
+                    <td>Unit</td>
+                    <td>Min Dur</td>
+                    <td>Max Dur</td>
+                    <td>Application Method</td>
+                    <td>*Ordinality</td>
+                    <td>Notes</td>
+                </tr>
+                <tr>
+                    <%try{
+                        if (cond != null){%>
+                    <input type="hidden" name="cId" value="<%=dm.out("cValue", cond.getId(), xcoCnt)%>"/>
+                    <td><input type="text" size="7" name="cValueMin"
+                               value="<%=dm.out("cValueMin", cond.getValueMin(), xcoCnt)%>"/></td>
+                    <td><input type="text" size="7" name="cValueMax"
+                               value="<%=dm.out("cValueMax", cond.getValueMax(), xcoCnt)%>"/></td>
+                    <td><select name="cUnits" id="cUnits">
+                        <% for (String unit : unitList){%>
+                        <option value="<%=unit%>"><%=unit%></option>
+                        <% } %></select>
+                    </td>
+                    <td><input type="text" size="12" name="cMinDuration"
+                               value="<%=dm.out("cMinDuration", (cond.getDurationLowerBound() > 0 ? d_f.format(cond.getDurationLowerBound()) : ""), xcoCnt)%>"
+                               onchange="document.getElementsByName('cMinDurationUnits')[<%=(xcoCnt)%>].style.color='red'"/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, (cond.getDurationLowerBound() > 0 ? "" : Condition.convertDurationBoundToString(cond.getDurationLowerBound())))%>
+                    </td>
+                    <td><input type="text" size="12" name="cMaxDuration"
+                               value="<%=dm.out("cMaxDuration", (cond.getDurationUpperBound() > 0 ? d_f.format(cond.getDurationUpperBound()) : ""), xcoCnt)%>"
+                               onchange="document.getElementsByName('cMaxDurationUnits')[<%=(xcoCnt)%>].style.color='red'"/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, (cond.getDurationUpperBound() > 0 ? "" : Condition.convertDurationBoundToString(cond.getDurationUpperBound())))%>
+                    </td>
+                    <td><input type="text" size="30" name="cApplicationMethod"
+                               value="<%=dm.out("cApplicationMethod", cond.getApplicationMethod(), xcoCnt)%>"/></td>
+                    <td><input type="number" size="7" name="cOrdinality"
+                               value="<%=dm.out("cOrdinality", cond.getOrdinality(), xcoCnt)%>"/></td>
+                    <td><input type="text" size="30" name="cNotes"
+                               value="<%=dm.out("cNotes", cond.getNotes(), xcoCnt + 1)%>"/></td>
+                    <%}
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        }%>
+                </tr>
+                </table>
+            </div>
+                <% xcoCnt++; } %>
+
+            <% for (int i = xcoCnt; i < 15; i++) { %>
+                <div id="condition<%=i%>" style="display:none;"class="condition">
+                    <table class="table table-striped">
+                        <tr></tr>
+                        <tr>
+                            <td>
+                                Experimental Condition <%=i+1%>
+                            </td>
+                            <td>
+                                <label for="xcoId<%=i%>">*AccId</label>
+                                <input name="xcoId<%=i%>" id="xcoId<%=i%>" value="">
+                                <a href="" id="xco<%=i%>_popup" onclick="ontPopup('xcoId<%=i%>','xco','xco<%=i%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
+                                <input type="text" id="xco<%=i%>_term" name="xco<%=i%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                            </td>
+                            <td>
+                                <a style="color:red; font-weight:700;"
+                                   href="javascript:removeCondition('condition<%=i%>','<%=i%>') ;void(0);"><img
+                                        src="/rgdweb/common/images/del.jpg" border="0"/></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Min Value</td>
+                            <td>Max Value</td>
+                            <td>Units</td>
+                            <td>Min Dur</td>
+                            <td>Max Dur</td>
+                            <td>Application Method</td>
+                            <td>*Ordinality</td>
+                            <td>Notes</td>
+                        </tr>
+                        <tr>
+                            <input type="hidden" name="cId" value=""/>
+                            <td><input type="text" size="7" name="cValueMin" value=""/></td>
+                            <td><input type="text" size="7" name="cValueMax" value=""/></td>
+                            <td><select name="cUnits" id="cUnits">
+                                <% for (String unit : unitList){%>
+                                <option value="<%=unit%>"><%=unit%></option>
+                                <% } %></select>
+                            </td>
+                            <td><input type="text" size="12" name="cMinDuration"
+                                       value=""/><%=fu.buildSelectList("cMinDurationUnits", timeUnits, "")%>
+                            </td>
+                            <td><input type="text" size="12" name="cMaxDuration"
+                                       value=""/><%=fu.buildSelectList("cMaxDurationUnits", timeUnits, "")%>
+                            </td>
+                            <td><input type="text" size="30" name="cApplicationMethod" value=""/></td>
+                            <td><input type="number" size="7" name="cOrdinality" value=""/></td>
+                            <td><input type="text" size="30" name="cNotes" value=""/></td>
+                        </tr>
+                    </table>
+                </div>
+                <% } %>
+                </div>
 <%--            <input type="text" id = "<%=ontId%>_acc_id" name="<%=ontId%>_acc_id" size="50" value="" onblur="lostFocus('<%=ontId%>')">--%>
 <%--            <input type="hidden" id="<%=ontId%>_term" name="<%=ontId%>_term" value=""/>--%>
 <%--            <a href="" id="<%=ontId%>_popup" style="color:black;">Ont Tree</a>--%>
@@ -505,6 +730,7 @@ if (tissueMap.isEmpty()){ %>
         <input type="hidden" id="clcount" name="clcount" value="<%=clcount%>" />
         <input type="hidden" id="agecount" name="agecount" value="<%=ageCount%>" />
         <input type="hidden" id="notescount" name="notescount" value="<%=notesCnt%>">
+        <input type="hidden" id="conditionCount" name="conditionCount" value="15">
         <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
         <input type="hidden" id="species" name="species" value="<%=species%>" />
         <input type="hidden" id="samplesExist" name="samplesExist" value="<%=!existingSample ? 0 : sampleList.size()%>">
@@ -528,6 +754,7 @@ if (tissueMap.isEmpty()){ %>
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
         var bool = true;
+
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){
             var numbool = ageLow[i].value === "" || regex.test(ageLow[i].value);
@@ -555,7 +782,53 @@ if (tissueMap.isEmpty()){ %>
                 bool = false;
             }
         }
+        var existing = document.getElementById("exist").value;
+        var allConditionDiv = document.getElementsByClassName("condition");
+        var conditionCount = 0;
+        var ordinal = document.getElementsByName("cOrdinality");
+        if (existing !== "true") {
+            for (var j = 0; j < allConditionDiv.length; j++) {
+                var xco = document.getElementById("xcoId" + j);
+                var hasXco = j == 0 || allConditionDiv.item(j).style.display === 'block';
+                var hasOrdinality = ordinal[j].value === "";
+                if (hasXco) {
+                    if (xco.value === "" && !hasOrdinality) {
+                        xco.style.border = "2px solid red";
+                        ordinal[j].style.border = "1px solid black";
+                        bool = false;
+                    } else if (xco.value === "" && hasOrdinality) {
+                        xco.style.border = "2px solid red";
+                        ordinal[j].style.border = "2px solid red";
+                        bool = false;
+                    } else if (xco.value !== "" && hasOrdinality) {
+                        xco.style.border = "1px solid black";
+                        ordinal[j].style.border = "2px solid red";
+                        bool = false;
+                    } else {
+                        xco.style.border = "1px solid black";
+                        ordinal[j].style.border = "1px solid black";
+                    }
+                }
+            }
+        }
         if (bool)
             document.getElementById("expressionSub").submit();
+    }
+    function removeCondition(divName, i){
+        document.getElementById(divName).style.display = 'none';
+        document.getElementById("xcoId"+i).value="";
+        document.getElementById("xco"+i+"_term").value="";
+        document.getElementsByName("cValueMin")[i].value="";
+        document.getElementsByName("cValueMax")[i].value="";
+        document.getElementsByName("cUnits")[i].value="";
+        document.getElementsByName("cMinDuration")[i].value="";
+        document.getElementsByName("cMinDurationUnits")[i].value="secs";
+        document.getElementsByName("cMaxDuration")[i].value="";
+        document.getElementsByName("cMaxDurationUnits")[i].value="secs";
+        document.getElementsByName("cApplicationMethod")[i].value="";
+        document.getElementsByName("cOrdinality")[i].value="";
+        document.getElementsByName("cNotes")[i].value="";
+        document.getElementsByName("cOrdinality")[i].style.border = "1px solid black";
+        document.getElementById("xcoId"+i).style.border = "1px solid black";
     }
 </script>
