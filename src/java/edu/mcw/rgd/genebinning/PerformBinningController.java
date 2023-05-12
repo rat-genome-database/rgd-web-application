@@ -225,6 +225,9 @@ public class PerformBinningController implements Controller {
             childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
         }
 
+        //      Fetch all the bin details
+        allAssignees = geneBinAssigneeDAO.getAllAssignees();
+
 //      Fetch all the values from the bin where term_acc is inputTermAcc
         List<GeneBin> genes = new ArrayList<>();
         genes = geneBinDAO.getGenes(inputTermAcc);

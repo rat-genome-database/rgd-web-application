@@ -226,7 +226,7 @@
                             <input type="hidden" name="childTerm" value="${model.childTermString}" />
                         </c:if>
                         <input type="hidden" name="assigneeName" value="${model.username}"/>
-                        <input class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" type="submit" value="Assigne to me">
+                        <input class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" type="submit" value="Assign to me">
                     </form>
                 </div>
             </c:otherwise>
