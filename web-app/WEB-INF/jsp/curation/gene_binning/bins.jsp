@@ -170,26 +170,34 @@
         <c:choose>
             <c:when test="${model.assignee.getAssignee() != null}">
                 <div class="assignee_change_form">
-                    <h5><b>Curator:</b> <c:out value="${model.assignee.getAssignee()}"/></h5>
-                    <c:if test="${model.username == model.assignee.getAssignee()}">
-                        <form action="/rgdweb/curation/geneBinning/bins.html">
-                            <input type="hidden" name="termAcc" value="${model.termAccString}" />
-                            <input type="hidden" name="term" value="${model.termString}" />
-                            <input type="hidden" name="parent" value="${model.parent}">
-                            <input type="hidden" name="username" value="${model.username}"/>
-                            <input type="hidden" name="accessToken" value="${model.accessToken}"/>
-                            <c:if test="${model.childTermAccString != null}">
-                                <input type="hidden" name="childTermAcc" value="${model.childTermAccString}" />
-                                <input type="hidden" name="childTerm" value="${model.childTermString}" />
-                            </c:if>
-                            <input type="hidden" name="unassignFlag" value="1"/>
-                            <input class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white" type="submit" value="Unassign">
-                        </form>
-<%--                    <button class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" onclick="div_show()">Change Assignee</button>--%>
-                        <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&username=${model.username}&termAcc=<c:out value="${model.termAccString}"/>&term=<c:out value="${model.termString}"/>&completed=1&parent=<c:out value="${model.parent}"/><c:if test="${model.childTermAccString != null}">&childTermAcc=${model.childTermAccString}&childTerm=${model.childTermString}</c:if>">
-                            <button class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white">Completed</button>
-                        </a>
-                    </c:if>
+                    <div class="curator_info">
+                        <h5><b>Curator:</b> <c:out value="${model.assignee.getAssignee()}"/></h5>
+                    </div>
+                    <div class="user_buttons">
+                        <c:if test="${model.username == model.assignee.getAssignee()}">
+                            <div>
+                                <form action="/rgdweb/curation/geneBinning/bins.html">
+                                    <input type="hidden" name="termAcc" value="${model.termAccString}" />
+                                    <input type="hidden" name="term" value="${model.termString}" />
+                                    <input type="hidden" name="parent" value="${model.parent}">
+                                    <input type="hidden" name="username" value="${model.username}"/>
+                                    <input type="hidden" name="accessToken" value="${model.accessToken}"/>
+                                    <c:if test="${model.childTermAccString != null}">
+                                        <input type="hidden" name="childTermAcc" value="${model.childTermAccString}" />
+                                        <input type="hidden" name="childTerm" value="${model.childTermString}" />
+                                    </c:if>
+                                    <input type="hidden" name="unassignFlag" value="1"/>
+                                    <input class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white" type="submit" value="Unassign">
+                                </form>
+                            </div>
+                            <%--                    <button class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" onclick="div_show()">Change Assignee</button>--%>
+                            <div>
+                                <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&username=${model.username}&termAcc=<c:out value="${model.termAccString}"/>&term=<c:out value="${model.termString}"/>&completed=1&parent=<c:out value="${model.parent}"/><c:if test="${model.childTermAccString != null}">&childTermAcc=${model.childTermAccString}&childTerm=${model.childTermString}</c:if>">
+                                    <button class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white">Completed</button>
+                                </a>
+                            </div>
+                        </c:if>
+                    </div>
                 </div>
 
 <%--            A pop up form for changing the assignee details --%>
@@ -288,49 +296,69 @@
             }
         </script>
 
-        <div class="gene_heading_count">
-            <h4><b>Genes (${model.genes.size()})</b>
-                <img  style="cursor:pointer;" height=33 width=35 onclick="tableToCSV()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/>
-            </h4>
-            <c:if test="${model.incorrectGenesList.size() > 0}">
-                <h4><b>Incorrect Genes List: (${model.incorrectGenesList.size()})</b></h4>
-            </c:if>
-        </div>
-
         <div class="bin_content_tree">
             <div class="tableBodyDiv">
-                <table class="geneBinTable">
-                    <c:forEach var="gene" items="${model.genes}">
-                        <tr class="geneBinTableRow">
-                            <td class="geneBinTableData">
-                                <c:out value="${gene.getGeneSymbol()}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    <c:if test="${(15 - model.genes.size()) > 0}">
-                        <c:forEach begin = "${1}" end="${15 - model.genes.size()}">
-                            <tr class="geneBinTableRow">
-                                <td class="geneBinTableData">&nbsp</td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
-                </table>
-            </div>
-
-<%--        Incorrect Gene List--%>
-            <c:if test="${model.incorrectGenesList.size() > 0}">
-                <div class="tableBodyDivIncorrectGene">
+                <h4 style="display: flex;align-items: center;">
+                    <span>
+                        <b>Genes (${model.genes.size()})  </b>
+                        <img  style="cursor:pointer;" height=33 width=35 onclick="tableToCSV()" src="https://rgd.mcw.edu/rgdweb/common/images/excel.png"/>
+                    </span>
+                </h4>
+                <div style="overflow-y: auto">
                     <table class="geneBinTable">
-                        <c:forEach var="incorrectGene" items="${model.incorrectGenesList}">
+                        <c:forEach var="gene" items="${model.genes}">
                             <tr class="geneBinTableRow">
                                 <td class="geneBinTableData">
-                                    <c:out value="${incorrectGene}"/>
+                                    <c:out value="${gene.getGeneSymbol()}"/>
                                 </td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${(15 - model.genes.size()) > 0}">
+                            <c:forEach begin = "${1}" end="${15 - model.genes.size()}">
+                                <tr class="geneBinTableRow">
+                                    <td class="geneBinTableData">&nbsp</td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
                     </table>
                 </div>
-            </c:if>
+            </div>
+
+<%--        Incorrect Gene List--%>
+            <div class="incorrectGeneAndYourBin">
+                <c:if test="${model.incorrectGenesList.size() > 0}">
+                    <div class="tableBodyDivIncorrectGene">
+                        <h4 style="margin-left: auto;"><b>Incorrect Genes List: (${model.incorrectGenesList.size()})</b></h4>
+                        <div style="overflow-y: auto">
+                            <table class="geneBinTable">
+                                <c:forEach var="incorrectGene" items="${model.incorrectGenesList}">
+                                    <tr class="geneBinTableRow">
+                                        <td class="geneBinTableData">
+                                            <c:out value="${incorrectGene}"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </c:if>
+                <div class="tableBodyDivYourBins">
+                    <h4 style="margin-left: auto;"><b>Your bins</b></h4>
+                    <div style="overflow-y: auto">
+                        <table class="geneBinTable">
+                            <c:forEach var="bin" items="${model.assignees}">
+                                <c:if test="${bin.getAssignee() == model.username}">
+                                    <tr class="geneBinTableRow">
+                                        <td class="geneBinTableData">
+                                            <c:out value="${bin.getTerm()} - ${bin.getTermAcc()}"/>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

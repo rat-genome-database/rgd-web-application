@@ -94,6 +94,7 @@ div#popupChangeCurator {
 .geneBinTable{
     width: 100%;
     border: 1px solid black;
+    overflow-y: auto;
 }
 
 .geneBinTableData{
@@ -196,11 +197,30 @@ div#popupChangeCurator {
     overflow-y: auto;
 }
 
-.tableBodyDivIncorrectGene{
+.incorrectGeneAndYourBin{
+    display:flex;
+    flex-direction: column;
+    padding: 4px;
     width: 50%;
     max-height: 340px;
+}
+
+.tableBodyDivIncorrectGene{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
     margin: 10px;
     overflow-y: auto;
+    overflow-x: auto;
+}
+
+.tableBodyDivYourBins{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+    margin: 10px;
 }
 
 /**
@@ -235,9 +255,14 @@ ul {
     list-style-type: none; /* Firefox */
 }
 
+.curator_info{
+    display: flex;
+    flex: 0.78;
+    align-items: center;
+}
+
 .user_buttons{
     display: flex;
-    flex-direction: column;
+    flex: 0.22;
     justify-content: space-between;
-    margin-right: 10px;
 }
