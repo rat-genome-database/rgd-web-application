@@ -26,7 +26,6 @@ public class GeneBinningController implements Controller {
         GeneBinAssignee pepDetail = geneBinAssigneeDAO.getAssigneeName("GO:0008233").get(0);
 
         User u = UserManager.getInstance().getUser(httpServletRequest.getParameter("accessToken"));
-        System.out.println(u.getUsername());
         String username = u.getUsername();
 
         ModelMap model = new ModelMap();

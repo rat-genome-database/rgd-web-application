@@ -191,6 +191,7 @@ div#popupChangeCurator {
     display: flex;
     width: 50%;
     max-height: 340px;
+    flex-direction: column;
     margin: 10px;
     overflow-y: auto;
 }

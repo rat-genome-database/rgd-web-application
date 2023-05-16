@@ -45,7 +45,7 @@
                 <c:choose>
 
 <%--                Create Tree structure if the number of genes > 15 count --%>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
+                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
                         <div>
                             <details open>
                                     <summary>
@@ -86,7 +86,7 @@
                                 </details>
                         </div>
                     </c:when>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
+                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
                         <div>
                             <details close>
                                 <summary>

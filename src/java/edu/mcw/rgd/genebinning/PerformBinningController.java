@@ -132,7 +132,7 @@ public class PerformBinningController implements Controller {
         ModelMap model = new ModelMap();
 
 
-//      Getting all the child termAcc for bin category
+//      Fetch all the child termAcc for bin category
         parentChildTermsAcc = getBinChildren();
 
         List<GeneBinAssignee> allAssignees;
@@ -150,7 +150,7 @@ public class PerformBinningController implements Controller {
         if(reqGenes != null){
             incorrectGenesList.clear();
 
-//          Processing the geneList data from the form-textarea split the entire text area based on enter | comma | space | tabs
+//          Process the geneList data from the form-textarea split the entire text area based on enter | comma | space | tabs
             String[] genes = reqGenes.split( "[\\s,]+");
             genes = StringUtils.stripAll(genes);
 
@@ -198,7 +198,7 @@ public class PerformBinningController implements Controller {
             }
         }
 
-//      Completed Action
+//      Completed button action
         if(inputCompleted != null && Integer.parseInt(inputCompleted) == 1){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
@@ -233,7 +233,7 @@ public class PerformBinningController implements Controller {
             genes = geneBinDAO.getGenesOfDecendents(inputChildTermAcc);
             model.put("childTermAccString", inputChildTermAcc);
             model.put("childTermString", WordUtils.capitalize(inputChildTerm));
-        } else if (genes.size() > 15){
+        } else if (genes.size() > 15 && !Objects.equals(inputTermAcc, "NA")){
             genes = geneBinDAO.getGenesOfDecendents("GO:0070001");
             model.put("childTermAccString", "GO:0070001");
             model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
@@ -271,7 +271,7 @@ public class PerformBinningController implements Controller {
             }
         }
         
-//      Fetching the assignee details of the current bin
+//      Fetch the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
             int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
             if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
