@@ -155,6 +155,8 @@
     HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
+    HashMap<String,String> clinMeasMap = (HashMap) request.getAttribute("clinMeasMap");
+    HashMap<String,String> clinMeasNameMap = (HashMap) request.getAttribute("clinMeasNameMap");
     HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
@@ -247,7 +249,7 @@
                 <th>Tissue (Source): </th>
                 <th>Tissue ID (Curated): </th>
                 <th>Vertebrate Trait  ID (Curated): </th>
-<%--                <th>Clinical Measurement ID (Curated): </th>--%>
+                <th>Clinical Measurement ID (Curated): </th>
                 <th>Sex (Curated): </th>
                 <th>Age (Source): </th>
                 <th>Age (in days) Low (Curated): </th>
@@ -366,15 +368,15 @@ catch (Exception e){}
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
+                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=(updateSample && !Objects.toString(tissueMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(tissueMap.get(s.getSampleTissue()),"") :!Utils.isStringEmpty(sample.getTissueAccId()) ? sample.getTissueAccId() : Objects.toString(vtMap.get(s.getSampleTissue()),"")%>">
                     <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(vtNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
-<%--                <td>--%>
-<%--                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(cmoMap.get(s.getSampleTissue()), "")%>">--%>
-<%--                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(cmoNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(cmoNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>--%>
-<%--                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>--%>
-<%--                </td>--%>
+                <td>
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(clinMeasMap.get(null), "")%>">
+                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(clinMeasNameMap.get(null),"")%>" title="<%=Utils.NVL(clinMeasNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
+                </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
                         <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
