@@ -33,13 +33,13 @@
         <% for (Gene gene : homologs) {
             String imageSource = getSpeciesImage(gene);
         %>
-                    <td>
-                        <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
-                        <div style="margin:5px; font-weight:700;" >
-                            <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
-                        </div>
-                        <img border="0" src=<%=imageSource%> class="speciesIcon">
-                    </td>
+                <td>
+                    <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
+                    <div style="margin:5px; font-weight:700;" >
+                        <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
+                    </div>
+                    <img border="0" src=<%=imageSource%> class="speciesIcon">
+                </td>
         <%}%>
         </tr>
         </table>
@@ -67,7 +67,9 @@
                     Gene prevGene = null;
                     for (Gene gene : agrOrthos) {
                         imageSource = getAllianceImage(gene);
-                        String allianceToolTip = gene.getDescription();
+                        String allianceToolTip = "Species: &nbsp; "+SpeciesType.getCommonName(obj.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())+")"
+                                +"\nGene Symbol: &nbsp; "+obj.getSymbol()
+                                +"\nAlliance Gene ID: &nbsp; "+gene.getDescription();
                         boolean isDuplicate = false;
 
                         if(prevGene != null){
@@ -81,7 +83,7 @@
 
                             if(!isDuplicate){
                         %>
-                            <a title ="Alliance gene <%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                            <a title ="<%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>">
                                 <img border="0" src=<%=imageSource%> width="50px" height="50px">
                             </a>
                         <%}
