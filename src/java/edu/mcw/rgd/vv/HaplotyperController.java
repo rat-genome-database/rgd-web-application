@@ -314,11 +314,11 @@ public abstract class HaplotyperController implements Controller {
 
         if (chromosome.equals("") || start.equals("") || stop.equals("")) {
 
-            Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
+         /*   Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
             chromosome = p.getChromosome();
             start = p.getStart() + "";
             stop = p.getStop() + "";
-
+*/
         } else {
             try {
                 Integer.parseInt(start);
