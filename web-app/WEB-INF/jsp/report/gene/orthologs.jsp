@@ -57,8 +57,8 @@
                     if (xids.size()>0 ) {
                         XdbId xid = xids.get(0);
                         String popupTitle = "Species: &nbsp; "+SpeciesType.getCommonName(obj.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())+")"
-                            +"\nGene Symbol: "+obj.getSymbol()
-                            +"\nAlliance Gene ID: "+xid.getAccId();
+                            +"\nGene Symbol: &nbsp; "+obj.getSymbol()
+                            +"\nAlliance Gene ID: &nbsp; "+xid.getAccId();
                 %>
                     <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="<%=popupTitle%>">
                         <img border="0" src=<%=imageSource%> width="50px" height="50px">
