@@ -56,7 +56,7 @@
                     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,obj.getRgdId());
                     if (xids.size()>0 ) {
                         XdbId xid = xids.get(0);
-                        String popupTitle = "Species: "+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())
+                        String popupTitle = "Species: &nbsp; "+SpeciesType.getCommonName(obj.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())+")"
                             +"\nGene Symbol: "+obj.getSymbol()
                             +"\nAlliance Gene ID: "+xid.getAccId();
                 %>
@@ -67,8 +67,8 @@
                     Gene prevGene = null;
                     for (Gene gene : agrOrthos) {
                         imageSource = getAllianceImage(gene);
-                        String allianceToolTip = "Species: &nbsp; "+SpeciesType.getCommonName(obj.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())+")"
-                                +"\nGene Symbol: &nbsp; "+obj.getSymbol()
+                        String allianceToolTip = "Species: &nbsp; "+SpeciesType.getCommonName(gene.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())+")"
+                                +"\nGene Symbol: &nbsp; "+gene.getSymbol()
                                 +"\nAlliance Gene ID: &nbsp; "+gene.getDescription();
                         boolean isDuplicate = false;
 
