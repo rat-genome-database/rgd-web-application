@@ -57,7 +57,8 @@ String pageDescription = "Define Region";
                     <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
 <%--                    <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>--%>
 <%--                    <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>--%>
-<%--                    <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Assembly GRCm38</option>--%>
+                    <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Assembly GRCm38</option>
+                    <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Assembly GRCm39</option>
 <%--                    <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>--%>
                 </select>
             </td>
@@ -121,6 +122,9 @@ String pageDescription = "Define Region";
         }
         if (mapKey==631) {
             selectTitle="Select Breeds";
+        }
+        if (mapKey==910 || mapKey==911 || mapKey==1311 || mapKey==35 || mapKey==239){
+            selectTitle="View EVA Variants";
         }
 
     %>

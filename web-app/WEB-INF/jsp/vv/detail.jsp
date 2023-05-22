@@ -89,10 +89,10 @@
                         <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=result.getVariant().getReferenceNucleotide()%></td>
+                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getReferenceNucleotide(),"-")%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=result.getVariant().getVariantNucleotide()%></td>
+                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getVariantNucleotide(),"-")%></td>
                     </tr>
                     <tr>
                         <td class="carpeLabel">Location:</td><td><%=result.getVariant().getGenicStatus()%></td>
@@ -162,7 +162,7 @@
                         String percentRead = result.getVariant().getZygosityPercentRead() + "%";
                         String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
 
-                        if (percentRead.equals("0.0%")) {
+                        if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";
                         }
                         if (numAlleles.equals("0")) {
@@ -241,11 +241,11 @@
                                         <td class="carpeLabel" >Location:</td><td><%=tr.getAminoAcidVariant().getLocation()%></td>
                                     </tr>
 
-                                    <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getVariantAminoAcid().equals("") && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
+                                    <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
                                     <tr>
                                         <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getReferenceAminoAcid()%> to  <%=tr.getAminoAcidVariant().getVariantAminoAcid()%> (<%=tr.getAminoAcidVariant().getSynonymousFlag()%>)</td>
                                     </tr>
-                                    <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null && !tr.getAminoAcidVariant().getSynonymousFlag() .equals("")){ %>
+                                    <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
                                     <tr>
                                         <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getSynonymousFlag()%></td>
                                     </tr>
