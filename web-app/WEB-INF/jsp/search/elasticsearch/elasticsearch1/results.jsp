@@ -475,7 +475,7 @@
                                 </c:if >
                             </c:forEach>
                         </ul>
-                        <label class="moremaps" style="padding-left:10px">See more...</label>
+                        <!--label class="moremaps" style="padding-left:10px">See more...</label-->
                             </div>
                         <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().citation,t )} </span>
