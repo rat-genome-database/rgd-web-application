@@ -190,12 +190,15 @@
                 </c:if>
             </td>
             <td>
+<c:if test="${model.searchBean.category.equalsIgnoreCase('Variant') || model.searchBean.category.equalsIgnoreCase('general')}">
                RsId
+</c:if>
             </td>
             <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
                 <!--td>Ref_Nucleotide</td>
                 <td>Var_Nucleotide</td-->
             </c:if>
+            <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
             <td>
                 Assembly
             </td>
@@ -204,10 +207,8 @@
             </td>
             <td>Start</td>
             <td>Stop</td>
+            </c:if>
             <td style="text-align: center">
-                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
-                   <!--Location-->
-                </c:if>
                 <c:if test="${model.searchBean.category=='Reference'}">
                     Citation
                 </c:if>
@@ -224,15 +225,12 @@
                     Annotations
                 </c:if>
             </td>
-
-
-                <td style="width: 10em;">
+            <td style="width: 10em;">
                 <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
             </td>
-            <td>RGD ID / <br>Term_acc
-            </td>
+            <td>RGD ID / <br>Term_acc</td>
             <%if(!RgdContext.isProduction()){%>
             <td>Matched By</td><!--td>Score</td-->
             <%}%>
@@ -459,7 +457,7 @@
                         <td>Var_Nucleotide</td-->
 
                     </td>
-
+                    <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
                                 <c:choose>
@@ -482,9 +480,7 @@
                                 </c:choose>
                             <!--label class="moremaps" style="padding-left:10px">See more...</label-->
                         </div>
-                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
-                            ${f:format(hit.getSourceAsMap().citation,t )} </span>
-                        </c:if>
+
                     </td> <!-- END LOCATION--->
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
@@ -507,9 +503,7 @@
                             </c:choose>
                             <!--label class="moremaps" style="padding-left:10px">See more...</label-->
                         </div>
-                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
-                            ${f:format(hit.getSourceAsMap().citation,t )} </span>
-                        </c:if>
+
                     </td> <!-- END LOCATION--->
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
@@ -533,9 +527,7 @@
                                 </c:choose>
                             <!--label class="moremaps" style="padding-left:10px">See more...</label-->
                         </div>
-                        <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
-                            ${f:format(hit.getSourceAsMap().citation,t )} </span>
-                        </c:if>
+
                     </td> <!-- END LOCATION--->
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
@@ -562,11 +554,14 @@
 
                             <!--label class="moremaps" style="padding-left:10px">See more...</label-->
                         </div>
+
+                    </td> <!-- END LOCATION--->
+                    </c:if>
+                    <td>
                         <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().citation,t )} </span>
                         </c:if>
-                    </td> <!-- END LOCATION--->
-
+                    </td>
                     <td><c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().author, t )}
                         </c:if>
