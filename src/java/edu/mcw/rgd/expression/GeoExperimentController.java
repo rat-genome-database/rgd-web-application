@@ -556,7 +556,6 @@ public class GeoExperimentController implements Controller {
             int tcount = Integer.parseInt(request.getParameter("tcount"));
             int scount = Integer.parseInt(request.getParameter("scount"));
             int ctcount = Integer.parseInt(request.getParameter("ctcount"));
-            int cmoCount = Integer.parseInt(request.getParameter("cmoCount"));
             int clcount = Integer.parseInt(request.getParameter("clcount"));
             int ageCount = Integer.parseInt(request.getParameter("agecount"));
             int gcount = Integer.parseInt(request.getParameter("gcount"));
@@ -594,12 +593,16 @@ public class GeoExperimentController implements Controller {
                     tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
                     vtMap.put(null,request.getParameter("vtId"+i));
                     vtNameMap.put(null, request.getParameter("vt"+i+"_term"));
+                    clinMeasMap.put(null, request.getParameter("clinicalMeasurement"+i));
+                    clinMeasNameMap.put(null,request.getParameter("cmo"+i+"_term"));
                 }
                 else {
                     tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
                     tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
                     vtMap.put(request.getParameter("tissue" + i),request.getParameter("vtId"+i));
                     vtNameMap.put(request.getParameter("tissue" + i), request.getParameter("vt"+i+"_term"));
+                    clinMeasMap.put(request.getParameter("tissue" + i), request.getParameter("clinicalMeasurement"+i));
+                    clinMeasNameMap.put(request.getParameter("tissue" + i),request.getParameter("cmo"+i+"_term"));
                 }
             }
             for(int i = 0; i < scount;i++){
@@ -611,10 +614,6 @@ public class GeoExperimentController implements Controller {
                     strainMap.put(request.getParameter("strain" + i), request.getParameter("strainId" + i));
                     strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs"+i+"_term"));
                 }
-            }
-            for (int i = 0; i < cmoCount; i++){
-                clinMeasMap.put(null, request.getParameter("clinicalMeasurement"+i));
-                clinMeasNameMap.put(null,request.getParameter("cmo"+i+"_term"));
             }
             for(int i = 0; i < ageCount;i++){
                 ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
