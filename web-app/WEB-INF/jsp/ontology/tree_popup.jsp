@@ -233,6 +233,9 @@
                 else if (this.currentOnt === "CL"){
                     var subCat = 'CL:%20Cell%20Ontology';
                 }
+                else if (this.currentOnt === "VT"){
+                    var subCat = 'VT:%20Vertebrate%20Trait%20Ontology';
+                }
 
 
                     axios

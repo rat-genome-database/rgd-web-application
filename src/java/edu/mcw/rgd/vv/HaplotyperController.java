@@ -1,5 +1,6 @@
 package edu.mcw.rgd.vv;
 
+import com.google.gson.Gson;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.MapDAO;
@@ -44,25 +45,30 @@ public abstract class HaplotyperController implements Controller {
 
         MapDAO mdao = new MapDAO();
         GeneDAO gdao = new GeneDAO();
-
         Position p = new Position();
         int speciesTypeKey=mdao.getSpeciesTypeKeyForMap(mapKey);
         if (!geneSymbol.equals("")) {
             if (geneSymbol.indexOf('|') != -1) {
                 String[] genes = geneSymbol.split("\\|");
+                Gene g1 = gdao.getGenesBySymbol(genes[0], speciesTypeKey);
+                if(genes.length==1){
+                    List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
+                    MapData md1 = mdList1.get(0);
+                    p.setChromosome(md1.getChromosome());
+                    p.setStart(md1.getStartPos());
+                    p.setStop(md1.getStopPos());
+                }else {
+                    Gene g2 = gdao.getGenesBySymbol(genes[1], speciesTypeKey);
+                    List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
+                    List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
 
-                Gene g1 = gdao.getGenesBySymbol(genes[0],speciesTypeKey);
-                Gene g2 = gdao.getGenesBySymbol(genes[1], speciesTypeKey);
+                    MapData md1 = mdList1.get(0);
+                    MapData md2 = mdList2.get(0);
 
-                List<MapData> mdList1 = mdao.getMapData(g1.getRgdId(), mapKey);
-                List<MapData> mdList2 = mdao.getMapData(g2.getRgdId(), mapKey);
-
-                MapData md1 = mdList1.get(0);
-                MapData md2 = mdList2.get(0);
-
-                p.setChromosome(md1.getChromosome());
-                p.setStart(md1.getStopPos() + 1);
-                p.setStop(md2.getStartPos() - 1);
+                    p.setChromosome(md1.getChromosome());
+                    p.setStart(md1.getStopPos() + 1);
+                    p.setStop(md2.getStartPos() - 1);
+                }
             } else if (geneSymbol.indexOf('*') != -1) {
                 String[] genes = geneSymbol.split("\\*");
 

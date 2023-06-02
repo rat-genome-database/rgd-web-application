@@ -102,20 +102,14 @@ and <span class="highlight"><%=obj.getTerm()%></span> in <%=SpeciesType.getTaxon
     String linkText = obj.getWithInfo();
     String linkingSentence = "";
 
-    if(linkText.contains("|")){
+    String linkTextSubPart[] = linkText.split("[|,]"); // split by '|' or ','
+    for(String subPart : linkTextSubPart){
 
-        String linkTextSubPart[] = linkText.split("\\|");
-        for(String subPart : linkTextSubPart){
-
-            String link = DaoUtils.getInstance().buildEvidenceLink(subPart, obj, managementDAO);
-            linkingSentence += link+" & ";
+        String link = DaoUtils.getInstance().buildEvidenceLink(subPart, obj, managementDAO);
+        if( !linkingSentence.isEmpty() ) {
+            linkingSentence += " & ";
         }
-
-        linkingSentence = linkingSentence.substring(0, (linkingSentence.length()-2));
-    } else {
-        String link = DaoUtils.getInstance().buildEvidenceLink(linkText, obj, managementDAO);
-        linkingSentence += link+",";
-        linkingSentence = linkingSentence.substring(0, (linkingSentence.length()-1));
+        linkingSentence += link;
     }
 %>
     <tr><td><li>The annotation has been <%=EvidenceCode.getName(obj.getEvidence())%> with <b><%=linkingSentence%></b></td><td></td></tr>

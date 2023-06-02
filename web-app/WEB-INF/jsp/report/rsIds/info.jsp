@@ -30,7 +30,7 @@
 <table>
     <tr>
         <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
-            <%=symbol%> has <%=totalSize%> Variants -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
+            <%=symbol%> has <%=totalSize%> RGD Records -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
         <td width="63%"></td>
         <% if (isGene){%>
         <td align="center">
