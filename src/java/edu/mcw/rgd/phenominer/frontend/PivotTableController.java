@@ -11,6 +11,7 @@ import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +42,10 @@ public class PivotTableController implements Controller {
         if (formatStr.equals("")) {
             formatStr="1";
         }
-
+        int speciesTypeKey=3;
+        if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
+            speciesTypeKey= Integer.parseInt(req.getParameter("species"));
+        request.setAttribute("species", speciesTypeKey);
         int format = Integer.parseInt(formatStr);
         if(format==3){
             response.sendRedirect("/rgdweb/phenominer/download.html?fmt="+format+"&terms="+request.getParameter("terms") +"&refRgdId="+refRgdId);
