@@ -1,15 +1,9 @@
 package edu.mcw.rgd.ontology;
 
-import edu.mcw.rgd.dao.AbstractDAO;
 import edu.mcw.rgd.dao.DataSourceFactory;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.gviewer.GViewerBean;
-import edu.mcw.rgd.process.generator.GeneratorCommandParser;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
-import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections4.ListUtils;
-import org.springframework.jdbc.core.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -21,24 +15,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mtutaj
- * Date: Apr 22, 2011
- * Time: 4:47:15 PM
+ * @author mtutaj
+ * @since Apr 22, 2011
  * Given term accession id ('acc_id') and species type ('species_type') parameters,
  * return an xml stream of objects to be shown in GViewer.
  */
 public class OntGViewerDataController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpRequestFacade req = new HttpRequestFacade(request);
-        String aValue = "";
-        ArrayList<String> urlParts = new ArrayList<String>();
+        //HttpRequestFacade req = new HttpRequestFacade(request);
+        //String aValue = "";
+        //ArrayList<String> urlParts = new ArrayList<String>();
         // read term accession id and species type key
 
 
@@ -72,23 +62,6 @@ public class OntGViewerDataController implements Controller {
 //        response.getWriter().print(xmlData);
 
         return null;
-    }
-
-    private String getGViewerData(String accId, String speciesType, String withChilds) throws Exception {
-
-        AbstractDAO dao = new AbstractDAO();
-        JdbcTemplate jt = new JdbcTemplate(dao.getDataSource());
-        String sql = "SELECT "+(speciesType.equals("1")?"HUMAN":speciesType.equals("2")?"MOUSE":speciesType.equals("4")?"RAT":"RAT")
-                +(withChilds.equals("1")?"_GVIEWER_WITH_CHILDREN":"_GVIEWER_FOR_TERM")
-                +" FROM ONT_TERM_STATS WHERE term_acc=?";
-        final StringBuffer buf = new StringBuffer();
-        jt.query(sql, new Object[]{accId}, new RowMapper(){
-            public Object mapRow(ResultSet rs, int i) throws SQLException {
-                buf.append(rs.getString(1));
-                return null;
-            }
-        });
-        return buf.toString();
     }
 
     public void generate(HttpServletRequest request, HttpServletResponse response, String ids) throws Exception {
@@ -147,20 +120,10 @@ public class OntGViewerDataController implements Controller {
                         sql += " union ";
                     }
 
-
                     sql += "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
                             "FROM maps_data m, full_annot fa where m.rgd_id in (" + lst + ") ";
+                    sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key IN " + getMapKeysForGViewer();
 
-                    sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
-
-                    sql += MapManager.getInstance().getReferenceAssembly(1).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(9).getKey() + ")";
                 }
             } else {
                 sql = bean.buildSqlForGViewerAnnotations();
@@ -175,7 +138,6 @@ public class OntGViewerDataController implements Controller {
         Connection conn = null;
         try {
             conn = DataSourceFactory.getInstance().getDataSource().getConnection();
-            System.out.println("GVIEW QUERy:"+ sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -213,7 +175,25 @@ public class OntGViewerDataController implements Controller {
             }catch (Exception ignored) {
             }
         }
-        return;
     }
 
+    // comma separated list of map_key s
+    static String _strMapKeys = null;
+
+    synchronized static String getMapKeysForGViewer() throws Exception {
+
+        if( _strMapKeys==null ) {
+            MapManager mm = MapManager.getInstance();
+            _strMapKeys = "("
+                + mm.getReferenceAssembly(1).getKey() + ","
+                + mm.getReferenceAssembly(2).getKey() + ","
+                + mm.getReferenceAssembly(3).getKey() + ","
+                + mm.getReferenceAssembly(4).getKey() + ","
+                + mm.getReferenceAssembly(5).getKey() + ","
+                + mm.getReferenceAssembly(6).getKey() + ","
+                + mm.getReferenceAssembly(7).getKey() + ","
+                + mm.getReferenceAssembly(9).getKey() + ")";
+        }
+        return _strMapKeys;
+    }
 }

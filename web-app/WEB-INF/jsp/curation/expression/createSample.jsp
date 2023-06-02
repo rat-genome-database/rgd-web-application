@@ -155,6 +155,8 @@
     HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
+    HashMap<String,String> clinMeasMap = (HashMap) request.getAttribute("clinMeasMap");
+    HashMap<String,String> clinMeasNameMap = (HashMap) request.getAttribute("clinMeasNameMap");
     HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
@@ -247,7 +249,7 @@
                 <th>Tissue (Source): </th>
                 <th>Tissue ID (Curated): </th>
                 <th>Vertebrate Trait  ID (Curated): </th>
-<%--                <th>Clinical Measurement ID (Curated): </th>--%>
+                <th>Clinical Measurement ID (Curated): </th>
                 <th>Sex (Curated): </th>
                 <th>Age (Source): </th>
                 <th>Age (in days) Low (Curated): </th>
@@ -368,13 +370,13 @@ catch (Exception e){}
                 <td>
                     <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
                     <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(vtNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
-                    <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
+                    <a href="" id="vt<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
-<%--                <td>--%>
-<%--                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(cmoMap.get(s.getSampleTissue()), "")%>">--%>
-<%--                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(cmoNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(cmoNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>--%>
-<%--                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>--%>
-<%--                </td>--%>
+                <td>
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(clinMeasMap.get(s.getSampleTissue()), "")%>">
+                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(clinMeasNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(clinMeasNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
+                </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
                         <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
@@ -433,40 +435,11 @@ catch (Exception e){}
                     </select>
                 </td>
 
-                <%try{ for (n = 0; n < conds.size(); n++) {%>
-                <td align="right">
-                    <input type="checkbox" value="<%=n%>" class="expCondition<%=n%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
-                    <input type="hidden" name="cId<%=count%>" id="cId<%=count%>" value="<%=conds.get(n).getId()%>">
-                </td>
-                <td>
-                    <input name="xcoId<%=count%>_<%=n%>" id="xcoId<%=count%>_<%=n%>" value="<%=conds.get(n).getOntologyId()%>">
-                    <a href="" id="xco<%=count%><%=n%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=n%>','xco','xco<%=count%><%=n%>_term')" style="color:black;">Ont Tree</a><br>
-                    <input type="text" id="xco<%=count%><%=n%>_term" name="xco<%=count%><%=n%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
-                </td>
-                <td><input type="number" name="cOrdinality<%=count%>" value="<%=conds.get(n).getOrdinality()%>" min="0" oninput="this.value = Math.abs(this.value)" style="width: 30px"/></td>
-                <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=conds.get(n).getValueMin()%>"/></td>
-                <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=conds.get(n).getValueMax()%>"/></td>
-                <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
-                    <% for (String unit : unitList){%>
-                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(conds.get(n).getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
-                    <% } %></select>
-                </td>
-                <td><input type="text" size="12" name="cMinDuration<%=count%>"
-                           value="<%=conds.get(n).getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits"+count, timeUnits, "")%>
-                </td>
-                <td><input type="text" size="12" name="cMaxDuration<%=count%>"
-                           value="<%=conds.get(n).getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits"+count, timeUnits, "")%>
-                </td>
-                <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=Utils.NVL(conds.get(n).getApplicationMethod(),"")%>"/></td>
-
-                <td><input type="text" size="30" name="conNotes<%=count%>" value="<%=Utils.NVL(conds.get(n).getNotes(),"")%>"/></td>
-                <%}}
-                catch (Exception e){System.out.println(e);}
-                j=n;
+                <%try{
                     for (Condition c : conditions){%>
                 <td align="right">
-                <input type="checkbox" value="<%=j%>" class="expCondition<%=j%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
-                <input type="hidden" value="" name="cId<%=count%>" id="cId<%=count%>">
+                    <input type="checkbox" value="<%=j%>" class="expCondition<%=j%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
+                    <input type="hidden" value="" name="cId<%=count%>" id="cId<%=count%>">
                 </td>
                 <td>
                     <input name="xcoId<%=count%>_<%=j%>" id="xcoId<%=count%>_<%=j%>" value="<%=c.getOntologyId()%>">
@@ -479,7 +452,7 @@ catch (Exception e){}
                 <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
                     <% for (String unit : unitList){%>
                     <option value="<%=unit%>" <%=Utils.stringsAreEqual(c.getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
-                <% } %></select>
+                    <% } %></select>
                 </td>
                 <td><input type="text" size="12" name="cMinDuration<%=count%>"
                            value="<%=c.getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits" + count, timeUnits, "")%>
@@ -491,6 +464,35 @@ catch (Exception e){}
 
                 <td><input type="text" size="30" name="conNotes<%=count%>" value="<%=c.getNotes()%>"/></td>
                 <% j++;}
+                    for (Condition c : conds) {%>
+                <td align="right">
+                    <input type="checkbox" value="<%=j%>" class="expCondition<%=j%>" name="expCondition<%=count%>" id="expCondition<%=count%>" checked>
+                    <input type="hidden" name="cId<%=count%>" id="cId<%=count%>" value="<%=c.getId()%>">
+                </td>
+                <td>
+                    <input name="xcoId<%=count%>_<%=j%>" id="xcoId<%=count%>_<%=j%>" value="<%=c.getOntologyId()%>">
+                    <a href="" id="xco<%=count%><%=j%>_popup" onclick="ontPopup('xcoId<%=count%>_<%=j%>','xco','xco<%=count%><%=j%>_term')" style="color:black;">Ont Tree</a><br>
+                    <input type="text" id="xco<%=count%><%=j%>_term" name="xco<%=count%><%=j%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
+                </td>
+                <td><input type="number" name="cOrdinality<%=count%>" value="<%=c.getOrdinality()%>" min="0" oninput="this.value = Math.abs(this.value)" style="width: 30px"/></td>
+                <td><input type="text" size="7" name="cValueMin<%=count%>" value="<%=c.getValueMin()%>"/></td>
+                <td><input type="text" size="7" name="cValueMax<%=count%>" value="<%=c.getValueMax()%>"/></td>
+                <td><select name="cUnits<%=count%>" id="cUnits<%=count%>">
+                    <% for (String unit : unitList){%>
+                    <option value="<%=unit%>" <%=Utils.stringsAreEqual(c.getUnits(),unit) ? "selected" : ""%>><%=unit%></option>
+                    <% } %></select>
+                </td>
+                <td><input type="text" size="12" name="cMinDuration<%=count%>"
+                           value="<%=c.getDurationLowerBound()%>"/><%=fu.buildSelectList("cMinDurationUnits"+count, timeUnits, "")%>
+                </td>
+                <td><input type="text" size="12" name="cMaxDuration<%=count%>"
+                           value="<%=c.getDurationUpperBound()%>"/><%=fu.buildSelectList("cMaxDurationUnits"+count, timeUnits, "")%>
+                </td>
+                <td><input type="text" size="30" name="cApplicationMethod<%=count%>" value="<%=Utils.NVL(c.getApplicationMethod(),"")%>"/></td>
+
+                <td><input type="text" size="30" name="conNotes<%=count%>" value="<%=Utils.NVL(c.getNotes(),"")%>"/></td>
+                <%j++; }}
+                catch (Exception e){System.out.println(e);}
                 for (int i = j; i < 15; i++) {%>
                 <td align="right">
                     <input type="checkbox" value="<%=i%>" class="expCondition<%=i%>" name="expCondition<%=count%>" id="expCondition<%=count%>">

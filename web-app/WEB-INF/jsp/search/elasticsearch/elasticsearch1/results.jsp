@@ -190,16 +190,25 @@
                 </c:if>
             </td>
             <td>
+<c:if test="${model.searchBean.category.equalsIgnoreCase('Variant') || model.searchBean.category.equalsIgnoreCase('general')}">
                RsId
+</c:if>
             </td>
             <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
                 <!--td>Ref_Nucleotide</td>
                 <td>Var_Nucleotide</td-->
             </c:if>
+            <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
+            <td>
+                Assembly
+            </td>
+            <td>
+                Chromosome
+            </td>
+            <td>Start</td>
+            <td>Stop</td>
+            </c:if>
             <td style="text-align: center">
-                <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
-                   Location
-                </c:if>
                 <c:if test="${model.searchBean.category=='Reference'}">
                     Citation
                 </c:if>
@@ -216,15 +225,12 @@
                     Annotations
                 </c:if>
             </td>
-
-
-                <td style="width: 10em;">
+            <td style="width: 10em;">
                 <c:if test="${fn:toLowerCase(model.searchBean.category=='general' ) || model.searchBean.category=='QTL'}">
                     Strains Crossed
                 </c:if>
             </td>
-            <td>RGD ID / <br>Term_acc
-            </td>
+            <td>RGD ID / <br>Term_acc</td>
             <%if(!RgdContext.isProduction()){%>
             <td>Matched By</td><!--td>Score</td-->
             <%}%>
@@ -451,36 +457,111 @@
                         <td>Var_Nucleotide</td-->
 
                     </td>
+                    <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
                     <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
                         <div class="filter-list">
-                        <ul style="margin-left: 0" class="map-ul">
-                            <c:if test="${model.defaultAssembly!=null}">
+                                <c:choose>
+                                <c:when test="${model.defaultAssembly!=null && model.defaultAssembly!='all'}">
+                                    <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                        <c:if test="${model.defaultAssembly==mapData.map}">
+                                          ${mapData.map}
+                                        </c:if >
+                                    </c:forEach>
+                                </c:when>
+                                    <c:otherwise>
+                                <c:set var="assemblyFlag" value="false"/>
                                 <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
-                                    <c:if test="${model.defaultAssembly==mapData.map}">
-                                        <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
-                                            <c:if test="${hit.getSourceAsMap().refNuc!=null}">
-                                                ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
-                                            </c:if>
-                                        </li>
+                                    <c:if test="${model.defaultAssembly!=mapData.map && assemblyFlag=='false'}">
+                                        ${mapData.map}
+                                        <c:set var="assemblyFlag" value="true"/>
                                     </c:if >
                                 </c:forEach>
-                            </c:if>
-                            <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
-                                <c:if test="${model.defaultAssembly!=mapData.map}">
-                                    <li style="margin: 0;padding:0"><b>(${mapData.map})</b>&nbsp;${mapData.chromosome}<b>:</b>&nbsp;${mapData.startPos}-${mapData.stopPos}
-                                        <c:if test="${hit.getSourceAsMap().refNuc!=null}">
-                                            ${hit.getSourceAsMap().refNuc}>${hit.getSourceAsMap().varNuc}
-                                        </c:if>
-                                    </li>
-                                </c:if >
-                            </c:forEach>
-                        </ul>
-                        <label class="moremaps" style="padding-left:10px">See more...</label>
-                            </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            <!--label class="moremaps" style="padding-left:10px">See more...</label-->
+                        </div>
+
+                    </td> <!-- END LOCATION--->
+                    <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+                        <div class="filter-list">
+                            <c:choose>
+                                <c:when test="${model.defaultAssembly!=null && model.defaultAssembly!='all'}">
+                                    <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                        <c:if test="${model.defaultAssembly==mapData.map}">
+                                            ${mapData.chromosome}</c:if >
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                <c:set var="chrFlag" value="false"/>
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                    <c:if test="${model.defaultAssembly!=mapData.map && chrFlag=='false'}">
+                                       ${mapData.chromosome}
+                                        <c:set var="chrFlag" value="true"/>
+                                    </c:if >
+                                </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                            <!--label class="moremaps" style="padding-left:10px">See more...</label-->
+                        </div>
+
+                    </td> <!-- END LOCATION--->
+                    <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+                        <div class="filter-list">
+                                <c:choose>
+                                <c:when test="${model.defaultAssembly!=null && model.defaultAssembly!='all'}">
+                                    <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                        <c:if test="${model.defaultAssembly==mapData.map}">
+                                           ${mapData.startPos}
+                                        </c:if >
+                                    </c:forEach>
+                                </c:when>
+                                    <c:otherwise>
+                            <c:set var="startFlag" value="false"/>
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                    <c:if test="${model.defaultAssembly!=mapData.map && startFlag=='false'}">
+                                        ${mapData.startPos}
+                                        <c:set var="startFlag" value="true"/>
+                                    </c:if >
+                                </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            <!--label class="moremaps" style="padding-left:10px">See more...</label-->
+                        </div>
+
+                    </td> <!-- END LOCATION--->
+                    <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+                        <div class="filter-list">
+                                <c:choose>
+                                <c:when test="${model.defaultAssembly!=null && model.defaultAssembly!='all'}">
+                                    <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                        <c:if test="${model.defaultAssembly==mapData.map}">
+                                            ${mapData.stopPos}
+
+
+                                        </c:if >
+                                    </c:forEach>
+                                </c:when>
+                                    <c:otherwise>
+                                        <c:set var="stopFlag" value="false"/>
+                                <c:forEach items="${hit.getSourceAsMap().mapDataList}" var="mapData">
+                                    <c:if test="${model.defaultAssembly!=mapData.map && stopFlag=='false'}">
+                                       ${mapData.stopPos}
+                                        <c:set var="stopFlag" value="true"/>
+                                    </c:if >
+                                </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            <!--label class="moremaps" style="padding-left:10px">See more...</label-->
+                        </div>
+
+                    </td> <!-- END LOCATION--->
+                    </c:if>
+                    <td>
                         <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().citation,t )} </span>
                         </c:if>
-                    </td> <!-- END LOCATION--->
+                    </td>
                     <td><c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">
                             ${f:format(hit.getSourceAsMap().author, t )}
                         </c:if>

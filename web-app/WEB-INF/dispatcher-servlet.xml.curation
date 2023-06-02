@@ -85,6 +85,9 @@
                 <prop key="curation/edit/submittedStrains/curatorInstructions.html">InstructionsController</prop>
                 <prop key="curation/edit/imageDisplay.html">ImageDisplayController</prop>
 
+                <prop key="curation/geneBinning/index.html">GeneBinningController</prop>
+                <prop key="curation/geneBinning/bins.html">PerformBinningController</prop>
+
                 <prop key="pipeline/home.html">PipelineLogsHomeController</prop>
                 <prop key="pipeline/ensembl.html">PipelineEnsemblController</prop>
                 <prop key="pipeline/list.html">PipelineListController</prop>
@@ -275,8 +278,6 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
 
 
-                <prop key="/geneBinning/index.html">GeneBinningController</prop>
-                <prop key="/geneBinning/bins.html">PerformBinningController</prop>
 
             </props>
         </property>
