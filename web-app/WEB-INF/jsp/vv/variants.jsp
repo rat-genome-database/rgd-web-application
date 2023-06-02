@@ -607,7 +607,7 @@
 
                         %>
 
-                                    <% } %>
+                                    <% }var = var.replace("null", "-"); %>
                                     <%=var%>
                             </td>
 

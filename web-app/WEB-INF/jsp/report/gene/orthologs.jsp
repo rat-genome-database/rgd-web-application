@@ -33,16 +33,14 @@
         <% for (Gene gene : homologs) {
             String imageSource = getSpeciesImage(gene);
         %>
-                    <td>
-                        <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
-                        <div style="margin:5px; font-weight:700;" >
-                            <%=getSpeciesName(gene)%></div>
-                        </div>
-                        <img border="0" src=<%=imageSource%> class="speciesIcon">
-                    </td>
-
-
-                    <%}%>
+                <td>
+                    <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
+                    <div style="margin:5px; font-weight:700;" >
+                        <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
+                    </div>
+                    <img border="0" src=<%=imageSource%> class="speciesIcon">
+                </td>
+        <%}%>
         </tr>
         </table>
             </td>
@@ -57,15 +55,21 @@
                     String imageSource = getAllianceImage(obj);
                     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(63,obj.getRgdId());
                     if (xids.size()>0 ) {
-                        XdbId xid = xids.get(0);%>
-                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance gene RGD:<%=obj.getRgdId()%>">
+                        XdbId xid = xids.get(0);
+                        String popupTitle = "Species: &nbsp; "+SpeciesType.getCommonName(obj.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())+")"
+                            +"\nGene Symbol: &nbsp; "+obj.getSymbol()
+                            +"\nAlliance Gene ID: &nbsp; "+xid.getAccId();
+                %>
+                    <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="<%=popupTitle%>">
                         <img border="0" src=<%=imageSource%> width="50px" height="50px">
                     </a>
                     <%}
                     Gene prevGene = null;
                     for (Gene gene : agrOrthos) {
                         imageSource = getAllianceImage(gene);
-                        String allianceToolTip = gene.getDescription();
+                        String allianceToolTip = "Species: &nbsp; "+SpeciesType.getCommonName(gene.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())+")"
+                                +"\nGene Symbol: &nbsp; "+gene.getSymbol()
+                                +"\nAlliance Gene ID: &nbsp; "+gene.getDescription();
                         boolean isDuplicate = false;
 
                         if(prevGene != null){
@@ -79,7 +83,7 @@
 
                             if(!isDuplicate){
                         %>
-                            <a title ="Alliance gene <%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>" title="Alliance of Genome Resources">
+                            <a title ="<%=allianceToolTip%>" href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+xid.getAccId()%>">
                                 <img border="0" src=<%=imageSource%> width="50px" height="50px">
                             </a>
                         <%}
@@ -239,45 +243,6 @@ function hideAllOrthos() {
         return imageSource;
     }
 
-    private String getSpeciesName(Gene gene) {
-        String speciesName = "";
-        int speciesTypeKey = gene.getSpeciesTypeKey();
-        switch (speciesTypeKey){
-            case 1 :
-                speciesName = "Human";
-                break;
-            case 2 :
-                speciesName = "Mouse";
-                break;
-            case 3 :
-                speciesName =  "Rat";
-                break;
-            case 4 :
-                speciesName =  "Chinchilla";
-                break;
-            case 5 :
-                speciesName =  "Bonobo";
-                break;
-            case 6 :
-                speciesName =  "Dog";
-                break;
-            case 7 :
-                speciesName =  "Squirrel";
-                break;
-
-            case 9 :
-                speciesName =  "Pig";
-                break;
-            case 13 :
-                speciesName =  "Green Monkey";
-                break;
-            case 14 :
-                speciesName =  "Naked Mole-Rat";
-                break;
-        }
-        return speciesName;
-    }
-
     private String getAllianceImage(Gene gene) {
         String imageSource = "/rgdweb/common/images/";
         int speciesTypeKey = gene.getSpeciesTypeKey();
@@ -302,6 +267,12 @@ function hideAllOrthos() {
                 break;
             case 12 :
                 imageSource += "alliance_logo_sgd.png";
+                break;
+            case 15 :
+                imageSource += "alliance_logo_xenbase15.png";
+                break;
+            case 16 :
+                imageSource += "alliance_logo_xenbase16.png";
                 break;
 
         }

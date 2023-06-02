@@ -34,6 +34,7 @@
                 <td>GWAS Catalog Study</td>
                 <td>Disease&nbsp;Trait</td>
                 <td>Study&nbsp;Size</td>
+                <td>Risk&nbsp;Allele</td>
                 <td>Risk&nbsp;Allele&nbsp;Frequency</td>
                 <td>P&nbsp;Value</td>
                 <td>P Value MLOG</td>
@@ -44,29 +45,31 @@
             </tr>
 <%
         for (GWASCatalog gwas : gwasList){
-        String lessTerms = "";
-        String moreTerms = "";
-        String gwasTerm = gwas.getEfoId().replace('_', ':');
-        String[] terms = gwasTerm.split(",");
-        for (String termAcc : terms){
-            if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") )
-                continue;
-            String trimmed = termAcc.trim();
-//                System.out.println(trimmed);
-            Term term = odao.getTermByAccId(trimmed);
-            gwasTerms.add(term);
-        }
+            String lessTerms = "";
+            String moreTerms = "";
+            List<Term> gwasTerms = new ArrayList<>();
 
-        for (int i = 0; i < gwasTerms.size();i++){
-            if (i < 4){
-                lessTerms += gwasTerms.get(i).getTerm()+"&nbsp;<a href=\""+Link.ontView(gwasTerms.get(i).getAccId())+
-                "\" title=\"click to go to ontology page\">("+gwasTerms.get(i).getAccId()+")</a><br>";
+            String gwasTerm = gwas.getEfoId().replace('_', ':');
+            String[] terms = gwasTerm.split(",");
+
+            for (String termAcc : terms) {
+                if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
+                    continue;
+                String trimmed = termAcc.trim();
+//                System.out.println(trimmed);
+                Term term = odao.getTermByAccId(trimmed);
+                gwasTerms.add(term);
             }
-            else{
-                moreTerms += gwasTerms.get(i).getTerm()+"&nbsp;<a href=\""+Link.ontView(gwasTerms.get(i).getAccId())+
-                        "\" title=\"click to go to ontology page\">("+gwasTerms.get(i).getAccId()+")</a><br>";
+
+            for (int i = 0; i < gwasTerms.size(); i++) {
+                if (i < 4) {
+                    lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+                } else {
+                    moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+                }
             }
-        }
 
     String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
         String pmid = gwas.getPmid().split(":")[1];
@@ -77,13 +80,13 @@
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
-                <td><%=gwas.getRiskAlleleFreq()%></td>
+                <td><%=gwas.getStrongSnpRiskallele()%></td>
+                <td><%=Utils.NVL(gwas.getRiskAlleleFreq(),"N/A")%></td>
                 <td><%=gwas.getpVal()%></td>
                 <td><%=gwas.getpValMlog()%></td>
                 <td><%=gwas.getSnpPassQc()%></td>
-                <td><%=gwas.getOrBeta()%></td>
-                <td>
-                    <%=lessTerms%>
+                <td><%=Utils.NVL(gwas.getOrBeta(),"N/A")%></td>
+                <td><%=Utils.NVL(lessTerms, "N/A")%>
                     <% if (gwasTerms.size()>4) {%>
                     <span class="more" style="display: none;"><%=moreTerms%> </span><a href="" class="moreLink" title="Click to see more"> More...</a>
                     <% } %>

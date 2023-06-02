@@ -6,6 +6,7 @@ import edu.mcw.rgd.dao.impl.QTLDAO;
 import edu.mcw.rgd.dao.impl.StrainDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -15,9 +16,7 @@ import edu.mcw.rgd.web.HttpRequestFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CNVariantsRsIdController implements Controller {
     protected VariantDAO vdao = new VariantDAO();
@@ -99,7 +98,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
                             }
                             else if (intron){
                                 size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron");
@@ -109,7 +108,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
                             }
                             else {
                                 size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
@@ -119,7 +118,7 @@ public class CNVariantsRsIdController implements Controller {
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
+                                objects = vdao.getActiveVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
                             }
                             request.setAttribute("p",page);
                             request.setAttribute("maxPage", maxPage);
@@ -161,7 +160,9 @@ public class CNVariantsRsIdController implements Controller {
 //        if (k>1){
 //            error.add("Too many IDs given! Reduce down to 1 ID!");
 //        }
-
+//        ArrayList<VariantMapData> newList = new ArrayList<>();
+//        Set<VariantMapData> set = new HashSet<>(objects);
+//        newList.addAll(set);
         HashMap<Long, Boolean> duplicateRgdId = new HashMap<>();
         List<VariantMapData> objectsNonDupe = new ArrayList<>();
         if (objects != null) {
@@ -173,6 +174,7 @@ public class CNVariantsRsIdController implements Controller {
             }
         }
 
+        request.setAttribute("totalSize", objectsNonDupe.size());
         request.setAttribute("reportObjects", objectsNonDupe);
         request.setAttribute("requestFacade", req);
 
