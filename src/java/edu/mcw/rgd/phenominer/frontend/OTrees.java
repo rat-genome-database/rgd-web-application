@@ -291,9 +291,13 @@ public class OTrees {
 
             List<ONode> nodes = parentNode.children;
             for( ONode node: nodes ) {
-                int recordCount = node.oTerm.recordIds.size();
+
+                int recordCount = 0;
+                if(node.oTerm!=null && node.oTerm.recordIds!=null)
+                      recordCount=  node.oTerm.recordIds.size();
 
                 // we got an annotated term! compute unique id for the term
+                assert node.oTerm != null;
                 String id = getUniqueId(node.oTerm.accId, termCounts);
 
                 String text = node.oTerm.termName+"("+recordCount+")";
