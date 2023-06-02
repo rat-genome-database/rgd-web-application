@@ -4,14 +4,18 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%
     String pageTitle = "Phenominer";
     String headContent = "";
     String pageDescription = "";
 
     int species=3;
+    String speciesOntology="RS";
+
     if (request.getParameter("species") != null && !request.getParameter("species").equals("")) {
         species=Integer.parseInt(request.getParameter("species"));
+        speciesOntology="CS";
     }
 
 
@@ -118,20 +122,57 @@
         sessionStorage.clear();
         location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
     }
+    $(function () {
+       // $('input[name="species"]').prop('checked',false)
+        var radioNodeList=$('input[name="species"]');
+        $.each(radioNodeList, function () {
+         //   alert("SPECIES:"+$(this).val() );
+            var species=$(this).val();
+            if(species==<%=request.getAttribute("species")%>){
+                $(this).attr('checked', true);
+            }
+
+        })
+
+        $('input[name="species"]').on('change', function () {
+            var species=$(this).val();
+            sessionStorage.clear();
+            if(species==3)
+            location.href='/rgdweb/phenominer/ontChoices.html'
+                else
+                location.href='/rgdweb/phenominer/ontChoices.html?species='+species
+
+        })
+    })
+
 </script>
 
 
 
 <table width="95%" cellspacing="1px" border="0">
     <tr>
-        <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database</td>
-        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading Rat Strain Ontology....</div>
+        <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database &nbsp;
+        </td>
+        <td>
+            <div style="border:1px solid black; padding:5px; margin-right:15px;">
+            <table >
+                <tr>
+                    <td><input type="radio" name="species" value="3"></td>
+                        <td>Rat&nbsp;Phenominer</td>
+                    <td>&nbsp;</td>
+                    <td><input type="radio" name="species" value="4"></td>
+                    <td>Chinchilla&nbsp;Phenominer</td>
+                </tr>
+            </table>
+            </div>
+        </td>
+        <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading <%=SpeciesType.getCommonName((int) request.getAttribute("species"))%> Ontology....</div>
         </td>
         <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
     </tr>
     <tr>
         <td>
-            <span style="font-size:16px;">Select a Category Tab in the lower right panel, then select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
+            <span colspan='5' style="font-size:16px;">Select a Category Tab in the lower right panel, then select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
         </td>
     </tr>
     <tr>
@@ -145,27 +186,6 @@
 
     <table cellspacing='0' border='0' style="border:0px solid black" width="95%">
     <tr>
-
-        <% if (false) { %>
-        <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
-            <div style='font-weight: 700;'>
-                <table border="0"  width="100%" style="background-color: #d7e4bd">
-                    <tr>
-                        <td  height="90" style="font-size:24px; background-color: #d7e4bd; " valign="top"><div style="height:90px; width:100%; border-bottom: 3px solid white">Chinchilla Sources<br><span style="font-size:11px; ">Search for data related to one or more chinchilla sources.</span></div></td>
-                    </tr>
-                    <tr>
-                        <td valign="top" height=45 style="font-size:12px; font-style: italic; color: black;"><b>Examples:</b> <span style="">Bbcdw:Chin, Rrcjo:Chin</span></td>
-                    </tr>
-                    <tr>
-                        <td valign="top" align="center"><input style="font-weight: 700;" type="button" value="Select Sources" onClick="location.href='/rgdweb/phenominer/selectTerms.html?terms=<%=termString%>&ont=CS&species=<%=species%>'" /><br><br></td>
-                    </tr>
-                </table>
-            </div>
-            <div style='background-color: white; padding: 5px; border: 2px black inset;'>
-
-            </div>
-        </td>
-        <% } %>
 
         <% if (species==3) { %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
@@ -181,7 +201,7 @@
                 <div id="strainMessageUpdate" style="display:none;font-size:22px; color:#D64927;font-weight:700;">Updating...</div>
                 <table id="strainMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
-                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
+                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'<%=speciesOntology%>')" src="/rgdweb/common/images/del.jpg"/></td>
 
                         <!--<td>{{key}}</td>-->
 
@@ -203,11 +223,11 @@
                 </table>
             </div>
             <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
-                <div id="sourceMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
+                <div id="strainMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
 
-                <table id="sourceMessageTable">
+                <table id="strainMessageTable">
                     <tr v-for="(key, value) in selectedStrains">
-                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'RS')" src="/rgdweb/common/images/del.jpg"/></td>
+                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'<%=speciesOntology%>')" src="/rgdweb/common/images/del.jpg"/></td>
 
                         <!--<td>{{key}}</td>-->
                         <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
@@ -304,7 +324,7 @@
     pageDescription = "";
 
 
-    String ont = "RS";
+    String ont = speciesOntology;
     String ontParam = request.getParameter("ont");
     if( ontParam!=null ) {
         ont = ontParam;
@@ -312,7 +332,7 @@
 
     // 'sex' param only valid for 'RS' ontology
     sex = "";
-    if( ont.equals("RS") ) {
+    if( ont.equals(speciesOntology) ) {
         sex = "both";
         String sexParam = request.getParameter("sex");
         if( sexParam!=null && (sexParam.equals("male") || sexParam.equals("female")) ) {
@@ -339,7 +359,7 @@
         </tr>
         <tr>
             <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="40" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('RS',<%=species%>)" /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('<%=speciesOntology%>',<%=species%>)" /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=species%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=species%>)"  /></td>
             <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=species%>)"  /></td>
@@ -668,10 +688,6 @@
         return { top: top, left: left };
 
     }
-
-
-
-
 </script>
 
 
@@ -781,12 +797,13 @@
                 if (JSON.stringify(v.selectedConditions) === "{}") {
                     return;
                 }
+
                 v.block();
                 document.getElementById("conditionMessageTable").style.visibility="hidden";
                 document.getElementById("conditionMessageUpdate").style.display="block";
 
                 axios
-                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=XCO&sex=both&species=3&terms=' + v.getAllTerms(),
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=XCO&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
                         {
                             species: "hell",
                         })
@@ -843,6 +860,7 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("conditionMessageTable").style.visibility="visible";
                         document.getElementById("conditionMessageUpdate").style.display="none";
+
                         v.unblock();
 
                     })
@@ -874,20 +892,12 @@
             },
 
             block: function() {
-                //alert("in block");
                 document.getElementById("block").style.display="block";
-
             },
             unblock: function() {
-                //alert("in unblock");
                 document.getElementById("block").style.display="none";
-
             },
             updateStrainBox: function() {
-                //alert(JSON.stringify(v.selectedStrains));
-
-                //alert(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=' + v.getAllTerms());
-
 
                 if (JSON.stringify(v.selectedStrains) === "{}") {
                     return;
@@ -898,7 +908,7 @@
                 document.getElementById("strainMessageUpdate").style.display="block";
 
                 axios
-                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=RS&sex=both&species=3&terms=' + v.getAllTerms(),
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=<%=speciesOntology%>&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
                         {
                             species: "hell",
                         })
@@ -970,12 +980,13 @@
                 if (JSON.stringify(v.selectedMethods) === "{}") {
                     return;
                 }
+
                 v.block();
                 document.getElementById("methodMessageTable").style.visibility="hidden";
                 document.getElementById("methodMessageUpdate").style.display="block";
 
                 axios
-                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=MMO&sex=both&species=3&terms=' + v.getAllTerms(),
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=MMO&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
                         {
                             species: "hell",
                         })
@@ -1049,11 +1060,11 @@
                 }
 
                 v.block();
+
                 document.getElementById("cmoMessageTable").style.visibility="hidden";
                 document.getElementById("cmoMessageUpdate").style.display="block";
-
                 axios
-                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=CMO&sex=both&species=3&terms=' + v.getAllTerms(),
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=CMO&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
                         {
                             species: "hell",
                         })
@@ -1066,7 +1077,6 @@
                         var childNodes = root.getElementsByTagName("item");
 
                         var children = v.getLeafNodes(childNodes);
-
 
                         //find out if a selection is now gone
                         var tmpHash = {};
@@ -1110,9 +1120,11 @@
                         //v.selectedConditions = tmpHash;
                         document.getElementById("cmoMessageTable").style.visibility="visible";
                         document.getElementById("cmoMessageUpdate").style.display="none";
+                        System.out.println("unbloack");
                         v.unblock();
                     })
                     .catch(function (error) {
+                       System.out.println("in error");
                         console.log(error)
                         v.errored = true
                     })
@@ -1127,7 +1139,7 @@
                 if (v.currentOnt !== "CMO") {
                     v.updateMeasurementBox();
                 }
-                if (v.currentOnt !== "RS") {
+                if (v.currentOnt !== "RS" || v.currentOnt=="CS") {
                     v.updateStrainBox();
                 }
                 if (v.currentOnt !== "MMO") {
@@ -1137,10 +1149,9 @@
             },
 
             doStuff: function() {
-                console.log("in doStuff");
                 var checked = determineChecked();
 
-                if (v.currentOnt==="RS") {
+                if (v.currentOnt==="RS" || v.currentOnt=="CS") {
                     v.selectedStrains = {};
                     for (var i = 0; i < checked.length; i++) {
                         v.selectedStrains[v.keyMap[checked[i]]] = checked[i];
@@ -1173,7 +1184,7 @@
 
                 console.log("in remove Term ont=" + ont + " term = " + term);
 
-                if (ont === "RS") {
+                if (ont === "RS" || ont=="CS") {
                     for (const key in v.selectedStrains) {
                         if (v.selectedStrains[key] === term) {
                             delete v.selectedStrains[key];
@@ -1221,7 +1232,7 @@
                     this.update(this.currentOnt, this.species);
                 }else {
                     if (ont === this.currentOnt) {
-                        if (ont === "RS") {
+                        if (ont === "RS" || ont === "CS") {
                             for (var key in v.selectedStrains) {
                                 if (v.selectedStrains[key] === accId) {
                                     handleCheckbox(accId, 0);
@@ -1332,16 +1343,14 @@
             generateReport: function () {
                 var tString = v.getAllTerms(true);
 
-
-
                 if (tString === "") {
                     alert("Please select one or more terms below to generate a Phenominer report.");
 
                 }else {
                     this.updateSessionStorage();
-                   // location.href = "/rgdweb/phenominer/table.html?species=3&terms=" + tString;
+                   // location.href = "/rgdweb/phenominer/table.html?species=<%=species%>&terms=" + tString;
                     window.open(
-                        '/rgdweb/phenominer/table.html?species=3&terms='+tString,
+                        '/rgdweb/phenominer/table.html?species=<%=species%>&terms='+tString,
                         '_blank' // <- This is what makes it open in a new window.
                     );
                 }
@@ -1355,6 +1364,14 @@
 
                 v.update();
                 v.updateStrainBox();
+
+                <% if (species==4) { %>
+                v.update('CMO', 4);
+
+                <%} else { %>
+                v.update('RS',3);
+
+                <% } %>
 
             },
 
@@ -1396,8 +1413,8 @@
 
             update: function (ont, species,terms) {
                 if (!ont) {
-                    ont="RS";
-                    species=3;
+                    ont="<%=speciesOntology%>";
+                    species=<%=species%>;
                 }
                 if (!terms ) {
                     terms="";
@@ -1409,6 +1426,12 @@
                 if (ont==="RS") {
                     v.title="Rat Strain Selection";
                     v.examples="Ex: congenic strain, ACI, WKY";
+                    document.getElementById("treebox").style.borderColor="#D7E4BD";
+
+                }
+                if (ont==="CS") {
+                    v.title="Chinchilla Source Selection";
+                    v.examples="Please select a Chinchilla source from the list below";
                     document.getElementById("treebox").style.borderColor="#D7E4BD";
 
                 }
@@ -1512,10 +1535,14 @@
         },
     })
 
-
     setTimeout(v.init, 10);
 
-
+    //fix the treebox position on resize
+    function doResize() {
+        document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
+        document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
+    }
+    window.onresize = doResize;
 
 </script>
 
