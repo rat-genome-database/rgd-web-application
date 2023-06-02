@@ -152,12 +152,19 @@
 <table width="95%" cellspacing="1px" border="0">
     <tr>
         <td style="color: #2865a3; font-size: 26px; font-weight:700;">PhenoMiner Database &nbsp;
-
-                <span class="btn btn-primary" style="font-size: 16px">
-                    <input type="radio" name="species" value="3">&nbsp;Rat &nbsp;
-                    <input type="radio" name="species" value="4">&nbsp;Chinchilla
-                </span>
-
+        </td>
+        <td>
+            <div style="border:1px solid black; padding:5px; margin-right:15px;">
+            <table >
+                <tr>
+                    <td><input type="radio" name="species" value="3"></td>
+                        <td>Rat&nbsp;Phenominer</td>
+                    <td>&nbsp;</td>
+                    <td><input type="radio" name="species" value="4"></td>
+                    <td>Chinchilla&nbsp;Phenominer</td>
+                </tr>
+            </table>
+            </div>
         </td>
         <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading <%=SpeciesType.getCommonName((int) request.getAttribute("species"))%> Ontology....</div>
         </td>
@@ -165,7 +172,7 @@
     </tr>
     <tr>
         <td>
-            <span style="font-size:16px;">Select a Category Tab in the lower right panel, then select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
+            <span colspan='5' style="font-size:16px;">Select a Category Tab in the lower right panel, then select values from categories of interest and select <b>"Generate Report"</b> to build report</span>
         </td>
     </tr>
     <tr>
@@ -681,10 +688,6 @@
         return { top: top, left: left };
 
     }
-
-
-
-
 </script>
 
 
@@ -1362,6 +1365,14 @@
                 v.update();
                 v.updateStrainBox();
 
+                <% if (species==4) { %>
+                v.update('CMO', 4);
+
+                <%} else { %>
+                v.update('RS',3);
+
+                <% } %>
+
             },
 
             loadFromSessionStorage: function() {
@@ -1524,10 +1535,14 @@
         },
     })
 
-
     setTimeout(v.init, 10);
 
-
+    //fix the treebox position on resize
+    function doResize() {
+        document.getElementById("treebox").style.top=getElementTopLeft("placeholder").top + "px";
+        document.getElementById("treebox").style.left=getElementTopLeft("placeholder").left + "px"
+    }
+    window.onresize = doResize;
 
 </script>
 
