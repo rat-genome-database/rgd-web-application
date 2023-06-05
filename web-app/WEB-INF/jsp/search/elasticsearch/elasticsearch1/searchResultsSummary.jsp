@@ -52,7 +52,7 @@
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Squirrel&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Squirrel Results" style="font-weight: bold">Squirrel</a></td>
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Pig&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Pig Results" style="font-weight: bold">Pig</a></td>
                                 <td ><a href="elasticResults.html?term=${model.term}&species=Green%20Monkey&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Green Monkey Results" style="font-weight: bold">Green Monkey</a></td>
-                                <td ><a href="elasticResults.html?term=${model.term}&species=Naked%20Mole-rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-rat</a></td>
+                                <td ><a href="elasticResults.html?term=${model.term}&species=Naked%20Mole-Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-Rat</a></td>
 
                                 <td ><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" title="View results for all species" style="font-weight: bold">All</a></td>
                             </tr>
