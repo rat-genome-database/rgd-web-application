@@ -230,7 +230,17 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
                               <input  id="rsAll" name="rsAll"  type="checkbox" >&nbsp;
-                            Strains</div></td>
+                            <%
+                                if(request.getAttribute("species")!=null && !request.getAttribute("species").equals("")) {
+                                int species = Integer.parseInt(request.getAttribute("species").toString());
+                                    if(species==3){%>
+                                    Strains
+                                  <%}else{%>
+                                    Sources
+                                    <%}}%>
+
+
+                        </div></td>
                     </tr>
                     <tr>
                         <td>
