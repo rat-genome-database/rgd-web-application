@@ -43,8 +43,8 @@ public class PhenominerExperimentController extends PhenominerController {
             if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
                 String accessToken = request.getCookies()[0].getValue();
                 if(!checkToken(accessToken)) {
-                  //  response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
-                 response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
+                   response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+                // response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
                     return null;
                 }
             }
