@@ -263,7 +263,8 @@
                                             <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
                                             <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                             <a href="/wg/autism-rat-model-resource/">Autism Models</a>
-                                            <a href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html?species=3">Rat PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/phenominer/ontChoices.html?species=3">Chinchilla PhenoMiner</a>
                                             <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
                                             <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
