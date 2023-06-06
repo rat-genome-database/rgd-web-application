@@ -119,19 +119,17 @@
 <script>
 
     function updateSpecies(species) {
+        alert("called update species");
         sessionStorage.clear();
         location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
     }
     $(function () {
-       // $('input[name="species"]').prop('checked',false)
         var radioNodeList=$('input[name="species"]');
         $.each(radioNodeList, function () {
-         //   alert("SPECIES:"+$(this).val() );
             var species=$(this).val();
             if(species==<%=request.getAttribute("species")%>){
                 $(this).attr('checked', true);
             }
-
         })
 
         $('input[name="species"]').on('change', function () {
@@ -144,6 +142,18 @@
 
         })
     })
+
+    function fixInputs() {
+        for (var i = 0; i < document.getElementsByName("species").length; i++) {
+            if (document.getElementsByName("species")[i].value == <%=request.getAttribute("species")%>) {
+                document.getElementsByName("species")[i].checked = true;
+            } else {
+                document.getElementsByName("species")[i].checked = false;
+            }
+        }
+    }
+    setTimeout(fixInputs,100);
+
 
 </script>
 
