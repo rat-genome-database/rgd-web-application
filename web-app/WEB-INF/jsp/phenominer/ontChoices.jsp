@@ -119,31 +119,41 @@
 <script>
 
     function updateSpecies(species) {
+        alert("called update species");
         sessionStorage.clear();
         location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
     }
     $(function () {
-       // $('input[name="species"]').prop('checked',false)
         var radioNodeList=$('input[name="species"]');
         $.each(radioNodeList, function () {
-         //   alert("SPECIES:"+$(this).val() );
             var species=$(this).val();
             if(species==<%=request.getAttribute("species")%>){
                 $(this).attr('checked', true);
             }
-
         })
 
         $('input[name="species"]').on('change', function () {
             var species=$(this).val();
             sessionStorage.clear();
-            if(species==3)
-            location.href='/rgdweb/phenominer/ontChoices.html'
-                else
+            //if(species==3)
+           // location.href='/rgdweb/phenominer/ontChoices.html'
+           //     else
                 location.href='/rgdweb/phenominer/ontChoices.html?species='+species
 
         })
     })
+
+    function fixInputs() {
+        for (var i = 0; i < document.getElementsByName("species").length; i++) {
+            if (document.getElementsByName("species")[i].value == <%=request.getAttribute("species")%>) {
+                document.getElementsByName("species")[i].checked = true;
+            } else {
+                document.getElementsByName("species")[i].checked = false;
+            }
+        }
+    }
+    setTimeout(fixInputs,100);
+
 
 </script>
 
@@ -168,7 +178,7 @@
         </td>
         <td>            <div id="ontologyLoadingMessage" style="padding:5px; background-color:#D7E4BD; color:black;opacity:.5; font-size:18px;">Loading <%=SpeciesType.getCommonName((int) request.getAttribute("species"))%> Ontology....</div>
         </td>
-        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html'"/></td>
+        <td align="right" colspan="2"><input style="padding-left:10px; padding-right:10px; border:1px solid white; color:white; font-size:16px;background-color:#2B84C8; border-radius:5px;" type="button" value="Clear" onClick="sessionStorage.clear();location.href='/rgdweb/phenominer/ontChoices.html?species=<%=species%>'"/></td>
     </tr>
     <tr>
         <td>
