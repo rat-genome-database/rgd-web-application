@@ -173,7 +173,7 @@
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
-    Study study = new Study();
+    List<Experiment> experiments = updateSample ? pdao.getExperiments(samples.get(0).getGeoAccessionId()) : new ArrayList<>();
     int count = 0;
 %>
 
@@ -182,7 +182,7 @@
 <div>
     <%
         if(samples.size() != 0) {
-            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
+//            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
     %>
         <form action="experiments.html" method="POST">
             <table  class="t" style="width: 1880px">
@@ -229,7 +229,7 @@
             if(samples.size() != 0) {
         %>
                 <colgroup>
-                    <col span="20">
+                    <col span="21">
                     <% for (int i = 0; i < 15; i ++){%>
                     <col span="3">
                     <col id="showMe<%=i%>" span="7" style="visibility: collapse">
@@ -293,8 +293,21 @@
      for(GeoRecord s: samples){
          boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
-         List<Experiment> experiments = new ArrayList<>();
          Experiment exp = new Experiment();
+         if (experiments.size()>0)
+         {
+             if (experiments.size()==1)
+                 exp = experiments.get(0);
+             else {
+                 for (Experiment e : experiments){
+                     if (!Utils.isStringEmpty(e.getTraitOntId())) {
+                         exp = e;
+                         break;
+                     }
+                 }
+             }
+         }
+
          GeneExpressionRecord gre = new GeneExpressionRecord();
          List<Condition> conds = new ArrayList<>();
          int j = 0, n = 0;
@@ -303,10 +316,8 @@
          if (sample == null)
              sample = new Sample();
 
-          if (sample.getId() != 0 && Utils.stringsAreEqual(study.getGeoSeriesAcc(), samples.get(0).getGeoAccessionId())) {
-              experiments = pdao.getExperiments(study.getId());
+          if (sample.getId() != 0 ) {
               if (!experiments.isEmpty()) {
-                  exp = experiments.get(0);
                   gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sample.getId());
                   if (gre.getConditions()!= null && !gre.getConditions().isEmpty())
                     conds = gre.getConditions();//geDAO.getConditions(gre.getId());
@@ -315,7 +326,7 @@
 
           }
 
-         bool = !(sample.getAgeDaysFromLowBound()==0 && ( sample.getAgeDaysFromHighBound()== sample.getAgeDaysFromLowBound() ) );
+         bool = !(sample.getAgeDaysFromLowBound()==0 && (Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound())) );
         }catch (Exception ignore){
               // number is null
         }

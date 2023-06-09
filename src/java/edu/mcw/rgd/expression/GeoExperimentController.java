@@ -192,27 +192,31 @@ public class GeoExperimentController implements Controller {
                     else { // need to find correct experiment based on VT
                         Experiment e = null;
                         String vtId = request.getParameter("vtId" + i);
-                        for (Experiment experiment : eList){
-                            if (Utils.stringsAreEqual(experiment.getTraitOntId(),vtId))
-                                e = experiment;
+                        if (eList.size()==1) {
+                            exp = eList.get(0);
                         }
+                        else {
+                            for (Experiment experiment : eList) {
+                                if (Utils.stringsAreEqual(experiment.getTraitOntId(), vtId))
+                                    e = experiment;
+                            }
 
-                        if (e==null){
-                            e = new Experiment();
-                            e.setStudyId(studyId);
-                            e.setName(study.getName());
-                            e.setCreatedBy(login);
-                            e.setTraitOntId(request.getParameter("vtId" + i));
-                            geDAO.insertExperiment(e);
-                            exp = e;
-                            eList.add(e);
+                            if (e == null) {
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                geDAO.insertExperiment(e);
+                                exp = e;
+                                eList.add(e);
+                            }
+                            else
+                                exp = e;
                         }
-                        else
-                            exp = e;
-
-                        if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(e.getTraitOntId(),vtId)) {
-                            e.setTraitOntId(vtId);
-                            geDAO.updateExperiment(e);
+                        if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(exp.getTraitOntId(),vtId)) {
+                            exp.setTraitOntId(vtId);
+                            geDAO.updateExperiment(exp);
                         }
                     }
                     sampleExperiment.put(sampleId, exp);
@@ -244,7 +248,7 @@ public class GeoExperimentController implements Controller {
 //                            cmoId = cmo.getId();
                             String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
                             // if null create, else update
-                            if (cmoAcc.isEmpty()){
+                            if (!Utils.isStringEmpty(cmoAcc)){
                                 cmo = new ClinicalMeasurement();
                                 cmo.setAccId(cmoAcc);
                                 cmoId = geDAO.insertClinicalMeasurement(cmo);
@@ -265,7 +269,7 @@ public class GeoExperimentController implements Controller {
 
                             String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
                             // if null create, else update
-                            if (cmo==null && !cmoAcc.isEmpty()){
+                            if (cmo==null && !Utils.isStringEmpty(cmoAcc)){
                                 cmo = new ClinicalMeasurement();
                                 cmo.setAccId(cmoAcc);
                                 cmoId = geDAO.insertClinicalMeasurement(cmo);
@@ -273,7 +277,7 @@ public class GeoExperimentController implements Controller {
                                 gre.setClinicalMeasurementId(cmoId);
                             }
                             else{
-                                if (!Utils.stringsAreEqual(cmo.getAccId(), cmoAcc) && !cmoAcc.isEmpty()) {
+                                if (cmo != null && !Utils.stringsAreEqual(cmo.getAccId(), cmoAcc) && !Utils.isStringEmpty(cmoAcc)) {
                                     cmo.setAccId(cmoAcc);
                                     geDAO.updateClinicalMeasurement(cmo);
                                 }
@@ -393,7 +397,7 @@ public class GeoExperimentController implements Controller {
                 if (!Utils.isStringEmpty(e.getTraitOntId()))
                     vtId++;
 //                    }
-                if (gre.getClinicalMeasurementId()!=null)
+                if (gre.getClinicalMeasurementId()!=null && gre.getClinicalMeasurementId()!=0)
                     cmoIds++;
                 for (int i = 0; i < condList.size() ; i++){
                     //
