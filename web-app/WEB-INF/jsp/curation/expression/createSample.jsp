@@ -294,42 +294,27 @@
          boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
          Experiment exp = new Experiment();
-         if (experiments.size()>0)
-         {
-             if (experiments.size()==1)
-                 exp = experiments.get(0);
-             else {
-                 for (Experiment e : experiments){
-                     if (!Utils.isStringEmpty(e.getTraitOntId())) {
-                         exp = e;
-                         break;
-                     }
-                 }
-             }
-         }
-
-         GeneExpressionRecord gre = new GeneExpressionRecord();
+         ClinicalMeasurement cm = new ClinicalMeasurement();
          List<Condition> conds = new ArrayList<>();
+         GeneExpressionRecord r = new GeneExpressionRecord();
+         try{
+             r=geDAO.getGeneExpressionRecordBySampleId(sample.getId());
+         }
+         catch (Exception e){ }
+         if (r!=null) {
+             if (r.getClinicalMeasurementId() != null && r.getClinicalMeasurementId() != 0)
+                 cm = pdao.getClinicalMeasurement(r.getClinicalMeasurementId());
+             conds = r.getConditions();
+             exp = geDAO.getExperiment(r.getExperimentId());
+         }
          int j = 0, n = 0;
-//System.out.println(s.getSampleAccessionId()+"|"+s.getCurationStatus());
-          try{
-         if (sample == null)
+       try{
+          if (sample == null)
              sample = new Sample();
-
-          if (sample.getId() != 0 ) {
-              if (!experiments.isEmpty()) {
-                  gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sample.getId());
-                  if (gre.getConditions()!= null && !gre.getConditions().isEmpty())
-                    conds = gre.getConditions();//geDAO.getConditions(gre.getId());
-
-              }
-
-          }
-
-         bool = !(sample.getAgeDaysFromLowBound()==0 && (Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound())) );
-        }catch (Exception ignore){
+          bool = !(sample.getAgeDaysFromLowBound()==0 && (Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound())) );
+       }catch (Exception ignore){
               // number is null
-        }
+       }
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
          {
              try{
@@ -379,12 +364,12 @@ catch (Exception e){}
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
+                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=(updateSample && !Objects.toString(vtMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(vtMap.get(s.getSampleTissue()), "") : !Utils.isStringEmpty(exp.getTraitOntId()) ? Objects.toString(exp.getTraitOntId(),"") : Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
                     <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(vtNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="vt<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(clinMeasMap.get(s.getSampleTissue()), "")%>">
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(clinMeasMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(clinMeasMap.get(s.getSampleTissue()), "") : cm!=null ? Objects.toString(cm.getAccId(), "") : ""%>">
                     <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(clinMeasNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(clinMeasNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>

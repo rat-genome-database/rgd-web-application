@@ -283,6 +283,7 @@ public class GeoExperimentController implements Controller {
                                 }
                             }
                             if (cmoId != null && !cmoId.equals(oldCmoId)) {
+                                gre.setLastModifiedBy(login);
                                 geDAO.updateGeneExpressionRecord(gre);
                             }
 
@@ -489,7 +490,10 @@ public class GeoExperimentController implements Controller {
                     if (cmoIds!=0){
                         GeneExpressionRecord g = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
                         ClinicalMeasurement c = geDAO.getClinicalMeasurement(g.getClinicalMeasurementId());
-                        rec.append(c.getAccId());
+                        if (c!=null)
+                            rec.append(c.getAccId());
+                        else
+                            rec.append("");
                     }
                     if (strain != 0)
                         rec.append(s.getStrainAccId());
