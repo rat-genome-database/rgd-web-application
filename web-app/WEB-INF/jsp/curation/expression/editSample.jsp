@@ -649,6 +649,15 @@ if (tissueMap.isEmpty()){ %>
                         <a href="" id="xco<%=xcoCnt%>_popup" onclick="ontPopup('xcoId<%=xcoCnt%>','xco','xco<%=xcoCnt%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
                         <input type="text" id="xco<%=xcoCnt%>_term" name="xco<%=xcoCnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>Min Value</td>
@@ -715,6 +724,14 @@ if (tissueMap.isEmpty()){ %>
                                    href="javascript:removeCondition('condition<%=i%>','<%=i%>') ;void(0);"><img
                                         src="/rgdweb/common/images/del.jpg" border="0"/></a>
                             </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Min Value</td>

@@ -297,6 +297,7 @@
          ClinicalMeasurement cm = new ClinicalMeasurement();
          List<Condition> conds = new ArrayList<>();
          GeneExpressionRecord r = new GeneExpressionRecord();
+         System.out.println("here 1");
          try{
              r=geDAO.getGeneExpressionRecordBySampleId(sample.getId());
          }
@@ -305,8 +306,10 @@
              if (r.getClinicalMeasurementId() != null && r.getClinicalMeasurementId() != 0)
                  cm = pdao.getClinicalMeasurement(r.getClinicalMeasurementId());
              conds = r.getConditions();
-             exp = geDAO.getExperiment(r.getExperimentId());
+             if (r.getExperimentId() != 0)
+                exp = geDAO.getExperiment(r.getExperimentId());
          }
+         System.out.println("here 2");
          int j = 0, n = 0;
        try{
           if (sample == null)
@@ -335,6 +338,7 @@ try{
 catch (Exception e){}
          }
 //         System.out.println(s.getSampleAccessionId() + "|" + s.getSampleTitle());
+
   %>
             <tr>
                 <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
