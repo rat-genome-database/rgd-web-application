@@ -194,6 +194,10 @@ public class GeoExperimentController implements Controller {
                         String vtId = request.getParameter("vtId" + i);
                         if (eList.size()==1) {
                             exp = eList.get(0);
+                            if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(),vtId)){
+                                exp.setTraitOntId(vtId);
+                                geDAO.updateExperiment(exp);
+                            }
                         }
                         else {
                             for (Experiment experiment : eList) {
@@ -214,10 +218,7 @@ public class GeoExperimentController implements Controller {
                             else
                                 exp = e;
                         }
-                        if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(exp.getTraitOntId(),vtId)) {
-                            exp.setTraitOntId(vtId);
-                            geDAO.updateExperiment(exp);
-                        }
+
                     }
                     sampleExperiment.put(sampleId, exp);
 
