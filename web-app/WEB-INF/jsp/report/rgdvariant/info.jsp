@@ -55,15 +55,16 @@
                     return Utils.stringsCompareToIgnoreCase(o1.getSymbol(), o2.getSymbol());
                 }
             });
-         for(Gene g: geneList){
-             String url = Link.gene(g.getRgdId());
-             genes = genes.concat("&nbsp;<a href="+url+">");
-             genes=genes.concat(g.getSymbol());
-             genes = genes.concat("</a>&nbsp;,");
-         }
+            for(int i = 0 ; i < geneList.size(); i++){
+                Gene g = geneList.get(i);
+                String url = Link.gene(g.getRgdId());
+                genes = genes.concat("&nbsp;<a href="+url+">");
+                genes=genes.concat(g.getSymbol());
+                genes = genes.concat(i==(geneList.size()-1) ? "</a>" : "</a>&nbsp;,");
+            }
     %>
     <tr>
-        <td class="label" valign="top">Associated Genes:</td>
+        <td class="label" valign="top">Associated Allele:</td>
         <td><%=genes%></td>
     </tr>
     <% }  %>
