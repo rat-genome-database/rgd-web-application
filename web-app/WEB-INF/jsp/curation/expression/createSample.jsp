@@ -297,7 +297,6 @@
          ClinicalMeasurement cm = new ClinicalMeasurement();
          List<Condition> conds = new ArrayList<>();
          GeneExpressionRecord r = new GeneExpressionRecord();
-         System.out.println("here 1");
          try{
              r=geDAO.getGeneExpressionRecordBySampleId(sample.getId());
          }
@@ -309,7 +308,6 @@
              if (r.getExperimentId() != 0)
                 exp = geDAO.getExperiment(r.getExperimentId());
          }
-         System.out.println("here 2");
          int j = 0, n = 0;
        try{
           if (sample == null)
@@ -373,7 +371,7 @@ catch (Exception e){}
                     <a href="" id="vt<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(clinMeasMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(clinMeasMap.get(s.getSampleTissue()), "") : cm!=null ? Objects.toString(cm.getAccId(), "") : ""%>">
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(clinMeasMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(clinMeasMap.get(s.getSampleTissue()), "") : !Utils.isStringEmpty(cm.getAccId()) ? Objects.toString(cm.getAccId(), "") : Objects.toString(clinMeasMap.get(s.getSampleTissue()),"")%>">
                     <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(clinMeasNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(clinMeasNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
                     <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
