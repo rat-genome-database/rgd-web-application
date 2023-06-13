@@ -64,7 +64,7 @@
             }
     %>
     <tr>
-        <td class="label" valign="top">Associated Genes:</td>
+        <td class="label" valign="top">Associated Allele:</td>
         <td><%=genes%></td>
     </tr>
     <% }  %>
