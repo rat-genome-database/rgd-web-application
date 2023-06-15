@@ -1,5 +1,6 @@
 <%
     List<Gene> homologs = geneDAO.getHomologs(obj.getRgdId());
+    List<Integer> rgdIds = new ArrayList<>();
     List<Association> weakOrthos = associationDAO.getAssociationsForMasterRgdId(obj.getRgdId(), "weak_ortholog");
     weakOrthos.addAll(associationDAO.getAssociationsForMasterRgdId(obj.getRgdId(), "ortholog"));
 
@@ -31,7 +32,9 @@
                 <table>
                     <tr>
         <% for (Gene gene : homologs) {
-            String imageSource = getSpeciesImage(gene);
+            if (!rgdIds.contains(gene.getRgdId())){
+                rgdIds.add(gene.getRgdId());
+                String imageSource = getSpeciesImage(gene);
         %>
                 <td>
                     <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
@@ -40,7 +43,7 @@
                     </div>
                     <img border="0" src=<%=imageSource%> class="speciesIcon">
                 </td>
-        <%}%>
+        <%} }%>
         </tr>
         </table>
             </td>
