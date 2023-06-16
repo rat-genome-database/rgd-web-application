@@ -408,8 +408,11 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
             var html=toolHeader+annotationDistribution+functionalAnnot + olga+annotComparison+excel ; //+csv;
 
             if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
-                html=html+interviewer+gviewer+moet;
+                html=html+interviewer+gviewer;
 
+            }
+            if( species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
+                html=html+moet;
             }
             if(species=='Human' || species=='Rat'){
                 html=html+damage+vv;
@@ -721,6 +724,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
            // _this.href=href;
             window.open(href);
         }
+       
         if(tool=='damage') {
             if(species=='Human')
                 href= "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&cs_pathogenic=true" + "&mapKey=" + mapKey + "&con=&sample1=all&geneList=" + selected;
