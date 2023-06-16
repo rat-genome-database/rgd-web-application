@@ -37,10 +37,10 @@
                 String imageSource = getSpeciesImage(gene);
         %>
                 <td>
-                    <div class="speciesCardOverlay" onclick="location.href='main.html?id=<%=gene.getRgdId()%>'">
+                    <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>">
                     <div style="margin:5px; font-weight:700;" >
                         <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
-                    </div>
+                    </a>
                     <img border="0" src=<%=imageSource%> class="speciesIcon">
                 </td>
         <%} }%>
