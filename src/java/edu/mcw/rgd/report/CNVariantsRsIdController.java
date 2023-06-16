@@ -176,7 +176,7 @@ public class CNVariantsRsIdController implements Controller {
             }
         }
 
-        if (!fromGene)
+        if (!fromGene || (objects != null ? objects.size() : 0) <1000)
             request.setAttribute("totalSize", objectsNonDupe.size());
         request.setAttribute("reportObjects", objectsNonDupe);
         request.setAttribute("requestFacade", req);
