@@ -36,6 +36,7 @@ public class CNVariantsRsIdController implements Controller {
         String locType = Utils.isStringEmpty(request.getParameter("locType"))? "":request.getParameter("locType").toLowerCase();
         boolean exon = false;
         boolean intron = false;
+        boolean fromGene = false;
         if (Utils.isStringEmpty(locType)){
             locType = "all";
         }
@@ -81,6 +82,7 @@ public class CNVariantsRsIdController implements Controller {
                 }
                 else if (geneId != null){
                     if (!Utils.isStringEmpty(geneId)) {
+                        fromGene=true;
                         int maxPage = 0, offset = 1, size = 0;
                         int rgdId = Integer.parseInt(geneId);
                         Gene g = getGene(rgdId);
@@ -174,7 +176,8 @@ public class CNVariantsRsIdController implements Controller {
             }
         }
 
-        request.setAttribute("totalSize", objectsNonDupe.size());
+        if (!fromGene || (objects != null ? objects.size() : 0) <1000)
+            request.setAttribute("totalSize", objectsNonDupe.size());
         request.setAttribute("reportObjects", objectsNonDupe);
         request.setAttribute("requestFacade", req);
 
