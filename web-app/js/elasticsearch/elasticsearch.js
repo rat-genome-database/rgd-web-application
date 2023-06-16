@@ -413,6 +413,10 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
                 html=html+interviewer+gviewer+moet;
 
             }
+            if(species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
+                html=html+moet;
+
+            }
             if(species=='Human' || species=='Rat'){
                 html=html+damage+vv;
             }
