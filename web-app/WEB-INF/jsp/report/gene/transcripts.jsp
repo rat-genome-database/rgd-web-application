@@ -1,5 +1,3 @@
-<%@ include file="../sectionHeader.jsp"%>
-
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
@@ -10,15 +8,8 @@
                 return Utils.stringsCompareToIgnoreCase(o1.getAccId(), o2.getAccId());
             }
         });
-
-        out.print("<hr>");
-     int yyy = 0;
-    for (Transcript t : tlist) {
-        yyy++;
-        out.print("<hr>"+yyy+". "+t.getAccId());
-    }
-    out.print("<hr>");
 %>
+<%@ include file="../sectionHeader.jsp"%>
 
 
 <div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
@@ -124,6 +115,6 @@
             </form>
         </div>
     </div>
-<% } %>
 </div>
 <%@ include file="../sectionFooter.jsp"%>
+<% } %>
