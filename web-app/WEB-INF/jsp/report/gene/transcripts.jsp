@@ -10,12 +10,20 @@
                 return Utils.stringsCompareToIgnoreCase(o1.getAccId(), o2.getAccId());
             }
         });
+
+        out.print("<hr>");
+     int yyy = 0;
+    for (Transcript t : tlist) {
+        yyy++;
+        out.print("<hr>"+yyy+". "+t.getAccId());
+    }
+    out.print("<hr>");
 %>
 
 
 <div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
 
-    <span class="highlight"><u>Reference Sequences</u></span>
+    <div class="sectionHeading">Reference Sequences</div>
 
 
     <div class="modelsViewContent" >
@@ -55,20 +63,19 @@
         <td class="label" valign="top" width="100">RefSeq Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=accStr%></td>
     </tr>
+    <% if( t.getRefSeqStatus()!=null ) { %>
     <tr>
         <td class="label" valign="top" width="100">RefSeq Status:</td>
-        <td><%=fu.chkNull(t.getRefSeqStatus())%>
-        </td>
+        <td><%=fu.chkNull(t.getRefSeqStatus())%></td>
     </tr>
+    <% } %>
     <tr>
         <td class="label" valign="top" width="100">Type:</td>
-        <td><%=t.isNonCoding() ? "NON-CODING" : "CODING"%>
-        </td>
+        <td><%=t.isNonCoding() ? "NON-CODING" : "CODING"%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Position:</td>
-        <td><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%>
-        </td>
+        <td><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%></td>
     </tr>
 
     <%
