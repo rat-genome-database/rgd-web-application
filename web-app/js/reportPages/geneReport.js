@@ -744,9 +744,8 @@ function addDetailTableNotesTitleInfo(){
 
     //finds all off the "more ..." links and adds a title attribute to the <a> element
     infoCellArray.forEach( cell => {
-        let aElements = cell.getElementsByTagName("a");
-        if( aElements !== undefined ) {
-            let linksArray = Array.from(aElements);
+        if( cell !== undefined ) {
+            let linksArray = Array.from(cell.getElementsByTagName("a"));
             linksArray.forEach(link => {
                 if (link.innerText === "more ...") {
                     link.setAttribute("title", title);
