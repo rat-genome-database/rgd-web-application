@@ -11,7 +11,7 @@
 <%
     String objType = "{unknown object type}";
     String description = null;
-    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
+//    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if( rgdId!=null ) {
         objType = rgdId.getObjectTypeName();
         description = obj.getDescription();

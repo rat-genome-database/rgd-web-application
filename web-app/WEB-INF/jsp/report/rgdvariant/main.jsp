@@ -16,7 +16,8 @@
     if (mapDataList.size() > 0) {
         md = (MapData) mapDataList.get(0);
     }
-
+    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
+    boolean isStatusNotActive = !rgdId.getObjectStatus().equals("ACTIVE");
     String pageTitle = obj.getName() + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = pageTitle;
@@ -45,7 +46,10 @@
 
     <div id="content-wrap">
 
-
+        <%if (isStatusNotActive) { %>
+        <br><br>The Variant <b><%=obj.getName()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
+        &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
+        <% } else { %>
 <table width="95%" border="0">
     <tr>
         <td>
@@ -75,6 +79,7 @@
     </tr>
  </table>
     </div>
+    <% } %>
 </div>
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
