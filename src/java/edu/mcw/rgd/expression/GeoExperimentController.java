@@ -8,6 +8,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.commons.math3.analysis.function.Exp;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -49,6 +50,8 @@ public class GeoExperimentController implements Controller {
             String title = request.getParameter("title");
                 String species = request.getParameter("species");
                 List<Experiment> eList = new ArrayList<>();
+                List<Experiment> newExp = new ArrayList<>();
+
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
                 HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
@@ -158,7 +161,7 @@ public class GeoExperimentController implements Controller {
                 }
                 if (curAction.equals("load") || curAction.equals("edit")) {
                     // find/create study
-
+                    GeneExpressionRecord gre = null;
                     Study study = geDAO.getStudyByGeoId(gse);
                     int studyId = 0 ;
                     if (study == null) {
@@ -177,7 +180,7 @@ public class GeoExperimentController implements Controller {
                     // find/create experiment by study
 
                     eList = geDAO.getExperiments(study.getId());
-                    Experiment exp = new Experiment();
+                    Experiment exp = null;
                     if (eList == null || eList.isEmpty()) {
                         eList = new ArrayList<>();
                         Experiment e = new Experiment();
@@ -188,24 +191,18 @@ public class GeoExperimentController implements Controller {
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
+                        newExp.add(e);
                     }
                     else { // need to find correct experiment based on VT
                         Experiment e = null;
                         String vtId = request.getParameter("vtId" + i);
-                        if (eList.size()==1) {
-                            exp = eList.get(0);
-                            if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(),vtId)){
-                                exp.setTraitOntId(vtId);
-                                geDAO.updateExperiment(exp);
+                        gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
+                        if (gre==null) { // store experiment to make sure another is not made
+                            for (Experiment experiment : newExp){
+                                if (experiment.getTraitOntId().equals(vtId))
+                                    exp = experiment;
                             }
-                        }
-                        else {
-                            for (Experiment experiment : eList) {
-                                if (Utils.stringsAreEqual(experiment.getTraitOntId(), vtId))
-                                    e = experiment;
-                            }
-
-                            if (e == null) {
+                            if (exp == null) {
                                 e = new Experiment();
                                 e.setStudyId(studyId);
                                 e.setName(study.getName());
@@ -214,9 +211,24 @@ public class GeoExperimentController implements Controller {
                                 geDAO.insertExperiment(e);
                                 exp = e;
                                 eList.add(e);
+                                newExp.add(e);
                             }
-                            else
+                        }
+                        else {
+                            exp = geDAO.getExperiment(gre.getExperimentId());
+                            if (exp == null) {
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                geDAO.insertExperiment(e);
                                 exp = e;
+                                eList.add(e);
+                            } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
+                                exp.setTraitOntId(vtId);
+                                geDAO.updateExperiment(exp);
+                            }
                         }
 
                     }
@@ -227,7 +239,8 @@ public class GeoExperimentController implements Controller {
                         if (sampleId == 0)
                             continue;
                         int geId = 0;
-                        GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
+                        if (gre==null)
+                            gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
                         Integer oldCmoId;
                         try {
                             oldCmoId = gre.getClinicalMeasurementId();
