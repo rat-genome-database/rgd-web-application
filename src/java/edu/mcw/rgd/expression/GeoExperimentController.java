@@ -225,8 +225,10 @@ public class GeoExperimentController implements Controller {
                                 geDAO.insertExperiment(e);
                                 exp = e;
                                 eList.add(e);
+                                newExp.add(e);
                             } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
                                 exp.setTraitOntId(vtId);
+                                newExp.add(exp);
                                 geDAO.updateExperiment(exp);
                             }
                         }
