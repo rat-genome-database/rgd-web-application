@@ -47,6 +47,13 @@
     <div id="content-wrap">
 
         <%if (isStatusNotActive) { %>
+        <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+            <tr><td colspan="2"><h3>Variant: <%=Utils.NVL(obj.getName(), "")%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%>
+        <% if (RgdContext.isCurator() || RgdContext.isTest()) {%>
+        <span style="margin-left:100px; padding: 5px; border: 1px solid blue; background-color: yellow;"><a href="/rgdweb/curation/edit/editVariant.html?rgdId=<%=obj.getRgdId()%>" style="font-weight:bold;font-size:11px;color:blue" title="go to Object Edit">EDIT</a></span>
+        <% } %>
+            </h3></td></tr>
+        </table>
         <br><br>The Variant <b><%=obj.getName()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
         &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
         <% } else { %>
