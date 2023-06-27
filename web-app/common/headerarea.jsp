@@ -44,6 +44,9 @@
     <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
 
+    <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
+
+    <% } else { %>
     <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
     <script type="text/javascript">
         _uacct = "UA-2739107-2";
@@ -58,7 +61,10 @@
 
         gtag('config', 'G-BTF869XJFG');
     </script>
+    <% } %>
+
     <script type="text/javascript" src="/rgdweb/js/rgdHomeFunctions-3.js"></script>
+
 
     <%
         String idForAngular = request.getParameter("id");
