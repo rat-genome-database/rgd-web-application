@@ -62,6 +62,7 @@
                 <prop key="curation/edit/updateGenomicElementAttrs.html">GenomicElementAttrsEditObjectController</prop>
                 <prop key="curation/edit/updateGeneVariants.html">GeneVariantsEditObjectController</prop>
                 <prop key="curation/edit/updateGeneAssociations.html">GeneAssociationsEditObjectController</prop>
+                <prop key="curation/edit/updateGeneVariantAssociations.html">GeneVariantAssociationsEditObjectController</prop>
                 <prop key="curation/edit/updateCuratedReferences.html">CuratedReferencesEditObjectController</prop>
                 <prop key="curation/edit/updateExternalLinks.html">ExternalLinksEditObjectController</prop>
                 <prop key="curation/edit/updateCellLineAssociations.html">CellLineAssociationsEditObjectController</prop>
@@ -394,6 +395,7 @@
     <bean id="NotesAddController" class="edu.mcw.rgd.edit.NotesAddController"/>
     <bean id="GeneVariantsEditObjectController" class="edu.mcw.rgd.edit.GeneVariantsEditObjectController"/>
     <bean id="GeneAssociationsEditObjectController" class="edu.mcw.rgd.edit.GeneAssociationsEditObjectController"/>
+    <bean id="GeneVariantAssociationsEditObjectController" class="edu.mcw.rgd.edit.GeneVariantAssociationsEditObjectController"/>
     <bean id="VariantAssociationsEditObjectController" class="edu.mcw.rgd.edit.VariantAssociationsEditObjectController"/>
     <bean id="CellLineAssociationsEditObjectController" class="edu.mcw.rgd.edit.CellLineAssociationsEditObjectController"/>
     <bean id="CuratedReferencesEditObjectController" class="edu.mcw.rgd.edit.CuratedReferencesEditObjectController"/>
