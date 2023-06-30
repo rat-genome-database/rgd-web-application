@@ -8,6 +8,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import org.apache.commons.math3.analysis.function.Exp;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class GeoExperimentController implements Controller {
 
-    PhenominerDAO pdao = new PhenominerDAO();
+//    PhenominerDAO geDAO = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
     public String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,6 +50,8 @@ public class GeoExperimentController implements Controller {
             String title = request.getParameter("title");
                 String species = request.getParameter("species");
                 List<Experiment> eList = new ArrayList<>();
+                List<Experiment> newExp = new ArrayList<>();
+
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
                 HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
@@ -124,42 +127,42 @@ public class GeoExperimentController implements Controller {
 
                 s.setNumberOfAnimals(1);
                 int sampleId = 0;
-                Sample sample = pdao.getSampleByGeoId(s.getBioSampleId());
+                Sample sample = geDAO.getSampleByGeoId(s.getBioSampleId());
                 boolean loadIt = curAction.equals("load") || curAction.equals("edit");
                 if(sample == null && loadIt){//curAction.equals("load")) {
                     s.setCreatedBy(login);
-                    sampleId = pdao.insertSample(s);
+                    sampleId = geDAO.insertSample(s);
                     sampleList.add(s);
                 }
                 else if (loadIt){
                     s.setId(sample.getId());
                     sampleId = sample.getId();
                     s.setLastModifiedBy(login);
-                    pdao.updateSample(s);
+                    geDAO.updateSample(s);
                     sampleList.add(s);
                 }
                 if (curStatus.equals("pending") && curAction.equals("load"))
-                    pdao.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
+                    geDAO.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
                 else {
                     switch (curStatus) {
                         case "loaded":
-                            pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "loaded", species);
+                            geDAO.updateGeoSampleStatus(gse, s.getBioSampleId(), "loaded", species);
                             break;
                         case "not4Curation":
-                            pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "not4Curation", species);
+                            geDAO.updateGeoSampleStatus(gse, s.getBioSampleId(), "not4Curation", species);
                             break;
                         case "futureCuration":
-                            pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "futureCuration", species);
+                            geDAO.updateGeoSampleStatus(gse, s.getBioSampleId(), "futureCuration", species);
                             break;
                         case "pending":
-                            pdao.updateGeoSampleStatus(gse, s.getBioSampleId(), "pending", species);
+                            geDAO.updateGeoSampleStatus(gse, s.getBioSampleId(), "pending", species);
                             break;
                     }
                 }
                 if (curAction.equals("load") || curAction.equals("edit")) {
                     // find/create study
-
-                    Study study = pdao.getStudyByGeoId(gse);
+                    GeneExpressionRecord gre = null;
+                    Study study = geDAO.getStudyByGeoId(gse);
                     int studyId = 0 ;
                     if (study == null) {
                         study = new Study();
@@ -169,15 +172,15 @@ public class GeoExperimentController implements Controller {
                         study.setSource("GEO");
                         study.setDataType("rna-seq_expression");
                         study.setCreatedBy(login);
-                        studyId = pdao.insertStudy(study);
+                        studyId = geDAO.insertStudy(study);
                     }
                     else
                         studyId = study.getId();
 
                     // find/create experiment by study
 
-                    eList = pdao.getExperiments(study.getId());
-                    Experiment exp = new Experiment();
+                    eList = geDAO.getExperiments(study.getId());
+                    Experiment exp = null;
                     if (eList == null || eList.isEmpty()) {
                         eList = new ArrayList<>();
                         Experiment e = new Experiment();
@@ -185,45 +188,71 @@ public class GeoExperimentController implements Controller {
                         e.setName(study.getName());
                         e.setCreatedBy(login);
                         e.setTraitOntId(request.getParameter("vtId" + i));
-                        pdao.insertExperiment(e);
+                        geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
+                        newExp.add(e);
                     }
                     else { // need to find correct experiment based on VT
                         Experiment e = null;
                         String vtId = request.getParameter("vtId" + i);
-                        for (Experiment experiment : eList){
-                            if (Utils.stringsAreEqual(experiment.getTraitOntId(),vtId))
-                                e = experiment;
+                        gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
+                        if (gre==null) { // store experiment to make sure another is not made
+                            for (Experiment experiment : newExp){
+                                if (experiment.getTraitOntId().equals(vtId))
+                                    exp = experiment;
+                            }
+                            if (exp == null) {
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                geDAO.insertExperiment(e);
+                                exp = e;
+                                eList.add(e);
+                                newExp.add(e);
+                            }
+                        }
+                        else {
+                            exp = geDAO.getExperiment(gre.getExperimentId());
+                            if (exp == null) {
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                geDAO.insertExperiment(e);
+                                exp = e;
+                                eList.add(e);
+                                newExp.add(e);
+                            } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
+                                exp.setTraitOntId(vtId);
+                                newExp.add(exp);
+                                geDAO.updateExperiment(exp);
+                            }
                         }
 
-                        if (e==null){
-                            e = new Experiment();
-                            e.setStudyId(studyId);
-                            e.setName(study.getName());
-                            e.setCreatedBy(login);
-                            e.setTraitOntId(request.getParameter("vtId" + i));
-                            pdao.insertExperiment(e);
-                            exp = e;
-                            eList.add(e);
-                        }
-                        else
-                            exp = e;
-
-                        if (!Utils.isStringEmpty(vtId) && Utils.stringsAreEqual(e.getTraitOntId(),vtId)) {
-                            e.setTraitOntId(vtId);
-                            pdao.updateExperiment(e);
-                        }
                     }
                     sampleExperiment.put(sampleId, exp);
 
                     // find/create gene_expression_exp_record by experiment
-
 //                        for (Experiment ex : eList) {
                         if (sampleId == 0)
                             continue;
                         int geId = 0;
-                        GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
+                        if (gre==null)
+                            gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
+                        Integer oldCmoId;
+                        try {
+                            oldCmoId = gre.getClinicalMeasurementId();
+                        }
+                        catch (Exception e){
+                            oldCmoId = null;
+                        }
+
+                        Integer cmoId = null;
+//                        GeneExpressionRecord copy = gre;
                         if (gre == null) {
                             gre = new GeneExpressionRecord();
                             gre.setExperimentId(exp.getId());
@@ -231,9 +260,50 @@ public class GeoExperimentController implements Controller {
                             gre.setCurationStatus(35);
                             gre.setSpeciesTypeKey(speciesType);
                             gre.setLastModifiedBy(login);
+                            ClinicalMeasurement cmo = null;
+//                            cmoId = cmo.getId();
+                            String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
+                            // if null create, else update
+                            if (!Utils.isStringEmpty(cmoAcc)){
+                                cmo = new ClinicalMeasurement();
+                                cmo.setAccId(cmoAcc);
+                                cmoId = geDAO.insertClinicalMeasurement(cmo);
+                                gre.setClinicalMeasurementId(cmoId);
+                            }
                             geId = geDAO.insertGeneExpressionRecord(gre);
-                        } else
+                        } else {
                             geId = gre.getId();
+                            // get CMO from record
+                            ClinicalMeasurement cmo;
+
+                            if (gre.getClinicalMeasurementId()==null){
+                                cmo = null;
+                            }
+                            else {
+                                cmo = geDAO.getClinicalMeasurement(gre.getClinicalMeasurementId());
+                            }
+
+                            String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
+                            // if null create, else update
+                            if (cmo==null && !Utils.isStringEmpty(cmoAcc)){
+                                cmo = new ClinicalMeasurement();
+                                cmo.setAccId(cmoAcc);
+                                cmoId = geDAO.insertClinicalMeasurement(cmo);
+                                cmo.setId(cmoId);
+                                gre.setClinicalMeasurementId(cmoId);
+                            }
+                            else{
+                                if (cmo != null && !Utils.stringsAreEqual(cmo.getAccId(), cmoAcc) && !Utils.isStringEmpty(cmoAcc)) {
+                                    cmo.setAccId(cmoAcc);
+                                    geDAO.updateClinicalMeasurement(cmo);
+                                }
+                            }
+                            if (cmoId != null && !cmoId.equals(oldCmoId)) {
+                                gre.setLastModifiedBy(login);
+                                geDAO.updateGeneExpressionRecord(gre);
+                            }
+
+                        }
                         // find/create experiment conditions by gene_expression_exp_record
 
                         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -278,7 +348,7 @@ public class GeoExperimentController implements Controller {
                             c.setGeneExpressionRecordId(geId);
 
                             if (Utils.isStringEmpty(cId[k])) {
-//                                    pdao.insertCondition(c);
+//                                    geDAO.insertCondition(c);
                                 c.setId(-1);
                                 conditions.add(c);
 
@@ -286,7 +356,7 @@ public class GeoExperimentController implements Controller {
                             }
                             else {
                                 c.setId(Integer.parseInt(cId[k]));
-//                                    pdao.updateCondition(c);
+//                                    geDAO.updateCondition(c);
                                 conditions.add(c);
 //                                    updateConds.add(c);
                             }
@@ -302,7 +372,7 @@ public class GeoExperimentController implements Controller {
 
             } // end for
             int tissue = 0, strain = 0, cell = 0, culture = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
-            int maxCond = 0, vtId = 0, cmoId = 0;
+            int maxCond = 0, vtId = 0, cmoIds = 0;
 //                List<Integer> minMaxVals = new ArrayList<>(), minMaxDurs = new ArrayList<>(), appMethods = new ArrayList<>(), condNotes = new ArrayList<>();
             HashMap<String, Integer> minMaxVals = new HashMap<>();
             HashMap<String, Integer> minMaxDurs = new HashMap<>();
@@ -333,6 +403,7 @@ public class GeoExperimentController implements Controller {
 
 //                    List<Experiment> expList = sampleExperiment.get(s.getId());
                 Experiment e = sampleExperiment.get(s.getId());
+                GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
                 List<Condition> condList = sampleConditions.get(s.getId());
                 if (condList != null && condList.size() > maxCond)
                     maxCond = condList.size();
@@ -343,6 +414,8 @@ public class GeoExperimentController implements Controller {
                 if (!Utils.isStringEmpty(e.getTraitOntId()))
                     vtId++;
 //                    }
+                if (gre.getClinicalMeasurementId()!=null && gre.getClinicalMeasurementId()!=0)
+                    cmoIds++;
                 for (int i = 0; i < condList.size() ; i++){
                     //
                     int minMaxVal = 0, minMaxDur = 0, appMethod = 0, condNote = 0;
@@ -375,6 +448,8 @@ public class GeoExperimentController implements Controller {
                     header.append("Tissue ID");
                 if (vtId != 0)
                     header.append("Vertebrate Trait");
+                if (cmoIds != 0)
+                    header.append("Clinical Measurement");
                 if (strain != 0)
                     header.append("Strain ID");
                 if (cell != 0)
@@ -422,11 +497,19 @@ public class GeoExperimentController implements Controller {
                     Record rec = new Record();
                     rec.append(s.getId()+"");
                     rec.append(s.getGeoSampleAcc());
+                    Experiment e = sampleExperiment.get(s.getId());
                     if (tissue != 0)
                         rec.append(s.getTissueAccId());
                     if (vtId != 0) {
-                        Experiment e = sampleExperiment.get(s.getId());
                         rec.append(e.getTraitOntId());
+                    }
+                    if (cmoIds!=0){
+                        GeneExpressionRecord g = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
+                        ClinicalMeasurement c = geDAO.getClinicalMeasurement(g.getClinicalMeasurementId());
+                        if (c!=null)
+                            rec.append(c.getAccId());
+                        else
+                            rec.append("");
                     }
                     if (strain != 0)
                         rec.append(s.getStrainAccId());
@@ -488,7 +571,7 @@ public class GeoExperimentController implements Controller {
             String gse = request.getParameter("geoId");
             String species = request.getParameter("species");
             String curationStatus = request.getParameter("status");
-            pdao.updateGeoStudyStatus(gse, curationStatus,species);
+            geDAO.updateGeoStudyStatus(gse, curationStatus,species);
             status.add("Status updated successfully for " + gse);
             request.setAttribute("status", status);
             return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
@@ -513,6 +596,8 @@ public class GeoExperimentController implements Controller {
             HashMap<String,String> cmoNameMap = new HashMap<>();
             HashMap<String,String> strainMap = new HashMap();
             HashMap<String,String> strainNameMap = new HashMap<>();
+            HashMap<String,String> clinMeasMap = new HashMap<>();
+            HashMap<String,String> clinMeasNameMap = new HashMap<>();
             HashMap<String,String> cellType = new HashMap();
             HashMap<String,String> cellNameMap = new HashMap<>();
             HashMap<String,String> cellLine = new HashMap();
@@ -532,16 +617,16 @@ public class GeoExperimentController implements Controller {
                     tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
                     vtMap.put(null,request.getParameter("vtId"+i));
                     vtNameMap.put(null, request.getParameter("vt"+i+"_term"));
-//                        cmoMap.put(null,request.getParameter("cmoId"+i));
-//                        cmoNameMap.put(null, request.getParameter("cmo"+i+"_term"));
+                    clinMeasMap.put(null, request.getParameter("clinicalMeasurement"+i));
+                    clinMeasNameMap.put(null,request.getParameter("cmo"+i+"_term"));
                 }
                 else {
                     tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
                     tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
                     vtMap.put(request.getParameter("tissue" + i),request.getParameter("vtId"+i));
                     vtNameMap.put(request.getParameter("tissue" + i), request.getParameter("vt"+i+"_term"));
-//                        cmoMap.put(request.getParameter("tissue" + i),request.getParameter("cmoId"+i));
-//                        cmoNameMap.put(request.getParameter("tissue" + i), request.getParameter("cmo"+i+"_term"));
+                    clinMeasMap.put(request.getParameter("tissue" + i), request.getParameter("clinicalMeasurement"+i));
+                    clinMeasNameMap.put(request.getParameter("tissue" + i),request.getParameter("cmo"+i+"_term"));
                 }
             }
             for(int i = 0; i < scount;i++){
@@ -641,6 +726,8 @@ public class GeoExperimentController implements Controller {
             request.setAttribute("cmoNameMap",cmoNameMap);
             request.setAttribute("strainMap",strainMap);
             request.setAttribute("strainNameMap",strainNameMap);
+            request.setAttribute("clinMeasMap",clinMeasMap);
+            request.setAttribute("clinMeasNameMap",clinMeasNameMap);
             request.setAttribute("cellLine",cellLine);
             request.setAttribute("cellType",cellType);
             request.setAttribute("cellNameMap",cellNameMap);
@@ -724,10 +811,10 @@ public class GeoExperimentController implements Controller {
         for (Condition c : conds){
             // insert/update
             if (c.getId()==-1){
-                pdao.insertCondition(c);
+                geDAO.insertCondition(c);
             }
             else {
-                pdao.updateCondition(c);
+                geDAO.updateCondition(c);
             }
         }
     }

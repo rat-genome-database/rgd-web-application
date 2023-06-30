@@ -214,7 +214,21 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="clinicalMeasurement<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="clinicalMeasurement<%=tcount%>" id="clinicalMeasurement<%=tcount%>" value="" onblur="lostFocus('cmo')">
+                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('clinicalMeasurement<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
  <%tcount++;}
    else {  for(String tissue: tissueMap.keySet()){
@@ -259,7 +273,21 @@ if (tissueMap.isEmpty()){ %>
                     <td></td>
                     <td></td>
                 </tr>
-
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label for="clinicalMeasurement<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement: &nbsp&nbsp </label>
+                    </td>
+                    <td>
+                        <input type="text" name="clinicalMeasurement<%=tcount%>" id="clinicalMeasurement<%=tcount%>" value="" onblur="lostFocus('cmo')">
+                        <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('clinicalMeasurement<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
+                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
         <%tcount++;}
 
       }
@@ -315,8 +343,9 @@ if (tissueMap.isEmpty()){ %>
             </tr>
                 <%      scount++;
                 }
-            }
-            int clcount = 0;
+            }%>
+
+           <%  int clcount = 0;
    if (cellLineMap.isEmpty()) { %>
                 <tr>
                     <td>
@@ -620,6 +649,15 @@ if (tissueMap.isEmpty()){ %>
                         <a href="" id="xco<%=xcoCnt%>_popup" onclick="ontPopup('xcoId<%=xcoCnt%>','xco','xco<%=xcoCnt%>_term')" style="color:black;">Ont&nbsp;Tree</a><br>
                         <input type="text" id="xco<%=xcoCnt%>_term" name="xco<%=xcoCnt%>_term" value="" style="border: none; background: transparent;width: 100%" readonly/>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>Min Value</td>
@@ -686,6 +724,14 @@ if (tissueMap.isEmpty()){ %>
                                    href="javascript:removeCondition('condition<%=i%>','<%=i%>') ;void(0);"><img
                                         src="/rgdweb/common/images/del.jpg" border="0"/></a>
                             </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Min Value</td>

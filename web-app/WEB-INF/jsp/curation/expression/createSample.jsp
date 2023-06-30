@@ -155,6 +155,8 @@
     HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
     HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
     HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
+    HashMap<String,String> clinMeasMap = (HashMap) request.getAttribute("clinMeasMap");
+    HashMap<String,String> clinMeasNameMap = (HashMap) request.getAttribute("clinMeasNameMap");
     HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
     HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
     HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
@@ -171,7 +173,7 @@
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
-    Study study = new Study();
+    List<Experiment> experiments = updateSample ? pdao.getExperiments(samples.get(0).getGeoAccessionId()) : new ArrayList<>();
     int count = 0;
 %>
 
@@ -180,7 +182,7 @@
 <div>
     <%
         if(samples.size() != 0) {
-            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
+//            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
     %>
         <form action="experiments.html" method="POST">
             <table  class="t" style="width: 1880px">
@@ -227,7 +229,7 @@
             if(samples.size() != 0) {
         %>
                 <colgroup>
-                    <col span="20">
+                    <col span="21">
                     <% for (int i = 0; i < 15; i ++){%>
                     <col span="3">
                     <col id="showMe<%=i%>" span="7" style="visibility: collapse">
@@ -247,7 +249,7 @@
                 <th>Tissue (Source): </th>
                 <th>Tissue ID (Curated): </th>
                 <th>Vertebrate Trait  ID (Curated): </th>
-<%--                <th>Clinical Measurement ID (Curated): </th>--%>
+                <th>Clinical Measurement ID (Curated): </th>
                 <th>Sex (Curated): </th>
                 <th>Age (Source): </th>
                 <th>Age (in days) Low (Curated): </th>
@@ -291,32 +293,29 @@
      for(GeoRecord s: samples){
          boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
-         List<Experiment> experiments = new ArrayList<>();
          Experiment exp = new Experiment();
-         GeneExpressionRecord gre = new GeneExpressionRecord();
+         ClinicalMeasurement cm = new ClinicalMeasurement();
          List<Condition> conds = new ArrayList<>();
+         GeneExpressionRecord r = new GeneExpressionRecord();
+         try{
+             r=geDAO.getGeneExpressionRecordBySampleId(sample.getId());
+         }
+         catch (Exception e){ }
+         if (r!=null) {
+             if (r.getClinicalMeasurementId() != null && r.getClinicalMeasurementId() != 0)
+                 cm = pdao.getClinicalMeasurement(r.getClinicalMeasurementId());
+             conds = r.getConditions();
+             if (r.getExperimentId() != 0)
+                exp = geDAO.getExperiment(r.getExperimentId());
+         }
          int j = 0, n = 0;
-//System.out.println(s.getSampleAccessionId()+"|"+s.getCurationStatus());
-          try{
-         if (sample == null)
+       try{
+          if (sample == null)
              sample = new Sample();
-
-          if (sample.getId() != 0 && Utils.stringsAreEqual(study.getGeoSeriesAcc(), samples.get(0).getGeoAccessionId())) {
-              experiments = pdao.getExperiments(study.getId());
-              if (!experiments.isEmpty()) {
-                  exp = experiments.get(0);
-                  gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sample.getId());
-                  if (gre.getConditions()!= null && !gre.getConditions().isEmpty())
-                    conds = gre.getConditions();//geDAO.getConditions(gre.getId());
-
-              }
-
-          }
-
-         bool = !(sample.getAgeDaysFromLowBound()==0 && ( sample.getAgeDaysFromHighBound()== sample.getAgeDaysFromLowBound() ) );
-        }catch (Exception ignore){
+          bool = !(sample.getAgeDaysFromLowBound()==0 && (Objects.equals(sample.getAgeDaysFromHighBound(), sample.getAgeDaysFromLowBound())) );
+       }catch (Exception ignore){
               // number is null
-        }
+       }
          if ((!ageHigh.isEmpty() || !ageLow.isEmpty()) && Utils.isStringEmpty(s.getSampleAge()) )
          {
              try{
@@ -337,6 +336,7 @@ try{
 catch (Exception e){}
          }
 //         System.out.println(s.getSampleAccessionId() + "|" + s.getSampleTitle());
+
   %>
             <tr>
                 <td ><input type="text" name="sampleId<%=count%>" id="sampleId<%=count%>" value="<%=dm.out("sampleId"+count,s.getSampleAccessionId())%>" readonly> </td>
@@ -366,15 +366,15 @@ catch (Exception e){}
                     <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('tissueId<%=count%>','uberon','uberon<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
                 <td>
-                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
+                    <input type="text" name="vtId<%=count%>" id="vtId<%=count%>" value="<%=(updateSample && !Objects.toString(vtMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(vtMap.get(s.getSampleTissue()), "") : !Utils.isStringEmpty(exp.getTraitOntId()) ? Objects.toString(exp.getTraitOntId(),"") : Objects.toString(vtMap.get(s.getSampleTissue()), "")%>">
                     <br><input type="text" id="vt<%=count%>_term" name="vt<%=count%>_term" value="<%=Objects.toString(vtNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(vtNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
-                    <a href="" id="uberon<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
+                    <a href="" id="vt<%=count%>_popup" onclick="ontPopup('vtId<%=count%>','vt','vt<%=count%>_term')" style="color:black;">Ont Tree</a>
                 </td>
-<%--                <td>--%>
-<%--                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=Objects.toString(cmoMap.get(s.getSampleTissue()), "")%>">--%>
-<%--                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(cmoNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(cmoNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>--%>
-<%--                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>--%>
-<%--                </td>--%>
+                <td>
+                    <input type="text" name="cmoId<%=count%>" id="cmoId<%=count%>" value="<%=(updateSample && !Objects.toString(clinMeasMap.get(s.getSampleTissue()),"").isEmpty()) ? Objects.toString(clinMeasMap.get(s.getSampleTissue()), "") : !Utils.isStringEmpty(cm.getAccId()) ? Objects.toString(cm.getAccId(), "") : Objects.toString(clinMeasMap.get(s.getSampleTissue()),"")%>">
+                    <br><input type="text" id="cmo<%=count%>_term" name="cmo<%=count%>_term" value="<%=Objects.toString(clinMeasNameMap.get(s.getSampleTissue()),"")%>" title="<%=Utils.NVL(clinMeasNameMap.get(s.getSampleTissue()),"")%>"  style="border: none; background: transparent;width: 100%" readonly/>
+                    <a href="" id="cmo<%=count%>_popup" onclick="ontPopup('cmoId<%=count%>','cmo','cmo<%=count%>_term')" style="color:black;">Ont Tree</a>
+                </td>
                 <td>
                     <select name="sex<%=count%>" id="sex<%=count%>">
                         <option value="male" <%=(updateSample && !Objects.toString(gender.get(s.getSampleGender())).isEmpty())? Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ?  "selected":"" :Utils.stringsAreEqual(sample.getSex(),"male") ? "selected" : Utils.stringsAreEqual(Objects.toString(gender.get(s.getSampleGender())) ,"male") ? "selected":""%>>Male</option>
