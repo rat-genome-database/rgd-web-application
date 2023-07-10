@@ -11,6 +11,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Study" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -125,6 +126,15 @@
     List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
     boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
+    Study s = null;
+    int refSize = 3;
+    if (existingSample)
+    {
+        s = pdao.getStudyByGeoIdWithReferences(gse);
+//        System.out.println(s.getRefRgdIds().size());
+        if (!s.getRefRgdIds().isEmpty() && s.getRefRgdIds().size()>refSize)
+            refSize = s.getRefRgdIds().size();
+    }
 %>
 <input type="hidden" id="exist" value="<%=existingSample%>">
 <br>
@@ -174,6 +184,22 @@
                     <th>GEO</th>
                     <th></th>
                     <th>RGD</th>
+                </tr>
+                <tr>
+                    <td><label style="color: #24609c; font-weight: bold;">PubMed Id:</label></td>
+                    <td><%=samples.get(0).getPubmedId()%></td>
+                    <td><label style="color: #24609c; font-weight: bold;">Study Reference RGD Id(s):</label></td>
+                    <% int x = 0;
+                        for (x = 0; x < s.getRefRgdIds().size() ; x++){%>
+                    <td>
+                        <input type="number" name="refRgdId<%=x%>" id="refRgd<%=x%>" value="<%=existingSample ? s.getRefRgdIds().get(x) : ""%>">
+                    </td>
+                    <%}
+                    for (int y=x ; y < refSize ; y++){%>
+                    <td>
+                        <input type="number" name="refRgdId<%=y%>" id="refRgd<%=y%>" value="">
+                    </td>
+                    <%}%>
                 </tr>
             <%
       int tcount = 0;

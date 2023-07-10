@@ -168,6 +168,7 @@
     HashMap<String,String> culture = (HashMap) request.getAttribute("cultureDur");
     HashMap<String,String> cultureUnit = (HashMap) request.getAttribute("cultureUnit");
     List<Condition> conditions = (ArrayList) request.getAttribute("conditions");
+    List<Integer> refRgdIds = (ArrayList) request.getAttribute("refRgdIds");
     int sampleSize = (int) request.getAttribute("samplesExist");
     boolean updateSample = sampleSize!=0;
     int size = samples.size();
@@ -175,6 +176,7 @@
     boolean createSample = true;
     List<Experiment> experiments = updateSample ? pdao.getExperiments(samples.get(0).getGeoAccessionId()) : new ArrayList<>();
     int count = 0;
+    Study study = null;
 %>
 
 
@@ -182,7 +184,7 @@
 <div>
     <%
         if(samples.size() != 0) {
-//            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
+            study = pdao.getStudyByGeoIdWithReferences(samples.get(0).getGeoAccessionId());
     %>
         <form action="experiments.html" method="POST">
             <table  class="t" style="width: 1880px">
@@ -221,6 +223,9 @@
             <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
             <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
             <input type="hidden" id="species" name="species" value="<%=species%>" />
+            <%for(int i = 0; i < 3 ; i++) {%>
+                <input type="hidden" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=(refRgdIds.get(i)!=null && refRgdIds.get(i)!=0) ? refRgdIds.get(i) : ""%>">
+            <%}%>
             <br>
             <div class="sticky-table">
             <table class="table table-striped">
@@ -255,6 +260,7 @@
                 <th>Age (in days) Low (Curated): </th>
                 <th>Age (in days) High (Curated): </th>
                 <th>Life Stage (Curated):</th>
+<%--                <th>Reference RGD Ids:</th>--%>
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
                 <th>Status/Action:</th>

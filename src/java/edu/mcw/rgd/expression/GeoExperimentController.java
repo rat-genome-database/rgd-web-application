@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -45,12 +46,13 @@ public class GeoExperimentController implements Controller {
         if (request.getParameter("count") != null) {
             Report r = new Report();
             try {
-            int count = Integer.parseInt(request.getParameter("count"));
-            String gse = request.getParameter("gse");
-            String title = request.getParameter("title");
+                int count = Integer.parseInt(request.getParameter("count"));
+                String gse = request.getParameter("gse");
+                String title = request.getParameter("title");
                 String species = request.getParameter("species");
                 List<Experiment> eList = new ArrayList<>();
                 List<Experiment> newExp = new ArrayList<>();
+                Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
 
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
@@ -162,7 +164,7 @@ public class GeoExperimentController implements Controller {
                 if (curAction.equals("load") || curAction.equals("edit")) {
                     // find/create study
                     GeneExpressionRecord gre = null;
-                    Study study = geDAO.getStudyByGeoId(gse);
+                    study = geDAO.getStudyByGeoIdWithReferences(gse);
                     int studyId = 0 ;
                     if (study == null) {
                         study = new Study();
@@ -557,12 +559,33 @@ public class GeoExperimentController implements Controller {
 
                     r.append(rec);
                 }
+                List<Integer> refRgdIds = new ArrayList<>();
+                for (int i = 0; i < 3; i++){
+                    try{
+                        int x = Integer.parseInt(request.getParameter("refRgdId"+i));
+                        refRgdIds.add(x);
+                    }
+                    catch (Exception e){ }
+
+                }
+                    // compare both integer lists and insert new, delete ones that no longer exist
+                List<Integer> existingRefs = study.getRefRgdIds();
+                dropSharedRgdIds(refRgdIds,existingRefs);
+
+                for (Integer rgdId : refRgdIds){
+                    geDAO.insertStudyReference(study.getId(),rgdId);
+                }
+
+                for (Integer rgdId : existingRefs){
+                    geDAO.deleteStudyReference(study.getId(), rgdId);
+                }
 
         }catch (Exception e){
                 error.add("Sample insertion failed for " + e);
                 e.printStackTrace();
 
         }
+
             request.setAttribute("error", error);
             request.setAttribute("report",r);
             return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "samples.jsp");
@@ -611,6 +634,7 @@ public class GeoExperimentController implements Controller {
             HashMap<String,String> culture = new HashMap<>();
             HashMap<String,String> cultureUnit = new HashMap<>();
             List<Condition> conditions = new ArrayList<Condition>();
+            List<Integer> refRgdIds = new ArrayList<>();
             for(int i = 0; i < tcount;i++){
                 if (request.getParameter("tissue" + i).contains("imported!")) {
                     tissueMap.put(null, request.getParameter("tissueId" + i));
@@ -681,6 +705,17 @@ public class GeoExperimentController implements Controller {
                 curNotes.put(null,request.getParameter("cNotesId"+i));
             }
 
+            for (int i = 1; i <= 3; i++){
+                Integer x;
+                try{
+                    x = Integer.parseInt(request.getParameter("refRgdId"+i));
+                }
+                catch (Exception e){
+                    x = null;
+                }
+                refRgdIds.add(x);
+            }
+
             HttpRequestFacade req = new HttpRequestFacade(request);
             String[] cValueMin = req.getRequest().getParameterValues("cValueMin");
             String[] cValueMax = req.getRequest().getParameterValues("cValueMax");
@@ -744,6 +779,7 @@ public class GeoExperimentController implements Controller {
             request.setAttribute("xcoTerms", xcoMap);
             request.setAttribute("cultureDur", culture);
             request.setAttribute("cultureUnit", cultureUnit);
+            request.setAttribute("refRgdIds",refRgdIds);
             return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
         }
         if (request.getParameter("gse") != null) {
@@ -817,6 +853,32 @@ public class GeoExperimentController implements Controller {
                 geDAO.updateCondition(c);
             }
         }
+    }
+
+    int dropSharedRgdIds(List<Integer> incomingRgdIds, List<Integer> existingRgdIds) throws Exception {
+
+        int droppedCount = 0;
+        if(incomingRgdIds!=null) {
+            // find incoming annotation that matches existingAnnotation
+            Iterator<Integer> it1 = incomingRgdIds.iterator();
+            while (it1.hasNext()) {
+                Integer var1 = it1.next();
+
+                Iterator<Integer> it2 = existingRgdIds.iterator();
+                while (it2.hasNext()) {
+                    Integer var2 = it2.next();
+
+                    if (var1.equals(var2)) {
+
+                        droppedCount++;
+                        it1.remove();
+                        it2.remove();
+                        break; // break inner loop
+                    }
+                }
+            }
+            return droppedCount;
+        } else return existingRgdIds.size();
     }
 
 }
