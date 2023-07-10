@@ -131,10 +131,8 @@
     if (existingSample)
     {
         s = pdao.getStudyByGeoIdWithReferences(gse);
-//        System.out.println(s.getRefRgdIds().size());
-        if (!s.getRefRgdIds().isEmpty() && s.getRefRgdIds().size()>refSize)
-            refSize = s.getRefRgdIds().size();
     }
+
 %>
 <input type="hidden" id="exist" value="<%=existingSample%>">
 <br>
@@ -190,11 +188,13 @@
                     <td><%=samples.get(0).getPubmedId()%></td>
                     <td><label style="color: #24609c; font-weight: bold;">Study Reference RGD Id(s):</label></td>
                     <% int x = 0;
+                    if (s != null){
                         for (x = 0; x < s.getRefRgdIds().size() ; x++){%>
                     <td>
                         <input type="number" name="refRgdId<%=x%>" id="refRgd<%=x%>" value="<%=existingSample ? s.getRefRgdIds().get(x) : ""%>">
                     </td>
                     <%}
+                    }
                     for (int y=x ; y < refSize ; y++){%>
                     <td>
                         <input type="number" name="refRgdId<%=y%>" id="refRgd<%=y%>" value="">
