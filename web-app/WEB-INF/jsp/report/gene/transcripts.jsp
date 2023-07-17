@@ -1,8 +1,7 @@
-<%@ include file="../sectionHeader.jsp"%>
-
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
+
         // sort transcripts by acc id
         Collections.sort(tlist, new Comparator<Transcript>() {
             @Override
@@ -11,11 +10,12 @@
             }
         });
 %>
+<%@ include file="../sectionHeader.jsp"%>
 
 
-<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
+<div id="nucleotideReferenceSequencesTableDiv" class="reportTable light-table-border">
 
-    <span class="highlight"><u>Reference Sequences</u></span>
+    <div class="sectionHeading sidebar-item">Reference Sequences</div>
 
 
     <div class="modelsViewContent" >
@@ -48,27 +48,26 @@
     %>
 
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesInnerTable" >
+<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesTable" >
     <thead></thead>
     <tbody>
     <tr>
         <td class="label" valign="top" width="100">RefSeq Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=accStr%></td>
     </tr>
+    <% if( t.getRefSeqStatus()!=null ) { %>
     <tr>
         <td class="label" valign="top" width="100">RefSeq Status:</td>
-        <td><%=fu.chkNull(t.getRefSeqStatus())%>
-        </td>
+        <td><%=fu.chkNull(t.getRefSeqStatus())%></td>
     </tr>
+    <% } %>
     <tr>
         <td class="label" valign="top" width="100">Type:</td>
-        <td><%=t.isNonCoding() ? "NON-CODING" : "CODING"%>
-        </td>
+        <td><%=t.isNonCoding() ? "NON-CODING" : "CODING"%></td>
     </tr>
     <tr>
         <td class="label" valign="top">Position:</td>
-        <td><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%>
-        </td>
+        <td><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%></td>
     </tr>
 
     <%
@@ -117,6 +116,6 @@
             </form>
         </div>
     </div>
-<% } %>
 </div>
 <%@ include file="../sectionFooter.jsp"%>
+<% } %>

@@ -107,9 +107,9 @@
 %>
 
 
-<div id="proteinReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
+<div id="proteinReferenceSequencesTableDiv" class="reportTable light-table-border">
 
-    <span class="highlight"><u>Reference Sequences</u></span>
+    <div class="sectionHeading sidebar-item">Reference Protein Sequences</div>
 
     <div class="modelsViewContent" >
         <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
