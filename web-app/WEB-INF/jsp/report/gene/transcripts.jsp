@@ -1,6 +1,7 @@
 <%
     List<Transcript> tlist = transcriptDAO.getTranscriptsForGene(obj.getRgdId());
     if (tlist.size() > 0) {
+
         // sort transcripts by acc id
         Collections.sort(tlist, new Comparator<Transcript>() {
             @Override
@@ -12,9 +13,9 @@
 <%@ include file="../sectionHeader.jsp"%>
 
 
-<div id="nucleotideReferenceSequencesTableDiv" class="light-table-border ref-seq-flex-order">
+<div id="nucleotideReferenceSequencesTableDiv" class="reportTable light-table-border">
 
-    <div class="sectionHeading">Reference Sequences</div>
+    <div class="sectionHeading sidebar-item">Reference Sequences</div>
 
 
     <div class="modelsViewContent" >
@@ -47,7 +48,7 @@
     %>
 
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesInnerTable" >
+<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesTable" >
     <thead></thead>
     <tbody>
     <tr>
