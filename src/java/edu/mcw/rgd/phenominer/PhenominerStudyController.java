@@ -2,6 +2,7 @@ package edu.mcw.rgd.phenominer;
 
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.pheno.Study;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.pheno.SearchBean;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Record;
@@ -111,9 +112,26 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setType(req.getParameter("type"));
                     s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
 
+                    String refRgdId2 = req.getParameter("refRgdId2");
+                    String refRgdId3 = req.getParameter("refRgdId3");
+
                     s.setLastModifiedBy(login);
                     s.setCreatedBy(login);
-                    dao.insertStudy(s);
+                    int sId = dao.insertStudy(s);
+                    dao.insertStudyReference(sId,s.getRefRgdId());
+
+                    if (Utils.isStringEmpty(refRgdId2) || Utils.isStringEmpty(refRgdId3)){
+                        try{
+                            int ref2 = Integer.parseInt(refRgdId2);
+                            dao.insertStudyReference(sId,ref2);
+                        }
+                        catch (Exception ignore){}
+                        try{
+                            int ref3 = Integer.parseInt(refRgdId3);
+                            dao.insertStudyReference(sId,ref3);
+                        }
+                        catch (Exception ignore){}
+                    }
 
                     status.add("Study Create Successful");
 
