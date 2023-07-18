@@ -705,7 +705,7 @@ public class GeoExperimentController implements Controller {
                 curNotes.put(null,request.getParameter("cNotesId"+i));
             }
 
-            for (int i = 1; i <= 3; i++){
+            for (int i = 0; i < 3; i++){
                 Integer x;
                 try{
                     x = Integer.parseInt(request.getParameter("refRgdId"+i));
