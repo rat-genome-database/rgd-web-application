@@ -45,6 +45,7 @@ public class GeoExperimentController implements Controller {
         }
         if (request.getParameter("count") != null) {
             Report r = new Report();
+            Report r2 = new Report();
             try {
                 int count = Integer.parseInt(request.getParameter("count"));
                 String gse = request.getParameter("gse");
@@ -560,14 +561,22 @@ public class GeoExperimentController implements Controller {
                     r.append(rec);
                 }
                 List<Integer> refRgdIds = new ArrayList<>();
+
+                Record head = new Record();
+                head.append("Reference RGD Ids");
+                r2.append(head);
                 for (int i = 0; i < 3; i++){
+                    Record record = new Record();
                     try{
                         int x = Integer.parseInt(request.getParameter("refRgdId"+i));
                         refRgdIds.add(x);
+                        record.append(x+"");
+                        r2.append(record);
                     }
                     catch (Exception e){ }
 
                 }
+                List<Integer> allRefIds = new ArrayList<>(refRgdIds);
                     // compare both integer lists and insert new, delete ones that no longer exist
                 List<Integer> existingRefs = study.getRefRgdIds();
                 dropSharedRgdIds(refRgdIds,existingRefs);
@@ -585,7 +594,7 @@ public class GeoExperimentController implements Controller {
                 e.printStackTrace();
 
         }
-
+            request.setAttribute("referenceReport",r2);
             request.setAttribute("error", error);
             request.setAttribute("report",r);
             return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "samples.jsp");
