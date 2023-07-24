@@ -1,16 +1,22 @@
 package edu.mcw.rgd.search;
 
 
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.dao.impl.GeneDAO;
+import edu.mcw.rgd.dao.impl.QTLDAO;
+import edu.mcw.rgd.dao.impl.SSLPDAO;
+import edu.mcw.rgd.dao.impl.StrainDAO;
+import edu.mcw.rgd.datamodel.MappedGene;
+import edu.mcw.rgd.datamodel.MappedQTL;
+import edu.mcw.rgd.datamodel.MappedSSLP;
+import edu.mcw.rgd.datamodel.MappedStrain;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 

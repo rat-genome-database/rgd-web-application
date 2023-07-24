@@ -4,11 +4,11 @@ import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.AnnotationDAO;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.reporting.Link;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

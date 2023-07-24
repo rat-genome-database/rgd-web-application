@@ -1,31 +1,24 @@
 package edu.mcw.rgd.phenominer.elasticsearch.service;
 
 
-
-
-import com.google.gson.Gson;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.ml.job.results.Bucket;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
-
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-
 import java.util.*;
 
 public class PhenominerService {

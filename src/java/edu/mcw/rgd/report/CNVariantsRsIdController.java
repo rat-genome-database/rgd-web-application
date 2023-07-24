@@ -6,17 +6,18 @@ import edu.mcw.rgd.dao.impl.QTLDAO;
 import edu.mcw.rgd.dao.impl.StrainDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
-import org.springframework.web.servlet.mvc.Controller;
-import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class CNVariantsRsIdController implements Controller {
     protected VariantDAO vdao = new VariantDAO();

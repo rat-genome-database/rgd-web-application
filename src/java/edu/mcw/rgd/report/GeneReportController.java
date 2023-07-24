@@ -1,13 +1,6 @@
 package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.GeneDAO;
-import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by IntelliJ IDEA.

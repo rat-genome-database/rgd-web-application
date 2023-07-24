@@ -3,31 +3,28 @@ package edu.mcw.rgd.vv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-
+import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.dao.impl.variants.PolyphenDAO;
-import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
-import edu.mcw.rgd.vv.vvservice.VVService;
-import edu.mcw.rgd.dao.DataSourceFactory;
-import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.common.recycler.Recycler;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**

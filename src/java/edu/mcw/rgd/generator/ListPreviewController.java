@@ -1,20 +1,10 @@
 package edu.mcw.rgd.generator;
 
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
-import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections4.ListUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

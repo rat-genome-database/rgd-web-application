@@ -1,7 +1,5 @@
 package edu.mcw.rgd.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 public class UserManager {

@@ -5,7 +5,8 @@ import edu.mcw.rgd.datamodel.myrgd.MyUser;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.UI;
 import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.apache.commons.collections4.functors.ExceptionPredicate;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,22 +4,20 @@ package edu.mcw.rgd.vv;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
-import edu.mcw.rgd.dao.impl.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
-import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.apache.commons.lang.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

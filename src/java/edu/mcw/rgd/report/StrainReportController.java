@@ -1,6 +1,7 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.impl.AssociationDAO;
+import edu.mcw.rgd.dao.impl.StrainDAO;
 import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.Strain2MarkerAssociation;
 import edu.mcw.rgd.process.Utils;

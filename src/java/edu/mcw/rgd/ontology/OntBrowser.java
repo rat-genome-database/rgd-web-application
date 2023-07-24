@@ -6,12 +6,12 @@ import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.SimpleTagSupport;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 import java.util.Collection;
 

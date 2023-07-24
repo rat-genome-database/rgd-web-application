@@ -3,10 +3,9 @@ package edu.mcw.rgd.edit.submittedStrains;
 import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.edit.GeneEditObjectController;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by jthota on 10/7/2016.

@@ -2,16 +2,15 @@ package edu.mcw.rgd.pipeline;
 
 import edu.mcw.rgd.dao.impl.PipelineLogDAO;
 import edu.mcw.rgd.dao.impl.PipelineLogFlagDAO;
-import edu.mcw.rgd.datamodel.*;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.object.MappingSqlQuery;
+import edu.mcw.rgd.datamodel.Pipeline;
+import edu.mcw.rgd.datamodel.PipelineLog;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Types;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**

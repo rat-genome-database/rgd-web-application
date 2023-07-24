@@ -1,18 +1,17 @@
 package edu.mcw.rgd.phenominer;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.pheno.Study;
-import edu.mcw.rgd.reporting.Record;
-import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.pheno.Experiment;
 import edu.mcw.rgd.process.pheno.SearchBean;
+import edu.mcw.rgd.reporting.Record;
+import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 

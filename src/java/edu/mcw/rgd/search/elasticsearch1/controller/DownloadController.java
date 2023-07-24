@@ -1,13 +1,13 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
 
-
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.dao.spring.StringMapQuery;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.mapping.MapManager;
-import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,10 +16,7 @@ import org.jsoup.Jsoup;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;

@@ -1,9 +1,8 @@
 package edu.mcw.rgd.nomenclatureinterface;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by IntelliJ IDEA.

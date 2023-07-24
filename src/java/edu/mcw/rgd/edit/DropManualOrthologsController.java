@@ -1,13 +1,17 @@
 package edu.mcw.rgd.edit;
 
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.dao.impl.GeneDAO;
+import edu.mcw.rgd.dao.impl.OrthologDAO;
+import edu.mcw.rgd.dao.impl.RGDManagementDAO;
+import edu.mcw.rgd.datamodel.Gene;
+import edu.mcw.rgd.datamodel.Ortholog;
+import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.process.Utils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**

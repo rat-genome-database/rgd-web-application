@@ -1,11 +1,12 @@
 package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
-import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.SSLPDAO;
+import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.datamodel.SSLP;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.web.HttpRequestFacade;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * User: jdepons

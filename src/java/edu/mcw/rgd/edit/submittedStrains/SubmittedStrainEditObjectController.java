@@ -5,10 +5,10 @@ import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
 import edu.mcw.rgd.edit.StrainEditObjectController;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

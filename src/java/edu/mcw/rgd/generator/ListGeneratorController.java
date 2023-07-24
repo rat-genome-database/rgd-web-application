@@ -1,16 +1,15 @@
 package edu.mcw.rgd.generator;
 
-import com.google.gson.Gson;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.generator.GeneratorCommandParser;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

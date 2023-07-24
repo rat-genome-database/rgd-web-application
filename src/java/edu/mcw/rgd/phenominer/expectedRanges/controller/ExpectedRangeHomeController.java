@@ -4,20 +4,15 @@ package edu.mcw.rgd.phenominer.expectedRanges.controller;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenotypeObject;
-
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.StrainObject;
 import edu.mcw.rgd.process.Utils;
-
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 
 import java.util.*;
 

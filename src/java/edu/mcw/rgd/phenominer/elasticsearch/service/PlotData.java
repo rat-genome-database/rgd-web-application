@@ -1,6 +1,5 @@
 package edu.mcw.rgd.phenominer.elasticsearch.service;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 

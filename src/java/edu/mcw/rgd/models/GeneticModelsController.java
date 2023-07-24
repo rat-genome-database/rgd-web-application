@@ -4,19 +4,16 @@ import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Alias;
 import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.Strain;
-
 import edu.mcw.rgd.datamodel.models.GeneticModel;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.TermDagEdge;
-
 import edu.mcw.rgd.models.models1.GeneticModelsSingleton;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**

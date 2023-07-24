@@ -3,10 +3,15 @@ package edu.mcw.rgd.pubmed;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.ReferenceDAO;
 import edu.mcw.rgd.dao.impl.XdbIdDAO;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.Author;
+import edu.mcw.rgd.datamodel.Reference;
+import edu.mcw.rgd.datamodel.RgdId;
+import edu.mcw.rgd.datamodel.XdbId;
 import edu.mcw.rgd.process.FileDownloader;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.xml.XomAnalyzer;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import nu.xom.Element;
 import nu.xom.Elements;
 import org.apache.commons.collections4.CollectionUtils;
@@ -15,11 +20,8 @@ import org.jaxen.xom.XOMXPath;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.StringReader;
 import java.util.*;
-import java.util.Map;
 
 /**
  * Created by mtutaj on 12/14/2016.

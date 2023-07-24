@@ -10,8 +10,8 @@ import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.

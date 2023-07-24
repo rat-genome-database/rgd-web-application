@@ -1,13 +1,14 @@
 package edu.mcw.rgd.vv;
 
+import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
-import edu.mcw.rgd.datamodel.variants.VariantTranscript;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
-import edu.mcw.rgd.dao.impl.TranscriptDAO;
-import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -16,8 +17,6 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -2,13 +2,12 @@ package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.RGDNewsConfDAO;
 import edu.mcw.rgd.datamodel.RGDNewsConf;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 

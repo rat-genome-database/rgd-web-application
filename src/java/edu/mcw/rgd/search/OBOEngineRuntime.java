@@ -1,7 +1,7 @@
 package edu.mcw.rgd.search;
 
-import jyinterface.interfaces.OBOEngineType;
 import jyinterface.factory.OBOEngineFactory;
+import jyinterface.interfaces.OBOEngineType;
 
 import java.io.File;
 

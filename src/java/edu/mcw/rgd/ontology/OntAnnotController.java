@@ -1,9 +1,10 @@
 package edu.mcw.rgd.ontology;
 
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.EvidenceCode;
+import edu.mcw.rgd.dao.impl.AnnotationDAO;
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.MapData;
-import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
@@ -14,11 +15,11 @@ import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.*;
 

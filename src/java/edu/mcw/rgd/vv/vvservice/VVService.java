@@ -9,7 +9,6 @@ import edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
-
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;

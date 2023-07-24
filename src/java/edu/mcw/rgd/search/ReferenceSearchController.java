@@ -1,10 +1,10 @@
 package edu.mcw.rgd.search;
 
 import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.process.search.SearchBean;
 import edu.mcw.rgd.process.search.ReportFactory;
+import edu.mcw.rgd.process.search.SearchBean;
 import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.web.HttpRequestFacade;
 
 /**
  * Created by IntelliJ IDEA.

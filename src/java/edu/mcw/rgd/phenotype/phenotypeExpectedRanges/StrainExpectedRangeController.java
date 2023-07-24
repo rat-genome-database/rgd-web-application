@@ -2,16 +2,11 @@ package edu.mcw.rgd.phenotype.phenotypeExpectedRanges;
 
 import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.dao.PhenotypeExpectedRangeDao;
 import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.dao.StrainGroupDao;
-import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.ExpectedRangeRecord;
-import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.PhenotypeObject;
-import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.StrainObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 /**
  * Created by jthota on 3/12/2018.

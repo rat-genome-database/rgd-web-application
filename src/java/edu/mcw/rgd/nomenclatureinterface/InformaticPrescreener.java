@@ -2,11 +2,11 @@ package edu.mcw.rgd.nomenclatureinterface;
 /*
  * Created on May 30, 2007
  */
+
+import edu.mcw.rgd.datamodel.Gene;
+
 import java.util.List;
 import java.util.ListIterator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import edu.mcw.rgd.datamodel.Gene;
 
 /**
  * @author dli

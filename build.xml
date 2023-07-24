@@ -50,7 +50,7 @@
 
     <!-- Compile all of our class files -->
     <target name="build" depends="prepare" description="Compile main source tree java files and build war file">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
@@ -81,7 +81,7 @@
                 <exclude name="**/curation/**"/>
                 <exclude name="**/jsp-api.jar"/>
                 <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <exclude name="**/ojdbc11.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
             </fileset>
         </war>
 
@@ -101,7 +101,7 @@
     </target>
 
     <target name="buildCurationNoJavaDoc" depends="prepare" description="Build curation without running javadoc">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
@@ -130,14 +130,14 @@
                 <exclude name="**/WEB-XML/*.curation"/>
                 <exclude name="**/jsp-api.jar"/>
                 <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <exclude name="**/ojdbc11.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
             </fileset>
         </war>
     </target>
 
     <!-- Compile all of our class files -->
     <target name="buildNGC" depends="prepare" description="Compile main source tree java files and build war file">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
@@ -163,7 +163,7 @@
                 <exclude name="**/WEB-XML/*.curation"/>
                 <exclude name="**/jsp-api.jar"/>
                 <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+                <exclude name="**/ojdbc11.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
                 <exclude name="**/mysql.jar" />
             </fileset>
         </war>

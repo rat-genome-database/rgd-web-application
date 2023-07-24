@@ -5,11 +5,11 @@ import edu.mcw.rgd.dao.impl.PathwayDAO;
 import edu.mcw.rgd.datamodel.Pathway;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Map;
 

@@ -3,12 +3,10 @@ package edu.mcw.rgd.phenominer.frontend;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
-import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.process.Utils;
 import org.apache.commons.collections4.CollectionUtils;
 
-//add collections 4
 import java.util.*;
 
 /**

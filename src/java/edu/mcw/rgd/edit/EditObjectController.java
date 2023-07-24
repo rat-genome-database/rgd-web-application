@@ -1,27 +1,22 @@
 package edu.mcw.rgd.edit;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import edu.mcw.rgd.datamodel.ontology.Annotation;
-import edu.mcw.rgd.process.FileDownloader;
-import edu.mcw.rgd.web.RgdContext;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.web.servlet.mvc.Controller;
-import org.springframework.web.servlet.ModelAndView;
+import edu.mcw.rgd.dao.impl.AliasDAO;
+import edu.mcw.rgd.dao.impl.NomenclatureDAO;
+import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

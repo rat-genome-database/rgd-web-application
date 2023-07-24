@@ -2,10 +2,10 @@ package edu.mcw.rgd.gviewer;
 
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 /**

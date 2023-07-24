@@ -2,21 +2,16 @@ package edu.mcw.rgd.phenotype.phenotypeExpectedRanges.dao;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-
 import edu.mcw.rgd.dao.spring.CountQuery;
 import edu.mcw.rgd.dao.spring.StringListQuery;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
-
-
 import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.ExpectedRangePlotValues;
 import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.ExpectedRangeRecord;
 import edu.mcw.rgd.phenotype.phenotypeExpectedRanges.model.PhenotypeObject;
 import edu.mcw.rgd.process.Utils;
-
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -2,14 +2,11 @@ package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.AssociationDAO;
 import edu.mcw.rgd.datamodel.Association;
-import edu.mcw.rgd.datamodel.Strain2MarkerAssociation;
-import edu.mcw.rgd.edit.association.*;
 import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

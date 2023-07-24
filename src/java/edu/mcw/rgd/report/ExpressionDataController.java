@@ -1,8 +1,10 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.impl.GeneDAO;
+import edu.mcw.rgd.dao.impl.GeneExpressionDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.Gene;
-import edu.mcw.rgd.datamodel.MiRnaTarget;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Experiment;
@@ -14,14 +16,13 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
-import edu.mcw.rgd.search.elasticsearch1.model.Species;
-import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

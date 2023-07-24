@@ -1,26 +1,25 @@
 package edu.mcw.rgd.vv;
 
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.process.mapping.MapManager;
-import edu.mcw.rgd.process.mapping.ObjectMapper;
-import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.process.mapping.ObjectMapper;
+import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**

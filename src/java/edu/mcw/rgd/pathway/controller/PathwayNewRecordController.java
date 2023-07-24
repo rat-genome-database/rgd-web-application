@@ -1,6 +1,9 @@
 package edu.mcw.rgd.pathway.controller;
 
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.impl.AnnotationDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.dao.impl.PathwayDAO;
+import edu.mcw.rgd.dao.impl.ReferenceDAO;
 import edu.mcw.rgd.dao.spring.StringMapQuery;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.ontology.OntAnnotBean;
@@ -8,14 +11,14 @@ import edu.mcw.rgd.ontology.OntAnnotController;
 import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.

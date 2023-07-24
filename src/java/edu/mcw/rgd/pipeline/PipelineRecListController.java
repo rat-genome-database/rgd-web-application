@@ -3,15 +3,21 @@ package edu.mcw.rgd.pipeline;
 import edu.mcw.rgd.dao.impl.PipelineLogDAO;
 import edu.mcw.rgd.dao.impl.PipelineLogFlagDAO;
 import edu.mcw.rgd.dao.impl.XdbIdDAO;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.PipelineLog;
+import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.datamodel.XdbId;
 import edu.mcw.rgd.datamodel.pipeline.PipelineFlag;
 import edu.mcw.rgd.xml.XomBeautifier;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

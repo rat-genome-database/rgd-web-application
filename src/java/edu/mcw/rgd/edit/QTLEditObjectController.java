@@ -1,14 +1,17 @@
 package edu.mcw.rgd.edit;
 
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.impl.QTLDAO;
+import edu.mcw.rgd.datamodel.Alias;
+import edu.mcw.rgd.datamodel.NomenclatureEvent;
+import edu.mcw.rgd.datamodel.QTL;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author jdepons

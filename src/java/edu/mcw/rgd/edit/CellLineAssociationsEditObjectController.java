@@ -2,10 +2,10 @@ package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.edit.association.ReferenceAssociationUpdate;
 import edu.mcw.rgd.edit.association.RgdAssociationUpdate;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 /**

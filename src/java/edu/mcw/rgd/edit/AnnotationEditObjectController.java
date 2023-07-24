@@ -1,12 +1,12 @@
 package edu.mcw.rgd.edit;
 
+import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 

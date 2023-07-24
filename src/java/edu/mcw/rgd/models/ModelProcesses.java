@@ -4,7 +4,6 @@ import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.models.GeneticModel;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

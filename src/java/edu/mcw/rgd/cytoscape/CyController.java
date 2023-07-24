@@ -2,21 +2,17 @@ package edu.mcw.rgd.cytoscape;
 
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.NodeManager;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Record;
-import edu.mcw.rgd.process.Utils;
-
 import edu.mcw.rgd.reporting.Report;
-import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.web.HttpRequestFacade;
-
-import org.bbop.commandline.StringValue;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**

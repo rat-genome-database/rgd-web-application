@@ -1,15 +1,15 @@
 package edu.mcw.rgd.edit;
 
-import org.springframework.web.servlet.mvc.Controller;
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.MapData;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.dao.impl.*;
+import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 /**
  * Created by IntelliJ IDEA.
  * User: mtutaj

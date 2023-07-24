@@ -1,16 +1,17 @@
 package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.datamodel.*;
-
+import edu.mcw.rgd.datamodel.Chromosome;
 import edu.mcw.rgd.datamodel.Map;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -19,10 +20,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jthota on 10/11/2017.

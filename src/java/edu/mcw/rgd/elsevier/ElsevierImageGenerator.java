@@ -5,11 +5,10 @@ import edu.mcw.rgd.dao.impl.ReferenceDAO;
 import edu.mcw.rgd.ontology.OntDotController;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by IntelliJ IDEA.

@@ -3,19 +3,16 @@ package edu.mcw.rgd.edit.submittedStrains;
 import com.google.gson.Gson;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Gene;
-import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
-import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

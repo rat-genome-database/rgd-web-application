@@ -1,22 +1,16 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
-
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.NestedSortBuilder;
@@ -26,10 +20,6 @@ import org.elasticsearch.search.sort.SortOrder;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
-
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.boostValues;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.categories;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.fields;
 
 
 /**

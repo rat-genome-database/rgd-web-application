@@ -1,8 +1,8 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.datamodel.MapData;
-import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.Map;
+import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;

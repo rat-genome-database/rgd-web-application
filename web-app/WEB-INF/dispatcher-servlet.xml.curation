@@ -3,19 +3,19 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">
-    </bean>
+<!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
+<!--    </bean>-->
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
     </bean>
 
     <bean id="publicUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <ref local="RGDHandlerInterceptor"/>
-            </list>
-        </property>
+<!--        <property name="interceptors">-->
+<!--            <list>-->
+<!--                <ref local="RGDHandlerInterceptor"/>-->
+<!--            </list>-->
+<!--        </property>-->
         <property name="mappings">
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
@@ -101,7 +101,7 @@
                 <prop key="genes/ensembl.html">PipelineEnsemblController</prop>
                 <prop key="genes/mirnaTargets.html">MirnaTargetsController</prop>
 
-                <prop key="phenotype/img.html">PhenotypeImgController</prop>
+<!--                <prop key="phenotype/img.html">PhenotypeImgController</prop>-->
 
                 <prop key="ontology/search.html">OntologyGeneralSearchController</prop>
                 <prop key="ontology/annotDetail.html">OntologyAnnotController</prop>
@@ -153,7 +153,7 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
-                <prop key="overgo/find.html">OvergoController</prop>
+<!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
@@ -237,7 +237,7 @@
                 <prop key="cytoscape/report.html">cyReportController</prop>
                 <prop key="cytoscape/download.html">cyDownloadController</prop>
 
-                 <prop key="models/upload.html">ImageUploadController</prop>
+<!--                 <prop key="models/upload.html">ImageUploadController</prop>-->
                  <prop key="models/getGenes.html">AutocompleteController</prop>
                  <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
                  <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
@@ -351,9 +351,9 @@
     <bean id="TranscriptsController" class="edu.mcw.rgd.pipeline.TranscriptsController"/>
     <bean id="MirnaTargetsController" class="edu.mcw.rgd.report.MirnaTargetsController"/>
 
-    <bean id="PhenotypeImgController" class="edu.mcw.rgd.phenotype.ImgController">
-        <property name="imgDir" value="/rgd/www/common/images/phenodb"/><!-- directory where the images will be stored-->
-    </bean>
+<!--    <bean id="PhenotypeImgController" class="edu.mcw.rgd.phenotype.ImgController">-->
+<!--        <property name="imgDir" value="/rgd/www/common/images/phenodb"/>&lt;!&ndash; directory where the images will be stored&ndash;&gt;-->
+<!--    </bean>-->
 
     <bean id="OntologySearchController" class="edu.mcw.rgd.ontology.OntSearchController"/>
     <bean id="OntologyViewController" class="edu.mcw.rgd.ontology.OntViewController"/>
@@ -423,7 +423,7 @@
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
-    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>
+<!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
 <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
 <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
     <bean id="GASearchController" class="edu.mcw.rgd.ga.GASearchController" />
@@ -504,7 +504,7 @@
     <bean id="cyReportController" class="edu.mcw.rgd.cytoscape.InteractionsReportController"/>
     <bean id="cyDownloadController" class="edu.mcw.rgd.cytoscape.DownloadController"/>
 
-    <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>
+<!--    <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>-->
     <bean id="StrainSubmissionHelp" class="edu.mcw.rgd.models.StrainSubmissionHelp"/>
     <bean id="StrainSubmissionFormController" class="edu.mcw.rgd.models.StrainSubmissionFormController"/>
 	<bean id="AutocompleteController" class="edu.mcw.rgd.models.AutocompleteController"/>

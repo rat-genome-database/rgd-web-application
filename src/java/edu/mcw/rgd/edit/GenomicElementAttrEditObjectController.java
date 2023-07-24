@@ -1,12 +1,9 @@
 package edu.mcw.rgd.edit;
 
 import edu.mcw.rgd.dao.impl.GenomicElementDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.GenomicElement;
-import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.web.HttpRequestFacade;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

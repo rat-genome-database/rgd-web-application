@@ -1,10 +1,13 @@
 package edu.mcw.rgd.nomenclatureinterface;
+
 import edu.mcw.rgd.dao.impl.AliasDAO;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.NomenclatureDAO;
 import edu.mcw.rgd.dao.spring.XmlBeanFactoryManager;
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.datamodel.Alias;
+import edu.mcw.rgd.datamodel.Gene;
+import edu.mcw.rgd.datamodel.NomenclatureEvent;
+import edu.mcw.rgd.datamodel.SpeciesType;
 
 import java.util.*;
 import java.util.regex.Matcher;

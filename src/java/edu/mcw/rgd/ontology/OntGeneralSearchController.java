@@ -1,18 +1,17 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.Ontology;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.datamodel.search.GeneralSearchResult;
 import edu.mcw.rgd.process.search.ReportFactory;
 import edu.mcw.rgd.process.search.SearchBean;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**

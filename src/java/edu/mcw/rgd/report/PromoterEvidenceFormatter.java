@@ -1,7 +1,12 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.dao.impl.AssociationDAO;
+import edu.mcw.rgd.dao.impl.GenomicElementDAO;
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.Association;
+import edu.mcw.rgd.datamodel.ExpressionData;
+import edu.mcw.rgd.datamodel.GenomicElement;
+import edu.mcw.rgd.datamodel.MapData;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Link;
 

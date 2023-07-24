@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -18,9 +20,6 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.Highlighter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

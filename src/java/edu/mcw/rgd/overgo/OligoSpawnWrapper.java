@@ -1,11 +1,14 @@
 package edu.mcw.rgd.overgo;
 
-import org.biojava.bio.symbol.SymbolList;
 import org.biojava.bio.seq.DNATools;
+import org.biojava.bio.symbol.SymbolList;
 
-import java.util.List;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.io.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

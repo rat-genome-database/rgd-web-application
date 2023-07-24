@@ -1,8 +1,8 @@
 package edu.mcw.rgd.gviewer;
 
 import edu.mcw.rgd.process.mapping.MapManager;
+import jakarta.servlet.ServletRequest;
 
-import javax.servlet.ServletRequest;
 import java.util.List;
 
 /**

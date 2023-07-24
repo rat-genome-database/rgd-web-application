@@ -2,10 +2,9 @@ package edu.mcw.rgd.cytoscape;
 
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.process.Utils;
 
-import java.util.*;
 import java.util.Map;
+import java.util.*;
 
 /**
  * Created by jthota on 3/21/2019.

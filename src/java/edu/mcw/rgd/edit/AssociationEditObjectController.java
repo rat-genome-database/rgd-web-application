@@ -1,11 +1,12 @@
 package edu.mcw.rgd.edit;
 
+import edu.mcw.rgd.datamodel.Association;
+import edu.mcw.rgd.datamodel.Identifiable;
+import edu.mcw.rgd.edit.association.AssociationUpdate;
 import org.springframework.web.servlet.mvc.Controller;
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.edit.association.*;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

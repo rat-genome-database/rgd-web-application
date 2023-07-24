@@ -2,7 +2,6 @@ package edu.mcw.rgd.security;
 
 import org.json.JSONObject;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

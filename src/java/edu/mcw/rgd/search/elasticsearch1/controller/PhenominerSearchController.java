@@ -10,14 +10,14 @@ import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 

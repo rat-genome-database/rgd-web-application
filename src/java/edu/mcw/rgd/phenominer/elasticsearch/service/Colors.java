@@ -1,13 +1,9 @@
 package edu.mcw.rgd.phenominer.elasticsearch.service;
 
-import com.google.gson.Gson;
-import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.ontologyx.Term;
-
-
 import java.awt.*;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Colors {
    public static final Map<Integer, String> colors;

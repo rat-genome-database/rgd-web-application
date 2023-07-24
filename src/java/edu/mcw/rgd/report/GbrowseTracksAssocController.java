@@ -2,14 +2,13 @@ package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.AnnotationDAO;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
-import edu.mcw.rgd.pathway.DiagramGenerator;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

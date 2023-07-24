@@ -1,25 +1,21 @@
 package edu.mcw.rgd.models;
 
 
-
-import org.apache.commons.fileupload.FileItem;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
-
 import org.apache.commons.io.IOUtils;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
-import java.util.List;
 
 /**
  * Created by jthota on 8/16/2016.
@@ -40,7 +36,7 @@ public class ImageUploadController implements Controller {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax(maxFileSize);
         try {
-            FileItemIterator items = upload.getItemIterator(request);
+            FileItemIterator items = null ;//upload.getItemIterator(request);
             while(items.hasNext()){
                 FileItemStream item=items.next();
                 InputStream is;

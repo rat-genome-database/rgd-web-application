@@ -1,18 +1,13 @@
 package edu.mcw.rgd.edit.submittedStrains;
 
 
-import edu.mcw.rgd.dao.impl.GeneDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainAvailablityDAO;
-import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
-import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

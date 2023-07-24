@@ -1,13 +1,12 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.report.GenomeModel.AnnotatedObjectsDAO;
 import edu.mcw.rgd.report.GenomeModel.DiseaseObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

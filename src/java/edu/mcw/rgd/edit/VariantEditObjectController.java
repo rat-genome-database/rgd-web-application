@@ -1,15 +1,10 @@
 package edu.mcw.rgd.edit;
 
-import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.process.Utils;
-import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.dao.impl.RgdVariantDAO;
+import edu.mcw.rgd.datamodel.RgdVariant;
+import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.web.HttpRequestFacade;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

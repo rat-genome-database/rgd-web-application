@@ -1,30 +1,20 @@
 package edu.mcw.rgd.models;
 
-import com.sun.mail.smtp.SMTPTransport;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.SubmittedStrainAvailablityDAO;
 import edu.mcw.rgd.dao.impl.SubmittedStrainDao;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
-import edu.mcw.rgd.edit.submittedStrains.EditHomePageController;
 import edu.mcw.rgd.my.MyRGDLookupController;
 import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.springframework.ui.ModelMap;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by jthota on 7/27/2016.

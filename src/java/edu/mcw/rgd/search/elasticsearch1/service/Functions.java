@@ -1,6 +1,5 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

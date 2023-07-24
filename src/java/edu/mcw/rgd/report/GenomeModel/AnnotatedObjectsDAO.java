@@ -2,7 +2,6 @@ package edu.mcw.rgd.report.GenomeModel;
 
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

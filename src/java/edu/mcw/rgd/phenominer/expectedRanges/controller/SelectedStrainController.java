@@ -2,24 +2,22 @@ package edu.mcw.rgd.phenominer.expectedRanges.controller;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.*;
-import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.Sample;
+import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.PhenominerExpectedRange;
 import edu.mcw.rgd.datamodel.phenominerExpectedRange.StrainObject;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.pheno.phenominerExpectedRanges.ExpectedRangeProcess;
-
-import edu.mcw.rgd.reporting.Report;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.Map;
 
 /**
  * Created by jthota on 5/2/2018.

@@ -1,6 +1,6 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.dao.impl.SSLPDAO;
 
 /**
  * Created by IntelliJ IDEA.

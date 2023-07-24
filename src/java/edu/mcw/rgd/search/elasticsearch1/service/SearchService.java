@@ -2,27 +2,21 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 
 import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
-import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
-
 import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
 import java.net.UnknownHostException;
 import java.util.*;
 

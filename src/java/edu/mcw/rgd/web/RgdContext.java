@@ -1,9 +1,8 @@
 package edu.mcw.rgd.web;
 
+import jakarta.servlet.ServletRequest;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;

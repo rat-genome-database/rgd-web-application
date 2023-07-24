@@ -1,15 +1,12 @@
 package edu.mcw.rgd.edit;
 
 
-import edu.mcw.rgd.process.FileDownloader;
 import edu.mcw.rgd.web.RgdContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 public class CurationController implements Controller {
