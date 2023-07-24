@@ -90,32 +90,32 @@
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-<!--    <jsp-config>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/c.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://www.springframework.org/tags</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/spring.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://rgd.mcw.edu/taglibs/search</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/search.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://rgd.mcw.edu/taglibs/myrgd</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/myrgd.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--        <taglib>-->
-<!--            <taglib-uri>http://rgd.mcw.edu/taglibs/ontbrowser</taglib-uri>-->
-<!--            <taglib-location>/WEB-INF/tld/ontbrowser.tld</taglib-location>-->
-<!--        </taglib>-->
-<!--    </jsp-config>-->
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+            <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+            <taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://www.springframework.org/tags</taglib-uri>
+            <taglib-location>/WEB-INF/tld/spring.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://rgd.mcw.edu/taglibs/search</taglib-uri>
+            <taglib-location>/WEB-INF/tld/search.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://rgd.mcw.edu/taglibs/myrgd</taglib-uri>
+            <taglib-location>/WEB-INF/tld/myrgd.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://rgd.mcw.edu/taglibs/ontbrowser</taglib-uri>
+            <taglib-location>/WEB-INF/tld/ontbrowser.tld</taglib-location>
+        </taglib>
+    </jsp-config>
     <resource-ref>
         <description>Oracle Datasource example</description>
         <res-ref-name>jdbc/rgd2</res-ref-name>
