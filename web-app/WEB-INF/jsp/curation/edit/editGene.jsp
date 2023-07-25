@@ -111,6 +111,7 @@
 <%@ include file="geneVariantData.jsp" %>
 <%@ include file="curatedReferencesData.jsp" %>
 <%@ include file="geneAssociationData.jsp" %>
+<%@ include file="geneVariantAssociationData.jsp"%>
 <%@ include file="aliasData.jsp" %>
 <%@ include file="externalLinksData.jsp" %>
 
