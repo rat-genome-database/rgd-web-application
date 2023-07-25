@@ -576,7 +576,6 @@ public class GeoExperimentController implements Controller {
                     catch (Exception e){ }
 
                 }
-                List<Integer> allRefIds = new ArrayList<>(refRgdIds);
                     // compare both integer lists and insert new, delete ones that no longer exist
                 List<Integer> existingRefs = study.getRefRgdIds();
                 dropSharedRgdIds(refRgdIds,existingRefs);

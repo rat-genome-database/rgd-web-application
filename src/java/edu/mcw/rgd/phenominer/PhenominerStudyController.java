@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -110,15 +111,16 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setName(req.getParameter("name"));
                     s.setSource(req.getParameter("source"));
                     s.setType(req.getParameter("type"));
-                    s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
 
-                    String refRgdId2 = req.getParameter("refRgdId2");
-                    String refRgdId3 = req.getParameter("refRgdId3");
+                    String refRgdId = req.getParameter("refRgdId0");
+
+                    String refRgdId2 = req.getParameter("refRgdId1");
+                    String refRgdId3 = req.getParameter("refRgdId2");
 
                     s.setLastModifiedBy(login);
                     s.setCreatedBy(login);
                     int sId = dao.insertStudy(s);
-                    dao.insertStudyReference(sId,s.getRefRgdId());
+                    dao.insertStudyReference(sId,Integer.parseInt(refRgdId));
 
                     if (Utils.isStringEmpty(refRgdId2) || Utils.isStringEmpty(refRgdId3)){
                         try{
@@ -151,9 +153,6 @@ public class PhenominerStudyController extends PhenominerController {
                         if (!req.getParameter("type").equals("")) {
                             s.setType(req.getParameter("type"));
                         }
-                        if (!req.getParameter("refRgdId").equals("")) {
-                            s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
-                        }
                         if (!req.getParameter("dataType").equals("")) {
                             s.setDataType(req.getParameter("dataType"));
                         }
@@ -165,6 +164,28 @@ public class PhenominerStudyController extends PhenominerController {
                         Integer.parseInt(req.getParameter("sStatus")) : -1) ;
                         s.setLastModifiedBy(login);
                         dao.updateStudy(s);
+
+                        List<Integer> refRgdIds = new ArrayList<>();
+                        for (int i = 0; i < 3; i++){
+                            Record record = new Record();
+                            try{
+                                int x = Integer.parseInt(request.getParameter("refRgdId"+i));
+                                refRgdIds.add(x);
+                            }
+                            catch (Exception e){ }
+
+                        }
+                        // compare both integer lists and insert new, delete ones that no longer exist
+                        List<Integer> existingRefs = s.getRefRgdIds();
+                        dropSharedRgdIds(refRgdIds,existingRefs);
+
+                        for (Integer rgdId : refRgdIds){
+                            dao.insertStudyReference(s.getId(),rgdId);
+                        }
+
+                        for (Integer rgdId : existingRefs){
+                            dao.deleteStudyReference(s.getId(), rgdId);
+                        }
 
                         status.add("Study " + id + " update Successful");
 
@@ -271,6 +292,7 @@ public class PhenominerStudyController extends PhenominerController {
         report.insert(0, header);
 
         for (Study s : studies) {
+            List<Integer> refIds = dao.getStudyReferences(s.getId());
             Record rec = new Record();
             if (edit) rec.append("<input name='studyId' value='" + s.getId() + "' type='checkbox'/>");
 
@@ -278,8 +300,16 @@ public class PhenominerStudyController extends PhenominerController {
             rec.append(s.getName());
             rec.append(s.getSource());
             rec.append(s.getType());
-
-            rec.append("<a href=\"" + Link.ref(s.getRefRgdId()) + "\">" + s.getRefRgdId() + "</a>");
+            String refs = "";
+            if (refIds!=null && !refIds.isEmpty()){
+                for (int i = 0 ; i < refIds.size(); i++){
+                    if (i == refIds.size()-1)
+                        refs += "<a href=\"" + Link.ref(refIds.get(i)) + "\">" + refIds.get(i) + "</a>";
+                    else
+                        refs += "<a href=\"" + Link.ref(refIds.get(i)) + "\">" + refIds.get(i) + "</a>, ";
+                }
+            }
+            rec.append(refs);
 
             int experimentCount = 0;
             experimentCount = dao.getExperimentCount(s.getId());
@@ -312,5 +342,30 @@ public class PhenominerStudyController extends PhenominerController {
         return report;
     }
 
+    int dropSharedRgdIds(List<Integer> incomingRgdIds, List<Integer> existingRgdIds) throws Exception {
+
+        int droppedCount = 0;
+        if(incomingRgdIds!=null) {
+            // find incoming annotation that matches existingAnnotation
+            Iterator<Integer> it1 = incomingRgdIds.iterator();
+            while (it1.hasNext()) {
+                Integer var1 = it1.next();
+
+                Iterator<Integer> it2 = existingRgdIds.iterator();
+                while (it2.hasNext()) {
+                    Integer var2 = it2.next();
+
+                    if (var1.equals(var2)) {
+
+                        droppedCount++;
+                        it1.remove();
+                        it2.remove();
+                        break; // break inner loop
+                    }
+                }
+            }
+            return droppedCount;
+        } else return existingRgdIds.size();
+    }
 
 }

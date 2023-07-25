@@ -78,15 +78,15 @@
     </tr>
     <tr>
         <td>Ref RGD Id:</td>
-        <td><input type="text" name="refRgdId" value=""></td>
+        <td><input type="text" name="refRgdId0" value=""></td>
     </tr>
       <tr>
           <td>Additional Ref RGD Ids:</td>
-          <td><input type="text" name="refRgdId2" value=""></td>
+          <td><input type="text" name="refRgdId1" value=""></td>
       </tr>
       <tr>
           <td></td>
-          <td><input type="text" name="refRgdId3" value=""></td>
+          <td><input type="text" name="refRgdId2" value=""></td>
           <td><input type="submit" name="create_study" value="Create Study"></td>
       </tr>
   </table>

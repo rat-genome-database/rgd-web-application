@@ -32,7 +32,7 @@
 
     if (idList.size() == 1) {
         study = dao.getStudy(Integer.parseInt(idList.get(0)));
-        ref=study.getRefRgdId().toString();
+//        ref=study.getRefRgdId().toString();
     }
 
     if (idList.size() > 0) {
@@ -88,7 +88,14 @@
         <td>Type:</td><td><input size="40" type="text" name="type" id="type" value="<%=dm.out("type", study.getType())%>"> </td>
     </tr>
     <tr>
-        <td>Reference:</td><td><input type="text" size="15" name="refRgdId" id="refRgdId" value="<%=dm.out("refRgdId", ref)%>"> </td>
+        <td>Reference(s):</td><td>
+        <%int i = 0;
+        for (i = 0; i < study.getRefRgdIds().size(); i++){%>
+        <input type="text" size="15" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=dm.out("refRgdId"+i, study.getRefRgdIds().get(i))%>">
+        <% }
+        for (int j = i; j < 3; j++){%>
+            <input type="text" size="15" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=dm.out("refRgdId"+i, "")%>">
+        <%  } %></td>
     </tr>
     <tr>
         <td>Data Type:</td><td><input size="40" type="text" name="dataType" id="dataType" value="<%=dm.out("dataType", study.getDataType())%>"> </td>
