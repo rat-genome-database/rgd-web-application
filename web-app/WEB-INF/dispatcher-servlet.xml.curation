@@ -133,7 +133,7 @@
                  <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
 
                 <prop key="report/format.html">FormatController</prop>
-                <prop key="report/gene/main.html">GeneReportController</prop>
+                <prop key="F">GeneReportController</prop>
                 <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
@@ -277,7 +277,7 @@
                                 <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
                                   <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
-
+                 <prop key="projects/project.html">ProjectController</prop>
 
 
             </props>
@@ -287,7 +287,7 @@
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
     <bean id="phenominerERSelectedPhenotypeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedPhenotypeController"/>
-
+     <bean id="ProjectController" class="edu.mcw.rgd.projects.ProjectController"/>
  <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
     <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
     <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
