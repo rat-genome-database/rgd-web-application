@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/rgdweb/gviewer/script/gviewer1.js"></script>
 <script src="/rgdweb/gviewer/script/util.js"></script>
 <script src="/rgdweb/gviewer/script/genomeInformation/event.js"></script>

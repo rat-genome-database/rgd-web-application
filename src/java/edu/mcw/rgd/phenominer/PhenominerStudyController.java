@@ -110,7 +110,7 @@ public class PhenominerStudyController extends PhenominerController {
                     s.setName(req.getParameter("name"));
                     s.setSource(req.getParameter("source"));
                     s.setType(req.getParameter("type"));
-                    s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+//                    s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
 
                     String refRgdId2 = req.getParameter("refRgdId2");
                     String refRgdId3 = req.getParameter("refRgdId3");
@@ -151,9 +151,9 @@ public class PhenominerStudyController extends PhenominerController {
                         if (!req.getParameter("type").equals("")) {
                             s.setType(req.getParameter("type"));
                         }
-                        if (!req.getParameter("refRgdId").equals("")) {
-                            s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
-                        }
+//                        if (!req.getParameter("refRgdId").equals("")) {
+//                            s.setRefRgdId(Integer.parseInt(req.getParameter("refRgdId")));
+//                        }
                         if (!req.getParameter("dataType").equals("")) {
                             s.setDataType(req.getParameter("dataType"));
                         }
