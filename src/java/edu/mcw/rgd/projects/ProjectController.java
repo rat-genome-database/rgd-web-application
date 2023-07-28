@@ -13,23 +13,42 @@ public class ProjectController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ProjectDAO pdao = new ProjectDAO();
-        List<Project> proj = pdao.getAllProjects();
-
-        //Method 1 by creating a dao object in the jsp itself
-
-        //Method 2 using request attriubtes
-        request.setAttribute("test",proj);
-        ModelAndView mv = new ModelAndView("/WEB-INF/jsp/project/report.jsp");
-
-        //Method 3 using addObject and calling beansid in the jsp page
-        mv.addObject("allProjects", proj);
+//        ProjectDAO pdao = new ProjectDAO();
+//        List<Project> proj = pdao.getAllProjects();
+//
+//        //Method 1 by creating a dao object in the jsp itself
+//
+//        //Method 2 using request attriubtes
+//        request.setAttribute("test",proj);
+//        ModelAndView mv = new ModelAndView("/WEB-INF/jsp/project/report.jsp");
+//
+//        //Method 3 using addObject and calling beansid in the jsp page
+//        mv.addObject("allProjects", proj);
 //        String id = request.getParameter("id");
 //        if(id!=null){
 //            mv = new ModelAndView("/WEB-INF/jsp/project/report.jsp");
 //        }
 //return null;
-        return mv;
+//        return mv;
+        String rgdidParam = request.getParameter("id");
+        ProjectDAO pdao = new ProjectDAO();
+        // If rgdid parameter is present, fetch the specific project
+        if (rgdidParam != null && !rgdidParam.isEmpty()) {
+            List<Project> project = pdao.getProjectByRgdId(Integer.parseInt(rgdidParam));
+            if (project != null) {
+                ModelAndView mv = new ModelAndView("/WEB-INF/jsp/project/project_details.jsp");
+                mv.addObject("project", project);
+                return mv;
+            }
+        }
+
+        // If rgdid parameter is not present or no project found, show the list of all projects
+        List<Project> proj = pdao.getAllProjects();
+        request.setAttribute("test", proj);
+
+        return new ModelAndView("/WEB-INF/jsp/project/report.jsp");
+    }
     }
 
-}
+
+
