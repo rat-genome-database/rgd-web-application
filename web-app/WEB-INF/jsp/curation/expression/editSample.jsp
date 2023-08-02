@@ -207,18 +207,20 @@
                 <tr>
                     <td><label style="color: #24609c; font-weight: bold;">PubMed Id:</label></td>
                     <td><%=samples.get(0).getPubmedId()%></td>
-                    <td><label style="color: #24609c; font-weight: bold;">Study Reference RGD Id(s):</label></td>
+                    <td><label style="color: #24609c; font-weight: bold;">Pub Med IDs:</label></td>
                     <% int x = 0;
                     if (s != null){
-                        for (x = 0; x < s.getRefRgdIds().size() ; x++){%>
+                        for (x = 0; x < s.getRefRgdIds().size() ; x++){
+                            List<XdbId> pms = xdbDAO.getXdbIdsByRgdId(2, s.getRefRgdIds().get(x));
+                        %>
                     <td>
-                        <input type="number" name="refRgdId<%=x%>" id="refRgd<%=x%>" value="<%=existingSample ? s.getRefRgdIds().get(x) : ""%>">
+                        <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=existingSample ? pms.get(0).getAccId() : ""%>">
                     </td>
                     <%}
                     }
                     for (int y=x ; y < refSize ; y++){%>
                     <td>
-                        <input type="number" name="refRgdId<%=y%>" id="refRgd<%=y%>" value="">
+                        <input type="number" name="refRgdId<%=y%>" id="refRgdId<%=y%>" value="">
                     </td>
                     <%}%>
                 </tr>
@@ -847,6 +849,19 @@ if (tissueMap.isEmpty()){ %>
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
         var bool = true;
+        var pmIds = document.querySelectorAll('[id^="refRgdId"]');
+        var dupes = [];
+        for (var i = 0; i<pmIds.length; i++){
+            if (dupes.includes(pmIds[i].value) && pmIds[i].value !== ""){
+                pmIds[i].focus();
+                pmIds[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                pmIds[i].style.border="1px solid black";
+            }
+            dupes.push(pmIds[i].value);
+        }
 
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){

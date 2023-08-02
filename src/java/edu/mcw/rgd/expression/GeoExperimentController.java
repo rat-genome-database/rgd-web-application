@@ -1,14 +1,21 @@
 package edu.mcw.rgd.expression;
 
-import edu.mcw.rgd.dao.impl.GeneExpressionDAO;
-import edu.mcw.rgd.dao.impl.PhenominerDAO;
-import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.pheno.*;
+import edu.mcw.rgd.datamodel.pheno.Sample;
+import edu.mcw.rgd.process.FileDownloader;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.pubmed.ReferenceImport;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.xml.XomAnalyzer;
+import nu.xom.Element;
+import nu.xom.Elements;
 import org.apache.commons.math3.analysis.function.Exp;
+import org.jaxen.XPath;
+import org.jaxen.xom.XOMXPath;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -17,18 +24,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.Map;
 
 
 public class GeoExperimentController implements Controller {
 
 //    PhenominerDAO geDAO = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
+    ReferenceDAO refDAO = new ReferenceDAO();
     public String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -644,6 +651,7 @@ public class GeoExperimentController implements Controller {
             HashMap<String,String> culture = new HashMap<>();
             HashMap<String,String> cultureUnit = new HashMap<>();
             List<Condition> conditions = new ArrayList<Condition>();
+            List<String> pmIds = new ArrayList<>();
             List<Integer> refRgdIds = new ArrayList<>();
             for(int i = 0; i < tcount;i++){
                 if (request.getParameter("tissue" + i).contains("imported!")) {
@@ -718,13 +726,14 @@ public class GeoExperimentController implements Controller {
             for (int i = 0; i < 3; i++){
                 Integer x;
                 try{
-                    x = Integer.parseInt(request.getParameter("refRgdId"+i));
+                    String id = request.getParameter("refRgdId"+i);
+                    x = Integer.parseInt(id);
+                    pmIds.add(id);
                 }
-                catch (Exception e){
-                    x = null;
-                }
-                refRgdIds.add(x);
+                catch (Exception ignore){}
             }
+
+            refRgdIds = GenerateRGDIdsFromPmIds(pmIds);
 
             HttpRequestFacade req = new HttpRequestFacade(request);
             String[] cValueMin = req.getRequest().getParameterValues("cValueMin");
@@ -889,6 +898,357 @@ public class GeoExperimentController implements Controller {
             }
             return droppedCount;
         } else return existingRgdIds.size();
+    }
+
+    List<Integer> GenerateRGDIdsFromPmIds(List<String> pmIds) throws Exception{
+        List<Integer> rgdIds = new ArrayList<>();
+        State state = new State();
+
+        Map<String,Integer> pmid2RefRgdId = new HashMap<>();
+        Collection<String> pmidsIncoming = pmIds;
+
+        // validate PubMed ids and determine ones that are not in RGD yet
+        Collection<String> pmidsNotInRgd = getPmidsNotInRgd(pmidsIncoming, pmid2RefRgdId);
+        //System.out.println("PMIDS not in rgd "+pmidsNotInRgd.size());
+
+        int articlesProcessed = 0;
+        for( String pmid: pmidsNotInRgd ) {
+            if( articlesProcessed>0 ) {
+                Thread.sleep(7000); // sleep 7sec before attempting next download -- be usage friendly for NCBI eutils
+            }
+
+            String article = downloadArticleFromPubmed(pmid, "xml");
+            // a valid article in xml format must be at least 300 chars long
+            if( article==null || article.length()<300 ) {
+                continue;
+            }
+
+            parseArticle(state, article);
+            insertArticle(state);
+
+            articlesProcessed++;
+            pmid2RefRgdId.put(pmid, state.ref.getRgdId());
+        }
+
+        for (String pmId : pmid2RefRgdId.keySet()){
+            int rgdId = pmid2RefRgdId.get(pmId);
+            rgdIds.add(rgdId);
+        }
+
+        return rgdIds;
+    }
+
+    String downloadArticleFromPubmed(String pmid, String format) throws Exception {
+
+//            String fileN = "/tmp/"+pmid+"."+format;
+//            File file = new File(fileN);
+//            if( file.exists() ) {
+//                return Utils.readFileAsString(fileN);
+//            }
+
+        String url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&tool=ReferenceImport&email=mtutaj@mcw.edu"+
+                "&rettype="+format+"&id="+pmid;
+        System.out.println(url);
+        FileDownloader fd = new FileDownloader();
+        fd.setExternalFile(url);
+        fd.setMaxRetryCount(1);
+        String content = "";
+        try {
+            content = fd.download();
+            return content;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            Utils.writeStringToFile(content, "/tmp/pmid"+pmid+"."+format);
+        }
+    }
+
+    void insertArticle(State state) throws Exception {
+
+        // create reference rgd id
+        RgdId id = new RGDManagementDAO().createRgdId(RgdId.OBJECT_KEY_REFERENCES, "ACTIVE", null, 0);
+        state.ref.setRgdId(id.getRgdId());
+
+        // create reference itself
+        refDAO.insertReference(state.ref);
+
+        // assign pubmed id for the reference
+        state.xdbId.setRgdId(id.getRgdId());
+        new XdbIdDAO().insertXdb(state.xdbId);
+
+        // create authors that do not exists in the database
+        // and create reference to author associations
+        int authorOrder = 0;
+        for( Author author: state.authors ) {
+            Author authorInRgd = refDAO.findAuthor(author);
+            if( authorInRgd!=null ) {
+                author.setKey(authorInRgd.getKey());
+            } else {
+                refDAO.insertAuthor(author);
+            }
+            refDAO.insertRefAuthorAssociation(state.ref.getKey(), author.getKey(), ++authorOrder);
+        }
+    }
+
+    protected Collection<String> getPmidsNotInRgd(Collection<String> pmidsIncoming, Map<String,Integer> pmid2RefRgdId) throws Exception {
+
+        List<String> pmidsNotInRgd = new ArrayList<>();
+        for( String pmid: pmidsIncoming ) {
+            int refRgdId = refDAO.getReferenceRgdIdByPubmedId(pmid);
+            if( refRgdId==0 ) {
+                pmidsNotInRgd.add(pmid);
+            } else {
+                pmid2RefRgdId.put(pmid, refRgdId);
+            }
+        }
+        return pmidsNotInRgd;
+    }
+
+    protected MyXomAnalyzer parseArticle(State state, String article) throws Exception {
+        state.reset();
+
+        MyXomAnalyzer parser = new MyXomAnalyzer();
+        parser.setState(state);
+        parser.setValidate(false);
+        parser.parse(new StringReader(article));
+        return parser;
+    }
+
+    static XPath xpPubmedId, xpDoi, xpTitle, xpJournal, xpVolume, xpIssue, xpPages, xpPubYear, xpPubMonth, xpPubDay;
+    static XPath xpAbstract, xpAuthors;
+    // books
+    static XPath xpbPubmedId, xpbDoi, xpbTitle, xpbJournal, xpbPages, xpbPubYear, xpbPubMonth, xpbPubDay;
+    static XPath xpbAbstract, xpbAuthors;
+
+    static { try {
+        xpPubmedId = new XOMXPath("PubmedData/ArticleIdList/ArticleId[@IdType='pubmed']");
+        xpDoi = new XOMXPath("PubmedData/ArticleIdList/ArticleId[@IdType='doi']");
+        xpTitle = new XOMXPath("MedlineCitation/Article/ArticleTitle");
+        xpJournal = new XOMXPath("MedlineCitation/MedlineJournalInfo/MedlineTA");
+        xpVolume = new XOMXPath("MedlineCitation/Article/Journal/JournalIssue/Volume");
+        xpIssue = new XOMXPath("MedlineCitation/Article/Journal/JournalIssue/Issue");
+        xpPages = new XOMXPath("MedlineCitation/Article/Pagination/MedlinePgn");
+        xpPubYear = new XOMXPath("MedlineCitation/Article/Journal/JournalIssue/PubDate/Year");
+        xpPubMonth = new XOMXPath("MedlineCitation/Article/Journal/JournalIssue/PubDate/Month");
+        xpPubDay = new XOMXPath("MedlineCitation/Article/Journal/JournalIssue/PubDate/Day");
+        xpAbstract = new XOMXPath("MedlineCitation/Article/Abstract/AbstractText");
+        xpAuthors = new XOMXPath("MedlineCitation/Article/AuthorList/Author[@ValidYN='Y']");
+
+        xpbPubmedId = new XOMXPath("PubmedBookData/ArticleIdList/ArticleId[@IdType='pubmed']");
+        xpbDoi = new XOMXPath("PubmedBookData/ArticleIdList/ArticleId[@IdType='doi']");
+        xpbTitle = new XOMXPath("BookDocument/ArticleTitle");
+        xpbJournal = new XOMXPath("BookDocument/Book/BookTitle");
+        xpbPages = new XOMXPath("BookDocument/Book/Pagination/MedlinePgn");
+        xpbPubYear = new XOMXPath("BookDocument/Book/PubDate/Year");
+        xpbPubMonth = new XOMXPath("BookDocument/Book/PubDate/Month");
+        xpbPubDay = new XOMXPath("BookDocument/Book/PubDate/Day");
+        xpbAbstract = new XOMXPath("BookDocument/Abstract/AbstractText");
+        xpbAuthors = new XOMXPath("BookDocument/AuthorList/Author");
+    } catch(Exception e) {
+        e.printStackTrace();
+    }}
+
+
+    class MyXomAnalyzer extends XomAnalyzer {
+
+        XdbId xdbId = new XdbId();
+        Reference ref = new Reference();
+        List<Author> authors = new ArrayList<>();
+
+        public void setState(State state) {
+            xdbId = state.xdbId;
+            ref = state.ref;
+            authors = state.authors;
+        }
+
+        public Element parseRecord(Element element) {
+
+            xdbId.setXdbKey(XdbId.XDB_KEY_PUBMED);
+
+            String pubYear, pubMonth, pubDay;
+            List<Element> authors;
+            try {
+                if( element.getLocalName().equals("PubmedArticle") ) {
+                    ref.setReferenceType("JOURNAL ARTICLE");
+                    xdbId.setAccId(xpPubmedId.stringValueOf(element));
+                    ref.setDoi(xpDoi.stringValueOf(element));
+                    ref.setTitle(xpTitle.stringValueOf(element));
+                    ref.setPublication(xpJournal.stringValueOf(element));
+                    ref.setVolume(xpVolume.stringValueOf(element));
+                    ref.setIssue(xpIssue.stringValueOf(element));
+                    ref.setPages(xpPages.stringValueOf(element));
+                    pubYear = xpPubYear.stringValueOf(element);
+                    pubMonth = xpPubMonth.stringValueOf(element);
+                    pubDay = xpPubDay.stringValueOf(element);
+                    ref.setRefAbstract(getAbstract(xpAbstract.selectNodes(element)));
+                    authors = xpAuthors.selectNodes(element);
+                } else {
+                    ref.setReferenceType("BOOK REVIEW");
+                    xdbId.setAccId(xpbPubmedId.stringValueOf(element));
+                    ref.setDoi(xpbDoi.stringValueOf(element));
+                    ref.setTitle(xpbTitle.stringValueOf(element));
+                    ref.setPublication(xpbJournal.stringValueOf(element));
+                    ref.setPages(xpbPages.stringValueOf(element));
+                    pubYear = xpbPubYear.stringValueOf(element);
+                    pubMonth = xpbPubMonth.stringValueOf(element);
+                    pubDay = xpbPubDay.stringValueOf(element);
+                    ref.setRefAbstract(getAbstract(xpbAbstract.selectNodes(element)));
+                    authors = xpbAuthors.selectNodes(element);
+                }
+                ref.setPubDate(getPubDate(pubYear, pubMonth, pubDay));
+                parseAuthors(authors);
+                createCitation();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        String getAbstract(List nodes) {
+            String abstractText = "";
+            for( Element el: (List<Element>)nodes ) {
+                String label = el.getAttributeValue("Label");
+                if( !Utils.isStringEmpty(label) ) {
+                    abstractText += "<br><b>"+label+": </b>";
+                }
+                abstractText += el.getValue();
+            }
+            return fixFancyCharacters(abstractText);
+        }
+
+        Date getPubDate(String pubYear, String pubMonth, String pubDay) throws Exception {
+            int year = 0;
+            int month = 12;
+            int day = 1;
+
+            switch(pubMonth) {
+                case "Jan": month = 1; break;
+                case "Feb": month = 2; break;
+                case "Mar": month = 3; break;
+                case "Apr": month = 4; break;
+                case "May": month = 5; break;
+                case "Jun": month = 6; break;
+                case "Jul": month = 7; break;
+                case "Aug": month = 8; break;
+                case "Sep": month = 9; break;
+                case "Oct": month = 10; break;
+                case "Nov": month = 11; break;
+                case "Dec": month = 12; break;
+            }
+
+            Scanner scanner = new Scanner(pubYear);
+            if( scanner.hasNextInt() ) {
+                year = scanner.nextInt();
+            }
+
+            scanner = new Scanner(pubDay);
+            if( scanner.hasNextInt() ) {
+                day = scanner.nextInt();
+            }
+
+            return new Date(year-1900, month-1, day);
+        }
+
+        void parseAuthors(List<Element> authors) {
+
+            for( Element el: authors ) {
+                Author author = new Author();
+
+                Elements fields = el.getChildElements();
+                for( int i=0; i<fields.size(); i++ ) {
+                    Element field = fields.get(i);
+                    String value = field.getValue();
+                    switch( field.getLocalName() ) {
+                        case "LastName":
+                        case "CollectiveName": author.setLastName(value); break;
+                        case "ForeName": author.setFirstName(value); break;
+                        case "Initials": author.setInitials(value); break;
+                        case "Suffix": author.setSuffix(value); break;
+                    }
+                }
+                this.authors.add(author);
+            }
+        }
+
+        void createCitation() throws Exception {
+            if( ref.getReferenceType().equals("BOOK REVIEW") ) {
+                ref.setCitation("PubMed Book Article");
+                return;
+            }
+
+            // authors go first
+            StringBuilder buf = new StringBuilder(100);
+            if( authors.size()==0 ) {
+                buf.append("NO_AUTHOR");
+            } else {
+                String author = authors.get(0).getAuthorForCitation();
+                if( authors.size()==1 ) {
+                    buf.append(author);
+                } else if( authors.size()==2 ) {
+                    buf.append(author).append(" and ").append(authors.get(1).getAuthorForCitation());
+                } else {
+                    buf.append(author).append(", etal.");
+                }
+            }
+
+            String citation = downloadCitation();
+            if( citation!=null ) {
+                buf.append(", ").append(citation);
+            }
+            ref.setCitation(buf.toString());
+        }
+
+        String downloadCitation() throws Exception {
+            String content = downloadArticleFromPubmed(xdbId.getAccId(), "medline");
+            String lines[] = content.split("[\\n\\r]");
+            String citation = null;
+            // look for line starting with "SO  - ";
+            for( int i=0; i<lines.length; i++ ) {
+                if( lines[i].startsWith("SO  - ") ) {
+                    citation = lines[i].substring(6).trim();
+                    // citation could span multiple lines, starting with ' '
+                    for( ++i; i<lines.length; i++ ) {
+                        if( lines[i].startsWith(" ") ) {
+                            citation += " "+lines[i].trim();
+                        }
+                    }
+                    break;
+                }
+            }
+            return citation;
+        }
+
+        String fixFancyCharacters(String s) {
+
+            // text is stored in Oracle db as very limiting 'Windows-1252' format;
+            // we need to convert some UTF-8 chars into human readable format
+            return s.replace("≥", ">=")
+                    .replace("≤", "<=")
+                    .replace(" ", " ")
+                    .replace("α", "&alpha;")
+                    .replace("γ", "&gamma;")
+                    .replace("κ", "&kappa;")
+                    .replace("→", "->");
+        }
+    }
+    class State {
+        public boolean updateMode;
+        public boolean refWasUpdated;
+        public XdbId xdbId;
+        public Reference ref;
+        public List<Author> authors;
+
+        public State() {
+            reset();
+        }
+
+        public void reset() {
+            refWasUpdated = false;
+            xdbId = new XdbId();
+            ref = new Reference();
+            authors = new ArrayList<>();
+        }
     }
 
 }

@@ -243,9 +243,13 @@
             <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
             <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
             <input type="hidden" id="species" name="species" value="<%=species%>" />
-            <%for(int i = 0; i < 3 ; i++) {%>
-                <input type="hidden" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=(refRgdIds.get(i)!=null && refRgdIds.get(i)!=0) ? refRgdIds.get(i) : ""%>">
-            <%}%>
+            <%int refSize = 0;
+            for(refSize = 0; refSize < refRgdIds.size() ; refSize++) {%>
+                <input type="hidden" name="refRgdId<%=refSize%>" id="refRgdId<%=refSize%>" value="<%=(refRgdIds.get(refSize)!=null && refRgdIds.get(refSize)!=0) ? refRgdIds.get(refSize) : ""%>">
+            <%}
+            for (int i = refSize; i < 3 ; i++){%>
+                <input type="hidden" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="">
+            <% } %>
             <br>
             <div class="sticky-table">
             <table class="table table-striped">
