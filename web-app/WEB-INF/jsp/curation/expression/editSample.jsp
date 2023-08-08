@@ -214,7 +214,7 @@
                             List<XdbId> pms = xdbDAO.getXdbIdsByRgdId(2, s.getRefRgdIds().get(x));
                         %>
                     <td>
-                        <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=existingSample ? pms.get(0).getAccId() : ""%>">
+                        <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=existingSample && !pms.isEmpty() ? pms.get(0).getAccId() : ""%>">
                     </td>
                     <%}
                     }
