@@ -57,7 +57,9 @@ public class PerformBinningController implements Controller {
                 Term term = ontologyXDAO.getTermByAccId(key);
                 GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
                 List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-                allChildterms.add(assigneeObjChild.get(0));
+                if( !assigneeObjChild.isEmpty() ) {
+                    allChildterms.add(assigneeObjChild.get(0));
+                }
 
 /*              Use it for initialization of the database table
                 Insert all the children into the bin assignee table
@@ -65,7 +67,9 @@ public class PerformBinningController implements Controller {
 */
             }
             List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
-            allChildterms.add(selfChild.get(0));
+            if( !selfChild.isEmpty() ) {
+                allChildterms.add(selfChild.get(0));
+            }
             parentChildTermsAcc.put(binCategory, allChildterms);
         }
         return parentChildTermsAcc;
