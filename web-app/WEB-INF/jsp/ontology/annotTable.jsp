@@ -124,12 +124,12 @@
     <a name="annot"></a>
     <table border="0" style="padding-top:20px;" width="100%">
         <tr>
-            <td colspan="1"><input type="checkbox" <c:if test="${bean.withChildren}">checked="checked"</c:if> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
+            <td colspan="1"><input type="checkbox" <%=bean.isWithChildren() ? "checked=\"checked\"" : ""%> onclick="addParamToLocHref('with_children','<%=bean.isWithChildren()?0:1%>','#annot')">
                 show annotations for term's descendants
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:<%=fu.buildSelectList("sort_by\" onChange=\"addParamToLocHref('sort_by',this.options[selectedIndex].text,'#annot')", bean.getSortByChoices(), bean.getSortBy())%>
                 <select name="sort_desc" onChange="addParamToLocHref('sort_desc',this.options[selectedIndex].value,'#annot')" title="ascending/descending sort order"><option
-                        value="0" <c:if test="${bean.sortDesc==false}">selected="selected"</c:if>>&uarr; asc</option><option
-                        value="1" <c:if test="${bean.sortDesc==true}">selected="selected"</c:if>>&darr; desc</option></select>
+                        value="0" <%=bean.isSortDesc()==false ? "selected=\"selected\"" : ""%> >&uarr; asc</option><option
+                        value="1" <%=bean.isSortDesc()==true ? "selected=\"selected\"" : ""%>>&darr; desc</option></select>
                         <input type="button" value="download annotations" onclick="addParamToLocHref('d','1','#annot')" title="download to file">
 
             </td>
@@ -154,19 +154,19 @@
 
                 <div id="searchResultHeader">
         <ul style="border-bottom:2px solid #2865A3;">
-            <li<c:if test="${bean.speciesTypeKey==3}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Rat','#gviewer')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Mouse','#gviewer')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==1}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Human','#gviewer')">Human&nbsp;(<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==4}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Chinchilla','#gviewer')">Chinchilla&nbsp;(<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==5}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Bonobo','#gviewer')">Bonobo&nbsp;(<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==6}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Dog','#gviewer')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==7}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Squirrel','#gviewer')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==9}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Pig','#gviewer')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==13}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Green Monkey','#gviewer')">Green Monkey&nbsp;(<%=tws.getStat("annotated_object_count",13,0,withKids)%>)</a></li>
-            <li<c:if test="${bean.speciesTypeKey==14}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','Naked Mole-rat','#gviewer')">Naked Mole-rat&nbsp;(<%=tws.getStat("annotated_object_count",14,0,withKids)%>)</a></li>
-            <c:if test="${bean.showAnnotsForAllSpecies}">
-            <li<c:if test="${bean.speciesTypeKey==0}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('species','All','#gviewer')">All</a></li>
-            </c:if>
+            <li <%=bean.getSpeciesTypeKey()==3 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Rat','#gviewer')">Rat&nbsp;(<%=tws.getStat("annotated_object_count",3,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==2 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Mouse','#gviewer')">Mouse&nbsp;(<%=tws.getStat("annotated_object_count",2,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==1 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Human','#gviewer')">Human&nbsp;(<%=tws.getStat("annotated_object_count",1,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==4 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Chinchilla','#gviewer')">Chinchilla&nbsp;(<%=tws.getStat("annotated_object_count",4,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==5 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Bonobo','#gviewer')">Bonobo&nbsp;(<%=tws.getStat("annotated_object_count",5,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==6 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Dog','#gviewer')">Dog&nbsp;(<%=tws.getStat("annotated_object_count",6,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==7 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Squirrel','#gviewer')">Squirrel&nbsp;(<%=tws.getStat("annotated_object_count",7,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==9 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Pig','#gviewer')">Pig&nbsp;(<%=tws.getStat("annotated_object_count",9,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==13 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Green Monkey','#gviewer')">Green Monkey&nbsp;(<%=tws.getStat("annotated_object_count",13,0,withKids)%>)</a></li>
+            <li <%=bean.getSpeciesTypeKey()==14 ? "id=\"selected\"":""%>><a href="javascript:addParamToLocHref('species','Naked Mole-rat','#gviewer')">Naked Mole-rat&nbsp;(<%=tws.getStat("annotated_object_count",14,0,withKids)%>)</a></li>
+                <% if (bean.isShowAnnotsForAllSpecies()) {%>
+            <li <%=bean.getSpeciesTypeKey()==0 ? "id=\"selected\"":""%> ><a href="javascript:addParamToLocHref('species','All','#gviewer')">All</a></li>
+            <%}%>
 
         </ul>
     </div>
@@ -177,23 +177,23 @@
                 <div id="searchResultHeader">
                     <ul>
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey<2}"> id="selected"</c:if> ><a href="javascript:addParamToLocHref('o','1','#gviewer')">Genes (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids)%>)</a></li>
+                        <li <%=bean.getObjectKey()<2 ? "id=\"selected\"" : ""%> ><a href="javascript:addParamToLocHref('o','1','#gviewer')">Genes (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==6}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','6','#gviewer')">QTL (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids)%>)</a></li>
+                        <li <%=bean.getObjectKey()==6 ? "id=\"selected\"" : ""%>><a href="javascript:addParamToLocHref('o','6','#gviewer')">QTL (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==5}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','5','#gviewer')">Strains (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids)%>)</a></li>
+                        <li <%=bean.getObjectKey()==5 ? "id=\"selected\"" : ""%>><a href="javascript:addParamToLocHref('o','5','#gviewer')">Strains (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==7}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','7','#gviewer')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
+                        <li <%=bean.getObjectKey()==7 ? "id=\"selected\"" : ""%>><a href="javascript:addParamToLocHref('o','7','#gviewer')">Variants (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),7,withKids)%>)</a></li>
                         <% } %>
 
                         <% if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids) > 0) { %>
-                        <li <c:if test="${bean.objectKey==11}"> id="selected"</c:if>><a href="javascript:addParamToLocHref('o','11','#gviewer')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
+                        <li <%=bean.getObjectKey()==11 ? "id=\"selected\"" : ""%>><a href="javascript:addParamToLocHref('o','11','#gviewer')">Cell Lines (<%=tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),11,withKids)%>)</a></li>
                         <% } %>
                     </ul>
                 </div>
@@ -222,8 +222,6 @@
 
     <% if (bean.isWithChildren()) {%>
     <li><a style="font-size:18px;" href="javascript:addParamToLocHref('with_children','0','#annot')"/>Display annotations for this term only (exclude descendants)</a>
-
-
     <% } %>
 
 </div>
@@ -276,11 +274,10 @@
                      <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
                  </colgroup>
                  <td 10%></td>
-                 <c:if test="${bean.speciesTypeKey==0}"><td></td></c:if>
+                 <%=bean.getSpeciesTypeKey()==0 ? "<td></td>" : ""%>
                  <td><b>Symbol</b></td>
                  <td><b>Object Name</b></td>
-
-                 <td><c:if test="${bean.hasQualifiers}"><b>Qualifiers</b></c:if></td>
+                 <td><%=bean.getHasQualifiers() ? "<b>Qualifiers</b>" : ""%></td>
                  <td><b>Evidence</b></td>
 
                  <td><b>Notes</b></td>
@@ -299,7 +296,7 @@
                     out.print("<tr class='evenRow'>"); %>
 
                 <td class="objtag_<%=annot.getRgdObjectName()%>" title=" <%=annot.getRgdObjectName()%> "><%=annot.getObjectTypeInitial()%></td>
-                <c:if test="${bean.speciesTypeKey==0}"><td title="<%=speciesName%>"><%=speciesName.substring(0, 1)%></td></c:if>
+                <%=bean.getSpeciesTypeKey()==0 ? "<td title=\""+speciesName+"\">"+speciesName.substring(0, 1)+"</td>" :""%>
 
                 <% //check to see if symbol should be used by tool submit logic
                     String toolSubmitClass=" ";

@@ -94,8 +94,8 @@
         <tr>
             <td align="center">
                 <div id="gviewer" class="gviewer" name="gviewer">
-                    <c:if test="${bean.speciesTypeKey==0}">Please select species to view GViewer data.</c:if>
-                    <c:if test="${bean.speciesTypeKey==4 || bean.speciesTypeKey==7 || bean.speciesTypeKey==13 || bean.speciesTypeKey==14}">GViewer not supported for the selected species.</c:if>
+                    <%=bean.getSpeciesTypeKey()==0 ? "Please select species to view GViewer data." : ""%>
+                    <%=bean.getSpeciesTypeKey()==4 || bean.getSpeciesTypeKey()==7 || bean.getSpeciesTypeKey()==13 || bean.getSpeciesTypeKey()==14 ? "GViewer not supported for the selected species." :""%>
                 </div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
             </td>
@@ -229,7 +229,7 @@
 
 <%----------------- GVIEWER ------------%>
 <script language="JavaScript1.2">
-<c:if test="${bean.speciesTypeKey!=7 && bean.speciesTypeKey!=4 && bean.speciesTypeKey!=0 && bean.speciesTypeKey!=13 && bean.speciesTypeKey!=14}">
+<%if(bean.getSpeciesTypeKey()!=7 && bean.getSpeciesTypeKey()!=4 && bean.getSpeciesTypeKey()!=0 && bean.getSpeciesTypeKey()!=13 && bean.getSpeciesTypeKey()!=14){ %>
 var gviewer = null;
 onload= function() {
 
@@ -287,12 +287,9 @@ try {
     }
 
 
-}catch (err) {
-
+}catch (err) { }
 }
-
-}
-</c:if>
+<%}%>
 
 </script>
 <% } %>

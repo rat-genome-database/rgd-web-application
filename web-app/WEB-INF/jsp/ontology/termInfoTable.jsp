@@ -71,13 +71,13 @@
             </td>
         </tr>
         <% } %>
-        <c:if test="${!empty bean.term.definition}">
-          <tr><td class="colh">Definition:</td><td colspan="2">${bean.term.definition}</td></tr>
-        </c:if>
-        <c:if test="${!empty bean.term.comment}">
-          <tr><td class="colh">Comment:</td><td colspan="2">${bean.term.comment}</td></tr>
-        </c:if>
-        <c:if test="${!empty bean.termSynonyms}">
+            <%if (bean.getTerm().getDefinition() != null && !bean.getTerm().getDefinition().isEmpty()) {%>
+          <tr><td class="colh">Definition:</td><td colspan="2"><%=bean.getTerm().getDefinition()%></td></tr>
+            <% } %>
+            <%if (bean.getTerm().getComment() != null && !bean.getTerm().getComment().isEmpty()) {%>
+          <tr><td class="colh">Comment:</td><td colspan="2"><%=bean.getTerm().getComment()%></td></tr>
+        <% } %>
+            <%if (!bean.getTermSynonyms().isEmpty()){%>
           <tr>
             <% String prevType = "";
             int synonymsPerType = 0;
@@ -199,8 +199,10 @@
           }
           // terminate table row
             out.append("</td></tr>\n");
+
+
+          } // end if
         %>
-        </c:if>
 
         <%-- DO disease link to AGR --%>
         <% if( bean.getAccId().startsWith("DOID:") ) {
