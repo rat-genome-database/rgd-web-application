@@ -1,7 +1,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.ProjectDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="java.util.List" %>
-<jsp:useBean id="allProjects" scope="request" class="java.util.ArrayList" />
+<%--<jsp:useBean id="allProjects" scope="request" class="java.util.ArrayList" />--%>
 <%
     String pageTitle = "Rat Genome Database Projects";
     String headContent = "";
@@ -71,10 +71,10 @@
 
     <%
         List<Project>p1 = (List<Project>)request.getAttribute("test");
-        List<Project> p=(List<Project>)allProjects;
+//        List<Project> p=(List<Project>)allProjects;
         for(Project i:p1){%>
     <tr id="b">
-        <td class="he"><a href="/rgdweb/projects/project.html?id=<%= i.getRgdid() %>"><%= i.getRgdid() %></a></td>
+        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdid() %>"><%= i.getRgdid() %></a></td>
         <td class="he"><%= i.getName() %></td>
         <td class="he"><%= i.getDesc() %></td>
     </tr>

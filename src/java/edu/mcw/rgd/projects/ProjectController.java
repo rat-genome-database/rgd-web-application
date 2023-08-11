@@ -36,8 +36,10 @@ public class ProjectController implements Controller {
         if (rgdidParam != null && !rgdidParam.isEmpty()) {
             List<Project> project = pdao.getProjectByRgdId(Integer.parseInt(rgdidParam));
             if (project != null) {
-                ModelAndView mv = new ModelAndView("/WEB-INF/jsp/project/project_details.jsp");
+//                ModelAndView mv = new ModelAndView("/WEB-INF/jsp/project/project_details.jsp");
+                ModelAndView mv = new ModelAndView("/WEB-INF/jsp/report/projectReport/main.jsp");
                 mv.addObject("project", project);
+//                request.setAttribute("project",project);
                 return mv;
             }
         }

@@ -278,6 +278,7 @@
                                   <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
+                 <prop key="report/project/main.html">ProjectReportController</prop>
 
 
             </props>
@@ -288,6 +289,7 @@
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
     <bean id="phenominerERSelectedPhenotypeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedPhenotypeController"/>
      <bean id="ProjectController" class="edu.mcw.rgd.projects.ProjectController"/>
+     <bean id="ProjectReportController" class="edu.mcw.rgd.report.ProjectReportController"/>
  <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
     <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
     <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
