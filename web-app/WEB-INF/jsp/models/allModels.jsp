@@ -1,6 +1,6 @@
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>
+<%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>--%>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>--%>
 
 <%  String pageTitle =  "All Models";
     String pageDescription ="All Genetic Models";

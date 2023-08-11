@@ -25,7 +25,7 @@ public class AllModelsController extends GeneticModelsController implements Cont
     private GeneticModelsDAO modelDao= new GeneticModelsDAO();
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelMap model = new ModelMap();
+//        ModelMap model = new ModelMap();
        // List<GeneticModel> strains = modelDao.getAllModels2();
       //  List<GeneticModel> strainsWithAliases= this.getStrainWithAliases(strains);
       //  List<GeneticModel> strainsWithAliases=models.deserializeGeneticModel("allModels");
@@ -38,7 +38,7 @@ public class AllModelsController extends GeneticModelsController implements Cont
         }
         this.setGenes(genes);
         Map<String, List<GeneticModel>> gsMap = new HashMap<String, List<GeneticModel>>();
-        Map<ModelsHeaderRecord, List<GeneticModel>> hcMap= new HashedMap();
+        Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = new HashedMap();
         gsMap= this.getGeneStrainMap(strainsWithAliases);
         hcMap= this.getHeaderRecords(strainsWithAliases);
 
@@ -46,15 +46,16 @@ public class AllModelsController extends GeneticModelsController implements Cont
         for(GeneticModel m:strainsWithAliases){
             System.out.println(m.getGeneSymbol() + "\n");
         }*/
-        model.put("strains",strainsWithAliases );
-        model.put("geneStrainMap", gsMap);
-        model.put("headerChildMap",hcMap );
-        backgroundStrainList(gsMap,model);
-        return new ModelAndView("/WEB-INF/jsp/models/allModels.jsp", "model", model);
+
+        httpServletRequest.setAttribute("strains", strainsWithAliases);
+        httpServletRequest.setAttribute("geneStrainMap", gsMap);
+        httpServletRequest.setAttribute("headerChildMap", hcMap);
+        backgroundStrainList(gsMap,httpServletRequest);
+        return new ModelAndView("/WEB-INF/jsp/models/allModels.jsp");
 
     }
 
-    public void backgroundStrainList(Map<String, List<GeneticModel>> gsMap, ModelMap mm) throws Exception{
+    public void backgroundStrainList(Map<String, List<GeneticModel>> gsMap, HttpServletRequest httpServletRequest) throws Exception{
         Map<String, String> bsl = new HashedMap<>();
         for (String gene : gsMap.keySet()){
             String bStrain = "";
@@ -80,7 +81,7 @@ public class AllModelsController extends GeneticModelsController implements Cont
             else
                 bsl.put(gene,bStrain);
         }
-        mm.put("backStrainList", bsl);
+        httpServletRequest.setAttribute("backStrainList", bsl);
         return;
     }
 }
