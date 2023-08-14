@@ -76,9 +76,19 @@
         strat.setTableProperties("class='sortable'");
 
         out.print(report.format(strat));
+        %>
 
+</div>
+<br>
+<div class="container-fluid">
+    <%
+        Report report2 = (Report) request.getAttribute("referenceReport");
+
+        HTMLTableReportStrategy strat2 = new HTMLTableReportStrategy();
+        strat2.setTableProperties("class='sortable'");
+
+        out.print(report2.format(strat2));
     %>
-
 </div>
 </body>
 </html>

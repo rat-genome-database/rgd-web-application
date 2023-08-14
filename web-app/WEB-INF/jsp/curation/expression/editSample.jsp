@@ -11,6 +11,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Study" %>
+<%@ page import="edu.mcw.rgd.datamodel.XdbId" %>
+<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -100,6 +103,7 @@
     String gse = request.getParameter("gse");
     String species = request.getParameter("species");
     PhenominerDAO pdao = new PhenominerDAO();
+    XdbIdDAO xdbDAO = new XdbIdDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = new HashMap<>();
     HashMap<String,String> strainMap = new HashMap<>();
@@ -125,12 +129,37 @@
     List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
     boolean existingSample = (sampleList != null && !sampleList.isEmpty());
     boolean createSample = false;
+    Study s = null;
+    int refSize = 3;
+    if (existingSample)
+    {
+        s = pdao.getStudyByGeoIdWithReferences(gse);
+    }
+
 %>
 <input type="hidden" id="exist" value="<%=existingSample%>">
 <br>
 <div>
     <%
         if(samples.size() != 0) {
+            StringBuilder pubmedIds = new StringBuilder();
+            Study study = pdao.getStudyByGeoIdWithReferences(samples.get(0).getGeoAccessionId());
+            List<XdbId> pmIds = new ArrayList<>();
+            if (study!=null){
+                for (Integer rgdId : study.getRefRgdIds()){
+                    List<XdbId> dbs = xdbDAO.getXdbIdsByRgdId(2, rgdId);
+                    pmIds.addAll(dbs);
+                }
+                for (int i = 0 ; i < pmIds.size(); i++){
+                    if (i==pmIds.size()-1){
+                        pubmedIds.append(pmIds.get(i).getAccId());
+                    }
+                    else
+                        pubmedIds.append(pmIds.get(i).getAccId()).append(", ");
+                }
+            }
+            else
+                pubmedIds.append(samples.get(0).getPubmedId());
     %>
         <form action="experiments.html" method="POST">
             <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
@@ -140,7 +169,7 @@
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td style="color: #24609c; font-weight: bold;">Geo Accession Id: </td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
                     <td style="color: #24609c; font-weight: bold;">Study Title: </td><td><%=samples.get(0).getStudyTitle()%></td>
-                    <td style="color: #24609c; font-weight: bold;">PubMed Id: </td><td><%=samples.get(0).getPubmedId()%></td>
+                    <td style="color: #24609c; font-weight: bold;">PubMed Id: </td><td><%=pubmedIds%></td>
                     <td style="color: #24609c; font-weight: bold;">Select status: </td>
                     <td><select id="status" name="status" >
                         <option value="loaded">Loaded</option>
@@ -174,6 +203,26 @@
                     <th>GEO</th>
                     <th></th>
                     <th>RGD</th>
+                </tr>
+                <tr>
+                    <td><label style="color: #24609c; font-weight: bold;">PubMed Id:</label></td>
+                    <td><%=samples.get(0).getPubmedId()%></td>
+                    <td><label style="color: #24609c; font-weight: bold;">Pub Med IDs:</label></td>
+                    <% int x = 0;
+                    if (s != null){
+                        for (x = 0; x < s.getRefRgdIds().size() ; x++){
+                            List<XdbId> pms = xdbDAO.getXdbIdsByRgdId(2, s.getRefRgdIds().get(x));
+                        %>
+                    <td>
+                        <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=existingSample ? pms.get(0).getAccId() : ""%>">
+                    </td>
+                    <%}
+                    }
+                    for (int y=x ; y < refSize ; y++){%>
+                    <td>
+                        <input type="number" name="refRgdId<%=y%>" id="refRgdId<%=y%>" value="">
+                    </td>
+                    <%}%>
                 </tr>
             <%
       int tcount = 0;
@@ -800,6 +849,19 @@ if (tissueMap.isEmpty()){ %>
         var ageLow = document.querySelectorAll('[id^="ageLow"]');
         var ageHigh = document.querySelectorAll('[id^="ageHigh"]');
         var bool = true;
+        var pmIds = document.querySelectorAll('[id^="refRgdId"]');
+        var dupes = [];
+        for (var i = 0; i<pmIds.length; i++){
+            if (dupes.includes(pmIds[i].value) && pmIds[i].value !== ""){
+                pmIds[i].focus();
+                pmIds[i].style.border="2px solid red";
+                bool = false;
+            }
+            else{
+                pmIds[i].style.border="1px solid black";
+            }
+            dupes.push(pmIds[i].value);
+        }
 
         var regex = /^0$|^-?[1-9]\d*(\.\d+)?$/;
         for (var i = 0 ; i < ageLow.length; i++){

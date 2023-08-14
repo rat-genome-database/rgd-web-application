@@ -9,6 +9,8 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="edu.mcw.rgd.dao.impl.GeneExpressionDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
+<%@ page import="edu.mcw.rgd.datamodel.XdbId" %>
+<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -146,6 +148,7 @@
 
 
     OntologyXDAO xdao = new OntologyXDAO();
+    XdbIdDAO xdbDAO = new XdbIdDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
     HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
     HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
@@ -168,6 +171,7 @@
     HashMap<String,String> culture = (HashMap) request.getAttribute("cultureDur");
     HashMap<String,String> cultureUnit = (HashMap) request.getAttribute("cultureUnit");
     List<Condition> conditions = (ArrayList) request.getAttribute("conditions");
+    List<Integer> refRgdIds = (ArrayList) request.getAttribute("refRgdIds");
     int sampleSize = (int) request.getAttribute("samplesExist");
     boolean updateSample = sampleSize!=0;
     int size = samples.size();
@@ -175,6 +179,7 @@
     boolean createSample = true;
     List<Experiment> experiments = updateSample ? pdao.getExperiments(samples.get(0).getGeoAccessionId()) : new ArrayList<>();
     int count = 0;
+    Study study = null;
 %>
 
 
@@ -182,7 +187,24 @@
 <div>
     <%
         if(samples.size() != 0) {
-//            study = pdao.getStudyByGeoId(samples.get(0).getGeoAccessionId());
+            StringBuilder pubmedIds = new StringBuilder();
+            study = pdao.getStudyByGeoIdWithReferences(samples.get(0).getGeoAccessionId());
+            List<XdbId> pmIds = new ArrayList<>();
+            if (study!=null){
+                for (Integer rgdId : study.getRefRgdIds()){
+                    List<XdbId> dbs = xdbDAO.getXdbIdsByRgdId(2, rgdId);
+                    pmIds.addAll(dbs);
+                }
+                for (int i = 0 ; i < pmIds.size(); i++){
+                    if (i==pmIds.size()-1){
+                        pubmedIds.append(pmIds.get(i).getAccId());
+                    }
+                    else
+                        pubmedIds.append(pmIds.get(i).getAccId()).append(", ");
+                }
+            }
+            else
+                pubmedIds.append(samples.get(0).getPubmedId());
     %>
         <form action="experiments.html" method="POST">
             <table  class="t" style="width: 1880px">
@@ -190,7 +212,7 @@
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td><b>Geo Accession Id: </b></td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
                     <td><b>Study Title: </b></td><td><%=samples.get(0).getStudyTitle()%></td>
-                    <td><b>PubMed Id: </b></td><td><%=samples.get(0).getPubmedId()%></td>
+                    <td><b>PubMed Id: </b></td><td><%=pubmedIds%></td>
                     <td><b>Select status: </b></td>
                     <td><select id="status" name="status" >
                         <option value="loaded">Loaded</option>
@@ -221,6 +243,13 @@
             <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
             <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
             <input type="hidden" id="species" name="species" value="<%=species%>" />
+            <%int refSize = 0;
+            for(refSize = 0; refSize < refRgdIds.size() ; refSize++) {%>
+                <input type="hidden" name="refRgdId<%=refSize%>" id="refRgdId<%=refSize%>" value="<%=(refRgdIds.get(refSize)!=null && refRgdIds.get(refSize)!=0) ? refRgdIds.get(refSize) : ""%>">
+            <%}
+            for (int i = refSize; i < 3 ; i++){%>
+                <input type="hidden" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="">
+            <% } %>
             <br>
             <div class="sticky-table">
             <table class="table table-striped">
@@ -255,6 +284,7 @@
                 <th>Age (in days) Low (Curated): </th>
                 <th>Age (in days) High (Curated): </th>
                 <th>Life Stage (Curated):</th>
+<%--                <th>Reference RGD Ids:</th>--%>
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
                 <th>Status/Action:</th>
