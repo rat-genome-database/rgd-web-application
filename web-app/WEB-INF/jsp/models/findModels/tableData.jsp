@@ -1,4 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.elasticsearch.search.SearchHit" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
 
@@ -24,21 +28,31 @@
 <style>
     .tablesorter thead .disabled {display: none}
 </style>
-<h3>${model.hitsCount} results for term "${model.term}
-    <c:if test="${model.aspect=='D'}">
-        &nbsp;&&nbsp;Disease&nbsp;${model.qualifier}
-    </c:if>
-    <c:if test="${model.aspect=='N'}">
-        &nbsp;&&nbsp;Phenotype&nbsp;${model.qualifier}
-    </c:if>
-    <c:if test="${model.strainType!=null && model.strainType!=''}">
-        &nbsp;&&nbsp;${model.strainType}
-    </c:if>
-    <c:if test="${model.condition!=null && model.condition!=''}">
-       &nbsp;&&nbsp;${model.condition}
-    </c:if>
+<%
+        String term1 = (String) request.getAttribute("term");
+        String aspect2 = (String) request.getAttribute("aspect");
+        String qualifier = (String) request.getAttribute("qualifier");
+        List<SearchHit[]> searchHits = (List) request.getAttribute("searchHits");
+        String strainType = (String) request.getAttribute("strainType");
+        String condition1 = (String) request.getAttribute("condition");
+        int hitsCount1 = (Integer) request.getAttribute("hitsCount");
+%>
+<h3><%=hitsCount1%> results for term "<%=term1%>
+    <% if (aspect2.equals("D")){%>
+    &nbsp;&&nbsp;Disease&nbsp;<%=qualifier%>
+    <% }
+    if (aspect2.equals("N")) {%>
+    &nbsp;&&nbsp;Phenotype&nbsp;<%=qualifier%>
+    <% }
+    if (strainType!=null && !strainType.isEmpty()){%>
+    &nbsp;&&nbsp;<%=strainType%>
+    <% }
+    if (condition1!=null && !condition1.isEmpty()){%>
+    &nbsp;&&nbsp;<%=condition1%>
+    <% } %>
     "
-   </h3>
+</h3>
+
 <table id="findModelsTable" class="tablesorter">
     <thead>
     <tr>
@@ -56,57 +70,59 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${model.searchHits}" var="hitArray">
-        <c:forEach items="${hitArray}" var="hit">
+    <% for (SearchHit[] hitArray : searchHits) {
+        for (int i = 0; i < hitArray.length; i++) {
+            SearchHit hit = hitArray[i];
+            List<Object> refRgdIds;
+            String qualifiers = (String) hit.getSourceAsMap().get("qualifiers");
+            List infoTerms = (List) hit.getSourceAsMap().get("infoTerms");
+            List evidences = (List) hit.getSourceAsMap().get("evidences");
+            refRgdIds = (List<Object>) hit.getSourceAsMap().get("refRgdIds");%>
             <tr>
-                <td><a href="/rgdweb/report/strain/main.html?id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().annotatedObjectSymbol}</a></td>
-                <!--td>$-{hit.getSourceAsMap().annotatedObjectRgdId}</td>
-                <td>$-{hit.getSourceAsMap().species}</td-->
+                <td><a href="/rgdweb/report/strain/main.html?id=<%=hit.getSourceAsMap().get("annotatedObjectRgdId")%>"><%=hit.getSourceAsMap().get("annotatedObjectSymbol")%></a></td>
                 <td>
-                    <c:forEach items="${hit.getSourceAsMap().qualifiers}" var="q">
-                        <c:out value="${q}"/>&nbsp;
-                    </c:forEach>
-             </td>
-                <td><a href="/rgdweb/report/annotation/main.html?term=${hit.getSourceAsMap().termAcc}&id=${hit.getSourceAsMap().annotatedObjectRgdId}">${hit.getSourceAsMap().term}</a> &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=${hit.getSourceAsMap().termAcc}"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+                    <%=Utils.NVL(qualifiers,"")%>
                 </td>
+<%--                    <% for (Object q : qualifiers){%>--%>
+<%--                    <%=q.toString()%>--%>
+<%--                    <% } %>--%>
 
-                <!--td>$-{hit.getSourceAsMap().withInfoTerms}</td-->
-                <td>
-                    <c:set var="first" value="true"/>
-                    <c:forEach items="${hit.getSourceAsMap().infoTerms}" var="xco">
-                        <c:choose>
-                            <c:when test="${first==true}">
-                                <a href="/rgdweb/ontology/annot.html?acc_id=${xco.accId}">${xco.term}</a>
-                                <c:set var="first" value="false"/>
-                            </c:when>
-                            <c:otherwise>
-                               |&nbsp; <a href="/rgdweb/ontology/annot.html?acc_id=${xco.accId}">${xco.term}</a>
+<%--                    <c:forEach items="${hit.getSourceAsMap().qualifiers}" var="q">--%>
+<%--                        <c:out value="${q}"/>&nbsp;--%>
+<%--                    </c:forEach>--%>
 
-                            </c:otherwise>
-                        </c:choose>
-
-                    </c:forEach>
-                </td>
-
-                <td>
-                    <c:forEach items="${hit.getSourceAsMap().evidences}" var="e">
-                        <span title="${e.name}" >${e.evidence}</span>&nbsp;
-                    </c:forEach>
+                <td><a href="/rgdweb/report/annotation/main.html?term=<%=hit.getSourceAsMap().get("termAcc")%>&id=<%=hit.getSourceAsMap().get("annotatedObjectRgdId")%>"><%=hit.getSourceAsMap().get("term")%></a> &nbsp;&nbsp;<a href="/rgdweb/ontology/view.html?acc_id=<%=hit.getSourceAsMap().get("termAcc")%>"><img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
                 </td>
                 <td>
-                    <c:forEach items="${hit.getSourceAsMap().refRgdIds}" var="ref">
-                        <a href="/rgdweb/report/reference/main.html?id=${ref}">${ref}</a>&nbsp;
-                    </c:forEach>
+                    <%boolean first = true;
+                    if (infoTerms != null){
+                    for (Object obj : infoTerms) {
+                        HashMap map = (HashMap) obj;
+                    if (first){%>
+                    <a href="/rgdweb/ontology/annot.html?acc_id=<%=map.get("accId")%>"><%=map.get("term")%></a>
+                    <%first=false;}
+                    else {%>
+                    |&nbsp;<a href="/rgdweb/ontology/annot.html?acc_id=<%=map.get("accId")%>"><%=map.get("term")%></a>
+                    <% }
+                    }// end infoTerms for
+                    }%>
+                </td>
 
+                <td>
+                    <%for (Object obj : evidences){
+                        HashMap e = (HashMap) obj;%>
+                    <span title="<%=e.get("name")%>" ><%=e.get("evidence")%></span>
+                    <% } %>
+                </td>
+                <td>
+                    <% for (Object ref : refRgdIds) {%>
+                    <a href="/rgdweb/report/reference/main.html?id=<%=ref%>"><%=ref%></a>&nbsp;
+                    <% } %>
                 </td>
 
             </tr>
-        </c:forEach>
-    </c:forEach>
+    <%
+        } }
+    %>
     </tbody>
 </table>
-
-
-
-
-

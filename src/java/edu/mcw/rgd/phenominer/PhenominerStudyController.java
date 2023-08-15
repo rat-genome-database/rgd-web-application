@@ -257,7 +257,7 @@ public class PhenominerStudyController extends PhenominerController {
             throw new Exception("Study type is required");
         }
 
-        if (req.getParameter("refRgdId").isEmpty() ) {
+        if (req.getParameter("refRgdId0").isEmpty() ) {
             throw new Exception("Reference RGD Id is required");
         }
     }
