@@ -98,24 +98,35 @@
             <div id="associationsCurator" style="display:none;">
 
                 <%@ include file="phenominerDetails.jsp"%>
-<%--                <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>--%>
                 <%@ include file="../associationsCuratorForProject.jsp"%>
             </div>
-<%--            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>--%>
             <div id="associationsStandard" style="display:block;">
-<%--                <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>--%>
+
                 <%@ include file="phenominer.jsp"%>
                 <%@ include file="../associationsForProject.jsp"%>
 
             </div>
+            <%@ include file="../objectsAnnotatedForProject.jsp"%>
+            <br>
+            <div class ="subTitle" id="subFiles">Submitted Files
 
-                <%@ include file="../objectsAnnotatedForProject.jsp"%>
-
+            <%@ include file="projectFiles.jsp"%>
+            </div>
+            <br>
+            <br><div class ="subTitle">Submitter Information</div><br>
+            <%@ include file="submittedInfo.jsp"%>
+            <br><div class ="subTitle">Protocols</div>
+            <%
+                List<ProjectFile> pf1= new ProjectFileDAO().getProjectFiles(obj.getRgdId());
+            %>
+            <br>
+            <li><a href="<%=pf1.get(0).getProtocol()%>">Breeding Protocol for HS Rats</a></li>
+            <br>
                 <br><div  class="subTitle" id="additionalInformation">External Resources</div><br>
 
                 <%@ include file="xdbs.jsp"%>
-                <%@ include file="../nomen.jsp"%>
-                <%@ include file="../curatorNotes.jsp"%>
+<%--                <%@ include file="../nomen.jsp"%>--%>
+<%--                <%@ include file="../curatorNotes.jsp"%>--%>
             <% } %>
         </td>
         <td>&nbsp;</td>

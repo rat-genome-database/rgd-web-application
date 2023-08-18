@@ -184,7 +184,7 @@ List<Project> project1 = pdao1.getProjectByRgdId(Integer.parseInt("476081962"));
     List<Integer> refRgdIds = new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<Annotation> annotList = annotationDAO.getAnnotationsByReference(refRgdIds.get(1));
 %>
-<%--<h1><%=annotList.size()%></h1>--%>
+
 
 
 
