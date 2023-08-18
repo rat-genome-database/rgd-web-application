@@ -38,7 +38,9 @@
         });
     })
 </script>
-
+<%
+    String term = (String) request.getAttribute("term");
+%>
 <div class="">
 <form id="models-form" action="findModels.html" method="post">
     <div class="" >
@@ -56,7 +58,7 @@
                     <small class="form-text text-muted" style="font-size: 14px">Enter a Disease or Phenotype or Strain or Condition to find the rat models</small>
                     <div class="input-group" >
 
-                        <input id="modelsSearchTerm" name="modelsSearchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value="${model.term}"/>
+                        <input id="modelsSearchTerm" name="modelsSearchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value="<%=term%>"/>
 
                         <div class="input-group-append">
 

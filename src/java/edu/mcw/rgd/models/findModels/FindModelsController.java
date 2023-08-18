@@ -35,7 +35,6 @@ public class FindModelsController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelMap model= new ModelMap();
         HttpRequestFacade req= new HttpRequestFacade(httpServletRequest);
         String aspect=req.getParameter("models-aspect");
         String qualifier=req.getParameter("qualifier");
@@ -47,18 +46,18 @@ public class FindModelsController implements Controller {
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
             searchHits= this.getSearchResults(term, aspect,qualifier, searchType,strainType, condition);
-            model.put("term", term);
-            model.put("aspect", aspect);
-            model.put("qualifier", qualifier);
-            model.put("aggregations", aggregations);
-            model.put("searchHits", searchHits);
-            model.put("hitsCount", hitsCount);
-            model.put("strainType", strainType);
-            model.put("condition", condition);
+            httpServletRequest.setAttribute("term", term);
+            httpServletRequest.setAttribute("aspect", aspect);
+            httpServletRequest.setAttribute("qualifier", qualifier);
+            httpServletRequest.setAttribute("aggregations", aggregations);
+            httpServletRequest.setAttribute("searchHits", searchHits);
+            httpServletRequest.setAttribute("hitsCount", hitsCount);
+            httpServletRequest.setAttribute("strainType", strainType);
+            httpServletRequest.setAttribute("condition", condition);
             if(!qualifier.equals("")){
-                return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp", "model", model);
+                return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp");
             }else
-            return new ModelAndView("/WEB-INF/jsp/models/findModels/results.jsp", "model", model);
+                return new ModelAndView("/WEB-INF/jsp/models/findModels/results.jsp");
         }else
 
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");

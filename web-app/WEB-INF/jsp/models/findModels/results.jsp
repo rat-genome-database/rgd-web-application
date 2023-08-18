@@ -1,16 +1,22 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>--%>
 <% String pageTitle =  "Find Models";
     String pageDescription ="Find Models";
     String headContent = "";%>
 
 <%@ include file="/common/headerarea.jsp"%>
-
+<%
+    Map<String, List<? extends Terms.Bucket>> aggregations = (Map) request.getAttribute("aggregations");
+    String aspect1 = (String) request.getAttribute("aspect");
+    int hitsCount = (Integer) request.getAttribute("hitsCount");
+%>
 <h1 style="text-align: center">Rat Models Results</h1>
 <div class="jumbotron" style="height: 100px;padding-top: 10px">
 <%@ include file="header.jsp"%>
 </div>
-
 
 <div class="container-fluid wrapper" style="border:1px solid gainsboro;">
 
@@ -18,82 +24,73 @@
     <div class="col-md-2" style="border-right: 1px solid gainsboro">
       <div class="container-fluid" style="background-color: dodgerblue; width:100%;color:white;font-size: medium;font-weight: bold">Filter by ...</div>
         <p>&nbsp;</p>
-        <p><a onclick="searchByQualifier('${model.term}','${model.aspect}', 'all')" style="font-weight: bold;color:steelblue">All Results(${model.hitsCount})</a></p>
+        <p><a onclick="searchByQualifier('<%=term%>','<%=aspect1%>', 'all')" style="font-weight: bold;color:steelblue;cursor: hand">All Results(<%=hitsCount%>)</a></p>
 
         <p style="font-weight: bold;color:steelblue">Models</p>
         <ul class="list-group">
-        <c:forEach items="${model.aggregations.aspectAgg}" var="aspect">
-        <c:if test="${model.aspect!='MODEL'}">
+            <% for (Terms.Bucket aspect : aggregations.get("aspectAgg")) {
+                if (!aspect1.equals("MODEL")){%>
             <li class="list-group-item">
 
-            <c:if test="${aspect.key=='D'}">
-                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor:hand;font-weight: bold;color:steelblue">Disease (${aspect.docCount})</a>
+                <%if (aspect.getKey().equals("D")) {%>
+                <a  onclick="searchByQualifier('<%=term%>>','<%=aspect.getKey()%>', 'all')" style="cursor:hand;font-weight: bold;color:steelblue">Disease (<%=aspect.getDocCount()%>)</a>
                 <ul class="list-group">
-                <c:forEach items="${model.aggregations.D}" var="dm">
-                    <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', '${dm.key}')" style="cursor: hand;text-decoration: underline">${dm.key} (${dm.docCount})</a></li>
-                </c:forEach>
+                    <%for (Terms.Bucket dm : aggregations.get("D")) {%>
+                    <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', '<%=dm.getKey()%>')" style="cursor: hand;text-decoration: underline"><%=dm.getKey()%> (<%=dm.getDocCount()%>)</a></li>
+                    <% } %>
                 </ul>
-            </c:if>
-
-            <c:if test="${aspect.key=='N'}">
-                <a  onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor:hand;font-weight: bold;color:steelblue"> Phenotype (${aspect.docCount})</a>
+                <% }
+                    if (aspect.getKey().equals("N")) {%>
+                <a  onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', 'all')" style="cursor:hand;font-weight: bold;color:steelblue"> Phenotype (<%=aspect.getDocCount()%>)</a>
                 <ul class="list-group">
-                    <c:forEach items="${model.aggregations.N}" var="pm">
-                        <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', '${pm.key}')" style="cursor: hand;text-decoration: underline">${pm.key} (${pm.docCount})</a></li>
-                    </c:forEach>
+                    <%for (Terms.Bucket pm : aggregations.get("N")) {%>
+                    <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', '<%=pm.getKey()%>')" style="cursor: hand;text-decoration: underline"><%=pm.getKey()%> (<%=pm.getDocCount()%>)</a></li>
+                    <% } %>
                 </ul>
-            </c:if>
-                <c:if test="${aspect.key!='N' && aspect.key!='D'}">
-                    <a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all')" style="cursor: hand;text-decoration: underline">
-                    <c:if test="${aspect.key=='V'}">
-                        Vertebrate Trait Ontology (${aspect.docCount})
-
-                    </c:if>
-                    <c:if test="${aspect.key=='B'}">
-                        Neuro Behavioral Ontology (${aspect.docCount})
-
-                    </c:if>
+                <% }
+                    if (!aspect.getKey().equals("N") && !aspect.getKey().equals("D")) {%>
+                    <a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', 'all')" style="cursor: hand;text-decoration: underline">
+                        <% if (aspect.getKey().equals("V")) {%>
+                        Vertebrate Trait Ontology (<%=aspect.getDocCount()%>)
+                        <% }
+                        if (aspect.getKey().equals("B"))%>
+                        Neuro Behavioral Ontology (<%=aspect.getDocCount()%>)
+                        <% } %>
                         </a>
-
-                </c:if>
+                <% } %>
             </li>
-            </c:if>
-            <c:if test="${model.aspect=='MODEL'}">
-                <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}')" style="cursor: hand;text-decoration: underline;font-weight: bold;color:steelblue">
-                    <c:if test="${aspect.key=='D'}">
-                    Disease (${aspect.docCount})
+            <% if (aspect1.equals("MODEL")) {%>
+                <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', 'all', '<%=aspect1%>')" style="cursor: hand;text-decoration: underline;font-weight: bold;color:steelblue">
+                        <%if (aspect.getKey().equals("D")) {%>
+                        Disease (<%=aspect.getDocCount()%>)
+                        <% }
+                        if (aspect.getKey().equals("N")) {%>
+                        Phenotype (<%=aspect.getDocCount()%>)
+                        <% }
+                        if (!aspect.getKey().equals("D") && !aspect.getKey().equals("N")) {%>
+                        <%=aspect.getKey()%> (<%=aspect.getDocCount()%>)
+                        <% } %>
 
-                    </c:if>
-
-                    <c:if test="${aspect.key=='N'}">
-                        Phenotype (${aspect.docCount})
-
-                    </c:if>
-                    <c:if test="${aspect.key!='N' && aspect.key!='D'}">
-                        ${aspect.key} (${aspect.docCount})
-
-                    </c:if>
                 </a>
                 </li>
-            </c:if>
-            <!--href="findModels.html?qualifier=$-{qualifier.key}&models-search-term=$-{model.term}&models-aspect=$-{model.aspect}"-->
-        </c:forEach>
+            <% } %>
+            <% } // end for aspectAgg %>
         </ul>
         <p></p>
         <p style="font-weight: bold;color: steelblue">Strain Types</p>
         <ul class="list-group">
-            <c:forEach items="${model.aggregations.typeAgg}" var="typeBkt">
+                <%for (Terms.Bucket typeBkt : aggregations.get("typeAgg")){%>
                 <li class="list-group-item" style="padding: 0">
-                    <a  href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}', '${typeBkt.key}')">${typeBkt.key} (${typeBkt.docCount})</a></li>
-            </c:forEach>
+                    <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>', '<%=typeBkt.getKey()%>')"><%=typeBkt.getKey()%> (<%=typeBkt.getDocCount()%>)</a></li>
+            <% } %>
         </ul>
         <p></p>
         <p style="font-weight: bold;color: steelblue">Conditions</p>
         <ul class="list-group">
-            <c:forEach items="${model.aggregations.conditionsAgg}" var="condition">
+            <%for (Terms.Bucket condition : aggregations.get("conditionsAgg")) {%>
                 <li class="list-group-item" style="padding: 0">
-                    <a  href="" onclick="searchByQualifier('${model.term}','${aspect.key}', 'all', '${model.aspect}', '${typeBkt.key}','${condition.key}')">${condition.key} (${condition.docCount})</a></li>
-            </c:forEach>
+                    <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>', '','<%=condition.getKey()%>')"><%=condition.getKey()%> (<%=condition.getDocCount()%>)</a></li>
+            <% } %>
         </ul>
     </div>
     <div class="col-md-10" id="resultsTable">
@@ -117,9 +114,10 @@
              url=url+"&strainType="+strainType;
           if(condition!=null && typeof condition!='undefined')
               url=url+"&condition="+condition;
-          $.get(url, function (data, status) {
-              $contentDiv.html(data);
-          })
+          $($contentDiv).load(url);
+          // $.get(url, function (data, status) {
+          //     $contentDiv.html(data);
+          // })
 
       }
 
