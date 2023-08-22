@@ -27,7 +27,7 @@
         </td></tr></table>
     </form>
 
-    <c:if test="${empty bean.hitCount}">
+        <% if (bean.getHitCount().isEmpty()) {%>
     <p>You can tune up search now by modifying the list of search words above. Or you can use wildcard '*' character
        if you don't know the exact name of the term (like 'blo*d').</p>
     <table class="searchBox" border="0" cellspacing="1" cellpadding="1">
@@ -35,8 +35,8 @@
         <th>NO TERMS FOUND</th>
     </tr>
   </table>
-  </c:if>
-  <c:if test="${!empty bean.hitCount}">
+    <% }
+        if (!bean.getHitCount().isEmpty()) {%>
     <%------ RESULTS: ontology term hit counts + terms for given ontology -------%>
     <table class="searchBox" border="0" cellspacing="1" cellpadding="1" style="width:260px;">
     <tr>
@@ -66,17 +66,21 @@
     %>
              <td><%=anchorStart%><%=info.ontology.getName()%><%=anchorEnd%></td>
              <td class="num <%=className%>"><%=anchorStart%><%=info.hitCount%><%=anchorEnd%></td>
-             <td><c:if test="<%=info.hasAnnots%>"><%=anchorStart%><img alt="annotations found for ontology <%=ontId%>" title="annotations found for ontology <%=ontId%>" src="/rgdweb/images/icon-a.gif"/><%=anchorEnd%></c:if></td>
+             <td>
+                <%if (info.hasAnnots){%>
+                     <%=anchorStart%><img alt="annotations found for ontology <%=ontId%>" title="annotations found for ontology <%=ontId%>" src="/rgdweb/images/icon-a.gif"/><%=anchorEnd%>
+                <%}%>
+             </td>
          </tr><%
         }
     %>
   </table>
   <p style="width:240px;">Hint: click ontology name to see terms matching your search phrase.</p>
   <p style="width:240px;">Hint: if a term shown has annotations, click it to see the annotations.</p>
-  </c:if>
+<% } %>
 
 </td><td valign="top"><%-- TERMS FOUND : right pane --%>
-    <c:if test="${not empty bean.results}">
+        <%if (!bean.getResults().isEmpty()) {%>
      <a name="tl"></a>
      <table class="searchBox" border="0" cellspacing="1" cellpadding="1">
      <% for( Ontology ont: bean.getResults().keySet() ) {
@@ -108,16 +112,16 @@
               <td valign="top">
                   <a href="view.html?acc_id=<%=term.getAccId()%>" title="browse term tree"><img src="/rgdweb/common/images/tree.png" alt="" border="0"/></a>
               </td>
-              <td valign="top" <c:if test="<%=term.isObsolete()%>"> class="obsolete"</c:if>>
+              <td valign="top" <%=term.isObsolete() ?  "class=\"obsolete\"" : "" %>>
                   <% if( term.getAnnotObjectCountForTermAndChildren()>0 ) { %>
                   <%-- link by default to Rat tab ontology report; if no rat annotations, link to All tab instead --%>
-                  <a href="annot.html?acc_id=<%=term.getAccId()%><c:if test="<%=term.getAnnotObjectCountForSpecies(3)<=0%>">&species=All</c:if>" title="see term annotations"><%=term.getTerm()%></a>
+                  <a href="annot.html?acc_id=<%=term.getAccId()%><%=term.getAnnotObjectCountForSpecies(3)<=0 ? "&species=All" : ""%>" title="see term annotations"><%=term.getTerm()%></a>
                   <% } else { %>
                   <%=term.getTerm()%>
                   <% } %>
               </td>
               <td>&nbsp;</td>
-              <td<c:if test="<%=term.isObsolete()%>"> class="obsolete"</c:if>>
+              <td<%=term.isObsolete() ? "class=\"obsolete\"" : ""%>>
                   <%=term.getAccId()%></td>
 
               <td>&nbsp;</td>
@@ -176,7 +180,7 @@
         <% } %>
      <% }} %>
      </table>
-     </c:if>
+<% } %>
      <% if( bean.getObsoleteTermsInSearch()>0 ) { %>
          <span style="font-style: italic;font-size: small"><%=bean.getObsoleteTermsInSearch()%> obsolete term(s) not shown in the table.</span>
      <% } %>

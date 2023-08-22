@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
 <%@ page import="edu.mcw.rgd.datamodel.Pathway" %>
 <%@ page import="edu.mcw.rgd.datamodel.PathwayObject" %>
@@ -217,7 +216,8 @@ function showonlyoneDis(selectedBlock,fld) {
 <tr>
     <td></td><td>
         <h5 align="right">
-        <c:if test='<%=req.getParameter("processType").equals("create")%>'>
+<%--        <c:if test='<%=req.getParameter("processType").equals("create")%>'>--%>
+            <%if (req.getParameter("processType").equals("create")){%>
         <form id="pathwayCreate" action="/rgdweb/curation/pathway/pathwayCreate.html" method="GET">
             <input name="editPW" id="editPW1" type="submit" value="Edit This Pathway">
             <input name="acc_id" id="acc_id1a" type="hidden" value="<%=pwId%>">
@@ -226,11 +226,13 @@ function showonlyoneDis(selectedBlock,fld) {
         <form id="pathwayCreate" action="/rgdweb/curation/pathway/home.html" method="GET">
         <input name="createPW" id="createPW1a" type="submit" value="Create a new Pathway">
         </form>
-        </c:if>
+            <% } %>
+<%--        </c:if>--%>
         </h5>
 
         <h5 align="right">
-        <c:if test='<%=req.getParameter("processType").equals("update")%>'>
+<%--        <c:if test='<%=req.getParameter("processType").equals("update")%>'>--%>
+            <%if (req.getParameter("processType").equals("update")){%>
         <form id="pathwayCreate" action="/rgdweb/curation/pathway/pathwayCreate.html" method="GET">
             <input name="editPW" id="editPW2" type="submit" value="Edit This Pathway">
             <input name="acc_id" id="acc_id2a" type="hidden" value="<%=pwId%>">
@@ -239,7 +241,8 @@ function showonlyoneDis(selectedBlock,fld) {
         <form id="pathwayCreate" action="/rgdweb/curation/pathway/home.html" method="GET">
         <input name="createPW" id="createPW2a" type="submit" value="Create a new Pathway">
         </form>
-        </c:if>
+            <% } %>
+<%--        </c:if>--%>
         </h5>
     </td>
 </tr>
@@ -286,37 +289,37 @@ function showonlyoneDis(selectedBlock,fld) {
         <tr>
             <td>
                 <ul>
-                  <c:if test='<%=hasAnnots%>'>
+                    <%if (hasAnnots){%>
                   <li><a class="sectionLink" href="#GenesInPathway">Genes</a></li>
-                  </c:if>
-                  <c:if test='<%=pwAlt.equals("Y")%>'>
+                    <% }
+                    if (pwAlt.equals("Y")){%>
                   <li><a class="sectionLink" href="#AlteredPathway">Altered Pathway</a></li>
-                  </c:if>
-                  <c:if test='<%=pwAssObjList!=null%>'>
+                    <% }
+                    if (pwAssObjList!=null){%>
                   <li><a class="sectionLink" href="#PathwayObjects">Additional Elements</a></li>
-                  </c:if>
+                    <% } %>
                 </ul>
             </td>
 
             <td>
                 <ul>
-                  <c:if test='<%=!(oneDiseaseManyGenes.isEmpty())%>'>
+                      <%if (!(oneDiseaseManyGenes.isEmpty())){%>
                   <li><a class="sectionLink" href="#Disease">Disease annotations to Pathway Genes</a></li>
-                  </c:if>
-                  <c:if test='<%=!(onePathManyGenes.isEmpty())%>'>
+                  <% }
+                    if (!(onePathManyGenes.isEmpty())){%>
                   <li><a class="sectionLink" href="#Pathway">Pathway annotations to Pathway Genes</a></li>
-                  </c:if>
-                  <c:if test='<%=!(onePheManyGenes.isEmpty())%>'>
+                  <% }
+                  if (!(onePheManyGenes.isEmpty())) {%>
                   <li><a class="sectionLink" href="#Phenotype">Phenotype annotations to Pathway Genes</a></li>
-                  </c:if>
+                    <% } %>
                 </ul>
             </td>
 
             <td>
                 <ul>
-                  <c:if test='<%=!(pwRefList.isEmpty())%>'>
+                      <% if (!(pwRefList.isEmpty())){%>
                   <li><a class="sectionLink" href="#References">References</a></li>
-                  </c:if>
+                      <% } %>
                   <li><a class="sectionLink" href="#PathwayGraph">Ontology path Diagram</a></li>
                 </ul>
             </td>
@@ -333,7 +336,7 @@ function showonlyoneDis(selectedBlock,fld) {
 <tr>
     <td>
     <table width="780">
-    <c:if test='<%=pwAlt.equals("Y")%>'>
+        <% if (pwAlt.equals("Y")){%>
     <tr>
         <td>
             <a name="AlteredPathway"><h3><b>Altered Pathway: </b></h3></a>
@@ -366,10 +369,10 @@ function showonlyoneDis(selectedBlock,fld) {
             </ul>
         </td>
     </tr>
-    </c:if>
+        <% } %>
     <tr>
         <td>
-            <c:if test="<%=pwAssObjList!=null%>">
+                <%if (pwAssObjList!=null) {%>
             <a name="PathwayObjects"><h3><b>Additional Elements in Pathway:</b><h6>(includes Gene Groups, Small Molecules, Other Pathways..etc.)</h6></h3></a>
             <%
                 Report pathwayObjReport = new Report();
@@ -412,11 +415,11 @@ function showonlyoneDis(selectedBlock,fld) {
 
             %>
                 <%= strat.format(pathwayObjReport)%>
-            </c:if>
+            <% } %>
         </td>
     </tr>
     <tr><td><h3 style="padding-top:5%"><b>Pathway Gene Annotations</b></h3></td></tr>
-    <c:if test="<%=!(oneDiseaseManyGenes.isEmpty())%>">
+        <%if (!(oneDiseaseManyGenes.isEmpty())){%>
     <tr>
         <td>
         <table width="780" align="center">
@@ -445,8 +448,7 @@ function showonlyoneDis(selectedBlock,fld) {
               <td colspan="2">
                  <div align="center" name="newDisBoxes" id="newDisBoxes1" style="border: 2px #00008b; border-style:ridge; background-color:#ffe4e1;
                  display: none;padding: 5px;">
-                    <c:if test="<%=hasAnnots%>">
-                        <%
+                        <% if (hasAnnots) {
                             Report otherAnn = new Report();
                             Record annRecordHeader = new Record();
                             annRecordHeader.append("GeneSymbol");
@@ -454,25 +456,25 @@ function showonlyoneDis(selectedBlock,fld) {
 
                             otherAnn.append(annRecordHeader);
 
-                            for( int rgdId: oneGeneManyTermsKeys ){
+                            for (int rgdId : oneGeneManyTermsKeys) {
 
                                 List<String> termAccIds = oneGeneManyTerms.get(rgdId);
                                 Record annRecord = new Record();
 
                                 StringBuilder DList = new StringBuilder();
-                                for(String termAccId: termAccIds){
+                                for (String termAccId : termAccIds) {
 
-                                    if( termAccId.startsWith("DOID:") ){
+                                    if (termAccId.startsWith("DOID:")) {
                                         DList.append("<a href='/rgdweb/ontology/annot.html?acc_id=")
-                                             .append(termAccId).append("'>")
-                                             .append(termMap.get(termAccId))
-                                             .append("</a> , ");
+                                                .append(termAccId).append("'>")
+                                                .append(termMap.get(termAccId))
+                                                .append("</a> , ");
                                     }
                                 }
-                                if( DList.length()>0 ) {
-                                    DList.delete(DList.length()-2, DList.length());
+                                if (DList.length() > 0) {
+                                    DList.delete(DList.length() - 2, DList.length());
 
-                                    annRecord.append("<a href="+Link.gene(rgdId)+">"+geneMap.get(rgdId)+"</a>");
+                                    annRecord.append("<a href=" + Link.gene(rgdId) + ">" + geneMap.get(rgdId) + "</a>");
                                     annRecord.append(DList.toString());
 
                                     otherAnn.append(annRecord);
@@ -480,54 +482,53 @@ function showonlyoneDis(selectedBlock,fld) {
                             }
 
                             out.print(strat.format(otherAnn));
+                        }
                         %>
-                    </c:if>
                  </div>
                  <div align="center" name="newDisBoxes" id="newDisBoxes2" style="border: 2px #00008b; border-style:ridge; background-color: #ffe4e1;
                  display: block;padding: 5px;">
-                     <c:if test="<%=hasAnnots%>">
                         <%
-                            Report diseaseReport = new Report();
-                            Record diseaseHeader = new Record();
-                            diseaseHeader.append("Disease Terms");
-                            diseaseHeader.append("Gene Symbols");
-                            diseaseReport.append(diseaseHeader);
+                            if (hasAnnots) {
+                                Report diseaseReport = new Report();
+                                Record diseaseHeader = new Record();
+                                diseaseHeader.append("Disease Terms");
+                                diseaseHeader.append("Gene Symbols");
+                                diseaseReport.append(diseaseHeader);
 
-                            List<String> oneDiseaseMeanyGenesKeys = (List<String>) request.getAttribute("OneDiseaseManyGenesKeys");
-                            for( String termAccId: oneDiseaseMeanyGenesKeys ) {
-                                Record dHeader = new Record();
+                                List<String> oneDiseaseMeanyGenesKeys = (List<String>) request.getAttribute("OneDiseaseManyGenesKeys");
+                                for (String termAccId : oneDiseaseMeanyGenesKeys) {
+                                    Record dHeader = new Record();
 
-                                List<Integer> rgdIds = oneDiseaseManyGenes.get(termAccId);
+                                    List<Integer> rgdIds = oneDiseaseManyGenes.get(termAccId);
 
-                                StringBuilder GList = new StringBuilder();
-                                for(Integer rgdId: rgdIds){
+                                    StringBuilder GList = new StringBuilder();
+                                    for (Integer rgdId : rgdIds) {
 
-                                    GList.append("<a href='")
-                                         .append(Link.gene(rgdId))
-                                         .append("'>")
-                                         .append(geneMap.get(rgdId))
-                                         .append("</a> , ");
+                                        GList.append("<a href='")
+                                                .append(Link.gene(rgdId))
+                                                .append("'>")
+                                                .append(geneMap.get(rgdId))
+                                                .append("</a> , ");
+                                    }
+                                    GList.delete(GList.length() - 2, GList.length());
+
+                                    dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id=" + termAccId + ">" +
+                                            termMap.get(termAccId) + "</a>");
+                                    dHeader.append(GList.toString());
+                                    diseaseReport.append(dHeader);
                                 }
-                                GList.delete(GList.length()-2, GList.length());
 
-                                dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id="+termAccId+">"+
-                                                                            termMap.get(termAccId)+"</a>");
-                                dHeader.append(GList.toString());
-                                diseaseReport.append(dHeader);
+                                out.print(strat.format(diseaseReport));
                             }
-
-                            out.print(strat.format(diseaseReport));
                         %>
-                    </c:if>
                  </div>
               </td>
            </tr>
         </table>
         </td>
     </tr>
-    </c:if>
-
-    <c:if test="<%=!(onePathManyGenes.isEmpty())%>">
+        <% }
+            if (!(onePathManyGenes.isEmpty())) {%>
     <tr>
         <td>
         <table style="padding-top:2%" width="780" align="center">
@@ -556,88 +557,87 @@ function showonlyoneDis(selectedBlock,fld) {
               <td colspan="2">
                  <div align="center" name="newPathBoxes" id="newPathBoxes1" style="border: 2px #00008b; border-style:ridge; background-color: #b0e0e6;
                  display: none;padding: 5px;">
-                    <c:if test="<%=hasAnnots%>">
                         <%
-                            Report otherAnn = new Report();
-                            Record annRecordHeader = new Record();
+                            if (hasAnnots) {
+                                Report otherAnn = new Report();
+                                Record annRecordHeader = new Record();
 
-                            annRecordHeader.append("GeneSymbol");
-                            annRecordHeader.append("Pathways");
-                            otherAnn.append(annRecordHeader);
+                                annRecordHeader.append("GeneSymbol");
+                                annRecordHeader.append("Pathways");
+                                otherAnn.append(annRecordHeader);
 
-                            for( int rgdId: oneGeneManyTermsKeys ){
+                                for (int rgdId : oneGeneManyTermsKeys) {
 
-                                List<String> termAccIds = oneGeneManyTerms.get(rgdId);
-                                Record annRecord = new Record();
+                                    List<String> termAccIds = oneGeneManyTerms.get(rgdId);
+                                    Record annRecord = new Record();
 
-                                StringBuilder DList = new StringBuilder();
-                                for(String termAccId: termAccIds){
+                                    StringBuilder DList = new StringBuilder();
+                                    for (String termAccId : termAccIds) {
 
-                                    if( termAccId.startsWith("PW:") ){
-                                        DList.append("<a href='/rgdweb/ontology/annot.html?acc_id=")
-                                             .append(termAccId).append("'>")
-                                             .append(termMap.get(termAccId))
-                                             .append("</a> , ");
+                                        if (termAccId.startsWith("PW:")) {
+                                            DList.append("<a href='/rgdweb/ontology/annot.html?acc_id=")
+                                                    .append(termAccId).append("'>")
+                                                    .append(termMap.get(termAccId))
+                                                    .append("</a> , ");
+                                        }
+                                    }
+                                    if (DList.length() > 0) {
+                                        DList.delete(DList.length() - 2, DList.length());
+
+                                        annRecord.append("<a href=" + Link.gene(rgdId) + ">" + geneMap.get(rgdId) + "</a>");
+                                        annRecord.append(DList.toString());
+
+                                        otherAnn.append(annRecord);
                                     }
                                 }
-                                if( DList.length()>0 ) {
-                                    DList.delete(DList.length()-2, DList.length());
 
-                                    annRecord.append("<a href="+Link.gene(rgdId)+">"+geneMap.get(rgdId)+"</a>");
-                                    annRecord.append(DList.toString());
-
-                                    otherAnn.append(annRecord);
-                                }
+                                out.print(strat.format(otherAnn));
                             }
-
-                            out.print(strat.format(otherAnn));
                         %>
-                    </c:if>
                  </div>
                  <div align="center" name="newPathBoxes" id="newPathBoxes2" style="border: 2px #00008b; border-style:ridge; background-color: #b0e0e6;
                  display: block;padding: 5px;">
-                     <c:if test="<%=hasAnnots%>">
                         <%
-                            Report pathReport = new Report();
-                            Record pathHeader = new Record();
-                            pathHeader.append("Pathway Terms");
-                            pathHeader.append("Gene Symbols");
-                            pathReport.append(pathHeader);
+                            if (hasAnnots) {
+                                Report pathReport = new Report();
+                                Record pathHeader = new Record();
+                                pathHeader.append("Pathway Terms");
+                                pathHeader.append("Gene Symbols");
+                                pathReport.append(pathHeader);
 
-                            List<String> onePathManyGenesKeys = (List<String>) request.getAttribute("OnePathManyGenesKeys");
-                            for( String termAccId: onePathManyGenesKeys ) {
-                                Record dHeader = new Record();
+                                List<String> onePathManyGenesKeys = (List<String>) request.getAttribute("OnePathManyGenesKeys");
+                                for (String termAccId : onePathManyGenesKeys) {
+                                    Record dHeader = new Record();
 
-                                List<Integer> rgdIds = onePathManyGenes.get(termAccId);
+                                    List<Integer> rgdIds = onePathManyGenes.get(termAccId);
 
-                                StringBuilder GList = new StringBuilder();
-                                for(Integer rgdId: rgdIds){
+                                    StringBuilder GList = new StringBuilder();
+                                    for (Integer rgdId : rgdIds) {
 
-                                    GList.append("<a href='")
-                                         .append(Link.gene(rgdId))
-                                         .append("'>")
-                                         .append(geneMap.get(rgdId))
-                                         .append("</a> , ");
+                                        GList.append("<a href='")
+                                                .append(Link.gene(rgdId))
+                                                .append("'>")
+                                                .append(geneMap.get(rgdId))
+                                                .append("</a> , ");
+                                    }
+                                    GList.delete(GList.length() - 2, GList.length());
+
+                                    dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id=" + termAccId + ">" +
+                                            termMap.get(termAccId) + "</a>");
+                                    dHeader.append(GList.toString());
+                                    pathReport.append(dHeader);
                                 }
-                                GList.delete(GList.length()-2, GList.length());
-
-                                dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id="+termAccId+">"+
-                                                                            termMap.get(termAccId)+"</a>");
-                                dHeader.append(GList.toString());
-                                pathReport.append(dHeader);
+                                out.print(strat.format(pathReport));
                             }
-                            out.print(strat.format(pathReport));
                         %>
-                    </c:if>
                  </div>
               </td>
            </tr>
         </table>
         </td>
     </tr>
-    </c:if>
-
-    <c:if test="<%=!(onePheManyGenes.isEmpty())%>">
+    <% }
+            if (!(onePheManyGenes.isEmpty())){%>
     <tr>
         <td>
         <table style="padding-top:2%" width="780">
@@ -666,88 +666,87 @@ function showonlyoneDis(selectedBlock,fld) {
               <td colspan="2">
                  <div align="center" name="newPheBoxes" id="newPheBoxes1" style="border: 2px #00008b; border-style:ridge; background-color:#f0e68c;
                  display: none;padding: 5px;">
-                    <c:if test="<%=hasAnnots%>">
                         <%
-                            Report otherAnn2 = new Report();
-                            Record annRecordHeader2 = new Record();
+                            if (hasAnnots) {
+                                Report otherAnn2 = new Report();
+                                Record annRecordHeader2 = new Record();
 
-                            annRecordHeader2.append("GeneSymbol");
-                            annRecordHeader2.append("Phenotype");
+                                annRecordHeader2.append("GeneSymbol");
+                                annRecordHeader2.append("Phenotype");
 
-                            otherAnn2.append(annRecordHeader2);
+                                otherAnn2.append(annRecordHeader2);
 
-                            for( int rgdId: oneGeneManyTermsKeys ){
+                                for (int rgdId : oneGeneManyTermsKeys) {
 
-                                List<String> termAccIds = oneGeneManyTerms.get(rgdId);
-                                Record annRecord = new Record();
+                                    List<String> termAccIds = oneGeneManyTerms.get(rgdId);
+                                    Record annRecord = new Record();
 
-                                StringBuilder DList = new StringBuilder();
-                                for(String termAccId: termAccIds){
+                                    StringBuilder DList = new StringBuilder();
+                                    for (String termAccId : termAccIds) {
 
-                                    if( termAccId.startsWith("MP:") ){
-                                        DList.append("<a href='/rgdweb/ontology/annot.html?acc_id=")
-                                             .append(termAccId).append("'>")
-                                             .append(termMap.get(termAccId))
-                                             .append("</a> , ");
+                                        if (termAccId.startsWith("MP:")) {
+                                            DList.append("<a href='/rgdweb/ontology/annot.html?acc_id=")
+                                                    .append(termAccId).append("'>")
+                                                    .append(termMap.get(termAccId))
+                                                    .append("</a> , ");
+                                        }
+                                    }
+                                    if (DList.length() > 0) {
+                                        DList.delete(DList.length() - 2, DList.length());
+
+                                        annRecord.append("<a href=" + Link.gene(rgdId) + ">" + geneMap.get(rgdId) + "</a>");
+                                        annRecord.append(DList.toString());
+
+                                        otherAnn2.append(annRecord);
                                     }
                                 }
-                                if( DList.length()>0 ) {
-                                    DList.delete(DList.length()-2, DList.length());
 
-                                    annRecord.append("<a href="+Link.gene(rgdId)+">"+geneMap.get(rgdId)+"</a>");
-                                    annRecord.append(DList.toString());
-
-                                    otherAnn2.append(annRecord);
-                                }
+                                out.print(strat.format(otherAnn2));
                             }
-
-                            out.print(strat.format(otherAnn2));
                         %>
-                    </c:if>
                  </div>
                  <div align="center" name="newPheBoxes" id="newPheBoxes2" style="border: 2px #00008b; border-style:ridge; background-color: #f0e68c;
                  display: block;padding: 5px;">
-                     <c:if test="<%=hasAnnots%>">
                         <%
-                            Report pheReport = new Report();
-                            Record pheHeader = new Record();
-                            pheHeader.append("Phenotype Terms");
-                            pheHeader.append("Gene Symbols");
-                            pheReport.append(pheHeader);
+                            if (hasAnnots) {
+                                Report pheReport = new Report();
+                                Record pheHeader = new Record();
+                                pheHeader.append("Phenotype Terms");
+                                pheHeader.append("Gene Symbols");
+                                pheReport.append(pheHeader);
 
-                            List<String> onePheManyGenesKeys = (List<String>) request.getAttribute("OnePheManyGenesKeys");
-                            for( String termAccId: onePheManyGenesKeys ) {
-                                Record dHeader = new Record();
+                                List<String> onePheManyGenesKeys = (List<String>) request.getAttribute("OnePheManyGenesKeys");
+                                for (String termAccId : onePheManyGenesKeys) {
+                                    Record dHeader = new Record();
 
-                                List<Integer> rgdIds = onePheManyGenes.get(termAccId);
+                                    List<Integer> rgdIds = onePheManyGenes.get(termAccId);
 
-                                StringBuilder GList = new StringBuilder();
-                                for(Integer rgdId: rgdIds){
+                                    StringBuilder GList = new StringBuilder();
+                                    for (Integer rgdId : rgdIds) {
 
-                                    GList.append("<a href='")
-                                         .append(Link.gene(rgdId))
-                                         .append("'>")
-                                         .append(geneMap.get(rgdId))
-                                         .append("</a> , ");
+                                        GList.append("<a href='")
+                                                .append(Link.gene(rgdId))
+                                                .append("'>")
+                                                .append(geneMap.get(rgdId))
+                                                .append("</a> , ");
+                                    }
+                                    GList.delete(GList.length() - 2, GList.length());
+
+                                    dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id=" + termAccId + ">" +
+                                            termMap.get(termAccId) + "</a>");
+                                    dHeader.append(GList.toString());
+                                    pheReport.append(dHeader);
                                 }
-                                GList.delete(GList.length()-2, GList.length());
-
-                                dHeader.append("<a href=/rgdweb/ontology/annot.html?acc_id="+termAccId+">"+
-                                                                            termMap.get(termAccId)+"</a>");
-                                dHeader.append(GList.toString());
-                                pheReport.append(dHeader);
+                                out.print(strat.format(pheReport));
                             }
-                            out.print(strat.format(pheReport));
                         %>
-                    </c:if>
                  </div>
               </td>
            </tr>
         </table>
         </td>
     </tr>
-    </c:if>
-
+ <% } %>
     <tr>
         <td>
             <a name="References"><h3><b>References Associated with the <%=pwName%>:</b></h3></a>
