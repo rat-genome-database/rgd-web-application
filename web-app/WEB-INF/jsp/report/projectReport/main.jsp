@@ -17,10 +17,8 @@
     String title = "Projects";
     ProjectDAO pdao = new ProjectDAO();
 //    String rgdidParam = request.getParameter("476081962");
-    List<Project> project = pdao.getProjectByRgdId(Integer.parseInt("476081962"));
-
     Reference obj = (Reference) request.getAttribute("reportObject");
-
+//    List<Project> project = pdao.getProjectByRgdId(obj.getRgdId());
     String pageTitle = "RGD Project Report - " + obj.getTitle() + " - " + RgdContext.getLongSiteName(request);
 //    String pageTitle = "RGD Project Report - " ;
     String headContent = "";
@@ -92,7 +90,8 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-
+            <div class ="subTitle" id="info">Submitter Information</div><br>
+            <%@ include file="submittedInfo.jsp"%>
             <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
             <br>
             <div id="associationsCurator" style="display:none;">
@@ -108,14 +107,12 @@
             </div>
             <%@ include file="../objectsAnnotatedForProject.jsp"%>
             <br>
-            <div class ="subTitle" id="subFiles">Submitted Files
-
+            <div class ="subTitle" id="subFiles">Submitted Files</div><br>
             <%@ include file="projectFiles.jsp"%>
-            </div>
             <br>
-            <br><div class ="subTitle">Submitter Information</div><br>
-            <%@ include file="submittedInfo.jsp"%>
-            <br><div class ="subTitle">Protocols</div>
+<%--            <br><div class ="subTitle" id="info">Submitter Information</div><br>--%>
+<%--            <%@ include file="submittedInfo.jsp"%>--%>
+            <br><div class ="subTitle" id="protocol">Protocols</div>
             <%
                 List<ProjectFile> pf1= new ProjectFileDAO().getProjectFiles(obj.getRgdId());
             %>
@@ -125,6 +122,10 @@
                 <br><div  class="subTitle" id="additionalInformation">External Resources</div><br>
 
                 <%@ include file="xdbs.jsp"%>
+<%--                <%for(int z=0;z<50;z++){%>--%>
+<%--            <%@ include file="xdbs.jsp"%>--%>
+<%--            <%}%>--%>
+
 <%--                <%@ include file="../nomen.jsp"%>--%>
 <%--                <%@ include file="../curatorNotes.jsp"%>--%>
             <% } %>
