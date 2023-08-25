@@ -41,6 +41,7 @@
                 <prop key="curation/nomen/nomenEdit.html">nomenclatureUpdateController</prop>
 
                 <prop key="curation/edit/editObject.html">GeneEditObjectController</prop>
+                <prop key="curation/edit/editProject.html">ProjectEditObjectController</prop>
                 <prop key="curation/edit/editGene.html">GeneEditObjectController</prop>
                 <prop key="curation/edit/editQTL.html">QTLEditObjectController</prop>
                 <prop key="curation/edit/editVariant.html">VariantEditObjectController</prop>
@@ -322,7 +323,6 @@
     <bean id="PhenominerUnitsController" class="edu.mcw.rgd.phenominer.PhenominerUnitsController"/>
     <bean id="PhenominerUnitTablesController" class="edu.mcw.rgd.phenominer.PhenominerUnitTablesController"/>
 
-
     <bean id="GeneReportController" class="edu.mcw.rgd.report.GeneReportController"/>
     <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
@@ -368,6 +368,7 @@
 
     <bean id="nomenclatureUpdateController" class="edu.mcw.rgd.nomenclatureinterface.NomenclatureUpdateController"/>
     <bean id="GeneEditObjectController" class="edu.mcw.rgd.edit.GeneEditObjectController"/>
+    <bean id="ProjectEditObjectController" class="edu.mcw.rgd.edit.ProjectEditObjectController"/>
     <bean id="QTLEditObjectController" class="edu.mcw.rgd.edit.QTLEditObjectController"/>
     <bean id="VariantEditObjectController" class="edu.mcw.rgd.edit.VariantEditObjectController"/>
     <bean id="ReferenceEditObjectController" class="edu.mcw.rgd.edit.ReferenceEditObjectController"/>
