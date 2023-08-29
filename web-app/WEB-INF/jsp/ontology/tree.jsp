@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.TermSynonym" %>
 <%@ page import="edu.mcw.rgd.ontology.OntDotController" %>
 <%@ page import="java.util.List" %>
@@ -11,20 +10,20 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.datamodel.XDBIndex" %>
 <%@ page import="edu.mcw.rgd.datamodel.XdbId" %>
+<%@ page import="edu.mcw.rgd.ontology.OntBrowser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntViewBean" />
 <% String headContent = "<link rel=\"stylesheet\" type=\"text/css\" href=\"/rgdweb/css/ontology.css\" >\n";
    String pageTitle = bean.getTerm().getTerm() + " - Ontology Browser - Rat Genome Database";
    String pageDescription = pageTitle;
-    response.setHeader("Access-Control-Allow-Origin", "*.mcw.edu");
+   response.setHeader("Access-Control-Allow-Origin", "*.mcw.edu");
 
 %>
 
 
 <%@ include file="ontHeader.jsp"%>
 
-<c:if test="${!empty bean.term}"><%-- VALID TERM ACC ID --%>
+<% if( bean.getTerm()!=null ) { %><%-- VALID TERM ACC ID --%>
 <br>
 <table width='98%'>
     <tr>
@@ -52,18 +51,20 @@
     if( Utils.NVL(request.getParameter("dia"),"0").equals("1") ) {
         url += "?dia=1";
     }
-%>
 
-<ontbrowser:tree acc_id="<%=bean.getAccId()%>"
-                 url="<%=url%>"
-                 offset="<%=request.getParameter(\"offset\")%>" />
+    OntBrowser ontBrowser = new OntBrowser();
+    ontBrowser.setAcc_id( bean.getAccId(), request );
+    ontBrowser.setUrl(url);
+    ontBrowser.setOffset(request.getParameter("offset"));
+
+    ontBrowser.doTag(request, out);
+%>
 
 <%-- TERM INFO TABLE, WITH SYNONYMS --%>
 <!-- background-image: url(/rgdweb/common/images/bg3.png);-->
 
 
 <table>
-
     <tr>
         <td colospan="2"><img border="0" src="/rgdweb/common/images/ontology_browser_key.png"/></td>
     </tr>
@@ -170,9 +171,7 @@
           <td class="syn_type">Definition Sources:</td>
           <td style='padding:3px;'><%=xrefs%></td>
           </tr>
-          <%
-      }
-    %>
+      <% } %>
     </table>
 <% } %>
 
@@ -191,5 +190,5 @@
     </table>
 </div>
 
-</c:if>
+<% } %>
 <%@ include file="/common/footerarea.jsp" %>

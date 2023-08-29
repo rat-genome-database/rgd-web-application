@@ -1,7 +1,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
-<%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
+<%@ page import="edu.mcw.rgd.ontology.OntBrowser" %>
 <!DOCTYPE html>
 <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -148,14 +148,18 @@
     <iframe style="height:500px; width:100%;" id="treeWindow" src="/rgdweb/ontology/view.html?mode=iframe&ont=<%=request.getParameter("ont")%>&sel_term=<%=selTerm%>&sel_acc_id=<%=selAccId%>&curationTool=1&acc_id=<%=accId%>">
 <% } %>
 
-    <ontbrowser:tree acc_id="<%=accId%>"
-                 url="<%=url%>"
-                 offset="<%=request.getParameter(\"offset\")%>"
-                 opener_sel_acc_id="<%=selAccId%>"
-                 opener_sel_term="<%=selTerm%>"
-                 filter="<%=request.getParameter(\"filter\")%>"
-        />
+<%
+    OntBrowser ontBrowser = new OntBrowser();
+    ontBrowser.setAcc_id( accId, request );
+    ontBrowser.setUrl(url);
+    ontBrowser.setOffset(request.getParameter("offset"));
+    ontBrowser.setOpener_sel_acc_id(selAccId);
+    ontBrowser.setOpener_sel_term(selTerm);
+    ontBrowser.setFilter(request.getParameter("filter"));
 
+    ontBrowser.doTag(request, out);
+
+%>
 
 <% if (nestedWindows) {%>
     </iframe>
@@ -341,7 +345,6 @@
 
 
     setTimeout(v.init, 10);
-
 
 
 </script>

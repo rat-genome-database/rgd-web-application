@@ -11,9 +11,9 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
+<%@ page import="edu.mcw.rgd.ontology.OntBrowser" %>
 
-<%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
-    <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
+<link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
 <%
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
     // for browsing
@@ -48,13 +48,16 @@
     if( Utils.NVL(request.getParameter("dia"),"0").equals("1") ) {
         url += "&dia=1";
     }
+
+    OntBrowser ontBrowser = new OntBrowser();
+    ontBrowser.setAcc_id( accId, request );
+    ontBrowser.setUrl(url);
+    ontBrowser.setOffset(request.getParameter("offset"));
+    ontBrowser.setOpener_sel_acc_id(selAccId);
+    ontBrowser.setOpener_sel_term(selTerm);
+
+    ontBrowser.doTag(request, out);
 %>
-<ontbrowser:tree acc_id="<%=accId%>"
-                 url="<%=url%>"
-                 offset="<%=request.getParameter(\"offset\")%>"
-                 opener_sel_acc_id="<%=selAccId%>"
-                 opener_sel_term="<%=selTerm%>"
-        />
 <table width=100% style="border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; ">
 
   <tr>
@@ -70,9 +73,7 @@
           if( !prevType.isEmpty() ) {
           %>
             </td></tr>
-          <%
-          }
-          %>
+          <% } %>
 
           <tr>
           <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td style='padding:3px;'>
