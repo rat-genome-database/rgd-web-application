@@ -56,7 +56,7 @@
         <table width="95%" border="0">
             <tr>
                 <td>
-                    <%@ include file="info1.jsp"%>
+                    <%@ include file="info.jsp"%>
                     <div class ="subTitle" id="info">Submitter Information</div><br>
                     <%@ include file="submittedInfo.jsp"%>
                     <% if(!projRef.isEmpty()){%>
