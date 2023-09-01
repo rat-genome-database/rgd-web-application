@@ -8,7 +8,6 @@ import edu.mcw.rgd.datamodel.Strain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrain;
 import edu.mcw.rgd.datamodel.models.SubmittedStrainAvailabiltiy;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,10 +27,10 @@ public class EditHomePageController implements Controller {
     SubmittedStrainAvailablityDAO adao= new SubmittedStrainAvailablityDAO();
     RGDManagementDAO rgdManagementDAO=new RGDManagementDAO();
     StrainDAO strainDAO=new StrainDAO();
-   Gson gson=new Gson();
+    Gson gson=new Gson();
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelMap model= new ModelMap();
+//        ModelMap model= new ModelMap();
 
         if(request.getParameter("statusUpdate")!=null){
             if(request.getParameter(("statusUpdate")).equalsIgnoreCase("true")){
@@ -47,33 +46,35 @@ public class EditHomePageController implements Controller {
                 adao.delete(key);
                 sdao.delete(key);
                 String msg="Successfully deleted submitted strain record with submission key " + key;
-               model.put("msg", msg);
+                request.setAttribute("msg",msg);
+//               model.put("msg", msg);
             }
         }
 
         List<SubmittedStrain> submittedStrains= this.getSubmittedStrains("submitted");
-        model.put("submittedStrains", submittedStrains);
-        return new ModelAndView("/WEB-INF/jsp/curation/edit/submittedStrains/edit.jsp", "model", model);
+        request.setAttribute("submittedStrains",submittedStrains);
+//        model.put("submittedStrains", submittedStrains);
+        return new ModelAndView("/WEB-INF/jsp/curation/edit/submittedStrains/edit.jsp");
     }
 
     public int getGeneOrAlleleRgdId(String symbol) throws Exception {
-                List<Gene> geneOrAlleleList=geneDAO.getAllGenesBySymbol(symbol, 3);
-                 int rgdId=0;
-                 if(geneOrAlleleList!=null){
-                         if(geneOrAlleleList.size()>0) {
-                                 rgdId = geneOrAlleleList.get(0).getRgdId();
-                             }else {
-                                 List<Gene> aliasList=geneDAO.getGenesByAlias(symbol,3);
-                                 if(aliasList!=null){
-                                         if(aliasList.size()>0){
-                                                 rgdId= aliasList.get(0).getRgdId();
-                                         }
-                                     }
-                             }
+        List<Gene> geneOrAlleleList=geneDAO.getAllGenesBySymbol(symbol, 3);
+        int rgdId=0;
+        if(geneOrAlleleList!=null){
+            if(geneOrAlleleList.size()>0) {
+                rgdId = geneOrAlleleList.get(0).getRgdId();
+            }else {
+                List<Gene> aliasList=geneDAO.getGenesByAlias(symbol,3);
+                if(aliasList!=null){
+                    if(aliasList.size()>0){
+                        rgdId= aliasList.get(0).getRgdId();
+                    }
+                }
+            }
 
-                     }
-                 return rgdId;
-             }
+        }
+        return rgdId;
+    }
 
 
     public Gene getGeneOrAllele(String symbol) throws Exception {
@@ -81,12 +82,12 @@ public class EditHomePageController implements Controller {
         Gene g= new Gene();
         if(geneOrAlleleList!=null){
             if(geneOrAlleleList.size()>0) {
-             g=  geneOrAlleleList.get(0);
+                g=  geneOrAlleleList.get(0);
             }else {
                 List<Gene> aliasList=geneDAO.getGenesByAlias(symbol,3);
                 if(aliasList!=null){
                     if(aliasList.size()>0){
-                      g=   aliasList.get(0);
+                        g=   aliasList.get(0);
                     }
                 }
             }
@@ -100,7 +101,7 @@ public class EditHomePageController implements Controller {
         if(status.equalsIgnoreCase("submitted")){
             strains=  sdao.getInProcessStrains();
         }else if(status.equalsIgnoreCase("complete")){
-           strains= sdao.getCompletedStrains();
+            strains= sdao.getCompletedStrains();
         }
 
         List<SubmittedStrain> submittedStrains= new ArrayList<>();
@@ -115,7 +116,7 @@ public class EditHomePageController implements Controller {
         ObjectMapper om=new ObjectMapper();
         List<String> symbols=new ArrayList<>();
         if(submittedStrain.getGeneSymbol()!=null && !submittedStrain.getGeneSymbol().equals("") )
-        symbols.add(submittedStrain.getGeneSymbol());
+            symbols.add(submittedStrain.getGeneSymbol());
         if(submittedStrain.getStrainSymbol()!=null && !submittedStrain.getStrainSymbol().equals("") )
             symbols.add(submittedStrain.getStrainSymbol());
         if(submittedStrain.getAlleleSymbol()!=null && !submittedStrain.getAlleleSymbol().equals("") )
