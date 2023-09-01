@@ -5,7 +5,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Strain" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%  String pageTitle =  "GERRC - Strain Submission Form";
     String pageDescription ="Altered Strains";
     String headContent = "";

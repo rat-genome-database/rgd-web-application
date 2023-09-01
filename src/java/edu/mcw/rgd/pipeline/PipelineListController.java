@@ -4,13 +4,13 @@ import edu.mcw.rgd.dao.impl.PipelineLogDAO;
 import edu.mcw.rgd.dao.impl.PipelineLogFlagDAO;
 import edu.mcw.rgd.datamodel.Pipeline;
 import edu.mcw.rgd.datamodel.PipelineLog;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import java.util.HashMap;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Types;
+import java.util.*;
 import java.util.Map;
 
 /**

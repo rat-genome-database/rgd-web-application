@@ -3,23 +3,25 @@ package edu.mcw.rgd.models.findModels;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -33,7 +35,6 @@ public class FindModelsController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelMap model= new ModelMap();
         HttpRequestFacade req= new HttpRequestFacade(httpServletRequest);
         String aspect=req.getParameter("models-aspect");
         String qualifier=req.getParameter("qualifier");
@@ -45,18 +46,18 @@ public class FindModelsController implements Controller {
             List<SearchHit[]> searchHits=new ArrayList<>();
             if(aspect.equals("all")) aspect="";
             searchHits= this.getSearchResults(term, aspect,qualifier, searchType,strainType, condition);
-            model.put("term", term);
-            model.put("aspect", aspect);
-            model.put("qualifier", qualifier);
-            model.put("aggregations", aggregations);
-            model.put("searchHits", searchHits);
-            model.put("hitsCount", hitsCount);
-            model.put("strainType", strainType);
-            model.put("condition", condition);
+            httpServletRequest.setAttribute("term", term);
+            httpServletRequest.setAttribute("aspect", aspect);
+            httpServletRequest.setAttribute("qualifier", qualifier);
+            httpServletRequest.setAttribute("aggregations", aggregations);
+            httpServletRequest.setAttribute("searchHits", searchHits);
+            httpServletRequest.setAttribute("hitsCount", hitsCount);
+            httpServletRequest.setAttribute("strainType", strainType);
+            httpServletRequest.setAttribute("condition", condition);
             if(!qualifier.equals("")){
-                return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp", "model", model);
+                return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp");
             }else
-            return new ModelAndView("/WEB-INF/jsp/models/findModels/results.jsp", "model", model);
+                return new ModelAndView("/WEB-INF/jsp/models/findModels/results.jsp");
         }else
 
         return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");

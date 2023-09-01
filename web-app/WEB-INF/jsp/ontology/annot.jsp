@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>

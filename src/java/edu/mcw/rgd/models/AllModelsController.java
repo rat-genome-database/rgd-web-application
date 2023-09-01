@@ -4,13 +4,13 @@ package edu.mcw.rgd.models;
 import edu.mcw.rgd.dao.impl.GeneticModelsDAO;
 import edu.mcw.rgd.datamodel.models.GeneticModel;
 import edu.mcw.rgd.models.models1.GeneticModelsSingleton;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**

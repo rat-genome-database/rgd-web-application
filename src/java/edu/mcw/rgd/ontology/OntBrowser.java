@@ -6,12 +6,9 @@ import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.RgdContext;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.jsp.JspException;
-import jakarta.servlet.jsp.JspWriter;
-import jakarta.servlet.jsp.PageContext;
-import jakarta.servlet.jsp.tagext.SimpleTagSupport;
 
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -24,14 +21,16 @@ import java.util.Collection;
  *   only terms with diagrams or having child terms with diagrams are shown;
  *   annotation icons are not shown any longer, only count of diagrams
  */
-public class OntBrowser extends SimpleTagSupport {
+public class OntBrowser {
 
     OntViewBean bean = null;
-    private String url;
-    private String offset = "";
-    private String opener_sel_acc_id;
-    private String opener_sel_term;
-    private String filter;
+
+    private String url; // url of the page the control is embedded with, for example: '/rgdweb/ontology/view.html?mode=popup';
+                        // acc_id parameters (and others, as needed, fe 'offset') will be added to the url on-the-fly
+    private String offset = ""; // used to reduce window jitter when clicking sibling terms
+    private String opener_sel_acc_id; // id of opener window's input control that should receive accession id of selected term
+    private String opener_sel_term; // id of opener window's input control that should receive term name of selected term
+    private String filter; // ontology term filter
     private boolean showSelectButton;
     private boolean alwaysShowSelectButton = false;
     private boolean iframe = false;
@@ -46,11 +45,10 @@ public class OntBrowser extends SimpleTagSupport {
     private boolean isCurator = false;
     //
     private String curationTool;
-    public void setAcc_id(String accId) {
+    public void setAcc_id(String accId, ServletRequest req) {
 
         bean = new OntViewBean();
         try {
-            ServletRequest req = ((PageContext)getJspContext()).getRequest();
             diagramMode = Utils.NVL(req.getParameter("dia"),"0").equals("1");
             curationTool = Utils.NVL(req.getParameter("curationTool"), "");
             bean.setDiagramMode(diagramMode);
@@ -101,12 +99,10 @@ public class OntBrowser extends SimpleTagSupport {
     }
 
 
-    public void doTag() throws JspException, IOException {
+    public void doTag(ServletRequest req, JspWriter out) throws IOException {
+
         showSelectButton = canShowSelectButton();
 
-        JspWriter out = this.getJspContext().getOut();
-
-        ServletRequest req = ((PageContext)getJspContext()).getRequest();
         if (req.getParameter("pv") != null && req.getParameter("pv").equals("1")) {
             this.portalVersion=true;
             this.hideZeroAnnotations=true;

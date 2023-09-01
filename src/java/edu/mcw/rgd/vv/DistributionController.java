@@ -11,15 +11,16 @@ import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -337,7 +338,7 @@ public class DistributionController extends HaplotyperController {
             for (int i = 0; i < 999; i++) {
                 String sample = req.getParameter("sample" + i);
                 if (!sample.isEmpty()) {
-                    al.add(new Integer(sample));
+                    al.add(Integer.valueOf(sample));
                 }
             }
 

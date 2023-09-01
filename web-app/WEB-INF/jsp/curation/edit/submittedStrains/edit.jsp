@@ -1,9 +1,11 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>--%>
+<%--<%@ taglib prefix="m" uri="/WEB-INF/tld/geneticModel.tld" %>--%>
 <%  String pageTitle =  "Strain Editor";
     String pageDescription ="Strain Editor";
-    String headContent = "";%>
+    String headContent = "";
+    String msg = (String) request.getAttribute("msg");
+%>
 
 <%@include file="/common/headerarea.jsp"%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">

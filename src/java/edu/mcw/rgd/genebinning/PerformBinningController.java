@@ -9,14 +9,15 @@ import edu.mcw.rgd.datamodel.GeneBin.GeneBinChild;
 import edu.mcw.rgd.datamodel.GeneBin.GeneBinCountGenes;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import edu.mcw.rgd.security.User;
+import edu.mcw.rgd.security.UserManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.*;
 
 

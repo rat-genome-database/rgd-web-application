@@ -20,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class GenomeInformationController implements Controller{
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ModelMap model= new ModelMap();
+//        ModelMap model= new ModelMap();
         String species= request.getParameter("species");
         String assembly= request.getParameter("assembly");
         String action= request.getParameter("action");
@@ -52,7 +53,7 @@ public class GenomeInformationController implements Controller{
             mapKey=Integer.parseInt(key);
         }
         LinkedList<SearchHit> hits;
-        model.addAttribute("speciesList", this.getSpeciesList());
+        request.setAttribute("speciesList", this.getSpeciesList());
 
             if (isDetailsPage || species != null || action != null) {
                 int speciesTypeKey = SpeciesType.parse(species);
@@ -61,7 +62,7 @@ public class GenomeInformationController implements Controller{
                     mapKey = this.getMapKey(assembly, speciesTypeKey);
 
                 }
-                model.addAttribute("species", species);
+                request.setAttribute("species",species);
                 if (assembly == null && mapKey==0) {
                     Map map = mdao.getPrimaryRefAssembly(speciesTypeKey);
                     assembly = map.getDescription();
@@ -76,29 +77,29 @@ public class GenomeInformationController implements Controller{
                 List<Chromosome> chromosomes = mdao.getChromosomes(mapKey);
                 ExternalDBLinks xlinks= new ExternalDBLinks();
                 ExternalDbs extDbLinks= xlinks.getXLinks(mapKey,null, null);
-                model.addAttribute("assembly", assembly);
-                model.addAttribute("mapKey", mapKey);
+                request.setAttribute("assembly", assembly);
+                request.setAttribute("mapKey", mapKey);
 
-                model.addAttribute("assemblyList", this.getAssemblyList(speciesTypeKey));
-                model.addAttribute("chromosomes", chromosomes);
+                request.setAttribute("assemblyList", this.getAssemblyList(speciesTypeKey));
+                request.setAttribute("chromosomes", chromosomes);
 
                 hits = this.getGenome(mapKey);
-                model.addAttribute("hits", hits);
-                model.addAttribute("mapKey", mapKey);
-                model.addAttribute("xlinks", extDbLinks);
-                return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/genomeInformation.jsp", "model", model);
+                request.setAttribute("hits", hits);
+                request.setAttribute("mapKey", mapKey);
+                request.setAttribute("xlinks", extDbLinks);
+                return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/genomeInformation.jsp");
 
             }
 
         hits=this.getGenome(mapKey);
-        model.addAttribute("hits",hits ) ;
+        request.setAttribute("hits",hits);
         if(infoTable!=null){
-            return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/homeInfoTable.jsp", "model", model );
+            return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/homeInfoTable.jsp");
         }
 
-       model.addAttribute("assemblyListsMap", this.getAllSpeciesAssemblyListMap());
+        request.setAttribute("assemblyListsMap", this.getAllSpeciesAssemblyListMap());
 
-       return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/genomeInfoHome.jsp", "model", model );
+       return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/genomeInfoHome.jsp");
     }
 
     public java.util.Map<String, List<Map>> getAllSpeciesAssemblyListMap() throws Exception {

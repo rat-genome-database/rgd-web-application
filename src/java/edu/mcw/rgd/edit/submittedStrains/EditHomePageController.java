@@ -28,7 +28,7 @@ public class EditHomePageController implements Controller {
    Gson gson=new Gson();
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelMap model= new ModelMap();
+//        ModelMap model= new ModelMap();
 
         if(request.getParameter("statusUpdate")!=null){
             if(request.getParameter(("statusUpdate")).equalsIgnoreCase("true")){
@@ -44,13 +44,15 @@ public class EditHomePageController implements Controller {
                 adao.delete(key);
                 sdao.delete(key);
                 String msg="Successfully deleted submitted strain record with submission key " + key;
-               model.put("msg", msg);
+                request.setAttribute("msg",msg);
+//               model.put("msg", msg);
             }
         }
 
         List<SubmittedStrain> submittedStrains= this.getSubmittedStrains("submitted");
-        model.put("submittedStrains", submittedStrains);
-        return new ModelAndView("/WEB-INF/jsp/curation/edit/submittedStrains/edit.jsp", "model", model);
+        request.setAttribute("submittedStrains",submittedStrains);
+//        model.put("submittedStrains", submittedStrains);
+        return new ModelAndView("/WEB-INF/jsp/curation/edit/submittedStrains/edit.jsp");
     }
 
     public int getGeneOrAlleleRgdId(String symbol) throws Exception {
