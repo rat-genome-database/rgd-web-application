@@ -5,7 +5,6 @@
 <%--</style>--%>
 <%
     List<ProjectFile> pf = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
-
     List<ProjectFile> phenotypeFiles = new ArrayList<>();
     List<ProjectFile> genotypeFiles = new ArrayList<>();
 

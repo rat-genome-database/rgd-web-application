@@ -100,21 +100,6 @@
             </form>
         </div>
     </div>
-
-<%--    <table>--%>
-
-<%--        <tr>--%>
-<%--            <td><b>Options:&nbsp;</b></td>--%>
-<%--            <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=obj.getRgdId()%>#ViewChart">View chart</a></td>--%>
-<%--            <td>&nbsp;|&nbsp;</td>--%>
-<%--            <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&refRgdId=<%=obj.getRgdId()%>">Download data table</a></td>--%>
-<%--            <td>&nbsp;|&nbsp;</td>--%>
-<%--            <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=2&refRgdId=<%=obj.getRgdId()%>">View expanded data table</a></td>--%>
-<%--            <td>&nbsp;|&nbsp;</td>--%>
-<%--            <td><a href="javascript:void(0);" onclick="showAllClinicalMeasurement('ClinMeasure', 'showHide');">Show All Strains Clinical Measurement</a></td>--%>
-<%--        </tr>--%>
-
-<%--    </table>--%>
     <%List<Integer> refRgdIds1 = new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());%>
     <br>
     <table>

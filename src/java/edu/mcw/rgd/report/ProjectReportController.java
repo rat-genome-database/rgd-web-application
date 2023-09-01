@@ -21,7 +21,8 @@ public class ProjectReportController extends ReportController {
     }
 
     public Object getObject(int rgdId) throws Exception{
-        return new ReferenceDAO().getReference(rgdId);
+//        return new ReferenceDAO().getReference(rgdId);
+        return new ProjectDAO().getProject(rgdId);
     }}
 //public class ProjectReportController implements Controller {
 //    public ProjectReportController() {

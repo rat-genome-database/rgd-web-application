@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.web.HeatMap" %>
 <%@ include file="sectionHeader.jsp"%>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <script type="text/javascript" src="/rgdweb/js/sorttable.js" >
 </script>
 
@@ -722,7 +723,6 @@
 <br>
 <%//ui.dynClose("expAssociation")%>
 <% } %>
-
 
 
 <%@ include file="sectionFooter.jsp"%>

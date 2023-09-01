@@ -1,6 +1,6 @@
 <%
     ReferenceDAO test1 = new ReferenceDAO();
-    List<Reference> p1=test1.getReferencesForObject(476081962);
+    List<Reference> p1=test1.getReferencesForObject(obj.getRgdId());
 %>
 
 <% for (Reference i:p1){%>

@@ -74,7 +74,7 @@
 //        List<Project> p=(List<Project>)allProjects;
         for(Project i:p1){%>
     <tr id="b">
-        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdid() %>"><%= i.getRgdid() %></a></td>
+        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdId() %>"><%= i.getRgdId() %></a></td>
         <td class="he"><%= i.getName() %></td>
         <td class="he"><%= i.getDesc() %></td>
     </tr>
