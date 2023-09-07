@@ -8,8 +8,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
 <%
 
     String filter = "";
@@ -99,11 +97,7 @@
             break;
     }
 
-
     try {
-%>
-
-<%
     String pageTitle = title + " Portal - Rat Genome Database";
     String headContent = "";
     String pageDescription = "Welcome to the " + title + " Portal - Rat Genome Database";
@@ -734,7 +728,6 @@
                 }
 
                 if (ids != "") {
-                    console.log(ids);
                     gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + ids);
                 }
                 ids="";
