@@ -8,7 +8,7 @@ import edu.mcw.rgd.process.generator.GeneratorCommandParser;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -107,27 +107,31 @@ public class ListSaveController implements Controller {
 
                 GeneratorCommandParser gcp = new GeneratorCommandParser(mapKey,oKey);
 
-                allGenes.addAll(gcp.parse(accId));
-
                 List objects = gcp.parseObjects(accId);
+
+               // allGenes.addAll(gcp.parse(accId));
+
                 Iterator it = objects.iterator();
 
                 if (oKey == 1) {
                     while (it.hasNext()) {
                         Gene g = (Gene) it.next();
                         allObjects.put(g.getRgdId(), g);
+                        allGenes.add(g.getSymbol());
                     }
                 }else if (oKey ==6) {
                     //qtl
                     while (it.hasNext()) {
                         QTL q = (QTL) it.next();
                         allObjects.put(q.getRgdId(), q);
+                        allGenes.add(q.getSymbol());
                     }
                 }else if (oKey ==5) {
                     //strain
                     while (it.hasNext()) {
                         Strain s = (Strain) it.next();
                         allObjects.put(s.getRgdId(), s);
+                        allGenes.add(s.getSymbol());
                     }
 
                 }

@@ -15,7 +15,7 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -64,7 +64,6 @@ public class ProcessListController implements Controller {
         }
 
         OLGAResult or = op.parse(oKey,mapKey, opl);
-
         request.setAttribute("mapKey",mapKey);
         request.setAttribute("accIds", or.getAccIds());
         request.setAttribute("om", or.getOm());

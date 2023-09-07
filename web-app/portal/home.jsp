@@ -734,7 +734,6 @@
                 }
 
                 if (ids != "") {
-                    console.log(ids);
                     gviewer.loadAnnotations("/rgdweb/ontology/gviewerData.html?ids=" + ids);
                 }
                 ids="";
