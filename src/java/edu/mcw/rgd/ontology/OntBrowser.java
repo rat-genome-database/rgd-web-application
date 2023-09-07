@@ -261,7 +261,7 @@ public class OntBrowser {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
                 }else {
