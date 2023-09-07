@@ -812,7 +812,7 @@
                 $scope.currentTermAcc=termAcc;
 
                 if (objectKey ==1) {
-                    $scope.portalGenes = {"loading": {"symbol": "Large gene lists may take up to a minute."}};
+                    $scope.portalGenes = {"loading": {"symbol": "Searching Genes..."}};
                     //$scope.portalGenes = [];
                 }else if (objectKey==6) {
                     $scope.portalQTLs = {"loading": {"symbol": "Searching QTL..."}};
