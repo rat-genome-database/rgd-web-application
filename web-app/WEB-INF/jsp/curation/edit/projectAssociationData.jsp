@@ -6,7 +6,7 @@
     List associationList = new ArrayList();
 %>
 
-<form action="updateQTLAssociations.html" >
+<form action="updateProjectAssociations.html" >
     <input  type="hidden" name="rgdId" value="<%=rgdId%>"/>
     <table class="updateTile" width="600" cellspacing="0" border="0">
         <tr>
