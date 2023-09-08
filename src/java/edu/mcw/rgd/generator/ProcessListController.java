@@ -64,7 +64,6 @@ public class ProcessListController implements Controller {
         }
 
         OLGAResult or = op.parse(oKey,mapKey, opl);
-
         request.setAttribute("mapKey",mapKey);
         request.setAttribute("accIds", or.getAccIds());
         request.setAttribute("om", or.getOm());

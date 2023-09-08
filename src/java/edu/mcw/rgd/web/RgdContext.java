@@ -46,6 +46,9 @@ public class RgdContext {
 
 
     public static boolean isChinchilla(ServletRequest request) {
+        //put in hack to always return false
+        if (true) return false;
+
         boolean isChin = (Boolean) request.getAttribute("isChin");
         return isChin;
     }
