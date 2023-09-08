@@ -94,7 +94,7 @@ if(parameters==null){
     String selectTitle="Edit&nbsp;Strains";
     int map=0;
     if(req2.getParameter("mapKey")!=null && !req2.getParameter("mapKey").equals(""))
-    map=Integer.parseInt(req2.getParameter("mapKey"));
+          map=  Integer.parseInt(req2.getParameter("mapKey"));
     // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
     if (map==37 || map==38 || map==17) {
         selectTitle="Edit&nbsp;Sequences";
@@ -144,9 +144,12 @@ if(parameters==null){
         <td width="33%" style="color: white; font-size:16px;">
             <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
-                <%=MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName()%>&nbsp;Assembly
+            &nbsp;Assembly
 
-            <% } %>
+            <%
+                try {
+            <%=MapManager.getInstance().getMap(map).getName()%>} catch (Exception e) {
+            } } %>
         </td>
         <td align="right" width="10%">
             <div id="appMenu">
