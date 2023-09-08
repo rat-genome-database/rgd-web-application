@@ -668,9 +668,10 @@
 
 <%
     List<XdbId> xdbKeggPathways = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_KEGGPATHWAY, obj.getRgdId());
+    List<XdbId> xdbBioCycPathway = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_BIOCYC_PATHWAY, obj.getRgdId());
 
     filteredList = af.filterList(annotList, "W");
-    if(!filteredList.isEmpty() || xdbKeggPathways.size()>0) {
+    if(!filteredList.isEmpty() || xdbKeggPathways.size()>0 || xdbBioCycPathway.size()>0) {
         // split annotations into buckets
         List<Annotation> listManual = new ArrayList<Annotation>(filteredList.size());
         List<Annotation> listImportedPID = new ArrayList<Annotation>(filteredList.size());
@@ -957,8 +958,8 @@
     if( xdbKeggPathways.size()>0 ) { %>
     <%@ include file="xdbs_pathways.jsp"%>
     <% } %>
-<%--<%@ include file="gene/bioCycPathway.jsp"%>--%>
 <%//ui.dynClose("pathwayAssociationC")%>
+<%@ include file="gene/bioCycPathway.jsp"%>
 <% } %>
 
 <%

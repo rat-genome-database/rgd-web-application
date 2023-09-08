@@ -1,15 +1,24 @@
 <%
-    List<XdbId> xdbBioCycPathway = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_BIOCYC_PATHWAY, obj.getRgdId());
+    String biocycUrl = xdbDAO.getXdbUrlnoSpecies(XdbId.XDB_KEY_BIOCYC_PATHWAY);
 
     if (!xdbBioCycPathway.isEmpty()) {%>
-
-<table>
+<div class="reportTable light-table-border" id="bioCycPathwayTableWrapper">
+    <h4>BioCyc Pathway</h4>
+    <div id="bioCycPathwayTableDiv" class="annotation-detail">
+        <table border="0">
 <%
         for (XdbId xdb : xdbBioCycPathway){
+            System.out.println(biocycUrl+xdb.getAccId());
 %>
-
-
+            <tr>
+                <td>
+                    <a href="https://biocyc.org/RAT/NEW-IMAGE?type=PATHWAY&object=<%=xdb.getAccId()%>">
+                        <img src="<%=biocycUrl+xdb.getAccId()%>">
+                    </a>
+                </td>
+            </tr>
 <%      }   %>
-</table>
-
+        </table>
+    </div>
+</div>
 <%  } %>
