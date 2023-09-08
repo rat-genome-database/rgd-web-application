@@ -724,6 +724,7 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
            // _this.href=href;
             window.open(href);
         }
+       
         if(tool=='damage') {
             if(species=='Human')
                 href= "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&cs_pathogenic=true" + "&mapKey=" + mapKey + "&con=&sample1=all&geneList=" + selected;
