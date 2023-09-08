@@ -44,7 +44,7 @@ public class CarpenovoSearchController implements Controller {
 
         } catch(Exception e) {
             System.out.println("CarpenovoSearchController: missing parameter: "+e.toString());
-            return new ModelAndView("redirect:/vv/select.html");
+            return new ModelAndView("redirect:/front/select.html");
         }
 
         if ((start - end) > 30000000) {
