@@ -99,5 +99,6 @@
         </tr>
     </table>
 </form>
-
+<br>
+<%@include file="projectAssociationData.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
