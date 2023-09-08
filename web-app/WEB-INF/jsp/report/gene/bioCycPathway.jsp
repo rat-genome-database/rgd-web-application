@@ -8,7 +8,6 @@
         <table border="0">
 <%
         for (XdbId xdb : xdbBioCycPathway){
-            System.out.println(biocycUrl+xdb.getAccId());
 %>
             <tr>
                 <td>
