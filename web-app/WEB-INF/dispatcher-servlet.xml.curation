@@ -56,6 +56,7 @@
                 <prop key="curation/edit/updateAliases.html">AliasesEditObjectController</prop>
                 <prop key="curation/edit/updateMaps.html">MapsEditObjectController</prop>
                 <prop key="curation/edit/updateQTLAssociations.html">QTLAssociationEditObjectController</prop>
+                <prop key="curation/edit/updateProjectAssociations.html">ProjectAssociationEditObjectController</prop>
                 <prop key="curation/edit/updateStrainAssociations.html">StrainAssociationEditObjectController</prop>
                 <prop key="curation/edit/updateNotes.html">NotesEditObjectController</prop>
                 <prop key="curation/edit/updateID.html">IDEditObjectController</prop>
@@ -390,6 +391,7 @@
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
     <bean id="NotesEditObjectController" class="edu.mcw.rgd.edit.NotesEditObjectController"/>
     <bean id="QTLAssociationEditObjectController" class="edu.mcw.rgd.edit.QTLAssociationEditObjectController"/>
+    <bean id="ProjectAssociationEditObjectController" class="edu.mcw.rgd.edit.ProjectAssociationEditObjectController"/>
     <bean id="StrainAssociationEditObjectController" class="edu.mcw.rgd.edit.StrainAssociationEditObjectController"/>
     <bean id="MapsEditObjectController" class="edu.mcw.rgd.edit.MapsEditObjectController"/>
     <bean id="IDEditObjectController" class="edu.mcw.rgd.edit.IDEditObjectController"/>
