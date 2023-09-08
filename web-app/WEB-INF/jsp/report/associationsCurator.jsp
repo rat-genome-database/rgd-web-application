@@ -957,6 +957,7 @@
     if( xdbKeggPathways.size()>0 ) { %>
     <%@ include file="xdbs_pathways.jsp"%>
     <% } %>
+<%--<%@ include file="gene/bioCycPathway.jsp"%>--%>
 <%//ui.dynClose("pathwayAssociationC")%>
 <% } %>
 
