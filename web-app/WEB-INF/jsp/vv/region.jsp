@@ -14,7 +14,7 @@ String pageDescription = "Define Region";
 <%@ include file="menuBar.jsp" %>
 
 <%
-
+    if(request.getParameter("mapKey")!=null && !request.getParameter("mapKey").equals("")){
    int mapKey = Integer.parseInt(request.getParameter("mapKey"));
     MapDAO mdao = new MapDAO();
 //    List<Chromosome> chrs = mdao.getChromosomes(mapKey);
@@ -151,8 +151,9 @@ String pageDescription = "Define Region";
                 if (i > 1) {
                     strain += ",&nbsp;";
                 }
-
-                strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
+                try {
+                    strain += SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
+                }catch (Exception e){}
 
         %>
         <%=strain%>
@@ -167,5 +168,5 @@ String pageDescription = "Define Region";
 
 
 </div>
-
+<%}%>
 <%@ include file="/common/footerarea.jsp" %>
