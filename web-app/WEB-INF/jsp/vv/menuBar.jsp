@@ -147,8 +147,10 @@ if(parameters==null){
             &nbsp;Assembly
 
             <%
-                try {
-            <%=MapManager.getInstance().getMap(map).getName()%>} catch (Exception e) {
+                try {%>
+            <%=MapManager.getInstance().getMap(map).getName()%>
+
+           <% } catch (Exception e) {
             } } %>
         </td>
         <td align="right" width="10%">
