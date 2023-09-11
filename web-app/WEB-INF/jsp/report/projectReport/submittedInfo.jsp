@@ -1,11 +1,13 @@
 <%
-    ReferenceDAO test1 = new ReferenceDAO();
-    List<Reference> p1=test1.getReferencesForObject(obj.getRgdId());
+    List<Project> p1=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
 %>
-
-<% for (Reference i:p1){%>
+<%if(p1.get(0).getSub_name()!=null){%>
+<% for (Project i:p1){%>
 <ul>
-    <li><%=i.getCitation()%></li>
+    <li><%=i.getSub_name()%></li>
+    <%if(p1.get(0).getPrinci_name()!=null){%>
+    <li><%=i.getPrinci_name()%></li>
+<%}%>
 </ul>
-<%}
-%>
+<%}%>
+<%}%>

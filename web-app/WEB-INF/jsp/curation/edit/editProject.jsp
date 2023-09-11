@@ -77,6 +77,14 @@
                         <td class="label">Project Description:</td>
                         <td><input type="text" name="desc" size="45" value="<%=dm.out("desc",pro1.getDesc())%>" /> </td>
                     </tr>
+                    <tr>
+                        <td class="label">Submitter Name:</td>
+                        <td><input type="text" name="sub_name" size="45" value="<%=dm.out("sub_name",pro1.getSub_name())%>" /> </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Principal Investigator Name:</td>
+                        <td><input type="text" name="princ_name" size="45" value="<%=dm.out("princ_name",pro1.getPrinci_name())%>" /> </td>
+                    </tr>
 
 
                     <tr>

@@ -12,6 +12,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.dao.impl.ProjectDAO;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,23 +68,10 @@ public class ProjectEditObjectController extends EditObjectController {
             pro = (Project) newObject();
         }
 
-//        ref.setTitle(req.getParameter("title"));
-//        ref.setEditors(req.getParameter("editors"));
-//        ref.setPublication(req.getParameter("publication"));
-//        ref.setVolume(req.getParameter("volume"));
-//        ref.setIssue(req.getParameter("issue"));
-//        ref.setPages(req.getParameter("pages"));
-//        ref.setNotes(req.getParameter("notes"));
-//        ref.setReferenceType(req.getParameter("referenceType"));
-//        ref.setCitation(req.getParameter("citation"));
-//        ref.setRefAbstract(req.getParameter("abstract"));
-//        ref.setPublisher(req.getParameter("publisher"));
-//        ref.setPublisherCity(req.getParameter("publisherCity"));
-//        ref.setUrlWebReference(req.getParameter("urlWebReference"));
-//        ref.setDoi(req.getParameter("doi"));
           pro.setDesc(req.getParameter("desc"));
           pro.setName(req.getParameter("name"));
-
+          pro.setSub_name(req.getParameter("sub_name"));
+          pro.setPrinci_name(req.getParameter("princ_name"));
         if (persist) {
             if( isNew ) {
                 // create a new rgd id
@@ -102,7 +90,6 @@ public class ProjectEditObjectController extends EditObjectController {
 
 //            updatePmid(req.getParameter("pmid"), ref.getRgdId());
         }
-
         return pro;
     }
 
