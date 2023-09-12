@@ -2,7 +2,9 @@
     String biocycImageUrl = xdbDAO.getXdbUrlnoSpecies(XdbId.XDB_KEY_BIOCYC_PATHWAY);
     String bioCycPathwayUrl = xdbDAO.getXdbUrlnoSpecies(140);
 
-    if (!xdbBioCycPathway.isEmpty()) {%>
+    if (!xdbBioCycPathway.isEmpty()) {
+        PathwayDAO pdao = new PathwayDAO();
+    %>
 
 <div class="dialog-2" >You are attempting to leave RGD to go to BioCyc.
     <br>
@@ -18,13 +20,14 @@
             <tbody>
 <%
         for (XdbId xdb : xdbBioCycPathway){
+            BioCycRecord r = pdao.getBioCycRecord(rgdId.getRgdId(), xdb.getAccId());
 %>
             <tr style="background: #f1f1f1">
                 <td>
                     <table id="rowTable" style="width: 100%">
                         <tr style="width: inherit">
                             <td style="border: none">
-                            <b><%=xdb.getAccId()%></b>
+                            <b><%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%></b>
                             </td>
                             <td style="float: right; border: none">
                                 <button style="border: none; text-underline: black" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')"><u>View at BioCyc</u></button>
