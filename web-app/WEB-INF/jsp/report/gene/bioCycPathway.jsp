@@ -5,7 +5,9 @@
     if (!xdbBioCycPathway.isEmpty()) {%>
 
 <div class="dialog-2" >You are attempting to leave RGD to go to BioCyc.
-    You have a certain amount of views per day before you need to subscribe to their service.</div>
+    <br>
+    You have a certain amount of views per day before you need to subscribe to their service.
+</div>
 
 <div class="reportTable light-table-border" id="bioCycPathwayTableWrapper">
     <h4>BioCyc Pathways</h4>
@@ -74,7 +76,8 @@
             autoOpen: false,
             buttons: {
                 OK: function() {
-                    window.location.href = $(this).data('redirectLink');
+                    window.open($(this).data('redirectLink'), '_blank').focus();
+                    $(this).dialog("close");
                 },
                 Cancel: function () {
                     $(this).dialog("close");
