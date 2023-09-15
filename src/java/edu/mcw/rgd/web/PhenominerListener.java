@@ -2,8 +2,8 @@ package edu.mcw.rgd.web;
 
 import edu.mcw.rgd.phenominer.frontend.OTrees;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 /**
  * @author mtutaj

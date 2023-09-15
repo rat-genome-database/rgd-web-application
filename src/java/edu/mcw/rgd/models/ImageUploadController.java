@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.List;
@@ -39,40 +39,40 @@ public class ImageUploadController implements Controller {
         factory.setRepository(uploadedFile);
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax(maxFileSize);
-        try {
-            FileItemIterator items = upload.getItemIterator(request);
-            while(items.hasNext()){
-                FileItemStream item=items.next();
-                InputStream is;
-                if (!item.isFormField()) {
-                    is=item.openStream();
-
-                    String fileName = item.getName();
-                    String fn= new String();
-                   if (fileName.lastIndexOf("\\") >= 0) {
-                       byte[] b=fileName.substring(fileName.lastIndexOf("\\")).getBytes();
-                       fn= md.digest(b).toString();
-                       file = new File(filePath + fn + ".png");
-                    } else {
-                       byte[] b=fileName.substring(fileName.lastIndexOf("\\")+1).getBytes();
-                       fn= md.digest(b).toString();
-                       file = new File(filePath +fn +".png");
-                    }
-                   if(item.getContentType().equalsIgnoreCase("image/jpeg")||item.getContentType().equalsIgnoreCase("image/PNG") || item.getContentType().equalsIgnoreCase("image/GIF")) {
-
-                       OutputStream out = new FileOutputStream(file);
-                        IOUtils.copy(is, out);
-                        is.close();
-                        out.close();
-                          String path= filePath+ file.getName();
-                          response.getWriter().write(path);
-                          return null;
-                }
-            }
-            }
-
-        } catch (Exception e) {
-        }
+//        try {
+//            FileItemIterator items = upload.getItemIterator(request);
+//            while(items.hasNext()){
+//                FileItemStream item=items.next();
+//                InputStream is;
+//                if (!item.isFormField()) {
+//                    is=item.openStream();
+//
+//                    String fileName = item.getName();
+//                    String fn= new String();
+//                   if (fileName.lastIndexOf("\\") >= 0) {
+//                       byte[] b=fileName.substring(fileName.lastIndexOf("\\")).getBytes();
+//                       fn= md.digest(b).toString();
+//                       file = new File(filePath + fn + ".png");
+//                    } else {
+//                       byte[] b=fileName.substring(fileName.lastIndexOf("\\")+1).getBytes();
+//                       fn= md.digest(b).toString();
+//                       file = new File(filePath +fn +".png");
+//                    }
+//                   if(item.getContentType().equalsIgnoreCase("image/jpeg")||item.getContentType().equalsIgnoreCase("image/PNG") || item.getContentType().equalsIgnoreCase("image/GIF")) {
+//
+//                       OutputStream out = new FileOutputStream(file);
+//                        IOUtils.copy(is, out);
+//                        is.close();
+//                        out.close();
+//                          String path= filePath+ file.getName();
+//                          response.getWriter().write(path);
+//                          return null;
+//                }
+//            }
+//            }
+//
+//        } catch (Exception e) {
+//        }
         response.getWriter().write("false");
         return null;
     }

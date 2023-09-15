@@ -50,7 +50,7 @@
 
     <!-- Compile all of our class files -->
     <target name="build" depends="prepare" description="Compile main source tree java files and build war file">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
@@ -101,7 +101,7 @@
     </target>
 
     <target name="buildCurationNoJavaDoc" depends="prepare" description="Build curation without running javadoc">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>
@@ -137,7 +137,7 @@
 
     <!-- Compile all of our class files -->
     <target name="buildNGC" depends="prepare" description="Compile main source tree java files and build war file">
-        <javac destdir="${build.dir}" target="1.8" source="1.8" debug="true"
+        <javac destdir="${build.dir}" target="17" source="17" debug="true"
                deprecation="false" optimize="false" failonerror="true">
             <src path="${src.dir}"/>
             <classpath refid="master-classpath"/>

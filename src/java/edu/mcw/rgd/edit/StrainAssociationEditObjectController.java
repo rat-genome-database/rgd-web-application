@@ -6,8 +6,8 @@ import edu.mcw.rgd.process.Utils;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.edit.association.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

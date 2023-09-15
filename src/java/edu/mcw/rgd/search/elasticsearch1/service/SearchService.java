@@ -20,7 +20,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 import java.net.UnknownHostException;

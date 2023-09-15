@@ -2,9 +2,9 @@ package edu.mcw.rgd.search;
 
 import edu.mcw.rgd.datamodel.SpeciesType;
 
-import javax.servlet.jsp.tagext.TagSupport;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.JspWriter;
 import java.io.IOException;
 
 /**

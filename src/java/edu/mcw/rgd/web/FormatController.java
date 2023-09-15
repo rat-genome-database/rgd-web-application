@@ -1,12 +1,13 @@
 package edu.mcw.rgd.web;
 
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.reporting.Record;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.reporting.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Created by IntelliJ IDEA.

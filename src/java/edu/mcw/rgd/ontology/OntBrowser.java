@@ -7,8 +7,8 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.RgdContext;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.jsp.JspWriter;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.util.Collection;
 

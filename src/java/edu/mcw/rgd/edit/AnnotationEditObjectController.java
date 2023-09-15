@@ -6,7 +6,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 

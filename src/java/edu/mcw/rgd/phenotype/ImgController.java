@@ -6,8 +6,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import org.apache.commons.fileupload.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,11 +35,11 @@ public class ImgController implements Controller {
 
         ModelAndView mv =  new ModelAndView("/WEB-INF/jsp/phenotype/imgUploader.jsp");
 
-        if( ServletFileUpload.isMultipartContent(request) ) {
-            String uploadError = uploadFile(request);
-            if( uploadError!=null )
-                mv.addObject("uploadMsg", uploadError);
-        }
+//        if( ServletFileUpload.isMultipartContent(request) ) {
+//            String uploadError = uploadFile(request);
+//            if( uploadError!=null )
+//                mv.addObject("uploadMsg", uploadError);
+//        }
 
         // browse all files there
         File folder = new File(imgDir);
@@ -115,50 +115,50 @@ public class ImgController implements Controller {
         DiskFileUpload fu = new DiskFileUpload();
         // If file size exceeds, a FileUploadException will be thrown
         fu.setSizeMax(9000000);
-
-        for( FileItem fi: (List<FileItem>) fu.parseRequest(request) ) {
-
-            //Check if not form field so as to only handle the file inputs
-            //else condition handles the submit button input
-            if(!fi.isFormField()) {
-                String fileName = fi.getName();
-
-                //System.out.println("NAME: "+fileName);
-                //System.out.println("SIZE: "+fi.getSize());
-                //System.out.println("TYPE: "+fi.getContentType());
-
-                // fi.getName() is browser dependent; if it contains the full path, we strip the directory part
-                int at1 = fileName.lastIndexOf('/');
-                int at2 = fileName.lastIndexOf('\\');
-                int at = at1>at2 ? at1 : at2;
-                if( at > 0 ) {
-                    fileName = fileName.substring(at+1);
-                }
-                // also we enforce that the file extension will always be lower case
-                // so image names will be more cross platform portable
-                at = fileName.lastIndexOf('.');
-                if( at > 0 ) {
-                    fileName = fileName.substring(0, at) + fileName.substring(at).toLowerCase();
-                }
-                
-                // make sure the file has the unique name
-                File fNew = new File(imgDir+"/"+fileName);
-                if( fNew.exists() ) {
-                    return "UPLOAD ERROR: "+fileName+" already in the server area!";
-                }
-
-                // make sure the content type is image
-                if( !fi.getContentType().startsWith("image") ) {
-                    return "UPLOAD ERROR: "+fileName+" is not an image!";
-                }
-
-                // dump the file contents to disk
-                fi.write(fNew);
-            }
-            else {
-                //System.out.println("Field ="+fi.getFieldName());
-            }
-        }
+//
+//        for( FileItem fi: (List<FileItem>) fu.parseRequest(request) ) {
+//
+//            //Check if not form field so as to only handle the file inputs
+//            //else condition handles the submit button input
+//            if(!fi.isFormField()) {
+//                String fileName = fi.getName();
+//
+//                //System.out.println("NAME: "+fileName);
+//                //System.out.println("SIZE: "+fi.getSize());
+//                //System.out.println("TYPE: "+fi.getContentType());
+//
+//                // fi.getName() is browser dependent; if it contains the full path, we strip the directory part
+//                int at1 = fileName.lastIndexOf('/');
+//                int at2 = fileName.lastIndexOf('\\');
+//                int at = at1>at2 ? at1 : at2;
+//                if( at > 0 ) {
+//                    fileName = fileName.substring(at+1);
+//                }
+//                // also we enforce that the file extension will always be lower case
+//                // so image names will be more cross platform portable
+//                at = fileName.lastIndexOf('.');
+//                if( at > 0 ) {
+//                    fileName = fileName.substring(0, at) + fileName.substring(at).toLowerCase();
+//                }
+//
+//                // make sure the file has the unique name
+//                File fNew = new File(imgDir+"/"+fileName);
+//                if( fNew.exists() ) {
+//                    return "UPLOAD ERROR: "+fileName+" already in the server area!";
+//                }
+//
+//                // make sure the content type is image
+//                if( !fi.getContentType().startsWith("image") ) {
+//                    return "UPLOAD ERROR: "+fileName+" is not an image!";
+//                }
+//
+//                // dump the file contents to disk
+//                fi.write(fNew);
+//            }
+//            else {
+//                //System.out.println("Field ="+fi.getFieldName());
+//            }
+//        }
         return "OK";
     }
 
