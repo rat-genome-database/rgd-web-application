@@ -1,6 +1,5 @@
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
     String pageTitle = "Edit Variant";
