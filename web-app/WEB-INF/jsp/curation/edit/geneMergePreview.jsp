@@ -6,7 +6,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.ontology.Annotation" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.edit.GeneMergeBean" />
 <% String headContent = "\n" +
