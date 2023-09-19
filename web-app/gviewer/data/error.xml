@@ -3,8 +3,8 @@
 	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)
 	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)
 	org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:431)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:689)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+	jakarta.servlet.http.HttpServlet.service(HttpServlet.java:689)
+	jakarta.servlet.http.HttpServlet.service(HttpServlet.java:802)
 </pre></p><p><b>root cause</b> <pre>java.lang.OutOfMemoryError: PermGen space
 
 </pre></p><p><b>note</b> <u>The full stack trace of the root cause is available in the Apache Tomcat/5.5.20 logs.</u></p><HR size="1" noshade="noshade"><h3>Apache Tomcat/5.5.20</h3></body></html>
