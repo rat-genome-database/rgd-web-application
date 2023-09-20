@@ -116,6 +116,7 @@
                 <option value="editStrain.html">Strain</option>
                 <option value="editVariant.html">Variant</option>
                 <option value="editReference.html">Reference</option>
+                <option value="editProject.html">Project</option>
                 <!--
                 <option value="editSSLP.html">SSLP</option>
                 -->

@@ -8,7 +8,8 @@
 <%@ page import="edu.mcw.rgd.dao.impl.ReferenceDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.ProjectDAO" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
-
+<%@ page import="java.util.Comparator" %>
+<%@ page import="java.util.Collections" %>
 <%
     String pageTitle = "Edit Project";
     String headContent = "";
@@ -19,30 +20,17 @@
 <%@ include file="editHeader.jsp" %>
 
 <%
-//    ReferenceDAO referenceDAO = new ReferenceDAO();
     ProjectDAO projDAO = new ProjectDAO();
-//    Reference ref = (Reference) request.getAttribute("editObject");
     Project pro1 = (Project) request.getAttribute("editObject");
     int rgdId = pro1.getRgdId();
-
     int displayRgdId = rgdId;
-//    int key = ref.getKey();
-
-//    String title = ref.getTitle();
     String title = pro1.getName();
     if (isClone) {
-//        Reference clone = (Reference) request.getAttribute("cloneObject");
         Project clone = (Project) request.getAttribute("cloneObject");
         pro1 = clone;
         displayRgdId = pro1.getRgdId();
         title = pro1.getName() + " (COPY)";
     }
-
-//    String pmid = "";
-//    XdbIdDAO xdao = new XdbIdDAO();
-//    for( XdbId xdbId: xdao.getPubmedIdsByRefRgdId(rgdId) ) {
-//        pmid = xdbId.getAccId();
-//    }
     String action;
 %>
 <% if( isClone ) {
@@ -58,7 +46,7 @@
 
 <form action="editProject.html" method="get">
     <input type="hidden" name="rgdId" value="<%=rgdId%>" />
-<%--    <input type="hidden" name="key" value="<%=key%>" />--%>
+    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
     <input type="hidden" name="act" value="<%=action%>" />
 
     <table>
@@ -109,4 +97,8 @@
 </form>
 <br>
 <%@include file="projectAssociationData.jsp"%>
+<%if(!isNew){%>
+<%@include file="projectFileDetailsNew.jsp"%><%}%>
+<br>
+<%@ include file="externalLinksData.jsp" %>
 <%@ include file="/common/footerarea.jsp"%>
