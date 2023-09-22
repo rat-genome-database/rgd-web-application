@@ -36,7 +36,9 @@
 </script>
 
 <%--to check if there are any references and submitted filesfor the project--%>
-<%List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
+<%
+    List<Project> p2=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
+    List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<ProjectFile> pf2 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
     List<ProjectFile> phenotypeFiles1 = new ArrayList<>();
     List<ProjectFile> genotypeFiles1 = new ArrayList<>();
@@ -73,7 +75,9 @@
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
+                    <%if(p2.get(0).getSub_name()!=null||p2.get(0).getPrinci_name()!=null){%>
                     <div class ="subTitle" id="info">Submitter Information</div><br>
+                    <%}%>
                     <%@ include file="submittedInfo.jsp"%>
                     <% if(!projRef.isEmpty()){%>
                     <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
