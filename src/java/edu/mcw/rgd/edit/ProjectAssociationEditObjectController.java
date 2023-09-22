@@ -1,7 +1,5 @@
 package edu.mcw.rgd.edit;
 
-import edu.mcw.rgd.edit.association.QTLGeneAssociationUpdate;
-import edu.mcw.rgd.edit.association.QTLStrainAssociationUpdate;
 import edu.mcw.rgd.edit.association.ReferenceAssociationUpdate;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,13 +19,8 @@ public class ProjectAssociationEditObjectController extends AssociationEditObjec
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         int rgdId = Integer.parseInt(request.getParameter("rgdId"));
-
-//        this.updateAssociations(rgdId, request.getParameterValues("QTLGeneAssociation"), new QTLGeneAssociationUpdate());
-//        this.updateAssociations(rgdId,request.getParameterValues("QTLStrainAssociation"), new QTLStrainAssociationUpdate());
-        //this.updateAssociations(rgdId,request.getParameterValues("QTLQTLAssociation"), new QTLQTLAssociationUpdate());
         this.updateAssociations(rgdId,request.getParameterValues("ReferenceAssociation"), new ReferenceAssociationUpdate());
         status.add("Update Successful");
-
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);

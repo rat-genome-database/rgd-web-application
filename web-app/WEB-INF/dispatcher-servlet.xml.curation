@@ -57,6 +57,7 @@
                 <prop key="curation/edit/updateMaps.html">MapsEditObjectController</prop>
                 <prop key="curation/edit/updateQTLAssociations.html">QTLAssociationEditObjectController</prop>
                 <prop key="curation/edit/updateProjectAssociations.html">ProjectAssociationEditObjectController</prop>
+                <prop key="curation/edit/projectFileUpdate.html">ProjectFileController</prop>
                 <prop key="curation/edit/updateStrainAssociations.html">StrainAssociationEditObjectController</prop>
                 <prop key="curation/edit/updateNotes.html">NotesEditObjectController</prop>
                 <prop key="curation/edit/updateID.html">IDEditObjectController</prop>
@@ -350,7 +351,7 @@
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
     <bean id="PipelineRecListController" class="edu.mcw.rgd.pipeline.PipelineRecListController"/>
     <bean id="PipelineEnsemblController" class="edu.mcw.rgd.pipeline.PipelineEnsemblController"/>
-
+    <bean id="ProjectFileController" class="edu.mcw.rgd.edit.ProjectFileController"/>
     <bean id="TranscriptsController" class="edu.mcw.rgd.pipeline.TranscriptsController"/>
     <bean id="MirnaTargetsController" class="edu.mcw.rgd.report.MirnaTargetsController"/>
 

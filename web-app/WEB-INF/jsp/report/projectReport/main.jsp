@@ -36,10 +36,28 @@
 </script>
 
 <%--to check if there are any references and submitted filesfor the project--%>
-
-<%List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
+<%
+    List<Project> p2=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
+    List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<ProjectFile> pf2 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
+    List<ProjectFile> phenotypeFiles1 = new ArrayList<>();
+    List<ProjectFile> genotypeFiles1 = new ArrayList<>();
+
+    // Separate the files into phenotype and genotype lists
+    for (ProjectFile file : pf2) {
+        if (file.getProject_file_type() != null) {
+            if (file.getProject_file_type().equals("Phenotypes")) {
+                phenotypeFiles1.add(file);
+            } else if (file.getProject_file_type().equals("Genotypes")) {
+                genotypeFiles1.add(file);
+            }
+        }
+    }
+    XdbId xi1 = new XdbId();
+    xi1.setRgdId(obj.getRgdId());
+    List<XdbId> ei1 = xdbDAO.getXdbIds(xi1, obj.getSpeciesTypeKey());
 %>
+
 <div id="page-container">
 
     <div id="left-side-wrap">
@@ -57,7 +75,9 @@
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
+                    <%if(p2.get(0).getSub_name()!=null||p2.get(0).getPrinci_name()!=null){%>
                     <div class ="subTitle" id="info">Submitter Information</div><br>
+                    <%}%>
                     <%@ include file="submittedInfo.jsp"%>
                     <% if(!projRef.isEmpty()){%>
                     <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
@@ -77,15 +97,18 @@
                     <br>
                     <%}%>
                     <% if(!pf2.isEmpty()){%>
+                    <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
                     <div class ="subTitle" id="subFiles">Submitted Files</div><br>
                     <%@ include file="projectFiles.jsp"%>
+                    <%}%>
                     <br>
                     <br><div class ="subTitle" id="protocol">Protocols</div>
                     <%@ include file="protocol.jsp"%>
                     <%}%>
+                    <% if(ei1.size()>0){%>
                     <br><div class="subTitle" id="Ext">External Resources</div><br>
                     <%@ include file="xdbs.jsp"%>
-
+                    <%}%>
                 </td>
 
             </tr>
