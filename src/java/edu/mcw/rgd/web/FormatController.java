@@ -1,6 +1,7 @@
 package edu.mcw.rgd.web;
 
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.reporting.Record;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.reporting.*;
