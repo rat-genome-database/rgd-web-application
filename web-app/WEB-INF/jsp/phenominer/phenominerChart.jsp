@@ -199,13 +199,13 @@
                 <td>${hit.sourceAsMap.averageType}</td>
                 </c:if>
                 <td>${hit.sourceAsMap.value}</td>
-                <td>${hit.sourceAsMap.cmoTerm}</td>
+                <td>${hit.sourceAsMap.units}</td>
                 <td>${hit.sourceAsMap.sem}</td>
                 <td>${hit.sourceAsMap.sd}</td>
                 <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
                     <td>
                         <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
-                            <a href="javascript:void(0);" onclick="downloadIndividualValues('${hit.sourceAsMap.rsTerm}','${hit.sourceAsMap.cmoTerm}','${hit.sourceAsMap.cmoTerm}','<c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">:${r.animalId},${r.measurementValue}</c:forEach>')">Download Values</a>
+                            <a href="javascript:void(0);" onclick="downloadIndividualValues('${hit.sourceAsMap.rsTerm}','${hit.sourceAsMap.cmoTerm}','${hit.sourceAsMap.units}','<c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">:${r.animalId},${r.measurementValue}</c:forEach>')">Download Values</a>
                         </c:if>
                     </td>
                 </c:if>
