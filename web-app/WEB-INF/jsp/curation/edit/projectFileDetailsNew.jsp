@@ -21,8 +21,8 @@
                 <th class="label">File Key</th>
                 <th class="label">Project File Type</th>
                 <th class="label">Download URL</th>
-                <th class="label">Protocol</th>
                 <th class="label">Protocol Name</th>
+                <th class="label">Protocol URL</th>
                 <th class="label">Actions</th>
             </tr>
             </thead>
@@ -43,8 +43,8 @@
                         </select>
                     </td>
                     <td><input type="text" name="download_url" value="<%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %>"></td>
-                    <td><input type="text" name="protocol" value="<%= pf.getProtocol() != null ? pf.getProtocol() : "" %>"></td>
                     <td><input type="text" name="protocol_name" value="<%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %>"></td>
+                    <td><input type="text" name="protocol" value="<%= pf.getProtocol() != null ? pf.getProtocol() : "" %>"></td>
                     <td>
                         <input type="submit" value="update" name="action">
                         <input type="submit" value="delete" name="action" onclick="isDeleteAction=true;return confirm('Are you sure you want to delete?')">
@@ -85,12 +85,12 @@
                     <td><input type="text" name="download_url"><br></td>
                 </tr>
                 <tr>
-                    <td class="label">Protocol:</td>
-                    <td><input type="text" name="protocol"></td>
-                </tr>
-                <tr>
                     <td class="label">Protocol Name:</td>
                     <td><input type="text" name="protocol_name"></td>
+                </tr>
+                <tr>
+                    <td class="label">Protocol URL:</td>
+                    <td><input type="text" name="protocol"></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" value="Insert Submitted File"></td>
