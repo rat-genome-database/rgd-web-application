@@ -132,6 +132,46 @@
 
         </tr>
     </thead>
+
+    <script>
+        function downloadIndividualValues(strain, measure, units,sex,vals) {
+
+            texts = "Animal ID, Value, Units, Strain, Sex, Phenotype\n";
+
+            if (sex == "both") {
+                sex = "";
+            }
+
+            lines = vals.split(":");
+
+            for (i=1;i<lines.length;i++) {
+                texts+= lines[i].trim();
+                texts+= ",";
+                texts+= units
+                texts+= ",";
+                texts+= strain;
+                texts+= ",";
+                texts+= sex;
+                texts+= ",";
+                texts+= measure;
+                texts+="\n";
+            }
+            // Create dummy <a> element using JavaScript.
+            var hidden_a = document.createElement('a');
+
+            // add texts as a href of <a> element after encoding.
+            hidden_a.setAttribute('href', 'data:text/csv;charset=utf-8, '+ encodeURIComponent(texts));
+
+            // also set the value of the download attribute
+            hidden_a.setAttribute('download', strain + " (" + measure + ").csv");
+            document.body.appendChild(hidden_a);
+
+            // click the link element
+            hidden_a.click();
+            document.body.removeChild(hidden_a);
+        }
+    </script>
+
     <tbody>
         <c:forEach items="${sr.hits.hits}" var="hit">
             <tr>
@@ -171,16 +211,7 @@
                 <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
                     <td>
                         <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
-                            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.recordId}" title="Individual Sample Values" style="background-color: transparent">
-                                <span style="text-decoration:underline">View Values</span>
-                            </button>
-                            <div style="display: none" id="popover-${hit.sourceAsMap.recordId}">
-                                <div class="popover-body">
-                                    <c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">
-                                        ${r.animalId}:&nbsp;${r.measurementValue}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
+                            <a href="javascript:void(0);" onclick="downloadIndividualValues('${hit.sourceAsMap.rsTerm}','${hit.sourceAsMap.cmoTerm}','${hit.sourceAsMap.units}','${hit.sourceAsMap.sex}','<c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">:${r.animalId},${r.measurementValue}</c:forEach>')">Download Values</a>
                         </c:if>
                     </td>
                 </c:if>

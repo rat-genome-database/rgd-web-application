@@ -7,10 +7,10 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="com.sun.mail.smtp.SMTPTransport" %>
 <%@ page import="java.util.Properties" %>
-<%@ page import="javax.mail.Session" %>
-<%@ page import="javax.mail.internet.MimeMessage" %>
-<%@ page import="javax.mail.internet.InternetAddress" %>
-<%@ page import="javax.mail.Message" %>
+<%@ page import="jakarta.mail.Session" %>
+<%@ page import="jakarta.mail.internet.MimeMessage" %>
+<%@ page import="jakarta.mail.internet.InternetAddress" %>
+<%@ page import="jakarta.mail.Message" %>
 <%@ page import="java.util.Date" %>
 
 <script src='https://www.google.com/recaptcha/api.js'></script>

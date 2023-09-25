@@ -1,12 +1,14 @@
 <beans:beans
     xmlns="http://www.springframework.org/schema/security"
+    xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
     xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd"
     >
@@ -29,6 +31,7 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+
     <http use-expressions="true" authentication-manager-ref="ldapAuthenticationManager">
 	        <intercept-url pattern="/login.jsp" access="permitAll" />
 
@@ -45,6 +48,8 @@
 	        />
 	        <logout logout-success-url="/index.jsp" invalidate-session="true" delete-cookies="JSESSIONID"/>
 	    </http>
+
+
 
         <beans:bean id="rgdDataSource2" class="org.springframework.jndi.JndiObjectFactoryBean">
             <beans:property name="jndiName" value="java:comp/env/jdbc/rgd2"/>
@@ -123,6 +128,8 @@
             </beans:map>
         </beans:property>
     </beans:bean>
+
+
 
 
 </beans:beans>

@@ -40,8 +40,8 @@
 
         <copy todir="${web.lib.dir}" description="">
             <fileset dir="${lib.dir}">
-                <exclude name="**/jsp-api.jar"/>
-                <exclude name="**/servlet-api.jar"/>
+<!--                <exclude name="**/jsp-api.jar"/>-->
+<!--                <exclude name="**/servlet-api.jar"/>-->
             </fileset>
         </copy>
         <copy todir="${war.src}/WEB-INF" description="" file="${src.dir}/../templates/war/web.xml">
@@ -79,9 +79,9 @@
                 <exclude name="**/WEB-XML/*.prod"/>
                 <exclude name="**/WEB-XML/*.curation"/>
                 <exclude name="**/curation/**"/>
-                <exclude name="**/jsp-api.jar"/>
-                <exclude name="**/servlet-api.jar"/>
-                <exclude name="**/ojdbc6.jar" /><!--oracle jdbc driver is always present on tomcat server in common lib -->
+<!--                <exclude name="**/jsp-api.jar"/>-->
+<!--                <exclude name="**/servlet-api.jar"/>-->
+<!--                <exclude name="**/ojdbc6.jar" />&lt;!&ndash;oracle jdbc driver is always present on tomcat server in common lib &ndash;&gt;-->
             </fileset>
         </war>
 
