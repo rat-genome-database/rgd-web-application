@@ -26,7 +26,7 @@
             String objectKey="REFERENCES";
 
         %>
-        <%@ include file="associationData.jsp" %>
+        <%@ include file="associationDataForProject.jsp" %>
 
     </table>
 </form>
