@@ -134,13 +134,9 @@
     </thead>
 
     <script>
-        function downloadIndividualValues(strain, measure, units,sex,vals) {
+        function downloadIndividualValues(strain, measure, units, vals) {
 
-            texts = "Animal ID, Value, Units, Strain, Sex, Phenotype\n";
-
-            if (sex == "both") {
-                sex = "";
-            }
+            texts = "Animal ID, Value, Units, Strain, Phenotype\n";
 
             lines = vals.split(":");
 
@@ -150,8 +146,6 @@
                 texts+= units
                 texts+= ",";
                 texts+= strain;
-                texts+= ",";
-                texts+= sex;
                 texts+= ",";
                 texts+= measure;
                 texts+="\n";
@@ -211,7 +205,7 @@
                 <c:if test="${sampleData!=null && fn:length(sampleData)>0}">
                     <td>
                         <c:if test="${fn:length(sortedIndividualRecords.get(hit.sourceAsMap.recordId))>0}">
-                            <a href="javascript:void(0);" onclick="downloadIndividualValues('${hit.sourceAsMap.rsTerm}','${hit.sourceAsMap.cmoTerm}','${hit.sourceAsMap.units}','${hit.sourceAsMap.sex}','<c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">:${r.animalId},${r.measurementValue}</c:forEach>')">Download Values</a>
+                            <a href="javascript:void(0);" onclick="downloadIndividualValues('${hit.sourceAsMap.rsTerm}','${hit.sourceAsMap.cmoTerm}','${hit.sourceAsMap.units}','<c:forEach items="${sortedIndividualRecords.get(hit.sourceAsMap.recordId)}" var="r">:${r.animalId},${r.measurementValue}</c:forEach>')">Download Values</a>
                         </c:if>
                     </td>
                 </c:if>
