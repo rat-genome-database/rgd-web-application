@@ -1,5 +1,4 @@
 <%@ page import="java.util.Iterator" %>
-
 <% {  %>
 <tr>
     <td class="label"><a href="javascript:addTextArea('<%=objectType%><%=associationType%>Association',<%=speciesTypeKey%>,'<%=objectKey%>');void(0);" class="addButton">Add&nbsp;<%=associationType%></a>&nbsp;</td>
@@ -16,10 +15,9 @@
                 } else if( ooa instanceof Identifiable ) {
                     assocRgdId = ((Identifiable)ooa).getRgdId();
                 }
-
         %>
         <input id="<%=objectType%><%=associationType%>Association<%=associationCount%>"
-               name="<%=objectType%><%=associationType%>Association" type="text" size="9" value="<%=assocRgdId%>"/><a href="javascript:lookup_render('<%=objectType%><%=associationType%>Association<%=associationCount%>','<%=objectKey%>')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a><a class="removeButton" href="javascript:removeAssociation('<%=objectType%><%=associationType%>Association<%=associationCount%>')"><img src="/rgdweb/common/images/del.jpg" border="0"/></a>
+               name="<%=objectType%><%=associationType%>Association" type="text" size="9" value="<%=assocRgdId%>"/><a href="javascript:lookup_render('<%=objectType%><%=associationType%>Association<%=associationCount%>')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a><a class="removeButton" href="javascript:removeAssociation('<%=objectType%><%=associationType%>Association<%=associationCount%>')"><img src="/rgdweb/common/images/del.jpg" border="0"/></a>
 
         <%
                 associationCount++;
@@ -29,21 +27,15 @@
 </tr>
 <tr><td></td><td><hr></td></tr>
 <% } %>
-
 <script>
-    function lookup_render(oid, objectType) {
-        if (!objectType) {
-            objectType=null;
-        }
-
-       speciesTypeKey=0;
-
+    function lookup_render(oid) {
+        objectType="REFERENCES";
+        speciesTypeKey=0;
         var seed = "";
         if (document.getElementById(oid)) {
             seed = document.getElementById(oid).value;
         }
-
-
+        console.log(seed);
         lookup_currentId = oid;
         lookup_speciesTypeKey = speciesTypeKey;
         lookup_objectType = objectType;
