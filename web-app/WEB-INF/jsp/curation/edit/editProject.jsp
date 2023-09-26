@@ -59,7 +59,7 @@
                     </tr>
                     <tr>
                         <td class="label">Project Name:</td>
-                        <td><input type="text" name="name" size="45" value="<%=dm.out("name",pro1.getName())%>" /></td>
+                        <td><textarea name="name" cols="45" rows="4"><%=dm.out("name",pro1.getName())%></textarea></td>
                     </tr>
                     <tr>
                         <td class="label">Project Description:</td>
