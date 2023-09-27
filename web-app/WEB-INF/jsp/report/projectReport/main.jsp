@@ -99,9 +99,9 @@
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
                     <div class ="subTitle" id="subFiles">Submitted Files</div><br>
                     <%@ include file="projectFiles.jsp"%>
-                    <%}%>
                     <br>
-                    <br><div class ="subTitle" id="protocol">Protocols</div>
+                    <%}%>
+                    <div class ="subTitle" id="protocol">Protocols</div>
                     <%@ include file="protocol.jsp"%>
                     <%}%>
                     <% if(ei1.size()>0){%>

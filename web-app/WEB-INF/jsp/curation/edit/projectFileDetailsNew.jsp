@@ -42,9 +42,12 @@
                             <option value="Genotypes" <%= (pf.getProject_file_type() != null && pf.getProject_file_type().equals("Genotypes")) ? "selected" : "" %>>Genotypes</option>
                         </select>
                     </td>
-                    <td><input type="text" name="download_url" value="<%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %>"></td>
-                    <td><input type="text" name="protocol_name" value="<%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %>"></td>
-                    <td><input type="text" name="protocol" value="<%= pf.getProtocol() != null ? pf.getProtocol() : "" %>"></td>
+<%--                    <td><input type="text" name="download_url" value="<%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %>"></td>--%>
+                    <td><textarea name="download_url" cols="30" rows="1" ><%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %></textarea></td>
+<%--                    <td><input type="text" name="protocol_name" value="<%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %>"></td>--%>
+                    <td><textarea name="protocol_name" cols="30" rows="1"><%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %></textarea></td>
+<%--                    <td><input type="text" name="protocol" value="<%= pf.getProtocol() != null ? pf.getProtocol() : "" %>"></td>--%>
+                    <td><textarea name="protocol" cols="30" rows="1"><%= pf.getProtocol() != null ? pf.getProtocol() : "" %></textarea></td>
                     <td>
                         <input type="submit" value="update" name="action">
                         <input type="submit" value="delete" name="action" onclick="isDeleteAction=true;return confirm('Are you sure you want to delete?')">
@@ -82,15 +85,18 @@
                 </tr>
                 <tr>
                     <td class="label">Download URL: </td>
-                    <td><input type="text" name="download_url"><br></td>
+<%--                    <td><input type="text" name="download_url"><br></td>--%>
+                    <td><textarea name="download_url" cols="45" rows="1"></textarea></td>
                 </tr>
                 <tr>
                     <td class="label">Protocol Name:</td>
-                    <td><input type="text" name="protocol_name"></td>
+<%--                    <td><input type="text" name="protocol_name"></td>--%>
+                    <td><textarea name="protocol_name" cols="45" rows="1"></textarea></td>
                 </tr>
                 <tr>
                     <td class="label">Protocol URL:</td>
-                    <td><input type="text" name="protocol"></td>
+<%--                    <td><input type="text" name="protocol"></td>--%>
+                    <td><textarea name="protocol" cols="45" rows="1"></textarea></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" value="Insert Submitted File"></td>
