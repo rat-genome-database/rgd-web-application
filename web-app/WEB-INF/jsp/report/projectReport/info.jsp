@@ -25,7 +25,7 @@
 <div class ="subTitle" id="references">RGD References</div>
 <br>
 <% for (Reference i:p){%>
-<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href=""><%=i.getRgdId()%></a> </p>
+<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a> </p>
 <%}
 %>
 <%}%>
