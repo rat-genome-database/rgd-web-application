@@ -3,7 +3,6 @@ package edu.mcw.rgd.edit;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.process.FileDownloader;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.servlet.mvc.Controller;
