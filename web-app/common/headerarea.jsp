@@ -44,24 +44,7 @@
     <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
 
-    <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
-
-    <% } else { %>
-    <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        _uacct = "UA-2739107-2";
-        urchinTracker();
-    </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BTF869XJFG"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-BTF869XJFG');
-    </script>
-    <% } %>
+    <%@ include file="/common/googleAnalytics.jsp" %>
 
     <script type="text/javascript" src="/rgdweb/js/rgdHomeFunctions-3.js"></script>
 
@@ -204,6 +187,7 @@
 
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
+                                            <a href="/rgdweb/projects/project.html">Projects <span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
                                             <a href="/rgdweb/search/markers.html?100">Markers</a>
@@ -272,7 +256,7 @@
                                             <a href="/rgdweb/phenominer/ontChoices.html?species=3">Rat PhenoMiner (Quantitative Phenotypes)</a>
                                             <a href="/rgdweb/phenominer/ontChoices.html?species=4">Chinchilla PhenoMiner</a>
                                             <a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges (Quantitative Phenotype)</a>
-                                            <a href="/rgdweb/phenominer/ontChoices.html">PhenoMiner Term Comparison</a>
+                                            <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                             <a href="/wg/phenotype-data13/">Phenotypes</a>
                                             <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
