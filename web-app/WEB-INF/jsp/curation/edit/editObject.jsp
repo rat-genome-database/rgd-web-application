@@ -60,6 +60,7 @@
                 <option value="editReference.html">Reference</option>
                 <option value="editCellLine.html">Cell Line</option>
                 <option value="editTerm.html">Term</option>
+                <option value="editProject.html">Project</option>
             </select>
         </td>
         <td><%=fu.buildSelectList("speciesType",speciesList, "Rat")%></td>
@@ -90,6 +91,7 @@
                 <option value="editAnnotation.html?">Annotation</option>
                 <option value="editGenomicElement.html">Genomic Element</option>
                 <option value="editTerm.html">Ontology Term</option>
+                <option value="editProject.html">Project</option>
             </select>
         </td>
         <td>&nbsp;</td>
@@ -114,6 +116,7 @@
                 <option value="editStrain.html">Strain</option>
                 <option value="editVariant.html">Variant</option>
                 <option value="editReference.html">Reference</option>
+                <option value="editProject.html">Project</option>
                 <!--
                 <option value="editSSLP.html">SSLP</option>
                 -->
