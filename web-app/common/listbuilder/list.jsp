@@ -86,7 +86,7 @@ jQuery_1_3_2(document).ready(function(){
         return false;
     });
 
-    jQuery_1_3_2("input[name='rdo_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='rdo_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -118,7 +118,7 @@ jQuery_1_3_2(document).ready(function(){
 
     });
 
-    jQuery_1_3_2("input[name='mp_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='mp_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -150,7 +150,7 @@ jQuery_1_3_2(document).ready(function(){
 
      });
 
-     jQuery_1_3_2("input[name='pw_term']").autocomplete('/OntoSolr/select', {
+     jQuery_1_3_2("input[name='pw_term']").autocomplete('/solr/OntoSolr/select', {
        extraParams:{
            'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
            'bf': 'term_len_l^.02',
@@ -182,7 +182,7 @@ jQuery_1_3_2(document).ready(function(){
 
     });
 
-    jQuery_1_3_2("input[name='chebi_term']").autocomplete('/OntoSolr/select', {
+    jQuery_1_3_2("input[name='chebi_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',

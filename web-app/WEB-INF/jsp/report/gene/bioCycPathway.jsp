@@ -20,7 +20,7 @@
             <tbody>
 <%
         for (XdbId xdb : xdbBioCycPathway){
-            BioCycRecord r = pdao.getBioCycRecord(rgdId.getRgdId(), xdb.getAccId());
+            BioCycRecord r = pdao.getBioCycRecord(obj.getRgdId(), xdb.getAccId());
 %>
             <tr style="background: #f1f1f1">
                 <td>
