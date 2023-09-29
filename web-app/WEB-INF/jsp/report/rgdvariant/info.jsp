@@ -20,6 +20,18 @@
     Term t = odao.getTermByAccId(obj.getType());
 %>
 
+<%
+    if (!rgdId.getObjectStatus().equals("ACTIVE")) {
+%>
+<div style="border:5px solid red; padding:20px;margin-bottom:10px;">
+    <h1 style="color:red;">This object has been <%=rgdId.getObjectStatus()%>.
+</div>
+
+<%
+        return;
+    } %>
+
+
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Variant: <%=Utils.NVL(obj.getName(), "")%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%>
     <% if (RgdContext.isCurator() || RgdContext.isTest()) {%>
@@ -55,13 +67,13 @@
                     return Utils.stringsCompareToIgnoreCase(o1.getSymbol(), o2.getSymbol());
                 }
             });
-            for(int i = 0 ; i < geneList.size(); i++){
-                Gene g = geneList.get(i);
-                String url = Link.gene(g.getRgdId());
-                genes = genes.concat("&nbsp;<a href="+url+">");
-                genes=genes.concat(g.getSymbol());
-                genes = genes.concat(i==(geneList.size()-1) ? "</a>" : "</a>&nbsp;,");
-            }
+         for(int i = 0 ; i < geneList.size(); i++){
+             Gene g = geneList.get(i);
+             String url = Link.gene(g.getRgdId());
+             genes = genes.concat("&nbsp;<a href="+url+">");
+             genes=genes.concat(g.getSymbol());
+             genes = genes.concat(i==(geneList.size()-1) ? "</a>" : "</a>&nbsp;,");
+         }
     %>
     <tr>
         <td class="label" valign="top">Associated Allele:</td>
