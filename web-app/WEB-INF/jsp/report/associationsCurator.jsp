@@ -955,7 +955,7 @@
 </div>
     <% }
 
-    if( xdbKeggPathways.size()>0 && obj.getObjectKey() == obj.OBJECT_KEY_GENES) { %>
+    if( xdbKeggPathways.size()>0 ) { %>
     <%@ include file="xdbs_pathways.jsp"%>
     <% } %>
 <%//ui.dynClose("pathwayAssociationC")%>
