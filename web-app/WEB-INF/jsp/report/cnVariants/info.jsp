@@ -48,6 +48,18 @@ boolean isEva = false;
         genicStatus = "GENIC";
 %>
 
+<%
+    RGDManagementDAO rdao = new RGDManagementDAO();
+    RgdId rid = rdao.getRgdId2(obj.getRgdId());
+    if (!rid.getObjectStatus().equals("ACTIVE")) {
+    %>
+        <div style="border:5px solid red; padding:20px;margin-bottom:10px;">
+            <h1 style="color:red;">This object has been <%=rid.getObjectStatus()%>.
+        </div>
+
+    <%
+        return;
+    } %>
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(speciesType)%>
     </h3></td></tr>
