@@ -11,7 +11,7 @@
 <%
     String objType = "{unknown object type}";
     String description = null;
-//    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
+    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if( rgdId!=null ) {
         objType = rgdId.getObjectTypeName();
         description = obj.getDescription();
@@ -19,6 +19,18 @@
     OntologyXDAO odao = new OntologyXDAO();
     Term t = odao.getTermByAccId(obj.getType());
 %>
+
+<%
+    if (!rgdId.getObjectStatus().equals("ACTIVE")) {
+%>
+<div style="border:5px solid red; padding:20px;margin-bottom:10px;">
+    <h1 style="color:red;">This object has been <%=rgdId.getObjectStatus()%>.
+</div>
+
+<%
+        return;
+    } %>
+
 
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Variant: <%=Utils.NVL(obj.getName(), "")%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%>
