@@ -19,7 +19,7 @@ var <%=ontId%>_popup_wnd = null;
     });
 
 
-    $("input[name='<%=ontId%>_term']").autocomplete('/OntoSolr/select', {
+    $("input[name='<%=ontId%>_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',

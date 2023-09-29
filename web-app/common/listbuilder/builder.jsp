@@ -137,7 +137,7 @@ $(document).ready(function(){
                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
     });
 
-    $("input[name='rdo_term']").autocomplete('/OntoSolr/select', {
+    $("input[name='rdo_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -167,7 +167,7 @@ $(document).ready(function(){
                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
     });
 
-    $("input[name='mp_term']").autocomplete('/OntoSolr/select', {
+    $("input[name='mp_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -198,7 +198,7 @@ $(document).ready(function(){
                 '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
      });
 
-     $("input[name='pw_term']").autocomplete('/OntoSolr/select', {
+     $("input[name='pw_term']").autocomplete('/solr/OntoSolr/select', {
        extraParams:{
            'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
            'bf': 'term_len_l^.02',
@@ -230,7 +230,7 @@ $(document).ready(function(){
                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
     });
 
-    $("input[name='chebi_term']").autocomplete('/OntoSolr/select', {
+    $("input[name='chebi_term']").autocomplete('/solr/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
