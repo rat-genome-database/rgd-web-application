@@ -110,7 +110,7 @@ public class PhenominerExperimentController extends PhenominerController {
                 }
                 e.setStudyId(Integer.parseInt(req.getParameter("studyId")));
                 if (!req.getParameter("traitOntId").equals("")) {
-                    e.setTraitOntId(req.getParameter("traitOntId"));
+                    //e.setTraitOntId(req.getParameter("traitOntId"));
                 }
 
                 e.setLastModifiedBy(login);
@@ -141,7 +141,7 @@ public class PhenominerExperimentController extends PhenominerController {
                         e.setStudyId(Integer.parseInt(req.getParameter("studyId")));
                     }
                     if (!req.getParameter("traitOntId").equals("")) {
-                        e.setTraitOntId(req.getParameter("traitOntId"));
+                        //e.setTraitOntId(req.getParameter("traitOntId"));
                     }
 
                     e.setCurationStatus((req.getParameter("sStatus") != null && req.getParameter("sStatus").length()>0) ?
@@ -265,7 +265,18 @@ public class PhenominerExperimentController extends PhenominerController {
             rec.append("<a href='studies.html?act=edit&studyId=" + e.getStudyId() + "'>" + e.getStudyId() + "</a>");
             rec.append("<a href='experiments.html?act=edit&expId=" + e.getId() + "&studyId=" + e.getStudyId() + "'>" + e.getId() + "</a>");
             rec.append(e.getName());
-            rec.append(e.getTraitOntId());
+
+            String traitString = "";
+            boolean first=true;
+            int traitCount=1;
+            for(String trait: e.getTraitOntIds()) {
+                if (!first) traitString += " <br> ";
+                traitString += "(" + traitCount + ")&nbsp;" + trait;
+                traitCount++;
+                first=false;
+            }
+
+            rec.append(traitString);
             rec.append(e.getNotes());
 
 //            int recordCount = dao.getRecordCount(e.getId());

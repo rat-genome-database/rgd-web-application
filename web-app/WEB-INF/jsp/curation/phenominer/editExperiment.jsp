@@ -46,7 +46,7 @@ if (idList.size() > 0) {
     Report report = (Report) request.getAttribute("report");
         
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-    strat.setTableProperties("width='75%' class='sortable'");
+    strat.setTableProperties("width='75%' class='sortable' cellpadding='5' cellspacing='3'");
 
     out.print(report.format(strat));
 }
@@ -95,9 +95,9 @@ $(document).ready(function(){
 <% for (String id: idList) { %>
     <input type="hidden" name="expId" value="<%=id%>"/>
 <% } %>
-
     <br>
-<table>
+
+    <table cellpadding="5" cellspacing="5">
     <% if (idList.size() != 0) {
         String studyDisplay = "";
         if (ex.getStudyId() != 0) {
@@ -110,10 +110,36 @@ $(document).ready(function(){
     <% } else {%>    
         <input type="hidden" name="studyId" value="<%=studyId%>"/>
     <% } %>
+
     <tr>
-        <td>Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="<%=dm.out("traitOntId", ex.getTraitOntId())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
-        &#160;&#160; Experimental name: <input type="text" name="name" size="50" id="name" value="<%=dm.out("name", ex.getName())%>"  style="background-color: #dddddd" readonly="true"> </td>
+        <td>Experimental name:</td>
+        <td> <input type="text" name="name" size="50" id="name" value="<%=dm.out("name", ex.getName())%>"  style="background-color: #dddddd" readonly="true"> </td>
     </tr>
+
+    <%
+    int traitCount=1;
+    for (String trait: ex.getTraitOntIds()) {
+    %>
+        <tr>
+            <td>Trait <%=traitCount%>:</td>
+            <td><input id="traitOntId<%=traitCount%>" type="text" name="traitOntId<%=traitCount%>" size="30" value="<%=dm.out("traitOntId" + traitCount, trait)%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId<%=traitCount%>', '<%=trait%>', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;</td>
+        </tr>
+    <%
+        traitCount++;
+    } %>
+
+    <%
+        for (int t=traitCount;traitCount<4; t++) {
+    %>
+    <tr>
+        <td>Trait <%=traitCount%>:</td>
+        <td><input id="traitOntId<%=traitCount%>" type="text" name="traitOntId<%=traitCount%>" size="30" value="<%=dm.out("traitOntId" + traitCount, "")%>">&nbsp;</td>
+    </tr>
+    <%
+            traitCount++;
+        } %>
+
+
     <tr>
         <td>Notes:</td><td><textarea name="notes" rows="6" cols="25" id="notes"><%=dm.out("notes",ex.getNotes())%></textarea> </td>
     </tr>
