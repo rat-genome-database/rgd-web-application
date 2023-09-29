@@ -11,7 +11,7 @@
 <%
     String objType = "{unknown object type}";
     String description = null;
-//    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
+    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if( rgdId!=null ) {
         objType = rgdId.getObjectTypeName();
         description = obj.getDescription();
@@ -21,12 +21,10 @@
 %>
 
 <%
-    RGDManagementDAO rdao = new RGDManagementDAO();
-    RgdId rid = rdao.getRgdId2(obj.getRgdId());
-    if (!rid.getObjectStatus().equals("ACTIVE")) {
+    if (!rgdId.getObjectStatus().equals("ACTIVE")) {
 %>
 <div style="border:5px solid red; padding:20px;margin-bottom:10px;">
-    <h1 style="color:red;">This object has been <%=rid.getObjectStatus()%>.
+    <h1 style="color:red;">This object has been <%=rgdId.getObjectStatus()%>.
 </div>
 
 <%
