@@ -15,9 +15,9 @@ if (strainList.size() > 0) {
     });
 %>
 
-<%//ui.dynOpen("strainsAssociation", "Related Rat Strains")%>    <br>
-<div class = 'light-table-border'>
-<div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
+<br>
+<div id="relatedRatStrainsTableDiv" class="light-table-border">
+    <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
     The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
 
     <div id="relatedRatStrainsTableWrapper">
@@ -30,9 +30,8 @@ if (strainList.size() > 0) {
     %>
     </div>
 </div>
-    <br>
+<br>
 
-<%//ui.dynClose("strainsAssociation")%>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>
