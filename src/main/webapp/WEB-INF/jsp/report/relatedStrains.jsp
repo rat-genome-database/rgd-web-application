@@ -16,15 +16,15 @@ if (strainList.size() > 0) {
 %>
 
 <br>
-<div id="relatedRatStrainsTableDiv" class="light-table-border">
+<div class="reportTable light-table-border" id="relatedRatStrainsTableWrapper">
     <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
     The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
 
-    <div id="relatedRatStrainsTableWrapper">
+    <div id="relatedRatStrainsTable">
     <%
         List records = new ArrayList();
         for (Strain s : strainList) {
-            records.add("<tr><td><a href=\"" + Link.strain(s.getRgdId()) + "\">" + s.getSymbol() + "</a></td></tr>");
+            records.add("\n<tr><td><a href=\"" + Link.strain(s.getRgdId()) + "\">" + s.getSymbol() + "</a></td></tr>");
         }
         out.print(formatter.buildTable(records, 4));
     %>
