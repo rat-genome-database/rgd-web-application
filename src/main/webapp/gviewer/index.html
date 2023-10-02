@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>index.htm</title>
+</head>
+<body>
+<big><big><span style="font-weight: bold;">DHTML GViewer - Version 1.0<br>
+</span><br>
+<small><small><small>Medical College of Wisconsin&nbsp;</small></small></small></big></big><small>&copy;
+2008<br>
+Last Modified: December 15, 2008<br>
+<br>
+DHTML GViewer </small>shows the location of genomic
+objects&nbsp;against a backdrop of a cytogenetic map. &nbsp;The viewer
+was developed for use by the Rat Genome Database. &nbsp;It uses the
+same basemap and annotation file formats as the flash gviewer available
+at the gmod website ( <a href="http://gmod.org/wiki/Flashgviewer/">http://gmod.org/wiki/Flashgviewer/</a>
+). &nbsp;The application is dependant on Javascript being enabled in
+the users browser. &nbsp;<br>
+<br>
+<span style="font-weight: bold;">Contents:</span>
+<ul>
+  <li>Features</li>
+  <li>Installation</li>
+  <li>Configuration</li>
+  <li>Dependancies</li>
+  <li>BaseMap file and format</li>
+  <li>Annotation file and format</li>
+  <li>Browser Compatabillity</li>
+  <li>Change Log</li>
+  <li>Known Issues</li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;"><big><big><span
+ style="font-weight: bold;"></span></big></big><big><big><span
+ style="font-weight: bold;"></span></big></big><big><big><span
+ style="font-weight: bold;">Features</span></big></big><br>
+<br>
+<ul style="margin-top: 0in;" type="disc">
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Zoom
+pane<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Clicking
+on a chromosome in the genome view pane opens a "Zoom pane" below it
+corresponding to the highlighted region of the chromosome<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+zoom pane shows an enlarged view of the chromosome subregion<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+region can be resized using the "Zoom in" and "Zoom out" buttons<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Slide
+the region up and down the chromosome by moving the highlighted region
+or "slider" in the genome view panel<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Clicking
+on the zoom region slider in the genome view pane locks it so that
+mousing over it will no longer move it.<span style="">&nbsp; </span>The
+highlighted region can still be moved using the scroll bar at the
+bottom of the zoom pane.<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Click
+on another chromosome in the upper panel to view a region of the same
+size on that chromosome<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Holding
+the mouse cursor over a gene in the zoom pane causes the GBrowse image
+of that gene to be displayed showing its intron/exon structure.<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Links
+to GBrowse<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Clicking
+on "Send to GBrowse" opens a GBrowse image of the region in the Zoom
+pane with the data displayed in the GViewer displayed as a separate
+track<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Right
+clicking on a single object in either the genome view pane or the zoom
+pane gives a menu option to open a GBrowse image of that object<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Layered
+searches<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Searches
+can be "layered" using the "Add Objects" button (see below), allowing
+the user to add additional data sets to the current display<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Layered
+searches allow the user to see the overlap between searches within or
+between data types, such as searches for two different ontology terms,
+an ontology term and a gene family, or a list of QTLs and a list of
+genes.<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Objects
+which appear in multiple search result sets are highlighted in yellow<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Add/Remove
+objects<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Individual
+objects can be added using object-specific searches<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">"Add
+objects" searches<o:p></o:p></span></li>
+    <ul style="margin-top: 0in;" type="square">
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+tool includes keyword searches for genes, QTLs and markers<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+tool also includes an ontology search which returns all ontology terms
+matching the search criteria.<span style="">&nbsp; </span>The user can
+then select a single term and objects with annotations to that term are
+displayed.<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+"Add Objects" search window gives the option of selecting a different
+color for each search allowing the user to compare the results of
+different searches.<o:p></o:p></span></li>
+    </ul>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Search
+results lists<o:p></o:p></span></li>
+    <ul style="margin-top: 0in;" type="square">
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">Each
+"Add objects" search yields a pop-up window which lists the resulting
+objects.<span style="">&nbsp;&nbsp; </span>For genes, QTLs and SSLPs
+these objects have already been added to the display<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">For
+ontology searches, once a specific ontology term has been selected the
+pop-up window shows the genes and/or QTLs which have annotations to
+that term and which have already been added to the display<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">If
+multiple searches have been run, the "List All Objects" link provides a
+window which lists all of the objects in the current genome view display<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">Mousing
+over objects in a results list causes them to be highlighted in red on
+the genome view image<o:p></o:p></span></li>
+      <li class="MsoNormal" style=""><span style="font-family: Arial;">Click
+an object in a results list to open a zoom pane or re-center an open
+zoom pane on that object<o:p></o:p></span></li>
+    </ul>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Objects
+can be removed by right clicking on the object in either the genome
+view pane or the zoom pane and selecting "Remove from display"<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Links
+to report pages<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Users
+can access the RGD report pages for genes, QTLs and Markers by
+right-clicking on the object in either the genome view pane or the zoom
+pane and selecting "View&hellip;report".<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">CSV
+Export<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+"CSV Export" button allows the user to download information about the
+data objects returned by one or multiple searches.<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">Downloads
+include the genomic positions of the objects displayed for
+record-keeping or use in other applications.<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">For
+layered searches, users can choose to download information for all
+objects, only the objects which are shared between search result sets
+or only the objects which are not shared between search result sets.<o:p></o:p></span></li>
+  </ul>
+  <li class="MsoNormal" style=""><span style="font-family: Arial;">Clear<o:p></o:p></span></li>
+  <ul style="margin-top: 0in;" type="circle">
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">The
+"Clear" button removes all objects from the display<o:p></o:p></span></li>
+    <li class="MsoNormal" style=""><span style="font-family: Arial;">After
+clearing, refresh the page using the browser's "Reload" button to
+retrieve the original set of objects (i.e. the objects displayed before
+the "Add Objects" button was used).<o:p></o:p></span></li>
+  </ul>
+</ul>
+<hr style="width: 100%; height: 2px;"><big><big><span
+ style="font-weight: bold;"></span></big></big><big><big><span
+ style="font-weight: bold;">Installation<br>
+<small><small><br>
+</small></small></span><small><small>There is a working demonstration
+included with the distribution. &nbsp;Unzip the the distribution and
+select <a href="example.htm">example.htm</a> to view the demo.<br>
+</small></small><span style="font-weight: bold;"><small><small><br>
+Step 1: </small></small></span><small><small>Download and Unzip the
+files onto your webserver.<br>
+<br>
+<span style="font-weight: bold;">Step 2: </span>&nbsp;Add the
+following to the HEAD section of your document.<br>
+<br>
+</small></small></big></big>
+<table style="text-align: left; width: 766px; height: 464px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td><big><big><small><small><small>&nbsp; &nbsp; &lt;script
+type="text/javascript" src="script/jkl-parsexml.js"&gt;<br>
+&nbsp;&nbsp;&nbsp; //
+================================================================<br>
+&nbsp;&nbsp;&nbsp; //&nbsp; jkl-parsexml.js ---- JavaScript Kantan
+Library for Parsing XML<br>
+&nbsp;&nbsp;&nbsp; //&nbsp; Copyright 2005-2007 Kawasaki Yusuke
+&lt;u-suke@kawa.net&gt;<br>
+&nbsp;&nbsp;&nbsp; //&nbsp;
+http://www.kawa.net/works/js/jkl/parsexml.html<br>
+&nbsp;&nbsp;&nbsp; //
+================================================================<br>
+&nbsp;&nbsp;&nbsp; &lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/dhtmlwindow.js"&gt;<br>
+&nbsp;&nbsp;&nbsp; /***********************************************<br>
+&nbsp;&nbsp;&nbsp; * DHTML Window script- &copy; Dynamic Drive
+(http://www.dynamicdrive.com)<br>
+&nbsp;&nbsp;&nbsp; * This notice MUST stay intact for legal use<br>
+&nbsp;&nbsp;&nbsp; * Visit http://www.dynamicdrive.com/ for this script
+and 100s more.<br>
+&nbsp;&nbsp;&nbsp; ***********************************************/<br>
+&nbsp;&nbsp;&nbsp; &lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/util.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/gviewer.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/domain.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/contextMenu.js"&gt;<br>
+&nbsp;&nbsp;&nbsp; /***********************************************<br>
+&nbsp;&nbsp;&nbsp; * Context Menu script- &copy; Dynamic Drive
+(http://www.dynamicdrive.com)<br>
+&nbsp;&nbsp;&nbsp; * This notice MUST stay intact for legal use<br>
+&nbsp;&nbsp;&nbsp; * Visit http://www.dynamicdrive.com/ for this script
+and 100s more.<br>
+&nbsp;&nbsp;&nbsp; ***********************************************/<br>
+&nbsp;&nbsp;&nbsp; &lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/event.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript"
+src="script/ZoomPane.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;link rel="stylesheet" type="text/css"
+href="css/gviewer.css" /&gt;</small><br>
+      <br>
+      <small>&nbsp; &nbsp; &lt;script language="JavaScript1.2"&gt;<br>
+&nbsp;&nbsp;&nbsp; window.onload = function () {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var gviewer = new
+Gviewer("gviewer", 200, 700 );<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+gviewer.loadBands("data/rgd_rat_ideo.xml");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+gviewer.loadAnnotations("data/hypertension.xml");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+gviewer.addZoomPane("zoomWrapper", 250, 700);<br>
+&nbsp;&nbsp; &nbsp;}<br>
+&nbsp;&nbsp;&nbsp; &lt;/script&gt;&nbsp; </small><br>
+      </small></small></big></big></td>
+    </tr>
+  </tbody>
+</table>
+<big><big><small><small><br>
+<span style="font-weight: bold;">Note: &nbsp;This application uses
+third party libraries. &nbsp;You must keep all copyright notices intact
+for legal use. &nbsp; &nbsp;&nbsp;</span> <br>
+</small></small><span style="font-weight: bold;"></span><span
+ style="font-weight: bold;"><br>
+<small><small>Step 3: </small></small></span><small><small>Add Div
+tags to the BODY section of&nbsp;your page for the GViewer and Zoom
+Pane.<br>
+<br>
+</small></small><span style="font-weight: bold;"><small><small></small></small></span></big></big>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><big><small><small>&lt;div id="gviewer"
+class="gviewer"&gt;&lt;/div&gt;<br>
+&lt;div id="zoomWrapper" class="zoom-pane"&gt;&lt;/div&gt;<br>
+      </small></small></big></td>
+    </tr>
+  </tbody>
+</table>
+<big><big><span style="font-weight: bold;"></span></big></big><big><big><span
+ style="font-weight: bold;"><small><small><br>
+</small></small></span></big></big>
+<hr style="width: 100%; height: 2px;">
+<h2>Dependancies</h2>
+-Javascript must be enabled in the users browser. &nbsp; <br>
+-Portions of the viewer may use pop up windows. &nbsp;While pop up
+windows are not required, enabling them may add additional funtionality.<br>
+-Supported Browser versions include IE 6+, &nbsp;FF 2+, &nbsp;Safari 3+<br>
+<big><big><span style="font-weight: bold;"><small><small><br>
+</small></small></span></big></big>
+<hr style="width: 100%; height: 2px;">
+<h2>Configuration</h2>
+<big><big><small><small>gviewer.home = "/rgdweb/gviewer";<br>
+gviewer.exportURL = "/rgdweb/report/format.html";<br>
+gviewer.annotationTypes = new Array("gene","qtl","sslp");<br>
+gviewer.genomeBrowserURL =
+"/fgb2/gbrowse/rgd_904/?label=AQTLS&amp;gview=1&amp;label=ARGD_curated_genes";<br>
+gviewer.imageViewerURL =
+"/fgb2/gbrowse_img/rgd_904/?width=500&amp;name=";<br>
+gviewer.genomeBrowserName = "GBrowse";<br>
+gviewer.regionPadding=2;<br>
+gviewer.annotationPadding = 1;</small></small><span
+ style="font-weight: bold;"><small><small><br>
+<br>
+</small></small></span></big></big>
+<hr style="width: 100%; height: 2px;">
+<h2>The BaseMap</h2>
+<p>The baseMap file contains the data on the chromosome(s), their
+length, name, banding pattern and colors. A perl script is provided in
+the scripts directory that takes the cytoBandIdeo files produced by
+UCSC and converts them to the GViewer baseMap XML format. If this data
+is available you can find the appropriate UCSC file by going to <a
+ href="http://hgdownload.cse.ucsc.edu/downloads.html">http://hgdownload.cse.ucsc.edu/downloads.html</a>,
+find your organism, find the annotation database and then see if there
+is a cytoBandIdeo.txt.gz file.</p>
+<p>The Flash GViewer lays out the chromosomes by sorting them according
+to the index attribute of the chromosome and currently divides them
+over two rows with half the chromosomes on the top and half on the
+bottom. If there were 10 chromosomes, Chromosomes 1-5 would be on the
+top row with Chr 1 on the left, Chr 5on the right, Chrs 6-10 would be
+on the bottom from left to right. Chromosomes are sized automatically
+based on the length of the first Chromosome, the assumption being that
+this is the longest. The scaling for all the other chromosomes and the
+mapping of genome coordinates (eg. basepairs) to flash coordinates
+(pixels) is all based off this value. The first chromosome is set to be
+45% of the height of the Flash movie, you can set the <span
+ class="style9">width</span> and <span class="style9">height</span> of
+the movie using the tags on the HTML page and the GViewer will resize
+the chromosomes accordingly. It doesnt scale the tooltip labels at this
+point so going really small makes the text illegible, going really
+large makes the text really large. It was developed with the movie
+having a size of 550px wide and 400px high so the text labels look good
+at this size, the further you stray from this the smaller/larger the
+text becomes. Try it and see how it looks, you can always zoom in using
+the Flash plugin's zoom feature.</p>
+<p>The baseMap XML format looks like this:</p>
+<pre class="style7">&lt;?xml version="1.0" standalone="yes"?&gt;<br>   &lt;genome&gt;<br>   &lt;chromosome index="1" number="1" length="268121971"&gt;<br> 		&lt;band index="1" name="p13"&gt;<br> 			&lt;start&gt;0&lt;/start&gt;<br> 			&lt;end&gt;10150087&lt;/end&gt;<br> 			&lt;stain&gt;gneg&lt;/stain&gt;<br> 			&lt;color&gt;0xFF0000&lt;/color&gt;<br> 		&lt;/band&gt;<br> 		&lt;band index="2" name="p12"&gt;<br> 			&lt;start&gt;10150087&lt;/start&gt;<br>			&lt;end&gt;24291782&lt;/end&gt;<br>			&lt;stain&gt;gvar&lt;/stain&gt;<br>		 &lt;/band&gt;<br>		 &lt;band index="3" name="p11"&gt;<br>			&lt;start&gt;24291782&lt;/start&gt;<br> 			&lt;end&gt;38547522&lt;/end&gt;<br> 			&lt;stain&gt;gneg&lt;/stain&gt;<br> 		&lt;/band&gt;<br>	&lt;/chromosome&gt;<br>	&lt;chromosome index="2" number="10" length="110733352"&gt;<br>		&lt;band index="1" name="q11"&gt;<br>			&lt;start&gt;0&lt;/start&gt;<br>			&lt;end&gt;6255594&lt;/end&gt;<br>			&lt;stain&gt;gpos&lt;/stain&gt;<br>		&lt;/band&gt;<br>		&lt;band index="2" name="q12"&gt;<br>			&lt;start&gt;6255594&lt;/start&gt;<br>			&lt;end&gt;26236148&lt;/end&gt;<br>			&lt;stain&gt;gneg&lt;/stain&gt;<br>		&lt;/band&gt;<br>		&lt;band index="3" name="q21"&gt;<br>			&lt;start&gt;26236148&lt;/start&gt;<br>			&lt;end&gt;34825919&lt;/end&gt;<br>			&lt;stain&gt;gpos&lt;/stain&gt;<br>		&lt;/band&gt;<br>	&lt;/chromosome&gt;<br>&lt;/genome&gt;<br>       </pre>
+<p>The XML elements in this file are as follows, I've used @xxxx to
+indicate attributes of elements </p>
+<table border="1" width="100%">
+  <tbody>
+    <tr class="style6">
+      <td bgcolor="#9999ff" width="13%"><span class="style4">XML
+Element </span></td>
+      <td width="87%"><span class="style4">description</span></td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">chromosome</td>
+      <td>Each chromosome's data is contained within a chromsome
+element </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">@index</td>
+      <td>the chromosome index - an integer value used solely to sort
+the chromsomes to get correct order on the image (otherwise Flash sorts
+them 1, 10, 11, 2, 3, 4, X, Y,etc). </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">@number</td>
+      <td>the actual chromosome number, eg.1, X, Y, used to label the
+chromosome on the Flash GViewer. </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">@length</td>
+      <td>the length of the chromosome in appropriate units (probably
+basepairs). I dont think there would be a problem using other units
+(cR, cM) as long as you were consistent throughout the baseMap file and
+annotation XML. </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">band</td>
+      <td>each band's data on the chromosome is contained within a band
+element</td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">@index</td>
+      <td>index number for the band, used to sort the bands in an
+appropriate order </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">@name</td>
+      <td>name of band, eg q11, p12. Currently not used but could be
+used to display the band info when the mouse was placed over it </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">start</td>
+      <td>
+      <p class="style6">band start location in appropriate Units
+(probably basepairs)</p>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">end</td>
+      <td>band end location in appropriate Units (probably basepairs)</td>
+    </tr>
+    <tr class="style6" valign="top">
+      <td class="style9" bgcolor="#9999ff">stain</td>
+      <td>
+      <p>Giemsa stain abbreviation, obtained from the UCSC cytogenetic
+banding files. This is used to color the bands appropriately. This
+value is overruled by the value in a color element (see below).
+Currently recognized stain abbreviations and the corresponding colors
+are:</p>
+      <table align="center" border="1" width="46%">
+        <tbody>
+          <tr bgcolor="#9999ff">
+            <td>
+            <div align="center"><strong>Stain Abbreviation </strong></div>
+            </td>
+            <td>
+            <div align="center"><strong>Hex Color</strong></div>
+            </td>
+            <td>
+            <div align="center"><strong>Swatch</strong></div>
+            </td>
+          </tr>
+          <tr>
+            <td width="44%">
+            <div align="center">gpos &amp; gpos100<br>
+            </div>
+            </td>
+            <td width="30%">
+            <div align="center">#000000</div>
+            </td>
+            <td bgcolor="#000000" width="26%">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gpos75</div>
+            </td>
+            <td>
+            <div align="center">#444444</div>
+            </td>
+            <td bgcolor="#444444">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gpos66</div>
+            </td>
+            <td>
+            <div align="center">#666666</div>
+            </td>
+            <td bgcolor="#666666">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gpos50</div>
+            </td>
+            <td>
+            <div align="center">#888888</div>
+            </td>
+            <td bgcolor="#888888">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gpos33</div>
+            </td>
+            <td>
+            <div align="center">#AAAAAA</div>
+            </td>
+            <td bgcolor="#aaaaaa">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gpos25</div>
+            </td>
+            <td>
+            <div align="center">#CCCCCC</div>
+            </td>
+            <td bgcolor="#cccccc">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gneg</div>
+            </td>
+            <td>
+            <div align="center">#FFFFFF</div>
+            </td>
+            <td bgcolor="#ffffff">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">gvar</div>
+            </td>
+            <td>
+            <div align="center">#CCCCCC</div>
+            </td>
+            <td bgcolor="#cccccc">
+            <div align="center"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <div align="center">[default]</div>
+            </td>
+            <td>
+            <div align="center">#CCCCCC</div>
+            </td>
+            <td bgcolor="#cccccc">
+            <div align="center"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>&nbsp; </p>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td bgcolor="#9999ff">color</td>
+      <td>Flash hex representation of the band color (begins with 0x
+rather than a #), eg. <strong>0xFF0000</strong> would give a red band.
+Can be used to create a customized color scheme for the baseMap. </td>
+    </tr>
+  </tbody>
+</table>
+<p>The following base maps are provided in the standard distribution. </p>
+<table border="1" width="100%">
+  <tbody>
+    <tr class="style6">
+      <td bgcolor="#9999ff" width="18%"><span class="style4">Base Map
+File </span></td>
+      <td width="55%"><span class="style4">Map Description</span></td>
+      <td width="27%">
+      <div align="center"><strong>External Links? </strong></div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td colspan="3" class="style9" bgcolor="#cccccc">
+      <div align="left">Basic Genome Maps</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">rat_ideo.xml</td>
+      <td>Rat genome with cytogenetic bands, created from UCSC
+cytoBandIdeo file </td>
+      <td>
+      <div align="center">Yes - UCSC Genome Browser </div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">rgd_rat_ideo.xml</td>
+      <td>Rat genome with cytogenetic bands, created from UCSC
+cytoBandIdeo file</td>
+      <td>
+      <div align="center">Yes - RGD Genome Browser </div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">mouse_ideo.xml</td>
+      <td>Mouse genome with cytogenetic bands, created from UCSC
+cytoBandIdeo file </td>
+      <td>
+      <div align="center">Yes - UCSC Genome Browser </div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">human_ideo.xml</td>
+      <td>Human genome with cytogenetic bands, created from UCSC
+cytoBandIdeo file </td>
+      <td>
+      <div align="center">Yes - UCSC Genome Browser </div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">celegans_ideo.xml</td>
+      <td>C. elegans genome, no bands.</td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td colspan="3" class="style9" bgcolor="#cccccc">
+      <div align="left">Comparative Maps (Synteny data from <a
+ href="/VCMAP/">RGD VCMap</a> SEQBASD v1.0) </div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">human-rat_synteny.xml</td>
+      <td>Human genome with bands corresponding to syntenic regions in
+Rat </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">human-mouse_synteny.xml</td>
+      <td>Human genome with bands corresponding to syntenic regions in
+Mouse </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">rat-human_synteny.xml</td>
+      <td>Rat genome with bands corresponding to syntenic regions in
+Human </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">rat-mouse_synteny.xml</td>
+      <td>Rat genome with bands corresponding to syntenic regions in
+Mouse </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">mouse-rat_synteny.xml</td>
+      <td>Mouse genome with bands corresponding to syntenic regions in
+Rat </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">mouse-human_synteny.xml</td>
+      <td>Mouse genome with bands corresponding to syntenic regions in
+Human </td>
+      <td>
+      <div align="center">No</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<hr style="width: 100%; height: 2px;">
+<h2>The Annotation Data</h2>
+<p>Flash GViewer can read annotation data in the XML format shown below
+from a static text file or dynamically from a server-side script. The
+annotation consists of multiple feature elements which provide the
+basic information for each feature to be displayed. The server-side
+script would probably query a database for this information and then
+return the XML data as its output. </p>
+<p>The annotation XML format looks like this:</p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td>
+      <pre class="style7">&lt;?xml version="1.0" standalone="yes"?&gt;<br>&lt;genome&gt;<br> &lt;feature&gt;<br>   &lt;chromosome&gt;7&lt;/chromosome&gt;<br>   &lt;start&gt;10150087&lt;/start&gt;<br>   &lt;end&gt;10150087&lt;/end&gt;<br>   &lt;type&gt;gene&lt;/type&gt;<br>   &lt;label&gt;Abc1&lt;/label&gt;<br>   &lt;color&gt;0xFF0000&lt;/color&gt;<br>   &lt;link&gt;http://rgd.mcw.edu/showReport.cgi?id=45678&lt;/link&gt;<br> &lt;/feature&gt;<br> &lt;feature&gt;<br>   &lt;chromosome&gt;6&lt;/chromosome&gt; <br>   &lt;start&gt;20150087&lt;/start&gt;<br>   &lt;end&gt;40150087&lt;/end&gt;<br>   &lt;type&gt;qtl&lt;/type&gt;<br>   &lt;label&gt;Bp123&lt;/label&gt;<br>   &lt;color&gt;0x33AA33&lt;/color&gt;<br>   &lt;link&gt;http://rgd.mcw.edu/showReport.cgi?id=12345&lt;/link&gt;<br> &lt;/feature&gt;<br>&lt;/genome&gt; </pre>
+      <table border="1" width="100%">
+        <tbody>
+          <tr class="style6">
+            <td bgcolor="#9999ff" width="14%"><span class="style4"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pre class="style7"><br></pre>
+<table border="1" width="100%">
+  <tbody>
+    <tr class="style6">
+      <td bgcolor="#9999ff" width="14%"><span class="style4">XML
+Element </span></td>
+      <td width="86%"><span class="style4">description</span></td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">chromosome</td>
+      <td>The chromosome number that this feature belongs to </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">start</td>
+      <td>
+      <p class="style6">start location in appropriate Units (probably
+basepairs)</p>
+      </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">end</td>
+      <td>end location in appropriate Units (probably basepairs)</td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">type</td>
+      <td>feature type, used to determin what glyph to use when
+rendering the feature - currently two types gene and qtl. Gene is
+displayed as a triangle with the point towards the chromosome at the
+location of the feature. QTL is displayed as a bar stretching from the
+start location to the end location. </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">label</td>
+      <td>The tooltip text that is displayed when the mouse is placed
+over the feature, or when the feature is displayed on the larger scale
+single chromosome view </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">color</td>
+      <td>Flash hex representation of the band color (begins with 0x
+rather than a #), eg. <strong>0xFF0000</strong> would give a red
+feature. Can be used to create a customized color scheme for each
+individual feature. </td>
+    </tr>
+    <tr class="style6">
+      <td class="style9" bgcolor="#9999ff">link</td>
+      <td>URL to link out to if the user clicks on the feature, eg. to
+go to a gene report when they click on a gene. </td>
+    </tr>
+  </tbody>
+</table>
+<hr style="width: 100%; height: 2px;"><big><big><span
+ style="font-weight: bold;">Change Log</span></big></big>
+<p>The change log can be found in the root of the distribution.
+&nbsp;To view the log select <a href="changes.txt">changes.txt</a></p>
+<hr style="width: 100%; height: 2px;">
+<p><big><big><span style="font-weight: bold;">Known Issues</span></big></big></p>
+<p>- To print a page containing the viewer, "print background images"
+must be enabled in the users browser.<big><big><span
+ style="font-weight: bold;"></span></big></big></p>
+<p><big><big><span style="font-weight: bold;"></span></big></big></p>
+<span style="font-weight: bold;"></span><big><big><span
+ style="font-weight: bold;"></span></big></big>
+</body>
+</html>
