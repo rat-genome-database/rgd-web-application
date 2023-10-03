@@ -1,4 +1,4 @@
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <% List<Strain2MarkerAssociation> strainAssocs = associationDAO.getStrain2SslpAssociations(obj.getRgdId());
