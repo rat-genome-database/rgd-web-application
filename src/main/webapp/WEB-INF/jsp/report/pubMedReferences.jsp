@@ -22,9 +22,6 @@
     if (ei.size() > 0) {
 %>
 
-<%//ui.dynOpen("otherPubmed", "References - uncurated")%>
-
-
 <div id="pubMedReferencesTableDiv" class="light-table-border">
     <div class="sectionHeading" id="pubMedReferences">Additional References at PubMed</div>
 
@@ -105,11 +102,8 @@
         </div>
     </div>
 
-
-
 <br>
-<%//ui.dynClose("otherPubmed")%>
+</div>
 
 <% } %>
-</div>
 <%@ include file="sectionFooter.jsp"%>
