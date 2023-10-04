@@ -63,7 +63,7 @@ public class ProjectEditObjectController extends EditObjectController {
             if( isNew ) {
                 // create a new rgd id
                 RGDManagementDAO rgdIdDao = new RGDManagementDAO();
-                RgdId id = rgdIdDao.createRgdId(RgdId.OBJECT_KEY_EXPERIMENTS, "ACTIVE", "created by ProjectEditObject",0);
+                RgdId id = rgdIdDao.createRgdId(RgdId.OBJECT_KEY_EXPERIMENTS, "ACTIVE", "created by ProjectEditObject",3);
                 pro.setRgdId(id.getRgdId());
                 prodao.insertProject(pro);
             } else {
