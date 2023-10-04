@@ -23,7 +23,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                     <td><a href="/jbrowse2/"><img style="border:2px solid grey;" src="/rgdweb/common/images/jbrowse2Screen.png"/></a></td>
                 </tr>
                 <tr>
-                    <td align="center">
+                    <td align="center" valign="top">
                        <!-- http://host/jbrowse2/?config=test_data/config.json&loc=chr1:6000-7000&assembly=hg19&tracks=gene_track,vcf_track-->
                        <table>
                            <tr>
@@ -64,7 +64,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
         </td>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td valign="top">
-            <table style="margin:5px;">
+            <table border-right: 1px solid black;>
                 <tr>
                     <td align="center"><a href="/jbrowse/" style="font-size:26px;">Enter JBrowse 1</a></td>
                 </tr>
@@ -72,7 +72,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                     <td><a href="/jbrowse/"><img style="border:2px solid grey;" src="/rgdweb/common/images/jbrowse1Screen.png"/></a></td>
                 </tr>
                 <tr>
-                    <td>
+                    <td valign="top">
                         <table align="center">
                             <tr>
                                 <td >
