@@ -6,16 +6,35 @@
 <%
 
     AnnotationFormatter af = new AnnotationFormatter();
-    List<Annotation> annotList = annotationDAO.getAnnotations(obj.getRgdId());
-    int isReferenceRgd=0;
+    int oType=managementDAO.getRgdId(obj.getRgdId()).getObjectKey();
+    List<Annotation> annotList=null;
+    boolean hasPhenoMinerAnn=false;
+    int isReferenceRgd = 0;
+    if(oType==14){
+         annotList = annotationDAO.getAnnotationsForProject(obj.getRgdId());
+         isReferenceRgd=0;
 
-    if (annotList.size() == 0) {
-        annotList = annotationDAO.getAnnotationsByReference(obj.getRgdId());
-        if(annotList.size()>0){
-            isReferenceRgd=1;
+        if (annotList.size() == 0) {
+            annotList = annotationDAO.getAnnotationsByReferenceForProject(obj.getRgdId());
+            if(annotList.size()>0){
+                isReferenceRgd=1;
+            }
         }
+        hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReferenceForProject(obj.getRgdId())>0);
     }
-    boolean hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReference(obj.getRgdId())>0);
+    else{
+        annotList = annotationDAO.getAnnotations(obj.getRgdId());
+        isReferenceRgd=0;
+
+        if (annotList.size() == 0) {
+            annotList = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+            if(annotList.size()>0){
+                isReferenceRgd=1;
+            }
+        }
+        hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReference(obj.getRgdId())>0);
+    }
+
 
     // sort annotations by TERM, then by EVIDENCE code
     // to enable createGridFormatAnnotations() to group evidence codes properly
@@ -599,7 +618,15 @@
 
 <table>
     <tr>
+        <% if (oType == 14) {
+            List<Integer>rgdIdPro=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
+            for(Integer i:rgdIdPro){%>
+                <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
+                <td><a href="<%=phenoMinerUrl+i%>">View PhenoMiner data from this reference RGD:<%=i%> here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <% } %>
+        <% } else { %>
         <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <% } %>
     </tr>
     <br />
 </table>

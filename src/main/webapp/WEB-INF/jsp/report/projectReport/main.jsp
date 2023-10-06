@@ -84,15 +84,15 @@
                     <div id="associationsCurator" style="display:none;">
 
                         <%@ include file="phenominerDetails.jsp"%>
-                        <%@ include file="../associationsCuratorForProject.jsp"%>
+                        <%@ include file="../associationsCurator.jsp"%>
                     </div>
                     <div id="associationsStandard" style="display:block;">
 
                         <%@ include file="phenominer.jsp"%>
-                        <%@ include file="../associationsForProject.jsp"%>
+                        <%@ include file="../associations.jsp"%>
 
                     </div>
-                    <%@ include file="../objectsAnnotatedForProject.jsp"%>
+                    <%@ include file="../objectsAnnotated.jsp"%>
                     <br>
                     <%}%>
                     <% if(!pf2.isEmpty()){%>

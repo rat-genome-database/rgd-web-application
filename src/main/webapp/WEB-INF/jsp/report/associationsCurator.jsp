@@ -1,18 +1,39 @@
 <%@ include file="sectionHeader.jsp"%>
+<%--<% int associationsCuratorObjectId=14;%>--%>
 <%
+
+
     String siteName = RgdContext.getSiteName(request);
     AnnotationFormatter af = new AnnotationFormatter();
-    List<Annotation> annotList = annotationDAO.getAnnotations(obj.getRgdId());
-    int isReferenceRgd=0;
-
-    if (annotList.isEmpty()) {
-        annotList = annotationDAO.getAnnotationsByReference(obj.getRgdId());
-        if(annotList.size()>0){
-            isReferenceRgd=1;
+    int oType=managementDAO.getRgdId(obj.getRgdId()).getObjectKey();
+    List<Annotation> annotList=null;
+    boolean hasPhenoMinerAnn=false;
+    int isReferenceRgd = 0;
+    if(oType==14){
+         annotList = annotationDAO.getAnnotationsForProject(obj.getRgdId());
+        if (annotList.isEmpty()) {
+            annotList = annotationDAO.getAnnotationsByReferenceForProject(obj.getRgdId());
+            if(annotList.size()>0){
+                isReferenceRgd=1;
+            }
         }
+         hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReferenceForProject(obj.getRgdId())>0);
     }
-    boolean hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReference(obj.getRgdId())>0);
+    else {
 
+
+         annotList = annotationDAO.getAnnotations(obj.getRgdId());
+
+
+
+        if (annotList.isEmpty()) {
+            annotList = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+            if (annotList.size() > 0) {
+                isReferenceRgd = 1;
+            }
+        }
+         hasPhenoMinerAnn = (annotationDAO.getPhenoAnnotationsCountByReference(obj.getRgdId()) > 0);
+    }
     List<Annotation> filteredList = af.filterList(annotList, "D");
     if (filteredList.size() > 0) {
         // split annotations into buckets
@@ -1216,8 +1237,18 @@
     %>
     <table>
     <tr>
+        <% if (oType == 14) {
+            List<Integer>rgdIdPro=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
+            for(Integer i:rgdIdPro){%>
+        <td>
+        <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
+        <td><a href="<%=phenoMinerUrl+i%>">View experimental data from this reference RGD:<%=i%> here</a><span style="font-size:10px;">&nbsp;</span></td>
+        </td>
+        <% } %>
+        <% } else { %>
         <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
         <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
+        <% } %>
     </tr>
     <br />
     </table>
