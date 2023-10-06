@@ -5,9 +5,15 @@
 <%@ include file="sectionHeader.jsp"%>
 <%
     AnnotationFormatter af = new AnnotationFormatter();
-    final List<Annotation> annots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+    int oType=managementDAO.getRgdId(obj.getRgdId()).getObjectKey();
+    List<Annotation> annots=null;
+    if(oType==14){
+        annots = annotationDAO.getAnnotationsByReferenceForProject(obj.getRgdId());
+    }
+    else{
+        annots = annotationDAO.getAnnotationsByReference(obj.getRgdId());
+    }
     final Set<Integer> annotRgdIds = new HashSet<Integer>(annots.size());
-
     List<Annotation> objTypeListGenesRat = new ArrayList<Annotation>();
     List<Annotation> objTypeListGenesMouse = new ArrayList<Annotation>();
     List<Annotation> objTypeListGenesHuman = new ArrayList<Annotation>();
