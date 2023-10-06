@@ -78,7 +78,7 @@
     </tr>
     <tr>
         <td width="75"><img src="/rgdweb/common/images/portals/15-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=15'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=15" class="diseasePortalName">Infectious Disease</a>&nbsp;&nbsp;<img border="0" src="/rgdweb/common/images/portals/new65.png" /></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=15" class="diseasePortalName">Infectious Disease</a>&nbsp;</td>
         <td width="75"><img src="/rgdweb/common/images/portals/13-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=13'" class="bottomDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=13" class="diseasePortalName">Liver Disease</a></td>
     </tr>
