@@ -10,10 +10,10 @@
 
     // Separate the files into phenotype and genotype lists
     for (ProjectFile file : pf) {
-        if (file.getProject_file_type() != null) {
-            if (file.getProject_file_type().equals("Phenotypes")) {
+        if (file.getProjectFileType()!= null) {
+            if (file.getProjectFileType().equals("Phenotypes")) {
                 phenotypeFiles.add(file);
-            } else if (file.getProject_file_type().equals("Genotypes")) {
+            } else if (file.getProjectFileType().equals("Genotypes")) {
                 genotypeFiles.add(file);
             }
         }
@@ -24,9 +24,9 @@
 <ul>
     <% for (ProjectFile phenotypeFile : phenotypeFiles) { %>
     <%
-        String filename = phenotypeFile.getDownload_url().substring(phenotypeFile.getDownload_url().lastIndexOf('/')+1);
+        String filename = phenotypeFile.getDownloadUrl().substring(phenotypeFile.getDownloadUrl().lastIndexOf('/')+1);
     %>
-    <li><a href="<%=phenotypeFile.getDownload_url()%>" class="projFileLink"><%=filename%></a></li>
+    <li><a href="<%=phenotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>
     <% } %>
 </ul>
 <% } %>
@@ -35,9 +35,9 @@
 <ul>
     <% for (ProjectFile genotypeFile : genotypeFiles) { %>
     <%
-        String filename = genotypeFile.getDownload_url().substring(genotypeFile.getDownload_url().lastIndexOf('/') + 1);
+        String filename = genotypeFile.getDownloadUrl().substring(genotypeFile.getDownloadUrl().lastIndexOf('/') + 1);
     %>
-    <li><a href="<%=genotypeFile.getDownload_url()%>" class="projFileLink"><%=filename%></a></li>
+    <li><a href="<%=genotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>
     <% } %>
 </ul>
 <% } %>

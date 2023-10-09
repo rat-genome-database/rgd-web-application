@@ -44,10 +44,10 @@
 
     // Separate the files into phenotype and genotype lists
     for (ProjectFile file : pf2) {
-        if (file.getProject_file_type() != null) {
-            if (file.getProject_file_type().equals("Phenotypes")) {
+        if (file.getProjectFileType()!= null) {
+            if (file.getProjectFileType().equals("Phenotypes")) {
                 phenotypeFiles1.add(file);
-            } else if (file.getProject_file_type().equals("Genotypes")) {
+            } else if (file.getProjectFileType().equals("Genotypes")) {
                 genotypeFiles1.add(file);
             }
         }
@@ -74,7 +74,7 @@
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
-                    <%if(p2.get(0).getSub_name()!=null||p2.get(0).getPrinci_name()!=null){%>
+                    <%if(p2.get(0).getSubmitterName()!=null||p2.get(0).getPiName()!=null){%>
                     <div class ="subTitle" id="info">Submitter Information</div><br>
                     <%}%>
                     <%@ include file="submittedInfo.jsp"%>

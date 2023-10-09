@@ -13,13 +13,13 @@ public class ProjectFileController implements Controller {
     private ProjectFile extractProjectFileFromRequest(HttpServletRequest request) {
         ProjectFile pf = new ProjectFile();
         if (request.getParameter("file_key") != null) {
-            pf.setFile_key(Integer.parseInt(request.getParameter("file_key")));
+            pf.setFileKey(Integer.parseInt(request.getParameter("file_key")));
         }
         pf.setRgdid(Integer.parseInt(request.getParameter("rgd_id")));
-        pf.setProject_file_type(request.getParameter("project_file_type"));
-        pf.setDownload_url(request.getParameter("download_url"));
+        pf.setProjectFileType(request.getParameter("project_file_type"));
+        pf.setDownloadUrl(request.getParameter("download_url"));
         pf.setProtocol(request.getParameter("protocol"));
-        pf.setProtocol_name(request.getParameter("protocol_name"));
+        pf.setProtocolName(request.getParameter("protocol_name"));
         return pf;
     }
 
@@ -38,7 +38,7 @@ public class ProjectFileController implements Controller {
 
     void addProjectFile(HttpServletRequest request) throws Exception {
         ProjectFile pf = extractProjectFileFromRequest(request);
-        pf.setFile_key(projectFileDAO.getNextKeyFromSequence("REFERENCES_SEQ"));
+        pf.setFileKey(projectFileDAO.getNextKeyFromSequence("REFERENCES_SEQ"));
         projectFileDAO.insert(pf);
     }
 

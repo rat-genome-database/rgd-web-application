@@ -32,20 +32,20 @@
                 <tr>
                     <input type="hidden" name="rgd_id" value="<%= pf.getRgdid() %>">
                     <td>
-                        <input type="hidden" name="file_key" value="<%= pf.getFile_key() %>">
-                        <%= pf.getFile_key() %>
+                        <input type="hidden" name="file_key" value="<%= pf.getFileKey() %>">
+                        <%= pf.getFileKey() %>
                     </td>
                     <td>
                         <select name="project_file_type">
                             <option value=""></option>
-                            <option value="Phenotypes" <%= (pf.getProject_file_type() != null && pf.getProject_file_type().equals("Phenotypes")) ? "selected" : "" %>>Phenotypes</option>
-                            <option value="Genotypes" <%= (pf.getProject_file_type() != null && pf.getProject_file_type().equals("Genotypes")) ? "selected" : "" %>>Genotypes</option>
+                            <option value="Phenotypes" <%= (pf.getProjectFileType() != null && pf.getProjectFileType().equals("Phenotypes")) ? "selected" : "" %>>Phenotypes</option>
+                            <option value="Genotypes" <%= (pf.getProjectFileType() != null && pf.getProjectFileType().equals("Genotypes")) ? "selected" : "" %>>Genotypes</option>
                         </select>
                     </td>
 <%--                    <td><input type="text" name="download_url" value="<%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %>"></td>--%>
-                    <td><textarea name="download_url" cols="30" rows="1" ><%= pf.getDownload_url() != null ? pf.getDownload_url() : "" %></textarea></td>
+                    <td><textarea name="download_url" cols="30" rows="1" ><%= pf.getDownloadUrl() != null ? pf.getDownloadUrl() : "" %></textarea></td>
 <%--                    <td><input type="text" name="protocol_name" value="<%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %>"></td>--%>
-                    <td><textarea name="protocol_name" cols="30" rows="1"><%= pf.getProtocol_name() != null ? pf.getProtocol_name() : "" %></textarea></td>
+                    <td><textarea name="protocol_name" cols="30" rows="1"><%= pf.getProtocolName() != null ? pf.getProtocolName() : "" %></textarea></td>
 <%--                    <td><input type="text" name="protocol" value="<%= pf.getProtocol() != null ? pf.getProtocol() : "" %>"></td>--%>
                     <td><textarea name="protocol" cols="30" rows="1"><%= pf.getProtocol() != null ? pf.getProtocol() : "" %></textarea></td>
                     <td>
