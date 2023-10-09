@@ -18,7 +18,7 @@
         <table border="1">
             <thead>
             <tr>
-                <th class="label">File Key</th>
+<%--                <th class="label">File Key</th>--%>
                 <th class="label">Project File Type</th>
                 <th class="label">File Name</th>
                 <th class="label">Download URL</th>
@@ -30,10 +30,11 @@
             <form action="projectFileUpdate.html" method="post" onsubmit="return validateForm(this)">
                 <tr>
                     <input type="hidden" name="rgd_id" value="<%= pf.getRgdId() %>">
-                    <td>
-                        <input type="hidden" name="file_key" value="<%= pf.getFileKey() %>">
-                        <%= pf.getFileKey() %>
-                    </td>
+                    <input type="hidden" name="file_key" value="<%= pf.getFileKey() %>">
+<%--                    <td>--%>
+<%--                        <input type="hidden" name="file_key" value="<%= pf.getFileKey() %>">--%>
+<%--                        <%= pf.getFileKey() %>--%>
+<%--                    </td>--%>
                     <td>
                         <select name="project_file_type">
                             <option value="Phenotypes" <%= (pf.getProjectFileType() != null && pf.getProjectFileType().equals("Phenotypes")) ? "selected" : "" %>>Phenotypes</option>

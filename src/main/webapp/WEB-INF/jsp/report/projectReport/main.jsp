@@ -81,6 +81,8 @@
                     <div class ="subTitle" id="info">Submitter Information</div><br>
                     <%}%>
                     <%@ include file="submittedInfo.jsp"%>
+                    <br>
+                    <br>
                     <% if(!projRef.isEmpty()){%>
                     <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
                     <br>
