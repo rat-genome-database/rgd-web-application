@@ -15,11 +15,10 @@ public class ProjectFileController implements Controller {
         if (request.getParameter("file_key") != null) {
             pf.setFileKey(Integer.parseInt(request.getParameter("file_key")));
         }
-        pf.setRgdid(Integer.parseInt(request.getParameter("rgd_id")));
+        pf.setRgdId(Integer.parseInt(request.getParameter("rgd_id")));
         pf.setProjectFileType(request.getParameter("project_file_type"));
+        pf.setFileTypeName(request.getParameter("fileName"));
         pf.setDownloadUrl(request.getParameter("download_url"));
-        pf.setProtocol(request.getParameter("protocol"));
-        pf.setProtocolName(request.getParameter("protocol_name"));
         return pf;
     }
 

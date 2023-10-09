@@ -35,13 +35,13 @@
     let reportTitle = "project";
 </script>
 
-<%--to check if there are any references and submitted filesfor the project--%>
+<%--to check if there are any references and submitted files for the project--%>
 <%List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<Project> p2=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
     List<ProjectFile> pf2 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
     List<ProjectFile> phenotypeFiles1 = new ArrayList<>();
     List<ProjectFile> genotypeFiles1 = new ArrayList<>();
-
+    List<ProjectFile> protocols1= new ArrayList<>();
     // Separate the files into phenotype and genotype lists
     for (ProjectFile file : pf2) {
         if (file.getProjectFileType()!= null) {
@@ -49,6 +49,9 @@
                 phenotypeFiles1.add(file);
             } else if (file.getProjectFileType().equals("Genotypes")) {
                 genotypeFiles1.add(file);
+            }
+            else if(file.getProjectFileType().equals("Protocol")){
+                protocols1.add(file);
             }
         }
     }
@@ -101,8 +104,10 @@
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
+                    <% if(protocols1.size()>0){%>
                     <div class ="subTitle" id="protocol">Protocols</div>
                     <%@ include file="protocol.jsp"%>
+                    <%}%>
                     <%}%>
                     <% if(ei1.size()>0){%>
                     <br><div class="subTitle" id="Ext">External Resources</div><br>
