@@ -108,7 +108,7 @@
             return true;
         }
 
-        if (!downloadUrl.trim() && !fileType.trim() && !fileName1.trim()) {
+        if (!downloadUrl.trim() || !fileType.trim() || !fileName1.trim()) {
             alert("Please ensure all the input fields are given.");
             return false;
         }
