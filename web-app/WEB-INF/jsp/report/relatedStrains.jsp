@@ -15,24 +15,32 @@ if (strainList.size() > 0) {
     });
 %>
 
-<%//ui.dynOpen("strainsAssociation", "Related Rat Strains")%>    <br>
-<div class = 'light-table-border'>
-<div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
-    The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
+<br>
+<div class="reportTable light-table-border" id="relatedRatStrainsTableWrapper">
+    <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
+    <div style="padding-top:10px; padding-bottom:10px">The following Strains have been annotated to <span class="highlight"><%=displayName%></span></div>
 
-    <div id="relatedRatStrainsTableWrapper">
+    <%--  OLD CODE (makes the report page broken)
+    <div id="relatedRatStrainsTable">
     <%
         List records = new ArrayList();
         for (Strain s : strainList) {
-            records.add("<tr><td><a href=\"" + Link.strain(s.getRgdId()) + "\">" + s.getSymbol() + "</a></td></tr>");
+            records.add("\n<tr><td><a href=\"" + Link.strain(s.getRgdId()) + "\">" + s.getSymbol() + "</a></td></tr>");
         }
         out.print(formatter.buildTable(records, 4));
     %>
     </div>
-</div>
-    <br>
+    --%>
 
-<%//ui.dynClose("strainsAssociation")%>
+    <div id="relatedRatStrainsTable" style="border: 1px solid black; padding: 10px;" class="report-page-grey">
+
+        <% for (Strain s : strainList) { %>
+               <span style="white-space: pre"><a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a></span> &nbsp; &nbsp;
+        <% } %>
+    </div>
+</div>
+<br>
+
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>
