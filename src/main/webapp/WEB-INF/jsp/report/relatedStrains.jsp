@@ -18,7 +18,7 @@ if (strainList.size() > 0) {
 <br>
 <div class="reportTable light-table-border" id="relatedRatStrainsTableWrapper">
     <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
-    The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
+    <div style="padding-top:10px; padding-bottom:10px">The following Strains have been annotated to <span class="highlight"><%=displayName%></span></div>
 
     <%--  OLD CODE (makes the report page broken)
     <div id="relatedRatStrainsTable">
@@ -32,10 +32,10 @@ if (strainList.size() > 0) {
     </div>
     --%>
 
-    <div id="relatedRatStrainsTable" style="margin-top: 10px; border: 1px solid black;" class="report-page-grey">
+    <div id="relatedRatStrainsTable" style="border: 1px solid black;" class="report-page-grey">
 
         <% for (Strain s : strainList) { %>
-               <a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a> &nbsp; &nbsp;
+               <span style="white-space: pre"><a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a></span> &nbsp; &nbsp;
         <% } %>
     </div>
 </div>
