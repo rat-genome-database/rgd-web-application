@@ -20,7 +20,7 @@ if (strainList.size() > 0) {
     <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
     The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
 
-    <%--  OLD CODE
+    <%--  OLD CODE (makes the report page broken)
     <div id="relatedRatStrainsTable">
     <%
         List records = new ArrayList();
@@ -32,23 +32,13 @@ if (strainList.size() > 0) {
     </div>
     --%>
 
-    <table id="relatedRatStrainsTable" style="margin-top: 10px">
-        <thead></thead>
-        <tbody>
+    <div id="relatedRatStrainsTable" style="margin-top: 10px; border: 1px solid black;" class="report-page-grey">
 
-        <%  int si=0;
-            for (Strain s : strainList) {
-                ++si;
-                String scl = si%2==1 ? "report-page-grey" : "";
-        %>
-        <tr>
-            <td class="<%=scl%>">
-                <a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a>
-            </td>
-        </tr>
+        <% for (Strain s : strainList) { %>
+               <a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a> &nbsp; &nbsp;
         <% } %>
-        </tbody>
-    </table></div>
+    </div>
+</div>
 <br>
 
 <% } %>
