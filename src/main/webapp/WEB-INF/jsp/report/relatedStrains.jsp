@@ -20,6 +20,7 @@ if (strainList.size() > 0) {
     <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
     The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
 
+    <%--  OLD CODE
     <div id="relatedRatStrainsTable">
     <%
         List records = new ArrayList();
@@ -29,7 +30,21 @@ if (strainList.size() > 0) {
         out.print(formatter.buildTable(records, 4));
     %>
     </div>
-</div>
+    --%>
+
+    <table border="0"  id="relatedRatStrainsTable" class="tablesorter">
+        <thead></thead>
+        <tbody>
+
+        <% for (Strain s : strainList) { %>
+        <tr>
+            <td class="report-page-grey">
+                <a href="<%=Link.strain(s.getRgdId())%>"> + s.getSymbol() + </a>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table></div>
 <br>
 
 <% } %>
