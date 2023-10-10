@@ -9,11 +9,10 @@
     List<GeneticModel> modelList = geneticModelsDAO.getAllModelsByGeneRgdId(obj.getRgdId());
     if (modelList.size() > 0) {
 %>
-
 <br>
-<div class="sectionHeading" id="geneticModels">Genetic Models</div>
 <div class="reportTable light-table-border" id="geneticModelsTable">
-    <div>This gene  <span class="highlight"><%=displayName%></span> is modified in the following models/strains:</div>
+    <div class="sectionHeading" id="geneticModels">Genetic Models</div>
+    <div style="padding-top:10px; padding-bottom:10px">This gene  <span class="highlight"><%=displayName%></span> is modified in the following models/strains:</div>
 
     <div id="geneticModelsTableDiv" style="border: 1px solid black; padding: 10px;" class="report-page-grey">
 
