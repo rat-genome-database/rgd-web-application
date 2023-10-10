@@ -32,7 +32,7 @@ if (strainList.size() > 0) {
     </div>
     --%>
 
-    <div id="relatedRatStrainsTable" style="border: 1px solid black;" class="report-page-grey">
+    <div id="relatedRatStrainsTable" style="border: 1px solid black; padding: 10px;" class="report-page-grey">
 
         <% for (Strain s : strainList) { %>
                <span style="white-space: pre"><a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a></span> &nbsp; &nbsp;
