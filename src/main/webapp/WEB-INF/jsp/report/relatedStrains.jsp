@@ -32,13 +32,17 @@ if (strainList.size() > 0) {
     </div>
     --%>
 
-    <table border="0"  id="relatedRatStrainsTable" class="tablesorter">
+    <table id="relatedRatStrainsTable" style="margin-top: 10px">
         <thead></thead>
         <tbody>
 
-        <% for (Strain s : strainList) { %>
+        <%  int si=0;
+            for (Strain s : strainList) {
+                ++si;
+                String scl = si%2==1 ? "report-page-grey" : "";
+        %>
         <tr>
-            <td class="report-page-grey">
+            <td class="<%=scl%>">
                 <a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a>
             </td>
         </tr>
