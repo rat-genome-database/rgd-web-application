@@ -39,7 +39,7 @@ if (strainList.size() > 0) {
         <% for (Strain s : strainList) { %>
         <tr>
             <td class="report-page-grey">
-                <a href="<%=Link.strain(s.getRgdId())%>"> + s.getSymbol() + </a>
+                <a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a>
             </td>
         </tr>
         <% } %>
