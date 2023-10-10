@@ -12,9 +12,12 @@
     List<Project> project1 = pdao1.getProjectByRgdId(obj.getRgdId());
 %>
 
-<h1>Project: <% for(Project i:project1){ %><%= i.getName() %><% } %></h1>
+<%--<h1>Project: <% for(Project i:project1){ %><%= i.getName() %><% } %></h1>--%>
+<h1>Project: <%=project1.get(0).getName() %></h1>
 <br>
-<h3>Description:</h3><% for(Project i:project1){ %><%= i.getDesc() %><% } %>.
+<%--<h3>Description:</h3><% for(Project i:project1){ %><%= i.getDesc() %><% } %>.<br><br>--%>
+<h3>Description:</h3><%=project1.get(0).getDesc()%><br><br>
+<h4 class="inline-heading">RGD ID:</h4> <%=project1.get(0).getRgdId()%>
 <br>
 <%
     ReferenceDAO test = new ReferenceDAO();
