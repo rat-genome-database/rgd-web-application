@@ -12,13 +12,13 @@ public class ProjectFileController implements Controller {
 
     private ProjectFile extractProjectFileFromRequest(HttpServletRequest request) {
         ProjectFile pf = new ProjectFile();
-        if (request.getParameter("file_key") != null) {
-            pf.setFileKey(Integer.parseInt(request.getParameter("file_key")));
+        if (request.getParameter("fileKey") != null) {
+            pf.setFileKey(Integer.parseInt(request.getParameter("fileKey")));
         }
         pf.setRgdId(Integer.parseInt(request.getParameter("rgd_id")));
-        pf.setProjectFileType(request.getParameter("project_file_type"));
+        pf.setProjectFileType(request.getParameter("projectFileType"));
         pf.setFileTypeName(request.getParameter("fileName"));
-        pf.setDownloadUrl(request.getParameter("download_url"));
+        pf.setDownloadUrl(request.getParameter("downloadUrl"));
         return pf;
     }
 
@@ -47,7 +47,7 @@ public class ProjectFileController implements Controller {
     }
 
     void deleteProjectFile(HttpServletRequest request) throws Exception {
-        int fileKey = Integer.parseInt(request.getParameter("file_key"));
-        projectFileDAO.delete(fileKey);
+        int fileKey1 = Integer.parseInt(request.getParameter("fileKey"));
+        projectFileDAO.delete(fileKey1);
     }
 }
