@@ -18,8 +18,9 @@ if (strainList.size() > 0) {
 <br>
 <div class="reportTable light-table-border" id="relatedRatStrainsTableWrapper">
     <div class="sectionHeading" id="relatedRatStrains">Related Rat Strains</div>
-    The following Strains have been annotated to <span class="highlight"><%=displayName%></span>
+    <div style="padding-top:10px; padding-bottom:10px">The following Strains have been annotated to <span class="highlight"><%=displayName%></span></div>
 
+    <%--  OLD CODE (makes the report page broken)
     <div id="relatedRatStrainsTable">
     <%
         List records = new ArrayList();
@@ -28,6 +29,14 @@ if (strainList.size() > 0) {
         }
         out.print(formatter.buildTable(records, 4));
     %>
+    </div>
+    --%>
+
+    <div id="relatedRatStrainsTable" style="border: 1px solid black; padding: 10px;" class="report-page-grey">
+
+        <% for (Strain s : strainList) { %>
+               <span style="white-space: pre"><a href="<%=Link.strain(s.getRgdId())%>"><%=s.getSymbol()%></a></span> &nbsp; &nbsp;
+        <% } %>
     </div>
 </div>
 <br>
