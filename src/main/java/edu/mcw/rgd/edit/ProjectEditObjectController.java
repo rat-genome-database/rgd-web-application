@@ -57,8 +57,8 @@ public class ProjectEditObjectController extends EditObjectController {
 
           pro.setDesc(req.getParameter("desc"));
           pro.setName(req.getParameter("name"));
-          pro.setSubmitterName(req.getParameter("sub_name"));
-          pro.setPiName(req.getParameter("princ_name"));
+          pro.setSubmitterName(req.getParameter("submitterName"));
+          pro.setPiName(req.getParameter("piName"));
         if (persist) {
             if( isNew ) {
                 // create a new rgd id
