@@ -27,7 +27,7 @@ public class CurationLoginController implements Controller {
 
             if(checkAccess(accessToken)) {
 
-                return new ModelAndView("redirect:"+ RgdContext.getHostname()+"/rgdweb/curation/home.html?accessToken=" + accessToken);
+                return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
             }
             else {
                 response.addHeader("Cache-Control","max-age=5, must-revalidate");
