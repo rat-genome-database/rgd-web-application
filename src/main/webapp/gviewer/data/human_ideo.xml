@@ -1,0 +1,5223 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="245522847">
+	<band index="1" name="p36.33">
+		<start>0</start>
+		<end>2300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:0-2300000</link>
+	</band>
+	<band index="2" name="p36.32">
+		<start>2300000</start>
+		<end>5300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:2300000-5300000</link>
+	</band>
+	<band index="3" name="p36.31">
+		<start>5300000</start>
+		<end>7100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:5300000-7100000</link>
+	</band>
+	<band index="4" name="p36.23">
+		<start>7100000</start>
+		<end>9000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:7100000-9000000</link>
+	</band>
+	<band index="5" name="p36.22">
+		<start>9000000</start>
+		<end>12300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:9000000-12300000</link>
+	</band>
+	<band index="6" name="p36.21">
+		<start>12300000</start>
+		<end>15600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:12300000-15600000</link>
+	</band>
+	<band index="7" name="p36.13">
+		<start>15600000</start>
+		<end>20200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:15600000-20200000</link>
+	</band>
+	<band index="8" name="p36.12">
+		<start>20200000</start>
+		<end>23700000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:20200000-23700000</link>
+	</band>
+	<band index="9" name="p36.11">
+		<start>23700000</start>
+		<end>27700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:23700000-27700000</link>
+	</band>
+	<band index="10" name="p35.3">
+		<start>27700000</start>
+		<end>30000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:27700000-30000000</link>
+	</band>
+	<band index="11" name="p35.2">
+		<start>30000000</start>
+		<end>32100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:30000000-32100000</link>
+	</band>
+	<band index="12" name="p35.1">
+		<start>32100000</start>
+		<end>34300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:32100000-34300000</link>
+	</band>
+	<band index="13" name="p34.3">
+		<start>34300000</start>
+		<end>39800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:34300000-39800000</link>
+	</band>
+	<band index="14" name="p34.2">
+		<start>39800000</start>
+		<end>43800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:39800000-43800000</link>
+	</band>
+	<band index="15" name="p34.1">
+		<start>43800000</start>
+		<end>46500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:43800000-46500000</link>
+	</band>
+	<band index="16" name="p33">
+		<start>46500000</start>
+		<end>50400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:46500000-50400000</link>
+	</band>
+	<band index="17" name="p32.3">
+		<start>50400000</start>
+		<end>55800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:50400000-55800000</link>
+	</band>
+	<band index="18" name="p32.2">
+		<start>55800000</start>
+		<end>58700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:55800000-58700000</link>
+	</band>
+	<band index="19" name="p32.1">
+		<start>58700000</start>
+		<end>60100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:58700000-60100000</link>
+	</band>
+	<band index="20" name="p31.3">
+		<start>60100000</start>
+		<end>65500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:60100000-65500000</link>
+	</band>
+	<band index="21" name="p31.2">
+		<start>65500000</start>
+		<end>69500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:65500000-69500000</link>
+	</band>
+	<band index="22" name="p31.1">
+		<start>69500000</start>
+		<end>84600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:69500000-84600000</link>
+	</band>
+	<band index="23" name="p22.3">
+		<start>84600000</start>
+		<end>88100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:84600000-88100000</link>
+	</band>
+	<band index="24" name="p22.2">
+		<start>88100000</start>
+		<end>91700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:88100000-91700000</link>
+	</band>
+	<band index="25" name="p22.1">
+		<start>91700000</start>
+		<end>94500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:91700000-94500000</link>
+	</band>
+	<band index="26" name="p21.3">
+		<start>94500000</start>
+		<end>99500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:94500000-99500000</link>
+	</band>
+	<band index="27" name="p21.2">
+		<start>99500000</start>
+		<end>102000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:99500000-102000000</link>
+	</band>
+	<band index="28" name="p21.1">
+		<start>102000000</start>
+		<end>106900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:102000000-106900000</link>
+	</band>
+	<band index="29" name="p13.3">
+		<start>106900000</start>
+		<end>111500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:106900000-111500000</link>
+	</band>
+	<band index="30" name="p13.2">
+		<start>111500000</start>
+		<end>114900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:111500000-114900000</link>
+	</band>
+	<band index="31" name="p13.1">
+		<start>114900000</start>
+		<end>117500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:114900000-117500000</link>
+	</band>
+	<band index="32" name="p12">
+		<start>117500000</start>
+		<end>120300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:117500000-120300000</link>
+	</band>
+	<band index="33" name="p11.2">
+		<start>120300000</start>
+		<end>121000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:120300000-121000000</link>
+	</band>
+	<band index="34" name="p11.1">
+		<start>121000000</start>
+		<end>124200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:121000000-124200000</link>
+	</band>
+	<band index="35" name="q11">
+		<start>124200000</start>
+		<end>127900000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:124200000-127900000</link>
+	</band>
+	<band index="36" name="q12">
+		<start>127900000</start>
+		<end>141600000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:127900000-141600000</link>
+	</band>
+	<band index="37" name="q21.1">
+		<start>141600000</start>
+		<end>146500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:141600000-146500000</link>
+	</band>
+	<band index="38" name="q21.2">
+		<start>146500000</start>
+		<end>148100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:146500000-148100000</link>
+	</band>
+	<band index="39" name="q21.3">
+		<start>148100000</start>
+		<end>151400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:148100000-151400000</link>
+	</band>
+	<band index="40" name="q22">
+		<start>151400000</start>
+		<end>153400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:151400000-153400000</link>
+	</band>
+	<band index="41" name="q23.1">
+		<start>153400000</start>
+		<end>155900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:153400000-155900000</link>
+	</band>
+	<band index="42" name="q23.2">
+		<start>155900000</start>
+		<end>157300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:155900000-157300000</link>
+	</band>
+	<band index="43" name="q23.3">
+		<start>157300000</start>
+		<end>162300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:157300000-162300000</link>
+	</band>
+	<band index="44" name="q24.1">
+		<start>162300000</start>
+		<end>163900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:162300000-163900000</link>
+	</band>
+	<band index="45" name="q24.2">
+		<start>163900000</start>
+		<end>167600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:163900000-167600000</link>
+	</band>
+	<band index="46" name="q24.3">
+		<start>167600000</start>
+		<end>169700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:167600000-169700000</link>
+	</band>
+	<band index="47" name="q25.1">
+		<start>169700000</start>
+		<end>172800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:169700000-172800000</link>
+	</band>
+	<band index="48" name="q25.2">
+		<start>172800000</start>
+		<end>177000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:172800000-177000000</link>
+	</band>
+	<band index="49" name="q25.3">
+		<start>177000000</start>
+		<end>182500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:177000000-182500000</link>
+	</band>
+	<band index="50" name="q31.1">
+		<start>182500000</start>
+		<end>187500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:182500000-187500000</link>
+	</band>
+	<band index="51" name="q31.2">
+		<start>187500000</start>
+		<end>190500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:187500000-190500000</link>
+	</band>
+	<band index="52" name="q31.3">
+		<start>190500000</start>
+		<end>196000000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:190500000-196000000</link>
+	</band>
+	<band index="53" name="q32.1">
+		<start>196000000</start>
+		<end>203600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:196000000-203600000</link>
+	</band>
+	<band index="54" name="q32.2">
+		<start>203600000</start>
+		<end>207800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:203600000-207800000</link>
+	</band>
+	<band index="55" name="q32.3">
+		<start>207800000</start>
+		<end>210500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:207800000-210500000</link>
+	</band>
+	<band index="56" name="q41">
+		<start>210500000</start>
+		<end>219800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:210500000-219800000</link>
+	</band>
+	<band index="57" name="q42.11">
+		<start>219800000</start>
+		<end>220600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:219800000-220600000</link>
+	</band>
+	<band index="58" name="q42.12">
+		<start>220600000</start>
+		<end>223300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:220600000-223300000</link>
+	</band>
+	<band index="59" name="q42.13">
+		<start>223300000</start>
+		<end>227000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:223300000-227000000</link>
+	</band>
+	<band index="60" name="q42.2">
+		<start>227000000</start>
+		<end>231000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:227000000-231000000</link>
+	</band>
+	<band index="61" name="q42.3">
+		<start>231000000</start>
+		<end>232900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:231000000-232900000</link>
+	</band>
+	<band index="62" name="q43">
+		<start>232900000</start>
+		<end>239500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:232900000-239500000</link>
+	</band>
+	<band index="63" name="q44">
+		<start>239500000</start>
+		<end>245522847</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr1:239500000-245522847</link>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="135413628">
+	<band index="1" name="p15.3">
+		<start>0</start>
+		<end>3000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:0-3000000</link>
+	</band>
+	<band index="2" name="p15.2">
+		<start>3000000</start>
+		<end>3800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:3000000-3800000</link>
+	</band>
+	<band index="3" name="p15.1">
+		<start>3800000</start>
+		<end>6700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:3800000-6700000</link>
+	</band>
+	<band index="4" name="p14">
+		<start>6700000</start>
+		<end>12300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:6700000-12300000</link>
+	</band>
+	<band index="5" name="p13">
+		<start>12300000</start>
+		<end>17300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:12300000-17300000</link>
+	</band>
+	<band index="6" name="p12.33">
+		<start>17300000</start>
+		<end>18600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:17300000-18600000</link>
+	</band>
+	<band index="7" name="p12.32">
+		<start>18600000</start>
+		<end>18700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:18600000-18700000</link>
+	</band>
+	<band index="8" name="p12.31">
+		<start>18700000</start>
+		<end>22600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:18700000-22600000</link>
+	</band>
+	<band index="9" name="p12.2">
+		<start>22600000</start>
+		<end>24600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:22600000-24600000</link>
+	</band>
+	<band index="10" name="p12.1">
+		<start>24600000</start>
+		<end>29400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:24600000-29400000</link>
+	</band>
+	<band index="11" name="p11.23">
+		<start>29400000</start>
+		<end>31400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:29400000-31400000</link>
+	</band>
+	<band index="12" name="p11.22">
+		<start>31400000</start>
+		<end>34500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:31400000-34500000</link>
+	</band>
+	<band index="13" name="p11.21">
+		<start>34500000</start>
+		<end>38800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:34500000-38800000</link>
+	</band>
+	<band index="14" name="p11.1">
+		<start>38800000</start>
+		<end>40300000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:38800000-40300000</link>
+	</band>
+	<band index="15" name="q11.1">
+		<start>40300000</start>
+		<end>41900000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:40300000-41900000</link>
+	</band>
+	<band index="16" name="q11.21">
+		<start>41900000</start>
+		<end>45700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:41900000-45700000</link>
+	</band>
+	<band index="17" name="q11.22">
+		<start>45700000</start>
+		<end>49500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:45700000-49500000</link>
+	</band>
+	<band index="18" name="q11.23">
+		<start>49500000</start>
+		<end>52600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:49500000-52600000</link>
+	</band>
+	<band index="19" name="q21.1">
+		<start>52600000</start>
+		<end>60800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:52600000-60800000</link>
+	</band>
+	<band index="20" name="q21.2">
+		<start>60800000</start>
+		<end>64200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:60800000-64200000</link>
+	</band>
+	<band index="21" name="q21.3">
+		<start>64200000</start>
+		<end>70300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:64200000-70300000</link>
+	</band>
+	<band index="22" name="q22.1">
+		<start>70300000</start>
+		<end>74600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:70300000-74600000</link>
+	</band>
+	<band index="23" name="q22.2">
+		<start>74600000</start>
+		<end>77700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:74600000-77700000</link>
+	</band>
+	<band index="24" name="q22.3">
+		<start>77700000</start>
+		<end>82900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:77700000-82900000</link>
+	</band>
+	<band index="25" name="q23.1">
+		<start>82900000</start>
+		<end>86800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:82900000-86800000</link>
+	</band>
+	<band index="26" name="q23.2">
+		<start>86800000</start>
+		<end>89100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:86800000-89100000</link>
+	</band>
+	<band index="27" name="q23.31">
+		<start>89100000</start>
+		<end>92900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:89100000-92900000</link>
+	</band>
+	<band index="28" name="q23.32">
+		<start>92900000</start>
+		<end>94100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:92900000-94100000</link>
+	</band>
+	<band index="29" name="q23.33">
+		<start>94100000</start>
+		<end>97000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:94100000-97000000</link>
+	</band>
+	<band index="30" name="q24.1">
+		<start>97000000</start>
+		<end>99300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:97000000-99300000</link>
+	</band>
+	<band index="31" name="q24.2">
+		<start>99300000</start>
+		<end>101900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:99300000-101900000</link>
+	</band>
+	<band index="32" name="q24.31">
+		<start>101900000</start>
+		<end>102900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:101900000-102900000</link>
+	</band>
+	<band index="33" name="q24.32">
+		<start>102900000</start>
+		<end>104800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:102900000-104800000</link>
+	</band>
+	<band index="34" name="q24.33">
+		<start>104800000</start>
+		<end>105700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:104800000-105700000</link>
+	</band>
+	<band index="35" name="q25.1">
+		<start>105700000</start>
+		<end>111800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:105700000-111800000</link>
+	</band>
+	<band index="36" name="q25.2">
+		<start>111800000</start>
+		<end>114900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:111800000-114900000</link>
+	</band>
+	<band index="37" name="q25.3">
+		<start>114900000</start>
+		<end>118700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:114900000-118700000</link>
+	</band>
+	<band index="38" name="q26.11">
+		<start>118700000</start>
+		<end>121500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:118700000-121500000</link>
+	</band>
+	<band index="39" name="q26.12">
+		<start>121500000</start>
+		<end>123100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:121500000-123100000</link>
+	</band>
+	<band index="40" name="q26.13">
+		<start>123100000</start>
+		<end>127400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:123100000-127400000</link>
+	</band>
+	<band index="41" name="q26.2">
+		<start>127400000</start>
+		<end>130500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:127400000-130500000</link>
+	</band>
+	<band index="42" name="q26.3">
+		<start>130500000</start>
+		<end>135413628</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr10:130500000-135413628</link>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="134452384">
+	<band index="1" name="p15.5">
+		<start>0</start>
+		<end>2800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:0-2800000</link>
+	</band>
+	<band index="2" name="p15.4">
+		<start>2800000</start>
+		<end>10700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:2800000-10700000</link>
+	</band>
+	<band index="3" name="p15.3">
+		<start>10700000</start>
+		<end>12600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:10700000-12600000</link>
+	</band>
+	<band index="4" name="p15.2">
+		<start>12600000</start>
+		<end>16100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:12600000-16100000</link>
+	</band>
+	<band index="5" name="p15.1">
+		<start>16100000</start>
+		<end>21600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:16100000-21600000</link>
+	</band>
+	<band index="6" name="p14.3">
+		<start>21600000</start>
+		<end>26000000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:21600000-26000000</link>
+	</band>
+	<band index="7" name="p14.2">
+		<start>26000000</start>
+		<end>27200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:26000000-27200000</link>
+	</band>
+	<band index="8" name="p14.1">
+		<start>27200000</start>
+		<end>31000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:27200000-31000000</link>
+	</band>
+	<band index="9" name="p13">
+		<start>31000000</start>
+		<end>36400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:31000000-36400000</link>
+	</band>
+	<band index="10" name="p12">
+		<start>36400000</start>
+		<end>43400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:36400000-43400000</link>
+	</band>
+	<band index="11" name="p11.2">
+		<start>43400000</start>
+		<end>48800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:43400000-48800000</link>
+	</band>
+	<band index="12" name="p11.12">
+		<start>48800000</start>
+		<end>51400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:48800000-51400000</link>
+	</band>
+	<band index="13" name="p11.11">
+		<start>51400000</start>
+		<end>52900000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:51400000-52900000</link>
+	</band>
+	<band index="14" name="q11">
+		<start>52900000</start>
+		<end>56700000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:52900000-56700000</link>
+	</band>
+	<band index="15" name="q12.1">
+		<start>56700000</start>
+		<end>59800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:56700000-59800000</link>
+	</band>
+	<band index="16" name="q12.2">
+		<start>59800000</start>
+		<end>61500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:59800000-61500000</link>
+	</band>
+	<band index="17" name="q12.3">
+		<start>61500000</start>
+		<end>63100000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:61500000-63100000</link>
+	</band>
+	<band index="18" name="q13.1">
+		<start>63100000</start>
+		<end>65600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:63100000-65600000</link>
+	</band>
+	<band index="19" name="q13.2">
+		<start>65600000</start>
+		<end>68300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:65600000-68300000</link>
+	</band>
+	<band index="20" name="q13.3">
+		<start>68300000</start>
+		<end>70000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:68300000-70000000</link>
+	</band>
+	<band index="21" name="q13.4">
+		<start>70000000</start>
+		<end>74900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:70000000-74900000</link>
+	</band>
+	<band index="22" name="q13.5">
+		<start>74900000</start>
+		<end>77400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:74900000-77400000</link>
+	</band>
+	<band index="23" name="q14.1">
+		<start>77400000</start>
+		<end>85300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:77400000-85300000</link>
+	</band>
+	<band index="24" name="q14.2">
+		<start>85300000</start>
+		<end>87800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:85300000-87800000</link>
+	</band>
+	<band index="25" name="q14.3">
+		<start>87800000</start>
+		<end>92100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:87800000-92100000</link>
+	</band>
+	<band index="26" name="q21">
+		<start>92100000</start>
+		<end>96400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:92100000-96400000</link>
+	</band>
+	<band index="27" name="q22.1">
+		<start>96400000</start>
+		<end>101200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:96400000-101200000</link>
+	</band>
+	<band index="28" name="q22.2">
+		<start>101200000</start>
+		<end>102400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:101200000-102400000</link>
+	</band>
+	<band index="29" name="q22.3">
+		<start>102400000</start>
+		<end>110000000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:102400000-110000000</link>
+	</band>
+	<band index="30" name="q23.1">
+		<start>110000000</start>
+		<end>112700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:110000000-112700000</link>
+	</band>
+	<band index="31" name="q23.2">
+		<start>112700000</start>
+		<end>114400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:112700000-114400000</link>
+	</band>
+	<band index="32" name="q23.3">
+		<start>114400000</start>
+		<end>121200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:114400000-121200000</link>
+	</band>
+	<band index="33" name="q24.1">
+		<start>121200000</start>
+		<end>123800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:121200000-123800000</link>
+	</band>
+	<band index="34" name="q24.2">
+		<start>123800000</start>
+		<end>127500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:123800000-127500000</link>
+	</band>
+	<band index="35" name="q24.3">
+		<start>127500000</start>
+		<end>130300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:127500000-130300000</link>
+	</band>
+	<band index="36" name="q25">
+		<start>130300000</start>
+		<end>134452384</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr11:130300000-134452384</link>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="132449811">
+	<band index="1" name="p13.33">
+		<start>0</start>
+		<end>3100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:0-3100000</link>
+	</band>
+	<band index="2" name="p13.32">
+		<start>3100000</start>
+		<end>5300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:3100000-5300000</link>
+	</band>
+	<band index="3" name="p13.31">
+		<start>5300000</start>
+		<end>10100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:5300000-10100000</link>
+	</band>
+	<band index="4" name="p13.2">
+		<start>10100000</start>
+		<end>12900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:10100000-12900000</link>
+	</band>
+	<band index="5" name="p13.1">
+		<start>12900000</start>
+		<end>14700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:12900000-14700000</link>
+	</band>
+	<band index="6" name="p12.3">
+		<start>14700000</start>
+		<end>19900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:14700000-19900000</link>
+	</band>
+	<band index="7" name="p12.2">
+		<start>19900000</start>
+		<end>21200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:19900000-21200000</link>
+	</band>
+	<band index="8" name="p12.1">
+		<start>21200000</start>
+		<end>26400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:21200000-26400000</link>
+	</band>
+	<band index="9" name="p11.23">
+		<start>26400000</start>
+		<end>27700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:26400000-27700000</link>
+	</band>
+	<band index="10" name="p11.22">
+		<start>27700000</start>
+		<end>30600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:27700000-30600000</link>
+	</band>
+	<band index="11" name="p11.21">
+		<start>30600000</start>
+		<end>33200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:30600000-33200000</link>
+	</band>
+	<band index="12" name="p11.1">
+		<start>33200000</start>
+		<end>35400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:33200000-35400000</link>
+	</band>
+	<band index="13" name="q11">
+		<start>35400000</start>
+		<end>36500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:35400000-36500000</link>
+	</band>
+	<band index="14" name="q12">
+		<start>36500000</start>
+		<end>44600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:36500000-44600000</link>
+	</band>
+	<band index="15" name="q13.11">
+		<start>44600000</start>
+		<end>47400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:44600000-47400000</link>
+	</band>
+	<band index="16" name="q13.12">
+		<start>47400000</start>
+		<end>49800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:47400000-49800000</link>
+	</band>
+	<band index="17" name="q13.13">
+		<start>49800000</start>
+		<end>53100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:49800000-53100000</link>
+	</band>
+	<band index="18" name="q13.2">
+		<start>53100000</start>
+		<end>54900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:53100000-54900000</link>
+	</band>
+	<band index="19" name="q13.3">
+		<start>54900000</start>
+		<end>56300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:54900000-56300000</link>
+	</band>
+	<band index="20" name="q14.1">
+		<start>56300000</start>
+		<end>61400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:56300000-61400000</link>
+	</band>
+	<band index="21" name="q14.2">
+		<start>61400000</start>
+		<end>63400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:61400000-63400000</link>
+	</band>
+	<band index="22" name="q14.3">
+		<start>63400000</start>
+		<end>66100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:63400000-66100000</link>
+	</band>
+	<band index="23" name="q15">
+		<start>66100000</start>
+		<end>70100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:66100000-70100000</link>
+	</band>
+	<band index="24" name="q21.1">
+		<start>70100000</start>
+		<end>74300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:70100000-74300000</link>
+	</band>
+	<band index="25" name="q21.2">
+		<start>74300000</start>
+		<end>78900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:74300000-78900000</link>
+	</band>
+	<band index="26" name="q21.31">
+		<start>78900000</start>
+		<end>85200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:78900000-85200000</link>
+	</band>
+	<band index="27" name="q21.32">
+		<start>85200000</start>
+		<end>87500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:85200000-87500000</link>
+	</band>
+	<band index="28" name="q21.33">
+		<start>87500000</start>
+		<end>91200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:87500000-91200000</link>
+	</band>
+	<band index="29" name="q22">
+		<start>91200000</start>
+		<end>94700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:91200000-94700000</link>
+	</band>
+	<band index="30" name="q23.1">
+		<start>94700000</start>
+		<end>100100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:94700000-100100000</link>
+	</band>
+	<band index="31" name="q23.2">
+		<start>100100000</start>
+		<end>102400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:100100000-102400000</link>
+	</band>
+	<band index="32" name="q23.3">
+		<start>102400000</start>
+		<end>107500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:102400000-107500000</link>
+	</band>
+	<band index="33" name="q24.11">
+		<start>107500000</start>
+		<end>110200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:107500000-110200000</link>
+	</band>
+	<band index="34" name="q24.12">
+		<start>110200000</start>
+		<end>110800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:110200000-110800000</link>
+	</band>
+	<band index="35" name="q24.13">
+		<start>110800000</start>
+		<end>112800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:110800000-112800000</link>
+	</band>
+	<band index="36" name="q24.21">
+		<start>112800000</start>
+		<end>115300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:112800000-115300000</link>
+	</band>
+	<band index="37" name="q24.22">
+		<start>115300000</start>
+		<end>116600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:115300000-116600000</link>
+	</band>
+	<band index="38" name="q24.23">
+		<start>116600000</start>
+		<end>119300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:116600000-119300000</link>
+	</band>
+	<band index="39" name="q24.31">
+		<start>119300000</start>
+		<end>125400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:119300000-125400000</link>
+	</band>
+	<band index="40" name="q24.32">
+		<start>125400000</start>
+		<end>128300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:125400000-128300000</link>
+	</band>
+	<band index="41" name="q24.33">
+		<start>128300000</start>
+		<end>132449811</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr12:128300000-132449811</link>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="114142980">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>3800000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:0-3800000</link>
+	</band>
+	<band index="2" name="p12">
+		<start>3800000</start>
+		<end>8300000</end>
+		<stain>stalk</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:3800000-8300000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>8300000</start>
+		<end>13500000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:8300000-13500000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>13500000</start>
+		<end>16000000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:13500000-16000000</link>
+	</band>
+	<band index="5" name="q11">
+		<start>16000000</start>
+		<end>18400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:16000000-18400000</link>
+	</band>
+	<band index="6" name="q12.11">
+		<start>18400000</start>
+		<end>22200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:18400000-22200000</link>
+	</band>
+	<band index="7" name="q12.12">
+		<start>22200000</start>
+		<end>24400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:22200000-24400000</link>
+	</band>
+	<band index="8" name="q12.13">
+		<start>24400000</start>
+		<end>26600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:24400000-26600000</link>
+	</band>
+	<band index="9" name="q12.2">
+		<start>26600000</start>
+		<end>27800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:26600000-27800000</link>
+	</band>
+	<band index="10" name="q12.3">
+		<start>27800000</start>
+		<end>31100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:27800000-31100000</link>
+	</band>
+	<band index="11" name="q13.1">
+		<start>31100000</start>
+		<end>32900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:31100000-32900000</link>
+	</band>
+	<band index="12" name="q13.2">
+		<start>32900000</start>
+		<end>34500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:32900000-34500000</link>
+	</band>
+	<band index="13" name="q13.3">
+		<start>34500000</start>
+		<end>39000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:34500000-39000000</link>
+	</band>
+	<band index="14" name="q14.11">
+		<start>39000000</start>
+		<end>44100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:39000000-44100000</link>
+	</band>
+	<band index="15" name="q14.12">
+		<start>44100000</start>
+		<end>44700000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:44100000-44700000</link>
+	</band>
+	<band index="16" name="q14.13">
+		<start>44700000</start>
+		<end>46200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:44700000-46200000</link>
+	</band>
+	<band index="17" name="q14.2">
+		<start>46200000</start>
+		<end>49800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:46200000-49800000</link>
+	</band>
+	<band index="18" name="q14.3">
+		<start>49800000</start>
+		<end>54200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:49800000-54200000</link>
+	</band>
+	<band index="19" name="q21.1">
+		<start>54200000</start>
+		<end>58500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:54200000-58500000</link>
+	</band>
+	<band index="20" name="q21.2">
+		<start>58500000</start>
+		<end>61200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:58500000-61200000</link>
+	</band>
+	<band index="21" name="q21.31">
+		<start>61200000</start>
+		<end>64600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:61200000-64600000</link>
+	</band>
+	<band index="22" name="q21.32">
+		<start>64600000</start>
+		<end>67500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:64600000-67500000</link>
+	</band>
+	<band index="23" name="q21.33">
+		<start>67500000</start>
+		<end>72100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:67500000-72100000</link>
+	</band>
+	<band index="24" name="q22.1">
+		<start>72100000</start>
+		<end>74200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:72100000-74200000</link>
+	</band>
+	<band index="25" name="q22.2">
+		<start>74200000</start>
+		<end>76100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:74200000-76100000</link>
+	</band>
+	<band index="26" name="q22.3">
+		<start>76100000</start>
+		<end>77900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:76100000-77900000</link>
+	</band>
+	<band index="27" name="q31.1">
+		<start>77900000</start>
+		<end>86500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:77900000-86500000</link>
+	</band>
+	<band index="28" name="q31.2">
+		<start>86500000</start>
+		<end>88800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:86500000-88800000</link>
+	</band>
+	<band index="29" name="q31.3">
+		<start>88800000</start>
+		<end>93800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:88800000-93800000</link>
+	</band>
+	<band index="30" name="q32.1">
+		<start>93800000</start>
+		<end>97000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:93800000-97000000</link>
+	</band>
+	<band index="31" name="q32.2">
+		<start>97000000</start>
+		<end>98200000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:97000000-98200000</link>
+	</band>
+	<band index="32" name="q32.3">
+		<start>98200000</start>
+		<end>100500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:98200000-100500000</link>
+	</band>
+	<band index="33" name="q33.1">
+		<start>100500000</start>
+		<end>103700000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:100500000-103700000</link>
+	</band>
+	<band index="34" name="q33.2">
+		<start>103700000</start>
+		<end>105800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:103700000-105800000</link>
+	</band>
+	<band index="35" name="q33.3">
+		<start>105800000</start>
+		<end>109100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:105800000-109100000</link>
+	</band>
+	<band index="36" name="q34">
+		<start>109100000</start>
+		<end>114142980</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr13:109100000-114142980</link>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="106368585">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>3100000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:0-3100000</link>
+	</band>
+	<band index="2" name="p12">
+		<start>3100000</start>
+		<end>6700000</end>
+		<stain>stalk</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:3100000-6700000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>6700000</start>
+		<end>13600000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:6700000-13600000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>13600000</start>
+		<end>15600000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:13600000-15600000</link>
+	</band>
+	<band index="5" name="q11.1">
+		<start>15600000</start>
+		<end>19000000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:15600000-19000000</link>
+	</band>
+	<band index="6" name="q11.2">
+		<start>19000000</start>
+		<end>24300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:19000000-24300000</link>
+	</band>
+	<band index="7" name="q12">
+		<start>24300000</start>
+		<end>32400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:24300000-32400000</link>
+	</band>
+	<band index="8" name="q13.1">
+		<start>32400000</start>
+		<end>34400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:32400000-34400000</link>
+	</band>
+	<band index="9" name="q13.2">
+		<start>34400000</start>
+		<end>35600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:34400000-35600000</link>
+	</band>
+	<band index="10" name="q13.3">
+		<start>35600000</start>
+		<end>36900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:35600000-36900000</link>
+	</band>
+	<band index="11" name="q21.1">
+		<start>36900000</start>
+		<end>42600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:36900000-42600000</link>
+	</band>
+	<band index="12" name="q21.2">
+		<start>42600000</start>
+		<end>46300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:42600000-46300000</link>
+	</band>
+	<band index="13" name="q21.3">
+		<start>46300000</start>
+		<end>50100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:46300000-50100000</link>
+	</band>
+	<band index="14" name="q22.1">
+		<start>50100000</start>
+		<end>53300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:50100000-53300000</link>
+	</band>
+	<band index="15" name="q22.2">
+		<start>53300000</start>
+		<end>54600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:53300000-54600000</link>
+	</band>
+	<band index="16" name="q22.3">
+		<start>54600000</start>
+		<end>57200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:54600000-57200000</link>
+	</band>
+	<band index="17" name="q23.1">
+		<start>57200000</start>
+		<end>61200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:57200000-61200000</link>
+	</band>
+	<band index="18" name="q23.2">
+		<start>61200000</start>
+		<end>64000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:61200000-64000000</link>
+	</band>
+	<band index="19" name="q23.3">
+		<start>64000000</start>
+		<end>67000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:64000000-67000000</link>
+	</band>
+	<band index="20" name="q24.1">
+		<start>67000000</start>
+		<end>69300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:67000000-69300000</link>
+	</band>
+	<band index="21" name="q24.2">
+		<start>69300000</start>
+		<end>72900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:69300000-72900000</link>
+	</band>
+	<band index="22" name="q24.3">
+		<start>72900000</start>
+		<end>78400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:72900000-78400000</link>
+	</band>
+	<band index="23" name="q31.1">
+		<start>78400000</start>
+		<end>82300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:78400000-82300000</link>
+	</band>
+	<band index="24" name="q31.2">
+		<start>82300000</start>
+		<end>83400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:82300000-83400000</link>
+	</band>
+	<band index="25" name="q31.3">
+		<start>83400000</start>
+		<end>88100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:83400000-88100000</link>
+	</band>
+	<band index="26" name="q32.11">
+		<start>88100000</start>
+		<end>90000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:88100000-90000000</link>
+	</band>
+	<band index="27" name="q32.12">
+		<start>90000000</start>
+		<end>92600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:90000000-92600000</link>
+	</band>
+	<band index="28" name="q32.13">
+		<start>92600000</start>
+		<end>95400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:92600000-95400000</link>
+	</band>
+	<band index="29" name="q32.2">
+		<start>95400000</start>
+		<end>100400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:95400000-100400000</link>
+	</band>
+	<band index="30" name="q32.31">
+		<start>100400000</start>
+		<end>101500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:100400000-101500000</link>
+	</band>
+	<band index="31" name="q32.32">
+		<start>101500000</start>
+		<end>103100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:101500000-103100000</link>
+	</band>
+	<band index="32" name="q32.33">
+		<start>103100000</start>
+		<end>106368585</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr14:103100000-106368585</link>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="100338915">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>3500000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:0-3500000</link>
+	</band>
+	<band index="2" name="p12">
+		<start>3500000</start>
+		<end>7900000</end>
+		<stain>stalk</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:3500000-7900000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>7900000</start>
+		<end>14100000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:7900000-14100000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>14100000</start>
+		<end>17000000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:14100000-17000000</link>
+	</band>
+	<band index="5" name="q11.1">
+		<start>17000000</start>
+		<end>18300000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:17000000-18300000</link>
+	</band>
+	<band index="6" name="q11.2">
+		<start>18300000</start>
+		<end>23200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:18300000-23200000</link>
+	</band>
+	<band index="7" name="q12">
+		<start>23200000</start>
+		<end>25700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:23200000-25700000</link>
+	</band>
+	<band index="8" name="q13.1">
+		<start>25700000</start>
+		<end>28000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:25700000-28000000</link>
+	</band>
+	<band index="9" name="q13.2">
+		<start>28000000</start>
+		<end>29000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:28000000-29000000</link>
+	</band>
+	<band index="10" name="q13.3">
+		<start>29000000</start>
+		<end>31400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:29000000-31400000</link>
+	</band>
+	<band index="11" name="q14">
+		<start>31400000</start>
+		<end>37900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:31400000-37900000</link>
+	</band>
+	<band index="12" name="q15.1">
+		<start>37900000</start>
+		<end>40700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:37900000-40700000</link>
+	</band>
+	<band index="13" name="q15.2">
+		<start>40700000</start>
+		<end>41400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:40700000-41400000</link>
+	</band>
+	<band index="14" name="q15.3">
+		<start>41400000</start>
+		<end>42600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:41400000-42600000</link>
+	</band>
+	<band index="15" name="q21.1">
+		<start>42600000</start>
+		<end>47500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:42600000-47500000</link>
+	</band>
+	<band index="16" name="q21.2">
+		<start>47500000</start>
+		<end>50700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:47500000-50700000</link>
+	</band>
+	<band index="17" name="q21.3">
+		<start>50700000</start>
+		<end>57000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:50700000-57000000</link>
+	</band>
+	<band index="18" name="q22.1">
+		<start>57000000</start>
+		<end>57100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:57000000-57100000</link>
+	</band>
+	<band index="19" name="q22.2">
+		<start>57100000</start>
+		<end>61500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:57100000-61500000</link>
+	</band>
+	<band index="20" name="q22.31">
+		<start>61500000</start>
+		<end>64900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:61500000-64900000</link>
+	</band>
+	<band index="21" name="q22.32">
+		<start>64900000</start>
+		<end>65000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:64900000-65000000</link>
+	</band>
+	<band index="22" name="q22.33">
+		<start>65000000</start>
+		<end>65300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:65000000-65300000</link>
+	</band>
+	<band index="23" name="q23">
+		<start>65300000</start>
+		<end>70400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:65300000-70400000</link>
+	</band>
+	<band index="24" name="q24.1">
+		<start>70400000</start>
+		<end>73100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:70400000-73100000</link>
+	</band>
+	<band index="25" name="q24.2">
+		<start>73100000</start>
+		<end>74400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:73100000-74400000</link>
+	</band>
+	<band index="26" name="q24.3">
+		<start>74400000</start>
+		<end>76100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:74400000-76100000</link>
+	</band>
+	<band index="27" name="q25.1">
+		<start>76100000</start>
+		<end>79500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:76100000-79500000</link>
+	</band>
+	<band index="28" name="q25.2">
+		<start>79500000</start>
+		<end>83000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:79500000-83000000</link>
+	</band>
+	<band index="29" name="q25.3">
+		<start>83000000</start>
+		<end>86900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:83000000-86900000</link>
+	</band>
+	<band index="30" name="q26.1">
+		<start>86900000</start>
+		<end>92100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:86900000-92100000</link>
+	</band>
+	<band index="31" name="q26.2">
+		<start>92100000</start>
+		<end>96300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:92100000-96300000</link>
+	</band>
+	<band index="32" name="q26.3">
+		<start>96300000</start>
+		<end>100338915</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr15:96300000-100338915</link>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="88827254">
+	<band index="1" name="p13.3">
+		<start>0</start>
+		<end>6300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:0-6300000</link>
+	</band>
+	<band index="2" name="p13.2">
+		<start>6300000</start>
+		<end>10300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:6300000-10300000</link>
+	</band>
+	<band index="3" name="p13.13">
+		<start>10300000</start>
+		<end>12500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:10300000-12500000</link>
+	</band>
+	<band index="4" name="p13.12">
+		<start>12500000</start>
+		<end>14700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:12500000-14700000</link>
+	</band>
+	<band index="5" name="p13.11">
+		<start>14700000</start>
+		<end>16700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:14700000-16700000</link>
+	</band>
+	<band index="6" name="p12.3">
+		<start>16700000</start>
+		<end>21100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:16700000-21100000</link>
+	</band>
+	<band index="7" name="p12.2">
+		<start>21100000</start>
+		<end>21700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:21100000-21700000</link>
+	</band>
+	<band index="8" name="p12.1">
+		<start>21700000</start>
+		<end>27600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:21700000-27600000</link>
+	</band>
+	<band index="9" name="p11.2">
+		<start>27600000</start>
+		<end>34400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:27600000-34400000</link>
+	</band>
+	<band index="10" name="p11.1">
+		<start>34400000</start>
+		<end>38200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:34400000-38200000</link>
+	</band>
+	<band index="11" name="q11.1">
+		<start>38200000</start>
+		<end>40700000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:38200000-40700000</link>
+	</band>
+	<band index="12" name="q11.2">
+		<start>40700000</start>
+		<end>45500000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:40700000-45500000</link>
+	</band>
+	<band index="13" name="q12.1">
+		<start>45500000</start>
+		<end>51200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:45500000-51200000</link>
+	</band>
+	<band index="14" name="q12.2">
+		<start>51200000</start>
+		<end>55300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:51200000-55300000</link>
+	</band>
+	<band index="15" name="q13">
+		<start>55300000</start>
+		<end>56700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:55300000-56700000</link>
+	</band>
+	<band index="16" name="q21">
+		<start>56700000</start>
+		<end>63900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:56700000-63900000</link>
+	</band>
+	<band index="17" name="q22.1">
+		<start>63900000</start>
+		<end>69400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:63900000-69400000</link>
+	</band>
+	<band index="18" name="q22.2">
+		<start>69400000</start>
+		<end>71400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:69400000-71400000</link>
+	</band>
+	<band index="19" name="q22.3">
+		<start>71400000</start>
+		<end>73800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:71400000-73800000</link>
+	</band>
+	<band index="20" name="q23.1">
+		<start>73800000</start>
+		<end>78500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:73800000-78500000</link>
+	</band>
+	<band index="21" name="q23.2">
+		<start>78500000</start>
+		<end>80600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:78500000-80600000</link>
+	</band>
+	<band index="22" name="q23.3">
+		<start>80600000</start>
+		<end>82700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:80600000-82700000</link>
+	</band>
+	<band index="23" name="q24.1">
+		<start>82700000</start>
+		<end>85600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:82700000-85600000</link>
+	</band>
+	<band index="24" name="q24.2">
+		<start>85600000</start>
+		<end>87200000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:85600000-87200000</link>
+	</band>
+	<band index="25" name="q24.3">
+		<start>87200000</start>
+		<end>88827254</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr16:87200000-88827254</link>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="78774742">
+	<band index="1" name="p13.3">
+		<start>0</start>
+		<end>3200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:0-3200000</link>
+	</band>
+	<band index="2" name="p13.2">
+		<start>3200000</start>
+		<end>6400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:3200000-6400000</link>
+	</band>
+	<band index="3" name="p13.1">
+		<start>6400000</start>
+		<end>10700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:6400000-10700000</link>
+	</band>
+	<band index="4" name="p12">
+		<start>10700000</start>
+		<end>15900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:10700000-15900000</link>
+	</band>
+	<band index="5" name="p11.2">
+		<start>15900000</start>
+		<end>22100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:15900000-22100000</link>
+	</band>
+	<band index="6" name="p11.1">
+		<start>22100000</start>
+		<end>22200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:22100000-22200000</link>
+	</band>
+	<band index="7" name="q11.1">
+		<start>22200000</start>
+		<end>22800000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:22200000-22800000</link>
+	</band>
+	<band index="8" name="q11.2">
+		<start>22800000</start>
+		<end>28800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:22800000-28800000</link>
+	</band>
+	<band index="9" name="q12">
+		<start>28800000</start>
+		<end>35200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:28800000-35200000</link>
+	</band>
+	<band index="10" name="q21.1">
+		<start>35200000</start>
+		<end>35600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:35200000-35600000</link>
+	</band>
+	<band index="11" name="q21.2">
+		<start>35600000</start>
+		<end>38200000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:35600000-38200000</link>
+	</band>
+	<band index="12" name="q21.31">
+		<start>38200000</start>
+		<end>42300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:38200000-42300000</link>
+	</band>
+	<band index="13" name="q21.32">
+		<start>42300000</start>
+		<end>44900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:42300000-44900000</link>
+	</band>
+	<band index="14" name="q21.33">
+		<start>44900000</start>
+		<end>47500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:44900000-47500000</link>
+	</band>
+	<band index="15" name="q22">
+		<start>47500000</start>
+		<end>50900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:47500000-50900000</link>
+	</band>
+	<band index="16" name="q23.1">
+		<start>50900000</start>
+		<end>51200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:50900000-51200000</link>
+	</band>
+	<band index="17" name="q23.2">
+		<start>51200000</start>
+		<end>57500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:51200000-57500000</link>
+	</band>
+	<band index="18" name="q23.3">
+		<start>57500000</start>
+		<end>59900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:57500000-59900000</link>
+	</band>
+	<band index="19" name="q24.1">
+		<start>59900000</start>
+		<end>61600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:59900000-61600000</link>
+	</band>
+	<band index="20" name="q24.2">
+		<start>61600000</start>
+		<end>64600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:61600000-64600000</link>
+	</band>
+	<band index="21" name="q24.3">
+		<start>64600000</start>
+		<end>68400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:64600000-68400000</link>
+	</band>
+	<band index="22" name="q25.1">
+		<start>68400000</start>
+		<end>72300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:68400000-72300000</link>
+	</band>
+	<band index="23" name="q25.2">
+		<start>72300000</start>
+		<end>72900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:72300000-72900000</link>
+	</band>
+	<band index="24" name="q25.3">
+		<start>72900000</start>
+		<end>78774742</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr17:72900000-78774742</link>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="76117153">
+	<band index="1" name="p11.32">
+		<start>0</start>
+		<end>2900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:0-2900000</link>
+	</band>
+	<band index="2" name="p11.31">
+		<start>2900000</start>
+		<end>7200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:2900000-7200000</link>
+	</band>
+	<band index="3" name="p11.23">
+		<start>7200000</start>
+		<end>8500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:7200000-8500000</link>
+	</band>
+	<band index="4" name="p11.22">
+		<start>8500000</start>
+		<end>10900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:8500000-10900000</link>
+	</band>
+	<band index="5" name="p11.21">
+		<start>10900000</start>
+		<end>15400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:10900000-15400000</link>
+	</band>
+	<band index="6" name="p11.1">
+		<start>15400000</start>
+		<end>16100000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:15400000-16100000</link>
+	</band>
+	<band index="7" name="q11.1">
+		<start>16100000</start>
+		<end>17300000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:16100000-17300000</link>
+	</band>
+	<band index="8" name="q11.2">
+		<start>17300000</start>
+		<end>23300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:17300000-23300000</link>
+	</band>
+	<band index="9" name="q12.1">
+		<start>23300000</start>
+		<end>31000000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:23300000-31000000</link>
+	</band>
+	<band index="10" name="q12.2">
+		<start>31000000</start>
+		<end>35500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:31000000-35500000</link>
+	</band>
+	<band index="11" name="q12.3">
+		<start>35500000</start>
+		<end>41800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:35500000-41800000</link>
+	</band>
+	<band index="12" name="q21.1">
+		<start>41800000</start>
+		<end>48500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:41800000-48500000</link>
+	</band>
+	<band index="13" name="q21.2">
+		<start>48500000</start>
+		<end>52500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:48500000-52500000</link>
+	</band>
+	<band index="14" name="q21.31">
+		<start>52500000</start>
+		<end>54600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:52500000-54600000</link>
+	</band>
+	<band index="15" name="q21.32">
+		<start>54600000</start>
+		<end>57100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:54600000-57100000</link>
+	</band>
+	<band index="16" name="q21.33">
+		<start>57100000</start>
+		<end>59800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:57100000-59800000</link>
+	</band>
+	<band index="17" name="q22.1">
+		<start>59800000</start>
+		<end>64900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:59800000-64900000</link>
+	</band>
+	<band index="18" name="q22.2">
+		<start>64900000</start>
+		<end>66900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:64900000-66900000</link>
+	</band>
+	<band index="19" name="q22.3">
+		<start>66900000</start>
+		<end>71300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:66900000-71300000</link>
+	</band>
+	<band index="20" name="q23">
+		<start>71300000</start>
+		<end>76117153</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr18:71300000-76117153</link>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="63811651">
+	<band index="1" name="p13.3">
+		<start>0</start>
+		<end>6900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:0-6900000</link>
+	</band>
+	<band index="2" name="p13.2">
+		<start>6900000</start>
+		<end>12600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:6900000-12600000</link>
+	</band>
+	<band index="3" name="p13.13">
+		<start>12600000</start>
+		<end>13800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:12600000-13800000</link>
+	</band>
+	<band index="4" name="p13.12">
+		<start>13800000</start>
+		<end>16100000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:13800000-16100000</link>
+	</band>
+	<band index="5" name="p13.11">
+		<start>16100000</start>
+		<end>19800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:16100000-19800000</link>
+	</band>
+	<band index="6" name="p12">
+		<start>19800000</start>
+		<end>26700000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:19800000-26700000</link>
+	</band>
+	<band index="7" name="p11">
+		<start>26700000</start>
+		<end>28500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:26700000-28500000</link>
+	</band>
+	<band index="8" name="q11">
+		<start>28500000</start>
+		<end>30200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:28500000-30200000</link>
+	</band>
+	<band index="9" name="q12">
+		<start>30200000</start>
+		<end>37100000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:30200000-37100000</link>
+	</band>
+	<band index="10" name="q13.11">
+		<start>37100000</start>
+		<end>40300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:37100000-40300000</link>
+	</band>
+	<band index="11" name="q13.12">
+		<start>40300000</start>
+		<end>43000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:40300000-43000000</link>
+	</band>
+	<band index="12" name="q13.13">
+		<start>43000000</start>
+		<end>43400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:43000000-43400000</link>
+	</band>
+	<band index="13" name="q13.2">
+		<start>43400000</start>
+		<end>48100000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:43400000-48100000</link>
+	</band>
+	<band index="14" name="q13.31">
+		<start>48100000</start>
+		<end>50200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:48100000-50200000</link>
+	</band>
+	<band index="15" name="q13.32">
+		<start>50200000</start>
+		<end>53800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:50200000-53800000</link>
+	</band>
+	<band index="16" name="q13.33">
+		<start>53800000</start>
+		<end>56000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:53800000-56000000</link>
+	</band>
+	<band index="17" name="q13.41">
+		<start>56000000</start>
+		<end>58300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:56000000-58300000</link>
+	</band>
+	<band index="18" name="q13.42">
+		<start>58300000</start>
+		<end>61000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:58300000-61000000</link>
+	</band>
+	<band index="19" name="q13.43">
+		<start>61000000</start>
+		<end>63811651</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr19:61000000-63811651</link>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="243018229">
+	<band index="1" name="p25.3">
+		<start>0</start>
+		<end>3800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:0-3800000</link>
+	</band>
+	<band index="2" name="p25.2">
+		<start>3800000</start>
+		<end>7000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:3800000-7000000</link>
+	</band>
+	<band index="3" name="p25.1">
+		<start>7000000</start>
+		<end>12100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:7000000-12100000</link>
+	</band>
+	<band index="4" name="p24.3">
+		<start>12100000</start>
+		<end>16700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:12100000-16700000</link>
+	</band>
+	<band index="5" name="p24.2">
+		<start>16700000</start>
+		<end>19200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:16700000-19200000</link>
+	</band>
+	<band index="6" name="p24.1">
+		<start>19200000</start>
+		<end>24000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:19200000-24000000</link>
+	</band>
+	<band index="7" name="p23.3">
+		<start>24000000</start>
+		<end>27800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:24000000-27800000</link>
+	</band>
+	<band index="8" name="p23.2">
+		<start>27800000</start>
+		<end>29900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:27800000-29900000</link>
+	</band>
+	<band index="9" name="p23.1">
+		<start>29900000</start>
+		<end>32000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:29900000-32000000</link>
+	</band>
+	<band index="10" name="p22.3">
+		<start>32000000</start>
+		<end>36500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:32000000-36500000</link>
+	</band>
+	<band index="11" name="p22.2">
+		<start>36500000</start>
+		<end>38500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:36500000-38500000</link>
+	</band>
+	<band index="12" name="p22.1">
+		<start>38500000</start>
+		<end>41700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:38500000-41700000</link>
+	</band>
+	<band index="13" name="p21">
+		<start>41700000</start>
+		<end>47700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:41700000-47700000</link>
+	</band>
+	<band index="14" name="p16.3">
+		<start>47700000</start>
+		<end>52800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:47700000-52800000</link>
+	</band>
+	<band index="15" name="p16.2">
+		<start>52800000</start>
+		<end>54900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:52800000-54900000</link>
+	</band>
+	<band index="16" name="p16.1">
+		<start>54900000</start>
+		<end>61200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:54900000-61200000</link>
+	</band>
+	<band index="17" name="p15">
+		<start>61200000</start>
+		<end>64000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:61200000-64000000</link>
+	</band>
+	<band index="18" name="p14">
+		<start>64000000</start>
+		<end>68500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:64000000-68500000</link>
+	</band>
+	<band index="19" name="p13.3">
+		<start>68500000</start>
+		<end>71400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:68500000-71400000</link>
+	</band>
+	<band index="20" name="p13.2">
+		<start>71400000</start>
+		<end>73500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:71400000-73500000</link>
+	</band>
+	<band index="21" name="p13.1">
+		<start>73500000</start>
+		<end>75000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:73500000-75000000</link>
+	</band>
+	<band index="22" name="p12">
+		<start>75000000</start>
+		<end>83300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:75000000-83300000</link>
+	</band>
+	<band index="23" name="p11.2">
+		<start>83300000</start>
+		<end>91000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:83300000-91000000</link>
+	</band>
+	<band index="24" name="p11.1">
+		<start>91000000</start>
+		<end>93400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:91000000-93400000</link>
+	</band>
+	<band index="25" name="q11.1">
+		<start>93400000</start>
+		<end>95800000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:93400000-95800000</link>
+	</band>
+	<band index="26" name="q11.2">
+		<start>95800000</start>
+		<end>102600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:95800000-102600000</link>
+	</band>
+	<band index="27" name="q12.1">
+		<start>102600000</start>
+		<end>105500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:102600000-105500000</link>
+	</band>
+	<band index="28" name="q12.2">
+		<start>105500000</start>
+		<end>106900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:105500000-106900000</link>
+	</band>
+	<band index="29" name="q12.3">
+		<start>106900000</start>
+		<end>108700000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:106900000-108700000</link>
+	</band>
+	<band index="30" name="q13">
+		<start>108700000</start>
+		<end>113900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:108700000-113900000</link>
+	</band>
+	<band index="31" name="q14.1">
+		<start>113900000</start>
+		<end>118600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:113900000-118600000</link>
+	</band>
+	<band index="32" name="q14.2">
+		<start>118600000</start>
+		<end>122100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:118600000-122100000</link>
+	</band>
+	<band index="33" name="q14.3">
+		<start>122100000</start>
+		<end>129600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:122100000-129600000</link>
+	</band>
+	<band index="34" name="q21.1">
+		<start>129600000</start>
+		<end>132300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:129600000-132300000</link>
+	</band>
+	<band index="35" name="q21.2">
+		<start>132300000</start>
+		<end>134900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:132300000-134900000</link>
+	</band>
+	<band index="36" name="q21.3">
+		<start>134900000</start>
+		<end>137400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:134900000-137400000</link>
+	</band>
+	<band index="37" name="q22.1">
+		<start>137400000</start>
+		<end>142500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:137400000-142500000</link>
+	</band>
+	<band index="38" name="q22.2">
+		<start>142500000</start>
+		<end>144000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:142500000-144000000</link>
+	</band>
+	<band index="39" name="q22.3">
+		<start>144000000</start>
+		<end>148500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:144000000-148500000</link>
+	</band>
+	<band index="40" name="q23.1">
+		<start>148500000</start>
+		<end>149700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:148500000-149700000</link>
+	</band>
+	<band index="41" name="q23.2">
+		<start>149700000</start>
+		<end>150400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:149700000-150400000</link>
+	</band>
+	<band index="42" name="q23.3">
+		<start>150400000</start>
+		<end>154700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:150400000-154700000</link>
+	</band>
+	<band index="43" name="q24.1">
+		<start>154700000</start>
+		<end>159700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:154700000-159700000</link>
+	</band>
+	<band index="44" name="q24.2">
+		<start>159700000</start>
+		<end>163600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:159700000-163600000</link>
+	</band>
+	<band index="45" name="q24.3">
+		<start>163600000</start>
+		<end>169600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:163600000-169600000</link>
+	</band>
+	<band index="46" name="q31.1">
+		<start>169600000</start>
+		<end>177800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:169600000-177800000</link>
+	</band>
+	<band index="47" name="q31.2">
+		<start>177800000</start>
+		<end>180400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:177800000-180400000</link>
+	</band>
+	<band index="48" name="q31.3">
+		<start>180400000</start>
+		<end>182800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:180400000-182800000</link>
+	</band>
+	<band index="49" name="q32.1">
+		<start>182800000</start>
+		<end>189200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:182800000-189200000</link>
+	</band>
+	<band index="50" name="q32.2">
+		<start>189200000</start>
+		<end>191800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:189200000-191800000</link>
+	</band>
+	<band index="51" name="q32.3">
+		<start>191800000</start>
+		<end>197300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:191800000-197300000</link>
+	</band>
+	<band index="52" name="q33.1">
+		<start>197300000</start>
+		<end>203200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:197300000-203200000</link>
+	</band>
+	<band index="53" name="q33.2">
+		<start>203200000</start>
+		<end>204800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:203200000-204800000</link>
+	</band>
+	<band index="54" name="q33.3">
+		<start>204800000</start>
+		<end>208900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:204800000-208900000</link>
+	</band>
+	<band index="55" name="q34">
+		<start>208900000</start>
+		<end>215200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:208900000-215200000</link>
+	</band>
+	<band index="56" name="q35">
+		<start>215200000</start>
+		<end>221400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:215200000-221400000</link>
+	</band>
+	<band index="57" name="q36.1">
+		<start>221400000</start>
+		<end>225000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:221400000-225000000</link>
+	</band>
+	<band index="58" name="q36.2">
+		<start>225000000</start>
+		<end>225900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:225000000-225900000</link>
+	</band>
+	<band index="59" name="q36.3">
+		<start>225900000</start>
+		<end>230800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:225900000-230800000</link>
+	</band>
+	<band index="60" name="q37.1">
+		<start>230800000</start>
+		<end>235400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:230800000-235400000</link>
+	</band>
+	<band index="61" name="q37.2">
+		<start>235400000</start>
+		<end>237100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:235400000-237100000</link>
+	</band>
+	<band index="62" name="q37.3">
+		<start>237100000</start>
+		<end>243018229</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr2:237100000-243018229</link>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="62435964">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>5000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:0-5000000</link>
+	</band>
+	<band index="2" name="p12.3">
+		<start>5000000</start>
+		<end>9000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:5000000-9000000</link>
+	</band>
+	<band index="3" name="p12.2">
+		<start>9000000</start>
+		<end>11900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:9000000-11900000</link>
+	</band>
+	<band index="4" name="p12.1">
+		<start>11900000</start>
+		<end>17800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:11900000-17800000</link>
+	</band>
+	<band index="5" name="p11.23">
+		<start>17800000</start>
+		<end>21200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:17800000-21200000</link>
+	</band>
+	<band index="6" name="p11.22">
+		<start>21200000</start>
+		<end>22300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:21200000-22300000</link>
+	</band>
+	<band index="7" name="p11.21">
+		<start>22300000</start>
+		<end>25700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:22300000-25700000</link>
+	</band>
+	<band index="8" name="p11.1">
+		<start>25700000</start>
+		<end>27100000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:25700000-27100000</link>
+	</band>
+	<band index="9" name="q11.1">
+		<start>27100000</start>
+		<end>28400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:27100000-28400000</link>
+	</band>
+	<band index="10" name="q11.21">
+		<start>28400000</start>
+		<end>31500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:28400000-31500000</link>
+	</band>
+	<band index="11" name="q11.22">
+		<start>31500000</start>
+		<end>33900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:31500000-33900000</link>
+	</band>
+	<band index="12" name="q11.23">
+		<start>33900000</start>
+		<end>37100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:33900000-37100000</link>
+	</band>
+	<band index="13" name="q12">
+		<start>37100000</start>
+		<end>41100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:37100000-41100000</link>
+	</band>
+	<band index="14" name="q13.11">
+		<start>41100000</start>
+		<end>41600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:41100000-41600000</link>
+	</band>
+	<band index="15" name="q13.12">
+		<start>41600000</start>
+		<end>45800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:41600000-45800000</link>
+	</band>
+	<band index="16" name="q13.13">
+		<start>45800000</start>
+		<end>49200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:45800000-49200000</link>
+	</band>
+	<band index="17" name="q13.2">
+		<start>49200000</start>
+		<end>53500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:49200000-53500000</link>
+	</band>
+	<band index="18" name="q13.31">
+		<start>53500000</start>
+		<end>55300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:53500000-55300000</link>
+	</band>
+	<band index="19" name="q13.32">
+		<start>55300000</start>
+		<end>57600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:55300000-57600000</link>
+	</band>
+	<band index="20" name="q13.33">
+		<start>57600000</start>
+		<end>62435964</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr20:57600000-62435964</link>
+	</band>
+</chromosome>
+<chromosome index="21" number="21" length="46944323">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>2900000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:0-2900000</link>
+	</band>
+	<band index="2" name="p12">
+		<start>2900000</start>
+		<end>6300000</end>
+		<stain>stalk</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:2900000-6300000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>6300000</start>
+		<end>10000000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:6300000-10000000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>10000000</start>
+		<end>12300000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:10000000-12300000</link>
+	</band>
+	<band index="5" name="q11.1">
+		<start>12300000</start>
+		<end>13200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:12300000-13200000</link>
+	</band>
+	<band index="6" name="q11.2">
+		<start>13200000</start>
+		<end>15300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:13200000-15300000</link>
+	</band>
+	<band index="7" name="q21.1">
+		<start>15300000</start>
+		<end>22900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:15300000-22900000</link>
+	</band>
+	<band index="8" name="q21.2">
+		<start>22900000</start>
+		<end>25800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:22900000-25800000</link>
+	</band>
+	<band index="9" name="q21.3">
+		<start>25800000</start>
+		<end>30500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:25800000-30500000</link>
+	</band>
+	<band index="10" name="q22.11">
+		<start>30500000</start>
+		<end>34700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:30500000-34700000</link>
+	</band>
+	<band index="11" name="q22.12">
+		<start>34700000</start>
+		<end>36700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:34700000-36700000</link>
+	</band>
+	<band index="12" name="q22.13">
+		<start>36700000</start>
+		<end>38600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:36700000-38600000</link>
+	</band>
+	<band index="13" name="q22.2">
+		<start>38600000</start>
+		<end>41400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:38600000-41400000</link>
+	</band>
+	<band index="14" name="q22.3">
+		<start>41400000</start>
+		<end>46944323</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr21:41400000-46944323</link>
+	</band>
+</chromosome>
+<chromosome index="22" number="22" length="49554710">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>3000000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:0-3000000</link>
+	</band>
+	<band index="2" name="p12">
+		<start>3000000</start>
+		<end>6600000</end>
+		<stain>stalk</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:3000000-6600000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>6600000</start>
+		<end>9600000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:6600000-9600000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>9600000</start>
+		<end>11800000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:9600000-11800000</link>
+	</band>
+	<band index="5" name="q11.1">
+		<start>11800000</start>
+		<end>16300000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:11800000-16300000</link>
+	</band>
+	<band index="6" name="q11.21">
+		<start>16300000</start>
+		<end>20500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:16300000-20500000</link>
+	</band>
+	<band index="7" name="q11.22">
+		<start>20500000</start>
+		<end>21800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:20500000-21800000</link>
+	</band>
+	<band index="8" name="q11.23">
+		<start>21800000</start>
+		<end>24300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:21800000-24300000</link>
+	</band>
+	<band index="9" name="q12.1">
+		<start>24300000</start>
+		<end>27900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:24300000-27900000</link>
+	</band>
+	<band index="10" name="q12.2">
+		<start>27900000</start>
+		<end>30500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:27900000-30500000</link>
+	</band>
+	<band index="11" name="q12.3">
+		<start>30500000</start>
+		<end>35800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:30500000-35800000</link>
+	</band>
+	<band index="12" name="q13.1">
+		<start>35800000</start>
+		<end>39300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:35800000-39300000</link>
+	</band>
+	<band index="13" name="q13.2">
+		<start>39300000</start>
+		<end>42600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:39300000-42600000</link>
+	</band>
+	<band index="14" name="q13.31">
+		<start>42600000</start>
+		<end>46800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:42600000-46800000</link>
+	</band>
+	<band index="15" name="q13.32">
+		<start>46800000</start>
+		<end>47800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:46800000-47800000</link>
+	</band>
+	<band index="16" name="q13.33">
+		<start>47800000</start>
+		<end>49554710</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr22:47800000-49554710</link>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="199505740">
+	<band index="1" name="p26.3">
+		<start>0</start>
+		<end>2700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:0-2700000</link>
+	</band>
+	<band index="2" name="p26.2">
+		<start>2700000</start>
+		<end>4000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:2700000-4000000</link>
+	</band>
+	<band index="3" name="p26.1">
+		<start>4000000</start>
+		<end>8200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:4000000-8200000</link>
+	</band>
+	<band index="4" name="p25.3">
+		<start>8200000</start>
+		<end>11800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:8200000-11800000</link>
+	</band>
+	<band index="5" name="p25.2">
+		<start>11800000</start>
+		<end>13400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:11800000-13400000</link>
+	</band>
+	<band index="6" name="p25.1">
+		<start>13400000</start>
+		<end>16400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:13400000-16400000</link>
+	</band>
+	<band index="7" name="p24.3">
+		<start>16400000</start>
+		<end>23800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:16400000-23800000</link>
+	</band>
+	<band index="8" name="p24.2">
+		<start>23800000</start>
+		<end>27100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:23800000-27100000</link>
+	</band>
+	<band index="9" name="p24.1">
+		<start>27100000</start>
+		<end>32200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:27100000-32200000</link>
+	</band>
+	<band index="10" name="p23">
+		<start>32200000</start>
+		<end>35000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:32200000-35000000</link>
+	</band>
+	<band index="11" name="p22.3">
+		<start>35000000</start>
+		<end>38200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:35000000-38200000</link>
+	</band>
+	<band index="12" name="p22.2">
+		<start>38200000</start>
+		<end>39900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:38200000-39900000</link>
+	</band>
+	<band index="13" name="p22.1">
+		<start>39900000</start>
+		<end>43600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:39900000-43600000</link>
+	</band>
+	<band index="14" name="p21.33">
+		<start>43600000</start>
+		<end>44400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:43600000-44400000</link>
+	</band>
+	<band index="15" name="p21.32">
+		<start>44400000</start>
+		<end>44700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:44400000-44700000</link>
+	</band>
+	<band index="16" name="p21.31">
+		<start>44700000</start>
+		<end>51400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:44700000-51400000</link>
+	</band>
+	<band index="17" name="p21.2">
+		<start>51400000</start>
+		<end>52300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:51400000-52300000</link>
+	</band>
+	<band index="18" name="p21.1">
+		<start>52300000</start>
+		<end>54400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:52300000-54400000</link>
+	</band>
+	<band index="19" name="p14.3">
+		<start>54400000</start>
+		<end>58500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:54400000-58500000</link>
+	</band>
+	<band index="20" name="p14.2">
+		<start>58500000</start>
+		<end>63700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:58500000-63700000</link>
+	</band>
+	<band index="21" name="p14.1">
+		<start>63700000</start>
+		<end>69900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:63700000-69900000</link>
+	</band>
+	<band index="22" name="p13">
+		<start>69900000</start>
+		<end>74200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:69900000-74200000</link>
+	</band>
+	<band index="23" name="p12.3">
+		<start>74200000</start>
+		<end>79900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:74200000-79900000</link>
+	</band>
+	<band index="24" name="p12.2">
+		<start>79900000</start>
+		<end>83600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:79900000-83600000</link>
+	</band>
+	<band index="25" name="p12.1">
+		<start>83600000</start>
+		<end>87200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:83600000-87200000</link>
+	</band>
+	<band index="26" name="p11.2">
+		<start>87200000</start>
+		<end>87900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:87200000-87900000</link>
+	</band>
+	<band index="27" name="p11.1">
+		<start>87900000</start>
+		<end>91700000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:87900000-91700000</link>
+	</band>
+	<band index="28" name="q11.1">
+		<start>91700000</start>
+		<end>93200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:91700000-93200000</link>
+	</band>
+	<band index="29" name="q11.2">
+		<start>93200000</start>
+		<end>99200000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:93200000-99200000</link>
+	</band>
+	<band index="30" name="q12.1">
+		<start>99200000</start>
+		<end>101400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:99200000-101400000</link>
+	</band>
+	<band index="31" name="q12.2">
+		<start>101400000</start>
+		<end>102400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:101400000-102400000</link>
+	</band>
+	<band index="32" name="q12.3">
+		<start>102400000</start>
+		<end>104300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:102400000-104300000</link>
+	</band>
+	<band index="33" name="q13.11">
+		<start>104300000</start>
+		<end>107700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:104300000-107700000</link>
+	</band>
+	<band index="34" name="q13.12">
+		<start>107700000</start>
+		<end>109400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:107700000-109400000</link>
+	</band>
+	<band index="35" name="q13.13">
+		<start>109400000</start>
+		<end>112800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:109400000-112800000</link>
+	</band>
+	<band index="36" name="q13.2">
+		<start>112800000</start>
+		<end>115000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:112800000-115000000</link>
+	</band>
+	<band index="37" name="q13.31">
+		<start>115000000</start>
+		<end>118900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:115000000-118900000</link>
+	</band>
+	<band index="38" name="q13.32">
+		<start>118900000</start>
+		<end>120500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:118900000-120500000</link>
+	</band>
+	<band index="39" name="q13.33">
+		<start>120500000</start>
+		<end>123300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:120500000-123300000</link>
+	</band>
+	<band index="40" name="q21.1">
+		<start>123300000</start>
+		<end>125400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:123300000-125400000</link>
+	</band>
+	<band index="41" name="q21.2">
+		<start>125400000</start>
+		<end>128300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:125400000-128300000</link>
+	</band>
+	<band index="42" name="q21.3">
+		<start>128300000</start>
+		<end>132700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:128300000-132700000</link>
+	</band>
+	<band index="43" name="q22.1">
+		<start>132700000</start>
+		<end>136300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:132700000-136300000</link>
+	</band>
+	<band index="44" name="q22.2">
+		<start>136300000</start>
+		<end>137400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:136300000-137400000</link>
+	</band>
+	<band index="45" name="q22.3">
+		<start>137400000</start>
+		<end>140400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:137400000-140400000</link>
+	</band>
+	<band index="46" name="q23">
+		<start>140400000</start>
+		<end>144400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:140400000-144400000</link>
+	</band>
+	<band index="47" name="q24">
+		<start>144400000</start>
+		<end>150400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:144400000-150400000</link>
+	</band>
+	<band index="48" name="q25.1">
+		<start>150400000</start>
+		<end>153500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:150400000-153500000</link>
+	</band>
+	<band index="49" name="q25.2">
+		<start>153500000</start>
+		<end>156500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:153500000-156500000</link>
+	</band>
+	<band index="50" name="q25.31">
+		<start>156500000</start>
+		<end>158500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:156500000-158500000</link>
+	</band>
+	<band index="51" name="q25.32">
+		<start>158500000</start>
+		<end>160500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:158500000-160500000</link>
+	</band>
+	<band index="52" name="q25.33">
+		<start>160500000</start>
+		<end>162200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:160500000-162200000</link>
+	</band>
+	<band index="53" name="q26.1">
+		<start>162200000</start>
+		<end>169300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:162200000-169300000</link>
+	</band>
+	<band index="54" name="q26.2">
+		<start>169300000</start>
+		<end>172800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:169300000-172800000</link>
+	</band>
+	<band index="55" name="q26.31">
+		<start>172800000</start>
+		<end>177500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:172800000-177500000</link>
+	</band>
+	<band index="56" name="q26.32">
+		<start>177500000</start>
+		<end>180700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:177500000-180700000</link>
+	</band>
+	<band index="57" name="q26.33">
+		<start>180700000</start>
+		<end>184200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:180700000-184200000</link>
+	</band>
+	<band index="58" name="q27.1">
+		<start>184200000</start>
+		<end>186000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:184200000-186000000</link>
+	</band>
+	<band index="59" name="q27.2">
+		<start>186000000</start>
+		<end>187500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:186000000-187500000</link>
+	</band>
+	<band index="60" name="q27.3">
+		<start>187500000</start>
+		<end>189500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:187500000-189500000</link>
+	</band>
+	<band index="61" name="q28">
+		<start>189500000</start>
+		<end>194000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:189500000-194000000</link>
+	</band>
+	<band index="62" name="q29">
+		<start>194000000</start>
+		<end>199505740</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr3:194000000-199505740</link>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="191411218">
+	<band index="1" name="p16.3">
+		<start>0</start>
+		<end>4600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:0-4600000</link>
+	</band>
+	<band index="2" name="p16.2">
+		<start>4600000</start>
+		<end>5900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:4600000-5900000</link>
+	</band>
+	<band index="3" name="p16.1">
+		<start>5900000</start>
+		<end>11000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:5900000-11000000</link>
+	</band>
+	<band index="4" name="p15.33">
+		<start>11000000</start>
+		<end>15400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:11000000-15400000</link>
+	</band>
+	<band index="5" name="p15.32">
+		<start>15400000</start>
+		<end>18600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:15400000-18600000</link>
+	</band>
+	<band index="6" name="p15.31">
+		<start>18600000</start>
+		<end>22700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:18600000-22700000</link>
+	</band>
+	<band index="7" name="p15.2">
+		<start>22700000</start>
+		<end>27900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:22700000-27900000</link>
+	</band>
+	<band index="8" name="p15.1">
+		<start>27900000</start>
+		<end>35600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:27900000-35600000</link>
+	</band>
+	<band index="9" name="p14">
+		<start>35600000</start>
+		<end>41100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:35600000-41100000</link>
+	</band>
+	<band index="10" name="p13">
+		<start>41100000</start>
+		<end>45800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:41100000-45800000</link>
+	</band>
+	<band index="11" name="p12">
+		<start>45800000</start>
+		<end>48900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:45800000-48900000</link>
+	</band>
+	<band index="12" name="p11">
+		<start>48900000</start>
+		<end>50900000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:48900000-50900000</link>
+	</band>
+	<band index="13" name="q11">
+		<start>50900000</start>
+		<end>53200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:50900000-53200000</link>
+	</band>
+	<band index="14" name="q12">
+		<start>53200000</start>
+		<end>59700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:53200000-59700000</link>
+	</band>
+	<band index="15" name="q13.1">
+		<start>59700000</start>
+		<end>66500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:59700000-66500000</link>
+	</band>
+	<band index="16" name="q13.2">
+		<start>66500000</start>
+		<end>70600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:66500000-70600000</link>
+	</band>
+	<band index="17" name="q13.3">
+		<start>70600000</start>
+		<end>76600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:70600000-76600000</link>
+	</band>
+	<band index="18" name="q21.1">
+		<start>76600000</start>
+		<end>79200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:76600000-79200000</link>
+	</band>
+	<band index="19" name="q21.21">
+		<start>79200000</start>
+		<end>82700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:79200000-82700000</link>
+	</band>
+	<band index="20" name="q21.22">
+		<start>82700000</start>
+		<end>84500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:82700000-84500000</link>
+	</band>
+	<band index="21" name="q21.23">
+		<start>84500000</start>
+		<end>87300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:84500000-87300000</link>
+	</band>
+	<band index="22" name="q21.3">
+		<start>87300000</start>
+		<end>88400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:87300000-88400000</link>
+	</band>
+	<band index="23" name="q22.1">
+		<start>88400000</start>
+		<end>93300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:88400000-93300000</link>
+	</band>
+	<band index="24" name="q22.2">
+		<start>93300000</start>
+		<end>93500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:93300000-93500000</link>
+	</band>
+	<band index="25" name="q22.3">
+		<start>93500000</start>
+		<end>99200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:93500000-99200000</link>
+	</band>
+	<band index="26" name="q23">
+		<start>99200000</start>
+		<end>101400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:99200000-101400000</link>
+	</band>
+	<band index="27" name="q24">
+		<start>101400000</start>
+		<end>108000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:101400000-108000000</link>
+	</band>
+	<band index="28" name="q25">
+		<start>108000000</start>
+		<end>114400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:108000000-114400000</link>
+	</band>
+	<band index="29" name="q26">
+		<start>114400000</start>
+		<end>121100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:114400000-121100000</link>
+	</band>
+	<band index="30" name="q27">
+		<start>121100000</start>
+		<end>124300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:121100000-124300000</link>
+	</band>
+	<band index="31" name="q28.1">
+		<start>124300000</start>
+		<end>129200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:124300000-129200000</link>
+	</band>
+	<band index="32" name="q28.2">
+		<start>129200000</start>
+		<end>131500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:129200000-131500000</link>
+	</band>
+	<band index="33" name="q28.3">
+		<start>131500000</start>
+		<end>139800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:131500000-139800000</link>
+	</band>
+	<band index="34" name="q31.1">
+		<start>139800000</start>
+		<end>141800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:139800000-141800000</link>
+	</band>
+	<band index="35" name="q31.21">
+		<start>141800000</start>
+		<end>147200000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:141800000-147200000</link>
+	</band>
+	<band index="36" name="q31.22">
+		<start>147200000</start>
+		<end>148800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:147200000-148800000</link>
+	</band>
+	<band index="37" name="q31.23">
+		<start>148800000</start>
+		<end>152000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:148800000-152000000</link>
+	</band>
+	<band index="38" name="q31.3">
+		<start>152000000</start>
+		<end>155900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:152000000-155900000</link>
+	</band>
+	<band index="39" name="q32.1">
+		<start>155900000</start>
+		<end>162100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:155900000-162100000</link>
+	</band>
+	<band index="40" name="q32.2">
+		<start>162100000</start>
+		<end>164900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:162100000-164900000</link>
+	</band>
+	<band index="41" name="q32.3">
+		<start>164900000</start>
+		<end>170500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:164900000-170500000</link>
+	</band>
+	<band index="42" name="q33">
+		<start>170500000</start>
+		<end>172300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:170500000-172300000</link>
+	</band>
+	<band index="43" name="q34.1">
+		<start>172300000</start>
+		<end>176700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:172300000-176700000</link>
+	</band>
+	<band index="44" name="q34.2">
+		<start>176700000</start>
+		<end>177900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:176700000-177900000</link>
+	</band>
+	<band index="45" name="q34.3">
+		<start>177900000</start>
+		<end>183600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:177900000-183600000</link>
+	</band>
+	<band index="46" name="q35.1">
+		<start>183600000</start>
+		<end>187500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:183600000-187500000</link>
+	</band>
+	<band index="47" name="q35.2">
+		<start>187500000</start>
+		<end>191411218</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr4:187500000-191411218</link>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="180857866">
+	<band index="1" name="p15.33">
+		<start>0</start>
+		<end>4500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:0-4500000</link>
+	</band>
+	<band index="2" name="p15.32">
+		<start>4500000</start>
+		<end>6400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:4500000-6400000</link>
+	</band>
+	<band index="3" name="p15.31">
+		<start>6400000</start>
+		<end>9900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:6400000-9900000</link>
+	</band>
+	<band index="4" name="p15.2">
+		<start>9900000</start>
+		<end>15100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:9900000-15100000</link>
+	</band>
+	<band index="5" name="p15.1">
+		<start>15100000</start>
+		<end>18500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:15100000-18500000</link>
+	</band>
+	<band index="6" name="p14.3">
+		<start>18500000</start>
+		<end>23300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:18500000-23300000</link>
+	</band>
+	<band index="7" name="p14.2">
+		<start>23300000</start>
+		<end>24700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:23300000-24700000</link>
+	</band>
+	<band index="8" name="p14.1">
+		<start>24700000</start>
+		<end>29300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:24700000-29300000</link>
+	</band>
+	<band index="9" name="p13.3">
+		<start>29300000</start>
+		<end>34400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:29300000-34400000</link>
+	</band>
+	<band index="10" name="p13.2">
+		<start>34400000</start>
+		<end>38500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:34400000-38500000</link>
+	</band>
+	<band index="11" name="p13.1">
+		<start>38500000</start>
+		<end>42400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:38500000-42400000</link>
+	</band>
+	<band index="12" name="p12">
+		<start>42400000</start>
+		<end>45800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:42400000-45800000</link>
+	</band>
+	<band index="13" name="p11">
+		<start>45800000</start>
+		<end>47700000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:45800000-47700000</link>
+	</band>
+	<band index="14" name="q11.1">
+		<start>47700000</start>
+		<end>50500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:47700000-50500000</link>
+	</band>
+	<band index="15" name="q11.2">
+		<start>50500000</start>
+		<end>58900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:50500000-58900000</link>
+	</band>
+	<band index="16" name="q12.1">
+		<start>58900000</start>
+		<end>63000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:58900000-63000000</link>
+	</band>
+	<band index="17" name="q12.2">
+		<start>63000000</start>
+		<end>63200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:63000000-63200000</link>
+	</band>
+	<band index="18" name="q12.3">
+		<start>63200000</start>
+		<end>66700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:63200000-66700000</link>
+	</band>
+	<band index="19" name="q13.1">
+		<start>66700000</start>
+		<end>68400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:66700000-68400000</link>
+	</band>
+	<band index="20" name="q13.2">
+		<start>68400000</start>
+		<end>73300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:68400000-73300000</link>
+	</band>
+	<band index="21" name="q13.3">
+		<start>73300000</start>
+		<end>76900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:73300000-76900000</link>
+	</band>
+	<band index="22" name="q14.1">
+		<start>76900000</start>
+		<end>81400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:76900000-81400000</link>
+	</band>
+	<band index="23" name="q14.2">
+		<start>81400000</start>
+		<end>82800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:81400000-82800000</link>
+	</band>
+	<band index="24" name="q14.3">
+		<start>82800000</start>
+		<end>91900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:82800000-91900000</link>
+	</band>
+	<band index="25" name="q15">
+		<start>91900000</start>
+		<end>97300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:91900000-97300000</link>
+	</band>
+	<band index="26" name="q21.1">
+		<start>97300000</start>
+		<end>102800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:97300000-102800000</link>
+	</band>
+	<band index="27" name="q21.2">
+		<start>102800000</start>
+		<end>104500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:102800000-104500000</link>
+	</band>
+	<band index="28" name="q21.3">
+		<start>104500000</start>
+		<end>109600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:104500000-109600000</link>
+	</band>
+	<band index="29" name="q22.1">
+		<start>109600000</start>
+		<end>111500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:109600000-111500000</link>
+	</band>
+	<band index="30" name="q22.2">
+		<start>111500000</start>
+		<end>113100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:111500000-113100000</link>
+	</band>
+	<band index="31" name="q22.3">
+		<start>113100000</start>
+		<end>115200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:113100000-115200000</link>
+	</band>
+	<band index="32" name="q23.1">
+		<start>115200000</start>
+		<end>121500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:115200000-121500000</link>
+	</band>
+	<band index="33" name="q23.2">
+		<start>121500000</start>
+		<end>127900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:121500000-127900000</link>
+	</band>
+	<band index="34" name="q23.3">
+		<start>127900000</start>
+		<end>132200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:127900000-132200000</link>
+	</band>
+	<band index="35" name="q31.1">
+		<start>132200000</start>
+		<end>137200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:132200000-137200000</link>
+	</band>
+	<band index="36" name="q31.2">
+		<start>137200000</start>
+		<end>139900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:137200000-139900000</link>
+	</band>
+	<band index="37" name="q31.3">
+		<start>139900000</start>
+		<end>144500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:139900000-144500000</link>
+	</band>
+	<band index="38" name="q32">
+		<start>144500000</start>
+		<end>149800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:144500000-149800000</link>
+	</band>
+	<band index="39" name="q33.1">
+		<start>149800000</start>
+		<end>152700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:149800000-152700000</link>
+	</band>
+	<band index="40" name="q33.2">
+		<start>152700000</start>
+		<end>155600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:152700000-155600000</link>
+	</band>
+	<band index="41" name="q33.3">
+		<start>155600000</start>
+		<end>159900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:155600000-159900000</link>
+	</band>
+	<band index="42" name="q34">
+		<start>159900000</start>
+		<end>168400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:159900000-168400000</link>
+	</band>
+	<band index="43" name="q35.1">
+		<start>168400000</start>
+		<end>172700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:168400000-172700000</link>
+	</band>
+	<band index="44" name="q35.2">
+		<start>172700000</start>
+		<end>176500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:172700000-176500000</link>
+	</band>
+	<band index="45" name="q35.3">
+		<start>176500000</start>
+		<end>180857866</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr5:176500000-180857866</link>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="170975699">
+	<band index="1" name="p25.3">
+		<start>0</start>
+		<end>2300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:0-2300000</link>
+	</band>
+	<band index="2" name="p25.2">
+		<start>2300000</start>
+		<end>4100000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:2300000-4100000</link>
+	</band>
+	<band index="3" name="p25.1">
+		<start>4100000</start>
+		<end>7000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:4100000-7000000</link>
+	</band>
+	<band index="4" name="p24.3">
+		<start>7000000</start>
+		<end>10600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:7000000-10600000</link>
+	</band>
+	<band index="5" name="p24.2">
+		<start>10600000</start>
+		<end>11700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:10600000-11700000</link>
+	</band>
+	<band index="6" name="p24.1">
+		<start>11700000</start>
+		<end>13500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:11700000-13500000</link>
+	</band>
+	<band index="7" name="p23">
+		<start>13500000</start>
+		<end>15300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:13500000-15300000</link>
+	</band>
+	<band index="8" name="p22.3">
+		<start>15300000</start>
+		<end>24100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:15300000-24100000</link>
+	</band>
+	<band index="9" name="p22.2">
+		<start>24100000</start>
+		<end>26400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:24100000-26400000</link>
+	</band>
+	<band index="10" name="p22.1">
+		<start>26400000</start>
+		<end>30000000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:26400000-30000000</link>
+	</band>
+	<band index="11" name="p21.33">
+		<start>30000000</start>
+		<end>32000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:30000000-32000000</link>
+	</band>
+	<band index="12" name="p21.32">
+		<start>32000000</start>
+		<end>33600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:32000000-33600000</link>
+	</band>
+	<band index="13" name="p21.31">
+		<start>33600000</start>
+		<end>36800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:33600000-36800000</link>
+	</band>
+	<band index="14" name="p21.2">
+		<start>36800000</start>
+		<end>40600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:36800000-40600000</link>
+	</band>
+	<band index="15" name="p21.1">
+		<start>40600000</start>
+		<end>46300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:40600000-46300000</link>
+	</band>
+	<band index="16" name="p12.3">
+		<start>46300000</start>
+		<end>51300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:46300000-51300000</link>
+	</band>
+	<band index="17" name="p12.2">
+		<start>51300000</start>
+		<end>52900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:51300000-52900000</link>
+	</band>
+	<band index="18" name="p12.1">
+		<start>52900000</start>
+		<end>57500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:52900000-57500000</link>
+	</band>
+	<band index="19" name="p11.2">
+		<start>57500000</start>
+		<end>58800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:57500000-58800000</link>
+	</band>
+	<band index="20" name="p11.1">
+		<start>58800000</start>
+		<end>60500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:58800000-60500000</link>
+	</band>
+	<band index="21" name="q11.1">
+		<start>60500000</start>
+		<end>63400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:60500000-63400000</link>
+	</band>
+	<band index="22" name="q11.2">
+		<start>63400000</start>
+		<end>63500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:63400000-63500000</link>
+	</band>
+	<band index="23" name="q12">
+		<start>63500000</start>
+		<end>70000000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:63500000-70000000</link>
+	</band>
+	<band index="24" name="q13">
+		<start>70000000</start>
+		<end>75900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:70000000-75900000</link>
+	</band>
+	<band index="25" name="q14.1">
+		<start>75900000</start>
+		<end>83900000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:75900000-83900000</link>
+	</band>
+	<band index="26" name="q14.2">
+		<start>83900000</start>
+		<end>84700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:83900000-84700000</link>
+	</band>
+	<band index="27" name="q14.3">
+		<start>84700000</start>
+		<end>87500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:84700000-87500000</link>
+	</band>
+	<band index="28" name="q15">
+		<start>87500000</start>
+		<end>92100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:87500000-92100000</link>
+	</band>
+	<band index="29" name="q16.1">
+		<start>92100000</start>
+		<end>98700000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:92100000-98700000</link>
+	</band>
+	<band index="30" name="q16.2">
+		<start>98700000</start>
+		<end>100000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:98700000-100000000</link>
+	</band>
+	<band index="31" name="q16.3">
+		<start>100000000</start>
+		<end>105100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:100000000-105100000</link>
+	</band>
+	<band index="32" name="q21">
+		<start>105100000</start>
+		<end>114500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:105100000-114500000</link>
+	</band>
+	<band index="33" name="q22.1">
+		<start>114500000</start>
+		<end>118400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:114500000-118400000</link>
+	</band>
+	<band index="34" name="q22.2">
+		<start>118400000</start>
+		<end>118600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:118400000-118600000</link>
+	</band>
+	<band index="35" name="q22.31">
+		<start>118600000</start>
+		<end>126100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:118600000-126100000</link>
+	</band>
+	<band index="36" name="q22.32">
+		<start>126100000</start>
+		<end>127200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:126100000-127200000</link>
+	</band>
+	<band index="37" name="q22.33">
+		<start>127200000</start>
+		<end>130400000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:127200000-130400000</link>
+	</band>
+	<band index="38" name="q23.1">
+		<start>130400000</start>
+		<end>131400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:130400000-131400000</link>
+	</band>
+	<band index="39" name="q23.2">
+		<start>131400000</start>
+		<end>135200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:131400000-135200000</link>
+	</band>
+	<band index="40" name="q23.3">
+		<start>135200000</start>
+		<end>139100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:135200000-139100000</link>
+	</band>
+	<band index="41" name="q24.1">
+		<start>139100000</start>
+		<end>142900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:139100000-142900000</link>
+	</band>
+	<band index="42" name="q24.2">
+		<start>142900000</start>
+		<end>145700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:142900000-145700000</link>
+	</band>
+	<band index="43" name="q24.3">
+		<start>145700000</start>
+		<end>149100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:145700000-149100000</link>
+	</band>
+	<band index="44" name="q25.1">
+		<start>149100000</start>
+		<end>152600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:149100000-152600000</link>
+	</band>
+	<band index="45" name="q25.2">
+		<start>152600000</start>
+		<end>155600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:152600000-155600000</link>
+	</band>
+	<band index="46" name="q25.3">
+		<start>155600000</start>
+		<end>161000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:155600000-161000000</link>
+	</band>
+	<band index="47" name="q26">
+		<start>161000000</start>
+		<end>164500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:161000000-164500000</link>
+	</band>
+	<band index="48" name="q27">
+		<start>164500000</start>
+		<end>170975699</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr6:164500000-170975699</link>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="158628139">
+	<band index="1" name="p22.3">
+		<start>0</start>
+		<end>2700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:0-2700000</link>
+	</band>
+	<band index="2" name="p22.2">
+		<start>2700000</start>
+		<end>4300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:2700000-4300000</link>
+	</band>
+	<band index="3" name="p22.1">
+		<start>4300000</start>
+		<end>7000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:4300000-7000000</link>
+	</band>
+	<band index="4" name="p21.3">
+		<start>7000000</start>
+		<end>13100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:7000000-13100000</link>
+	</band>
+	<band index="5" name="p21.2">
+		<start>13100000</start>
+		<end>15000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:13100000-15000000</link>
+	</band>
+	<band index="6" name="p21.1">
+		<start>15000000</start>
+		<end>20700000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:15000000-20700000</link>
+	</band>
+	<band index="7" name="p15.3">
+		<start>20700000</start>
+		<end>25300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:20700000-25300000</link>
+	</band>
+	<band index="8" name="p15.2">
+		<start>25300000</start>
+		<end>27700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:25300000-27700000</link>
+	</band>
+	<band index="9" name="p15.1">
+		<start>27700000</start>
+		<end>30300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:27700000-30300000</link>
+	</band>
+	<band index="10" name="p14.3">
+		<start>30300000</start>
+		<end>34700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:30300000-34700000</link>
+	</band>
+	<band index="11" name="p14.2">
+		<start>34700000</start>
+		<end>37000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:34700000-37000000</link>
+	</band>
+	<band index="12" name="p14.1">
+		<start>37000000</start>
+		<end>43100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:37000000-43100000</link>
+	</band>
+	<band index="13" name="p13">
+		<start>43100000</start>
+		<end>47100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:43100000-47100000</link>
+	</band>
+	<band index="14" name="p12.3">
+		<start>47100000</start>
+		<end>49800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:47100000-49800000</link>
+	</band>
+	<band index="15" name="p12.2">
+		<start>49800000</start>
+		<end>50800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:49800000-50800000</link>
+	</band>
+	<band index="16" name="p12.1">
+		<start>50800000</start>
+		<end>53600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:50800000-53600000</link>
+	</band>
+	<band index="17" name="p11.2">
+		<start>53600000</start>
+		<end>56900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:53600000-56900000</link>
+	</band>
+	<band index="18" name="p11.1">
+		<start>56900000</start>
+		<end>58900000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:56900000-58900000</link>
+	</band>
+	<band index="19" name="q11.1">
+		<start>58900000</start>
+		<end>61200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:58900000-61200000</link>
+	</band>
+	<band index="20" name="q11.21">
+		<start>61200000</start>
+		<end>66500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:61200000-66500000</link>
+	</band>
+	<band index="21" name="q11.22">
+		<start>66500000</start>
+		<end>71600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:66500000-71600000</link>
+	</band>
+	<band index="22" name="q11.23">
+		<start>71600000</start>
+		<end>77200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:71600000-77200000</link>
+	</band>
+	<band index="23" name="q21.11">
+		<start>77200000</start>
+		<end>85900000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:77200000-85900000</link>
+	</band>
+	<band index="24" name="q21.12">
+		<start>85900000</start>
+		<end>87700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:85900000-87700000</link>
+	</band>
+	<band index="25" name="q21.13">
+		<start>87700000</start>
+		<end>90700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:87700000-90700000</link>
+	</band>
+	<band index="26" name="q21.2">
+		<start>90700000</start>
+		<end>92400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:90700000-92400000</link>
+	</band>
+	<band index="27" name="q21.3">
+		<start>92400000</start>
+		<end>97600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:92400000-97600000</link>
+	</band>
+	<band index="28" name="q22.1">
+		<start>97600000</start>
+		<end>103400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:97600000-103400000</link>
+	</band>
+	<band index="29" name="q22.2">
+		<start>103400000</start>
+		<end>104100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:103400000-104100000</link>
+	</band>
+	<band index="30" name="q22.3">
+		<start>104100000</start>
+		<end>106900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:104100000-106900000</link>
+	</band>
+	<band index="31" name="q31.1">
+		<start>106900000</start>
+		<end>114200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:106900000-114200000</link>
+	</band>
+	<band index="32" name="q31.2">
+		<start>114200000</start>
+		<end>117000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:114200000-117000000</link>
+	</band>
+	<band index="33" name="q31.31">
+		<start>117000000</start>
+		<end>120700000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:117000000-120700000</link>
+	</band>
+	<band index="34" name="q31.32">
+		<start>120700000</start>
+		<end>123000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:120700000-123000000</link>
+	</band>
+	<band index="35" name="q31.33">
+		<start>123000000</start>
+		<end>125900000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:123000000-125900000</link>
+	</band>
+	<band index="36" name="q32.1">
+		<start>125900000</start>
+		<end>128800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:125900000-128800000</link>
+	</band>
+	<band index="37" name="q32.2">
+		<start>128800000</start>
+		<end>129900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:128800000-129900000</link>
+	</band>
+	<band index="38" name="q32.3">
+		<start>129900000</start>
+		<end>132000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:129900000-132000000</link>
+	</band>
+	<band index="39" name="q33">
+		<start>132000000</start>
+		<end>137100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:132000000-137100000</link>
+	</band>
+	<band index="40" name="q34">
+		<start>137100000</start>
+		<end>143000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:137100000-143000000</link>
+	</band>
+	<band index="41" name="q35">
+		<start>143000000</start>
+		<end>147300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:143000000-147300000</link>
+	</band>
+	<band index="42" name="q36.1">
+		<start>147300000</start>
+		<end>152000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:147300000-152000000</link>
+	</band>
+	<band index="43" name="q36.2">
+		<start>152000000</start>
+		<end>154500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:152000000-154500000</link>
+	</band>
+	<band index="44" name="q36.3">
+		<start>154500000</start>
+		<end>158628139</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr7:154500000-158628139</link>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="146274826">
+	<band index="1" name="p23.3">
+		<start>0</start>
+		<end>2200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:0-2200000</link>
+	</band>
+	<band index="2" name="p23.2">
+		<start>2200000</start>
+		<end>6200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:2200000-6200000</link>
+	</band>
+	<band index="3" name="p23.1">
+		<start>6200000</start>
+		<end>12700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:6200000-12700000</link>
+	</band>
+	<band index="4" name="p22">
+		<start>12700000</start>
+		<end>19100000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:12700000-19100000</link>
+	</band>
+	<band index="5" name="p21.3">
+		<start>19100000</start>
+		<end>23400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:19100000-23400000</link>
+	</band>
+	<band index="6" name="p21.2">
+		<start>23400000</start>
+		<end>27400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:23400000-27400000</link>
+	</band>
+	<band index="7" name="p21.1">
+		<start>27400000</start>
+		<end>28900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:27400000-28900000</link>
+	</band>
+	<band index="8" name="p12">
+		<start>28900000</start>
+		<end>38500000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:28900000-38500000</link>
+	</band>
+	<band index="9" name="p11.23">
+		<start>38500000</start>
+		<end>39500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:38500000-39500000</link>
+	</band>
+	<band index="10" name="p11.22">
+		<start>39500000</start>
+		<end>39900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:39500000-39900000</link>
+	</band>
+	<band index="11" name="p11.21">
+		<start>39900000</start>
+		<end>43200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:39900000-43200000</link>
+	</band>
+	<band index="12" name="p11.1">
+		<start>43200000</start>
+		<end>45200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:43200000-45200000</link>
+	</band>
+	<band index="13" name="q11.1">
+		<start>45200000</start>
+		<end>48100000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:45200000-48100000</link>
+	</band>
+	<band index="14" name="q11.21">
+		<start>48100000</start>
+		<end>52400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:48100000-52400000</link>
+	</band>
+	<band index="15" name="q11.22">
+		<start>52400000</start>
+		<end>52800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:52400000-52800000</link>
+	</band>
+	<band index="16" name="q11.23">
+		<start>52800000</start>
+		<end>55700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:52800000-55700000</link>
+	</band>
+	<band index="17" name="q12.1">
+		<start>55700000</start>
+		<end>61700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:55700000-61700000</link>
+	</band>
+	<band index="18" name="q12.2">
+		<start>61700000</start>
+		<end>62400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:61700000-62400000</link>
+	</band>
+	<band index="19" name="q12.3">
+		<start>62400000</start>
+		<end>66100000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:62400000-66100000</link>
+	</band>
+	<band index="20" name="q13.1">
+		<start>66100000</start>
+		<end>68100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:66100000-68100000</link>
+	</band>
+	<band index="21" name="q13.2">
+		<start>68100000</start>
+		<end>70700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:68100000-70700000</link>
+	</band>
+	<band index="22" name="q13.3">
+		<start>70700000</start>
+		<end>74200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:70700000-74200000</link>
+	</band>
+	<band index="23" name="q21.11">
+		<start>74200000</start>
+		<end>78600000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:74200000-78600000</link>
+	</band>
+	<band index="24" name="q21.12">
+		<start>78600000</start>
+		<end>80300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:78600000-80300000</link>
+	</band>
+	<band index="25" name="q21.13">
+		<start>80300000</start>
+		<end>84800000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:80300000-84800000</link>
+	</band>
+	<band index="26" name="q21.2">
+		<start>84800000</start>
+		<end>87000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:84800000-87000000</link>
+	</band>
+	<band index="27" name="q21.3">
+		<start>87000000</start>
+		<end>93400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:87000000-93400000</link>
+	</band>
+	<band index="28" name="q22.1">
+		<start>93400000</start>
+		<end>99100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:93400000-99100000</link>
+	</band>
+	<band index="29" name="q22.2">
+		<start>99100000</start>
+		<end>101600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:99100000-101600000</link>
+	</band>
+	<band index="30" name="q22.3">
+		<start>101600000</start>
+		<end>106200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:101600000-106200000</link>
+	</band>
+	<band index="31" name="q23.1">
+		<start>106200000</start>
+		<end>110600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:106200000-110600000</link>
+	</band>
+	<band index="32" name="q23.2">
+		<start>110600000</start>
+		<end>112200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:110600000-112200000</link>
+	</band>
+	<band index="33" name="q23.3">
+		<start>112200000</start>
+		<end>117700000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:112200000-117700000</link>
+	</band>
+	<band index="34" name="q24.11">
+		<start>117700000</start>
+		<end>119200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:117700000-119200000</link>
+	</band>
+	<band index="35" name="q24.12">
+		<start>119200000</start>
+		<end>122500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:119200000-122500000</link>
+	</band>
+	<band index="36" name="q24.13">
+		<start>122500000</start>
+		<end>127300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:122500000-127300000</link>
+	</band>
+	<band index="37" name="q24.21">
+		<start>127300000</start>
+		<end>131500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:127300000-131500000</link>
+	</band>
+	<band index="38" name="q24.22">
+		<start>131500000</start>
+		<end>136500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:131500000-136500000</link>
+	</band>
+	<band index="39" name="q24.23">
+		<start>136500000</start>
+		<end>140000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:136500000-140000000</link>
+	</band>
+	<band index="40" name="q24.3">
+		<start>140000000</start>
+		<end>146274826</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr8:140000000-146274826</link>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="138429268">
+	<band index="1" name="p24.3">
+		<start>0</start>
+		<end>2200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:0-2200000</link>
+	</band>
+	<band index="2" name="p24.2">
+		<start>2200000</start>
+		<end>4600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:2200000-4600000</link>
+	</band>
+	<band index="3" name="p24.1">
+		<start>4600000</start>
+		<end>9000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:4600000-9000000</link>
+	</band>
+	<band index="4" name="p23">
+		<start>9000000</start>
+		<end>14100000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:9000000-14100000</link>
+	</band>
+	<band index="5" name="p22.3">
+		<start>14100000</start>
+		<end>16600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:14100000-16600000</link>
+	</band>
+	<band index="6" name="p22.2">
+		<start>16600000</start>
+		<end>18500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:16600000-18500000</link>
+	</band>
+	<band index="7" name="p22.1">
+		<start>18500000</start>
+		<end>19900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:18500000-19900000</link>
+	</band>
+	<band index="8" name="p21.3">
+		<start>19900000</start>
+		<end>25500000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:19900000-25500000</link>
+	</band>
+	<band index="9" name="p21.2">
+		<start>25500000</start>
+		<end>28100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:25500000-28100000</link>
+	</band>
+	<band index="10" name="p21.1">
+		<start>28100000</start>
+		<end>33200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:28100000-33200000</link>
+	</band>
+	<band index="11" name="p13.3">
+		<start>33200000</start>
+		<end>36200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:33200000-36200000</link>
+	</band>
+	<band index="12" name="p13.2">
+		<start>36200000</start>
+		<end>38600000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:36200000-38600000</link>
+	</band>
+	<band index="13" name="p13.1">
+		<start>38600000</start>
+		<end>41400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:38600000-41400000</link>
+	</band>
+	<band index="14" name="p12">
+		<start>41400000</start>
+		<end>44200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:41400000-44200000</link>
+	</band>
+	<band index="15" name="p11.2">
+		<start>44200000</start>
+		<end>45900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:44200000-45900000</link>
+	</band>
+	<band index="16" name="p11.1">
+		<start>45900000</start>
+		<end>50600000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:45900000-50600000</link>
+	</band>
+	<band index="17" name="q11">
+		<start>50600000</start>
+		<end>59200000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:50600000-59200000</link>
+	</band>
+	<band index="18" name="q12">
+		<start>59200000</start>
+		<end>67500000</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:59200000-67500000</link>
+	</band>
+	<band index="19" name="q13">
+		<start>67500000</start>
+		<end>68600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:67500000-68600000</link>
+	</band>
+	<band index="20" name="q21.11">
+		<start>68600000</start>
+		<end>70800000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:68600000-70800000</link>
+	</band>
+	<band index="21" name="q21.12">
+		<start>70800000</start>
+		<end>71200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:70800000-71200000</link>
+	</band>
+	<band index="22" name="q21.13">
+		<start>71200000</start>
+		<end>76400000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:71200000-76400000</link>
+	</band>
+	<band index="23" name="q21.2">
+		<start>76400000</start>
+		<end>78300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:76400000-78300000</link>
+	</band>
+	<band index="24" name="q21.31">
+		<start>78300000</start>
+		<end>81300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:78300000-81300000</link>
+	</band>
+	<band index="25" name="q21.32">
+		<start>81300000</start>
+		<end>84100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:81300000-84100000</link>
+	</band>
+	<band index="26" name="q21.33">
+		<start>84100000</start>
+		<end>87600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:84100000-87600000</link>
+	</band>
+	<band index="27" name="q22.1">
+		<start>87600000</start>
+		<end>89000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:87600000-89000000</link>
+	</band>
+	<band index="28" name="q22.2">
+		<start>89000000</start>
+		<end>91000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:89000000-91000000</link>
+	</band>
+	<band index="29" name="q22.31">
+		<start>91000000</start>
+		<end>93700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:91000000-93700000</link>
+	</band>
+	<band index="30" name="q22.32">
+		<start>93700000</start>
+		<end>96300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:93700000-96300000</link>
+	</band>
+	<band index="31" name="q22.33">
+		<start>96300000</start>
+		<end>99600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:96300000-99600000</link>
+	</band>
+	<band index="32" name="q31.1">
+		<start>99600000</start>
+		<end>105300000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:99600000-105300000</link>
+	</band>
+	<band index="33" name="q31.2">
+		<start>105300000</start>
+		<end>108400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:105300000-108400000</link>
+	</band>
+	<band index="34" name="q31.3">
+		<start>108400000</start>
+		<end>112000000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:108400000-112000000</link>
+	</band>
+	<band index="35" name="q32">
+		<start>112000000</start>
+		<end>114800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:112000000-114800000</link>
+	</band>
+	<band index="36" name="q33.1">
+		<start>114800000</start>
+		<end>119600000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:114800000-119600000</link>
+	</band>
+	<band index="37" name="q33.2">
+		<start>119600000</start>
+		<end>122900000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:119600000-122900000</link>
+	</band>
+	<band index="38" name="q33.3">
+		<start>122900000</start>
+		<end>127300000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:122900000-127300000</link>
+	</band>
+	<band index="39" name="q34.11">
+		<start>127300000</start>
+		<end>130500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:127300000-130500000</link>
+	</band>
+	<band index="40" name="q34.12">
+		<start>130500000</start>
+		<end>130900000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:130500000-130900000</link>
+	</band>
+	<band index="41" name="q34.13">
+		<start>130900000</start>
+		<end>133000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:130900000-133000000</link>
+	</band>
+	<band index="42" name="q34.2">
+		<start>133000000</start>
+		<end>134700000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:133000000-134700000</link>
+	</band>
+	<band index="43" name="q34.3">
+		<start>134700000</start>
+		<end>138429268</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=Chr9:134700000-138429268</link>
+	</band>
+</chromosome>
+<chromosome index="23" number="X" length="154824264">
+	<band index="1" name="p22.33">
+		<start>0</start>
+		<end>4200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:0-4200000</link>
+	</band>
+	<band index="2" name="p22.32">
+		<start>4200000</start>
+		<end>5800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:4200000-5800000</link>
+	</band>
+	<band index="3" name="p22.31">
+		<start>5800000</start>
+		<end>9300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:5800000-9300000</link>
+	</band>
+	<band index="4" name="p22.2">
+		<start>9300000</start>
+		<end>17200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:9300000-17200000</link>
+	</band>
+	<band index="5" name="p22.13">
+		<start>17200000</start>
+		<end>19000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:17200000-19000000</link>
+	</band>
+	<band index="6" name="p22.12">
+		<start>19000000</start>
+		<end>21600000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:19000000-21600000</link>
+	</band>
+	<band index="7" name="p22.11">
+		<start>21600000</start>
+		<end>24700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:21600000-24700000</link>
+	</band>
+	<band index="8" name="p21.3">
+		<start>24700000</start>
+		<end>29200000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:24700000-29200000</link>
+	</band>
+	<band index="9" name="p21.2">
+		<start>29200000</start>
+		<end>31300000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:29200000-31300000</link>
+	</band>
+	<band index="10" name="p21.1">
+		<start>31300000</start>
+		<end>37400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:31300000-37400000</link>
+	</band>
+	<band index="11" name="p11.4">
+		<start>37400000</start>
+		<end>42100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:37400000-42100000</link>
+	</band>
+	<band index="12" name="p11.3">
+		<start>42100000</start>
+		<end>47200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:42100000-47200000</link>
+	</band>
+	<band index="13" name="p11.23">
+		<start>47200000</start>
+		<end>49500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:47200000-49500000</link>
+	</band>
+	<band index="14" name="p11.22">
+		<start>49500000</start>
+		<end>54500000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:49500000-54500000</link>
+	</band>
+	<band index="15" name="p11.21">
+		<start>54500000</start>
+		<end>56500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:54500000-56500000</link>
+	</band>
+	<band index="16" name="p11.1">
+		<start>56500000</start>
+		<end>59400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:56500000-59400000</link>
+	</band>
+	<band index="17" name="q11.1">
+		<start>59400000</start>
+		<end>61500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:59400000-61500000</link>
+	</band>
+	<band index="18" name="q11.2">
+		<start>61500000</start>
+		<end>64000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:61500000-64000000</link>
+	</band>
+	<band index="19" name="q12">
+		<start>64000000</start>
+		<end>67500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:64000000-67500000</link>
+	</band>
+	<band index="20" name="q13.1">
+		<start>67500000</start>
+		<end>72000000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:67500000-72000000</link>
+	</band>
+	<band index="21" name="q13.2">
+		<start>72000000</start>
+		<end>73700000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:72000000-73700000</link>
+	</band>
+	<band index="22" name="q13.3">
+		<start>73700000</start>
+		<end>75800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:73700000-75800000</link>
+	</band>
+	<band index="23" name="q21.1">
+		<start>75800000</start>
+		<end>84400000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:75800000-84400000</link>
+	</band>
+	<band index="24" name="q21.2">
+		<start>84400000</start>
+		<end>86100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:84400000-86100000</link>
+	</band>
+	<band index="25" name="q21.31">
+		<start>86100000</start>
+		<end>91800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:86100000-91800000</link>
+	</band>
+	<band index="26" name="q21.32">
+		<start>91800000</start>
+		<end>93500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:91800000-93500000</link>
+	</band>
+	<band index="27" name="q21.33">
+		<start>93500000</start>
+		<end>98200000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:93500000-98200000</link>
+	</band>
+	<band index="28" name="q22.1">
+		<start>98200000</start>
+		<end>102400000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:98200000-102400000</link>
+	</band>
+	<band index="29" name="q22.2">
+		<start>102400000</start>
+		<end>103500000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:102400000-103500000</link>
+	</band>
+	<band index="30" name="q22.3">
+		<start>103500000</start>
+		<end>108500000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:103500000-108500000</link>
+	</band>
+	<band index="31" name="q23">
+		<start>108500000</start>
+		<end>116300000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:108500000-116300000</link>
+	</band>
+	<band index="32" name="q24">
+		<start>116300000</start>
+		<end>120600000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:116300000-120600000</link>
+	</band>
+	<band index="33" name="q25">
+		<start>120600000</start>
+		<end>129700000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:120600000-129700000</link>
+	</band>
+	<band index="34" name="q26.1">
+		<start>129700000</start>
+		<end>130200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:129700000-130200000</link>
+	</band>
+	<band index="35" name="q26.2">
+		<start>130200000</start>
+		<end>133400000</end>
+		<stain>gpos25</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:130200000-133400000</link>
+	</band>
+	<band index="36" name="q26.3">
+		<start>133400000</start>
+		<end>137700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:133400000-137700000</link>
+	</band>
+	<band index="37" name="q27.1">
+		<start>137700000</start>
+		<end>140000000</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:137700000-140000000</link>
+	</band>
+	<band index="38" name="q27.2">
+		<start>140000000</start>
+		<end>141800000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:140000000-141800000</link>
+	</band>
+	<band index="39" name="q27.3">
+		<start>141800000</start>
+		<end>146800000</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:141800000-146800000</link>
+	</band>
+	<band index="40" name="q28">
+		<start>146800000</start>
+		<end>154824264</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrX:146800000-154824264</link>
+	</band>
+</chromosome>
+<chromosome index="24" number="Y" length="57701691">
+	<band index="1" name="p11.32">
+		<start>0</start>
+		<end>1700000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:0-1700000</link>
+	</band>
+	<band index="2" name="p11.31">
+		<start>1700000</start>
+		<end>3300000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:1700000-3300000</link>
+	</band>
+	<band index="3" name="p11.2">
+		<start>3300000</start>
+		<end>11200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:3300000-11200000</link>
+	</band>
+	<band index="4" name="p11.1">
+		<start>11200000</start>
+		<end>11500000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:11200000-11500000</link>
+	</band>
+	<band index="5" name="q11.1">
+		<start>11500000</start>
+		<end>12400000</end>
+		<stain>acen</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:11500000-12400000</link>
+	</band>
+	<band index="6" name="q11.21">
+		<start>12400000</start>
+		<end>14200000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:12400000-14200000</link>
+	</band>
+	<band index="7" name="q11.221">
+		<start>14200000</start>
+		<end>18800000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:14200000-18800000</link>
+	</band>
+	<band index="8" name="q11.222">
+		<start>18800000</start>
+		<end>21100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:18800000-21100000</link>
+	</band>
+	<band index="9" name="q11.223">
+		<start>21100000</start>
+		<end>25200000</end>
+		<stain>gpos50</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:21100000-25200000</link>
+	</band>
+	<band index="10" name="q11.23">
+		<start>25200000</start>
+		<end>27100000</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:25200000-27100000</link>
+	</band>
+	<band index="11" name="q12">
+		<start>27100000</start>
+		<end>57701691</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Human&amp;position=ChrY:27100000-57701691</link>
+	</band>
+</chromosome>
+</genome>

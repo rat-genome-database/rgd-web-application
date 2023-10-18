@@ -1,0 +1,2463 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="null">
+<band index="1" name="qH6">
+<start>188104937</start>
+<end>195471972</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>8840441</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>8840441</start>
+<end>12278391</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>12278391</start>
+<end>20136560</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA4">
+<start>20136560</start>
+<end>22101103</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA5">
+<start>22101103</start>
+<end>30941544</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qB">
+<start>30941544</start>
+<end>43219934</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qC1.1">
+<start>43219934</start>
+<end>54516053</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qC1.2">
+<start>54516053</start>
+<end>55989460</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC1.3">
+<start>55989460</start>
+<end>59427409</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="11" name="qC2">
+<start>59427409</start>
+<end>65321036</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC3">
+<start>65321036</start>
+<end>74652613</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qC4">
+<start>74652613</start>
+<end>80055104</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC5">
+<start>80055104</start>
+<end>87422138</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qD">
+<start>87422138</start>
+<end>99700528</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE1.1">
+<start>99700528</start>
+<end>102647342</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qE1.2">
+<start>102647342</start>
+<end>103629613</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qE2.1">
+<start>103629613</start>
+<end>112470054</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="19" name="qE2.2">
+<start>112470054</start>
+<end>113943461</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qE2.3">
+<start>113943461</start>
+<end>125730716</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="qE3">
+<start>125730716</start>
+<end>128677529</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qE4">
+<start>128677529</start>
+<end>139482512</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="23" name="qF">
+<start>139482512</start>
+<end>147340682</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="qG1">
+<start>147340682</start>
+<end>151760903</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="qG2">
+<start>151760903</start>
+<end>152743174</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="qG3">
+<start>152743174</start>
+<end>157163394</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="27" name="qH1">
+<start>157163394</start>
+<end>160110208</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="qH2.1">
+<start>160110208</start>
+<end>164039293</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="29" name="qH2.2">
+<start>164039293</start>
+<end>165512700</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="qH2.3">
+<start>165512700</start>
+<end>169932920</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="31" name="qH3">
+<start>169932920</start>
+<end>175826547</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="qH4">
+<start>175826547</start>
+<end>181720175</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="33" name="qH5">
+<start>181720175</start>
+<end>188104937</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="2" number="2" length="null">
+<band index="1" name="qH4">
+<start>173664673</start>
+<end>182113225</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>14080920</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>14080920</start>
+<end>16427740</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>16427740</start>
+<end>29100567</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qB">
+<start>29100567</start>
+<end>48344490</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qC1.1">
+<start>48344490</start>
+<end>60547954</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qC1.2">
+<start>60547954</start>
+<end>61017318</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qC1.3">
+<start>61017318</start>
+<end>68527141</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="qC2">
+<start>68527141</start>
+<end>71812689</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC3">
+<start>71812689</start>
+<end>81199969</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qD">
+<start>81199969</start>
+<end>88709793</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qE1">
+<start>88709793</start>
+<end>101382620</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qE2">
+<start>101382620</start>
+<end>105137532</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE3">
+<start>105137532</start>
+<end>113116720</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qE4">
+<start>113116720</start>
+<end>115932903</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE5">
+<start>115932903</start>
+<end>123912091</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="17" name="qF1">
+<start>123912091</start>
+<end>131891279</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qF2">
+<start>131891279</start>
+<end>134707463</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="19" name="qF3">
+<start>134707463</start>
+<end>141278558</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qG1">
+<start>141278558</start>
+<end>146910926</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="qG2">
+<start>146910926</start>
+<end>147849654</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qG3">
+<start>147849654</start>
+<end>152543294</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="23" name="qH1">
+<start>152543294</start>
+<end>159114390</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="qH2">
+<start>159114390</start>
+<end>163338665</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="25" name="qH3">
+<start>163338665</start>
+<end>173664673</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="3" number="3" length="null">
+<band index="1" name="qH4">
+<start>154184570</start>
+<end>160039681</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>18541183</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>18541183</start>
+<end>20492886</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>20492886</start>
+<end>35618588</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qB">
+<start>35618588</start>
+<end>46840882</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qC">
+<start>46840882</start>
+<end>56599400</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qD">
+<start>56599400</start>
+<end>60990732</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qE1">
+<start>60990732</start>
+<end>69773398</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qE2">
+<start>69773398</start>
+<end>72700953</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qE3">
+<start>72700953</start>
+<end>83923247</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qF1">
+<start>83923247</start>
+<end>93193839</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qF2.1">
+<start>93193839</start>
+<end>97585171</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qF2.2">
+<start>97585171</start>
+<end>106367837</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qF2.3">
+<start>106367837</start>
+<end>108319540</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qF3">
+<start>108319540</start>
+<end>115150502</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qG1">
+<start>115150502</start>
+<end>126860722</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qG2">
+<start>126860722</start>
+<end>128812426</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qG3">
+<start>128812426</start>
+<end>138570943</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="19" name="qH1">
+<start>138570943</start>
+<end>143938127</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qH2">
+<start>143938127</start>
+<end>148329460</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="21" name="qH3">
+<start>148329460</start>
+<end>154184570</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="4" number="4" length="null">
+<band index="1" name="qE2">
+<start>147866564</start>
+<end>156508117</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>14882674</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>14882674</start>
+<end>17763192</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>17763192</start>
+<end>28325089</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="5" name="qA4">
+<start>28325089</start>
+<end>30245434</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA5">
+<start>30245434</start>
+<end>43687849</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="7" name="qB1">
+<start>43687849</start>
+<end>51849315</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB2">
+<start>51849315</start>
+<end>55209919</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB3">
+<start>55209919</start>
+<end>63371385</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC1">
+<start>63371385</start>
+<end>69612506</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="11" name="qC2">
+<start>69612506</start>
+<end>72012937</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC3">
+<start>72012937</start>
+<end>84015093</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qC4">
+<start>84015093</start>
+<end>89776128</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC5">
+<start>89776128</start>
+<end>97457508</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="15" name="qC6">
+<start>97457508</start>
+<end>105618974</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qC7">
+<start>105618974</start>
+<end>110899923</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="17" name="qD1">
+<start>110899923</start>
+<end>117621131</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qD2.1">
+<start>117621131</start>
+<end>120501648</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="19" name="qD2.2">
+<start>120501648</start>
+<end>131063545</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qD2.3">
+<start>131063545</start>
+<end>133944063</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="21" name="qD3">
+<start>133944063</start>
+<end>141625443</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qE1">
+<start>141625443</start>
+<end>147866564</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="5" number="5" length="null">
+<band index="1" name="qG3">
+<start>146068810</start>
+<end>151834685</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>14895175</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>14895175</start>
+<end>16336644</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>16336644</start>
+<end>25465944</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qB1">
+<start>25465944</start>
+<end>33634266</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB2">
+<start>33634266</start>
+<end>35556224</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qB3">
+<start>35556224</start>
+<end>50451399</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qC1">
+<start>50451399</start>
+<end>58619720</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qC2">
+<start>58619720</start>
+<end>61022168</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC3.1">
+<start>61022168</start>
+<end>71592937</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qC3.2">
+<start>71592937</start>
+<end>73514895</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC3.3">
+<start>73514895</start>
+<end>77839301</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qD">
+<start>77839301</start>
+<end>81683217</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE1">
+<start>81683217</start>
+<end>91293007</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qE2">
+<start>91293007</start>
+<end>93695454</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE3">
+<start>93695454</start>
+<end>99461328</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qE4">
+<start>99461328</start>
+<end>101863776</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qE5">
+<start>101863776</start>
+<end>107629650</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="19" name="qF">
+<start>107629650</start>
+<end>124927272</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qG1.1">
+<start>124927272</start>
+<end>126849230</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="21" name="qG1.2">
+<start>126849230</start>
+<end>127810209</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qG1.3">
+<start>127810209</start>
+<end>130693146</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="23" name="qG2">
+<start>130693146</start>
+<end>146068810</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="6" number="6" length="null">
+<band index="1" name="qG3">
+<start>142885855</start>
+<end>149736547</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>16637395</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>16637395</start>
+<end>21530746</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3.1">
+<start>21530746</start>
+<end>27402767</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="5" name="qA3.2">
+<start>27402767</start>
+<end>28381437</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3.3">
+<start>28381437</start>
+<end>34253459</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qB1">
+<start>34253459</start>
+<end>41593486</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB2.1">
+<start>41593486</start>
+<end>44529496</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qB2.2">
+<start>44529496</start>
+<end>45997502</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qB2.3">
+<start>45997502</start>
+<end>50890853</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qB3">
+<start>50890853</start>
+<end>62634896</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC1">
+<start>62634896</start>
+<end>74378938</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qC2">
+<start>74378938</start>
+<end>76825614</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC3">
+<start>76825614</start>
+<end>86122981</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="15" name="qD1">
+<start>86122981</start>
+<end>94441678</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qD2">
+<start>94441678</start>
+<end>95909684</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qD3">
+<start>95909684</start>
+<end>103249710</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qE1">
+<start>103249710</start>
+<end>108632397</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="19" name="qE2">
+<start>108632397</start>
+<end>109611067</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qE3">
+<start>109611067</start>
+<end>116951094</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="qF1">
+<start>116951094</start>
+<end>122823115</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qF2">
+<start>122823115</start>
+<end>125269791</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="23" name="qF3">
+<start>125269791</start>
+<end>132120482</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="qG1">
+<start>132120482</start>
+<end>139460509</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="25" name="qG2">
+<start>139460509</start>
+<end>142885855</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="7" number="7" length="null">
+<band index="1" name="qF5">
+<start>140880578</start>
+<end>145441460</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>15202940</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>15202940</start>
+<end>18243528</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>18243528</start>
+<end>28378822</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qB1">
+<start>28378822</start>
+<end>34459998</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB2">
+<start>34459998</start>
+<end>37500586</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qB3">
+<start>37500586</start>
+<end>47635879</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB4">
+<start>47635879</start>
+<end>54223820</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB5">
+<start>54223820</start>
+<end>60811760</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC">
+<start>60811760</start>
+<end>71453818</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qD1">
+<start>71453818</start>
+<end>77028230</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qD2">
+<start>77028230</start>
+<end>80575582</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qD3">
+<start>80575582</start>
+<end>90204111</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE1">
+<start>90204111</start>
+<end>99832640</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qE2">
+<start>99832640</start>
+<end>102366463</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE3">
+<start>102366463</start>
+<end>111488227</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qF1">
+<start>111488227</start>
+<end>118582932</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qF2">
+<start>118582932</start>
+<end>123143814</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="19" name="qF3">
+<start>123143814</start>
+<end>137333225</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qF4">
+<start>137333225</start>
+<end>140880578</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="8" number="8" length="null">
+<band index="1" name="qE2">
+<start>123775074</start>
+<end>129401214</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1.1">
+<start>1</start>
+<end>15940730</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA1.2">
+<start>15940730</start>
+<end>16878420</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA1.3">
+<start>16878420</start>
+<end>20160334</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA2">
+<start>20160334</start>
+<end>29537234</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3">
+<start>29537234</start>
+<end>33756839</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qA4">
+<start>33756839</start>
+<end>44071428</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB1.1">
+<start>44071428</start>
+<end>48291033</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qB1.2">
+<start>48291033</start>
+<end>50166413</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qB1.3">
+<start>50166413</start>
+<end>55792552</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qB2">
+<start>55792552</start>
+<end>59543312</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qB3.1">
+<start>59543312</start>
+<end>67044832</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qB3.2">
+<start>67044832</start>
+<end>67982522</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qB3.3">
+<start>67982522</start>
+<end>74546351</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qC1">
+<start>74546351</start>
+<end>80172491</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qC2">
+<start>80172491</start>
+<end>84860941</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qC3">
+<start>84860941</start>
+<end>90018236</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qC4">
+<start>90018236</start>
+<end>91424771</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="19" name="qC5">
+<start>91424771</start>
+<end>95644375</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qD1">
+<start>95644375</start>
+<end>103145895</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="qD2">
+<start>103145895</start>
+<end>104083585</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qD3">
+<start>104083585</start>
+<end>110647415</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="23" name="qE1">
+<start>110647415</start>
+<end>123775074</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="9" number="9" length="null">
+<band index="1" name="qF4">
+<start>119946039</start>
+<end>124595111</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>14412121</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>14412121</start>
+<end>19526100</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>19526100</start>
+<end>24175171</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA4">
+<start>24175171</start>
+<end>38122385</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA5.1">
+<start>38122385</start>
+<end>44166178</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="7" name="qA5.2">
+<start>44166178</start>
+<end>46490713</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qA5.3">
+<start>46490713</start>
+<end>54859041</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qB">
+<start>54859041</start>
+<end>63227370</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC">
+<start>63227370</start>
+<end>69736070</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="11" name="qD">
+<start>69736070</start>
+<end>77639491</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qE1">
+<start>77639491</start>
+<end>82753469</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qE2">
+<start>82753469</start>
+<end>84613098</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE3.1">
+<start>84613098</start>
+<end>91121797</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qE3.2">
+<start>91121797</start>
+<end>91586704</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE3.3">
+<start>91586704</start>
+<end>100884847</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qE4">
+<start>100884847</start>
+<end>101814661</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="18" name="qF1">
+<start>101814661</start>
+<end>108323361</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="qF2">
+<start>108323361</start>
+<end>111112804</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="20" name="qF3">
+<start>111112804</start>
+<end>119946039</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="10" number="10" length="null">
+<band index="1" name="qD3">
+<start>124776730</start>
+<end>130694994</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>12822905</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>12822905</start>
+<end>17754792</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>17754792</start>
+<end>23673056</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA4">
+<start>23673056</start>
+<end>33536829</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB1">
+<start>33536829</start>
+<end>41427847</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qB2">
+<start>41427847</start>
+<end>48332488</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB3">
+<start>48332488</start>
+<end>56223507</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="qB4">
+<start>56223507</start>
+<end>64114525</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qB5.1">
+<start>64114525</start>
+<end>68060035</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qB5.2">
+<start>68060035</start>
+<end>68553223</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qB5.3">
+<start>68553223</start>
+<end>74964676</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qC1">
+<start>74964676</start>
+<end>89267147</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC2">
+<start>89267147</start>
+<end>96171788</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qC3">
+<start>96171788</start>
+<end>99130920</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qD1">
+<start>99130920</start>
+<end>111953825</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qD2">
+<start>111953825</start>
+<end>124776730</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="11" number="11" length="null">
+<band index="1" name="qE2">
+<start>110433446</start>
+<end>122082544</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>13046990</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>13046990</start>
+<end>17240665</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3.1">
+<start>17240665</start>
+<end>21900304</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="5" name="qA3.2">
+<start>21900304</start>
+<end>25628015</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3.3">
+<start>25628015</start>
+<end>30287654</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qA4">
+<start>30287654</start>
+<end>36345185</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qA5">
+<start>36345185</start>
+<end>43334644</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="qB1.1">
+<start>43334644</start>
+<end>47994283</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qB1.2">
+<start>47994283</start>
+<end>49858138</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="11" name="qB1.3">
+<start>49858138</start>
+<end>60109344</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qB2">
+<start>60109344</start>
+<end>62905128</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qB3">
+<start>62905128</start>
+<end>70826514</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qB4">
+<start>70826514</start>
+<end>74088261</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qB5">
+<start>74088261</start>
+<end>82009648</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qC">
+<start>82009648</start>
+<end>90396998</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qD">
+<start>90396998</start>
+<end>102512060</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qE1">
+<start>102512060</start>
+<end>110433446</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="12" number="12" length="null">
+<band index="1" name="qF2">
+<start>114408593</start>
+<end>120129023</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="2" name="qA1.1">
+<start>1</start>
+<end>17601322</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA1.2">
+<start>17601322</start>
+<end>21121587</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA1.3">
+<start>21121587</start>
+<end>25961950</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qA2">
+<start>25961950</start>
+<end>31682380</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3">
+<start>31682380</start>
+<end>39162942</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qB1">
+<start>39162942</start>
+<end>44003305</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB2">
+<start>44003305</start>
+<end>44883371</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB3">
+<start>44883371</start>
+<end>51923900</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC1">
+<start>51923900</start>
+<end>66004958</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qC2">
+<start>66004958</start>
+<end>71285354</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC3">
+<start>71285354</start>
+<end>80966081</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qD1">
+<start>80966081</start>
+<end>85366412</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qD2">
+<start>85366412</start>
+<end>88446643</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qD3">
+<start>88446643</start>
+<end>95487172</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE">
+<start>95487172</start>
+<end>106047965</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qF1">
+<start>106047965</start>
+<end>114408593</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="13" number="13" length="null">
+<band index="1" name="qD2.3">
+<start>116473389</start>
+<end>120421640</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>16286534</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>16286534</start>
+<end>21221847</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3.1">
+<start>21221847</start>
+<end>29611879</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qA3.2">
+<start>29611879</start>
+<end>33066598</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3.3">
+<start>33066598</start>
+<end>41456630</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qA4">
+<start>41456630</start>
+<end>44417818</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qA5">
+<start>44417818</start>
+<end>52807850</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB1">
+<start>52807850</start>
+<end>59223757</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qB2">
+<start>59223757</start>
+<end>61691414</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="11" name="qB3">
+<start>61691414</start>
+<end>69587915</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC1">
+<start>69587915</start>
+<end>78471478</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qC2">
+<start>78471478</start>
+<end>80939135</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC3">
+<start>80939135</start>
+<end>94758012</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qD1">
+<start>94758012</start>
+<end>106602763</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qD2.1">
+<start>106602763</start>
+<end>110551013</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qD2.2">
+<start>110551013</start>
+<end>116473389</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="14" number="14" length="null">
+<band index="1" name="qE5">
+<start>120905373</start>
+<end>124902245</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>14988270</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>14988270</start>
+<end>19484751</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>19484751</start>
+<end>29976539</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qB">
+<start>29976539</start>
+<end>43465981</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qC1">
+<start>43465981</start>
+<end>51959334</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qC2">
+<start>51959334</start>
+<end>54956988</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qC3">
+<start>54956988</start>
+<end>59953078</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qD1">
+<start>59953078</start>
+<end>68946039</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qD2">
+<start>68946039</start>
+<end>72942911</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="11" name="qD3">
+<start>72942911</start>
+<end>84933526</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qE1">
+<start>84933526</start>
+<end>88930398</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qE2.1">
+<start>88930398</start>
+<end>98922578</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="14" name="qE2.2">
+<start>98922578</start>
+<end>99921796</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="qE2.3">
+<start>99921796</start>
+<end>107415930</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="16" name="qE3">
+<start>107415930</start>
+<end>110913193</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="qE4">
+<start>110913193</start>
+<end>120905373</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="15" number="15" length="null">
+<band index="1" name="qF3">
+<start>102210317</start>
+<end>104043686</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>16500321</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>16500321</start>
+<end>24292138</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qB1">
+<start>24292138</start>
+<end>29792245</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qB2">
+<start>29792245</start>
+<end>32083956</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB3.1">
+<start>32083956</start>
+<end>43084170</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qB3.2">
+<start>43084170</start>
+<end>44917539</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB3.3">
+<start>44917539</start>
+<end>49959303</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qC">
+<start>49959303</start>
+<end>53626041</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qD1">
+<start>53626041</start>
+<end>66459623</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qD2">
+<start>66459623</start>
+<end>68751334</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qD3">
+<start>68751334</start>
+<end>77459836</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qE1">
+<start>77459836</start>
+<end>83876628</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE2">
+<start>83876628</start>
+<end>87085023</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="15" name="qE3">
+<start>87085023</start>
+<end>95793525</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qF1">
+<start>95793525</start>
+<end>101293632</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="17" name="qF2">
+<start>101293632</start>
+<end>102210317</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="16" number="16" length="null">
+<band index="1" name="qC4">
+<start>91660584</start>
+<end>98207769</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>15432650</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>15432650</start>
+<end>16367962</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3">
+<start>16367962</start>
+<end>20576866</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qB1">
+<start>20576866</start>
+<end>26188739</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB2">
+<start>26188739</start>
+<end>32268267</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qB3">
+<start>32268267</start>
+<end>38347796</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB4">
+<start>38347796</start>
+<end>44894980</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB5">
+<start>44894980</start>
+<end>53780445</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC1.1">
+<start>53780445</start>
+<end>57989349</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qC1.2">
+<start>57989349</start>
+<end>58924661</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qC1.3">
+<start>58924661</start>
+<end>66874814</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qC2">
+<start>66874814</start>
+<end>70616062</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qC3.1">
+<start>70616062</start>
+<end>79033871</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qC3.2">
+<start>79033871</start>
+<end>79501527</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qC3.3">
+<start>79501527</start>
+<end>91660584</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="17" number="17" length="null">
+<band index="1" name="qE5">
+<start>88887172</start>
+<end>94987272</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>13943086</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>13943086</start>
+<end>16121693</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA3.1">
+<start>16121693</start>
+<end>17428858</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA3.2">
+<start>17428858</start>
+<end>21786072</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3.3">
+<start>21786072</start>
+<end>31371943</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="7" name="qB1">
+<start>31371943</start>
+<end>40086372</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qB2">
+<start>40086372</start>
+<end>41393536</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="9" name="qB3">
+<start>41393536</start>
+<end>45750750</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qC">
+<start>45750750</start>
+<end>55772343</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qD">
+<start>55772343</start>
+<end>60129557</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qE1.1">
+<start>60129557</start>
+<end>67972543</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="qE1.2">
+<start>67972543</start>
+<end>68843986</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qE1.3">
+<start>68843986</start>
+<end>73201200</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="qE2">
+<start>73201200</start>
+<end>78429857</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qE3">
+<start>78429857</start>
+<end>82787072</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="17" name="qE4">
+<start>82787072</start>
+<end>88887172</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="18" number="18" length="null">
+<band index="1" name="qE4">
+<start>83530803</start>
+<end>90702640</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>19406147</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>19406147</start>
+<end>29531092</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qB1">
+<start>29531092</start>
+<end>35437311</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qB2">
+<start>35437311</start>
+<end>37124802</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qB3">
+<start>37124802</start>
+<end>45562256</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="7" name="qC">
+<start>45562256</start>
+<end>49780984</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qD1">
+<start>49780984</start>
+<end>53999711</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="qD2">
+<start>53999711</start>
+<end>54421584</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qD3">
+<start>54421584</start>
+<end>60749675</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="qE1">
+<start>60749675</start>
+<end>67921512</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qE2">
+<start>67921512</start>
+<end>75093348</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="13" name="qE3">
+<start>75093348</start>
+<end>83530803</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="19" number="19" length="null">
+<band index="1" name="qD3">
+<start>58990577</start>
+<end>61431567</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA">
+<start>1</start>
+<end>16680095</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qB">
+<start>16680095</start>
+<end>25630389</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qC1">
+<start>25630389</start>
+<end>34987515</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="5" name="qC2">
+<start>34987515</start>
+<end>38242167</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qC3">
+<start>38242167</start>
+<end>47599293</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="7" name="qD1">
+<start>47599293</start>
+<end>51667609</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qD2">
+<start>51667609</start>
+<end>58990577</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="20" number="X" length="null">
+<band index="1" name="qF5">
+<start>163638016</start>
+<end>171031300</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="qA1.1">
+<start>1</start>
+<end>15772339</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA1.2">
+<start>15772339</start>
+<end>18236767</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="qA1.3">
+<start>18236767</start>
+<end>21194081</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qA2">
+<start>21194081</start>
+<end>28094479</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="qA3.1">
+<start>28094479</start>
+<end>33516220</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="7" name="qA3.2">
+<start>33516220</start>
+<end>34501992</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="qA3.3">
+<start>34501992</start>
+<end>39923733</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="9" name="qA4">
+<start>39923733</start>
+<end>47809903</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="qA5">
+<start>47809903</start>
+<end>56188958</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="11" name="qA6">
+<start>56188958</start>
+<end>63089356</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="qA7.1">
+<start>63089356</start>
+<end>69496868</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="13" name="qA7.2">
+<start>69496868</start>
+<end>70975525</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="qA7.3">
+<start>70975525</start>
+<end>77383038</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="15" name="qB">
+<start>77383038</start>
+<end>82311894</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="qC1">
+<start>82311894</start>
+<end>91183834</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="qC2">
+<start>91183834</start>
+<end>92169605</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="qC3">
+<start>92169605</start>
+<end>101041546</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="19" name="qD">
+<start>101041546</start>
+<end>109913487</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="qE1">
+<start>109913487</start>
+<end>120264084</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="qE2">
+<start>120264084</start>
+<end>121249855</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="qE3">
+<start>121249855</start>
+<end>135050652</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="23" name="qF1">
+<start>135050652</start>
+<end>141458164</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="qF2">
+<start>141458164</start>
+<end>148851448</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="25" name="qF3">
+<start>148851448</start>
+<end>156244732</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="qF4">
+<start>156244732</start>
+<end>163638016</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="21" number="Y" length="null">
+<band index="1" name="qE">
+<start>83143633</start>
+<end>91744699</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="2" name="qA1">
+<start>1</start>
+<end>20642558</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="3" name="qA2">
+<start>20642558</start>
+<end>32684049</end>
+<stain>gpos66</stain>
+<link></link>
+</band>
+<band index="4" name="qB">
+<start>32684049</start>
+<end>45298945</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="5" name="qC1">
+<start>45298945</start>
+<end>54473415</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="6" name="qC2">
+<start>54473415</start>
+<end>61927672</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+<band index="7" name="qC3">
+<start>61927672</start>
+<end>72248950</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="8" name="qD">
+<start>72248950</start>
+<end>83143633</end>
+<stain>gpos33</stain>
+<link></link>
+</band>
+</chromosome>
+</genome>

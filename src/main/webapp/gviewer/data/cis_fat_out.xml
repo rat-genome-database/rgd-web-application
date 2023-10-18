@@ -1,0 +1,875 @@
+<?xml version="1.0" standalone="yes"?>
+<genome><feature>
+	<chromosome>8</chromosome>
+	<start>20500409</start>
+	<end>20500409</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387366_at (Ilf3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>101521387</start>
+	<end>101521387</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1384717_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>67232914</start>
+	<end>67232914</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388630_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>213128553</start>
+	<end>213128553</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1380404_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>115173438</start>
+	<end>115173438</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388437_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>37258758</start>
+	<end>37258758</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374959_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>158396431</start>
+	<end>158396431</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374907_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>55051904</start>
+	<end>55051904</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368891_at (Gnpat)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>32782152</start>
+	<end>32782152</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390364_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>4658632</start>
+	<end>4658632</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368291_at (Api2)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>9727956</start>
+	<end>9727956</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1377244_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>202649345</start>
+	<end>202649345</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1369866_at (LOC56825)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>13513148</start>
+	<end>13513148</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1386901_at (Cd36a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>13513148</start>
+	<end>13513148</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1367689_a_at (Cd36a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>3569265</start>
+	<end>3569265</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1377212_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>10479027</start>
+	<end>10479027</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387222_at (Cript)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>46020509</start>
+	<end>46020509</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1373682_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>167456353</start>
+	<end>167456353</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371085_at (Ascl3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>32467225</start>
+	<end>32467225</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387808_at (Slc7a7)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>20031842</start>
+	<end>20031842</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388366_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>7747020</start>
+	<end>7747020</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371324_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>63788794</start>
+	<end>63788794</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390128_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>63385214</start>
+	<end>63385214</end>
+	<type>gene</type>
+	<color>0x00FF00</color>
+	<label>1375655_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>66437340</start>
+	<end>66437340</end>
+	<type>gene</type>
+	<color>0xFF0000</color>
+	<label>1375343_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>37146280</start>
+	<end>37146280</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388617_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>13196112</start>
+	<end>13196112</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1376550_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>57642696</start>
+	<end>57642696</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1370176_at (Als2cr3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>47085288</start>
+	<end>47085288</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387144_at (Itga1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>6555704</start>
+	<end>6555704</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390435_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>56880889</start>
+	<end>56880889</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387376_at (Aox1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>8337072</start>
+	<end>8337072</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368526_at (Pex3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>118388943</start>
+	<end>118388943</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1389511_s_at (Syngr1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>57615722</start>
+	<end>57615722</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1370930_at (Kif1c)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>78682851</start>
+	<end>78682851</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368304_at (Fmo3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>36611129</start>
+	<end>36611129</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1375194_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>42321222</start>
+	<end>42321222</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371951_at (Fhl2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>135946190</start>
+	<end>135946190</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1389650_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>165120034</start>
+	<end>165120034</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387906_a_at (Gnas)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>113369944</start>
+	<end>113369944</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1369171_at (Mst1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>56447684</start>
+	<end>56447684</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368285_at (Shbg)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>2837388</start>
+	<end>2837388</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1389734_x_at (RT1-Aw2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>13111312</start>
+	<end>13111312</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1392720_at (Cyp4f5)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>5023662</start>
+	<end>5023662</end>
+	<type>gene</type>
+	<color>0x00FF00</color>
+	<label>1370428_x_at (RT1-Aw2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>182191778</start>
+	<end>182191778</end>
+	<type>gene</type>
+	<color>0xFF0000</color>
+	<label>1375664_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>67834471</start>
+	<end>67834471</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390827_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>240840214</start>
+	<end>240840214</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374006_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>9698220</start>
+	<end>9698220</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1376840_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>81749981</start>
+	<end>81749981</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1382667_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>90508428</start>
+	<end>90508428</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1399157_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>80605153</start>
+	<end>80605153</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371732_at (Dpt)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>84967045</start>
+	<end>84967045</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1375927_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>17447164</start>
+	<end>17447164</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390443_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>78149579</start>
+	<end>78149579</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1383440_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>34913410</start>
+	<end>34913410</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390185_at (Dcpsa)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>186181355</start>
+	<end>186181355</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1377614_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>5074917</start>
+	<end>5074917</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1394386_s_at (Vps52a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>122529659</start>
+	<end>122529659</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1373389_at (Acod9)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>32985603</start>
+	<end>32985603</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1372415_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>40528161</start>
+	<end>40528161</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371803_at (Gm2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>9983732</start>
+	<end>9983732</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1373537_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>5012216</start>
+	<end>5012216</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1369110_x_at (RT1-A3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>35764038</start>
+	<end>35764038</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387789_at (Erg)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>4702351</start>
+	<end>4702351</end>
+	<type>gene</type>
+	<color>0xFF0000</color>
+	<label>1377334_at (RT1-Ba)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>18082519</start>
+	<end>18082519</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1377501_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>8402310</start>
+	<end>8402310</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1368440_at (Slc3a1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>4733596</start>
+	<end>4733596</end>
+	<type>gene</type>
+	<color>0x00FF00</color>
+	<label>1371033_at (RT1-Bb)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>143523707</start>
+	<end>143523707</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1377040_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>47367303</start>
+	<end>47367303</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371442_at (Hyou1)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>5029602</start>
+	<end>5029602</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1371213_at (RT1-Aw2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>34908365</start>
+	<end>34908365</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374583_at (Dcpsa)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>181614414</start>
+	<end>181614414</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1373243_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>86479486</start>
+	<end>86479486</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1387924_at (Besh3)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>203893953</start>
+	<end>203893953</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1372728_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>53212905</start>
+	<end>53212905</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374560_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>42335939</start>
+	<end>42335939</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1369313_at (Fhl2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>219739471</start>
+	<end>219739471</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1376398_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>61941251</start>
+	<end>61941251</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1384309_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>80188907</start>
+	<end>80188907</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1382105_at (Gnb5)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>3441453</start>
+	<end>3441453</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388202_at (RT1-Aw2a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>5078591</start>
+	<end>5078591</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1369667_at (Vps52a)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>83039499</start>
+	<end>83039499</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1389867_at (Cugbp2)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>120806126</start>
+	<end>120806126</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1370377_at (Cyp2d9)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>167465427</start>
+	<end>167465427</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374675_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>67022332</start>
+	<end>67022332</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374126_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>95234620</start>
+	<end>95234620</end>
+	<type>gene</type>
+	<color>0xFF0000</color>
+	<label>1375676_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>32507604</start>
+	<end>32507604</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388654_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>213128553</start>
+	<end>213128553</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1380404_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>36213022</start>
+	<end>36213022</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1388908_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>33466361</start>
+	<end>33466361</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1372532_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>75357533</start>
+	<end>75357533</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1374097_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>11542040</start>
+	<end>11542040</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1373838_at (Fut4)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>67235253</start>
+	<end>67235253</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1380293_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>12117542</start>
+	<end>12117542</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1380286_x_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>156949551</start>
+	<end>156949551</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1390284_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>117060690</start>
+	<end>117060690</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1389264_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>48673210</start>
+	<end>48673210</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1398309_at (Pigl)</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>42942306</start>
+	<end>42942306</end>
+	<type>gene</type>
+	<color>0xEDEC07</color>
+	<label>1372646_at</label>
+	<link></link>
+</feature>
+</genome>

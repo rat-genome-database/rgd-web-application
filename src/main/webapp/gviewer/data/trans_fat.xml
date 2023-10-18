@@ -1,0 +1,5951 @@
+<?xml version="1.0" standalone="yes"?>
+<genome><feature>
+	<chromosome>1</chromosome>
+	<start>158922915</start>
+	<end>158922915</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388948_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>103684035</start>
+	<end>103684035</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Rbp2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388948_at</start>
+	<end>Rbp2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>27215120</start>
+	<end>27215120</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373556_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373556_at</start>
+	<end>Rbp2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>171785898</start>
+	<end>171785898</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369938_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369938_at</start>
+	<end>Rbp2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000923077</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>32595387</start>
+	<end>32595387</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371988_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>138267482</start>
+	<end>138267482</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>R63</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371988_at</start>
+	<end>R63</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>13267661</start>
+	<end>13267661</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388001_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>44713827</start>
+	<end>44713827</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Prl</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388001_at</start>
+	<end>Prl</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>8785530</start>
+	<end>8785530</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1381263_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1381263_at</start>
+	<end>Prl</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001090909</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>169469156</start>
+	<end>169469156</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370313_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>98989300</start>
+	<end>98989300</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Myc</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370313_at</start>
+	<end>Myc</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>33466361</start>
+	<end>33466361</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372532_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>16631665</start>
+	<end>16631665</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Lsn2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372532_at</start>
+	<end>Lsn2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001670051</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>32985603</start>
+	<end>32985603</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372415_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372415_at</start>
+	<end>Lsn2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00202953</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>25267690</start>
+	<end>25267690</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390649_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>56191293</start>
+	<end>56191293</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Lep</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390649_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>22688591</start>
+	<end>22688591</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388547_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388547_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>62110787</start>
+	<end>62110787</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1384970_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1384970_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>2833884</start>
+	<end>2833884</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376960_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376960_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>113910737</start>
+	<end>113910737</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376434_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376434_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>147034550</start>
+	<end>147034550</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370507_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370507_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>265455189</start>
+	<end>265455189</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368532_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368532_at</start>
+	<end>Lep</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>41322538</start>
+	<end>41322538</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389244_x_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>60493613</start>
+	<end>60493613</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Lca</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389244_x_at</start>
+	<end>Lca</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004142857</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>41322538</start>
+	<end>41322538</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373661_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373661_a_at</start>
+	<end>Lca</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002916667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>13513148</start>
+	<end>13513148</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386901_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>460616</start>
+	<end>460616</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Il6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386901_at</start>
+	<end>Il6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000625</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>78316199</start>
+	<end>78316199</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387422_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>138236252</start>
+	<end>138236252</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Igh@</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387422_at</start>
+	<end>Igh@</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>33468133</start>
+	<end>33468133</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371907_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>21899258</start>
+	<end>21899258</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Hsp27</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371907_at</start>
+	<end>Hsp27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>190579977</start>
+	<end>190579977</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368007_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368007_at</start>
+	<end>Hsp27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>48509481</start>
+	<end>48509481</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372945_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>80741346</start>
+	<end>80741346</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Hoxa11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372945_at</start>
+	<end>Hoxa11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>136702536</start>
+	<end>136702536</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373833_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>35709512</start>
+	<end>35709512</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>H</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373833_at</start>
+	<end>H</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002013672</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>91802642</start>
+	<end>91802642</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373212_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>45829632</start>
+	<end>45829632</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Grik4</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373212_at</start>
+	<end>Grik4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002238095</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>137926518</start>
+	<end>137926518</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371006_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371006_at</start>
+	<end>Grik4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>39739443</start>
+	<end>39739443</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373816_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>19543010</start>
+	<end>19543010</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Epo</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373816_at</start>
+	<end>Epo</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>9727956</start>
+	<end>9727956</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377244_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>22920523</start>
+	<end>22920523</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Eln</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377244_at</start>
+	<end>Eln</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007524</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>151869785</start>
+	<end>151869785</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376833_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>114771405</start>
+	<end>114771405</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Edn3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376833_at</start>
+	<end>Edn3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>104311582</start>
+	<end>104311582</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370221_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>76166464</start>
+	<end>76166464</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D9Utr3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370221_at</start>
+	<end>D9Utr3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>29621225</start>
+	<end>29621225</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370193_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>55895160</start>
+	<end>55895160</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D9Rat93</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370193_at</start>
+	<end>D9Rat93</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000190476</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>22714977</start>
+	<end>22714977</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371623_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>39766130</start>
+	<end>39766130</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D9Rat124</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371623_at</start>
+	<end>D9Rat124</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>4651644</start>
+	<end>4651644</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1383734_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>105059744</start>
+	<end>105059744</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D9Cebrp40s14</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D9Cebrp40s14</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000044</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>48906295</start>
+	<end>48906295</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388601_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>120852323</start>
+	<end>120852323</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Rat7</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388601_at</start>
+	<end>D8Rat7</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000916667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>75634516</start>
+	<end>75634516</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377937_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>87142271</start>
+	<end>87142271</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Rat21</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377937_at</start>
+	<end>D8Rat21</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000647059</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>135720902</start>
+	<end>135720902</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377462_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>95247322</start>
+	<end>95247322</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Rat131</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377462_at</start>
+	<end>D8Rat131</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>94849704</start>
+	<end>94849704</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373121_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373121_at</start>
+	<end>D8Rat131</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>50180141</start>
+	<end>50180141</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373691_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>51395883</start>
+	<end>51395883</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Rat_42</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373691_at</start>
+	<end>D8Rat_42</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>36169502</start>
+	<end>36169502</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373386_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>32624922</start>
+	<end>32624922</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8N228</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373386_at</start>
+	<end>D8N228</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>71213208</start>
+	<end>71213208</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370539_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>58049918</start>
+	<end>58049918</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Mit12</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370539_at</start>
+	<end>D8Mit12</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001879518</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>10802932</start>
+	<end>10802932</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371713_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>32624956</start>
+	<end>32624956</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Mgh9</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371713_at</start>
+	<end>D8Mgh9</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>47367303</start>
+	<end>47367303</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371442_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>33888620</start>
+	<end>33888620</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Cebr81s4</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371442_at</start>
+	<end>D8Cebr81s4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000093496</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>241475363</start>
+	<end>241475363</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386148_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386148_at</start>
+	<end>D8Cebr81s4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>21017751</start>
+	<end>21017751</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371909_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371909_at</start>
+	<end>D8Cebr81s4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>203173781</start>
+	<end>203173781</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371844_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371844_at</start>
+	<end>D8Cebr81s4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>32189090</start>
+	<end>32189090</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Cebr81s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371442_at</start>
+	<end>D8Cebr81s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00147561</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>124447472</start>
+	<end>124447472</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374720_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374720_at</start>
+	<end>D8Cebr81s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>108509533</start>
+	<end>108509533</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387344_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>118084144</start>
+	<end>118084144</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D8Cebr46s6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387344_at</start>
+	<end>D8Cebr46s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>28055256</start>
+	<end>28055256</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374221_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374221_at</start>
+	<end>D8Cebr46s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>94801520</start>
+	<end>94801520</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390629_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>32362188</start>
+	<end>32362188</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Utr1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390629_at</start>
+	<end>D7Utr1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>47472948</start>
+	<end>47472948</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377530_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377530_at</start>
+	<end>D7Utr1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>48846825</start>
+	<end>48846825</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375393_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375393_at</start>
+	<end>D7Utr1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000545455</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>22526086</start>
+	<end>22526086</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375183_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>20323137</start>
+	<end>20323137</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Rat35</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375183_at</start>
+	<end>D7Rat35</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>124418905</start>
+	<end>124418905</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390347_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>21810928</start>
+	<end>21810928</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Rat32</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390347_at</start>
+	<end>D7Rat32</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>20691207</start>
+	<end>20691207</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376670_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>111916619</start>
+	<end>111916619</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Rat131</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376670_at</start>
+	<end>D7Rat131</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0024</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>54209135</start>
+	<end>54209135</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1391589_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>119195750</start>
+	<end>119195750</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Rat129</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1391589_at</start>
+	<end>D7Rat129</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>9454975</start>
+	<end>9454975</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370044_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370044_at</start>
+	<end>D7Rat129</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>32782111</start>
+	<end>32782111</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398847_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>44483102</start>
+	<end>44483102</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Rat103</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398847_at</start>
+	<end>D7Rat103</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>51341182</start>
+	<end>51341182</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369167_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>85110763</start>
+	<end>85110763</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Mit5</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369167_at</start>
+	<end>D7Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>123670080</start>
+	<end>123670080</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Mit11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D7Mit11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003221</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>101521387</start>
+	<end>101521387</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1384717_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>115036128</start>
+	<end>115036128</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Cebr77s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1384717_at</start>
+	<end>D7Cebr77s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001537</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>72268760</start>
+	<end>72268760</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D7Cebr14C16s3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D7Cebr14C16s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000028</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>92366974</start>
+	<end>92366974</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375118_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>98746430</start>
+	<end>98746430</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Rat87</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375118_at</start>
+	<end>D6Rat87</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009142857</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>77940967</start>
+	<end>77940967</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370666_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>52756509</start>
+	<end>52756509</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Rat132</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370666_at</start>
+	<end>D6Rat132</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>9288721</start>
+	<end>9288721</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390459_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>126625080</start>
+	<end>126625080</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Rat111</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390459_at</start>
+	<end>D6Rat111</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>6154491</start>
+	<end>6154491</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1384169_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>135970707</start>
+	<end>135970707</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Rat101</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1384169_a_at</start>
+	<end>D6Rat101</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>123540308</start>
+	<end>123540308</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374157_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374157_at</start>
+	<end>D6Rat101</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>154554581</start>
+	<end>154554581</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370071_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370071_at</start>
+	<end>D6Rat101</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>18084055</start>
+	<end>18084055</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370001_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370001_at</start>
+	<end>D6Rat101</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>123629453</start>
+	<end>123629453</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389857_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>97565331</start>
+	<end>97565331</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Mit8</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389857_at</start>
+	<end>D6Mit8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>15505093</start>
+	<end>15505093</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D6Cebr23s11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D6Cebr23s11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000048</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>45763633</start>
+	<end>45763633</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371786_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>88441856</start>
+	<end>88441856</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D5Utr2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371786_at</start>
+	<end>D5Utr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>243812522</start>
+	<end>243812522</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368290_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368290_at</start>
+	<end>D5Utr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>4062511</start>
+	<end>4062511</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368143_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368143_at</start>
+	<end>D5Utr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>52967361</start>
+	<end>52967361</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371735_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>152935841</start>
+	<end>152935841</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D5Rat39</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371735_at</start>
+	<end>D5Rat39</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16_random</chromosome>
+	<start>1224967</start>
+	<end>1224967</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367880_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>149765640</start>
+	<end>149765640</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D5Rat38</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367880_at</start>
+	<end>D5Rat38</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>169226464</start>
+	<end>169226464</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373446_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>151434400</start>
+	<end>151434400</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D5Rat174</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373446_at</start>
+	<end>D5Rat174</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>19838741</start>
+	<end>19838741</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372198_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372198_at</start>
+	<end>D5Rat174</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>25867529</start>
+	<end>25867529</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371412_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371412_a_at</start>
+	<end>D5Rat174</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>96073458</start>
+	<end>96073458</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370174_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370174_at</start>
+	<end>D5Rat174</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>57564398</start>
+	<end>57564398</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386916_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>104279392</start>
+	<end>104279392</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D5Cebr10s12</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386916_at</start>
+	<end>D5Cebr10s12</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>25310217</start>
+	<end>25310217</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367815_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367815_at</start>
+	<end>D5Cebr10s12</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001714286</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>33776093</start>
+	<end>33776093</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375724_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>54704608</start>
+	<end>54704608</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Utr3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375724_at</start>
+	<end>D4Utr3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000072368</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>87429958</start>
+	<end>87429958</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388493_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>175193758</start>
+	<end>175193758</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Rat69</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388493_at</start>
+	<end>D4Rat69</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>116576595</start>
+	<end>116576595</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369609_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>172414409</start>
+	<end>172414409</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Rat68</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369609_at</start>
+	<end>D4Rat68</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>161268380</start>
+	<end>161268380</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Rat66</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388493_at</start>
+	<end>D4Rat66</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>174213280</start>
+	<end>174213280</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373881_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373881_at</start>
+	<end>D4Rat66</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001714286</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1_random</chromosome>
+	<start>3341871</start>
+	<end>3341871</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387369_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>46888691</start>
+	<end>46888691</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Rat156</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387369_at</start>
+	<end>D4Rat156</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>182986104</start>
+	<end>182986104</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Rat140</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D4Rat140</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000029</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>54157038</start>
+	<end>54157038</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377287_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>149549275</start>
+	<end>149549275</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Mit19</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377287_at</start>
+	<end>D4Mit19</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>73448280</start>
+	<end>73448280</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D4Cebrp145s3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D4Cebrp145s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000029</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>109655900</start>
+	<end>109655900</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389142_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>40375115</start>
+	<end>40375115</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D3Rat20</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389142_at</start>
+	<end>D3Rat20</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00015942</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>126008173</start>
+	<end>126008173</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373067_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>56849213</start>
+	<end>56849213</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D3Rat109</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373067_at</start>
+	<end>D3Rat109</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0022</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19_random</chromosome>
+	<start>548905</start>
+	<end>548905</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387653_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>90159536</start>
+	<end>90159536</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D3Cebr9s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387653_at</start>
+	<end>D3Cebr9s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>42321222</start>
+	<end>42321222</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371951_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>135391216</start>
+	<end>135391216</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D3Cebr91s3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371951_at</start>
+	<end>D3Cebr91s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.008314</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>93412003</start>
+	<end>93412003</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375924_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>83348259</start>
+	<end>83348259</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat95</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375924_at</start>
+	<end>D2Rat95</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0005875</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>74640518</start>
+	<end>74640518</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370322_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>228650691</start>
+	<end>228650691</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat62</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370322_at</start>
+	<end>D2Rat62</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.008666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>26113368</start>
+	<end>26113368</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372468_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>227136733</start>
+	<end>227136733</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat61</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372468_at</start>
+	<end>D2Rat61</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>45634233</start>
+	<end>45634233</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374586_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>62258026</start>
+	<end>62258026</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat320</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374586_at</start>
+	<end>D2Rat320</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000541667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>1428400</start>
+	<end>1428400</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390032_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>53589875</start>
+	<end>53589875</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat270</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390032_at</start>
+	<end>D2Rat270</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>66180572</start>
+	<end>66180572</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372239_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>145268570</start>
+	<end>145268570</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat222</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372239_at</start>
+	<end>D2Rat222</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>39271423</start>
+	<end>39271423</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389488_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>15682037</start>
+	<end>15682037</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat189</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389488_at</start>
+	<end>D2Rat189</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>203010470</start>
+	<end>203010470</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371298_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>206366576</start>
+	<end>206366576</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Rat157</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371298_at</start>
+	<end>D2Rat157</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>128685345</start>
+	<end>128685345</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371675_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>226838704</start>
+	<end>226838704</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2N35</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371675_at</start>
+	<end>D2N35</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>181614414</start>
+	<end>181614414</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373243_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>197218979</start>
+	<end>197218979</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Mit14</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373243_at</start>
+	<end>D2Mit14</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.008826087</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>13111312</start>
+	<end>13111312</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1392720_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>220393840</start>
+	<end>220393840</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D2Cebr4s8</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1392720_at</start>
+	<end>D2Cebr4s8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0092</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>245796047</start>
+	<end>245796047</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388521_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>31506351</start>
+	<end>31506351</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D20Rat77</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388521_at</start>
+	<end>D20Rat77</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>140709553</start>
+	<end>140709553</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377246_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>16722970</start>
+	<end>16722970</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D20Rat75</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377246_at</start>
+	<end>D20Rat75</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001833333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>227354345</start>
+	<end>227354345</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368305_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>43645358</start>
+	<end>43645358</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D20Rat55</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368305_at</start>
+	<end>D20Rat55</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000647059</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20_random</chromosome>
+	<start>82951</start>
+	<end>82951</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377036_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>9302208</start>
+	<end>9302208</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D20Mgh5</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377036_at</start>
+	<end>D20Mgh5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001444444</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>173628716</start>
+	<end>173628716</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376710_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>199262391</start>
+	<end>199262391</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat69</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376710_at</start>
+	<end>D1Rat69</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>109936258</start>
+	<end>109936258</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376036_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>158590248</start>
+	<end>158590248</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat47</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376036_at</start>
+	<end>D1Rat47</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000647059</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>109823875</start>
+	<end>109823875</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374996_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374996_at</start>
+	<end>D1Rat47</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000014833</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>85873056</start>
+	<end>85873056</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371945_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371945_at</start>
+	<end>D1Rat47</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>158396431</start>
+	<end>158396431</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374907_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>173621619</start>
+	<end>173621619</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat356</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374907_at</start>
+	<end>D1Rat356</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001788</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>124508477</start>
+	<end>124508477</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388035_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>8210299</start>
+	<end>8210299</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat327</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388035_a_at</start>
+	<end>D1Rat327</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>7361979</start>
+	<end>7361979</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375798_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375798_at</start>
+	<end>D1Rat327</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>28963151</start>
+	<end>28963151</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398447_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>90360305</start>
+	<end>90360305</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat27</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398447_at</start>
+	<end>D1Rat27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>73974833</start>
+	<end>73974833</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388996_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388996_at</start>
+	<end>D1Rat27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>28825289</start>
+	<end>28825289</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377340_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377340_at</start>
+	<end>D1Rat27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>84063320</start>
+	<end>84063320</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372205_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372205_at</start>
+	<end>D1Rat27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>56410088</start>
+	<end>56410088</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1383169_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>91998231</start>
+	<end>91998231</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat266</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383169_at</start>
+	<end>D1Rat266</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>77698742</start>
+	<end>77698742</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388429_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>76810806</start>
+	<end>76810806</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Rat24</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388429_at</start>
+	<end>D1Rat24</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000857143</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>75524072</start>
+	<end>75524072</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377583_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377583_at</start>
+	<end>D1Rat24</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001714286</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>189822036</start>
+	<end>189822036</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1383349_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>203456362</start>
+	<end>203456362</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Mit27</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383349_at</start>
+	<end>D1Mit27</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>169555780</start>
+	<end>169555780</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375931_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>248345664</start>
+	<end>248345664</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Cebrp29s6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375931_at</start>
+	<end>D1Cebrp29s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0024</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>248300192</start>
+	<end>248300192</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Cebrp137s2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D1Cebrp137s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000048</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>175894688</start>
+	<end>175894688</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Cebr21s2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D1Cebr21s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000053</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>139830752</start>
+	<end>139830752</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Cebr16s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373833_at</start>
+	<end>D1Cebr16s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000023438</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>9653561</start>
+	<end>9653561</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389871_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389871_at</start>
+	<end>D1Cebr16s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0011</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>85906189</start>
+	<end>85906189</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373663_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>139830752</start>
+	<end>139830752</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Cebr103s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373663_at</start>
+	<end>D1Cebr103s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009235294</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>198323071</start>
+	<end>198323071</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Arb22</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373212_at</start>
+	<end>D1Arb22</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000571429</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371006_at</start>
+	<end>D1Arb22</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>70828855</start>
+	<end>70828855</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374599_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>122541566</start>
+	<end>122541566</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D1Arb11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374599_at</start>
+	<end>D1Arb11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>136626903</start>
+	<end>136626903</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373301_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373301_at</start>
+	<end>D1Arb11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>76466081</start>
+	<end>76466081</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388919_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>38915734</start>
+	<end>38915734</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D19Rat72</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388919_at</start>
+	<end>D19Rat72</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000923077</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>14868163</start>
+	<end>14868163</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370352_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>25697934</start>
+	<end>25697934</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D19Rat14</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370352_at</start>
+	<end>D19Rat14</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00001</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>2913355</start>
+	<end>2913355</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386908_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>31609865</start>
+	<end>31609865</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D19Rat11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386908_at</start>
+	<end>D19Rat11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000229167</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370352_at</start>
+	<end>D19Rat11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>21548212</start>
+	<end>21548212</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368605_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368605_at</start>
+	<end>D19Rat11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>47348286</start>
+	<end>47348286</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398262_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>19</chromosome>
+	<start>51030644</start>
+	<end>51030644</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D19Cebr204s28</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398262_at</start>
+	<end>D19Cebr204s28</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>47369532</start>
+	<end>47369532</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375932_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375932_at</start>
+	<end>D19Cebr204s28</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.008</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>43397653</start>
+	<end>43397653</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372191_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>41856911</start>
+	<end>41856911</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D18Rat97</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372191_at</start>
+	<end>D18Rat97</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>63944863</start>
+	<end>63944863</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390365_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>13568048</start>
+	<end>13568048</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D18Cebrp97s6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390365_at</start>
+	<end>D18Cebrp97s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>18112168</start>
+	<end>18112168</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386470_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>29503600</start>
+	<end>29503600</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D18Cebr19s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386470_at</start>
+	<end>D18Cebr19s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>83039499</start>
+	<end>83039499</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389867_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>71580726</start>
+	<end>71580726</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D17Rat151</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389867_at</start>
+	<end>D17Rat151</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005558036</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>87802681</start>
+	<end>87802681</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1379036_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1379036_at</start>
+	<end>D17Rat151</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>44525431</start>
+	<end>44525431</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376678_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376678_at</start>
+	<end>D17Rat151</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>224740279</start>
+	<end>224740279</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372011_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>37974570</start>
+	<end>37974570</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D17Rat144</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372011_at</start>
+	<end>D17Rat144</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>172496228</start>
+	<end>172496228</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398957_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>5583328</start>
+	<end>5583328</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D17Rat1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398957_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001444444</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>10105168</start>
+	<end>10105168</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390560_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390560_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>65244485</start>
+	<end>65244485</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390346_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390346_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>56105637</start>
+	<end>56105637</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390324_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390324_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>12562113</start>
+	<end>12562113</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390196_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390196_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000611111</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>127625959</start>
+	<end>127625959</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390143_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390143_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>93719038</start>
+	<end>93719038</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390080_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390080_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>5832732</start>
+	<end>5832732</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389701_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389701_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>180024508</start>
+	<end>180024508</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387934_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387934_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>81036146</start>
+	<end>81036146</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387881_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387881_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>4283964</start>
+	<end>4283964</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387590_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387590_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>161581291</start>
+	<end>161581291</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387519_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387519_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>116940011</start>
+	<end>116940011</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387474_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387474_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>209160345</start>
+	<end>209160345</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387044_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387044_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>55695464</start>
+	<end>55695464</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386673_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386673_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>56597787</start>
+	<end>56597787</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386231_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386231_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>90737860</start>
+	<end>90737860</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1382767_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1382767_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>48673286</start>
+	<end>48673286</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1382503_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1382503_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>67306732</start>
+	<end>67306732</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377289_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377289_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>76654989</start>
+	<end>76654989</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377083_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377083_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>109936724</start>
+	<end>109936724</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377026_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377026_a_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>137936137</start>
+	<end>137936137</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376369_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376369_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001090909</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>127622133</start>
+	<end>127622133</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375933_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375933_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0015</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>40505509</start>
+	<end>40505509</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375502_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375502_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0015</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>107562647</start>
+	<end>107562647</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375381_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375381_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>149006537</start>
+	<end>149006537</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375305_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375305_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>21</chromosome>
+	<start>159792155</start>
+	<end>159792155</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375012_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375012_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0028</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>20</chromosome>
+	<start>45496671</start>
+	<end>45496671</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373795_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373795_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>182989010</start>
+	<end>182989010</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372053_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372053_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>116445107</start>
+	<end>116445107</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371750_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371750_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000916667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>76921663</start>
+	<end>76921663</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371010_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371010_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>128143263</start>
+	<end>128143263</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370836_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370836_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>182263722</start>
+	<end>182263722</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370450_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370450_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>98249097</start>
+	<end>98249097</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369786_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369786_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001857143</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>636280</start>
+	<end>636280</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369334_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369334_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>35274086</start>
+	<end>35274086</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369016_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369016_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.009</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>137466528</start>
+	<end>137466528</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368767_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368767_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>6677717</start>
+	<end>6677717</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368743_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368743_a_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>64531068</start>
+	<end>64531068</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368661_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368661_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>17870654</start>
+	<end>17870654</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368613_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368613_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>135568000</start>
+	<end>135568000</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368607_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368607_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>120832474</start>
+	<end>120832474</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367917_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367917_at</start>
+	<end>D17Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>72027627</start>
+	<end>72027627</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390947_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>38356829</start>
+	<end>38356829</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D17Mit2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390947_at</start>
+	<end>D17Mit2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>73378874</start>
+	<end>73378874</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371954_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>39747424</start>
+	<end>39747424</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D17Cebrp203s2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371954_at</start>
+	<end>D17Cebrp203s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>6555704</start>
+	<end>6555704</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390435_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>22270296</start>
+	<end>22270296</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Rat77</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390435_at</start>
+	<end>D16Rat77</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000474</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>43688956</start>
+	<end>43688956</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1392746_x_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1392746_x_at</start>
+	<end>D16Rat77</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>211622438</start>
+	<end>211622438</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367769_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367769_at</start>
+	<end>D16Rat77</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.00055</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>9810133</start>
+	<end>9810133</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387002_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>24132087</start>
+	<end>24132087</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Rat75</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387002_at</start>
+	<end>D16Rat75</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>101589635</start>
+	<end>101589635</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369594_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369594_at</start>
+	<end>D16Rat75</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367769_at</start>
+	<end>D16Rat75</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0012</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>62671491</start>
+	<end>62671491</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389722_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>42468055</start>
+	<end>42468055</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Rat72</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389722_at</start>
+	<end>D16Rat72</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>11207159</start>
+	<end>11207159</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Rat54</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1392746_x_at</start>
+	<end>D16Rat54</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367769_at</start>
+	<end>D16Rat54</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0012</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>17688820</start>
+	<end>17688820</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1399080_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>38351133</start>
+	<end>38351133</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Mit5</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1399080_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000115385</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>20004909</start>
+	<end>20004909</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389793_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389793_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000371429</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>18026694</start>
+	<end>18026694</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388508_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388508_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>18025757</start>
+	<end>18025757</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374553_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374553_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001352941</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>18028383</start>
+	<end>18028383</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377959_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377959_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000375</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>17340262</start>
+	<end>17340262</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372136_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372136_at</start>
+	<end>D16Mit5</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000857143</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>96125757</start>
+	<end>96125757</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368610_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>4304396</start>
+	<end>4304396</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Mit2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368610_at</start>
+	<end>D16Mit2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001857143</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>89336115</start>
+	<end>89336115</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387061_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>25884703</start>
+	<end>25884703</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D16Mit1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387061_at</start>
+	<end>D16Mit1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0014</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>2192900</start>
+	<end>2192900</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376729_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376729_at</start>
+	<end>D16Mit1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0022</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>163445707</start>
+	<end>163445707</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368928_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368928_at</start>
+	<end>D16Mit1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>47435</start>
+	<end>47435</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398935_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>62537234</start>
+	<end>62537234</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D15Rat68</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398935_at</start>
+	<end>D15Rat68</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>38858627</start>
+	<end>38858627</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390205_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390205_at</start>
+	<end>D15Rat68</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001444444</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>72127532</start>
+	<end>72127532</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386878_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>32654408</start>
+	<end>32654408</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D15Rat6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386878_at</start>
+	<end>D15Rat6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>79742224</start>
+	<end>79742224</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1390023_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>8988443</start>
+	<end>8988443</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D15Rat1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1390023_at</start>
+	<end>D15Rat1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001090909</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>75083264</start>
+	<end>75083264</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388820_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>37229534</start>
+	<end>37229534</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D14Rat52</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388820_at</start>
+	<end>D14Rat52</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>19580992</start>
+	<end>19580992</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1377506_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1377506_at</start>
+	<end>D14Rat52</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>58064109</start>
+	<end>58064109</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376900_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376900_at</start>
+	<end>D14Rat52</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>9</chromosome>
+	<start>105105703</start>
+	<end>105105703</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373737_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373737_at</start>
+	<end>D14Rat52</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0075</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>110180956</start>
+	<end>110180956</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373332_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373332_at</start>
+	<end>D14Rat52</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>81901439</start>
+	<end>81901439</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374561_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>34942157</start>
+	<end>34942157</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D14Rat13</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374561_at</start>
+	<end>D14Rat13</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>47993413</start>
+	<end>47993413</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1369784_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1369784_at</start>
+	<end>D14Rat13</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000057292</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>36611129</start>
+	<end>36611129</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375194_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>48670572</start>
+	<end>48670572</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D14Cebrp367s6</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375194_at</start>
+	<end>D14Cebrp367s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000132</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>33066595</start>
+	<end>33066595</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375790_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375790_at</start>
+	<end>D14Cebrp367s6</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.008807692</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>33804256</start>
+	<end>33804256</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D14Cebrp312s2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375932_at</start>
+	<end>D14Cebrp312s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0024</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398262_at</start>
+	<end>D14Cebrp312s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0028</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D14Cebrp312s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000008</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>2111894</start>
+	<end>2111894</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375910_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375910_at</start>
+	<end>D14Cebrp312s2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>23</chromosome>
+	<start>57617864</start>
+	<end>57617864</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387671_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>42641655</start>
+	<end>42641655</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D13Rat88</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387671_at</start>
+	<end>D13Rat88</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002428571</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>70222389</start>
+	<end>70222389</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372616_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>52754850</start>
+	<end>52754850</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D13Rat126</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372616_at</start>
+	<end>D13Rat126</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>72896446</start>
+	<end>72896446</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372953_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>61721372</start>
+	<end>61721372</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D13N2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372953_at</start>
+	<end>D13N2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>17</chromosome>
+	<start>55273159</start>
+	<end>55273159</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1394124_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>41124932</start>
+	<end>41124932</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D13Cebrp149s11</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1394124_at</start>
+	<end>D13Cebrp149s11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005666667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>152890107</start>
+	<end>152890107</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373171_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373171_at</start>
+	<end>D13Cebrp149s11</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>59137982</start>
+	<end>59137982</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371520_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>45852548</start>
+	<end>45852548</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D13Cebr5s4</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371520_at</start>
+	<end>D13Cebr5s4</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>228753827</start>
+	<end>228753827</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368042_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>3017040</start>
+	<end>3017040</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D12Rat56</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368042_a_at</start>
+	<end>D12Rat56</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000053812</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>24868748</start>
+	<end>24868748</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371810_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>7784631</start>
+	<end>7784631</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D12Rat40</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371810_at</start>
+	<end>D12Rat40</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>5</chromosome>
+	<start>146782248</start>
+	<end>146782248</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1387747_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>7074564</start>
+	<end>7074564</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D12Ntr2</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1387747_at</start>
+	<end>D12Ntr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>19874347</start>
+	<end>19874347</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1386141_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1386141_at</start>
+	<end>D12Ntr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>9833558</start>
+	<end>9833558</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1385137_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1385137_at</start>
+	<end>D12Ntr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>264956295</start>
+	<end>264956295</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367954_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367954_at</start>
+	<end>D12Ntr2</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>27864751</start>
+	<end>27864751</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1398960_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>17763275</start>
+	<end>17763275</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D12Mit7</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1398960_at</start>
+	<end>D12Mit7</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000237</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>12</chromosome>
+	<start>5552993</start>
+	<end>5552993</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D12Cebr21s8</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1383734_at</start>
+	<end>D12Cebr21s8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000053</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11_random</chromosome>
+	<start>918565</start>
+	<end>918565</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376011_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>72589046</start>
+	<end>72589046</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D11Rat47</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376011_at</start>
+	<end>D11Rat47</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0035</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>123168270</start>
+	<end>123168270</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1375247_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>13185812</start>
+	<end>13185812</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D11Rat28</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1375247_at</start>
+	<end>D11Rat28</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>118980237</start>
+	<end>118980237</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376667_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>32334036</start>
+	<end>32334036</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D11Cebr87s1</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376667_at</start>
+	<end>D11Cebr87s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>2</chromosome>
+	<start>25623819</start>
+	<end>25623819</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373264_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373264_at</start>
+	<end>D11Cebr87s1</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>159614157</start>
+	<end>159614157</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388907_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>55017963</start>
+	<end>55017963</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Rat59</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388907_at</start>
+	<end>D10Rat59</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0022</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>87785635</start>
+	<end>87785635</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372186_a_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>53629993</start>
+	<end>53629993</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Rat31</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372186_a_at</start>
+	<end>D10Rat31</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>69254884</start>
+	<end>69254884</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374891_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>67105347</start>
+	<end>67105347</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Rat161</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374891_at</start>
+	<end>D10Rat161</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>193367857</start>
+	<end>193367857</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374323_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>84923750</start>
+	<end>84923750</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Rat145</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374323_at</start>
+	<end>D10Rat145</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>32153949</start>
+	<end>32153949</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389110_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>52518932</start>
+	<end>52518932</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Rat102</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389110_at</start>
+	<end>D10Rat102</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0022</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>45803413</start>
+	<end>45803413</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1384517_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>90573480</start>
+	<end>90573480</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Mit7</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1384517_at</start>
+	<end>D10Mit7</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.003</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>15</chromosome>
+	<start>25094152</start>
+	<end>25094152</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1374645_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>53794835</start>
+	<end>53794835</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Mgh8</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1374645_at</start>
+	<end>D10Mgh8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>14</chromosome>
+	<start>17032128</start>
+	<end>17032128</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372602_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372602_at</start>
+	<end>D10Mgh8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.004333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>3</chromosome>
+	<start>137994330</start>
+	<end>137994330</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367558_x_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>21468896</start>
+	<end>21468896</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Cebrp312s3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367558_x_at</start>
+	<end>D10Cebrp312s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001833333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>18</chromosome>
+	<start>57179166</start>
+	<end>57179166</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1388784_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>61811876</start>
+	<end>61811876</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Cebr44s3</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1388784_at</start>
+	<end>D10Cebr44s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>83632636</start>
+	<end>83632636</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1373490_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1373490_at</start>
+	<end>D10Cebr44s3</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>16</chromosome>
+	<start>6672981</start>
+	<end>6672981</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1385808_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>75885312</start>
+	<end>75885312</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>D10Cebr23s8</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1385808_at</start>
+	<end>D10Cebr23s8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.002166667</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>183110756</start>
+	<end>183110756</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372355_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372355_at</start>
+	<end>D10Cebr23s8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.001714286</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>138552511</start>
+	<end>138552511</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1371676_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1371676_at</start>
+	<end>D10Cebr23s8</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.0085</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>13</chromosome>
+	<start>97122016</start>
+	<end>97122016</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389980_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>4</chromosome>
+	<start>152794672</start>
+	<end>152794672</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Cacna1s</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389980_at</start>
+	<end>Cacna1s</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.005333333</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>6</chromosome>
+	<start>126278074</start>
+	<end>126278074</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1389293_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1389293_at</start>
+	<end>Cacna1s</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000117021</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>1</chromosome>
+	<start>86722470</start>
+	<end>86722470</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1376212_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1376212_at</start>
+	<end>Cacna1s</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.000444444</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>7</chromosome>
+	<start>116514335</start>
+	<end>116514335</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1372410_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1372410_at</start>
+	<end>Cacna1s</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.006</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>14430635</start>
+	<end>14430635</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1367508_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1367508_at</start>
+	<end>Cacna1s</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>11</chromosome>
+	<start>69212972</start>
+	<end>69212972</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1368067_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>8</chromosome>
+	<start>113376046</start>
+	<end>113376046</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Apeh</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1368067_at</start>
+	<end>Apeh</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.007</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>66628059</start>
+	<end>66628059</end>
+	<type>probeset</type>
+	<color>0xEDEC07</color>
+	<label>1370015_at</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>56447685</start>
+	<end>56447685</end>
+	<type>marker</type>
+	<color>0xEDEC07</color>
+	<label>Abpa</label>
+	<link></link>
+</feature>
+<feature>
+	<chromosome>10</chromosome>
+	<start>1370015_at</start>
+	<end>Abpa</end>
+	<type>eqtl</type>
+	<color>0x7B83E8</color>
+	<label>0.01</label>
+	<link></link>
+</feature>
+</genome>
