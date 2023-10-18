@@ -1,0 +1,5223 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="null">
+<band index="1" name="q44">
+<start>243700001</start>
+<end>249250622</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p36.33">
+<start>1</start>
+<end>2300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p36.32">
+<start>2300001</start>
+<end>5400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p36.31">
+<start>5400001</start>
+<end>7200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p36.23">
+<start>7200001</start>
+<end>9200001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="6" name="p36.22">
+<start>9200001</start>
+<end>12700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p36.21">
+<start>12700001</start>
+<end>16200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="8" name="p36.13">
+<start>16200001</start>
+<end>20400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p36.12">
+<start>20400001</start>
+<end>23900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="10" name="p36.11">
+<start>23900001</start>
+<end>28000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p35.3">
+<start>28000001</start>
+<end>30200001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="12" name="p35.2">
+<start>30200001</start>
+<end>32400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p35.1">
+<start>32400001</start>
+<end>34600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="14" name="p34.3">
+<start>34600001</start>
+<end>40100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p34.2">
+<start>40100001</start>
+<end>44100001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="16" name="p34.1">
+<start>44100001</start>
+<end>46800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p33">
+<start>46800001</start>
+<end>50700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="18" name="p32.3">
+<start>50700001</start>
+<end>56100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="p32.2">
+<start>56100001</start>
+<end>59000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="20" name="p32.1">
+<start>59000001</start>
+<end>61300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="p31.3">
+<start>61300001</start>
+<end>68900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="22" name="p31.2">
+<start>68900001</start>
+<end>69700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="p31.1">
+<start>69700001</start>
+<end>84900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="24" name="p22.3">
+<start>84900001</start>
+<end>88400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="p22.2">
+<start>88400001</start>
+<end>92000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="26" name="p22.1">
+<start>92000001</start>
+<end>94700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="27" name="p21.3">
+<start>94700001</start>
+<end>99700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="28" name="p21.2">
+<start>99700001</start>
+<end>102200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="29" name="p21.1">
+<start>102200001</start>
+<end>107200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="30" name="p13.3">
+<start>107200001</start>
+<end>111800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="31" name="p13.2">
+<start>111800001</start>
+<end>116100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="32" name="p13.1">
+<start>116100001</start>
+<end>117800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="33" name="p12">
+<start>117800001</start>
+<end>120600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="34" name="p11.2">
+<start>120600001</start>
+<end>121500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="35" name="p11.1">
+<start>121500001</start>
+<end>125000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="36" name="q11">
+<start>125000001</start>
+<end>128900001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="37" name="q12">
+<start>128900001</start>
+<end>142600001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="38" name="q21.1">
+<start>142600001</start>
+<end>147000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="39" name="q21.2">
+<start>147000001</start>
+<end>150300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="40" name="q21.3">
+<start>150300001</start>
+<end>155000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="41" name="q22">
+<start>155000001</start>
+<end>156500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="42" name="q23.1">
+<start>156500001</start>
+<end>159100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="43" name="q23.2">
+<start>159100001</start>
+<end>160500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="44" name="q23.3">
+<start>160500001</start>
+<end>165500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="45" name="q24.1">
+<start>165500001</start>
+<end>167200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="46" name="q24.2">
+<start>167200001</start>
+<end>170900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="47" name="q24.3">
+<start>170900001</start>
+<end>172900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="48" name="q25.1">
+<start>172900001</start>
+<end>176000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="49" name="q25.2">
+<start>176000001</start>
+<end>180300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="50" name="q25.3">
+<start>180300001</start>
+<end>185800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="51" name="q31.1">
+<start>185800001</start>
+<end>190800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="52" name="q31.2">
+<start>190800001</start>
+<end>193800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="53" name="q31.3">
+<start>193800001</start>
+<end>198700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="54" name="q32.1">
+<start>198700001</start>
+<end>207200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="55" name="q32.2">
+<start>207200001</start>
+<end>211500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="56" name="q32.3">
+<start>211500001</start>
+<end>214500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="57" name="q41">
+<start>214500001</start>
+<end>224100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="58" name="q42.11">
+<start>224100001</start>
+<end>224600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="59" name="q42.12">
+<start>224600001</start>
+<end>227000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="60" name="q42.13">
+<start>227000001</start>
+<end>230700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="61" name="q42.2">
+<start>230700001</start>
+<end>234700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="62" name="q42.3">
+<start>234700001</start>
+<end>236600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="63" name="q43">
+<start>236600001</start>
+<end>243700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="2" number="2" length="null">
+<band index="1" name="q37.3">
+<start>237300001</start>
+<end>243199374</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p25.3">
+<start>1</start>
+<end>4400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p25.2">
+<start>4400001</start>
+<end>7100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p25.1">
+<start>7100001</start>
+<end>12200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p24.3">
+<start>12200001</start>
+<end>16700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p24.2">
+<start>16700001</start>
+<end>19200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p24.1">
+<start>19200001</start>
+<end>24000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="8" name="p23.3">
+<start>24000001</start>
+<end>27900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p23.2">
+<start>27900001</start>
+<end>30000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="10" name="p23.1">
+<start>30000001</start>
+<end>32100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p22.3">
+<start>32100001</start>
+<end>36600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="12" name="p22.2">
+<start>36600001</start>
+<end>38600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p22.1">
+<start>38600001</start>
+<end>41800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="14" name="p21">
+<start>41800001</start>
+<end>47800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p16.3">
+<start>47800001</start>
+<end>52900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="16" name="p16.2">
+<start>52900001</start>
+<end>55000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p16.1">
+<start>55000001</start>
+<end>61300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="18" name="p15">
+<start>61300001</start>
+<end>64100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="p14">
+<start>64100001</start>
+<end>68600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="20" name="p13.3">
+<start>68600001</start>
+<end>71500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="p13.2">
+<start>71500001</start>
+<end>73500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="22" name="p13.1">
+<start>73500001</start>
+<end>75000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="p12">
+<start>75000001</start>
+<end>83300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="24" name="p11.2">
+<start>83300001</start>
+<end>90500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="p11.1">
+<start>90500001</start>
+<end>93300001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="26" name="q11.1">
+<start>93300001</start>
+<end>96800001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="27" name="q11.2">
+<start>96800001</start>
+<end>102700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q12.1">
+<start>102700001</start>
+<end>106000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="29" name="q12.2">
+<start>106000001</start>
+<end>107500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q12.3">
+<start>107500001</start>
+<end>110200001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="31" name="q13">
+<start>110200001</start>
+<end>114400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q14.1">
+<start>114400001</start>
+<end>118800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="33" name="q14.2">
+<start>118800001</start>
+<end>122400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q14.3">
+<start>122400001</start>
+<end>129900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="35" name="q21.1">
+<start>129900001</start>
+<end>132500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q21.2">
+<start>132500001</start>
+<end>135100001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="37" name="q21.3">
+<start>135100001</start>
+<end>136800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q22.1">
+<start>136800001</start>
+<end>142200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="39" name="q22.2">
+<start>142200001</start>
+<end>144100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q22.3">
+<start>144100001</start>
+<end>148700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="41" name="q23.1">
+<start>148700001</start>
+<end>149900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q23.2">
+<start>149900001</start>
+<end>150500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="43" name="q23.3">
+<start>150500001</start>
+<end>154900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="44" name="q24.1">
+<start>154900001</start>
+<end>159800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="45" name="q24.2">
+<start>159800001</start>
+<end>163700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="46" name="q24.3">
+<start>163700001</start>
+<end>169700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="47" name="q31.1">
+<start>169700001</start>
+<end>178000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="48" name="q31.2">
+<start>178000001</start>
+<end>180600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="49" name="q31.3">
+<start>180600001</start>
+<end>183000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="50" name="q32.1">
+<start>183000001</start>
+<end>189400001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="51" name="q32.2">
+<start>189400001</start>
+<end>191900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="52" name="q32.3">
+<start>191900001</start>
+<end>197400001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="53" name="q33.1">
+<start>197400001</start>
+<end>203300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="54" name="q33.2">
+<start>203300001</start>
+<end>204900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="55" name="q33.3">
+<start>204900001</start>
+<end>209000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="56" name="q34">
+<start>209000001</start>
+<end>215300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="57" name="q35">
+<start>215300001</start>
+<end>221500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="58" name="q36.1">
+<start>221500001</start>
+<end>225200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="59" name="q36.2">
+<start>225200001</start>
+<end>226100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="60" name="q36.3">
+<start>226100001</start>
+<end>231000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="61" name="q37.1">
+<start>231000001</start>
+<end>235600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="62" name="q37.2">
+<start>235600001</start>
+<end>237300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="3" number="3" length="null">
+<band index="1" name="q29">
+<start>192300001</start>
+<end>198022431</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p26.3">
+<start>1</start>
+<end>2800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="3" name="p26.2">
+<start>2800001</start>
+<end>4000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="p26.1">
+<start>4000001</start>
+<end>8700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="5" name="p25.3">
+<start>8700001</start>
+<end>11800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="p25.2">
+<start>11800001</start>
+<end>13300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="7" name="p25.1">
+<start>13300001</start>
+<end>16400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="p24.3">
+<start>16400001</start>
+<end>23900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="p24.2">
+<start>23900001</start>
+<end>26400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="p24.1">
+<start>26400001</start>
+<end>30900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="11" name="p23">
+<start>30900001</start>
+<end>32100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="p22.3">
+<start>32100001</start>
+<end>36500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="13" name="p22.2">
+<start>36500001</start>
+<end>39400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="p22.1">
+<start>39400001</start>
+<end>43700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="15" name="p21.33">
+<start>43700001</start>
+<end>44100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="p21.32">
+<start>44100001</start>
+<end>44200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="17" name="p21.31">
+<start>44200001</start>
+<end>50600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="p21.2">
+<start>50600001</start>
+<end>52300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="19" name="p21.1">
+<start>52300001</start>
+<end>54400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="p14.3">
+<start>54400001</start>
+<end>58600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="p14.2">
+<start>58600001</start>
+<end>63700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="p14.1">
+<start>63700001</start>
+<end>69800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="p13">
+<start>69800001</start>
+<end>74200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="p12.3">
+<start>74200001</start>
+<end>79800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="25" name="p12.2">
+<start>79800001</start>
+<end>83500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="p12.1">
+<start>83500001</start>
+<end>87200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="27" name="p11.2">
+<start>87200001</start>
+<end>87900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="p11.1">
+<start>87900001</start>
+<end>91000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="29" name="q11.1">
+<start>91000001</start>
+<end>93900001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="30" name="q11.2">
+<start>93900001</start>
+<end>98300001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="31" name="q12.1">
+<start>98300001</start>
+<end>100000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q12.2">
+<start>100000001</start>
+<end>100900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="33" name="q12.3">
+<start>100900001</start>
+<end>102800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q13.11">
+<start>102800001</start>
+<end>106200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="35" name="q13.12">
+<start>106200001</start>
+<end>107900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q13.13">
+<start>107900001</start>
+<end>111300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="37" name="q13.2">
+<start>111300001</start>
+<end>113500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q13.31">
+<start>113500001</start>
+<end>117300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="39" name="q13.32">
+<start>117300001</start>
+<end>119000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q13.33">
+<start>119000001</start>
+<end>121900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="41" name="q21.1">
+<start>121900001</start>
+<end>123800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q21.2">
+<start>123800001</start>
+<end>125800001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="43" name="q21.3">
+<start>125800001</start>
+<end>129200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="44" name="q22.1">
+<start>129200001</start>
+<end>133700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="45" name="q22.2">
+<start>133700001</start>
+<end>135700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="46" name="q22.3">
+<start>135700001</start>
+<end>138700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="47" name="q23">
+<start>138700001</start>
+<end>142800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="48" name="q24">
+<start>142800001</start>
+<end>148900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="49" name="q25.1">
+<start>148900001</start>
+<end>152100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="50" name="q25.2">
+<start>152100001</start>
+<end>155000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="51" name="q25.31">
+<start>155000001</start>
+<end>157000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="52" name="q25.32">
+<start>157000001</start>
+<end>159000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="53" name="q25.33">
+<start>159000001</start>
+<end>160700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="54" name="q26.1">
+<start>160700001</start>
+<end>167600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="55" name="q26.2">
+<start>167600001</start>
+<end>170900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="56" name="q26.31">
+<start>170900001</start>
+<end>175700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="57" name="q26.32">
+<start>175700001</start>
+<end>179000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="58" name="q26.33">
+<start>179000001</start>
+<end>182700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="59" name="q27.1">
+<start>182700001</start>
+<end>184500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="60" name="q27.2">
+<start>184500001</start>
+<end>186000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="61" name="q27.3">
+<start>186000001</start>
+<end>187900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="62" name="q28">
+<start>187900001</start>
+<end>192300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="4" number="4" length="null">
+<band index="1" name="q35.2">
+<start>187100001</start>
+<end>191154277</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="2" name="p16.3">
+<start>1</start>
+<end>4500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p16.2">
+<start>4500001</start>
+<end>6000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p16.1">
+<start>6000001</start>
+<end>11300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p15.33">
+<start>11300001</start>
+<end>15200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p15.32">
+<start>15200001</start>
+<end>17800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p15.31">
+<start>17800001</start>
+<end>21300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="8" name="p15.2">
+<start>21300001</start>
+<end>27700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p15.1">
+<start>27700001</start>
+<end>35800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="10" name="p14">
+<start>35800001</start>
+<end>41200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p13">
+<start>41200001</start>
+<end>44600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="12" name="p12">
+<start>44600001</start>
+<end>48200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11">
+<start>48200001</start>
+<end>50400001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="14" name="q11">
+<start>50400001</start>
+<end>52700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="15" name="q12">
+<start>52700001</start>
+<end>59500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q13.1">
+<start>59500001</start>
+<end>66600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="17" name="q13.2">
+<start>66600001</start>
+<end>70500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q13.3">
+<start>70500001</start>
+<end>76300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="19" name="q21.1">
+<start>76300001</start>
+<end>78900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q21.21">
+<start>78900001</start>
+<end>82400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="q21.22">
+<start>82400001</start>
+<end>84100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q21.23">
+<start>84100001</start>
+<end>86900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="23" name="q21.3">
+<start>86900001</start>
+<end>88000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q22.1">
+<start>88000001</start>
+<end>93700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="25" name="q22.2">
+<start>93700001</start>
+<end>95100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q22.3">
+<start>95100001</start>
+<end>98800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="27" name="q23">
+<start>98800001</start>
+<end>101100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q24">
+<start>101100001</start>
+<end>107700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="29" name="q25">
+<start>107700001</start>
+<end>114100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q26">
+<start>114100001</start>
+<end>120800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="31" name="q27">
+<start>120800001</start>
+<end>123800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q28.1">
+<start>123800001</start>
+<end>128800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="33" name="q28.2">
+<start>128800001</start>
+<end>131100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q28.3">
+<start>131100001</start>
+<end>139500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="35" name="q31.1">
+<start>139500001</start>
+<end>141500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q31.21">
+<start>141500001</start>
+<end>146800001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="37" name="q31.22">
+<start>146800001</start>
+<end>148500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q31.23">
+<start>148500001</start>
+<end>151100001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="39" name="q31.3">
+<start>151100001</start>
+<end>155600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q32.1">
+<start>155600001</start>
+<end>161800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="41" name="q32.2">
+<start>161800001</start>
+<end>164500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q32.3">
+<start>164500001</start>
+<end>170100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="43" name="q33">
+<start>170100001</start>
+<end>171900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="44" name="q34.1">
+<start>171900001</start>
+<end>176300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="45" name="q34.2">
+<start>176300001</start>
+<end>177500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="46" name="q34.3">
+<start>177500001</start>
+<end>183200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="47" name="q35.1">
+<start>183200001</start>
+<end>187100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="5" number="5" length="null">
+<band index="1" name="q35.3">
+<start>176600001</start>
+<end>180915261</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p15.33">
+<start>1</start>
+<end>4500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p15.32">
+<start>4500001</start>
+<end>6300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p15.31">
+<start>6300001</start>
+<end>9800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p15.2">
+<start>9800001</start>
+<end>15000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p15.1">
+<start>15000001</start>
+<end>18400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p14.3">
+<start>18400001</start>
+<end>23300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="8" name="p14.2">
+<start>23300001</start>
+<end>24600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p14.1">
+<start>24600001</start>
+<end>28900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="10" name="p13.3">
+<start>28900001</start>
+<end>33800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p13.2">
+<start>33800001</start>
+<end>38400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="12" name="p13.1">
+<start>38400001</start>
+<end>42500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p12">
+<start>42500001</start>
+<end>46100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="14" name="p11">
+<start>46100001</start>
+<end>48400001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="15" name="q11.1">
+<start>48400001</start>
+<end>50700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="16" name="q11.2">
+<start>50700001</start>
+<end>58900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="q12.1">
+<start>58900001</start>
+<end>62900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="18" name="q12.2">
+<start>62900001</start>
+<end>63200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="q12.3">
+<start>63200001</start>
+<end>66700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="20" name="q13.1">
+<start>66700001</start>
+<end>68400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="q13.2">
+<start>68400001</start>
+<end>73300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="22" name="q13.3">
+<start>73300001</start>
+<end>76900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="q14.1">
+<start>76900001</start>
+<end>81400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="24" name="q14.2">
+<start>81400001</start>
+<end>82800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="q14.3">
+<start>82800001</start>
+<end>92300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="26" name="q15">
+<start>92300001</start>
+<end>98200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="27" name="q21.1">
+<start>98200001</start>
+<end>102800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="28" name="q21.2">
+<start>102800001</start>
+<end>104500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="29" name="q21.3">
+<start>104500001</start>
+<end>109600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="30" name="q22.1">
+<start>109600001</start>
+<end>111500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="31" name="q22.2">
+<start>111500001</start>
+<end>113100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="32" name="q22.3">
+<start>113100001</start>
+<end>115200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="33" name="q23.1">
+<start>115200001</start>
+<end>121400001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="34" name="q23.2">
+<start>121400001</start>
+<end>127300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="35" name="q23.3">
+<start>127300001</start>
+<end>130600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="36" name="q31.1">
+<start>130600001</start>
+<end>136200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="37" name="q31.2">
+<start>136200001</start>
+<end>139500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="38" name="q31.3">
+<start>139500001</start>
+<end>144500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="39" name="q32">
+<start>144500001</start>
+<end>149800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="40" name="q33.1">
+<start>149800001</start>
+<end>152700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="41" name="q33.2">
+<start>152700001</start>
+<end>155700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="42" name="q33.3">
+<start>155700001</start>
+<end>159900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="43" name="q34">
+<start>159900001</start>
+<end>168500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="44" name="q35.1">
+<start>168500001</start>
+<end>172800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="45" name="q35.2">
+<start>172800001</start>
+<end>176600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="6" number="6" length="null">
+<band index="1" name="q27">
+<start>164500001</start>
+<end>171115068</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p25.3">
+<start>1</start>
+<end>2300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p25.2">
+<start>2300001</start>
+<end>4200001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p25.1">
+<start>4200001</start>
+<end>7100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p24.3">
+<start>7100001</start>
+<end>10600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p24.2">
+<start>10600001</start>
+<end>11600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p24.1">
+<start>11600001</start>
+<end>13400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="8" name="p23">
+<start>13400001</start>
+<end>15200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p22.3">
+<start>15200001</start>
+<end>25200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="10" name="p22.2">
+<start>25200001</start>
+<end>27000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p22.1">
+<start>27000001</start>
+<end>30400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="12" name="p21.33">
+<start>30400001</start>
+<end>32100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p21.32">
+<start>32100001</start>
+<end>33500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="14" name="p21.31">
+<start>33500001</start>
+<end>36600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p21.2">
+<start>36600001</start>
+<end>40500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="16" name="p21.1">
+<start>40500001</start>
+<end>46200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p12.3">
+<start>46200001</start>
+<end>51800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="18" name="p12.2">
+<start>51800001</start>
+<end>52900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="p12.1">
+<start>52900001</start>
+<end>57000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="20" name="p11.2">
+<start>57000001</start>
+<end>58700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="p11.1">
+<start>58700001</start>
+<end>61000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="22" name="q11.1">
+<start>61000001</start>
+<end>63300001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="23" name="q11.2">
+<start>63300001</start>
+<end>63400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q12">
+<start>63400001</start>
+<end>70000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q13">
+<start>70000001</start>
+<end>75900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q14.1">
+<start>75900001</start>
+<end>83900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="27" name="q14.2">
+<start>83900001</start>
+<end>84900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q14.3">
+<start>84900001</start>
+<end>88000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="29" name="q15">
+<start>88000001</start>
+<end>93100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q16.1">
+<start>93100001</start>
+<end>99500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="31" name="q16.2">
+<start>99500001</start>
+<end>100600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q16.3">
+<start>100600001</start>
+<end>105500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="33" name="q21">
+<start>105500001</start>
+<end>114600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q22.1">
+<start>114600001</start>
+<end>118300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="35" name="q22.2">
+<start>118300001</start>
+<end>118500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q22.31">
+<start>118500001</start>
+<end>126100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="37" name="q22.32">
+<start>126100001</start>
+<end>127100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q22.33">
+<start>127100001</start>
+<end>130300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="39" name="q23.1">
+<start>130300001</start>
+<end>131200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q23.2">
+<start>131200001</start>
+<end>135200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="41" name="q23.3">
+<start>135200001</start>
+<end>139000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q24.1">
+<start>139000001</start>
+<end>142800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="43" name="q24.2">
+<start>142800001</start>
+<end>145600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="44" name="q24.3">
+<start>145600001</start>
+<end>149000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="45" name="q25.1">
+<start>149000001</start>
+<end>152500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="46" name="q25.2">
+<start>152500001</start>
+<end>155500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="47" name="q25.3">
+<start>155500001</start>
+<end>161000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="48" name="q26">
+<start>161000001</start>
+<end>164500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="7" number="7" length="null">
+<band index="1" name="q36.3">
+<start>155100001</start>
+<end>159138664</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p22.3">
+<start>1</start>
+<end>2800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p22.2">
+<start>2800001</start>
+<end>4500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p22.1">
+<start>4500001</start>
+<end>7300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p21.3">
+<start>7300001</start>
+<end>13800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="6" name="p21.2">
+<start>13800001</start>
+<end>16500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p21.1">
+<start>16500001</start>
+<end>20900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="8" name="p15.3">
+<start>20900001</start>
+<end>25500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p15.2">
+<start>25500001</start>
+<end>28000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="10" name="p15.1">
+<start>28000001</start>
+<end>28800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p14.3">
+<start>28800001</start>
+<end>35000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="12" name="p14.2">
+<start>35000001</start>
+<end>37200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p14.1">
+<start>37200001</start>
+<end>43300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="14" name="p13">
+<start>43300001</start>
+<end>45400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p12.3">
+<start>45400001</start>
+<end>49000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="16" name="p12.2">
+<start>49000001</start>
+<end>50500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p12.1">
+<start>50500001</start>
+<end>54000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="18" name="p11.2">
+<start>54000001</start>
+<end>58000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="p11.1">
+<start>58000001</start>
+<end>59900001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="20" name="q11.1">
+<start>59900001</start>
+<end>61700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="21" name="q11.21">
+<start>61700001</start>
+<end>67000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q11.22">
+<start>67000001</start>
+<end>72200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="q11.23">
+<start>72200001</start>
+<end>77500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q21.11">
+<start>77500001</start>
+<end>86400001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q21.12">
+<start>86400001</start>
+<end>88200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q21.13">
+<start>88200001</start>
+<end>91100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="27" name="q21.2">
+<start>91100001</start>
+<end>92800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q21.3">
+<start>92800001</start>
+<end>98000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="29" name="q22.1">
+<start>98000001</start>
+<end>103800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q22.2">
+<start>103800001</start>
+<end>104500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="31" name="q22.3">
+<start>104500001</start>
+<end>107400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q31.1">
+<start>107400001</start>
+<end>114600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="33" name="q31.2">
+<start>114600001</start>
+<end>117400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q31.31">
+<start>117400001</start>
+<end>121100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="35" name="q31.32">
+<start>121100001</start>
+<end>123800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q31.33">
+<start>123800001</start>
+<end>127100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="37" name="q32.1">
+<start>127100001</start>
+<end>129200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q32.2">
+<start>129200001</start>
+<end>130400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="39" name="q32.3">
+<start>130400001</start>
+<end>132600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q33">
+<start>132600001</start>
+<end>138200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="41" name="q34">
+<start>138200001</start>
+<end>143100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q35">
+<start>143100001</start>
+<end>147900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="43" name="q36.1">
+<start>147900001</start>
+<end>152600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="44" name="q36.2">
+<start>152600001</start>
+<end>155100001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="8" number="8" length="null">
+<band index="1" name="q24.3">
+<start>139900001</start>
+<end>146364023</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p23.3">
+<start>1</start>
+<end>2200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p23.2">
+<start>2200001</start>
+<end>6200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="4" name="p23.1">
+<start>6200001</start>
+<end>12700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p22">
+<start>12700001</start>
+<end>19000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="6" name="p21.3">
+<start>19000001</start>
+<end>23300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p21.2">
+<start>23300001</start>
+<end>27400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="8" name="p21.1">
+<start>27400001</start>
+<end>28800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p12">
+<start>28800001</start>
+<end>36500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="10" name="p11.23">
+<start>36500001</start>
+<end>38300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p11.22">
+<start>38300001</start>
+<end>39700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="12" name="p11.21">
+<start>39700001</start>
+<end>43100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11.1">
+<start>43100001</start>
+<end>45600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="14" name="q11.1">
+<start>45600001</start>
+<end>48100001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="15" name="q11.21">
+<start>48100001</start>
+<end>52200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q11.22">
+<start>52200001</start>
+<end>52600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="17" name="q11.23">
+<start>52600001</start>
+<end>55500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q12.1">
+<start>55500001</start>
+<end>61600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="19" name="q12.2">
+<start>61600001</start>
+<end>62200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q12.3">
+<start>62200001</start>
+<end>66000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="q13.1">
+<start>66000001</start>
+<end>68000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q13.2">
+<start>68000001</start>
+<end>70500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="q13.3">
+<start>70500001</start>
+<end>73900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q21.11">
+<start>73900001</start>
+<end>78300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q21.12">
+<start>78300001</start>
+<end>80100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q21.13">
+<start>80100001</start>
+<end>84600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="27" name="q21.2">
+<start>84600001</start>
+<end>86900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q21.3">
+<start>86900001</start>
+<end>93300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="29" name="q22.1">
+<start>93300001</start>
+<end>99000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q22.2">
+<start>99000001</start>
+<end>101600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="31" name="q22.3">
+<start>101600001</start>
+<end>106200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q23.1">
+<start>106200001</start>
+<end>110500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="33" name="q23.2">
+<start>110500001</start>
+<end>112100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q23.3">
+<start>112100001</start>
+<end>117700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="35" name="q24.11">
+<start>117700001</start>
+<end>119200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q24.12">
+<start>119200001</start>
+<end>122500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="37" name="q24.13">
+<start>122500001</start>
+<end>127300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q24.21">
+<start>127300001</start>
+<end>131500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="39" name="q24.22">
+<start>131500001</start>
+<end>136400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q24.23">
+<start>136400001</start>
+<end>139900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="9" number="9" length="null">
+<band index="1" name="q34.3">
+<start>137400001</start>
+<end>141213432</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p24.3">
+<start>1</start>
+<end>2200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p24.2">
+<start>2200001</start>
+<end>4600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p24.1">
+<start>4600001</start>
+<end>9000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p23">
+<start>9000001</start>
+<end>14200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p22.3">
+<start>14200001</start>
+<end>16600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p22.2">
+<start>16600001</start>
+<end>18500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="8" name="p22.1">
+<start>18500001</start>
+<end>19900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p21.3">
+<start>19900001</start>
+<end>25600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="10" name="p21.2">
+<start>25600001</start>
+<end>28000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p21.1">
+<start>28000001</start>
+<end>33200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="12" name="p13.3">
+<start>33200001</start>
+<end>36300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p13.2">
+<start>36300001</start>
+<end>38400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="14" name="p13.1">
+<start>38400001</start>
+<end>41000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p12">
+<start>41000001</start>
+<end>43600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="16" name="p11.2">
+<start>43600001</start>
+<end>47300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p11.1">
+<start>47300001</start>
+<end>49000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="18" name="q11">
+<start>49000001</start>
+<end>50700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="19" name="q12">
+<start>50700001</start>
+<end>65900001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="20" name="q13">
+<start>65900001</start>
+<end>68700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="q21.11">
+<start>68700001</start>
+<end>72200001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="22" name="q21.12">
+<start>72200001</start>
+<end>74000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="q21.13">
+<start>74000001</start>
+<end>79200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="24" name="q21.2">
+<start>79200001</start>
+<end>81100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="q21.31">
+<start>81100001</start>
+<end>84100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="26" name="q21.32">
+<start>84100001</start>
+<end>86900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="27" name="q21.33">
+<start>86900001</start>
+<end>90400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="28" name="q22.1">
+<start>90400001</start>
+<end>91800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="29" name="q22.2">
+<start>91800001</start>
+<end>93900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="30" name="q22.31">
+<start>93900001</start>
+<end>96600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="31" name="q22.32">
+<start>96600001</start>
+<end>99300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="32" name="q22.33">
+<start>99300001</start>
+<end>102600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="33" name="q31.1">
+<start>102600001</start>
+<end>108200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="34" name="q31.2">
+<start>108200001</start>
+<end>111300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="35" name="q31.3">
+<start>111300001</start>
+<end>114900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="36" name="q32">
+<start>114900001</start>
+<end>117700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="37" name="q33.1">
+<start>117700001</start>
+<end>122500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="38" name="q33.2">
+<start>122500001</start>
+<end>125800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="39" name="q33.3">
+<start>125800001</start>
+<end>130300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="40" name="q34.11">
+<start>130300001</start>
+<end>133500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="41" name="q34.12">
+<start>133500001</start>
+<end>134000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="42" name="q34.13">
+<start>134000001</start>
+<end>135900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="43" name="q34.2">
+<start>135900001</start>
+<end>137400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="10" number="10" length="null">
+<band index="1" name="q26.3">
+<start>130600001</start>
+<end>135534748</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p15.3">
+<start>1</start>
+<end>3000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p15.2">
+<start>3000001</start>
+<end>3800001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p15.1">
+<start>3800001</start>
+<end>6600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p14">
+<start>6600001</start>
+<end>12200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p13">
+<start>12200001</start>
+<end>17300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p12.33">
+<start>17300001</start>
+<end>18600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="8" name="p12.32">
+<start>18600001</start>
+<end>18700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p12.31">
+<start>18700001</start>
+<end>22600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="10" name="p12.2">
+<start>22600001</start>
+<end>24600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p12.1">
+<start>24600001</start>
+<end>29600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="12" name="p11.23">
+<start>29600001</start>
+<end>31300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11.22">
+<start>31300001</start>
+<end>34400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="14" name="p11.21">
+<start>34400001</start>
+<end>38000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p11.1">
+<start>38000001</start>
+<end>40200001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="16" name="q11.1">
+<start>40200001</start>
+<end>42300001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="17" name="q11.21">
+<start>42300001</start>
+<end>46100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q11.22">
+<start>46100001</start>
+<end>49900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="19" name="q11.23">
+<start>49900001</start>
+<end>52900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q21.1">
+<start>52900001</start>
+<end>61200001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="q21.2">
+<start>61200001</start>
+<end>64500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q21.3">
+<start>64500001</start>
+<end>70600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="23" name="q22.1">
+<start>70600001</start>
+<end>74900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q22.2">
+<start>74900001</start>
+<end>77700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="25" name="q22.3">
+<start>77700001</start>
+<end>82000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q23.1">
+<start>82000001</start>
+<end>87900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="27" name="q23.2">
+<start>87900001</start>
+<end>89500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q23.31">
+<start>89500001</start>
+<end>92900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="29" name="q23.32">
+<start>92900001</start>
+<end>94100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q23.33">
+<start>94100001</start>
+<end>97000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="31" name="q24.1">
+<start>97000001</start>
+<end>99300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q24.2">
+<start>99300001</start>
+<end>101900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="33" name="q24.31">
+<start>101900001</start>
+<end>103000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q24.32">
+<start>103000001</start>
+<end>104900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="35" name="q24.33">
+<start>104900001</start>
+<end>105800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q25.1">
+<start>105800001</start>
+<end>111900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="37" name="q25.2">
+<start>111900001</start>
+<end>114900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q25.3">
+<start>114900001</start>
+<end>119100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="39" name="q26.11">
+<start>119100001</start>
+<end>121700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q26.12">
+<start>121700001</start>
+<end>123100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="41" name="q26.13">
+<start>123100001</start>
+<end>127500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="42" name="q26.2">
+<start>127500001</start>
+<end>130600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="11" number="11" length="null">
+<band index="1" name="q25">
+<start>130800001</start>
+<end>135006517</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p15.5">
+<start>1</start>
+<end>2800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p15.4">
+<start>2800001</start>
+<end>10700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p15.3">
+<start>10700001</start>
+<end>12700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p15.2">
+<start>12700001</start>
+<end>16200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p15.1">
+<start>16200001</start>
+<end>21700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p14.3">
+<start>21700001</start>
+<end>26100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="8" name="p14.2">
+<start>26100001</start>
+<end>27200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p14.1">
+<start>27200001</start>
+<end>31000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="10" name="p13">
+<start>31000001</start>
+<end>36400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p12">
+<start>36400001</start>
+<end>43500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="12" name="p11.2">
+<start>43500001</start>
+<end>48800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11.12">
+<start>48800001</start>
+<end>51600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="14" name="p11.11">
+<start>51600001</start>
+<end>53700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="15" name="q11">
+<start>53700001</start>
+<end>55700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="16" name="q12.1">
+<start>55700001</start>
+<end>59900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="17" name="q12.2">
+<start>59900001</start>
+<end>61700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q12.3">
+<start>61700001</start>
+<end>63400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="19" name="q13.1">
+<start>63400001</start>
+<end>65900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q13.2">
+<start>65900001</start>
+<end>68400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="21" name="q13.3">
+<start>68400001</start>
+<end>70400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q13.4">
+<start>70400001</start>
+<end>75200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="q13.5">
+<start>75200001</start>
+<end>77100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q14.1">
+<start>77100001</start>
+<end>85600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q14.2">
+<start>85600001</start>
+<end>88300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q14.3">
+<start>88300001</start>
+<end>92800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="27" name="q21">
+<start>92800001</start>
+<end>97200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q22.1">
+<start>97200001</start>
+<end>102100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="29" name="q22.2">
+<start>102100001</start>
+<end>102900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q22.3">
+<start>102900001</start>
+<end>110400001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="31" name="q23.1">
+<start>110400001</start>
+<end>112500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q23.2">
+<start>112500001</start>
+<end>114500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="33" name="q23.3">
+<start>114500001</start>
+<end>121200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q24.1">
+<start>121200001</start>
+<end>123900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="35" name="q24.2">
+<start>123900001</start>
+<end>127800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q24.3">
+<start>127800001</start>
+<end>130800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="12" number="12" length="null">
+<band index="1" name="q24.33">
+<start>129300001</start>
+<end>133851896</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13.33">
+<start>1</start>
+<end>3300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p13.32">
+<start>3300001</start>
+<end>5400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p13.31">
+<start>5400001</start>
+<end>10100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p13.2">
+<start>10100001</start>
+<end>12800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p13.1">
+<start>12800001</start>
+<end>14800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p12.3">
+<start>14800001</start>
+<end>20000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="8" name="p12.2">
+<start>20000001</start>
+<end>21300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p12.1">
+<start>21300001</start>
+<end>26500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="10" name="p11.23">
+<start>26500001</start>
+<end>27800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p11.22">
+<start>27800001</start>
+<end>30700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="12" name="p11.21">
+<start>30700001</start>
+<end>33300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11.1">
+<start>33300001</start>
+<end>35800001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="14" name="q11">
+<start>35800001</start>
+<end>38200001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="15" name="q12">
+<start>38200001</start>
+<end>46400001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="16" name="q13.11">
+<start>46400001</start>
+<end>49100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="q13.12">
+<start>49100001</start>
+<end>51500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="18" name="q13.13">
+<start>51500001</start>
+<end>54900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="q13.2">
+<start>54900001</start>
+<end>56600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="20" name="q13.3">
+<start>56600001</start>
+<end>58100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="q14.1">
+<start>58100001</start>
+<end>63100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="22" name="q14.2">
+<start>63100001</start>
+<end>65100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="q14.3">
+<start>65100001</start>
+<end>67700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="24" name="q15">
+<start>67700001</start>
+<end>71500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="q21.1">
+<start>71500001</start>
+<end>75700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="26" name="q21.2">
+<start>75700001</start>
+<end>80300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="27" name="q21.31">
+<start>80300001</start>
+<end>86700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="28" name="q21.32">
+<start>86700001</start>
+<end>89000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="29" name="q21.33">
+<start>89000001</start>
+<end>92600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="30" name="q22">
+<start>92600001</start>
+<end>96200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="31" name="q23.1">
+<start>96200001</start>
+<end>101600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="32" name="q23.2">
+<start>101600001</start>
+<end>103800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="33" name="q23.3">
+<start>103800001</start>
+<end>109000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="34" name="q24.11">
+<start>109000001</start>
+<end>111700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="35" name="q24.12">
+<start>111700001</start>
+<end>112300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="36" name="q24.13">
+<start>112300001</start>
+<end>114300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="37" name="q24.21">
+<start>114300001</start>
+<end>116800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="38" name="q24.22">
+<start>116800001</start>
+<end>118100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="39" name="q24.23">
+<start>118100001</start>
+<end>120700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="40" name="q24.31">
+<start>120700001</start>
+<end>125900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="41" name="q24.32">
+<start>125900001</start>
+<end>129300001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="13" number="13" length="null">
+<band index="1" name="q34">
+<start>110300001</start>
+<end>115169879</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>4500001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="3" name="p12">
+<start>4500001</start>
+<end>10000001</end>
+<stain>stalk</stain>
+<link></link>
+</band>
+<band index="4" name="p11.2">
+<start>10000001</start>
+<end>16300001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="5" name="p11.1">
+<start>16300001</start>
+<end>17900001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="6" name="q11">
+<start>17900001</start>
+<end>19500001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="7" name="q12.11">
+<start>19500001</start>
+<end>23300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="q12.12">
+<start>23300001</start>
+<end>25500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="9" name="q12.13">
+<start>25500001</start>
+<end>27800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q12.2">
+<start>27800001</start>
+<end>28900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="11" name="q12.3">
+<start>28900001</start>
+<end>32200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q13.1">
+<start>32200001</start>
+<end>34000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="13" name="q13.2">
+<start>34000001</start>
+<end>35500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q13.3">
+<start>35500001</start>
+<end>40100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="15" name="q14.11">
+<start>40100001</start>
+<end>45200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q14.12">
+<start>45200001</start>
+<end>45800001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="17" name="q14.13">
+<start>45800001</start>
+<end>47300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q14.2">
+<start>47300001</start>
+<end>50900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="19" name="q14.3">
+<start>50900001</start>
+<end>55300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q21.1">
+<start>55300001</start>
+<end>59600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="21" name="q21.2">
+<start>59600001</start>
+<end>62300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q21.31">
+<start>62300001</start>
+<end>65700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="23" name="q21.32">
+<start>65700001</start>
+<end>68600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q21.33">
+<start>68600001</start>
+<end>73300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q22.1">
+<start>73300001</start>
+<end>75400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q22.2">
+<start>75400001</start>
+<end>77200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="27" name="q22.3">
+<start>77200001</start>
+<end>79000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q31.1">
+<start>79000001</start>
+<end>87700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="29" name="q31.2">
+<start>87700001</start>
+<end>90000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q31.3">
+<start>90000001</start>
+<end>95000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="31" name="q32.1">
+<start>95000001</start>
+<end>98200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q32.2">
+<start>98200001</start>
+<end>99300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="33" name="q32.3">
+<start>99300001</start>
+<end>101700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q33.1">
+<start>101700001</start>
+<end>104800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="35" name="q33.2">
+<start>104800001</start>
+<end>107000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q33.3">
+<start>107000001</start>
+<end>110300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="14" number="14" length="null">
+<band index="1" name="q32.33">
+<start>104000001</start>
+<end>107349541</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>3700001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="3" name="p12">
+<start>3700001</start>
+<end>8100001</end>
+<stain>stalk</stain>
+<link></link>
+</band>
+<band index="4" name="p11.2">
+<start>8100001</start>
+<end>16100001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="5" name="p11.1">
+<start>16100001</start>
+<end>17600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="6" name="q11.1">
+<start>17600001</start>
+<end>19100001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="7" name="q11.2">
+<start>19100001</start>
+<end>24600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="q12">
+<start>24600001</start>
+<end>33300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="q13.1">
+<start>33300001</start>
+<end>35300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q13.2">
+<start>35300001</start>
+<end>36600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="11" name="q13.3">
+<start>36600001</start>
+<end>37800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q21.1">
+<start>37800001</start>
+<end>43500001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="13" name="q21.2">
+<start>43500001</start>
+<end>47200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q21.3">
+<start>47200001</start>
+<end>50900001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="15" name="q22.1">
+<start>50900001</start>
+<end>54100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q22.2">
+<start>54100001</start>
+<end>55500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="17" name="q22.3">
+<start>55500001</start>
+<end>58100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q23.1">
+<start>58100001</start>
+<end>62100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="19" name="q23.2">
+<start>62100001</start>
+<end>64800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q23.3">
+<start>64800001</start>
+<end>67900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="q24.1">
+<start>67900001</start>
+<end>70200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q24.2">
+<start>70200001</start>
+<end>73800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="q24.3">
+<start>73800001</start>
+<end>79300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q31.1">
+<start>79300001</start>
+<end>83600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q31.2">
+<start>83600001</start>
+<end>84900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q31.3">
+<start>84900001</start>
+<end>89800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="27" name="q32.11">
+<start>89800001</start>
+<end>91900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q32.12">
+<start>91900001</start>
+<end>94700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="29" name="q32.13">
+<start>94700001</start>
+<end>96300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q32.2">
+<start>96300001</start>
+<end>101400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="31" name="q32.31">
+<start>101400001</start>
+<end>103200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q32.32">
+<start>103200001</start>
+<end>104000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="15" number="15" length="null">
+<band index="1" name="q26.3">
+<start>98500001</start>
+<end>102531393</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>3900001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="3" name="p12">
+<start>3900001</start>
+<end>8700001</end>
+<stain>stalk</stain>
+<link></link>
+</band>
+<band index="4" name="p11.2">
+<start>8700001</start>
+<end>15800001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="5" name="p11.1">
+<start>15800001</start>
+<end>19000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="6" name="q11.1">
+<start>19000001</start>
+<end>20700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="7" name="q11.2">
+<start>20700001</start>
+<end>25700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="q12">
+<start>25700001</start>
+<end>28100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="9" name="q13.1">
+<start>28100001</start>
+<end>30300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q13.2">
+<start>30300001</start>
+<end>31200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="11" name="q13.3">
+<start>31200001</start>
+<end>33600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q14">
+<start>33600001</start>
+<end>40100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="13" name="q15.1">
+<start>40100001</start>
+<end>42800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q15.2">
+<start>42800001</start>
+<end>43600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="15" name="q15.3">
+<start>43600001</start>
+<end>44800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q21.1">
+<start>44800001</start>
+<end>49500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="17" name="q21.2">
+<start>49500001</start>
+<end>52900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q21.3">
+<start>52900001</start>
+<end>59100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="19" name="q22.1">
+<start>59100001</start>
+<end>59300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q22.2">
+<start>59300001</start>
+<end>63700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="21" name="q22.31">
+<start>63700001</start>
+<end>67200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q22.32">
+<start>67200001</start>
+<end>67300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="23" name="q22.33">
+<start>67300001</start>
+<end>67500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q23">
+<start>67500001</start>
+<end>72700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="25" name="q24.1">
+<start>72700001</start>
+<end>75200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q24.2">
+<start>75200001</start>
+<end>76600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="27" name="q24.3">
+<start>76600001</start>
+<end>78300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q25.1">
+<start>78300001</start>
+<end>81700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="29" name="q25.2">
+<start>81700001</start>
+<end>85200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q25.3">
+<start>85200001</start>
+<end>89100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="31" name="q26.1">
+<start>89100001</start>
+<end>94300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q26.2">
+<start>94300001</start>
+<end>98500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="16" number="16" length="null">
+<band index="1" name="q24.3">
+<start>88700001</start>
+<end>90354754</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13.3">
+<start>1</start>
+<end>7900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p13.2">
+<start>7900001</start>
+<end>10500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p13.13">
+<start>10500001</start>
+<end>12600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p13.12">
+<start>12600001</start>
+<end>14800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p13.11">
+<start>14800001</start>
+<end>16800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p12.3">
+<start>16800001</start>
+<end>21200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="8" name="p12.2">
+<start>21200001</start>
+<end>24200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p12.1">
+<start>24200001</start>
+<end>28100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="10" name="p11.2">
+<start>28100001</start>
+<end>34600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p11.1">
+<start>34600001</start>
+<end>36600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="12" name="q11.1">
+<start>36600001</start>
+<end>38600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="13" name="q11.2">
+<start>38600001</start>
+<end>47000001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="14" name="q12.1">
+<start>47000001</start>
+<end>52600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="q12.2">
+<start>52600001</start>
+<end>56700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="16" name="q13">
+<start>56700001</start>
+<end>57400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="q21">
+<start>57400001</start>
+<end>66700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="18" name="q22.1">
+<start>66700001</start>
+<end>70800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="19" name="q22.2">
+<start>70800001</start>
+<end>72900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="20" name="q22.3">
+<start>72900001</start>
+<end>74100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="21" name="q23.1">
+<start>74100001</start>
+<end>79200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="22" name="q23.2">
+<start>79200001</start>
+<end>81700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="23" name="q23.3">
+<start>81700001</start>
+<end>84200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="24" name="q24.1">
+<start>84200001</start>
+<end>87100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="25" name="q24.2">
+<start>87100001</start>
+<end>88700001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="17" number="17" length="null">
+<band index="1" name="q25.3">
+<start>75300001</start>
+<end>81195211</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13.3">
+<start>1</start>
+<end>3300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p13.2">
+<start>3300001</start>
+<end>6500001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p13.1">
+<start>6500001</start>
+<end>10700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p12">
+<start>10700001</start>
+<end>16000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p11.2">
+<start>16000001</start>
+<end>22200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p11.1">
+<start>22200001</start>
+<end>24000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="8" name="q11.1">
+<start>24000001</start>
+<end>25800001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="9" name="q11.2">
+<start>25800001</start>
+<end>31800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q12">
+<start>31800001</start>
+<end>38100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="11" name="q21.1">
+<start>38100001</start>
+<end>38400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q21.2">
+<start>38400001</start>
+<end>40900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="13" name="q21.31">
+<start>40900001</start>
+<end>44900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q21.32">
+<start>44900001</start>
+<end>47400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="15" name="q21.33">
+<start>47400001</start>
+<end>50200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q22">
+<start>50200001</start>
+<end>57600001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="17" name="q23.1">
+<start>57600001</start>
+<end>58300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q23.2">
+<start>58300001</start>
+<end>61100001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="19" name="q23.3">
+<start>61100001</start>
+<end>62600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q24.1">
+<start>62600001</start>
+<end>64200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="q24.2">
+<start>64200001</start>
+<end>67100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q24.3">
+<start>67100001</start>
+<end>70900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="23" name="q25.1">
+<start>70900001</start>
+<end>74800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q25.2">
+<start>74800001</start>
+<end>75300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="18" number="18" length="null">
+<band index="1" name="q23">
+<start>73100001</start>
+<end>78077249</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p11.32">
+<start>1</start>
+<end>2900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p11.31">
+<start>2900001</start>
+<end>7100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p11.23">
+<start>7100001</start>
+<end>8500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p11.22">
+<start>8500001</start>
+<end>10900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="6" name="p11.21">
+<start>10900001</start>
+<end>15400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p11.1">
+<start>15400001</start>
+<end>17200001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="8" name="q11.1">
+<start>17200001</start>
+<end>19000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="9" name="q11.2">
+<start>19000001</start>
+<end>25000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q12.1">
+<start>25000001</start>
+<end>32700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="11" name="q12.2">
+<start>32700001</start>
+<end>37200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q12.3">
+<start>37200001</start>
+<end>43500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="13" name="q21.1">
+<start>43500001</start>
+<end>48200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q21.2">
+<start>48200001</start>
+<end>53800001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="15" name="q21.31">
+<start>53800001</start>
+<end>56200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q21.32">
+<start>56200001</start>
+<end>59000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="17" name="q21.33">
+<start>59000001</start>
+<end>61600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q22.1">
+<start>61600001</start>
+<end>66800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="19" name="q22.2">
+<start>66800001</start>
+<end>68700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q22.3">
+<start>68700001</start>
+<end>73100001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="19" number="19" length="null">
+<band index="1" name="q13.43">
+<start>56300001</start>
+<end>59128984</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="2" name="p13.3">
+<start>1</start>
+<end>6900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p13.2">
+<start>6900001</start>
+<end>13900001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="4" name="p13.13">
+<start>13900001</start>
+<end>14000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p13.12">
+<start>14000001</start>
+<end>16300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="6" name="p13.11">
+<start>16300001</start>
+<end>20000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p12">
+<start>20000001</start>
+<end>24400001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="8" name="p11">
+<start>24400001</start>
+<end>26500001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="9" name="q11">
+<start>26500001</start>
+<end>28600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="10" name="q12">
+<start>28600001</start>
+<end>32400001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="11" name="q13.11">
+<start>32400001</start>
+<end>35500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q13.12">
+<start>35500001</start>
+<end>38300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="13" name="q13.13">
+<start>38300001</start>
+<end>38700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q13.2">
+<start>38700001</start>
+<end>43400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="15" name="q13.31">
+<start>43400001</start>
+<end>45200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q13.32">
+<start>45200001</start>
+<end>48000001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="17" name="q13.33">
+<start>48000001</start>
+<end>51400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q13.41">
+<start>51400001</start>
+<end>53600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="19" name="q13.42">
+<start>53600001</start>
+<end>56300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="20" number="20" length="null">
+<band index="1" name="q13.33">
+<start>58400001</start>
+<end>63025521</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>5100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p12.3">
+<start>5100001</start>
+<end>9200001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="4" name="p12.2">
+<start>9200001</start>
+<end>12100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p12.1">
+<start>12100001</start>
+<end>17900001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="6" name="p11.23">
+<start>17900001</start>
+<end>21300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p11.22">
+<start>21300001</start>
+<end>22300001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="8" name="p11.21">
+<start>22300001</start>
+<end>25600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p11.1">
+<start>25600001</start>
+<end>27500001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="10" name="q11.1">
+<start>27500001</start>
+<end>29400001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="11" name="q11.21">
+<start>29400001</start>
+<end>32100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q11.22">
+<start>32100001</start>
+<end>34400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="13" name="q11.23">
+<start>34400001</start>
+<end>37600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q12">
+<start>37600001</start>
+<end>41700001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="15" name="q13.11">
+<start>41700001</start>
+<end>42100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q13.12">
+<start>42100001</start>
+<end>46400001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="17" name="q13.13">
+<start>46400001</start>
+<end>49800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="18" name="q13.2">
+<start>49800001</start>
+<end>55000001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="19" name="q13.31">
+<start>55000001</start>
+<end>56500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q13.32">
+<start>56500001</start>
+<end>58400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="21" number="21" length="null">
+<band index="1" name="q22.3">
+<start>42600001</start>
+<end>48129896</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>2800001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="3" name="p12">
+<start>2800001</start>
+<end>6800001</end>
+<stain>stalk</stain>
+<link></link>
+</band>
+<band index="4" name="p11.2">
+<start>6800001</start>
+<end>10900001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="5" name="p11.1">
+<start>10900001</start>
+<end>13200001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="6" name="q11.1">
+<start>13200001</start>
+<end>14300001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="7" name="q11.2">
+<start>14300001</start>
+<end>16400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="q21.1">
+<start>16400001</start>
+<end>24000001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="9" name="q21.2">
+<start>24000001</start>
+<end>26800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q21.3">
+<start>26800001</start>
+<end>31500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="11" name="q22.11">
+<start>31500001</start>
+<end>35800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q22.12">
+<start>35800001</start>
+<end>37800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="13" name="q22.13">
+<start>37800001</start>
+<end>39700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q22.2">
+<start>39700001</start>
+<end>42600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="22" number="22" length="null">
+<band index="1" name="q13.33">
+<start>49400001</start>
+<end>51304567</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p13">
+<start>1</start>
+<end>3800001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="3" name="p12">
+<start>3800001</start>
+<end>8300001</end>
+<stain>stalk</stain>
+<link></link>
+</band>
+<band index="4" name="p11.2">
+<start>8300001</start>
+<end>12200001</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="5" name="p11.1">
+<start>12200001</start>
+<end>14700001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="6" name="q11.1">
+<start>14700001</start>
+<end>17900001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="7" name="q11.21">
+<start>17900001</start>
+<end>22200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="8" name="q11.22">
+<start>22200001</start>
+<end>23500001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="9" name="q11.23">
+<start>23500001</start>
+<end>25900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="10" name="q12.1">
+<start>25900001</start>
+<end>29600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="11" name="q12.2">
+<start>29600001</start>
+<end>32200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="12" name="q12.3">
+<start>32200001</start>
+<end>37600001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="13" name="q13.1">
+<start>37600001</start>
+<end>41000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="14" name="q13.2">
+<start>41000001</start>
+<end>44200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="15" name="q13.31">
+<start>44200001</start>
+<end>48400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="16" name="q13.32">
+<start>48400001</start>
+<end>49400001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="23" number="X" length="null">
+<band index="1" name="q28">
+<start>147100001</start>
+<end>155270561</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="2" name="p22.33">
+<start>1</start>
+<end>4300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="3" name="p22.32">
+<start>4300001</start>
+<end>6000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="4" name="p22.31">
+<start>6000001</start>
+<end>9500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="5" name="p22.2">
+<start>9500001</start>
+<end>17100001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="6" name="p22.13">
+<start>17100001</start>
+<end>19300001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p22.12">
+<start>19300001</start>
+<end>21900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="8" name="p22.11">
+<start>21900001</start>
+<end>24900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p21.3">
+<start>24900001</start>
+<end>29300001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="10" name="p21.2">
+<start>29300001</start>
+<end>31500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="11" name="p21.1">
+<start>31500001</start>
+<end>37600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="12" name="p11.4">
+<start>37600001</start>
+<end>42400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="13" name="p11.3">
+<start>42400001</start>
+<end>46400001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="14" name="p11.23">
+<start>46400001</start>
+<end>49800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="15" name="p11.22">
+<start>49800001</start>
+<end>54800001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="16" name="p11.21">
+<start>54800001</start>
+<end>58100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="17" name="p11.1">
+<start>58100001</start>
+<end>60600001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="18" name="q11.1">
+<start>60600001</start>
+<end>63000001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="19" name="q11.2">
+<start>63000001</start>
+<end>64600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="20" name="q12">
+<start>64600001</start>
+<end>67800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="21" name="q13.1">
+<start>67800001</start>
+<end>71800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="22" name="q13.2">
+<start>71800001</start>
+<end>73900001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="23" name="q13.3">
+<start>73900001</start>
+<end>76000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="24" name="q21.1">
+<start>76000001</start>
+<end>84600001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="25" name="q21.2">
+<start>84600001</start>
+<end>86200001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="26" name="q21.31">
+<start>86200001</start>
+<end>91800001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="27" name="q21.32">
+<start>91800001</start>
+<end>93500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="28" name="q21.33">
+<start>93500001</start>
+<end>98300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="29" name="q22.1">
+<start>98300001</start>
+<end>102600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="30" name="q22.2">
+<start>102600001</start>
+<end>103700001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="31" name="q22.3">
+<start>103700001</start>
+<end>108700001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="32" name="q23">
+<start>108700001</start>
+<end>116500001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="33" name="q24">
+<start>116500001</start>
+<end>120900001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="34" name="q25">
+<start>120900001</start>
+<end>128700001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+<band index="35" name="q26.1">
+<start>128700001</start>
+<end>130400001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="36" name="q26.2">
+<start>130400001</start>
+<end>133600001</end>
+<stain>gpos25</stain>
+<link></link>
+</band>
+<band index="37" name="q26.3">
+<start>133600001</start>
+<end>138000001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="38" name="q27.1">
+<start>138000001</start>
+<end>140300001</end>
+<stain>gpos75</stain>
+<link></link>
+</band>
+<band index="39" name="q27.2">
+<start>140300001</start>
+<end>142100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="40" name="q27.3">
+<start>142100001</start>
+<end>147100001</end>
+<stain>gpos100</stain>
+<link></link>
+</band>
+</chromosome>
+<chromosome index="24" number="Y" length="null">
+<band index="1" name="q12">
+<start>28800001</start>
+<end>59373567</end>
+<stain>gvar</stain>
+<link></link>
+</band>
+<band index="2" name="q11.221">
+<start>15100001</start>
+<end>19800001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="3" name="q11.222">
+<start>19800001</start>
+<end>22100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="4" name="q11.223">
+<start>22100001</start>
+<end>26200001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="5" name="q11.23">
+<start>26200001</start>
+<end>28800001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="6" name="p11.32">
+<start>1</start>
+<end>2500001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="7" name="p11.31">
+<start>2500001</start>
+<end>3000001</end>
+<stain>gpos50</stain>
+<link></link>
+</band>
+<band index="8" name="p11.2">
+<start>3000001</start>
+<end>11600001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+<band index="9" name="p11.1">
+<start>11600001</start>
+<end>12500001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="10" name="q11.1">
+<start>12500001</start>
+<end>13400001</end>
+<stain>acen</stain>
+<link></link>
+</band>
+<band index="11" name="q11.21">
+<start>13400001</start>
+<end>15100001</end>
+<stain>gneg</stain>
+<link></link>
+</band>
+</chromosome>
+</genome>

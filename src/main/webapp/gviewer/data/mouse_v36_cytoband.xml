@@ -1,0 +1,2463 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="197069962">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>8912711</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:0-8912711</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>8912711</start>
+		<end>12378766</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:8912711-12378766</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>12378766</start>
+		<end>20301176</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:12378766-20301176</link>
+	</band>
+	<band index="4" name="qA4">
+		<start>20301176</start>
+		<end>22281779</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:20301176-22281779</link>
+	</band>
+	<band index="5" name="qA5">
+		<start>22281779</start>
+		<end>31194491</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:22281779-31194491</link>
+	</band>
+	<band index="6" name="qB">
+		<start>31194491</start>
+		<end>43573257</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:31194491-43573257</link>
+	</band>
+	<band index="7" name="qC1.1">
+		<start>43573257</start>
+		<end>54961723</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:43573257-54961723</link>
+	</band>
+	<band index="8" name="qC1.2">
+		<start>54961723</start>
+		<end>56447175</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:54961723-56447175</link>
+	</band>
+	<band index="9" name="qC1.3">
+		<start>56447175</start>
+		<end>59913229</end>
+		<stain>gpos75</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:56447175-59913229</link>
+	</band>
+	<band index="10" name="qC2">
+		<start>59913229</start>
+		<end>65855037</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:59913229-65855037</link>
+	</band>
+	<band index="11" name="qC3">
+		<start>65855037</start>
+		<end>75262900</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:65855037-75262900</link>
+	</band>
+	<band index="12" name="qC4">
+		<start>75262900</start>
+		<end>80709557</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:75262900-80709557</link>
+	</band>
+	<band index="13" name="qC5">
+		<start>80709557</start>
+		<end>88136817</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:80709557-88136817</link>
+	</band>
+	<band index="14" name="qD">
+		<start>88136817</start>
+		<end>100515583</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:88136817-100515583</link>
+	</band>
+	<band index="15" name="qE1.1">
+		<start>100515583</start>
+		<end>103486487</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:100515583-103486487</link>
+	</band>
+	<band index="16" name="qE1.2">
+		<start>103486487</start>
+		<end>104476788</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:103486487-104476788</link>
+	</band>
+	<band index="17" name="qE2.1">
+		<start>104476788</start>
+		<end>113389500</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:104476788-113389500</link>
+	</band>
+	<band index="18" name="qE2.2">
+		<start>113389500</start>
+		<end>114874952</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:113389500-114874952</link>
+	</band>
+	<band index="19" name="qE2.3">
+		<start>114874952</start>
+		<end>126758568</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:114874952-126758568</link>
+	</band>
+	<band index="20" name="qE3">
+		<start>126758568</start>
+		<end>129729472</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:126758568-129729472</link>
+	</band>
+	<band index="21" name="qE4">
+		<start>129729472</start>
+		<end>140622786</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:129729472-140622786</link>
+	</band>
+	<band index="22" name="qF">
+		<start>140622786</start>
+		<end>148545197</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:140622786-148545197</link>
+	</band>
+	<band index="23" name="qG1">
+		<start>148545197</start>
+		<end>153001553</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:148545197-153001553</link>
+	</band>
+	<band index="24" name="qG2">
+		<start>153001553</start>
+		<end>153991854</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:153001553-153991854</link>
+	</band>
+	<band index="25" name="qG3">
+		<start>153991854</start>
+		<end>158448210</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:153991854-158448210</link>
+	</band>
+	<band index="26" name="qH1">
+		<start>158448210</start>
+		<end>161419114</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:158448210-161419114</link>
+	</band>
+	<band index="27" name="qH2.1">
+		<start>161419114</start>
+		<end>165380319</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:161419114-165380319</link>
+	</band>
+	<band index="28" name="qH2.2">
+		<start>165380319</start>
+		<end>166865771</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:165380319-166865771</link>
+	</band>
+	<band index="29" name="qH2.3">
+		<start>166865771</start>
+		<end>171322127</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:166865771-171322127</link>
+	</band>
+	<band index="30" name="qH3">
+		<start>171322127</start>
+		<end>177263935</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:171322127-177263935</link>
+	</band>
+	<band index="31" name="qH4">
+		<start>177263935</start>
+		<end>183205743</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:177263935-183205743</link>
+	</band>
+	<band index="32" name="qH5">
+		<start>183205743</start>
+		<end>189642702</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:183205743-189642702</link>
+	</band>
+	<band index="33" name="qH6">
+		<start>189642702</start>
+		<end>197069962</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr1:189642702-197069962</link>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="129959148">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>12750708</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:0-12750708</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>12750708</start>
+		<end>17654827</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:12750708-17654827</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>17654827</start>
+		<end>23539770</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:17654827-23539770</link>
+	</band>
+	<band index="4" name="qA4">
+		<start>23539770</start>
+		<end>33348007</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:23539770-33348007</link>
+	</band>
+	<band index="5" name="qB1">
+		<start>33348007</start>
+		<end>41194597</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:33348007-41194597</link>
+	</band>
+	<band index="6" name="qB2">
+		<start>41194597</start>
+		<end>48060364</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:41194597-48060364</link>
+	</band>
+	<band index="7" name="qB3">
+		<start>48060364</start>
+		<end>55906954</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:48060364-55906954</link>
+	</band>
+	<band index="8" name="qB4">
+		<start>55906954</start>
+		<end>63753544</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:55906954-63753544</link>
+	</band>
+	<band index="9" name="qB5.1">
+		<start>63753544</start>
+		<end>67676839</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:63753544-67676839</link>
+	</band>
+	<band index="10" name="qB5.2">
+		<start>67676839</start>
+		<end>68167251</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:67676839-68167251</link>
+	</band>
+	<band index="11" name="qB5.3">
+		<start>68167251</start>
+		<end>74542605</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:68167251-74542605</link>
+	</band>
+	<band index="12" name="qC1">
+		<start>74542605</start>
+		<end>88764550</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:74542605-88764550</link>
+	</band>
+	<band index="13" name="qC2">
+		<start>88764550</start>
+		<end>95630316</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:88764550-95630316</link>
+	</band>
+	<band index="14" name="qC3">
+		<start>95630316</start>
+		<end>98572787</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:95630316-98572787</link>
+	</band>
+	<band index="15" name="qD1">
+		<start>98572787</start>
+		<end>111323496</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:98572787-111323496</link>
+	</band>
+	<band index="16" name="qD2">
+		<start>111323496</start>
+		<end>124074205</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:111323496-124074205</link>
+	</band>
+	<band index="17" name="qD3">
+		<start>124074205</start>
+		<end>129959148</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr10:124074205-129959148</link>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="121798632">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>13016647</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:0-13016647</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>13016647</start>
+		<end>17200570</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:13016647-17200570</link>
+	</band>
+	<band index="3" name="qA3.1">
+		<start>17200570</start>
+		<end>21849372</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:17200570-21849372</link>
+	</band>
+	<band index="4" name="qA3.2">
+		<start>21849372</start>
+		<end>25568415</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:21849372-25568415</link>
+	</band>
+	<band index="5" name="qA3.3">
+		<start>25568415</start>
+		<end>30217217</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:25568415-30217217</link>
+	</band>
+	<band index="6" name="qA4">
+		<start>30217217</start>
+		<end>36260661</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:30217217-36260661</link>
+	</band>
+	<band index="7" name="qA5">
+		<start>36260661</start>
+		<end>43233865</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:36260661-43233865</link>
+	</band>
+	<band index="8" name="qB1.1">
+		<start>43233865</start>
+		<end>47882668</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:43233865-47882668</link>
+	</band>
+	<band index="9" name="qB1.2">
+		<start>47882668</start>
+		<end>49742189</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:47882668-49742189</link>
+	</band>
+	<band index="10" name="qB1.3">
+		<start>49742189</start>
+		<end>59969555</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:49742189-59969555</link>
+	</band>
+	<band index="11" name="qB2">
+		<start>59969555</start>
+		<end>62758837</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:59969555-62758837</link>
+	</band>
+	<band index="12" name="qB3">
+		<start>62758837</start>
+		<end>70661801</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:62758837-70661801</link>
+	</band>
+	<band index="13" name="qB4">
+		<start>70661801</start>
+		<end>73915963</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:70661801-73915963</link>
+	</band>
+	<band index="14" name="qB5">
+		<start>73915963</start>
+		<end>81818928</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:73915963-81818928</link>
+	</band>
+	<band index="15" name="qC">
+		<start>81818928</start>
+		<end>90186773</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:81818928-90186773</link>
+	</band>
+	<band index="16" name="qD">
+		<start>90186773</start>
+		<end>102273660</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:90186773-102273660</link>
+	</band>
+	<band index="17" name="qE1">
+		<start>102273660</start>
+		<end>110176625</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:102273660-110176625</link>
+	</band>
+	<band index="18" name="qE2">
+		<start>110176625</start>
+		<end>121798632</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr11:110176625-121798632</link>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="120463159">
+	<band index="1" name="qA1.1">
+		<start>0</start>
+		<end>17650279</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:0-17650279</link>
+	</band>
+	<band index="2" name="qA1.2">
+		<start>17650279</start>
+		<end>21180335</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:17650279-21180335</link>
+	</band>
+	<band index="3" name="qA1.3">
+		<start>21180335</start>
+		<end>26034162</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:21180335-26034162</link>
+	</band>
+	<band index="4" name="qA2">
+		<start>26034162</start>
+		<end>31770503</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:26034162-31770503</link>
+	</band>
+	<band index="5" name="qA3">
+		<start>31770503</start>
+		<end>39271872</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:31770503-39271872</link>
+	</band>
+	<band index="6" name="qB1">
+		<start>39271872</start>
+		<end>44125699</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:39271872-44125699</link>
+	</band>
+	<band index="7" name="qB2">
+		<start>44125699</start>
+		<end>45008213</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:44125699-45008213</link>
+	</band>
+	<band index="8" name="qB3">
+		<start>45008213</start>
+		<end>52068325</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:45008213-52068325</link>
+	</band>
+	<band index="9" name="qC1">
+		<start>52068325</start>
+		<end>66188548</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:52068325-66188548</link>
+	</band>
+	<band index="10" name="qC2">
+		<start>66188548</start>
+		<end>71483632</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:66188548-71483632</link>
+	</band>
+	<band index="11" name="qC3">
+		<start>71483632</start>
+		<end>81191286</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:71483632-81191286</link>
+	</band>
+	<band index="12" name="qD1">
+		<start>81191286</start>
+		<end>85603856</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:81191286-85603856</link>
+	</band>
+	<band index="13" name="qD2">
+		<start>85603856</start>
+		<end>88692655</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:85603856-88692655</link>
+	</band>
+	<band index="14" name="qD3">
+		<start>88692655</start>
+		<end>95752767</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:88692655-95752767</link>
+	</band>
+	<band index="15" name="qE">
+		<start>95752767</start>
+		<end>106342935</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:95752767-106342935</link>
+	</band>
+	<band index="16" name="qF1">
+		<start>106342935</start>
+		<end>114726818</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:106342935-114726818</link>
+	</band>
+	<band index="17" name="qF2">
+		<start>114726818</start>
+		<end>120463159</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr12:114726818-120463159</link>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="120614378">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>16312600</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:0-16312600</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>16312600</start>
+		<end>21255812</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:16312600-21255812</link>
+	</band>
+	<band index="3" name="qA3.1">
+		<start>21255812</start>
+		<end>29659273</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:21255812-29659273</link>
+	</band>
+	<band index="4" name="qA3.2">
+		<start>29659273</start>
+		<end>33119521</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:29659273-33119521</link>
+	</band>
+	<band index="5" name="qA3.3">
+		<start>33119521</start>
+		<end>41522982</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:33119521-41522982</link>
+	</band>
+	<band index="6" name="qA4">
+		<start>41522982</start>
+		<end>44488909</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:41522982-44488909</link>
+	</band>
+	<band index="7" name="qA5">
+		<start>44488909</start>
+		<end>52892370</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:44488909-52892370</link>
+	</band>
+	<band index="8" name="qB1">
+		<start>52892370</start>
+		<end>59318546</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:52892370-59318546</link>
+	</band>
+	<band index="9" name="qB2">
+		<start>59318546</start>
+		<end>61790152</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:59318546-61790152</link>
+	</band>
+	<band index="10" name="qB3">
+		<start>61790152</start>
+		<end>69699292</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:61790152-69699292</link>
+	</band>
+	<band index="11" name="qC1">
+		<start>69699292</start>
+		<end>78597074</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:69699292-78597074</link>
+	</band>
+	<band index="12" name="qC2">
+		<start>78597074</start>
+		<end>81068680</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:78597074-81068680</link>
+	</band>
+	<band index="13" name="qC3">
+		<start>81068680</start>
+		<end>94909674</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:81068680-94909674</link>
+	</band>
+	<band index="14" name="qD1">
+		<start>94909674</start>
+		<end>106773383</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:94909674-106773383</link>
+	</band>
+	<band index="15" name="qD2.1">
+		<start>106773383</start>
+		<end>110727953</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:106773383-110727953</link>
+	</band>
+	<band index="16" name="qD2.2">
+		<start>110727953</start>
+		<end>116659808</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:110727953-116659808</link>
+	</band>
+	<band index="17" name="qD2.3">
+		<start>116659808</start>
+		<end>120614378</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr13:116659808-120614378</link>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="123978870">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>14877464</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:0-14877464</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>14877464</start>
+		<end>19340703</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:14877464-19340703</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>19340703</start>
+		<end>29754928</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:19340703-29754928</link>
+	</band>
+	<band index="4" name="qB">
+		<start>29754928</start>
+		<end>43144646</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:29754928-43144646</link>
+	</band>
+	<band index="5" name="qC1">
+		<start>43144646</start>
+		<end>51575209</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:43144646-51575209</link>
+	</band>
+	<band index="6" name="qC2">
+		<start>51575209</start>
+		<end>54550702</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:51575209-54550702</link>
+	</band>
+	<band index="7" name="qC3">
+		<start>54550702</start>
+		<end>59509857</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:54550702-59509857</link>
+	</band>
+	<band index="8" name="qD1">
+		<start>59509857</start>
+		<end>68436336</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:59509857-68436336</link>
+	</band>
+	<band index="9" name="qD2">
+		<start>68436336</start>
+		<end>72403660</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:68436336-72403660</link>
+	</band>
+	<band index="10" name="qD3">
+		<start>72403660</start>
+		<end>84305631</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:72403660-84305631</link>
+	</band>
+	<band index="11" name="qE1">
+		<start>84305631</start>
+		<end>88272955</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:84305631-88272955</link>
+	</band>
+	<band index="12" name="qE2.1">
+		<start>88272955</start>
+		<end>98191265</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:88272955-98191265</link>
+	</band>
+	<band index="13" name="qE2.2">
+		<start>98191265</start>
+		<end>99183096</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:98191265-99183096</link>
+	</band>
+	<band index="14" name="qE2.3">
+		<start>99183096</start>
+		<end>106621828</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:99183096-106621828</link>
+	</band>
+	<band index="15" name="qE3">
+		<start>106621828</start>
+		<end>110093236</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:106621828-110093236</link>
+	</band>
+	<band index="16" name="qE4">
+		<start>110093236</start>
+		<end>120011546</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:110093236-120011546</link>
+	</band>
+	<band index="17" name="qE5">
+		<start>120011546</start>
+		<end>123978870</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr14:120011546-123978870</link>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="103492577">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>16412919</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:0-16412919</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>16412919</start>
+		<end>24163465</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:16412919-24163465</link>
+	</band>
+	<band index="3" name="qB1">
+		<start>24163465</start>
+		<end>29634438</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:24163465-29634438</link>
+	</band>
+	<band index="4" name="qB2">
+		<start>29634438</start>
+		<end>31914010</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:29634438-31914010</link>
+	</band>
+	<band index="5" name="qB3.1">
+		<start>31914010</start>
+		<end>42855956</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:31914010-42855956</link>
+	</band>
+	<band index="6" name="qB3.2">
+		<start>42855956</start>
+		<end>44679614</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:42855956-44679614</link>
+	</band>
+	<band index="7" name="qB3.3">
+		<start>44679614</start>
+		<end>49694673</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:44679614-49694673</link>
+	</band>
+	<band index="8" name="qC">
+		<start>49694673</start>
+		<end>53341989</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:49694673-53341989</link>
+	</band>
+	<band index="9" name="qD1">
+		<start>53341989</start>
+		<end>66107593</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:53341989-66107593</link>
+	</band>
+	<band index="10" name="qD2">
+		<start>66107593</start>
+		<end>68387165</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:66107593-68387165</link>
+	</band>
+	<band index="11" name="qD3">
+		<start>68387165</start>
+		<end>77049539</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:68387165-77049539</link>
+	</band>
+	<band index="12" name="qE1">
+		<start>77049539</start>
+		<end>83432341</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:77049539-83432341</link>
+	</band>
+	<band index="13" name="qE2">
+		<start>83432341</start>
+		<end>86623742</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:83432341-86623742</link>
+	</band>
+	<band index="14" name="qE3">
+		<start>86623742</start>
+		<end>95286117</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:86623742-95286117</link>
+	</band>
+	<band index="15" name="qF1">
+		<start>95286117</start>
+		<end>100757090</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:95286117-100757090</link>
+	</band>
+	<band index="16" name="qF2">
+		<start>100757090</start>
+		<end>101668919</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:100757090-101668919</link>
+	</band>
+	<band index="17" name="qF3">
+		<start>101668919</start>
+		<end>103492577</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr15:101668919-103492577</link>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="98252459">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>15439672</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:0-15439672</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>15439672</start>
+		<end>16375409</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:15439672-16375409</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>16375409</start>
+		<end>20586229</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:16375409-20586229</link>
+	</band>
+	<band index="4" name="qB1">
+		<start>20586229</start>
+		<end>26200655</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:20586229-26200655</link>
+	</band>
+	<band index="5" name="qB2">
+		<start>26200655</start>
+		<end>32282950</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:26200655-32282950</link>
+	</band>
+	<band index="6" name="qB3">
+		<start>32282950</start>
+		<end>38365245</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:32282950-38365245</link>
+	</band>
+	<band index="7" name="qB4">
+		<start>38365245</start>
+		<end>44915409</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:38365245-44915409</link>
+	</band>
+	<band index="8" name="qB5">
+		<start>44915409</start>
+		<end>53804918</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:44915409-53804918</link>
+	</band>
+	<band index="9" name="qC1.1">
+		<start>53804918</start>
+		<end>58015737</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:53804918-58015737</link>
+	</band>
+	<band index="10" name="qC1.2">
+		<start>58015737</start>
+		<end>58951475</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:58015737-58951475</link>
+	</band>
+	<band index="11" name="qC1.3">
+		<start>58951475</start>
+		<end>66905245</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:58951475-66905245</link>
+	</band>
+	<band index="12" name="qC2">
+		<start>66905245</start>
+		<end>70648196</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:66905245-70648196</link>
+	</band>
+	<band index="13" name="qC3.1">
+		<start>70648196</start>
+		<end>79069836</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:70648196-79069836</link>
+	</band>
+	<band index="14" name="qC3.2">
+		<start>79069836</start>
+		<end>79537704</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:79069836-79537704</link>
+	</band>
+	<band index="15" name="qC3.3">
+		<start>79537704</start>
+		<end>91702295</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:79537704-91702295</link>
+	</band>
+	<band index="16" name="qC4">
+		<start>91702295</start>
+		<end>98252459</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr16:91702295-98252459</link>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="95177420">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>13970997</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:0-13970997</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>13970997</start>
+		<end>16153965</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:13970997-16153965</link>
+	</band>
+	<band index="3" name="qA3.1">
+		<start>16153965</start>
+		<end>17463746</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:16153965-17463746</link>
+	</band>
+	<band index="4" name="qA3.2">
+		<start>17463746</start>
+		<end>21829683</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:17463746-21829683</link>
+	</band>
+	<band index="5" name="qA3.3">
+		<start>21829683</start>
+		<end>31434744</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:21829683-31434744</link>
+	</band>
+	<band index="6" name="qB1">
+		<start>31434744</start>
+		<end>40166617</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:31434744-40166617</link>
+	</band>
+	<band index="7" name="qB2">
+		<start>40166617</start>
+		<end>41476398</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:40166617-41476398</link>
+	</band>
+	<band index="8" name="qB3">
+		<start>41476398</start>
+		<end>45842335</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:41476398-45842335</link>
+	</band>
+	<band index="9" name="qC">
+		<start>45842335</start>
+		<end>55883989</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:45842335-55883989</link>
+	</band>
+	<band index="10" name="qD">
+		<start>55883989</start>
+		<end>60249926</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:55883989-60249926</link>
+	</band>
+	<band index="11" name="qE1.1">
+		<start>60249926</start>
+		<end>68108612</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:60249926-68108612</link>
+	</band>
+	<band index="12" name="qE1.2">
+		<start>68108612</start>
+		<end>68981799</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:68108612-68981799</link>
+	</band>
+	<band index="13" name="qE1.3">
+		<start>68981799</start>
+		<end>73347736</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:68981799-73347736</link>
+	</band>
+	<band index="14" name="qE2">
+		<start>73347736</start>
+		<end>78586860</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:73347736-78586860</link>
+	</band>
+	<band index="15" name="qE3">
+		<start>78586860</start>
+		<end>82952797</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:78586860-82952797</link>
+	</band>
+	<band index="16" name="qE4">
+		<start>82952797</start>
+		<end>89065108</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:82952797-89065108</link>
+	</band>
+	<band index="17" name="qE5">
+		<start>89065108</start>
+		<end>95177420</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr17:89065108-95177420</link>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="90736837">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>19413462</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:0-19413462</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>19413462</start>
+		<end>29542226</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:19413462-29542226</link>
+	</band>
+	<band index="3" name="qB1">
+		<start>29542226</start>
+		<end>35450671</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:29542226-35450671</link>
+	</band>
+	<band index="4" name="qB2">
+		<start>35450671</start>
+		<end>37138798</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:35450671-37138798</link>
+	</band>
+	<band index="5" name="qB3">
+		<start>37138798</start>
+		<end>45579434</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:37138798-45579434</link>
+	</band>
+	<band index="6" name="qC">
+		<start>45579434</start>
+		<end>49799752</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:45579434-49799752</link>
+	</band>
+	<band index="7" name="qD1">
+		<start>49799752</start>
+		<end>54020070</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:49799752-54020070</link>
+	</band>
+	<band index="8" name="qD2">
+		<start>54020070</start>
+		<end>54442102</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:54020070-54442102</link>
+	</band>
+	<band index="9" name="qD3">
+		<start>54442102</start>
+		<end>60772579</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:54442102-60772579</link>
+	</band>
+	<band index="10" name="qE1">
+		<start>60772579</start>
+		<end>67947119</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:60772579-67947119</link>
+	</band>
+	<band index="11" name="qE2">
+		<start>67947119</start>
+		<end>75121660</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:67947119-75121660</link>
+	</band>
+	<band index="12" name="qE3">
+		<start>75121660</start>
+		<end>83562296</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:75121660-83562296</link>
+	</band>
+	<band index="13" name="qE4">
+		<start>83562296</start>
+		<end>90736837</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr18:83562296-90736837</link>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="61321190">
+	<band index="1" name="qA">
+		<start>0</start>
+		<end>16650124</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:0-16650124</link>
+	</band>
+	<band index="2" name="qB">
+		<start>16650124</start>
+		<end>25584337</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:16650124-25584337</link>
+	</band>
+	<band index="3" name="qC1">
+		<start>25584337</start>
+		<end>34924651</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:25584337-34924651</link>
+	</band>
+	<band index="4" name="qC2">
+		<start>34924651</start>
+		<end>38173456</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:34924651-38173456</link>
+	</band>
+	<band index="5" name="qC3">
+		<start>38173456</start>
+		<end>47513769</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:38173456-47513769</link>
+	</band>
+	<band index="6" name="qD1">
+		<start>47513769</start>
+		<end>51574775</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:47513769-51574775</link>
+	</band>
+	<band index="7" name="qD2">
+		<start>51574775</start>
+		<end>58884586</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:51574775-58884586</link>
+	</band>
+	<band index="8" name="qD3">
+		<start>58884586</start>
+		<end>61321190</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr19:58884586-61321190</link>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="181976762">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>14070368</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:0-14070368</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>14070368</start>
+		<end>16415429</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:14070368-16415429</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>16415429</start>
+		<end>29078760</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:16415429-29078760</link>
+	</band>
+	<band index="4" name="qB">
+		<start>29078760</start>
+		<end>48308264</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:29078760-48308264</link>
+	</band>
+	<band index="5" name="qC1.1">
+		<start>48308264</start>
+		<end>60502583</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:48308264-60502583</link>
+	</band>
+	<band index="6" name="qC1.2">
+		<start>60502583</start>
+		<end>60971595</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:60502583-60971595</link>
+	</band>
+	<band index="7" name="qC1.3">
+		<start>60971595</start>
+		<end>68475791</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:60971595-68475791</link>
+	</band>
+	<band index="8" name="qC2">
+		<start>68475791</start>
+		<end>71758877</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:68475791-71758877</link>
+	</band>
+	<band index="9" name="qC3">
+		<start>71758877</start>
+		<end>81139123</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:71758877-81139123</link>
+	</band>
+	<band index="10" name="qD">
+		<start>81139123</start>
+		<end>88643319</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:81139123-88643319</link>
+	</band>
+	<band index="11" name="qE1">
+		<start>88643319</start>
+		<end>101306651</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:88643319-101306651</link>
+	</band>
+	<band index="12" name="qE2">
+		<start>101306651</start>
+		<end>105058749</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:101306651-105058749</link>
+	</band>
+	<band index="13" name="qE3">
+		<start>105058749</start>
+		<end>113031957</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:105058749-113031957</link>
+	</band>
+	<band index="14" name="qE4">
+		<start>113031957</start>
+		<end>115846031</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:113031957-115846031</link>
+	</band>
+	<band index="15" name="qE5">
+		<start>115846031</start>
+		<end>123819240</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:115846031-123819240</link>
+	</band>
+	<band index="16" name="qF1">
+		<start>123819240</start>
+		<end>131792448</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:123819240-131792448</link>
+	</band>
+	<band index="17" name="qF2">
+		<start>131792448</start>
+		<end>134606522</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:131792448-134606522</link>
+	</band>
+	<band index="18" name="qF3">
+		<start>134606522</start>
+		<end>141172694</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:134606522-141172694</link>
+	</band>
+	<band index="19" name="qG1">
+		<start>141172694</start>
+		<end>146800841</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:141172694-146800841</link>
+	</band>
+	<band index="20" name="qG2">
+		<start>146800841</start>
+		<end>147738866</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:146800841-147738866</link>
+	</band>
+	<band index="21" name="qG3">
+		<start>147738866</start>
+		<end>152428988</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:147738866-152428988</link>
+	</band>
+	<band index="22" name="qH1">
+		<start>152428988</start>
+		<end>158995160</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:152428988-158995160</link>
+	</band>
+	<band index="23" name="qH2">
+		<start>158995160</start>
+		<end>163216271</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:158995160-163216271</link>
+	</band>
+	<band index="24" name="qH3">
+		<start>163216271</start>
+		<end>173534541</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:163216271-173534541</link>
+	</band>
+	<band index="25" name="qH4">
+		<start>173534541</start>
+		<end>181976762</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr2:173534541-181976762</link>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="159872112">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>18521769</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:0-18521769</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>18521769</start>
+		<end>20471428</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:18521769-20471428</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>20471428</start>
+		<end>35581293</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:20471428-35581293</link>
+	</band>
+	<band index="4" name="qB">
+		<start>35581293</start>
+		<end>46791837</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:35581293-46791837</link>
+	</band>
+	<band index="5" name="qC">
+		<start>46791837</start>
+		<end>56540137</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:46791837-56540137</link>
+	</band>
+	<band index="6" name="qD">
+		<start>56540137</start>
+		<end>60926871</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:56540137-60926871</link>
+	</band>
+	<band index="7" name="qE1">
+		<start>60926871</start>
+		<end>69700341</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:60926871-69700341</link>
+	</band>
+	<band index="8" name="qE2">
+		<start>69700341</start>
+		<end>72624831</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:69700341-72624831</link>
+	</band>
+	<band index="9" name="qE3">
+		<start>72624831</start>
+		<end>83835375</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:72624831-83835375</link>
+	</band>
+	<band index="10" name="qF1">
+		<start>83835375</start>
+		<end>93096260</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:83835375-93096260</link>
+	</band>
+	<band index="11" name="qF2.1">
+		<start>93096260</start>
+		<end>97482995</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:93096260-97482995</link>
+	</band>
+	<band index="12" name="qF2.2">
+		<start>97482995</start>
+		<end>106256464</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:97482995-106256464</link>
+	</band>
+	<band index="13" name="qF2.3">
+		<start>106256464</start>
+		<end>108206124</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:106256464-108206124</link>
+	</band>
+	<band index="14" name="qF3">
+		<start>108206124</start>
+		<end>115029934</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:108206124-115029934</link>
+	</band>
+	<band index="15" name="qG1">
+		<start>115029934</start>
+		<end>126727893</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:115029934-126727893</link>
+	</band>
+	<band index="16" name="qG2">
+		<start>126727893</start>
+		<end>128677553</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:126727893-128677553</link>
+	</band>
+	<band index="17" name="qG3">
+		<start>128677553</start>
+		<end>138425853</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:128677553-138425853</link>
+	</band>
+	<band index="18" name="qH1">
+		<start>138425853</start>
+		<end>143787417</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:138425853-143787417</link>
+	</band>
+	<band index="19" name="qH2">
+		<start>143787417</start>
+		<end>148174152</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:143787417-148174152</link>
+	</band>
+	<band index="20" name="qH3">
+		<start>148174152</start>
+		<end>154023132</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:148174152-154023132</link>
+	</band>
+	<band index="21" name="qH4">
+		<start>154023132</start>
+		<end>159872112</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr3:154023132-159872112</link>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="155029701">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>14742088</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:0-14742088</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>14742088</start>
+		<end>17595395</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:14742088-17595395</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>17595395</start>
+		<end>28057522</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:17595395-28057522</link>
+	</band>
+	<band index="4" name="qA4">
+		<start>28057522</start>
+		<end>29959727</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:28057522-29959727</link>
+	</band>
+	<band index="5" name="qA5">
+		<start>29959727</start>
+		<end>43275161</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:29959727-43275161</link>
+	</band>
+	<band index="6" name="qB1">
+		<start>43275161</start>
+		<end>51359532</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:43275161-51359532</link>
+	</band>
+	<band index="7" name="qB2">
+		<start>51359532</start>
+		<end>54688391</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:51359532-54688391</link>
+	</band>
+	<band index="8" name="qB3">
+		<start>54688391</start>
+		<end>62772762</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:54688391-62772762</link>
+	</band>
+	<band index="9" name="qC1">
+		<start>62772762</start>
+		<end>68954928</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:62772762-68954928</link>
+	</band>
+	<band index="10" name="qC2">
+		<start>68954928</start>
+		<end>71332684</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:68954928-71332684</link>
+	</band>
+	<band index="11" name="qC3">
+		<start>71332684</start>
+		<end>83221465</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:71332684-83221465</link>
+	</band>
+	<band index="12" name="qC4">
+		<start>83221465</start>
+		<end>88928080</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:83221465-88928080</link>
+	</band>
+	<band index="13" name="qC5">
+		<start>88928080</start>
+		<end>96536899</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:88928080-96536899</link>
+	</band>
+	<band index="14" name="qC6">
+		<start>96536899</start>
+		<end>104621270</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:96536899-104621270</link>
+	</band>
+	<band index="15" name="qC7">
+		<start>104621270</start>
+		<end>109852334</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:104621270-109852334</link>
+	</band>
+	<band index="16" name="qD1">
+		<start>109852334</start>
+		<end>116510051</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:109852334-116510051</link>
+	</band>
+	<band index="17" name="qD2.1">
+		<start>116510051</start>
+		<end>119363358</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:116510051-119363358</link>
+	</band>
+	<band index="18" name="qD2.2">
+		<start>119363358</start>
+		<end>129825485</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:119363358-129825485</link>
+	</band>
+	<band index="19" name="qD2.3">
+		<start>129825485</start>
+		<end>132678793</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:129825485-132678793</link>
+	</band>
+	<band index="20" name="qD3">
+		<start>132678793</start>
+		<end>140287612</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:132678793-140287612</link>
+	</band>
+	<band index="21" name="qE1">
+		<start>140287612</start>
+		<end>146469778</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:140287612-146469778</link>
+	</band>
+	<band index="22" name="qE2">
+		<start>146469778</start>
+		<end>155029701</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr4:146469778-155029701</link>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="152003063">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>14911692</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:0-14911692</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>14911692</start>
+		<end>16354759</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:14911692-16354759</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>16354759</start>
+		<end>25494184</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:16354759-25494184</link>
+	</band>
+	<band index="4" name="qB1">
+		<start>25494184</start>
+		<end>33671564</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:25494184-33671564</link>
+	</band>
+	<band index="5" name="qB2">
+		<start>33671564</start>
+		<end>35595653</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:33671564-35595653</link>
+	</band>
+	<band index="6" name="qB3">
+		<start>35595653</start>
+		<end>50507346</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:35595653-50507346</link>
+	</band>
+	<band index="7" name="qC1">
+		<start>50507346</start>
+		<end>58684726</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:50507346-58684726</link>
+	</band>
+	<band index="8" name="qC2">
+		<start>58684726</start>
+		<end>61089838</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:58684726-61089838</link>
+	</band>
+	<band index="9" name="qC3.1">
+		<start>61089838</start>
+		<end>71672330</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:61089838-71672330</link>
+	</band>
+	<band index="10" name="qC3.2">
+		<start>71672330</start>
+		<end>73596419</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:71672330-73596419</link>
+	</band>
+	<band index="11" name="qC3.3">
+		<start>73596419</start>
+		<end>77925620</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:73596419-77925620</link>
+	</band>
+	<band index="12" name="qD">
+		<start>77925620</start>
+		<end>81773799</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:77925620-81773799</link>
+	</band>
+	<band index="13" name="qE1">
+		<start>81773799</start>
+		<end>91394246</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:81773799-91394246</link>
+	</band>
+	<band index="14" name="qE2">
+		<start>91394246</start>
+		<end>93799358</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:91394246-93799358</link>
+	</band>
+	<band index="15" name="qE3">
+		<start>93799358</start>
+		<end>99571626</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:93799358-99571626</link>
+	</band>
+	<band index="16" name="qE4">
+		<start>99571626</start>
+		<end>101976738</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:99571626-101976738</link>
+	</band>
+	<band index="17" name="qE5">
+		<start>101976738</start>
+		<end>107749006</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:101976738-107749006</link>
+	</band>
+	<band index="18" name="qF">
+		<start>107749006</start>
+		<end>125065811</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:107749006-125065811</link>
+	</band>
+	<band index="19" name="qG1.1">
+		<start>125065811</start>
+		<end>126989900</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:125065811-126989900</link>
+	</band>
+	<band index="20" name="qG1.2">
+		<start>126989900</start>
+		<end>127951945</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:126989900-127951945</link>
+	</band>
+	<band index="21" name="qG1.3">
+		<start>127951945</start>
+		<end>130838079</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:127951945-130838079</link>
+	</band>
+	<band index="22" name="qG2">
+		<start>130838079</start>
+		<end>146230794</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:130838079-146230794</link>
+	</band>
+	<band index="23" name="qG3">
+		<start>146230794</start>
+		<end>152003063</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr5:146230794-152003063</link>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="149525685">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>16613965</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:0-16613965</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>16613965</start>
+		<end>21500425</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:16613965-21500425</link>
+	</band>
+	<band index="3" name="qA3.1">
+		<start>21500425</start>
+		<end>27364177</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:21500425-27364177</link>
+	</band>
+	<band index="4" name="qA3.2">
+		<start>27364177</start>
+		<end>28341469</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:27364177-28341469</link>
+	</band>
+	<band index="5" name="qA3.3">
+		<start>28341469</start>
+		<end>34205222</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:28341469-34205222</link>
+	</band>
+	<band index="6" name="qB1">
+		<start>34205222</start>
+		<end>41534912</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:34205222-41534912</link>
+	</band>
+	<band index="7" name="qB2.1">
+		<start>41534912</start>
+		<end>44466788</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:41534912-44466788</link>
+	</band>
+	<band index="8" name="qB2.2">
+		<start>44466788</start>
+		<end>45932726</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:44466788-45932726</link>
+	</band>
+	<band index="9" name="qB2.3">
+		<start>45932726</start>
+		<end>50819187</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:45932726-50819187</link>
+	</band>
+	<band index="10" name="qB3">
+		<start>50819187</start>
+		<end>62546691</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:50819187-62546691</link>
+	</band>
+	<band index="11" name="qC1">
+		<start>62546691</start>
+		<end>74274196</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:62546691-74274196</link>
+	</band>
+	<band index="12" name="qC2">
+		<start>74274196</start>
+		<end>76717426</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:74274196-76717426</link>
+	</band>
+	<band index="13" name="qC3">
+		<start>76717426</start>
+		<end>86001701</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:76717426-86001701</link>
+	</band>
+	<band index="14" name="qD1">
+		<start>86001701</start>
+		<end>94308683</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:86001701-94308683</link>
+	</band>
+	<band index="15" name="qD2">
+		<start>94308683</start>
+		<end>95774621</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:94308683-95774621</link>
+	</band>
+	<band index="16" name="qD3">
+		<start>95774621</start>
+		<end>103104312</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:95774621-103104312</link>
+	</band>
+	<band index="17" name="qE1">
+		<start>103104312</start>
+		<end>108479418</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:103104312-108479418</link>
+	</band>
+	<band index="18" name="qE2">
+		<start>108479418</start>
+		<end>109456710</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:108479418-109456710</link>
+	</band>
+	<band index="19" name="qE3">
+		<start>109456710</start>
+		<end>116786401</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:109456710-116786401</link>
+	</band>
+	<band index="20" name="qF1">
+		<start>116786401</start>
+		<end>122650153</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:116786401-122650153</link>
+	</band>
+	<band index="21" name="qF2">
+		<start>122650153</start>
+		<end>125093383</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:122650153-125093383</link>
+	</band>
+	<band index="22" name="qF3">
+		<start>125093383</start>
+		<end>131934427</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:125093383-131934427</link>
+	</band>
+	<band index="23" name="qG1">
+		<start>131934427</start>
+		<end>139264118</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:131934427-139264118</link>
+	</band>
+	<band index="24" name="qG2">
+		<start>139264118</start>
+		<end>142684640</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:139264118-142684640</link>
+	</band>
+	<band index="25" name="qG3">
+		<start>142684640</start>
+		<end>149525685</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr6:142684640-149525685</link>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="145134094">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>15170811</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:0-15170811</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>15170811</start>
+		<end>18204973</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:15170811-18204973</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>18204973</start>
+		<end>28318847</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:18204973-28318847</link>
+	</band>
+	<band index="4" name="qB1">
+		<start>28318847</start>
+		<end>34387172</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:28318847-34387172</link>
+	</band>
+	<band index="5" name="qB2">
+		<start>34387172</start>
+		<end>37421334</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:34387172-37421334</link>
+	</band>
+	<band index="6" name="qB3">
+		<start>37421334</start>
+		<end>47535208</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:37421334-47535208</link>
+	</band>
+	<band index="7" name="qB4">
+		<start>47535208</start>
+		<end>54109226</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:47535208-54109226</link>
+	</band>
+	<band index="8" name="qB5">
+		<start>54109226</start>
+		<end>60683244</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:54109226-60683244</link>
+	</band>
+	<band index="9" name="qC">
+		<start>60683244</start>
+		<end>71302812</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:60683244-71302812</link>
+	</band>
+	<band index="10" name="qD1">
+		<start>71302812</start>
+		<end>76865443</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:71302812-76865443</link>
+	</band>
+	<band index="11" name="qD2">
+		<start>76865443</start>
+		<end>80405299</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:76865443-80405299</link>
+	</band>
+	<band index="12" name="qD3">
+		<start>80405299</start>
+		<end>90013479</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:80405299-90013479</link>
+	</band>
+	<band index="13" name="qE1">
+		<start>90013479</start>
+		<end>99621660</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:90013479-99621660</link>
+	</band>
+	<band index="14" name="qE2">
+		<start>99621660</start>
+		<end>102150128</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:99621660-102150128</link>
+	</band>
+	<band index="15" name="qE3">
+		<start>102150128</start>
+		<end>111252615</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:102150128-111252615</link>
+	</band>
+	<band index="16" name="qF1">
+		<start>111252615</start>
+		<end>118332327</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:111252615-118332327</link>
+	</band>
+	<band index="17" name="qF2">
+		<start>118332327</start>
+		<end>122883570</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:118332327-122883570</link>
+	</band>
+	<band index="18" name="qF3">
+		<start>122883570</start>
+		<end>137042994</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:122883570-137042994</link>
+	</band>
+	<band index="19" name="qF4">
+		<start>137042994</start>
+		<end>140582850</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:137042994-140582850</link>
+	</band>
+	<band index="20" name="qF5">
+		<start>140582850</start>
+		<end>145134094</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr7:140582850-145134094</link>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="132085098">
+	<band index="1" name="qA1.1">
+		<start>0</start>
+		<end>16271352</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:0-16271352</link>
+	</band>
+	<band index="2" name="qA1.2">
+		<start>16271352</start>
+		<end>17228491</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:16271352-17228491</link>
+	</band>
+	<band index="3" name="qA1.3">
+		<start>17228491</start>
+		<end>20578475</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:17228491-20578475</link>
+	</band>
+	<band index="4" name="qA2">
+		<start>20578475</start>
+		<end>30149859</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:20578475-30149859</link>
+	</band>
+	<band index="5" name="qA3">
+		<start>30149859</start>
+		<end>34456982</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:30149859-34456982</link>
+	</band>
+	<band index="6" name="qA4">
+		<start>34456982</start>
+		<end>44985504</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:34456982-44985504</link>
+	</band>
+	<band index="7" name="qB1.1">
+		<start>44985504</start>
+		<end>49292627</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:44985504-49292627</link>
+	</band>
+	<band index="8" name="qB1.2">
+		<start>49292627</start>
+		<end>51206903</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:49292627-51206903</link>
+	</band>
+	<band index="9" name="qB1.3">
+		<start>51206903</start>
+		<end>56949734</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:51206903-56949734</link>
+	</band>
+	<band index="10" name="qB2">
+		<start>56949734</start>
+		<end>60778287</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:56949734-60778287</link>
+	</band>
+	<band index="11" name="qB3.1">
+		<start>60778287</start>
+		<end>68435394</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:60778287-68435394</link>
+	</band>
+	<band index="12" name="qB3.2">
+		<start>68435394</start>
+		<end>69392533</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:68435394-69392533</link>
+	</band>
+	<band index="13" name="qB3.3">
+		<start>69392533</start>
+		<end>76092502</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:69392533-76092502</link>
+	</band>
+	<band index="14" name="qC1">
+		<start>76092502</start>
+		<end>81835332</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:76092502-81835332</link>
+	</band>
+	<band index="15" name="qC2">
+		<start>81835332</start>
+		<end>86621024</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:81835332-86621024</link>
+	</band>
+	<band index="16" name="qC3">
+		<start>86621024</start>
+		<end>91885285</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:86621024-91885285</link>
+	</band>
+	<band index="17" name="qC4">
+		<start>91885285</start>
+		<end>93320993</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:91885285-93320993</link>
+	</band>
+	<band index="18" name="qC5">
+		<start>93320993</start>
+		<end>97628115</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:93320993-97628115</link>
+	</band>
+	<band index="19" name="qD1">
+		<start>97628115</start>
+		<end>105285223</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:97628115-105285223</link>
+	</band>
+	<band index="20" name="qD2">
+		<start>105285223</start>
+		<end>106242361</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:105285223-106242361</link>
+	</band>
+	<band index="21" name="qD3">
+		<start>106242361</start>
+		<end>112942330</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:106242361-112942330</link>
+	</band>
+	<band index="22" name="qE1">
+		<start>112942330</start>
+		<end>126342267</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:112942330-126342267</link>
+	</band>
+	<band index="23" name="qE2">
+		<start>126342267</start>
+		<end>132085098</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr8:126342267-132085098</link>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="124000669">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>14343360</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:0-14343360</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>14343360</start>
+		<end>19432940</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:14343360-19432940</link>
+	</band>
+	<band index="3" name="qA3">
+		<start>19432940</start>
+		<end>24059831</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:19432940-24059831</link>
+	</band>
+	<band index="4" name="qA4">
+		<start>24059831</start>
+		<end>37940503</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:24059831-37940503</link>
+	</band>
+	<band index="5" name="qA5.1">
+		<start>37940503</start>
+		<end>43955461</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:37940503-43955461</link>
+	</band>
+	<band index="6" name="qA5.2">
+		<start>43955461</start>
+		<end>46268906</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:43955461-46268906</link>
+	</band>
+	<band index="7" name="qA5.3">
+		<start>46268906</start>
+		<end>54597309</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:46268906-54597309</link>
+	</band>
+	<band index="8" name="qB">
+		<start>54597309</start>
+		<end>62925712</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:54597309-62925712</link>
+	</band>
+	<band index="9" name="qC">
+		<start>62925712</start>
+		<end>69403359</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:62925712-69403359</link>
+	</band>
+	<band index="10" name="qD">
+		<start>69403359</start>
+		<end>77269073</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:69403359-77269073</link>
+	</band>
+	<band index="11" name="qE1">
+		<start>77269073</start>
+		<end>82358653</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:77269073-82358653</link>
+	</band>
+	<band index="12" name="qE2">
+		<start>82358653</start>
+		<end>84209409</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:82358653-84209409</link>
+	</band>
+	<band index="13" name="qE3.1">
+		<start>84209409</start>
+		<end>90687056</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:84209409-90687056</link>
+	</band>
+	<band index="14" name="qE3.2">
+		<start>90687056</start>
+		<end>91149745</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:90687056-91149745</link>
+	</band>
+	<band index="15" name="qE3.3">
+		<start>91149745</start>
+		<end>100403526</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:91149745-100403526</link>
+	</band>
+	<band index="16" name="qE4">
+		<start>100403526</start>
+		<end>101328904</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:100403526-101328904</link>
+	</band>
+	<band index="17" name="qF1">
+		<start>101328904</start>
+		<end>107806551</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:101328904-107806551</link>
+	</band>
+	<band index="18" name="qF2">
+		<start>107806551</start>
+		<end>110582686</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:107806551-110582686</link>
+	</band>
+	<band index="19" name="qF3">
+		<start>110582686</start>
+		<end>119373778</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:110582686-119373778</link>
+	</band>
+	<band index="20" name="qF4">
+		<start>119373778</start>
+		<end>124000669</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=Chr9:119373778-124000669</link>
+	</band>
+</chromosome>
+<chromosome index="20" number="X" length="165556469">
+	<band index="1" name="qA1.1">
+		<start>0</start>
+		<end>15267455</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:0-15267455</link>
+	</band>
+	<band index="2" name="qA1.2">
+		<start>15267455</start>
+		<end>17652995</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:15267455-17652995</link>
+	</band>
+	<band index="3" name="qA1.3">
+		<start>17652995</start>
+		<end>20515643</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:17652995-20515643</link>
+	</band>
+	<band index="4" name="qA2">
+		<start>20515643</start>
+		<end>27195154</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:20515643-27195154</link>
+	</band>
+	<band index="5" name="qA3.1">
+		<start>27195154</start>
+		<end>32443342</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:27195154-32443342</link>
+	</band>
+	<band index="6" name="qA3.2">
+		<start>32443342</start>
+		<end>33397558</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:32443342-33397558</link>
+	</band>
+	<band index="7" name="qA3.3">
+		<start>33397558</start>
+		<end>38645746</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:33397558-38645746</link>
+	</band>
+	<band index="8" name="qA4">
+		<start>38645746</start>
+		<end>46279474</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:38645746-46279474</link>
+	</band>
+	<band index="9" name="qA5">
+		<start>46279474</start>
+		<end>54390309</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:46279474-54390309</link>
+	</band>
+	<band index="10" name="qA6">
+		<start>54390309</start>
+		<end>61069821</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:54390309-61069821</link>
+	</band>
+	<band index="11" name="qA7.1">
+		<start>61069821</start>
+		<end>67272225</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:61069821-67272225</link>
+	</band>
+	<band index="12" name="qA7.2">
+		<start>67272225</start>
+		<end>68703549</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:67272225-68703549</link>
+	</band>
+	<band index="13" name="qA7.3">
+		<start>68703549</start>
+		<end>74905952</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:68703549-74905952</link>
+	</band>
+	<band index="14" name="qB">
+		<start>74905952</start>
+		<end>79677032</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:74905952-79677032</link>
+	</band>
+	<band index="15" name="qC1">
+		<start>79677032</start>
+		<end>88264976</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:79677032-88264976</link>
+	</band>
+	<band index="16" name="qC2">
+		<start>88264976</start>
+		<end>89219192</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:88264976-89219192</link>
+	</band>
+	<band index="17" name="qC3">
+		<start>89219192</start>
+		<end>97807135</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:89219192-97807135</link>
+	</band>
+	<band index="18" name="qD">
+		<start>97807135</start>
+		<end>106395079</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:97807135-106395079</link>
+	</band>
+	<band index="19" name="qE1">
+		<start>106395079</start>
+		<end>116414347</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:106395079-116414347</link>
+	</band>
+	<band index="20" name="qE2">
+		<start>116414347</start>
+		<end>117368563</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:116414347-117368563</link>
+	</band>
+	<band index="21" name="qE3">
+		<start>117368563</start>
+		<end>130727586</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:117368563-130727586</link>
+	</band>
+	<band index="22" name="qF1">
+		<start>130727586</start>
+		<end>136929990</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:130727586-136929990</link>
+	</band>
+	<band index="23" name="qF2">
+		<start>136929990</start>
+		<end>144086609</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:136929990-144086609</link>
+	</band>
+	<band index="24" name="qF3">
+		<start>144086609</start>
+		<end>151243229</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:144086609-151243229</link>
+	</band>
+	<band index="25" name="qF4">
+		<start>151243229</start>
+		<end>158399849</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:151243229-158399849</link>
+	</band>
+	<band index="26" name="qF5">
+		<start>158399849</start>
+		<end>165556469</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrX:158399849-165556469</link>
+	</band>
+</chromosome>
+<chromosome index="21" number="Y" length="2729404">
+	<band index="1" name="qA1">
+		<start>0</start>
+		<end>614115</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:0-614115</link>
+	</band>
+	<band index="2" name="qA2">
+		<start>614115</start>
+		<end>972350</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:614115-972350</link>
+	</band>
+	<band index="3" name="qB">
+		<start>972350</start>
+		<end>1347643</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:972350-1347643</link>
+	</band>
+	<band index="4" name="qC1">
+		<start>1347643</start>
+		<end>1620583</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:1347643-1620583</link>
+	</band>
+	<band index="5" name="qC2">
+		<start>1620583</start>
+		<end>1842347</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:1620583-1842347</link>
+	</band>
+	<band index="6" name="qC3">
+		<start>1842347</start>
+		<end>2149405</end>
+		<stain>gpos100</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:1842347-2149405</link>
+	</band>
+	<band index="7" name="qD">
+		<start>2149405</start>
+		<end>2473522</end>
+		<stain>gpos33</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:2149405-2473522</link>
+	</band>
+	<band index="8" name="qE">
+		<start>2473522</start>
+		<end>2729404</end>
+		<stain>gpos66</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Mouse&position=ChrY:2473522-2729404</link>
+	</band>
+</chromosome>
+</genome>
