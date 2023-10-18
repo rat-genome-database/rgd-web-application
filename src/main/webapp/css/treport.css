@@ -1,0 +1,42 @@
+/* used by HTMLTableReportStrategy and FixedPriceSecurityReportStrategy */
+
+tr.evenRow td, tr.evenRow td a {
+    background-color: #ffffff;
+    color: black;
+    font-size: 12px;
+    font-family: arial;
+}
+
+tr.oddRow td, tr.oddRow td a {
+    background-color: #F1F1F1;
+    color: black;
+    font-size: 12px;
+    font-family: arial;
+}
+
+tr.headerRow td {
+    background-color: #99BFE6;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    font-family: arial;
+}
+
+
+/* x- styles are used only by FixedPriceSecurityReportStrategy */
+
+.xsubtitleRow {
+  font-size: 11px;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.xtitle {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.xsubtitle {
+  font-weight: 700;
+  font-size: 12px;
+}

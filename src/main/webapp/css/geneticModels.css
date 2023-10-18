@@ -1,0 +1,104 @@
+
+
+
+
+#sidebar{
+  /* background: #99bfe6; /* For browsers that do not support gradients */
+    background:#ebf2fa;
+    background: -webkit-linear-gradient(#ebf2fa,white); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(#ebf2fa,white); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(#ebf2fa,white); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(#ebf2fa,white); /* Standard syntax */
+    /* background:white;*/
+    bottom: 0;
+    border-right: 1px solid #eee;
+
+}
+ul li, ul li a{
+    color:#24609c;
+    font-size:x-small;
+}
+
+
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+button.accordion:after {
+    content: '\02795';
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2796";
+}
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+}
+
+div.panel.show {
+    display: block;
+}
+
+table.tablesorter {
+   font-size: 8pt;
+ }
+
+
+.tablesorter tbody tr td {
+    word-wrap:break-word;
+    height:5%;
+    font-size: 8pt;
+    vertical-align: center;
+    text-align: center;
+
+}
+
+a{
+    text-decoration:underline;
+    font-size: 9pt;
+}
+
+#formContainer{
+
+    border:1px solid lightgrey;
+    border-radius:1%;
+    width:60%;
+    height:70%;
+    margin-left:20%;
+    margin-top:1%;
+}
+
+.ui-autocomplete{
+    background-color:black;
+}
+.label{
+    background-color:#eeeeee;
+}
+
+.search {
+    padding:6px 15px 6px 30px;
+    margin:3px;
+    background: url('../common/images/glass.jpg') no-repeat 8px 6px;
+}
+.rounded {
+    border-radius:15px;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+}
