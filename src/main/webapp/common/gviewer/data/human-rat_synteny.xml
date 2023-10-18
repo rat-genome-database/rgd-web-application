@@ -1,0 +1,1855 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="245522847">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>936109</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 05">
+		<start>936109</start>
+		<end>65970884</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>65970884</start>
+		<end>68606465</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 02">
+		<start>68606465</start>
+		<end>89030635</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>89030635</start>
+		<end>90889599</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 14">
+		<start>90889599</start>
+		<end>93009630</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>93009630</start>
+		<end>94064610</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 02">
+		<start>94064610</start>
+		<end>154962809</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>154962809</start>
+		<end>156072576</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 13">
+		<start>156072576</start>
+		<end>223486787</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>223486787</start>
+		<end>224577163</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 10">
+		<start>224577163</start>
+		<end>224902474</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>224902474</start>
+		<end>225713613</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 19">
+		<start>225713613</start>
+		<end>231598700</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>231598700</start>
+		<end>231656252</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 17">
+		<start>231656252</start>
+		<end>236118413</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>236118413</start>
+		<end>237264911</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 13">
+		<start>237264911</start>
+		<end>239745516</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>239745516</start>
+		<end>245522847</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="243018229">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>1396241</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 06">
+		<start>1396241</start>
+		<end>48825619</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>48825619</start>
+		<end>55110979</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 14">
+		<start>55110979</start>
+		<end>65225639</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>65225639</start>
+		<end>68784604</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 04">
+		<start>68784604</start>
+		<end>88695522</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>88695522</start>
+		<end>95362074</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 03">
+		<start>95362074</start>
+		<end>95384969</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>95384969</start>
+		<end>97721038</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 09">
+		<start>97721038</start>
+		<end>104930486</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>104930486</start>
+		<end>111597540</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 03">
+		<start>111597540</start>
+		<end>113691170</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>113691170</start>
+		<end>118562279</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 13">
+		<start>118562279</start>
+		<end>136705638</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>136705638</start>
+		<end>138555539</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 03">
+		<start>138555539</start>
+		<end>188156790</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>188156790</start>
+		<end>190250823</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 09">
+		<start>190250823</start>
+		<end>242218181</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>242218181</start>
+		<end>243018229</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="199505740">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>2117246</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 04">
+		<start>2117246</start>
+		<end>14419109</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>14419109</start>
+		<end>15271367</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 16">
+		<start>15271367</start>
+		<end>15577245</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>15577245</start>
+		<end>19165020</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 09">
+		<start>19165020</start>
+		<end>19963762</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>19963762</start>
+		<end>23933642</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 15">
+		<start>23933642</start>
+		<end>27389217</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>27389217</start>
+		<end>30623041</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 08">
+		<start>30623041</start>
+		<end>52002684</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>52002684</start>
+		<end>52694975</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 16">
+		<start>52694975</start>
+		<end>57532129</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>57532129</start>
+		<end>58153391</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 15">
+		<start>58153391</start>
+		<end>63404063</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>63404063</start>
+		<end>69186571</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 04">
+		<start>69186571</start>
+		<end>71903496</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>71903496</start>
+		<end>78729079</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 11">
+		<start>78729079</start>
+		<end>126433610</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>126433610</start>
+		<end>127544176</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="20" name="Rno 04">
+		<start>127544176</start>
+		<end>130730179</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="21" name="Rno Un">
+		<start>130730179</start>
+		<end>133518956</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="22" name="Rno 08">
+		<start>133518956</start>
+		<end>148609878</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="23" name="Rno Un">
+		<start>148609878</start>
+		<end>150028285</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="24" name="Rno 02">
+		<start>150028285</start>
+		<end>181000751</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="25" name="Rno Un">
+		<start>181000751</start>
+		<end>184836112</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="26" name="Rno 11">
+		<start>184836112</start>
+		<end>199165361</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="27" name="Rno Un">
+		<start>199165361</start>
+		<end>199505740</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="191411218">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>656225</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 14">
+		<start>656225</start>
+		<end>89253980</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>89253980</start>
+		<end>89370018</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 04">
+		<start>89370018</start>
+		<end>95577633</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>95577633</start>
+		<end>100158390</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 02">
+		<start>100158390</start>
+		<end>130162991</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>130162991</start>
+		<end>141838654</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 19">
+		<start>141838654</start>
+		<end>149357524</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>149357524</start>
+		<end>154058727</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 02">
+		<start>154058727</start>
+		<end>158499639</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>158499639</start>
+		<end>164622695</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 16">
+		<start>164622695</start>
+		<end>187523820</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>187523820</start>
+		<end>191411218</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="180857866">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>271446</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 01">
+		<start>271446</start>
+		<end>1445908</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>1445908</start>
+		<end>9682244</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 02">
+		<start>9682244</start>
+		<end>95751874</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>95751874</start>
+		<end>101735552</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 09">
+		<start>101735552</start>
+		<end>106744249</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>106744249</start>
+		<end>110587980</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 18">
+		<start>110587980</start>
+		<end>127621627</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>127621627</start>
+		<end>131317510</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 10">
+		<start>131317510</start>
+		<end>133671590</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>133671590</start>
+		<end>134102104</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 17">
+		<start>134102104</start>
+		<end>134391367</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>134391367</start>
+		<end>137829079</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 18">
+		<start>137829079</start>
+		<end>150068502</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>150068502</start>
+		<end>150612836</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 10">
+		<start>150612836</start>
+		<end>172660711</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>172660711</start>
+		<end>174084207</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 17">
+		<start>174084207</start>
+		<end>176843000</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>176843000</start>
+		<end>177351841</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="20" name="Rno 10">
+		<start>177351841</start>
+		<end>180596556</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="21" name="Rno Un">
+		<start>180596556</start>
+		<end>180857866</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="170975699">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>2710664</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 17">
+		<start>2710664</start>
+		<end>28579051</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>28579051</start>
+		<end>29631386</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 20">
+		<start>29631386</start>
+		<end>37245963</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>37245963</start>
+		<end>41812429</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 09">
+		<start>41812429</start>
+		<end>47857756</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>47857756</start>
+		<end>52764347</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 08">
+		<start>52764347</start>
+		<end>55147029</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>55147029</start>
+		<end>62447823</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 09">
+		<start>62447823</start>
+		<end>72653447</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>72653447</start>
+		<end>76004222</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 08">
+		<start>76004222</start>
+		<end>86216527</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>86216527</start>
+		<end>87851940</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 05">
+		<start>87851940</start>
+		<end>96570589</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>96570589</start>
+		<end>105832198</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 20">
+		<start>105832198</start>
+		<end>123142344</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>123142344</start>
+		<end>123580714</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 01">
+		<start>123580714</start>
+		<end>170761840</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>170761840</start>
+		<end>170975699</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="158628139">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>710780</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 12">
+		<start>710780</start>
+		<end>5974652</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>5974652</start>
+		<end>7047128</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 04">
+		<start>7047128</start>
+		<end>8246824</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>8246824</start>
+		<end>15424078</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 06">
+		<start>15424078</start>
+		<end>18928330</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>18928330</start>
+		<end>23059555</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 04">
+		<start>23059555</start>
+		<end>31602486</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>31602486</start>
+		<end>37718782</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 17">
+		<start>37718782</start>
+		<end>42729700</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>42729700</start>
+		<end>44970638</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 14">
+		<start>44970638</start>
+		<end>50300344</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>50300344</start>
+		<end>55922185</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 12">
+		<start>55922185</start>
+		<end>75576573</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>75576573</start>
+		<end>76470142</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 04">
+		<start>76470142</start>
+		<end>97006025</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>97006025</start>
+		<end>98616979</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 12">
+		<start>98616979</start>
+		<end>101521886</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>101521886</start>
+		<end>102531849</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="20" name="Rno 04">
+		<start>102531849</start>
+		<end>102706187</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="21" name="Rno Un">
+		<start>102706187</start>
+		<end>105484606</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="22" name="Rno 06">
+		<start>105484606</start>
+		<end>107804306</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="23" name="Rno Un">
+		<start>107804306</start>
+		<end>112314418</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="24" name="Rno 04">
+		<start>112314418</start>
+		<end>155095033</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="25" name="Rno Un">
+		<start>155095033</start>
+		<end>156831230</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="26" name="Rno 06">
+		<start>156831230</start>
+		<end>158320342</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="27" name="Rno Un">
+		<start>158320342</start>
+		<end>158628139</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="146274826">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>1436975</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 16">
+		<start>1436975</start>
+		<end>9032915</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>9032915</start>
+		<end>9949235</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 15">
+		<start>9949235</start>
+		<end>11697663</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>11697663</start>
+		<end>16894704</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 16">
+		<start>16894704</start>
+		<end>20147956</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>20147956</start>
+		<end>21956373</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 15">
+		<start>21956373</start>
+		<end>28615071</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>28615071</start>
+		<end>29249538</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 16">
+		<start>29249538</start>
+		<end>43030640</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>43030640</start>
+		<end>53185951</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 05">
+		<start>53185951</start>
+		<end>75021187</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>75021187</start>
+		<end>78057712</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 02">
+		<start>78057712</start>
+		<end>86563497</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>86563497</start>
+		<end>89122151</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 05">
+		<start>89122151</start>
+		<end>96007376</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>96007376</start>
+		<end>97575071</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 07">
+		<start>97575071</start>
+		<end>146034168</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>146034168</start>
+		<end>146274826</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="138429268">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>831689</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 01">
+		<start>831689</start>
+		<end>5289867</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>5289867</start>
+		<end>13096575</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 05">
+		<start>13096575</start>
+		<end>36204440</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>36204440</start>
+		<end>69274755</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 01">
+		<start>69274755</start>
+		<end>79416431</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>79416431</start>
+		<end>83504432</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 17">
+		<start>83504432</start>
+		<end>96874491</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>96874491</start>
+		<end>97253862</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 05">
+		<start>97253862</start>
+		<end>119008461</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>119008461</start>
+		<end>121019968</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 03">
+		<start>121019968</start>
+		<end>137618513</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>137618513</start>
+		<end>138429268</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="135413628">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>1075965</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 17">
+		<start>1075965</start>
+		<end>30762871</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>30762871</start>
+		<end>33506432</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 19">
+		<start>33506432</start>
+		<end>34440102</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>34440102</start>
+		<end>43187097</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 04">
+		<start>43187097</start>
+		<end>45189691</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>45189691</start>
+		<end>46378532</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 16">
+		<start>46378532</start>
+		<end>51262093</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>51262093</start>
+		<end>51617077</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 01">
+		<start>51617077</start>
+		<end>54195146</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>54195146</start>
+		<end>59625623</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 20">
+		<start>59625623</start>
+		<end>73703687</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>73703687</start>
+		<end>75580970</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 15">
+		<start>75580970</start>
+		<end>76640568</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>76640568</start>
+		<end>79463628</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Rno 16">
+		<start>79463628</start>
+		<end>88800224</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="17" name="Rno Un">
+		<start>88800224</start>
+		<end>89613174</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Rno 01">
+		<start>89613174</start>
+		<end>135229747</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="19" name="Rno Un">
+		<start>135229747</start>
+		<end>135413628</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="134452384">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>607252</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 01">
+		<start>607252</start>
+		<end>22316242</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>22316242</start>
+		<end>27019573</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 03">
+		<start>27019573</start>
+		<end>57052511</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>57052511</start>
+		<end>58146720</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 01">
+		<start>58146720</start>
+		<end>88699159</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>88699159</start>
+		<end>93790371</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 08">
+		<start>93790371</start>
+		<end>131793290</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>131793290</start>
+		<end>134452384</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="132449811">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>169512</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 04">
+		<start>169512</start>
+		<end>26381611</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>26381611</start>
+		<end>38232813</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 07">
+		<start>38232813</start>
+		<end>106629110</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>106629110</start>
+		<end>107187813</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 12">
+		<start>107187813</start>
+		<end>131874541</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>131874541</start>
+		<end>132449811</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="114142980">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>19614119</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 15">
+		<start>19614119</start>
+		<end>24773793</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>24773793</start>
+		<end>26230959</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 12">
+		<start>26230959</start>
+		<end>32488570</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>32488570</start>
+		<end>35243477</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 02">
+		<start>35243477</start>
+		<end>37108794</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>37108794</start>
+		<end>40404164</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 15">
+		<start>40404164</start>
+		<end>101173035</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>101173035</start>
+		<end>112704068</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 16">
+		<start>112704068</start>
+		<end>113351122</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>113351122</start>
+		<end>114142980</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="106368585">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>19905765</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 15">
+		<start>19905765</start>
+		<end>24170003</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>24170003</start>
+		<end>28306037</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 06">
+		<start>28306037</start>
+		<end>50511732</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>50511732</start>
+		<end>54010958</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 15">
+		<start>54010958</start>
+		<end>56739867</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>56739867</start>
+		<end>57781345</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 06">
+		<start>57781345</start>
+		<end>105012175</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>105012175</start>
+		<end>106368585</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="100338915">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>24342555</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 01">
+		<start>24342555</start>
+		<end>30110017</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>30110017</start>
+		<end>30721251</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 03">
+		<start>30721251</start>
+		<end>47206833</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>47206833</start>
+		<end>49456746</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 08">
+		<start>49456746</start>
+		<end>78040289</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>78040289</start>
+		<end>78232395</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 01">
+		<start>78232395</start>
+		<end>99628736</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>99628736</start>
+		<end>100338915</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="88827254">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>69146</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 10">
+		<start>69146</start>
+		<end>15651604</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>15651604</start>
+		<end>16151490</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 01">
+		<start>16151490</start>
+		<end>31401939</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>31401939</start>
+		<end>45547795</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 19">
+		<start>45547795</start>
+		<end>88214500</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>88214500</start>
+		<end>88827254</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="78774742">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>62293</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 10">
+		<start>62293</start>
+		<end>77925489</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>77925489</start>
+		<end>78774742</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="76117153">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>647650</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 09">
+		<start>647650</start>
+		<end>9698302</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>9698302</start>
+		<end>11971454</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 18">
+		<start>11971454</start>
+		<end>56189563</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>56189563</start>
+		<end>58533713</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 13">
+		<start>58533713</start>
+		<end>59733724</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>59733724</start>
+		<end>70071511</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 18">
+		<start>70071511</start>
+		<end>73090720</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>73090720</start>
+		<end>76117153</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="63811651">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>232045</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 07">
+		<start>232045</start>
+		<end>4041321</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>4041321</start>
+		<end>7067637</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 12">
+		<start>7067637</start>
+		<end>7897603</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>7897603</start>
+		<end>9931236</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 08">
+		<start>9931236</start>
+		<end>11510578</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>11510578</start>
+		<end>12763309</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 19">
+		<start>12763309</start>
+		<end>14501381</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>14501381</start>
+		<end>14921990</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 07">
+		<start>14921990</start>
+		<end>15612706</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>15612706</start>
+		<end>16048324</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 16">
+		<start>16048324</start>
+		<end>18901011</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>18901011</start>
+		<end>38013261</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 01">
+		<start>38013261</start>
+		<end>63701517</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>63701517</start>
+		<end>63811651</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="62435964">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>309307</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 03">
+		<start>309307</start>
+		<end>62181931</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>62181931</start>
+		<end>62435964</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="21" number="21" length="46944323">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>14665309</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 11">
+		<start>14665309</start>
+		<end>41758350</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>41758350</start>
+		<end>42605232</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 20">
+		<start>42605232</start>
+		<end>46842958</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>46842958</start>
+		<end>46944323</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="22" number="22" length="49554710">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>17537648</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno 11">
+		<start>17537648</start>
+		<end>20598346</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>20598346</start>
+		<end>21737222</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Rno 20">
+		<start>21737222</start>
+		<end>23215865</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="5" name="Rno Un">
+		<start>23215865</start>
+		<end>26572211</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Rno 12">
+		<start>26572211</start>
+		<end>27408284</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="7" name="Rno Un">
+		<start>27408284</start>
+		<end>28048222</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Rno 14">
+		<start>28048222</start>
+		<end>30665082</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="9" name="Rno Un">
+		<start>30665082</start>
+		<end>31233093</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Rno 07">
+		<start>31233093</start>
+		<end>31521361</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="11" name="Rno Un">
+		<start>31521361</start>
+		<end>34101640</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Rno 19">
+		<start>34101640</start>
+		<end>34261851</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="13" name="Rno Un">
+		<start>34261851</start>
+		<end>35001826</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Rno 07">
+		<start>35001826</start>
+		<end>49466790</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="15" name="Rno Un">
+		<start>49466790</start>
+		<end>49554710</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="23" number="X" length="154824264">
+	<band index="1" name="Rno Un">
+		<start>0</start>
+		<end>9934772</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Rno X">
+		<start>9934772</start>
+		<end>153234158</end>
+		<stain>gpos</stain>
+		<color>0x999999</color>
+	</band>
+	<band index="3" name="Rno Un">
+		<start>153234158</start>
+		<end>154824264</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+</genome>

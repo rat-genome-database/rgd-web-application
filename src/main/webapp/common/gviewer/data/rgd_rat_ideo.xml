@@ -1,0 +1,1535 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="268121971">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>10150087</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:0..10150087</link>
+	</band>
+	<band index="2" name="p12">
+		<start>10150087</start>
+		<end>24291782</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:10150087..24291782</link>
+	</band>
+	<band index="3" name="p11">
+		<start>24291782</start>
+		<end>38547522</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:24291782..38547522</link>
+	</band>
+	<band index="4" name="q11">
+		<start>38547522</start>
+		<end>48697610</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:38547522..48697610</link>
+	</band>
+	<band index="5" name="q12">
+		<start>48697610</start>
+		<end>69796106</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:48697610..69796106</link>
+	</band>
+	<band index="6" name="q21">
+		<start>69796106</start>
+		<end>90096281</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:69796106..90096281</link>
+	</band>
+	<band index="7" name="q22">
+		<start>90096281</start>
+		<end>123853875</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:90096281..123853875</link>
+	</band>
+	<band index="8" name="q31">
+		<start>123853875</start>
+		<end>141302901</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:123853875..141302901</link>
+	</band>
+	<band index="9" name="q32">
+		<start>141302901</start>
+		<end>162401398</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:141302901..162401398</link>
+	</band>
+	<band index="10" name="q33">
+		<start>162401398</start>
+		<end>170612704</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:162401398..170612704</link>
+	</band>
+	<band index="11" name="q34">
+		<start>170612704</start>
+		<end>174604312</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:170612704..174604312</link>
+	</band>
+	<band index="12" name="q35">
+		<start>174604312</start>
+		<end>179964470</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:174604312..179964470</link>
+	</band>
+	<band index="13" name="q36">
+		<start>179964470</start>
+		<end>188061731</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:179964470..188061731</link>
+	</band>
+	<band index="14" name="q37">
+		<start>188061731</start>
+		<end>190912879</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:188061731..190912879</link>
+	</band>
+	<band index="15" name="q41">
+		<start>190912879</start>
+		<end>205054574</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:190912879..205054574</link>
+	</band>
+	<band index="16" name="q42">
+		<start>205054574</start>
+		<end>207563584</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:205054574..207563584</link>
+	</band>
+	<band index="17" name="q43">
+		<start>207563584</start>
+		<end>223415968</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:207563584..223415968</link>
+	</band>
+	<band index="18" name="q51">
+		<start>223415968</start>
+		<end>231513228</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:223415968..231513228</link>
+	</band>
+	<band index="19" name="q52">
+		<start>231513228</start>
+		<end>239610489</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:231513228..239610489</link>
+	</band>
+	<band index="20" name="q53">
+		<start>239610489</start>
+		<end>245768969</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:239610489..245768969</link>
+	</band>
+	<band index="21" name="q54">
+		<start>245768969</start>
+		<end>253866230</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:245768969..253866230</link>
+	</band>
+	<band index="22" name="q55">
+		<start>253866230</start>
+		<end>268121971</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr1:253866230..268121971</link>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="110733352">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>6255594</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:0..6255594</link>
+	</band>
+	<band index="2" name="q12">
+		<start>6255594</start>
+		<end>26236148</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:6255594..26236148</link>
+	</band>
+	<band index="3" name="q21">
+		<start>26236148</start>
+		<end>34825919</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:26236148..34825919</link>
+	</band>
+	<band index="4" name="q22">
+		<start>34825919</start>
+		<end>47523841</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:34825919..47523841</link>
+	</band>
+	<band index="5" name="q23">
+		<start>47523841</start>
+		<end>49858018</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:47523841..49858018</link>
+	</band>
+	<band index="6" name="q24">
+		<start>49858018</start>
+		<end>63769712</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:49858018..63769712</link>
+	</band>
+	<band index="7" name="q25">
+		<start>63769712</start>
+		<end>66477358</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:63769712..66477358</link>
+	</band>
+	<band index="8" name="q26">
+		<start>66477358</start>
+		<end>83096697</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:66477358..83096697</link>
+	</band>
+	<band index="9" name="q31">
+		<start>83096697</start>
+		<end>88045152</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:83096697..88045152</link>
+	</band>
+	<band index="10" name="q32.1">
+		<start>88045152</start>
+		<end>103730821</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:88045152..103730821</link>
+	</band>
+	<band index="11" name="q32.2">
+		<start>103730821</start>
+		<end>105411428</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:103730821..105411428</link>
+	</band>
+	<band index="12" name="q32.3">
+		<start>105411428</start>
+		<end>110733352</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr10:105411428..110733352</link>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="87800381">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>6660071</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:0..6660071</link>
+	</band>
+	<band index="2" name="p11">
+		<start>6660071</start>
+		<end>15008612</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:6660071..15008612</link>
+	</band>
+	<band index="3" name="q11">
+		<start>15008612</start>
+		<end>36677295</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:15008612..36677295</link>
+	</band>
+	<band index="4" name="q12">
+		<start>36677295</start>
+		<end>48402774</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:36677295..48402774</link>
+	</band>
+	<band index="5" name="q21">
+		<start>48402774</start>
+		<end>65006051</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:48402774..65006051</link>
+	</band>
+	<band index="6" name="q22">
+		<start>65006051</start>
+		<end>76731529</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:65006051..76731529</link>
+	</band>
+	<band index="7" name="q23">
+		<start>76731529</start>
+		<end>87800381</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr11:76731529..87800381</link>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="46649226">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>5468041</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:0..5468041</link>
+	</band>
+	<band index="2" name="p11">
+		<start>5468041</start>
+		<end>12530927</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:5468041..12530927</link>
+	</band>
+	<band index="3" name="q11">
+		<start>12530927</start>
+		<end>18625515</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:12530927..18625515</link>
+	</band>
+	<band index="4" name="q12">
+		<start>18625515</start>
+		<end>26770618</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:18625515..26770618</link>
+	</band>
+	<band index="5" name="q13">
+		<start>26770618</start>
+		<end>28365463</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:26770618..28365463</link>
+	</band>
+	<band index="6" name="q14">
+		<start>28365463</start>
+		<end>32409535</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:28365463..32409535</link>
+	</band>
+	<band index="7" name="q15">
+		<start>32409535</start>
+		<end>33833504</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:32409535..33833504</link>
+	</band>
+	<band index="8" name="q16">
+		<start>33833504</start>
+		<end>46649226</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr12:33833504..46649226</link>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="111348958">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>17430315</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:0..17430315</link>
+	</band>
+	<band index="2" name="p12">
+		<start>17430315</start>
+		<end>22967004</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:17430315..22967004</link>
+	</band>
+	<band index="3" name="p11">
+		<start>22967004</start>
+		<end>30246724</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:22967004..30246724</link>
+	</band>
+	<band index="4" name="q11">
+		<start>30246724</start>
+		<end>40089726</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:30246724..40089726</link>
+	</band>
+	<band index="5" name="q12">
+		<start>40089726</start>
+		<end>43063132</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:40089726..43063132</link>
+	</band>
+	<band index="6" name="q13">
+		<start>43063132</start>
+		<end>55777010</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:43063132..55777010</link>
+	</band>
+	<band index="7" name="q21">
+		<start>55777010</start>
+		<end>71874419</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:55777010..71874419</link>
+	</band>
+	<band index="8" name="q22">
+		<start>71874419</start>
+		<end>80281983</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:71874419..80281983</link>
+	</band>
+	<band index="9" name="q23">
+		<start>80281983</start>
+		<end>83152859</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:80281983..83152859</link>
+	</band>
+	<band index="10" name="q24">
+		<start>83152859</start>
+		<end>91252829</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:83152859..91252829</link>
+	</band>
+	<band index="11" name="q25">
+		<start>91252829</start>
+		<end>94123704</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:91252829..94123704</link>
+	</band>
+	<band index="12" name="q26">
+		<start>94123704</start>
+		<end>105812269</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:94123704..105812269</link>
+	</band>
+	<band index="13" name="q27">
+		<start>105812269</start>
+		<end>111348958</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr13:105812269..111348958</link>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="112220682">
+	<band index="1" name="p22">
+		<start>0</start>
+		<end>21150467</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:0..21150467</link>
+	</band>
+	<band index="2" name="p21">
+		<start>21150467</start>
+		<end>31417684</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:21150467..31417684</link>
+	</band>
+	<band index="3" name="p11">
+		<start>31417684</start>
+		<end>49282641</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:31417684..49282641</link>
+	</band>
+	<band index="4" name="q11">
+		<start>49282641</start>
+		<end>68687681</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:49282641..68687681</link>
+	</band>
+	<band index="5" name="q21">
+		<start>68687681</start>
+		<end>94971757</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:68687681..94971757</link>
+	</band>
+	<band index="6" name="q22">
+		<start>94971757</start>
+		<end>112220682</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr14:94971757..112220682</link>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="109774626">
+	<band index="1" name="p16">
+		<start>0</start>
+		<end>14500562</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:0..14500562</link>
+	</band>
+	<band index="2" name="p15">
+		<start>14500562</start>
+		<end>17185851</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:14500562..17185851</link>
+	</band>
+	<band index="3" name="p14">
+		<start>17185851</start>
+		<end>31686413</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:17185851..31686413</link>
+	</band>
+	<band index="4" name="p13">
+		<start>31686413</start>
+		<end>34371702</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:31686413..34371702</link>
+	</band>
+	<band index="5" name="p12">
+		<start>34371702</start>
+		<end>47798149</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:34371702..47798149</link>
+	</band>
+	<band index="6" name="p11">
+		<start>47798149</start>
+		<end>54242843</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:47798149..54242843</link>
+	</band>
+	<band index="7" name="q11">
+		<start>54242843</start>
+		<end>60365303</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:54242843..60365303</link>
+	</band>
+	<band index="8" name="q12">
+		<start>60365303</start>
+		<end>71858341</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:60365303..71858341</link>
+	</band>
+	<band index="9" name="q21">
+		<start>71858341</start>
+		<end>86788549</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:71858341..86788549</link>
+	</band>
+	<band index="10" name="q22">
+		<start>86788549</start>
+		<end>91729482</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:86788549..91729482</link>
+	</band>
+	<band index="11" name="q23">
+		<start>91729482</start>
+		<end>99355703</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:91729482..99355703</link>
+	</band>
+	<band index="12" name="q24">
+		<start>99355703</start>
+		<end>106230044</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:99355703..106230044</link>
+	</band>
+	<band index="13" name="q25">
+		<start>106230044</start>
+		<end>109774626</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr15:106230044..109774626</link>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="90224819">
+	<band index="1" name="p16">
+		<start>0</start>
+		<end>10243414</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:0..10243414</link>
+	</band>
+	<band index="2" name="p15">
+		<start>10243414</start>
+		<end>12105853</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:10243414..12105853</link>
+	</band>
+	<band index="3" name="p14">
+		<start>12105853</start>
+		<end>25039456</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:12105853..25039456</link>
+	</band>
+	<band index="4" name="p13">
+		<start>25039456</start>
+		<end>29385147</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:25039456..29385147</link>
+	</band>
+	<band index="5" name="p12">
+		<start>29385147</start>
+		<end>34972464</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:29385147..34972464</link>
+	</band>
+	<band index="6" name="p11">
+		<start>34972464</start>
+		<end>42318751</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:34972464..42318751</link>
+	</band>
+	<band index="7" name="q11">
+		<start>42318751</start>
+		<end>51527476</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:42318751..51527476</link>
+	</band>
+	<band index="8" name="q12.1">
+		<start>51527476</start>
+		<end>58873763</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:51527476..58873763</link>
+	</band>
+	<band index="9" name="q12.2">
+		<start>58873763</start>
+		<end>61770890</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:58873763..61770890</link>
+	</band>
+	<band index="10" name="q12.3">
+		<start>61770890</start>
+		<end>69220646</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:61770890..69220646</link>
+	</band>
+	<band index="11" name="q12.4">
+		<start>69220646</start>
+		<end>71807367</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:69220646..71807367</link>
+	</band>
+	<band index="12" name="q12.5">
+		<start>71807367</start>
+		<end>90224819</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr16:71807367..90224819</link>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="97307196">
+	<band index="1" name="p14">
+		<start>0</start>
+		<end>22960124</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:0..22960124</link>
+	</band>
+	<band index="2" name="p13">
+		<start>22960124</start>
+		<end>25256137</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:22960124..25256137</link>
+	</band>
+	<band index="3" name="p12">
+		<start>25256137</start>
+		<end>42749565</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:25256137..42749565</link>
+	</band>
+	<band index="4" name="p11">
+		<start>42749565</start>
+		<end>48653598</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:42749565..48653598</link>
+	</band>
+	<band index="5" name="q11">
+		<start>48653598</start>
+		<end>54448296</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:48653598..54448296</link>
+	</band>
+	<band index="6" name="q12.1">
+		<start>54448296</start>
+		<end>73144397</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:54448296..73144397</link>
+	</band>
+	<band index="7" name="q12.2">
+		<start>73144397</start>
+		<end>75877746</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:73144397..75877746</link>
+	</band>
+	<band index="8" name="q12.3">
+		<start>75877746</start>
+		<end>97307196</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr17:75877746..97307196</link>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="87338544">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>10613291</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:0..10613291</link>
+	</band>
+	<band index="2" name="p12">
+		<start>10613291</start>
+		<end>27528224</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:10613291..27528224</link>
+	</band>
+	<band index="3" name="p11">
+		<start>27528224</start>
+		<end>37367630</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:27528224..37367630</link>
+	</band>
+	<band index="4" name="q11">
+		<start>37367630</start>
+		<end>51076464</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:37367630..51076464</link>
+	</band>
+	<band index="5" name="q12.1">
+		<start>51076464</start>
+		<end>67659732</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:51076464..67659732</link>
+	</band>
+	<band index="6" name="q12.2">
+		<start>67659732</start>
+		<end>71529161</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:67659732..71529161</link>
+	</band>
+	<band index="7" name="q12.3">
+		<start>71529161</start>
+		<end>82916339</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:71529161..82916339</link>
+	</band>
+	<band index="8" name="q13">
+		<start>82916339</start>
+		<end>87338544</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr18:82916339..87338544</link>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="59223525">
+	<band index="1" name="p14">
+		<start>0</start>
+		<end>4060603</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:0..4060603</link>
+	</band>
+	<band index="2" name="p13">
+		<start>4060603</start>
+		<end>10572893</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:4060603..10572893</link>
+	</band>
+	<band index="3" name="p12">
+		<start>10572893</start>
+		<end>12258426</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:10572893..12258426</link>
+	</band>
+	<band index="4" name="p11">
+		<start>12258426</start>
+		<end>22371629</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:12258426..22371629</link>
+	</band>
+	<band index="5" name="q11">
+		<start>22371629</start>
+		<end>35472822</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:22371629..35472822</link>
+	</band>
+	<band index="6" name="q12">
+		<start>35472822</start>
+		<end>59223525</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr19:35472822..59223525</link>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="258222147">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15887151</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:0..15887151</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15887151</start>
+		<end>34571335</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:15887151..34571335</link>
+	</band>
+	<band index="3" name="q13">
+		<start>34571335</start>
+		<end>37032725</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:34571335..37032725</link>
+	</band>
+	<band index="4" name="q14">
+		<start>37032725</start>
+		<end>47773334</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:37032725..47773334</link>
+	</band>
+	<band index="5" name="q15">
+		<start>47773334</start>
+		<end>50906012</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:47773334..50906012</link>
+	</band>
+	<band index="6" name="q16">
+		<start>50906012</start>
+		<end>63660485</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:50906012..63660485</link>
+	</band>
+	<band index="7" name="q21">
+		<start>63660485</start>
+		<end>72834756</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:63660485..72834756</link>
+	</band>
+	<band index="8" name="q22">
+		<start>72834756</start>
+		<end>84806060</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:72834756..84806060</link>
+	</band>
+	<band index="9" name="q23">
+		<start>84806060</start>
+		<end>97560533</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:84806060..97560533</link>
+	</band>
+	<band index="10" name="q24">
+		<start>97560533</start>
+		<end>117475413</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:97560533..117475413</link>
+	</band>
+	<band index="11" name="q25">
+		<start>117475413</start>
+		<end>126649683</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:117475413..126649683</link>
+	</band>
+	<band index="12" name="q26">
+		<start>126649683</start>
+		<end>145445750</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:126649683..145445750</link>
+	</band>
+	<band index="13" name="q31">
+		<start>145445750</start>
+		<end>159319036</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:145445750..159319036</link>
+	</band>
+	<band index="14" name="q32">
+		<start>159319036</start>
+		<end>171290341</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:159319036..171290341</link>
+	</band>
+	<band index="15" name="q33">
+		<start>171290341</start>
+		<end>174534900</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:171290341..174534900</link>
+	</band>
+	<band index="16" name="q34">
+		<start>174534900</start>
+		<end>205190388</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:174534900..205190388</link>
+	</band>
+	<band index="17" name="q41">
+		<start>205190388</start>
+		<end>219063675</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:205190388..219063675</link>
+	</band>
+	<band index="18" name="q42">
+		<start>219063675</start>
+		<end>227119132</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:219063675..227119132</link>
+	</band>
+	<band index="19" name="q43">
+		<start>227119132</start>
+		<end>235062708</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:227119132..235062708</link>
+	</band>
+	<band index="20" name="q44">
+		<start>235062708</start>
+		<end>246250842</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:235062708..246250842</link>
+	</band>
+	<band index="21" name="q45">
+		<start>246250842</start>
+		<end>258222147</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr2:246250842..258222147</link>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="55296979">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>15967538</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr20:0..15967538</link>
+	</band>
+	<band index="2" name="p11">
+		<start>15967538</start>
+		<end>26684007</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr20:15967538..26684007</link>
+	</band>
+	<band index="3" name="q11">
+		<start>26684007</start>
+		<end>38043464</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr20:26684007..38043464</link>
+	</band>
+	<band index="4" name="q12">
+		<start>38043464</start>
+		<end>45759321</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr20:38043464..45759321</link>
+	</band>
+	<band index="5" name="q13">
+		<start>45759321</start>
+		<end>55296979</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr20:45759321..55296979</link>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="170969371">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>5302151</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:0..5302151</link>
+	</band>
+	<band index="2" name="p12">
+		<start>5302151</start>
+		<end>11004465</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:5302151..11004465</link>
+	</band>
+	<band index="3" name="p11">
+		<start>11004465</start>
+		<end>16306616</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:11004465..16306616</link>
+	</band>
+	<band index="4" name="q11">
+		<start>16306616</start>
+		<end>21308646</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:16306616..21308646</link>
+	</band>
+	<band index="5" name="q12">
+		<start>21308646</start>
+		<end>39115871</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:21308646..39115871</link>
+	</band>
+	<band index="6" name="q21">
+		<start>39115871</start>
+		<end>54121960</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:39115871..54121960</link>
+	</band>
+	<band index="7" name="q22">
+		<start>54121960</start>
+		<end>55822650</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:54121960..55822650</link>
+	</band>
+	<band index="8" name="q23">
+		<start>55822650</start>
+		<end>60524557</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:55822650..60524557</link>
+	</band>
+	<band index="9" name="q24">
+		<start>60524557</start>
+		<end>78331783</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:60524557..78331783</link>
+	</band>
+	<band index="10" name="q31">
+		<start>78331783</start>
+		<end>88235801</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:78331783..88235801</link>
+	</band>
+	<band index="11" name="q32">
+		<start>88235801</start>
+		<end>91136978</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:88235801..91136978</link>
+	</band>
+	<band index="12" name="q33">
+		<start>91136978</start>
+		<end>96139008</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:91136978..96139008</link>
+	</band>
+	<band index="13" name="q34">
+		<start>96139008</start>
+		<end>99640429</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:96139008..99640429</link>
+	</band>
+	<band index="14" name="q35">
+		<start>99640429</start>
+		<end>112145503</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:99640429..112145503</link>
+	</band>
+	<band index="15" name="q36">
+		<start>112145503</start>
+		<end>128151997</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:112145503..128151997</link>
+	</band>
+	<band index="16" name="q41">
+		<start>128151997</start>
+		<end>145258938</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:128151997..145258938</link>
+	</band>
+	<band index="17" name="q42">
+		<start>145258938</start>
+		<end>165567179</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:145258938..165567179</link>
+	</band>
+	<band index="18" name="q43">
+		<start>165567179</start>
+		<end>170969371</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr3:165567179..170969371</link>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="187371129">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15632608</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:0..15632608</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15632608</start>
+		<end>25430511</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:15632608..25430511</link>
+	</band>
+	<band index="3" name="q13">
+		<start>25430511</start>
+		<end>32035839</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:25430511..32035839</link>
+	</band>
+	<band index="4" name="q21">
+		<start>32035839</start>
+		<end>46237293</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:32035839..46237293</link>
+	</band>
+	<band index="5" name="q22">
+		<start>46237293</start>
+		<end>69686207</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:46237293..69686207</link>
+	</band>
+	<band index="6" name="q23">
+		<start>69686207</start>
+		<end>72438427</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:69686207..72438427</link>
+	</band>
+	<band index="7" name="q24">
+		<start>72438427</start>
+		<end>92804854</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:72438427..92804854</link>
+	</band>
+	<band index="8" name="q31">
+		<start>92804854</start>
+		<end>103043112</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:92804854..103043112</link>
+	</band>
+	<band index="9" name="q32">
+		<start>103043112</start>
+		<end>104584355</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:103043112..104584355</link>
+	</band>
+	<band index="10" name="q33">
+		<start>104584355</start>
+		<end>112400659</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:104584355..112400659</link>
+	</band>
+	<band index="11" name="q34">
+		<start>112400659</start>
+		<end>137170638</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:112400659..137170638</link>
+	</band>
+	<band index="12" name="q41">
+		<start>137170638</start>
+		<end>146968541</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:137170638..146968541</link>
+	</band>
+	<band index="13" name="q42">
+		<start>146968541</start>
+		<end>170417454</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:146968541..170417454</link>
+	</band>
+	<band index="14" name="q43">
+		<start>170417454</start>
+		<end>174380651</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:170417454..174380651</link>
+	</band>
+	<band index="15" name="q44">
+		<start>174380651</start>
+		<end>187371129</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr4:174380651..187371129</link>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="173106704">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>12292922</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:0..12292922</link>
+	</band>
+	<band index="2" name="q12">
+		<start>12292922</start>
+		<end>20227445</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:12292922..20227445</link>
+	</band>
+	<band index="3" name="q13">
+		<start>20227445</start>
+		<end>34531937</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:20227445..34531937</link>
+	</band>
+	<band index="4" name="q21">
+		<start>34531937</start>
+		<end>51630275</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:34531937..51630275</link>
+	</band>
+	<band index="5" name="q22">
+		<start>51630275</start>
+		<end>66828798</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:51630275..66828798</link>
+	</band>
+	<band index="6" name="q23">
+		<start>66828798</start>
+		<end>69622644</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:66828798..69622644</link>
+	</band>
+	<band index="7" name="q24">
+		<start>69622644</start>
+		<end>85491690</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:69622644..85491690</link>
+	</band>
+	<band index="8" name="q31">
+		<start>85491690</start>
+		<end>104601597</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:85491690..104601597</link>
+	</band>
+	<band index="9" name="q32">
+		<start>104601597</start>
+		<end>112200859</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:104601597..112200859</link>
+	</band>
+	<band index="10" name="q33">
+		<start>112200859</start>
+		<end>123264489</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:112200859..123264489</link>
+	</band>
+	<band index="11" name="q34">
+		<start>123264489</start>
+		<end>128516920</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:123264489..128516920</link>
+	</band>
+	<band index="12" name="q35">
+		<start>128516920</start>
+		<end>135222150</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:128516920..135222150</link>
+	</band>
+	<band index="13" name="q36">
+		<start>135222150</start>
+		<end>173106704</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr5:135222150..173106704</link>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="147642806">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>3920711</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:0..3920711</link>
+	</band>
+	<band index="2" name="q12">
+		<start>3920711</start>
+		<end>21059823</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:3920711..21059823</link>
+	</band>
+	<band index="3" name="q13">
+		<start>21059823</start>
+		<end>25092555</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:21059823..25092555</link>
+	</band>
+	<band index="4" name="q14">
+		<start>25092555</start>
+		<end>36630650</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:25092555..36630650</link>
+	</band>
+	<band index="5" name="q15">
+		<start>36630650</start>
+		<end>40663382</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:36630650..40663382</link>
+	</band>
+	<band index="6" name="q16">
+		<start>40663382</start>
+		<end>55786128</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:40663382..55786128</link>
+	</band>
+	<band index="7" name="q21">
+		<start>55786128</start>
+		<end>67772304</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:55786128..67772304</link>
+	</band>
+	<band index="8" name="q22">
+		<start>67772304</start>
+		<end>72141097</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:67772304..72141097</link>
+	</band>
+	<band index="9" name="q23">
+		<start>72141097</start>
+		<end>83791213</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:72141097..83791213</link>
+	</band>
+	<band index="10" name="q24">
+		<start>83791213</start>
+		<end>107651545</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:83791213..107651545</link>
+	</band>
+	<band index="11" name="q31">
+		<start>107651545</start>
+		<end>119637721</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:107651545..119637721</link>
+	</band>
+	<band index="12" name="q32">
+		<start>119637721</start>
+		<end>139577341</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:119637721..139577341</link>
+	</band>
+	<band index="13" name="q33">
+		<start>139577341</start>
+		<end>147642806</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr6:139577341..147642806</link>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="143082968">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15281804</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:0..15281804</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15281804</start>
+		<end>18111768</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:15281804..18111768</link>
+	</band>
+	<band index="3" name="q13">
+		<start>18111768</start>
+		<end>41091073</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:18111768..41091073</link>
+	</band>
+	<band index="4" name="q21">
+		<start>41091073</start>
+		<end>52297730</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:41091073..52297730</link>
+	</band>
+	<band index="5" name="q22">
+		<start>52297730</start>
+		<end>76522220</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:52297730..76522220</link>
+	</band>
+	<band index="6" name="q31">
+		<start>76522220</start>
+		<end>91804024</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:76522220..91804024</link>
+	</band>
+	<band index="7" name="q32">
+		<start>91804024</start>
+		<end>94633988</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:91804024..94633988</link>
+	</band>
+	<band index="8" name="q33">
+		<start>94633988</start>
+		<end>104708659</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:94633988..104708659</link>
+	</band>
+	<band index="9" name="q34">
+		<start>104708659</start>
+		<end>128933149</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:104708659..128933149</link>
+	</band>
+	<band index="10" name="q35">
+		<start>128933149</start>
+		<end>136177856</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:128933149..136177856</link>
+	</band>
+	<band index="11" name="q36">
+		<start>136177856</start>
+		<end>143082968</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr7:136177856..143082968</link>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="129061546">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>11876184</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:0..11876184</link>
+	</band>
+	<band index="2" name="q12">
+		<start>11876184</start>
+		<end>16815836</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:11876184..16815836</link>
+	</band>
+	<band index="3" name="q13">
+		<start>16815836</start>
+		<end>31739891</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:16815836..31739891</link>
+	</band>
+	<band index="4" name="q21">
+		<start>31739891</start>
+		<end>40358007</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:31739891..40358007</link>
+	</band>
+	<band index="5" name="q22">
+		<start>40358007</start>
+		<end>48976124</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:40358007..48976124</link>
+	</band>
+	<band index="6" name="q23">
+		<start>48976124</start>
+		<end>54231073</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:48976124..54231073</link>
+	</band>
+	<band index="7" name="q24">
+		<start>54231073</start>
+		<end>82292500</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:54231073..82292500</link>
+	</band>
+	<band index="8" name="q31">
+		<start>82292500</start>
+		<end>106570364</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:82292500..106570364</link>
+	</band>
+	<band index="9" name="q32">
+		<start>106570364</start>
+		<end>129061546</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr8:106570364..129061546</link>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="113649943">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>7268881</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:0..7268881</link>
+	</band>
+	<band index="2" name="q12">
+		<start>7268881</start>
+		<end>17091694</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:7268881..17091694</link>
+	</band>
+	<band index="3" name="q13">
+		<start>17091694</start>
+		<end>28289700</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:17091694..28289700</link>
+	</band>
+	<band index="4" name="q21">
+		<start>28289700</start>
+		<end>41943410</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:28289700..41943410</link>
+	</band>
+	<band index="5" name="q22">
+		<start>41943410</start>
+		<end>52453819</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:41943410..52453819</link>
+	</band>
+	<band index="6" name="q31">
+		<start>52453819</start>
+		<end>62178404</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:52453819..62178404</link>
+	</band>
+	<band index="7" name="q32">
+		<start>62178404</start>
+		<end>70233110</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:62178404..70233110</link>
+	</band>
+	<band index="8" name="q33">
+		<start>70233110</start>
+		<end>78680729</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:70233110..78680729</link>
+	</band>
+	<band index="9" name="q34">
+		<start>78680729</start>
+		<end>83886820</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:78680729..83886820</link>
+	</band>
+	<band index="10" name="q35">
+		<start>83886820</start>
+		<end>90173420</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:83886820..90173420</link>
+	</band>
+	<band index="11" name="q36">
+		<start>90173420</start>
+		<end>101371427</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:90173420..101371427</link>
+	</band>
+	<band index="12" name="q37">
+		<start>101371427</start>
+		<end>107658027</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:101371427..107658027</link>
+	</band>
+	<band index="13" name="q38">
+		<start>107658027</start>
+		<end>113649943</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=Chr9:107658027..113649943</link>
+	</band>
+</chromosome>
+<chromosome index="21" number="X" length="160775580">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>7742002</end>
+		<stain>gvar</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:0..7742002</link>
+	</band>
+	<band index="2" name="q12">
+		<start>7742002</start>
+		<end>21548572</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:7742002..21548572</link>
+	</band>
+	<band index="3" name="q13">
+		<start>21548572</start>
+		<end>29806708</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:21548572..29806708</link>
+	</band>
+	<band index="4" name="q14">
+		<start>29806708</start>
+		<end>39484211</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:29806708..39484211</link>
+	</band>
+	<band index="5" name="q21">
+		<start>39484211</start>
+		<end>59613417</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:39484211..59613417</link>
+	</band>
+	<band index="6" name="q22">
+		<start>59613417</start>
+		<end>81291023</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:59613417..81291023</link>
+	</band>
+	<band index="7" name="q31">
+		<start>81291023</start>
+		<end>101033129</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:81291023..101033129</link>
+	</band>
+	<band index="8" name="q32">
+		<start>101033129</start>
+		<end>112517099</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:101033129..112517099</link>
+	</band>
+	<band index="9" name="q33">
+		<start>112517099</start>
+		<end>115742933</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:112517099..115742933</link>
+	</band>
+	<band index="10" name="q34">
+		<start>115742933</start>
+		<end>122581702</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:115742933..122581702</link>
+	</band>
+	<band index="11" name="q35">
+		<start>122581702</start>
+		<end>135485039</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:122581702..135485039</link>
+	</band>
+	<band index="12" name="q36">
+		<start>135485039</start>
+		<end>149291610</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:135485039..149291610</link>
+	</band>
+	<band index="13" name="q37">
+		<start>149291610</start>
+		<end>160775580</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrX:149291610..160775580</link>
+	</band>
+</chromosome>
+<chromosome index="22" number="Y" length="71246413">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>53434809</end>
+		<stain>gpos</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:0..53434809</link>
+	</band>
+	<band index="2" name="q12">
+		<start>53434809</start>
+		<end>71246413</end>
+		<stain>gneg</stain>
+		<link>/fgb2/gbrowse/rgd_904/?name=ChrY:53434809..71246413</link>
+	</band>
+</chromosome>
+</genome>
