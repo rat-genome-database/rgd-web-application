@@ -24,7 +24,6 @@
 <%for(Project i:pro){%>
 <h2><%=i.getDesc()%></h2>
 <%}%>
-<%@ include file="reportSidebar.jsp"%>
 <%--<%@ include file="../report/references.jsp"%>--%>
 </body>
 <%@ include file="/common/footerarea.jsp"%>

@@ -84,10 +84,7 @@
         <option value="Sus">Pig</option>
         <option value="Glaber">Naked Mole-Rat</option>
         <option value="Sabaeus">Green Monkey</option>
-<<<<<<< HEAD:web-app/WEB-INF/jsp/curation/expression/experiments.jsp
-=======
 
->>>>>>> dev:src/main/webapp/WEB-INF/jsp/expression/geoexperiments.jsp
     </select>
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
