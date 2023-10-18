@@ -65,7 +65,7 @@ if (idList.size() > 0) {
 <script>
 $(document).ready(function(){
     var not4Curation = ' AND NOT Not4Curation';
-    $("#traitOntId").autocomplete('/solr/OntoSolr/select', {
+    $("#traitOntId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                 extraParams:{
                 'qf': 'term^2 synonym^1 idl_s^1',
                 'fq': 'cat:(VT OR RDO)'+not4Curation,

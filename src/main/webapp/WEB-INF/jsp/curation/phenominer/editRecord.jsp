@@ -274,7 +274,7 @@
             $("#mmSite").focusout(function () {
                 lockField('#mmSite')
             });
-            $("#sAccId").autocomplete('/OntoSolr/select', {
+            $("#sAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
                             'bf': 'term_len_l^8',
@@ -289,7 +289,7 @@
                 $("#sAccId").val(value[1]);
                 $("#sTerm").html(value[0]);
             });
-            $("#cmAccId").autocomplete('/OntoSolr/select', {
+            $("#cmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -304,7 +304,7 @@
                 $("#cmAccId").val(value[1]);
                 $("#cmTerm").html(value[0]);
             });
-            $("#mmAccId").autocomplete('/OntoSolr/select', {
+            $("#mmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -320,7 +320,7 @@
                 $("#mmTerm").html(value[0]);
             });
             <% for (int i = 0; i < 15; i++) { %>
-            $("#cAccId<%=i%>").autocomplete('/OntoSolr/select', {
+            $("#cAccId<%=i%>").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -336,7 +336,7 @@
                 $("#cTerm<%=i%>").html(value[0]);
             });
             <%};%>
-            $("#mmSiteAccID").autocomplete('/OntoSolr/select', {
+            $("#mmSiteAccID").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -359,7 +359,7 @@
                 getOntTerms($("#mmSiteAccID").val(), "#mmSite");
                 $("#mmSite").css("color", "red");
             });
-            $("#cmSiteAccID").autocomplete('/OntoSolr/select', {
+            $("#cmSiteAccID").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -999,7 +999,7 @@
             $("#mmSite").focusout(function () {
                 lockField('#mmSite')
             });
-            $("#sAccId").autocomplete('/solr/OntoSolr/select', {
+            $("#sAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
                             'bf': 'term_len_l^8',
@@ -1014,7 +1014,7 @@
                 $("#sAccId").val(value[1]);
                 $("#sTerm").html(value[0]);
             });
-            $("#cmAccId").autocomplete('/solr/OntoSolr/select', {
+            $("#cmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -1029,7 +1029,7 @@
                 $("#cmAccId").val(value[1]);
                 $("#cmTerm").html(value[0]);
             });
-            $("#mmAccId").autocomplete('/solr/OntoSolr/select', {
+            $("#mmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -1045,7 +1045,7 @@
                 $("#mmTerm").html(value[0]);
             });
             <% for (int i = 0; i < 15; i++) { %>
-            $("#cAccId<%=i%>").autocomplete('/solr/OntoSolr/select', {
+            $("#cAccId<%=i%>").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -1061,7 +1061,7 @@
                 $("#cTerm<%=i%>").html(value[0]);
             });
             <%};%>
-            $("#mmSiteAccID").autocomplete('/solr/OntoSolr/select', {
+            $("#mmSiteAccID").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',
@@ -1084,7 +1084,7 @@
                 getOntTerms($("#mmSiteAccID").val(), "#mmSite");
                 $("#mmSite").css("color", "red");
             });
-            $("#cmSiteAccID").autocomplete('/solr/OntoSolr/select', {
+            $("#cmSiteAccID").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                         extraParams: {
                             'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                             'bf': 'term_len_l^2',

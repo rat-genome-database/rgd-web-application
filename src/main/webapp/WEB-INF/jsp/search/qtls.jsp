@@ -183,7 +183,7 @@ $(document).ready(function(){
     });
 
 
-    $("input[name='rs_term']").autocomplete('/solr/OntoSolr/select', {
+    $("input[name='rs_term']").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',
@@ -202,7 +202,7 @@ $(document).ready(function(){
     //    $("#rs_acc_id").val(value[1]);
     //});
 
-    $("input[name='vt_term']").autocomplete('/solr/OntoSolr/select', {
+    $("input[name='vt_term']").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
       extraParams:{
           'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
           'bf': 'term_len_l^.02',

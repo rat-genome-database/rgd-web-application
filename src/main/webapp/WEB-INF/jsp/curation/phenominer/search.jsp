@@ -56,7 +56,7 @@
     $(document).ready(function(){
         var not4Curation = ' AND NOT Not4Curation';
 
-      $("#sAccId").autocomplete('/solr/OntoSolr/select', {
+      $("#sAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                   extraParams:{
                   'qf': 'term_en^1 term_en_sp^3 term_str^2 term^1 synonym_en^1 synonym_en_sp^3  synonym_str^2 synonym^1 def^1 anc^20 idl_s^2',
                   'bf': 'term_len_l^8',
@@ -72,7 +72,7 @@
         $("#sTerm").html(value[0]);
        });
 
-        $("#cmAccId").autocomplete('/solr/OntoSolr/select', {
+        $("#cmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                     extraParams:{
                         'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                         'bf': 'term_len_l^2',
@@ -88,7 +88,7 @@
           $("#cmTerm").html(value[0]);
          });
 
-        $("#mmAccId").autocomplete('/solr/OntoSolr/select', {
+        $("#mmAccId").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                     extraParams:{
                         'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                         'bf': 'term_len_l^2',
@@ -104,7 +104,7 @@
           $("#mmTerm").html(value[0]);
          });
 
-        $("#cAccId_1").autocomplete('/solr/OntoSolr/select', {
+        $("#cAccId_1").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                     extraParams:{
                         'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                         'bf': 'term_len_l^2',
@@ -120,7 +120,7 @@
           $("#cTerm_1").html(value[0]);
          });
 
-        $("#expName").autocomplete('/solr/OntoSolr/select', {
+        $("#expName").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                     extraParams:{
                     'qf': 'term^2 synonym^1 idl_s^1',
                     'fq': 'cat:(VT OR RDO)'+not4Curation,
@@ -135,7 +135,7 @@
          $("#expName").val(value[0]);
          });
 
-        $("#mmSite").autocomplete('/solr/OntoSolr/select', {
+        $("#mmSite").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
                   extraParams:{
                       'qf': 'term_en^5 term_en_sp^2 term_str^3 term^3 synonym_en^4.5 synonym_en_sp^1.5  synonym_str^2 synonym^2 def^1 idl_s^2',
                       'bf': 'term_len_l^2',
