@@ -1,12 +1,18 @@
 <%
     List<ProjectFile> pf1 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
+    List<ProjectFile> protocols= new ArrayList<>();
+    for (ProjectFile file : pf1) {
+        if(file.getProjectFileType()!=null){
+            if(file.getProjectFileType().equals("Protocol")){
+                protocols.add(file);
+            }
+        }
+    }
 %>
-<% if (!pf1.isEmpty()) { %>
+<% if (!protocols.isEmpty()) { %>
 <ul>
-    <% for (ProjectFile i : pf1) { %>
-    <% if (i.getProtocol_name() != null && i.getProtocol() != null) { %>
-    <li><a href="<%= i.getProtocol() %>"><%= i.getProtocol_name() %></a></li>
-    <% } %>
+    <% for (ProjectFile i : protocols) { %>
+    <li><a href="<%= i.getDownloadUrl() %>"><%= i.getFileTypeName() %></a></li>
     <% } %>
 </ul>
 <% } %>

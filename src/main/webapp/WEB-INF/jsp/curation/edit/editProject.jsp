@@ -67,19 +67,11 @@
                     </tr>
                     <tr>
                         <td class="label">Submitter Name:</td>
-<<<<<<< HEAD:web-app/WEB-INF/jsp/curation/edit/editProject.jsp
-                        <td><input type="text" name="sub_name" size="45" value="<%=dm.out("sub_name",pro1.getSub_name())%>" /> </td>
-                    </tr>
-                    <tr>
-                        <td class="label">Principal Investigator Name:</td>
-                        <td><input type="text" name="princ_name" size="45" value="<%=dm.out("princ_name",pro1.getPrinci_name())%>" /> </td>
-=======
                         <td><input type="text" name="submitterName" size="45" value="<%=dm.out("submitterName",pro1.getSubmitterName())%>" /> </td>
                     </tr>
                     <tr>
                         <td class="label">Principal Investigator Name:</td>
                         <td><input type="text" name="piName" size="45" value="<%=dm.out("piName",pro1.getPiName())%>" /> </td>
->>>>>>> dev:src/main/webapp/WEB-INF/jsp/curation/edit/editProject.jsp
                     </tr>
 
 

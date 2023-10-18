@@ -35,20 +35,23 @@
     let reportTitle = "project";
 </script>
 
-<%--to check if there are any references and submitted filesfor the project--%>
+<%--to check if there are any references and submitted files for the project--%>
 <%List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<Project> p2=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
     List<ProjectFile> pf2 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
     List<ProjectFile> phenotypeFiles1 = new ArrayList<>();
     List<ProjectFile> genotypeFiles1 = new ArrayList<>();
-
+    List<ProjectFile> protocols1= new ArrayList<>();
     // Separate the files into phenotype and genotype lists
     for (ProjectFile file : pf2) {
-        if (file.getProject_file_type() != null) {
-            if (file.getProject_file_type().equals("Phenotypes")) {
+        if (file.getProjectFileType()!= null) {
+            if (file.getProjectFileType().equals("Phenotypes")) {
                 phenotypeFiles1.add(file);
-            } else if (file.getProject_file_type().equals("Genotypes")) {
+            } else if (file.getProjectFileType().equals("Genotypes")) {
                 genotypeFiles1.add(file);
+            }
+            else if(file.getProjectFileType().equals("Protocol")){
+                protocols1.add(file);
             }
         }
     }
@@ -74,25 +77,27 @@
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
-                    <%if(p2.get(0).getSub_name()!=null||p2.get(0).getPrinci_name()!=null){%>
+                    <%if(p2.get(0).getSubmitterName()!=null||p2.get(0).getPiName()!=null){%>
                     <div class ="subTitle" id="info">Submitter Information</div><br>
                     <%}%>
                     <%@ include file="submittedInfo.jsp"%>
+                    <br>
+                    <br>
                     <% if(!projRef.isEmpty()){%>
                     <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
                     <br>
                     <div id="associationsCurator" style="display:none;">
 
                         <%@ include file="phenominerDetails.jsp"%>
-                        <%@ include file="../associationsCuratorForProject.jsp"%>
+                        <%@ include file="../associationsCurator.jsp"%>
                     </div>
                     <div id="associationsStandard" style="display:block;">
 
                         <%@ include file="phenominer.jsp"%>
-                        <%@ include file="../associationsForProject.jsp"%>
+                        <%@ include file="../associations.jsp"%>
 
                     </div>
-                    <%@ include file="../objectsAnnotatedForProject.jsp"%>
+                    <%@ include file="../objectsAnnotated.jsp"%>
                     <br>
                     <%}%>
                     <% if(!pf2.isEmpty()){%>
@@ -101,8 +106,10 @@
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
+                    <% if(protocols1.size()>0){%>
                     <div class ="subTitle" id="protocol">Protocols</div>
                     <%@ include file="protocol.jsp"%>
+                    <%}%>
                     <%}%>
                     <% if(ei1.size()>0){%>
                     <br><div class="subTitle" id="Ext">External Resources</div><br>
