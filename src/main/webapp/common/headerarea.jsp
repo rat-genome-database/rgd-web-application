@@ -218,7 +218,7 @@
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                                             <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
-                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
+<%--                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>--%>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
