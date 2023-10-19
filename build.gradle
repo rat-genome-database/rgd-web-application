@@ -33,7 +33,7 @@ sourceCompatibility = 17
 setBuildDir(buildDir)
 
 clean.doFirst {
-    delete fileTree('src/main/webapp/WEB-INF/spring/appServlet/').matching {
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
         include "applicationContext.xml"
     }
     delete fileTree('src/main/webapp/WEB-INF/').matching {
@@ -61,7 +61,7 @@ clean.doFirst {
 tasks.register("buildCuration") {
         copy {
             from 'src/main/webapp/WEB-INF/spring/appServlet/'
-            into 'src/main/webapp/WEB-INF/spring/appServlet/'
+            into 'src/main/webapp/WEB-INF/'
             include 'applicationContext.xml.curation'
             rename('applicationContext.xml.curation', 'applicationContext.xml')
         }
@@ -77,7 +77,7 @@ tasks.register("buildCuration") {
 tasks.register("buildProd") {
     copy {
         from 'src/main/webapp/WEB-INF/spring/appServlet/'
-        into 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
         include 'applicationContext.xml.prod'
         rename('applicationContext.xml.prod', 'applicationContext.xml')
     }
