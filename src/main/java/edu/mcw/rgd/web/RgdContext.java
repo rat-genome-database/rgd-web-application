@@ -231,7 +231,7 @@ public class RgdContext {
                 break;
             case "ontosolr":
                 if(isProduction || isPipelines){
-                    url="https://ontomate.rgd.mcw.edu/OntoSolr";
+                    url="/solr/OntoSolr";
                 }else{
                     url="https://dev.rgd.mcw.edu/solr/OntoSolr";
                 }

@@ -496,7 +496,7 @@ function setupAutoComplete() {
 <label title="Chemical Entities of Biological Interest Ontology">&nbsp; &nbsp;ChEBI&nbsp;<input name="chebi[]" type="checkbox" value="CHEBI" checked></label>
         -->
   */
-    $("input[name='term[]']").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
+    $("input[name='term[]']").autocomplete('/solr/OntoSolr/select', {
             extraParams:{
                 'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
                 'bf': 'term_len_l^.02',

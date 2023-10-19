@@ -57,7 +57,7 @@ function validateForm(formVal){
 
 <script>
 $(document).ready(function(){
-  $("#acc_id1").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
+  $("#acc_id1").autocomplete('/solr/OntoSolr/select', {
         extraParams:{
           'qf': 'term^2 synonym^1 id^1',
           'fq': 'cat:PW',
@@ -75,7 +75,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-  $("#acc_id2").autocomplete('https://ontomate.rgd.mcw.edu/OntoSolr/select', {
+  $("#acc_id2").autocomplete('/solr/OntoSolr/select', {
         extraParams:{
           'qf': 'term^2 synonym^1 id^1',
           'fq': 'cat:PW',
