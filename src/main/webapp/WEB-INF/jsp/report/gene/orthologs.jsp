@@ -1,4 +1,3 @@
-<<<<<<< HEAD:web-app/WEB-INF/jsp/report/gene/orthologs.jsp
 <%
     List<Gene> homologs = geneDAO.getHomologs(obj.getRgdId());
     List<Integer> rgdIds = new ArrayList<>();
