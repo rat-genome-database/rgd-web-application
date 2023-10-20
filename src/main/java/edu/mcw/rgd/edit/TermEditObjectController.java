@@ -591,7 +591,7 @@ public class TermEditObjectController implements Controller {
         return term;
     }
 
-    static String getCreatedBy(HttpServletRequest req) throws Exception {
+    public static String getCreatedBy(HttpServletRequest req) throws Exception {
         /* old code -- used by MyRgd -- does not work anymore
         Principal p = req.getUserPrincipal();
         if( p==null ) {
