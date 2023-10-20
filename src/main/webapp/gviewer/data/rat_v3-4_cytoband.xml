@@ -1,0 +1,1535 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="267910886">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>10142096</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:0-10142096</link>
+	</band>
+	<band index="2" name="p12">
+		<start>10142096</start>
+		<end>24272657</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:10142096-24272657</link>
+	</band>
+	<band index="3" name="p11">
+		<start>24272657</start>
+		<end>38517175</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:24272657-38517175</link>
+	</band>
+	<band index="4" name="q11">
+		<start>38517175</start>
+		<end>48659271</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:38517175-48659271</link>
+	</band>
+	<band index="5" name="q12">
+		<start>48659271</start>
+		<end>69741157</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:48659271-69741157</link>
+	</band>
+	<band index="6" name="q21">
+		<start>69741157</start>
+		<end>90025350</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:69741157-90025350</link>
+	</band>
+	<band index="7" name="q22">
+		<start>90025350</start>
+		<end>123756368</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:90025350-123756368</link>
+	</band>
+	<band index="8" name="q31">
+		<start>123756368</start>
+		<end>141191657</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:123756368-141191657</link>
+	</band>
+	<band index="9" name="q32">
+		<start>141191657</start>
+		<end>162273543</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:141191657-162273543</link>
+	</band>
+	<band index="10" name="q33">
+		<start>162273543</start>
+		<end>170478385</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:162273543-170478385</link>
+	</band>
+	<band index="11" name="q34">
+		<start>170478385</start>
+		<end>174466850</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:170478385-174466850</link>
+	</band>
+	<band index="12" name="q35">
+		<start>174466850</start>
+		<end>179822789</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:174466850-179822789</link>
+	</band>
+	<band index="13" name="q36">
+		<start>179822789</start>
+		<end>187913675</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:179822789-187913675</link>
+	</band>
+	<band index="14" name="q37">
+		<start>187913675</start>
+		<end>190762578</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:187913675-190762578</link>
+	</band>
+	<band index="15" name="q41">
+		<start>190762578</start>
+		<end>204893140</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:190762578-204893140</link>
+	</band>
+	<band index="16" name="q42">
+		<start>204893140</start>
+		<end>207400175</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:204893140-207400175</link>
+	</band>
+	<band index="17" name="q43">
+		<start>207400175</start>
+		<end>223240078</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:207400175-223240078</link>
+	</band>
+	<band index="18" name="q51">
+		<start>223240078</start>
+		<end>231330964</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:223240078-231330964</link>
+	</band>
+	<band index="19" name="q52">
+		<start>231330964</start>
+		<end>239421850</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:231330964-239421850</link>
+	</band>
+	<band index="20" name="q53">
+		<start>239421850</start>
+		<end>245575482</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:239421850-245575482</link>
+	</band>
+	<band index="21" name="q54">
+		<start>245575482</start>
+		<end>253666368</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:245575482-253666368</link>
+	</band>
+	<band index="22" name="q55">
+		<start>253666368</start>
+		<end>267910886</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr1:253666368-267910886</link>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="110718848">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>6254774</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:0-6254774</link>
+	</band>
+	<band index="2" name="q12">
+		<start>6254774</start>
+		<end>26232711</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:6254774-26232711</link>
+	</band>
+	<band index="3" name="q21">
+		<start>26232711</start>
+		<end>34821357</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:26232711-34821357</link>
+	</band>
+	<band index="4" name="q22">
+		<start>34821357</start>
+		<end>47517616</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:34821357-47517616</link>
+	</band>
+	<band index="5" name="q23">
+		<start>47517616</start>
+		<end>49851488</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:47517616-49851488</link>
+	</band>
+	<band index="6" name="q24">
+		<start>49851488</start>
+		<end>63761360</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:49851488-63761360</link>
+	</band>
+	<band index="7" name="q25">
+		<start>63761360</start>
+		<end>66468650</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:63761360-66468650</link>
+	</band>
+	<band index="8" name="q26">
+		<start>66468650</start>
+		<end>83085813</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:66468650-83085813</link>
+	</band>
+	<band index="9" name="q31">
+		<start>83085813</start>
+		<end>88033620</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:83085813-88033620</link>
+	</band>
+	<band index="10" name="q32.1">
+		<start>88033620</start>
+		<end>103717234</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:88033620-103717234</link>
+	</band>
+	<band index="11" name="q32.2">
+		<start>103717234</start>
+		<end>105397621</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:103717234-105397621</link>
+	</band>
+	<band index="12" name="q32.3">
+		<start>105397621</start>
+		<end>110718848</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr10:105397621-110718848</link>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="87759784">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>6656992</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:0-6656992</link>
+	</band>
+	<band index="2" name="p11">
+		<start>6656992</start>
+		<end>15001672</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:6656992-15001672</link>
+	</band>
+	<band index="3" name="q11">
+		<start>15001672</start>
+		<end>36660337</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:15001672-36660337</link>
+	</band>
+	<band index="4" name="q12">
+		<start>36660337</start>
+		<end>48380393</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:36660337-48380393</link>
+	</band>
+	<band index="5" name="q21">
+		<start>48380393</start>
+		<end>64975993</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:48380393-64975993</link>
+	</band>
+	<band index="6" name="q22">
+		<start>64975993</start>
+		<end>76696050</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:64975993-76696050</link>
+	</band>
+	<band index="7" name="q23">
+		<start>76696050</start>
+		<end>87759784</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr11:76696050-87759784</link>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="46782294">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>5483638</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:0-5483638</link>
+	</band>
+	<band index="2" name="p11">
+		<start>5483638</start>
+		<end>12566672</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:5483638-12566672</link>
+	</band>
+	<band index="3" name="q11">
+		<start>12566672</start>
+		<end>18678644</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:12566672-18678644</link>
+	</band>
+	<band index="4" name="q12">
+		<start>18678644</start>
+		<end>26846981</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:18678644-26846981</link>
+	</band>
+	<band index="5" name="q13">
+		<start>26846981</start>
+		<end>28446376</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:26846981-28446376</link>
+	</band>
+	<band index="6" name="q14">
+		<start>28446376</start>
+		<end>32501984</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:28446376-32501984</link>
+	</band>
+	<band index="7" name="q15">
+		<start>32501984</start>
+		<end>33930015</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:32501984-33930015</link>
+	</band>
+	<band index="8" name="q16">
+		<start>33930015</start>
+		<end>46782294</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr12:33930015-46782294</link>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="111154910">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>17399939</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:0-17399939</link>
+	</band>
+	<band index="2" name="p12">
+		<start>17399939</start>
+		<end>22926979</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:17399939-22926979</link>
+	</band>
+	<band index="3" name="p11">
+		<start>22926979</start>
+		<end>30194013</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:22926979-30194013</link>
+	</band>
+	<band index="4" name="q11">
+		<start>30194013</start>
+		<end>40019861</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:30194013-40019861</link>
+	</band>
+	<band index="5" name="q12">
+		<start>40019861</start>
+		<end>42988086</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:40019861-42988086</link>
+	</band>
+	<band index="6" name="q13">
+		<start>42988086</start>
+		<end>55679807</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:42988086-55679807</link>
+	</band>
+	<band index="7" name="q21">
+		<start>55679807</start>
+		<end>71749163</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:55679807-71749163</link>
+	</band>
+	<band index="8" name="q22">
+		<start>71749163</start>
+		<end>80142075</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:71749163-80142075</link>
+	</band>
+	<band index="9" name="q23">
+		<start>80142075</start>
+		<end>83007948</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:80142075-83007948</link>
+	</band>
+	<band index="10" name="q24">
+		<start>83007948</start>
+		<end>91093802</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:83007948-91093802</link>
+	</band>
+	<band index="11" name="q25">
+		<start>91093802</start>
+		<end>93959675</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:91093802-93959675</link>
+	</band>
+	<band index="12" name="q26">
+		<start>93959675</start>
+		<end>105627870</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:93959675-105627870</link>
+	</band>
+	<band index="13" name="q27">
+		<start>105627870</start>
+		<end>111154910</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr13:105627870-111154910</link>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="112194335">
+	<band index="1" name="p22">
+		<start>0</start>
+		<end>21145501</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:0-21145501</link>
+	</band>
+	<band index="2" name="p21">
+		<start>21145501</start>
+		<end>31410307</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:21145501-31410307</link>
+	</band>
+	<band index="3" name="p11">
+		<start>31410307</start>
+		<end>49271071</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:31410307-49271071</link>
+	</band>
+	<band index="4" name="q11">
+		<start>49271071</start>
+		<end>68671555</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:49271071-68671555</link>
+	</band>
+	<band index="5" name="q21">
+		<start>68671555</start>
+		<end>94949460</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:68671555-94949460</link>
+	</band>
+	<band index="6" name="q22">
+		<start>94949460</start>
+		<end>112194335</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr14:94949460-112194335</link>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="109758846">
+	<band index="1" name="p16">
+		<start>0</start>
+		<end>14498477</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:0-14498477</link>
+	</band>
+	<band index="2" name="p15">
+		<start>14498477</start>
+		<end>17183380</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:14498477-17183380</link>
+	</band>
+	<band index="3" name="p14">
+		<start>17183380</start>
+		<end>31681858</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:17183380-31681858</link>
+	</band>
+	<band index="4" name="p13">
+		<start>31681858</start>
+		<end>34366761</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:31681858-34366761</link>
+	</band>
+	<band index="5" name="p12">
+		<start>34366761</start>
+		<end>47791278</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:34366761-47791278</link>
+	</band>
+	<band index="6" name="p11">
+		<start>47791278</start>
+		<end>54235046</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:47791278-54235046</link>
+	</band>
+	<band index="7" name="q11">
+		<start>54235046</start>
+		<end>60356625</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:54235046-60356625</link>
+	</band>
+	<band index="8" name="q12">
+		<start>60356625</start>
+		<end>71848011</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:60356625-71848011</link>
+	</band>
+	<band index="9" name="q21">
+		<start>71848011</start>
+		<end>86776073</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:71848011-86776073</link>
+	</band>
+	<band index="10" name="q22">
+		<start>86776073</start>
+		<end>91716295</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:86776073-91716295</link>
+	</band>
+	<band index="11" name="q23">
+		<start>91716295</start>
+		<end>99341421</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:91716295-99341421</link>
+	</band>
+	<band index="12" name="q24">
+		<start>99341421</start>
+		<end>106214773</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:99341421-106214773</link>
+	</band>
+	<band index="13" name="q25">
+		<start>106214773</start>
+		<end>109758846</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr15:106214773-109758846</link>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="90238779">
+	<band index="1" name="p16">
+		<start>0</start>
+		<end>10244998</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:0-10244998</link>
+	</band>
+	<band index="2" name="p15">
+		<start>10244998</start>
+		<end>12107726</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:10244998-12107726</link>
+	</band>
+	<band index="3" name="p14">
+		<start>12107726</start>
+		<end>25043330</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:12107726-25043330</link>
+	</band>
+	<band index="4" name="p13">
+		<start>25043330</start>
+		<end>29389694</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:25043330-29389694</link>
+	</band>
+	<band index="5" name="p12">
+		<start>29389694</start>
+		<end>34977875</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:29389694-34977875</link>
+	</band>
+	<band index="6" name="p11">
+		<start>34977875</start>
+		<end>42325298</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:34977875-42325298</link>
+	</band>
+	<band index="7" name="q11">
+		<start>42325298</start>
+		<end>51535449</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:42325298-51535449</link>
+	</band>
+	<band index="8" name="q12.1">
+		<start>51535449</start>
+		<end>58882872</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:51535449-58882872</link>
+	</band>
+	<band index="9" name="q12.2">
+		<start>58882872</start>
+		<end>61780448</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:58882872-61780448</link>
+	</band>
+	<band index="10" name="q12.3">
+		<start>61780448</start>
+		<end>69231356</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:61780448-69231356</link>
+	</band>
+	<band index="11" name="q12.4">
+		<start>69231356</start>
+		<end>71818477</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:69231356-71818477</link>
+	</band>
+	<band index="12" name="q12.5">
+		<start>71818477</start>
+		<end>90238779</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr16:71818477-90238779</link>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="97296363">
+	<band index="1" name="p14">
+		<start>0</start>
+		<end>22957568</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:0-22957568</link>
+	</band>
+	<band index="2" name="p13">
+		<start>22957568</start>
+		<end>25253325</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:22957568-25253325</link>
+	</band>
+	<band index="3" name="p12">
+		<start>25253325</start>
+		<end>42744806</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:25253325-42744806</link>
+	</band>
+	<band index="4" name="p11">
+		<start>42744806</start>
+		<end>48648181</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:42744806-48648181</link>
+	</band>
+	<band index="5" name="q11">
+		<start>48648181</start>
+		<end>54442234</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:48648181-54442234</link>
+	</band>
+	<band index="6" name="q12.1">
+		<start>54442234</start>
+		<end>73136254</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:54442234-73136254</link>
+	</band>
+	<band index="7" name="q12.2">
+		<start>73136254</start>
+		<end>75869298</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:73136254-75869298</link>
+	</band>
+	<band index="8" name="q12.3">
+		<start>75869298</start>
+		<end>97296363</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr17:75869298-97296363</link>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="87265094">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>10604365</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:0-10604365</link>
+	</band>
+	<band index="2" name="p12">
+		<start>10604365</start>
+		<end>27505073</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:10604365-27505073</link>
+	</band>
+	<band index="3" name="p11">
+		<start>27505073</start>
+		<end>37336204</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:27505073-37336204</link>
+	</band>
+	<band index="4" name="q11">
+		<start>37336204</start>
+		<end>51033510</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:37336204-51033510</link>
+	</band>
+	<band index="5" name="q12.1">
+		<start>51033510</start>
+		<end>67602832</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:51033510-67602832</link>
+	</band>
+	<band index="6" name="q12.2">
+		<start>67602832</start>
+		<end>71469007</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:67602832-71469007</link>
+	</band>
+	<band index="7" name="q12.3">
+		<start>71469007</start>
+		<end>82846608</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:71469007-82846608</link>
+	</band>
+	<band index="8" name="q13">
+		<start>82846608</start>
+		<end>87265094</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr18:82846608-87265094</link>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="59218465">
+	<band index="1" name="p14">
+		<start>0</start>
+		<end>4060256</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:0-4060256</link>
+	</band>
+	<band index="2" name="p13">
+		<start>4060256</start>
+		<end>10571989</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:4060256-10571989</link>
+	</band>
+	<band index="3" name="p12">
+		<start>10571989</start>
+		<end>12257379</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:10571989-12257379</link>
+	</band>
+	<band index="4" name="p11">
+		<start>12257379</start>
+		<end>22369717</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:12257379-22369717</link>
+	</band>
+	<band index="5" name="q11">
+		<start>22369717</start>
+		<end>35469792</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:22369717-35469792</link>
+	</band>
+	<band index="6" name="q12">
+		<start>35469792</start>
+		<end>59218465</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr19:35469792-59218465</link>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="258207540">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15886252</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:0-15886252</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15886252</start>
+		<end>34569380</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:15886252-34569380</link>
+	</band>
+	<band index="3" name="q13">
+		<start>34569380</start>
+		<end>37030630</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:34569380-37030630</link>
+	</band>
+	<band index="4" name="q14">
+		<start>37030630</start>
+		<end>47770632</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:37030630-47770632</link>
+	</band>
+	<band index="5" name="q15">
+		<start>47770632</start>
+		<end>50903132</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:47770632-50903132</link>
+	</band>
+	<band index="6" name="q16">
+		<start>50903132</start>
+		<end>63656884</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:50903132-63656884</link>
+	</band>
+	<band index="7" name="q21">
+		<start>63656884</start>
+		<end>72830636</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:63656884-72830636</link>
+	</band>
+	<band index="8" name="q22">
+		<start>72830636</start>
+		<end>84801263</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:72830636-84801263</link>
+	</band>
+	<band index="9" name="q23">
+		<start>84801263</start>
+		<end>97555015</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:84801263-97555015</link>
+	</band>
+	<band index="10" name="q24">
+		<start>97555015</start>
+		<end>117468768</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:97555015-117468768</link>
+	</band>
+	<band index="11" name="q25">
+		<start>117468768</start>
+		<end>126642519</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:117468768-126642519</link>
+	</band>
+	<band index="12" name="q26">
+		<start>126642519</start>
+		<end>145437522</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:126642519-145437522</link>
+	</band>
+	<band index="13" name="q31">
+		<start>145437522</start>
+		<end>159310024</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:145437522-159310024</link>
+	</band>
+	<band index="14" name="q32">
+		<start>159310024</start>
+		<end>171280651</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:159310024-171280651</link>
+	</band>
+	<band index="15" name="q33">
+		<start>171280651</start>
+		<end>174525027</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:171280651-174525027</link>
+	</band>
+	<band index="16" name="q34">
+		<start>174525027</start>
+		<end>205178781</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:174525027-205178781</link>
+	</band>
+	<band index="17" name="q41">
+		<start>205178781</start>
+		<end>219051283</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:205178781-219051283</link>
+	</band>
+	<band index="18" name="q42">
+		<start>219051283</start>
+		<end>227106285</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:219051283-227106285</link>
+	</band>
+	<band index="19" name="q43">
+		<start>227106285</start>
+		<end>235049411</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:227106285-235049411</link>
+	</band>
+	<band index="20" name="q44">
+		<start>235049411</start>
+		<end>246236913</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:235049411-246236913</link>
+	</band>
+	<band index="21" name="q45">
+		<start>246236913</start>
+		<end>258207540</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr2:246236913-258207540</link>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="55268282">
+	<band index="1" name="p12">
+		<start>0</start>
+		<end>15959251</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr20:0-15959251</link>
+	</band>
+	<band index="2" name="p11">
+		<start>15959251</start>
+		<end>26670159</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr20:15959251-26670159</link>
+	</band>
+	<band index="3" name="q11">
+		<start>26670159</start>
+		<end>38023721</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr20:26670159-38023721</link>
+	</band>
+	<band index="4" name="q12">
+		<start>38023721</start>
+		<end>45735574</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr20:38023721-45735574</link>
+	</band>
+	<band index="5" name="q13">
+		<start>45735574</start>
+		<end>55268282</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr20:45735574-55268282</link>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="171063335">
+	<band index="1" name="p13">
+		<start>0</start>
+		<end>5305065</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:0-5305065</link>
+	</band>
+	<band index="2" name="p12">
+		<start>5305065</start>
+		<end>11010513</end>
+		<stain>gvar</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:5305065-11010513</link>
+	</band>
+	<band index="3" name="p11">
+		<start>11010513</start>
+		<end>16315578</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:11010513-16315578</link>
+	</band>
+	<band index="4" name="q11">
+		<start>16315578</start>
+		<end>21320357</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:16315578-21320357</link>
+	</band>
+	<band index="5" name="q12">
+		<start>21320357</start>
+		<end>39137369</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:21320357-39137369</link>
+	</band>
+	<band index="6" name="q21">
+		<start>39137369</start>
+		<end>54151705</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:39137369-54151705</link>
+	</band>
+	<band index="7" name="q22">
+		<start>54151705</start>
+		<end>55853329</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:54151705-55853329</link>
+	</band>
+	<band index="8" name="q23">
+		<start>55853329</start>
+		<end>60557821</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:55853329-60557821</link>
+	</band>
+	<band index="9" name="q24">
+		<start>60557821</start>
+		<end>78374833</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:60557821-78374833</link>
+	</band>
+	<band index="10" name="q31">
+		<start>78374833</start>
+		<end>88284295</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:78374833-88284295</link>
+	</band>
+	<band index="11" name="q32">
+		<start>88284295</start>
+		<end>91187067</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:88284295-91187067</link>
+	</band>
+	<band index="12" name="q33">
+		<start>91187067</start>
+		<end>96191846</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:91187067-96191846</link>
+	</band>
+	<band index="13" name="q34">
+		<start>96191846</start>
+		<end>99695191</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:96191846-99695191</link>
+	</band>
+	<band index="14" name="q35">
+		<start>99695191</start>
+		<end>112207137</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:99695191-112207137</link>
+	</band>
+	<band index="15" name="q36">
+		<start>112207137</start>
+		<end>128222429</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:112207137-128222429</link>
+	</band>
+	<band index="16" name="q41">
+		<start>128222429</start>
+		<end>145338772</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:128222429-145338772</link>
+	</band>
+	<band index="17" name="q42">
+		<start>145338772</start>
+		<end>165658174</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:145338772-165658174</link>
+	</band>
+	<band index="18" name="q43">
+		<start>165658174</start>
+		<end>171063335</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr3:165658174-171063335</link>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="187126005">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15612157</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:0-15612157</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15612157</start>
+		<end>25397242</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:15612157-25397242</link>
+	</band>
+	<band index="3" name="q13">
+		<start>25397242</start>
+		<end>31993929</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:25397242-31993929</link>
+	</band>
+	<band index="4" name="q21">
+		<start>31993929</start>
+		<end>46176804</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:31993929-46176804</link>
+	</band>
+	<band index="5" name="q22">
+		<start>46176804</start>
+		<end>69595041</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:46176804-69595041</link>
+	</band>
+	<band index="6" name="q23">
+		<start>69595041</start>
+		<end>72343661</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:69595041-72343661</link>
+	</band>
+	<band index="7" name="q24">
+		<start>72343661</start>
+		<end>92683444</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:72343661-92683444</link>
+	</band>
+	<band index="8" name="q31">
+		<start>92683444</start>
+		<end>102908308</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:92683444-102908308</link>
+	</band>
+	<band index="9" name="q32">
+		<start>102908308</start>
+		<end>104447535</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:102908308-104447535</link>
+	</band>
+	<band index="10" name="q33">
+		<start>104447535</start>
+		<end>112253614</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:104447535-112253614</link>
+	</band>
+	<band index="11" name="q34">
+		<start>112253614</start>
+		<end>136991188</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:112253614-136991188</link>
+	</band>
+	<band index="12" name="q41">
+		<start>136991188</start>
+		<end>146776273</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:136991188-146776273</link>
+	</band>
+	<band index="13" name="q42">
+		<start>146776273</start>
+		<end>170194509</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:146776273-170194509</link>
+	</band>
+	<band index="14" name="q43">
+		<start>170194509</start>
+		<end>174152521</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:170194509-174152521</link>
+	</band>
+	<band index="15" name="q44">
+		<start>174152521</start>
+		<end>187126005</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr4:174152521-187126005</link>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="173096209">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>12292177</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:0-12292177</link>
+	</band>
+	<band index="2" name="q12">
+		<start>12292177</start>
+		<end>20226219</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:12292177-20226219</link>
+	</band>
+	<band index="3" name="q13">
+		<start>20226219</start>
+		<end>34529844</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:20226219-34529844</link>
+	</band>
+	<band index="4" name="q21">
+		<start>34529844</start>
+		<end>51627145</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:34529844-51627145</link>
+	</band>
+	<band index="5" name="q22">
+		<start>51627145</start>
+		<end>66824746</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:51627145-66824746</link>
+	</band>
+	<band index="6" name="q23">
+		<start>66824746</start>
+		<end>69618423</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:66824746-69618423</link>
+	</band>
+	<band index="7" name="q24">
+		<start>69618423</start>
+		<end>85486507</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:69618423-85486507</link>
+	</band>
+	<band index="8" name="q31">
+		<start>85486507</start>
+		<end>104595256</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:85486507-104595256</link>
+	</band>
+	<band index="9" name="q32">
+		<start>104595256</start>
+		<end>112194056</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:104595256-112194056</link>
+	</band>
+	<band index="10" name="q33">
+		<start>112194056</start>
+		<end>123257016</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:112194056-123257016</link>
+	</band>
+	<band index="11" name="q34">
+		<start>123257016</start>
+		<end>128509128</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:123257016-128509128</link>
+	</band>
+	<band index="12" name="q35">
+		<start>128509128</start>
+		<end>135213952</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:128509128-135213952</link>
+	</band>
+	<band index="13" name="q36">
+		<start>135213952</start>
+		<end>173096209</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr5:135213952-173096209</link>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="147636619">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>3920547</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:0-3920547</link>
+	</band>
+	<band index="2" name="q12">
+		<start>3920547</start>
+		<end>21058941</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:3920547-21058941</link>
+	</band>
+	<band index="3" name="q13">
+		<start>21058941</start>
+		<end>25091504</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:21058941-25091504</link>
+	</band>
+	<band index="4" name="q14">
+		<start>25091504</start>
+		<end>36629115</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:25091504-36629115</link>
+	</band>
+	<band index="5" name="q15">
+		<start>36629115</start>
+		<end>40661678</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:36629115-40661678</link>
+	</band>
+	<band index="6" name="q16">
+		<start>40661678</start>
+		<end>55783790</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:40661678-55783790</link>
+	</band>
+	<band index="7" name="q21">
+		<start>55783790</start>
+		<end>67769464</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:55783790-67769464</link>
+	</band>
+	<band index="8" name="q22">
+		<start>67769464</start>
+		<end>72138074</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:67769464-72138074</link>
+	</band>
+	<band index="9" name="q23">
+		<start>72138074</start>
+		<end>83787701</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:72138074-83787701</link>
+	</band>
+	<band index="10" name="q24">
+		<start>83787701</start>
+		<end>107647034</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:83787701-107647034</link>
+	</band>
+	<band index="11" name="q31">
+		<start>107647034</start>
+		<end>119632707</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:107647034-119632707</link>
+	</band>
+	<band index="12" name="q32">
+		<start>119632707</start>
+		<end>139571492</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:119632707-139571492</link>
+	</band>
+	<band index="13" name="q33">
+		<start>139571492</start>
+		<end>147636619</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr6:139571492-147636619</link>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="143002779">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>15273239</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:0-15273239</link>
+	</band>
+	<band index="2" name="q12">
+		<start>15273239</start>
+		<end>18101617</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:15273239-18101617</link>
+	</band>
+	<band index="3" name="q13">
+		<start>18101617</start>
+		<end>41068044</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:18101617-41068044</link>
+	</band>
+	<band index="4" name="q21">
+		<start>41068044</start>
+		<end>52268420</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:41068044-52268420</link>
+	</band>
+	<band index="5" name="q22">
+		<start>52268420</start>
+		<end>76479334</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:52268420-76479334</link>
+	</band>
+	<band index="6" name="q31">
+		<start>76479334</start>
+		<end>91752574</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:76479334-91752574</link>
+	</band>
+	<band index="7" name="q32">
+		<start>91752574</start>
+		<end>94580951</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:91752574-94580951</link>
+	</band>
+	<band index="8" name="q33">
+		<start>94580951</start>
+		<end>104649976</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:94580951-104649976</link>
+	</band>
+	<band index="9" name="q34">
+		<start>104649976</start>
+		<end>128860890</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:104649976-128860890</link>
+	</band>
+	<band index="10" name="q35">
+		<start>128860890</start>
+		<end>136101537</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:128860890-136101537</link>
+	</band>
+	<band index="11" name="q36">
+		<start>136101537</start>
+		<end>143002779</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr7:136101537-143002779</link>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="129041809">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>11874368</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:0-11874368</link>
+	</band>
+	<band index="2" name="q12">
+		<start>11874368</start>
+		<end>16813265</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:11874368-16813265</link>
+	</band>
+	<band index="3" name="q13">
+		<start>16813265</start>
+		<end>31735037</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:16813265-31735037</link>
+	</band>
+	<band index="4" name="q21">
+		<start>31735037</start>
+		<end>40351836</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:31735037-40351836</link>
+	</band>
+	<band index="5" name="q22">
+		<start>40351836</start>
+		<end>48968634</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:40351836-48968634</link>
+	</band>
+	<band index="6" name="q23">
+		<start>48968634</start>
+		<end>54222779</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:48968634-54222779</link>
+	</band>
+	<band index="7" name="q24">
+		<start>54222779</start>
+		<end>82279915</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:54222779-82279915</link>
+	</band>
+	<band index="8" name="q31">
+		<start>82279915</start>
+		<end>106554067</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:82279915-106554067</link>
+	</band>
+	<band index="9" name="q32">
+		<start>106554067</start>
+		<end>129041809</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr8:106554067-129041809</link>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="113440463">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>7255483</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:0-7255483</link>
+	</band>
+	<band index="2" name="q12">
+		<start>7255483</start>
+		<end>17060190</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:7255483-17060190</link>
+	</band>
+	<band index="3" name="q13">
+		<start>17060190</start>
+		<end>28237556</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:17060190-28237556</link>
+	</band>
+	<band index="4" name="q21">
+		<start>28237556</start>
+		<end>41866100</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:28237556-41866100</link>
+	</band>
+	<band index="5" name="q22">
+		<start>41866100</start>
+		<end>52357136</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:41866100-52357136</link>
+	</band>
+	<band index="6" name="q31">
+		<start>52357136</start>
+		<end>62063796</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:52357136-62063796</link>
+	</band>
+	<band index="7" name="q32">
+		<start>62063796</start>
+		<end>70103656</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:62063796-70103656</link>
+	</band>
+	<band index="8" name="q33">
+		<start>70103656</start>
+		<end>78535705</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:70103656-78535705</link>
+	</band>
+	<band index="9" name="q34">
+		<start>78535705</start>
+		<end>83732200</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:78535705-83732200</link>
+	</band>
+	<band index="10" name="q35">
+		<start>83732200</start>
+		<end>90007212</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:83732200-90007212</link>
+	</band>
+	<band index="11" name="q36">
+		<start>90007212</start>
+		<end>101184578</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:90007212-101184578</link>
+	</band>
+	<band index="12" name="q37">
+		<start>101184578</start>
+		<end>107459591</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:101184578-107459591</link>
+	</band>
+	<band index="13" name="q38">
+		<start>107459591</start>
+		<end>113440463</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=Chr9:107459591-113440463</link>
+	</band>
+</chromosome>
+<chromosome index="21" number="X" length="160699376">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>7738332</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:0-7738332</link>
+	</band>
+	<band index="2" name="q12">
+		<start>7738332</start>
+		<end>21538359</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:7738332-21538359</link>
+	</band>
+	<band index="3" name="q13">
+		<start>21538359</start>
+		<end>29792580</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:21538359-29792580</link>
+	</band>
+	<band index="4" name="q14">
+		<start>29792580</start>
+		<end>39465496</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:29792580-39465496</link>
+	</band>
+	<band index="5" name="q21">
+		<start>39465496</start>
+		<end>59585161</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:39465496-59585161</link>
+	</band>
+	<band index="6" name="q22">
+		<start>59585161</start>
+		<end>81252493</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:59585161-81252493</link>
+	</band>
+	<band index="7" name="q31">
+		<start>81252493</start>
+		<end>100985241</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:81252493-100985241</link>
+	</band>
+	<band index="8" name="q32">
+		<start>100985241</start>
+		<end>112463768</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:100985241-112463768</link>
+	</band>
+	<band index="9" name="q33">
+		<start>112463768</start>
+		<end>115688074</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:112463768-115688074</link>
+	</band>
+	<band index="10" name="q34">
+		<start>115688074</start>
+		<end>122523601</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:115688074-122523601</link>
+	</band>
+	<band index="11" name="q35">
+		<start>122523601</start>
+		<end>135420822</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:122523601-135420822</link>
+	</band>
+	<band index="12" name="q36">
+		<start>135420822</start>
+		<end>149220849</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:135420822-149220849</link>
+	</band>
+	<band index="13" name="q37">
+		<start>149220849</start>
+		<end>160699376</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrX:149220849-160699376</link>
+	</band>
+</chromosome>
+<chromosome index="22" number="Y" length="71246413">
+	<band index="1" name="q11">
+		<start>0</start>
+		<end>53434809</end>
+		<stain>gpos</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:0-53434809</link>
+	</band>
+	<band index="2" name="q12">
+		<start>53434809</start>
+		<end>71246413</end>
+		<stain>gneg</stain>
+		<link>http://genome.ucsc.edu/cgi-bin/hgTracks?org=Rat&position=ChrY:53434809-71246413</link>
+	</band>
+</chromosome>
+</genome>

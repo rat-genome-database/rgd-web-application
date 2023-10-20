@@ -174,8 +174,8 @@ public class RgdContext {
         Properties properties=getGitHubProperties();
         Object clientId=properties.getProperty("CLIENT_ID");
         String url="https://github.com/login/oauth/authorize?client_id="+clientId+"&scope=user&redirect_uri=";
-        String redirectURI="'https://pipelines.rgd.mcw.edu'";
-        String page="/rgdweb/curation/login.html";
+        String redirectURI=properties.getProperty("REDIRECT_URI");
+        String page=properties.getProperty("PAGE");
         return url+redirectURI+page;
     }
     public static String getHostname(){
@@ -203,7 +203,7 @@ public class RgdContext {
 
 
         try{
-          //  fis=new FileInputStream("C:/Apps/github-oauth.properties");
+
              fis=new FileInputStream("/data/properties/github-oauth.properties");
             props.load(fis);
 
@@ -218,5 +218,34 @@ public class RgdContext {
             e.printStackTrace();
         }
         return props;
+    }
+    public static String getSolrUrl(String collection){
+        String url=new String();
+        switch (collection.toLowerCase()){
+            case "solr":
+                if(isProduction || isPipelines){
+                    url= "https://ontomate.rgd.mcw.edu/solr";
+                }else{
+                    url= "https://dev.rgd.mcw.edu/solr/OntoMate";
+                }
+                break;
+            case "ontosolr":
+                if(isProduction || isPipelines){
+                    url="https://ontomate.rgd.mcw.edu/OntoSolr";
+                }else{
+                    url="https://dev.rgd.mcw.edu/solr/OntoSolr";
+                }
+                break;
+            case "preprintsolr":
+                if(isProduction || isPipelines){
+                    url= "https://ontomate.rgd.mcw.edu/preprintSolr";
+                }else{
+                    url=  "https://dev.rgd.mcw.edu/solr/preprintSolr";
+                }
+                break;
+
+
+        }
+        return url;
     }
 }

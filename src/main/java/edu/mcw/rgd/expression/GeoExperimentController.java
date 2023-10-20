@@ -10,6 +10,7 @@ import edu.mcw.rgd.pubmed.ReferenceImport;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import edu.mcw.rgd.xml.XomAnalyzer;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -47,7 +48,8 @@ public class GeoExperimentController implements Controller {
                 accessToken = request.getCookies()[0].getValue();
 
         if(!checkToken(accessToken)) {
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+          //  response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+            response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
             return null;
         }
         if (request.getParameter("count") != null) {

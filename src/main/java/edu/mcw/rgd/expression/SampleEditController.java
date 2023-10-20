@@ -4,6 +4,7 @@ import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.GeoRecord;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.web.RgdContext;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -38,7 +39,9 @@ public class SampleEditController implements Controller {
 
 
         if(!checkToken(accessToken)) {
-            response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+          //  response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
+            response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
+
             return null;
         }
 

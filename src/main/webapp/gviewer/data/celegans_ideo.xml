@@ -1,0 +1,57 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="I" length="15080475">
+	<band index="1" name="Chr I">
+		<start>0</start>
+		<end>15080475</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+<chromosome index="2" number="II" length="15174006">
+	<band index="1" name="Chr II">
+		<start>0</start>
+		<end>15174006</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+<chromosome index="3" number="III" length="13855084">
+	<band index="1" name="Chr III">
+		<start>0</start>
+		<end>13855084</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+<chromosome index="4" number="IV" length="17473197">
+	<band index="1" name="Chr IV">
+		<start>0</start>
+		<end>17473197</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+<chromosome index="5" number="V" length="20916337">
+	<band index="1" name="Chr V">
+		<start>0</start>
+		<end>20916337</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+<chromosome index="6" number="X" length="17749735">
+	<band index="1" name="Chr X">
+		<start>0</start>
+		<end>17749735</end>
+		<stain>gpos</stain>
+		<color>0x99ccff</color>
+		<link></link>
+	</band>
+</chromosome>
+</genome>

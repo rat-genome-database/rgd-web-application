@@ -1,0 +1,315 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="122678785">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>122678785</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="2" number="2" length="85426708">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>85426708</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="3" number="3" length="91889043">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>91889043</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="4" number="4" length="88276631">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>88276631</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="5" number="5" length="88915250">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>88915250</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="6" number="6" length="77573801">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>77573801</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="7" number="7" length="80974532">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>80974532</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="8" number="8" length="74330416">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>74330416</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="9" number="9" length="61074082">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>61074082</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="10" number="10" length="69331447">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>69331447</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="11" number="11" length="74389097">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>74389097</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="12" number="12" length="72498081">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>72498081</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="13" number="13" length="63241923">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>63241923</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="14" number="14" length="60966679">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>60966679</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="15" number="15" length="64190966">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>64190966</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="16" number="16" length="59632846">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>59632846</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="17" number="17" length="64289059">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>64289059</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="18" number="18" length="55844845">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>55844845</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="19" number="19" length="53741614">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>53741614</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="20" number="20" length="58134056">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>58134056</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="21" number="21" length="50858623">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>50858623</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="22" number="22" length="61439934">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>61439934</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="23" number="23" length="52294480">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>52294480</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="24" number="24" length="47698779">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>47698779</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="25" number="25" length="51628933">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>51628933</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="26" number="26" length="38964690">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>38964690</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="27" number="27" length="45876710">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>45876710</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="28" number="28" length="41182112">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>41182112</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="29" number="29" length="41845238">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>41845238</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="30" number="30" length="40214260">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>40214260</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="31" number="31" length="39895921">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>39895921</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="32" number="32" length="38810281">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>38810281</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="33" number="33" length="31377067">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>31377067</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="34" number="34" length="42124431">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>42124431</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="35" number="35" length="26524999">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>26524999</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="36" number="36" length="30810995">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>30810995</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="37" number="37" length="30902991">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>30902991</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="38" number="38" length="23914537">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>23914537</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+<chromosome index="39" number="X" length="123869142">
+    <band index="1" name="p13">
+        <start>0</start>
+        <end>123869142</end>
+        <stain>gneg</stain>
+        <link></link>
+    </band>
+</chromosome>
+</genome>

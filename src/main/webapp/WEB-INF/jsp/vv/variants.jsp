@@ -565,12 +565,17 @@
                             var +="/";
                          }
 
-                         if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("del")) {
+                         if (vr.getVariant().getVariantType() != null && (vr.getVariant().getVariantType().equals("del") || vr.getVariant().getVariantType().equals("deletion")) ) {
                             var="-";
                          //}else if (vr.getVariant().getVariantType() != null && vr.getVariant().getVariantType().equals("ins")) {
                          //   var="+";
                          }else {
-                            var += vr.getVariant().getVariantNucleotide();
+                             if (var.length() > 2) {
+                                var = var.length() + "";
+                             }
+                             else{
+                                var += vr.getVariant().getVariantNucleotide();
+                             }
                          }
 
                          if (var.length() > 1) {
@@ -583,12 +588,22 @@
                          if (varients.size() == 2) {
                             VariantResult vr1 = varients.get(0);
                             VariantResult vr2 = varients.get(1);
-
-                            var = vr1.getVariant().getVariantNucleotide() + "/" + vr2.getVariant().getVariantNucleotide();
+                            var = "";
+                            if (vr1.getVariant().getVariantNucleotide() != null && vr1.getVariant().getVariantNucleotide().length()>2){
+                                var += vr1.getVariant().getVariantNucleotide().length() + "/";
+                            }
+                            else {
+                                var += vr1.getVariant().getVariantNucleotide() + "/";
+                            }
+                            if (vr2.getVariant().getVariantNucleotide() != null && vr2.getVariant().getVariantNucleotide().length()>2){
+                                var += vr2.getVariant().getVariantNucleotide().length();
+                            }
+                            else {
+                                var += vr2.getVariant().getVariantNucleotide();
+                            }
+//                            var = vr1.getVariant().getVariantNucleotide() + "/" + vr2.getVariant().getVariantNucleotide();
 
                          }
-
-
 
                          count++;
 
