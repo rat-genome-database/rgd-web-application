@@ -619,7 +619,6 @@ public class TermEditObjectController implements Controller {
             return "rgd"; // no authentication: default is 'rgd'
         }
 
-        request.getSession
         URL url = new URL("https://api.github.com/user");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestProperty("User-Agent", "Mozilla/5.0");
