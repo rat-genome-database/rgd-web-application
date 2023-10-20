@@ -113,7 +113,7 @@
                     <%}%>
                     <% if(ei1.size()>0){%>
                     <br><div class="subTitle" id="Ext">External Resources</div><br>
-                    <%@ include file="xdbs.jsp"%>
+                    <%@ include file="../xdbs.jsp"%>
                     <%}%>
                 </td>
 
