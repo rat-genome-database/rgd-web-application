@@ -606,7 +606,7 @@ public class TermEditObjectController implements Controller {
         }
         */
 
-        String loginFromSession = (String) request.getSession().getAttribute("login");
+        String loginFromSession = (String) req.getSession().getAttribute("login");
         if( loginFromSession!=null && loginFromSession.length()>0 ) {
             return loginFromSession;
         }
@@ -637,7 +637,7 @@ public class TermEditObjectController implements Controller {
                 if (loginPos2 > loginPos) {
                     String loginStr = line.substring(loginPos, loginPos2);
 
-                    request.getSession().setAttribute("login", loginStr);
+                    req.getSession().setAttribute("login", loginStr);
                     return loginStr;
                 }
             }
