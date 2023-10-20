@@ -67,7 +67,7 @@
         <td><%=fu.buildSelectList("objectStatus",statusList, "ACTIVE")%></td>
 
         <td><input  type="button" value="Submit" onClick="navigatePage(this.form)"/> </td>
-        <td> &nbsp; &nbsp; current github user: <%=TermEditObjectController.getCreatedBy(request)%></td>
+        <td> &nbsp; &nbsp; current github user: <%=edu.mcw.rgd.edit.TermEditObjectController.getCreatedBy(request)%></td>
     </tr>
 </table>
 </form>
