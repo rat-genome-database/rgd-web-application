@@ -9,7 +9,7 @@
         $.get("damagingVariants.html", {id: <%=obj.getRgdId()%>, s: "<%=obj.getSymbol()%>"} , function(data){
             // Display the returned data in browser
             $("#ajax_damaging_variants").html(data);
-            run(); // to add 'Damaging Variants' to nav sidebar
+            // run(); // to add 'Damaging Variants' to nav sidebar
         });
     });
 </script>
