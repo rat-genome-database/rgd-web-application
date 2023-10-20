@@ -9,6 +9,10 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.Principal;
 import java.util.*;
 
@@ -157,7 +161,7 @@ public class TermEditObjectController implements Controller {
 
             String createdBy = getCreatedBy(req);
             if( createdBy.equals("rgd") ) {
-                throw new Exception("ERROR: to insert new terms, please log in to MY RGD first!");
+                throw new Exception("ERROR: to insert new terms, please log in first!");
             }
 
             term = new Term();
@@ -588,6 +592,7 @@ public class TermEditObjectController implements Controller {
     }
 
     String getCreatedBy(HttpServletRequest req) {
+        /* old code -- used by MyRgd -- does not work anymore
         Principal p = req.getUserPrincipal();
         if( p==null ) {
             return "rgd";
@@ -598,6 +603,38 @@ public class TermEditObjectController implements Controller {
             return name.substring(0, atPos);
         } else {
             return name;
+        }
+        */
+
+        String token = req.getParameter("token");
+        if( token==null || token.length()<10 ) {
+            token = req.getParameter("accessToken");
+        }
+        if( token==null || token.length()<10 ) {
+            return "rgd"; // no authentication: default is 'rgd'
+        }
+
+        URL url = new URL("https://api.github.com/user");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+        conn.setRequestProperty("Authorization", "Token " + token);
+
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            String line = in.readLine();
+            System.out.println(line);
+            // the response is json, and it looks like this:
+            // {"login":"tutajm","id:3s.....
+            String loginTemplate = "\"login\":\"";
+            int loginPos = line.indexOf("\"login\":\"");
+            if (loginPos > 0) {
+                loginPos += loginTemplate.length(); // point to start of login name
+                int loginPos2 = line.indexOf("\"", loginPos);
+                if (loginPos2 > loginPos) {
+                    String loginStr = line.substring(loginPos, loginPos2);
+                    return loginStr;
+                }
+            }
+            return "rgd";// no authentication: default is 'rgd'
         }
     }
 }
