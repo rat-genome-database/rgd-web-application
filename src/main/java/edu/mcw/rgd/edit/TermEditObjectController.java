@@ -606,6 +606,11 @@ public class TermEditObjectController implements Controller {
         }
         */
 
+        String loginFromSession = (String) request.getSession().getAttribute("login");
+        if( loginFromSession!=null && loginFromSession.length()>0 ) {
+            return loginFromSession;
+        }
+
         String token = req.getParameter("token");
         if( token==null || token.length()<10 ) {
             token = req.getParameter("accessToken");
@@ -614,6 +619,7 @@ public class TermEditObjectController implements Controller {
             return "rgd"; // no authentication: default is 'rgd'
         }
 
+        request.getSession
         URL url = new URL("https://api.github.com/user");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -631,6 +637,8 @@ public class TermEditObjectController implements Controller {
                 int loginPos2 = line.indexOf("\"", loginPos);
                 if (loginPos2 > loginPos) {
                     String loginStr = line.substring(loginPos, loginPos2);
+
+                    request.getSession().setAttribute("login", loginStr);
                     return loginStr;
                 }
             }
