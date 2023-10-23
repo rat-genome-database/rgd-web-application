@@ -8,10 +8,7 @@ import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.RgdContext;
 
 import jakarta.servlet.ServletRequest;
-import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.JspWriter;
-import jakarta.servlet.jsp.PageContext;
-import jakarta.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -24,14 +21,16 @@ import java.util.Collection;
  *   only terms with diagrams or having child terms with diagrams are shown;
  *   annotation icons are not shown any longer, only count of diagrams
  */
-public class OntBrowser extends SimpleTagSupport {
+public class OntBrowser {
 
     OntViewBean bean = null;
-    private String url;
-    private String offset = "";
-    private String opener_sel_acc_id;
-    private String opener_sel_term;
-    private String filter;
+
+    private String url; // url of the page the control is embedded with, for example: '/rgdweb/ontology/view.html?mode=popup';
+                        // acc_id parameters (and others, as needed, fe 'offset') will be added to the url on-the-fly
+    private String offset = ""; // used to reduce window jitter when clicking sibling terms
+    private String opener_sel_acc_id; // id of opener window's input control that should receive accession id of selected term
+    private String opener_sel_term; // id of opener window's input control that should receive term name of selected term
+    private String filter; // ontology term filter
     private boolean showSelectButton;
     private boolean alwaysShowSelectButton = false;
     private boolean iframe = false;
@@ -44,13 +43,14 @@ public class OntBrowser extends SimpleTagSupport {
 
     // true if we are on CURATOR server
     private boolean isCurator = false;
-
-    public void setAcc_id(String accId) {
+    //
+    private String curationTool;
+    public void setAcc_id(String accId, ServletRequest req) {
 
         bean = new OntViewBean();
         try {
-            ServletRequest req = ((PageContext)getJspContext()).getRequest();
             diagramMode = Utils.NVL(req.getParameter("dia"),"0").equals("1");
+            curationTool = Utils.NVL(req.getParameter("curationTool"), "");
             bean.setDiagramMode(diagramMode);
 
             this.filter = req.getParameter("filter");
@@ -95,16 +95,14 @@ public class OntBrowser extends SimpleTagSupport {
 
     private boolean canShowSelectButton() {
         return !Utils.isStringEmpty(this.opener_sel_acc_id) ||
-                !Utils.isStringEmpty(this.opener_sel_term);
+               !Utils.isStringEmpty(this.opener_sel_term);
     }
 
 
-    public void doTag() throws JspException, IOException {
+    public void doTag(ServletRequest req, JspWriter out) throws IOException {
+
         showSelectButton = canShowSelectButton();
 
-        JspWriter out = this.getJspContext().getOut();
-
-        ServletRequest req = ((PageContext)getJspContext()).getRequest();
         if (req.getParameter("pv") != null && req.getParameter("pv").equals("1")) {
             this.portalVersion=true;
             this.hideZeroAnnotations=true;
@@ -134,6 +132,8 @@ public class OntBrowser extends SimpleTagSupport {
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7) + ")</a>";
                 annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Naked Mole-rat#annot'>Naked Mole-rat: (" + ts.getAnnotObjectCountForSpecies(14) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Green Monkey#annot'>Green Monkey: (" + ts.getAnnotObjectCountForSpecies(13) + ")</a>";
             }
         }
 
@@ -180,18 +180,18 @@ public class OntBrowser extends SimpleTagSupport {
         }
 
         html +=
-                "     </td>\n"+
-                        "  </tr>\n"+
-                        "</table>\n"+
-                        "</div>\n"+
+        "     </td>\n"+
+        "  </tr>\n"+
+        "</table>\n"+
+        "</div>\n"+
 
-                        "<table width=\"100%\">\n"+
-                        "<tr>\n"+
-                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Parent Terms</td>\n"+
-                        "  <td width=\"40%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Term With Siblings</td>\n"+
-                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Child Terms</td>\n"+
-                        "</tr>\n"+
-                        "</table>\n";
+        "<table width=\"100%\">\n"+
+        "<tr>\n"+
+        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Parent Terms</td>\n"+
+        "  <td width=\"40%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Term With Siblings</td>\n"+
+        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Child Terms</td>\n"+
+        "</tr>\n"+
+        "</table>\n";
         return html;
     }
 
@@ -313,7 +313,7 @@ public class OntBrowser extends SimpleTagSupport {
         }
 
         out.append("  </div>\n")
-                .append("</td>\n");
+           .append("</td>\n");
     }
 
 
@@ -323,7 +323,9 @@ public class OntBrowser extends SimpleTagSupport {
 
     private void generateTermsPane(StringBuilder out, String width, String id,
                                    Collection<OntDagNode> nodes, String showRelImages) {
-
+        String curTool = "";
+        if (!Utils.isStringEmpty(curationTool))
+            curTool = "&curationTool=1";
         out.append("<td valign=\"top\" width=").append(width).append(">\n");
         out.append("  <div id=\"").append(id).append("\" class=\"tree_box\">\n");
 
@@ -352,13 +354,13 @@ public class OntBrowser extends SimpleTagSupport {
 
                 if ( portalVersion ) {
 
-                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='browse(\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
+                    out.append("<span class='sibterm' id='" + node.getTermAcc() + "' onClick='\"" + node.getTermAcc() + "\",\"" + node.getTerm().replaceAll("'s","") + "\")' >")
                             .append(node.getTerm().replace('_', ' '))
                             .append("</span>");
 
 
                 }else {
-                    out.append("<a id=\"").append(node.getTermAcc()).append("\" href=\"").append(this.url).append("acc_id=").append(node.getTermAcc()).append("\">").append(node.getTerm().replace('_', ' ')).append("</a>");
+                    out.append("<a id=\"").append(node.getTermAcc()).append("\" href=\"").append(this.url).append("acc_id=").append(node.getTermAcc()).append(curTool).append("\">").append(node.getTerm().replace('_', ' ')).append("</a>");
                 }
 
                 // write '+' if child terms are present
@@ -398,7 +400,7 @@ public class OntBrowser extends SimpleTagSupport {
                 out.append("<span title=\"").append(node.getCountOfPathwayDiagramsForTermChilds()).append(" child term(s) have interactive pathway diagrams\" class='cc'>&nbsp;+</span> ");
             }
         } else {
-            // write '+' if child terms are present -- in normal mode
+        // write '+' if child terms are present -- in normal mode
             if (node.getChildCount() > 0) {
                 out.append("<span title=\"").append(node.getChildCount()).append(" child terms\" class='cc'>&nbsp;+</span> ");
             }
@@ -406,9 +408,9 @@ public class OntBrowser extends SimpleTagSupport {
 
         //if (this.portalVersion) {
         //    return;
-        // }
+       // }
 
-        // show link to annotations, if there are any
+            // show link to annotations, if there are any
         if( !diagramMode && node.getAnnotCountForTermAndChilds()>0 ) {
             if (portalVersion) {
                 out.append("&nbsp;<a class='annotlnk' target='_blank' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
@@ -432,7 +434,7 @@ public class OntBrowser extends SimpleTagSupport {
         if (!hideZeroAnnotations) {
             out.append("&nbsp;<a class='binoculars' ng-click=\"rgd.addWatch('" + node.getTermAcc() + "')\" title='launch term watcher'></a>");
         }
-    }
+}
 
     private String generatePathwayMiniDiagram(String definition) {
 
@@ -447,40 +449,51 @@ public class OntBrowser extends SimpleTagSupport {
         //String diagramImageUrl = "/pathway/PW0000363/leptin%20system%20pathway/pwmap.png";
         if( !diagramImageUrl.isEmpty() ) {
             return
-                    "<table>"
-                            + "  <tr>"
-                            + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
-                            + "    <td valign=\"top\" style=\"\">"
-                            + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
-                            + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
-                            + "     View Interactive Diagram</a>"
-                            + "    </td>"
-                            + " </tr>"
-                            + "</table>";
+               "<table>"
+             + "  <tr>"
+             + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
+             + "    <td valign=\"top\" style=\"\">"
+             + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
+             + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
+             + "     View Interactive Diagram</a>"
+             + "    </td>"
+             + " </tr>"
+             + "</table>";
         } else {
             return "<br><div class=\"seltermdef\">"+definition+"</div>\n";
         }
     }
 
     private String generateSelectButton(OntDagNode node) {
-
-        if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 ) {
-            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+node.getTerm().replaceAll("'s","")+"')\">select</span>&nbsp;";
+        if( alwaysShowSelectButton || node.getAnnotCountForTermAndChilds()>0 || !Utils.isStringEmpty(this.curationTool)) {
+            return "<span class='term_select' onclick=\"selectTerm('"+node.getTermAcc()+"','"+ node.getTerm().replaceAll("\'","\\\\'")+"')\">select</span>&nbsp;";
         } else {
             return "<span class='term_select_disabled'>select</span>&nbsp;";
         }
     }
 
     private String getScript() {
+        String curTool = "";
+        if (!Utils.isStringEmpty(curationTool)) {
+            curTool = "&curationTool=1";
+        }
         String selectTermFunction = "function selectTerm(accId,termName) {\n";
-        String opener = iframe ? "  window.parent" : "  window.opener";
+        //String opener = iframe ? "  window.parent" : "  window.opener";
+        String opener = "window.parent";
+
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
-            selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
-                    ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+            //selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
+              //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+            selectTermFunction += opener + (true ? ".postMessage(accId+'|'+termName, '*');\n" :
+                   ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+        }
+        if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
+            selectTermFunction +=
+                    opener + ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n";
         }
         if( !Utils.isStringEmpty(this.opener_sel_term) ) {
             selectTermFunction +=
-                    opener + ".document.getElementById('"+this.opener_sel_term+"').value=termName;\n";
+                opener + ".document.getElementById('"+this.opener_sel_term+"').value=termName;\n";
         }
         selectTermFunction += "  window.close();\n";
         selectTermFunction += "}\n";
@@ -491,7 +504,7 @@ public class OntBrowser extends SimpleTagSupport {
                 "    function keepY(obj) {\n" +
                 "        var v = document.getElementById(\"viewer\");\n" +
                 "        var offset = obj.offsetTop - v.scrollTop;\n" +
-                "        location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset ;\n" +
+                "        window.self.location.href=\""+this.url+"acc_id=\" + obj.id + \"&offset=\" + offset +\""+curTool+"\";\n" +
                 "    }\n" +
                 "\n" +
                 "    function loadIt() {\n" +
@@ -508,5 +521,9 @@ public class OntBrowser extends SimpleTagSupport {
                 "    onload=loadIt;\n" +
                 "\n" +
                 "</script>";
+    }
+
+    public void setCurationTool(String curationTool) {
+        this.curationTool = curationTool;
     }
 }
