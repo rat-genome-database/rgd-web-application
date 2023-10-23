@@ -1358,7 +1358,7 @@
     <table align="center">
         <tr>
             <td>
-                <div id="gviewer" class="gviewer"></div>
+                <div id="gviewer" class="gviewer" style="text-align: center"></div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
             </td>
         </tr>
