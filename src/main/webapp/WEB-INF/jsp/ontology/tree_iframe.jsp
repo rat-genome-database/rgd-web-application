@@ -11,8 +11,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
-<%@ page import="edu.mcw.rgd.ontology.OntBrowser" %>
 
+<%@ taglib uri="http://rgd.mcw.edu/taglibs/ontbrowser" prefix="ontbrowser" %>
 <link href="/rgdweb/css/ontology.css" rel="stylesheet" type="text/css" >
 <%
     // if acc_id parameter is not given, use 'ont' parameter to determine ontology root term
@@ -48,37 +48,36 @@
     if( Utils.NVL(request.getParameter("dia"),"0").equals("1") ) {
         url += "&dia=1";
     }
-
-    OntBrowser ontBrowser = new OntBrowser();
-    ontBrowser.setAcc_id( accId, request );
-    ontBrowser.setUrl(url);
-    ontBrowser.setOffset(request.getParameter("offset"));
-    ontBrowser.setOpener_sel_acc_id(selAccId);
-    ontBrowser.setOpener_sel_term(selTerm);
-
-    ontBrowser.doTag(request, out);
 %>
+<ontbrowser:tree acc_id="<%=accId%>"
+                 url="<%=url%>"
+                 offset="<%=request.getParameter(\"offset\")%>"
+                 opener_sel_acc_id="<%=selAccId%>"
+                 opener_sel_term="<%=selTerm%>"
+/>
 <table width=100% style="border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; ">
 
-  <tr>
-    <td style="font-size:16px; font-weight:700;" colspan=2 >Synonyms</TD>
+    <tr>
+        <td style="font-size:16px; font-weight:700;" colspan=2 >Synonyms</TD>
 
-    <% String prevType = "";
-    int synonymsPerType = 0;
-    OntologyXDAO ontDao = new OntologyXDAO();
-    for( TermSynonym syn: ontDao.getTermSynonyms(accId) ) {
+        <% String prevType = "";
+            int synonymsPerType = 0;
+            OntologyXDAO ontDao = new OntologyXDAO();
+            for( TermSynonym syn: ontDao.getTermSynonyms(accId) ) {
 
-      if( !prevType.equals(syn.getType()) ) {
-          // finish prev row
-          if( !prevType.isEmpty() ) {
+                if( !prevType.equals(syn.getType()) ) {
+                    // finish prev row
+                    if( !prevType.isEmpty() ) {
+        %>
+        </td></tr>
+        <%
+          }
           %>
-            </td></tr>
-          <% } %>
 
-          <tr>
-          <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td style='padding:3px;'>
+    <tr>
+        <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td style='padding:3px;'>
 
-          <%
+            <%
           synonymsPerType = 0;
           prevType = syn.getType();
       }
@@ -86,24 +85,24 @@
       if( synonymsPerType>1 ) {
       %>
         ; &nbsp;
-      <%
+            <%
       }
       // turn synonym name into a link from MESH and OMIM ids
       if( syn.getName().startsWith("MESH:") ) { %>
-          <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-      <% } else if( syn.getName().startsWith("OMIM:PS") ) { %>
-          <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-      <% } else if( syn.getName().startsWith("OMIM:") ) { %>
-          <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-      <% } else if( syn.getName().startsWith("RGD ID:") ) { %>
-          <a href="<%=Link.strain(Integer.parseInt(syn.getName().substring(8)))%>"><%=syn.getName()%></a>
-      <% } else if( syn.getName().startsWith("DOID:") && !accId.startsWith("DOID:") ) { %>
-          <a href="<%=Link.ontView(syn.getName())%>"><%=syn.getName()%></a>
-      <% } else if( syn.getType().startsWith("omim_gene") ) {
+        <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+            <% } else if( syn.getName().startsWith("OMIM:PS") ) { %>
+        <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+            <% } else if( syn.getName().startsWith("OMIM:") ) { %>
+        <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+            <% } else if( syn.getName().startsWith("RGD ID:") ) { %>
+        <a href="<%=Link.strain(Integer.parseInt(syn.getName().substring(8)))%>"><%=syn.getName()%></a>
+            <% } else if( syn.getName().startsWith("DOID:") && !accId.startsWith("DOID:") ) { %>
+        <a href="<%=Link.ontView(syn.getName())%>"><%=syn.getName()%></a>
+            <% } else if( syn.getType().startsWith("omim_gene") ) {
           List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
           if( !omimGenes.isEmpty() ) {
        %>
-              <a href=<%=Link.gene(omimGenes.get(0).getRgdId())%>"><%=syn.getName()%></a>
+        <a href=<%=Link.gene(omimGenes.get(0).getRgdId())%>"><%=syn.getName()%></a>
         <%
           } else {
         %>
@@ -134,4 +133,3 @@
     out.append("</td></tr>\n");
   }
 %>
-
