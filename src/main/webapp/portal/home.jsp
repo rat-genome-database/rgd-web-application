@@ -673,10 +673,6 @@
 
                 ctrl.resetGViewer();
 
-                if ($scope.speciesTypeKey==4 || $scope.speciesTypeKey==7 || $scope.speciesTypeKey==8 || $scope.speciesTypeKey==13 || $scope.speciesTypeKey==14) {
-                    return;
-                }
-
                 var species = $scope.speciesTypeKey;
                 var jbrowseUrl;
                 switch (species) {
@@ -873,8 +869,9 @@
                         //alert(geneStr);
                         document.getElementById("toolGenes").innerHTML = geneStr;
 
-
-                        ctrl.buildGViewer();
+                        if ($scope.speciesTypeKey!=4 && $scope.speciesTypeKey!=7 && $scope.speciesTypeKey!=8 && $scope.speciesTypeKey!=13 && $scope.speciesTypeKey!=14) {
+                            ctrl.buildGViewer();
+                        }
                     }else if (objectKey==6) {
                         $scope.portalQTLs=response.data;
                         $scope.portalQTLsLen=Object.keys($scope.portalQTLs).length;
@@ -1360,12 +1357,10 @@
     <table align="center">
         <tr>
             <td>
-                <%if (speciesTypeKey==4 || speciesTypeKey==7 || speciesTypeKey==8 || speciesTypeKey==13 || speciesTypeKey==14) { %>
-                <div>GViewer not supported for the selected species.</div>
-                <% } else {%>
-                <div id="gviewer" class="gviewer"></div>
+                <div id="gviewer" class="gviewer">
+                    <%=speciesTypeKey==4 || speciesTypeKey==7 || speciesTypeKey==8 || speciesTypeKey==13 || speciesTypeKey==14 ? "GViewer not supported for the selected species." :""%>
+                </div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
-                <% } %>
             </td>
         </tr>
     </table>
