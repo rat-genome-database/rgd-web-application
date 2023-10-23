@@ -1360,7 +1360,9 @@
     <table align="center">
         <tr>
             <td>
-                <div id="gviewer" class="gviewer"></div>
+                <div id="gviewer" class="gviewer">
+                    <%=speciesTypeKey==4 || speciesTypeKey==7 || speciesTypeKey==13 || speciesTypeKey==14 ? "GViewer not supported for the selected species." :""%>
+                </div>
                 <div id="zoomWrapper" class="zoom-pane"></div>
 
             </td>
