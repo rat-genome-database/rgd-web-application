@@ -467,20 +467,6 @@ public class TermEditObjectController implements Controller {
 
         String dagTabMsg = "";
 
-        Principal p = req.getUserPrincipal();
-        if( p==null ) {
-            return "ERROR: to add/update/delete parent terms, you must log in to MY RGD<br>";
-        } else {
-            if( p.getName().equals("mtutaj@mcw.edu") || p.getName().equals("slaulede@mcw.edu")
-                    || p.getName().equals("jrsmith@mcw.edu") || p.getName().equals("gthayman@mcw.edu")
-                    || p.getName().equals("sjwang@mcw.edu") ) {
-
-                dagTabMsg = "INFO: user "+p.getName()+" is authorized to edit ontology terms<br>";
-            } else {
-                return "ERROR: user "+p.getName()+" is NOT authorized to edit ontology terms<br>";
-            }
-        }
-
         // collect incoming data
         String[] dagTermAcc = req.getParameterValues("dag_term_acc"); // parent term acc
         String[] dagTypes = req.getParameterValues("dag_type"); // IA = 'is-a', PO = 'part-of'
