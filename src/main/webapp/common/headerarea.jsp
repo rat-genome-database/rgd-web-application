@@ -285,7 +285,7 @@
                                             <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>
                                             <a href="/wg/news2/">News</a>
                                             <a href="/wg/home/rat-genome-database-publications/">RGD Publications</a>
-                                            <a href="/wg/com-menu/poster_archive/">RGD Poster Archive</a>
+                                            <a href="/wg/com-menu/poster_archive/">RGD Presentations Archive</a>
                                             <a href="/nomen/nomen.shtml">Nomenclature Guidelines</a>
                                             <a href="/wg/resource-links/">Resource Links</a>
                                             <a href="/wg/resource-links/laboratory-resources/">Laboratory Resources</a>
