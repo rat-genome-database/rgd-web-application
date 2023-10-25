@@ -609,12 +609,14 @@
 
                          if (varients.size()==1 && vr.getVariant().getZygosityStatus() != null ) {
                             if (vr.getVariant().getZygosityStatus().equals(Zygosity.HETEROZYGOUS) ) {
-                               String refNuc = Utils.NVL(snplotyper.getRefNuc(pos), "");
+                               String refNuc = Utils.NVL(snplotyper.getRefNuc(pos), "-");
+                               String newVar;
                                if (refNuc.length() > 1) {
-                                    var +="/" + refNuc.length();
+                                    newVar = refNuc.length() + "/" + var;
                                }else {
-                                    var +="/" + refNuc;
+                                    newVar = refNuc + "/" + var;
                                }
+                               var = newVar;
                             }else  if (vr.getVariant().getZygosityStatus().equals(Zygosity.HOMOZYGOUS) || vr.getVariant().getZygosityStatus().equals(Zygosity.POSSIBLY_HOMOZYGOUS) ) {
                                //var += "/" + var;
                             }

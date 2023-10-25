@@ -35,9 +35,11 @@
             if (!rgdIds.contains(gene.getRgdId())){
                 rgdIds.add(gene.getRgdId());
                 String imageSource = getSpeciesImage(gene);
+                String orthTitle = "Species: &nbsp; "+SpeciesType.getCommonName(gene.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())+")"
+                        +"\nGene Symbol: &nbsp; "+gene.getSymbol();
         %>
                 <td>
-                    <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>">
+                    <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
                     <div style="margin:5px; font-weight:700;" >
                         <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
                     </a>
