@@ -43,7 +43,7 @@
                     <td><h1 style="font-size:36px">Disease Portals</h1></td>
                 </tr>
                 <tr>
-                    <td style=" font-size:16px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="/wg/help3/disease-portals/">Click Here</a> for help with the RGD Disease Portals.</a></td>
+                    <td style=" font-size:16px;">Welcome to the RGD Disease Portals.  These portals are designed to be entry points for disease researchers to access data and tools related to their area of interest.  <a href="/wg/help3/disease-portals/">Click Here</a> for help with the RGD Disease Portals.</td>
                 </tr>
             </table>
             </div>
@@ -60,7 +60,7 @@
     </tr>
     <tr>
         <td width="75"><img src="/rgdweb/common/images/portals/3-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=3'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease</a></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease</a><img src="/rgdweb/common/images/portals/Updated_Yellow4_75x30.png"></td>
         <td width="75"><img src="/rgdweb/common/images/portals/14-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=14'" class="bottomDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=14" class="diseasePortalName">COVID-19</a></td>
     </tr>
