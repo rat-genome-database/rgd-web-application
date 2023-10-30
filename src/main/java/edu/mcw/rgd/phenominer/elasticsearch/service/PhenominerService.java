@@ -54,7 +54,7 @@ public class PhenominerService {
         srb.aggregation(this.buildAggregations("units"));
         SearchRequest searchRequest=new SearchRequest(phenominerIndex);
         searchRequest.source(srb);
-        searchRequest.scroll(TimeValue.timeValueMinutes(1L));
+      //  searchRequest.scroll(TimeValue.timeValueMinutes(1L));
         return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
