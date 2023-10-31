@@ -205,7 +205,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
+                                            <a href="https://ontomate.rgd.mcw.edu/QueryBuilder" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
