@@ -1,0 +1,107 @@
+
+#searchResult table {
+    background-color: white;
+   
+}
+
+
+#searchResultHeader ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+#searchResultHeader li {
+    display: inline;
+    margin: 0 2px 0 0;
+}
+
+#searchResultHeader a {
+    padding: 0 1em;
+    text-decoration: none;
+
+    background-color: #B6BABA;
+    color: #173757;
+    font-size: 15px;
+}
+
+#searchResultHeader a:hover {
+    background: #fc0;
+    color: #540;
+}
+
+#searchResultHeader #selected {
+}
+
+#selected a {
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: white;
+    background: #A40B0E;
+}
+
+#searchResult {
+    margin-top: -3px;
+    margin-left: -1px;
+    width: 100%;
+    border-top: 2px solid white;
+    background:#A40B0E;
+    padding: 1em;
+}
+
+
+#searchResult p {
+    margin: 0;
+    padding: 1em;
+    background: white;
+}
+
+#searchResult h1 {
+    font-size: 1.5em;
+    color: #fc0;
+}
+
+#searchResult td {
+    font-size: 11px;
+}
+
+#searchResultExportList {
+    font-size: 13px;
+    left: 0px;
+    top: 0px;
+}
+
+#searchResultHeader {
+    float: left;
+}
+
+
+#searchResultExportList a {
+   color: blue;
+}
+
+#searchResultSummary {
+    font-size: 16px;
+}
+
+#searchResultUpdateBox {
+    border: 1px ridge #A40B0E;
+    margin-bottom: 3px;
+
+}
+
+#searchResultUpdateBox td {
+   font-size: 11px;
+}
+
+.headerRow td {
+    color: white;
+}
+.hotLink a {
+   color: red;
+}
+
+#idInfoTitleBar {
+    background-color:#A40B0E;
+}

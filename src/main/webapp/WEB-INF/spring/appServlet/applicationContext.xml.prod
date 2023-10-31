@@ -1,0 +1,31 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+ 
+<!--      <bean id="elasticsearchclient" class="edu.mcw.rgd.services.ClientInit" init-method="init" destroy-method="destroy"/>-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+         <property name="basename" value="views"/>
+    </bean>
+
+          <bean id="sequenceGenerator" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
+              <property name="dataSource" ref="dataSource"/>
+              <property name="incrementerName" value=""/>
+          </bean>
+
+
+        <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+              <property name="jndiName" value="java:comp/env/jdbc/carpe"/>
+          </bean>
+
+          <bean id="transactionManager"
+                class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+              <property name="dataSource" ref="dataSource"/>
+          </bean>
+
+</beans>
+
+
+
+
+

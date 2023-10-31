@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+    <short-name>myrgd</short-name>
+
+    <tag>
+        <name>box</name>
+        <tag-class>edu.mcw.rgd.security.MyRgd</tag-class>
+        <body-content>tagdependent</body-content>
+    </tag>
+</taglib>

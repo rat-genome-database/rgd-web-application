@@ -6,7 +6,7 @@
 
     <context-param>
         <param-name>debug</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
     </context-param>
 <!--
     <context-param>
@@ -23,20 +23,20 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             WEB-INF/applicationContext.xml
-           WEB-INF/applicationSecurity.xml
+            WEB-INF/spring/appServlet/applicationSecurity.xml
         </param-value>
     </context-param>
 
     <!-- spring security filter -->
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
+<!--    <filter>-->
+<!--        <filter-name>springSecurityFilterChain</filter-name>-->
+<!--        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
+<!--    </filter>-->
 
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<!--    <filter-mapping>-->
+<!--        <filter-name>springSecurityFilterChain</filter-name>-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
     <!-- set is-chinchilla variable based on host name of the request -->
     <filter>
@@ -48,13 +48,29 @@
         <filter-name>chinchillaFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+        <init-param>
+            <param-name>cors.allowed.origins</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/**</url-pattern>
+    </filter-mapping>
 
 
-<!--
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
--->
+    <!--
+        <listener>
+            <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+        </listener>
+    -->
     <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -107,10 +123,6 @@
         <taglib>
             <taglib-uri>http://rgd.mcw.edu/taglibs/myrgd</taglib-uri>
             <taglib-location>/WEB-INF/tld/myrgd.tld</taglib-location>
-        </taglib>
-        <taglib>
-            <taglib-uri>http://rgd.mcw.edu/taglibs/ontbrowser</taglib-uri>
-            <taglib-location>/WEB-INF/tld/ontbrowser.tld</taglib-location>
         </taglib>
     </jsp-config>
     <resource-ref>

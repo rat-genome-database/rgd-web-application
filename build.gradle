@@ -1,0 +1,216 @@
+//buildscript {
+//    repositories {
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath "gradle.plugin.org.gretty:gretty:3.0.2"
+//    }
+//}
+//ant.importBuild('build.xml')
+
+group 'rgd.mcw.edu'
+
+def srcDir = 'src/main/java'
+def buildDir = 'classes'
+def warSrc = 'src/main/webapp'
+def webLibDir = warSrc + '/WEB-INF/lib'
+def distDir = 'dist'
+
+//
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceSets{
+    main {
+        java {
+            srcDirs = [srcDir]
+        }
+    }
+}
+sourceCompatibility = 17
+setBuildDir(buildDir)
+
+clean.doFirst {
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "applicationContext.xml"
+    }
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "dispatcher-servlet.xml"
+    }
+
+}
+
+//build.doFirst {
+//    copy {
+//        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+//        into 'src/main/webapp/WEB-INF/spring/appServlet/'
+//        include 'applicationContext.xml.curation'
+//        rename('applicationContext.xml.curation', 'applicationContext.xml')
+//    }
+//    copy {
+//        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+//        into 'src/main/webapp/WEB-INF/'
+//        include 'dispatcher-servlet.xml.curation'
+//        rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
+//    }
+//}
+
+
+tasks.register("buildCuration") {
+        copy {
+            from 'src/main/webapp/WEB-INF/spring/appServlet/'
+            into 'src/main/webapp/WEB-INF/'
+            include 'applicationContext.xml.curation'
+            rename('applicationContext.xml.curation', 'applicationContext.xml')
+        }
+        copy {
+            from 'src/main/webapp/WEB-INF/spring/appServlet/'
+            into 'src/main/webapp/WEB-INF/'
+            include 'dispatcher-servlet.xml.curation'
+            rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
+        }
+
+}
+
+tasks.register("buildProd") {
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'applicationContext.xml.prod'
+        rename('applicationContext.xml.prod', 'applicationContext.xml')
+    }
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'dispatcher-servlet.xml.prod'
+        rename('dispatcher-servlet.xml.prod', 'dispatcher-servlet.xml')
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation 'com.io7m.xom:xom:1.2.10'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'org.apache.commons:commons-configuration2:2.9.0'
+    implementation 'org.apache.commons:commons-dbcp2:2.10.0'
+    implementation 'commons-fileupload:commons-fileupload:1.5'
+    implementation 'commons-io:commons-io:2.13.0'
+    implementation 'org.apache.commons:commons-lang3:3.13.0'
+    implementation 'commons-logging:commons-logging:1.2'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'commons-net:commons-net:3.9.0'
+    implementation 'org.apache.commons:commons-pool2:2.11.1'
+    implementation 'org.elasticsearch:elasticsearch:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-cli:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-core:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-geo:7.17.4'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.17.4'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-x-content:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-plugin-classloader:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-secure-sm:7.17.4'
+    implementation 'org.elasticsearch:elasticsearch-lz4:7.17.4'
+    implementation 'org.htmlparser:filterbuilder:2.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.hdrhistogram:HdrHistogram:2.1.12'
+    implementation 'com.carrotsearch:hppc:0.9.1'
+    implementation 'org.htmlparser:htmllexer:2.1'
+    implementation 'org.htmlparser:htmlparser:2.1'
+    implementation 'org.apache.httpcomponents:httpasyncclient:4.1.5'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.16'
+    implementation 'org.apache.httpcomponents:httpcore-nio:4.4.16'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.15.2'
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    compileOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'
+    implementation 'jakarta.xml.ws:jakarta.xml.ws-api:4.0.0'
+    implementation 'jaxen:jaxen:2.0.0'
+    implementation 'org.jdom:jdom2:2.0.6.1'
+    implementation 'net.java.dev.jna:jna:5.13.0'
+    implementation 'org.joda:joda-convert:2.2.3'
+    implementation 'joda-time:joda-time:2.12.5'
+    implementation 'net.sf.jopt-simple:jopt-simple:5.0.4'
+    implementation 'com.metaparadigm:json-rpc:1.0'
+    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation 'org.locationtech.jts:jts-core:1.19.0'
+    implementation 'org.elasticsearch.plugin:lang-mustache-client:7.17.13'
+//    implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
+//    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+    implementation 'org.apache.lucene:lucene-core:8.8.0'
+    implementation 'org.apache.lucene:lucene-queryparser:8.8.0'
+    implementation 'org.apache.lucene:lucene-highlighter:8.8.0'
+    implementation 'org.apache.lucene:lucene-analyzers-common:8.11.2'
+    implementation 'org.apache.lucene:lucene-misc:8.8.0'
+    implementation 'org.apache.lucene:lucene-queries:8.8.0'
+    implementation 'org.apache.lucene:lucene-memory:8.8.0'
+    implementation 'org.apache.lucene:lucene-suggest:8.8.0'
+    implementation 'org.apache.lucene:lucene-grouping:8.8.0'
+    implementation 'org.apache.lucene:lucene-sandbox:8.8.0'
+    implementation 'org.apache.lucene:lucene-join:8.8.0'
+    implementation 'org.apache.lucene:lucene-backward-codecs:8.8.0'
+    implementation 'org.apache.lucene:lucene-spatial3d:8.8.0'
+    implementation 'org.lz4:lz4-java:1.8.0'
+    implementation 'io.micrometer:micrometer-core:1.11.4'
+    implementation 'io.micrometer:micrometer-commons:1.11.4'
+    implementation 'io.micrometer:micrometer-observation:1.11.4'
+    testImplementation 'org.testcontainers:mysql:1.19.0'
+    implementation 'com.mysql:mysql-connector-j:8.1.0'
+    implementation 'io.netty:netty-all:4.1.97.Final'
+    implementation 'com.oracle.database.jdbc:ojdbc11:23.2.0.0'
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.elasticsearch.plugin:rank-eval-client:7.17.13'
+    implementation 'sax:sax:2.0.1'
+    implementation 'org.elasticsearch:securesm:1.2'
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+    implementation 'org.yaml:snakeyaml:2.2'
+    implementation 'org.locationtech.spatial4j:spatial4j:0.8'
+//    implementation 'org.springframework:spring-aop:6.0.11'
+//    implementation 'org.springframework:spring-aspects:6.0.11'
+//    implementation 'org.springframework:spring-beans:6.0.11'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.4'
+//    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.4'
+//    implementation 'org.springframework:spring-context:6.0.11'
+//    implementation 'org.springframework:spring-context-support:6.0.11'
+//    implementation 'org.springframework:spring-core:6.0.11'
+//    implementation 'org.springframework:spring-expression:6.0.11'
+//    implementation 'org.springframework:spring-instrument:6.0.11'
+//    implementation 'org.springframework:spring-jdbc:6.0.11'
+//    implementation 'org.springframework:spring-jms:6.0.11'
+//    implementation 'org.springframework.ldap:spring-ldap-core:3.1.1'
+//    implementation 'org.springframework:spring-orm:6.0.11'
+//    implementation 'org.springframework:spring-oxm:6.0.11'
+    implementation 'com.tdunning:t-digest:3.2'
+
+    implementation 'org.apache.tomcat:tomcat-servlet-api:10.1.7'
+    implementation fileTree(dir: 'lib', include: '*.jar')
+}
+
+
+task update_rgdcore(type:Copy){
+    from file("../../rgd-core-library/dist/rgdcore_1.1.3.jar")
+    into file("lib/")
+
+}
+
+war {
+    webAppDirectory = file('src/main/webapp')
+    webXml = file('src/templates/war/web.xml')
+}
