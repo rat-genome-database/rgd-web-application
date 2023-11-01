@@ -152,7 +152,7 @@
                                 <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
 
                                 <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
-                                <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
+                                <a href="https://rest.rgd.mcw.edu/rgdws">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                 <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
