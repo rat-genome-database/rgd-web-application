@@ -188,7 +188,9 @@
 
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
-                                            <a href="/rgdweb/projects/project.html">Projects <span style="color:red;">(beta)</span></a>
+        <!--                                    
+        <a href="/rgdweb/projects/project.html">Projects <span style="color:red;">(beta)</span></a>
+        -->
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
                                             <a href="/rgdweb/search/markers.html?100">Markers</a>
@@ -206,7 +208,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="/QueryBuilder" >OntoMate (Literature Search)</a>
+                                            <a href="https://ontomate.rgd.mcw.edu" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
@@ -219,7 +221,6 @@
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                                             <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
-                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
