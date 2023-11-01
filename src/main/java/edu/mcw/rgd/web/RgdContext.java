@@ -226,21 +226,21 @@ public class RgdContext {
                 if(isProduction || isPipelines){
                     url= "https://ontomate.rgd.mcw.edu/solr";
                 }else{
-                    url= "https://dev.rgd.mcw.edu/solr/OntoMate";
+                    url= "/solr/OntoMate";
                 }
                 break;
             case "ontosolr":
                 if(isProduction || isPipelines){
                     url="/solr/OntoSolr";
                 }else{
-                    url="https://dev.rgd.mcw.edu/solr/OntoSolr";
+                    url="/solr/OntoSolr";
                 }
                 break;
             case "preprintsolr":
                 if(isProduction || isPipelines){
                     url= "https://ontomate.rgd.mcw.edu/preprintSolr";
                 }else{
-                    url=  "https://dev.rgd.mcw.edu/solr/preprintSolr";
+                    url=  "/solr/preprintSolr";
                 }
                 break;
 
