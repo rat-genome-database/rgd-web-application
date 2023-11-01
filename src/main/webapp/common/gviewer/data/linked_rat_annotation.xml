@@ -1,0 +1,56 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+		<feature id="1">
+			<chromosome>2</chromosome>	
+			<start>201120535</start>
+			<end>201124179</end>
+			<type>gene</type>
+			<label>Adora3</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=2051</link>
+		</feature>
+		<feature id="2">
+			<chromosome>2</chromosome>	
+			<start>105448230</start>
+			<end>105547520</end>
+			<type>gene</type>
+			<label>Agtr1</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=67391</link>
+		</feature>
+		<feature id="3">
+			<chromosome>20</chromosome>	
+			<start>35423614</start>
+			<end>35436057</end>
+			<type>gene</type>
+			<label>Gja1</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=2690</link>
+		</feature>
+		<feature id="4">
+			<chromosome>10</chromosome>	
+			<start>53814299</start>
+			<end>101862784</end>
+			<type>qtl</type>
+			<label>Bp1</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=61387</link>
+		</feature>
+		<feature id="5">
+			<chromosome>11</chromosome>	
+			<start>31562071</start>
+			<end>61562072</end>
+			<type>qtl</type>
+			<label>Bp104</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=631506</link>
+		</feature>
+		<feature id="6">
+			<chromosome>4</chromosome>	
+			<start>78321187</start>
+			<end>108321188</end>
+			<type>qtl</type>
+			<label>Bp135</label>
+			<link>http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=631556</link>
+		</feature>
+		<featureLinks>
+			<link startID="1" endID="2"/>
+			<link startID="1" endID="3"/>
+			<link startID="1" endID="4"/>
+		</featureLinks>
+</genome>

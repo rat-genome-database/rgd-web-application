@@ -1,0 +1,1659 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="268121971">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>2289147</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 06">
+		<start>2289147</start>
+		<end>24517697</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>24517697</start>
+		<end>29742303</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 05">
+		<start>29742303</start>
+		<end>30518078</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>30518078</start>
+		<end>34008256</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 06">
+		<start>34008256</start>
+		<end>54372719</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>54372719</start>
+		<end>56506309</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 19">
+		<start>56506309</start>
+		<end>96467893</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>96467893</start>
+		<end>96693097</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 11">
+		<start>96693097</start>
+		<end>101504085</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>101504085</start>
+		<end>109125741</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 15">
+		<start>109125741</start>
+		<end>140930382</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>140930382</start>
+		<end>143014784</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 11">
+		<start>143014784</start>
+		<end>174744922</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>174744922</start>
+		<end>176880883</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Hsa 16">
+		<start>176880883</start>
+		<end>187673110</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="17" name="Hsa Un">
+		<start>187673110</start>
+		<end>190407779</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Hsa 10">
+		<start>190407779</start>
+		<end>201068525</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="19" name="Hsa Un">
+		<start>201068525</start>
+		<end>201613420</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="20" name="Hsa 11">
+		<start>201613420</start>
+		<end>216001097</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="21" name="Hsa Un">
+		<start>216001097</start>
+		<end>217800157</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="22" name="Hsa 09">
+		<start>217800157</start>
+		<end>233164562</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="23" name="Hsa Un">
+		<start>233164562</start>
+		<end>234140682</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="24" name="Hsa 10">
+		<start>234140682</start>
+		<end>267706618</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="25" name="Hsa Un">
+		<start>267706618</start>
+		<end>268121971</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="258222147">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1937434</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 05">
+		<start>1937434</start>
+		<end>84596657</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>84596657</start>
+		<end>88022060</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 08">
+		<start>88022060</start>
+		<end>104708984</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>104708984</start>
+		<end>105209619</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 03">
+		<start>105209619</start>
+		<end>119075759</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>119075759</start>
+		<end>122894171</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 04">
+		<start>122894171</start>
+		<end>128512276</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>128512276</start>
+		<end>143300248</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 13">
+		<start>143300248</start>
+		<end>144628184</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>144628184</start>
+		<end>146618815</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 03">
+		<start>146618815</start>
+		<end>166395870</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>166395870</start>
+		<end>172216247</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 04">
+		<start>172216247</start>
+		<end>176225530</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>176225530</start>
+		<end>178961270</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Hsa 01">
+		<start>178961270</start>
+		<end>218858495</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="17" name="Hsa Un">
+		<start>218858495</start>
+		<end>219554563</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="18" name="Hsa 04">
+		<start>219554563</start>
+		<end>236059452</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="19" name="Hsa Un">
+		<start>236059452</start>
+		<end>240864081</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="20" name="Hsa 01">
+		<start>240864081</start>
+		<end>257860998</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="21" name="Hsa Un">
+		<start>257860998</start>
+		<end>258222147</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="170969371">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>2057937</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 02">
+		<start>2057937</start>
+		<end>2672153</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>2672153</start>
+		<end>3393501</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 09">
+		<start>3393501</start>
+		<end>18395933</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>18395933</start>
+		<end>23942613</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 02">
+		<start>23942613</start>
+		<end>67550760</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>67550760</start>
+		<end>67933824</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 11">
+		<start>67933824</start>
+		<end>95644162</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>95644162</start>
+		<end>98223400</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 15">
+		<start>98223400</start>
+		<end>113047621</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>113047621</start>
+		<end>114866685</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 02">
+		<start>114866685</start>
+		<end>116869999</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>116869999</start>
+		<end>117115688</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 20">
+		<start>117115688</start>
+		<end>170775328</end>
+		<stain>gpos</stain>
+		<color>0xCC33FF</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>170775328</start>
+		<end>170969371</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="170969371">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>2200503</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 07">
+		<start>2200503</start>
+		<end>85180112</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>85180112</start>
+		<end>87747008</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 04">
+		<start>87747008</start>
+		<end>94856089</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>94856089</start>
+		<end>104261420</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 02">
+		<start>104261420</start>
+		<end>121995131</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>121995131</start>
+		<end>122277517</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 03">
+		<start>122277517</start>
+		<end>152302628</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>152302628</start>
+		<end>152855123</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 10">
+		<start>152855123</start>
+		<end>154478552</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>154478552</start>
+		<end>155140531</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 12">
+		<start>155140531</start>
+		<end>183922730</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>183922730</start>
+		<end>170969371</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="173106704">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1960610</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 08">
+		<start>1960610</start>
+		<end>34671212</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>34671212</start>
+		<end>40717000</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 06">
+		<start>40717000</start>
+		<end>51538437</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>51538437</start>
+		<end>58060392</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 09">
+		<start>58060392</start>
+		<end>114874675</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>114874675</start>
+		<end>115363396</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 01">
+		<start>115363396</start>
+		<end>173075233</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>173075233</start>
+		<end>173106704</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="147642806">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>4421045</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 02">
+		<start>4421045</start>
+		<end>47957973</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>47957973</start>
+		<end>49308133</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 07">
+		<start>49308133</start>
+		<end>63586159</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>63586159</start>
+		<end>69220797</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 14">
+		<start>69220797</start>
+		<end>138153648</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>138153648</start>
+		<end>143353934</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 07">
+		<start>143353934</start>
+		<end>143794070</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>143794070</start>
+		<end>147642806</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="143082968">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1484396</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 12">
+		<start>1484396</start>
+		<end>2208658</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>2208658</start>
+		<end>9636747</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 19">
+		<start>9636747</start>
+		<end>16232842</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>16232842</start>
+		<end>19552680</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 22">
+		<start>19552680</start>
+		<end>19689114</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>19689114</start>
+		<end>20110929</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 12">
+		<start>20110929</start>
+		<end>67762225</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>67762225</start>
+		<end>68311497</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 08">
+		<start>68311497</start>
+		<end>114983954</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>114983954</start>
+		<end>115715686</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 22">
+		<start>115715686</start>
+		<end>127919648</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>127919648</start>
+		<end>129577902</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 12">
+		<start>129577902</start>
+		<end>142508919</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>142508919</start>
+		<end>143082968</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="129061546">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>957189</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 11">
+		<start>957189</start>
+		<end>11588411</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>11588411</start>
+		<end>19789060</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 19">
+		<start>19789060</start>
+		<end>21210526</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>21210526</start>
+		<end>27996397</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 11">
+		<start>27996397</start>
+		<end>57099840</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>57099840</start>
+		<end>57812796</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 15">
+		<start>57812796</start>
+		<end>80486974</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>80486974</start>
+		<end>81087356</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 06">
+		<start>81087356</start>
+		<end>93610734</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>93610734</start>
+		<end>94064563</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 15">
+		<start>94064563</start>
+		<end>94991143</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>94991143</start>
+		<end>96334146</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 03">
+		<start>96334146</start>
+		<end>128929594</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>128929594</start>
+		<end>129061546</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="113649943">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1492865</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 03">
+		<start>1492865</start>
+		<end>2085694</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>2085694</start>
+		<end>8722923</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 06">
+		<start>8722923</start>
+		<end>30919460</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>30919460</start>
+		<end>35056453</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 02">
+		<start>35056453</start>
+		<end>93174837</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>93174837</start>
+		<end>96339531</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 05">
+		<start>96339531</start>
+		<end>101437094</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>101437094</start>
+		<end>104620581</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 18">
+		<start>104620581</start>
+		<end>112814399</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>112814399</start>
+		<end>113649943</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="110733352">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>26034</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 16">
+		<start>26034</start>
+		<end>15644406</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>15644406</start>
+		<end>16515651</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 05">
+		<start>16515651</start>
+		<end>43437198</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>43437198</start>
+		<end>45268911</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 01">
+		<start>45268911</start>
+		<end>45529387</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>45529387</start>
+		<end>45989375</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 17">
+		<start>45989375</start>
+		<end>110409285</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>110409285</start>
+		<end>110733352</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="87800381">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>2260586</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 03">
+		<start>2260586</start>
+		<end>10784946</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>10784946</start>
+		<end>14521609</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 21">
+		<start>14521609</start>
+		<end>37634640</end>
+		<stain>gpos</stain>
+		<color>0xCC99FF</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>37634640</start>
+		<end>41684145</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 03">
+		<start>41684145</start>
+		<end>83154807</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>83154807</start>
+		<end>84405789</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 22">
+		<start>84405789</start>
+		<end>86127564</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>86127564</start>
+		<end>87800381</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="46649226">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1514622</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 19">
+		<start>1514622</start>
+		<end>2934966</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>2934966</start>
+		<end>3732711</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 13">
+		<start>3732711</start>
+		<end>9010534</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>9010534</start>
+		<end>9806860</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 07">
+		<start>9806860</start>
+		<end>27893003</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>27893003</start>
+		<end>28600176</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 12">
+		<start>28600176</start>
+		<end>43921991</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>43921991</start>
+		<end>45249428</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 22">
+		<start>45249428</start>
+		<end>45797764</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>45797764</start>
+		<end>46352056</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 12">
+		<start>46352056</start>
+		<end>46407254</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>46407254</start>
+		<end>46649226</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="111348958">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>12343187</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 18">
+		<start>12343187</start>
+		<end>13619235</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>13619235</start>
+		<end>30920228</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 02">
+		<start>30920228</start>
+		<end>41322911</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>41322911</start>
+		<end>43344956</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 01">
+		<start>43344956</start>
+		<end>108318724</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>108318724</start>
+		<end>111348958</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="112220682">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1630889</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 04">
+		<start>1630889</start>
+		<end>1867343</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>1867343</start>
+		<end>2397639</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 01">
+		<start>2397639</start>
+		<end>3888152</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>3888152</start>
+		<end>6422741</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 04">
+		<start>6422741</start>
+		<end>83025214</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>83025214</start>
+		<end>83454749</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 22">
+		<start>83454749</start>
+		<end>85682982</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>85682982</start>
+		<end>87436434</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 07">
+		<start>87436434</start>
+		<end>92717780</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>92717780</start>
+		<end>100992249</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 02">
+		<start>100992249</start>
+		<end>110751435</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>110751435</start>
+		<end>112220682</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="109774626">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>2515298</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 10">
+		<start>2515298</start>
+		<end>3071412</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>3071412</start>
+		<end>9082725</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 03">
+		<start>9082725</start>
+		<end>18909362</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>18909362</start>
+		<end>22680429</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 14">
+		<start>22680429</start>
+		<end>35211149</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>35211149</start>
+		<end>35310973</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 13">
+		<start>35310973</start>
+		<end>41636072</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>41636072</start>
+		<end>42442550</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 08">
+		<start>42442550</start>
+		<end>51054308</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>51054308</start>
+		<end>53663279</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 13">
+		<start>53663279</start>
+		<end>109073054</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>109073054</start>
+		<end>109774626</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="90224819">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>43765</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 10">
+		<start>43765</start>
+		<end>1292834</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>1292834</start>
+		<end>1955744</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 03">
+		<start>1955744</start>
+		<end>7073036</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>7073036</start>
+		<end>7619429</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 10">
+		<start>7619429</start>
+		<end>13262814</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>13262814</start>
+		<end>18108911</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 19">
+		<start>18108911</start>
+		<end>19617523</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>19617523</start>
+		<end>22243134</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 08">
+		<start>22243134</start>
+		<end>23845891</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>23845891</start>
+		<end>24765172</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 04">
+		<start>24765172</start>
+		<end>50248906</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>50248906</start>
+		<end>54279327</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 08">
+		<start>54279327</start>
+		<end>79613280</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>79613280</start>
+		<end>81000418</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Hsa 13">
+		<start>81000418</start>
+		<end>81365289</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="17" name="Hsa Un">
+		<start>81365289</start>
+		<end>90224819</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="97307196">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>6288015</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 09">
+		<start>6288015</start>
+		<end>12370388</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>12370388</start>
+		<end>14834143</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 05">
+		<start>14834143</start>
+		<end>17247335</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>17247335</start>
+		<end>18092488</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 09">
+		<start>18092488</start>
+		<end>21410700</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>21410700</start>
+		<end>25150571</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 06">
+		<start>25150571</start>
+		<end>51066219</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>51066219</start>
+		<end>53124265</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 07">
+		<start>53124265</start>
+		<end>58739140</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>58739140</start>
+		<end>61921011</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 10">
+		<start>61921011</start>
+		<end>62664912</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>62664912</start>
+		<end>68793540</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 01">
+		<start>68793540</start>
+		<end>71081449</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>71081449</start>
+		<end>72568028</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Hsa 10">
+		<start>72568028</start>
+		<end>96769466</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="17" name="Hsa Un">
+		<start>96769466</start>
+		<end>97307196</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="87338544">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1391824</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 18">
+		<start>1391824</start>
+		<end>23833130</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>23833130</start>
+		<end>25434889</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 05">
+		<start>25434889</start>
+		<end>58489392</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>58489392</start>
+		<end>59896354</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 18">
+		<start>59896354</start>
+		<end>81489421</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>81489421</start>
+		<end>87338544</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="59223525">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>272790</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 16">
+		<start>272790</start>
+		<end>11476908</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>11476908</start>
+		<end>13969996</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 22">
+		<start>13969996</start>
+		<end>14098095</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>14098095</start>
+		<end>15103106</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 16">
+		<start>15103106</start>
+		<end>22858493</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>22858493</start>
+		<end>24836361</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 19">
+		<start>24836361</start>
+		<end>26237427</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>26237427</start>
+		<end>26532373</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 04">
+		<start>26532373</start>
+		<end>32532632</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>32532632</start>
+		<end>35043411</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Hsa 16">
+		<start>35043411</start>
+		<end>53508370</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="13" name="Hsa Un">
+		<start>53508370</start>
+		<end>53996067</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="14" name="Hsa 01">
+		<start>53996067</start>
+		<end>56855910</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="15" name="Hsa Un">
+		<start>56855910</start>
+		<end>57020801</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="16" name="Hsa 10">
+		<start>57020801</start>
+		<end>58337063</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="17" name="Hsa Un">
+		<start>58337063</start>
+		<end>59223525</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="55296979">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>1475953</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa 06">
+		<start>1475953</start>
+		<end>7817629</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>7817629</start>
+		<end>9470114</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Hsa 21">
+		<start>9470114</start>
+		<end>12791666</end>
+		<stain>gpos</stain>
+		<color>0xCC99FF</color>
+	</band>
+	<band index="5" name="Hsa Un">
+		<start>12791666</start>
+		<end>13129893</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Hsa 22">
+		<start>13129893</start>
+		<end>14147070</end>
+		<stain>gpos</stain>
+		<color>0x666666</color>
+	</band>
+	<band index="7" name="Hsa Un">
+		<start>14147070</start>
+		<end>17960909</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Hsa 10">
+		<start>17960909</start>
+		<end>29760849</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="9" name="Hsa Un">
+		<start>29760849</start>
+		<end>30768900</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Hsa 06">
+		<start>30768900</start>
+		<end>49053613</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="11" name="Hsa Un">
+		<start>49053613</start>
+		<end>55296979</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="21" number="X" length="160775580">
+	<band index="1" name="Hsa Un">
+		<start>0</start>
+		<end>3013139</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Hsa X">
+		<start>3013139</start>
+		<end>160427431</end>
+		<stain>gpos</stain>
+		<color>0x999999</color>
+	</band>
+	<band index="3" name="Hsa Un">
+		<start>160427431</start>
+		<end>160775580</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+</genome>

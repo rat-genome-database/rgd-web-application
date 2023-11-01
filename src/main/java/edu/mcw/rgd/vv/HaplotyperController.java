@@ -309,8 +309,8 @@ public abstract class HaplotyperController implements Controller {
             }
             // if map key still not determined, set it to map key of primary reference assembly
             if (mapKey == 0) {
-             mapKey = MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey();
-            //    mapKey=372;
+                mapKey = MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey();
+                //    mapKey=372;
             }
             vsb.setMapKey(mapKey);
         }

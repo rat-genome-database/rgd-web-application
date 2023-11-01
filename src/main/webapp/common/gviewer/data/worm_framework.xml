@@ -1,0 +1,739 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<feature>
+	<chromosome>I</chromosome>
+	<start>1446667</start>
+	<end>1465215</end>
+	<type>gene</type>
+	<label>spe-15</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=spe-15</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>4386791</start>
+	<end>4401756</end>
+	<type>gene</type>
+	<label>dhc-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dhc-1</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>7430847</start>
+	<end>7461791</end>
+	<type>gene</type>
+	<label>unc-13</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-13</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>9730858</start>
+	<end>9733471</end>
+	<type>gene</type>
+	<label>eat-16</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=eat-16</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>10256394</start>
+	<end>10263125</end>
+	<type>gene</type>
+	<label>lin-11</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lin-11</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>12677679</start>
+	<end>12682098</end>
+	<type>gene</type>
+	<label>par-6</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=par-6</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>13637283</start>
+	<end>13641320</end>
+	<type>gene</type>
+	<label>unc-59</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-59</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>3799173</start>
+	<end>3805706</end>
+	<type>gene</type>
+	<label>unc-11</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-11</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>5680370</start>
+	<end>5691444</end>
+	<type>gene</type>
+	<label>unc-40</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-40</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>6742246</start>
+	<end>6744216</end>
+	<type>gene</type>
+	<label>smg-5</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=smg-5</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>8905815</start>
+	<end>8909487</end>
+	<type>gene</type>
+	<label>unc-29</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-29</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>11590813</start>
+	<end>11594101</end>
+	<type>gene</type>
+	<label>spe-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=spe-9</link>
+</feature>
+<feature>
+	<chromosome>I</chromosome>
+	<start>14864222</start>
+	<end>14871491</end>
+	<type>gene</type>
+	<label>unc-54</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-54</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>516155</start>
+	<end>521443</end>
+	<type>gene</type>
+	<label>mab-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=mab-9</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>2627747</start>
+	<end>2629194</end>
+	<type>gene</type>
+	<label>sri-71</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sri-71</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>3482505</start>
+	<end>3490069</end>
+	<type>gene</type>
+	<label>smu-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=smu-2</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>10708923</start>
+	<end>10711956</end>
+	<type>gene</type>
+	<label>bli-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=bli-1</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>12172500</start>
+	<end>12175906</end>
+	<type>gene</type>
+	<label>rol-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=rol-1</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>1239528</start>
+	<end>1244020</end>
+	<type>gene</type>
+	<label>lin-42</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lin-42</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>5651411</start>
+	<end>5652393</end>
+	<type>gene</type>
+	<label>bli-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=bli-2</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>6710509</start>
+	<end>6711411</end>
+	<type>gene</type>
+	<label>dpy-10</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dpy-10</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>7065050</start>
+	<end>7069898</end>
+	<type>gene</type>
+	<label>him-14</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=him-14</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>8182400</start>
+	<end>8184930</end>
+	<type>gene</type>
+	<label>mig-5</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=mig-5</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>9897770</start>
+	<end>9900167</end>
+	<type>gene</type>
+	<label>unc-4</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-4</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>11336632</start>
+	<end>11337653</end>
+	<type>gene</type>
+	<label>sqt-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sqt-1</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>13819519</start>
+	<end>13819830</end>
+	<type>gene</type>
+	<label>his-14</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=his-14</link>
+</feature>
+<feature>
+	<chromosome>II</chromosome>
+	<start>14643132</start>
+	<end>14662505</end>
+	<type>gene</type>
+	<label>unc-52</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-52</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>491547</start>
+	<end>502061</end>
+	<type>gene</type>
+	<label>unc-45</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-45</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>1153227</start>
+	<end>1158429</end>
+	<type>gene</type>
+	<label>par-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=par-2</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>2729915</start>
+	<end>2752542</end>
+	<type>gene</type>
+	<label>let-805</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=let-805</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>4672613</start>
+	<end>4674760</end>
+	<type>gene</type>
+	<label>mab-21</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=mab-21</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>5696920</start>
+	<end>5698658</end>
+	<type>gene</type>
+	<label>daf-4</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=daf-4</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>8977351</start>
+	<end>8982937</end>
+	<type>gene</type>
+	<label>unc-32</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-32</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>9253275</start>
+	<end>9257290</end>
+	<type>gene</type>
+	<label>tax-4</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=tax-4</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>10406830</start>
+	<end>10408738</end>
+	<type>gene</type>
+	<label>ced-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=ced-9</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>3685113</start>
+	<end>3690330</end>
+	<type>gene</type>
+	<label>sel-8</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sel-8</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>6932849</start>
+	<end>6935721</end>
+	<type>gene</type>
+	<label>sma-3</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sma-3</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>7600858</start>
+	<end>7606442</end>
+	<type>gene</type>
+	<label>lin-39</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lin-39</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>11243739</start>
+	<end>11266707</end>
+	<type>gene</type>
+	<label>tra-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=tra-1</link>
+</feature>
+<feature>
+	<chromosome>III</chromosome>
+	<start>12149748</start>
+	<end>12155907</end>
+	<type>gene</type>
+	<label>nob-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=nob-1</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>132451</start>
+	<end>137621</end>
+	<type>gene</type>
+	<label>daf-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=daf-1</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>1597324</start>
+	<end>1601373</end>
+	<type>gene</type>
+	<label>ced-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=ced-2</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>4235829</start>
+	<end>4236845</end>
+	<type>gene</type>
+	<label>dpy-13</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dpy-13</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>8620948</start>
+	<end>8625841</end>
+	<type>gene</type>
+	<label>lin-49</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lin-49</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>9615443</start>
+	<end>9619838</end>
+	<type>gene</type>
+	<label>elt-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=elt-1</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>10253840</start>
+	<end>10255769</end>
+	<type>gene</type>
+	<label>daf-14</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=daf-14</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>13119384</start>
+	<end>13124425</end>
+	<type>gene</type>
+	<label>unc-30</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-30</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>2276279</start>
+	<end>2279178</end>
+	<type>gene</type>
+	<label>lin-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lin-1</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>3618500</start>
+	<end>3623471</end>
+	<type>gene</type>
+	<label>unc-17</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-17</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>5496120</start>
+	<end>5516454</end>
+	<type>gene</type>
+	<label>unc-5</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-5</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>6740794</start>
+	<end>6742618</end>
+	<type>gene</type>
+	<label>smg-7</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=smg-7</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>7551926</start>
+	<end>7553052</end>
+	<type>gene</type>
+	<label>dif-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dif-1</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>11697670</start>
+	<end>11699995</end>
+	<type>gene</type>
+	<label>dpy-20</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dpy-20</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>12446375</start>
+	<end>12451463</end>
+	<type>gene</type>
+	<label>dpy-26</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dpy-26</link>
+</feature>
+<feature>
+	<chromosome>IV</chromosome>
+	<start>14436846</start>
+	<end>14444316</end>
+	<type>gene</type>
+	<label>tra-3</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=tra-3</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>20835</start>
+	<end>42998</end>
+	<type>gene</type>
+	<label>egl-8</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=egl-8</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>1474968</start>
+	<end>1475901</end>
+	<type>gene</type>
+	<label>unc-60</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-60</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>3210056</start>
+	<end>3222276</end>
+	<type>gene</type>
+	<label>apx-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=apx-1</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>4497281</start>
+	<end>4510705</end>
+	<type>gene</type>
+	<label>unc-62</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-62</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>5829455</start>
+	<end>5835288</end>
+	<type>gene</type>
+	<label>let-418</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=let-418</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>10471115</start>
+	<end>10479053</end>
+	<type>gene</type>
+	<label>egl-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=egl-9</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>11903946</start>
+	<end>11918737</end>
+	<type>gene</type>
+	<label>sma-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sma-1</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>12355617</start>
+	<end>12356676</end>
+	<type>gene</type>
+	<label>sqt-3</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sqt-3</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>14528006</start>
+	<end>14529575</end>
+	<type>gene</type>
+	<label>hda-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=hda-1</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>15074458</start>
+	<end>15081384</end>
+	<type>gene</type>
+	<label>unc-76</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-76</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>17350509</start>
+	<end>17351149</end>
+	<type>gene</type>
+	<label>skr-5</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=skr-5</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>18101271</start>
+	<end>18108989</end>
+	<type>gene</type>
+	<label>par-4</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=par-4</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>2819408</start>
+	<end>2821495</end>
+	<type>gene</type>
+	<label>srh-36</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=srh-36</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>6514682</start>
+	<end>6515945</end>
+	<type>gene</type>
+	<label>dpy-11</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=dpy-11</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>7976575</start>
+	<end>7980226</end>
+	<type>gene</type>
+	<label>let-413</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=let-413</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>8304237</start>
+	<end>8305162</end>
+	<type>gene</type>
+	<label>sel-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sel-9</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>9767234</start>
+	<end>9771857</end>
+	<type>gene</type>
+	<label>unc-42</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-42</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>13249483</start>
+	<end>13252134</end>
+	<type>gene</type>
+	<label>odr-3</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=odr-3</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>16251176</start>
+	<end>16256380</end>
+	<type>gene</type>
+	<label>gcy-20</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=gcy-20</link>
+</feature>
+<feature>
+	<chromosome>V</chromosome>
+	<start>19988350</start>
+	<end>19996523</end>
+	<type>gene</type>
+	<label>unc-51</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-51</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>525104</start>
+	<end>527472</end>
+	<type>gene</type>
+	<label>egl-17</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=egl-17</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>1110242</start>
+	<end>1113945</end>
+	<type>gene</type>
+	<label>lim-6</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lim-6</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>5628432</start>
+	<end>5629784</end>
+	<type>gene</type>
+	<label>unc-97</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-97</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>6925001</start>
+	<end>6931889</end>
+	<type>gene</type>
+	<label>unc-6</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-6</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>7718177</start>
+	<end>7720481</end>
+	<type>gene</type>
+	<label>unc-18</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-18</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>10550656</start>
+	<end>10553883</end>
+	<type>gene</type>
+	<label>mab-18</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=mab-18</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>11557966</start>
+	<end>11568351</end>
+	<type>gene</type>
+	<label>sdc-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sdc-2</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>13247657</start>
+	<end>13251052</end>
+	<type>gene</type>
+	<label>unc-9</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-9</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>14808815</start>
+	<end>14818269</end>
+	<type>gene</type>
+	<label>unc-3</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=unc-3</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>16398182</start>
+	<end>16404073</end>
+	<type>gene</type>
+	<label>ace-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=ace-1</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>2481377</start>
+	<end>2485797</end>
+	<type>gene</type>
+	<label>fox-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=fox-1</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>3232668</start>
+	<end>3234590</end>
+	<type>gene</type>
+	<label>fax-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=fax-1</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>4781410</start>
+	<end>4784363</end>
+	<type>gene</type>
+	<label>lon-2</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=lon-2</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>8501249</start>
+	<end>8505483</end>
+	<type>gene</type>
+	<label>mec-10</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=mec-10</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>9845706</start>
+	<end>9857407</end>
+	<type>gene</type>
+	<label>sop-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=sop-1</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>12494295</start>
+	<end>12496865</end>
+	<type>gene</type>
+	<label>odr-7</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=odr-7</link>
+</feature>
+<feature>
+	<chromosome>X</chromosome>
+	<start>15622243</start>
+	<end>15625615</end>
+	<type>gene</type>
+	<label>gas-1</label>
+	<link>http://unc.wormbase.org/db/gene/gene?name=gas-1</link>
+</feature>
+</genome>

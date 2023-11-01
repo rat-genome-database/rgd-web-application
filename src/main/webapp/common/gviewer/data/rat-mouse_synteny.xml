@@ -1,0 +1,747 @@
+<?xml version="1.0" standalone="yes"?>
+<genome>
+<chromosome index="1" number="1" length="268121971">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>2289147</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 10">
+		<start>2289147</start>
+		<end>23504206</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>23504206</start>
+		<end>30418178</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 13">
+		<start>30418178</start>
+		<end>30518078</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>30518078</start>
+		<end>34982110</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 10">
+		<start>34982110</start>
+		<end>37538384</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>37538384</start>
+		<end>38516653</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Chr 17">
+		<start>38516653</start>
+		<end>56506309</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="9" name="Chr Un">
+		<start>56506309</start>
+		<end>76268766</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Chr 07">
+		<start>76268766</start>
+		<end>205510735</end>
+		<stain>gpos</stain>
+		<color>0xFFCCCC</color>
+	</band>
+	<band index="11" name="Chr Un">
+		<start>205510735</start>
+		<end>205946343</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="12" name="Chr 19">
+		<start>205946343</start>
+		<end>267706618</end>
+		<stain>gpos</stain>
+		<color>0x9900CC</color>
+	</band>
+	<band index="13" name="Chr Un">
+		<start>267706618</start>
+		<end>268121971</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="2" number="2" length="258222147">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1937434</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 13">
+		<start>1937434</start>
+		<end>50795031</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>50795031</start>
+		<end>52380331</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 15">
+		<start>52380331</start>
+		<end>84596657</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>84596657</start>
+		<end>88022060</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 03">
+		<start>88022060</start>
+		<end>257860998</end>
+		<stain>gpos</stain>
+		<color>0x99991E</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>257860998</start>
+		<end>258222147</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="3" number="3" length="170969371">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>2057937</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 02">
+		<start>2057937</start>
+		<end>170775328</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>170775328</start>
+		<end>170969371</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="4" number="4" length="170969371">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>456798</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 05">
+		<start>456798</start>
+		<end>26758180</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>26758180</start>
+		<end>28501581</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 06">
+		<start>28501581</start>
+		<end>183114365</end>
+		<stain>gpos</stain>
+		<color>0xFF00CC</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>183114365</start>
+		<end>170969371</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="5" number="5" length="173106704">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1960610</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 01">
+		<start>1960610</start>
+		<end>14882195</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>14882195</start>
+		<end>16933105</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 04">
+		<start>16933105</start>
+		<end>173075233</end>
+		<stain>gpos</stain>
+		<color>0xCC0000</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>173075233</start>
+		<end>173106704</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="6" number="6" length="147642806">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>4421045</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 17">
+		<start>4421045</start>
+		<end>21641657</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>21641657</start>
+		<end>24070497</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 05">
+		<start>24070497</start>
+		<end>26142349</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>26142349</start>
+		<end>26345340</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 12">
+		<start>26345340</start>
+		<end>143794070</end>
+		<stain>gpos</stain>
+		<color>0x00FF00</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>143794070</start>
+		<end>147642806</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="7" number="7" length="143082968">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1584732</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 10">
+		<start>1584732</start>
+		<end>12393284</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>12393284</start>
+		<end>12688266</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 17">
+		<start>12688266</start>
+		<end>16232842</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>16232842</start>
+		<end>19552680</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 10">
+		<start>19552680</start>
+		<end>67762225</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>67762225</start>
+		<end>68311497</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Chr 15">
+		<start>68311497</start>
+		<end>142508919</end>
+		<stain>gpos</stain>
+		<color>0x6699FF</color>
+	</band>
+	<band index="9" name="Chr Un">
+		<start>142508919</start>
+		<end>143082968</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="8" number="8" length="129061546">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>957189</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 09">
+		<start>957189</start>
+		<end>128929594</end>
+		<stain>gpos</stain>
+		<color>0xFFCC00</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>128929594</start>
+		<end>129061546</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="9" number="9" length="113649943">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>517647</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 17">
+		<start>517647</start>
+		<end>14121922</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>14121922</start>
+		<end>23438200</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 01">
+		<start>23438200</start>
+		<end>97102550</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>97102550</start>
+		<end>101437094</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 17">
+		<start>101437094</start>
+		<end>108722289</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>108722289</start>
+		<end>113649943</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="10" number="10" length="110733352">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>26034</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 16">
+		<start>26034</start>
+		<end>12059820</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>12059820</start>
+		<end>12940333</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 17">
+		<start>12940333</start>
+		<end>15351563</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>15351563</start>
+		<end>15585407</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 11">
+		<start>15585407</start>
+		<end>16515651</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>16515651</start>
+		<end>16607231</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Chr 17">
+		<start>16607231</start>
+		<end>16943975</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="9" name="Chr Un">
+		<start>16943975</start>
+		<end>18053038</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="10" name="Chr 11">
+		<start>18053038</start>
+		<end>110409285</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="11" name="Chr Un">
+		<start>110409285</start>
+		<end>110733352</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="11" number="11" length="87800381">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>2260586</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 16">
+		<start>2260586</start>
+		<end>86127564</end>
+		<stain>gpos</stain>
+		<color>0x99CCFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>86127564</start>
+		<end>87800381</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="12" number="12" length="46649226">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1514622</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 08">
+		<start>1514622</start>
+		<end>2934966</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>2934966</start>
+		<end>3732711</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 05">
+		<start>3732711</start>
+		<end>46407254</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>46407254</start>
+		<end>46649226</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="13" number="13" length="111348958">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>12730735</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 01">
+		<start>12730735</start>
+		<end>111166859</end>
+		<stain>gpos</stain>
+		<color>0x996600</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>111166859</start>
+		<end>111348958</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="14" number="14" length="112220682">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1581266</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 05">
+		<start>1581266</start>
+		<end>83454749</end>
+		<stain>gpos</stain>
+		<color>0xFF0000</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>83454749</start>
+		<end>84144944</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 11">
+		<start>84144944</start>
+		<end>110751435</end>
+		<stain>gpos</stain>
+		<color>0xCCFF00</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>110751435</start>
+		<end>112220682</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="15" number="15" length="109774626">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>2515298</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 14">
+		<start>2515298</start>
+		<end>109073054</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>109073054</start>
+		<end>109774626</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="16" number="16" length="90224819">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>43765</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 14">
+		<start>43765</start>
+		<end>17593790</end>
+		<stain>gpos</stain>
+		<color>0x0000CC</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>17593790</start>
+		<end>18108911</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 08">
+		<start>18108911</start>
+		<end>82517165</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>82517165</start>
+		<end>90224819</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="17" number="17" length="97307196">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>3845345</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 13">
+		<start>3845345</start>
+		<end>58739140</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>58739140</start>
+		<end>61921011</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 18">
+		<start>61921011</start>
+		<end>62664912</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>62664912</start>
+		<end>68600427</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="6" name="Chr 13">
+		<start>68600427</start>
+		<end>77854314</end>
+		<stain>gpos</stain>
+		<color>0x358000</color>
+	</band>
+	<band index="7" name="Chr Un">
+		<start>77854314</start>
+		<end>78061323</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="8" name="Chr 02">
+		<start>78061323</start>
+		<end>96270262</end>
+		<stain>gpos</stain>
+		<color>0x666600</color>
+	</band>
+	<band index="9" name="Chr Un">
+		<start>96270262</start>
+		<end>97307196</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="18" number="18" length="87338544">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1391824</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 18">
+		<start>1391824</start>
+		<end>81489421</end>
+		<stain>gpos</stain>
+		<color>0xCCFFFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>81489421</start>
+		<end>87338544</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="19" number="19" length="59223525">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>37685</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 08">
+		<start>37685</start>
+		<end>58605791</end>
+		<stain>gpos</stain>
+		<color>0xFF9900</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>58605791</start>
+		<end>59223525</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="20" number="20" length="55296979">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>1412554</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr 17">
+		<start>1412554</start>
+		<end>10280420</end>
+		<stain>gpos</stain>
+		<color>0x00FFFF</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>10280420</start>
+		<end>10541882</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="4" name="Chr 10">
+		<start>10541882</start>
+		<end>49053613</end>
+		<stain>gpos</stain>
+		<color>0xFFFF00</color>
+	</band>
+	<band index="5" name="Chr Un">
+		<start>49053613</start>
+		<end>55296979</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+<chromosome index="21" number="X" length="160775580">
+	<band index="1" name="Chr Un">
+		<start>0</start>
+		<end>3013139</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+	<band index="2" name="Chr X">
+		<start>3013139</start>
+		<end>160427431</end>
+		<stain>gpos</stain>
+		<color>0x999999</color>
+	</band>
+	<band index="3" name="Chr Un">
+		<start>160427431</start>
+		<end>160775580</end>
+		<stain>gpos</stain>
+		<color>0x79CC3D</color>
+	</band>
+</chromosome>
+</genome>
