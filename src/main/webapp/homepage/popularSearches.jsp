@@ -22,7 +22,7 @@
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='/QueryBuilder/'">
+                <div class="searchCard" onclick="location.href='https://ontomate.rgd.mcw.edu'">
                     <p style="margin-top:15px;">Ontomate<br> (Literature)</p>
                 </div>
             </td>
