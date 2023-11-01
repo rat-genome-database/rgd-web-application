@@ -155,8 +155,9 @@
                                 <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                 <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
-
+<!--
                                 <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+    -->
                             </td>
 
                         </tr>
@@ -218,7 +219,7 @@
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                                             <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
                                             <a href="/rgdweb/gTool/Gviewer.jsp">GViewer (Genome Viewer)</a>
-<%--                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>--%>
+                                            <a href="/rgdweb/overgo/find.html">Overgo Probe Designer</a>
                                         </div>
                                     </div>
                                     <div class="rgd-dropdown">
@@ -285,7 +286,7 @@
                                             <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>
                                             <a href="/wg/news2/">News</a>
                                             <a href="/wg/home/rat-genome-database-publications/">RGD Publications</a>
-                                            <a href="/wg/com-menu/poster_archive/">RGD Poster Archive</a>
+                                            <a href="/wg/com-menu/poster_archive/">RGD Presentations Archive</a>
                                             <a href="/nomen/nomen.shtml">Nomenclature Guidelines</a>
                                             <a href="/wg/resource-links/">Resource Links</a>
                                             <a href="/wg/resource-links/laboratory-resources/">Laboratory Resources</a>
