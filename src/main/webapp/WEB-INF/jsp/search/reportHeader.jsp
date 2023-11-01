@@ -249,7 +249,7 @@
         <li <%=dogId%>><a href="javascript:addParam('speciesType',6)">Dog</a></li>
         <li <%=squirrelId%>><a href="javascript:addParam('speciesType',7)">Squirrel</a></li>
         <li <%=moleRatId%>><a href="javascript:addParam('speciesType',14)">Naked Mole-rat</a></li>
-        <li <%=greenMonekyId%>><a href="javascript:addParam('speciesType',13)">Green Monkey</a></li>
+        <li <%=greenMonkeyId%>><a href="javascript:addParam('speciesType',13)">Green Monkey</a></li>
         <!--
         -->
         <% } %>
