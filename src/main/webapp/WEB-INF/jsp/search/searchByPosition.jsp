@@ -690,8 +690,10 @@
             setMaps: function (species) {
                 var mapKey = 0;
                 v.maps = [];
-                if (species != this.species)
+                if (species !== this.species) {
                     species = species.options[species.selectedIndex].value;
+                    this.species = species;
+                }
                 axios
                     .get(this.hostName + '/rgdws/maps/' + species)
                     .then(function (response) {
