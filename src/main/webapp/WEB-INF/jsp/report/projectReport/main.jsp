@@ -73,18 +73,25 @@
         <% if (view.equals("2")) { %>
 
         <% }%>
-        <table width="95%" border="0">
+
+
+
+        <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+
+
+
+
+            <table width="95%" border="0">
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
-                    <%if(p2.get(0).getSubmitterName()!=null||p2.get(0).getPiName()!=null){%>
-                    <div class ="subTitle" id="info">Submitter Information</div><br>
-                    <%}%>
-                    <%@ include file="submittedInfo.jsp"%>
+
+
+
                     <br>
                     <br>
                     <% if(!projRef.isEmpty()){%>
-                    <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+                    <br><div  id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
                     <br>
                     <div id="associationsCurator" style="display:none;">
 
@@ -102,17 +109,17 @@
                     <%}%>
                     <% if(!pf2.isEmpty()){%>
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
-                    <div class ="subTitle" id="subFiles">Submitted Files</div><br>
+                    <div id="subFiles"><h2>Submitted Files</h2></div><br>
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
                     <% if(protocols1.size()>0){%>
-                    <div class ="subTitle" id="protocol">Protocols</div>
+                    <div  id="protocol"><h2>Protocols</h2></div>
                     <%@ include file="protocol.jsp"%>
                     <%}%>
                     <%}%>
                     <% if(ei1.size()>0){%>
-                    <br><div class="subTitle" id="Ext">External Resources</div><br>
+                    <br><div id="Ext"><h2>External Resources</h2></div><br>
                     <%@ include file="../xdbs.jsp"%>
                     <%}%>
                 </td>
