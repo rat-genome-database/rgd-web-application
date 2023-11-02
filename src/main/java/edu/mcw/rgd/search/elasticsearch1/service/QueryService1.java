@@ -148,10 +148,18 @@ public class QueryService1 {
             }
             if (!sb.getChr().equals("")) {
                 if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
-                    builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
-                            nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
-                                    .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
-                                    .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
+                    if(sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
+                        builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                                nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
+                                        .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
+                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
+                    }else{
+                        builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                                nestedQuery("mapDataList", QueryBuilders.boolQuery()
+                                        //.must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
+                                        .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
+                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
+                    }
                 } else {
                     builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders
                             .nestedQuery("mapDataList", QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
@@ -163,7 +171,8 @@ public class QueryService1 {
             if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
                 builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
             }
-        }
+
+            }
         return builder;
          }
 
