@@ -212,30 +212,30 @@ public class MyRgdServiceController implements Controller {
     public void getWatchers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth!=null) {
+            if (auth.getName().equals("anonymousUser")) {
+                return;
+            }
 
-        if (auth.getName().equals("anonymousUser")) {
-            return;
+            JsonParser parser = new JsonParser();
+
+            JsonObject obj = (JsonObject) parser.parse(request.getReader());
+            JsonElement elm = obj.get("rgdId");
+
+            if (elm == null) {
+                return;
+            }
+
+            String id = elm.getAsString();
+
+            //int rgdId = 0;
+            try {
+                getObjectWatchers(response, Integer.parseInt(id), auth.getName());
+            } catch (Exception e) {
+                getTermWatchers(response, id, auth.getName());
+
+            }
         }
-
-        JsonParser parser = new JsonParser();
-
-        JsonObject obj = (JsonObject) parser.parse(request.getReader());
-        JsonElement elm = obj.get("rgdId");
-
-        if (elm == null) {
-            return;
-        }
-
-        String id = elm.getAsString();
-
-        //int rgdId = 0;
-        try {
-            getObjectWatchers(response, Integer.parseInt(id), auth.getName());
-        }catch (Exception e) {
-            getTermWatchers(response, id, auth.getName());
-
-        }
-
     }
 
     public void getUsername(HttpServletRequest request, HttpServletResponse response) throws Exception {
