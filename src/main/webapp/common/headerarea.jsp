@@ -188,9 +188,7 @@
 
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
-        <!--                                    
-        <a href="/rgdweb/projects/project.html">Projects <span style="color:red;">(beta)</span></a>
-        -->
+                                            <a href="/rgdweb/projects/project.html">Community Projects <span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
                                             <a href="/rgdweb/search/markers.html?100">Markers</a>
