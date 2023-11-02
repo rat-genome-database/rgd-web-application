@@ -23,10 +23,10 @@
 <div class="sectionHeading" id="Phenotypes">Phenotypes</div>
 <ul>
     <% for (ProjectFile phenotypeFile : phenotypeFiles) { %>
-<%--    <%--%>
-<%--        String filename = phenotypeFile.getDownloadUrl().substring(phenotypeFile.getDownloadUrl().lastIndexOf('/')+1);--%>
-<%--    %>--%>
-<%--    <li><a href="<%=phenotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>--%>
+    <%--    <%--%>
+    <%--        String filename = phenotypeFile.getDownloadUrl().substring(phenotypeFile.getDownloadUrl().lastIndexOf('/')+1);--%>
+    <%--    %>--%>
+    <%--    <li><a href="<%=phenotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>--%>
     <li><a href="<%= phenotypeFile.getDownloadUrl() %>"><%= phenotypeFile.getFileTypeName() %></a></li>
     <% } %>
 </ul>
@@ -35,10 +35,10 @@
 <div class="sectionHeading" id="Genotypes">Genotypes</div>
 <ul>
     <% for (ProjectFile genotypeFile : genotypeFiles) { %>
-<%--    <%--%>
-<%--        String filename = genotypeFile.getDownloadUrl().substring(genotypeFile.getDownloadUrl().lastIndexOf('/') + 1);--%>
-<%--    %>--%>
-<%--    <li><a href="<%=genotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>--%>
+    <%--    <%--%>
+    <%--        String filename = genotypeFile.getDownloadUrl().substring(genotypeFile.getDownloadUrl().lastIndexOf('/') + 1);--%>
+    <%--    %>--%>
+    <%--    <li><a href="<%=genotypeFile.getDownloadUrl()%>" class="projFileLink"><%=filename%></a></li>--%>
     <li><a href="<%= genotypeFile.getDownloadUrl() %>"><%= genotypeFile.getFileTypeName() %></a></li>
     <% } %>
 </ul>

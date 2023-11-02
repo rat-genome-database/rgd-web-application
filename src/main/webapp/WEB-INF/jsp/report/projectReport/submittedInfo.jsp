@@ -13,12 +13,12 @@
 </style>
 <% for (Project i:p1){%>
 <%--<ul>--%>
-    <%if(p1.get(0).getSubmitterName()!=null){%>
+<%if(p1.get(0).getSubmitterName()!=null){%>
 <b>Submitter Name:</b> <%=i.getSubmitterName()%>
 <%}%>
 <br>
-    <%if(p1.get(0).getPiName()!=null){%>
-    <br>
+<%if(p1.get(0).getPiName()!=null){%>
+<br>
 <b>P I Name:</b> <%=i.getPiName()%>
 <%}%>
 <%--</ul>--%>

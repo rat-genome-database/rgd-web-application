@@ -12,9 +12,10 @@
     String sortBy = "";
     String sortDesc = "";
     String objectKey = Integer.toString(RgdId.OBJECT_KEY_REFERENCES);
+    boolean divRendered = false;
     String extView = null; // no extended view
 %>
-<div class="sectionHeading" id="phenominerAssociationC">Phenotype Values <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>
+<%--<div class="sectionHeading" id="phenominerAssociationC">Phenotype Values <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>--%>
 <%
     for(Integer refId:rgdId){
         OntAnnotController.loadAnnotationsForReference(bean, ontologyDAO, refId, species, displayDescendants, sortBy, sortDesc, objectKey,
@@ -23,6 +24,11 @@
         if( bean.getPhenoCmoTerms().size() + bean.getPhenoMmoTerms().size() + bean.getPhenoStrains().size()
                 + bean.getPhenoXcoTerms().size() > 0 ) {
 %>
+<%if(!divRendered){%>
+<div class="sectionHeading" id="phenominerAssociationC">Phenotype Values <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>
+<%
+        divRendered = true;
+    }%>
 <div id="phenominerAssociationCTableDiv" class="light-table-border">
     <div>
         <h3>Related Phenotype Data of Reference RGD:<%=refId%></h3>

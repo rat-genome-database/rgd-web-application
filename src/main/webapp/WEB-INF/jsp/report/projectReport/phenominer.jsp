@@ -103,7 +103,10 @@
     <%List<Integer> refRgdIds1 = new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());%>
     <br>
     <table>
-        <%for(int i=0;i<refRgdIds1.size();i++){%>
+        <%for(int i=0;i<refRgdIds1.size();i++){
+            List<Record> allRecords1 = phDAO.getFullRecords(refRgdIds1.get(i));
+            if(allRecords1.size()>0){
+        %>
         <tr>
             <td><b>Options:&nbsp;</b></td>
             <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=refRgdIds1.get(i)%>#ViewChart">View chart (<%=refRgdIds1.get(i)%>)</a></td>
@@ -114,6 +117,7 @@
             <td>&nbsp;|&nbsp;</td>
             <td><a href="javascript:void(0);" onclick="showAllClinicalMeasurement('ClinMeasure', 'showHide');">Show All Strains Clinical Measurement</a></td>
         </tr>
+        <%}%>
         <%}%>
     </table>
 

@@ -28,6 +28,7 @@ var <%=ontId%>_popup_wnd = null;
           'wt': 'velocity',
           'v.template': 'termidselect'
       },
+    crossDomain: true,
       max: 100,
       'termSeparator': ' OR '
     }
