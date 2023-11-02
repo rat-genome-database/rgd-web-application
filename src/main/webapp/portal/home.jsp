@@ -269,7 +269,7 @@
                 $scope.olgaHost = $scope.wsHost;
             }else {
                 $scope.wsHost=window.location.protocol + '//rest.rgd.mcw.edu';
-                $scope.olgaHost = "https://rest.rgd.mcw.edu";
+                $scope.olgaHost = "https://rgd.mcw.edu";
             }
 
 
