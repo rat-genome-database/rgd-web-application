@@ -58,13 +58,13 @@
 <%--List<Project> pro = pdao.getAllProjects();--%>
 <%--%>--%>
 <%@ include file="/common/headerarea.jsp"%>
-<h1 class="test"> List of Projects </h1>
+<h1 class="test">Scientific Community Projects</h1>
 <body>
 
 <hr>
 <table class="pro">
 <tr id="a">
-    <th class="he">Project ID</th>
+    <th class="he">Project RGD Id</th>
     <th class="he">Project Name</th>
     <th class="he">Project Description</th>
 </tr>
