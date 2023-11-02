@@ -3,7 +3,7 @@
 <beans>
 
  
-<!--      <bean id="elasticsearchclient" class="edu.mcw.rgd.services.ClientInit" init-method="init" destroy-method="destroy"/>-->
+    <bean id="elasticsearchclient" class="edu.mcw.rgd.services.ClientInit" init-method="init" destroy-method="destroy"/>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
          <property name="basename" value="views"/>
     </bean>
