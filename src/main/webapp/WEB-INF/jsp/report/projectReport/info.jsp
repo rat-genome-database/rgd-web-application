@@ -79,12 +79,12 @@
         pmId = pmIds.get(0).getAccId();
     }
 %>
-<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a>
+<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>.
     <% if(pmIds.size()>0){%>
-       , PMID: <a class="mylink" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>
-</p>
+       PMID: <a class="mylink" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>,
 <%}
 %>
+RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a></p>
 <%}%>
 <%}%>
 <style>
