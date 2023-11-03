@@ -68,10 +68,12 @@
 
 <div id="references"><h2>RGD References</h2></div>
 <br>
+<ol>
 <% for (Reference i:p){%>
-<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a> </p>
+<li><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a></li>
 <%}
 %>
+</ol>
 <%}%>
 <style>
 
