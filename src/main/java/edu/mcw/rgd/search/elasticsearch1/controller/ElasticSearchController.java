@@ -254,6 +254,10 @@ public class ElasticSearchController implements Controller {
                     break;
                     }
             }
+        if(mapKey==0 && species!=null && !species.equals("")){
+            Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
+            mapKey=referenceAssemblyMap.getKey();
+        }
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){
