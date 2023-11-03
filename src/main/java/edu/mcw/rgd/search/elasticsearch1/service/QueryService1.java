@@ -213,17 +213,22 @@ public class QueryService1 {
         if(sb==null) {
             return dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
-        dqb
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
-                .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("gene") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("SSLP") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("variant") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("qtl") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200));
+            dqb.add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000));
+            dqb.add(QueryBuilders.termQuery("term.symbol",term).boost(2000));
 
-                .add(QueryBuilders.multiMatchQuery(term)
+               dqb .add(QueryBuilders.multiMatchQuery(term)
                         .field("symbol.symbol", 100)
                         .field("term.symbol", 100)
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
