@@ -167,7 +167,7 @@ public class QueryService1 {
 
                 }
             }
-            System.out.println("ASSEMBLY:" +sb.getAssembly());
+            //System.out.println("ASSEMBLY:" +sb.getAssembly());
             if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
                 builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
             }

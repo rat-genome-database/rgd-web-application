@@ -348,7 +348,7 @@
                             num++;
                         }
                     }
-System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
+//System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
                     ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
                     try {
                         for (int i = 0; i < sampList1.size(); i++) {
