@@ -1,4 +1,4 @@
-<div>
+<div style="border:1px solid #2865A3;margin-top:30px;margin-bottom:30px; padding:10px;">
 <a name="pheno"></a>
 <h3>Related Phenotype Data for Term "<%=bean.getTerm().getTerm()%>" (<%=bean.getAccId()%>)</h3>
   <table cellspacing='3px' border='0'>
