@@ -59,7 +59,7 @@ public class PhenominerService {
 
     }
     public AggregationBuilder buildAggregations(String fieldName){
-        System.out.println("SPECIES TYPE KEY IN AGGS:" + speciesTypeKey);
+        //System.out.println("SPECIES TYPE KEY IN AGGS:" + speciesTypeKey);
         AggregationBuilder aggs= null;
         if(fieldName.equalsIgnoreCase("units")){
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
@@ -209,7 +209,7 @@ public class PhenominerService {
             if (rsTermAggs != null) {
                 aggregations.put("rsTerms", (List<Terms.Bucket>) rsTermAggs.getBuckets());
                 for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
-                   System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
+                   //System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
                 }
             }
         }
@@ -227,7 +227,7 @@ public class PhenominerService {
                // System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
                 Terms unitsSubAggs=bkt.getAggregations().get("experimentName");
                 for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
-                   System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
+                   //System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
                  //   unitsSubBkts.add(subBkt);
                 }
             }
