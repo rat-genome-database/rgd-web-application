@@ -49,9 +49,9 @@
 <%}%>
 
 <tr>
-    <td class="label">Project RGD ID</td>
+    <td class="label">Project ID:</td>
     <td>&nbsp;</td>
-    <td class="labelValue"><%=project1.get(0).getRgdId()%></td>
+    <td class="labelValue">RGD:<%=project1.get(0).getRgdId()%></td>
 </tr>
 
 </table>
@@ -59,13 +59,13 @@
 <hr>
 <h2>Project Description:</h2>
 <div style="font-size:16px;"><%=project1.get(0).getDesc()%></div><br><br>
-<hr>
 <%
     ReferenceDAO test = new ReferenceDAO();
     List<Reference> p=test.getReferencesForObject(obj.getRgdId());
 %>
 <%if(!p.isEmpty()){%>
 
+<hr>
 <div id="references"><h2>RGD References</h2></div>
 <br>
 

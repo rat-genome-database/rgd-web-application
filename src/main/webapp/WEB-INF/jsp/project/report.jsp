@@ -64,7 +64,7 @@
 <hr>
 <table class="pro">
 <tr id="a">
-    <th class="he">Project RGD Id</th>
+    <th class="he">Project ID</th>
     <th class="he">Project Name</th>
     <th class="he">Project Description</th>
 </tr>
@@ -74,7 +74,7 @@
 //        List<Project> p=(List<Project>)allProjects;
         for(Project i:p1){%>
     <tr id="b">
-        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdId() %>"><%= i.getRgdId() %></a></td>
+        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdId() %>">RGD:<%= i.getRgdId() %></a></td>
         <td class="he"><%= i.getName() %></td>
         <td class="he"><%= i.getDesc() %></td>
     </tr>
