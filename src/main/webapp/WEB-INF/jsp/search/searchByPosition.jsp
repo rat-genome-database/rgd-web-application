@@ -599,7 +599,7 @@
                     document.getElementById('page-container').style.display = 'none';
                 }else {
                     axios
-                        .get(this.hostName + '/rgdws/gene/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
+                        .get(this.hostName + '/rgdws/genes/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
                             v.geneData = response.data;
                             if (v.geneData.length != 0) {
