@@ -144,7 +144,7 @@ public class VariantController extends HaplotyperController {
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
         List<VariantResult> variantResults=new ArrayList<>();
-        System.out.println("HITS SIZE:" + hits.size());
+        //System.out.println("HITS SIZE:" + hits.size());
         Map<Integer, List<TranscriptResult>> transcriptMap=new HashMap<>();
         for (SearchHit h : hits) {
             java.util.Map<String, Object> m = h.getSourceAsMap();
