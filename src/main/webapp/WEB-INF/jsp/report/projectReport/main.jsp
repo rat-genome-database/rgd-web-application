@@ -84,6 +84,7 @@
                     <%@ include file="info.jsp"%>
                     <br>
                     <% if(!projRef.isEmpty()){%>
+                    3
                     <hr>
                     <br><div  id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
                     <br>
@@ -103,18 +104,21 @@
                     <%}%>
                     <% if(!pf2.isEmpty()){%>
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
+                    4
                     <hr>
-                    <div id="subFiles"><h2>Submitted Files</h2></div><br>
+                    <div id="subFiles"><h2>Project File Archive (select to download)</h2></div><br>
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
                     <% if(protocols1.size()>0){%>
+                    5
                     <hr>
                     <div  id="protocol"><h2>Protocols</h2></div>
                     <%@ include file="protocol.jsp"%>
                     <%}%>
                     <%}%>
                     <% if(ei1.size()>0){%>
+                    6
                     <hr>
                     <br><div id="Ext"><h2>External Resources</h2></div><br>
                     <%@ include file="../xdbs.jsp"%>
