@@ -16,6 +16,9 @@
     .subTitle {
         font-style:normal;
     }
+    .mylink {
+        color: #5072A7;
+    }
 </style>
 <%
     ProjectDAO pdao1 = new ProjectDAO();
@@ -70,7 +73,7 @@
 <%if(!p.isEmpty()){%>
 
 <hr>
-<div id="references" class="subTitle"><h2>RGD References</h2></div>
+<div id="references" class="subTitle"><h2>Associated References</h2></div>
 <br>
 <% for (Reference i:p){
     List<XdbId> pmIds = xdbDAO.getXdbIdsByRgdId(2, i.getRgdId());
@@ -79,7 +82,7 @@
         pmId = pmIds.get(0).getAccId();
     }
 %>
-<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>.
+<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation() %>
     <% if(pmIds.size()>0){%>
        PMID: <a class="mylink" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>,
 <%}
@@ -87,10 +90,4 @@
 RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a></p>
 <%}%>
 <%}%>
-<style>
-
-    .mylink {
-        color: #5072A7;
-    }
-</style>
 <%@ include file="../sectionFooter.jsp"%>
