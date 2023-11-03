@@ -431,7 +431,7 @@ public class AnnotationFormatter {
             case "CHEBI":
                 String term = "";
                     String[] temp = info.split("\\s");
-                    System.out.println("formatXdbUrl for ["+info+"] = ["+temp+"]");
+                    System.out.println("formatXdbUrl for ["+info+"] = ["+Arrays.toString(temp)+"]");
                     term = odao.getTermByAccId(temp[0]).getTerm();
                     uri = "<a href=\"/rgdweb/ontology/annot.html?acc_id=" + info + "\">" + term + "</a>";
                 break;
