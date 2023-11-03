@@ -429,11 +429,13 @@ public class AnnotationFormatter {
                 break;
             case "XCO":
             case "CHEBI":
-                String term = "";
-                    String[] temp = info.split("\\s");
-                    System.out.println("formatXdbUrl for ["+info+"] = ["+Arrays.toString(temp)+"]");
-                    term = odao.getTermByAccId(temp[0]).getTerm();
-                    uri = "<a href=\"/rgdweb/ontology/annot.html?acc_id=" + info + "\">" + term + "</a>";
+                String termAcc = info.trim();
+                Term t = odao.getTermByAccId(termAcc);
+                if( t!=null ) {
+                    uri = "<a href=\"/rgdweb/ontology/annot.html?acc_id=" + termAcc + "\">" + t.getTerm() + "</a>";
+                } else {
+                    uri = "<a href=\"/rgdweb/ontology/annot.html?acc_id=" + termAcc + "\">" + termAcc + "</a>";
+                }
                 break;
         }
 
