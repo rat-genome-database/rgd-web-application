@@ -44,7 +44,7 @@
 <%}%>
 <%if(p1.get(0).getPiName()!=null){%>
 <tr>
-    <td class="label">Principle Investigator:</td>
+    <td class="label">Principal Investigator:</td>
     <td>&nbsp;</td>
     <td class="labelValue"><%=i.getPiName()%></td>
 </tr>
@@ -62,7 +62,7 @@
 
 <hr>
 <h2>Project Description:</h2>
-<div style="font-size:16px;"><%=project1.get(0).getDesc()%></div><br><br>
+<div style="font-size:16px;"><%=project1.get(0).getDesc()%></div><br>
 <%
     ReferenceDAO test = new ReferenceDAO();
     List<Reference> p=test.getReferencesForObject(obj.getRgdId());
@@ -72,12 +72,20 @@
 <hr>
 <div id="references" class="subTitle"><h2>RGD References</h2></div>
 <br>
-
-<% for (Reference i:p){%>
-<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a></p>
+<% for (Reference i:p){
+    List<XdbId> pmIds = xdbDAO.getXdbIdsByRgdId(2, i.getRgdId());
+    String pmId = "";
+    if (pmIds.size() > 0) {
+        pmId = pmIds.get(0).getAccId();
+    }
+%>
+<p><b><%=i.getTitle()%></b>.<br><%=i.getCitation()%>. RGD ID: <a class="mylink" href="/rgdweb/report/reference/main.html?id=<%=i.getRgdId()%>"><%=i.getRgdId()%></a>
+    <% if(pmIds.size()>0){%>
+       , PMID: <a class="mylink" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>
+</p>
 <%}
 %>
-
+<%}%>
 <%}%>
 <style>
 
@@ -85,6 +93,4 @@
         color: #5072A7;
     }
 </style>
-<br>
-
 <%@ include file="../sectionFooter.jsp"%>

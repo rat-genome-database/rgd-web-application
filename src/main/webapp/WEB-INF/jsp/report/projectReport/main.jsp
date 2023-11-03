@@ -36,8 +36,10 @@
 </script>
 
 <%--to check if there are any references and submitted files for the project--%>
-<%List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
+<%
+//    List<Integer> projRef=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
     List<Project> p2=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
+    List<Record> allRecords2 = new PhenominerDAO().getFullRecordsForProject(obj.getRgdId());
     List<ProjectFile> pf2 = new ProjectFileDAO().getProjectFiles(obj.getRgdId());
     List<ProjectFile> phenotypeFiles1 = new ArrayList<>();
     List<ProjectFile> genotypeFiles1 = new ArrayList<>();
@@ -82,8 +84,8 @@
             <tr>
                 <td>
                     <%@ include file="info.jsp"%>
-                    <br>
-                    <% if(!projRef.isEmpty()){%>
+<%--                    <% if(!projRef.isEmpty()){%>--%>
+                    <% if(!allRecords2.isEmpty()){%>
                     <hr>
                     <div  class="subTitle" id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
                     <br>
@@ -101,6 +103,7 @@
                     <%@ include file="../objectsAnnotated.jsp"%>
                     <br>
                     <%}%>
+<%--                    <%}%>--%>
                     <% if(!pf2.isEmpty()){%>
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
 
@@ -125,6 +128,7 @@
                 </td>
 
             </tr>
+        </table>
         </table>
     </div>
 </div>
