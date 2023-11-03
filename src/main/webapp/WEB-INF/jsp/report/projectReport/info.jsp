@@ -13,6 +13,9 @@
     .labelValue {
         font-size:16px;
     }
+    .subTitle {
+        font-style:normal;
+    }
 </style>
 <%
     ProjectDAO pdao1 = new ProjectDAO();
@@ -56,7 +59,7 @@
 
 </table>
 <br>
-1
+
 <hr>
 <h2>Project Description:</h2>
 <div style="font-size:16px;"><%=project1.get(0).getDesc()%></div><br><br>
@@ -65,9 +68,9 @@
     List<Reference> p=test.getReferencesForObject(obj.getRgdId());
 %>
 <%if(!p.isEmpty()){%>
-2
+
 <hr>
-<div id="references"><h2>RGD References</h2></div>
+<div id="references" class="subTitle"><h2>RGD References</h2></div>
 <br>
 
 <% for (Reference i:p){%>
