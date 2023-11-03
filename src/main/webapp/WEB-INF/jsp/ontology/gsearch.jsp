@@ -48,12 +48,6 @@
         OntSearchBean.OntInfo info = entry.getValue();
         String className = "o_blue";
 
-        if( RgdContext.isChinchilla(request) ) {
-            if( !(ontId.equals("CC")||ontId.equals("BP")||ontId.equals("MF")||ontId.equals("RDO")||ontId.equals("PW")||ontId.equals("MP")) )
-                continue;
-            className = "o_red";
-        }
-
         if( ontId.equals(bean.getSelOntId()) ) {
             className += " o_bold";
             out.print("<tr class='o_bk_dark'>\n");
@@ -80,7 +74,7 @@
 <% } %>
 
 </td><td valign="top"><%-- TERMS FOUND : right pane --%>
-        <%if (!bean.getResults().isEmpty()) {%>
+     <% if( bean.getResults()!=null && !bean.getResults().isEmpty() ) {%>
      <a name="tl"></a>
      <table class="searchBox" border="0" cellspacing="1" cellpadding="1">
      <% for( Ontology ont: bean.getResults().keySet() ) {
