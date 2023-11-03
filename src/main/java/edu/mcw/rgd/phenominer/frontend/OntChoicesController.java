@@ -42,11 +42,11 @@ public class OntChoicesController implements Controller {
             termString = request.getParameter("terms");
             String sex = null;
 
-            System.out.println("termString" + termString);
+            //System.out.println("termString" + termString);
 
             String[] terms = termString.split(",");
 
-            System.out.println("term lenght = " + terms.length);
+            //System.out.println("term lenght = " + terms.length);
 
             for (int j = 0; j < terms.length; j++) {
                 String[] termParts = terms[j].split(":");
