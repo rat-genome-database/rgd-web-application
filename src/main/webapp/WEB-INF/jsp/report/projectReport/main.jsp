@@ -105,7 +105,7 @@
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
 
                     <hr>
-                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;(select to download)</div><br>
+                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;<span style="font-size:12px; font-color:black;">(received from submitter)</span></div><br>
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
