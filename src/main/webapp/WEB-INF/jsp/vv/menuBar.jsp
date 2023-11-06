@@ -70,27 +70,27 @@
         resultsRendered= true;
     }
     String parameters=request.getQueryString();
-if(parameters==null){
-     StringBuffer sb=new StringBuffer();
-     sb.append("chr=");
-     sb.append(req.getParameter("chr"));
-     sb.append("&mapKey=");
-     sb.append(req.getParameter("mapKey"));
-    sb.append("&start=");
-    sb.append(req.getParameter("start"));
-    sb.append("&stop=");
-    sb.append(req.getParameter("stop"));
-    int i=1;
-    for(int id:sampleList){
-        sb.append("&sample"+i+"=");
-        sb.append(id);
-        i=i+1;
+    if( parameters==null ){
+        StringBuffer sb=new StringBuffer();
+        sb.append("chr=");
+        sb.append(req.getParameter("chr"));
+        sb.append("&mapKey=");
+        sb.append(req.getParameter("mapKey"));
+        sb.append("&start=");
+        sb.append(req.getParameter("start"));
+        sb.append("&stop=");
+        sb.append(req.getParameter("stop"));
+        if( sampleList!=null ) {
+            int i = 1;
+            for (int id : sampleList) {
+                sb.append("&sample" + i + "=");
+                sb.append(id);
+                i = i + 1;
+            }
+        }
+        parameters=sb.toString();
     }
-    parameters=sb.toString();
-}
-%>
 
-<%
     String selectTitle="Edit&nbsp;Strains";
     int map=0;
     if(req2.getParameter("mapKey")!=null && !req2.getParameter("mapKey").equals(""))
