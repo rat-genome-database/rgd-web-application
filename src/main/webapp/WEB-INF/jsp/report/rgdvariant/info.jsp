@@ -9,18 +9,10 @@
     }
 </style>
 <%
-    String objType = "{unknown object type}";
-    String description = null;
-    RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
-    if( rgdId!=null ) {
-        objType = rgdId.getObjectTypeName();
-        description = obj.getDescription();
-    }
-    OntologyXDAO odao = new OntologyXDAO();
-    Term t = odao.getTermByAccId(obj.getType());
-%>
+    String objType = rgdId.getObjectTypeName();
+    String description = obj.getDescription();
+    Term t = ontologyDAO.getTermByAccId(obj.getType());
 
-<%
     if (!rgdId.getObjectStatus().equals("ACTIVE")) {
 %>
 <div style="border:5px solid red; padding:20px;margin-bottom:10px;">
@@ -56,8 +48,8 @@
         <td class="label">Type:</td>
         <td><%=t.getTerm()%>&nbsp;<a href="<%=Link.ontView(obj.getType())%>" title="click to go to sequence ontology"><%= "("+ obj.getType() + ")"%></a></td>
     </tr>
-    <%  GeneDAO gdao = new GeneDAO();
-        List<Gene> geneList = gdao.getAssociatedGenes(obj.getRgdId());
+    <%
+        List<Gene> geneList = geneDAO.getAssociatedGenes(obj.getRgdId());
         String genes="";
         if (geneList.size() > 0) {
 
