@@ -12,7 +12,7 @@
     String headContent = "";
     String pageDescription = "QTL reports provide phenotype and disease descriptions, mapping, and strain information as well as links to markers and candidate genes.";
     boolean includeMapping = true;
-
+    String title="QTLs";
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
