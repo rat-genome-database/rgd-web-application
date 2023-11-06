@@ -146,7 +146,7 @@
            for (String match: Utils.symbolSplit(om.getMappedAsString())) {
              try {
                  Gene gene = gdao.getGenesBySymbol(match, Integer.parseInt(req.getParameter("species")));
-
+                    if(gene!=null){
                  String assembly = req.getParameter("mapKey");
                  if (assembly.equals("")) {
                      assembly = mdao.getPrimaryRefAssembly(Integer.parseInt(req.getParameter("species"))).getKey() + "";
@@ -167,6 +167,7 @@
                  %>
                      gviewer.loadAnnotation(<%=md.getStartPos()%>,<%=md.getStopPos()%>,'Gene','<%=gene.getSymbol()%>','<%=edu.mcw.rgd.reporting.Link.gene(gene.getRgdId())%>','<%=req.getParameter("geneColor")%>','<%=md.getChromosome()%>');
                  <%
+                 }
                  }
              }catch (Exception e) {
                  e.printStackTrace();
