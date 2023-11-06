@@ -55,8 +55,8 @@
 
         %>
         <tr>
+            <td><b>Assembly</b></td>
             <td>
-            <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
             <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
                 <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
 
