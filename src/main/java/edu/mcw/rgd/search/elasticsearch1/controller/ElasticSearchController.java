@@ -118,9 +118,9 @@ public class ElasticSearchController implements Controller {
             model.addAttribute("assemblyMaps", assemblyMaps);
             model.addAttribute("assemblyMapsByRank", maps);
                 model.addAttribute("mapKey", mapKey);
-            if(!assembly.equalsIgnoreCase("all")) {
+          //  if(!assembly.equalsIgnoreCase("all")) {
                 model.addAttribute("defaultAssembly", assembly);
-            }else model.addAttribute("defaultAssembly", MapManager.getInstance().getReferenceAssembly(mapKey));
+          //  }else model.addAttribute("defaultAssembly", MapManager.getInstance().getReferenceAssembly(mapKey));
 
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("postCount", postCount);

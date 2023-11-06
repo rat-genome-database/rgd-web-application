@@ -58,7 +58,7 @@
             <td>
             <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
             <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
-                <option <%=fu.optionParams(selectedAssembly,"All")%>>All</option>
+                <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
 
                 <%
                     List<Map> maps = MapManager.getInstance().getAllMaps(search.getSpeciesType());
