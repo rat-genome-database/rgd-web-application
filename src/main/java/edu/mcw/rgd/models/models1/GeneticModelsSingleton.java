@@ -62,7 +62,7 @@ public class GeneticModelsSingleton {
             instance.init();
 
         }else {
-            System.out.println("Instance exists");
+            //System.out.println("Instance exists");
         }
         return instance;
     }
