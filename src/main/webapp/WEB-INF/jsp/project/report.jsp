@@ -58,7 +58,7 @@
 <%--List<Project> pro = pdao.getAllProjects();--%>
 <%--%>--%>
 <%@ include file="/common/headerarea.jsp"%>
-<h1 class="test"> List of Projects </h1>
+<h1 class="test"> Scientific Community Projects</h1>
 <body>
 
 <hr>
@@ -74,7 +74,7 @@
 //        List<Project> p=(List<Project>)allProjects;
         for(Project i:p1){%>
     <tr id="b">
-        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdId() %>"><%= i.getRgdId() %></a></td>
+        <td class="he"><a href="/rgdweb/report/project/main.html?id=<%= i.getRgdId() %>">RGD:<%= i.getRgdId() %></a></td>
         <td class="he"><%= i.getName() %></td>
         <td class="he"><%= i.getDesc() %></td>
     </tr>
