@@ -689,10 +689,10 @@
 
 <%
     List<XdbId> xdbKeggPathways = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_KEGGPATHWAY, obj.getRgdId());
-//    List<XdbId> xdbBioCycPathway = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_BIOCYC_PATHWAY, obj.getRgdId());
+    List<XdbId> xdbBioCycPathway = xdbDAO.getXdbIdsByRgdId(XdbId.XDB_KEY_BIOCYC_PATHWAY, obj.getRgdId());
 
     filteredList = af.filterList(annotList, "W");
-    if(!filteredList.isEmpty() || xdbKeggPathways.size()>0 ) { // || xdbBioCycPathway.size()>0) {
+    if(!filteredList.isEmpty() || xdbKeggPathways.size()>0 || xdbBioCycPathway.size()>0) {
         // split annotations into buckets
         List<Annotation> listManual = new ArrayList<Annotation>(filteredList.size());
         List<Annotation> listImportedPID = new ArrayList<Annotation>(filteredList.size());
@@ -980,7 +980,7 @@
     <%@ include file="xdbs_pathways.jsp"%>
     <% } %>
 <%//ui.dynClose("pathwayAssociationC")%>
-<%--<%@ include file="gene/bioCycPathway.jsp"%>--%>
+<%@ include file="gene/bioCycPathway.jsp"%>
 <% } %>
 
 <%
@@ -1226,7 +1226,7 @@
 %>
 
 <%//ui.dynOpen("expAssociationC", "Experimental Data Annotations")%>
-<% if(!title.equalsIgnoreCase("references")) { %>
+<% if(!title.equalsIgnoreCase("references")&&oType!=14) { %>
 <div class="light-table-border">
 <div class="sectionHeading" id="experimentalDataAnnotationsCurator">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
 
@@ -1237,18 +1237,8 @@
     %>
     <table>
     <tr>
-        <% if (oType == 14) {
-            List<Integer>rgdIdPro=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
-            for(Integer i:rgdIdPro){%>
-        <td>
-        <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
-        <td><a href="<%=phenoMinerUrl+i%>">View experimental data from this reference RGD:<%=i%> here</a><span style="font-size:10px;">&nbsp;</span></td>
-        </td>
-        <% } %>
-        <% } else { %>
         <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
         <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View experimental data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
-        <% } %>
     </tr>
     <br />
     </table>

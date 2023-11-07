@@ -605,7 +605,7 @@
 %>
 
 <%//ui.dynOpen("expAssociation", "Experimental Data Annotations")%>
-<% if(!title.equalsIgnoreCase("references")) { %>
+<% if(!title.equalsIgnoreCase("references")&&oType!=14) { %>
 <div class="light-table-border">
 
     <div class="sectionHeading" id="experimentalDataAnnotations">Experimental Data Annotations&nbsp;&nbsp;&nbsp;&nbsp;
@@ -618,15 +618,7 @@
 
 <table>
     <tr>
-        <% if (oType == 14) {
-            List<Integer>rgdIdPro=new ProjectDAO().getReferenceRgdIdsForProject(obj.getRgdId());
-            for(Integer i:rgdIdPro){%>
-                <td><img src='/rgdweb/common/images/bullet_green.png'/></td>
-                <td><a href="<%=phenoMinerUrl+i%>">View PhenoMiner data from this reference RGD:<%=i%> here</a><span style="font-size:10px;">&nbsp;</span></td>
-        <% } %>
-        <% } else { %>
         <td><a href="<%=phenoMinerUrl+obj.getRgdId()%>">View PhenoMiner data from this reference here</a><span style="font-size:10px;">&nbsp;</span></td>
-        <% } %>
     </tr>
     <br />
 </table>
