@@ -85,14 +85,9 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                                 <li>Rat</li>
                                 <ul>
                                 <li><a href="/jbrowse/?data=data_rn7_2">RGD mRatBN7.2</a></li>
-                                <li><a href="/jbrowse/?data=data_rn7y">RGD mRatBN7.2 SRY</a></li>
-                                <li><a href="/jbrowse/?data=data_rn7yp">rnBN7_YpSKAL2022</a></li>
-                                <li><a href="/jbrowse/?data=data_rn7yps">rnBN7_YpSKAL2023</a></li>
-                                <li><a href="/jbrowse/?data=data_rnUTH">UTH Rnor SHRSP BbbUtx 1.0</a></li>
                                 <li><a href="/jbrowse/?data=data_uth_shr">UTH_Rnor_SHR_Utx</a></li>
                                 <li><a href="/jbrowse/?data=data_uth_shrsp">UTH_Rnor_SHRSP_BbbUtx_1.0</a></li>
                                 <li><a href="/jbrowse/?data=data_uth_wky">UTH_Rnor_WKY_Bbb_1.0</a></li>
-                                <li><a href="/jbrowse/?data=data_uth_wky2023">UTH_Rnor_WKY_2023</a></li>
                                 <li><a href="/jbrowse/?data=data_rgd6">Rat Genome Database v6</a></li>
                                 <li><a href="/jbrowse/?data=data_rgd5">Rat Genome Database v5</a></li>
                                 <li><a href="/jbrowse/?data=data_rgd3_4">Rat Genome Database v3.4</a></li>
@@ -117,6 +112,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                                 <li>Bonobo</li>
                                 <ul>
                                 <li><a href="/jbrowse/?data=data_bonobo1_1">RGD Bonobo panpan1.1</a></li>
+                                    <li><a href="/jbrowse/?data=data_bonobo2">RGD Bonobo Mhudiblu_PPA_v0</a></li>
                                 </ul>
                                 <li>Thirteen Lined Ground Squirell</li>
                                 <ul>
@@ -136,7 +132,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                                 <li><a href="/jbrowse/?data=data_chlSab2">RGD Green Monkey 1.1 (chlSab2)</a></li>
                                     <li><a href="/jbrowse/?data=data_veroWho">RGD Green Monkey (Vero_WHO_p1.0)</a></li>
                                 </ul>
-                                <li>Mouse</li>
+                                <li>Naked Mole Rat</li>
                                 <ul>
                                 <li><a href="/jbrowse/?data=data_hetGla2">RGD Naked Mole Rat (HetGla_female_1.0)</a></li>
                                 </ul></ul></div>
