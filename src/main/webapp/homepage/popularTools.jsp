@@ -91,7 +91,7 @@
     <tr>
         <td>
             <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/jbrowse/'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/jbrowse2/listing.jsp'">.</div>
                 <div class="headerCardTitle">JBrowse<br><span class="headerSubTitle">Genome Browser</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/jbrowseScreen.png" border="0" /></span>
             </div>
