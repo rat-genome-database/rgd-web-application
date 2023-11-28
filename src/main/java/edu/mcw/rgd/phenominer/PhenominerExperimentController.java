@@ -27,6 +27,7 @@ public class PhenominerExperimentController extends PhenominerController {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        System.out.println("in the top");
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         String action = req.getParameter("act");
@@ -89,6 +90,7 @@ public class PhenominerExperimentController extends PhenominerController {
             report = this.buildReport(exps, dao, true, sb);
         } else if (action.equals("save")) {
 
+            System.out.println("made it to save");
             viewPath = "/WEB-INF/jsp/curation/phenominer/editExperiment.jsp";
             try {
             //String[] ids = request.getParameterValues("id");
@@ -108,9 +110,17 @@ public class PhenominerExperimentController extends PhenominerController {
                         e.setNotes(req.getParameter("notes"));
                     }
                 }
+
                 e.setStudyId(Integer.parseInt(req.getParameter("studyId")));
                 if (!req.getParameter("traitOntId").equals("")) {
                     e.setTraitOntId(req.getParameter("traitOntId"));
+                }
+                if (!req.getParameter("traitOntId2").equals("")) {
+                    System.out.println("setting");
+                    e.setTraitOntId2(req.getParameter("traitOntId2"));
+                }
+                if (!req.getParameter("traitOntId3").equals("")) {
+                    e.setTraitOntId3(req.getParameter("traitOntId3"));
                 }
 
                 e.setLastModifiedBy(login);
@@ -142,6 +152,13 @@ public class PhenominerExperimentController extends PhenominerController {
                     }
                     if (!req.getParameter("traitOntId").equals("")) {
                         e.setTraitOntId(req.getParameter("traitOntId"));
+                    }
+                    if (!req.getParameter("traitOntId2").equals("")) {
+                        System.out.println("setting");
+                        e.setTraitOntId2(req.getParameter("traitOntId2"));
+                    }
+                    if (!req.getParameter("traitOntId3").equals("")) {
+                        e.setTraitOntId3(req.getParameter("traitOntId3"));
                     }
 
                     e.setCurationStatus((req.getParameter("sStatus") != null && req.getParameter("sStatus").length()>0) ?
@@ -241,7 +258,7 @@ public class PhenominerExperimentController extends PhenominerController {
         header.append("SID");
         header.append("EID");
         header.append("Name");
-        header.append("Acc ID");
+        header.append("Acc IDs");
         header.append("Notes");
         String records_header = "Records(";
         for (int i = 0; i < STATUS_INITIALS.length; i ++) {
@@ -265,7 +282,17 @@ public class PhenominerExperimentController extends PhenominerController {
             rec.append("<a href='studies.html?act=edit&studyId=" + e.getStudyId() + "'>" + e.getStudyId() + "</a>");
             rec.append("<a href='experiments.html?act=edit&expId=" + e.getId() + "&studyId=" + e.getStudyId() + "'>" + e.getId() + "</a>");
             rec.append(e.getName());
-            rec.append(e.getTraitOntId());
+
+            String traits = e.getTraitOntId();
+            if (e.getTraitOntId2() != null) {
+                traits += "; " + e.getTraitOntId2();
+            }
+            if (e.getTraitOntId3() != null) {
+                traits += "; " + e.getTraitOntId3();
+
+            }
+
+            rec.append(traits);
             rec.append(e.getNotes());
 
 //            int recordCount = dao.getRecordCount(e.getId());

@@ -28,6 +28,7 @@
     List<String> cmIds = (List<String>) request.getAttribute("cmIds");
     List<String> csIds = (List<String>) request.getAttribute("csIds");
     List<String> ecIds = (List<String>) request.getAttribute("ecIds");
+    List<String> vtIds = (List<String>) request.getAttribute("ecIds");
 
     OntologyXDAO odao = new OntologyXDAO();
 
@@ -35,6 +36,7 @@
     String selectedStrains = "{";
     String selectedConditions = "{";
     String selectedMethods = "{";
+    String selectedTraits = "{";
 
     boolean first = true;
     for (String mmId: mmIds) {
@@ -85,6 +87,18 @@
     }
     selectedConditions+="}";
 
+    first=true;
+    for (String ecId: ecIds) {
+        Term t = odao.getTermByAccId(ecId);
+
+        if (!first) {
+            selectedTraits+=",";
+        }
+        selectedTraits+= "\"" + t.getTerm() + "\":" + "\"" + t.getAccId() + "\"";
+        first=false;
+    }
+    selectedTraits+="}";
+
     String termString = (String) request.getAttribute("termString");
 
     if (termString != null && !termString.equals("")) {
@@ -120,7 +134,6 @@
 <script>
 
     function updateSpecies(species) {
-        alert("called update species");
         sessionStorage.clear();
         location.href = "/rgdweb/phenominer/ontChoices.html?species=" + species;
     }
@@ -136,9 +149,6 @@
         $('input[name="species"]').on('change', function () {
             var species=$(this).val();
             sessionStorage.clear();
-            //if(species==3)
-           // location.href='/rgdweb/phenominer/ontChoices.html'
-           //     else
                 location.href='/rgdweb/phenominer/ontChoices.html?species='+species
 
         })
@@ -198,6 +208,30 @@
     <table cellspacing='0' border='0' style="border:0px solid black" width="95%">
     <tr>
 
+        <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #b9cde5; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
+            <div style='font-weight: 700;'>
+                <table border="0"  width="100%" style="background-color: #b9cde5">
+                    <tr>
+                        <td  height="60" style="font-size:20px; background-color: #b9cde5; " valign="top"><div style="height:50px; width:100%; border-bottom: 3px solid white">Vertebrate Traits<br><span style="font-size:11px; ">Filter based trait.</span></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div style='background-color: white; padding: 5px; border: 2px black inset;height:200px;overflow:scroll;'>
+                <div id="traitMessageUpdate" style="display:none;font-size:22px; color:#D64927; font-weight:700;">Updating...</div>
+
+                <table id="traitMessageTable">
+                    <tr v-for="(key, value) in selectedTraits">
+                        <td width="15"><img style="padding-right:3px;cursor:pointer;" @click="remove(key,'VT')" src="/rgdweb/common/images/del.jpg"/></td>
+                        <!--<td>{{key}}</td>-->
+                        <td style="font-size:12px;" align="left" ><span v-if="value.indexOf('(0)') > 0"><s style="color:grey;">{{value}}</s></span><span v-else><b>{{value}}</b></span></td>
+                    </tr>
+                </table>
+
+            </div>
+        </td>
+
+
+
         <% if (species==3) { %>
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #d7e4bd; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
@@ -250,9 +284,6 @@
         </td>
 
         <%}%>
-
-
-
 
         <td valign='top' style='padding: 5px ;vertical-align: top; background-color: #ccc1da; border-top: 1px solid black;border-left: 1px solid black;border-right: 3px outset black;border-bottom: 3px outset black;'>
             <div style='font-weight: 700;'>
@@ -321,9 +352,13 @@
 
             </div>
         </td>
+
+
+
+
         </tr>
         <tr>
-            <td  colspan=4 align="center"><input type="button" style="margin-top:20px; width:300px; border:1px solid white; color:white; font-size:26px;background-color:#2B84C8; border-radius:5px;" @click="generateReport()" value="Generate Report"/></td>
+            <td  colspan=5 align="center"><input type="button" style="margin-top:20px; width:300px; border:1px solid white; color:white; font-size:26px;background-color:#2B84C8; border-radius:5px;" @click="generateReport()" value="Generate Report"/></td>
         </tr>
 </table>
 
@@ -357,7 +392,8 @@
             ont.equals("CS") ? "Chinchilla" :
                     ont.equals("MMO") ? "Measurement Methods" :
                             ont.equals("CMO") ? "Clinical Measurements" :
-                                    ont.equals("XCO") ? "Experimental Conditions" : "";
+                                    ont.equals("XCO") ? "Experimental Conditions" :
+                                        ont.equals("VT") ? "Vertebrate Traits" : "";
 %>
 
 
@@ -371,14 +407,15 @@
         <tr>
             <td colspan="2"><input id="termSearch" :placeholder="examples" v-model="searchTerm" size="40" style="border: 3px solid black;height:38px;width:600px;" v-on:input="search()"/></td>
 
+            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:110px; font-size:12px;" type="button" value="Vertebrate Traits"  @click="update('VT',<%=species%>)"  /></td>
             <% if (species == 4) {%>
-            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Sources" @click="update('<%=speciesOntology%>',<%=species%>)" /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:70px; font-size:12px;" type="button" value="Sources" @click="update('<%=speciesOntology%>',<%=species%>)" /></td>
             <% } else { %>
-                <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:80px; font-size:12px;" type="button" value="Strains" @click="update('<%=speciesOntology%>',<%=species%>)" /></td>
+                <td valign="center" align="center"><input style="position:relative; top:5px; border-top-left-radius:10px; background-color:#D7E4BD; font-weight: 700;height:35px;width:70px; font-size:12px;" type="button" value="Strains" @click="update('<%=speciesOntology%>',<%=species%>)" /></td>
             <% } %>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=species%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:150px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=species%>)"  /></td>
-            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:160px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#CCC1DA; font-weight: 700;height:35px;width:145px; font-size:12px;" type="button" value="Clinical Measurements" @click="update('CMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  background-color:#FCD5B5; font-weight: 700;height:35px;width:145px; font-size:12px;" type="button" value="Measurement Methods" @click="update('MMO',<%=species%>)"  /></td>
+            <td valign="center" align="center"><input style="position:relative; top:5px;  border-top-right-radius:10px; background-color:#B9CDE5; font-weight: 700;height:35px;width:155px; font-size:12px;" type="button" value="Experimental Conditions"  @click="update('XCO',<%=species%>)"  /></td>
         </tr>
         <tr>
             <td width="50">
@@ -406,7 +443,7 @@
 
 </div>
 
-<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:580px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border-left: 5px solid black;border-right: 5px solid black;border-bottom: 5px solid black;border-top: 10px solid black;" tabindex="0">
+<div id="treebox" style="visibility:hidden; z-index:1000;float:right; padding: 7px; width:635px; height:450px; font: 14px verdana, arial, helvetica, sans-serif; border-left: 5px solid black;border-right: 5px solid black;border-bottom: 5px solid black;border-top: 10px solid black;" tabindex="0">
     <div id="loading" style="font-size:14px; font-weight:700;">&nbsp;Loading Available <%=ontName%> ... (Please Wait)</div>
 </div>
 
@@ -491,21 +528,6 @@
 
     }
 
-    /*
-    function selectByTermId_orig(termId) {
-        var patt1=/(.+):(\d+)/;
-        var matched = termId.match(patt1);
-        if (matched[2] != null) {
-            tree.closeAllItems();
-            var numTermId = parseFloat(matched[2]);
-            var ontId = matched[1] + ":" + String(numTermId);
-            var list = tree.getAllSubItems("0");
-            var idExist = selectNode(list, ontId);
-            goToNode(ontId+"_1");
-            if (!idExist) $("#dataStatus").html("No data available for this term!");
-        }
-    }
-*/
     function goToNode(nodeId) {
         tree.selectItem(nodeId);
         var treeNode = tree._idpull[nodeId].htmlNode;
@@ -684,11 +706,6 @@
         location.href = href;
     }
 
-
-
-
-
-
     function getElementTopLeft(id) {
 
         var ele = document.getElementById(id);
@@ -739,12 +756,14 @@
             selectedMeasurements: <%=selectedMeasurements%>,
             selectedConditions: <%=selectedConditions%>,
             selectedMethods: <%=selectedMethods%>,
+            selectedTraits: <%=selectedTraits%>,
             selectedStrainsRemoved: <%=selectedStrains%>,
             selectedMeasurementsRemoved: <%=selectedMeasurements%>,
             selectedConditionsRemoved: <%=selectedConditions%>,
             selectedMethodsRemoved: <%=selectedMethods%>,
+            selectedTraitsRemoved: <%=selectedTraits%>,
 
-            currentOnt: "RS",
+            currentOnt: "VT",
             examples: "",
             axiosRequest: new AbortController(),
         },
@@ -774,9 +793,11 @@
                 }else if (this.currentOnt === "CMO") {
                     var subCat = 'CMO:%20Clinical%20Measurement';
 
+                }else if (this.currentOnt === "VT") {
+                    var subCat = 'VT:%20Vertebrate%20Trait';
+
                 }
 
-               // alert(v.searchTerm);
                 if (v.searchTerm === "") {
                     for (var key in v.symbolHash) {
                             v.options[key] = v.symbolHash[key];
@@ -912,6 +933,82 @@
             },
             unblock: function() {
                 document.getElementById("block").style.display="none";
+            },
+            updateTraitBox: function() {
+                if (JSON.stringify(v.selectedTraits) === "{}") {
+                    return;
+                }
+
+                v.block();
+                document.getElementById("traitMessageTable").style.visibility="hidden";
+                document.getElementById("traitMessageUpdate").style.display="block";
+
+                axios
+                    .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=VT&sex=both&species=<%=species%>&terms=' + v.getAllTerms(),
+                        {
+                            species: "hell",
+                        })
+                    .then(function (response) {
+                        var parser = new DOMParser();
+                        xmlDoc = parser.parseFromString(response.data + "", "text/xml");
+
+                        var root = xmlDoc.getRootNode();
+
+                        //var root = xmlDoc.getElementsByTagName("tree");
+                        var childNodes = root.getElementsByTagName("item");
+                        var children = v.getLeafNodes(childNodes);
+
+                        //find out if a selection is now gone
+                        var tmpHash = {};
+                        for (var key in v.selectedTraits) {
+                            var found=false;
+                            for (let i = 0; i < children.length; i++) {
+                                let item = children[i];
+                                var idArr = (item.getAttribute("id") + "").split("_");
+                                var id = idArr[0];
+
+                                if (v.selectedTraits[key] === id) {
+                                    tmpHash[item.getAttribute("text")] = id;
+                                    found=true;
+                                    // v.selectedStrains[key] == null;
+                                    //break;
+                                }
+                            }
+                            if (!found) {
+                                if (key.indexOf("(0)") > 0) {
+                                    tmpHash[key] = v.selectedTraits[key];
+                                }else {
+                                    tmpHash[key + "(0)"] = v.selectedTraits[key];
+                                }
+
+                            }
+                        }
+
+                        v.selectedTraits = {};
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                                v.selectedTraits[key] = tmpHash[key];
+                            }
+                        }
+                        for (key in tmpHash) {
+                            if (key.indexOf('(0)') < 0) {
+                            }else {
+                                v.selectedTraits[key] = tmpHash[key];
+                            }
+                        }
+
+                        document.getElementById("traitMessageTable").style.visibility="visible";
+                        document.getElementById("traitMessageUpdate").style.display="none";
+                        v.unblock();
+                        //v.selectedConditions = tmpHash;
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        v.errored = true
+                    })
+
+
             },
             updateStrainBox: function() {
 
@@ -1161,10 +1258,14 @@
                 if (v.currentOnt !== "MMO") {
                     v.updateMethodBox();
                 }
+                if (v.currentOnt !== "VT") {
+                    v.updateTraitBox();
+                }
 
             },
 
             doStuff: function() {
+
                 var checked = determineChecked();
 
                 if (v.currentOnt==="RS" || v.currentOnt=="CS") {
@@ -1189,6 +1290,12 @@
                     v.selectedMethods = {};
                     for (var i = 0; i < checked.length; i++) {
                         v.selectedMethods[v.keyMap[checked[i]]] = checked[i];
+                    }
+                }
+                if (v.currentOnt==="VT") {
+                    v.selectedTraits = {};
+                    for (var i = 0; i < checked.length; i++) {
+                        v.selectedTraits[v.keyMap[checked[i]]] = checked[i];
                     }
                 }
 
@@ -1232,6 +1339,14 @@
                     }
                 }
 
+                if (ont === "VT") {
+                    for (const key in v.selectedTraits) {
+                        if (v.selectedTraits[key] === term) {
+                            delete v.selectedTraits[key];
+                        }
+                    }
+                }
+
             },
 
             remove: function (accId, ont) {
@@ -1244,6 +1359,7 @@
                     this.updateStrainBox();
                     this.updateConditionBox();
                     this.updateMeasurementBox();
+                    this.updateTraitBox();
 
                     this.update(this.currentOnt, this.species);
                 }else {
@@ -1275,6 +1391,14 @@
                         if (ont === "XCO") {
                             for (var key in v.selectedConditions) {
                                 if (v.selectedConditions[key] === accId) {
+                                    handleCheckbox(accId, 0);
+                                    v.doStuff()
+                                }
+                            }
+                        }
+                        if (ont === "VT") {
+                            for (var key in v.selectedTraits) {
+                                if (v.selectedTraits[key] === accId) {
                                     handleCheckbox(accId, 0);
                                     v.doStuff()
                                 }
@@ -1337,6 +1461,20 @@
                     termString +=v.selectedConditions[key];
                 }
 
+                for (const key in v.selectedTraits) {
+
+                    if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
+                        continue;
+                    }
+                    if (!first) {
+                        termString += ",";
+                    }else {
+                        first=false;
+                    }
+
+                    termString +=v.selectedTraits[key];
+                }
+
                 for (const key in v.selectedMethods) {
                     if (excludeZeroRecordTerms && key.indexOf("(0)") > 1) {
                         continue;
@@ -1378,14 +1516,16 @@
                     this.loadFromSessionStorage();
                 }
 
-                v.update();
-                v.updateStrainBox();
+                //v.update();
+                //v.updateStrainBox();
+                //v.updateTraitBox()
 
                 <% if (species==4) { %>
-                v.update('CMO', 4);
-
+                //v.update('CMO', 4);
+                v.update('VT',4);
                 <%} else { %>
-                v.update('RS',3);
+                v.update('VT',3);
+                //v.update('RS',3);
 
                 <% } %>
 
@@ -1404,6 +1544,7 @@
                 this.selectedConditions=JSON.parse(sessionStorage.selectedConditions);
                 this.selectedMeasurements=JSON.parse(sessionStorage.selectedMeasurements);
                 this.selectedMethods=JSON.parse(sessionStorage.selectedMethods);
+                this.selectedTraits=JSON.parse(sessionStorage.selectedTraits);
                 this.currentOnt=sessionStorage.currentOnt;
             },
 
@@ -1420,6 +1561,7 @@
                 sessionStorage.selectedConditions=JSON.stringify(this.selectedConditions);
                 sessionStorage.selectedMeasurements=JSON.stringify(this.selectedMeasurements);
                 sessionStorage.selectedMethods=JSON.stringify(this.selectedMethods);
+                sessionStorage.selectedTraits=JSON.stringify(this.selectedTraits);
                 sessionStorage.currentOnt=this.currentOnt;
 
 
@@ -1466,6 +1608,11 @@
                     v.examples="Ex: diet, atmosphere composition"
                     document.getElementById("treebox").style.borderColor="#B9CDE5";
                 }
+                if (ont==="VT") {
+                    v.title="Vertebrate Trait Selection";
+                    v.examples="Ex: some trait"
+                    document.getElementById("treebox").style.borderColor="#B9CDE5";
+                }
 
                 v.searchTerm="";
 
@@ -1473,8 +1620,6 @@
 
                 document.getElementById("treebox").innerHTML="Loading...";
                // document.getElementById("selectionWindow").innerHTML="Loading...";
-
-
 
                 axios
                     .get(this.hostName + '/rgdweb/phenominer/treeXml.html?ont=' + ont + '&sex=both&species=' + species + '&terms=' + terms,
