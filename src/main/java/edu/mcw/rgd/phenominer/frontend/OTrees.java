@@ -36,6 +36,7 @@ public class OTrees {
     // generate XML representation of given ontology tree
     public String generateXml(String ontId, String sex, int speciesTypeKey) throws Exception {
         OTree tree = getOTree(ontId, sex, speciesTypeKey);
+     //   System.out.println("in generate xml with ontId " + ontId);
         return tree.generateXml(null);
     }
 
@@ -113,7 +114,11 @@ public class OTrees {
             ontId = "XCO";
         } else if( termAcc.startsWith("CS:") ) {
             ontId = "CS";
+        } else if( termAcc.startsWith("VT:") ) {
+
+        ontId = "VT";
         }
+
 
         return ontId;
     }
@@ -209,7 +214,10 @@ public class OTrees {
 
         public void initFromDb() throws Exception {
             String rootTermAcc = odao.getRootTerm(ontId);
+            System.out.println("loading " + rootTermAcc + " for " + ontId);
             rootNode = new ONode(loadTerm(rootTermAcc));
+            System.out.println(rootNode);
+            System.out.println(rootTermAcc);
             loadTerms(rootNode, rootTermAcc);
         }
 
@@ -249,6 +257,8 @@ public class OTrees {
         void loadTerms(ONode node, String parentTermAcc) throws Exception {
 
             Map<String, Relation> childTerms = odao.getTermDescendants(parentTermAcc);
+          //  System.out.println("childTerms = " + childTerms + " for " + parentTermAcc);
+
             for( String termAcc: childTerms.keySet() ) {
                 OTerm o = loadTerm(termAcc);
                 if( o!=null ) {
@@ -264,7 +274,9 @@ public class OTrees {
 
         OTerm loadTerm(String accId) throws Exception {
 
+            //System.out.println("in load term for " + accId);
             OTerm o = terms.get(accId);
+           // System.out.println("o = " + o);
             if( o==null ) {
 
                 List<Integer> recordIds = pdao.getRecordIdsForTermAndDescendantsCached(accId, sex, speciesTypeKey);
@@ -289,6 +301,7 @@ public class OTrees {
 
         void generateXml(ONode parentNode, Map<String,Integer> termCounts, int level, StringBuilder out, Collection<String> selectedTerms) throws Exception {
 
+          //  System.out.println("parent Node " + parentNode);
             List<ONode> nodes = parentNode.children;
             for( ONode node: nodes ) {
 
@@ -362,6 +375,7 @@ public class OTrees {
             StringBuilder out = new StringBuilder("<tree id='0'>\n");
 
             Map<String,Integer> termCounts = new HashMap<>(); // how many times given term appears in the xml tree
+           // System.out.println("child size = " + rootNode.children.size());
             generateXml(rootNode, termCounts, 1, out, selectedTerms);
             out.append("</tree>\n");
 

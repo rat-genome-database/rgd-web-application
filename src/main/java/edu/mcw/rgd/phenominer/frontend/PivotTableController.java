@@ -53,10 +53,11 @@ public class PivotTableController implements Controller {
         } else {
 
             PhenominerService.setPhenominerIndex(RgdContext.getESIndexName("phenominer"));
-            SearchResponse sr = service.getSearchResponse(req, getFilterMap(request));
+            Map<String, String> filterMap = getFilterMap(request);
+            SearchResponse sr = service.getSearchResponse(req, filterMap);
             Map<String, List<Terms.Bucket>> aggregations = service.getSearchAggregations(sr);
             Map<String, List<Terms.Bucket>> filteredAggregations = new HashMap<>();
-            Map<String, String> filterMap = getFilterMap(request);
+
             boolean facetSearch = req.getParameter("facetSearch").equals("true");
             //  System.out.println("FILTERMAP SIZE:" + filterMap.size() + "\t" + gson.toJson(filterMap));
             if (facetSearch) {
@@ -429,7 +430,7 @@ public class PivotTableController implements Controller {
        // System.out.println("UNCHECKED:"+ req.getParameter("unchecked"));
        // System.out.println("UNCHECKED ALL:"+ req.getParameter("uncheckedAll"));
 
-        List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "sex", "units","experimentName"));
+        List<String> params = new ArrayList<>(Arrays.asList("cmoTerm", "mmoTerm", "xcoTerm", "rsTerm", "vtTerm","sex", "units","experimentName"));
 
         if(filterJsonString!=null) {
             ObjectMapper mapper = new ObjectMapper();

@@ -245,7 +245,13 @@ public class SearchService {
                 chr= !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
 
         String category = request.getParameter("category");
-        String species =  request.getParameter("species");
+        String species =  new String();
+        int speciesTypeKey = request.getParameter("speciesType")!=null && !request.getParameter("speciesType").equals("")?Integer.parseInt(request.getParameter("speciesType")):0;
+        if(speciesTypeKey>0){
+            species=SpeciesType.getCommonName(speciesTypeKey);
+        }else{
+            species= request.getParameter("species");
+        }
         String type = request.getParameter("type");
         String subCat =  request.getParameter("subCat");
         String sortValue=request.getParameter("sortBy").equals("")?String.valueOf(0):request.getParameter("sortBy");

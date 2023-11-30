@@ -131,10 +131,7 @@
                 String name = s.getAnalysisName();
                 try{
                     int index = name.indexOf("Wolf");
-                    boolean foundWolf = false;
-                    if (index >= 0) {
-                        foundWolf=true;
-                    }
+                    boolean foundWolf = index >= 0;
 
                     if (foundWolf) {
                         String breed = "Wolf";
@@ -149,14 +146,16 @@
 
                     }else {
                         index = name.indexOf("(");
-                        String breed = name.substring(0, index - 1);
+                        if( index > 0 ) {
+                            String breed = name.substring(0, index - 1);
 
-                        breedsArr = breedMap.get(breed);
-                        if (breedsArr == null) {
-                            breedsArr = new ArrayList<>();
+                            breedsArr = breedMap.get(breed);
+                            if (breedsArr == null) {
+                                breedsArr = new ArrayList<>();
+                            }
+                            breedsArr.add(s.getId());
+                            breedMap.put(breed, breedsArr);
                         }
-                        breedsArr.add(s.getId());
-                        breedMap.put(breed, breedsArr);
                     }
                 }
                 catch (Exception e){
@@ -348,7 +347,7 @@
                             num++;
                         }
                     }
-System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
+//System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
                     ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
                     try {
                         for (int i = 0; i < sampList1.size(); i++) {

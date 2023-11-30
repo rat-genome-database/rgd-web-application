@@ -50,6 +50,7 @@ public class PhenominerService {
         srb.aggregation(this.buildAggregations("mmoTerm"));
         srb.aggregation(this.buildAggregations("rsTerm"));
         srb.aggregation(this.buildAggregations("xcoTerm"));
+        srb.aggregation(this.buildAggregations("vtTerm"));
         srb.aggregation(this.buildAggregations("sex"));
         srb.aggregation(this.buildAggregations("units"));
         SearchRequest searchRequest=new SearchRequest(phenominerIndex);
@@ -93,6 +94,9 @@ public class PhenominerService {
         if(termsMap.get("XCO")!=null)
                 builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", termsMap.get("XCO"))
                );
+        if(termsMap.get("VT")!=null)
+            builder.filter(QueryBuilders.termsQuery("vtTermAcc.keyword", termsMap.get("VT"))
+            );
 
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
@@ -137,6 +141,14 @@ public class PhenominerService {
                 mmoTerms.add(term);
                 segregatedTermsMap.put("MMO", mmoTerms);
             }
+            if(term.contains("VT")){
+                List<String> vtTerms=segregatedTermsMap.get("VT");
+                if(vtTerms==null) {
+                    vtTerms=new ArrayList<>();
+                }
+                vtTerms.add(term);
+                segregatedTermsMap.put("VT", vtTerms);
+            }
             if(term.contains("RS") || term.contains("CS")){
                 List<String> rsTerms=segregatedTermsMap.get("RS");
                 if(rsTerms==null) {
@@ -145,6 +157,7 @@ public class PhenominerService {
                 rsTerms.add(term);
                 segregatedTermsMap.put("RS", rsTerms);
             }
+
         }
       //  Gson gson=new Gson();
       //  System.out.println("TERMS MAP:"+ gson.toJson(segregatedTermsMap));
@@ -161,6 +174,8 @@ public class PhenominerService {
             dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
             dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
             dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.termsQuery("vtTermAcc.keyword", req.getParameter("terms").split(",")));
+
         }
         return dqb;
 
@@ -189,6 +204,13 @@ public class PhenominerService {
             if (mmoAggs != null) {
                 aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
                 for (Terms.Bucket bkt : mmoAggs.getBuckets()) {
+                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+                }
+            }
+            Terms vtAggs = sr.getAggregations().get("vtTerm");
+            if (mmoAggs != null) {
+                aggregations.put("vtTermBkts", (List<Terms.Bucket>) vtAggs.getBuckets());
+                for (Terms.Bucket bkt : vtAggs.getBuckets()) {
                     //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
                 }
             }

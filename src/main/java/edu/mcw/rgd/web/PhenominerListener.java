@@ -19,6 +19,8 @@ public class PhenominerListener implements ServletContextListener {
             @Override
             public void run() {
                 try {
+                    System.out.println("phenominer init VT ...");
+                    OTrees.getInstance().getOTree("VT", null, 3);
                     System.out.println("phenominer init MMO ...");
                     OTrees.getInstance().getOTree("MMO", null, 3);
                     System.out.println("phenominer init CMO ...");

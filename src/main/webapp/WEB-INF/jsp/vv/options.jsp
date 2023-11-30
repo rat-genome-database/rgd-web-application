@@ -96,6 +96,8 @@
                         <%=dm.makeCheckBox("readthroughMutation", " Readthrough")%>
                     </td>
                 </tr>
+
+                <%if (!vsb.getConScoreTable().equals("")) {%>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Conservation</td>
@@ -109,6 +111,9 @@
                         </select>
                     </td>
                 </tr>
+                <%} else {%>
+                    <input type="hidden" name="con" vlaue=""/>
+                <% } %>
                 <tr>
                     <td></td>
                     <!--td class="carpeLabel">Novelty</td-->

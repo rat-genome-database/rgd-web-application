@@ -103,7 +103,7 @@ public class DetailController extends HaplotyperController {
 
        }else{
              if(vid !=null && !vid.isEmpty() && !vid.equals("0")) {
-                System.out.println("VID:"+ vid);
+                 //System.out.println("VID:"+ vid);
                  String[] vids = vid.split("\\|");
                  for (int i = 0; i < vids.length; i++) {
                      SearchResult sr = new SearchResult();

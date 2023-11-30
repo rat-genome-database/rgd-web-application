@@ -78,14 +78,14 @@ public class ElasticSearchController implements Controller {
             if(assembly.equals("")){
                 assembly="all";
             }
-          /*  if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
-                int speciesKey= SpeciesType.parse(sb.getSpecies());
-                edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
-                defaultAssemblyName=defaultAssembly.getDescription();
-                    if(Objects.equals(assembly, "")){
-                        assembly=defaultAssemblyName;
-                    }
-            }*/
+//           if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
+//                int speciesKey= SpeciesType.parse(sb.getSpecies());
+//                edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
+//                defaultAssemblyName=defaultAssembly.getDescription();
+//                    if(Objects.equals(assembly, "")){
+//                        assembly=defaultAssemblyName;
+//                    }
+//            }
             sb.setAssembly(assembly);
            boolean page =(req.getParameter("page").equals("true"));
            int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
@@ -114,11 +114,14 @@ public class ElasticSearchController implements Controller {
                 if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), hits.value);}
                 model.putAll(resultsMap);
             }
-
+            int mapKey=this.getMapKey(assembly, sb.getSpecies());
             model.addAttribute("assemblyMaps", assemblyMaps);
             model.addAttribute("assemblyMapsByRank", maps);
-            model.addAttribute("defaultAssembly", assembly);
-            model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
+                model.addAttribute("mapKey", mapKey);
+          //  if(!assembly.equalsIgnoreCase("all")) {
+                model.addAttribute("defaultAssembly", assembly);
+          //  }else model.addAttribute("defaultAssembly", MapManager.getInstance().getReferenceAssembly(mapKey));
+
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("postCount", postCount);
             model.addAttribute("cat1", cat1);
