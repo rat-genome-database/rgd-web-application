@@ -183,7 +183,7 @@ public class StrainSubmissionFormController implements Controller {
                     }
                     userMsg+="\nAvailability Contact Email: "+contactEmail+"\nAvailability Contact URL: "+contactUrl;
                     userMsg+= "\n\nSubmitter Information"
-                            +"Submitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status
+                            +"\nSubmitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status
                             +"\n\nRegards,\nRGD Team.\n";
 
                    String curatorMsg="Dear RGD Curators, \n\nA new strain registration information has been generated.\n\n" +
