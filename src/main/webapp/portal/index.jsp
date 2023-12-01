@@ -62,7 +62,7 @@
         <td width="75"><img src="/rgdweb/common/images/portals/3-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=3'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease  </a><img src="/rgdweb/common/images/portals/Updated_Yellow4_75x30.png"></td>
         <td width="75"><img src="/rgdweb/common/images/portals/14-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=14'" class="bottomDiseaseIcon"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=14" class="diseasePortalName">COVID-19</a></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=14" class="diseasePortalName">Coronavirus Disease</a></td>
     </tr>
     <tr>
         <td width="75"><img src="/rgdweb/common/images/portals/12-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=12'"/></td>
