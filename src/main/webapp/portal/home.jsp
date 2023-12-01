@@ -88,7 +88,7 @@
             filter = "DOID:409";
             break;
         case 14:
-            title = "COVID-19 Disease";
+            title = "Coronavirus Disease";
             //filter = "RDO:9001567";
             filter = "DOID:0080599";
             break;
@@ -259,7 +259,7 @@
 //                $scope.wsHost= window.location.protocol + '//localhost:8080';
 //                $scope.olgaHost = $scope.wsHost;
             } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
+                $scope.wsHost= window.location.protocol + '//pipelines.rgd.mcw.edu';
                 $scope.olgaHost = $scope.wsHost;
             }else if (window.location.host.indexOf('test.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';
