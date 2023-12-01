@@ -200,8 +200,8 @@ public class StrainSubmissionFormController implements Controller {
                     curatorMsg+="\nAvailability Contact Email: "+contactEmail+"\nAvailability Contact URL: "+contactUrl;
                     curatorMsg+="\n\nSubmitter Information"+"\nSubmitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status+"\nSubmission Key:  "+insertedCount +"\nLink to Submitted Strains Interface: " +link;
                     MyRGDLookupController.send(submitterEmail, "Strain Submission", userMsg);
-//                    MyRGDLookupController.send("rgd.data@mcw.edu", "New Strain Submission", curatorMsg);
-                    MyRGDLookupController.send("akundurthi@mcw.edu", "New Strain Submission", curatorMsg);
+                    MyRGDLookupController.send("rgd.data@mcw.edu", "New Strain Submission", curatorMsg);
+//                    MyRGDLookupController.send("akundurthi@mcw.edu", "New Strain Submission", curatorMsg);
 //                    MyRGDLookupController.send("jthota@mcw.edu", "New Strain Submission", curatorMsg);
                     response.getWriter().write(msg);
                     return null;
