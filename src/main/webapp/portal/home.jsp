@@ -88,7 +88,7 @@
             filter = "DOID:409";
             break;
         case 14:
-            title = "COVID-19 Disease";
+            title = "Coronavirus Disease";
             //filter = "RDO:9001567";
             filter = "DOID:0080599";
             break;
