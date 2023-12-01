@@ -173,7 +173,7 @@ public class StrainSubmissionFormController implements Controller {
                     String userMsg="Dear " + firstName.toUpperCase() + " "+ lastName.toUpperCase() + ", \n\nThank you for submitting your strain. You can use Submission Key as reference for further discussion.\n\nYour Submission Key: " + insertedCount +"\n\nSubmitted Strain Information" +
                             "\nStrain Symbol: "+symbolName+"\nType: "+type+"\nGenetic Status: "+geneticStatus+"\nMethod: "+method
                             +"\nBackground Strain: "+bgStrain+"\nDescription of strain's origin: "+strainOrigin
-                            +"\nRefernce/Pubmed ID: "+refeId+"\nResearch Use: "+resUse+"\nILAR Code: "+ilarCode+"\n\nGene/Allele Information"
+                            +"\nReference/Pubmed ID: "+refeId+"\nResearch Use: "+resUse+"\nILAR Code: "+ilarCode+"\n\nGene/Allele Information"
                             +"\nGene Symbol: "+gene+"\nGene RGD ID: "+geneRgdId+"\nAllele Symbol: "+allele+"\nAllele RGD ID: "+alleleRgdId+"\n\nAvailability";
                     if (availTypes != null) {
                         userMsg += "\nCurrent Status:";
