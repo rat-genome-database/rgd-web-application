@@ -186,11 +186,22 @@ public class StrainSubmissionFormController implements Controller {
                             +"\nSubmitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status
                             +"\n\nRegards,\nRGD Team.\n";
 
-                   String curatorMsg="Dear RGD Curators, \n\nA new strain registration information has been generated.\n\n" +
-                           "Submitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status+"\nSubmission Key:  "+insertedCount +"\nLink to Submitted Strains Interface: " +link;
-                    MyRGDLookupController.send(submitterEmail, "Strain Submission", userMsg   );
-                    MyRGDLookupController.send("rgd.data@mcw.edu", "New Strain Submission", curatorMsg);
-//                    MyRGDLookupController.send("akundurthi@mcw.edu", "New Strain Submission", curatorMsg);
+                   String curatorMsg="Dear RGD Curators, \n\nA new strain registration information has been generated." +"\n\nSubmitted Strain Information" +
+                           "\nStrain Symbol: "+symbolName+"\nType: "+type+"\nGenetic Status: "+geneticStatus+"\nMethod: "+method
+                           +"\nBackground Strain: "+bgStrain+"\nDescription of strain's origin: "+strainOrigin
+                           +"\nReference/Pubmed ID: "+refeId+"\nResearch Use: "+resUse+"\nILAR Code: "+ilarCode+"\n\nGene/Allele Information"
+                           +"\nGene Symbol: "+gene+"\nGene RGD ID: "+geneRgdId+"\nAllele Symbol: "+allele+"\nAllele RGD ID: "+alleleRgdId+"\n\nAvailability";
+                    if (availTypes != null) {
+                        curatorMsg += "\nCurrent Status:";
+                        for (String availType : availTypes) {
+                            curatorMsg += "\n - " + availType;
+                        }
+                    }
+                    curatorMsg+="\nAvailability Contact Email: "+contactEmail+"\nAvailability Contact URL: "+contactUrl;
+                    curatorMsg+="\n\nSubmitter Information"+"\nSubmitter Name:  "+ firstName + " "+ lastName+"\nSubmitter Email Address:  " + submitterEmail + "\nOrganization:  " + org+"\nPI Name:  "+piName+"\nSource:  "+source+"\nStatus:  "+status+"\nSubmission Key:  "+insertedCount +"\nLink to Submitted Strains Interface: " +link;
+                    MyRGDLookupController.send(submitterEmail, "Strain Submission", userMsg);
+//                    MyRGDLookupController.send("rgd.data@mcw.edu", "New Strain Submission", curatorMsg);
+                    MyRGDLookupController.send("akundurthi@mcw.edu", "New Strain Submission", curatorMsg);
 //                    MyRGDLookupController.send("jthota@mcw.edu", "New Strain Submission", curatorMsg);
                     response.getWriter().write(msg);
                     return null;
