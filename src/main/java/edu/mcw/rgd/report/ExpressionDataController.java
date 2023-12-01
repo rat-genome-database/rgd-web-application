@@ -24,7 +24,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- * Created by IntelliJ IDEA.
  * User: hsnalabolu
  * <p>
  * to download list of tpm values data for a given gene
@@ -62,8 +61,8 @@ public class ExpressionDataController implements Controller {
 
     Report getExpressionData(Gene obj, boolean generateGeneLinks, HttpServletRequest request) throws Exception {
 
-        String level = request.getParameter("level");
-        String tissueId = request.getParameter("tissue");
+        String level = Utils.NVL(request.getParameter("level"), "");
+        String tissueId = Utils.NVL(request.getParameter("tissue"), "");
         List<GeneExpressionRecordValue> geneExpressionRecordValues;
         if(level.equals("") || tissueId.equals("")) {
             geneExpressionRecordValues = geneExpressionDAO.getGeneExprRecordValuesForGene(obj.getRgdId(),"TPM");

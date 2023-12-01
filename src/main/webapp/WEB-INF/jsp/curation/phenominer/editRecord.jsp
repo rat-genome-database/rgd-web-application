@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.HistogramRecord" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.*" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Record" %>
 
 <%
     String pageTitle = "Edit Record";

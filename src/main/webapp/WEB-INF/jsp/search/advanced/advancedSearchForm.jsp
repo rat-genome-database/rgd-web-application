@@ -29,6 +29,11 @@
     if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
         selSpecies = Integer.parseInt(speciesTypeParam);
     }
+    String assemblyParam = request.getParameter("assembly");
+    String selectedAssembly=new String();
+    if( assemblyParam!=null ) {
+        selectedAssembly = assemblyParam;
+    }else selectedAssembly="All";
 %>
 <table border=1 cellspacing=0 cellpadding=10 style="background-color:white;">
     <tr><td>
@@ -49,6 +54,21 @@
             }
 
         %>
+        <tr>
+            <td><b>Assembly</b></td>
+            <td>
+            <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
+                <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
+
+                <%
+                    List<Map> maps = MapManager.getInstance().getAllMaps(search.getSpeciesType());
+                    for (Map map: maps) {%>
+                <option  <%=fu.optionParams(selectedAssembly,String.valueOf( map.getDescription()))%>><%=map.getName()%></option>
+                <%}%>
+            </select>
+            </td>
+
+        </tr>
         <tr>
             <td><b>Chr</b>&nbsp;&nbsp;</td>
             <td colspan='5'>
@@ -75,8 +95,7 @@
         </tr>
 
 
-    </td>
-    </tr>
+
 <% } %>
         <%
             int species = 3;

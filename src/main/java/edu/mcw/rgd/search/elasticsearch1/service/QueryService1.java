@@ -69,10 +69,8 @@ public class QueryService1 {
                         } else {
                             sortField = "mapDataList." + sb.getSortBy();
                             if (sb.getSortOrder().equalsIgnoreCase("asc")) {
-                                //  System.out.println("SORT BY: " + sortBy + " " + sortOrder);
                                 srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.ASC).setNestedSort(new NestedSortBuilder("mapDataList")));
                             } else {
-                                //   System.out.println("SORT BY: " + sortBy + " " + sortOrder);
                                 srb.sort(SortBuilders.fieldSort(sortField).missing("_last").order(SortOrder.DESC).setNestedSort(new NestedSortBuilder("mapDataList")));
                             }
                         }
@@ -136,7 +134,6 @@ public class QueryService1 {
     }
 
     public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb){
-                                             //String category, String species,Map<String, String> filterMap, String chr, String start, String stop, String assembly){
         BoolQueryBuilder builder=new BoolQueryBuilder();
         builder.must(this.getDisMaxQuery(term, sb));
         if(sb!=null) {
@@ -146,31 +143,20 @@ public class QueryService1 {
             if (sb.getSpecies() != null && !sb.getSpecies().equals("")) {
                 builder.filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
             }
-            if (!sb.getChr().equals("")) {
+            if(sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
+                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly())),ScoreMode.None));
+            }
+                if (!sb.getChr().equals("") && !sb.getChr().equalsIgnoreCase("all") ) {
+                    builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())),ScoreMode.None));
+
+            }
                 if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
-                    if(sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
-                        builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
-                                nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
-                                        .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
-                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
-                    }else{
                         builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
                                 nestedQuery("mapDataList", QueryBuilders.boolQuery()
-                                        //.must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
-                                        .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())).must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
-                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
-                    }
-                } else {
-                    builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders
-                            .nestedQuery("mapDataList", QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly()))
-                                    .must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())), ScoreMode.None)));
 
+                                        .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
+                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
                 }
-            }
-            System.out.println("ASSEMBLY:" +sb.getAssembly());
-            if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
-                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map",sb.getAssembly().trim()),ScoreMode.None));
-            }
 
             }
         return builder;
@@ -213,17 +199,22 @@ public class QueryService1 {
         if(sb==null) {
             return dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
-        dqb
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000))
-                .add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200))
-                .add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000))
-                .add(QueryBuilders.termQuery("term.symbol",term).boost(2000))
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("gene") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("SSLP") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("variant") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("qtl") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000));
+        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200));
+            dqb.add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000));
+            dqb.add(QueryBuilders.termQuery("term.symbol",term).boost(2000));
 
-                .add(QueryBuilders.multiMatchQuery(term)
+               dqb .add(QueryBuilders.multiMatchQuery(term)
                         .field("symbol.symbol", 100)
                         .field("term.symbol", 100)
                         .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
@@ -235,25 +226,7 @@ public class QueryService1 {
       //  if(tokens.length>0){
             dqb.add(QueryBuilders.multiMatchQuery(term)
                             .operator(Operator.AND));
-      //  }
-    /*    if(sb.getSpecies()!=null && !sb.getSpecies().equals("") && sb.getCategory().equalsIgnoreCase("variant")) {
-            String defaultAssemblyName = new String();
-            if (sb.getAssembly() != null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
-                defaultAssemblyName = sb.getAssembly().trim();
 
-            } else {
-                int speciesKey = SpeciesType.parse(sb.getSpecies());
-                edu.mcw.rgd.datamodel.Map defaultAssembly = null;
-                try {
-                    defaultAssembly = MapManager.getInstance().getReferenceAssembly(speciesKey);
-                    defaultAssemblyName = defaultAssembly.getDescription();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            dqb.add(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.termQuery("mapDataList.map", defaultAssemblyName.trim()), ScoreMode.Max).boost(100));
-        }*/
         return dqb;
 
     }
@@ -283,8 +256,6 @@ public class QueryService1 {
             return aggs;
         }
         if(aggField.equalsIgnoreCase("assembly")) {
-          //  aggs = AggregationBuilders.terms(aggField).field("mapDataList.map" + ".keyword").size(20).order(BucketOrder.key(true))
-            ;
             aggs=AggregationBuilders.nested("assemblyAggs", "mapDataList")
                     .subAggregation(AggregationBuilders.terms(aggField).field("mapDataList.map").size(100).order(BucketOrder.key(true)));
 
@@ -299,24 +270,7 @@ public class QueryService1 {
     }
 
     public HighlightBuilder buildHighlights(){
-     /*   List<String> fields=new ArrayList<>(Arrays.asList(
-                "symbol","symbol.symbol","symbol.ngram","htmlStrippedSymbol.ngram",
-                "name","name.name", "description","description.description",
-                "citation","citation.citation","title",
-                "title.title","author","author.author","refAbstract", "refAbstract.refAbstract",
-                "term","term.term","term_def","term_def.term","term_acc",
-                "synonyms",   "synonyms.synonyms",
-                "source","source.source",
-                "origin","origin.origin",
-                "trait","subTrait",
-                "type","transcripts", "promoters",
-                "protein_acc_ids", "transcript_ids", "xdata", "xdbIdentifiers",
-                "associations","genomicAlteration"
-        ));*/
         HighlightBuilder hb=new HighlightBuilder();
-       /* for(String field:fields){
-            hb.field(field);
-        }*/
         hb.field("*");
         return hb;
     }
@@ -333,15 +287,9 @@ public class QueryService1 {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(QueryBuilders.termQuery("term_acc", term));
-
-
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
-       /* return ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("search"))
-                         .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                           .setQuery(QueryBuilders.termQuery("term_acc", term))
-                           .get();*/
     }
 }

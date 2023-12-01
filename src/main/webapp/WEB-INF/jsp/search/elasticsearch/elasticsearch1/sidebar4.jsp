@@ -35,7 +35,7 @@
             <c:if test="${fn:length(model.aggregations.species)>0}">
                 <c:forEach items="${model.aggregations.species}" var="item">
                     <c:if test="${item.key.equalsIgnoreCase('rat')}">
-                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.searchBean.category}', '${item.key}','', '${model.defaultAssembly}')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
+                        <li><button style="border:none;background-color: transparent" onclick="filterClick('${model.searchBean.category}', '${item.key}','', '')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
                             <ul>
                                 <c:if test="${item.key.equalsIgnoreCase('rat')}">
                                     <!--c:if test="$--{fn:length(model.ratFilterBkts)>1}"-->
