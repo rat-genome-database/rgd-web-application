@@ -188,10 +188,10 @@
 
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
+                                            <a href="/rgdweb/projects/project.html">Community Projects <span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
                                             <a href="/rgdweb/search/markers.html?100">Markers</a>
-                                            <a href="/rgdweb/projects/project.html">Community Projects</a>
                                             <a href="/rgdweb/report/genomeInformation/genomeInformation.html">Genome Information</a>
                                             <a href="/rgdweb/ontology/search.html">Ontologies</a>
                                             <a href="/rgdweb/search/cellLines.html">Cell Lines</a>
@@ -206,7 +206,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="https://ontomate.rgd.mcw.edu" >OntoMate (Literature Search)</a>
+                                            <a href="<%=RgdContext.getSolrUrl("solr")%>" >OntoMate (Literature Search)</a>
                                             <a href="/jbrowse/">JBrowse (Genome Browser)</a>
                                             <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
@@ -229,7 +229,7 @@
                                             <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=2">Cancer & Neoplastic Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
-                                            <a href="/rgdweb/portal/home.jsp?p=14">COVID-19</a>
+                                            <a href="/rgdweb/portal/home.jsp?p=14">Coronavirus Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=12">Developmental Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=4">Diabetes</a>
                                             <a href="/rgdweb/portal/home.jsp?p=5">Hematologic Disease</a>
