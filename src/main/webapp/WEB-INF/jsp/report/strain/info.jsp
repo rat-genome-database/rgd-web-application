@@ -121,20 +121,25 @@
         <td><%=fu.chkNullNA(obj.getStrainTypeName())%></td>
     </tr>
     <tr>
-        <td class="label">Source:</td>
+        <td class="label">Available Source:</td>
         <td id="strain-info-table-source-data"><%=fu.chkNullNA(obj.getSource())%></td>
     </tr>
-
+    <%if(obj.getOrigination()!=null){%>
+    <tr>
+        <td class="label">Origination:</td>
+        <td><%=obj.getOrigination()%></td>
+    </tr>
+    <% } %>
     <% if (obj.getImageUrl() != null) { %>
     <tr>
         <td class="label">Photo</td>
         <td><img src="<%=obj.getImageUrl()%>"/></td>
     </tr>
     <% } %>
-    <% if (obj.getOrigin() != null) { %>
+    <% if (obj.getDescription() != null) { %>
     <tr>
-        <td class="label">Origin:</td>
-        <td><%=obj.getOrigin()%></td>
+        <td class="label">Description:</td>
+        <td><%=obj.getDescription()%></td>
     </tr>
     <% } %>
     <% if (obj.getGenetics() != null) { %>
