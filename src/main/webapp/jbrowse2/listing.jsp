@@ -9,7 +9,7 @@
 <%@ include file="/common/headerarea.jsp"%>
 
 <div style="border:1px solid black; font-size:18px;padding:20px;margin-bottom:20px;">
-RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be available until January 1st 2025.
+RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
 </div>
 
 <table align="center">
@@ -21,13 +21,13 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
 
 <table align="center" border="0">
     <tr>
-        <td align="center"><input  style="font-size:30px" type="button" onclick="location.href='/jbrowse2/'" value="Enter JBrowse 2 (Beta)"/></td>
+        <td align="center"><a style="font-size:30px;" href="/jbrowse2/">Enter JBrowse 2</a></td>
         <td></td>
-        <td align="center"><input style="font-size:30px" onclick="location.href='/jbrowse/'" type="button" value="Enter JBrowse 1"/></td>
+        <td align="center"><a style="font-size:30px" href="/jbrowse/">Enter JBrowse 1</a></td>
     </tr>
     <tr>
         <td valign="top">
-            <div style="order:1px dashed black; padding:5px;margin-top:10px;" ><h2>Available JBrowse 2 Datasets</h2>
+            <div style="border:1px solid lightgrey; padding:10px;margin-top:10px;" ><h2>Available JBrowse 2 Datasets</h2>
                 <ul>
                     <li>Rat</li>
                 <ul>
@@ -62,6 +62,15 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                         <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=panPan2">panPan2</a></li>
                     </ul>
 
+                    <li>Thirteen Lined Ground Squirell</li>
+                    <ul>
+                        <li><a href="/jbrowse2/?loc=NW_004936469:1..81,790,585&assembly=SpeTri2.0">RGD Squirrel SpeTri2.0</a></li>
+                    </ul>
+                    <li>Chinchilla</li>
+                    <ul>
+                        <li><a href="/jbrowse2/?loc=NW_004955402:1..81,790,585&assembly=ChiLan1.0">RGD Chinchilla ChiLan1.0</a></li>
+                    </ul>
+
                     <li>Pig</li>
                     <ul>
 
@@ -81,7 +90,7 @@ RGD is transitioning to JBrowse 2.   An archival version of JBrowse 1 will be av
                                 </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td valign="top">
-                        <div style="order:1px dashed black; padding:5px;margin-top:10px;" ><h2>Available JBrowse 1 Datasets</h2>
+                        <div style="border:1px solid lightgrey; padding:10px;margin-top:10px;" ><h2>Available JBrowse 1 Datasets</h2>
                             <ul>
                                 <li>Rat</li>
                                 <ul>
