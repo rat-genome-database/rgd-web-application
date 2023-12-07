@@ -18,32 +18,41 @@
         <table border="0" id="bioCycPathway">
             <thead></thead>
             <tbody>
-<%
+<%      int i = 0;
         for (XdbId xdb : xdbBioCycPathway){
             BioCycRecord r = pdao.getBioCycRecord(obj.getRgdId(), xdb.getAccId());
+            if (i % 12 == 0) {
 %>
             <tr style="background: #f1f1f1">
                 <td>
-                    <table id="rowTable" style="width: 100%">
-                        <tr style="width: inherit">
-                            <td style="border: none">
-                            <b><%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%></b>
-                            </td>
-                            <td style="float: right; border: none">
-                                <button style="border: none; text-underline: black" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')"><u>View at BioCyc</u></button>
-                            </td>
-                        </tr>
-                    </table>
+                    <button style="border: none; text-underline: black" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">
+                        <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
+                    </button>
                 </td>
-            </tr>
-            <tr style="text-align: center; padding-bottom: 100px">
+                <% }
+                else if (i % 6 == 5 ) {%>
                 <td>
-                    <a href="javascript:void(0)" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">
-                        <img style="padding-bottom: 15px; padding-top: 5px" src="<%=biocycImageUrl+xdb.getAccId()%>">
-                    </a>
+                    <button style="border: none; text-underline: black" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">
+                        <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
+                    </button>
                 </td>
             </tr>
-<%      }   %>
+                <%}
+                else {%>
+                <td>
+                    <button style="border: none; text-underline: black" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">
+                        <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
+                    </button>
+                </td>
+                <%}%>
+<%--            <tr style="text-align: center; padding-bottom: 100px">--%>
+<%--                <td>--%>
+<%--                    <a href="javascript:void(0)" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">--%>
+<%--                        <img style="padding-bottom: 15px; padding-top: 5px" src="<%=biocycImageUrl+xdb.getAccId()%>">--%>
+<%--                    </a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%      i++;}   %>
             </tbody>
         </table>
     </div>
