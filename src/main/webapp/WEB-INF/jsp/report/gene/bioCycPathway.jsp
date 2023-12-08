@@ -10,15 +10,24 @@
     <h4>BioCyc Pathways</h4>
 
     <div id="bioCycPathwayTableDiv" >
-        <table border="0" id="bioCycPathway">
+        <table border="0" id="bioCycPathwayTable" class="tablesorter">
             <thead></thead>
             <tbody>
 <%      int i = 0;
+        boolean isEven = false;
         for (XdbId xdb : xdbBioCycPathway){
             BioCycRecord r = pdao.getBioCycRecord(obj.getRgdId(), xdb.getAccId());
             if (i % 6 == 0) {
+                String rowColor = "";
+                if (isEven){
+                    rowColor = "#ffffff";
+                }
+                else {
+                    rowColor = "#ebf2fa";
+                }
+                isEven = !isEven;
 %>
-            <tr style="background: #f1f1f1">
+            <tr style="background: <%=rowColor%>">
                 <td>
                     <a href="<%=bioCycPathwayUrl+xdb.getAccId()%>" onclick="return redirect()">
                         <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
@@ -40,25 +49,18 @@
                     </a>
                 </td>
                 <%}%>
-<%--            <tr style="text-align: center; padding-bottom: 100px">--%>
-<%--                <td>--%>
-<%--                    <a href="javascript:void(0)" onclick="redirect('<%=bioCycPathwayUrl+xdb.getAccId()%>')">--%>
-<%--                        <img style="padding-bottom: 15px; padding-top: 5px" src="<%=biocycImageUrl+xdb.getAccId()%>">--%>
-<%--                    </a>--%>
-<%--                </td>--%>
-<%--            </tr>--%>
-<%      i++;}   %>
+            <% i++;}   %>
             </tbody>
         </table>
     </div>
 </div>
 <style>
-    #bioCycPathway {
+    #bioCycPathwayTable {
         border-collapse:collapse;
         border: none;
     }
 
-    #bioCycPathway tr td {
+    #bioCycPathwayTable tr td {
         border: solid #ccc 1px;
         padding: 5px 7px;
     }
