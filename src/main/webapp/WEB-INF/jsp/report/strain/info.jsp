@@ -82,11 +82,11 @@
     <tr>
         <td class="label">Ontology ID:</td>
         <td>
-        <% if( ontId.equals("N/A") ) { %>
+            <% if( ontId.equals("N/A") ) { %>
             <%=ontId%>
-        <% } else { %>
+            <% } else { %>
             <a href="<%=Link.ontView(ontId)%>" title="click to go to strain ontology"><%=ontId%></a>
-        <% } %>
+            <% } %>
         </td>
     </tr>
 
@@ -115,26 +115,31 @@
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
-    
+
     <tr>
         <td class="label">Type:</td>
         <td><%=fu.chkNullNA(obj.getStrainTypeName())%></td>
     </tr>
     <tr>
-        <td class="label">Source:</td>
+        <td class="label">Available Source:</td>
         <td id="strain-info-table-source-data"><%=fu.chkNullNA(obj.getSource())%></td>
     </tr>
-
+    <%if(obj.getOrigination()!=null){%>
+    <tr>
+        <td class="label">Origination:</td>
+        <td><%=obj.getOrigination()%></td>
+    </tr>
+    <% } %>
     <% if (obj.getImageUrl() != null) { %>
     <tr>
         <td class="label">Photo</td>
         <td><img src="<%=obj.getImageUrl()%>"/></td>
     </tr>
     <% } %>
-    <% if (obj.getOrigin() != null) { %>
+    <% if (obj.getDescription() != null) { %>
     <tr>
-        <td class="label">Origin:</td>
-        <td><%=obj.getOrigin()%></td>
+        <td class="label">Description:</td>
+        <td><%=obj.getDescription()%></td>
     </tr>
     <% } %>
     <% if (obj.getGenetics() != null) { %>
@@ -172,9 +177,9 @@
         <td><%=obj.getResearchUse()%></td>
     </tr>
     <% } %>
-<% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
-    if(content != null) {
-%> <tr>
+    <% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
+        if(content != null) {
+    %> <tr>
     <td class="label">Genotyping Protocol</td>
     <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">Download Genotyping Protocol </a></td>
 </tr>

@@ -155,8 +155,8 @@
           <%  }%>
         </tr>
         <tr>
-            <td class="label">Origin:</td>
-            <td><textarea rows="4" name="origin" cols="90" ><%=dm.out("origin",strain.getOrigin())%></textarea></td>
+            <td class="label">Description:</td>
+            <td><textarea rows="4" name="description" cols="90" ><%=dm.out("description",strain.getDescription())%></textarea></td>
         </tr>
 
         <tr>
@@ -168,8 +168,12 @@
             <td><input type="text" name="chrAltered" size="90" value="<%=dm.out("chrAltered",strain.getChrAltered())%>" /></td>
         </tr>
         <tr>
-            <td class="label">Source:</td>
+            <td class="label">Available Source:</td>
             <td><textarea cols="90" rows="5" name="source"><%=dm.out("source",strain.getSource())%></textarea></td>
+        </tr>
+        <tr>
+            <td class="label">Origination:</td>
+            <td><textarea cols="90" rows="5" name="origination"><%=dm.out("source",strain.getOrigination())%></textarea></td>
         </tr>
         <tr>
             <td class="label">Image URL:</td>
