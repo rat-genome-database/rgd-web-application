@@ -224,25 +224,25 @@ public class RgdContext {
         switch (collection.toLowerCase()){
             case "solr":
                 if(isProduction || isPipelines){
-                    url= "https://ontomate.rgd.mcw.edu/solr";
+                    url= "https://ontomate.rgd.mcw.edu/QueryBuilder";
                 }else{
-                    url= "https://dev.rgd.mcw.edu/solr/OntoMate";
+                    url= "https://dev.rgd.mcw.edu/QueryBuilder";
                 }
                 break;
-            case "ontosolr":
-                if(isProduction || isPipelines){
-                    url="/solr/OntoSolr";
-                }else{
-                    url="https://dev.rgd.mcw.edu/solr/OntoSolr";
-                }
-                break;
-            case "preprintsolr":
-                if(isProduction || isPipelines){
-                    url= "https://ontomate.rgd.mcw.edu/preprintSolr";
-                }else{
-                    url=  "https://dev.rgd.mcw.edu/solr/preprintSolr";
-                }
-                break;
+//            case "ontosolr":
+//                if(isProduction || isPipelines){
+//                    url="/solr/OntoSolr";
+//                }else{
+//                    url="https://dev.rgd.mcw.edu/solr/OntoSolr";
+//                }
+//                break;
+//            case "preprintsolr":
+//                if(isProduction || isPipelines){
+//                    url= "https://ontomate.rgd.mcw.edu/preprintSolr";
+//                }else{
+//                    url=  "https://dev.rgd.mcw.edu/solr/preprintSolr";
+//                }
+//                break;
 
 
         }
