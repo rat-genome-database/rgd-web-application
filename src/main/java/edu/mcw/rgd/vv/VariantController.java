@@ -294,7 +294,7 @@ public class VariantController extends HaplotyperController {
         }
         return  trs;
     }
-    List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
+   public List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
         List<TranscriptResult> trs=new ArrayList<>();
         List<VariantTranscript> transcripts=new ArrayList<>();
         try {
