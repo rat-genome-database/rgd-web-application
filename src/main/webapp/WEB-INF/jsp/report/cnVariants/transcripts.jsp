@@ -1,49 +1,14 @@
 <%@ page import="edu.mcw.rgd.vv.VariantController" %>
-<%@ page import="edu.mcw.rgd.vv.vvservice.VVService" %>
-<%@ page import="edu.mcw.rgd.datamodel.SearchResult" %>
 <%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.rgd.datamodel.VariantResult" %>
+
 <%@ page import="edu.mcw.rgd.datamodel.TranscriptResult" %>
-<%@ page import="edu.mcw.rgd.dao.impl.XdbIdDAO" %>
-<%@ page import="edu.mcw.rgd.web.FormUtility" %>
+
 <%@ include file="../sectionHeader.jsp"%>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <%
-//    XdbIdDAO xdbDAO = new XdbIdDAO();
-//    FormUtility fu = new FormUtility();
-    List<SearchResult> allResults = new ArrayList<>(); //(List<SearchResult>) request.getAttribute("searchResults");; // will get from request
-//    for (VariantMapData v : vars) {
-        VariantController ctrl = new VariantController();
-        VariantSearchBean vsb = new VariantSearchBean(var.getMapKey());
-
-        String index = new String();
-        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(var.getMapKey()));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + var.getMapKey());
-        VVService.setVariantIndex(index);
-//        for (Sample s : samples) {
-//        System.out.println(s.getId());
-            vsb.sampleIds.add(mainSample.getId());
-//        }
-        vsb.setVariantId(var.getId());
-        try {
-            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, true);
-            SearchResult sr = new SearchResult();
-
-            sr.setVariantResults(vr);
-            allResults.add(sr);
-//        System.out.println(allResults.size());
-        } catch (Exception e) {
-//        System.out.println(e);
-        }
-//    }
-    List<TranscriptResult> results = new ArrayList<>();
-    boolean emptyTranscripts = true;
-    for (SearchResult sr1 : allResults){
-        for (VariantResult vr : sr1.getVariantResults()){
-            results.addAll(vr.getTranscriptResults());
-
-        }
-    }
+    VariantController ctrl = new VariantController();
+    List<TranscriptResult> results =
+    ctrl.getVariantTranscriptResults((int) var.getId(),var.getMapKey() );
     if (!results.isEmpty()){
         Collections.sort(results, new Comparator<TranscriptResult>() {
             public int compare(TranscriptResult tr1, TranscriptResult tr2) {
