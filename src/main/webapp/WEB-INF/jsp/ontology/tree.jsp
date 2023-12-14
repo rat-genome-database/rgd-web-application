@@ -19,8 +19,34 @@
    response.setHeader("Access-Control-Allow-Origin", "*.mcw.edu");
 
 %>
+<style>
+    /*three auto scrolls*/
+    /*.myDiv{*/
+    /*    white-space:nowrap;*/
+    /*    overflow:auto;*/
+    /*   max-width: 90vw;*/
+    /*}*/
 
+    /*one auto scroll(preline or normal)*/
+    .myDiv{
+        white-space:normal;
+        overflow:auto;
+        max-width:90vw;
+    }
 
+    /*one big td data*/
+    /*.myDiv{*/
+    /*    white-space:break-spaces;*/
+    /*    overflow:auto;*/
+    /*    max-width: 90vw;*/
+    /*    text-align: justify-all;*/
+    /*}*/
+
+    /*.myDiv{*/
+    /*    max-width: 90vw;*/
+    /*}*/
+
+</style>
 <%@ include file="ontHeader.jsp"%>
 
 <% if( bean.getTerm()!=null ) { %><%-- VALID TERM ACC ID --%>
@@ -70,15 +96,14 @@
     </tr>
 </table>
 
-<div id="browser" style="padding-top:0px">
+<div id="browser" style="padding-top:0px;">
 
 <% // show term synonyms and definition db-xrefs
     String xrefs = Utils.defaultString(DaoUtils.getInstance().getTermXRefs(bean.getTerm()));
     if( (bean.getTermSynonyms()!=null && !bean.getTermSynonyms().isEmpty()) || !xrefs.isEmpty() ) {
 %>
     <br>
-    <table width=100% style="border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px; ">
-
+    <table width="99.5%"style="border: 1px solid black;  background-color:#F6F6F6; margin: 5px; padding:5px;">
       <tr>
         <td style="font-size:16px; font-weight:700;" colspan=2 >Synonyms</TD>
 
@@ -94,9 +119,8 @@
               <%
               }
               %>
-
               <tr>
-              <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td style='padding:3px;'>
+                  <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td class="myDiv" style='padding:3px;'>
 
               <%
               synonymsPerType = 0;
@@ -180,15 +204,25 @@
     <table align="center">
     <tr>
         <td colspan="3" align="center">
-            <div id="browser_graph" style="width:800px;overflow:auto"><%-- below the browser panes, display the term graph;
+            <div id="browser_graph" style="max-width:90vw;overflow:auto;"><%-- below the browser panes, display the term graph;
              since entire window width is available, terms within the graph are displayed in wide boxes,
              up to 26 chars per line --%>
+<%--                <img src="https://pipelines.rgd.mcw.edu/rgdweb/ontology/dot.html?img_id=graph_4187211377720431301.png" alt="image">--%>
             <%=OntDotController.generateResponse(bean.getAccId(), "view.html?acc_id=", 26)%>
             </div>
         </td>
     </tr>
     </table>
 </div>
-
 <% } %>
+<%--    <script>--%>
+<%--        window.onresize = resizeDiv;--%>
+
+<%--        function resizeDiv() {--%>
+<%--            var td = document.getElementsByClassName('myDiv');--%>
+<%--            td.style.maxWidth = window.innerWidth * 0.9 + 'vw';--%>
+<%--        }--%>
+
+<%--        window.onload = resizeDiv; // Resize on load--%>
+<%--    </script>--%>
 <%@ include file="/common/footerarea.jsp" %>
