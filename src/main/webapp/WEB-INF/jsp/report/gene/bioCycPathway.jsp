@@ -36,7 +36,7 @@
                 <% }
                 else if (i % 6 == 5 ) {%>
                 <td>
-                    <a href="<%=bioCycPathwayUrl+xdb.getAccId()%>" onclick="redirect()">
+                    <a href="<%=bioCycPathwayUrl+xdb.getAccId()%>" onclick="return redirect()">
                         <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
                     </a>
                 </td>
@@ -44,7 +44,7 @@
                 <%}
                 else {%>
                 <td>
-                    <a href="<%=bioCycPathwayUrl+xdb.getAccId()%>" onclick="redirect()">
+                    <a href="<%=bioCycPathwayUrl+xdb.getAccId()%>" onclick="return redirect()">
                         <%= (r != null && !r.getPathwayRatCycName().isEmpty()) ? r.getPathwayRatCycName() : xdb.getAccId()%>
                     </a>
                 </td>
