@@ -23,7 +23,8 @@
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
 
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
-    if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) ) {
+
+    if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessStrainSymbol()) ) {
         // create 'fake' alias for tagless strain symbol
         Alias alias = new Alias();
         alias.setRgdId(obj.getRgdId());
