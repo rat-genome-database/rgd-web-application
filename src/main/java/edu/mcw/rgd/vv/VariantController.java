@@ -152,6 +152,7 @@ public class VariantController extends HaplotyperController {
 
             Variant v = new Variant();
             v.setId((Integer) m.get("variant_id"));
+            v.setRsId((String) m.get("rs_id"));
             v.setChromosome((String) m.get("chromosome"));
             v.setStartPos((int) m.get("startPos"));
             v.setEndPos((int) m.get("endPos"));

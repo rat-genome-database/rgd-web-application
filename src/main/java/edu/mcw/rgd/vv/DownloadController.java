@@ -162,6 +162,7 @@ System.out.println("GENERATING REPORT....");
             }
             List<VariantResult> vResults= (List<VariantResult>) e.getValue();
             long rgdId=0;
+            String rsId="";
             String chr = new String();
             long pos = -1;
             String score = "";
@@ -171,6 +172,7 @@ System.out.println("GENERATING REPORT....");
 
             Set<String> location=new HashSet<>();
             Set<String > aaChangeMap=new HashSet<>();
+            Set<Integer > aaChangePos=new HashSet<>();
             Set<String> transcriptMap=new HashSet<>();
             Set<String> varAAMap=new HashSet<>();
             Set<String> refAA=new HashSet<>();
@@ -182,6 +184,8 @@ System.out.println("GENERATING REPORT....");
                 chr = Objects.requireNonNull(vr.getVariant()).getChromosome();
                 pos = vr.getVariant().getStartPos();
                 rgdId = vr.getVariant().getId();
+                if(vr.getVariant().getRsId()!=null)
+                rsId=vr.getVariant().getRsId();
                 gene = "";
                 strand = "";
                 if (varNuc.get(samp) != null) {
@@ -225,13 +229,14 @@ System.out.println("GENERATING REPORT....");
                 ref = vr.getVariant().getReferenceNucleotide();
 
                 if (vr.getVariant() != null && vr.getVariant().getConservationScore() != null && vr.getVariant().getConservationScore().size() > 0) {
-                    if (vr.getVariant().getConservationScore().get(0).getScore() != null)
+                    if (vr.getVariant().getConservationScore().get(0).getScore() != null && !Objects.equals(vr.getVariant().getConservationScore().get(0).getScore().toString(), "-1"))
                         score = vr.getVariant().getConservationScore().get(0).getScore().toString();
                 }
                 if(first) {
 
 
                     if(rgdId!=0)out.print(rgdId +delim);
+                    out.print(rsId +delim);
                     if (!req.getParameter("c").equals("")) out.print(chr + delim);
                     if (!req.getParameter("p").equals("")) out.print(pos + delim);
                     if (!req.getParameter("cs").equals("")) out.print(score + delim);
@@ -254,6 +259,12 @@ System.out.println("GENERATING REPORT....");
                             .map(t->t.getAminoAcidVariant().getSynonymousFlag())
                             .collect(Collectors.toSet());
                     aaChangeMap.addAll(aaChange);
+                    Set<Integer> aaPos=   vr.getTranscriptResults().stream()
+                            .filter(t->t.getAminoAcidVariant().getAaPosition()!=0 && t.getAminoAcidVariant().getAaPosition()!=-1 && t.getAminoAcidVariant().getSynonymousFlag()!=null)
+                            .filter(t->!t.getAminoAcidVariant().getSynonymousFlag().equals(""))
+                            .map(t->t.getAminoAcidVariant().getAaPosition())
+                            .collect(Collectors.toSet());
+                    aaChangePos.addAll(aaPos);
                     Set<String> transcripts= ( vr.getTranscriptResults().stream()
                             .filter(t -> t.getAminoAcidVariant() != null)
                             .filter(t -> t.getAminoAcidVariant().getTranscriptSymbol() != null && !t.getAminoAcidVariant().getTranscriptSymbol().equals(""))
@@ -308,6 +319,10 @@ System.out.println("GENERATING REPORT....");
                         .filter(StringUtils::isNotEmpty)
                         .collect(Collectors.joining("|")));
                 out.print(delim);
+                out.print(aaChangePos.stream().filter(position->position!=0)
+                                .map(String::valueOf)
+                        .collect(Collectors.joining("|")));
+                out.print(delim);
             }
 
             if (!req.getParameter("tai").equals("")) {
@@ -350,7 +365,10 @@ System.out.println("GENERATING REPORT....");
         }*/
     }
     public void printHeader(HttpRequestFacade req,PrintWriter out, String delim, List<Sample> samples, boolean isHuman){
-        if (!req.getParameter("c").equals("")) out.print("RGD_ID" + delim);
+        if (!req.getParameter("c").equals(""))
+            out.print("RGD_ID" + delim);
+       // if (!req.getParameter("rsId").equals(""))
+            out.print("RS_ID" + delim);
         if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
         if (!req.getParameter("p").equals("")) out.print("Position" + delim);
         if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
@@ -366,6 +384,8 @@ System.out.println("GENERATING REPORT....");
 
         if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
         if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
+//        if (!req.getParameter("aap").equals(""))
+            out.print("Amino Acid Position" + delim);
         if (!req.getParameter("tai").equals("")) out.print("Transcript Accession IDs" + delim);
         if (!req.getParameter("raa").equals("")) out.print("Reference Amino Acid" + delim);
         if (!req.getParameter("vaa").equals("")) out.print("Variant Amino Acid" + delim);
