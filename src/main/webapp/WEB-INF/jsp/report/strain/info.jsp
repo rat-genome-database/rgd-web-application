@@ -133,7 +133,7 @@
         if( !aliases.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Also&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Also&nbsp;Known&nbsp;As:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
