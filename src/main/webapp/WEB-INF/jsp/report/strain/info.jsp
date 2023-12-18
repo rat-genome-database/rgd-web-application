@@ -24,13 +24,26 @@
 
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
 
+    // add to aliases 'TAGLESS_STRAIN_SYMBOL'
     if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessStrainSymbol()) ) {
-        // create 'fake' alias for tagless strain symbol
-        Alias alias = new Alias();
-        alias.setRgdId(obj.getRgdId());
-        alias.setTypeName("tagless_strain_symbol");
-        alias.setValue(obj.getTaglessStrainSymbol());
-        aliases.add(alias);
+
+        boolean isDuplicate = false;
+        for( Alias a: aliases ) {
+            if( Utils.stringsAreEqualIgnoreCase(obj.getTaglessStrainSymbol(), a.getValue()) ) {
+                isDuplicate = true;
+                break;
+            }
+        }
+
+        // if a tagless strain symbol is already the same as one of the existing aliases -- do not add it
+        if( !isDuplicate ) {
+            // create 'fake' alias for tagless strain symbol
+            Alias alias = new Alias();
+            alias.setRgdId(obj.getRgdId());
+            alias.setTypeName("tagless_strain_symbol");
+            alias.setValue(obj.getTaglessStrainSymbol());
+            aliases.add(alias);
+        }
     }
 
     String RRRCid = null;
