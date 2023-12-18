@@ -23,6 +23,14 @@
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
 
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
+    if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) ) {
+        // create 'fake' alias for tagless strain symbol
+        Alias alias = new Alias();
+        alias.setRgdId(obj.getRgdId());
+        alias.setTypeName("tagless_strain_symbol");
+        alias.setValue(obj.getTaglessStrainSymbol());
+        aliases.add(alias);
+    }
 
     String RRRCid = null;
     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(141, obj.getRgdId());
@@ -111,7 +119,7 @@
         if( !aliases.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Also&nbsp;known&nbsp;as:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
