@@ -24,6 +24,28 @@
 
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
 
+    // add to aliases 'TAGLESS_STRAIN_SYMBOL'
+    if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessStrainSymbol()) ) {
+
+        boolean isDuplicate = false;
+        for( Alias a: aliases ) {
+            if( Utils.stringsAreEqualIgnoreCase(obj.getTaglessStrainSymbol(), a.getValue()) ) {
+                isDuplicate = true;
+                break;
+            }
+        }
+
+        // if a tagless strain symbol is already the same as one of the existing aliases -- do not add it
+        if( !isDuplicate ) {
+            // create 'fake' alias for tagless strain symbol
+            Alias alias = new Alias();
+            alias.setRgdId(obj.getRgdId());
+            alias.setTypeName("tagless_strain_symbol");
+            alias.setValue(obj.getTaglessStrainSymbol());
+            aliases.add(alias);
+        }
+    }
+
     String RRRCid = null;
     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(141, obj.getRgdId());
     if( !xids.isEmpty() ) {
@@ -82,11 +104,11 @@
     <tr>
         <td class="label">Ontology ID:</td>
         <td>
-            <% if( ontId.equals("N/A") ) { %>
+        <% if( ontId.equals("N/A") ) { %>
             <%=ontId%>
-            <% } else { %>
+        <% } else { %>
             <a href="<%=Link.ontView(ontId)%>" title="click to go to strain ontology"><%=ontId%></a>
-            <% } %>
+        <% } %>
         </td>
     </tr>
 
@@ -111,11 +133,11 @@
         if( !aliases.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Also&nbsp;Known&nbsp;As:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
-
+    
     <tr>
         <td class="label">Type:</td>
         <td><%=fu.chkNullNA(obj.getStrainTypeName())%></td>
@@ -177,9 +199,9 @@
         <td><%=obj.getResearchUse()%></td>
     </tr>
     <% } %>
-    <% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
-        if(content != null) {
-    %> <tr>
+<% String content = strainDAO.getContentType(obj.getRgdId(),"Genotype");
+    if(content != null) {
+%> <tr>
     <td class="label">Genotyping Protocol</td>
     <td><a href="/rgdweb/report/strain/strainFileDownload.html?id=<%=obj.getRgdId()%>&type=Genotype" download="true">Download Genotyping Protocol </a></td>
 </tr>
