@@ -53,7 +53,7 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
                     </ul>
                     <li>Domestic Dog</li>
                     <ul>
-                                <li><a href="/jbrowse2/?loc=Chr1:4,981,881..2,678,785&assembly=CanFam3.1">CanFam3.1</a></li>
+                                <li><a href="/jbrowse2/?loc=Chr1:1,000,000..2,000,000&assembly=CanFam3.1">CanFam3.1</a></li>
                     </ul>
                     <li>Bonobo</li>
                     <ul>
