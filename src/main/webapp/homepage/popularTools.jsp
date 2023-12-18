@@ -1,4 +1,4 @@
-
+<%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <style>
     .headerCardTitle {
@@ -91,7 +91,7 @@
     <tr>
         <td>
             <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='/jbrowse/'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='/rgdweb/jbrowse2/listing.jsp'">.</div>
                 <div class="headerCardTitle">JBrowse<br><span class="headerSubTitle">Genome Browser</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/jbrowseScreen.png" border="0" /></span>
             </div>
@@ -151,7 +151,7 @@
 
         <td>
             <div class="headerCard" style="width: 200px;height:auto;;text-align: center;padding-top:1%">
-                <div class="headerCardOverlay" onclick="location.href='https://ontomate.rgd.mcw.edu'">.</div>
+                <div class="headerCardOverlay" onclick="location.href='<%=RgdContext.getSolrUrl("solr")%>'">.</div>
                 <div class="headerCardTitle">OntoMate<br><span class="headerSubTitle">Advanced Literature Search</span></div>
                 <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/ontomateScreen.png"border="0" /></span>
             </div>
