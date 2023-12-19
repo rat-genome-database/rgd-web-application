@@ -113,20 +113,18 @@ $(document).ready(function(){
 
     <tr>
         <td>Experimental name:</td>
-        <td> <input type="text" name="name" size="80" id="name" value="<%=dm.out("name", ex.getName())%>"  style="background-color: #dddddd" readonly="true"> </td>
+        <td> <input type="text" name="name" size="80" id="name" value="<%=dm.out("name", ex.getName())%>"  style=""> </td>
     </tr>
 
         <tr>
-            <td>Trait 1 Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="<%=dm.out("traitOntId", ex.getTraitOntId())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
+            <td>Trait 1 Acc ID:</td><td><input id="traitOntId" type="text" name="traitOntId" size="30" value="<%=dm.out("traitOntId", ex.getTraitOntId())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId', '<%=ex.getTraitOntId()%>', 'VT:0000001')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
         </tr>
         <tr>
-            <td>Trait 2 Acc ID:</td><td><input id="traitOntId2" type="text" name="traitOntId2" size="30" value="<%=dm.out("traitOntId2", ex.getTraitOntId2())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId2', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
+            <td>Trait 2 Acc ID:</td><td><input id="traitOntId2" type="text" name="traitOntId2" size="30" value="<%=dm.out("traitOntId2", ex.getTraitOntId2())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId2', '<%=ex.getTraitOntId()%>', 'VT:0000001')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
         </tr>
         <tr>
-            <td>Trait 3 Acc ID:</td><td><input id="traitOntId3" type="text" name="traitOntId3" size="30" value="<%=dm.out("traitOntId3", ex.getTraitOntId3())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId3', '', '')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
+            <td>Trait 3 Acc ID:</td><td><input id="traitOntId3" type="text" name="traitOntId3" size="30" value="<%=dm.out("traitOntId3", ex.getTraitOntId3())%>">&nbsp;<a href="javascript:lookup_treeRender('traitOntId3', '<%=ex.getTraitOntId()%>', 'VT:0000001')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;
         </tr>
-
-
         <tr>
         <td>Notes:</td><td><textarea name="notes" rows="6" cols="25" id="notes"><%=dm.out("notes",ex.getNotes())%></textarea> </td>
     </tr>
