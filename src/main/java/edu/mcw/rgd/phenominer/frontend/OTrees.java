@@ -257,9 +257,9 @@ public class OTrees {
         void loadTerms(ONode node, String parentTermAcc) throws Exception {
 
             Map<String, Relation> childTerms = odao.getTermDescendants(parentTermAcc);
-          //  System.out.println("childTerms = " + childTerms + " for " + parentTermAcc);
 
             for( String termAcc: childTerms.keySet() ) {
+
                 OTerm o = loadTerm(termAcc);
                 if( o!=null ) {
                     ONode childNode = new ONode(o);
@@ -274,9 +274,7 @@ public class OTrees {
 
         OTerm loadTerm(String accId) throws Exception {
 
-            //System.out.println("in load term for " + accId);
             OTerm o = terms.get(accId);
-           // System.out.println("o = " + o);
             if( o==null ) {
 
                 List<Integer> recordIds = pdao.getRecordIdsForTermAndDescendantsCached(accId, sex, speciesTypeKey);

@@ -18,8 +18,6 @@
         speciesOntology="CS";
     }
 
-
-
     OTrees ot = OTrees.getInstance();
 
     String sex = (String) request.getAttribute("sex");;
