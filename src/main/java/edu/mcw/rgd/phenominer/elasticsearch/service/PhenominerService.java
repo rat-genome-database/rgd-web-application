@@ -95,8 +95,9 @@ public class PhenominerService {
                 builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", termsMap.get("XCO"))
                );
         if(termsMap.get("VT")!=null)
-            builder.filter(QueryBuilders.termsQuery("vtTermAcc.keyword", termsMap.get("VT"))
-            );
+            builder.filter(QueryBuilders.boolQuery().should(QueryBuilders.termsQuery("vtTermAcc.keyword", termsMap.get("VT")))
+                    .should(QueryBuilders.termsQuery("vtTerm2Acc.keyword", termsMap.get("VT")))
+                    .should(QueryBuilders.termsQuery("vtTerm3Acc.keyword", termsMap.get("VT"))));
 
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
@@ -174,7 +175,9 @@ public class PhenominerService {
             dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
             dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
             dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.termsQuery("vtTermAcc.keyword", req.getParameter("terms").split(",")));
+            dqb.add(QueryBuilders.boolQuery().should(QueryBuilders.termsQuery("vtTermAcc.keyword", req.getParameter("terms").split(",")))
+                    .should(QueryBuilders.termsQuery("vtTerm2Acc.keyword", req.getParameter("terms").split(",")))
+                    .should(QueryBuilders.termsQuery("vtTerm3Acc.keyword",req.getParameter("terms").split(","))));
 
         }
         return dqb;
