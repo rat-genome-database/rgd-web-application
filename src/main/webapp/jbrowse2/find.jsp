@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<br><br.
+<br><br>
 
 Received the following
 <%
@@ -10,12 +10,16 @@ Received the following
 
 <table>
     <tr>
-        <td>dest: </td><td><%=dest%></td>
-        <td>loc: </td><td><%=loc%></td>
-        <td>assembly: </td><td><%=assembly%></td>
+        <td><b>dest:</b> </td><td><%=dest%></td>
+    </tr>
+    <tr>
+        <td><b>loc: </b></td><td><%=loc%></td>
+    </tr>
+    <tr>
+    <td><b>assembly:</b> </td><td><%=assembly%></td>
     </tr>
 </table>
-
-<a href="https://rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=<%=assembly%>&loc=<%=loc%>>&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2">Continue to JBrowse2</a>
+<br><br>
+<a href="https://rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=<%=assembly%>&loc=<%=loc%>&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2">Continue to JBrowse2</a>
 
 
