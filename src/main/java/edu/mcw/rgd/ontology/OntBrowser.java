@@ -218,7 +218,7 @@ public class OntBrowser {
 
     private void generateSiblingTermsPane(StringBuilder out, String filter) {
 
-        out.append("<td valign=\"top\" width=40%>\n");
+        out.append("<td valign=\"top\" style=\"max-width:40vw;overflow:auto;\">\n");
         out.append("  <div id=\"viewer\" class=\"tree_box\">\n");
 
         if( bean.getSiblingTerms()!=null ) {

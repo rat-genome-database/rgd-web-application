@@ -113,6 +113,29 @@
     <%
         String[] aliasTypes = {"old_gene_symbol","old_gene_name","old_uniprot_swissprot_id","old_uniprot_trembl_id"};
         List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId(), aliasTypes);
+
+        // add to aliases 'TAGLESS_ALLELE_SYMBOL'
+        if( !Utils.isStringEmpty(obj.getTaglessAlleleSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessAlleleSymbol()) ) {
+
+            boolean isDuplicate = false;
+            for( Alias a: aliases ) {
+                if( Utils.stringsAreEqualIgnoreCase(obj.getTaglessAlleleSymbol(), a.getValue()) ) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+
+            // if a tagless allele symbol is already the same as one of the existing aliases -- do not add it
+            if( !isDuplicate ) {
+                // create 'fake' alias for tagless allele symbol
+                Alias alias = new Alias();
+                alias.setRgdId(obj.getRgdId());
+                alias.setTypeName("tagless_allele_symbol");
+                alias.setValue(obj.getTaglessAlleleSymbol());
+                aliases.add(alias);
+            }
+        }
+
         if (aliases.size() > 0 ) {
             // sort aliases alphabetically by alias value
             Collections.sort(aliases, new Comparator<Alias>() {

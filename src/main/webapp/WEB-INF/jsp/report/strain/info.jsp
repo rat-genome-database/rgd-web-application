@@ -24,6 +24,26 @@
 
     List<Alias> aliases = aliasDAO.getAliases(obj.getRgdId());
 
+    // add to aliases 'TAGLESS_STRAIN_SYMBOL'
+    if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessStrainSymbol()) ) {
+        boolean isDuplicate = false;
+        for( Alias a: aliases ) {
+            if( Utils.stringsAreEqualIgnoreCase(obj.getTaglessStrainSymbol(), a.getValue()) ) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        // if a tagless strain symbol is already the same as one of the existing aliases -- do not add it
+        if( !isDuplicate ) {
+            // create 'fake' alias for tagless strain symbol
+            Alias alias = new Alias();
+            alias.setRgdId(obj.getRgdId());
+            alias.setTypeName("tagless_strain_symbol");
+            alias.setValue(obj.getTaglessStrainSymbol());
+            aliases.add(alias);
+        }
+    }
+
     String RRRCid = null;
     List<XdbId> xids = xdbDAO.getXdbIdsByRgdId(141, obj.getRgdId());
     if( !xids.isEmpty() ) {
@@ -111,30 +131,35 @@
         if( !aliases.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Previously&nbsp;known&nbsp;as:</td>
+        <td class="label" valign="top">Also&nbsp;Known&nbsp;As:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
-    
+
     <tr>
         <td class="label">Type:</td>
         <td><%=fu.chkNullNA(obj.getStrainTypeName())%></td>
     </tr>
     <tr>
-        <td class="label">Source:</td>
+        <td class="label">Available Source:</td>
         <td id="strain-info-table-source-data"><%=fu.chkNullNA(obj.getSource())%></td>
     </tr>
-
+    <%if(obj.getOrigination()!=null){%>
+    <tr>
+        <td class="label">Origination:</td>
+        <td><%=obj.getOrigination()%></td>
+    </tr>
+    <% } %>
     <% if (obj.getImageUrl() != null) { %>
     <tr>
         <td class="label">Photo</td>
         <td><img src="<%=obj.getImageUrl()%>"/></td>
     </tr>
     <% } %>
-    <% if (obj.getOrigin() != null) { %>
+    <% if (obj.getDescription() != null) { %>
     <tr>
-        <td class="label">Origin:</td>
-        <td><%=obj.getOrigin()%></td>
+        <td class="label">Description:</td>
+        <td><%=obj.getDescription()%></td>
     </tr>
     <% } %>
     <% if (obj.getGenetics() != null) { %>
