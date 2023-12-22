@@ -41,9 +41,15 @@ public class GeneticModelsSingleton {
             List<GeneticModel> gerrcModels= new ArrayList<>();
             for(GeneticModel m:strainsWithAliases){
                 String source=m.getSource();
-
+                String origination = m.getOrigination();
                 if(source!=null){
                     if((source.contains("PhysGen") || source.contains("PGA") || source.contains("PhysGen Knockouts") || source.contains("MCW Gene Editing Rat Resource Center") ) ){
+                        gerrcModels.add(m);
+
+                    }
+                }
+                if(origination!=null){
+                    if((origination.contains("PhysGen") || origination.contains("PGA") || origination.contains("PhysGen Knockouts") || origination.contains("MCW Gene Editing Rat Resource Center") ) ){
                         gerrcModels.add(m);
 
                     }
@@ -135,6 +141,16 @@ public class GeneticModelsSingleton {
                     String src= tokenizer.nextToken();
                     if(src.contains("PhysGen")){
                         strain.setSource(src);
+                    }
+                }}
+            String origination = strain.getOrigination();
+            if(origination!=null){
+                StringTokenizer tokenizer= new StringTokenizer(origination, ",");
+                while (tokenizer.hasMoreTokens()){
+
+                    String src= tokenizer.nextToken();
+                    if(src.contains("PhysGen")){
+                        strain.setOrigination(src);
                     }
                 }}
             /***************************SET STRAIN ALIAS NAME ***********************/
