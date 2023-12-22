@@ -9,6 +9,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
@@ -117,6 +118,8 @@ System.out.println("GENERATING REPORT....");
         if( printHeader ) {
             printHeader(req,out,delim,samples,isHuman);
         }
+        String assembly= MapManager.getInstance().getMap(vsb.getMapKey()).getDescription();
+        String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
 
         long start = vsb.getStartPosition();
         long stop = vsb.getStopPosition();
@@ -237,6 +240,8 @@ System.out.println("GENERATING REPORT....");
 
                     if(rgdId!=0)out.print(rgdId +delim);
                     out.print(rsId +delim);
+                    out.print(species +delim);
+                    out.print(assembly +delim);
                     if (!req.getParameter("c").equals("")) out.print(chr + delim);
                     if (!req.getParameter("p").equals("")) out.print(pos + delim);
                     if (!req.getParameter("cs").equals("")) out.print(score + delim);
@@ -369,6 +374,8 @@ System.out.println("GENERATING REPORT....");
             out.print("RGD_ID" + delim);
        // if (!req.getParameter("rsId").equals(""))
             out.print("RS_ID" + delim);
+            out.print("SPECIES" + delim);
+            out.print("ASSEMBLY" + delim);
         if (!req.getParameter("c").equals("")) out.print("Chromosome" + delim);
         if (!req.getParameter("p").equals("")) out.print("Position" + delim);
         if (!req.getParameter("cs").equals("")) out.print("Conservation Score" + delim);
