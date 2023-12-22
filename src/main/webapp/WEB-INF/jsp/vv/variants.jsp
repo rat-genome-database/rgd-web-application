@@ -815,7 +815,7 @@
     </script>
 
 </div>
-</div>
+
         <% } catch (Exception e)      {
     e.printStackTrace();
     }
