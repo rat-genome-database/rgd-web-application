@@ -106,42 +106,42 @@
 %>
 <div class="snpMenuBarOuterBorder" >
 
-    <table width=100% cellpadding=0 cellspacing=0  align="center" id="headerBar"  class="snpMenuBar">
+    <table id="headerBar"  class="snpMenuBar">
     <tr>
         <td align="left" width="10%">
             <table cellpadding=0 cellspacing=0  >
             <tr>
                 <td>&nbsp;</td>
-                <td><a href="config.html" class="classname">Home</a></td></td>
+                <td><a href="config.html" class="classname">Home</a></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="select.html?<%=parameters%>" class="classname"><%=selectTitle%></a></td></td>
+                <td><a href="select.html?<%=parameters%>" class="classname"><%=selectTitle%></a></td>
 
                     <% if (positionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a href="region.html?<%=parameters%>" class="classname">Region</a></td></td>
+                        <td><a href="region.html?<%=parameters%>" class="classname">Region</a></td>
                     <% } %>
 
                      <% if (geneSearch) { %>
                           <td>&nbsp;&nbsp;&nbsp;</td>
-                          <td><a  href="geneList.html?<%=parameters%>" class="classname">Edit&nbsp;Gene&nbsp;List</a></td></td>
+                          <td><a  href="geneList.html?<%=parameters%>" class="classname">Edit&nbsp;Gene&nbsp;List</a></td>
                      <% } %>
 
 
                     <% if (functionSearch) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a  href="annotation.html?<%=parameters%>" class="classname">Functional&nbsp;Annotation</a></td></td>
+                        <td><a  href="annotation.html?<%=parameters%>" class="classname">Functional&nbsp;Annotation</a></td>
                     <% } %>
 
                     <% if (resultsRendered) { %>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td><a href="options.html?<%=parameters%>" class="classname">Sequence&nbsp;Annotation</a></td></td>
+                        <td><a href="options.html?<%=parameters%>" class="classname">Sequence&nbsp;Annotation</a></td>
                     <% }%>
             </tr>
             </table>
 
         </td>
 
-        <td width="33%" style="color: white; font-size:16px;">
+        <td style="color: white; font-size:16px;">
             <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
             &nbsp;Assembly
