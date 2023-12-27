@@ -250,12 +250,17 @@
                         Iterator it = samples.iterator();
                         while(it.hasNext()) {
                             int sample = (Integer) it.next();
+                            String sampleAnalysisName=SampleManager.getInstance().getSampleName(sample).getAnalysisName();
+                            String sampleName=null;
+                            if(sampleAnalysisName.toLowerCase().contains("european")){
+                                sampleName="EVA Release " + sampleAnalysisName.substring(sampleAnalysisName.length()-1);
+                            }else sampleName=sampleAnalysisName;
                     %>
                     <tr>
 
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td  valign="center">
-                            <div class="snpLabel"><a style="text-decoration:none;" title="<%=SampleManager.getInstance().getSampleName(sample).getAnalysisName()%>" href="javascript:void(0);"><%=SampleManager.getInstance().getSampleName(sample).getAnalysisName().replaceAll("\\s","&nbsp;")%></a>&nbsp;</div>
+                            <div class="snpLabel"><a style="text-decoration:none;" title="<%=sampleAnalysisName%>" href="javascript:void(0);"><%=sampleName%></a>&nbsp;</div>
                         </td>
                     </tr>
                     <% } %>
