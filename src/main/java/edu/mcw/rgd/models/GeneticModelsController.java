@@ -45,7 +45,7 @@ public class GeneticModelsController implements Controller{
     //    List<GeneticModel> strainsWithAliases=models.deserializeGeneticModel("gerrcModels");
 
         GeneticModelsSingleton instance= GeneticModelsSingleton.getInstance();
-             List<GeneticModel> strainsWithAliases= instance.getGerrcModels();
+        List<GeneticModel> strainsWithAliases= instance.getGerrcModels();
 
         Set<String> genes= new HashSet<>();
         for(GeneticModel s:strainsWithAliases){
@@ -64,8 +64,11 @@ public class GeneticModelsController implements Controller{
         model.put("strains",strainsWithAliases );
         model.put("geneStrainMap", gsMap);
         model.put("headerChildMap",hcMap );
+        // In Controller
+        request.getSession().setAttribute("strains", strainsWithAliases);
+        request.getSession().setAttribute("headerChildMap", hcMap);
 
-       return new ModelAndView("/WEB-INF/jsp/models/gerrc.jsp", "model", model);
+        return new ModelAndView("/WEB-INF/jsp/models/gerrc.jsp", "model", model);
     }
 
     

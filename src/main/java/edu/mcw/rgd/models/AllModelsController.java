@@ -82,6 +82,7 @@ public class AllModelsController extends GeneticModelsController implements Cont
                 bsl.put(gene,bStrain);
         }
         httpServletRequest.setAttribute("backStrainList", bsl);
+        httpServletRequest.getSession().setAttribute("backStrainList", bsl);
         return;
     }
 }
