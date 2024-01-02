@@ -59,14 +59,16 @@ public class GeneticModelsController implements Controller{
 
         gsMap= this.getGeneStrainMap(strainsWithAliases);
         hcMap= this.getHeaderRecords(strainsWithAliases);
-
+        request.setAttribute("strains", strainsWithAliases);
+        request.setAttribute("geneStrainMap", gsMap);
+        request.setAttribute("headerChildMap", hcMap);
 
         model.put("strains",strainsWithAliases );
         model.put("geneStrainMap", gsMap);
         model.put("headerChildMap",hcMap );
-        // In Controller
-        request.getSession().setAttribute("strains", strainsWithAliases);
-        request.getSession().setAttribute("headerChildMap", hcMap);
+
+//        request.getSession().setAttribute("strains", strainsWithAliases);
+//        request.getSession().setAttribute("headerChildMap", hcMap);
 
         return new ModelAndView("/WEB-INF/jsp/models/gerrc.jsp", "model", model);
     }

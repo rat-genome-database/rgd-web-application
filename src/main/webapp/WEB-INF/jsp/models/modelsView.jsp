@@ -6,9 +6,7 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%
     List<GeneticModel> strainsUnsorted = (List) request.getAttribute("strains");
-    // In JSP
 //    List<GeneticModel> strainsUnsorted = (List<GeneticModel>) session.getAttribute("strains");
-
     List<GeneticModel> strains = ModelSort.sortByGeneSymbol(strainsUnsorted);
     Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map) request.getAttribute("headerChildMap");
 //    Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map<ModelsHeaderRecord, List<GeneticModel>>) session.getAttribute("headerChildMap");
@@ -87,9 +85,11 @@
                 <td title="Gene" style=""><%=mhr.getGene()%></td>
                 <td  style="text-align: center;font-weight:bold;" title="No. of Models"><%=entry.size()%></td>
                 <!--td><span style="color:blue">Click Expand Button</span></td-->
-<%--                <%if(backStrainList!=null){%>--%>
+                <%if(backStrainList!=null){%>
                 <td style="" title="Click Epand/Collapse Button"><%=backStrainList.get(mhr.getGeneSymbol())%></td>
-<%--                <%}%>--%>
+                <%}else{%>
+                <td></td>
+                <%}%>
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
