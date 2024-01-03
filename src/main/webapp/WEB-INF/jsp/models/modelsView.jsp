@@ -6,8 +6,11 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%
     List<GeneticModel> strainsUnsorted = (List) request.getAttribute("strains");
+//    List<GeneticModel> strainsUnsorted = (List<GeneticModel>) session.getAttribute("strains");
     List<GeneticModel> strains = ModelSort.sortByGeneSymbol(strainsUnsorted);
     Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map) request.getAttribute("headerChildMap");
+//    Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map<ModelsHeaderRecord, List<GeneticModel>>) session.getAttribute("headerChildMap");
+//    Map<String, String> backStrainList = (Map) session.getAttribute("backStrainList");
     Map<String, String> backStrainList = (Map) request.getAttribute("backStrainList");
 %>
 <div class="rgd-panel rgd-panel-default">
@@ -59,7 +62,8 @@
             <th class="tablesorter-header filter-false"  >Origination</th>
             <th class="tablesorter-header filter-false" >Phenotype Data</th>
             <th class="tablesorter-header filter-false">Publications</th>
-            <th class="filter-false">Ask about this Model!</th>
+            <th class="tablesorter-header filter-false">Available Source</th>
+<%--            <th class="filter-false">Ask about this Model!</th>--%>
 
         </tr>
 
@@ -81,7 +85,11 @@
                 <td title="Gene" style=""><%=mhr.getGene()%></td>
                 <td  style="text-align: center;font-weight:bold;" title="No. of Models"><%=entry.size()%></td>
                 <!--td><span style="color:blue">Click Expand Button</span></td-->
+                <%if(backStrainList!=null){%>
                 <td style="" title="Click Epand/Collapse Button"><%=backStrainList.get(mhr.getGeneSymbol())%></td>
+                <%}else{%>
+                <td></td>
+                <%}%>
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
@@ -115,8 +123,11 @@
                 </td>
                 <td style="display:table-cell" ><%=strain.getMethod()%></td>
                 <td style="display:table-cell" title="Availability"><%=strain.getAvailability()%></td>
-
-                <td class="source" style="display:table-cell" title="Source"><%=strain.getSource()%></td>
+                <%if(strain.getOrigination()!=null){%>
+                <td class="source" style="display:table-cell" title="Source"><%=strain.getOrigination()%></td>
+                <%}else{%>
+                <td></td>
+                <%}%>
                 <% if (strain.getExperimentRecordCount()>0) {%>
                 <td style="display:table-cell" ><a href="<%=strain.getPhenominerUrl()%>" target="_blank" style="color:white" title="Phenominer Link"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
                 <%} else {%>
@@ -127,11 +138,16 @@
                         <a href="javascript:void(0)" onclick="myModal('<%=strain.getStrainRgdId()%>')" title="Publications" ><img src="/rgdweb/common/images/nav/Publications.png" alt="Publications" title="Publications"style="width:20px;height:20px"></a>
                     <% } %>
                 </td>
-                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen")) ) {%>
-                        <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>
-                <% } else {%>
-                        <td></td>
-                <% } %>
+<%--                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen")) ) {%>--%>
+<%--                        <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>--%>
+<%--                <% } else {%>--%>
+<%--                        <td></td>--%>
+<%--                <% } %>--%>
+                <%if(strain.getSource()!=null){%>
+                <td class="source" style="display:table-cell" title="Source"><%=strain.getSource()%></td>
+                <%}else{%>
+                <td></td>
+                <%}%>
             </tr>
         <% headerRec=false;}
                         else {%>
@@ -161,7 +177,11 @@
                 <td style="display:table-cell" ><%=strain.getMethod()%></td>
                 <td style="display:table-cell" title="Availability"><%=strain.getAvailability()%></td>
 
-                <td class="source" style="display:table-cell" title="Source"><%=strain.getSource()%></td>
+                <%if(strain.getOrigination()!=null){%>
+                <td class="source" style="display:table-cell" title="Source"><%=strain.getOrigination()%></td>
+                <%}else{%>
+                <td></td>
+                <%}%>
                 <% if (strain.getExperimentRecordCount()>0) {%>
                 <td style="display:table-cell" ><a href="<%=strain.getPhenominerUrl()%>" target="_blank" style="color:white" title="Phenominer Link"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
                 <%} else {%>
@@ -172,11 +192,16 @@
                     <a href="javascript:void(0)" onclick="myModal('<%=strain.getStrainRgdId()%>')" title="Publications" ><img src="/rgdweb/common/images/nav/Publications.png" alt="Publications" title="Publications"style="width:20px;height:20px"></a>
                     <% } %>
                 </td>
-                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen")) ) {%>
-                <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>
-                <% } else {%>
+<%--                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen")) ) {%>--%>
+<%--                <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>--%>
+<%--                <% } else {%>--%>
+<%--                <td></td>--%>
+<%--                <% } %>--%>
+                <%if(strain.getSource()!=null){%>
+                <td class="source" style="display:table-cell" title="Source"><%=strain.getSource()%></td>
+                <%}else{%>
                 <td></td>
-                <% } %>
+                <%}%>
             </tr>
         <%         }
                     }
@@ -210,8 +235,11 @@
                 </td>
                 <td style="display:table-cell" ><%=strain.getMethod()%></td>
                 <td style="display:table-cell" title="Availability"><%=strain.getAvailability()%></td>
-
-                <td class="source" style="display:table-cell" title="Source"><%=strain.getSource()%></td>
+                <%if(strain.getOrigination()!=null){%>
+                <td class="source" style="display:table-cell;overflow: auto" title="Source"><%=strain.getOrigination()%></td>
+                <%}else{%>
+                <td></td>
+                <%}%>
                 <% if (strain.getExperimentRecordCount()>0) {%>
                 <td style="display:table-cell" ><a href="<%=strain.getPhenominerUrl()%>" target="_blank" style="color:white" title="Phenominer Link"><img src="/rgdweb/common/images/phenominer_icon.png" alt="Phenominer Link" style="width:25px; height: 25px"/></a></td>
                 <%} else {%>
@@ -222,11 +250,16 @@
                     <a href="javascript:void(0)" onclick="myModal('<%=strain.getStrainRgdId()%>')" title="Publications" ><img src="/rgdweb/common/images/nav/Publications.png" alt="Publications" title="Publications"style="width:20px;height:20px"></a>
                     <% } %>
                 </td>
-                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen"))) {%>
-                <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>
-                <% } else {%>
+<%--                <% if (strain.getSource()!=null && (strain.getSource().contains("physgen") || strain.getSource().contains("gerrc") || strain.getSource().contains("PhysGen"))) {%>--%>
+<%--                <td style="text-align: center;display:table-cell" title="mcwcustomrats@mcw.edu"><a href="mailto:mcwcustomrats@mcw.edu?subject=<%=strain.getStrainSymbol()%>" ><i class="fa fa-envelope" aria-hidden="true"  style="color:steelblue"></i></a></td>--%>
+<%--                <% } else {%>--%>
+<%--                <td></td>--%>
+<%--                <% } %>--%>
+                <%if(strain.getSource()!=null){%>
+                <td style="display:table-cell"><%=strain.getSource()%></td>
+                <%}else{%>
                 <td></td>
-                <% } %>
+                <%}%>
             </tr>
         <%} }
             } /* end if entry.size>1*/ } catch (Exception e) {System.out.println(e); }
