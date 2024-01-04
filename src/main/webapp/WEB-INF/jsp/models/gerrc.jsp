@@ -47,7 +47,7 @@
      }
 
 
-    
+
 </script>
 
 <style>
@@ -117,11 +117,9 @@
             <p  style="color:#1f65ac;font-weight:bold;font-size:10pt;margin-left:15px;text-decoration:underline">Key Personnel:</p>
             <ul>
                 <li><a href="mailto:mrdwinel@mcw.edu">Melinda Dwinell, Ph.D.</a></li>
-                <li><a href="mailto: ageurts@mcw.edu">Aron Geurts, Ph.D. </a></li>
+                <li><a href="mailto:ageurts@mcw.edu">Aron Geurts, Ph.D.</a></li>
                 <li><a href="mailto:dmattson@mcw.edu">David Mattson, Ph.D.</a></li>
-
             </ul>
-
         </div>
     </div>
 
