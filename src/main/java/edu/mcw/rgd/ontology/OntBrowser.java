@@ -26,7 +26,7 @@ public class OntBrowser {
     OntViewBean bean = null;
 
     private String url; // url of the page the control is embedded with, for example: '/rgdweb/ontology/view.html?mode=popup';
-                        // acc_id parameters (and others, as needed, fe 'offset') will be added to the url on-the-fly
+    // acc_id parameters (and others, as needed, fe 'offset') will be added to the url on-the-fly
     private String offset = ""; // used to reduce window jitter when clicking sibling terms
     private String opener_sel_acc_id; // id of opener window's input control that should receive accession id of selected term
     private String opener_sel_term; // id of opener window's input control that should receive term name of selected term
@@ -95,7 +95,7 @@ public class OntBrowser {
 
     private boolean canShowSelectButton() {
         return !Utils.isStringEmpty(this.opener_sel_acc_id) ||
-               !Utils.isStringEmpty(this.opener_sel_term);
+                !Utils.isStringEmpty(this.opener_sel_term);
     }
 
 
@@ -180,18 +180,18 @@ public class OntBrowser {
         }
 
         html +=
-        "     </td>\n"+
-        "  </tr>\n"+
-        "</table>\n"+
-        "</div>\n"+
+                "     </td>\n"+
+                        "  </tr>\n"+
+                        "</table>\n"+
+                        "</div>\n"+
 
-        "<table width=\"100%\">\n"+
-        "<tr>\n"+
-        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Parent Terms</td>\n"+
-        "  <td width=\"40%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Term With Siblings</td>\n"+
-        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Child Terms</td>\n"+
-        "</tr>\n"+
-        "</table>\n";
+                        "<table width=\"100%\">\n"+
+                        "<tr>\n"+
+                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Parent Terms</td>\n"+
+                        "  <td width=\"40%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Term With Siblings</td>\n"+
+                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Child Terms</td>\n"+
+                        "</tr>\n"+
+                        "</table>\n";
         return html;
     }
 
@@ -313,7 +313,7 @@ public class OntBrowser {
         }
 
         out.append("  </div>\n")
-           .append("</td>\n");
+                .append("</td>\n");
     }
 
 
@@ -326,7 +326,13 @@ public class OntBrowser {
         String curTool = "";
         if (!Utils.isStringEmpty(curationTool))
             curTool = "&curationTool=1";
-        out.append("<td valign=\"top\" width=").append(width).append(">\n");
+//        System.out.print(id+"\n"+nodes.size());
+        if(id.equals("child_terms")&&nodes.size()>0){
+            out.append("<td valign=\"top\" style=\"max-width:30vw;overflow:auto;\">\n");
+        }
+        else {
+            out.append("<td valign=\"top\" width=").append(width).append(">\n");
+        }
         out.append("  <div id=\"").append(id).append("\" class=\"tree_box\">\n");
 
         if( nodes!=null ) {
@@ -400,7 +406,7 @@ public class OntBrowser {
                 out.append("<span title=\"").append(node.getCountOfPathwayDiagramsForTermChilds()).append(" child term(s) have interactive pathway diagrams\" class='cc'>&nbsp;+</span> ");
             }
         } else {
-        // write '+' if child terms are present -- in normal mode
+            // write '+' if child terms are present -- in normal mode
             if (node.getChildCount() > 0) {
                 out.append("<span title=\"").append(node.getChildCount()).append(" child terms\" class='cc'>&nbsp;+</span> ");
             }
@@ -408,9 +414,9 @@ public class OntBrowser {
 
         //if (this.portalVersion) {
         //    return;
-       // }
+        // }
 
-            // show link to annotations, if there are any
+        // show link to annotations, if there are any
         if( !diagramMode && node.getAnnotCountForTermAndChilds()>0 ) {
             if (portalVersion) {
                 out.append("&nbsp;<a class='annotlnk' target='_blank' title=\"show term annotations\" href=\"").append(Link.ontAnnot(node.getTermAcc())).append("\"></a>");
@@ -434,7 +440,7 @@ public class OntBrowser {
         if (!hideZeroAnnotations) {
             out.append("&nbsp;<a class='binoculars' ng-click=\"rgd.addWatch('" + node.getTermAcc() + "')\" title='launch term watcher'></a>");
         }
-}
+    }
 
     private String generatePathwayMiniDiagram(String definition) {
 
@@ -449,16 +455,16 @@ public class OntBrowser {
         //String diagramImageUrl = "/pathway/PW0000363/leptin%20system%20pathway/pwmap.png";
         if( !diagramImageUrl.isEmpty() ) {
             return
-               "<table>"
-             + "  <tr>"
-             + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
-             + "    <td valign=\"top\" style=\"\">"
-             + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
-             + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
-             + "     View Interactive Diagram</a>"
-             + "    </td>"
-             + " </tr>"
-             + "</table>";
+                    "<table>"
+                            + "  <tr>"
+                            + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
+                            + "    <td valign=\"top\" style=\"\">"
+                            + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
+                            + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
+                            + "     View Interactive Diagram</a>"
+                            + "    </td>"
+                            + " </tr>"
+                            + "</table>";
         } else {
             return "<br><div class=\"seltermdef\">"+definition+"</div>\n";
         }
@@ -483,9 +489,9 @@ public class OntBrowser {
 
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
             //selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
-              //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+            //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
             selectTermFunction += opener + (true ? ".postMessage(accId+'|'+termName, '*');\n" :
-                   ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+                    ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
         }
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
             selectTermFunction +=
@@ -493,7 +499,7 @@ public class OntBrowser {
         }
         if( !Utils.isStringEmpty(this.opener_sel_term) ) {
             selectTermFunction +=
-                opener + ".document.getElementById('"+this.opener_sel_term+"').value=termName;\n";
+                    opener + ".document.getElementById('"+this.opener_sel_term+"').value=termName;\n";
         }
         selectTermFunction += "  window.close();\n";
         selectTermFunction += "}\n";
