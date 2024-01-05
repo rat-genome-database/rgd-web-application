@@ -77,9 +77,9 @@ Vero_WHO_p1.0
 
 %>
 
-If you are not redirected, click here:  <a href="<%=url%>>">Continue to JBrowse2</a>
+If you are not redirected, click here:  <a href="<%=url%>">Continue to JBrowse2</a>
 
 <script>
-    location.replace(<%=url%>);
+    location.replace('<%=url%>');
 </script>
 
