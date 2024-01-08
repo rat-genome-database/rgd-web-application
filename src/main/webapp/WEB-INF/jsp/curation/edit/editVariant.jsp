@@ -59,8 +59,9 @@
                     </tr>
                     <tr>
                         <td class="label">Description:</td>
-                        <td><input name="description" type="text" size="65"
-                                   value="<%=dm.out("description",variant.getDescription())%>"/></td>
+<%--                        <td><input name="description" type="text" size="65"--%>
+<%--                                   value="<%=dm.out("description",variant.getDescription())%>"/></td>--%>
+                        <td><textarea rows="4" cols="70" name="description"><%=dm.out("description",variant.getDescription())%></textarea></td>
                     </tr>
                     <tr>
                     <td class="label">SO ACC ID:</td>
