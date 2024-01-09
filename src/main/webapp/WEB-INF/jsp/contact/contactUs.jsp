@@ -48,17 +48,18 @@
     #resetBtn{
         font-size: x-large;
     }
-    td {
+    select{
         font-size: medium;
     }
-    select{
+    .contactTable td{
         font-size: medium;
     }
 </style>
 <body id="contactBody">
     <h1 id="contactH">Contact Us</h1>
     <br><br><br>
-    <table width="70%" align="center">
+    <table width="70%" align="center" class="contactTable">
+        <tbody>
         <tr>
             <td><dd id="submitMsg" value=""></dd></td>
         </tr>
@@ -82,7 +83,8 @@
     <h2 id="formH">Request Form</h2>
     <br><br><br>
     <form id="contactVue">
-        <table width="70%" align="center" >
+        <table width="70%" align="center" class="contactTable">
+            <tbody>
             <tr><td style="color: red">( * indicates a required field)</td></tr>
             <tr>
                 <td>*First Name: </td><td><input type="text" v-model="firstName"></td>
