@@ -17,28 +17,29 @@
 <div id="damagingVarTableDiv" class="light-table-border">
 <div class="sectionHeading" id="damagingVar">Damaging Variants</div>
 <table class="table table-sm table-hover table-striped">
-    <thead style="font-size: smaller"><tr><th></th><th colspan="4">Number of Damaging Variants</th></tr></thead>
-    <thead style="font-size: smaller"><tr><tr><th>Sample</th><th>mRatBN7.2</th><th>Rnor_6.0</th><th>Rnor_5.0</th><th>RGSC_v3.4</th></tr></thead>
+    <thead style="font-size: smaller"><tr><th></th><th colspan="4"></th></tr></thead>
+    <thead style="font-size: smaller"><tr><th>Assembly</th><th>Sample</th><th>Number of Damaging Variants</th></tr></thead>
 
     <tbody>
     <% for(Sample s: samples) {
+
+        if (s.getMapKey() < 360) {
+            continue;
+        }
+
         int count = vdao.getCountofDamagingVariantsForSample(s.getId(), String.valueOf(s.getMapKey()));
+
         if(count != 0) {
     %>
         <tr>
-            <td><%=s.getAnalysisName()%></td>
-            <td><% if(s.getMapKey() == 372 ) {%>
+            <td><%=MapManager.getInstance().getMap(s.getMapKey()).getRefSeqAssemblyName()%></td>
+            <td>
+            <%=s.getAnalysisName()%>
+            </td>
+            <td>
                 <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
-                <% }  %></td>
-            <td><% if(s.getMapKey() == 360 ) {%>
-                <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
-            <% }  %></td>
-            <td><% if(s.getMapKey() == 70 ) {%>
-                <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
-                <% }  %></td>
-            <td><% if(s.getMapKey() == 60 ) {%>
-                <span class="detailReportLink"><a href="/rgdweb/report/strain/damagingVariants.html?id=<%=s.getId()%>&fmt=full&map=<%=s.getMapKey()%>"><%=count%> </a></span>
-                <% }  %></td>
+
+                </td>
         </tr>
 
    <% } } %>
