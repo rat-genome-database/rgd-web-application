@@ -337,7 +337,9 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
 
     if(filter=='trait'){
         filterType='trait';
-     }else {
+     }else if(filter=='polyphenStatus'){
+        filterType='polyphenStatus'
+    } else{
         filterType='type'
     }
 

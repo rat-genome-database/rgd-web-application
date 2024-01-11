@@ -16,7 +16,17 @@ public class SearchBean {
     private String sortBy;
     private String assembly;
     private String trait;
+    private String polyphenStatus;
     private String start;
+
+    public String getPolyphenStatus() {
+        return polyphenStatus;
+    }
+
+    public void setPolyphenStatus(String polyphenStatus) {
+        this.polyphenStatus = polyphenStatus;
+    }
+
     private String stop;
     private String chr;
     private int currentPage;

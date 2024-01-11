@@ -53,6 +53,9 @@
                                                     <c:forEach items="${model.aggregations.ratVariant}" var="variantType">
                                                         <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                     </c:forEach>
+                                                    <c:forEach items="${model.aggregations.ratPolyphen}" var="polyphen">
+                                                        <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${polyphen.key}','polyphenStatus')">${polyphen.key} (${polyphen.docCount})</li>
+                                                    </c:forEach>
                                                 </c:if>
                                                 <c:if test="${ratFilterItem.key.equalsIgnoreCase('qtl')}">
 
@@ -107,7 +110,11 @@
                                                                 <c:forEach items="${model.aggregations.ratVariant}" var="variantType">
                                                                     <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
                                                                 </c:forEach>
+                                                                <c:forEach items="${model.aggregations.ratPolyphen}" var="polyphen">
+                                                                    <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${polyphen.key}')">${polyphen.key} (${polyphen.docCount})</li>
+                                                                </c:forEach>
                                                             </c:if>
+
                                                             <c:if test="${ratFilterItem.key.equalsIgnoreCase('qtl')}">
                                                                 <c:forEach items="${model.aggregations.ratQTL}" var="qtlType">
                                                                     <c:if test="${qtlType.key!='Not determined'}">
@@ -145,6 +152,9 @@
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('variant')}">
                                                                <c:forEach items="${model.aggregations.humanVariant}" var="variantType">
                                                                    <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
+                                                               </c:forEach>
+                                                               <c:forEach items="${model.aggregations.humanPolyphen}" var="polyphen">
+                                                                   <li onclick="filterClick('${humanFilterItem.key}', '${item.key}','', '${polyphen.key}')">${polyphen.key} (${polyphen.docCount})</li>
                                                                </c:forEach>
                                                            </c:if>
                                                            <c:if test="${humanFilterItem.key.equalsIgnoreCase('qtl')}">
