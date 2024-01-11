@@ -23,7 +23,7 @@
 <div class="searchBox">
   <%=pageDescription%>
   <div class="searchExamples">
-    <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='A2m';document.adSearch.chr.value='0';document.adSearch.submit();" >A2m</a>,<a href="javascript:document.adSearch.term.value='2004';document.adSearch.chr.value='0';document.adSearch.submit();" >2004</a> <a href="javascript:document.adSearch.term.value='serine threonine kinase';document.adSearch.chr.value='0';document.adSearch.submit();" > serine threonine kinase</a>, <a href="javascript:document.adSearch.term.value='NM_012488';document.adSearch.chr.value='0';document.adSearch.submit();" >NM_012488n</a>, <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.chr.value='0';document.adSearch.submit();" >Adora2a</a>
+    <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='A2m';document.adSearch.chr.value='0';document.adSearch.submit();" >A2m</a>,<a href="javascript:document.adSearch.term.value='2004';document.adSearch.chr.value='0';document.adSearch.submit();" >2004</a>,<a href="javascript:document.adSearch.term.value='lepr';document.adSearch.chr.value='0';document.adSearch.submit();" >lepr</a>, <a href="javascript:document.adSearch.term.value='leprot';document.adSearch.chr.value='0';document.adSearch.submit();" >leprot</a>, <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.chr.value='0';document.adSearch.submit();" >Adora2a</a>
   </div>
   <br>
 
