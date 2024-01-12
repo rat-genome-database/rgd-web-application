@@ -101,7 +101,6 @@ public class QueryService1 {
                         }
 
                     }
-
                     if (!sb.getTrait().equals("")) {
                         srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies())).filter(QueryBuilders.termQuery("category.keyword", sb.getCategory())).filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait())));
                     }
@@ -125,8 +124,10 @@ public class QueryService1 {
                             srb.postFilter((QueryBuilders.termQuery("category.keyword", sb.getCategory())));
 
                     }
+
                 }
             }
+
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -157,6 +158,10 @@ public class QueryService1 {
                                         .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
                                         .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
                 }
+            if (!sb.getPolyphenStatus().equals("")) {
+                builder.filter(QueryBuilders.termQuery("polyphenStatus.keyword", sb.getPolyphenStatus()));
+
+            }
 
             }
         return builder;
@@ -235,8 +240,13 @@ public class QueryService1 {
         AggregationBuilder   aggs=null;
        if(aggField.equalsIgnoreCase("species")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
-                    .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword").subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                    .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword")))
+                    .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword")
+                            .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
+                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword"))
+                            .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
+
+
+                    )
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)))
                        //    .order(Terms.Order.term(true))) deprecated in 6.4
 
@@ -248,6 +258,7 @@ public class QueryService1 {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
+                    .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                           //  .order(Terms.Order.term(true)))  deprecated in 6.4

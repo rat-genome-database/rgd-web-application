@@ -49,19 +49,21 @@ public class SearchService {
         speciesCatArray[5][0]="Promoter";
         speciesCatArray[6][0]="Cell line";
 
-        Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
+        Terms speciesAgg, categoryAgg, typeAgg,polyphenAgg, regionAgg, sampleAgg, assembly = null;
         Filter chromosomeAgg;
         long totalTerms = 0;
         int nvCount=0;
 
             if (sr.getAggregations() != null) {
                 speciesAgg = sr.getAggregations().get("species");
-
                 aggregations.put("species", speciesAgg.getBuckets());
+
                 categoryAgg = sr.getAggregations().get("category");
                 List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
-
                 aggregations.put("category", catBuckets);
+
+
+
                 for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
                    Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
                    String species = new String();
@@ -71,6 +73,10 @@ public class SearchService {
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
+                       Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
+                       if(bucket.getKey().toString().equalsIgnoreCase("variant")){
+                           aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
+                       }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
                        }else
@@ -256,6 +262,8 @@ public class SearchService {
         String subCat =  request.getParameter("subCat");
         String sortValue=request.getParameter("sortBy").equals("")?String.valueOf(0):request.getParameter("sortBy");
         String trait=request.getParameter("trait");
+        String polyphenStatus=request.getParameter("polyphenStatus");
+
         Map<String, Sort> sortMap= SortMap.getSortMap();
         Sort s= sortMap.get(sortValue);
         String sortBy=s.getSortBy();
@@ -288,6 +296,7 @@ public class SearchService {
         sb.setSubCat(subCat);
         sb.setTerm(term);
         sb.setTrait(trait);
+        sb.setPolyphenStatus(polyphenStatus);
         sb.setType(type);
         sb.setViewAll(viewAll);
         sb.setCurrentPage(currentPage);
