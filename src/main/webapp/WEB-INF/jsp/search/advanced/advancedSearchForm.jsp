@@ -38,8 +38,8 @@
 
 <%
     int selSpecies = RgdContext.isChinchilla(request) ? SpeciesType.CHINCHILLA : SpeciesType.RAT;
-    String speciesTypeParam = request.getParameter("speciesType");
-//    String speciesTypeParam = request.getParameter("species");
+//    String speciesTypeParam = request.getParameter("speciesType");
+    String speciesTypeParam = request.getParameter("species");
     System.out.println(speciesTypeParam);
     if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
         selSpecies = Integer.parseInt(speciesTypeParam);
@@ -72,7 +72,7 @@
 
                     %>
                 <td><b>Species:</b>
-                    <select name="speciesType" onChange='addParam("speciesType",this.value)'>
+                    <select name="species" onChange='addParam("species",this.value)'>
                         <%--            <select name="species")>--%>
                         <% if (request.getServletPath().endsWith("markers.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
