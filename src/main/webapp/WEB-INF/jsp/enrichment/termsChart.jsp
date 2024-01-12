@@ -1,6 +1,6 @@
 <div>
 
-    <table v-if="!loading>
+    <table v-if="!loading">
         <tr>
             <td>
     <label v-if="!loading">&nbsp;&nbsp;<b>Pvalue Limit </b></label>
