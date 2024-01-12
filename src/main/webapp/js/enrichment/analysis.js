@@ -47,6 +47,13 @@ function EnrichmentVue(divId, hostname) {
             currentSortDir: 'asc',
             selectedAll: false,
             selectedOne: false,
+            topPad:0,
+            bottomPad:0,
+            leftPad:0,
+            rightPad:0,
+            chartWidth:0,
+            chartHeight:0,
+
 
 
         },
@@ -115,7 +122,7 @@ function EnrichmentVue(divId, hostname) {
                 this.ontology = [o];
                 v.selectView();
             },
-            init: function (ont,species,graph,table,genes,orthologs) {
+            init: function (ont,species,graph,table,genes,orthologs,topP,bottomP,leftP,rightP,chartW, chartH) {
               if(document.getElementById(v.ontology) != null)
                 document.getElementById(v.ontology[0]).innerHTML = "";
               v.ontology = [ont];
@@ -126,6 +133,12 @@ function EnrichmentVue(divId, hostname) {
               v.graph = graph;
               v.table = table;
               v.orthologs=orthologs;
+              v.topPad=topP;
+              v.leftPad=leftP;
+              v.bottomPad=bottomP;
+              v.rightPad=rightP;
+              v.chartWidth=chartW;
+              v.chartHeight=chartH;
               v.selectView();
             },
             getSpeciesKey: function (s) {
@@ -288,15 +301,22 @@ function EnrichmentVue(divId, hostname) {
                     type: 'bar'
                 };
                 var data = [trace1, trace2];
+
+                //t: 25,
+                    //b: 175,
+                //l: 100,
+                //r: 100,
+                //w:700
+                //h:600
                 var layout = {
                     autosize: false,
-                    width: 700,
-                    height: 600,
+                    width: this.chartWidth,
+                    height: this.chartHeight,
                     margin: {
-                        l: 100,
-                        r: 100,
-                        b: 175,
-                        t: 25,
+                        l: this.leftPad,
+                        r: this.rightPad,
+                        b: this.bottomPad,
+                        t: this.topPad,
                         pad: 1
                     },
                     title: 'Gene Enrichment',
