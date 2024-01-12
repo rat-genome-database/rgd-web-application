@@ -38,9 +38,9 @@
 
 <%
     int selSpecies = RgdContext.isChinchilla(request) ? SpeciesType.CHINCHILLA : SpeciesType.RAT;
-//    String speciesTypeParam = request.getParameter("speciesType");
-    String speciesTypeParam = request.getParameter("species");
-//    System.out.println(speciesTypeParam);
+    String speciesTypeParam = request.getParameter("speciesType");
+//    String speciesTypeParam = request.getParameter("species");
+    System.out.println(speciesTypeParam);
     if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
         selSpecies = Integer.parseInt(speciesTypeParam);
     }
