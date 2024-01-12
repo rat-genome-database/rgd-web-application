@@ -72,7 +72,7 @@
 
                     %>
                 <td><b>Species:</b>
-                    <select name="species" onChange='addParam("species",this.value)'>
+                    <select name="speciesType" onChange='addParam("species",this.value)'>
                         <%--            <select name="species")>--%>
                         <% if (request.getServletPath().endsWith("markers.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
