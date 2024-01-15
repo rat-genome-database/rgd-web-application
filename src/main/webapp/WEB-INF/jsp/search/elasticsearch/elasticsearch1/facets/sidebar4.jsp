@@ -38,11 +38,13 @@
    </div>
 <div id="jstree_results">
     <ul>
+        <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
 
-           <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
-                <li>
-                    <%@include file="facets_rat.jsp"%>
-                </li>
+        <%@include file="facets_rat.jsp"%>
+        <%@include file="facets_mouse.jsp"%>
+
+        <%@include file="facets_human.jsp"%>
+
         <%}%>
     </ul>
 </div>

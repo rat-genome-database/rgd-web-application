@@ -22,9 +22,9 @@
             System.out.println("DOC COUNTS:" + docCounts.keySet());
         }
     }
-
+if(ratDocCount!=0){
 %>
-
+<li>
 <button style="border:none;background-color: transparent" onclick="filterClick('<%=searchBean.getCategory()%>', 'Rat','', '')"><span style="font-weight: bold;color:#24609c">Rat ( <%=ratDocCount%>)</span></button>
 <ul>
     <% if(docCounts.get("Gene")!=null){%>
@@ -93,5 +93,5 @@
     </li>
     <%}%>
 </ul>
-
-
+</li>
+<%}%>
