@@ -49,7 +49,7 @@ public class SearchService {
         speciesCatArray[5][0]="Promoter";
         speciesCatArray[6][0]="Cell line";
 
-        Terms speciesAgg, categoryAgg, typeAgg,polyphenAgg, regionAgg, sampleAgg, assembly = null;
+        Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
         Filter chromosomeAgg;
         long totalTerms = 0;
         int nvCount=0;
@@ -74,8 +74,13 @@ public class SearchService {
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
                        Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
+                       Terms regionFilterAgg=bucket.getAggregations().get("region");
+                       Terms sampleFilterAgg=bucket.getAggregations().get("sample");
+
                        if(bucket.getKey().toString().equalsIgnoreCase("variant")){
                            aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
+                           aggregations.put(species + "Region", regionFilterAgg.getBuckets());
+                           aggregations.put(species + "Sample", sampleFilterAgg.getBuckets());
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
@@ -263,6 +268,8 @@ public class SearchService {
         String sortValue=request.getParameter("sortBy").equals("")?String.valueOf(0):request.getParameter("sortBy");
         String trait=request.getParameter("trait");
         String polyphenStatus=request.getParameter("polyphenStatus");
+        String region=request.getParameter("region");
+        String sample=request.getParameter("sample");
 
         Map<String, Sort> sortMap= SortMap.getSortMap();
         Sort s= sortMap.get(sortValue);
@@ -297,6 +304,10 @@ public class SearchService {
         sb.setTerm(term);
         sb.setTrait(trait);
         sb.setPolyphenStatus(polyphenStatus);
+        sb.setRegion(region);
+        sb.setSample(sample);
+
+
         sb.setType(type);
         sb.setViewAll(viewAll);
         sb.setCurrentPage(currentPage);
