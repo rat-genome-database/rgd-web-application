@@ -10,7 +10,7 @@
             </td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td>
-                <input style="margin-bottom:5px;background-color:#14A2B8; color:white;" type="button" onclick="fullScreen()" value="Expand/Colapse Chart"/>
+                <!--<input style="margin-bottom:5px;background-color:#14A2B8; color:white;" type="button" onclick="fullScreen()" value="Expand/Colapse Chart"/>-->
             </td>
         </tr>
     </table>
