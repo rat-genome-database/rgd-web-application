@@ -1,77 +1,97 @@
-<%--
+
+<%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 1/15/2024
   Time: 10:07 AM
   To change this template use File | Settings | File Templates.
 --%>
-<c:forEach items="${model.aggregations.species}" var="item">
-    <c:if test="${item.key.equalsIgnoreCase('rat')}">
-        <button style="border:none;background-color: transparent" onclick="filterClick('${model.searchBean.category}', '${item.key}','', '')"><span style="font-weight: bold;color:#24609c">${item.key} ( ${item.docCount})</span></button>
+<%
+    Map<String, Integer> docCounts=new HashMap<>();
+    long ratDocCount=0;
+    for(Terms.Bucket speciesBkt:species){
+        if(speciesBkt.getKey().toString().equalsIgnoreCase("rat")){
+            ratDocCount=speciesBkt.getDocCount();
+            List<Terms.Bucket> ratBuckets= (List<Terms.Bucket>) aggregations.get("rat");
+            for(Terms.Bucket bkt:ratBuckets){
+                docCounts.put((String) bkt.getKey(), Math.toIntExact(bkt.getDocCount()));
+            }
+            System.out.println("DOC COUNTS:" + docCounts.keySet());
+        }
+    }
+
+%>
+
+<button style="border:none;background-color: transparent" onclick="filterClick('<%=searchBean.getCategory()%>', 'Rat','', '')"><span style="font-weight: bold;color:#24609c">Rat ( <%=ratDocCount%>)</span></button>
+<ul>
+    <% if(docCounts.get("Gene")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('Gene', 'Rat','','')"><span>Gene (<%=docCounts.get("Gene")%>)</span></button>
+        <ul><%for(Terms.Bucket bkt:aggregations.get("ratGene")){%>
+            <li onclick="filterClick('Gene', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
+    <% if(docCounts.get("Strain")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('Strain', 'Rat','','')"><span>Strain (<%=docCounts.get("Strain")%>)</span></button>
+        <ul><%
+            for(Terms.Bucket bkt:aggregations.get("ratStrain")){%>
+            <li onclick="filterClick('Strain', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
+    <% if(docCounts.get("QTL")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('QTL', 'Rat','','')"><span>QTL (<%=docCounts.get("QTL")%>)</span></button>
+        <ul><%for(Terms.Bucket bkt:aggregations.get("ratQTL")){%>
+            <li onclick="filterClick('QTL', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
+    <% if(docCounts.get("SSLP")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('SSLP', 'Rat','','')"><span>QTL (<%=docCounts.get("SSLP")%>)</span></button>
+        <ul><%for(Terms.Bucket bkt:aggregations.get("ratSSLP")){%>
+            <li onclick="filterClick('SSLP', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
+    <% if(docCounts.get("Variant")!=null){%>
+    <li><button style="border:none;background-color: transparent" onclick="filterClick('Variant', 'Rat','','')"><span>Variant (<%=docCounts.get("Variant")%>)</span></button>
+
         <ul>
-            <c:forEach items="${model.aggregations.rat}" var="ratFilterItem">
-
-            <li> <button style="border:none;background-color: transparent" onclick="filterClick('${ratFilterItem.key}', '${item.key}','','')"><span>${ratFilterItem.key} (${ratFilterItem.docCount})</span></button>
-
-                <ul>
-                    <c:if test="${ratFilterItem.key.equalsIgnoreCase('gene')}">
-                        <c:forEach items="${model.aggregations.ratGene}" var="geneType">
-                            <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${geneType.key}')">${geneType.key} (${geneType.docCount})</li>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${ratFilterItem.key.equalsIgnoreCase('variant')}">
-                    <li><span>Type</span>
-                        <ul>
-                            <c:forEach items="${model.aggregations.ratVariant}" var="variantType">
-                                <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${variantType.key}')">${variantType.key} (${variantType.docCount})</li>
-                            </c:forEach>
-                        </ul>
-                    </li>
-                        <li><span>Polyphen</span>
-                        <ul>
-                            <c:forEach items="${model.aggregations.ratPolyphen}" var="polyphen">
-                                <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${polyphen.key}','polyphenStatus')">${polyphen.key} (${polyphen.docCount})</li>
-                            </c:forEach>
-                        </ul>
-                        </li>
-                        <li><span>Sample</span>
-                            <ul>
-                                <c:forEach items="${model.aggregations.ratSample}" var="sample">
-                                    <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sample.key}','analysisName')">${sample.key} (${sample.docCount})</li>
-                                </c:forEach>
-                            </ul>
-                        </li>
-                        <li><span>Region</span>
-                            <ul>
-                                <c:forEach items="${model.aggregations.ratRegion}" var="region">
-                                    <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${region.key}','regionName')">${region.key} (${region.docCount})</li>
-                                </c:forEach>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${ratFilterItem.key.equalsIgnoreCase('qtl')}">
-
-                        <c:forEach items="${model.aggregations.ratQTL}" var="qtlType">
-                            <c:if test="${qtlType.key!='Not determined'}">
-                                <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${qtlType.key}','trait')">${qtlType.key} (${qtlType.docCount})</li>
-                            </c:if>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${ratFilterItem.key.equalsIgnoreCase('sslp')}">
-                        <c:forEach items="${model.aggregations.ratSSLP}" var="sslpType">
-                            <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${ratFilterItem.key.equalsIgnoreCase('strain')}">
-                        <c:forEach items="${model.aggregations.ratStrain}" var="sslpType">
-                            <li onclick="filterClick('${ratFilterItem.key}', '${item.key}','', '${sslpType.key}')">${sslpType.key} (${sslpType.docCount})</li>
-                        </c:forEach>
-                    </c:if>
+            <li><span>Type</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get("ratVariant")){%>
+                    <li onclick="filterClick('Variant', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
                 </ul>
             </li>
-        </c:forEach>
-        <!--/c:if-->
+            <li><span>Polyphen</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get("ratPolyphen")){%>
+                    <li onclick="filterClick('Variant', 'Rat','', '<%=bkt.getKey()%>', 'polyphenStatus')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+            <li><span>Region</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get("ratRegion")){%>
+                    <li onclick="filterClick('Variant', 'Rat','', '<%=bkt.getKey()%>', 'region')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+            <li><span>Type</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get("ratSample")){%>
+                    <li onclick="filterClick('Variant', 'Rat','', '<%=bkt.getKey()%>', 'sample')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+        </ul>
 
-    </ul>
-    </c:if>
-</c:forEach>
+    </li>
+    <%}%>
+</ul>
+
+

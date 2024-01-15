@@ -10,6 +10,8 @@
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
+    System.out.println("KEY SET:"+ aggregations.keySet());
+    List<Terms.Bucket> species= (List<Terms.Bucket>) aggregations.get("species");
 %>
 <div>
 <!--div><button id="viewAllBtn" style="display:none">View All Results</button></div-->
@@ -39,12 +41,10 @@
 
            <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
                 <li>
-                    <%@include file="facets/facets_rat.jsp"%>
+                    <%@include file="facets_rat.jsp"%>
                 </li>
         <%}%>
     </ul>
 </div>
-
-
 
 </div>
