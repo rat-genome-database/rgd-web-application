@@ -40,6 +40,15 @@ function runGviewer() {
         else if(mapKey==60){
             URL  = URL + "data_rgd3_4";
         }
+        else if(mapKey==303){
+            URL  = URL + "data_uth_wky";
+        }
+        else if(mapKey==302){
+            URL  = URL + "data_uth_shrsp";
+        }
+        else if(mapKey==301){
+            URL  = URL + "data_uth_shr";
+        }
     }
     else if(species=='Human') {
         bandURL="/rgdweb/gviewer/data/human_ideo.xml";
