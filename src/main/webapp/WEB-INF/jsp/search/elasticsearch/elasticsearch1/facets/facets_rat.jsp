@@ -60,6 +60,22 @@ if(ratDocCount!=0){
         </ul>
     </li>
     <%}%>
+    <% if(docCounts.get("Cell line")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('Cell line', 'Rat','','')"><span>Cell line (<%=docCounts.get("Cell line")%>)</span></button>
+        <ul><%for(Terms.Bucket bkt:aggregations.get("ratCell line")){%>
+            <li onclick="filterClick('Cell line', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
+    <% if(docCounts.get("Promoter")!=null){%>
+    <li> <button style="border:none;background-color: transparent" onclick="filterClick('Promoter', 'Rat','','')"><span>Promoter (<%=docCounts.get("Promoter")%>)</span></button>
+        <ul><%for(Terms.Bucket bkt:aggregations.get("ratPromoter")){%>
+            <li onclick="filterClick('Promoter', 'Rat','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <%}%>
+        </ul>
+    </li>
+    <%}%>
     <% if(docCounts.get("Variant")!=null){%>
     <li><button style="border:none;background-color: transparent" onclick="filterClick('Variant', 'Rat','','')"><span>Variant (<%=docCounts.get("Variant")%>)</span></button>
 
