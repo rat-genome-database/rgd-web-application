@@ -259,7 +259,6 @@
                                             <a href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3">PhenoMiner Term Comparison</a>
                                             <a href="/wg/hrdp_panel/">Hybrid Rat Diversity Panel</a>
                                             <a href="/wg/phenotype-data13/">Phenotypes</a>
-                                            <a href="/wg/gerrc/">GERRC (Gene Editing Rat Resource Center)</a>
                                             <a href="/wg/physiology/additionalmodels/">Phenotypes in Other Animal Models</a>
                                             <a href="/wg/strain-maintenance/">Animal Husbandry</a>
                                             <a href="/wg/physiology/strain-medical-records/">Strain Medical Records</a>
@@ -286,7 +285,7 @@
                                             <a href="/wg/news2/">News</a>
                                             <a href="/wg/home/rat-genome-database-publications/">RGD Publications</a>
                                             <a href="/wg/com-menu/poster_archive/">RGD Presentations Archive</a>
-                                            <a href="/nomen/nomen.shtml">Nomenclature Guidelines</a>
+                                            <a href="/wg/nomenclature-guidelines/">Nomenclature Guidelines</a>
                                             <a href="/wg/resource-links/">Resource Links</a>
                                             <a href="/wg/resource-links/laboratory-resources/">Laboratory Resources</a>
                                             <a href="/wg/resource-links/employment-resources/">Employment Resources</a>
