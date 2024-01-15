@@ -781,7 +781,7 @@
                 }
 
 
-                enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes),false);
+                enrichment.init(ont,$scope.speciesTypeKey,true,true,Object.keys($scope.portalGenes),false,100,475,200,100,1100,900);
             }
 
 
