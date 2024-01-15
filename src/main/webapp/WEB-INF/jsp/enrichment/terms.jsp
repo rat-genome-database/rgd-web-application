@@ -28,8 +28,13 @@
 
         <table>
             <tr><td v-if ="table">
-                <div style="overflow:auto; height:600px; width:600px; margin-left:10px; background-color:white; ">
 
+                <% if (request.getParameter("full") !=null && request.getParameter("full").equals("1")) {%>
+
+                <div style="display:none;overflow:auto; height:600px; width:600px; margin-left:10px; background-color:white; ">
+                <% } else { %>
+                    <div style="overflow:auto; height:800px; width:600px; margin-left:10px; background-color:white; ">
+                        <% } %>
 
                     <table id="t">
                         <tr v-if="!loading">

@@ -144,18 +144,14 @@
     //w:700
     //h:600
 
-    <% if (request.getParameter("full") !=null && request.getParameter("full").equals("1")) { %>
-    enrichment.init(ont,speciesKey,true,true,genes,true,100,475,200,100,1300,1000);
-
-    <% } else { %>
-    enrichment.init(ont,speciesKey,true,true,genes,true,25,175,100,100,700,600);
-    <% } %>
+    enrichment.init(ont,speciesKey,true,true,genes,true,100,475,200,100,1100,900);
 
 
 var full=0;
 function fullScreen() {
     if (full==0) {
         full=1;
+        alert(enrichment.ontology);
         enrichment.init(ont, speciesKey, true, true, genes, true, 25, 275, 200, 100, 1300, 1000);
     }else {
         full=0;

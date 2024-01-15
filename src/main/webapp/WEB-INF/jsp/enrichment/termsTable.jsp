@@ -1,7 +1,6 @@
 <div style="overflow:auto; height:600px; width:800px; background-color:white; ">
 
-
-    <table id="t">
+    <table id="t" border="1">
         <tr>
 
             <th @click="sort('term',pair.ont)"> Term <i class="fa fa-fw fa-sort"></i></th>
