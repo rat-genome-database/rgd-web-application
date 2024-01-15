@@ -17,6 +17,8 @@ public class SearchBean {
     private String assembly;
     private String trait;
     private String polyphenStatus;
+    private String sample;
+    private String region;
     private String start;
 
     public String getPolyphenStatus() {
@@ -31,6 +33,22 @@ public class SearchBean {
     private String chr;
     private int currentPage;
     private boolean redirect;
+
+    public String getSample() {
+        return sample;
+    }
+
+    public void setSample(String sample) {
+        this.sample = sample;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
     public boolean isRedirect() {
         return redirect;

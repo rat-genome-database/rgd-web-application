@@ -339,7 +339,11 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
         filterType='trait';
      }else if(filter=='polyphenStatus'){
         filterType='polyphenStatus'
-    } else{
+    } else if(filter=='sample'){
+    filterType='sample'
+} else if(filter=='region'){
+    filterType='region'
+} else{
         filterType='type'
     }
 
