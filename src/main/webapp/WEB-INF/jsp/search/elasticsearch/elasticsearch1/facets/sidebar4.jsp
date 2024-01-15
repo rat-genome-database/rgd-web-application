@@ -6,6 +6,11 @@
 <%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+    ModelMap model= (ModelMap) request.getAttribute("model");
+    SearchBean searchBean= (SearchBean) model.get("searchBean");
+    Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
+%>
 <div>
 <!--div><button id="viewAllBtn" style="display:none">View All Results</button></div-->
     <div>
@@ -31,13 +36,11 @@
    </div>
 <div id="jstree_results">
     <ul>
-        <%
-            ModelMap model= (ModelMap) request.getAttribute("model");
-            SearchBean searchBean= (SearchBean) model.get("searchBean");
-            Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
 
-            if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
-                <li><%@include file="facets/facets_rat.jsp"%></li>
+           <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
+                <li>
+                    <%@include file="facets/facets_rat.jsp"%>
+                </li>
         <%}%>
     </ul>
 </div>
