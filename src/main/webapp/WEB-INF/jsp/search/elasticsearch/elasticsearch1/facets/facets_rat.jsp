@@ -98,7 +98,7 @@ if(ratDocCount!=0){
                     <%}%>
                 </ul>
             </li>
-            <li><span>Type</span>
+            <li><span>Sample</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get("ratSample")){%>
                     <li onclick="filterClick('Variant', 'Rat','', '<%=bkt.getKey()%>', 'sample')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>

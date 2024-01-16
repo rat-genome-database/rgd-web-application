@@ -98,7 +98,7 @@
                         <%}%>
                     </ul>
                 </li>
-                <li><span>Type</span>
+                <li><span>Sample</span>
                     <ul><%for(Terms.Bucket bkt:aggregations.get("mouseSample")){%>
                         <li onclick="filterClick('Variant', 'Mouse','', '<%=bkt.getKey()%>', 'sample')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                         <%}%>
