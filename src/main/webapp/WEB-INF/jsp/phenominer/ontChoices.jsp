@@ -792,7 +792,7 @@
                     var subCat = 'CMO:%20Clinical%20Measurement';
 
                 }else if (this.currentOnt === "VT") {
-                    var subCat = 'VT:%20Vertebrate%20Trait';
+                    var subCat = 'VT:%20Vertebrate%20Trait%20Ontology';
 
                 }
 
