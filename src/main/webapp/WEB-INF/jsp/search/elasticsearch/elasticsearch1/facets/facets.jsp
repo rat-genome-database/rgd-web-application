@@ -48,7 +48,7 @@
     <%}%>
     <% if(docCounts.get("Cell line")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('Cell line', '<%=species%>','','')"><span>Cell line (<%=docCounts.get("Cell line")%>)</span></button>
-        <ul><%for(Terms.Bucket bkt:aggregations.get("humanCell line")){%>
+        <ul><%for(Terms.Bucket bkt:aggregations.get(cellLine)){%>
             <li onclick="filterClick('Cell line', '<%=species%>','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
             <%}%>
         </ul>
@@ -56,7 +56,7 @@
     <%}%>
     <% if(docCounts.get("Promoter")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('Promoter', '<%=species%>','','')"><span>Promoter (<%=docCounts.get("Promoter")%>)</span></button>
-        <ul><%for(Terms.Bucket bkt:aggregations.get("humanPromoter")){%>
+        <ul><%for(Terms.Bucket bkt:aggregations.get(promoter)){%>
             <li onclick="filterClick('Promoter', '<%=species%>','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
             <%}%>
         </ul>
