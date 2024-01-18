@@ -14,7 +14,6 @@
     List<Terms.Bucket> speciesOrderedBkts= new ArrayList<>();
     for(String orderedSpecies: speciesOrderList) {
         for (Terms.Bucket species : speciesBkts) {
-            System.out.println("Species:" + species.getKey()+"\t"+ species.getKeyAsString());
             if (orderedSpecies.equalsIgnoreCase(species.getKeyAsString())){
                 speciesOrderedBkts.add(species);
             }
