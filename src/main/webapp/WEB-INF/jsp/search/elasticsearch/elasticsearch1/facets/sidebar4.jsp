@@ -1,17 +1,25 @@
 <%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
 <%@ page import="org.springframework.ui.ModelMap" %>
 <%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
-    System.out.println("KEY SET:"+ aggregations.keySet());
-    List<Terms.Bucket> species= (List<Terms.Bucket>) aggregations.get("species");
+    List<Terms.Bucket> speciesBkts= (List<Terms.Bucket>) aggregations.get("species");
+    List<String> speciesOrderList=Arrays.asList("Rat", "Human", "Mouse","Chinchilla","Dog","Bonobo",
+            "Pig", "Green Monkey", "Naked Mole-Rat");
+    List<Terms.Bucket> speciesOrderedBkts= new ArrayList<>();
+    for(String orderedSpecies: speciesOrderList) {
+        for (Terms.Bucket species : speciesBkts) {
+            System.out.println("Species:" + species.getKey()+"\t"+ species.getKeyAsString());
+            if (orderedSpecies.equalsIgnoreCase(species.getKeyAsString())){
+                speciesOrderedBkts.add(species);
+            }
+        }
+    }
 %>
 <div>
 <!--div><button id="viewAllBtn" style="display:none">View All Results</button></div-->
@@ -39,13 +47,35 @@
 <div id="jstree_results">
     <ul>
         <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
+        <%
 
-        <%@include file="facets_rat.jsp"%>
-        <%@include file="facets_mouse.jsp"%>
+            for(Terms.Bucket speciesBkt:speciesOrderedBkts){
+                Map<String, Integer> docCounts=new HashMap<>();
+                long docCount=0;
+                String species=null;
 
-        <%@include file="facets_human.jsp"%>
+                    docCount=speciesBkt.getDocCount();
+                    species=speciesBkt.getKey().toString();
+                    List<Terms.Bucket> buckets= (List<Terms.Bucket>) aggregations.get(species.toLowerCase());
+                    if(buckets!=null){
+                    for(Terms.Bucket bkt:buckets){
+                        docCounts.put((String) bkt.getKey(), Math.toIntExact(bkt.getDocCount()));
+                    }
+                    String variant=species.toLowerCase()+"Variant";
+                    String polyphen=species.toLowerCase()+"Polyphen";
+                    String region=species.toLowerCase()+"Region";
+                    String sample=species.toLowerCase()+"Sample";
+                    String sslp=species.toLowerCase()+"SSLP";
+                    String gene=species.toLowerCase()+"Gene";
+                    String strain=species.toLowerCase()+"Strain";
+                    String qtl=species.toLowerCase()+"QTL";
+                    String cellLine=species.toLowerCase()+"Cell line";
+                    String promoter=species.toLowerCase()+"Promoter";
+                    if(docCount!=0){
+        %>
+        <%@include file="facets.jsp"%>
 
-        <%}%>
+        <%}}}}%>
     </ul>
 </div>
 
