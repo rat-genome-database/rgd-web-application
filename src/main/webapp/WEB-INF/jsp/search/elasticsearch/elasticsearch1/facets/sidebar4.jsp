@@ -75,7 +75,38 @@
         %>
         <%@include file="facets.jsp"%>
 
-        <%}}}}%>
+
+        <%}}}%>
+        <li><span style="font-weight: bold;color:#24609c">Other Categories:</span>
+            <ul>
+
+                <c:forEach items="${model.aggregations.category}" var="item">
+                    <c:if test="${item.key.equalsIgnoreCase('reference')}">
+                        <li style="border:none;background-color: transparent;cursor: pointer" onclick="filterClick('${item.key}', '')">${item.key}(${item.docCount})</li>
+                    </c:if>
+                </c:forEach>
+
+                <c:if test="${fn:length(model.aggregations.ontology)>0}">
+
+                    <c:forEach items="${model.aggregations.category}" var="item">
+                        <c:if test="${item.key.equalsIgnoreCase('ontology')}">
+                            <li><span style="font-weight: bold">Ontology Terms: (${item.docCount})</span>
+                                <ul>
+                                    <c:forEach items="${model.aggregations.ontology}" var="ontItem">
+                                        <li>
+                                            <button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('Ontology', '','${ontItem.key}')">${ontItem.key}</button>(${ontItem.docCount})</li>
+                                    </c:forEach>
+                                </ul>
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+
+
+
+            </ul>
+        </li>
+        <%}%>
     </ul>
 </div>
 
