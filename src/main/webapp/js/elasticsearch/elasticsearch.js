@@ -333,18 +333,11 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     objectAssembly= $objectAssembly;
 
     var $sampleExists;
-    var filterType;
-
-    if(filter=='trait'){
-        filterType='trait';
-     }else if(filter=='polyphenStatus'){
-        filterType='polyphenStatus'
-    } else if(filter=='sample'){
-    filterType='sample'
-} else if(filter=='region'){
-    filterType='region'
-} else{
-        filterType='type'
+    var filterType=null;
+    if ((typeof filter != 'undefined') && filter!=''){
+        filterType=filter;
+    }else{
+        filterType='type';
     }
 
     $('#subCat').val(subCat);
