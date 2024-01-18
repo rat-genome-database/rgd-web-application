@@ -12,8 +12,37 @@
 %>
 <%@ include file="editHeader.jsp"%>
 
-<span class="phenominerPageHeader">Phenominer Studies</span>
+<style>
+    #studiesContainer table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1em; /* Add some space between each table */
+    }
 
+    #studiesContainer table th,
+    #studiesContainer table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey border */
+        border-top: 4px solid #333; /* Darker grey spinner color */
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+</style>
+
+<span class="phenominerPageHeader">Phenominer Studies</span>
 <div class="phenoNavBar">
 <table >
     <tr>
@@ -31,7 +60,7 @@
         <td align="center"><img src="/common/images/icons/asterisk_yellow.png" /></td>
         <td><a href='search.html?act=new'>Search</a></td>
         <td align="center"><img src="/common/images/icons/asterisk_yellow.png" /></td>
-        <td><a href='studies.html'>List All Studies</a></td>
+        <td><a href='studies.html?page=1'>List All Studies</a></td>
     </tr>
 </table>
 </div>
@@ -43,12 +72,53 @@
     Report report = (Report) request.getAttribute("report");
 
     HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-    strat.setTableProperties("class='sortable'");
-
-    out.print(report.format(strat));
-
-%>
-
+    strat.setTableProperties("class='sortable'");%>
+    <div id="studiesContainer">
+        <%= report.format(strat) %>
+    </div>
 </form>
+<div style="display: flex; justify-content: center;align-items: center;">
+    <button id="loadMoreBtn">Load More</button>
+    <div id="loadingSpinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+</div>
+<script>
+    var currentPage = 1;
+    var pageSize = 100;
+    var totalRecords = <%= request.getAttribute("totalRecords") %>;
+    document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        currentPage++;
+        fetchStudies(currentPage, pageSize)
+        if (currentPage * pageSize >= totalRecords) {
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        }
+        function fetchStudies(page, size) {
+            var xhr = new XMLHttpRequest();
+            var loadMoreBtn = document.getElementById('loadMoreBtn');
+            var loadingSpinner = document.getElementById('loadingSpinner');
 
+            loadMoreBtn.style.display = 'none'; // Hide the button
+            loadingSpinner.style.display = 'inline-block'; // Show the spinner
+            xhr.open('GET', 'studies.html?page=' + page + '&size=' + size + '&ajax=true', true);
+            xhr.onload = function() {
+                loadingSpinner.style.display = 'none';
+                loadMoreBtn.style.display = 'inline-block';
+                if (this.status == 200) {
+                    console.log(xhr.responseText)
+                    document.getElementById('studiesContainer').innerHTML += this.responseText;
+                } else {
+                    console.error('Error fetching data:', this.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                loadMoreBtn.style.display = 'none';
+                loadMoreBtn.style.display = 'inline-block';
+                console.error('Request failed');
+            };
+            xhr.send();
+        }
+
+    });
+</script>
 <%@ include file="editFooter.jsp"%>
