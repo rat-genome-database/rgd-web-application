@@ -27,6 +27,15 @@
         text-align: left;
     }
 
+    #studiesContainer table td:nth-child(3) {
+        width: 350px;
+    }
+    #studiesContainer table td:not(:nth-child(3)) {
+        width: 30px;
+    }
+
+
+
     .spinner {
         border: 4px solid #99BFE6;
         border-top: 4px solid #2865A3;
