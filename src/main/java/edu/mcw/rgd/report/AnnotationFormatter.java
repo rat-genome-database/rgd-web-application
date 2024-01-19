@@ -84,7 +84,7 @@ public class AnnotationFormatter {
                 if( a.getAspect().equals("W") ) {
                     boolean pwTermHasDiagram = hasPathwayDiagram(a.getTermAcc());
                     if( pwTermHasDiagram ) {
-                        pwString = "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
+                        pwStr = "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
                     }
                 }
 
