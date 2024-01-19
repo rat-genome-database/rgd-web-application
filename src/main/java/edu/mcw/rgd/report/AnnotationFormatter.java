@@ -130,8 +130,16 @@ public class AnnotationFormatter {
         if( odao == null ) {
             odao = new OntologyXDAO();
         }
-        TermWithStats t = odao.getTermWithStatsCached(termAcc);
-        return t.getDiagramCount(0) != 0;
+
+        int count = 0;
+        try {
+            TermWithStats t = odao.getTermWithStatsCached(termAcc);
+            if( t!=null ) {
+                count = t.getDiagramCount(0);
+            }
+        } catch( Exception ignored ) {}
+
+        return count != 0;
     }
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site) throws Exception {
