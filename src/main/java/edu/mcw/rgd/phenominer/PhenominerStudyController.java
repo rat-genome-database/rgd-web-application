@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class PhenominerStudyController extends PhenominerController {
 
-    int pageNumber = 1;
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -32,12 +31,12 @@ public class PhenominerStudyController extends PhenominerController {
         PhenominerDAO dao = new PhenominerDAO();
         List<Study> total = dao.getStudies();
         int totalPageRecords = total.size();
+        int pageNumber=1;
         int pageSize = 100;
         String pageParam = req.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {
             pageNumber = Integer.parseInt(pageParam);
         }
-
         String pageParam1 = req.getParameter("size");
         if (pageParam1 != null && !pageParam1.isEmpty()) {
             pageSize = Integer.parseInt(pageParam1);

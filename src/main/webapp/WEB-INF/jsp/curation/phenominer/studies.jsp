@@ -15,6 +15,7 @@
 <style>
     #studiesContainer table {
         width: 100%;
+        /*max-width: 100vw;*/
         border-collapse: collapse;
         margin-bottom: 1em; /* Add some space between each table */
     }
@@ -27,8 +28,8 @@
     }
 
     .spinner {
-        border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey border */
-        border-top: 4px solid #333; /* Darker grey spinner color */
+        border: 4px solid #99BFE6;
+        border-top: 4px solid #2865A3;
         border-radius: 50%;
         width: 20px;
         height: 20px;
@@ -38,6 +39,22 @@
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+    }
+
+    #loadMoreBtn {
+        background-color: #2865A3;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #loadMoreBtn:hover {
+        background-color: #99BFE6;
+        transform: scale(1.05);
     }
 
 </style>
@@ -60,7 +77,7 @@
         <td align="center"><img src="/common/images/icons/asterisk_yellow.png" /></td>
         <td><a href='search.html?act=new'>Search</a></td>
         <td align="center"><img src="/common/images/icons/asterisk_yellow.png" /></td>
-        <td><a href='studies.html?page=1'>List All Studies</a></td>
+        <td><a href='studies.html'>List All Studies</a></td>
     </tr>
 </table>
 </div>
@@ -88,31 +105,29 @@
     var pageSize = 100;
     var totalRecords = <%= request.getAttribute("totalRecords") %>;
     document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        var loadMoreBtn = document.getElementById('loadMoreBtn');
+        var loadingSpinner = document.getElementById('loadingSpinner');
         currentPage++;
-        fetchStudies(currentPage, pageSize)
-        if (currentPage * pageSize >= totalRecords) {
-            document.getElementById('loadMoreBtn').style.display = 'none';
-        }
+        loadMoreBtn.style.display = 'none'; // Hide the button
+        loadingSpinner.style.display = 'inline-block'; // Show the spinner
+        fetchStudies(currentPage, pageSize);
+        nextMaxRecordCount = (currentPage) * pageSize;
+
         function fetchStudies(page, size) {
             var xhr = new XMLHttpRequest();
-            var loadMoreBtn = document.getElementById('loadMoreBtn');
-            var loadingSpinner = document.getElementById('loadingSpinner');
-
-            loadMoreBtn.style.display = 'none'; // Hide the button
-            loadingSpinner.style.display = 'inline-block'; // Show the spinner
             xhr.open('GET', 'studies.html?page=' + page + '&size=' + size + '&ajax=true', true);
             xhr.onload = function() {
                 loadingSpinner.style.display = 'none';
-                loadMoreBtn.style.display = 'inline-block';
                 if (this.status == 200) {
-                    console.log(xhr.responseText)
                     document.getElementById('studiesContainer').innerHTML += this.responseText;
+                    loadMoreBtn.style.display = ((currentPage * pageSize) >= totalRecords) ? 'none' : 'inline-block';
                 } else {
                     console.error('Error fetching data:', this.statusText);
+                    loadMoreBtn.style.display = 'inline-block';
                 }
             };
             xhr.onerror = function() {
-                loadMoreBtn.style.display = 'none';
+                loadingSpinner.style.display = 'none';
                 loadMoreBtn.style.display = 'inline-block';
                 console.error('Request failed');
             };
