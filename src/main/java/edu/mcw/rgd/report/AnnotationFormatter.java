@@ -84,7 +84,7 @@ public class AnnotationFormatter {
                 if( a.getAspect().equals("W") ) {
                     boolean pwTermHasDiagram = hasPathwayDiagram(a.getTermAcc());
                     if( pwTermHasDiagram ) {
-                        pwString = "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>"
+                        pwString = "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
                     }
                 }
 
@@ -204,7 +204,7 @@ public class AnnotationFormatter {
                 if( a.getAspect().equals("W") ) {
                     boolean pwTermHasDiagram = hasPathwayDiagram(a.getTermAcc());
                     if( pwTermHasDiagram ) {
-                        termString += "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>"
+                        termString += "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
                     }
                 }
 
