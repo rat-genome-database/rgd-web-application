@@ -23,18 +23,30 @@ import java.util.List;
  */
 public class PhenominerStudyController extends PhenominerController {
 
-
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         String action = req.getParameter("act");
         PhenominerDAO dao = new PhenominerDAO();
+        List<Study> total = dao.getStudies();
+        int totalPageRecords = total.size();
+        int pageNumber=1;
+        int pageSize = 100;
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            pageNumber = Integer.parseInt(pageParam);
+        }
+        String pageParam1 = req.getParameter("size");
+        if (pageParam1 != null && !pageParam1.isEmpty()) {
+            pageSize = Integer.parseInt(pageParam1);
+        }
+        String ajaxParam = request.getParameter("ajax");
 
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
-
+        String partialPath = "/WEB-INF/jsp/curation/phenominer/studiesNew.jsp";
         String viewPath = "/WEB-INF/jsp/curation/phenominer/studies.jsp";
         Report report = new Report();
 
@@ -227,8 +239,13 @@ public class PhenominerStudyController extends PhenominerController {
                 }
 
             } else {
-                List<Study> studies = dao.getStudies();
+//                List<Study> studies = dao.getStudies();
+                List<Study> studies = dao.getStudiesByPageNum(pageNumber,pageSize);
                 report = this.buildReport(studies, dao, true);
+                if ("true".equals(ajaxParam)) {
+                    // Return only the data part (the additional studies)
+                    return new ModelAndView(partialPath, "report", report);
+                }
             }
 
 
@@ -236,7 +253,7 @@ public class PhenominerStudyController extends PhenominerController {
             error.add(e.getMessage());
             e.printStackTrace();
         }
-
+        request.setAttribute("totalRecords",totalPageRecords);
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
@@ -295,7 +312,6 @@ public class PhenominerStudyController extends PhenominerController {
             List<Integer> refIds = dao.getStudyReferences(s.getId());
             Record rec = new Record();
             if (edit) rec.append("<input name='studyId' value='" + s.getId() + "' type='checkbox'/>");
-
             rec.append(this.buildLink("studies.html?act=edit&studyId=" + s.getId(), s.getId()));
             rec.append(s.getName());
             rec.append(s.getSource());
@@ -339,6 +355,7 @@ public class PhenominerStudyController extends PhenominerController {
             report.append(rec);
 
         }
+//        report.append(new Record().append(""));
         return report;
     }
 
