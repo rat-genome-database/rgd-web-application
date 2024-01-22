@@ -155,7 +155,28 @@
                                 <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
                                 <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                 <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
-<!--
+
+
+                                <script src="https://accounts.google.com/gsi/client" async></script>
+                                <div id="g_id_onload"
+                                     data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
+                                     data-context="signin"
+                                     data-ux_mode="redirect"
+                                     data-login_uri="https://dev.rgd.mcw.edu/rgdweb/homepage"
+                                     data-itp_support="true">
+                                </div>
+
+                                <div class="g_id_signin"
+                                     data-type="standard"
+                                     data-shape="rectangular"
+                                     data-theme="outline"
+                                     data-text="signin_with"
+                                     data-size="large"
+                                     data-logo_alignment="left">
+                                </div>
+                                <!--
+
+
                                 <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
     -->
                             </td>
