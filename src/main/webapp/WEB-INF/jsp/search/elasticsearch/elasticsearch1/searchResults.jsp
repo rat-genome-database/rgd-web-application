@@ -84,7 +84,7 @@
         <td style="width:20%;">
 
                 <div class="sidebarFilters"  style=";background-color: white;overflow: auto;overflow-y: hidden;">
-                     <jsp:include page="sidebar4.jsp"/>
+                     <jsp:include page="facets/sidebar4.jsp"/>
                    </div>
 
         </td>

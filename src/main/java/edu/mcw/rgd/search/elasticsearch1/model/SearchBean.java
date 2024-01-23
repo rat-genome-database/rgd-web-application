@@ -16,11 +16,39 @@ public class SearchBean {
     private String sortBy;
     private String assembly;
     private String trait;
+    private String polyphenStatus;
+    private String sample;
+    private String region;
     private String start;
+
+    public String getPolyphenStatus() {
+        return polyphenStatus;
+    }
+
+    public void setPolyphenStatus(String polyphenStatus) {
+        this.polyphenStatus = polyphenStatus;
+    }
+
     private String stop;
     private String chr;
     private int currentPage;
     private boolean redirect;
+
+    public String getSample() {
+        return sample;
+    }
+
+    public void setSample(String sample) {
+        this.sample = sample;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
     public boolean isRedirect() {
         return redirect;
