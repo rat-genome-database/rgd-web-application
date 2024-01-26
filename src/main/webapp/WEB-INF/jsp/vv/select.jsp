@@ -340,14 +340,11 @@
                             if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
                                 continue;
                             if (num < ((sampSize / 3))) {
-                                System.out.println(1);
                                 sampList1.add(samp);
                             } else if (num < (((sampSize / 3)) * 2)) {
-                                System.out.println(2);
                                 sampList2.add(samp);
 
                             } else {
-                                System.out.println(3);
                                 sampList3.add(samp);
                             }
                             num++;
