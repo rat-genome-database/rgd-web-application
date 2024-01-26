@@ -109,10 +109,9 @@
                     <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
                         <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
-
                         <%
-                            List<Map> maps = MapManager.getInstance().getAllMaps(search.getSpeciesType());
-                            for (Map map: maps) {%>
+                        List<Map> maps = MapManager.getInstance().getAllMaps(selSpecies);
+                        for (Map map: maps) {%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( map.getDescription()))%>><%=map.getName()%></option>
                         <%}%>
                     </select>
