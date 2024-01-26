@@ -7,6 +7,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
+<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
 
 <script type="text/javascript">
     function addParam(name, value) {
@@ -44,6 +45,9 @@
     if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
         selSpecies = Integer.parseInt(speciesTypeParam);
     }
+    Map mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
+    System.out.println(mapDefault.getDescription());
+    System.out.println(mapDefault.getName());
     String assemblyParam = request.getParameter("assembly");
     String selectedAssembly=new String();
     if( assemblyParam!=null ) {
@@ -103,6 +107,7 @@
                 %>
                 <td style="padding-right: 100px"><b>Assembly&nbsp;</b>
                     <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
+                        <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
                         <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
 
                         <%
