@@ -332,16 +332,22 @@
                         sampList1.add(samples.get(0));
                     }else {
                         int num = 0;
+                        int sampSize = samples.size();
+                        if (sampSize<3)
+                            sampSize = 3;
                         for (Sample samp : samples) {
                             String sampleName = samp.getAnalysisName();
                             if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
                                 continue;
-                            if (num < ((samples.size() / 3))) {
+                            if (num < ((sampSize / 3))) {
+                                System.out.println(1);
                                 sampList1.add(samp);
-                            } else if (num < (((samples.size() / 3)) * 2)) {
+                            } else if (num < (((sampSize / 3)) * 2)) {
+                                System.out.println(2);
                                 sampList2.add(samp);
 
                             } else {
+                                System.out.println(3);
                                 sampList3.add(samp);
                             }
                             num++;
