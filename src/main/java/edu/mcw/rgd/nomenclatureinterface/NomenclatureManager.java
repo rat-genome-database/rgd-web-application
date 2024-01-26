@@ -61,6 +61,7 @@ public class NomenclatureManager {
         gene.setNomenReviewDate(nextNomenclatureReview);
         gene.setSymbol(symbol);
         gene.setName(name);
+        gene.setNomenSource("RGD");
         geneDAO.updateGene(gene);
 
         List<Gene> alleleList = geneDAO.getVariantFromGene(rgdId);
