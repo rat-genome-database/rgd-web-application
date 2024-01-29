@@ -160,20 +160,37 @@
                                 <script src="https://accounts.google.com/gsi/client" async></script>
                                 <div id="g_id_onload"
                                      data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
-                                     data-context="signin"
-                                     data-ux_mode="redirect"
                                      data-login_uri="https://dev.rgd.mcw.edu/rgdweb/homepage"
-                                     data-itp_support="true">
+                                     data-callback="handleLogin"
+                                >
                                 </div>
 
                                 <div class="g_id_signin"
                                      data-type="standard"
                                      data-shape="rectangular"
                                      data-theme="outline"
-                                     data-text="signin_with"
-                                     data-size="large"
+                                     data-text="sign_in_with"
+                                     data-size="small"
                                      data-logo_alignment="left">
                                 </div>
+                                <script>
+                                import jwt from 'jsonwebtoken';
+                                </script>
+                                <script>
+                                    function handleLogin(response) {
+                                        //alert(JSON.stringify(response));
+                                        gapi.auth2.init()
+                                        if (auth2.isSignedIn.get()) {
+                                            var profile = auth2.currentUser.get().getBasicProfile();
+                                            console.log('ID: ' + profile.getId());
+                                            console.log('Full Name: ' + profile.getName());
+                                            console.log('Given Name: ' + profile.getGivenName());
+                                            console.log('Family Name: ' + profile.getFamilyName());
+                                            console.log('Image URL: ' + profile.getImageUrl());
+                                            console.log('Email: ' + profile.getEmail());
+                                        }
+                                    }
+                                </script>
                                 <!--
 
 
@@ -210,7 +227,7 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
                                             <a href="/rgdweb/search/variants.html">Variants <span style="color:red;">(beta)</span></a>
-                                            <a href="/rgdweb/projects/project.html">Community Projects <span style="color:red;">(beta)</span></a>
+                                            <a href="/rgdweb/projects/project.html">Community Projects</a>
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
                                             <a href="/rgdweb/search/markers.html?100">Markers</a>
@@ -230,7 +247,7 @@
                                         <div class="rgd-dropdown-content">
                                             <a href="<%=RgdContext.getSolrUrl("solr")%>" >OntoMate (Literature Search)</a>
                                             <a href="/rgdweb/jbrowse2/listing.jsp">JBrowse (Genome Browser)</a>
-                                            <a href="/vcmap">Synteny Browser (VCMap)&nbsp;&nbsp;<span style="color:red;">(beta)</span></a>
+                                            <a href="/vcmap">Synteny Browser (VCMap)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
 
                                             <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
