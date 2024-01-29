@@ -81,8 +81,8 @@
                 <td><%=fu.buildSelectList("type",geneDAO.getTypes(), dm.out("type",gene.getType()))%></td>
             </tr>
             <tr>
-                <td class="label">Nomen Review Date:</td>
-                <td><%=gene.getNomenReviewDate()%></td>
+                <td class="label">Nomenclature:</td>
+                <td><b>Review Date:</b> <%=gene.getNomenReviewDate()%> &nbsp; &nbsp; <b>Source:</b> <%=gene.getNomenSource()%></td>
             </tr>
             <tr>
                 <td class="label">Refseq Status:</td>

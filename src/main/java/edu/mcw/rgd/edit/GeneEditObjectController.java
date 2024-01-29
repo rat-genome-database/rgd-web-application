@@ -97,11 +97,11 @@ public class GeneEditObjectController extends EditObjectController {
                 String newType = req.getParameter("type");
 
                 // generate nomenclature event if gene name or symbol or type is changed
+                String whatChanged = "";
                 if( !Utils.stringsAreEqual(newName, gene.getName()) ||
                     !Utils.stringsAreEqual(newSymbol, gene.getSymbol()) ||
                     !Utils.stringsAreEqual(newType, gene.getType() )) {
 
-                    String whatChanged = "";
                     if( !Utils.stringsAreEqual(newName, gene.getName()) ) {
                         whatChanged = "Name ";
 
@@ -167,6 +167,10 @@ public class GeneEditObjectController extends EditObjectController {
                 gene.setDescription(StringUtils.normalizeSpace(req.getParameter("description")));
                 gene.setType(newType);
                 gene.setRefSeqStatus(req.getParameter("refseq_status"));
+
+                if( gene.getSpeciesTypeKey()==SpeciesType.RAT && (whatChanged.contains("Name") || whatChanged.contains("Symbol")) ) {
+                    gene.setNomenSource("RGD");
+                }
 
                 geneDAO.updateGene(gene);
 
