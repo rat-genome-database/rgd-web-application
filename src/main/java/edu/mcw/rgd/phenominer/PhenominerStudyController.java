@@ -33,6 +33,7 @@ public class PhenominerStudyController extends PhenominerController {
         int totalPageRecords = total.size();
         int pageNumber=1;
         int pageSize = 100;
+        int firstStudyId=0,lastStudyId=0;
         String pageParam = req.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {
             pageNumber = Integer.parseInt(pageParam);
@@ -41,7 +42,8 @@ public class PhenominerStudyController extends PhenominerController {
         if (pageParam1 != null && !pageParam1.isEmpty()) {
             pageSize = Integer.parseInt(pageParam1);
         }
-        String ajaxParam = request.getParameter("ajax");
+        int totalNumberOfPages = (int) Math.ceil((double) totalPageRecords / pageSize);
+//        String ajaxParam = request.getParameter("ajax");
 
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
@@ -241,11 +243,13 @@ public class PhenominerStudyController extends PhenominerController {
             } else {
 //                List<Study> studies = dao.getStudies();
                 List<Study> studies = dao.getStudiesByPageNum(pageNumber,pageSize);
+                firstStudyId=studies.get(0).getId();
+                lastStudyId=studies.get(studies.size()-1).getId();
                 report = this.buildReport(studies, dao, true);
-                if ("true".equals(ajaxParam)) {
-                    // Return only the data part (the additional studies)
-                    return new ModelAndView(partialPath, "report", report);
-                }
+//                if ("true".equals(ajaxParam)) {
+//                    // Return only the data part (the additional studies)
+//                    return new ModelAndView(partialPath, "report", report);
+//                }
             }
 
 
@@ -254,6 +258,10 @@ public class PhenominerStudyController extends PhenominerController {
             e.printStackTrace();
         }
         request.setAttribute("totalRecords",totalPageRecords);
+        request.setAttribute("totalNumberOfPages", totalNumberOfPages);
+        request.setAttribute("firstStudy",firstStudyId);
+        request.setAttribute("lastStudy",lastStudyId);
+        request.setAttribute("currentPage", pageNumber);
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
