@@ -82,7 +82,7 @@
             </tr>
             <tr>
                 <td class="label">Nomenclature:</td>
-                <td><b>Review Date:</b> <%=gene.getNomenReviewDate()%> &nbsp; &nbsp; <b>Source:</b><%=gene.getNomenSource()%></td>
+                <td><b>Review Date:</b> <%=gene.getNomenReviewDate()%> &nbsp; &nbsp; <b>Source:</b> <%=gene.getNomenSource()%></td>
             </tr>
             <tr>
                 <td class="label">Refseq Status:</td>
