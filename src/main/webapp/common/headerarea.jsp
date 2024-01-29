@@ -157,40 +157,6 @@
                                 <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
 
-                                <script src="https://accounts.google.com/gsi/client" async></script>
-                                <div id="g_id_onload"
-                                     data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
-                                     data-login_uri="https://dev.rgd.mcw.edu/rgdweb/homepage"
-                                     data-callback="handleLogin"
-                                >
-                                </div>
-
-                                <div class="g_id_signin"
-                                     data-type="standard"
-                                     data-shape="rectangular"
-                                     data-theme="outline"
-                                     data-text="sign_in_with"
-                                     data-size="small"
-                                     data-logo_alignment="left">
-                                </div>
-                                <script>
-                                import jwt from 'jsonwebtoken';
-                                </script>
-                                <script>
-                                    function handleLogin(response) {
-                                        //alert(JSON.stringify(response));
-                                        gapi.auth2.init()
-                                        if (auth2.isSignedIn.get()) {
-                                            var profile = auth2.currentUser.get().getBasicProfile();
-                                            console.log('ID: ' + profile.getId());
-                                            console.log('Full Name: ' + profile.getName());
-                                            console.log('Given Name: ' + profile.getGivenName());
-                                            console.log('Family Name: ' + profile.getFamilyName());
-                                            console.log('Image URL: ' + profile.getImageUrl());
-                                            console.log('Email: ' + profile.getEmail());
-                                        }
-                                    }
-                                </script>
                                 <!--
 
 
