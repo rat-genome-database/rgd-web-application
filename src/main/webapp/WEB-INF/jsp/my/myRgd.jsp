@@ -1,6 +1,4 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyList" %>
@@ -8,8 +6,8 @@
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.Gson" %>
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
+    String user = (String) request.getSession().getAttribute("user");
+    String name = user;
 
     Gson gson = new Gson();
 

@@ -1,5 +1,3 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
@@ -13,8 +11,8 @@
 <script type="text/javascript" src="/rgdweb/common/angular.min.js"></script>
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
+    String user = (String) request.getSession().getAttribute("user");
+    String name = user;
 
     HttpRequestFacade req = new HttpRequestFacade(request);
 

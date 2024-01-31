@@ -120,6 +120,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
+<script src="https://accounts.google.com/gsi/client" async></script>
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
@@ -144,58 +145,55 @@
 
                             </td>
 
+
                             <td align="right" style="color:white;" valign="center" colspan="3">
-                                <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
-                                <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
-                                <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
-                                <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
-                                <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
+                                            <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
+                                            <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
+                                            <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
+                                            <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
 
-                                <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
-                                <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
-                                <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
-                                <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
+                                            <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
+                                            <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
+                                            <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
+                                            <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
+                                        </td>
+                                        <td>
+                                            <div id="signIn">
+                                            <div style="display:none;" id="g_id_onload"
+                                                 data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
+                                                 data-login_uri="http://localhost:8080/rgdweb/my/account.html?page=<%=request.getRequestURI()%>"
+                                                 data-auto_prompt="false"
+                                                 data-auto_select="true"
+                                            >
+                                            </div>
 
-                                <script src="https://accounts.google.com/gsi/client" async></script>
-                                <div id="g_id_onload"
-                                     data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
-                                     data-login_uri="https://dev.rgd.mcw.edu/rgdweb/homepage"
-                                     data-callback="handleLogin"
-                                >
-                                </div>
+                                            <div class="g_id_signin"
+                                                 data-type="standard"
+                                                 data-shape="rectangular"
+                                                 data-theme="outline"
+                                                 data-text="signin"
+                                                 data-size="small"
+                                                 data-logo_alignment="left">
+                                            </div>
+                                            </div>
+                                            <div id="manageSubs">
+                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+                                                <input  type="button" class="btn btn-info btn-sm"  value="Log out" ng-click="rgd.logout($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+                                            </div>
 
-                                <div class="g_id_signin"
-                                     data-type="standard"
-                                     data-shape="rectangular"
-                                     data-theme="outline"
-                                     data-text="sign_in_with"
-                                     data-size="small"
-                                     data-logo_alignment="left">
-                                </div>
-                                <script>
-                                import jwt from 'jsonwebtoken';
-                                </script>
-                                <script>
-                                    function handleLogin(response) {
-                                        //alert(JSON.stringify(response));
-                                        gapi.auth2.init()
-                                        if (auth2.isSignedIn.get()) {
-                                            var profile = auth2.currentUser.get().getBasicProfile();
-                                            console.log('ID: ' + profile.getId());
-                                            console.log('Full Name: ' + profile.getName());
-                                            console.log('Given Name: ' + profile.getGivenName());
-                                            console.log('Family Name: ' + profile.getFamilyName());
-                                            console.log('Image URL: ' + profile.getImageUrl());
-                                            console.log('Email: ' + profile.getEmail());
-                                        }
-                                    }
-                                </script>
-                                <!--
+                                        </td>
+                                    </tr>
+                                </table>
 
 
-                                <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
-    -->
+
+
+
                             </td>
 
                         </tr>
@@ -338,12 +336,14 @@
                                 <%@include file="../WEB-INF/jsp/search/elasticsearch/searchBox.jsp"%>
                             </td>
                             <td>
-                                <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
-                                <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
-                                <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
-                                <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
-                                <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
+                                            <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
+                                            <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
+                                            <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
+                                            <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
+                                            <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
 
+                                <!--
+-->
                             </td>
                         </tr>
 

@@ -11,7 +11,6 @@
 
                 <!-- twitter boot strap model -->
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <table align="center">
                         <tr>
                             <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
@@ -23,9 +22,8 @@
 
                     <div style="padding-bottom:20px;">
                     <div style="float:left; margin-right:10px; min-width: 600px;">Welcome <span style="font-weight:700; font-size:16px;">{{ username}}</span></div>
-                    <input  value="Update Account" type="button"  style="margin-right:10px;border:0px solid black; background-color:#4584ED; color:white; font-weight:700;padding:8px;" onClick="location.href='/rgdweb/my/account.html'"/>
-                    <input  value="Sign Out" type="button"  ng-click="rgd.logout()"  data-dismiss="modal" style="margin-right:10px;border:0px solid black; background-color:#4584ED; color:white; font-weight:700;padding:8px;"/>
                     </div>
+                    <br><br>
 
                     <div style="text-decoration:underline;font-weight:700; background-color:#e0e2e1;min-width:690px;">Message Center</div>
                     <div style="display:table-row;">
@@ -37,15 +35,15 @@
                     <div ng-repeat="watchedObject in watchedObjects" style="display:table-row;">
 
                         <div style="display: table-cell; float:left; margin-right:10px; min-width: 600px;">{{$index + 1}}. <span style="font-weight:700;">{{ watchedObject.symbol }} (RGD ID:{{watchedObject.rgdId}})</span></div>
-                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 40px;"><a href="javascript:return false;" ng-click="rgd.addWatch(watchedObject.rgdId)">Update Watcher</a></div>
-                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 50px;" ><a href="javascript:return false;" ng-click="rgd.removeWatch(watchedObject.rgdId)">Remove Watcher</a></div>
+                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 40px;"><a href="javascript:return false;" ng-click="rgd.addWatch(watchedObject.rgdId)">Modify Subscription</a></div>
+                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 50px;" ><a href="javascript:return false;" ng-click="rgd.removeWatch(watchedObject.rgdId)">Unsubscribe</a></div>
                     </div>
                     <div style="margin-top:20px;text-decoration:underline;font-weight:700;background-color:#e0e2e1;">Watched Ontology Terms</div>
                     <div ng-repeat="watchedTerm in watchedTerms" style="display:table-row;">
 
                         <div style="display: table-cell; float:left; margin-right:10px; min-width: 600px;">{{$index + 1}}. <span style="font-weight:700;">{{ watchedTerm.term }} ({{watchedTerm.accId}})</span></div>
-                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 40px;"><a href="javascript:return false;" ng-click="rgd.addWatch(watchedTerm.accId)">Update Watcher</a></div>
-                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 50px;" ><a href="javascript:return false;" ng-click="rgd.removeWatch(watchedTerm.accId)">Remove Watcher</a></div>
+                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 40px;"><a href="javascript:return false;" ng-click="rgd.addWatch(watchedTerm.accId)">Modify Subscription</a></div>
+                        <div style="display: table-cell; float:left;  margin-right:10px; min-width: 50px;" ><a href="javascript:return false;" ng-click="rgd.removeWatch(watchedTerm.accId)">Unsubscribe</a></div>
                     </div>
 
 
@@ -112,7 +110,6 @@
             <div class="modal-dialog modal-small">
                 <div class="modal-content" >
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <table align="center">
             <tr>
                 <td style="padding:20px;"><img src="/rgdweb/common/images/rgd_LOGO_blue_rgd.gif" border="0"/></td>
@@ -124,55 +121,40 @@
 
         <table align="center" style="padding-bottom:20px;">
             <tr>
-                <td align="center" style="font-size:30px;color:#55556D;">Save what matters to you</td>
+                <td align="center" style="font-size:30px;color:#55556D;">You must be logged in to use this feature</td>
             </tr>
             <tr>
                 <td style="color:red;font-weight:700; font-size:18px;">{{ loginError }}</td>
             </tr>
         </table>
 
-
-
+<!--
+        <div style="display:none;" id="g_id_onload"
+             data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
+             data-login_uri="http://localhost:8080/rgdweb/my/account.html?page=<%=request.getRequestURI()%>"
+             data-auto_prompt="false"
+             data-auto_select="true"
+        >
+        </div>
+-->
+        <br><br><br>
         <table align="center">
             <tr>
-                <td style="font-size:20px;">Sign in with your RGD account</td>
-            </tr>
-        </table>
-
-
-        <form>
-            <table align="center" border=0 style="border:2px outset lightgrey;background-color:#F7F7F7;padding:40px;">
-                <tr>
-                    <td>Email Address:</td>
-                    <td><input type='text' size='30' id="j_username" name='j_username' value="" value=''</td></tr>
-                <tr><td>Password:</td><td><input  size='30' type='password' id="j_password" name='j_password' value=""></td></tr>
-
-                <tr>
-                    <td align="center" colspan="2">
-                        <table cellpadding="5">
-                            <tr>
-                                <td><input name="submit"  data-dismiss="modal" type="button" value="Cancel" style="font-size:16px; margin-top:20px;"></td>
-                                <td><input name="submit" type="submit" value="Log In" style="font-size:16px; margin-top:20px;" ng-click="rgd.login()"  nClick="doLogin()" ></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                </tr>
-            </table>
-
-        </form>
-
-
-        <table align="center" border="0">
-            <tr>
                 <td>
-                    <a href="/rgdweb/my/account.html?submit=Create" style="font-size:16px; margin-right:10px;">Create New Account</a>
-                </td>
-                <td>
-                    <a href="/rgdweb/my/lookup.html" style="font-size:16px;">Recover Password</a>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="rectangular"
+                         data-theme="outline"
+                         data-text="signin"
+                         data-size="large"
+                         data-logo_alignment="left">
+                    </div>
+
                 </td>
             </tr>
         </table>
+        <br><br><br>
+
 
 
         </div>
@@ -189,31 +171,37 @@
         <div class="modal-dialog modal-small">
             <div class="modal-content" >
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+ <!--                   <button type="button" class="close" data-dismiss="modal">&times;</button>-->
                     <h4 class="modal-title">{{ watchLinkText }}</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div style="padding-bottom:10px;">Select categories you would like to watch.  Updates to this gene will be send to {{ username }}</div>
+                    <div style="padding-bottom:10px;">Select categories you would like to watch.  Updates to this gene will be sent to {{ username }}</div>
 
-                     <label ng-repeat="geneWatchAttr in geneWatchAttributes">
-                        <input
-                                type="checkbox"
-                                name="geneWatchSelection[]"
-                                value="{{geneWatchAttr}}"
-                                ng-checked="geneWatchSelection.indexOf(geneWatchAttr) > -1"
-                                ng-click="toggleGeneWatchSelection(geneWatchAttr)"
-                        > {{geneWatchAttr}}
-                        <br>
-                    </label>
+
+
+                         <table>
+                        <tr ng-repeat="geneWatchAttr in geneWatchAttributes">
+                            <td><input
+                                    type="checkbox"
+                                    name="geneWatchSelection[]"
+                                    value="{{geneWatchAttr}}"
+                                    ng-checked="geneWatchSelection.indexOf(geneWatchAttr) > -1"
+                                    ng-click="toggleGeneWatchSelection(geneWatchAttr)"
+                            > </td>
+                            <td>{{geneWatchAttr}}</td>
+                        </tr>
+                         </table>
+
+
 
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 
-                    <span ng-if="watchLinkText == 'Update Watcher'">
-                        <button type="button" ng-click="rgd.removeWatch(activeObject)" class="btn btn-default" data-dismiss="modal">Stop Watching</button>
+                    <span ng-if="watchLinkText == 'Modify Subscription'">
+                        <button type="button" ng-click="rgd.removeWatch(activeObject)" class="btn btn-default" data-dismiss="modal">Unsubscribe from this Object</button>
                     </span>
                     <button type="button" ng-click="rgd.saveWatch(activeObject)" class="btn btn-default" data-dismiss="modal">Save</button>
                 </div>
