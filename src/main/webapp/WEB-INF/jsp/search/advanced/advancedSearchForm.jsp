@@ -36,18 +36,17 @@
         font-size: 12px;
     }
 </style>
-
 <%
     int selSpecies = RgdContext.isChinchilla(request) ? SpeciesType.CHINCHILLA : SpeciesType.RAT;
 //    String speciesTypeParam = request.getParameter("speciesType");
     String speciesTypeParam = request.getParameter("species");
-    System.out.println(speciesTypeParam);
-    if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
-        selSpecies = Integer.parseInt(speciesTypeParam);
-    }
+//    System.out.println(speciesTypeParam);
+        if (speciesTypeParam != null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam))) {
+                selSpecies = Integer.parseInt(speciesTypeParam);
+        }
     Map mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
-    System.out.println(mapDefault.getDescription());
-    System.out.println(mapDefault.getName());
+//    System.out.println(mapDefault.getDescription());
+//    System.out.println(mapDefault.getName());
     String assemblyParam = request.getParameter("assembly");
     String selectedAssembly=new String();
     if( assemblyParam!=null ) {
@@ -82,7 +81,7 @@
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
                             if(speciesTypeKey==selSpecies){%>
                         <option selected value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                        <%}else{%>  <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                        <%}else{%>  <option value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                         <% }}
                         } else {
                             for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
