@@ -298,17 +298,18 @@
             <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
         </td>
     </tr>
+    <!--
     <tr>
         <td class="label">Model</td>
         <td>
             <iframe id="jbrowseMini2" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
         </td>
     </tr>
-
+-->
     <script>
         $(document).ready(function() {
             document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
-            document.getElementById('jbrowseMini2').src = 'https://pipelines.rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=mRatBN7.2&&loc=chr1:6000-7000&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2';
+          //  document.getElementById('jbrowseMini2').src = 'https://pipelines.rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=mRatBN7.2&&loc=chr1:6000-7000&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2';
         });
     </script>
     <% } %>

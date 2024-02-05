@@ -13,9 +13,18 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,6 +53,35 @@ public class MyRGDAccountController implements Controller {
         System.out.print("<br><br><br>");
         System.out.print(token);
 
+        //verify the token
+        //https://oauth2.googleapis.com/tokeninfo?id_token=
+        /*
+        URL url = new URL("https://oauth2.googleapis.com/tokeninfo");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+
+        HashMap parameters = new HashMap();
+        parameters.put("id_token", "val");
+
+        con.setDoOutput(true);
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.writeBytes("id_token=" + token);
+        out.flush();
+        out.close();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        con.disconnect();
+
+        System.out.println(content.toString());
+*/
         String[] chunks = creds.split("\\.");
 
         Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -56,6 +94,8 @@ public class MyRGDAccountController implements Controller {
         Boolean emailVerified = (Boolean) jsonJavaRootObject.get("email_verified");
         String name = (String) jsonJavaRootObject.get("name");
         String picture = (String) jsonJavaRootObject.get("picture");
+
+
 
         System.out.println("email = " + email);
         System.out.println("emailVerified = " + emailVerified);
@@ -79,11 +119,17 @@ public class MyRGDAccountController implements Controller {
 
         }
 
+        String thisPage = request.getParameter("page");
+        if (thisPage != null && thisPage.indexOf("homepage") == -1) {
 
-        request.setAttribute("error", errorList);
-        request.setAttribute("status", statusList);
+            response.sendRedirect(thisPage);
+            return null;
+        }else {
 
-        return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
+            request.setAttribute("error", errorList);
+            request.setAttribute("status", statusList);
 
+            return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
+        }
     }
 }

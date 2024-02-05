@@ -163,10 +163,12 @@
 
                                         </td>
                                         <td>
+
+
                                             <div id="signIn">
                                             <div style="display:none;" id="g_id_onload"
                                                  data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
-                                                 data-login_uri="http://localhost:8080/rgdweb/my/account.html?page=<%=request.getRequestURI()%>"
+                                                 data-login_uri="http://localhost:8080/rgdweb/my/account.html?page=<%=request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI)%>?<%=request.getQueryString()%>"
                                                  data-auto_prompt="false"
                                                  data-auto_select="true"
                                             >
@@ -408,6 +410,7 @@
         }
     }
 %>
+
 
 <div id="mainBody">
     <div id="contentArea" class="content-area">
