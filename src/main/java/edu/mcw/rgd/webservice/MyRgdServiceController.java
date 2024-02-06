@@ -8,6 +8,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.myrgd.MyList;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 
+import edu.mcw.rgd.security.UserManager;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -49,12 +50,12 @@ public class MyRgdServiceController implements Controller {
         return null;
     }
     public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.getSession().setAttribute("user",null);
+        UserManager.getInstance().myLogout(request);
     }
 
     public void addWatcher(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
 
         HashMap watched= new HashMap();
         if(user!=null) {
@@ -126,7 +127,8 @@ public class MyRgdServiceController implements Controller {
     }
 
     public void removeWatcher(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         MyDAO mdao = new MyDAO();
         if(user!=null) {
             JsonParser parser = new JsonParser();
@@ -156,7 +158,8 @@ public class MyRgdServiceController implements Controller {
 
     public void getAllWatchedObjects(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         if(user!=null) {
         HashMap returnMap = new HashMap();
 
@@ -213,7 +216,8 @@ public class MyRgdServiceController implements Controller {
 
     public void getWatchers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         if(user!=null) {
             if (user.equals("anonymousUser")) {
                 return;
@@ -242,7 +246,8 @@ public class MyRgdServiceController implements Controller {
 
     public void getUsername(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         if(user!=null)
         response.getWriter().println(user);
     }
@@ -251,7 +256,8 @@ public class MyRgdServiceController implements Controller {
 
         try {
 
-            String user = (String) request.getSession().getAttribute("user");
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
             if(user!=null) {
                 String name = user;
 
@@ -273,7 +279,8 @@ public class MyRgdServiceController implements Controller {
 
             int listId = Integer.parseInt(request.getParameter("lid"));
 
-            String user = (String) request.getSession().getAttribute("user");
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
             if(user!=null) {
                 String name = user;
 
@@ -300,7 +307,8 @@ public class MyRgdServiceController implements Controller {
 
             int listId = Integer.parseInt(request.getParameter("lid"));
 
-            String user = (String) request.getSession().getAttribute("user");
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
             if (user != null) {
                 String name = user;
 
@@ -336,7 +344,8 @@ public class MyRgdServiceController implements Controller {
         String link = obj.get("url").getAsString();
         JsonArray genes = obj.get("genes").getAsJsonArray();
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 
         if (user == null) {
             response.getWriter().print("Error - user anonymous");
@@ -397,7 +406,8 @@ public class MyRgdServiceController implements Controller {
 
     public void deleteMessageCenterMessage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         if(user!=null) {
             JsonParser parser = new JsonParser();
 
@@ -416,7 +426,8 @@ public class MyRgdServiceController implements Controller {
     public void getMessageCenterMessages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         System.out.println("user in message center = " + user);
 
         if(user!=null) {
@@ -429,7 +440,8 @@ public class MyRgdServiceController implements Controller {
 
     public void updateDigestSetting(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         if(user!=null) {
             JsonParser parser = new JsonParser();
 

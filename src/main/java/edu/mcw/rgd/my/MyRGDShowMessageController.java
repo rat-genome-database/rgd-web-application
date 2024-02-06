@@ -3,6 +3,7 @@ package edu.mcw.rgd.my;
 import edu.mcw.rgd.dao.impl.MyDAO;
 import edu.mcw.rgd.datamodel.MessageCenterMessage;
 import edu.mcw.rgd.datamodel.myrgd.MyUser;
+import edu.mcw.rgd.security.UserManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.UI;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +28,8 @@ public class MyRGDShowMessageController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        String user = (String) request.getSession().getAttribute("user");
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 
         if (user.equals("anonymousUser")) {
             return new ModelAndView("/WEB-INF/jsp/my/login.jsp");

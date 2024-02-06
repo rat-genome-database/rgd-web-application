@@ -23,6 +23,8 @@
                     <div style="padding-bottom:20px;">
                     <div style="float:left; margin-right:10px; min-width: 600px;">Welcome <span style="font-weight:700; font-size:16px;">{{ username}}</span></div>
                     </div>
+                    <input  type="button" class="btn btn-info btn-sm"  value="Log out" ng-click="rgd.logout($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+
                     <br><br>
 
                     <div style="text-decoration:underline;font-weight:700; background-color:#e0e2e1;min-width:690px;">Message Center</div>

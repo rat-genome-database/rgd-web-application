@@ -1,8 +1,10 @@
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 
 <%
-    String name = (String) request.getSession().getAttribute("user");
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 %>
 
 <%

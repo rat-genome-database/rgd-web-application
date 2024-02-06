@@ -185,7 +185,6 @@
                                             </div>
                                             <div id="manageSubs">
                                                 <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
-                                                <input  type="button" class="btn btn-info btn-sm"  value="Log out" ng-click="rgd.logout($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                                             </div>
 
                                         </td>

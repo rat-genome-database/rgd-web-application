@@ -16,6 +16,7 @@
 <%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.io.File" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%
 
 /*
@@ -39,8 +40,9 @@
  String link = obj.get("url").getAsString();
  JsonArray genes = obj.get("genes").getAsJsonArray();
 
- String user = (String) request.getSession().getAttribute("user");
- if (user == null) {
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+    if (user == null) {
        out.print("Error - user anonymous");
        return;
     }

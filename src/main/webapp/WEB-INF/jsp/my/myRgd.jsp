@@ -5,9 +5,10 @@
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%
-    String user = (String) request.getSession().getAttribute("user");
-    String name = user;
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
+
 
     Gson gson = new Gson();
 

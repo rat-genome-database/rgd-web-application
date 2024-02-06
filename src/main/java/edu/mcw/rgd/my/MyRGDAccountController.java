@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import edu.mcw.rgd.dao.impl.MyDAO;
 import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.myrgd.MyUser;
+import edu.mcw.rgd.security.UserManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
@@ -106,21 +107,11 @@ public class MyRGDAccountController implements Controller {
 
         String username = email;
 
-        MyDAO mdao = new MyDAO();
-
-        if (mdao.myUserExists(username)) {
-            request.getSession().setAttribute("user", username);
-        } else {
-            MyUser mu = mdao.insertMyUser(username, "unused", true);
-
-            //MyUser mu = mdao.insertMyUser(username, pass1, true);
-            mdao.insertMyUserRole(username, "RGD.PUBLIC");
-            request.getSession().setAttribute("user", username);
-
-        }
+        UserManager.getInstance().myLogin(request,username);
 
         String thisPage = request.getParameter("page");
-        if (thisPage != null && thisPage.indexOf("homepage") == -1) {
+        System.out.println("page = " + thisPage);
+        if (thisPage != null && !thisPage.startsWith("null")&& thisPage.indexOf("homepage") == -1) {
 
             response.sendRedirect(thisPage);
             return null;

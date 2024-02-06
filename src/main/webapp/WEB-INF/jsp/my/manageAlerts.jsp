@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -20,7 +21,8 @@
 Manage Alerts<br><br>
 
 <%
-    String user = (String) request.getSession().getAttribute("user");
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 
     MyDAO mdao = new MyDAO();
 

@@ -8,6 +8,7 @@
 <%@ page import="jakarta.mail.internet.InternetAddress" %>
 <%@ page import="jakarta.mail.Message" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -20,8 +21,7 @@
 
 
 <%
-    String user = (String) request.getSession().getAttribute("user");
-    String name = user;
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
 %>
 
 

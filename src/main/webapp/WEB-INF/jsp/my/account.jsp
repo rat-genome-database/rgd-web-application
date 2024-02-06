@@ -6,14 +6,12 @@
 <%@ page import="org.springframework.format.datetime.DateFormatter" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyUser" %>
-
-
-
-
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 
 
 <%
-    String name = (String) request.getSession().getAttribute("user");
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
+
 %>
 
 
