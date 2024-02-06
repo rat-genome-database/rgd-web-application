@@ -11,15 +11,22 @@
 
 <script type="text/javascript">
     function addParam(name, value) {
+        console.log(name);
+        console.log(value);
+        // if(name==='species'&&value==='All'){
+        //     value='';
+        // }
         var re = new RegExp(name + "=[^\&]*");
         if( re.exec(location.href) != null ) {
             location.href = location.href.replace(re, name + "=" + value);
         }
         else {
-            if( location.href.indexOf("?")>=0 )
-                location.href = location.href + "&" + name + "=" + value;
-            else
+            if( location.href.indexOf("?")>=0 ) {
+                    location.href = location.href + "&" + name + "=" + value;
+            }
+            else {
                 location.href = location.href + "?" + name + "=" + value;
+            }
         }
     }
 </script>
@@ -40,11 +47,23 @@
     int selSpecies = RgdContext.isChinchilla(request) ? SpeciesType.CHINCHILLA : SpeciesType.RAT;
 //    String speciesTypeParam = request.getParameter("speciesType");
     String speciesTypeParam = request.getParameter("species");
-//    System.out.println(speciesTypeParam);
+
+//    if(speciesTypeParam != null&&speciesTypeParam.equals("All")){
+//        selSpecies=0;
+//    }
+    System.out.println(speciesTypeParam);
         if (speciesTypeParam != null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam))) {
                 selSpecies = Integer.parseInt(speciesTypeParam);
         }
-    Map mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
+//        System.out.println(selSpecies);
+    Map mapDefault=null;
+        try {
+            mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
+        }
+        catch(Exception ignore){
+
+        }
+
 //    System.out.println(mapDefault.getDescription());
 //    System.out.println(mapDefault.getName());
     String assemblyParam = request.getParameter("assembly");
@@ -76,6 +95,7 @@
                     %>
                 <td><b>Species:</b>
                     <select name="speciesType" onChange='addParam("species",this.value)'>
+                        <option value="0">All</option>
                         <%--            <select name="species")>--%>
                         <% if (request.getServletPath().endsWith("markers.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
@@ -106,7 +126,9 @@
                 %>
                 <td style="padding-right: 100px"><b>Assembly&nbsp;</b>
                     <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
+                        <%if(mapDefault!=null){%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
+                        <%}%>
                         <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
                         <%
                         List<Map> maps = MapManager.getInstance().getAllMaps(selSpecies);
