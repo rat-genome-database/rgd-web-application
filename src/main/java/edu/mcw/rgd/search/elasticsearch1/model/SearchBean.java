@@ -6,6 +6,8 @@ package edu.mcw.rgd.search.elasticsearch1.model;
 public class SearchBean {
     private String term;
     private String category;
+    private String variantCategory;
+
     private String species;
     private String type;
     private String subCat;
@@ -196,5 +198,13 @@ public class SearchBean {
 
     public void setChr(String chr) {
         this.chr = chr;
+    }
+
+    public String getVariantCategory() {
+        return variantCategory;
+    }
+
+    public void setVariantCategory(String variantCategory) {
+        this.variantCategory = variantCategory;
     }
 }

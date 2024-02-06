@@ -66,6 +66,15 @@
     <li><button style="border:none;background-color: transparent" onclick="filterClick('Variant', '<%=species%>','','')"><span>Variant (<%=docCounts.get("Variant")%>)</span></button>
 
         <ul>
+            <%if(aggregations.get(variantCategory)!=null && aggregations.get(variantCategory).size()>0){%>
+
+            <li><span>Category</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get(variantCategory)){%>
+                    <li onclick="filterClick('Variant', '<%=species%>','', '<%=bkt.getKey()%>','variantCategory')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
             <li><span>Type</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(variant)){%>
                     <li onclick="filterClick('Variant', '<%=species%>','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>

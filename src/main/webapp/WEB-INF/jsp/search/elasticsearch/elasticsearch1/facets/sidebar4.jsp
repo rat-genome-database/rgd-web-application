@@ -63,6 +63,7 @@
                     }
                     String variant=species.toLowerCase()+"Variant";
                     String polyphen=species.toLowerCase()+"Polyphen";
+                    String variantCategory=species.toLowerCase()+"VariantCategory";
                     String region=species.toLowerCase()+"Region";
                     String sample=species.toLowerCase()+"Sample";
                     String sslp=species.toLowerCase()+"SSLP";

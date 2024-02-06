@@ -76,11 +76,14 @@ public class SearchService {
                        Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
                        Terms regionFilterAgg=bucket.getAggregations().get("region");
                        Terms sampleFilterAgg=bucket.getAggregations().get("sample");
+                       Terms variantCategoryFilterAgg=bucket.getAggregations().get("variantCategory");
 
                        if(bucket.getKey().toString().equalsIgnoreCase("variant")){
                            aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
                            aggregations.put(species + "Region", regionFilterAgg.getBuckets());
                            aggregations.put(species + "Sample", sampleFilterAgg.getBuckets());
+                           aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
+
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
@@ -268,6 +271,8 @@ public class SearchService {
         String sortValue=request.getParameter("sortBy").equals("")?String.valueOf(0):request.getParameter("sortBy");
         String trait=request.getParameter("trait");
         String polyphenStatus=request.getParameter("polyphenStatus");
+        String variantCategory=request.getParameter("variantCategory");
+
         String region=request.getParameter("region");
         String sample=request.getParameter("sample");
 
@@ -304,6 +309,8 @@ public class SearchService {
         sb.setTerm(term);
         sb.setTrait(trait);
         sb.setPolyphenStatus(polyphenStatus);
+        sb.setVariantCategory(variantCategory);
+
         sb.setRegion(region);
         sb.setSample(sample);
 
