@@ -280,11 +280,13 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
-
+                <prop key="ai/output.html">aiController</prop>
 
             </props>
         </property>
     </bean>
+        <bean id="aiController" class="edu.mcw.rgd.ai.AIController"/>
+
     <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
