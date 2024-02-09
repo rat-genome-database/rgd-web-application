@@ -26,7 +26,7 @@ public class AIController implements Controller {
         }
         try{
             int pmid=Integer.parseInt(pmidString);
-            URL url = new URL("http://127.0.0.1:5000/process?pmid="+pmid); //important to add the trailing slash after add
+            URL url = new URL("http://localhost:5000/process?pmid="+pmid); //important to add the trailing slash after add
 //            String[] inputData = {"{ \"pmid\":16267253}"};
             conn = (HttpURLConnection) url.openConnection();
 
