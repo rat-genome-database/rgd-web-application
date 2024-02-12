@@ -32,16 +32,6 @@ sourceSets{
 sourceCompatibility = 17
 setBuildDir(buildDir)
 
-clean.doFirst {
-    delete fileTree('src/main/webapp/WEB-INF/').matching {
-        include "applicationContext.xml"
-    }
-    delete fileTree('src/main/webapp/WEB-INF/').matching {
-        include "dispatcher-servlet.xml"
-    }
-
-}
-
 //build.doFirst {
 //    copy {
 //        from 'src/main/webapp/WEB-INF/spring/appServlet/'
@@ -59,22 +49,33 @@ clean.doFirst {
 
 
 tasks.register("buildCuration") {
-        copy {
-            from 'src/main/webapp/WEB-INF/spring/appServlet/'
-            into 'src/main/webapp/WEB-INF/'
-            include 'applicationContext.xml.curation'
-            rename('applicationContext.xml.curation', 'applicationContext.xml')
-        }
-        copy {
-            from 'src/main/webapp/WEB-INF/spring/appServlet/'
-            into 'src/main/webapp/WEB-INF/'
-            include 'dispatcher-servlet.xml.curation'
-            rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
-        }
-
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "applicationContext.xml"
+    }
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "dispatcher-servlet.xml"
+    }
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'applicationContext.xml.curation'
+        rename('applicationContext.xml.curation', 'applicationContext.xml')
+    }
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'dispatcher-servlet.xml.curation'
+        rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
+    }
 }
 
 tasks.register("buildProd") {
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "applicationContext.xml"
+    }
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "dispatcher-servlet.xml"
+    }
     copy {
         from 'src/main/webapp/WEB-INF/spring/appServlet/'
         into 'src/main/webapp/WEB-INF/'
@@ -87,7 +88,6 @@ tasks.register("buildProd") {
         include 'dispatcher-servlet.xml.prod'
         rename('dispatcher-servlet.xml.prod', 'dispatcher-servlet.xml')
     }
-
 }
 
 repositories {
