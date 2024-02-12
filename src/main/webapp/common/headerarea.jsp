@@ -148,7 +148,11 @@
 </script>
 
 <input style="display:none;" id="setUser" type="button" ng-click="rgd.setUser()" value="click"/>
-
+<style>
+    .g_id_signin > div > div:first-child{
+        display: none;
+    }
+</style>
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -183,7 +187,7 @@
 
                                         </td>
                                         <td>
-
+                                        <div class="GoogleLoginButtonContainer">
 
                                             <div id="signIn">
                                             <div style="display:none;" id="g_id_onload"
@@ -204,8 +208,9 @@
                                             </div>
                                             </div>
                                             <div id="manageSubs">
-                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="display:none; background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                                             </div>
+                                        </div>
                                         </td>
                                     </tr>
                                 </table>
