@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 
 
 /**
@@ -48,6 +50,8 @@ public class MyRGDAccountController implements Controller {
         List errorList = new ArrayList();
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
+
+
 
         String creds = "";
         try {
@@ -103,25 +107,61 @@ public class MyRGDAccountController implements Controller {
 
         System.out.println(content.toString());
 */
-        String[] chunks = creds.split("\\.");
+ //       String[] chunks = creds.split("\\.");
 
-        Base64.Decoder decoder = Base64.getUrlDecoder();
+        //Base64.Decoder decoder = Base64.getUrlDecoder();
 
-        String header = new String(decoder.decode(chunks[0]));
-        String payload = new String(decoder.decode(chunks[1]));
+        //String header = new String(decoder.decode(chunks[0]));
+        //String payload = new String(decoder.decode(chunks[1]));
 
+        //System.out.println(header);
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                // Specify the CLIENT_ID of the app that accesses the backend:
+                .setAudience(Collections.singletonList("833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+// (Receive idTokenString by HTTPS POST)
+
+        String email = "";
+        GoogleIdToken idToken = verifier.verify(creds);
+        if (idToken != null) {
+            Payload p = idToken.getPayload();
+
+            // Print user identifier
+            String userId = p.getSubject();
+            //System.out.println("User ID: " + userId);
+
+            // Get profile information from payload
+            email = p.getEmail();
+            boolean emailVerified = Boolean.valueOf(p.getEmailVerified());
+            String name = (String) p.get("name");
+            String pictureUrl = (String) p.get("picture");
+            String locale = (String) p.get("locale");
+            String familyName = (String) p.get("family_name");
+            String givenName = (String) p.get("given_name");
+
+        } else {
+            throw new Exception("Invalid ID token.");
+        }
+
+
+/*
         java.util.Map jsonJavaRootObject = new Gson().fromJson(payload, java.util.Map.class);
+        System.out.println(jsonJavaRootObject);
         String email = (String) jsonJavaRootObject.get("email");
         Boolean emailVerified = (Boolean) jsonJavaRootObject.get("email_verified");
         String name = (String) jsonJavaRootObject.get("name");
         String picture = (String) jsonJavaRootObject.get("picture");
 
         String username = email;
+*/
+        UserManager.getInstance().myLogin(request,email);
 
-        UserManager.getInstance().myLogin(request,username);
 
-
-        response.getWriter().println("{\"username\":\"" + username + "\"}");
+        response.getWriter().println("{\"username\":\"" + email + "\"}");
 
         return null;
 

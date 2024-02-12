@@ -128,10 +128,12 @@
 
 <script>
     function googleSignIn(creds) {
+        console.log(JSON.stringify(creds));
+        console.log(creds.header)
         var resp = fetch("/rgdweb/my/account.html", {
             method: "POST",
             body: JSON.stringify({
-                clientId: creds.clientId,
+                clientId: creds.header,
                 credential: creds.credential
             }),
             headers: {
@@ -144,6 +146,11 @@
 
 
 
+    }
+
+    function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+        alert(id_token);
     }
 </script>
 
@@ -207,8 +214,8 @@
                                                  data-logo_alignment="left">
                                             </div>
                                             </div>
-                                            <div id="manageSubs">
-                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="display:none; background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+                                            <div id="manageSubs" style="display:none;">
+                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                                             </div>
                                         </div>
                                         </td>
