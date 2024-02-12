@@ -126,15 +126,35 @@
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 <%@ include file="/common/helpFeedbackChat.jsp" %>
 
+<script>
+    function googleSignIn(creds) {
+        var resp = fetch("http://localhost:8080/rgdweb/my/account.html", {
+            method: "POST",
+            body: JSON.stringify({
+                clientId: creds.clientId,
+                credential: creds.credential
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }).then((response) => response.json())
+            .then((json) => {
+                document.getElementById("setUser").click();
+            });
+
+
+
+    }
+</script>
+
+<input style="display:none;" id="setUser" type="button" ng-click="rgd.setUser()" value="click"/>
+
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td>
 
             <div id="headWrapper">
-
-
-
 
                 <div class="top-bar">
                     <table width="100%" border="0" class="headerTable" cellpadding="0" cellspacing="0">
@@ -168,9 +188,9 @@
                                             <div id="signIn">
                                             <div style="display:none;" id="g_id_onload"
                                                  data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
-                                                 data-login_uri="http://localhost:8080/rgdweb/my/account.html?page=<%=request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI)%>?<%=request.getQueryString()%>"
                                                  data-auto_prompt="false"
                                                  data-auto_select="true"
+                                                 data-callback="googleSignIn"
                                             >
                                             </div>
 
@@ -186,24 +206,13 @@
                                             <div id="manageSubs">
                                                 <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                                             </div>
-
                                         </td>
                                     </tr>
                                 </table>
-
-
-
-
-
                             </td>
-
                         </tr>
-
                         <tr>
                             <td colspan="2">
-
-
-
                                 <div class="rgd-navbar">
                                     <div class="rgd-dropdown">
                                         <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home

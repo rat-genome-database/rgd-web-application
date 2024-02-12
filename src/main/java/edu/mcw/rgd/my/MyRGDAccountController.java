@@ -3,6 +3,7 @@ package edu.mcw.rgd.my;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import edu.mcw.rgd.dao.impl.MyDAO;
 import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.myrgd.MyUser;
@@ -18,9 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
@@ -46,13 +49,30 @@ public class MyRGDAccountController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
+        String creds = "";
+        try {
+            String requestData = (String) request.getReader().lines().collect(Collectors.joining());
 
-        String creds = request.getParameter("credential");
+            Gson gson = new Gson();
+            Type type = new TypeToken<HashMap<String, String>>() {
+            }.getType();
+
+            HashMap<String, String> map = gson.fromJson(requestData, type);
+
+            creds = map.get("credential");
+        }catch (Exception notLogin) {
+            request.setAttribute("error", errorList);
+            request.setAttribute("status", statusList);
+
+            return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
+        }
+
+//        String creds = request.getParameter("credential");
         System.out.println(creds);
 
-        String token = request.getParameter("g_csrf_token");
-        System.out.print("<br><br><br>");
-        System.out.print(token);
+        //String token = request.getParameter("g_csrf_token");
+        //System.out.print("<br><br><br>");
+        //System.out.print(token);
 
         //verify the token
         //https://oauth2.googleapis.com/tokeninfo?id_token=
@@ -96,31 +116,16 @@ public class MyRGDAccountController implements Controller {
         String name = (String) jsonJavaRootObject.get("name");
         String picture = (String) jsonJavaRootObject.get("picture");
 
-
-
-        System.out.println("email = " + email);
-        System.out.println("emailVerified = " + emailVerified);
-        System.out.println("name = " + name);
-        System.out.println("picture = " + picture);
-        System.out.println("<br><br>" + header);
-        System.out.println("<br><br>" + payload);
-
         String username = email;
 
         UserManager.getInstance().myLogin(request,username);
 
-        String thisPage = request.getParameter("page");
-        System.out.println("page = " + thisPage);
-        if (thisPage != null && !thisPage.startsWith("null")&& thisPage.indexOf("homepage") == -1) {
 
-            response.sendRedirect(thisPage);
-            return null;
-        }else {
+        response.getWriter().println("{\"username\":\"" + username + "\"}");
 
-            request.setAttribute("error", errorList);
-            request.setAttribute("status", statusList);
-
-            return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
-        }
+        return null;
+      
     }
+
+
 }
