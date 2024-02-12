@@ -124,7 +124,7 @@ public class MyRGDAccountController implements Controller {
         response.getWriter().println("{\"username\":\"" + username + "\"}");
 
         return null;
-      
+
     }
 
 

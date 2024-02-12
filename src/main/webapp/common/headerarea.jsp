@@ -128,7 +128,7 @@
 
 <script>
     function googleSignIn(creds) {
-        var resp = fetch("http://localhost:8080/rgdweb/my/account.html", {
+        var resp = fetch("/rgdweb/my/account.html", {
             method: "POST",
             body: JSON.stringify({
                 clientId: creds.clientId,
