@@ -32,16 +32,6 @@ sourceSets{
 sourceCompatibility = 17
 setBuildDir(buildDir)
 
-clean.doFirst {
-    delete fileTree('src/main/webapp/WEB-INF/').matching {
-        include "applicationContext.xml"
-    }
-    delete fileTree('src/main/webapp/WEB-INF/').matching {
-        include "dispatcher-servlet.xml"
-    }
-
-}
-
 //build.doFirst {
 //    copy {
 //        from 'src/main/webapp/WEB-INF/spring/appServlet/'
@@ -59,22 +49,33 @@ clean.doFirst {
 
 
 tasks.register("buildCuration") {
-        copy {
-            from 'src/main/webapp/WEB-INF/spring/appServlet/'
-            into 'src/main/webapp/WEB-INF/'
-            include 'applicationContext.xml.curation'
-            rename('applicationContext.xml.curation', 'applicationContext.xml')
-        }
-        copy {
-            from 'src/main/webapp/WEB-INF/spring/appServlet/'
-            into 'src/main/webapp/WEB-INF/'
-            include 'dispatcher-servlet.xml.curation'
-            rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
-        }
-
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "applicationContext.xml"
+    }
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "dispatcher-servlet.xml"
+    }
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'applicationContext.xml.curation'
+        rename('applicationContext.xml.curation', 'applicationContext.xml')
+    }
+    copy {
+        from 'src/main/webapp/WEB-INF/spring/appServlet/'
+        into 'src/main/webapp/WEB-INF/'
+        include 'dispatcher-servlet.xml.curation'
+        rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
+    }
 }
 
 tasks.register("buildProd") {
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "applicationContext.xml"
+    }
+    delete fileTree('src/main/webapp/WEB-INF/').matching {
+        include "dispatcher-servlet.xml"
+    }
     copy {
         from 'src/main/webapp/WEB-INF/spring/appServlet/'
         into 'src/main/webapp/WEB-INF/'
@@ -87,7 +88,6 @@ tasks.register("buildProd") {
         include 'dispatcher-servlet.xml.prod'
         rename('dispatcher-servlet.xml.prod', 'dispatcher-servlet.xml')
     }
-
 }
 
 repositories {
@@ -205,6 +205,7 @@ dependencies {
 //    implementation 'org.springframework:spring-orm:6.0.11'
 //    implementation 'org.springframework:spring-oxm:6.0.11'
     implementation 'com.tdunning:t-digest:3.2'
+    implementation 'com.google.api-client:google-api-client:2.3.0'
 
     implementation 'org.apache.tomcat:tomcat-servlet-api:10.1.7'
     implementation fileTree(dir: 'lib', include: '*.jar')
@@ -212,7 +213,7 @@ dependencies {
 
 
 task update_rgdcore(type:Copy){
-    from file("../../rgd-core-library/dist/rgdcore_1.1.3.jar")
+    from file("../rgd-core-library/dist/rgdcore_1.1.3.jar")
     into file("lib/")
 
 }
