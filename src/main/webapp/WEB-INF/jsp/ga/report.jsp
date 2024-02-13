@@ -24,6 +24,7 @@
     String symbol="";
     String objectType="";
     String description="";
+    String geneType="";
 
     List orthologs = new ArrayList();
     Map orthoMap = new HashMap();
@@ -32,6 +33,7 @@
         Gene g = gdao.getGene(id.getRgdId());
         symbol = g.getSymbol();
         objectType="Gene";
+        geneType=g.getType();
 
         if (g.getSpeciesTypeKey() == 1) {
             description="<span style='color:#771428; font-weight:700; font-size:12px;'>" + g.getSymbol() + "</span> : " + g.getDescription();
@@ -87,6 +89,12 @@
         <td class="gaLabel"><%=RgdContext.getSiteName(request)%> ID:</td>
         <td><%=id.getRgdId()%></td>
     </tr>
+    <%if(geneType!=null){%>
+    <tr>
+        <td class="gaLabel">Gene Type:</td>
+        <td><%=geneType%></td>
+    </tr>
+    <%}%>
     <tr>
         <td class="gaLabel">Species:</td>
         <td><%=SpeciesType.getCommonName(id.getSpeciesTypeKey())%></td>
@@ -118,6 +126,10 @@
                 <td class="gaLabel">Ortholog <%=RgdContext.getSiteName(request)%> ID:</td>
                 <td><%=ortho.getRgdId()%></td>
             </tr>
+                <tr>
+                    <td class="gaLabel">Gene Type:</td>
+                    <td><%=ortho.getType()%></td>
+                </tr>
             <tr>
                 <td class="gaLabel">Species:</td>
                 <td><%=SpeciesType.getCommonName(ortho.getSpeciesTypeKey())%></td>
