@@ -4,7 +4,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.JsonParser" %>
@@ -17,6 +16,7 @@
 <%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.io.File" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%
 
 /*
@@ -40,7 +40,9 @@
  String link = obj.get("url").getAsString();
  JsonArray genes = obj.get("genes").getAsJsonArray();
 
-   if ((SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"))) {
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+    if (user == null) {
        out.print("Error - user anonymous");
        return;
     }
@@ -48,7 +50,7 @@
     MyDAO mdao = new MyDAO();
     MyList mList = new MyList();
 
-    mList.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    mList.setUsername(user);
     mList.setObjectType(1);
     mList.setName(name);
     mList.setDesc(desc);

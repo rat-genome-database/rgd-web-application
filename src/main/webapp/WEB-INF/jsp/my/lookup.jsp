@@ -1,8 +1,4 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="com.sun.mail.smtp.SMTPTransport" %>
@@ -12,6 +8,7 @@
 <%@ page import="jakarta.mail.internet.InternetAddress" %>
 <%@ page import="jakarta.mail.Message" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -24,8 +21,7 @@
 
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
 %>
 
 

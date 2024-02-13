@@ -1,5 +1,3 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>

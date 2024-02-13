@@ -1,8 +1,4 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.MessageCenterMessage" %>
 <%@ page import="java.util.*" %>
@@ -10,17 +6,11 @@
 <%@ page import="org.springframework.format.datetime.DateFormatter" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyUser" %>
-
-<script src='https://www.google.com/recaptcha/api.js'></script>
-
-
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
-
-
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
 
 %>
 
@@ -64,27 +54,7 @@
 
 
 
-<form action="/rgdweb/my/account.html" method="POST" >
-    <table border="0" align="center" style="border:2px outset lightgrey;background-color:#F7F7F7;padding:40px;">
-        <tr>
-            <td>Email Address:</td>
-            <td><input type='text' name='j_username' value="" /></td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>Password:</td><td><input type='password' name='pass1' value=""></td></tr>
-        <tr><td>Retype Password:</td><td><input type='password' name='pass2' value=""></td></tr>
-        <tr><td>&nbsp;</td></tr>
 
-        <td colspan="2" align="center">
-            <div style="margin-top:5px;" class="g-recaptcha" data-sitekey="6LccGxITAAAAAKxaUj88wOc-ueTuVU2njjOHmBqW"></div>
-        </td>
-        <tr>
-            <td  align="right"><input name="submit"  onClick="location.href=document.referrer" type="button" value="Cancel" style="font-size:16px; margin-top:20px;"></td>
-            <td  align="center"><input name="submit" type="submit" value="Create Account" style="font-size:16px; margin-top:20px;"></td>
-        </tr>
-        <tr>
-        </tr>
-    </table>
-</form>
 
 <% } else { %>
 
@@ -188,10 +158,10 @@
 
     <table align="center" style="padding-bottom:20px;">
     <tr>
-        <td style="font-size:30px;color:#55556D;">Welcome to My RGD</td>
+        <td style="font-size:26px;color:#55556D;">Welcome {{username}}</td>
     </tr>
 </table>
-
+<br><br>
 <table border="0">
     <tr>
         <td align="center">
@@ -200,14 +170,14 @@
                 <tr>
                     <td>
                         <span style="font-size:16px">
-                                You are signed in to MY RGD.  My RGD allows you to receive a weekly digest email that includes changes made to selected RGD genes or annotations.
+                                You are signed in and can subscribe to updates.
 
                         <br>
                         To set a notification, look for the binoculars icon <img src="/rgdweb/common/images/binoculars.png" width="30" height="30" border="0"/> on any RGD gene or ontology report.
+                               <br><br><input type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
                         <br>
                         <br>
-                        Check back often for new My RGD features!
-                        <br><br>
+
 
                         </span>
                     </td>
@@ -221,12 +191,14 @@
 
                         %>
 
-
-
-
                         <table>
                             <tr>
-                                <td><b>Weekly Email Digest</b> <input ng-model="msg.digest" ng-click="msg.updateDigestSetting()" type="checkbox">ON</td>
+                                <td>
+                                    My RGD allows you to receive a weekly digest email that includes changes made to selected RGD genes or annotations.  Uncheck the box below to disable this feature.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Weekly Email Digest&nbsp;&nbsp;&nbsp;</b> <input ng-model="msg.digest" ng-click="msg.updateDigestSetting()" type="checkbox">&nbsp;ON</td>
                             </tr>
                         </table>
                         <br>
@@ -265,32 +237,6 @@
         </td>
         <td width="400" align="center" valign="top">
 
-            <form action="/rgdweb/my/account.html" method="POST">
-                <table style="border:2px solid black;padding:10px; background-color:#E4E6E5; border-radius: 15px 15px 5px 5px;"">
-                    <tr>
-                        <td colspan="2" style="font-weight:700; text-decoration:underline;">Change Password</td>
-                    </tr>
-                    <tr>
-                        <td>Email Address:</td>
-                        <td><%=name%></td>
-                    </tr>
-                    <tr>
-                        <td>Old&nbsp;Password:</td>
-                        <td><input name="passOld" type="password" /></td>
-                    </tr>
-                    <tr>
-                        <td>New&nbsp;Password:</td>
-                        <td><input name="pass1" type="password" /></td>
-                    </tr>
-                    <tr>
-                        <td>Retype&nbsp;New&nbsp;Password:</td>
-                        <td><input type="password" name="pass2"/></td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan='2'><input type="submit" name="submit" value="Update Password"/></td>
-                    </tr>
-                </table>
-            </form>
 
         </td>
     </tr>

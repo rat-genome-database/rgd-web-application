@@ -1,22 +1,36 @@
 package edu.mcw.rgd.my;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import edu.mcw.rgd.dao.impl.MyDAO;
+import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.myrgd.MyUser;
+import edu.mcw.rgd.security.UserManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.web.UI;
-import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.apache.commons.collections4.functors.ExceptionPredicate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,16 +44,6 @@ public class MyRGDAccountController implements Controller {
     protected HttpServletRequest request = null;
     protected HttpServletResponse response = null;
 
-    private void checkPassword(String pass1, String pass2) throws Exception {
-        if (pass1.length() < 8) {
-            throw new Exception("Password must be at least 8 characters");
-        }
-
-        if (!pass1.equals(pass2)) {
-            throw new Exception("Password 1 and Password 2 do not match");
-        }
-
-    }
 
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -47,99 +51,121 @@ public class MyRGDAccountController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-try {
-
-    String action = req.getParameter("submit");
-    //create account request
-    if (action.equals("Create Account")) {
-
-        //need to verify recaptcha response
-        String capcha = req.getParameter("g-recaptcha-response");
-        if (!VerifyRecaptcha.verify(capcha)) {
-            throw new Exception("ReCaptcha Validation Failed.  Please try again.");
-
-        }
-
-        String username = req.getParameter("j_username");
-
-        String pass1 = req.getParameter("pass1");
-        String pass2 = req.getParameter("pass2");
-
-        if (!UI.isValidEmailAddress(username)) {
-            throw new Exception("A Valid Email Address Is Required");
-        }
-
-        this.checkPassword(pass1,pass2);
-
-        MyDAO mdao = new MyDAO();
-
-        if (mdao.myUserExists(username)) {
-            throw new Exception("Username " + username + " already exists.  Please select a new username.");
-        }
 
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String creds = "";
+        try {
+            String requestData = (String) request.getReader().lines().collect(Collectors.joining());
 
-        String encoded = passwordEncoder.encode(pass1);
+            Gson gson = new Gson();
+            Type type = new TypeToken<HashMap<String, String>>() {
+            }.getType();
 
-        MyUser mu = mdao.insertMyUser(username, encoded, true);
+            HashMap<String, String> map = gson.fromJson(requestData, type);
 
-        //MyUser mu = mdao.insertMyUser(username, pass1, true);
-        mdao.insertMyUserRole(username,"RGD.PUBLIC");
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, pass1, mu.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+            creds = map.get("credential");
+        }catch (Exception notLogin) {
+            request.setAttribute("error", errorList);
+            request.setAttribute("status", statusList);
 
-
-    } else if (action.equals("Update Password")) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth.getName().equals("anonymousUser")) {
-            return new ModelAndView("/WEB-INF/jsp/my/login.jsp");
-        }
-
-
-
-            String pass1 = req.getParameter("pass1");
-        String pass2 = req.getParameter("pass2");
-
-        this.checkPassword(pass1,pass2);
-
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encoded = passwordEncoder.encode(pass1);
-
-
-        MyDAO mdao = new MyDAO();
-
-        mdao.updatePassword(auth.getName(),encoded);
-
-        statusList.add("Password has been updated");
-
-    } else if (action.equals("Create")) {
-        return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
-    }
-
-} catch(Exception e) {
-    errorList.add(e.getMessage());
-
-}
-
-        request.setAttribute("error",errorList);
-        request.setAttribute("status",statusList);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth.getName().equals("anonymousUser")) {
-            return new ModelAndView("/WEB-INF/jsp/my/login.jsp");
-
-        }else {
             return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
         }
 
+//        String creds = request.getParameter("credential");
+        System.out.println(creds);
 
+        //String token = request.getParameter("g_csrf_token");
+        //System.out.print("<br><br><br>");
+        //System.out.print(token);
+
+        //verify the token
+        //https://oauth2.googleapis.com/tokeninfo?id_token=
+        /*
+        URL url = new URL("https://oauth2.googleapis.com/tokeninfo");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+
+        HashMap parameters = new HashMap();
+        parameters.put("id_token", "val");
+
+        con.setDoOutput(true);
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.writeBytes("id_token=" + token);
+        out.flush();
+        out.close();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        con.disconnect();
+
+        System.out.println(content.toString());
+*/
+ //       String[] chunks = creds.split("\\.");
+
+        //Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        //String header = new String(decoder.decode(chunks[0]));
+        //String payload = new String(decoder.decode(chunks[1]));
+
+        //System.out.println(header);
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                // Specify the CLIENT_ID of the app that accesses the backend:
+                .setAudience(Collections.singletonList("833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+// (Receive idTokenString by HTTPS POST)
+
+        String email = "";
+        GoogleIdToken idToken = verifier.verify(creds);
+        if (idToken != null) {
+            Payload p = idToken.getPayload();
+
+            // Print user identifier
+            String userId = p.getSubject();
+            //System.out.println("User ID: " + userId);
+
+            // Get profile information from payload
+            email = p.getEmail();
+            boolean emailVerified = Boolean.valueOf(p.getEmailVerified());
+            String name = (String) p.get("name");
+            String pictureUrl = (String) p.get("picture");
+            String locale = (String) p.get("locale");
+            String familyName = (String) p.get("family_name");
+            String givenName = (String) p.get("given_name");
+
+        } else {
+            throw new Exception("Invalid ID token.");
+        }
+
+
+/*
+        java.util.Map jsonJavaRootObject = new Gson().fromJson(payload, java.util.Map.class);
+        System.out.println(jsonJavaRootObject);
+        String email = (String) jsonJavaRootObject.get("email");
+        Boolean emailVerified = (Boolean) jsonJavaRootObject.get("email_verified");
+        String name = (String) jsonJavaRootObject.get("name");
+        String picture = (String) jsonJavaRootObject.get("picture");
+
+        String username = email;
+*/
+        UserManager.getInstance().myLogin(request,email);
+
+
+        response.getWriter().println("{\"username\":\"" + email + "\"}");
+
+        return null;
 
     }
 
-  
+
 }

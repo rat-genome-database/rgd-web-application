@@ -1,13 +1,10 @@
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 %>
 
 <%
