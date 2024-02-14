@@ -21,18 +21,15 @@
     String pageTitle = obj.getSymbol() + " QTL Report (" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey()) + ") - Rat Genome Database";
     String headContent = "";
     String pageDescription = "RGD report page for " + obj.getName();
+
+    
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
+    List<MapData> mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
+
     MapData md = null;
-    try {
-        edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
-        List<MapData> mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
-        if (mapDataList.size() > 0) {
-            md = mapDataList.get(0);
-        }
-    }catch (Exception e){
-
+    if (mapDataList.size() > 0) {
+        md = mapDataList.get(0);
     }
-
-
     
 %>
 
