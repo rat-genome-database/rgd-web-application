@@ -89,8 +89,11 @@
 <table width="95%" border="0">
     <tr>
         <td>
+            <% try{ %>
             <%@ include file="info.jsp"%>
-
+            <%}catch (Exception e){
+                System.out.println(e);
+            }%>
             <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
 
             <%@ include file="candidateGenes.jsp"%>

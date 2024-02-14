@@ -138,7 +138,17 @@
     </tr>
     <tr>
         <td class="label">P&nbsp;Value:</td>
+        <% if (obj.getPValue() == null && obj.getpValueMlog()!=null) {
+            double w = obj.getpValueMlog();
+            int x = (int) Math.ceil(w);
+            double y = x-w;
+            int z = (int) Math.round(Math.pow(10,y));
+            String convertedPVal = z+"E-"+x;
+        %>
+        <td><%=convertedPVal%></td>
+        <%} else {%>
         <td><%=fu.chkNullNA(obj.getPValue())%></td>
+        <% } %>
     </tr>
     <tr>
         <td class="label">Variance:</td>
