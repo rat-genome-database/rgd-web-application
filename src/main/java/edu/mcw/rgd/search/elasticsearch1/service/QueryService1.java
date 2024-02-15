@@ -162,6 +162,10 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("polyphenStatus.keyword", sb.getPolyphenStatus()));
 
             }
+            if (!sb.getVariantCategory().equals("")) {
+                builder.filter(QueryBuilders.termQuery("variantCategory.keyword", sb.getVariantCategory()));
+
+            }
             if (!sb.getSample().equals("")) {
                 builder.filter(QueryBuilders.termQuery("analysisName.keyword", sb.getSample()));
 
@@ -254,6 +258,7 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
 
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
+                            .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
 
 
 
@@ -273,6 +278,7 @@ public class QueryService1 {
                     .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
+                    .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
                           //  .order(Terms.Order.term(true)))  deprecated in 6.4
