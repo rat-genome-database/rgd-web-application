@@ -28,7 +28,7 @@
         <form action="/rgdweb/elasticResults.html" id="viewAllForm">
 
             <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
-            <input type="text" value="general" name="category"/>
+            <input type="hidden" value="general" name="category"/>
 <%--            <!--input type="hidden" name="species" id = "sp1" value="${model.sp1}"-->--%>
             <input type="hidden" name="type"  >
             <input type="hidden" name="viewall" value="true"/>
