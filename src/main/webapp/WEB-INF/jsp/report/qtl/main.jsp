@@ -22,7 +22,7 @@
     String headContent = "";
     String pageDescription = "RGD report page for " + obj.getName();
 
-
+    
     edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
     List<MapData> mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
 
@@ -89,6 +89,7 @@
 <table width="95%" border="0">
     <tr>
         <td>
+
             <%@ include file="info.jsp"%>
 
             <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
