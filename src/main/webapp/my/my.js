@@ -6,17 +6,17 @@ rgdModule.service('ConfigService', function () {
     this.listDescription="";
     this.geneWatchAttributes=["Nomenclature Changes","New GO Annotation","New Disease Annotation","New Phenotype Annotation","New Pathway Annotation","New PubMed Reference","Altered Strains","New NCBI Transcript/Protein","New Protein Interaction","RefSeq Status Has Changed"];
 
-    this.username="Sign In";
+    //alert(this.username);
 
 });
 
 rgdModule.controller('RGDPageController', [
     '$scope','$http',  'ConfigService',
     function ($scope, $http,  ConfigService) {
-
         var ctrl = this;
 
-        $scope.username=ConfigService.username;
+        //$scope.username=ConfigService.username;
+        //alert($scope.username);
         //$scope.geneWatchAttributes = ConfigService.geneWatchAttributes;
 
         $scope.speciesTypeKey = "";
@@ -76,10 +76,10 @@ rgdModule.controller('RGDPageController', [
 
             }).then(function successCallback(response) {
                     if (!response.data.selected) {
-                        $scope.watchLinkText="Add Watcher";
+                        $scope.watchLinkText="Subscribe to Updates";
                         $scope.geneWatchSelection = JSON.parse(JSON.stringify(response.data.all));
                     }else {
-                        $scope.watchLinkText="Update Watcher";
+                        $scope.watchLinkText="Modify Subscription";
                         $scope.geneWatchSelection = response.data.selected;
                     }
 
@@ -111,10 +111,10 @@ rgdModule.controller('RGDPageController', [
 
                 if (!response.data.selected) {
                     $scope.geneWatchSelection = JSON.parse(JSON.stringify(response.data.all));
-                    $scope.watchLinkText="Add Watcher";
+                    $scope.watchLinkText="Subscribe to Updates";
                 }else {
                     $scope.geneWatchSelection = response.data.selected;
-                    $scope.watchLinkText="Update Watcher";
+                    $scope.watchLinkText="Modify Subscription";
                 }
 
                 $scope.geneWatchAttributes= response.data.all;
@@ -146,7 +146,7 @@ rgdModule.controller('RGDPageController', [
                 url: "/rgdweb/webservice/my.html?method=addWatcher",
 
             }).then(function successCallback(response) {
-                $scope.watchLinkText="Update Watcher";
+                $scope.watchLinkText="Modify Subscription";
 
             }, function errorCallback(response) {
                 alert("ERRROR:" + response.data);
@@ -169,7 +169,7 @@ rgdModule.controller('RGDPageController', [
 
                 if (rgdId == $scope.pageObject) {
                     $scope.geneWatchSelection = $scope.geneWatchAttributes;
-                    $scope.watchLinkText = "Add Watcher";
+                    $scope.watchLinkText = "Subscribe to Updates";
                 }
 
             }, function errorCallback(response) {
@@ -220,6 +220,10 @@ rgdModule.controller('RGDPageController', [
         }
 
         ctrl.loadMyRgd = function(e) {
+            if ($scope.username == "") {
+                $scope.username="Sign In";
+            }
+
 
             if ($scope.username == "Sign In") {
                 console.log($scope.username + "showing login");
@@ -330,17 +334,22 @@ rgdModule.controller('RGDPageController', [
 
 
         ctrl.setUser = function() {
+
             $http({
                 method: 'GET',
                 url: "/rgdweb/webservice/my.html?method=getUsername",
             }).then(function successCallback(response) {
 
-                if (response.data.trim() == "anonymousUser") {
+                if (response.data.trim() == "") {
                     $scope.username="Sign In";
-                    $scope.watchLinkText="Add Watcher";
+                    $scope.watchLinkText="Subscribe to Updates";
+                    document.getElementById("signIn").style.display="block";
+                    document.getElementById("manageSubs").style.display="none";
 
                 }else {
                     $scope.username=response.data.trim();
+                    document.getElementById("signIn").style.display="none";
+                    document.getElementById("manageSubs").style.display="block";
                 }
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
@@ -354,10 +363,12 @@ rgdModule.controller('RGDPageController', [
         ctrl.logout = function() {
             $http({
                 method: 'GET',
-                url: "/rgdweb/j_spring_security_logout",
+                url: "/rgdweb/webservice/my.html?method=logout",
             }).then(function successCallback(response) {
 
-                ctrl.setUser();
+                location.replace("/rgdweb/homepage")
+                //ctrl.setUser();
+
 
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
