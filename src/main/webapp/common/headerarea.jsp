@@ -41,9 +41,6 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/rgdweb/js/webFeedback.js" defer></script>
 
-    <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
-
     <%@ include file="/common/googleAnalytics.jsp" %>
 
     <script type="text/javascript" src="/rgdweb/js/rgdHomeFunctions-3.js"></script>
@@ -81,7 +78,7 @@
 
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
-    <script type="text/javascript" src="/rgdweb/my/my.js?5"></script>
+    <script type="text/javascript" src="/rgdweb/my/my.js?6"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -89,6 +86,8 @@
     <script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 
     <script type="text/javascript" src="/rgdweb/js/elasticsearch/elasticsearchcommon.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
 </head>
 
 <style>
@@ -116,11 +115,13 @@
         border:1px solid black;
         padding:3px;
     }
+    .g_id_signin > div > div:first-child{
+        display: none;
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
 
-<script src="https://accounts.google.com/gsi/client" async></script>
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
@@ -128,12 +129,9 @@
 
 <script>
     function googleSignIn(creds) {
-        console.log(JSON.stringify(creds));
-        console.log(creds.header)
         var resp = fetch("/rgdweb/my/account.html", {
             method: "POST",
             body: JSON.stringify({
-                clientId: creds.header,
                 credential: creds.credential
             }),
             headers: {
@@ -147,19 +145,9 @@
 
 
     }
-
-    function onSignIn(googleUser) {
-        var id_token = googleUser.getAuthResponse().id_token;
-        alert(id_token);
-    }
 </script>
 
 <input style="display:none;" id="setUser" type="button" ng-click="rgd.setUser()" value="click"/>
-<style>
-    .g_id_signin > div > div:first-child{
-        display: none;
-    }
-</style>
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -209,7 +197,7 @@
                                                  data-type="standard"
                                                  data-shape="rectangular"
                                                  data-theme="outline"
-                                                 data-text="signin"
+                                                 data-text="signin_with"
                                                  data-size="small"
                                                  data-logo_alignment="left">
                                             </div>
