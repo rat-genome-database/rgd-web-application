@@ -22,13 +22,14 @@
                  <input type="hidden" name="species" value="${model.searchBean.species}"/>
 
                     <input type="hidden" name="currentPage" value="1">
-                    <input type="hidden" name="term" value="${model.term}"/>
+                    <input type="hidden" name="term" id="term" value="${model.term}"/>
+                    <input type="hidden" name="type" id = "type" >
 
                     <input type="hidden" name="subCat" value="${model.searchBean.subCat}">
-                    <input type="hidden" name="start" value="${model.searchBean.start}"/>
+                    <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
 
-                    <input type="hidden" name="stop" value="${model.searchBean.stop}">
-                    <input type="hidden" name="chr" value="${model.searchBean.chr}"/>
+                    <input type="hidden" name="stop" id="stop" value="${model.searchBean.stop}">
+                    <input type="hidden" name="chr" id="chr" value="${model.searchBean.chr}"/>
 
                     <input type="hidden" name="size" value="50">
                     <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
