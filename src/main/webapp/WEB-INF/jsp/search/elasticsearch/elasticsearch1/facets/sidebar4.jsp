@@ -26,19 +26,20 @@
 
     <div style="width:40%;float:right">
         <form action="/rgdweb/elasticResults.html" id="viewAllForm">
-            <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
-            <input type="hidden" value="general" id="searchCategory" name="category"/>
-<%--            <!--input type="hidden" name="species" id = "sp1" value="${model.sp1}"-->--%>
-            <input type="hidden" name="type" id = "type" >
+            <input type="hidden" value="${model.term}"  name="term"/>
             <input type="hidden" name="viewall" value="true"/>
-            <input type="hidden" name="chr" id = "chr" value="${model.searchBean.chr}">
-            <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
-            <input type="hidden" name="stop" id = "stop" value="${model.searchBean.stop}"/>
             <c:if test="${!model.objectSearch.equals('true')}">
-            <button  type="submit" id="viewAll">View All Results</button>
+            <button  type="submit">View All Results</button>
             </c:if>
         </form>
-
+        <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
+        <input type="hidden" value="general" id="searchCategory" name="category"/>
+        <%--            <!--input type="hidden" name="species" id = "sp1" value="${model.sp1}"-->--%>
+        <input type="hidden" name="type" id = "type" >
+        <input type="hidden" name="viewall" value="true"/>
+        <input type="hidden" name="chr" id = "chr" value="${model.searchBean.chr}">
+        <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
+        <input type="hidden" name="stop" id = "stop" value="${model.searchBean.stop}"/>
     </div>
 
 <h3>Filters</h3>

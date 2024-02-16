@@ -323,10 +323,6 @@ function submitFunction(e) {
 }
 
 function filterClick(category, species,subCat, type, filter, objectAssembly) {
-   /* if(typeof objectAssembly=='undefined'){
-        objectAssembly=""
-    }*/
-   // $('#assembly').val(objectAssembly)
 
     getParameters();
     if(typeof objectAssembly=='undefined' || objectAssembly=='' )
