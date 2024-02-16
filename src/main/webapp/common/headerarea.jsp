@@ -129,12 +129,9 @@
 
 <script>
     function googleSignIn(creds) {
-        console.log(JSON.stringify(creds));
-        console.log(creds.header)
         var resp = fetch("/rgdweb/my/account.html", {
             method: "POST",
             body: JSON.stringify({
-                clientId: creds.header,
                 credential: creds.credential
             }),
             headers: {
