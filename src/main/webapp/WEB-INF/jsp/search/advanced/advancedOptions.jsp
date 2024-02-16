@@ -59,27 +59,27 @@
     </td>
 </tr>
 <!--------------------------end of adding limit ---------------------------->
-<tr valign="top">
-    <td class=links><a href="javascript:start_help('results_ordered_by')">Results ordered
-        by</a></td>
-    <td>
-        <input type="radio" name="order" value="symbol" checked>
-        Symbol<br>
-        <input type="radio" name="order" value="name">
-        Name<br>
-        <input type="radio" name="order" value="chromosome">
-        Chromosome </td>
-</tr>
-<tr>
-    <td class=links><a href="javascript:start_help('results_per_page')">Records per page</a></td>
-    <td>
-        <input type="radio" name="num_hits" value="25" checked>
-        25
-        <input type="radio" name="num_hits" value="50">
-        50
-        <input type="radio" name="num_hits" value="100">
-        100 </td>
-</tr>
+<%--<tr valign="top">--%>
+<%--    <td class=links><a href="javascript:start_help('results_ordered_by')">Results ordered--%>
+<%--        by</a></td>--%>
+<%--    <td>--%>
+<%--        <input type="radio" name="order" value="symbol" checked>--%>
+<%--        Symbol<br>--%>
+<%--        <input type="radio" name="order" value="name">--%>
+<%--        Name<br>--%>
+<%--        <input type="radio" name="order" value="chromosome">--%>
+<%--        Chromosome </td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--    <td class=links><a href="javascript:start_help('results_per_page')">Records per page</a></td>--%>
+<%--    <td>--%>
+<%--        <input type="radio" name="num_hits" value="25" checked>--%>
+<%--        25--%>
+<%--        <input type="radio" name="num_hits" value="50">--%>
+<%--        50--%>
+<%--        <input type="radio" name="num_hits" value="100">--%>
+<%--        100 </td>--%>
+<%--</tr>--%>
 <tr>
     <td>&nbsp;</td>
     <td>
