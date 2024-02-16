@@ -197,7 +197,7 @@
                                                  data-type="standard"
                                                  data-shape="rectangular"
                                                  data-theme="outline"
-                                                 data-text="signin"
+                                                 data-text="signin_with"
                                                  data-size="small"
                                                  data-logo_alignment="left">
                                             </div>
