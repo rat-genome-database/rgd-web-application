@@ -7,7 +7,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
-<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
 
 <script type="text/javascript">
     function addParam(name, value) {
@@ -36,17 +35,15 @@
         font-size: 12px;
     }
 </style>
+
 <%
     int selSpecies = RgdContext.isChinchilla(request) ? SpeciesType.CHINCHILLA : SpeciesType.RAT;
 //    String speciesTypeParam = request.getParameter("speciesType");
     String speciesTypeParam = request.getParameter("species");
-//    System.out.println(speciesTypeParam);
-        if (speciesTypeParam != null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam))) {
-                selSpecies = Integer.parseInt(speciesTypeParam);
-        }
-    Map mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
-//    System.out.println(mapDefault.getDescription());
-//    System.out.println(mapDefault.getName());
+    System.out.println(speciesTypeParam);
+    if( speciesTypeParam!=null && SpeciesType.isValidSpeciesTypeKey(Integer.parseInt(speciesTypeParam)) ) {
+        selSpecies = Integer.parseInt(speciesTypeParam);
+    }
     String assemblyParam = request.getParameter("assembly");
     String selectedAssembly=new String();
     if( assemblyParam!=null ) {
@@ -81,7 +78,7 @@
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
                             if(speciesTypeKey==selSpecies){%>
                         <option selected value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
-                        <%}else{%>  <option value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
+                        <%}else{%>  <option><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                         <% }}
                         } else {
                             for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
@@ -106,11 +103,11 @@
                 %>
                 <td style="padding-right: 100px"><b>Assembly&nbsp;</b>
                     <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
-                        <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
                         <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
+
                         <%
-                        List<Map> maps = MapManager.getInstance().getAllMaps(selSpecies);
-                        for (Map map: maps) {%>
+                            List<Map> maps = MapManager.getInstance().getAllMaps(search.getSpeciesType());
+                            for (Map map: maps) {%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( map.getDescription()))%>><%=map.getName()%></option>
                         <%}%>
                     </select>
