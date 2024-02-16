@@ -78,7 +78,7 @@
 
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
-    <script type="text/javascript" src="/rgdweb/my/my.js?5"></script>
+    <script type="text/javascript" src="/rgdweb/my/my.js?6"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
