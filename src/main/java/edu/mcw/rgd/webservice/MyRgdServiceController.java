@@ -8,8 +8,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.myrgd.MyList;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import edu.mcw.rgd.security.UserManager;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -50,12 +49,16 @@ public class MyRgdServiceController implements Controller {
 
         return null;
     }
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UserManager.getInstance().myLogout(request);
+    }
 
     public void addWatcher(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         HashMap watched= new HashMap();
-        if(auth!=null) {
+        if(user!=null) {
             MyDAO mdao = new MyDAO();
 
             JsonParser parser = new JsonParser();
@@ -77,7 +80,7 @@ public class MyRgdServiceController implements Controller {
 
                 }
 
-                mdao.insertOrUpdateObjectWatcher(auth.getName(), elm.getAsInt(), exists(WatchedObject.NOMEN_LABEL, watched),
+                mdao.insertOrUpdateObjectWatcher(user, elm.getAsInt(), exists(WatchedObject.NOMEN_LABEL, watched),
                         exists(WatchedObject.GO_LABEL, watched), exists(WatchedObject.DISEASE_LABEL, watched), exists(WatchedObject.PHENOTYPE_LABEL, watched),
                         exists(WatchedObject.PATHWAY_LABEL, watched), exists(WatchedObject.STRAIN_LABEL, watched), exists(WatchedObject.REFERENCE_LABEL, watched), false,
                         exists(WatchedObject.PROTEIN_LABEL, watched), exists(WatchedObject.INTERACTION_LABEL, watched), exists(WatchedObject.REFSEQ_STATUS_LABEL, watched), exists(WatchedObject.EXDB_LABEL, watched));
@@ -95,7 +98,7 @@ public class MyRgdServiceController implements Controller {
 
                 }
 
-                mdao.insertOrUpdateTermWatcher(auth.getName(), elm.getAsString(), exists(WatchedTerm.GENES_RAT_LABEL, watched), exists(WatchedTerm.GENES_MOUSE_LABEL, watched),
+                mdao.insertOrUpdateTermWatcher(user, elm.getAsString(), exists(WatchedTerm.GENES_RAT_LABEL, watched), exists(WatchedTerm.GENES_MOUSE_LABEL, watched),
                         exists(WatchedTerm.GENES_HUMAN_LABEL, watched), exists(WatchedTerm.QTLS_RAT_LABEL, watched), exists(WatchedTerm.QTLS_MOUSE_LABEL, watched), exists(WatchedTerm.QTLS_HUMAN_LABEL, watched),
                         exists(WatchedTerm.STRAINS_LABEL, watched), exists(WatchedTerm.VARIANTS_RAT_LABEL, watched));
 
@@ -124,27 +127,28 @@ public class MyRgdServiceController implements Controller {
     }
 
     public void removeWatcher(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
         MyDAO mdao = new MyDAO();
-        if(auth!=null) {
+        if(user!=null) {
             JsonParser parser = new JsonParser();
             JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
             JsonElement elm = obj.get("rgdId");
 
             if (isRgdId(elm.getAsString())) {
-                mdao.removeObjectWatcher(auth.getName(), elm.getAsInt());
+                mdao.removeObjectWatcher(user, elm.getAsInt());
             } else {
-                mdao.removeTermWatcher(auth.getName(), elm.getAsString());
+                mdao.removeTermWatcher(user, elm.getAsString());
             }
 
 
             HashMap returnMap = new HashMap();
-            List<WatchedObject> woList = mdao.getWatchedObjects(auth.getName());
+            List<WatchedObject> woList = mdao.getWatchedObjects(user);
 
             returnMap.put("objects", woList);
 
-            List<WatchedTerm> tList = mdao.getWatchedTerms(auth.getName());
+            List<WatchedTerm> tList = mdao.getWatchedTerms(user);
             returnMap.put("terms", tList);
 
             Gson gson = new Gson();
@@ -154,20 +158,20 @@ public class MyRgdServiceController implements Controller {
 
     public void getAllWatchedObjects(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if(auth!=null) {
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        if(user!=null) {
         HashMap returnMap = new HashMap();
 
-
         MyDAO mdao = new MyDAO();
-        List<WatchedObject> woList = mdao.getWatchedObjects(auth.getName());
+        List<WatchedObject> woList = mdao.getWatchedObjects(user);
 
         returnMap.put("objects", woList);
 
-        List<WatchedTerm> tList = mdao.getWatchedTerms(auth.getName());
+        List<WatchedTerm> tList = mdao.getWatchedTerms(user);
 
         returnMap.put("terms", tList);
-        returnMap.put("messageCount", mdao.getAllMessagesFromMessageCenterWithoutPayload(auth.getName()).size());
+        returnMap.put("messageCount", mdao.getAllMessagesFromMessageCenterWithoutPayload(user).size());
 
         Gson gson = new Gson();
 
@@ -212,9 +216,10 @@ public class MyRgdServiceController implements Controller {
 
     public void getWatchers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
-            if (auth.getName().equals("anonymousUser")) {
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        if(user!=null) {
+            if (user.equals("anonymousUser")) {
                 return;
             }
 
@@ -231,27 +236,35 @@ public class MyRgdServiceController implements Controller {
 
             //int rgdId = 0;
             try {
-                getObjectWatchers(response, Integer.parseInt(id), auth.getName());
+                getObjectWatchers(response, Integer.parseInt(id), user);
             } catch (Exception e) {
-                getTermWatchers(response, id, auth.getName());
+                getTermWatchers(response, id, user);
 
             }
         }
     }
 
     public void getUsername(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null)
-        response.getWriter().println(auth.getName());
+
+        if (UserManager.getInstance().getMyUser(request) == null) {
+            return;
+        }
+
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        if(user!=null) {
+            response.getWriter().println(user);
+        }
     }
 
     public void getLists(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if(auth!=null) {
-                String name = auth.getName();
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+            if(user!=null) {
+                String name = user;
 
                 Gson gson = new Gson();
                 MyDAO mydao = new MyDAO();
@@ -271,9 +284,10 @@ public class MyRgdServiceController implements Controller {
 
             int listId = Integer.parseInt(request.getParameter("lid"));
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if(auth!=null) {
-                String name = auth.getName();
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+            if(user!=null) {
+                String name = user;
 
                 //Gson gson = new Gson();
                 MyDAO mydao = new MyDAO();
@@ -298,9 +312,10 @@ public class MyRgdServiceController implements Controller {
 
             int listId = Integer.parseInt(request.getParameter("lid"));
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null) {
-                String name = auth.getName();
+            String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+            if (user != null) {
+                String name = user;
 
                 Gson gson = new Gson();
 
@@ -334,15 +349,18 @@ public class MyRgdServiceController implements Controller {
         String link = obj.get("url").getAsString();
         JsonArray genes = obj.get("genes").getAsJsonArray();
 
-        if (SecurityContextHolder.getContext().getAuthentication()!=null && (SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"))) {
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+
+        if (user == null) {
             response.getWriter().print("Error - user anonymous");
             return;
         }
-        if (SecurityContextHolder.getContext().getAuthentication()!=null) {
+        if (user!=null) {
             MyDAO mdao = new MyDAO();
             MyList mList = new MyList();
 
-            mList.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            mList.setUsername(user);
             mList.setObjectType(1);
             mList.setName(name);
             mList.setDesc(desc);
@@ -393,37 +411,43 @@ public class MyRgdServiceController implements Controller {
 
     public void deleteMessageCenterMessage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        if(user!=null) {
             JsonParser parser = new JsonParser();
 
             JsonObject obj = (JsonObject) parser.parse(request.getReader());
             String messageId = obj.get("mid").getAsString();
 
             MyDAO mdao = new MyDAO();
-            mdao.deleteMessageCenterMessage(Integer.parseInt(messageId), auth.getName());
+            mdao.deleteMessageCenterMessage(Integer.parseInt(messageId), user);
 
             Gson gson = new Gson();
 
-            response.getWriter().print(gson.toJson(mdao.getAllMessagesFromMessageCenterWithoutPayload(auth.getName())));
+            response.getWriter().print(gson.toJson(mdao.getAllMessagesFromMessageCenterWithoutPayload(user)));
         }
     }
 
     public void getMessageCenterMessages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
+
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        System.out.println("user in message center = " + user);
+
+        if(user!=null) {
             Gson gson = new Gson();
             MyDAO mdao = new MyDAO();
-            if (auth != null)
-                response.getWriter().print(gson.toJson(mdao.getAllMessagesFromMessageCenterWithoutPayload(auth.getName())));
+            if (user != null)
+                response.getWriter().print(gson.toJson(mdao.getAllMessagesFromMessageCenterWithoutPayload(user)));
         }
     }
 
     public void updateDigestSetting(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
+
+        if(user!=null) {
             JsonParser parser = new JsonParser();
 
             JsonObject obj = (JsonObject) parser.parse(request.getReader());
@@ -432,9 +456,9 @@ public class MyRgdServiceController implements Controller {
             MyDAO mdao = new MyDAO();
 
             if (digestString.equals("true")) {
-                mdao.updateDigest(auth.getName(), true);
+                mdao.updateDigest(user, true);
             } else {
-                mdao.updateDigest(auth.getName(), false);
+                mdao.updateDigest(user, false);
 
             }
 

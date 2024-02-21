@@ -41,9 +41,6 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/rgdweb/js/webFeedback.js" defer></script>
 
-    <!--script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script-->
-
     <%@ include file="/common/googleAnalytics.jsp" %>
 
     <script type="text/javascript" src="/rgdweb/js/rgdHomeFunctions-3.js"></script>
@@ -81,7 +78,7 @@
 
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
     <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
-    <script type="text/javascript" src="/rgdweb/my/my.js?5"></script>
+    <script type="text/javascript" src="/rgdweb/my/my.js?6"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -89,6 +86,8 @@
     <script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 
     <script type="text/javascript" src="/rgdweb/js/elasticsearch/elasticsearchcommon.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
 </head>
 
 <style>
@@ -116,6 +115,9 @@
         border:1px solid black;
         padding:3px;
     }
+    .g_id_signin > div > div:first-child{
+        display: none;
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
@@ -125,15 +127,33 @@
 <%@ include file="/common/angularTopBodyInclude.jsp" %>
 <%@ include file="/common/helpFeedbackChat.jsp" %>
 
+<script>
+    function googleSignIn(creds) {
+        var resp = fetch("/rgdweb/my/account.html", {
+            method: "POST",
+            body: JSON.stringify({
+                credential: creds.credential
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }).then((response) => response.json())
+            .then((json) => {
+                document.getElementById("setUser").click();
+            });
+
+
+
+    }
+</script>
+
+<input style="display:none;" id="setUser" type="button" ng-click="rgd.setUser()" value="click"/>
 
 <table class="wrapperTable" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td>
 
             <div id="headWrapper">
-
-
-
 
                 <div class="top-bar">
                     <table width="100%" border="0" class="headerTable" cellpadding="0" cellspacing="0">
@@ -144,33 +164,55 @@
 
                             </td>
 
+
                             <td align="right" style="color:white;" valign="center" colspan="3">
-                                <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
-                                <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
-                                <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
-                                <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
-                                <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <a href="/wg/registration-entry/">Submit Data</a>&nbsp;|&nbsp;
+                                            <a href="/wg/help3">Help</a>&nbsp;|&nbsp;
+                                            <a href="/wg/home/rgd_rat_community_videos/">Video Tutorials</a>&nbsp;|&nbsp;
+                                            <a href="/wg/news2/">News</a>&nbsp;|&nbsp;
+                                            <a href="/wg/home/rat-genome-database-publications">Publications</a>&nbsp;|&nbsp;
 
-                                <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
-                                <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
-                                <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
-                                <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
+                                            <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
+                                            <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
+                                            <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
+                                            <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
+                                        </td>
+                                        <td>
+                                        <div class="GoogleLoginButtonContainer">
 
-                                <!--
+                                            <div id="signIn">
+                                            <div style="display:none;" id="g_id_onload"
+                                                 data-client_id="833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"
+                                                 data-auto_prompt="false"
+                                                 data-auto_select="true"
+                                                 data-callback="googleSignIn"
+                                            >
+                                            </div>
 
-
-                                <input type="button" class="btn btn-info btn-sm"  value="{{username}}" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
-    -->
+                                            <div class="g_id_signin"
+                                                 data-type="standard"
+                                                 data-shape="rectangular"
+                                                 data-theme="outline"
+                                                 data-text="signin_with"
+                                                 data-size="small"
+                                                 data-logo_alignment="left">
+                                            </div>
+                                            </div>
+                                            <div id="manageSubs" style="display:none;">
+                                                <input  type="button" class="btn btn-info btn-sm"  value="Manage Subscriptions" ng-click="rgd.loadMyRgd($event)" style="background-color:#2B84C8;padding:1px 10px;font-size:12px;line-height:1.5;border-radius:3px"/>
+                                            </div>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
-
                         </tr>
-
                         <tr>
                             <td colspan="2">
-
-
-
                                 <div class="rgd-navbar">
                                     <div class="rgd-dropdown">
                                         <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
@@ -192,7 +234,7 @@
 
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
-<%--                                            <a href="/rgdweb/search/variants.html">Variants <span style="color:red;">(beta)</span></a>--%>
+                                            <a href="/rgdweb/search/variants.html">Variants <span style="color:red;">(beta)</span></a>
                                             <a href="/rgdweb/projects/project.html">Community Projects</a>
                                             <a href="/rgdweb/search/qtls.html?100">QTLs</a>
                                             <a href="/rgdweb/search/strains.html?100">Strains</a>
@@ -304,12 +346,14 @@
                                 <%@include file="../WEB-INF/jsp/search/elasticsearch/searchBox.jsp"%>
                             </td>
                             <td>
-                                <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
-                                <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
-                                <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
-                                <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
-                                <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
+                                            <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
+                                            <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
+                                            <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
+                                            <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
+                                            <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
 
+                                <!--
+-->
                             </td>
                         </tr>
 
@@ -374,6 +418,7 @@
         }
     }
 %>
+
 
 <div id="mainBody">
     <div id="contentArea" class="content-area">

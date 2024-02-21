@@ -3,12 +3,9 @@ package edu.mcw.rgd.my;
 import edu.mcw.rgd.dao.impl.MyDAO;
 import edu.mcw.rgd.datamodel.MessageCenterMessage;
 import edu.mcw.rgd.datamodel.myrgd.MyUser;
+import edu.mcw.rgd.security.UserManager;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.UI;
-import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -31,9 +28,10 @@ public class MyRGDShowMessageController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = UserManager.getInstance().getMyUser(request).getUsername();
 
-        if (auth.getName().equals("anonymousUser")) {
+
+        if (user.equals("anonymousUser")) {
             return new ModelAndView("/WEB-INF/jsp/my/login.jsp");
         }
 
@@ -41,9 +39,7 @@ public class MyRGDShowMessageController implements Controller {
 
         MyDAO mdao = new MyDAO();
 
-        List<MessageCenterMessage> messages = mdao.getMessagesFromMessageCenter(mid, auth.getName());
-
-        System.out.println("here 1");
+        List<MessageCenterMessage> messages = mdao.getMessagesFromMessageCenter(mid, user);
 
         if (messages.size()==1) {
             //request.setAttribute("message", messages.get(0));

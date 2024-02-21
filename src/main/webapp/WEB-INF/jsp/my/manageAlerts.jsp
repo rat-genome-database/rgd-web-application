@@ -1,8 +1,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -22,11 +21,12 @@
 Manage Alerts<br><br>
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String user = UserManager.getInstance().getMyUser(request).getUsername();
+
 
     MyDAO mdao = new MyDAO();
 
-    List<WatchedObject> wos = mdao.getWatchedObjects(auth.getName());
+    List<WatchedObject> wos = mdao.getWatchedObjects(user);
 
     for (WatchedObject wo: wos ) {
         %>

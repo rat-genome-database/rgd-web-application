@@ -1,9 +1,8 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
 <%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyList" %>
+<%@ page import="edu.mcw.rgd.security.UserManager" %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,8 +12,7 @@
 <script type="text/javascript" src="/rgdweb/common/angular.min.js"></script>
 
 <%
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name = auth.getName();
+    String name = UserManager.getInstance().getMyUser(request).getUsername();
 
     HttpRequestFacade req = new HttpRequestFacade(request);
 
