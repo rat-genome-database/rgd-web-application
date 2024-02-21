@@ -310,15 +310,15 @@ public class OntAnnotController implements Controller {
                 //a.setRefRgdId(annot.getRefRgdId());
 
                 a.setDataSource(annot.getDataSrc());
-
-                if (!refPipe.search(annot.getRefRgdId())){// not a pipeline reference
-                    a.setHiddenPmId(annot.getRefRgdId());
-                    a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
-                }
-                else { // is a pipeline
-                    String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                    if(!a.getReference().contains(refInfo))
-                        a.setReference(refInfo);
+                if (annot.getRefRgdId()!=null && annot.getRefRgdId()!=0) {
+                    if (!refPipe.search(annot.getRefRgdId())) {// not a pipeline reference
+                        a.setHiddenPmId(annot.getRefRgdId());
+                        a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
+                    } else { // is a pipeline
+                        String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
+                        if (!a.getReference().contains(refInfo))
+                            a.setReference(refInfo);
+                    }
                 }
                 a.setQualifier(Utils.NVL(annot.getQualifier(),""));
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
