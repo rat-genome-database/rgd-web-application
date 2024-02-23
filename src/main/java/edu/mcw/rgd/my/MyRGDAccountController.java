@@ -51,8 +51,6 @@ public class MyRGDAccountController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-
-
         String creds = "";
         try {
             String requestData = (String) request.getReader().lines().collect(Collectors.joining());
@@ -71,59 +69,12 @@ public class MyRGDAccountController implements Controller {
             return new ModelAndView("/WEB-INF/jsp/my/account.jsp");
         }
 
-//        String creds = request.getParameter("credential");
-        System.out.println(creds);
-
-        //String token = request.getParameter("g_csrf_token");
-        //System.out.print("<br><br><br>");
-        //System.out.print(token);
-
-        //verify the token
-        //https://oauth2.googleapis.com/tokeninfo?id_token=
-        /*
-        URL url = new URL("https://oauth2.googleapis.com/tokeninfo");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-
-        HashMap parameters = new HashMap();
-        parameters.put("id_token", "val");
-
-        con.setDoOutput(true);
-        DataOutputStream out = new DataOutputStream(con.getOutputStream());
-        out.writeBytes("id_token=" + token);
-        out.flush();
-        out.close();
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-
-        con.disconnect();
-
-        System.out.println(content.toString());
-*/
- //       String[] chunks = creds.split("\\.");
-
-        //Base64.Decoder decoder = Base64.getUrlDecoder();
-
-        //String header = new String(decoder.decode(chunks[0]));
-        //String payload = new String(decoder.decode(chunks[1]));
-
-        //System.out.println(header);
-
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 // Specify the CLIENT_ID of the app that accesses the backend:
                 .setAudience(Collections.singletonList("833037398765-po85dgcbuttu1b1lco2tivl6eaid3471.apps.googleusercontent.com"))
                 // Or, if multiple clients access the backend:
                 //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();
-
-// (Receive idTokenString by HTTPS POST)
 
         String email = "";
         GoogleIdToken idToken = verifier.verify(creds);
@@ -148,16 +99,6 @@ public class MyRGDAccountController implements Controller {
         }
 
 
-/*
-        java.util.Map jsonJavaRootObject = new Gson().fromJson(payload, java.util.Map.class);
-        System.out.println(jsonJavaRootObject);
-        String email = (String) jsonJavaRootObject.get("email");
-        Boolean emailVerified = (Boolean) jsonJavaRootObject.get("email_verified");
-        String name = (String) jsonJavaRootObject.get("name");
-        String picture = (String) jsonJavaRootObject.get("picture");
-
-        String username = email;
-*/
         UserManager.getInstance().myLogin(request,email);
 
 
