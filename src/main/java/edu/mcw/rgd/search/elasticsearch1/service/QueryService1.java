@@ -26,6 +26,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static edu.mcw.rgd.datamodel.search.ElasticMappings.boostValues;
 import static edu.mcw.rgd.datamodel.search.ElasticMappings.categories;
@@ -215,7 +216,7 @@ public class QueryService1 {
         if(sb==null) {
             return dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
-        if(sb.isObjectSearch() && sb.getCategory().equalsIgnoreCase("Gene") && sb.getMatchType()!=null && !sb.getMatchType().equals("")){
+        if(sb.isObjectSearch() && sb.getCategory().equalsIgnoreCase("Gene") && sb.getMatchType()!=null && !sb.getMatchType().equals("") && !sb.getMatchType().equalsIgnoreCase("contains")){
             buildQuery(sb, dqb);
         }else {
 
@@ -255,7 +256,7 @@ public class QueryService1 {
         switch (sb.getMatchType()) {
             case "equals" -> exactMatchQuery(dqb, sb);
             case "begins" -> beginsWithQuery(dqb, sb);
-            case "contains" -> containsQuery(dqb, sb);
+          //  case "contains" -> containsQuery(dqb, sb);
             case "ends" -> endsWithQuery(dqb, sb);
             default -> {
             }
@@ -264,27 +265,33 @@ public class QueryService1 {
 
     }
     public void exactMatchQuery(DisMaxQueryBuilder dqb, SearchBean sb){
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+
     }
     public void beginsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
-        dqb.add(QueryBuilders.multiMatchQuery(sb.getTerm())
-                       .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-               ;
+
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(sb.getTerm(), "symbol.symbol", "name.symbol")
+                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10)).must(QueryBuilders.matchQuery("category", sb.getCategory())));
+
+
     }
     public void endsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
-        System.out.println("ENDS WITH:" + sb.getTerm());
-        dqb.add(QueryBuilders.regexpQuery("symbol.symbol",".*("+sb.getTerm()+")").caseInsensitive(true)
-        );
+        for(String field:searchPrimaryFields) {
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.regexpQuery(field+".symbol", ".*(" + sb.getTerm() + ")").caseInsensitive(true))
+                    .must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.regexpQuery(field+".keyword", ".*(" + sb.getTerm() + ")").caseInsensitive(true))
+                    .must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+
+        }
 
     }
-    public void containsQuery(DisMaxQueryBuilder dqb, SearchBean sb){
-
-        dqb.add(QueryBuilders.multiMatchQuery(sb.getTerm())
-                        .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-                .add(QueryBuilders.multiMatchQuery(sb.getTerm())
-                        .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-    }
-
+    static List<String> searchPrimaryFields=
+            Arrays.asList("name", "symbol"
+                  );
+   
     public AggregationBuilder buildAggregations(String aggField) {
 
         AggregationBuilder   aggs=null;
