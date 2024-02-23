@@ -161,7 +161,18 @@
         <td style="font-size:26px;color:#55556D;">Welcome {{username}}</td>
     </tr>
 </table>
-<br><br>
+
+    <br>
+    RGD has retired its legacy login system.  We are now using Google to authenticate.   If you previously used an email address tied to a Google account your login will work as it did before.  If you used an email account that is not registered with Google you have 3 options...
+    <ol>
+    <li>Create a Google account using the email address previously used to register on RGD.  <a href='https://support.google.com/accounts/answer/27441?hl=en'>https://support.google.com/accounts/answer/27441?hl=en</a></li>
+    <li>Use the RGD contact us form to request RGD migrate your notification to an existing Google account.</li>
+    <li>Do nothing.  Your notification will continue to be sent even if you do not update your account.   You will not be able to add new notification or modify existing ones.</li>
+    </ol>");
+    <br>If you have question, RGD can be contacted by way of the <a href='http://localhost:8080/rgdweb/contact/contactus.html'>RGD Contact Page</a>
+
+
+    <br><br>
 <table border="0">
     <tr>
         <td align="center">
