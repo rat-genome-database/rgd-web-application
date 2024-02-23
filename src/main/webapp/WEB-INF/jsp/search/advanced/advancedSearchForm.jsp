@@ -10,6 +10,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
 
 <script type="text/javascript">
+
     function addParam(name, value) {
         console.log(name);
         console.log(value);
@@ -78,7 +79,17 @@
         <table border='0' >
 
             <tr>
-                <td colspan="6" ><b style="font-size: 15px">Keyword</b> <input name="term" id="objectSearchTerm" type="text" value="" size="85" style="font-size: 15px;height: 28px;"/>&nbsp;&nbsp;</td>
+
+                <td colspan="6" ><b style="font-size: 15px">Keyword:</b>
+                    <%if(pageTitle.toLowerCase().contains("gene")){%>
+                    <select id="match_type" name="match_type">
+                    <option value="equals" >Equals</option>
+                    <option value="contains" selected>Contains</option>
+                    <option value="begins">Begins with</option>
+                    <option value="ends">Ends with</option>
+                </select>
+                <%}%>
+                    <input name="term" id="objectSearchTerm" type="text" value="" size="85" style="font-size: 15px;height: 28px;"/>&nbsp;&nbsp;</td>
             </tr>
             <tr><td colspan=3>&nbsp;</td></tr>
             <% if (!(title.equals("Strains") || title.equals("References"))) { %>
@@ -172,9 +183,15 @@
                </td>
             </tr>
             <tr><td colspan=3>&nbsp;</td></tr>
-            <% } %>
+            <% }%>
+<%--                <%if (title.equals("Gene")){%>--%>
+<%--            <%@include file="advancedOptions.jsp"%>--%>
+<%--            <%}%>--%>
             <tr>
-                <td colspan="4" align="center"><input style="font-size: 9pt" type="submit" value="Search <%=title%>" /></td>
+
+                <td colspan="4" align="center">
+<%--                    <input type="reset" name="reset" value="Reset">&nbsp;--%>
+                    <input  type="submit" value="Search <%=title%>" /></td>
             </tr>
         </table>
     </td></tr>

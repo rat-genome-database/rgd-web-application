@@ -254,6 +254,7 @@ public class SearchService {
 
     }
     public SearchBean getSearchBean(HttpRequestFacade request, String term){
+
         String start=request.getParameter("start"),
                 stop=request.getParameter("stop"),
                 chr= !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
@@ -319,6 +320,26 @@ public class SearchService {
         sb.setViewAll(viewAll);
         sb.setCurrentPage(currentPage);
         sb.setRedirect(redirect);
+
+        if(request.getParameter("match_type")!=null) sb.setMatchType(request.getParameter("match_type"));
+        if(request.getParameter("search_fields")!=null) sb.setSearchFields(request.getParameter("search_fields"));
+        if(request.getParameter("sslp_limit")!=null) sb.setSslpLimit(request.getParameter("sslp_limit").equalsIgnoreCase("yes"));
+        if(request.getParameter("hmlg_limit")!=null) sb.setHomologLimit(request.getParameter("hmlg_limit").equalsIgnoreCase("yes"));
+        if(request.getParameter("ont_type")!=null) sb.setOntType(request.getParameter("ont_type"));
+        if(request.getParameter("ont_value")!=null) sb.setOntValue(request.getParameter("ont_value"));
+        if(request.getParameter("order")!=null) sb.setOrder(request.getParameter("order"));
+        if(request.getParameter("num_hits")!=null && !request.getParameter("num_hits").equals("")) sb.setHitsPerPage(Integer.parseInt(request.getParameter("num_hits")));
+        if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
+
+
+        System.out.println("MATCH TYPE:"+ request.getParameter("match_type"));
+        System.out.println("Search Fields:"+ request.getParameter("search_fields"));
+        System.out.println("SSLP LIMIT:"+ request.getParameter("sslp_limit"));
+        System.out.println("Homolog limit:"+ request.getParameter("hmlg_limit"));
+        System.out.println("ONT TYPE:"+ request.getParameter("ont_type"));
+        System.out.println("ONT VALUE:"+ request.getParameter("ont_value"));
+        System.out.println("ORDER:"+ request.getParameter("order"));
+        System.out.println("Hits per page:"+ request.getParameter("num_hits"));
         return sb;
     }
     public static void main(String[] args) throws IOException {
