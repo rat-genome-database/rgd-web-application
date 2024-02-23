@@ -14,6 +14,7 @@
 
 <%
     QTL obj = (QTL) request.getAttribute("reportObject");
+//    System.out.println(obj.getRgdId());
     String objectType="qtl";
     String displayName=obj.getSymbol();
 
@@ -22,15 +23,21 @@
     String headContent = "";
     String pageDescription = "RGD report page for " + obj.getName();
 
-    
-    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
-    List<MapData> mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
 
+    edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
+    List<MapData> mapDataList = new ArrayList<>();
+    try {
+        mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
+    }
+    catch (Exception e){
+//        System.out.println(e);
+    }
     MapData md = null;
     if (mapDataList.size() > 0) {
         md = mapDataList.get(0);
     }
-    
+    boolean peakRs = obj.getPeakRsId().isEmpty();
+    boolean isGwas = obj.getSymbol().startsWith("GWAS");
 %>
 
 <div id="top" ></div>
@@ -74,7 +81,7 @@
     <div id="content-wrap">
         <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
 <%@ include file="menu.jsp"%>
-<%  RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
+<%  RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if (view.equals("3")) { %>
 
 <% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) { %>
@@ -119,8 +126,10 @@
 
 %>
             <%@ include file="../genesInRegion.jsp"%>
+            <%if (peakRs){%>
             <%@ include file="../markersInRegion.jsp"%>
             <%@ include file="markers.jsp"%>
+            <%}%>
             <%@ include file="../qtlsInRegion.jsp"%>
             <%@ include file="../relatedStrains.jsp"%>
 
