@@ -20,11 +20,22 @@
 <div  style="width:100%;background-color:white">
 
     <div style=";background-color:white;">
-        <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">
-        <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">
-        <input type="hidden" name="filter" id = "filter" >
-        <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >
+<%--        <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">--%>
+<%--        <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">--%>
+<%--        <input type="hidden" name="filter" id = "filter" >--%>
+<%--        <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >--%>
 
+    <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
+    <input type="hidden" value="${model.searchBean.category}" id="searchCategory" name="category"/>
+    <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">
+    <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">
+    <input type="hidden" name="type" id = "type" >
+    <input type="hidden" name="filter" id = "filter" >
+    <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >
+    <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
+    <input type="hidden" name="stop" id="stop" value="${model.searchBean.stop}"/>
+    <input type="hidden" name="chr" id="chr" value="${model.searchBean.chr}"/>
+    <input type="hidden" name="match_type" id="match_type" value="${model.searchBean.matchType}"/>
 
         <c:choose>
             <c:when test="${fn:length(model.aggregations.species)==1}">
@@ -66,7 +77,7 @@
             <c:if test="${model.totalHits == 10000}">
         <span style="font-weight: bold">Showing Top</span>
         </c:if>
-            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}" in assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
+            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong>${model.searchBean.matchType}</strong>&nbsp;<strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}" in assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
         </p>
 
     </div>

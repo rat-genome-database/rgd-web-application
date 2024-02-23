@@ -29,6 +29,7 @@
 
                     <input type="hidden" name="stop" value="${model.searchBean.stop}">
                     <input type="hidden" name="chr" value="${model.searchBean.chr}"/>
+                    <input type="hidden" name="match_type" value="${model.searchBean.matchType}"/>
 
                     <input type="hidden" name="size" value="50">
                     <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
