@@ -2,22 +2,18 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 
 import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
-import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 
 import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -137,7 +133,6 @@ public class SearchService {
 
                             switch (bType) {
                             case "Gene":
-                         //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
                                 speciesCatArray[0][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
@@ -189,27 +184,15 @@ public class SearchService {
 
                 typeAgg = sr.getAggregations().get("type");
                 aggregations.put("type", typeAgg.getBuckets());
-            //    assembly = sr.getAggregations().get("assembly");
                 Nested assemblyAggs= sr.getAggregations().get("assemblyAggs");
                 Terms assemblies=assemblyAggs.getAggregations().get("assembly");
-             /*   List<Terms.Bucket> assemblyList=new ArrayList<>();
-                for(Terms.Bucket agg:assemblies.getBuckets()) {
-                    System.out.println("ASSEMBLY BKTS:"+agg.getKey()+"\t"+agg.getDocCount());
-                    Terms assembly1 =agg.getAggregations().get("assembly");
-                    if(assembly1!=null)
-                    assemblyList.addAll(assembly1.getBuckets());
-                }*/
+
 
                 aggregations.put("assembly", assemblies.getBuckets());
             }
        TotalHits hits= sr.getHits().getTotalHits();
            totalHits =hits.value ;
             searchHits.add(sr.getHits().getHits());
-          /*  SearchHit[] hitsarray= sr.getHits().getHits();
-        for(SearchHit h:hitsarray){
-           Map map=h.getSourceAsMap();  }*/
-
-  //      }
         int matrixResultsExists=0;
 
         if(nvCount<63){
@@ -228,14 +211,12 @@ public class SearchService {
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
         model.addAttribute("took", sr.getTook());
-    //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
    public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
            try {
             QueryService1 qs = new QueryService1();
            return qs.getSearchResponse(term, sb);
-                   //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception e){
         System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
             e.printStackTrace();
@@ -244,7 +225,6 @@ public class SearchService {
 
             QueryService1 qs = new QueryService1();
             return qs.getSearchResponse(term,sb);
-                    //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception exception){e.printStackTrace();}}
         return null;
     }
@@ -322,30 +302,9 @@ public class SearchService {
         sb.setRedirect(redirect);
 
         if(request.getParameter("match_type")!=null) sb.setMatchType(request.getParameter("match_type"));
-        if(request.getParameter("search_fields")!=null) sb.setSearchFields(request.getParameter("search_fields"));
-        if(request.getParameter("sslp_limit")!=null) sb.setSslpLimit(request.getParameter("sslp_limit").equalsIgnoreCase("yes"));
-        if(request.getParameter("hmlg_limit")!=null) sb.setHomologLimit(request.getParameter("hmlg_limit").equalsIgnoreCase("yes"));
-        if(request.getParameter("ont_type")!=null) sb.setOntType(request.getParameter("ont_type"));
-        if(request.getParameter("ont_value")!=null) sb.setOntValue(request.getParameter("ont_value"));
-        if(request.getParameter("order")!=null) sb.setOrder(request.getParameter("order"));
-        if(request.getParameter("num_hits")!=null && !request.getParameter("num_hits").equals("")) sb.setHitsPerPage(Integer.parseInt(request.getParameter("num_hits")));
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
 
-
-        System.out.println("MATCH TYPE:"+ request.getParameter("match_type"));
-        System.out.println("Search Fields:"+ request.getParameter("search_fields"));
-        System.out.println("SSLP LIMIT:"+ request.getParameter("sslp_limit"));
-        System.out.println("Homolog limit:"+ request.getParameter("hmlg_limit"));
-        System.out.println("ONT TYPE:"+ request.getParameter("ont_type"));
-        System.out.println("ONT VALUE:"+ request.getParameter("ont_value"));
-        System.out.println("ORDER:"+ request.getParameter("order"));
-        System.out.println("Hits per page:"+ request.getParameter("num_hits"));
         return sb;
     }
-    public static void main(String[] args) throws IOException {
-        System.out.println("start time: " + new Date());
-        SearchService service= new SearchService();
 
-        System.out.println("end time: "+ new Date());
-    }
 }
