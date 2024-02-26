@@ -223,7 +223,7 @@ public class AnnotationFormatter {
                 } else {
                     rec.append(a.getQualifier());
                 }
-                rec.append(a.getEvidence());
+                rec.append("<a href='javascript:void(0)' title='" + EvidenceCode.getName(a.getEvidence()) +"'>" + a.getEvidence() + "</a>");
 
                 if (a.getWithInfo() == null) {
                     rec.append("&nbsp;");
