@@ -4,6 +4,9 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.InetAddress" %>
+
+<%@ page import="org.elasticsearch.common.recycler.Recycler" %>
+<%@ page import="org.locationtech.jts.awt.PointShapeFactory" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .wrap660 {
@@ -29,6 +32,7 @@ boolean isEva = false;
             }
         }
     }
+
 
     int start = (int) var.getStartPos();
     List<MapData> mapData = mapDAO.getMapDataWithinRange(start,start,var.getChromosome(),var.getMapKey(),1);
@@ -60,6 +64,20 @@ boolean isEva = false;
     <%
         return;
     } %>
+
+<%
+    if (var.getRsId() == null || var.getRsId().equals("")) {
+        //try to get it from the xdb table
+        Xdb xdb = XDBIndex.getInstance().getXDB(48);
+        xdb.getUrl(obj.getSpeciesTypeKey());
+        List<XdbId> xids = new XdbIdDAO().getXdbIdsByRgdId(48, obj.getRgdId());
+        for (XdbId xid : xids) {
+            var.setRsId("rs" + xid.getAccId());
+            break;
+        }
+    }
+%>
+
 <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(speciesType)%>
     </h3></td></tr>
