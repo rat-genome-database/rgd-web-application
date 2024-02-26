@@ -5,6 +5,7 @@ import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
+import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.HTMLTableReportStrategy;
 import edu.mcw.rgd.reporting.Link;
@@ -21,6 +22,7 @@ import java.util.Map;
  */
 public class AnnotationFormatter {
 
+    OntologyXDAO odao = null;
 
     public String buildTable(List<String> records, int columns) {
 
@@ -77,14 +79,23 @@ public class AnnotationFormatter {
                 }
             } else {
 
+                // pathway diagram icon, if applicable
+                String pwStr = "";
+                if( a.getAspect().equals("W") ) {
+                    boolean pwTermHasDiagram = hasPathwayDiagram(a.getTermAcc());
+                    if( pwTermHasDiagram ) {
+                        pwStr = "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
+                    }
+                }
+
                 if (!term.equals("") && objectId != refRgdId) {
                     records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + annotatedRgdId + "\">" + term +
-                            " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
+                            " </a>"+pwStr+"<span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 } else if(!term.equals("")){
                     records.add("<tr>" +
                             "<td><a href=\"" + annotUrl + "?term=" + termAcc + "&id=" + refRgdId + "\">" + term +
-                            " </a><span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
+                            " </a>"+pwStr+"<span style=\"font-size:10px;\">&nbsp;(" + evidence + ")</span></td></tr>");
                 }
                 termAcc = a.getTermAcc();
                 annotatedRgdId = a.getAnnotatedObjectRgdId() + "";
@@ -113,6 +124,22 @@ public class AnnotationFormatter {
 
     public static boolean compare(String str1, String str2) {
         return (str1 == null ? str2 == null : str1.equals(str2));
+    }
+
+    boolean hasPathwayDiagram( String termAcc ) {
+        if( odao == null ) {
+            odao = new OntologyXDAO();
+        }
+
+        int count = 0;
+        try {
+            TermWithStats t = odao.getTermWithStatsCached(termAcc);
+            if( t!=null ) {
+                count = t.getDiagramCount(0);
+            }
+        } catch( Exception ignored ) {}
+
+        return count != 0;
     }
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site) throws Exception {
@@ -181,6 +208,14 @@ public class AnnotationFormatter {
                 }
 
                 String termString = "<a href='" + annotUrl + "?term=" + a.getTermAcc() + "&id=" + a.getAnnotatedObjectRgdId() + "'>" + a.getTerm() + " </a>";
+                // pathway diagram icon, if applicable
+                if( a.getAspect().equals("W") ) {
+                    boolean pwTermHasDiagram = hasPathwayDiagram(a.getTermAcc());
+                    if( pwTermHasDiagram ) {
+                        termString += "&nbsp;<a href=\"/rgdweb/pathway/pathwayRecord.html?acc_id="+a.getTermAcc()+"\" class=\"diaglnk\" title=\"view interactive pathway diagram\"></a>";
+                    }
+                }
+
                 rec.append(termString);
 
                 if (a.getQualifier() == null) {
@@ -188,19 +223,19 @@ public class AnnotationFormatter {
                 } else {
                     rec.append(a.getQualifier());
                 }
-                rec.append(a.getEvidence());
+                rec.append("<a href='javascript:void(0)' title='" + EvidenceCode.getName(a.getEvidence()) +"'>" + a.getEvidence() + "</a>");
 
-            if (a.getWithInfo() == null) {
-                rec.append("&nbsp;");
-            } else {
-                if(a.getRgdObjectKey() == 5){
-                    rec.append(formatWithInfo(a.getWithInfo(),a));
-                }else{
-                    rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
+                if (a.getWithInfo() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    if(a.getRgdObjectKey() == 5){
+                        rec.append(formatWithInfo(a.getWithInfo(),a));
+                    }else{
+                        rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
+                    }
                 }
-            }
 
-  if (!index.keySet().contains(i)) {
+                if (!index.keySet().contains(i)) {
                     if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
                         rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
                     } else {
@@ -219,29 +254,26 @@ public class AnnotationFormatter {
                 }
 
 
-            // notes: some could be as big as 4k of text; every sentence ends with "; ",
-            //  we display only first sentence followed by "..." link
-            if( a.getNotes()==null ) {
-                rec.append("&nbsp;");
-            }
-            else {
-                rec.append(formatXdbUrlsShort(a.getNotes(), a));
-            }
+                // notes: some could be as big as 4k of text; every sentence ends with "; ",
+                //  we display only first sentence followed by "..." link
+                if( a.getNotes()==null ) {
+                    rec.append("&nbsp;");
+                }
+                else {
+                    rec.append(formatXdbUrlsShort(a.getNotes(), a));
+                }
 
-            rec.append(a.getDataSrc());
+                rec.append(a.getDataSrc());
 
-            if (a.getXrefSource() == null) {
-                rec.append("&nbsp;");
-            } else {
-                rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
-            }
+                if (a.getXrefSource() == null) {
+                    rec.append("&nbsp;");
+                } else {
+                    rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
+                }
 
                 report.append(rec);
-
             }
-
         }
-
 
         return new HTMLTableReportStrategy().format(report);
     }
