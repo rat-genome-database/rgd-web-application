@@ -74,14 +74,14 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+            <!--<br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>-->
             <br>
 
-            <div id="associationsCurator" style="display:none;">
+            <div id="associationsCurator" style="display:block;">
                 <%@ include file="../associationsCurator.jsp"%>
                 <%@ include file="phenominerDetails.jsp"%>
             </div>
-            <div id="associationsStandard" style="display:block;">
+            <div id="associationsStandard" style="display:none;">
                 <%@ include file="../associations.jsp"%>
                 <%@ include file="phenominer.jsp"%>
             </div>
