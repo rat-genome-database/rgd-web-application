@@ -15,7 +15,7 @@
 <p id="msg" style="color:red"><%=msg%></p>
 <form action="updateVariantAssociations.html" >
     <input type="hidden" name="rgdId" value="<%=rgdId%>">
-    <input type="hidden" name="markerClass" value="variant2gene">
+    <input type="hidden" name="markerClass" value="variant_to_gene">
     <table id="geneAssocTable" border="1" width="500" class="updateTile" cellspacing="0" >
         <tbody>
         <tr>

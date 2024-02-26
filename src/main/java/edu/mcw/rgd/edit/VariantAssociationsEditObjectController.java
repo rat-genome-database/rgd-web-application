@@ -31,10 +31,10 @@ public class VariantAssociationsEditObjectController extends AssociationEditObje
 
         String markerClass = Utils.defaultString(request.getParameter("markerClass"));
 
-        if (markerClass.equals("variant2gene")) {
+        if (markerClass.equals("variant_to_gene")) {
             String[] geneRgdIds = request.getParameterValues("geneRgdId");
             String[] geneMarkerTypes = request.getParameterValues("geneMarkerType");
-            updateGeneAssociations(rgdId, geneRgdIds, geneMarkerTypes, adao.getAssociationsForMasterRgdId(rgdId,"variant2gene"));
+            updateGeneAssociations(rgdId, geneRgdIds, geneMarkerTypes, adao.getAssociationsForMasterRgdId(rgdId,"variant_to_gene"));
         }
 
         status.add("Update Successful");
@@ -80,7 +80,7 @@ public class VariantAssociationsEditObjectController extends AssociationEditObje
                     Association assoc = new Association();
                     assoc.setMasterRgdId(variantRgdId);
                     assoc.setDetailRgdId(Integer.parseInt(incomingRgdId));
-                    assoc.setAssocType("variant2gene");
+                    assoc.setAssocType("variant_to_gene");
                     assoc.setAssocSubType(markerType);
                     adao.insertAssociation(assoc);
                 }
@@ -89,7 +89,7 @@ public class VariantAssociationsEditObjectController extends AssociationEditObje
 
         // incoming data processed -- whatever was left in 'inRgdAssocs' list is stale, and must be deleted
         for (Association a : inRgdAssocs) {
-            adao.deleteAssociations(variantRgdId, a.getDetailRgdId(),"variant2gene");
+            adao.deleteAssociations(variantRgdId, a.getDetailRgdId(),"variant_to_gene");
         }
     }
 }
