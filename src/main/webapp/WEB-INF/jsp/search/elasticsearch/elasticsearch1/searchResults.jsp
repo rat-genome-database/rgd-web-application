@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
+<%@ page import="java.util.Arrays" %>
 <% String pageTitle = "Search Results - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
@@ -20,11 +22,22 @@
 <div  style="width:100%;background-color:white">
 
     <div style=";background-color:white;">
-        <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">
-        <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">
-        <input type="hidden" name="filter" id = "filter" >
-        <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >
+<%--        <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">--%>
+<%--        <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">--%>
+<%--        <input type="hidden" name="filter" id = "filter" >--%>
+<%--        <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >--%>
 
+    <input type="hidden" value="${model.term}" id="searchTerm" name="term"/>
+    <input type="hidden" value="${model.searchBean.category}" id="searchCategory" name="category"/>
+    <input type="hidden" name="cat1" id="cat1" value="${model.cat1}">
+    <input type="hidden" name="sp1" id = "sp1" value="${model.sp1}">
+    <input type="hidden" name="type" id = "type" >
+    <input type="hidden" name="filter" id = "filter" >
+    <input type="hidden" name="subCat" id = "subCat" value="${model.searchBean.subCat}" >
+    <input type="hidden" name="start" id="start" value="${model.searchBean.start}"/>
+    <input type="hidden" name="stop" id="stop" value="${model.searchBean.stop}"/>
+    <input type="hidden" name="chr" id="chr" value="${model.searchBean.chr}"/>
+    <input type="hidden" name="match_type" id="match_type" value="${model.searchBean.matchType}"/>
 
         <c:choose>
             <c:when test="${fn:length(model.aggregations.species)==1}">
@@ -54,7 +67,22 @@
             <form action="elasticResults.html">
                 <table>
                     <tr><td>
-                <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong><input type="text" size=45 name="term" value="${model.term}" />
+                <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong>
+                        <c:if test="${fn:toLowerCase(model.searchBean.category)=='gene'}">
+                        <select  name="match_type">
+                            <%SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
+                            for(String matchType: Arrays.asList("Equals","Contains","Begins With","Ends With")){
+                                if(searchBean.getMatchType()!=null && !searchBean.getMatchType().equals("") && matchType.toLowerCase().contains(searchBean.getMatchType())){%>
+                                    <option value="<%=searchBean.getMatchType()%>" selected><%=matchType%></option>
+                            <%}} for(String matchType: Arrays.asList("Equals","Contains","Begins With","Ends With")){
+                                if(searchBean.getMatchType()!=null && !searchBean.getMatchType().equals("") && !matchType.toLowerCase().contains(searchBean.getMatchType())){%>
+                                <option value="<%=matchType.split(" ")[0].toLowerCase()%>" ><%=matchType%></option>
+
+                            <%}}%>
+
+                        </select>
+                        </c:if>
+                        <input type="text" size=45 name="term" value="${model.term}" />
         </td>
                     <td><input type="image" src="/common/images/searchGlass.gif" class="searchButtonSmall"/></td>
                     </tr>
@@ -66,7 +94,7 @@
             <c:if test="${model.totalHits == 10000}">
         <span style="font-weight: bold">Showing Top</span>
         </c:if>
-            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}" in assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
+            <strong style="color:blue">${model.totalHits}</strong> results found for term <strong>${model.searchBean.matchType}</strong>&nbsp;<strong style="color:blue">"${model.term}"</strong> in category "${model.searchBean.category}" in assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
         </p>
 
     </div>

@@ -26,6 +26,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static edu.mcw.rgd.datamodel.search.ElasticMappings.boostValues;
 import static edu.mcw.rgd.datamodel.search.ElasticMappings.categories;
@@ -215,37 +216,82 @@ public class QueryService1 {
         if(sb==null) {
             return dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("gene") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200));
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("SSLP") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500));
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100));
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("variant") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900));
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("qtl") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000));
-        if(sb.getCategory()!=null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200));
-            dqb.add(QueryBuilders.termQuery("symbol.symbol",term).boost(2000));
-            dqb.add(QueryBuilders.termQuery("term.symbol",term).boost(2000));
+        if(sb.getMatchType()!=null && !sb.getMatchType().equals("") && !sb.getMatchType().equalsIgnoreCase("contains")){
+            buildQuery(sb, dqb);
+        }else {
 
-               dqb .add(QueryBuilders.multiMatchQuery(term)
-                        .field("symbol.symbol", 100)
-                        .field("term.symbol", 100)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-                .add(QueryBuilders.multiMatchQuery(term)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                .add(QueryBuilders.multiMatchQuery(term)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-     //   String[] tokens=term.split("[\\s,]+");
-      //  if(tokens.length>0){
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("gene") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Gene")).boost(1200));
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("SSLP") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "SSLP")).boost(500));
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(1100));
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("variant") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "Variant")).boost(900));
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("qtl") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", term)).must(QueryBuilders.matchQuery("category", "QTL")).boost(1000));
+            if (sb.getCategory() != null && (sb.getCategory().equalsIgnoreCase("") || sb.getCategory().equalsIgnoreCase("strain") || sb.getCategory().equalsIgnoreCase("general")))
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.matchQuery("category", "Strain")).boost(200));
+            dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
+            dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
+
             dqb.add(QueryBuilders.multiMatchQuery(term)
-                            .operator(Operator.AND));
-
+                            .field("symbol.symbol", 100)
+                            .field("term.symbol", 100)
+                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
+                    .add(QueryBuilders.multiMatchQuery(term)
+                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                    .add(QueryBuilders.multiMatchQuery(term)
+                            .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+            //   String[] tokens=term.split("[\\s,]+");
+            //  if(tokens.length>0){
+            dqb.add(QueryBuilders.multiMatchQuery(term)
+                    .operator(Operator.AND));
+        }
         return dqb;
 
     }
+    public void buildQuery(SearchBean sb, DisMaxQueryBuilder dqb){
+
+        switch (sb.getMatchType()) {
+            case "equals" -> exactMatchQuery(dqb, sb);
+            case "begins" -> beginsWithQuery(dqb, sb);
+          //  case "contains" -> containsQuery(dqb, sb);
+            case "ends" -> endsWithQuery(dqb, sb);
+            default -> {
+            }
+        }
+
+
+    }
+    public void exactMatchQuery(DisMaxQueryBuilder dqb, SearchBean sb){
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+
+    }
+    public void beginsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
+
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(sb.getTerm(), "symbol.symbol", "name.symbol")
+                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10)).must(QueryBuilders.matchQuery("category", sb.getCategory())));
+
+
+    }
+    public void endsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
+        for(String field:searchPrimaryFields) {
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.regexpQuery(field+".symbol", ".*(" + sb.getTerm() + ")").caseInsensitive(true))
+                    .must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.regexpQuery(field+".keyword", ".*(" + sb.getTerm() + ")").caseInsensitive(true))
+                    .must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+
+        }
+
+    }
+    static List<String> searchPrimaryFields=
+            Arrays.asList("name", "symbol"
+                  );
+   
     public AggregationBuilder buildAggregations(String aggField) {
 
         AggregationBuilder   aggs=null;

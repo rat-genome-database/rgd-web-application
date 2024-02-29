@@ -190,14 +190,11 @@
                 </c:if>
             </td>
             <td>
-<c:if test="${model.searchBean.category.equalsIgnoreCase('Variant') || model.searchBean.category.equalsIgnoreCase('general')}">
+            <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant') || model.searchBean.category.equalsIgnoreCase('general')}">
                RsId
-</c:if>
-            </td>
-            <c:if test="${model.searchBean.category.equalsIgnoreCase('Variant')}">
-                <!--td>Ref_Nucleotide</td>
-                <td>Var_Nucleotide</td-->
             </c:if>
+            </td>
+
             <c:if test="${model.searchBean.category!='Reference' && model.searchBean.category!='Ontology'}">
             <td>
                 Assembly
@@ -250,6 +247,10 @@
                     <c:if test="${model.searchBean.species!='Human'}">
                     <c:set var="url" value="/rgdweb/report/variants/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                     </c:if>
+                    <c:if test="${hit.getSourceAsMap().variantCategory=='Phenotypic Variant'}">
+                        <c:set var="url" value="/rgdweb/report/rgdvariant/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
+
+                    </c:if>
                     </c:if>
                 <c:if test="${hit.getSourceAsMap().category=='Reference'}">
                     <c:set var="url" value="/rgdweb/report/reference/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
@@ -267,7 +268,7 @@
                     <c:set var="url" value="/rgdweb/report/cellline/main.html?id=${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
                 <!--tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location= '$-{url}'"-->
-                <tr onmouseover="this.style.cursor='pointer'" onclick="if (link) window.location.href='${url}'">
+                <tr style="cursor: pointer" onclick="if (link) window.location.href='${url}'">
                     <c:choose>
                         <c:when test="${model.searchBean.category.equals('Gene') || model.searchBean.category.equals('Strain') || model.searchBean.category.equals('QTL')
                                          || model.searchBean.category.equals('SSLP') || ( model.searchBean.category.equals('Variant') && model.searchBean.species=='Human'  )|| model.searchBean.category.equals('Promoter') || model.searchBean.category.equals('Reference') || model.searchBean.category.equals('Cell line')}">
@@ -427,7 +428,7 @@
                         </c:if>
                     </td>
 
-                    <td   style="cursor: auto;">
+                    <td   style="cursor: pointer;">
                         <a href="${url}">
                             <c:if test="${hit.getSourceAsMap().category!='Variant' || fn:containsIgnoreCase(hit.getSourceAsMap().species, 'human' )}">
                             <c:set var="str" value="${hit.getSourceAsMap().name}${hit.getSourceAsMap().title}${hit.getSourceAsMap().term}"/>
@@ -655,7 +656,7 @@
                         <%@include file="highlights.jsp"%>
                     </td>
                     <%}%>
-                    <!--td class="" >$-{hit.getScore()}</td-->
+<%--                    <!--td class="" >$-{hit.getScore()}</td-->--%>
 
                 </tr>
             </c:forEach>
