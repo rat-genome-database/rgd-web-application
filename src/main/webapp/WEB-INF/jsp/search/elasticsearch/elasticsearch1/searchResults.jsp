@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
+<%@ page import="java.util.Arrays" %>
 <% String pageTitle = "Search Results - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
@@ -65,7 +67,22 @@
             <form action="elasticResults.html">
                 <table>
                     <tr><td>
-                <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong><input type="text" size=45 name="term" value="${model.term}" />
+                <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong>
+                        <c:if test="${fn:toLowerCase(model.searchBean.category)=='gene'}">
+                        <select  name="match_type">
+                            <%SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
+                            for(String matchType: Arrays.asList("Equals","Contains","Begins With","Ends With")){
+                                if(searchBean.getMatchType()!=null && !searchBean.getMatchType().equals("") && matchType.toLowerCase().contains(searchBean.getMatchType())){%>
+                                    <option value="<%=searchBean.getMatchType()%>" selected><%=matchType%></option>
+                            <%}} for(String matchType: Arrays.asList("Equals","Contains","Begins With","Ends With")){
+                                if(searchBean.getMatchType()!=null && !searchBean.getMatchType().equals("") && !matchType.toLowerCase().contains(searchBean.getMatchType())){%>
+                                <option value="<%=matchType.split(" ")[0].toLowerCase()%>" ><%=matchType%></option>
+
+                            <%}}%>
+
+                        </select>
+                        </c:if>
+                        <input type="text" size=45 name="term" value="${model.term}" />
         </td>
                     <td><input type="image" src="/common/images/searchGlass.gif" class="searchButtonSmall"/></td>
                     </tr>

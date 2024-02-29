@@ -216,7 +216,7 @@ public class QueryService1 {
         if(sb==null) {
             return dqb.add(QueryBuilders.termQuery("term_acc", term));
         }
-        if(sb.isObjectSearch() && sb.getCategory().equalsIgnoreCase("Gene") && sb.getMatchType()!=null && !sb.getMatchType().equals("") && !sb.getMatchType().equalsIgnoreCase("contains")){
+        if(sb.getMatchType()!=null && !sb.getMatchType().equals("") && !sb.getMatchType().equalsIgnoreCase("contains")){
             buildQuery(sb, dqb);
         }else {
 

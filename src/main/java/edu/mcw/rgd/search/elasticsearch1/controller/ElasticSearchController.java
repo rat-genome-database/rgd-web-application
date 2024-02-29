@@ -119,7 +119,7 @@ public class ElasticSearchController implements Controller {
             model.addAttribute("sp1", sp1);
             model.addAttribute("term", term);
             model.addAttribute("searchBean", sb);
-
+            request.setAttribute("searchBean", sb);
             if(objectSearch!=null){model.addAttribute("objectSearch", objectSearch);}
 
             if (page) { return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);}

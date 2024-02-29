@@ -301,7 +301,7 @@ public class SearchService {
         sb.setCurrentPage(currentPage);
         sb.setRedirect(redirect);
 
-        if(request.getParameter("match_type")!=null) sb.setMatchType(request.getParameter("match_type"));
+        if(request.getParameter("match_type")!=null && !request.getParameter("match_type").equals("") ) sb.setMatchType(request.getParameter("match_type"));
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
 
         return sb;
