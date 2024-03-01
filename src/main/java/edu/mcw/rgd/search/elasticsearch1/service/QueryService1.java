@@ -128,7 +128,7 @@ public class QueryService1 {
 
                 }
             }
-
+        System.out.println("SRB:" +srb);
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -265,17 +265,19 @@ public class QueryService1 {
 
     }
     public void exactMatchQuery(DisMaxQueryBuilder dqb, SearchBean sb){
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
 
     }
     public void beginsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
 
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.matchQuery("category", sb.getCategory())).boost(1000));
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(sb.getTerm(), "symbol.symbol", "name.symbol")
-                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10)).must(QueryBuilders.matchQuery("category", sb.getCategory())));
+//        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
+//        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
+//        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(sb.getTerm(), "symbol.symbol", "name.symbol")
+//                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10)).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)));
 
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchPhrasePrefixQuery("symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchPhrasePrefixQuery("name", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
 
     }
     public void endsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
