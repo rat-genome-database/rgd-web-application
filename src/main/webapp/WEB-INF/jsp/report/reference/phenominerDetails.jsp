@@ -19,10 +19,24 @@
             + bean.getPhenoXcoTerms().size() > 0 ) {
 %>
 
+
+
 <div id="phenominerAssociationCTableDiv" class="light-table-border">
-    <div class="sectionHeading" id="phenominerAssociationC">Phenotype Values <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('phenominerAssociationCTableDiv', 'phenominerAssociationTableWrapper');">Click to see Annotation Detail View</a></div>
+    <h3>Related Phenotype Data for this Reference</h3>
+
+    <table>
+        <tr>
+            <td><b>Phenominer Options:&nbsp;</b></td>
+            <td><a href="/rgdweb/phenominer/table.html?species=3&refRgdId=<%=obj.getRgdId()%>#ViewChart">View all phenotype data for this reference</a></td>
+            <td>&nbsp;|&nbsp;</td>
+            <td><a href="/rgdweb/phenominer/table.html?species=3&fmt=3&refRgdId=<%=obj.getRgdId()%>">Download all phenotype data for this reference</a></td>
+        </tr>
+    </table>
+<br>
+    Select a value below to view phenotype data for a specific strain, measurment, or condition.
+    <br><br>
     <div>
-        <h3>Related Phenotype Data for Reference</h3>
+
         <table cellspacing='3px' border='0'>
             <tr>
                 <td valign='top' style='vertical-align: top;'>
