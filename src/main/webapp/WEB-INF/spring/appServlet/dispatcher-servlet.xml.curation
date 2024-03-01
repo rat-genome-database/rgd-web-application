@@ -282,6 +282,8 @@
                  <prop key="report/project/main.html">ProjectReportController</prop>
                 <prop key="ai/output.html">aiController</prop>
 
+                <prop key="/hrdp_panel.html">hrdpController</prop>
+
             </props>
         </property>
     </bean>
@@ -557,6 +559,8 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+
+    <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
 
     </beans>
 
