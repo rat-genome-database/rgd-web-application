@@ -128,7 +128,6 @@ public class QueryService1 {
 
                 }
             }
-        System.out.println("SRB:" +srb);
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
