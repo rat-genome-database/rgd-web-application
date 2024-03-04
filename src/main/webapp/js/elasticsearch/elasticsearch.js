@@ -54,7 +54,10 @@ $(function () {
 function getParameters() {
     $content = $('#results');
     tmp = $content.html();
-
+    matchType=$('#match_type').val();
+    if(typeof matchType=='undefined' ){
+        matchType=""
+    }
     $assembly = $('#assembly').val();
     if (typeof  $assembly == "undefined") {
         $assembly = "";
@@ -117,6 +120,7 @@ function setParameters(){
     $('#filter').val($filterType);
     $('#subCat').val($subCat);
     $('#assembly').val($objectAssembly);
+    $('#match_type').val(matchType)
 }
 function prevFunction(e, id) {
     getParameters();
@@ -139,12 +143,12 @@ function prevFunction(e, id) {
     if(currentPage>1) {
         currentPage = currentPage - 1;
         if(typeof $assembly=='undefined') {
-            $url = "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize+ "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+            $url = "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize+ "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
         }else{
-            $url = "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&assembly="+$assembly+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+            $url = "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&assembly="+$assembly+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
         }
         if($objectSearch == "true") {
-            $url =  "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly;
+            $url =  "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
         }
         $.get($url, function (data, status) {
             $content.html(data);
@@ -171,9 +175,9 @@ function nextFunction(e, id) {
    if((currentPage) < (totalPages)) {
         currentPage = currentPage + 1;
 
-            $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+            $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
        if($objectSearch == "true") {
-           $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly;
+           $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
        }
 
         $.get($url, function (data, status) {
@@ -202,10 +206,10 @@ function sortFunction(e, value) {
     $currentPage.text(1);
     currentPage=$currentPage.text();
     $("#pageNumber").val(1);
-   $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy+"&assembly="+$assembly +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+   $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy+"&assembly="+$assembly +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr +"&match_type="+matchType;
 
     if($objectSearch == "true") {
-        $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly;
+        $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
     }
     $.get($url, function (data, status) {
 
@@ -224,32 +228,6 @@ function sortFunction(e, value) {
     })
 }
 
-/*function assembly(){
-   getParameters();
-    var totalPages=getTotalPages(totalHits, pageSize);
-    $totalPages.text(totalPages);
-
-    $currentPage.text(1);
-    $("#pageNumber").val(1);
-    $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy +"&assembly="+$assembly+"&"+$filterType+"="+ $type+"&subCat=" +$subCat;
-
-    $.get($url, function (data, status) {
-        $content.html(data);
-        var displayFrom=1;
-        $('#showResultsFrom').text(displayFrom);
-        var displayTo= Number(pageSize)
-        if(totalHits<pageSize || displayTo>totalHits) {
-            $('#showResultsTo').text(totalHits);
-        }else {
-            $('#showResultsTo').text(displayTo);
-        }
-
-
-        $('#sortBy').val(sortBy);
-        $('#pageSize').val(pageSize)
-
-    });
-  }*/
 function pagesizeFunction(e, id){
     getParameters();
     $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
@@ -257,9 +235,9 @@ function pagesizeFunction(e, id){
     $totalPages.text(totalPages);
     $currentPage.text(1);
     currentPage=$currentPage.text();
-    $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&assembly="+$assembly +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+    $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&assembly="+$assembly +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
     if($objectSearch == "true") {
-        $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy  +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly;
+        $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy  +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
     }
     console.log($url);
     $.get($url, function (data, status) {
@@ -301,9 +279,9 @@ function submitFunction(e) {
     }else{
         $currentPage.val(currentPage);
         $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
-        $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr;
+        $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
         if($objectSearch == "true") {
-            $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly;
+            $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
         }
         $.get($url, function (data, status) {
             $content.html(data);
@@ -323,22 +301,17 @@ function submitFunction(e) {
 }
 
 function filterClick(category, species,subCat, type, filter, objectAssembly) {
-   /* if(typeof objectAssembly=='undefined'){
-        objectAssembly=""
-    }*/
-   // $('#assembly').val(objectAssembly)
 
     getParameters();
     if(typeof objectAssembly=='undefined' || objectAssembly=='' )
     objectAssembly= $objectAssembly;
 
     var $sampleExists;
-    var filterType;
-
-    if(filter=='trait'){
-        filterType='trait';
-     }else {
-        filterType='type'
+    var filterType=null;
+    if ((typeof filter != 'undefined') && filter!=''){
+        filterType=filter;
+    }else{
+        filterType='type';
     }
 
     $('#subCat').val(subCat);
@@ -385,9 +358,9 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     var term=$('#searchTerm').val();
 
    if($objectSearch == "true"){
-      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly ;
+      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     } if($objectSearch != "true"){
-        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly ;
+        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     }
     console.log($url);
 

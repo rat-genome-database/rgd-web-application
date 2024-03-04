@@ -2,22 +2,18 @@ package edu.mcw.rgd.search.elasticsearch1.service;
 
 
 import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
-import edu.mcw.rgd.search.elasticsearch1.model.Species;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.collect.HppcMaps;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 
 import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.springframework.http.HttpRequest;
 import org.springframework.ui.ModelMap;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,12 +52,14 @@ public class SearchService {
 
             if (sr.getAggregations() != null) {
                 speciesAgg = sr.getAggregations().get("species");
-
                 aggregations.put("species", speciesAgg.getBuckets());
+
                 categoryAgg = sr.getAggregations().get("category");
                 List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
-
                 aggregations.put("category", catBuckets);
+
+
+
                 for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
                    Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
                    String species = new String();
@@ -71,6 +69,18 @@ public class SearchService {
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
+                       Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
+                       Terms regionFilterAgg=bucket.getAggregations().get("region");
+                       Terms sampleFilterAgg=bucket.getAggregations().get("sample");
+                       Terms variantCategoryFilterAgg=bucket.getAggregations().get("variantCategory");
+
+                       if(bucket.getKey().toString().equalsIgnoreCase("variant")){
+                           aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
+                           aggregations.put(species + "Region", regionFilterAgg.getBuckets());
+                           aggregations.put(species + "Sample", sampleFilterAgg.getBuckets());
+                           aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
+
+                       }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
                        }else
@@ -123,7 +133,6 @@ public class SearchService {
 
                             switch (bType) {
                             case "Gene":
-                         //       String url="elasticResults.html?category=Gene&species="+key+"&term=" + term.replace(" " ,"+") +"&cat1="+ cat1+"&sp1="+ sp1+"&postCount="+ postCount ;
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
                                 speciesCatArray[0][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
@@ -175,27 +184,15 @@ public class SearchService {
 
                 typeAgg = sr.getAggregations().get("type");
                 aggregations.put("type", typeAgg.getBuckets());
-            //    assembly = sr.getAggregations().get("assembly");
                 Nested assemblyAggs= sr.getAggregations().get("assemblyAggs");
                 Terms assemblies=assemblyAggs.getAggregations().get("assembly");
-             /*   List<Terms.Bucket> assemblyList=new ArrayList<>();
-                for(Terms.Bucket agg:assemblies.getBuckets()) {
-                    System.out.println("ASSEMBLY BKTS:"+agg.getKey()+"\t"+agg.getDocCount());
-                    Terms assembly1 =agg.getAggregations().get("assembly");
-                    if(assembly1!=null)
-                    assemblyList.addAll(assembly1.getBuckets());
-                }*/
+
 
                 aggregations.put("assembly", assemblies.getBuckets());
             }
        TotalHits hits= sr.getHits().getTotalHits();
            totalHits =hits.value ;
             searchHits.add(sr.getHits().getHits());
-          /*  SearchHit[] hitsarray= sr.getHits().getHits();
-        for(SearchHit h:hitsarray){
-           Map map=h.getSourceAsMap();  }*/
-
-  //      }
         int matrixResultsExists=0;
 
         if(nvCount<63){
@@ -214,14 +211,12 @@ public class SearchService {
         model.addAttribute("matrixResultsExists", matrixResultsExists );
         model.addAttribute("ontologyTermCount", totalTerms);
         model.addAttribute("took", sr.getTook());
-    //    System.out.println("TOOK: " + sr.getTook() + " || "+ sr.getTook() + " || "+ sr.getTotalShards());
         return model;
     }
    public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
            try {
             QueryService1 qs = new QueryService1();
            return qs.getSearchResponse(term, sb);
-                   //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception e){
         System.out.println("UNKNOWN HOST EXCETPITON.. Reinitiating client..." );
             e.printStackTrace();
@@ -230,7 +225,6 @@ public class SearchService {
 
             QueryService1 qs = new QueryService1();
             return qs.getSearchResponse(term,sb);
-                    //sb.getCategory(), sb.getSpecies(), sb.getType(), sb.getSubCat(), sb.getFrom(), sb.getSize(), sb.isPage(), sb.getSortOrder(), sb.getSortBy(), sb.getAssembly(), sb.getTrait(), sb.getStart(), sb.getStop(), sb.getStop());
         }catch (Exception exception){e.printStackTrace();}}
         return null;
     }
@@ -240,6 +234,7 @@ public class SearchService {
 
     }
     public SearchBean getSearchBean(HttpRequestFacade request, String term){
+
         String start=request.getParameter("start"),
                 stop=request.getParameter("stop"),
                 chr= !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
@@ -256,6 +251,12 @@ public class SearchService {
         String subCat =  request.getParameter("subCat");
         String sortValue=request.getParameter("sortBy").equals("")?String.valueOf(0):request.getParameter("sortBy");
         String trait=request.getParameter("trait");
+        String polyphenStatus=request.getParameter("polyphenStatus");
+        String variantCategory=request.getParameter("variantCategory");
+
+        String region=request.getParameter("region");
+        String sample=request.getParameter("sample");
+
         Map<String, Sort> sortMap= SortMap.getSortMap();
         Sort s= sortMap.get(sortValue);
         String sortBy=s.getSortBy();
@@ -288,16 +289,22 @@ public class SearchService {
         sb.setSubCat(subCat);
         sb.setTerm(term);
         sb.setTrait(trait);
+        sb.setPolyphenStatus(polyphenStatus);
+        sb.setVariantCategory(variantCategory);
+
+        sb.setRegion(region);
+        sb.setSample(sample);
+
+
         sb.setType(type);
         sb.setViewAll(viewAll);
         sb.setCurrentPage(currentPage);
         sb.setRedirect(redirect);
+
+        if(request.getParameter("match_type")!=null && !request.getParameter("match_type").equals("") ) sb.setMatchType(request.getParameter("match_type"));
+        if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
+
         return sb;
     }
-    public static void main(String[] args) throws IOException {
-        System.out.println("start time: " + new Date());
-        SearchService service= new SearchService();
 
-        System.out.println("end time: "+ new Date());
-    }
 }

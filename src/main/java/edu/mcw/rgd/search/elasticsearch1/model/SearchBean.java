@@ -6,6 +6,8 @@ package edu.mcw.rgd.search.elasticsearch1.model;
 public class SearchBean {
     private String term;
     private String category;
+    private String variantCategory;
+
     private String species;
     private String type;
     private String subCat;
@@ -16,11 +18,119 @@ public class SearchBean {
     private String sortBy;
     private String assembly;
     private String trait;
+    private String polyphenStatus;
+    private String sample;
+    private String region;
     private String start;
     private String stop;
     private String chr;
     private int currentPage;
     private boolean redirect;
+    /********************************************GENE SEARCH ADDITIONAL FIELDS************************/
+    String matchType;//:equals
+    String searchFields;//:all_with_aliases
+    boolean sslpLimit;//:no
+    boolean homologLimit;//:no
+    String ontType;//:GO
+    String ontValue;
+    String order;//:symbol
+    int hitsPerPage;//:25
+    boolean objectSearch;
+
+    public boolean isObjectSearch() {
+        return objectSearch;
+    }
+
+    public void setObjectSearch(boolean objectSearch) {
+        this.objectSearch = objectSearch;
+    }
+
+    public String getMatchType() {
+        return matchType;
+    }
+
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
+    }
+
+    public String getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(String searchFields) {
+        this.searchFields = searchFields;
+    }
+
+    public boolean isSslpLimit() {
+        return sslpLimit;
+    }
+
+    public void setSslpLimit(boolean sslpLimit) {
+        this.sslpLimit = sslpLimit;
+    }
+
+    public boolean isHomologLimit() {
+        return homologLimit;
+    }
+
+    public void setHomologLimit(boolean homologLimit) {
+        this.homologLimit = homologLimit;
+    }
+
+    public String getOntType() {
+        return ontType;
+    }
+
+    public void setOntType(String ontType) {
+        this.ontType = ontType;
+    }
+
+    public String getOntValue() {
+        return ontValue;
+    }
+
+    public void setOntValue(String ontValue) {
+        this.ontValue = ontValue;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public int getHitsPerPage() {
+        return hitsPerPage;
+    }
+
+    public void setHitsPerPage(int hitsPerPage) {
+        this.hitsPerPage = hitsPerPage;
+    }
+
+    public String getPolyphenStatus() {
+        return polyphenStatus;
+    }
+
+    public void setPolyphenStatus(String polyphenStatus) {
+        this.polyphenStatus = polyphenStatus;
+    }
+    public String getSample() {
+        return sample;
+    }
+
+    public void setSample(String sample) {
+        this.sample = sample;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
     public boolean isRedirect() {
         return redirect;
@@ -168,5 +278,13 @@ public class SearchBean {
 
     public void setChr(String chr) {
         this.chr = chr;
+    }
+
+    public String getVariantCategory() {
+        return variantCategory;
+    }
+
+    public void setVariantCategory(String variantCategory) {
+        this.variantCategory = variantCategory;
     }
 }

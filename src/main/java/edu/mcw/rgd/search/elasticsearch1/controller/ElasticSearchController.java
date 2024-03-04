@@ -78,14 +78,6 @@ public class ElasticSearchController implements Controller {
             if(assembly.equals("")){
                 assembly="all";
             }
-//           if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
-//                int speciesKey= SpeciesType.parse(sb.getSpecies());
-//                edu.mcw.rgd.datamodel.Map defaultAssembly=  MapManager.getInstance().getReferenceAssembly(speciesKey);
-//                defaultAssemblyName=defaultAssembly.getDescription();
-//                    if(Objects.equals(assembly, "")){
-//                        assembly=defaultAssemblyName;
-//                    }
-//            }
             sb.setAssembly(assembly);
            boolean page =(req.getParameter("page").equals("true"));
            int postCount=!req.getParameter("postCount").equals("")?Integer.parseInt(req.getParameter("postCount")):0;
@@ -111,24 +103,23 @@ public class ElasticSearchController implements Controller {
                TotalHits hits=sr.getHits().getTotalHits();
                        totalPages= (int)((hits.value/defaultPageSize)) + (((int) (hits.value)%defaultPageSize>0)?1:0);
                 ModelMap resultsMap=service.getResultsMap(sr,term);
-                if(log) {if(sr!=null)this.logResults(term, sb.getCategory(), hits.value);}
+                if(log) {
+                    this.logResults(term, sb.getCategory(), hits.value);
+                }
                 model.putAll(resultsMap);
             }
             int mapKey=this.getMapKey(assembly, sb.getSpecies());
             model.addAttribute("assemblyMaps", assemblyMaps);
             model.addAttribute("assemblyMapsByRank", maps);
-                model.addAttribute("mapKey", mapKey);
-          //  if(!assembly.equalsIgnoreCase("all")) {
-                model.addAttribute("defaultAssembly", assembly);
-          //  }else model.addAttribute("defaultAssembly", MapManager.getInstance().getReferenceAssembly(mapKey));
-
+            model.addAttribute("mapKey", mapKey);
+            model.addAttribute("defaultAssembly", assembly);
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("postCount", postCount);
             model.addAttribute("cat1", cat1);
             model.addAttribute("sp1", sp1);
             model.addAttribute("term", term);
             model.addAttribute("searchBean", sb);
-
+            request.setAttribute("searchBean", sb);
             if(objectSearch!=null){model.addAttribute("objectSearch", objectSearch);}
 
             if (page) { return new ModelAndView("/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp", "model", model);}
