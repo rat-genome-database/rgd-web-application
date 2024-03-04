@@ -79,7 +79,14 @@
                                 <option value="<%=matchType.split(" ")[0].toLowerCase()%>" ><%=matchType%></option>
 
                             <%}}%>
+                            <%if(searchBean.getMatchType()==null || searchBean.getMatchType().equals("") ){%>
 
+                                <option value="equals" >Equals</option>
+                                <option value="contains" selected>Contains</option>
+                                <option value="begins">Begins with</option>
+                                <option value="ends">Ends with</option>
+
+                            <%}%>
                         </select>
                         </c:if>
                         <input type="text" size=45 name="term" value="${model.term}" />
