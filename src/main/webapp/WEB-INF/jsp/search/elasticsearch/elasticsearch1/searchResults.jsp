@@ -3,7 +3,17 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
 <%@ page import="java.util.Arrays" %>
-<% String pageTitle = "Search Results - " + RgdContext.getLongSiteName(request);
+<%
+    SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
+
+    String searchFor = searchBean.getTerm();
+    if(searchBean.getSpecies()!=null && !searchBean.getSpecies().equals("")){
+        searchFor+=" "+searchBean.getSpecies();
+    }
+    if(searchBean.getCategory()!=null && !searchBean.getCategory().equalsIgnoreCase("general")){
+        searchFor+=" "+searchBean.getCategory();
+    }
+    String pageTitle=searchFor+" - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
 %>
@@ -60,7 +70,7 @@
 
 
     <div class="headContent" style="background-color: white">
-        <h2 style="color:#24609c">RGD Search Results..</h2>
+        <h2 style="color:#24609c"><%=searchFor%> Search Results..</h2>
         <c:if test="${fn:toLowerCase(model.searchBean.category)!='general'}">
         <div style="float:right">
 
@@ -70,7 +80,7 @@
                 <input type="hidden" name="category" value="${model.searchBean.category}"><strong>${model.searchBean.category} Search: </strong>
                         <c:if test="${fn:toLowerCase(model.searchBean.category)=='gene'}">
                         <select  name="match_type">
-                            <%SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
+                            <%
                             for(String matchType: Arrays.asList("Equals","Contains","Begins With","Ends With")){
                                 if(searchBean.getMatchType()!=null && !searchBean.getMatchType().equals("") && matchType.toLowerCase().contains(searchBean.getMatchType())){%>
                                     <option value="<%=searchBean.getMatchType()%>" selected><%=matchType%></option>
