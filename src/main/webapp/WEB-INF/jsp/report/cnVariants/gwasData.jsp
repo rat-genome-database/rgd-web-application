@@ -2,7 +2,7 @@
 <%
     if (isGwas){ %>
 <div class="gwasDataTable light-table-border" id="gwasDataTableWrapper">
-    <div class="sectionHeading" id="gwasData">GWAS Catalog Data</div>
+    <div class="sectionHeading" id="gwasData">Related GWAS Catalog Data</div>
 
     <div class="search-and-pager">
         <div class="modelsViewContent" >

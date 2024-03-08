@@ -100,6 +100,7 @@
 
 
             <%
+                int colCount = 4;
            VariantSampleGroupDAO vsgd = new VariantSampleGroupDAO();
            List<Integer> founders = vsgd.getVariantSamples("HS Founder");
            String founderArr = "[";
@@ -125,7 +126,7 @@
         HashMap<String,List<Integer>> breedMap = new HashMap<>();
          List<String> breeds = new ArrayList<>();
         if(mapKey == 631){
-
+            colCount = 5;
             List<Integer> breedsArr = new ArrayList<>();
             for(Sample s:samples){
                 String name = s.getAnalysisName();
@@ -325,53 +326,56 @@
                     int count=0;
 
 
-                    ArrayList<Sample> sampList1 = new ArrayList<Sample>();
-                    ArrayList<Sample> sampList2 = new ArrayList<Sample>();
-                    ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-                    if(samples.size()==1){
-                        sampList1.add(samples.get(0));
-                    }else {
-                        int num = 0;
-                        int sampSize = samples.size();
-                        if (sampSize<3)
-                            sampSize = 3;
-                        for (Sample samp : samples) {
-                            String sampleName = samp.getAnalysisName();
-                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
-                                continue;
-                            if (num < ((sampSize / 3))) {
-                                sampList1.add(samp);
-                            } else if (num < (((sampSize / 3)) * 2)) {
-                                sampList2.add(samp);
-
-                            } else {
-                                sampList3.add(samp);
-                            }
-                            num++;
-                        }
-                    }
-//System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
-                    ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
-                    try {
-                        for (int i = 0; i < sampList1.size(); i++) {
-                            sortedSamples.add(sampList1.get(i));
-                            sortedSamples.add(sampList2.get(i));
-                            sortedSamples.add(sampList3.get(i));
-                        }
-                    }catch (Exception e) {
-                        out.print(e.getMessage());
-
-                    }
+//                    ArrayList<Sample> sampList1 = new ArrayList<Sample>();
+//                    ArrayList<Sample> sampList2 = new ArrayList<Sample>();
+//                    ArrayList<Sample> sampList3 = new ArrayList<Sample>();
+//                    if(samples.size()==1){
+//                        sampList1.add(samples.get(0));
+//                    }else {
+//                        int num = 0;
+//                        int sampSize = samples.size();
+//                        if (sampSize<3)
+//                            sampSize = 3;
+//                        for (Sample samp : samples) {
+//                            String sampleName = samp.getAnalysisName();
+////                            System.out.println(sampleName);
+//                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
+//                                continue;
+//                            if (num < ((sampSize / 3))) {
+//                                sampList1.add(samp);
+//                            } else if (num < (((sampSize / 3)) * 2)) {
+//                                sampList2.add(samp);
+//
+//                            } else {
+//                                sampList3.add(samp);
+//                            }
+//                            num++;
+//                        }
+//                    }
+////System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
+//                    ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
+//                    try {
+//                        for (int i = 0; i < sampList1.size(); i++) {
+//                            sortedSamples.add(sampList1.get(i));
+//                            sortedSamples.add(sampList2.get(i));
+//                            sortedSamples.add(sampList3.get(i));
+//                        }
+////                        if (sampList3.size()>sampList1.size())
+////                            sortedSamples.add(sampList3.get(sampList3.size()-1));
+//                    }catch (Exception e) {
+//                        out.print(e.getMessage());
+//
+//                    }
 
                     String checked="";
 
-                    for (Sample samp: sortedSamples) {
+                    for (Sample samp: samples) {
                         if (samp.getId() == 900 || samp.getId() == 901)   {
                             if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
                                 continue;
                             }
                         }
-                        if (count++ % 3 == 0) {
+                        if (count++ % colCount == 0) {
 
                 %>
             </tr><tr>

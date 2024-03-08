@@ -35,7 +35,8 @@ boolean isEva = false;
 
 
     int start = (int) var.getStartPos();
-    List<MapData> mapData = mapDAO.getMapDataWithinRange(start,start,var.getChromosome(),var.getMapKey(),1);
+    int stop = (var.getStartPos()+1) == var.getEndPos() ? (int) var.getStartPos() : (int) var.getEndPos();
+    List<MapData> mapData = mapDAO.getMapDataWithinRange(start,stop,var.getChromosome(),var.getMapKey(),1);
     List<Gene> geneList = new ArrayList<>();
     String genes = "";
     if (mapData.size()>0) {

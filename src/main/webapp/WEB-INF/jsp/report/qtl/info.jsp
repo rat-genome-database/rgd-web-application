@@ -3,7 +3,6 @@
 <%@ page import="edu.mcw.rgd.report.*" %>
 
 
-
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
