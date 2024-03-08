@@ -16,7 +16,10 @@
 <%@ include file="/common/headerarea.jsp"%>
 <%
     StrainDAO strainDAO = new StrainDAO();
-    List<Strain> hrdpStrains = strainDAO.getActiveHrdpStrains();
+//    List<Strain> hrdpStrains = strainDAO.getStrainsByGroupName("HRDP");
+    List<Strain> hrdpDivergentClassicInbredStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","Divergent Classic Inbred Strains");
+    List<Strain> hrdpShrDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","SHR and BN-Lx derived RI Strains");
+    List<Strain> hrdpLongEvansDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","Long Evans and F344 derived RI Strains");
 %>
 <style>
     p,li, a.here, span{
@@ -40,7 +43,7 @@
     }
 
     .hrdpTable {
-        width: 100%;
+        width: 45%;
         border-collapse: collapse;
         margin-top: 20px; /* Adds some space above the table */
         table-layout: fixed; /* Ensures that all columns are of equal width */
@@ -66,6 +69,27 @@
 
     .hrdpTable tr:hover {
         background-color: #f0f0f0; /* Slightly darker color on hover */
+    }
+
+    .hrdpTable .table-heading {
+        background-color: white;
+        color: black;
+        font-size: 12pt;
+        font-weight: bold;
+        border: none;
+        text-align: center;
+    }
+
+    .centered {
+        display: flex;
+        justify-content: center;
+    }
+
+    .side-by-side {
+        display: flex;
+        /*justify-content: space-between;*/
+        justify-content: space-around;
+        flex-wrap: wrap;
     }
 
 </style>
@@ -95,10 +119,12 @@
         In the tables below, an asterisk (*) designates that the tagged strain has been sequenced. The VCF files for these (48 strains in total) are available for download.
         These data have been mapped to both Rn6 and Rn7 and can be accessed <a class="here" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/Dec2021/?_gl=1*umtyp9*_ga*OTEwNTM3NjMyLjE2OTg2ODE3MzM.*_ga_BTF869XJFG*MTcwOTIxODk0Ni4xNi4xLjE3MDkyMTkzOTcuMC4wLjA">here</a>.
     </li>
+    <br>
     <li>
         The double dagger icons (<strong>&#8225;</strong>) designate the strains that have been found by whole genome sequence comparison to be the most genetically similar to the Heterogeneous Stock (HS) Founder Strains. This data is courtesy of Dr. Abraham Palmer (University of California, San Diego) and Dr. Hao Chen (University of Tennessee Health Sciences Center).
         For more information about the HS Founders and the HRDP strains that are similar to them, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>.
     </li>
+    <br>
     <li>
         The inbred Wistar WN/N strain is no longer available and no closely related substrains are included in the HRDP panel. However, DNA from a frozen tissue sample from the original NIH strain has been sequenced and that sequence compared to WGS from the HRDP strains. Of the strains currently available from the HRDP, the one found in this analysis to be most closely related to WN/N is WAG/RijCrl with a sequence similarity of approximately 76%.
     </li>
@@ -117,16 +143,61 @@
 <br>
 <span><strong>The strains included in the HRDP panel are:</strong></span>
 </p>
-<table border="1px solid" class="hrdpTable">
-    <th>Strain</th>
-    <th>RGD ID</th>
-    <%for(Strain str:hrdpStrains){%>
-    <tr>
-        <td><%=str.getSymbol()%></td>
-        <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
-    </tr>
-    <%}%>
-</table>
+    <div class="centered">
+        <table  class="hrdpTable">
+            <thead>
+            <tr><th colspan="2" class="table-heading">Divergent Classic Inbred Strains</th></tr>
+            <tr>
+                <th>Strain</th>
+                <th>RGD ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for(Strain str:hrdpDivergentClassicInbredStrains){%>
+            <tr>
+                <td><%=str.getSymbol()%></td>
+                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+            </tr>
+            <%}%>
+            </tbody>
+        </table>
+    </div>
+    <div class="side-by-side">
+        <table class="hrdpTable">
+            <thead>
+            <tr><th colspan="2" class="table-heading">SHR and BN-Lx derived RI strains</th></tr>
+            <tr>
+                <th>Strain</th>
+                <th>RGD ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for(Strain str:hrdpShrDerivedRIStrains){%>
+            <tr>
+                <td><%=str.getSymbol()%></td>
+                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+            </tr>
+            <%}%>
+            </tbody>
+        </table>
+        <table  class="hrdpTable">
+            <thead>
+            <tr><th colspan="2" class="table-heading">Long Evans and F344 derived RI strains</th></tr>
+            <tr>
+                <th>Strain</th>
+                <th>RGD ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for(Strain str:hrdpLongEvansDerivedRIStrains){%>
+            <tr>
+                <td><%=str.getSymbol()%></td>
+                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+            </tr>
+            <%}%>
+            </tbody>
+        </table>
+    </div>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
 
