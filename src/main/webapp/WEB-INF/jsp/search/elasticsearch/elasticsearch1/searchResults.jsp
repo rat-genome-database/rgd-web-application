@@ -6,14 +6,15 @@
 <%
     SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
 
-    String searchFor = searchBean.getTerm();
+    String searchTermTrimmed =searchBean.getTerm();
+
     if(searchBean.getSpecies()!=null && !searchBean.getSpecies().equals("")){
-        searchFor+=" "+searchBean.getSpecies();
+        searchTermTrimmed+=" "+searchBean.getSpecies();
     }
     if(searchBean.getCategory()!=null && !searchBean.getCategory().equalsIgnoreCase("general")){
-        searchFor+=" "+searchBean.getCategory();
+        searchTermTrimmed+=" "+searchBean.getCategory();
     }
-    String pageTitle=searchFor+" - " + RgdContext.getLongSiteName(request);
+    String pageTitle=searchTermTrimmed+" - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
 %>
@@ -70,7 +71,7 @@
 
 
     <div class="headContent" style="background-color: white">
-        <h2 style="color:#24609c"><%=searchFor%> Search Results..</h2>
+        <h2>Search Results for.."<span style="color:#24609c"><%=searchTermTrimmed%></span>"</h2>
         <c:if test="${fn:toLowerCase(model.searchBean.category)!='general'}">
         <div style="float:right">
 

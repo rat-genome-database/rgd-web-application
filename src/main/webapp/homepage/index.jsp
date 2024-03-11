@@ -245,16 +245,16 @@
 <table align="center" cellspacing="5" cellpadding="5">
     <tr>
         <td width="780">
-            <jsp:include page="popularSearches.jsp"/>
-            <jsp:include page="popularTools.jsp"/>
-            <jsp:include page="news.jsp"/>
-            <jsp:include page="conferences.jsp"/>
+            <jsp:include page="/homepage/popularSearches.jsp"/>
+            <jsp:include page="/homepage/popularTools.jsp"/>
+            <jsp:include page="/homepage/news.jsp"/>
+            <jsp:include page="/homepage/conferences.jsp"/>
 
         </td>
         <td valign="top">
             <br>
-            <jsp:include page="twitter.jsp"/>
-            <jsp:include page="tutorials.jsp"/>
+            <jsp:include page="/homepage/twitter.jsp"/>
+            <jsp:include page="/homepage/tutorials.jsp"/>
 
         </td>
     </tr>
