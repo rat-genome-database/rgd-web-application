@@ -9,10 +9,13 @@ import edu.mcw.rgd.datamodel.SearchLog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
+import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.search.RGDSearchController;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.RequestDispatcher;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -29,7 +32,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jthota on 2/22/2017.
  */
-public class ElasticSearchController implements Controller {
+public class ElasticSearchController extends RGDSearchController {
 
     static  java.util.Map<Integer, String> maps=new LinkedHashMap<>();
     static {
@@ -47,15 +50,39 @@ public class ElasticSearchController implements Controller {
     }
 
     @Override
+    public Report getReport(edu.mcw.rgd.process.search.SearchBean search, HttpRequestFacade req) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String getViewUrl() throws Exception {
+        return null;
+    }
+
+    @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req=new HttpRequestFacade(request);
         ModelMap model = new ModelMap();
+
+        ArrayList error = new ArrayList();
         SearchService service = new SearchService();
         String searchTerm = req.getParameter("term").trim();
-        if(searchTerm.length()>100){
-            response.sendRedirect(request.getContextPath());
+        int termLength=searchTerm.replaceAll("\\*", "").length();
+        if (termLength < 1 || termLength > 200 ) {
+            if(termLength>200)
+            error.add("Search term must be less than 200 characters long. Please search again.");
+            else
+                error.add("Search term must be at least 2 characters long. Please search again.");
+            request.setAttribute("error", error);
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/");
+            dispatcher.forward(request, response);
             return null;
         }
+
+//        if(searchTerm.length()>100){
+//            response.sendRedirect(request.getContextPath());
+//            return null;
+//        }
         if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
             searchTerm = searchTerm.substring(4);
         else if(searchTerm.startsWith("RGD"))

@@ -1,8 +1,12 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<% String pageTitle = " RGD Search Result - " + RgdContext.getLongSiteName(request);
+<% SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
+    String searchTermTrimmed=searchBean.getTerm();
+
+    String pageTitle = searchTermTrimmed+" - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
 %>
@@ -13,8 +17,8 @@
 
 <div class="container-fluid" style="background-color:#fafafa;">
     <div style=";background-color:white;margin-right:0.5%;">
-        <h3 style="padding:10px" >RGD Search Results..<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
-&nbsp;View All</a></span></c:if></h3>
+        <h2>Search Results for.."<span style="color:#24609c"><%=searchTermTrimmed%></span>"<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
+&nbsp;View All</a></span></c:if></h2>
 
     </div>
 
