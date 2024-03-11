@@ -426,6 +426,3 @@
         <table cellpadding="5" border=0 align="center" width="100%">
             <tr>
                 <td colspan="3" align="left" valign="top">
-                    <%if(request.getAttribute("error")!=null && !request.getAttribute("error").toString().trim().equals("")){%>
-                    <h4 style="color:red"><%=request.getAttribute("error")%></h4>
-                    <%}%>

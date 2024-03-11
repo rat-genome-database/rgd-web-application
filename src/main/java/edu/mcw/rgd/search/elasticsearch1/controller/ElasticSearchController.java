@@ -15,6 +15,7 @@ import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.RequestDispatcher;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -78,9 +79,11 @@ public class ElasticSearchController extends RGDSearchController {
             if(termLength>200)
             error.add("Search term must be less than 200 characters long. Please search again.");
             else
-                error.add("Search term must be at least 2 characters long (common words are excluded). Please search again.");
+                error.add("Search term must be at least 2 characters long. Please search again.");
             request.setAttribute("error", error);
-            response.sendRedirect(request.getContextPath());
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/");
+            dispatcher.forward(request, response);
+            return null;
         }
 
 //        if(searchTerm.length()>100){
