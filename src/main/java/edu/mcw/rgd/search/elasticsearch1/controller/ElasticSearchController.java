@@ -65,17 +65,10 @@ public class ElasticSearchController extends RGDSearchController {
         ModelMap model = new ModelMap();
 
         ArrayList error = new ArrayList();
-        ArrayList warning = new ArrayList();
         SearchService service = new SearchService();
         String searchTerm = req.getParameter("term").trim();
-        System.out.println("TERM LENGTH*************:"+ searchTerm.length());
-        boolean termOfLength = false;
         int termLength=searchTerm.replaceAll("\\*", "").length();
-        if (termLength > 1 && termLength<200 ) {
-                termOfLength = true;
-
-            }
-        if(!termOfLength){
+        if (termLength < 1 || termLength > 200 ) {
             if(termLength>200)
             error.add("Search term must be less than 200 characters long. Please search again.");
             else
