@@ -143,6 +143,7 @@
 <br>
 <span><strong>The strains included in the HRDP panel are:</strong></span>
 </p>
+    <%if(hrdpDivergentClassicInbredStrains.size()>0){%>
     <div class="centered">
         <table  class="hrdpTable">
             <thead>
@@ -162,7 +163,9 @@
             </tbody>
         </table>
     </div>
+    <%}%>
     <div class="side-by-side">
+        <%if(hrdpShrDerivedRIStrains.size()>0){%>
         <table class="hrdpTable">
             <thead>
             <tr><th colspan="2" class="table-heading">SHR and BN-Lx derived RI strains</th></tr>
@@ -180,6 +183,8 @@
             <%}%>
             </tbody>
         </table>
+        <%}%>
+        <%if(hrdpLongEvansDerivedRIStrains.size()>0){%>
         <table  class="hrdpTable">
             <thead>
             <tr><th colspan="2" class="table-heading">Long Evans and F344 derived RI strains</th></tr>
@@ -197,6 +202,7 @@
             <%}%>
             </tbody>
         </table>
+        <%}%>
     </div>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
