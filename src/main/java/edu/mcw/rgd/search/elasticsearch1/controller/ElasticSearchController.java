@@ -80,12 +80,13 @@ public class ElasticSearchController extends RGDSearchController {
             else
                 error.add("Search term must be at least 2 characters long (common words are excluded). Please search again.");
             request.setAttribute("error", error);
+            response.sendRedirect(request.getContextPath());
         }
 
-        if(searchTerm.length()>100){
-            response.sendRedirect("https://rgd.mcw.edu/");
-            return null;
-        }
+//        if(searchTerm.length()>100){
+//            response.sendRedirect(request.getContextPath());
+//            return null;
+//        }
         if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
             searchTerm = searchTerm.substring(4);
         else if(searchTerm.startsWith("RGD"))
