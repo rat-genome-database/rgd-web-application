@@ -6,12 +6,8 @@
 <%
     SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
 
-    String searchTermTrimmed = "";
-    if(searchBean.getTerm().length()>20){
-        searchTermTrimmed+=searchBean.getTerm().substring(0, 20)+" ...";
-    }else{
-        searchTermTrimmed+=searchBean.getTerm();
-    }
+    String searchTermTrimmed =searchBean.getTerm();
+
     if(searchBean.getSpecies()!=null && !searchBean.getSpecies().equals("")){
         searchTermTrimmed+=" "+searchBean.getSpecies();
     }
@@ -75,7 +71,7 @@
 
 
     <div class="headContent" style="background-color: white">
-        <h2 style="color:#24609c"><%=searchFor%> Search Results..</h2>
+        <h2>Search Results for.."<span style="color:#24609c"><%=searchTermTrimmed%></span>"</h2>
         <c:if test="${fn:toLowerCase(model.searchBean.category)!='general'}">
         <div style="float:right">
 
