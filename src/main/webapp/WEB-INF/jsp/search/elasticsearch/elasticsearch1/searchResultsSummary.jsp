@@ -4,7 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <% SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
-    String pageTitle = searchBean.getTerm()+" - " + RgdContext.getLongSiteName(request);
+    String searchTermTrimmed="";
+    if(searchBean.getTerm().length()>20) {
+        searchTermTrimmed+=searchBean.getTerm().substring(0, 20)+" ...";
+    }else{
+        searchTermTrimmed+=searchBean.getTerm();
+    }
+    String pageTitle = searchTermTrimmed+" - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
 %>
@@ -15,7 +21,7 @@
 
 <div class="container-fluid" style="background-color:#fafafa;">
     <div style=";background-color:white;margin-right:0.5%;">
-        <h3 style="padding:10px" ><%=searchBean.getTerm()%>&nbsp;Search Results..<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
+        <h3 style="padding:10px" ><%=searchTermTrimmed%>&nbsp;Search Results..<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
 &nbsp;View All</a></span></c:if></h3>
 
     </div>

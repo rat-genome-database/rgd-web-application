@@ -6,14 +6,19 @@
 <%
     SearchBean searchBean= (SearchBean) request.getAttribute("searchBean");
 
-    String searchFor = searchBean.getTerm();
+    String searchTermTrimmed = "";
+    if(searchBean.getTerm().length()>20){
+        searchTermTrimmed+=searchBean.getTerm().substring(0, 20)+" ...";
+    }else{
+        searchTermTrimmed+=searchBean.getTerm();
+    }
     if(searchBean.getSpecies()!=null && !searchBean.getSpecies().equals("")){
-        searchFor+=" "+searchBean.getSpecies();
+        searchTermTrimmed+=" "+searchBean.getSpecies();
     }
     if(searchBean.getCategory()!=null && !searchBean.getCategory().equalsIgnoreCase("general")){
-        searchFor+=" "+searchBean.getCategory();
+        searchTermTrimmed+=" "+searchBean.getCategory();
     }
-    String pageTitle=searchFor+" - " + RgdContext.getLongSiteName(request);
+    String pageTitle=searchTermTrimmed+" - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "";
 %>
