@@ -126,7 +126,6 @@
         HashMap<String,List<Integer>> breedMap = new HashMap<>();
          List<String> breeds = new ArrayList<>();
         if(mapKey == 631){
-            colCount = 5;
             List<Integer> breedsArr = new ArrayList<>();
             for(Sample s:samples){
                 String name = s.getAnalysisName();
@@ -320,136 +319,146 @@
             </tr>
         </table>
 
-        <table border="0" style="margin-left:50px;">
-            <tr>
+
                 <%
                     int count=0;
 
 
-//                    ArrayList<Sample> sampList1 = new ArrayList<Sample>();
-//                    ArrayList<Sample> sampList2 = new ArrayList<Sample>();
-//                    ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-//                    if(samples.size()==1){
-//                        sampList1.add(samples.get(0));
-//                    }else {
-//                        int num = 0;
-//                        int sampSize = samples.size();
-//                        if (sampSize<3)
-//                            sampSize = 3;
-//                        for (Sample samp : samples) {
-//                            String sampleName = samp.getAnalysisName();
-////                            System.out.println(sampleName);
-//                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
-//                                continue;
-//                            if (num < ((sampSize / 3))) {
-//                                sampList1.add(samp);
-//                            } else if (num < (((sampSize / 3)) * 2)) {
-//                                sampList2.add(samp);
-//
-//                            } else {
-//                                sampList3.add(samp);
-//                            }
-//                            num++;
-//                        }
-//                    }
-////System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
+                    ArrayList<Sample> sampList1 = new ArrayList<Sample>();
+                    ArrayList<Sample> sampList2 = new ArrayList<Sample>();
+                    ArrayList<Sample> sampList3 = new ArrayList<Sample>();
+                    ArrayList<Sample> sampList4 = new ArrayList<>();
 //                    ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
-//                    try {
-//                        for (int i = 0; i < sampList1.size(); i++) {
-//                            sortedSamples.add(sampList1.get(i));
-//                            sortedSamples.add(sampList2.get(i));
-//                            sortedSamples.add(sampList3.get(i));
-//                        }
-////                        if (sampList3.size()>sampList1.size())
-////                            sortedSamples.add(sampList3.get(sampList3.size()-1));
-//                    }catch (Exception e) {
-//                        out.print(e.getMessage());
-//
-//                    }
+                    int sampSize = samples.size();
+                    int colSize = sampSize / 4 + ((sampSize%4>0) ? 1 : 0);
+                    if(samples.size()==1){
+                        sampList1.add(samples.get(0));
+                    }else {
+                        int num = 1;
+                        for (Sample samp : samples) {
+                            String sampleName = samp.getAnalysisName();
+//                            System.out.println(sampleName);
+                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
+                                continue;
+                            if (num <= colSize) {
+//                                System.out.println("sampleList1|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
+                                sampList1.add(samp);
+                            }
+                            else if (num <= (colSize*2)) {
+//                                System.out.println("sampleList2|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
+                                sampList2.add(samp);
+                            }
+                            else if (num <= (colSize*3)) {
+//                                System.out.println("sampleList3|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
+                                sampList3.add(samp);
+                            }
+                            else {
+//                                System.out.println("sampleList4|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
+                                sampList4.add(samp);
+                            }
+                            num++;
+                        }
+                    }
+//System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
+
+                    List<List<Sample>> sortedSamples = new ArrayList<>();
+                    sortedSamples.add(sampList1);
+                    sortedSamples.add(sampList2);
+                    sortedSamples.add(sampList3);
+                    sortedSamples.add(sampList4);
 
                     String checked="";
 
-                    for (Sample samp: samples) {
+                    %>
+                <table border="0" style="margin-left:50px;">
+                    <tr>
+                <%
+                    for (List<Sample> column : sortedSamples){
+                    %>
+
+                        <td>
+        <table>
+        <%
+                    for (Sample samp: column) {
                         if (samp.getId() == 900 || samp.getId() == 901)   {
                             if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
                                 continue;
                             }
                         }
-                        if (count++ % colCount == 0) {
-
                 %>
-            </tr><tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <% if (sampleMap.get(samp.getId() + "") != null) {
+                                checked = " checked ";
+                            }else {
+                                checked=" ";
+                            }
+                            %>
+                            <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/></td>
+                            <td style="color:white;"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></td>
+                            <td>
+                                <img onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="15" width="15"/>
+                                <div style="margin:10px; position:absolute; z-index:100; visibility:hidden; padding:10px;" id="div_<%=samp.getId()%>">
+                                    <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Sample ID:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getId()%></td>
+                                        </tr>
+
+                                        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Strain RGD ID</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getStrainRgdId()%></td>
+                                        </tr>
+                                        <% } %>
+
+                                        <% if (samp.getSequencedBy() != null) { %>
+                                        <tr>
+                                            <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getSequencer() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getWhereBred() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (samp.getGrantNumber() != null) { %>
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
+                                            <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
+                                        </tr>
+                                        <% } %>
+                                    </table>
+                                </div>
+                            </td>
+                        </Tr>
+                    </table>
+
+                </td>
+            </tr>
 
             <% } %>
-            <td>
-                <table>
-                    <tr>
-                        <% if (sampleMap.get(samp.getId() + "") != null) {
-                            checked = " checked ";
-                        }else {
-                            checked=" ";
-                        }
-                        %>
-                        <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/></td>
-                        <td style="color:white;"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></td>
-                        <td>
-                            <img onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="15" width="15"/>
-                            <div style="margin:10px; position:absolute; z-index:100; visibility:hidden; padding:10px;" id="div_<%=samp.getId()%>">
-                                <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700; color:white;">Sample ID:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getId()%></td>
-                                    </tr>
 
-                                    <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700; color:white;">Strain RGD ID</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getStrainRgdId()%></td>
-                                    </tr>
-                                    <% } %>
-
-                                    <% if (samp.getSequencedBy() != null) { %>
-                                    <tr>
-                                        <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getSequencer() != null) { %>
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getWhereBred() != null) { %>
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getGrantNumber() != null) { %>
-                                    <tr>
-                                        <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
-                                        <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
-                                    </tr>
-                                    <% } %>
-                                </table>
-                            </div>
+        </table>
                         </td>
-                    </Tr>
-                </table>
-
-
-            </td>
-            <td>&nbsp;</td>
-            <% } %>
-
-        </tr>
+        <% } %>
+                    </tr>
         </table>
 
         <br>
