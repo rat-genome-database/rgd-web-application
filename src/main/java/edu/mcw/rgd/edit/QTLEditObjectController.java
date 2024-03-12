@@ -165,6 +165,7 @@ public class QTLEditObjectController extends EditObjectController {
             if (isNew) {
                 dao.insertQTL(qtl, req.getParameter("objectStatus"), SpeciesType.parse(req.getParameter("speciesType")));
             } else {
+                System.out.println("QTL UPDATE FLANK1="+qtl.getFlank1RgdId()+", FLANK2="+qtl.getFlank2RgdId()+", PEAK="+qtl.getPeakRgdId());
                 dao.updateQTL(qtl);
                 addNomenEvents(nomenEvents);
                 insertAliases(aliases);
