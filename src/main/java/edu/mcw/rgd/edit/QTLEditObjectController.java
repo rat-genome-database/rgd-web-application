@@ -131,14 +131,16 @@ public class QTLEditObjectController extends EditObjectController {
         }
 
         if (this.checkInteger("Flank 1 RGD ID", req.getParameter("flank1RgdId"), false)) {
-            qtl.setFlank1RgdId(Integer.parseInt(req.getParameter("flank1RgdId")));
+            int flank1RgdId = Integer.parseInt(req.getParameter("flank1RgdId"));
+            qtl.setFlank1RgdId( flank1RgdId > 0 ? flank1RgdId : null );
         }
         if (this.checkInteger("Flank 2 RGD ID", req.getParameter("flank2RgdId"), false)) {
-            qtl.setFlank2RgdId(Integer.parseInt(req.getParameter("flank2RgdId")));
+            int flank2RgdId = Integer.parseInt(req.getParameter("flank2RgdId"));
+            qtl.setFlank2RgdId( flank2RgdId > 0 ? flank2RgdId : null );
         }
-
         if (this.checkInteger("Peak RGD ID", req.getParameter("peakRgdId"), false)) {
-            qtl.setPeakRgdId(Integer.parseInt(req.getParameter("peakRgdId")));
+            int peakRgdId = Integer.parseInt(req.getParameter("peakRgdId"));
+            qtl.setPeakRgdId( peakRgdId > 0 ? peakRgdId : null );
         }
 
         qtl.setInheritanceType(req.getParameter("inheritanceType"));
