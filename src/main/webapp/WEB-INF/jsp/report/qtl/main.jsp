@@ -36,7 +36,7 @@
     if (mapDataList.size() > 0) {
         md = mapDataList.get(0);
     }
-    boolean peakRs = obj.getPeakRsId().isEmpty();
+    boolean peakRs = Utils.isStringEmpty(obj.getPeakRsId());
     boolean isGwas = obj.getSymbol().startsWith("GWAS");
 %>
 
