@@ -130,16 +130,28 @@ public class QTLEditObjectController extends EditObjectController {
             qtl.setVariance(null);
         }
 
-        if (this.checkInteger("Flank 1 RGD ID", req.getParameter("flank1RgdId"), false)) {
-            int flank1RgdId = Integer.parseInt(req.getParameter("flank1RgdId"));
+        String flank1RgdIdStr = request.getParameter("flank1RgdId");
+        if( flank1RgdIdStr!=null ) {
+            int flank1RgdId = 0;
+            try {
+                flank1RgdId = Integer.parseInt(flank1RgdIdStr);
+            } catch( NumberFormatException e) {}
             qtl.setFlank1RgdId( flank1RgdId > 0 ? flank1RgdId : null );
         }
-        if (this.checkInteger("Flank 2 RGD ID", req.getParameter("flank2RgdId"), false)) {
-            int flank2RgdId = Integer.parseInt(req.getParameter("flank2RgdId"));
+        String flank2RgdIdStr = request.getParameter("flank2RgdId");
+        if( flank2RgdIdStr!=null ) {
+            int flank2RgdId = 0;
+            try {
+                flank2RgdId = Integer.parseInt(flank2RgdIdStr);
+            } catch( NumberFormatException e) {}
             qtl.setFlank2RgdId( flank2RgdId > 0 ? flank2RgdId : null );
         }
-        if (this.checkInteger("Peak RGD ID", req.getParameter("peakRgdId"), false)) {
-            int peakRgdId = Integer.parseInt(req.getParameter("peakRgdId"));
+        String peakRgdIdStr = request.getParameter("peakRgdId");
+        if( peakRgdIdStr!=null ) {
+            int peakRgdId = 0;
+            try {
+                peakRgdId = Integer.parseInt(peakRgdIdStr);
+            } catch( NumberFormatException e) {}
             qtl.setPeakRgdId( peakRgdId > 0 ? peakRgdId : null );
         }
 
