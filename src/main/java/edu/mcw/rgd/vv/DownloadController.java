@@ -78,10 +78,10 @@ public class DownloadController extends VariantController {
                 vsb.setGenes(geneSymbols.stream().map(String::toLowerCase).collect(Collectors.toList()));
                 multipleGeneSymbols = geneSymbols.size()>1;
             }
-            if( !multipleGeneSymbols ) {
-                mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                generateReport(vsb, mappedGenes, request, out, true, isHuman);
-            } else {
+//            if( !multipleGeneSymbols ) {
+//                mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
+//                generateReport(vsb, mappedGenes, request, out, true, isHuman);
+//            } else {
               /*  for(int i=0; i<geneSymbols.size(); i++ ) {
                     String geneSymbol = geneSymbols.get(i);
                     System.out.println(geneSymbol);
@@ -90,7 +90,7 @@ public class DownloadController extends VariantController {
                     mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                  */   generateReport(vsb, null, request, out, true, isHuman);
                 // }
-            }
+//            }
             return null;
         }
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/vv/download.jsp");
@@ -132,7 +132,7 @@ System.out.println("GENERATING REPORT....");
         }else {
             mark=vsb.getStopPosition();
         }
-        if (mappedGenes.size() > 0) {
+        if (mappedGenes!=null && mappedGenes.size() > 0) {
             vsb.setMappedGenes(mappedGenes);
 
             for (MappedGene mg: vsb.getMappedGenes()) {
