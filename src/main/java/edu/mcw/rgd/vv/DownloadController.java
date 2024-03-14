@@ -78,10 +78,10 @@ public class DownloadController extends VariantController {
                 vsb.setGenes(geneSymbols.stream().map(String::toLowerCase).collect(Collectors.toList()));
                 multipleGeneSymbols = geneSymbols.size()>1;
             }
-            if( !multipleGeneSymbols ) {
-                mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                generateReport(vsb, mappedGenes, request, out, true, isHuman);
-            } else {
+//            if( !multipleGeneSymbols ) {
+//                mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
+//                generateReport(vsb, mappedGenes, request, out, true, isHuman);
+//            } else {
               /*  for(int i=0; i<geneSymbols.size(); i++ ) {
                     String geneSymbol = geneSymbols.get(i);
                     System.out.println(geneSymbol);
@@ -90,7 +90,7 @@ public class DownloadController extends VariantController {
                     mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                  */   generateReport(vsb, null, request, out, true, isHuman);
                 // }
-            }
+//            }
             return null;
         }
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/vv/download.jsp");
@@ -132,7 +132,7 @@ System.out.println("GENERATING REPORT....");
         }else {
             mark=vsb.getStopPosition();
         }
-        if (mappedGenes.size() > 0) {
+        if (mappedGenes!=null && mappedGenes.size() > 0) {
             vsb.setMappedGenes(mappedGenes);
 
             for (MappedGene mg: vsb.getMappedGenes()) {
@@ -172,6 +172,8 @@ System.out.println("GENERATING REPORT....");
             String gene = null;
             String strand = null;
             String ref = null;
+            String zygosity="";
+            String genicStatu="";
 
             Set<String> location=new HashSet<>();
             Set<String > aaChangeMap=new HashSet<>();
@@ -199,7 +201,7 @@ System.out.println("GENERATING REPORT....");
                     boolean found=false;
 
                     for (int i=0; i< vs.length; i++) {
-                        if (vs[i].trim().equals(vr.getVariant().getVariantNucleotide().trim())) {
+                        if (vs[i]!=null && vr.getVariant().getVariantNucleotide()!=null && vs[i].trim().equals(vr.getVariant().getVariantNucleotide().trim())) {
                             found=true;
                         }
                     }
@@ -209,7 +211,7 @@ System.out.println("GENERATING REPORT....");
                     }
 
                 }else {
-                    varNuc.put(samp, vr.getVariant().getVariantNucleotide());
+                    varNuc.put(samp, vr.getVariant().getVariantNucleotide() +" ("+ vr.getVariant().getZygosityStatus()+")");
                 }
                 if(mappedGenes!=null) {
                     for (MappedGene mg : mappedGenes) {
@@ -235,6 +237,8 @@ System.out.println("GENERATING REPORT....");
                     if (vr.getVariant().getConservationScore().get(0).getScore() != null && !Objects.equals(vr.getVariant().getConservationScore().get(0).getScore().toString(), "-1"))
                         score = vr.getVariant().getConservationScore().get(0).getScore().toString();
                 }
+                genicStatu=vr.getVariant().getGenicStatus();
+
                 if(first) {
 
 
@@ -311,7 +315,10 @@ System.out.println("GENERATING REPORT....");
                 }
 
             }
-
+            out.print(genicStatu);
+            out.print(delim);
+//            out.print(zygosity);
+//            out.print(delim);
             if (!req.getParameter("vl").equals("")) {
                 out.print(location.stream()
                         .filter(StringUtils::isNotEmpty)
@@ -388,7 +395,8 @@ System.out.println("GENERATING REPORT....");
                 out.print(s.getAnalysisName() + " - Variant" + delim);
             }
         }
-
+        out.print("Genic Status" + delim);
+//        out.print("Zygosity" + delim);
         if (!req.getParameter("vl").equals("")) out.print("Variant Location" + delim);
         if (!req.getParameter("aac").equals("")) out.print("Amino Acid Change" + delim);
 //        if (!req.getParameter("aap").equals(""))
