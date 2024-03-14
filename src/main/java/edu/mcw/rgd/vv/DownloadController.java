@@ -211,7 +211,7 @@ System.out.println("GENERATING REPORT....");
                     }
 
                 }else {
-                    varNuc.put(samp, vr.getVariant().getVariantNucleotide() +"("+ vr.getVariant().getZygosityStatus()+")");
+                    varNuc.put(samp, vr.getVariant().getVariantNucleotide() +" ("+ vr.getVariant().getZygosityStatus()+")");
                 }
                 if(mappedGenes!=null) {
                     for (MappedGene mg : mappedGenes) {
@@ -238,7 +238,7 @@ System.out.println("GENERATING REPORT....");
                         score = vr.getVariant().getConservationScore().get(0).getScore().toString();
                 }
                 genicStatu=vr.getVariant().getGenicStatus();
- 
+
                 if(first) {
 
 
