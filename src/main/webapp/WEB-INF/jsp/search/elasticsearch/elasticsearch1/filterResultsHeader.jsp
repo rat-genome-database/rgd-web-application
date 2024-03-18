@@ -43,7 +43,7 @@
         &nbsp;|&nbsp;Filter: <span style="color:blue;font-size: 16px;font-weight: bold">${model.searchBean.trait}</span>
     </c:if>
     <c:if test="${model.searchBean.variantCategory!=null && model.searchBean.variantCategory!='' && model.searchBean.variantCategory!='null'}">
-        &nbsp;|&nbsp;Filter:  <span style="color:blue">${model.searchBean.variantCategory}</span>
+        &nbsp;|&nbsp;Filter:  <span style="color:blue;font-size: 16px;font-weight: bold">${model.searchBean.variantCategory}</span>
     </c:if>
     <c:if test="${model.searchBean.polyphenStatus!=null && model.searchBean.polyphenStatus!='' && model.searchBean.polyphenStatus!='null'}">
         &nbsp;|&nbsp;Filter: <span style="color:blue;font-size: 16px;font-weight: bold">${model.searchBean.polyphenStatus}</span>
