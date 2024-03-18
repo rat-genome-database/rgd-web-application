@@ -301,9 +301,9 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                             .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword"))
                             .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
-                            .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
+                            .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
 
-                            .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
+                            .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
 
 

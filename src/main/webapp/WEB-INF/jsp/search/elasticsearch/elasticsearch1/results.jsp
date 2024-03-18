@@ -75,44 +75,7 @@
 
 <tr><td>
 <div>
-    <c:if test="${model.totalHits == 10000}">
-        <span style="font-weight: bold">Showing Top</span>
-    </c:if>
-    <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
-                            <c:if test="${model.searchBean.category!='General' && model.searchBean.category!='general' && model.searchBean.category!='Ontology'}">
-                                <c:if test="${model.searchBean.type!='null'}">
-                             <span style="color:blue">${model.searchBean.type}</span>
-                                </c:if>
-                                <c:if test="${model.searchBean.trait!=null && model.searchBean.trait!='null'}">
-                                    <span style="color:blue">${model.searchBean.trait}</span>
-                                </c:if>
-                                <span class="${model.searchBean.category}">${model.searchBean.category}</span>
-                            </c:if>
-                             <c:if test="${model.searchBean.category=='Ontology' && model.searchBean.subCat!=''}">
-                                 <span class="${model.searchBean.category}" style="color:mediumpurple;font-weight: bold;" > ${model.searchBean.subCat}</span>
-                             </c:if>
-                             <c:if test="${model.searchBean.category=='Ontology' && model.searchBean.subCat==''}">
-                                 <span class="${model.searchBean.category}" style="color:mediumpurple;font-weight: bold;" > ${model.searchBean.category}</span>
-                             </c:if>
-                            records found for <strong>"${model.term}"</strong></span>
-
-
-        <c:if test="${model.searchBean.species!='' || fn:length(model.aggregations.species)==1}">
-            of species <span class="${model.searchBean.species} ${model.aggregations.species[0].key}" style="font-weight: bold; font-size: 20px">
-                    <c:if test="${model.searchBean.species!=''}">
-                        ${model.searchBean.species}
-                    </c:if>
-                     <c:if test="${fn:length(model.aggregations.species)==1 && model.searchBean.species==''}">
-                            ${model.aggregations.species[0].key}
-                        </c:if>
-                          </span>
-                          <c:if test="${model.searchBean.chr!='0' && model.searchBean.chr!=''}">
-                           on chromosome <span style="font-weight:bold;font-size: 15px">${model.searchBean.chr}</span>
-                          </c:if>
-        </c:if>
-    <h4>Showing results <span id="showResultsFrom">1</span> - <span id="showResultsTo"><c:if test="${model.totalHits<50}">${model.totalHits}</c:if>
-        <c:if test="${model.totalHits>50}">50</c:if></span> of ${model.totalHits} results</h4>
-
+<%@include file="filterResultsHeader.jsp"%>
     </div>
 </td></tr>
     <tr><td>
