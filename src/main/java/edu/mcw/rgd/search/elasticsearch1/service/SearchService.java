@@ -235,8 +235,8 @@ public class SearchService {
     }
     public SearchBean getSearchBean(HttpRequestFacade request, String term){
 
-        String start=request.getParameter("start"),
-                stop=request.getParameter("stop"),
+        String start=request.getParameter("start").replaceAll(",", ""),
+                stop=request.getParameter("stop").replaceAll(",", ""),
                 chr= !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
 
         String category = request.getParameter("category");

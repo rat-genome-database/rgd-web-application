@@ -68,7 +68,7 @@ public class ElasticSearchController extends RGDSearchController {
         SearchService service = new SearchService();
         String searchTerm = req.getParameter("term").trim();
         int termLength=searchTerm.replaceAll("\\*", "").length();
-        if (termLength < 1 || termLength > 200 ) {
+        if ((termLength < 1 || termLength > 200 ) && request.getParameter("category")!=null && request.getParameter("category").equals("") && !request.getParameter("category").equalsIgnoreCase("general") ) {
             if(termLength>200)
             error.add("Search term must be less than 200 characters long. Please search again.");
             else
@@ -79,10 +79,6 @@ public class ElasticSearchController extends RGDSearchController {
             return null;
         }
 
-//        if(searchTerm.length()>100){
-//            response.sendRedirect(request.getContextPath());
-//            return null;
-//        }
         if( searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ") )
             searchTerm = searchTerm.substring(4);
         else if(searchTerm.startsWith("RGD"))
