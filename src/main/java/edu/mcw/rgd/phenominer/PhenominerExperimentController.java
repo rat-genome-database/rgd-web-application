@@ -152,6 +152,19 @@ public class PhenominerExperimentController extends PhenominerController {
                     }
                     if (!req.getParameter("traitOntId").equals("")) {
                         e.setTraitOntId(req.getParameter("traitOntId"));
+                    }else{
+                        e.setTraitOntId(null);
+                    }
+
+                    if (!req.getParameter("traitOntId2").equals("")) {
+                        e.setTraitOntId2(req.getParameter("traitOntId2"));
+                    }else {
+                        e.setTraitOntId2(null);
+                    }
+                    if (!req.getParameter("traitOntId3").equals("")) {
+                        e.setTraitOntId3(req.getParameter("traitOntId3"));
+                    }else {
+                        e.setTraitOntId3(null);
                     }
                     if (!req.getParameter("traitOntId2").equals("")) {
                         System.out.println("setting");
