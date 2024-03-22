@@ -1,0 +1,153 @@
+p,li, a.here, span{
+    font-size: 11pt;
+    font-family: Helvetica, Arial, sans-serif;
+}
+#btn-analyze,#btn-contact {
+    background-color: #2865A3;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btn-contact a{
+    color: white;
+}
+
+#btn-analyze:hover,#btn-contact:hover {
+    background-color: #5289B5;
+}
+
+.hrdpTable {
+    width: 45%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Adds some space above the table */
+    table-layout: fixed; /* Ensures that all columns are of equal width */
+}
+
+.hrdpTable th, .hrdpTable td {
+    font-size: 11pt;
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 8px;
+    border: 1px solid #e1e4e8; /*border color */
+    text-align: left;
+}
+
+.hrdpTable th {
+    background-color: #2865A3;
+    color: #ffffff; /* White text for contrast */
+    font-weight: normal;
+}
+
+.hrdpTable tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+.hrdpTable tr:hover {
+    background-color: #f0f0f0; /* Slightly darker color on hover */
+}
+
+.hrdpTable .table-heading {
+    background-color: white;
+    color: black;
+    font-size: 12pt;
+    font-weight: bold;
+    border: none;
+    text-align: center;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
+
+.side-by-side {
+    display: flex;
+    /*justify-content: space-between;*/
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+/* The pop up window styling (background) */
+.modal-hrdp {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-hrdp {
+    background-color: #fefefe;
+    margin: 10% auto; /* Adjusted for centering */
+    padding: 20px;
+    border: 1px solid #888;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center; !* Centers the table *!*/
+    max-width: 600px;
+}
+
+/* Table Styles for modal content */
+.options-table {
+    width: 100%; /* Full width of the modal content */
+    border-collapse: collapse;
+}
+
+.options-table td {
+    cursor: pointer;
+    text-align: center;
+}
+
+.options-table img {
+    width: auto;
+    height: 120px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+}
+
+.options-table td:hover img {
+    transform: scale(1.1); /* Slightly enlarge the image */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow for depth */
+}
+
+.close-button {
+    position: absolute;
+    right: 10px; /* Positioned to the right inside the modal-header */
+    top: 50%;
+    transform: translateY(-50%); /* Center the button vertically */
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    color: grey;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content-hrdp h3 {
+    color: #333; /* Dark grey color for the text */
+    text-align: center;
+    font-weight: bold;
+    margin: 0;
+    padding-right: 20px;
+}
+
+.modal-header-hrdp {
+    position: relative;
+    width: 100%;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    padding: 0 40px;
+}
+
+

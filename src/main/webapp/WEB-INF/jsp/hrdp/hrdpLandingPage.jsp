@@ -5,6 +5,7 @@
   Time: 1:41 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="edu.mcw.rgd.dao.impl.StrainDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.Strain" %>
 <%@ page import="java.util.List" %>
@@ -21,78 +22,8 @@
     List<Strain> hrdpShrDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","SHR and BN-Lx derived RI Strains");
     List<Strain> hrdpLongEvansDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","Long Evans and F344 derived RI Strains");
 %>
-<style>
-    p,li, a.here, span{
-        font-size: 11pt;
-        font-family: Helvetica, Arial, sans-serif;
-    }
-    #btn-contact {
-        background-color: #2865A3;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
 
-    #btn-contact a{
-        color: white;
-    }
-
-    #btn-contact:hover {
-        background-color: #5289B5;
-    }
-
-    .hrdpTable {
-        width: 45%;
-        border-collapse: collapse;
-        margin-top: 20px; /* Adds some space above the table */
-        table-layout: fixed; /* Ensures that all columns are of equal width */
-    }
-
-    .hrdpTable th, .hrdpTable td {
-        font-size: 11pt;
-        font-family: Helvetica, Arial, sans-serif;
-        padding: 8px;
-        border: 1px solid #e1e4e8; /*border color */
-        text-align: left;
-    }
-
-    .hrdpTable th {
-        background-color: #2865A3;
-        color: #ffffff; /* White text for contrast */
-        font-weight: normal;
-    }
-
-    .hrdpTable tr:nth-child(odd) {
-        background-color: #f8f9fa;
-    }
-
-    .hrdpTable tr:hover {
-        background-color: #f0f0f0; /* Slightly darker color on hover */
-    }
-
-    .hrdpTable .table-heading {
-        background-color: white;
-        color: black;
-        font-size: 12pt;
-        font-weight: bold;
-        border: none;
-        text-align: center;
-    }
-
-    .centered {
-        display: flex;
-        justify-content: center;
-    }
-
-    .side-by-side {
-        display: flex;
-        /*justify-content: space-between;*/
-        justify-content: space-around;
-        flex-wrap: wrap;
-    }
-
-</style>
 <h1 style="text-align: center;padding-top: 45px">The Hybrid Rat Diversity Panel</h1>
 <div style="text-align: end;">
     <button id="btn-contact">
@@ -143,21 +74,24 @@
 <br>
 <span><strong>The strains included in the HRDP panel are:</strong></span>
 </p>
+    <form id="hrdpForm" method="get">
     <%if(hrdpDivergentClassicInbredStrains.size()>0){%>
     <div class="centered">
         <table  class="hrdpTable">
             <thead>
-            <tr><th colspan="2" class="table-heading">Divergent Classic Inbred Strains</th></tr>
+            <tr><th colspan="3" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
             <tr>
+                <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>RGD ID</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <%for(Strain str:hrdpDivergentClassicInbredStrains){%>
             <tr>
-                <td><%=str.getSymbol()%></td>
-                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+                <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
             </tr>
             <%}%>
             </tbody>
@@ -168,42 +102,123 @@
         <%if(hrdpShrDerivedRIStrains.size()>0){%>
         <table class="hrdpTable">
             <thead>
-            <tr><th colspan="2" class="table-heading">SHR and BN-Lx derived RI strains</th></tr>
+            <tr><th colspan="3" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
+                <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>RGD ID</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <%for(Strain str:hrdpShrDerivedRIStrains){%>
             <tr>
-                <td><%=str.getSymbol()%></td>
-                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+                <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
             </tr>
             <%}%>
             </tbody>
         </table>
         <%}%>
         <%if(hrdpLongEvansDerivedRIStrains.size()>0){%>
-        <table  class="hrdpTable">
+        <table class="hrdpTable">
             <thead>
-            <tr><th colspan="2" class="table-heading">Long Evans and F344 derived RI strains</th></tr>
+            <tr><th colspan="3" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
+                <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>RGD ID</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <%for(Strain str:hrdpLongEvansDerivedRIStrains){%>
             <tr>
-                <td><%=str.getSymbol()%></td>
-                <td><a class="here" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getRgdId()%></a></td>
+                <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
             </tr>
             <%}%>
             </tbody>
         </table>
         <%}%>
     </div>
+        <div style="text-align: center;padding-top: 30px;">
+            <input type="hidden" name="userChoice" id="userChoice" value="">
+            <input type="submit" id="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
+        </div>
+
+        <!-- Popup window structure -->
+        <div id="optionsModal" class="modal-hrdp">
+            <div class="modal-content-hrdp">
+                <div class="modal-header-hrdp">
+                    <h3>Analyze Strain List</h3>
+                <span class="close-button">&times;</span>
+                </div>
+                <hr>
+                <table class="options-table">
+                    <tr>
+                        <td onclick="optionSelected('phenominer');">
+                            <img src="/rgdweb/common/images/phenominerNew.png" alt="Phenominer Data" />
+                            <p>Phenominer</p>
+                        </td>
+                        <td onclick="optionSelected('variantVisualizer');">
+                            <img src="/rgdweb/common/images/variantVisualizer.png" alt="Variant Visualizer" />
+                            <p>Variant Visualizer</p>
+                        </td>
+                    </tr>
+
+                    <!-- Add more rows and cells as needed for additional options -->
+                </table>
+        </div>
+        </div>
+    </form>
 </div>
 <%@ include file="/common/footerarea.jsp"%>
 
+<script type="text/javascript">
+
+    function toggleAllCheckboxes(toggleAllCheckbox){
+        let table = toggleAllCheckbox.closest('table')
+        let checkboxes = table.querySelectorAll('input[type="checkbox"][name="rgdId"]')
+
+        checkboxes.forEach(function(checkbox){
+            checkbox.checked = toggleAllCheckbox.checked;
+        })
+    }
+
+    function validateForm(){
+        let isAnyCheckboxChecked = false
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="rgdId"]')
+
+        checkboxes.forEach(function (checkbox){
+            if(checkbox.checked){
+                isAnyCheckboxChecked = true
+            }
+        })
+        if (!isAnyCheckboxChecked) {
+            alert('Please select at least one strain before analyzing.');
+            return false;
+        }
+        return true;
+    }
+
+    function showWindow(){
+        if(!validateForm()) return false;
+        document.getElementById("optionsModal").style.display='block'
+
+    }
+
+    function closeWindow(){
+        document.getElementById("optionsModal").style.display='none'
+    }
+
+    function optionSelected(option){
+        document.getElementById('userChoice').value = option;
+        document.getElementById("optionsModal").style.display = "none";
+        document.getElementById("hrdpForm").submit()
+    }
+
+    document.querySelector(".close-button").addEventListener("click",closeWindow)
+
+
+</script>
