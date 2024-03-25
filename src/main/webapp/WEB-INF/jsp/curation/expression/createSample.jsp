@@ -146,40 +146,120 @@
     String species = request.getParameter("species");
     HttpRequestFacade req = new HttpRequestFacade(request);
 
-
+    try {
     OntologyXDAO xdao = new OntologyXDAO();
     XdbIdDAO xdbDAO = new XdbIdDAO();
     List<GeoRecord> samples = pdao.getGeoRecords(gse,species);
-    HashMap<String,String> tissueMap = (HashMap)request.getAttribute("tissueMap");
-    HashMap<String,String> tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
-    HashMap<String,String> vtMap = (HashMap) request.getAttribute("vtMap");
-    HashMap<String,String> vtNameMap = (HashMap) request.getAttribute("vtNameMap");
-    HashMap<String,String> strainMap = (HashMap)request.getAttribute("strainMap");
-    HashMap<String,String> strainNameMap = (HashMap) request.getAttribute("strainNameMap");
-    HashMap<String,String> ageLow = (HashMap)request.getAttribute("ageLow");
-    HashMap<String,String> ageHigh = (HashMap)request.getAttribute("ageHigh");
-    HashMap<String,String> clinMeasMap = (HashMap) request.getAttribute("clinMeasMap");
-    HashMap<String,String> clinMeasNameMap = (HashMap) request.getAttribute("clinMeasNameMap");
-    HashMap<String,String> cellTypeMap = (HashMap)request.getAttribute("cellType");
-    HashMap<String,String> cellNameMap = (HashMap) request.getAttribute("cellNameMap");
-    HashMap<String,String> cellLine = (HashMap)request.getAttribute("cellLine");
-    HashMap<String,String> gender = (HashMap)request.getAttribute("gender");
-    HashMap<String,String> lifeStage = (HashMap)request.getAttribute("lifeStage");
-    HashMap<String,String> notes = (HashMap)request.getAttribute("notesMap");
-    HashMap<String,String> curNotes = (HashMap) request.getAttribute("curNotesMap");
-    HashMap<String,String> xcoMap = (HashMap) request.getAttribute("xcoTerms");
-    HashMap<String,String> culture = (HashMap) request.getAttribute("cultureDur");
-    HashMap<String,String> cultureUnit = (HashMap) request.getAttribute("cultureUnit");
-    List<Condition> conditions = (ArrayList) request.getAttribute("conditions");
-    List<Integer> refRgdIds = (ArrayList) request.getAttribute("refRgdIds");
-    int sampleSize = (int) request.getAttribute("samplesExist");
-    boolean updateSample = sampleSize!=0;
+    int count = 0, curCount = 0, batchSize = 0;
+    boolean tooManySamples = Utils.stringsAreEqual((String) request.getAttribute("tooManySamples"), "true");
+    HashMap<String,String> tissueMap = new HashMap<>();
+    HashMap<String,String> tissueNameMap = new HashMap<>();
+    HashMap<String,String> vtMap = new HashMap<>();
+    HashMap<String,String> vtNameMap = new HashMap<>();
+    HashMap<String,String> strainMap = new HashMap<>();
+    HashMap<String,String> strainNameMap = new HashMap<>();
+    HashMap<String,String> ageLow = new HashMap<>();
+    HashMap<String,String> ageHigh = new HashMap<>();
+    HashMap<String,String> clinMeasMap = new HashMap<>();
+    HashMap<String,String> clinMeasNameMap = new HashMap<>();
+    HashMap<String,String> cellTypeMap = new HashMap<>();
+    HashMap<String,String> cellNameMap = new HashMap<>();
+    HashMap<String,String> cellLine = new HashMap<>();
+    HashMap<String,String> gender = new HashMap<>();
+    HashMap<String,String> lifeStage = new HashMap<>();
+    HashMap<String,String> notes = new HashMap<>();
+    HashMap<String,String> curNotes = new HashMap<>();
+    HashMap<String,String> xcoMap = new HashMap<>();
+    HashMap<String,String> culture = new HashMap<>();
+    HashMap<String,String> cultureUnit = new HashMap<>();
+    List<Condition> conditions = new ArrayList<>();
+    List<Integer> refRgdIds = new ArrayList<>();
+    if (tooManySamples){
+        curCount = Integer.parseInt(request.getAttribute("curCount").toString());
+        tissueMap = (HashMap) session.getAttribute("tissueMap");
+        tissueNameMap = (HashMap) session.getAttribute("tissueNameMap");
+        vtMap = (HashMap) session.getAttribute("vtMap");
+        vtNameMap = (HashMap) session.getAttribute("vtNameMap");
+        strainMap = (HashMap) session.getAttribute("strainMap");
+        strainNameMap = (HashMap) session.getAttribute("strainNameMap");
+        ageLow = (HashMap) session.getAttribute("ageLow");
+        ageHigh = (HashMap) session.getAttribute("ageHigh");
+        clinMeasMap = (HashMap) session.getAttribute("clinMeasMap");
+        clinMeasNameMap = (HashMap) session.getAttribute("clinMeasNameMap");
+        cellTypeMap = (HashMap) session.getAttribute("cellType");
+        cellNameMap = (HashMap) session.getAttribute("cellNameMap");
+        cellLine = (HashMap) session.getAttribute("cellLine");
+        gender = (HashMap) session.getAttribute("gender");
+        lifeStage = (HashMap) session.getAttribute("lifeStage");
+        notes = (HashMap) session.getAttribute("notesMap");
+        curNotes = (HashMap) session.getAttribute("curNotesMap");
+        xcoMap = (HashMap) session.getAttribute("xcoTerms");
+        culture = (HashMap) session.getAttribute("cultureDur");
+        cultureUnit = (HashMap) session.getAttribute("cultureUnit");
+        conditions = (List) session.getAttribute("conditions");
+        refRgdIds = (List) session.getAttribute("refRgdIds");
+    }
+    else{
+        tissueMap = (HashMap)request.getAttribute("tissueMap");
+        tissueNameMap = (HashMap) request.getAttribute("tissueNameMap");
+        vtMap = (HashMap) request.getAttribute("vtMap");
+        vtNameMap = (HashMap) request.getAttribute("vtNameMap");
+        strainMap = (HashMap)request.getAttribute("strainMap");
+        strainNameMap = (HashMap) request.getAttribute("strainNameMap");
+        ageLow = (HashMap)request.getAttribute("ageLow");
+        ageHigh = (HashMap)request.getAttribute("ageHigh");
+        clinMeasMap = (HashMap) request.getAttribute("clinMeasMap");
+        clinMeasNameMap = (HashMap) request.getAttribute("clinMeasNameMap");
+        cellTypeMap = (HashMap)request.getAttribute("cellType");
+        cellNameMap = (HashMap) request.getAttribute("cellNameMap");
+        cellLine = (HashMap)request.getAttribute("cellLine");
+        gender = (HashMap)request.getAttribute("gender");
+        lifeStage = (HashMap)request.getAttribute("lifeStage");
+        notes = (HashMap)request.getAttribute("notesMap");
+        curNotes = (HashMap) request.getAttribute("curNotesMap");
+        xcoMap = (HashMap) request.getAttribute("xcoTerms");
+        culture = (HashMap) request.getAttribute("cultureDur");
+        cultureUnit = (HashMap) request.getAttribute("cultureUnit");
+        conditions = (ArrayList) request.getAttribute("conditions");
+        refRgdIds = (ArrayList) request.getAttribute("refRgdIds");
+    }
+    // save request for where left off, 300, 300*x
+    List<Sample> sampleList = pdao.getSampleByGeoStudyId(gse);
+    boolean updateSample = (sampleList != null && !sampleList.isEmpty());;
     int size = samples.size();
     String idName = "";
     boolean createSample = true;
     List<Experiment> experiments = updateSample ? pdao.getExperiments(samples.get(0).getGeoAccessionId()) : new ArrayList<>();
-    int count = 0;
+
     Study study = null;
+
+        if (size > 100) {
+            session.setAttribute("tissueMap", tissueMap);
+            session.setAttribute("tissueNameMap", tissueNameMap);
+            session.setAttribute("vtMap", vtMap);
+            session.setAttribute("vtNameMap", vtNameMap);
+            session.setAttribute("strainMap", strainMap);
+            session.setAttribute("strainNameMap", strainNameMap);
+            session.setAttribute("ageLow", ageLow);
+            session.setAttribute("ageHigh", ageHigh);
+            session.setAttribute("clinMeasMap", clinMeasMap);
+            session.setAttribute("clinMeasNameMap", clinMeasNameMap);
+            session.setAttribute("cellType", cellTypeMap);
+            session.setAttribute("cellNameMap", cellNameMap);
+            session.setAttribute("cellLine", cellLine);
+            session.setAttribute("gender", gender);
+            session.setAttribute("lifeStage", lifeStage);
+            session.setAttribute("notesMap", notes);
+            session.setAttribute("curNotesMap", curNotes);
+            session.setAttribute("xcoTerms", xcoMap);
+            session.setAttribute("cultureDur", culture);
+            session.setAttribute("cultureUnit", cultureUnit);
+            session.setAttribute("conditions", conditions);
+            session.setAttribute("refRgdIds", refRgdIds);
+
+        }
+
+        batchSize = curCount+100;
 %>
 
 
@@ -230,6 +310,7 @@
         </form>
     <%
         }
+
     %>
 
 
@@ -239,12 +320,15 @@
             <input type="button" value="Show/Hide Conditions" onclick="showColumns()">
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
             <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
-            <input type="hidden" id="count" name="count" value="<%=samples.size()%>" />
+            <input type="hidden" id="count" name="count" value="<%=count%>" />
+            <input type="hidden" id="curCount" name="curCount" value="<%=batchSize%>">
+            <input type="hidden" id="sampSize" name="sampSize" value="<%=size%>">
             <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
             <input type="hidden" id="title" name="title" value="<%=samples.get(0).getStudyTitle()%>">
             <input type="hidden" id="species" name="species" value="<%=species%>" />
             <%int refSize = 0;
-            for(refSize = 0; refSize < refRgdIds.size() ; refSize++) {%>
+            int refRgdSize = (refRgdIds != null && !refRgdIds.isEmpty()) ? refRgdIds.size() : 0;
+            for(refSize = 0; refSize < refRgdSize ; refSize++) {%>
                 <input type="hidden" name="refRgdId<%=refSize%>" id="refRgdId<%=refSize%>" value="<%=(refRgdIds.get(refSize)!=null && refRgdIds.get(refSize)!=0) ? refRgdIds.get(refSize) : ""%>">
             <%}
             for (int i = refSize; i < 3 ; i++){%>
@@ -318,9 +402,14 @@
                 <tbody>
                 <%
             }
-
-
-     for(GeoRecord s: samples){
+            try {
+            if (batchSize>samples.size())
+                batchSize=samples.size();
+//            System.out.println("batch:"+batchSize);
+     for(int zed = curCount; zed < batchSize ; zed++){
+         GeoRecord s = samples.get(zed);
+//         if (count % 300 == 0)
+//             break;
          boolean bool = false;
          Sample sample = pdao.getSampleByGeoId(s.getSampleAccessionId());
          Experiment exp = new Experiment();
@@ -520,7 +609,7 @@ catch (Exception e){}
 
                 <td><input type="text" size="30" name="conNotes<%=count%>" value="<%=Utils.NVL(c.getNotes(),"")%>"/></td>
                 <%j++; }}
-                catch (Exception e){System.out.println(e);}
+                catch (Exception e){/*System.out.println(e);*/}
                 for (int i = j; i < 15; i++) {%>
                 <td align="right">
                     <input type="checkbox" value="<%=i%>" class="expCondition<%=i%>" name="expCondition<%=count%>" id="expCondition<%=count%>">
@@ -553,6 +642,8 @@ catch (Exception e){}
                 <%
       count++;
       }
+                    }catch (Exception e) {e.printStackTrace();}
+//            System.out.println("count:"+count);
   %></tbody>
     </table>
             </div>
@@ -560,7 +651,9 @@ catch (Exception e){}
             <input type="button" value="Load Samples" style="float: right;" onclick="submitForm()"/>
     </form>
 </div>
-
+<%}catch (Exception e){
+    e.printStackTrace();
+}%>
 
 </body>
 </html>
