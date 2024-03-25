@@ -79,9 +79,10 @@
     <div class="centered">
         <table  class="hrdpTable">
             <thead>
-            <tr><th colspan="3" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
+            <tr><th colspan="4" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
             <tr>
                 <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
+                <th>RGD ID</th>
                 <th>Strain</th>
                 <th></th>
             </tr>
@@ -90,8 +91,9 @@
             <%for(Strain str:hrdpDivergentClassicInbredStrains){%>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
             </tbody>
@@ -102,9 +104,10 @@
         <%if(hrdpShrDerivedRIStrains.size()>0){%>
         <table class="hrdpTable">
             <thead>
-            <tr><th colspan="3" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+            <tr><th colspan="4" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
+                <th>RGD ID</th>
                 <th>Strain</th>
                 <th></th>
             </tr>
@@ -113,8 +116,9 @@
             <%for(Strain str:hrdpShrDerivedRIStrains){%>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
             </tbody>
@@ -123,9 +127,10 @@
         <%if(hrdpLongEvansDerivedRIStrains.size()>0){%>
         <table class="hrdpTable">
             <thead>
-            <tr><th colspan="3" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+            <tr><th colspan="4" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
+                <th>RGD ID</th>
                 <th>Strain</th>
                 <th></th>
             </tr>
@@ -134,8 +139,9 @@
             <%for(Strain str:hrdpLongEvansDerivedRIStrains){%>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>"><%=str.getSymbol()%></a></td>
-                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">RGD:<%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td><a class="here"><%=str.getSymbol()%></a></td>
+                <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
             </tbody>
