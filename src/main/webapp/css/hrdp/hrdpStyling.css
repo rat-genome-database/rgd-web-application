@@ -66,6 +66,7 @@ p,li, a.here, span{
     /*justify-content: space-between;*/
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 /* The pop up window styling (background) */
