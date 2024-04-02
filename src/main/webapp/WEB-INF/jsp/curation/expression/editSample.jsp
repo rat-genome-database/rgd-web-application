@@ -828,7 +828,6 @@ if (tissueMap.isEmpty()){ %>
         <input type="hidden" id="conditionCount" name="conditionCount" value="15">
         <input type="hidden" id="gse" name="gse" value="<%=gse%>" />
         <input type="hidden" id="species" name="species" value="<%=species%>" />
-        <input type="hidden" id="samplesExist" name="samplesExist" value="<%=!existingSample ? 0 : sampleList.size()%>">
       <input id="viewSample" type="button" value="View Samples" style="float: right;" onclick="submitForm()"/>
     </form>
 </div>
