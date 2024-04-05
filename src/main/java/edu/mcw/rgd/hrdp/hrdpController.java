@@ -19,46 +19,38 @@ public class hrdpController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String[] rgdIds = request.getParameterValues("rgdId");
-        List<String> rsIds = new ArrayList<>();
         String choice = request.getParameter("userChoice");
+        String[]ontIds = request.getParameterValues("ontId");
+        String[] sampleIds = request.getParameterValues("sampleIds");
+        String mapKey = request.getParameter("mapKey");
+        StringBuilder urlBuilder = new StringBuilder();
 
-        if (rgdIds != null && choice != null) {
-            if (choice.equals("phenominer")) {
-                OntologyXDAO ontDao = new OntologyXDAO();
-                for (String id : rgdIds) {
-                    String ontId = ontDao.getStrainOntIdForRgdId(Integer.parseInt(id));
+        if(choice!=null&&choice.equals("phenominer")) {
+            if (ontIds != null) {
+                for (String ontId : ontIds) {
                     if (ontId != null) {
-                        rsIds.add(ontId);
-                    }
-                }
-                String phenominerUrl = StringUtils.join(rsIds, ",");
-                System.out.println(phenominerUrl);
-                return new ModelAndView("redirect:/phenominer/ontChoices.html?species=3&terms=" + phenominerUrl);
-            }
-            if (choice.equals("variantVisualizer")) {
-                Map mapKey = new MapDAO().getPrimaryRefAssembly(3);
-                List<Integer> allSampleIds = new ArrayList<>();
-                SampleDAO sampleDAO = new SampleDAO();
-                for (String id : rgdIds) {
-                    List<Sample> samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(Integer.parseInt(id), mapKey.getKey());
-                    if (samples != null) {
-                        for (Sample sample : samples) {
-                            allSampleIds.add(sample.getId());
+                        if (urlBuilder.length() > 0) {
+                            urlBuilder.append(","); // Append comma before adding the next value, except for the first
                         }
+                        urlBuilder.append(ontId);
                     }
                 }
-                StringBuilder vvUrlBuilder = new StringBuilder();
-                for (int i = 0; i < allSampleIds.size(); i++) {
-                    vvUrlBuilder.append("&sample").append(i + 1).append("=").append(allSampleIds.get(i));
-                }
-                String vvUrl = vvUrlBuilder.toString();
-                System.out.println("vvUrl:" + vvUrl);
-                return new ModelAndView("redirect:/front/select.html?mapKey=372" + vvUrl);
-
             }
+            String phenominerUrl = urlBuilder.toString()==null?"": urlBuilder.toString();
+            System.out.println("Phenominer Url: "+phenominerUrl);
+            return new ModelAndView("redirect:/phenominer/ontChoices.html?species=3&terms=" + phenominerUrl);
         }
 
+        if(choice!=null&&choice.equals("variantVisualizer")) {
+            if (sampleIds != null) {
+                for (int i = 0; i < sampleIds.length; i++){
+                    urlBuilder.append("&sample").append(i + 1).append("=").append(sampleIds[i]);
+                }
+            }
+            String vvUrl = urlBuilder.toString()==null?"": urlBuilder.toString();
+            System.out.println("vvUrl:" + vvUrl);
+            return new ModelAndView("redirect:/front/select.html?mapKey="+mapKey + vvUrl);
+        }
 
         return new ModelAndView("/WEB-INF/jsp/hrdp/hrdpLandingPage.jsp");
     }

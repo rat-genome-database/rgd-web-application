@@ -2,7 +2,7 @@ p,li, a.here, span{
     font-size: 11pt;
     font-family: Helvetica, Arial, sans-serif;
 }
-#btn-analyze,#btn-contact {
+.btn-analyze,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;
     border: none;
@@ -14,7 +14,7 @@ p,li, a.here, span{
     color: white;
 }
 
-#btn-analyze:hover,#btn-contact:hover {
+.btn-analyze:hover,#btn-contact:hover {
     background-color: #5289B5;
 }
 
@@ -59,6 +59,8 @@ p,li, a.here, span{
 .centered {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap:100px;
 }
 
 .side-by-side {

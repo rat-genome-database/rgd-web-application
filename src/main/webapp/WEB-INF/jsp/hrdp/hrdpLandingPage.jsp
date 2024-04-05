@@ -6,9 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="edu.mcw.rgd.dao.impl.StrainDAO" %>
-<%@ page import="edu.mcw.rgd.datamodel.Strain" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.rgd.datamodel.*" %>
+<%@ page import="edu.mcw.rgd.dao.impl.*" %>
+<%@ include file="/WEB-INF/jsp/report/dao.jsp" %>
 <%
     String pageTitle = "Hybrid Rat Diversity Panel Portal";
     String headContent = "";
@@ -16,11 +17,15 @@
 %>
 <%@ include file="/common/headerarea.jsp"%>
 <%
-    StrainDAO strainDAO = new StrainDAO();
+    String ontId="";
+    List<Sample> samples = new ArrayList<>();
+    int phenoRecCount = 0;
+    SampleDAO sampleDAO = new SampleDAO();
 //    List<Strain> hrdpStrains = strainDAO.getStrainsByGroupName("HRDP");
     List<Strain> hrdpDivergentClassicInbredStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","Divergent Classic Inbred Strains");
     List<Strain> hrdpShrDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","SHR and BN-Lx derived RI Strains");
     List<Strain> hrdpLongEvansDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP","Long Evans and F344 derived RI Strains");
+    Map mapKey = new MapDAO().getPrimaryRefAssembly(3);
 %>
 <link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
 
@@ -31,7 +36,7 @@
     </button>
 </div>
 <div style="text-align: center;padding-top: 50px">
-<img src="/rgdweb/common/images/hrdp.png" alt="hrdp image">
+<img src="/rgdweb/common/images/hrdp/hrdp.png" alt="hrdp image">
 </div>
 <div style="margin-left: 15px;">
 <p style="padding-top: 10px">
@@ -75,72 +80,142 @@
 <span><strong>The strains included in the HRDP panel are:</strong></span>
 </p>
     <form id="hrdpForm" method="get">
+        <input type="hidden" name="mapKey" value="<%=mapKey.getKey()%>">
     <%if(hrdpDivergentClassicInbredStrains.size()>0){%>
     <div class="centered">
         <table  class="hrdpTable">
             <thead>
-            <tr><th colspan="4" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
+            <tr><th colspan="5" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
             <tr>
                 <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
-                <th>RGD ID</th>
                 <th>Strain</th>
+                <th>Has Phenominer</th>
+                <th>Has Variant Visualizer</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <%for(Strain str:hrdpDivergentClassicInbredStrains){%>
+            <%for(Strain str:hrdpDivergentClassicInbredStrains){
+                ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+                phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
+                samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+            %>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
+                <%if(phenoRecCount>0){%>
+<%--                <td style="color: green;text-align: center">✔</td>--%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
+                <%if(samples!=null){%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%for(Sample sample : samples){%>
+                <td style="display: none;">
+                    <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
+                <%}%>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
                 <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
             </tbody>
         </table>
+        <input type="submit" class="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
     </div>
     <%}%>
     <div class="side-by-side">
         <%if(hrdpShrDerivedRIStrains.size()>0){%>
         <table class="hrdpTable">
             <thead>
-            <tr><th colspan="4" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+            <tr><th colspan="5" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
-                <th>RGD ID</th>
                 <th>Strain</th>
+                <th>Has Phenominer</th>
+                <th>Has Variant Visualizer</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <%for(Strain str:hrdpShrDerivedRIStrains){%>
+            <%for(Strain str:hrdpShrDerivedRIStrains){
+                ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+                phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
+                samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+            %>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
+                <%if(phenoRecCount>0){%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
+                <%if(samples!=null){%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%for(Sample sample : samples){%>
+                <td style="display: none;">
+                    <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
+                <%}%>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
                 <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
             </tbody>
         </table>
         <%}%>
-        <%if(hrdpLongEvansDerivedRIStrains.size()>0){%>
+        <%if(hrdpLongEvansDerivedRIStrains.size()>0){
+        %>
         <table class="hrdpTable">
             <thead>
-            <tr><th colspan="4" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+            <tr><th colspan="5" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
-                <th>RGD ID</th>
                 <th>Strain</th>
+                <th>Has Phenominer</th>
+                <th>Has Variant Visualizer</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <%for(Strain str:hrdpLongEvansDerivedRIStrains){%>
+            <%for(Strain str:hrdpLongEvansDerivedRIStrains){
+               ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+               phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
+               samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+            %>
             <tr>
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td><a class="here"><%=str.getRgdId()%></a></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
+                <%if(phenoRecCount>0){%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
+                <%if(samples!=null){%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <%for(Sample sample : samples){%>
+                <td style="display: none;">
+                    <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
+                <%}%>
+                <%}else{%>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
+                <%}%>
                 <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
             </tr>
             <%}%>
@@ -150,7 +225,7 @@
     </div>
         <div style="text-align: center;padding-top: 30px;">
             <input type="hidden" name="userChoice" id="userChoice" value="">
-            <input type="submit" id="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
+            <input type="submit" class="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
         </div>
 
         <!-- Popup window structure -->
@@ -196,9 +271,21 @@
         let isAnyCheckboxChecked = false
         let checkboxes = document.querySelectorAll('input[type="checkbox"][name="rgdId"]')
 
+        // Initially disable all ontId inputs to ensure only the checked ones are enabled
+        document.querySelectorAll(".ontIdInput,.sampleInput").forEach(function(input) {
+            input.disabled = true;
+        });
+
         checkboxes.forEach(function (checkbox){
             if(checkbox.checked){
                 isAnyCheckboxChecked = true
+
+                // Find and enable the ontId input related to the checked checkbox
+                let rgdId = checkbox.value;
+                let ontIdInput = document.querySelector("input.ontIdInput[data-rgdid='" + rgdId + "']");
+                if (ontIdInput) ontIdInput.disabled = false;
+                // Also enable all sample inputs for checked strains
+                document.querySelectorAll("input.sampleInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
             }
         })
         if (!isAnyCheckboxChecked) {
