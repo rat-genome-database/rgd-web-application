@@ -99,16 +99,18 @@
                 ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                 phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
                 samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+                boolean hasPhenominer = phenoRecCount > 0;
+                boolean hasVariantVisualizer = samples != null && samples.size() > 0;
             %>
-            <tr>
+            <tr data-has-phenominer="<%= hasPhenominer %>" data-has-variant-visualizer="<%= hasVariantVisualizer %>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td style="display: none;">
-                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
-                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
                 <%if(phenoRecCount>0){%>
 <%--                <td style="color: green;text-align: center">✔</td>--%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <%}else{%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                 <%}%>
@@ -148,15 +150,17 @@
                 ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                 phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
                 samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+                boolean hasPhenominer = phenoRecCount > 0;
+                boolean hasVariantVisualizer = samples != null && samples.size() > 0;
             %>
-            <tr>
+            <tr data-has-phenominer="<%= hasPhenominer %>" data-has-variant-visualizer="<%= hasVariantVisualizer %>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td style="display: none;">
-                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
-                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
                 <%if(phenoRecCount>0){%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <%}else{%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                 <%}%>
@@ -194,15 +198,17 @@
                ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId,3);
                samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
+                boolean hasPhenominer = phenoRecCount > 0;
+                boolean hasVariantVisualizer = samples != null && samples.size() > 0;
             %>
-            <tr>
+            <tr data-has-phenominer="<%= hasPhenominer %>" data-has-variant-visualizer="<%= hasVariantVisualizer %>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
-                <td style="display: none;">
-                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
-                </td>
                 <td><a class="here"><%=str.getSymbol()%></a></td>
                 <%if(phenoRecCount>0){%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                <td style="display: none;">
+                    <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                </td>
                 <%}else{%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                 <%}%>
@@ -246,9 +252,10 @@
                             <img src="/rgdweb/common/images/variantVisualizer.png" alt="Variant Visualizer" />
                             <p>Variant Visualizer</p>
                         </td>
+                        <td id="noDataMessage" style="display: none">No data available for the selected strains.</td>
                     </tr>
-
                     <!-- Add more rows and cells as needed for additional options -->
+
                 </table>
         </div>
         </div>
@@ -297,6 +304,26 @@
 
     function showWindow(){
         if(!validateForm()) return false;
+
+        // Determine the availability of Phenominer and Variant Visualizer data among selected strains
+        let hasPhenominerData = false;
+        let hasVariantVisualizerData = false;
+
+        // Iterate over each selected strain to check for data availability
+        document.querySelectorAll('input[type="checkbox"][name="rgdId"]:checked').forEach(function(checkbox) {
+            let row = checkbox.closest('tr');
+            if (row.dataset.hasPhenominer === 'true') {
+                hasPhenominerData = true;
+            }
+            if (row.dataset.hasVariantVisualizer === 'true') {
+                hasVariantVisualizerData = true;
+            }
+        });
+
+        document.querySelector('td[onclick="optionSelected(\'phenominer\');"]').style.display = hasPhenominerData ? '' : 'none';
+        document.querySelector('td[onclick="optionSelected(\'variantVisualizer\');"]').style.display = hasVariantVisualizerData ? '' : 'none';
+
+        document.getElementById("noDataMessage").style.display=!hasPhenominerData&&!hasVariantVisualizerData?'block':'none'
         document.getElementById("optionsModal").style.display='block'
 
     }
