@@ -89,8 +89,8 @@
             <tr>
                 <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>Has Phenominer</th>
-                <th>Has Variant Visualizer</th>
+                <th>Phenominer Data</th>
+                <th>Variant Visualizer Data</th>
                 <th></th>
             </tr>
             </thead>
@@ -140,8 +140,8 @@
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>Has Phenominer</th>
-                <th>Has Variant Visualizer</th>
+                <th>Phenominer Data</th>
+                <th>Variant Visualizer Data</th>
                 <th></th>
             </tr>
             </thead>
@@ -188,8 +188,8 @@
             <tr>
                 <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
                 <th>Strain</th>
-                <th>Has Phenominer</th>
-                <th>Has Variant Visualizer</th>
+                <th>Phenominer Data</th>
+                <th>Variant Visualizer Data</th>
                 <th></th>
             </tr>
             </thead>
