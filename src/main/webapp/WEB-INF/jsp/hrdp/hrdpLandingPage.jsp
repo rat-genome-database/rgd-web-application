@@ -235,8 +235,7 @@ To change this template use File | Settings | File Templates.
                     <%} else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
-                    <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=
-                    <%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
+                    <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
                 </tr>
                 <%}%>
                 </tbody>
