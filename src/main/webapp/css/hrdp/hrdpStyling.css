@@ -19,10 +19,10 @@ p,li, a.here, span{
 }
 
 .hrdpTable {
-    width: 47%;
+    width: 48%;
     border-collapse: collapse;
     margin-top: 20px;
-    table-layout:fixed;
+    /*table-layout:fixed;*/
 }
 
 .hrdpTable th, .hrdpTable td {
@@ -59,11 +59,11 @@ p,li, a.here, span{
 }
 
 .hrdpTable td:nth-child(1) { /* Checkbox column */
-    width: 7%;
+    width: 10%;
 }
 
 .hrdpTable td:nth-child(2) { /* Strain column */
-    width: 18%;
+    width: 25%;
 }
 
 .hrdpTable td:nth-child(3), /* Phenominer Data */
@@ -72,7 +72,7 @@ p,li, a.here, span{
 }
 
 /*.hrdpTable td:nth-child(5) { !* View Report Link *!*/
-/*    width: 5%;*/
+/*    width: 20%;*/
 /*}*/
 
 .centered {
