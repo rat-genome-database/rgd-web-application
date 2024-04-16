@@ -22,7 +22,7 @@ p,li, a.here, span{
     width: 47%;
     border-collapse: collapse;
     margin-top: 20px;
-    table-layout:initial;
+    table-layout:fixed;
 }
 
 .hrdpTable th, .hrdpTable td {
@@ -63,17 +63,17 @@ p,li, a.here, span{
 }
 
 .hrdpTable td:nth-child(2) { /* Strain column */
-    width: 10%;
+    width: 18%;
 }
 
 .hrdpTable td:nth-child(3), /* Phenominer Data */
 .hrdpTable td:nth-child(4) { /* Variant Visualizer Data */
-    width: 15%;
+    width: 20%;
 }
 
-.hrdpTable td:nth-child(5) { /* View Report Link */
-    width: 15%;
-}
+/*.hrdpTable td:nth-child(5) { !* View Report Link *!*/
+/*    width: 5%;*/
+/*}*/
 
 .centered {
     display: flex;

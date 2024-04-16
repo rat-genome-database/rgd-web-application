@@ -22,19 +22,19 @@ To change this template use File | Settings | File Templates.
     int phenoRecCount = 0;
     SampleDAO sampleDAO = new SampleDAO();
 //    List<Strain> hrdpStrains = strainDAO.getStrainsByGroupName("HRDP");
-    List<Strain>hrdpDivergentClassicInbredStrains=null;
-    List<Strain>hrdpShrDerivedRIStrains = null;
-    List<Strain>hrdpLongEvansDerivedRIStrains = null;
+    List<Strain>hrdpClassicInbredStrains=null;
+    List<Strain>hrdpHXBStrains = null;
+    List<Strain>hrdpFXLEStrains = null;
     try {
-        hrdpDivergentClassicInbredStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "Divergent Classic Inbred Strains");
+        hrdpClassicInbredStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "Classic Inbred Strains");
     }
     catch (Exception ingore){}
     try{
-        hrdpShrDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "SHR and BN-Lx derived RI Strains");
+        hrdpHXBStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "HXB/BXH Recombinant Inbred Panel");
     }
     catch (Exception ingore){}
     try{
-        hrdpLongEvansDerivedRIStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "Long Evans and F344 derived RI Strains");
+        hrdpFXLEStrains = strainDAO.getStrainsByGroupNameAndSubGroupName("HRDP", "FXLE/LEXF Recombinant Inbred Panel");
     }
     catch (Exception ingore){}
     Map mapKey = new MapDAO().getPrimaryRefAssembly(3);
@@ -89,16 +89,16 @@ To change this template use File | Settings | File Templates.
     <br>
     <br>
     <br>
-    <%if(hrdpDivergentClassicInbredStrains!=null||hrdpShrDerivedRIStrains!=null||hrdpLongEvansDerivedRIStrains!=null){%>
+    <%if(hrdpClassicInbredStrains!=null||hrdpHXBStrains!=null||hrdpFXLEStrains!=null){%>
     <span><strong>The strains included in the HRDP panel are:</strong></span>
     </p>
     <form id="hrdpForm" method="get">
         <input type="hidden" name="mapKey" value="<%=mapKey.getKey()%>">
-        <%if (hrdpDivergentClassicInbredStrains!=null) {%>
+        <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="centered">
             <table  class="hrdpTable">
                 <thead>
-                <tr><th colspan="5" class="table-heading">Divergent&nbsp;Classic&nbsp;Inbred&nbsp;Strains</th></tr>
+                <tr><th colspan="5" class="table-heading">Classic&nbsp;Inbred&nbsp;Strains</th></tr>
                 <tr>
                     <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                     <th>Strain</th>
@@ -108,7 +108,7 @@ To change this template use File | Settings | File Templates.
                 </tr>
                 </thead>
                 <tbody>
-                <%for (Strain str : hrdpDivergentClassicInbredStrains) {
+                <%for (Strain str : hrdpClassicInbredStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
@@ -146,10 +146,10 @@ To change this template use File | Settings | File Templates.
         </div>
         <%}%>
         <div class="side-by-side">
-            <%if (hrdpShrDerivedRIStrains!=null) {%>
+            <%if (hrdpHXBStrains!=null) {%>
             <table class="hrdpTable">
                 <thead>
-                <tr><th colspan="5" class="table-heading">SHR&nbsp;and&nbsp;BN-Lx&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+                <tr><th colspan="5" class="table-heading">HXB/BXH&nbsp;Recombinant&nbsp;Inbred&nbsp;Panel&nbsp;Strains</th></tr>
                 <tr>
                     <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                     <th>Strain</th>
@@ -159,7 +159,7 @@ To change this template use File | Settings | File Templates.
                 </tr>
                 </thead>
                 <tbody>
-                <%for (Strain str : hrdpShrDerivedRIStrains) {
+                <%for (Strain str : hrdpHXBStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
@@ -193,11 +193,11 @@ To change this template use File | Settings | File Templates.
                 </tbody>
             </table>
             <%}%>
-            <%if (hrdpLongEvansDerivedRIStrains!=null) {
+            <%if (hrdpFXLEStrains!=null) {
             %>
             <table class="hrdpTable">
                 <thead>
-                <tr><th colspan="5" class="table-heading" >Long&nbsp;Evans&nbsp;and&nbsp;F344&nbsp;derived&nbsp;RI&nbsp;strains</th></tr>
+                <tr><th colspan="5" class="table-heading" >FXLE/LEXF &nbsp;Recombinant&nbsp;Inbred&nbsp;Panel&nbsp;Strains</th></tr>
                 <tr>
                     <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
                     <th>Strain</th>
@@ -207,7 +207,7 @@ To change this template use File | Settings | File Templates.
                 </tr>
                 </thead>
                 <tbody>
-                <%for (Strain str : hrdpLongEvansDerivedRIStrains) {
+                <%for (Strain str : hrdpFXLEStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
