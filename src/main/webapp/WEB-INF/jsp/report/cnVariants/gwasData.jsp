@@ -1,8 +1,10 @@
 <%@ include file="../sectionHeader.jsp"%>
 <%
-    if (isGwas){ %>
+    if (isGwas){
+    QTLDAO qdao = new QTLDAO();
+%>
 <div class="gwasDataTable light-table-border" id="gwasDataTableWrapper">
-    <div class="sectionHeading" id="gwasData">Related GWAS Catalog Data</div>
+    <div class="sectionHeading" id="gwasData">Related GWAS QTLs</div>
 
     <div class="search-and-pager">
         <div class="modelsViewContent" >
@@ -42,6 +44,7 @@
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Accession</td>
                 <td>PubMed</td>
+                <td>Assosciated QTLs</td>
             </tr>
 <%
         for (GWASCatalog gwas : gwasList){
@@ -70,6 +73,18 @@
                             "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
                 }
             }
+            QTL q = null;
+            String qtlExist = "";
+            if (gwas.getQtlRgdId() != null && gwas.getQtlRgdId() != 0){
+                try {
+                    q = qdao.getQTL(gwas.getQtlRgdId());
+                    qtlExist = "<a href=\"/rgdweb/report/qtl/main.html?id=" + q.getRgdId() + "\">" + q.getSymbol() + "</a>";
+                } catch (Exception e) {
+                    qtlExist = "None Available";
+                }
+            }
+            else
+                qtlExist = "None Available";
 
     String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
         String pmid = gwas.getPmid().split(":")[1];
@@ -92,6 +107,7 @@
                     <% } %>
                 </td>
                 <td><span>PMID:<a href="<%=url%>"><%=pmid%></a></span></td>
+                <td><%=qtlExist%></td> <!-- and this is where I would put my qtl... IF I HAD ONE -->
             </tr>
             <% } %>
         </table>
