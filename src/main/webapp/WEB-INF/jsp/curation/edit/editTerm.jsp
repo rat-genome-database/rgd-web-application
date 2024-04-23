@@ -51,7 +51,7 @@
 <% } %>
 
 
-<form action="editTerm.html" method="post">
+<form action="editTerm.html" method="post" accept-charset="UTF-8">
 <input type="hidden" name="termAcc" id="termAcc" value="<%=term.getAccId()%>" />
 <input type="hidden" name="action" value="update" />
 
