@@ -9,6 +9,7 @@ To change this template use File | Settings | File Templates.
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="edu.mcw.rgd.dao.impl.*" %>
+<%@ page import="edu.mcw.rgd.dao.spring.StringMapQuery" %>
 <%@ include file="/WEB-INF/jsp/report/dao.jsp" %>
 <%
     String pageTitle = "Hybrid Rat Diversity Panel Portal";
@@ -92,7 +93,7 @@ To change this template use File | Settings | File Templates.
     <%if(hrdpClassicInbredStrains!=null||hrdpHXBStrains!=null||hrdpFXLEStrains!=null){%>
     <span><strong>The strains included in the HRDP panel are:</strong></span>
     </p>
-    <form id="hrdpForm" method="get">
+    <form id="hrdpForm" method="post">
         <input type="hidden" name="mapKey" value="<%=mapKey.getKey()%>">
         <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="centered">
@@ -110,19 +111,51 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (Strain str : hrdpClassicInbredStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+                    List<StringMapQuery.MapPair>childOntIds  = annotationDAO.getChildOntIds(ontId);
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
-                    boolean hasPhenominer = phenoRecCount > 0;
-                    boolean hasVariantVisualizer = samples != null && samples.size() > 0;
+                    boolean hasVariantVisualizer = false;
+                    boolean childHasPhenominer = false;
+                    boolean childSamplesExist = false;
+                    String childOntIdsString="";
+                    List<String> validChildOntIds = new ArrayList<>();
+                    List<Sample> allChildSamples = new ArrayList<>();
+
+                    if(childOntIds!=null) {
+                        for (StringMapQuery.MapPair childOntId : childOntIds) {
+                            int childPhenoRecCount = phenominerDAO.getRecordCountForTerm(childOntId.keyValue, 3);
+                            if (childPhenoRecCount > 0) {
+                                childHasPhenominer = true;
+                                validChildOntIds.add(childOntId.keyValue);
+                            }
+                            List<Sample>childSamples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(Integer.parseInt(childOntId.stringValue), mapKey.getKey());
+                            if(childSamples!=null){
+                                allChildSamples.addAll(childSamples);
+                            }
+                        }
+                    }
+                        boolean hasPhenominer = phenoRecCount > 0 || childHasPhenominer;
+                        childSamplesExist = allChildSamples != null && allChildSamples.size() > 0;
+                        hasVariantVisualizer = (samples != null && samples.size() > 0)||childSamplesExist;
+                        childOntIdsString = String.join(",", validChildOntIds);
+//                        System.out.println("For strain ontId: " + ontId + "    " + str.getSymbol());
+//                        System.out.println("childOnt string: " + childOntIdsString);
                 %>
                 <tr data-has-phenominer="<%=hasPhenominer%>" data-has-variant-visualizer="<%=hasVariantVisualizer%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
                     <td><a class="here"><%=str.getSymbol()%></a></td>
-                    <%if (phenoRecCount > 0) {%>
-                    <%--                <td style="color: green;text-align: center">✔</td>--%>
+                    <%if (phenoRecCount>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
                         <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <%}else if(phenoRecCount<=0 && childHasPhenominer){%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
                     </td>
                     <%} else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
@@ -131,12 +164,23 @@ To change this template use File | Settings | File Templates.
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <%for (Sample sample : samples) {%>
                     <td style="display: none;">
-                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%= sample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
                     </td>
-                    <%}%>
-                    <%} else {%>
+                    <%}
+                    if (allChildSamples != null) {%>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    }
+                    } else if (childSamplesExist) {%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    } else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
+
                     <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
                 </tr>
                 <%}%>
@@ -161,18 +205,51 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (Strain str : hrdpHXBStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+                    List<StringMapQuery.MapPair>childOntIds  = annotationDAO.getChildOntIds(ontId);
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
-                    boolean hasPhenominer = phenoRecCount > 0;
-                    boolean hasVariantVisualizer = samples != null && samples.size() > 0;
+                    boolean hasVariantVisualizer = false;
+                    boolean childHasPhenominer = false;
+                    boolean childSamplesExist = false;
+                    String childOntIdsString="";
+                    List<String> validChildOntIds = new ArrayList<>();
+                    List<Sample> allChildSamples = new ArrayList<>();
+
+                    if(childOntIds!=null) {
+                        for (StringMapQuery.MapPair childOntId : childOntIds) {
+                            int childPhenoRecCount = phenominerDAO.getRecordCountForTerm(childOntId.keyValue, 3);
+                            if (childPhenoRecCount > 0) {
+                                childHasPhenominer = true;
+                                validChildOntIds.add(childOntId.keyValue);
+                            }
+                            List<Sample>childSamples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(Integer.parseInt(childOntId.stringValue), mapKey.getKey());
+                            if(childSamples!=null){
+                                allChildSamples.addAll(childSamples);
+                            }
+                        }
+                    }
+                    boolean hasPhenominer = phenoRecCount > 0 || childHasPhenominer;
+                    childSamplesExist = allChildSamples != null && allChildSamples.size() > 0;
+                    hasVariantVisualizer = (samples != null && samples.size() > 0)||childSamplesExist;
+                    childOntIdsString = String.join(",", validChildOntIds);
+//                        System.out.println("For strain ontId: " + ontId + "    " + str.getSymbol());
+//                        System.out.println("childOnt string: " + childOntIdsString);
                 %>
                 <tr data-has-phenominer="<%=hasPhenominer%>" data-has-variant-visualizer="<%=hasVariantVisualizer%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
                     <td><a class="here"><%=str.getSymbol()%></a></td>
-                    <%if (phenoRecCount > 0) {%>
+                    <%if (phenoRecCount>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
                         <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <%}else if(phenoRecCount<=0 && childHasPhenominer){%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
                     </td>
                     <%} else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
@@ -181,12 +258,23 @@ To change this template use File | Settings | File Templates.
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <%for (Sample sample : samples) {%>
                     <td style="display: none;">
-                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%= sample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
                     </td>
-                    <%}%>
-                    <%} else {%>
+                    <%}
+                        if (allChildSamples != null) {%>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    }
+                    } else if (childSamplesExist) {%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    } else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
+
                     <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
                 </tr>
                 <%}%>
@@ -209,18 +297,51 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (Strain str : hrdpFXLEStrains) {
                     ontId = ontologyDAO.getStrainOntIdForRgdId(str.getRgdId());
+                    List<StringMapQuery.MapPair>childOntIds  = annotationDAO.getChildOntIds(ontId);
                     phenoRecCount = phenominerDAO.getRecordCountForTerm(ontId, 3);
                     samples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(str.getRgdId(), mapKey.getKey());
-                    boolean hasPhenominer = phenoRecCount > 0;
-                    boolean hasVariantVisualizer = samples != null && samples.size() > 0;
+                    boolean hasVariantVisualizer = false;
+                    boolean childHasPhenominer = false;
+                    boolean childSamplesExist = false;
+                    String childOntIdsString="";
+                    List<String> validChildOntIds = new ArrayList<>();
+                    List<Sample> allChildSamples = new ArrayList<>();
+
+                    if(childOntIds!=null) {
+                        for (StringMapQuery.MapPair childOntId : childOntIds) {
+                            int childPhenoRecCount = phenominerDAO.getRecordCountForTerm(childOntId.keyValue, 3);
+                            if (childPhenoRecCount > 0) {
+                                childHasPhenominer = true;
+                                validChildOntIds.add(childOntId.keyValue);
+                            }
+                            List<Sample>childSamples = sampleDAO.getSamplesByStrainRgdIdAndMapKey(Integer.parseInt(childOntId.stringValue), mapKey.getKey());
+                            if(childSamples!=null){
+                                allChildSamples.addAll(childSamples);
+                            }
+                        }
+                    }
+                    boolean hasPhenominer = phenoRecCount > 0 || childHasPhenominer;
+                    childSamplesExist = allChildSamples != null && allChildSamples.size() > 0;
+                    hasVariantVisualizer = (samples != null && samples.size() > 0)||childSamplesExist;
+                    childOntIdsString = String.join(",", validChildOntIds);
+//                        System.out.println("For strain ontId: " + ontId + "    " + str.getSymbol());
+//                        System.out.println("childOnt string: " + childOntIdsString);
                 %>
                 <tr data-has-phenominer="<%=hasPhenominer%>" data-has-variant-visualizer="<%=hasVariantVisualizer%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getRgdId()%>"></td>
                     <td><a class="here"><%=str.getSymbol()%></a></td>
-                    <%if (phenoRecCount > 0) {%>
+                    <%if (phenoRecCount>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
                         <input type="hidden" class="ontIdInput" name="ontId" value="<%=ontId%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                    </td>
+                    <%}else if(phenoRecCount<=0 && childHasPhenominer){%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <td style="display: none;">
+                        <input type="hidden" class="childOntIdInput" name="childontId" value="<%=childOntIdsString%>" disabled data-rgdid="<%=str.getRgdId()%>">
                     </td>
                     <%} else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
@@ -229,13 +350,24 @@ To change this template use File | Settings | File Templates.
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <%for (Sample sample : samples) {%>
                     <td style="display: none;">
-                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%=sample.getId()%>" disabled data-rgdid="<%=str.getRgdId()%>">
+                        <input type="hidden" class="sampleInput" name="sampleIds" value="<%= sample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
                     </td>
-                    <%}%>
-                    <%} else {%>
+                    <%}
+                        if (allChildSamples != null) {%>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    }
+                    } else if (childSamplesExist) {%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick"></td>
+                    <%for(Sample childSample:allChildSamples){%>
+                    <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%= childSample.getId() %>" disabled data-rgdid="<%= str.getRgdId()%>">
+                    <%}
+                    } else {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
-                    <td><a class="here" title="Click to View Strain Report" href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
+
+                    <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getRgdId()%>">View&nbsp;Strain Report</a></td>
                 </tr>
                 <%}%>
                 </tbody>
@@ -292,20 +424,28 @@ To change this template use File | Settings | File Templates.
         let checkboxes = document.querySelectorAll('input[type="checkbox"][name="rgdId"]')
 
         // Initially disable all ontId inputs to ensure only the checked ones are enabled
-        document.querySelectorAll(".ontIdInput,.sampleInput").forEach(function(input) {
-            input.disabled = true;
-        });
+        // document.querySelectorAll(".ontIdInput,.childOntIdInput,.sampleInput,.sampleChildInput").forEach(function(input) {
+        //     input.disabled = true;
+        // });
 
+        // checkboxes.forEach(function (checkbox){
+        //     if(checkbox.checked){
+        //         isAnyCheckboxChecked = true
+        //
+        //         // Find and enable the ontId input related to the checked checkbox
+        //         let rgdId = checkbox.value;
+        //         let ontIdInput = document.querySelector("input.ontIdInput[data-rgdid='" + rgdId + "']");
+        //         let childOntIdInput = document.querySelector("input.childOntIdInput[data-rgdid='" + rgdId + "']");
+        //         if (ontIdInput) ontIdInput.disabled = false;
+        //         if (childOntIdInput) childOntIdInput.disabled = false;
+        //         // Also enable all sample inputs for checked strains
+        //         document.querySelectorAll("input.sampleInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
+        //         document.querySelectorAll("input.sampleChildInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
+        //     }
+        // })
         checkboxes.forEach(function (checkbox){
             if(checkbox.checked){
                 isAnyCheckboxChecked = true
-
-                // Find and enable the ontId input related to the checked checkbox
-                let rgdId = checkbox.value;
-                let ontIdInput = document.querySelector("input.ontIdInput[data-rgdid='" + rgdId + "']");
-                if (ontIdInput) ontIdInput.disabled = false;
-                // Also enable all sample inputs for checked strains
-                document.querySelectorAll("input.sampleInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
             }
         })
         if (!isAnyCheckboxChecked) {
@@ -345,11 +485,48 @@ To change this template use File | Settings | File Templates.
         document.getElementById("optionsModal").style.display='none'
     }
 
-    function optionSelected(option){
+
+    function optionSelected(option) {
         document.getElementById('userChoice').value = option;
-        document.getElementById("optionsModal").style.display = "none";
-        document.getElementById("hrdpForm").submit()
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="rgdId"]');
+        let isAnyCheckboxChecked = false;
+
+        // Disable all inputs initially
+        document.querySelectorAll(".ontIdInput, .childOntIdInput, .sampleInput, .sampleChildInput").forEach(input => input.disabled = true);
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                isAnyCheckboxChecked = true;  // Set flag if any checkbox is checked
+                // Based on the option, enable relevant inputs for checked checkboxes
+                if (option === "phenominer") {
+                    enablePhenominerInputs(checkbox.value);
+                } else if (option === "variantVisualizer") {
+                    enableVariantVisualizerInputs(checkbox.value);
+                }
+            }
+        });
+
+        if (!isAnyCheckboxChecked) {
+            alert('Please select at least one strain before analyzing.');
+        } else {
+            document.getElementById("optionsModal").style.display = "none";
+            document.getElementById("hrdpForm").submit();
+        }
     }
+
+    function enablePhenominerInputs(rgdId) {
+        let ontIdInput = document.querySelector("input.ontIdInput[data-rgdid='" + rgdId + "']");
+        let childOntIdInput = document.querySelector("input.childOntIdInput[data-rgdid='" + rgdId + "']");
+        if (ontIdInput) ontIdInput.disabled = false;
+        if (childOntIdInput) childOntIdInput.disabled = false;
+    }
+
+    function enableVariantVisualizerInputs(rgdId) {
+        document.querySelectorAll("input.sampleInput[data-rgdid='" + rgdId + "'], " +
+            "input.sampleChildInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
+    }
+
+
 
     document.querySelector(".close-button").addEventListener("click",closeWindow)
 
