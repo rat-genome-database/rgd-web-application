@@ -20,6 +20,8 @@ public class TermEditObjectController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        request.setCharacterEncoding("UTF-8");
+
         String action = "";
         String termAcc = Utils.defaultString(request.getParameter("rgdId"));
         if( Utils.isStringEmpty(termAcc) ) {
