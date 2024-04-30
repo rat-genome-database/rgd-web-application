@@ -24,10 +24,13 @@ var gviewer=null;
 function runGviewer() {
     var mapKey= $('#mapKey').val();
     var species=$('#species').val();
-    var URL="https://rgd.mcw.edu/jbrowse/?tracks=ARGD_curated_genes&data=";
+    var URL="/jbrowse/?tracks=ARGD_curated_genes&data=";
     var bandURL=null;
     if(species=='Rat') {
         bandURL="/rgdweb/gviewer/data/rgd_rat_ideo.xml";
+        if(mapKey==380) {
+            URL  = URL + "data_rn8";
+        }
         if(mapKey==372) {
             URL  = URL + "data_rn7_2";
         }
