@@ -34,7 +34,7 @@ height: 100px;
 
         for(int i=0;i<rows;i++){%>
         <div class="card-deck">
-           <%for(int j=0;j<hits.size()&& j<3;j++){
+           <%for(int j=0;j<3;j++){
                 SearchHit hit=hits.get(hitCount);
                 Map<String, Object> sourceMap=hit.getSourceAsMap();
                 hitCount++;%>
