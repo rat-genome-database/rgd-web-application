@@ -85,27 +85,8 @@
                                     <%}else{%>
                                     <option value="<%=assembly.getKey()%>"><%=assembly.getName()%></option>
                                     <%}}}}%>
-<%--                        <c:forEach items="${model.assemblyListsMap}" var="entry">--%>
-<%--                            <c:if test="${entry.key.equalsIgnoreCase(hit.sourceAsMap.species)}">--%>
-<%--                                <c:forEach items="${entry.value}" var="e">--%>
-<%--                                    <c:if test="${e.key!=6 && e.key!=36 && e.key!=8 && e.key!=21 && e.key!=19 && e.key!=7}">--%>
-<%--                                        <c:choose>--%>
-<%--                                            <c:when test="${e.key==hit.sourceAsMap.mapKey}">--%>
-<%--                                                <option value="${e.key}" selected>${e.name}</option>--%>
-
-<%--                                            </c:when>--%>
-<%--                                            <c:otherwise>--%>
-<%--                                                <option value="${e.key}">${e.name}</option>--%>
-<%--                                            </c:otherwise>--%>
-<%--                                        </c:choose>--%>
-<%--                                    </c:if>--%>
-<%--                                </c:forEach>--%>
-
-<%--                            </c:if>--%>
-<%--                        </c:forEach>--%>
 
                     </select>
-<%--                </label>--%>
 
             </td></tr>
             </table>
