@@ -34,10 +34,11 @@ height: 100px;
 
         for(int i=0;i<rows;i++){%>
         <div class="card-deck">
-           <%for(int j=0;j<hits.size()&& j<3;j++){
+           <%for(int j=0; j<3;j++){
                 SearchHit hit=hits.get(hitCount);
                 Map<String, Object> sourceMap=hit.getSourceAsMap();
-                hitCount++;%>
+                hitCount++;
+           %>
             <div class="card" style="border-width: thick">
                 <a href="genomeInformation.html?species=<%=sourceMap.get("species")%>&mapKey=<%=sourceMap.get("mapKey")%>&details=true" id="headerLink<%=sourceMap.get("species")%>" title="click to see more info and other assemblies">
                 <div class="card-img-top" align="center">
