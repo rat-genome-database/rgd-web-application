@@ -49,7 +49,7 @@
         var mapKey= $('#mapKey').val();
         var species=$('#species').val();
         var $jbrowse= document.getElementById('jbrowseMini');
-        var URL="https://rgd.mcw.edu/jbrowse?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
+        var URL="/jbrowse?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
         if($jbrowse!=null && typeof $jbrowse != 'undefined') {
             if (species == 'Chinchilla') {
                 if (mapKey == 44)
