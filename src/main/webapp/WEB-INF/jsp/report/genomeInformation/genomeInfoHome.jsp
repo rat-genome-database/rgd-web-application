@@ -38,7 +38,7 @@ height: 100px;
                 SearchHit hit=hits.get(hitCount);
                 Map<String, Object> sourceMap=hit.getSourceAsMap();
                 hitCount++;%>
-            <div class="card">
+            <div class="card" style="border-width: thick">
                 <a href="genomeInformation.html?species=<%=sourceMap.get("species")%>&mapKey=<%=sourceMap.get("mapKey")%>&details=true" id="headerLink<%=sourceMap.get("species")%>" title="click to see more info and other assemblies">
                 <div class="card-img-top" align="center">
                     <img class="" src="/rgdweb/common/images/species/<%=sourceMap.get("species").toString().toLowerCase().replace(" ","_")%>I.png" alt="Card image cap">
