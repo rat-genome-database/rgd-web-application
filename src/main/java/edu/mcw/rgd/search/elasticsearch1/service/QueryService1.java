@@ -275,7 +275,7 @@ public class QueryService1 {
 //                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10)).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)));
 
         dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchPhrasePrefixQuery("symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
-        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchPhrasePrefixQuery("name", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
+        dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchPhrasePrefixQuery("name.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
 
     }
     public void endsWithQuery(DisMaxQueryBuilder dqb, SearchBean sb){
