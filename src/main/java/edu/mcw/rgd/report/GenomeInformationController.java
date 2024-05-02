@@ -134,6 +134,7 @@ public class GenomeInformationController implements Controller{
                     .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
                     .get();*/
         }
+        srb.size(100);
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("genome"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
