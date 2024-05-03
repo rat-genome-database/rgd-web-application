@@ -53,7 +53,7 @@
 
         <%-- AGR GENES --%>
             <tr>
-                <td class="label">Alliance Genes</td>
+                <td class="label">Alliance Orthologs</td>
                 <td style="height: 60px">
 
                 <%
