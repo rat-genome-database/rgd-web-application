@@ -1,9 +1,14 @@
 package edu.mcw.rgd.hrdp;
 
+import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.Map;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 public class hrdpController implements Controller {
@@ -15,58 +20,79 @@ public class hrdpController implements Controller {
         String[]childontIds = request.getParameterValues("childontId");
         String[] sampleIds = request.getParameterValues("sampleIds");
         String[] sampleChildIds = request.getParameterValues("sampleChildIds");
-        String mapKey = request.getParameter("mapKey");
         StringBuilder urlBuilder = new StringBuilder();
 
-//        if(sampleChildIds!=null){
-//            for(String str:sampleChildIds){
-//                System.out.println("CHild sample Id: "+str);
-//            }
-//        }
+        if (choice != null && choice.equals("phenominer")) {
+            Set<String> uniqueOntIds = new LinkedHashSet<>();
 
-        if(choice!=null&&choice.equals("phenominer")) {
-            if (ontIds != null) {
+            // Add each individual ontology ID to the Set
+            if (ontIds!= null) {
                 for (String ontId : ontIds) {
-                    if (ontId != null) {
-                        if (urlBuilder.length() > 0) {
-                            urlBuilder.append(","); // Append comma before adding the next value, except for the first
+                    String[] ids = ontId.split(",");
+                    for (String id : ids) {
+                        if (!id.trim().isEmpty()) {
+                            uniqueOntIds.add(id.trim());
                         }
-                        urlBuilder.append(ontId);
                     }
                 }
             }
-            if(childontIds!=null) {
-                for (String str : childontIds) {
-                    if (str != null) {
-                        if (urlBuilder.length() > 0) {
-                            urlBuilder.append(","); // Append comma before adding the next value, except for the first
+
+            // Add each individual child ontology ID to the Set
+            if (childontIds!= null) {
+                for (String childId : childontIds) {
+                    String[] ids = childId.split(",");
+                    for (String id : ids) {
+                        if (!id.trim().isEmpty()) {
+                            uniqueOntIds.add(id.trim());
                         }
-                        urlBuilder.append(str);
                     }
                 }
             }
-            String phenominerUrl = urlBuilder.toString()==null?"": urlBuilder.toString();
-            System.out.println("Phenominer Url: "+phenominerUrl);
+
+            String phenominerUrl = String.join(",", uniqueOntIds);
+
+            System.out.println("Phenominer Url: " + phenominerUrl);
+
             return new ModelAndView("redirect:/phenominer/ontChoices.html?species=3&terms=" + phenominerUrl);
         }
 
-        if(choice!=null&&choice.equals("variantVisualizer")) {
+        if (choice != null && choice.equals("variantVisualizer")) {
+            Map mapKey = new MapDAO().getPrimaryRefAssembly(3);
+            int key = mapKey.getKey();
+
+            Set<String> uniqueIds = new LinkedHashSet<>();
+
+            // Add each individual sample ID to the Set
             if (sampleIds != null) {
-                for (int i = 0; i < sampleIds.length; i++){
-                    urlBuilder.append("&sample").append(i + 1).append("=").append(sampleIds[i]);
+                for (String sampleGroup : sampleIds) {
+                    String[] ids = sampleGroup.split(",");
+                    for (String id : ids) {
+                        uniqueIds.add(id.trim());
+                    }
                 }
             }
-            if(sampleChildIds!=null){
-                int offset = sampleIds != null ? sampleIds.length : 0;
-                for (int i = 0; i < sampleChildIds.length; i++){
-                    urlBuilder.append("&sample").append(offset + i + 1).append("=").append(sampleChildIds[i]);
+
+            // Add each individual child sample ID to the Set
+            if (sampleChildIds != null) {
+                for (String childGroup : sampleChildIds) {
+                    String[] ids = childGroup.split(",");
+                    for (String id : ids) {
+                        uniqueIds.add(id.trim());
+                    }
                 }
             }
-            String vvUrl = urlBuilder.toString()==null?"": urlBuilder.toString();
+
+            // Append unique IDs to the URL
+            int index = 1;
+            for (String id : uniqueIds) {
+                urlBuilder.append("&sample").append(index++).append("=").append(id);
+            }
+
+            String vvUrl = urlBuilder.toString();
             System.out.println("vvUrl:" + vvUrl);
-            return new ModelAndView("redirect:/front/select.html?mapKey="+mapKey + vvUrl);
+            return new ModelAndView("redirect:/front/select.html?mapKey="+key + vvUrl);
         }
 
-        return new ModelAndView("/WEB-INF/jsp/hrdp/hrdpLandingPage.jsp");
+            return new ModelAndView("/WEB-INF/jsp/hrdp/hrdpLandingPage.jsp");
     }
 }
