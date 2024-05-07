@@ -10,6 +10,18 @@ p,li, a.here, span{
     cursor: pointer;
 }
 
+.fixed-bottom-center {
+    position: fixed;
+    bottom: 20px;
+    left: 53%;
+    transform: translateX(-50%); /* Centers it horizontally */
+}
+
+.hidden{
+    display: none;
+}
+
+
 #btn-contact a{
     color: white;
 }
@@ -75,12 +87,11 @@ p,li, a.here, span{
 /*    width: 20%;*/
 /*}*/
 
-.centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:100px;
-}
+/*.centered {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 .side-by-side {
     display: flex;
@@ -171,5 +182,57 @@ p,li, a.here, span{
     /*align-items: center;*/
     padding: 0 40px;
 }
+
+.legend {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between legend items */
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    width: auto;
+    height: auto;
+    border: 1px solid #e1e4e8; /* Light gray border color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Add padding inside the border */
+    background-color: #f9f9f9;
+    top: 30%;
+    left: 75%; /* Position to the right of the table */
+    transform: translateX(13px); /* Add a small offset for spacing */
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between image and text */
+}
+
+.centered {
+    position: relative;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .legend {
+        position: static; /* Remove absolute positioning */
+        transform: none; /* Reset the offset */
+        margin: 10px auto; /* Center the legend */
+        width: 90%;
+    }
+
+    .centered {
+        flex-direction: column; /* Stack elements vertically */
+    }
+}
+
+
+
+
+
+
 
 

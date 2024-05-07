@@ -92,6 +92,11 @@ To change this template use File | Settings | File Templates.
     </p>
     <form id="hrdpForm" method="post">
         <%if (hrdpClassicInbredStrains!=null) {%>
+        <div class="legend">
+            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Strain data exists, and related strain data may exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Only related strains data exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- Neither strain data nor related strains data exist.</div>
+        </div>
         <div class="centered">
             <table  class="hrdpTable">
                 <thead>
@@ -149,7 +154,6 @@ To change this template use File | Settings | File Templates.
                 <%}%>
                 </tbody>
             </table>
-            <input type="submit" class="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
         </div>
         <%}%>
         <div class="side-by-side">
@@ -273,7 +277,7 @@ To change this template use File | Settings | File Templates.
         </div>
         <div style="text-align: center;padding-top: 30px;">
             <input type="hidden" name="userChoice" id="userChoice" value="">
-            <input type="submit" class="btn-analyze" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
+            <input type="submit" class="btn-analyze fixed-bottom-center hidden" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
         </div>
         <%}%>
         <!-- Popup window structure -->
@@ -314,39 +318,20 @@ To change this template use File | Settings | File Templates.
         checkboxes.forEach(function(checkbox){
             checkbox.checked = toggleAllCheckbox.checked;
         })
+
+        toggleAnalyzeButton();
     }
 
     function validateForm(){
         let isAnyCheckboxChecked = false
         let checkboxes = document.querySelectorAll('input[type="checkbox"][name="rgdId"]')
 
-        // Initially disable all ontId inputs to ensure only the checked ones are enabled
-        // document.querySelectorAll(".ontIdInput,.childOntIdInput,.sampleInput,.sampleChildInput").forEach(function(input) {
-        //     input.disabled = true;
-        // });
-
-        // checkboxes.forEach(function (checkbox){
-        //     if(checkbox.checked){
-        //         isAnyCheckboxChecked = true
-        //
-        //         // Find and enable the ontId input related to the checked checkbox
-        //         let rgdId = checkbox.value;
-        //         let ontIdInput = document.querySelector("input.ontIdInput[data-rgdid='" + rgdId + "']");
-        //         let childOntIdInput = document.querySelector("input.childOntIdInput[data-rgdid='" + rgdId + "']");
-        //         if (ontIdInput) ontIdInput.disabled = false;
-        //         if (childOntIdInput) childOntIdInput.disabled = false;
-        //         // Also enable all sample inputs for checked strains
-        //         document.querySelectorAll("input.sampleInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
-        //         document.querySelectorAll("input.sampleChildInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
-        //     }
-        // })
         checkboxes.forEach(function (checkbox){
             if(checkbox.checked){
                 isAnyCheckboxChecked = true
             }
         })
         if (!isAnyCheckboxChecked) {
-            alert('Please select at least one strain before analyzing.');
             return false;
         }
         return true;
@@ -423,9 +408,24 @@ To change this template use File | Settings | File Templates.
             "input.sampleChildInput[data-rgdid='" + rgdId + "']").forEach(input => input.disabled = false);
     }
 
+    function toggleAnalyzeButton(){
+        let isAnyCheckboxChecked = [...document.querySelectorAll('input[type="checkbox"][name="rgdId"]')]
+            .some(checkbox => checkbox.checked);
+
+        let analyzeButton = document.querySelector(".btn-analyze");
+        if (isAnyCheckboxChecked) {
+            analyzeButton.classList.remove("hidden");
+        } else {
+            analyzeButton.classList.add("hidden");
+        }
+
+    }
 
 
-    document.querySelector(".close-button").addEventListener("click",closeWindow)
+    document.querySelector(".close-button").addEventListener("click",closeWindow);
 
+    document.querySelectorAll('input[type="checkbox"][name="rgdId"]').forEach(checkbox => {
+        checkbox.addEventListener("change", toggleAnalyzeButton);
+    });
 
 </script>
