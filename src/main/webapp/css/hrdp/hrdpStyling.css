@@ -83,9 +83,9 @@ p,li, a.here, span{
     width: 20%;
 }
 
-/*.hrdpTable td:nth-child(5) { !* View Report Link *!*/
-/*    width: 20%;*/
-/*}*/
+.hrdpTable td:nth-child(5) { /* View Report Link */
+    width: 19%;
+}
 
 /*.centered {*/
 /*    display: flex;*/
