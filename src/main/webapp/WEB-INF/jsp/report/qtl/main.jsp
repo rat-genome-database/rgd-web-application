@@ -128,8 +128,8 @@
             <%@ include file="../genesInRegion.jsp"%>
             <%if (peakRs){%>
             <%@ include file="../markersInRegion.jsp"%>
-            <%@ include file="markers.jsp"%>
             <%}%>
+            <%@ include file="markers.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
             <%@ include file="../relatedStrains.jsp"%>
 

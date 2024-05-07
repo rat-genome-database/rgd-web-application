@@ -44,7 +44,7 @@
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Accession</td>
                 <td>PubMed</td>
-                <td>Assosciated QTLs</td>
+                <td>Associated QTLs</td>
             </tr>
 <%
         for (GWASCatalog gwas : gwasList){

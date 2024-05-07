@@ -1,4 +1,5 @@
-
+<%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
+<%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 
@@ -7,6 +8,7 @@
     Object flank1 = null;
     Object flank2 = null;
     Object peak = null;
+    VariantMapData peakRsId = null;
     if (obj.getFlank1RgdId() != null) {
         flank1 = managementDAO.getObject(obj.getFlank1RgdId());
     }
@@ -16,8 +18,17 @@
     if (obj.getPeakRgdId() != null) {
         peak = managementDAO.getObject(obj.getPeakRgdId());
     }
+    if (obj.getPeakRsId() != null){
+        // get variant object with rsId
+        // rsId is the symbol that'll link to variant page
+        VariantDAO vdao = new VariantDAO();
 
-    if (flank1 != null || peak != null || flank2 != null) {
+        List<VariantMapData> vmds = vdao.getAllActiveVariantsByRsId(obj.getPeakRsId());
+        if (!vmds.isEmpty())
+            peakRsId = vmds.get(0);
+    }
+
+    if (flank1 != null || peak != null || flank2 != null || peakRsId != null) {
 
 %>
 
@@ -30,10 +41,12 @@
     String f1symbol = "";
     String f2symbol = "";
     String psymbol = "";
+    String pRsSymbol = "";
 
     int f1RgdId = 0;
     int f2RgdId = 0;
     int pRgdId = 0;
+    int pRsRgdId = 0;
 
     if( flank1 != null ) {
         if( flank1 instanceof ObjectWithSymbol )
@@ -59,6 +72,14 @@
         pRgdId = ((Identifiable)peak).getRgdId();
     }
 
+    if (peakRsId != null){
+        if (!Utils.isStringEmpty(peakRsId.getRsId()))
+            pRsSymbol = peakRsId.getRsId();
+        else
+            pRsSymbol = peakRsId.getId()+"";
+        pRsRgdId = (int) peakRsId.getId();
+    }
+
 %>
 <br>
 <table>
@@ -73,6 +94,14 @@
     <tr>
         <td valign="top">Peak: (<a href="<%=Link.it(pRgdId)%>"><%=psymbol%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
+    </tr>
+    <% } %>
+    <% if (peakRsId != null){ %>
+    <tr>
+        <td valign="top">Peak: (<a href="<%=Link.it(pRsRgdId)%>"><%=pRsSymbol%></a>)</td>
+        <td>
+            <%=MapDataFormatter.buildTable(pRsRgdId, obj.getSpeciesTypeKey())%>
+        </td>
     </tr>
     <% } %>
     <% if (flank2 != null) { %>
