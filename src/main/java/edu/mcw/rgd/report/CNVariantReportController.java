@@ -9,6 +9,6 @@ public class CNVariantReportController extends ReportController {
     }
 
     public Object getObject(int rgdId) throws Exception{
-        return new VariantDAO().getVariant(rgdId);
+        return new VariantDAO().getAllVariantsByRgdId(rgdId);
     }
 }

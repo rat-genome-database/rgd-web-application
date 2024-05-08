@@ -98,7 +98,7 @@
     <% } %>
     <% if (peakRsId != null){ %>
     <tr>
-        <td valign="top">Peak: (<a href="<%=Link.it(pRsRgdId)%>"><%=pRsSymbol%></a>)</td>
+        <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=pRsSymbol%>"><%=pRsSymbol%></a>)</td>
         <td>
             <%=MapDataFormatter.buildTable(pRsRgdId, obj.getSpeciesTypeKey())%>
         </td>
