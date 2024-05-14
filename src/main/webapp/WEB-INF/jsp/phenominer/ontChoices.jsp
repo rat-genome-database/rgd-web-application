@@ -418,7 +418,7 @@
         <tr>
             <td width="50">
                 <div style="overflow:scroll;height:450px;width:600px;border: 1px solid black;">
-                    <h3 v-if="optionsNotEmpty"><br>&nbsp;0 Records found for Term: <b>{{searchTerm}}</b></h3>
+                    <h3 v-if="optionsNotEmpty"><br>&nbsp;{{searchMsg}} for Term: <b>{{searchTerm}}</b></h3>
                     <table>
                         <tr v-for="(key, value) in options" >
                                     <td width="15"><input type="button" value="select" @click="selectByTermId(key)" style="height:17px;padding-left:5px;"/></td>
@@ -740,12 +740,15 @@
         host = window.location.protocol + '//rgd.mcw.edu';
     }
 
+
+
     var v = new Vue({
         el: div,
         data: {
             optionsNotEmpty:  false,
             title: "",
             searchTerm: "",
+            searchMsg: "0 Records found ",
             hostName: host,
             options:{},
             symbolHash: {},
@@ -764,6 +767,7 @@
             currentOnt: "VT",
             examples: "",
             axiosRequest: new AbortController(),
+            lastRequestTimeStamp:0,
         },
         methods: {
 
@@ -775,6 +779,7 @@
                 //selectByTermId(val);
             },
             search: function () {
+                console.log("called search")
                 this.axiosRequest.abort();
 
                 v.options={};
@@ -802,22 +807,29 @@
                             v.optionsNotEmpty=false;
                     }
                 }else {
-
+                    const currentRequestTimestamp = Date.now();
+                    v.searchMsg="Searching ";
                     axios
                         .get(this.hostName + '/rgdweb/phenominerTermSearch.html?term=' + v.searchTerm + '&category=Ontology&subCat=' + subCat + '&species=&cat1=General&sp1=&postCount=1',
                             {
-                                species: "hell",
+                                headers: {
+                                    'Request-Timestamp': currentRequestTimestamp,
+                                },
+
                             })
                         .then(function (response) {
-                            for (var searchKey in response.data) {
-                                for (var key in v.symbolHash) {
-                                    if (v.symbolHash[key].indexOf(searchKey) != -1) {
-                                        v.options[key] = v.symbolHash[key];
-                                        v.optionsNotEmpty = false;
+                            if (currentRequestTimestamp >= v.lastRequestTimeStamp) {
+                                v.lastRequestTimeStamp = currentRequestTimestamp;
+                                for (var searchKey in response.data) {
+                                    for (var key in v.symbolHash) {
+                                        if (v.symbolHash[key].indexOf(searchKey) != -1) {
+                                            v.options[key] = v.symbolHash[key];
+                                            v.optionsNotEmpty = false;
+                                        }
                                     }
                                 }
+                                v.searchMsg="0 Records found "
                             }
-
                         })
                         .catch(function (error) {
                             console.log(error)
