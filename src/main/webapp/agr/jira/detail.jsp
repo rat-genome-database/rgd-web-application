@@ -2,18 +2,15 @@
 <%@ page import="java.net.http.HttpResponse" %>
 <%@ page import="org.apache.http.client.methods.HttpGet" %>
 <%@ page import="java.net.http.HttpRequest" %>
-<%@ page import="java.util.Base64" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page import="com.fasterxml.jackson.core.JsonParser" %>
 <%@ page import="com.fasterxml.jackson.databind.JsonNode" %>
-<%@ page import="java.util.HashMap" %>
 <%@ page import="com.fasterxml.jackson.core.type.TypeReference" %>
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="org.json.JSONArray" %>
-<%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.rgd.agr.JiraTicket" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -63,6 +60,26 @@
 <table>
 
 <%
+/*
+Public Website
+VEP
+Loader
+Ribbons
+Neo4J
+File Mgmt System
+Ferret
+AllianceMine
+Curation
+PersistentStore
+A-Team Deployments
+A-Team Data Loading
+A-Team LinkML
+A-Team work for Blue Team
+ID Minting
+MaTI Deployments
+*/
+
+
     HashMap<String, JiraTicket> publicTickets = new HashMap<String, JiraTicket>();
     HashMap<String, JiraTicket> curationTickets = new HashMap<String, JiraTicket>();
     HashMap<String, JiraTicket> otherTickets = new HashMap<String, JiraTicket>();
@@ -85,20 +102,87 @@
         JSONObject issue = new JSONObject(issues.getString(i));
         ticket.setKey(issue.getString("key"));
 
+        System.out.println(issue.getString("key"));
+
         JSONObject fields = new JSONObject(issue.getString("fields"));
         JSONArray components = fields.getJSONArray("components");
 
-        ArrayList comp = new ArrayList();
-        for (int k=0; k< components.length();k++) {
+        ArrayList<String> comp = new ArrayList<String>();
+                for (int k=0; k< components.length();k++) {
            JSONObject c =  components.getJSONObject(k);
            String compString = c.getString("name");
            comp.add(c.getString("name"));
            //out.print("-" + compString+"-");
-            if (compString.equals("Public Website")) {
+            if (compString.equals("Public Website")
+            || compString.equals("VEP")
+             || compString.equals("Loader")
+              || compString.equals("Ribbons")
+               || compString.equals("Neo4J")
+                || compString.equals("File Mgmt System")
+                 || compString.equals("Ferret")
+            || compString.equals("AllianceMine")) {
                 isPublic=true;
-            }else if (compString.equals("Curation")) {
+            }else if (compString.equals("Curation")
+            || compString.equals("PersistentStore")
+             || compString.equals("A-Team Deployments")
+              || compString.equals("A-Team Data Loading")
+               || compString.equals("A-Team LinkML")
+                || compString.equals("A-Team work for Blue Team")) {
                 isCuration=true;
             }
+        }
+        // Define the predefined order
+        String[] predefinedOrder = {
+            "Public Website","Curation","ID Minting","UI","Indexer","Search","DevOps","API",  "VEP", "Loader",
+            "Ribbons", "Neo4J", "File Mgmt System","Architecture","Basic Gene Info (BGI)",
+            "Ferret", "AllianceMine",  "PersistentStore", "A-Team Deployments",
+             "A-Team Data Loading", "A-Team LinkML", "A-Team work for Blue Team",
+             "MaTI Deployments","BioSchemas","Disease","DQM",
+            "Expression","Expression - LTP","Interactions"
+        };
+
+        // Create a map to store the predefined order with their indices
+        Map<String, Integer> orderMap = new HashMap<>();
+        for (int j = 0; j < predefinedOrder.length; j++) {
+            orderMap.put(predefinedOrder[j], j);
+        }
+
+        // Sort the ArrayList using the custom comparator
+        Collections.sort(comp, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                System.out.println("checking " + o1 + " - " + o2);
+                int compare = 0;
+                try {
+                    compare = Integer.compare(orderMap.get(o1), orderMap.get(o2));
+                }catch (Exception e) {
+
+                }
+                System.out.println("returning " + compare);
+                return compare;
+            }
+        });
+
+
+
+        if (comp.size() > 1) {
+            if (comp.get(0).equals("Curation") || comp.get(0).equals("Public Website")) {
+                if (comp.size() > 2) {
+                    ArrayList<String> comp2 = new ArrayList<String>();
+                    comp2.add(comp.get(0));
+                    comp2.add(comp.get(1));
+                    comp = comp2;
+                }
+            }else {
+                    ArrayList<String> comp2 = new ArrayList<String>();
+                    comp2.add(comp.get(0));
+                    comp = comp2;
+            }
+        }
+
+        // Print the sorted ArrayList
+        for (String project : comp) {
+            System.out.println(project);
         }
 
         ticket.setComponents(comp);
@@ -201,8 +285,8 @@
                     <td valign="top">Accomplishments</td>
                     <td>
                         <ol type="1" style="padding-left:20px;">
-                            <li>Total points: <b><%=totalPoints%> points</b></li>
-                            <li>Public Website <b>(<%=publicPoints%> points)</b></li>
+                            <!--<li>Total points: <b><%=totalPoints%> points</b></li>-->
+                            <li>Public Website <!--<b>(<%=publicPoints%> points)</b>--></li>
                                 <ol type="a">
                             <%
                                 int cnt=97;
@@ -214,8 +298,8 @@
                                 }
                             %>
                                     <%  for (String subTixid: publicSubTickets.keySet()) {%>
-                                    <li><%=subTixid%></li>
-                                    <ol type="i">
+                                    <!--<li><%=subTixid%></li>-->
+                                    <!--<ol type="i">-->
                                         <%
                                             ArrayList<JiraTicket> ptList = publicSubTickets.get(subTixid);
                                             for (JiraTicket jt: ptList) {
@@ -225,12 +309,12 @@
                                         <%
                                             }
                                         %>
-                                    </ol>
+                                    <!--</ol>-->
                                     <% }%>
 
 
                                 </ol>
-                                    <li>Curation Software and Persistent Store <b>(<%=curationPoints%> points)</b></li>
+                                    <li>Curation Software and Persistent Store <!--<b>(<%=curationPoints%> points)</b>--></li>
                                         <ol type="a">
                                         <%
                                 cnt =97;
@@ -242,18 +326,18 @@
                                 }
                             %>
                                            <%  for (String subTixid: curationSubTickets.keySet()) {%>
-                                              <li><%=subTixid%></li>
-                                           <ol type="i">
+                                              <!--<li><%=subTixid%></li>-->
+                                           <!--<ol type="i">-->
                                             <%
                                             ArrayList<JiraTicket> ptList = curationSubTickets.get(subTixid);
                                             for (JiraTicket jt: ptList) {
 
                                            %>
-                                            <li><%=jt.getSummery()%> (<a href="https://agr-jira.atlassian.net/browse/<%=jt.getKey()%>"><%=jt.getKey()%></a>;&nbsp;<b><%=jt.getStoryPoints()%> points</b>)</li>
+                                               <li><%=jt.getSummery()%> (<a href="https://agr-jira.atlassian.net/browse/<%=jt.getKey()%>"><%=jt.getKey()%></a>;&nbsp;<b><%=jt.getStoryPoints()%> points</b>)</li>
                                             <%
                                                     }
                                             %>
-                                           </ol>
+                                           <!--</ol>-->
                                                <% }%>
 
 
