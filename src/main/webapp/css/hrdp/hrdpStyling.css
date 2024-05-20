@@ -2,6 +2,15 @@ p,li, a.here, span{
     font-size: 11pt;
     font-family: Helvetica, Arial, sans-serif;
 }
+.hrdpContent {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    /*max-width: 800px;*/
+    /*margin: 20px auto;*/
+}
+
 .btn-analyze,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;
@@ -196,7 +205,7 @@ p,li, a.here, span{
     border-radius: 4px; /* Rounded corners */
     padding: 10px; /* Add padding inside the border */
     background-color: #f9f9f9;
-    top: 29%;
+    top: 33%;
     left: 75%; /* Position to the right of the table */
     transform: translateX(13px); /* Add a small offset for spacing */
 }
