@@ -19,7 +19,7 @@
     GWASCatalogDAO gwasDao = new GWASCatalogDAO();
 
     RgdId obj = managementDAO.getRgdId2((int)var.getId());
-    List<VariantMapData> vars = vdao.getVariantsByRgdId(obj.getRgdId());
+    List<VariantMapData> vars = vdao.getAllVariantsByRgdId(obj.getRgdId());
 
     String objectType="RgdVariant";
     String displayName;
