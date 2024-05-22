@@ -155,12 +155,12 @@ public class AnnotationFormatter {
         Report report = new Report();
 
         Record rec = new Record();
+        rec.append("Object Symbol");
+        rec.append("Species");
         rec.append("Term");
         rec.append("Qualifier");
         rec.append("Evidence");
         rec.append("With");
-        rec.append("Object Symbol");
-        rec.append("Species");
         if(!excludeReferences){
             rec.append("Reference");
         }
@@ -206,6 +206,14 @@ public class AnnotationFormatter {
 
                 rec = new Record();
 
+            if (a.getObjectSymbol() != null) {
+                rec.append(a.getObjectSymbol());
+            } else {
+                rec.append("&nbsp;");
+            }
+
+            rec.append(SpeciesType.getCommonName(a.getSpeciesTypeKey()));
+
                 // compute url based on first term on the list
                 if (annotUrl == null) {
                     if (!a.getTermAcc().startsWith("CHEBI")) {
@@ -242,13 +250,7 @@ public class AnnotationFormatter {
                         rec.append(formatXdbUrlsShort(a.getWithInfo(), a));
                     }
                 }
-                if (a.getObjectSymbol() != null) {
-                    rec.append(a.getObjectSymbol());
-                } else {
-                    rec.append("&nbsp;");
-                }
 
-                rec.append(SpeciesType.getCommonName(a.getSpeciesTypeKey()));
 
 //                if (!index.keySet().contains(i)) {
 //                    if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
