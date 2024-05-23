@@ -137,12 +137,13 @@
     </tr>
     <tr>
         <td class="label">P&nbsp;Value:</td>
-        <% if (obj.getPValue() == null && obj.getpValueMlog()!=null) {
+        <% if ((obj.getPValue() == null || obj.getPValue() == 0) && obj.getpValueMlog()!=null) {
             double w = obj.getpValueMlog();
             int x = (int) Math.ceil(w);
             double y = x-w;
             int z = (int) Math.round(Math.pow(10,y));
             String convertedPVal = z+"E-"+x;
+//            System.out.println(convertedPVal);
         %>
         <td><%=convertedPVal%></td>
         <%} else {%>
