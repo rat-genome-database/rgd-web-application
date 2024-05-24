@@ -160,7 +160,7 @@
                         <tr>
                             <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb//common/images/rgd_logo.jpg"></a></div>
+                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb/common/images/rgd_logo.jpg"></a></div>
 
                             </td>
 

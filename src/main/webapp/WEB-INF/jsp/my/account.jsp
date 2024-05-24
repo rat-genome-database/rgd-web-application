@@ -230,7 +230,8 @@
                                             <div ng-repeat="message in msg.messages" style="display:table-row;">
                                                    <div style="display: table-cell; float:left; margin-right:10px; min-width: 100px;">{{message.createdDate}}</div>
                                                    <div style="display: table-cell; float:left;  margin-right:10px; min-width: 300px;"><a  target="_blank" href="/rgdweb/my/msg.html?mid={{message.id}}">{{message.title}}</a></div>
-                                                   <div style="display: table-cell; float:left;  margin-right:10px; min-width: 100px;" ><img style="cursor: pointer;" ng-click="msg.deleteMessage(message.id)" src="/rgdweb/common/images/del.jpg" /></div
+                                                   <div style="display: table-cell; float:left;  margin-right:10px; min-width: 100px;" ><img style="cursor: pointer;" ng-click="msg.deleteMessage(message.id)" src="/rgdweb/common/images/del.jpg" />
+                                                   </div>
                                             </div>
                                     </div>
 
