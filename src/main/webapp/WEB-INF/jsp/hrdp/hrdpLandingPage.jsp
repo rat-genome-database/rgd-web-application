@@ -137,9 +137,9 @@ To change this template use File | Settings | File Templates.
     <form id="hrdpForm" method="post">
         <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="legend">
-            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Strain data exists, and related strain data may exist.</div>
-            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Only related strains data exist.</div>
-            <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- Neither strain data nor related strains data exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strain exists and related strain may exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Data for only related strain exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- No data available.</div>
         </div>
         <div class="centered">
             <table  class="hrdpTable">
@@ -465,11 +465,16 @@ To change this template use File | Settings | File Templates.
 
     }
 
+    //responsible for enabling anaylze button when the user navigates to other pages and come back to hrdp page
+    window.onload = function() {
+        toggleAnalyzeButton(); // Check the state of checkboxes and update button visibility
+    };
 
     document.querySelector(".close-button").addEventListener("click",closeWindow);
 
     document.querySelectorAll('input[type="checkbox"][name="rgdId"]').forEach(checkbox => {
         checkbox.addEventListener("change", toggleAnalyzeButton);
     });
+
 
 </script>

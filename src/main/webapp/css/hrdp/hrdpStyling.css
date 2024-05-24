@@ -7,8 +7,6 @@ p,li, a.here, span{
     border-radius: 8px;
     background-color: #f9f9f9;
     padding: 20px;
-    /*max-width: 800px;*/
-    /*margin: 20px auto;*/
 }
 
 .btn-analyze,#btn-contact {
@@ -214,6 +212,7 @@ p,li, a.here, span{
     display: flex;
     align-items: center;
     gap: 8px; /* Space between image and text */
+    white-space: nowrap;
 }
 
 .centered {
@@ -237,8 +236,6 @@ p,li, a.here, span{
         flex-direction: column; /* Stack elements vertically */
     }
 }
-
-
 
 
 
