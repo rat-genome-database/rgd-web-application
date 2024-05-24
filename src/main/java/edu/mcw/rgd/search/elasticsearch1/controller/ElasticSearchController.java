@@ -60,8 +60,13 @@ public class ElasticSearchController extends RGDSearchController {
     }
 
     @Override
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req=new HttpRequestFacade(request);
+        boolean invalidInput=sanitizeInput(req);
+        if(invalidInput){
+            throw new RuntimeException("Invalid character in the URL");
+        }
         ModelMap model = new ModelMap();
 
         ArrayList error = new ArrayList();
@@ -286,4 +291,24 @@ public class ElasticSearchController extends RGDSearchController {
         }
         return false;
     }
+    public boolean sanitizeInput(HttpRequestFacade req){
+        if(req.getParameter("assembly")!=null && req.getParameter("assembly").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("term")!=null && req.getParameter("term").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("chr")!=null && req.getParameter("chr").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("start")!=null && req.getParameter("start").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("stop")!=null && req.getParameter("stop").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("speciesType")!=null && req.getParameter("speciesType").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("category")!=null && req.getParameter("category").toString().contains("<script>") )
+            return true;
+        if(req.getParameter("objectSearch")!=null && req.getParameter("objectSearch").toString().contains("<script>") )
+            return true;
+        return req.getParameter("match_type") != null && req.getParameter("match_type").toString().contains("<script>");
+    }
+
 }
