@@ -9,9 +9,9 @@
     <c:if test="${model.totalHits == 10000}">
         <span style="font-weight: bold">Showing Top</span>
     </c:if>
-    <strong style="color:blue">${model.totalHits}</strong> results found for search... <strong>${model.searchBean.matchType}</strong>&nbsp;<c:if test="${model.term!=''}"><strong style="color:blue">&nbsp;|Term:"${model.term}"</strong></c:if>&nbsp;| Category:${model.searchBean.category}&nbsp;| Assembly <span style="font-weight: bold;color:blue">${model.defaultAssembly}</span>
+    <strong style="color:blue">${model.totalHits}</strong> results found for search... <strong><c:out value="${model.searchBean.matchType}"/></strong>&nbsp;<c:if test="${model.term!=''}"><strong style="color:blue">&nbsp;|Term:<c:out value="${model.term}"/></strong></c:if>&nbsp;| Category:<c:out value="${model.searchBean.category}"/>&nbsp;| Assembly <span style="font-weight: bold;color:blue"><c:out value="${model.defaultAssembly}"/></span>
     <c:if test="${model.searchBean.chr!='0' && model.searchBean.chr!=''}">
-        &nbsp;|&nbsp;Location <span style="font-weight:bold;font-size: 15px">CHR-${(model.searchBean.chr)}:${model.searchBean.start}-${model.searchBean.stop}</span>
+        &nbsp;|&nbsp;Location <span style="font-weight:bold;font-size: 15px">CHR-<c:out value="${(model.searchBean.chr)}"/>:<c:out value="${model.searchBean.start}-${model.searchBean.stop}"/></span>
     </c:if>
 </p>
 
