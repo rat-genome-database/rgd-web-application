@@ -143,6 +143,10 @@ public class AnnotationFormatter {
     }
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site) throws Exception {
+        return createGridFormatAnnotationsTable(annotationList,site,false);
+    }
+
+    public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site,boolean excludeReferences) throws Exception {
 
         // by default, CHEBI annots link to new tabular report
         // other annots link to default list-like report
@@ -151,52 +155,64 @@ public class AnnotationFormatter {
         Report report = new Report();
 
         Record rec = new Record();
+        rec.append("Object Symbol");
+        rec.append("Species");
         rec.append("Term");
         rec.append("Qualifier");
         rec.append("Evidence");
         rec.append("With");
-        rec.append("Reference");
+        if(!excludeReferences){
+            rec.append("Reference");
+        }
         rec.append("Notes");
         rec.append("Source");
         rec.append("Original Reference(s)");
 
         report.append(rec);
 
-        Map<Integer,List> index = new HashMap<>();
+//        Map<Integer,List> index = new HashMap<>();
+//
+//        //Find the annotations that are same with multiple references.
+//        for(int i = 0; i < annotationList.size(); i++){
+//            Annotation current = annotationList.get(i);
+//            List val = new ArrayList<>();
+//
+//            for(int j = 0; j < annotationList.size(); j++) {
+//                if(i != j){
+//                    Annotation a = annotationList.get(j);
+//
+//                    if(a.getTerm().equalsIgnoreCase(current.getTerm()) &&
+//                       a.getEvidence().equalsIgnoreCase(current.getEvidence())){
+//
+//                        if(compare(a.getQualifier(),current.getQualifier()) && compare(a.getWithInfo(),current.getWithInfo())
+//                                && compare(a.getNotes(),current.getNotes()) && compare(a.getXrefSource(),current.getXrefSource())) {
+//                            val.add(j);
+//                        }
+//                    }
+//                }
+//
+//            }
+//            if(val.size() != 0) {
+//                index.put(i, val);
+//            }
+//        }
 
-        //Find the annotations that are same with multiple references.
-        for(int i = 0; i < annotationList.size(); i++){
-            Annotation current = annotationList.get(i);
-            List val = new ArrayList<>();
-
-            for(int j = 0; j < annotationList.size(); j++) {
-                if(i != j){
-                    Annotation a = annotationList.get(j);
-
-                    if(a.getTerm().equalsIgnoreCase(current.getTerm()) &&
-                       a.getEvidence().equalsIgnoreCase(current.getEvidence())){
-
-                        if(compare(a.getQualifier(),current.getQualifier()) && compare(a.getWithInfo(),current.getWithInfo())
-                                && compare(a.getNotes(),current.getNotes()) && compare(a.getXrefSource(),current.getXrefSource())) {
-                            val.add(j);
-                        }
-                    }
-                }
-
-            }
-            if(val.size() != 0) {
-                index.put(i, val);
-            }
-        }
-
-        List repeat = new ArrayList<>();
+//        List repeat = new ArrayList<>();
         for (int i = 0;i < annotationList.size() ; i++) {
 
             //Check for annotations with multiple references and remove them from display to avoid duplicate rows
-            if (repeat.size() == 0 || !repeat.contains(i)) {
+//            if (repeat.size() == 0 || !repeat.contains(i)) {
                 Annotation a = annotationList.get(i);
 
                 rec = new Record();
+
+            if (a.getObjectSymbol() != null) {
+                rec.append(a.getObjectSymbol());
+            } else {
+                rec.append("&nbsp;");
+            }
+
+            rec.append(SpeciesType.getCommonName(a.getSpeciesTypeKey()));
 
                 // compute url based on first term on the list
                 if (annotUrl == null) {
@@ -235,23 +251,34 @@ public class AnnotationFormatter {
                     }
                 }
 
-                if (!index.keySet().contains(i)) {
+
+//                if (!index.keySet().contains(i)) {
+//                    if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
+//                        rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
+//                    } else {
+//                        rec.append("&nbsp;");
+//                    }
+//                } else {
+//                    List<Integer> values = index.get(i);
+//                    String link = "<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>";
+//                    repeat.addAll(values);
+//                    for (int j : values) {
+//                        Annotation current = annotationList.get(j);
+//                        link += "; <a href='" + Link.ref(current.getRefRgdId()) + "' title='show reference'>" + current.getRefRgdId() + "</a>";
+//                    }
+//
+//                    rec.append(link);
+//                }
+
+                if(!excludeReferences) {
+                    // Always append only the current annotation's reference
                     if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
                         rec.append("<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>");
                     } else {
                         rec.append("&nbsp;");
                     }
-                } else {
-                    List<Integer> values = index.get(i);
-                    String link = "<a href='" + Link.ref(a.getRefRgdId()) + "' title='show reference'>" + a.getRefRgdId() + "</a>";
-                    repeat.addAll(values);
-                    for (int j : values) {
-                        Annotation current = annotationList.get(j);
-                        link += "; <a href='" + Link.ref(current.getRefRgdId()) + "' title='show reference'>" + current.getRefRgdId() + "</a>";
-                    }
-
-                    rec.append(link);
                 }
+
 
 
                 // notes: some could be as big as 4k of text; every sentence ends with "; ",
@@ -272,7 +299,7 @@ public class AnnotationFormatter {
                 }
 
                 report.append(rec);
-            }
+//            }
         }
 
         return new HTMLTableReportStrategy().format(report);
