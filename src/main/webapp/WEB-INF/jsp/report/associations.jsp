@@ -61,9 +61,9 @@
 
 <div class="reportTable light-table-border" id="diseaseAnnotationsTableWrapper">
     <div class="sectionHeading" id="diseaseAnnotations">Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;
-        <%if(!title.equalsIgnoreCase("references")) { %>
+<%--        <%if(!title.equalsIgnoreCase("references")) { %>--%>
             <a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
-        <%}%>
+<%--        <%}%>--%>
     </div>
 
 <div class="search-and-pager">
