@@ -193,9 +193,9 @@ public class PhenominerService {
             Terms cmoAggs = sr.getAggregations().get("cmoTerm");
             if (cmoAggs != null) {
                 aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
-                for (Terms.Bucket bkt : cmoAggs.getBuckets()) {
-                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }
+//                for (Terms.Bucket bkt : cmoAggs.getBuckets()) {
+//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+//                }
             }
        /*     Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
             if(cmoAggs!=null){
@@ -206,23 +206,23 @@ public class PhenominerService {
             Terms mmoAggs = sr.getAggregations().get("mmoTerm");
             if (mmoAggs != null) {
                 aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
-                for (Terms.Bucket bkt : mmoAggs.getBuckets()) {
-                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }
+//                for (Terms.Bucket bkt : mmoAggs.getBuckets()) {
+//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+//                }
             }
             Terms vtAggs = sr.getAggregations().get("vtTerm");
-            if (mmoAggs != null) {
+            if (vtAggs != null) {
                 aggregations.put("vtTermBkts", (List<Terms.Bucket>) vtAggs.getBuckets());
-                for (Terms.Bucket bkt : vtAggs.getBuckets()) {
-                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }
+//                for (Terms.Bucket bkt : vtAggs.getBuckets()) {
+//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+//                }
             }
             Terms xcoAggs = sr.getAggregations().get("xcoTerm");
             if (xcoAggs != null) {
                 aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
-                for (Terms.Bucket bkt : xcoAggs.getBuckets()) {
-                    // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }
+//                for (Terms.Bucket bkt : xcoAggs.getBuckets()) {
+//                    // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
+//                }
             }
             Terms rsTopLevelTerm = sr.getAggregations().get("rsTopLevelTerm");
             if (rsTopLevelTerm != null) {
@@ -233,29 +233,27 @@ public class PhenominerService {
                 Terms rsTermAggs = sr.getAggregations().get("rsTerm");
             if (rsTermAggs != null) {
                 aggregations.put("rsTerms", (List<Terms.Bucket>) rsTermAggs.getBuckets());
-                for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
-                   //System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
-                }
+//                for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
+//                   //System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
+//                }
             }
         }
         Terms sexAggs=sr.getAggregations().get("sex");
         if(sexAggs!=null){
         aggregations.put("sexBkts", (List<Terms.Bucket>) sexAggs.getBuckets());
-        for(Terms.Bucket bkt:sexAggs.getBuckets()){
-           // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-        }}
+        }
         Terms unitsAggs=sr.getAggregations().get("units");
         if(unitsAggs!=null) {
             aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
             List<Terms.Bucket> unitsSubBkts=new ArrayList<>();
-            for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
-               // System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
-                Terms unitsSubAggs=bkt.getAggregations().get("experimentName");
-                for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
-                   //System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
-                 //   unitsSubBkts.add(subBkt);
-                }
-            }
+//            for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
+//               // System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
+//                Terms unitsSubAggs=bkt.getAggregations().get("experimentName");
+//                for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
+//                   //System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
+//                 //   unitsSubBkts.add(subBkt);
+//                }
+//            }
             aggregations.put("cmoTermBkts", unitsSubBkts);
         }}
         return aggregations;
