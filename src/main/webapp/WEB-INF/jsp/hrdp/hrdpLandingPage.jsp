@@ -157,7 +157,7 @@ To change this template use File | Settings | File Templates.
                 <%for (HrdpPortalCache str : hrdpClassicInbredStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
-                    <td><a class="here"><%=str.getStrainSymbol()%></a></td>
+                    <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                     <%if (str.getHasParentPhenoCount()>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
@@ -217,7 +217,7 @@ To change this template use File | Settings | File Templates.
                 <%for (HrdpPortalCache str : hrdpHXBStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
-                <td><a class="here"><%=str.getStrainSymbol()%></a></td>
+                <td><a class="here" href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                 <%if (str.getHasParentPhenoCount()>0) {%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                 <td style="display: none;">
@@ -276,7 +276,7 @@ To change this template use File | Settings | File Templates.
                 <%for (HrdpPortalCache str : hrdpFXLEStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
-                    <td><a class="here"><%=str.getStrainSymbol()%></a></td>
+                    <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                     <%if (str.getHasParentPhenoCount()>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
@@ -465,16 +465,16 @@ To change this template use File | Settings | File Templates.
 
     }
 
-    //responsible for enabling anaylze button when the user navigates to other pages and come back to hrdp page
-    window.onload = function() {
-        toggleAnalyzeButton(); // Check the state of checkboxes and update button visibility
-    };
-
     document.querySelector(".close-button").addEventListener("click",closeWindow);
 
     document.querySelectorAll('input[type="checkbox"][name="rgdId"]').forEach(checkbox => {
         checkbox.addEventListener("change", toggleAnalyzeButton);
     });
+
+    // //responsible for enabling anaylze button when the user navigates to other pages and come back to hrdp page
+    window.onload = function() {
+        toggleAnalyzeButton(); // Check the state of checkboxes and update button visibility
+    };
 
 
 </script>
