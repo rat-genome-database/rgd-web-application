@@ -4,7 +4,7 @@
     QTLDAO qdao = new QTLDAO();
 %>
 <div class="gwasDataTable light-table-border" id="gwasDataTableWrapper">
-    <div class="sectionHeading" id="gwasData">Related GWAS QTLs</div>
+    <div class="sectionHeading" id="gwasData">GWAS QTLs Related by Peak Marker</div>
 
     <div class="search-and-pager">
         <div class="modelsViewContent" >
@@ -33,6 +33,7 @@
     <div id="gwasDataTableDiv" class="annotation-detail">
         <table id="gwasDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' >
             <tr>
+                <td>QTL</td>
                 <td>GWAS Catalog Study</td>
                 <td>Disease&nbsp;Trait</td>
                 <td>Study&nbsp;Size</td>
@@ -40,11 +41,10 @@
                 <td>Risk&nbsp;Allele&nbsp;Frequency</td>
                 <td>P&nbsp;Value</td>
                 <td>P Value MLOG</td>
-                <td>SNP Passing QC</td>
+                <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Accession</td>
                 <td>PubMed</td>
-                <td>Associated QTLs</td>
             </tr>
 <%
         for (GWASCatalog gwas : gwasList){
@@ -92,6 +92,7 @@
 %>
 
             <tr>
+                <td><%=qtlExist%></td> <!-- and this is where I would put my qtl... IF I HAD ONE -->
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
@@ -99,7 +100,7 @@
                 <td><%=Utils.NVL(gwas.getRiskAlleleFreq(),"N/A")%></td>
                 <td><%=gwas.getpVal()%></td>
                 <td><%=gwas.getpValMlog()%></td>
-                <td><%=gwas.getSnpPassQc()%></td>
+                <td><a href="/rgdweb/report/rsId/main.html?id=<%=gwas.getSnps()%>"><%=gwas.getSnps()%></a></td>
                 <td><%=Utils.NVL(gwas.getOrBeta(),"N/A")%></td>
                 <td><%=Utils.NVL(lessTerms, "N/A")%>
                     <% if (gwasTerms.size()>4) {%>
@@ -107,7 +108,6 @@
                     <% } %>
                 </td>
                 <td><span>PMID:<a href="<%=url%>"><%=pmid%></a></span></td>
-                <td><%=qtlExist%></td> <!-- and this is where I would put my qtl... IF I HAD ONE -->
             </tr>
             <% } %>
         </table>
