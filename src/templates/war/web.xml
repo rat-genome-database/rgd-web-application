@@ -41,7 +41,7 @@
     <!-- set is-chinchilla variable based on host name of the request -->
     <filter>
         <filter-name>chinchillaFilter</filter-name>
-        <filter-class>edu.mcw.rgd.web.ChinchillaFilter</filter-class>
+        <filter-class>edu.mcw.rgd.web.InputValueFilter</filter-class>
     </filter>
 
     <filter-mapping>
