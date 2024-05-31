@@ -1,20 +1,22 @@
-<beans:beans
-    xmlns="http://www.springframework.org/schema/security"
-    xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
-    xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-    http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
-    >
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:security="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd"
+>
 
 
-
+    <annotation-driven />
+    <context:component-scan base-package="edu.mcw.rgd.web" />
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <resources mapping="/resources/**" location="/" />
 
     <mvc:interceptors>
         <mvc:interceptor>
@@ -32,22 +34,22 @@
     </mvc:interceptors>
 
 
-    <http use-expressions="true" authentication-manager-ref="ldapAuthenticationManager">
-	        <intercept-url pattern="/login.jsp" access="permitAll" />
+    <security:http use-expressions="true" authentication-manager-ref="ldapAuthenticationManager">
+	        <security:intercept-url pattern="/login.jsp" access="permitAll" />
 
     <!-- 	        <intercept-url pattern="/curation/**" access="hasAnyRole('ROLE_RGD.DEV','ROLE_RGD.CURATORS','ROLE_CGen-Authors')" />
         commented out restricted access to /curation/ because it does not work and cannot test curation tool -marek-
         -->
-	        <intercept-url pattern="/phenotype/**" access="hasAnyRole('ROLE_RGD.DEV','ROLE_RGD.CURATORS')" />
-	        <intercept-url pattern="/**" access="permitAll" />
-	        <form-login
+	        <security:intercept-url pattern="/phenotype/**" access="hasAnyRole('ROLE_RGD.DEV','ROLE_RGD.CURATORS')" />
+	        <security:intercept-url pattern="/**" access="permitAll" />
+	        <security:form-login
 	                login-page="/login.jsp"
 	                default-target-url="/my/account.html"
                     always-use-default-target="false"
 	                authentication-failure-url="/login.jsp?login_error=1"
 	        />
-	        <logout logout-success-url="/index.jsp" invalidate-session="true" delete-cookies="JSESSIONID"/>
-	    </http>
+	        <security:logout logout-success-url="/index.jsp" invalidate-session="true" delete-cookies="JSESSIONID"/>
+	    </security:http>
 
 
 
@@ -57,8 +59,8 @@
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-	    <authentication-manager id="ldapAuthenticationManager">
-	        <authentication-provider ref="ldapAuthProvider"/>
+	    <security:authentication-manager id="ldapAuthenticationManager">
+	        <security:authentication-provider ref="ldapAuthProvider"/>
 
             <!--
             <authentication-provider >
@@ -70,9 +72,9 @@
            </user-service>
             </authentication-provider>
 -->
-            <authentication-provider>
-                <password-encoder ref="encoder"/>
-                <jdbc-user-service data-source-ref="rgdDataSource2"
+            <security:authentication-provider>
+                <security:password-encoder ref="encoder"/>
+                <security:jdbc-user-service data-source-ref="rgdDataSource2"
                                    users-by-username-query="
                 SELECT username, password, 1
                 FROM my_users
@@ -85,9 +87,9 @@
             "
                                    role-prefix="ROLE_"
                 />
-            </authentication-provider>
+            </security:authentication-provider>
 
-        </authentication-manager>
+        </security:authentication-manager>
 
 
     <beans:bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
