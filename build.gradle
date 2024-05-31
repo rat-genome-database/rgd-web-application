@@ -1,14 +1,3 @@
-//buildscript {
-//    repositories {
-//        maven {
-//            url "https://plugins.gradle.org/m2/"
-//        }
-//    }
-//    dependencies {
-//        classpath "gradle.plugin.org.gretty:gretty:3.0.2"
-//    }
-//}
-//ant.importBuild('build.xml')
 
 group 'rgd.mcw.edu'
 
@@ -31,22 +20,7 @@ sourceSets{
 }
 sourceCompatibility = 17
 setBuildDir(buildDir)
-
-//build.doFirst {
-//    copy {
-//        from 'src/main/webapp/WEB-INF/spring/appServlet/'
-//        into 'src/main/webapp/WEB-INF/spring/appServlet/'
-//        include 'applicationContext.xml.curation'
-//        rename('applicationContext.xml.curation', 'applicationContext.xml')
-//    }
-//    copy {
-//        from 'src/main/webapp/WEB-INF/spring/appServlet/'
-//        into 'src/main/webapp/WEB-INF/'
-//        include 'dispatcher-servlet.xml.curation'
-//        rename('dispatcher-servlet.xml.curation', 'dispatcher-servlet.xml')
-//    }
-//}
-
+compileJava.options.encoding = 'UTF-8'
 
 tasks.register("buildCuration") {
     delete fileTree('src/main/webapp/WEB-INF/').matching {
@@ -107,16 +81,6 @@ dependencies {
     implementation 'commons-net:commons-net:3.9.0'
     implementation 'org.apache.commons:commons-pool2:2.11.1'
 
-//    implementation 'org.elasticsearch:elasticsearch:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-cli:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-core:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-geo:7.17.4'
-//    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.17.4'
-//    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-x-content:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-plugin-classloader:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-secure-sm:7.17.4'
-//    implementation 'org.elasticsearch:elasticsearch-lz4:7.17.4'
     implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.17.4'
     implementation group: 'org.elasticsearch.client', name: 'transport', version: '7.17.4'
     implementation group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.17.4'
@@ -184,26 +148,41 @@ dependencies {
     implementation 'org.elasticsearch.plugin:rank-eval-client:7.17.13'
     implementation 'sax:sax:2.0.1'
     implementation 'org.elasticsearch:securesm:1.2'
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.slf4j:slf4j-api:2.0.9'
     testImplementation 'org.slf4j:slf4j-simple:2.0.9'
     implementation 'org.yaml:snakeyaml:2.2'
     implementation 'org.locationtech.spatial4j:spatial4j:0.8'
-//    implementation 'org.springframework:spring-aop:6.0.11'
-//    implementation 'org.springframework:spring-aspects:6.0.11'
-//    implementation 'org.springframework:spring-beans:6.0.11'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.4'
-//    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.4'
-//    implementation 'org.springframework:spring-context:6.0.11'
-//    implementation 'org.springframework:spring-context-support:6.0.11'
-//    implementation 'org.springframework:spring-core:6.0.11'
-//    implementation 'org.springframework:spring-expression:6.0.11'
-//    implementation 'org.springframework:spring-instrument:6.0.11'
-//    implementation 'org.springframework:spring-jdbc:6.0.11'
-//    implementation 'org.springframework:spring-jms:6.0.11'
-//    implementation 'org.springframework.ldap:spring-ldap-core:3.1.1'
-//    implementation 'org.springframework:spring-orm:6.0.11'
-//    implementation 'org.springframework:spring-oxm:6.0.11'
+
+    implementation group: 'org.springframework', name: 'spring-aop', version: '6.1.8'
+    implementation group: 'org.springframework', name: 'spring-aspects', version: '6.1.8'
+    implementation 'org.springframework:spring-beans:6.1.8'
+
+    implementation 'org.springframework:spring-context:6.1.8'
+    implementation 'org.springframework:spring-context-support:6.1.8'
+    implementation 'org.springframework:spring-core:6.1.8'
+    implementation 'org.springframework:spring-expression:6.1.8'
+    implementation 'org.springframework:spring-instrument:6.1.8'
+    implementation 'org.springframework:spring-jdbc:6.1.8'
+    implementation 'org.springframework:spring-jms:6.1.8'
+    implementation group: 'org.springframework.ldap', name: 'spring-ldap-core', version: '3.2.3'
+    implementation 'org.springframework:spring-orm:6.1.8'
+    implementation 'org.springframework:spring-oxm:6.1.8'
+
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.3.0'
+    implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.3.0'
+    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.3.0'
+    implementation group: 'org.springframework.security', name: 'spring-security-ldap', version: '6.3.0'
+    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.2.RELEASE'
+
+    implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '6.3.0'
+    implementation group: 'org.springframework.security', name: 'spring-security-web', version: '6.3.0'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.0'
+    implementation group: 'org.springframework', name: 'spring-tx', version: '6.1.8'
+    implementation group: 'org.springframework', name: 'spring-web', version: '6.1.8'
+    implementation group: 'org.springframework.webflow', name: 'spring-webflow', version: '3.0.0'
+    implementation group: 'org.springframework', name: 'spring-webmvc', version: '6.1.8'
+    implementation group: 'org.springframework', name: 'spring-webmvc-portlet', version: '4.3.30.RELEASE'
+
     implementation 'com.tdunning:t-digest:3.2'
     implementation 'com.google.api-client:google-api-client:2.3.0'
 
@@ -213,7 +192,7 @@ dependencies {
 
 
 task update_rgdcore(type:Copy){
-    from file("../rgd-core-library/dist/rgdcore_1.1.3.jar")
+    from file("../../rgd-core-library/dist/rgdcore_1.1.3.jar")
     into file("lib/")
 
 }
