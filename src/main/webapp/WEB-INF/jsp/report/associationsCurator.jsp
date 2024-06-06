@@ -1513,8 +1513,8 @@
         }
         var hideCnt = 0;
         for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 3
-            if (oRows[i].cells[2].innerText === "ISO" || oRows[i].cells[2].innerText === "ISS" ||
-                oRows[i].cells[2].innerText === "IEA" || oRows[i].cells[2].innerText === "IBA"){
+            if (oRows[i].cells[4].innerText === "ISO" || oRows[i].cells[4].innerText === "ISS" ||
+                oRows[i].cells[4].innerText === "IEA" || oRows[i].cells[4].innerText === "IBA"){
                 if ($(cb).is(':checked')){
                     oRows[i].style.display = 'none';
                     hideCnt++;
