@@ -137,8 +137,8 @@ To change this template use File | Settings | File Templates.
     <form id="hrdpForm" method="post">
         <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="legend">
-            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strain exists and related strain may exist.</div>
-            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Data for only related strain exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strains exist and related strains may exist.</div>
+            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Data for only related strains exist.</div>
             <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- No data available.</div>
         </div>
         <div class="centered">
@@ -148,9 +148,10 @@ To change this template use File | Settings | File Templates.
                 <tr>
                     <th style="text-align: center;"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                     <th>Strain</th>
+                    <th>Strain Available</th>
                     <th>Phenominer Data</th>
                     <th>Variant Visualizer Data</th>
-                    <th></th>
+<%--                    <th></th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -158,6 +159,14 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
+                    <%if(str.getAvailableStrainId()!=0){
+                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
+                         <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                        <%}else{%>
+                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
+                    <%}}else{%>
+                    <td></td>
+                    <%}%>
                     <%if (str.getHasParentPhenoCount()>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
@@ -193,7 +202,7 @@ To change this template use File | Settings | File Templates.
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
 
-                    <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>
+<%--                    <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>--%>
                 </tr>
                 <%}%>
                 </tbody>
@@ -208,9 +217,10 @@ To change this template use File | Settings | File Templates.
                 <tr>
                     <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this, 'hrdpTable')"></th>
                     <th>Strain</th>
+                    <th>Strain Available</th>
                     <th>Phenominer Data</th>
                     <th>Variant Visualizer Data</th>
-                    <th></th>
+<%--                    <th></th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -218,6 +228,14 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                 <td><a class="here" href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
+                    <%if(str.getAvailableStrainId()!=0){
+                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                    <%}else{%>
+                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
+                    <%}}else{%>
+                    <td></td>
+                    <%}%>
                 <%if (str.getHasParentPhenoCount()>0) {%>
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                 <td style="display: none;">
@@ -253,7 +271,7 @@ To change this template use File | Settings | File Templates.
                 <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                 <%}%>
 
-                <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>
+<%--                <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>--%>
                 </tr>
                 <%}%>
                 </tbody>
@@ -267,9 +285,10 @@ To change this template use File | Settings | File Templates.
                 <tr>
                     <th style="text-align: center"><input type="checkbox" onclick="toggleAllCheckboxes(this,'hrdpTable')"></th>
                     <th>Strain</th>
+                    <th>Strain Available</th>
                     <th>Phenominer Data</th>
                     <th>Variant Visualizer Data</th>
-                    <th></th>
+<%--                    <th></th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -277,6 +296,14 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
+                    <%if(str.getAvailableStrainId()!=0){
+                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                    <%}else{%>
+                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
+                    <%}}else{%>
+                    <td></td>
+                    <%}%>
                     <%if (str.getHasParentPhenoCount()>0) {%>
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
@@ -312,7 +339,7 @@ To change this template use File | Settings | File Templates.
                     <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick"></td>
                     <%}%>
 
-                    <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>
+<%--                    <td><a class="here" title="Click to View Strain Report"href="report/strain/main.html?id=<%=str.getStrainId()%>">View&nbsp;Strain Report</a></td>--%>
                 </tr>
                 <%}%>
                 </tbody>

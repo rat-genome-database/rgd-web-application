@@ -85,13 +85,13 @@ p,li, a.here, span{
     width: 25%;
 }
 
-.hrdpTable td:nth-child(3), /* Phenominer Data */
-.hrdpTable td:nth-child(4) { /* Variant Visualizer Data */
-    width: 20%;
+.hrdpTable td:nth-child(3) { /* Available Strain column */
+    width: 25%;
 }
 
-.hrdpTable td:nth-child(5) { /* View Report Link */
-    width: 19%;
+.hrdpTable td:nth-child(4), /* Phenominer Data */
+.hrdpTable td:nth-child(5) { /* Variant Visualizer Data */
+    width: 20%;
 }
 
 /*.centered {*/
