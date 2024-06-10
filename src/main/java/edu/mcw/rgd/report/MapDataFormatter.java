@@ -28,6 +28,12 @@ public class  MapDataFormatter {
         return buildTable(speciesTypeKey, mapData, 0);
     }
 
+    public static String buildTable(String rsId, int speciesTypeKey, int mapKey) throws Exception{
+        MapDAO mdao = new MapDAO();
+        List<MapData> mapData = mdao.getMapData(rsId,mapKey);
+        return buildTable(speciesTypeKey,mapData,0);
+    }
+
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey) throws Exception {
 
         MapDAO mdao = new MapDAO();

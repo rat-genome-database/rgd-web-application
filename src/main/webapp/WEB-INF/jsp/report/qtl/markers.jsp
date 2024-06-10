@@ -77,7 +77,6 @@
             pRsSymbol = peakRsId.getRsId();
         else
             pRsSymbol = peakRsId.getId()+"";
-        pRsRgdId = (int) peakRsId.getId();
     }
 
 %>
@@ -100,7 +99,7 @@
     <tr>
         <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=pRsSymbol%>"><%=pRsSymbol%></a>)</td>
         <td>
-            <%=MapDataFormatter.buildTable(pRsRgdId, obj.getSpeciesTypeKey())%>
+            <%=MapDataFormatter.buildTable(pRsSymbol, obj.getSpeciesTypeKey(),peakRsId.getMapKey())%>
         </td>
     </tr>
     <% } %>
