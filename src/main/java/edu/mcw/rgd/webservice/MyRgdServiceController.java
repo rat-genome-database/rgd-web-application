@@ -216,6 +216,9 @@ public class MyRgdServiceController implements Controller {
 
     public void getWatchers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        if (UserManager.getInstance().getMyUser(request) == null) {
+            return;
+        }
         String user = UserManager.getInstance().getMyUser(request).getUsername();
 
         if(user!=null) {
