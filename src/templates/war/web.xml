@@ -1,7 +1,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation='http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd'
-         version="2.5" >
+         xsi:schemaLocation='http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd'
+         version="3.0" >
     <display-name>/rgdweb</display-name>
 
     <context-param>
@@ -41,7 +41,7 @@
     <!-- set is-chinchilla variable based on host name of the request -->
     <filter>
         <filter-name>chinchillaFilter</filter-name>
-        <filter-class>edu.mcw.rgd.web.ChinchillaFilter</filter-class>
+        <filter-class>edu.mcw.rgd.web.InputValueFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -65,7 +65,22 @@
         <url-pattern>/**</url-pattern>
     </filter-mapping>
 
-
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!--
         <listener>
             <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
