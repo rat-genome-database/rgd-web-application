@@ -192,7 +192,7 @@ dependencies {
 
 
 task update_rgdcore(type:Copy){
-    from file("../../rgd-core-library/dist/rgdcore_1.1.3.jar")
+    from file("../rgd-core-library/dist/rgdcore_1.1.3.jar")
     into file("lib/")
 
 }

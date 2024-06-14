@@ -215,4 +215,14 @@
     </table>
 </div>
 <% } %>
+<%--    <script>--%>
+<%--        window.onresize = resizeDiv;--%>
+
+<%--        function resizeDiv() {--%>
+<%--            var td = document.getElementsByClassName('myDiv');--%>
+<%--            td.style.maxWidth = window.innerWidth * 0.9 + 'vw';--%>
+<%--        }--%>
+
+<%--        window.onload = resizeDiv; // Resize on load--%>
+<%--    </script>--%>
 <%@ include file="/common/footerarea.jsp" %>
