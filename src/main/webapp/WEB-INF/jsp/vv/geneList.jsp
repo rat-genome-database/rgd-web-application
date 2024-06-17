@@ -22,7 +22,14 @@ String pageDescription = "Define Gene Symbol List";
     <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
         <tr>
             <td>Enter one or more gene symbols into the the text box</td>
-            <td align="right"><%=MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName()%> assembly</td>
+            <td align="right">
+                <%
+                    if(request.getParameter("mapKey")!=null){
+                %>
+                <%=MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName()%>
+
+                assembly
+            <%}%></td>
         </tr>
     </table>
 
