@@ -76,23 +76,25 @@ public class AnnotationIDXmlController implements Controller {
 
                 for (String lst: idList) {
 
-                    if (sql.length() > 0) {
-                        sql += " union ";
+                    if (lst.length() > 0) {
+                        if (sql.length() > 0) {
+                            sql += " union ";
+                        }
+
+
+                        sql = "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
+                                "FROM maps_data m, full_annot fa where m.rgd_id in (" + lst + ") ";
+
+                        sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
+
+                        sql += MapManager.getInstance().getReferenceAssembly(1).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
+                        sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ")";
                     }
-
-
-                    sql = "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
-                            "FROM maps_data m, full_annot fa where m.rgd_id in (" + lst + ") ";
-
-                    sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key in ( ";
-
-                    sql += MapManager.getInstance().getReferenceAssembly(1).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(2).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(3).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(4).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(5).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(6).getKey() + ",";
-                    sql += MapManager.getInstance().getReferenceAssembly(7).getKey() + ")";
                 }
             } else {
                 sql = bean.buildSqlForGViewerAnnotations();
