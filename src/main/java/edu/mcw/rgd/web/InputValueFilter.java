@@ -23,7 +23,7 @@ public class InputValueFilter implements Filter {
             String paramName=parameterNames.nextElement();
             String[] paramValues=servletRequest.getParameterValues(paramName);
             for(String value:paramValues){
-                if(value.contains("<script>")){
+                if(value!=null && value.contains("<script>")){
                     System.out.println("Script tag found in: "+ paramName );
                     throw new RuntimeException("invalid input value for parameter "+ paramName);
                 }
