@@ -39,12 +39,16 @@ public abstract class GAController implements Controller {
             speciesTypeKey = Integer.parseInt(req.getParameter("species"));
 
         }else {
-            int mapKey=Integer.parseInt(request.getParameter("mapKey"));
-            speciesTypeKey= SpeciesType.getSpeciesTypeKeyForMap(mapKey);
+            if(request.getParameter("mapKey")!=null) {
+                int mapKey = Integer.parseInt(request.getParameter("mapKey"));
+                speciesTypeKey = SpeciesType.getSpeciesTypeKeyForMap(mapKey);
+            }
         }
 
-        symbols= Utils.symbolSplit(req.getParameter("genes"));
-        request.setAttribute("symbols", this.symbols);
+        if(req.getParameter("genes")!=null) {
+            symbols = Utils.symbolSplit(req.getParameter("genes"));
+            request.setAttribute("symbols", this.symbols);
+        }
     }
 
     protected ObjectMapper buildMapper(String integerIdType) throws Exception{
