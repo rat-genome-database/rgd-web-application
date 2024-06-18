@@ -89,9 +89,13 @@
     String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
         String pmid = gwas.getPmid().split(":")[1];
         String url = "https://pubmed.ncbi.nlm.nih.gov/"+pmid;
+ if (rgdId.getRgdId()==gwas.getQtlRgdId()){
 %>
-
+            <tr id="rowOfInterest">
+            <% } else {%>
             <tr>
+            <% } %>
+
                 <td><%=qtlExist%></td> <!-- and this is where I would put my qtl... IF I HAD ONE -->
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
@@ -132,5 +136,12 @@
         </div>
     </div>
 </div>
+<script>
+    var table = document.getElementById("gwasDataTable");
+    var rows = table.getElementsByTagName("tr");
+    var secondRow = rows[1];
+    var rowOfInterest = document.getElementById("rowOfInterest");
+    secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
+</script>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>
