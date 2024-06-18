@@ -471,7 +471,7 @@
     <input class="search table-search" id="importedAnnotationsGWASSearch" type="search" data-column="all" placeholder="Search table">
 </div>
 
-<div id="importedAnnotationsCTDTableDiv" class="annotation-detail">
+<div id="importedAnnotationsGWASTableDiv" class="annotation-detail">
     <%=af.createGridFormatAnnotationsTable(listGwas, siteName,excludeRef)%>
 </div>
 
