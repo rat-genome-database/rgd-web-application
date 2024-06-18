@@ -89,7 +89,7 @@
     String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
         String pmid = gwas.getPmid().split(":")[1];
         String url = "https://pubmed.ncbi.nlm.nih.gov/"+pmid;
- if (gwas.getQtlRgdId()!= null && rgdId.getRgdId()==gwas.getQtlRgdId()){
+ if (gwas.getQtlRgdId()!= null && obj.getRgdId()==gwas.getQtlRgdId()){
 %>
             <tr id="rowOfInterest">
             <% } else {%>
