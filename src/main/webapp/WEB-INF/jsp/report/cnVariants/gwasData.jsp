@@ -141,7 +141,9 @@
     var rows = table.getElementsByTagName("tr");
     var secondRow = rows[1];
     var rowOfInterest = document.getElementById("rowOfInterest");
-    secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
+    if (secondRow!==rowOfInterest) {
+        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
+    }
 </script>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>
