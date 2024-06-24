@@ -15,7 +15,7 @@
 
 <div id="nucleotideReferenceSequencesTableDiv" class="reportTable light-table-border">
 
-    <div class="sectionHeading sidebar-item">Reference Sequences</div>
+    <div class="sectionHeading sidebar-item" id="referenceSequences">Reference Sequences</div>
 
 
     <div class="modelsViewContent" >

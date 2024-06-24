@@ -109,7 +109,7 @@
 
 <div id="proteinReferenceSequencesTableDiv" class="reportTable light-table-border">
 
-    <div class="sectionHeading sidebar-item">Reference Protein Sequences</div>
+    <div class="sectionHeading sidebar-item" id="referenceProteinSequences">Reference Protein Sequences</div>
 
     <div class="modelsViewContent" >
         <div class="proteinReferenceSequencesPager" class="pager" style="margin-bottom:2px;">
