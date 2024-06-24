@@ -206,7 +206,7 @@
                     <div class="subTitle" id="expression">Expression</div>
                     <br>
 
-                    <%@ include file="expressionData.jsp"%>
+                    <%@ include file="expressionDataNew.jsp"%>
 
                     <!--above sequence table--->
                     <a name="sequence"></a>
