@@ -132,13 +132,13 @@
             ; &nbsp;
           <%
           }
-          // turn synonym name into a link from MESH and OMIM ids
+          // turn synonym name into a link from MESH and MIM ids
           if( syn.getName().startsWith("MESH:") ) { %>
               <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("OMIM:PS") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("OMIM:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("MIM:PS") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("MIM:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("RGD ID:") ) { %>
               <a href="<%=Link.strain(Integer.parseInt(syn.getName().substring(8)))%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("DOID:") && !bean.getAccId().startsWith("DOID:") ) { %>
@@ -207,7 +207,7 @@
             <div id="browser_graph" style="max-width:90vw;overflow:auto;"><%-- below the browser panes, display the term graph;
              since entire window width is available, terms within the graph are displayed in wide boxes,
              up to 26 chars per line --%>
-<%--                <img src="https://dev.rgd.mcw.edu/rgdweb/ontology/dot.html?img_id=graph_17162822507249572705.png" alt="image">--%>
+<%--                <img src="https://pipelines.rgd.mcw.edu/rgdweb/ontology/dot.html?img_id=graph_4187211377720431301.png" alt="image">--%>
             <%=OntDotController.generateResponse(bean.getAccId(), "view.html?acc_id=", 26)%>
             </div>
         </td>

@@ -203,8 +203,8 @@ public class DaoUtils {
                         // hyperlinked PMID content
                         buildHyperlink(buf, XdbId.XDB_KEY_PUBMED, xrefAcc, formattedXrefValue);
                     }
-                    else if( xrefType.equals("OMIM") ) {
-                        // hyperlinked OMIM content
+                    else if( xrefType.equals("MIM") ) {
+                        // hyperlinked MIM content
                         buildHyperlink(buf, XdbId.XDB_KEY_OMIM, xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("MESH") && !xrefAcc.contains(".") ) {

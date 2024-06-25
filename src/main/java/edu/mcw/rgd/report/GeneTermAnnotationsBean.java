@@ -122,7 +122,7 @@ public class GeneTermAnnotationsBean {
             public int compare(Annotation o1, Annotation o2) {
 
                 // SORT ORDER
-                // 1. data_source: 'RGD','OMIM','CTD',...
+                // 1. data_source: 'RGD','CTD',...
                 // 2. evidence
                 // 3. with_info
                 // 4. xrefs
