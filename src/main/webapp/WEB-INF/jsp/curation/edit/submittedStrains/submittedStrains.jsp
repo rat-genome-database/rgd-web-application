@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.models.SubmittedStrain" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.reporting.Link" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <script src="/rgdweb/js/lookup.js"></script>
 <script src="/rgdweb/js/windowfiles/dhtmlwindow.js"></script>
@@ -109,8 +110,9 @@
             </td>
             <td>
                 <%if (s.getStrain() != null) {%>
-                <a href="/rgdweb/report/gene/main.html?id=<%=s.getStrain().getRgdId()%>"><%=s.getStrain().getRgdId()%></a>
-                <% } %>
+<%--                <a href="/rgdweb/report/gene/main.html?id=<%=s.getStrain().getRgdId()%>"><%=s.getStrain().getRgdId()%></a>--%>
+                <a href="<%=Link.it(s.getStrain().getRgdId())%>"><%=s.getStrain().getRgdId()%></a>
+                <%}%>
             </td>
 
             <td><%=s.getDisplayStatus()%></td>
