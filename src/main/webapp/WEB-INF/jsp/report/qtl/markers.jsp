@@ -18,17 +18,17 @@
     if (obj.getPeakRgdId() != null) {
         peak = managementDAO.getObject(obj.getPeakRgdId());
     }
-    if (obj.getPeakRsId() != null){
-        // get variant object with rsId
-        // rsId is the symbol that'll link to variant page
-        VariantDAO vdao = new VariantDAO();
+//    if (obj.getPeakRsId() != null){
+//        // get variant object with rsId
+//        // rsId is the symbol that'll link to variant page
+////        VariantDAO vdao = new VariantDAO();
+////
+////        List<VariantMapData> vmds = vdao.getAllActiveVariantsByRsId(obj.getPeakRsId());
+////        if (!vmds.isEmpty())
+////            peakRsId = vmds.get(0);
+//    }
 
-        List<VariantMapData> vmds = vdao.getAllActiveVariantsByRsId(obj.getPeakRsId());
-        if (!vmds.isEmpty())
-            peakRsId = vmds.get(0);
-    }
-
-    if (flank1 != null || peak != null || flank2 != null || peakRsId != null) {
+    if (flank1 != null || peak != null || flank2 != null || obj.getPeakRsId()!=null) {
 
 %>
 
@@ -71,12 +71,10 @@
             psymbol = ((ObjectWithName)peak).getName();
         pRgdId = ((Identifiable)peak).getRgdId();
     }
-
-    if (peakRsId != null){
-        if (!Utils.isStringEmpty(peakRsId.getRsId()))
-            pRsSymbol = peakRsId.getRsId();
-        else
-            pRsSymbol = peakRsId.getId()+"";
+    int mapKey = 38;
+    if (obj.getPeakRsId()!=null){
+        pRsSymbol = obj.getPeakRsId();
+        mapKey = 38;
     }
 
 %>
@@ -95,11 +93,11 @@
         <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
-    <% if (peakRsId != null){ %>
+    <% if (obj.getPeakRsId()!=null){ %>
     <tr>
         <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=pRsSymbol%>"><%=pRsSymbol%></a>)</td>
         <td>
-            <%=MapDataFormatter.buildTable(pRsSymbol, obj.getSpeciesTypeKey(),peakRsId.getMapKey())%>
+            <%=MapDataFormatter.buildTable(pRsSymbol, obj.getSpeciesTypeKey(),mapKey)%>
         </td>
     </tr>
     <% } %>
