@@ -1,3 +1,5 @@
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.math.RoundingMode" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
     if (isGwas){
@@ -51,59 +53,66 @@
             String lessTerms = "";
             String moreTerms = "";
             List<Term> gwasTerms = new ArrayList<>();
-
-            String gwasTerm = gwas.getEfoId().replace('_', ':');
-            String[] terms = gwasTerm.split(",");
-
-            for (String termAcc : terms) {
-                if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
-                    continue;
-                String trimmed = termAcc.trim();
+            String gwasTerm = "";
+            String[] terms = {};
+            if (!Utils.isStringEmpty(gwas.getEfoId())) {
+                 gwasTerm = gwas.getEfoId().replace('_', ':');
+                 terms = gwasTerm.split(",");
+            }
+    for (String termAcc : terms) {
+        if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
+            continue;
+        String trimmed = termAcc.trim();
 //                System.out.println(trimmed);
-                Term term = odao.getTermByAccId(trimmed);
-                gwasTerms.add(term);
-            }
+        Term term = odao.getTermByAccId(trimmed);
+        gwasTerms.add(term);
+    }
 
-            for (int i = 0; i < gwasTerms.size(); i++) {
-                if (i < 4) {
-                    lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
-                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
-                } else {
-                    moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
-                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
-                }
+    for (int i = 0; i < gwasTerms.size(); i++) {
+        if (gwasTerms.get(i)!=null) {
+            if (i < 4) {
+                lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+            } else {
+                moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
             }
-            QTL q = null;
-            String qtlExist = "";
-            if (gwas.getQtlRgdId() != null && gwas.getQtlRgdId() != 0){
-                try {
-                    q = qdao.getQTL(gwas.getQtlRgdId());
-                    qtlExist = "<a href=\"/rgdweb/report/qtl/main.html?id=" + q.getRgdId() + "\">" + q.getSymbol() + "</a>";
-                } catch (Exception e) {
-                    qtlExist = "None Available";
-                }
-            }
-            else
-                qtlExist = "None Available";
+        }
+    }
 
-    String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
-        String pmid = gwas.getPmid().split(":")[1];
-        String url = "https://pubmed.ncbi.nlm.nih.gov/"+pmid;
+    QTL q = null;
+    String qtlExist = "";
+    if (gwas.getQtlRgdId() != null && gwas.getQtlRgdId() != 0) {
+        try {
+            q = qdao.getQTL(gwas.getQtlRgdId());
+            qtlExist = "<a href=\"/rgdweb/report/qtl/main.html?id=" + q.getRgdId() + "\">" + q.getSymbol() + "</a>";
+        } catch (Exception e) {
+            qtlExist = "None Available";
+        }
+    } else
+        qtlExist = "None Available";
+
+    String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/" + gwas.getStudyAcc();
+    String pmid = gwas.getPmid().split(":")[1];
+    String url = "https://pubmed.ncbi.nlm.nih.gov/" + pmid;
+
+            DecimalFormat df = new DecimalFormat("#.###");
+            df.setRoundingMode(RoundingMode.CEILING);
  if (gwas.getQtlRgdId()!= null && obj.getRgdId()==gwas.getQtlRgdId()){
 %>
-            <tr id="rowOfInterest">
+            <tr id="rowOfInterest" class="rowOfInterest">
             <% } else {%>
             <tr>
             <% } %>
 
-                <td><%=qtlExist%></td> <!-- and this is where I would put my qtl... IF I HAD ONE -->
+                <td><%=qtlExist%></td>
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
                 <td><%=gwas.getStrongSnpRiskallele()%></td>
                 <td><%=Utils.NVL(gwas.getRiskAlleleFreq(),"N/A")%></td>
                 <td><%=gwas.getpVal()%></td>
-                <td><%=gwas.getpValMlog()%></td>
+                <td><%=df.format(gwas.getpValMlog())%></td>
                 <td><a href="/rgdweb/report/rsId/main.html?id=<%=gwas.getSnps()%>"><%=gwas.getSnps()%></a></td>
                 <td><%=Utils.NVL(gwas.getOrBeta(),"N/A")%></td>
                 <td><%=Utils.NVL(lessTerms, "N/A")%>
@@ -136,6 +145,12 @@
         </div>
     </div>
 </div>
+<style>
+
+    #rowOfInterest td{
+        background-color: #fffeb4;
+    }
+</style>
 <script>
     var table = document.getElementById("gwasDataTable");
     var rows = table.getElementsByTagName("tr");
