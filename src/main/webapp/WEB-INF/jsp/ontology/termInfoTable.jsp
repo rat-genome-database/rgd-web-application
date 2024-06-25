@@ -115,14 +115,14 @@
                      .append(syn.getName().substring(5))
                      .append("\" title=\"view term at MESH\">").append(syn.getName()).append("</a>");
               }
-              else if( syn.getName().startsWith("OMIM:PS") ) {
+              else if( syn.getName().startsWith("MIM:PS") ) {
                   out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(66).getUrl())
-                     .append(syn.getName().substring(5))
+                     .append(syn.getName().substring(4))
                      .append("\" title=\"view term at OMIM\">").append(syn.getName()).append("</a>");
               }
-              else if( syn.getName().startsWith("OMIM:") ) {
+              else if( syn.getName().startsWith("MIM:") ) {
                   out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl())
-                     .append(syn.getName().substring(5))
+                     .append(syn.getName().substring(4))
                      .append("\" title=\"view term at OMIM\">").append(syn.getName()).append("</a>");
               }
               else if( syn.getName().startsWith("GARD:") ) {
