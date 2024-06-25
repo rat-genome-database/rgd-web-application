@@ -467,10 +467,11 @@ public class AnnotationFormatter {
             case "PMID":
                 uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getALink(accId, info);
                 break;
-            case "OMIM":
+            case "MIM":
                 uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getALink(accId, info);
                 break;
             case "ORPHA":
+            case "ORDO":
                 uri = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_ORPHANET).getALink(accId, info);
                 break;
             case "REF_RGD_ID":
