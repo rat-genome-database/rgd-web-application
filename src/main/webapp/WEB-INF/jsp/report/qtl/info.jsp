@@ -166,11 +166,12 @@
         <td class="label">Position</td>
         <td><%=MapDataFormatter.buildTable(obj.getRgdId(), obj.getSpeciesTypeKey(), rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
-
+    <%if (obj.getSpeciesTypeKey()!=1){%>
     <tr>
         <td class="label">Cross&nbsp;Type:</td>
         <td><%=crossType%></td>
     </tr>
+    <% } %>
     <tr>
         <% if(obj.getSpeciesTypeKey() == SpeciesType.RAT){ %>
         <td class="label">Strains&nbsp;Crossed:</td>
