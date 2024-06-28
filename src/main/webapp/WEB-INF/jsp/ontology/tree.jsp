@@ -132,13 +132,13 @@
             ; &nbsp;
           <%
           }
-          // turn synonym name into a link from MESH and OMIM ids
+          // turn synonym name into a link from MESH and MIM ids
           if( syn.getName().startsWith("MESH:") ) { %>
               <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("OMIM:PS") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("OMIM:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("MIM:PS") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
+          <% } else if( syn.getName().startsWith("MIM:") ) { %>
+              <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("RGD ID:") ) { %>
               <a href="<%=Link.strain(Integer.parseInt(syn.getName().substring(8)))%>"><%=syn.getName()%></a>
           <% } else if( syn.getName().startsWith("DOID:") && !bean.getAccId().startsWith("DOID:") ) { %>

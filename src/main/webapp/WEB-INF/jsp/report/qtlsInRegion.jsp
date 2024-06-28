@@ -6,8 +6,8 @@
 
 <% String qtlAssotitle = "QTLs in Region (" + refMap.getName() + ")";            %>
 
-<%
-    if (RgdContext.isChinchilla(request)) {
+<%  RgdContext context = new RgdContext();
+    if (context.isChinchilla(request)) {
         sb.setChinchilla(true);
     }
 

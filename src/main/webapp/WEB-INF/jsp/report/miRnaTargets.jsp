@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.MiRnaTarget" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MiRnaTargetDAO" %>
 <%@ page import="edu.mcw.rgd.reporting.Record" %>
+<%@ page import="edu.mcw.rgd.reporting.Report" %>
+<%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <script>
     $(document).ready(function(){
         var IEversion = detectIE();
