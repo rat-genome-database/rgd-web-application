@@ -106,7 +106,6 @@ function getParameters() {
    /* $objectAssembly= $('#objectAssembly').val()*/
   //  if(typeof $('#assembly').val()!='undefined')
     $objectAssembly= $('#assembly').val()
-    console.log("assembly:"+$objectAssembly)
     mapKey=$('#mapKey').val();
 
 }
@@ -239,7 +238,6 @@ function pagesizeFunction(e, id){
     if($objectSearch == "true") {
         $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy  +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
     }
-    console.log($url);
     $.get($url, function (data, status) {
         $content.html(data);
         var displayFrom=((currentPage-1)* Number(pageSize) +1);
@@ -362,7 +360,6 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     } if($objectSearch != "true"){
         $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     }
-    console.log($url);
 
     $('.subcategories').css('display', 'block');
     $('#type').val($type);

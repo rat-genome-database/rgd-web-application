@@ -33,7 +33,7 @@
     <% if(docCounts.get("QTL")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('QTL', '<%=species%>','','')"><span>QTL (<%=docCounts.get("QTL")%>)</span></button>
         <ul><%for(Terms.Bucket bkt:aggregations.get(qtl)){%>
-            <li onclick="filterClick('QTL', '<%=species%>','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+            <li onclick="filterClick('QTL', '<%=species%>','', '<%=bkt.getKey()%>','trait')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
             <%}%>
         </ul>
     </li>
