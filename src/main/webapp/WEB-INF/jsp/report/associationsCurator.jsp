@@ -1,5 +1,22 @@
 <%@ include file="sectionHeader.jsp"%>
 <%--<% int associationsCuratorObjectId=14;%>--%>
+<style>
+    label.hideEviText{
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .only-show-annot-background {
+        background-color: #ebf2fa;
+        padding: 8px;
+        border-radius: 15px;
+        font-family: Arial, sans-serif;
+        width: auto;
+        white-space: nowrap;
+    }
+    .only-show-annot-background label {
+        cursor: pointer;
+    }
+</style>
 <%
 
 
@@ -47,6 +64,7 @@
         List<Annotation> listManual = new ArrayList<>(filteredList.size());
         List<Annotation> listMGI = new ArrayList<>();
         List<Annotation> listOmia = new ArrayList<>();
+        List<Annotation> listGwas = new ArrayList<>();
 
         for( Annotation ax: filteredList ) {
             switch(ax.getDataSrc()) {
@@ -56,6 +74,7 @@
                 case "OMIM": listOmim.add(ax); break;
                 case "GAD": listGAD.add(ax); break;
                 case "MouseDO": listMGI.add(ax); break;
+                case "GWAS_CATALOG": listGwas.add(ax); break;
                 default: listManual.add(ax); break;
             }
         }
@@ -90,15 +109,15 @@
     </div>
     <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('manualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('manualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('manualAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('manualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
 
 
     <div id="manualAnnotationsTableDiv" class="annotation-detail">
 
         <%=af.createGridFormatAnnotationsTable(listManual, siteName,excludeRef)%>
-
     </div>
 
     <div class="modelsViewContent" >
@@ -441,6 +460,59 @@
 
 
 </div>
+<% } if ( !listGwas.isEmpty() ){ %>
+<div class="reportTable light-table-border" id="importedAnnotationsGWASTableWrapper">
+<div class="sectionHeading" id="importedAnnotationsGWAS"><h4>Imported Disease Annotations - GWAS Catalog </h4></div>
+
+
+<div class="search-and-pager">
+    <div class="modelsViewContent" >
+        <div class="pager importedAnnotationsGWASPager" >
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <input class="search table-search" id="importedAnnotationsGWASSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+
+<div id="importedAnnotationsGWASTableDiv" class="annotation-detail">
+    <%=af.createGridFormatAnnotationsTable(listGwas, siteName,excludeRef)%>
+</div>
+
+<div class="modelsViewContent" >
+    <div class="pager importedAnnotationsGWASPager" >
+        <form>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+            <span type="text" class="pagedisplay"></span>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+            <select class="pagesize">
+                <option selected="selected" value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option  value="40">40</option>
+                <option   value="100">100</option>
+                <option value="9999">All Rows</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+</div>
 <% } %>
 <br>
 <%//ui.dynClose("diseaseAsscociationC")%>
@@ -481,8 +553,9 @@
     <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('geneChemicalInteractionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('geneChemicalInteractionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('geneChemicalInteractionAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('geneChemicalInteractionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(filteredList, siteName,excludeRef)%><br>
@@ -550,8 +623,9 @@
     </div>
     <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('biologicalProcessAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('biologicalProcessAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('biologicalProcessAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('biologicalProcessAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="biologicalProcessAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(bpList, siteName,excludeRef)%>
@@ -606,8 +680,9 @@
     <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName,excludeRef)%>
@@ -663,8 +738,9 @@
 
     <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularFunctionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularFunctionAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="molecularFunctionAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(mfList, siteName,excludeRef)%>
@@ -753,8 +829,9 @@
     </div>
     <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularPathwayManualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularPathwayManualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularPathwayManualAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularPathwayManualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="molecularPathwayManualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName,excludeRef)%>
@@ -1457,7 +1534,7 @@
             endVal = oRows.length;
         }
         var hideCnt = 0;
-        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 3
+        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 5
             if (oRows[i].cells[4].innerText === "ISO" || oRows[i].cells[4].innerText === "ISS" ||
                 oRows[i].cells[4].innerText === "IEA" || oRows[i].cells[4].innerText === "IBA"){
                 if ($(cb).is(':checked')){
