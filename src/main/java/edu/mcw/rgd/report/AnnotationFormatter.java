@@ -204,10 +204,11 @@ public class AnnotationFormatter {
 //            if (repeat.size() == 0 || !repeat.contains(i)) {
                 Annotation a = annotationList.get(i);
 
+
                 rec = new Record();
 
             if (a.getObjectSymbol() != null) {
-                rec.append(a.getObjectSymbol());
+                rec.append("<a href="+Link.it(a.getAnnotatedObjectRgdId())+">"+a.getObjectSymbol()+"</a>");
             } else {
                 rec.append("&nbsp;");
             }

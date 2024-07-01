@@ -1,5 +1,22 @@
 <%@ include file="sectionHeader.jsp"%>
 <%--<% int associationsCuratorObjectId=14;%>--%>
+<style>
+    label.hideEviText{
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .only-show-annot-background {
+        background-color: #ebf2fa;
+        padding: 8px;
+        border-radius: 15px;
+        font-family: Arial, sans-serif;
+        width: auto;
+        white-space: nowrap;
+    }
+    .only-show-annot-background label {
+        cursor: pointer;
+    }
+</style>
 <%
 
 
@@ -90,8 +107,9 @@
     </div>
     <input class="search table-search" id="manualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('manualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('manualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('manualAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('manualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
 
 
@@ -481,8 +499,9 @@
     <input class="search table-search" id="geneChemicalInteractionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('geneChemicalInteractionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('geneChemicalInteractionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('geneChemicalInteractionAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('geneChemicalInteractionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="geneChemicalInteractionAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(filteredList, siteName,excludeRef)%><br>
@@ -550,8 +569,9 @@
     </div>
     <input class="search table-search" id="biologicalProcessAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('biologicalProcessAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('biologicalProcessAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('biologicalProcessAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('biologicalProcessAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="biologicalProcessAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(bpList, siteName,excludeRef)%>
@@ -606,8 +626,9 @@
     <input class="search table-search" id="cellularComponentAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('cellularComponentAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="cellularComponentAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(ccList, siteName,excludeRef)%>
@@ -663,8 +684,9 @@
 
     <input class="search table-search" id="molecularFunctionAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularFunctionAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularFunctionAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularFunctionAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="molecularFunctionAnnotationsTableDiv" class="annotation-detail">
        <%=af.createGridFormatAnnotationsTable(mfList, siteName,excludeRef)%>
@@ -753,8 +775,9 @@
     </div>
     <input class="search table-search" id="molecularPathwayManualAnnotationsSearch" type="search" data-column="all" placeholder="Search table">
 </div>
-    <div>
-        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularPathwayManualAnnotationsTable');"><label class="hideEviText" style="position: relative;" onclick="checkBox('molecularPathwayManualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
+    <br>
+    <div class="only-show-annot-background">
+        <input type="checkbox" class="hideTableEvidence" onchange="hideEvidence('molecularPathwayManualAnnotationsTable');">&nbsp;&nbsp;<label class="hideEviText" style="position: relative;" onclick="checkBox('molecularPathwayManualAnnotationsTable');">Only show annotations with direct experimental evidence (0 objects hidden)</label>
     </div>
     <div id="molecularPathwayManualAnnotationsTableDiv" class="annotation-detail">
         <%=af.createGridFormatAnnotationsTable(listManual, siteName,excludeRef)%>
