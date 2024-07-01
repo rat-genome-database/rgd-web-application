@@ -64,7 +64,6 @@
         List<Annotation> listManual = new ArrayList<>(filteredList.size());
         List<Annotation> listMGI = new ArrayList<>();
         List<Annotation> listOmia = new ArrayList<>();
-        List<Annotation> listGwas = new ArrayList<>();
 
         for( Annotation ax: filteredList ) {
             switch(ax.getDataSrc()) {
@@ -74,7 +73,6 @@
                 case "OMIM": listOmim.add(ax); break;
                 case "GAD": listGAD.add(ax); break;
                 case "MouseDO": listMGI.add(ax); break;
-                case "GWAS_CATALOG": listGwas.add(ax); break;
                 default: listManual.add(ax); break;
             }
         }
@@ -118,6 +116,7 @@
     <div id="manualAnnotationsTableDiv" class="annotation-detail">
 
         <%=af.createGridFormatAnnotationsTable(listManual, siteName,excludeRef)%>
+
     </div>
 
     <div class="modelsViewContent" >
@@ -458,59 +457,6 @@
         </div>
     </div>
 
-
-</div>
-<% } if ( !listGwas.isEmpty() ){ %>
-<div class="reportTable light-table-border" id="importedAnnotationsGWASTableWrapper">
-<div class="sectionHeading" id="importedAnnotationsGWAS"><h4>Imported Disease Annotations - GWAS Catalog </h4></div>
-
-
-<div class="search-and-pager">
-    <div class="modelsViewContent" >
-        <div class="pager importedAnnotationsGWASPager" >
-            <form>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-                <span type="text" class="pagedisplay"></span>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-                <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
-                </select>
-            </form>
-        </div>
-    </div>
-    <input class="search table-search" id="importedAnnotationsGWASSearch" type="search" data-column="all" placeholder="Search table">
-</div>
-
-<div id="importedAnnotationsGWASTableDiv" class="annotation-detail">
-    <%=af.createGridFormatAnnotationsTable(listGwas, siteName,excludeRef)%>
-</div>
-
-<div class="modelsViewContent" >
-    <div class="pager importedAnnotationsGWASPager" >
-        <form>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
-            <span type="text" class="pagedisplay"></span>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
-            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
-            <select class="pagesize">
-                <option selected="selected" value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option  value="40">40</option>
-                <option   value="100">100</option>
-                <option value="9999">All Rows</option>
-            </select>
-        </form>
-    </div>
-</div>
 
 </div>
 <% } %>
@@ -1534,7 +1480,7 @@
             endVal = oRows.length;
         }
         var hideCnt = 0;
-        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 5
+        for( var i=startPoint; i < endVal; i++ ) {  // hide rows with ISO ISS IEA, evidence is column 3
             if (oRows[i].cells[4].innerText === "ISO" || oRows[i].cells[4].innerText === "ISS" ||
                 oRows[i].cells[4].innerText === "IEA" || oRows[i].cells[4].innerText === "IBA"){
                 if ($(cb).is(':checked')){
