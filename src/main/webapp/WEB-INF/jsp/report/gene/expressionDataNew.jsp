@@ -63,11 +63,11 @@
             </tr>
         </table>
 
-        <b-container>
+        <template>
             <b-table :items="items" :fields="fields">
 
             </b-table>
-        </b-container>
+        </template>
     </div>
 </div>
 
@@ -81,7 +81,6 @@
         el: '#expresTable',
         data() {
             return {
-                items: [],
                 fields: [
                     {
                         key: 'strain',
@@ -100,7 +99,8 @@
                         sortable: true
                     },
                     {
-                        key: 'value',
+                        key: 'tpmValue',
+                        label: 'Value',
                         sortable: true
                     },
                     {
@@ -112,9 +112,22 @@
                         sortable: true
                     },
                     {
-                        key: 'reference',
+                        key: 'refRgd',
+                        label: 'Reference',
                         sortable: true
                     }
+                ],
+                items: [
+                    // {
+                    //     strain:'RS:00000004',
+                    //     sex:'male',
+                    //     age:'2-10 days',
+                    //     tissue: 'liver',
+                    //     tpmValue: '6',
+                    //     unit: 'TPM',
+                    //     assembly: "rnor 6.0",
+                    //     refRgd: 'rgd'
+                    // }
                 ]
             }
         },
@@ -122,41 +135,138 @@
             // need to do 3 api calls to get proper record, and study
             // proceed like in expression controller
             createTable(termAcc,rgdId){
+                // clear table if full
                 termAcc = termAcc.replace(':','%3A')
-                // console.log('here1')
-                var values = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/'+termAcc+'/'+rgdId+'/TPM');
-                // console.log(values);
+                var studyMap = {};
+                var expIdList = [];
+                $.ajax({
+                    type: "GET",
+                    url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
+                    dataType: "json",
+                    success: function (result, status, xhr){
+                        result.forEach((recVal) =>{
+                            // console.log(recVal);
+                            // console.log('here now');
+                            var geneExpRecId = recVal["geneExpressionRecordId"];
+                            var tpmVal = recVal["tpmValue"];
+                            // console.log(geneExpRecId);
+                            // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
+                            $.ajax({
+                                type: "GET",
+                                url: "https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/"+geneExpRecId,
+                                dataType: "json",
+                                success: function (result2, status2, xhr2){
+                                    // console.log(result2);
+                                    var experimentId = result2["experimentId"];
+                                    if (!expIdList.includes(experimentId)){
+                                        expIdList.push(experimentId);
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/record/"+experimentId,
+                                            dataType: "json",
+                                            success: function (res, stat, x){
+                                                // loop through results
+                                                // console.log(res);
+                                                res.forEach((record) =>{
+                                                    var sex = record["sample"]["sex"];
+                                                    if (sex == null)
+                                                        sex = '';
+                                                    var ageHigh = record["sample"]["ageDaysFromHighBound"];
+                                                    var ageLow = record["sample"]["ageDaysFromLowBound"];
+                                                    var displayAge;
+                                                    if ( ageHigh==ageLow)
+                                                        displayAge = ageHigh + ' days';
+                                                    else
+                                                        displayAge = ageLow + ' - ' + ageHigh + ' days';
+                                                    var tissue = record["sample"]["tissueAccId"];
+                                                    if (tissue == null)
+                                                        tissue = '';
+                                                    var refRgd = record["refRgdId"];
+                                                    var reference = '<a href="/rgdweb/report/reference/main.html?id='+refRgd+'">'+ refRgd +'</a>';
+                                                    this.items +=  {
+                                                            strain: record["sample"]["strainAccId"],
+                                                            sex: sex,
+                                                            age: displayAge,
+                                                            tissue: tissue,
+                                                            tpmValue: tpmVal,
+                                                            unit: 'TPM',
+                                                            assembly: 'rat',
+                                                            refRgd: reference}
 
+                                                })
+                                                // strain, sex, age, tissue, value, unit, assembly, reference
+                                                // this.data.push({strain: })
+                                            },
+                                            error: function (x, stat, err) {
+                                                console.log("Result: " + stat + " " + err + " " + x.status + " " + x.statusText);
+                                            }
+                                        })
+                                    }
+                                    // get record and add to table
+                                },
+                                error: function(xhr2, status2, error){
+                                    console.log("Result: " + status2 + " " + error + " " + xhr2.status + " " + xhr2.statusText);
+                                }
+                            // console.log(geneExpRecord);
+                            // geneExpRecord.forEach((experiment) => {
+                            //     var experimentId = experiment.experimentId;
+                            //     var record = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/record/'+experimentId);
+                            //     console.log(record);
+                            });
+                        });
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+                    }
+                });
+                // console.log(items);
+                // try {
+                //     var valJson = JSON.parse(values);
+                // }
+                // catch (error){
+                //     console.log("Error"+error)
+                // }
+                // console.log(valJson.length)
                 // for (var i = 0; i < jsonArr.length; i++){
                 //     console.log(i);
                 // }
-                values.forEach((recVal) =>{
-                    // console.log(recVal);
-                    // console.log('here now');
-                    var geneExpRecId = recVal.geneExpressionRecordId;
-                    var tpmVal = recVal.tpmValue;
-                    var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
-                    // var expRecJson = JSON.parse(geneExpRecord);
-                    console.log(geneExpRecord);
-                    geneExpRecord.forEach((experiment) => {
-                        var experimentId = experiment.experimentId;
-                        var record = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/record/'+experimentId);
-                        console.log(record);
-                    })
-                });
+                // valJson.forEach((recVal) =>{
+                //     console.log(recVal);
+                //     console.log('here now');
+                //     var geneExpRecId = recVal.geneExpressionRecordId;
+                //     var tpmVal = recVal.tpmValue;
+                //     var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
+                //     // var expRecJson = JSON.parse(geneExpRecord);
+                //     console.log(geneExpRecord);
+                //     geneExpRecord.forEach((experiment) => {
+                //         var experimentId = experiment.experimentId;
+                //         var record = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/record/'+experimentId);
+                //         console.log(record);
+                //     });
+                // });
 
             }
         }
     })
 
-    async function getJSON(url = ""){
-        try {
-            const response = await fetch(url);
-            let result = await response.json();
-            // console.log("Success:", result);
-            return result;
-        } catch (error) {
-            console.error("Error:", error);
-        }
+    function getJSON(url = ""){
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "json",
+            success: function (result){
+                return result;
+            }
+        })
+        // try {
+        //     const response = await fetch(url);
+        //     const json = await response.json();
+        //     // console.log("Success:", result);
+        //     return json;
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
     }
 </script>

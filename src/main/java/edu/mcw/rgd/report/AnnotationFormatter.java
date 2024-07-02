@@ -397,7 +397,13 @@ public class AnnotationFormatter {
         String accId = "";
         int colonPos = info.indexOf(":");
         if( colonPos<=0 ) {
-            return info;
+            if (info.startsWith("rs")) // with info is a variant
+            {
+                uri = "<a href='/rgdweb/report/rsId/main.html?id=" + info + "'>" + info + "</a>";
+                return uri;
+            }
+            else
+                return info;
         }
         OntologyXDAO odao = new OntologyXDAO();
         String dbName = info.substring(0, colonPos).trim();
