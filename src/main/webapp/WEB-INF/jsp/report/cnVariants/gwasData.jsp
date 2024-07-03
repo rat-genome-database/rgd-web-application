@@ -189,7 +189,7 @@
             downloadGwas: function () {
                 // alert("Start vue");
                 axios
-                    .post('/report/variants/downloadGwas.html',
+                    .post('/rgdweb/report/variants/downloadGwas.html',
                         {
                             rsId: downloadGwasVue.rsId
                         },
@@ -209,8 +209,8 @@
                         // window.open(url)
                     })
                     .catch(function (error) {
-                        console.log(error);
-                        console.log(error.response.data);
+                        // console.log(error);
+                        // console.log(error.response.data);
                     })
             }
         }

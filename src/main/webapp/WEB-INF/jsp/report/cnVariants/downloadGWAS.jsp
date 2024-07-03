@@ -32,9 +32,10 @@
         out.print(",");
         out.print(g.getStudyAcc());
         out.print(",");
-        out.print(g.getDiseaseTrait());
+        out.print(g.getDiseaseTrait().replace(",","|"));
         out.print(",");
-        out.print(g.getInitialSample());
+        String sampleSize = g.getInitialSample().replace(",",".");
+        out.print(sampleSize);
         out.print(",");
         out.print(Utils.NVL(g.getStrongSnpRiskallele(),"N/A"));
         out.print(",");
@@ -44,13 +45,14 @@
         out.print(",");
         out.print(g.getpValMlog());
         out.print(",");
-        out.print(g.getSnps());
+        out.print(g.getSnps().replace(",","|"));
         out.print(",");
         out.print(Utils.NVL(g.getOrBeta(),"N/A"));
         out.print(",");
         String efoIds = g.getEfoId().replace("_",":");
+        efoIds = efoIds.replace(",","|");
         out.print(efoIds);
         out.print(",");
-        out.println(g.getPmid());
+        out.println(g.getPmid().replace(",","|"));
     }
 %>
