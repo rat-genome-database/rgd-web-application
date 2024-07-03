@@ -30,6 +30,4 @@
 </div>
 </body>
 </html>
-<script>
-    checkCookie();
-</script>
+

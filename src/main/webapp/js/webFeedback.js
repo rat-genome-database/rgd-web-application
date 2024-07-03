@@ -23,12 +23,7 @@ function hideButtons() {
     }
 
 };
-function checkCookie() {
-    if(document.cookie.indexOf("hideMe") != -1){
-        hideButtons();
-    }
 
-}
 // window.onload = function () {
     var messageVue = new Vue({
         el: '#messageVue',
