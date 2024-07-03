@@ -31,6 +31,27 @@
 
         <input class="search table-search" id="gwasDataSearch" type="search" data-column="all" placeholder="Search table">
     </div>
+    <table>
+
+        <tbody>
+        <tr>
+            <td>Data has come from the GWAS Catalog&nbsp;&nbsp;&nbsp;</td>
+
+            <td><img src='/rgdweb/common/images/bullet_green.png' /></td>
+                <td>
+                    <form id="downloadGwasVue">
+                        <input type="hidden" id="rsId" value="">
+                    <label style="cursor: pointer;" v-on:click="downloadGwas"><u>Download</u></label>
+                    </form>
+                </td>
+        </tr>
+        <% if (rgdId.getObjectKey()==6){%>
+        <tr>
+            <td>The highlighted row represents the current QTL</td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
 
     <div id="gwasDataTableDiv" class="annotation-detail">
         <table id="gwasDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' >
@@ -42,7 +63,7 @@
                 <td>Risk&nbsp;Allele</td>
                 <td>Risk&nbsp;Allele&nbsp;Frequency</td>
                 <td>P&nbsp;Value</td>
-                <td>P Value MLOG</td>
+                <td>P&nbsp;Value MLOG</td>
                 <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Accession</td>
@@ -158,6 +179,44 @@
     var rowOfInterest = document.getElementById("rowOfInterest");
     if (secondRow!==rowOfInterest) {
         secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
+    }
+    var downloadGwasVue = new Vue ({
+        el: '#downloadGwasVue',
+        data: {
+            rsId: '<%=rsId%>'
+        },
+        methods: {
+            downloadGwas: function () {
+                // alert("Start vue");
+                axios
+                    .post('/report/variants/downloadGwas.html',
+                        {
+                            rsId: downloadGwasVue.rsId
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/csv' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "related_gwas_data.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        console.log(error.response.data);
+                    })
+            }
+        }
+    });
+    function download(){
+        downloadGwasVue.downloadGwas();
     }
 </script>
 <% } %>

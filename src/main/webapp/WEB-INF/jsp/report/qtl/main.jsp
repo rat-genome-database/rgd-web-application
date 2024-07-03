@@ -38,6 +38,7 @@
     }
     boolean peakRs = Utils.isStringEmpty(obj.getPeakRsId());
     boolean isGwas = obj.getSymbol().startsWith("GWAS");
+    String rsId = obj.getPeakRsId();
 %>
 
 <div id="top" ></div>
