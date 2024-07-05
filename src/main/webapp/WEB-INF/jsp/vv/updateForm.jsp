@@ -68,7 +68,7 @@
 <%--                <td><input type="text" name="stop" id="stop"  size="15" value="<%=stop%>"/></td>--%>
                 <td><input type="hidden" name="stop" id="stop"  size="15" value="<%=stop%>"/></td>
                 <td>Search Region</td>
-                <td><input type="text" name="search" size="50" id="search" value="Chr<%=chr%>:<%=start%>...<%=stop%>"></td>
+                <td><input type="text" name="search" size="50" id="search" value="Chr<%=chr%>:<%=start%>..<%=stop%>"></td>
                 <td><input type="button" value="Update" onClick="updatePage()"/></td>
                 <td><img id="zOut" src="/rgdweb/common/images/zoom/zoom-out.png"  alt="-"></td>
                 <td>&nbsp;&nbsp;</td>
@@ -123,12 +123,12 @@
         document.getElementById("chr").value=chrVal;
 
         //update start position value
-        let startPosIndex = searchVal.indexOf("...");
+        let startPosIndex = searchVal.indexOf("..");
         let startVal = searchVal.substring(colIndex+1,startPosIndex);
         document.getElementById("start").value = startVal;
 
         //update stop position value
-        let stopVal = searchVal.substring(startPosIndex+3);
+        let stopVal = searchVal.substring(startPosIndex+2);
         document.getElementById("stop").value = stopVal;
     }
 
@@ -178,10 +178,10 @@
 
     function validateSearchInput() {
         let input = document.getElementById("search").value;
-        // Regular expression to match the pattern "Chr#:startpos...stoppos"
-        let pattern = /^Chr([A-Za-z0-9]+):([\d,]+)\.\.\.([\d,]+)$/;
+        // Regular expression to match the pattern "Chr#:startpos..stoppos"
+        let pattern = /^Chr([A-Za-z0-9]+):([\d,]+)\.\.([\d,]+)$/;
         if (!pattern.test(input)) {
-            alert("Please enter a valid format: 'Chr#:startpos...stoppos'");
+            alert("Please enter a valid format: 'Chr#:startpos..stoppos'");
         }
         else{
             isUpdate = true;
