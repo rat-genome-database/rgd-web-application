@@ -34,7 +34,7 @@
         out.print(",");
         out.print(g.getDiseaseTrait().replace(",","|"));
         out.print(",");
-        String sampleSize = g.getInitialSample().replace(",",".");
+        String sampleSize = g.getInitialSample().replace(",","");
         out.print(sampleSize);
         out.print(",");
         out.print(Utils.NVL(g.getStrongSnpRiskallele(),"N/A"));
