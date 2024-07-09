@@ -173,13 +173,6 @@
     }
 </style>
 <script>
-    var table = document.getElementById("gwasDataTable");
-    var rows = table.getElementsByTagName("tr");
-    var secondRow = rows[1];
-    var rowOfInterest = document.getElementById("rowOfInterest");
-    if (secondRow!==rowOfInterest) {
-        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
-    }
     var downloadGwasVue = new Vue ({
         el: '#downloadGwasVue',
         data: {
@@ -209,14 +202,19 @@
                         // window.open(url)
                     })
                     .catch(function (error) {
-                        // console.log(error);
+                        console.log(error);
                         // console.log(error.response.data);
                     })
             }
         }
     });
-    function download(){
-        downloadGwasVue.downloadGwas();
+
+    var table = document.getElementById("gwasDataTable");
+    var rows = table.getElementsByTagName("tr");
+    var secondRow = rows[1];
+    var rowOfInterest = document.getElementById("rowOfInterest");
+    if (secondRow!==rowOfInterest) {
+        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
     }
 </script>
 <% } %>
