@@ -38,7 +38,7 @@
             <td>Data has come from the GWAS Catalog&nbsp;&nbsp;&nbsp;</td>
 
             <td><img src='/rgdweb/common/images/bullet_green.png' /></td>
-                <td>
+                <td style="position: absolute;">
                     <form id="downloadGwasVue">
                         <input type="hidden" id="rsId" value="">
                     <label style="cursor: pointer;" v-on:click="downloadGwas"><u>Download</u></label>
