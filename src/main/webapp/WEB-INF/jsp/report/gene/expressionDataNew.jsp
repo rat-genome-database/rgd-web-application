@@ -44,6 +44,7 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
+    <input type="button" onclick="hideTable()" value="Hide Table">
     <div id="expresTable">
         <table id="exprData" name="exprData">
             <tr>
@@ -64,9 +65,14 @@
         </table>
 
         <template>
-            <b-table :items="expItems" :fields="fields" responsive="sm">
-
-            </b-table>
+            <div id="coolTable" style="display: none;">
+                <b-table  :items="expItems" :fields="fields" responsive="sm">
+                    <template #cell(refRgd)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>
+                    </template>
+                </b-table>
+            </div>
         </template>
     </div>
 </div>
@@ -114,30 +120,14 @@
                     {
                         key: 'refRgd',
                         label: 'Reference',
+                        formatter: value => {
+                            return value;
+                        },//'LinkFormatter',
                         sortable: true
                     }
                 ],
                 expItems: [
-                    {
-                        strain:'RS:00000004',
-                        sex:'male',
-                        age:'2-10 days',
-                        tissue: 'liver',
-                        tpmValue: '6',
-                        unit: 'TPM',
-                        assembly: "rnor 6.0",
-                        refRgd: 'rgd'
-                    },
-                    {
-                        strain:'RS:00000006',
-                        sex:'female',
-                        age:'2-15 days',
-                        tissue: 'heart',
-                        tpmValue: '50',
-                        unit: 'TPM',
-                        assembly: "rnor 6.0",
-                        refRgd: 'rgd'
-                    }
+
                 ]
             }
         },
@@ -192,9 +182,10 @@
                                                     var tissue = record["sample"]["tissueAccId"];
                                                     if (tissue == null)
                                                         tissue = '';
-                                                    var refRgd = record["refRgdId"];
-                                                    var reference = '<a href="/rgdweb/report/reference/main.html?id='+refRgd+'">'+ refRgd +'</a>';
-                                                    someItems.push( {
+                                                    // var refRgd = record["refRgdId"];
+                                                    var reference = record["refRgdId"];//'<b-link :href="/rgdweb/report/reference/main.html?id='+refRgd+'">'+ refRgd +'</b-link>';
+                                                    var link = '/rgdweb/report/reference/main.html?id='+reference;
+                                                    someItems.push({
                                                             strain: record["sample"]["strainAccId"],
                                                             sex: sex,
                                                             age: displayAge,
@@ -202,7 +193,9 @@
                                                             tpmValue: tpmVal,
                                                             unit: 'TPM',
                                                             assembly: 'rat',
-                                                            refRgd: reference})
+                                                            refRgd: reference//{myId: reference, mrLink: link}
+                                                        }
+                                                    )
 
                                                 })
                                                 // strain, sex, age, tissue, value, unit, assembly, reference
@@ -225,11 +218,18 @@
                     }
                 });
                 // console.log();
-                console.log(this.expItems);
-                console.log(someItems);
+                // console.log(this.expItems);
+                // console.log(someItems);
                 this.expItems = someItems;
-                console.log(this.expItems);
+                // console.log(this.expItems);
+                showTable();
             }
+            // getRef(value){
+            //     return value;
+            // },
+            // LinkFormatter(value, row, index) {
+            //     return "<a href='"+value.mrLink+"'>"+value.myId+"</a>";
+            // }
         }
     })
 
@@ -242,5 +242,13 @@
                 return result;
             }
         })
+    }
+    function hideTable(){
+        var div = document.getElementById("coolTable");
+            div.style.display = 'none';
+    }
+    function showTable(){
+        var div = document.getElementById("coolTable");
+        div.style.display = 'block';
     }
 </script>
