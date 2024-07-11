@@ -48,19 +48,20 @@
     <div id="expresTable">
         <table id="exprData" name="exprData">
             <tr>
-                <% for(String t:include) {
+                <%  int col = 0;
+                    for(String t:include) {
                     Term term = xdao.getTermByAccId(t);
                     if( term != null) {
                 %>
-                <td><%=xdao.getTerm(t).getTerm()%></td>
+                <th><%=xdao.getTerm(t).getTerm()%></th>
                 <% } else{  %>
-                <td><%=t%></td>
+                <th><%=t%></th>
                 <% } } %>
             </tr>
             <tr>
                 <% for (String t : include){%>
-                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')"><%=termCnt.get(t)%></td>
-                <% } %>
+                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer;" onclick="highlightCurrent('<%=col%>')"><%=termCnt.get(t)%></td>
+                <% col++;} %>
             </tr>
         </table>
 
@@ -150,6 +151,7 @@
                             // console.log('here now');
                             var geneExpRecId = recVal["geneExpressionRecordId"];
                             var tpmVal = recVal["tpmValue"];
+                            var mapKey = '';
                             // console.log(geneExpRecId);
                             // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
                             $.ajax({
@@ -161,6 +163,7 @@
                                     var experimentId = result2["experimentId"];
                                     if (!expIdList.includes(experimentId)){
                                         expIdList.push(experimentId);
+                                        mapKey = result2['mapKey'];
                                         $.ajax({
                                             type: "GET",
                                             url: "https://dev.rgd.mcw.edu/rgdws/expression/record/"+experimentId,
@@ -246,9 +249,28 @@
     function hideTable(){
         var div = document.getElementById("coolTable");
             div.style.display = 'none';
+            highlightCurrent(-1);
     }
     function showTable(){
         var div = document.getElementById("coolTable");
         div.style.display = 'block';
+    }
+    function highlightCurrent(colNum){
+        var table = document.getElementById("exprData");
+        var ths = table.getElementsByTagName("th");
+        var cols = table.getElementsByTagName("td");
+        for (var i = 0; i < cols.length; i++){
+            if (i==colNum){
+                // highlight column
+                ths[i].style.background = 'yellow'
+                cols[i].style.background = 'yellow';
+            }
+            else{
+                // clear style
+                ths[i].removeAttribute("style");
+                cols[i].removeAttribute("style");
+            }
+            cols[i].style.cursor = 'pointer';
+        }
     }
 </script>
