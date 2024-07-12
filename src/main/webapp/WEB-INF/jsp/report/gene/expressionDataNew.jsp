@@ -44,7 +44,7 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
-    <input type="button" onclick="hideTable()" value="Hide Table">
+
     <div id="expresTable">
         <table id="exprData" name="exprData">
             <tr>
@@ -60,22 +60,23 @@
             </tr>
             <tr>
                 <% for (String t : include){%>
-                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer;" onclick="highlightCurrent('<%=col%>')"><%=termCnt.get(t)%></td>
+                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>')"><%=termCnt.get(t)%></td>
                 <% col++;} %>
             </tr>
         </table>
-
-        <template>
-            <div id="coolTable" style="display: none;">
-                <b-table  :items="expItems" :fields="fields" responsive="sm">
+        <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;" value="Hide Table">
+        <div id="coolTable" style="display: none; height: 500px; overflow-y: auto;">
+            <template>
+                <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="485px">
                     <template #cell(refRgd)="data">
                         <!-- `data.value` is the value after formatted by the Formatter -->
                         <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>
                     </template>
                 </b-table>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
+<%--    <input type="button" id="hideBtn2" onclick="hideTable()" style="display: none;" value="Hide Table">--%>
 </div>
 
 <%@ include file="../sectionFooter.jsp"%>
@@ -137,7 +138,7 @@
             // proceed like in expression controller
             createTable(termAcc,rgdId){
                 // clear table if full
-                termAcc = termAcc.replace(':','%3A')
+                // termAcc = termAcc.replace(':','%3A')
                 var studyMap = {};
                 var expIdList = [];
                 var someItems = [];
@@ -151,7 +152,7 @@
                             // console.log('here now');
                             var geneExpRecId = recVal["geneExpressionRecordId"];
                             var tpmVal = recVal["tpmValue"];
-                            var mapKey = '';
+                            var mapKey = recVal["mapKey"];
                             // console.log(geneExpRecId);
                             // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
                             $.ajax({
@@ -163,7 +164,6 @@
                                     var experimentId = result2["experimentId"];
                                     if (!expIdList.includes(experimentId)){
                                         expIdList.push(experimentId);
-                                        mapKey = result2['mapKey'];
                                         $.ajax({
                                             type: "GET",
                                             url: "https://dev.rgd.mcw.edu/rgdws/expression/record/"+experimentId,
@@ -171,14 +171,16 @@
                                             success: function (res, stat, x){
                                                 // loop through results
                                                 // console.log(res);
-                                                res.forEach((record) =>{
+                                                res.forEach((record) => {
+                                                    var myStrain = record["sample"]["strainAccId"];
+                                                    var newStrain = '';
                                                     var sex = record["sample"]["sex"];
                                                     if (sex == null)
                                                         sex = '';
                                                     var ageHigh = record["sample"]["ageDaysFromHighBound"];
                                                     var ageLow = record["sample"]["ageDaysFromLowBound"];
                                                     var displayAge;
-                                                    if ( ageHigh==ageLow)
+                                                    if (ageHigh == ageLow)
                                                         displayAge = ageHigh + ' days';
                                                     else
                                                         displayAge = ageLow + ' - ' + ageHigh + ' days';
@@ -187,19 +189,48 @@
                                                         tissue = '';
                                                     // var refRgd = record["refRgdId"];
                                                     var reference = record["refRgdId"];//'<b-link :href="/rgdweb/report/reference/main.html?id='+refRgd+'">'+ refRgd +'</b-link>';
-                                                    var link = '/rgdweb/report/reference/main.html?id='+reference;
-                                                    someItems.push({
-                                                            strain: record["sample"]["strainAccId"],
-                                                            sex: sex,
-                                                            age: displayAge,
-                                                            tissue: tissue,
-                                                            tpmValue: tpmVal,
-                                                            unit: 'TPM',
-                                                            assembly: 'rat',
-                                                            refRgd: reference//{myId: reference, mrLink: link}
+                                                    if (myStrain != null && myStrain !== '') {
+                                                     //strain = strain.replace(':','%3A');
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + myStrain,
+                                                        dataType: "json",
+                                                        success: function (r, s, x) {
+                                                            // console.log(r);
+                                                            // console.log(r["term"]);
+                                                            newStrain = r["term"];
+                                                            // console.log("in: "+newStrain)
+                                                            someItems.push({
+                                                                    strain: newStrain,
+                                                                    sex: sex,
+                                                                    age: displayAge,
+                                                                    tissue: tissue,
+                                                                    tpmValue: tpmVal,
+                                                                    unit: 'TPM',
+                                                                    assembly: mapKey,
+                                                                    refRgd: reference//{myId: reference, mrLink: link}
+                                                                }
+                                                            )
+                                                        },
+                                                        error: function(x, s, err){
+                                                            console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                         }
-                                                    )
+                                                    })
 
+                                                    }
+                                                    else {
+                                                        someItems.push({
+                                                                strain: 'No Strain Available',
+                                                                sex: sex,
+                                                                age: displayAge,
+                                                                tissue: tissue,
+                                                                tpmValue: tpmVal,
+                                                                unit: 'TPM',
+                                                                assembly: mapKey,
+                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                            }
+                                                        )
+                                                    }
                                                 })
                                                 // strain, sex, age, tissue, value, unit, assembly, reference
                                                 // this.data.push({strain: })
@@ -248,12 +279,22 @@
     }
     function hideTable(){
         var div = document.getElementById("coolTable");
-            div.style.display = 'none';
-            highlightCurrent(-1);
+        var button1 = document.getElementById("hideBtn1");
+        // var button2 = document.getElementById("hideBtn2");
+        div.style.display = 'none';
+        button1.style.display = 'none'
+        // button2.style.display = 'none'
+        highlightCurrent(-1);
+        var e = document.getElementById('rnaSeqExpression');
+        e.scrollIntoView();
     }
     function showTable(){
         var div = document.getElementById("coolTable");
+        var button1 = document.getElementById("hideBtn1");
+        // var button2 = document.getElementById("hideBtn2");
         div.style.display = 'block';
+        button1.style.display = 'block'
+        // button2.style.display = 'block'
     }
     function highlightCurrent(colNum){
         var table = document.getElementById("exprData");
@@ -269,8 +310,10 @@
                 // clear style
                 ths[i].removeAttribute("style");
                 cols[i].removeAttribute("style");
+                cols[i].style.background = 'lightcyan';
             }
             cols[i].style.cursor = 'pointer';
+
         }
     }
 </script>
