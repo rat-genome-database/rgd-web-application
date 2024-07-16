@@ -138,7 +138,6 @@ To change this template use File | Settings | File Templates.
         <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="legend">
             <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strains exist and related strains may exist.</div>
-            <div><img src="/rgdweb/common/images/hrdp/yellowtick.png" alt="yellowtick">- Data for only related strains exist.</div>
             <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- No data available.</div>
         </div>
         <div class="centered">
@@ -159,12 +158,27 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
-                    <%if(str.getAvailableStrainId()!=0){
-                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
-                         <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
-                        <%}else{%>
-                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
-                    <%}}else{%>
+                    <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
+                        String[] ids = str.getAvailableStrainId().split(",");
+                        String[] symbols = str.getAvailableStrainSymbol().split(",");
+                        StringBuilder linksBuilder = new StringBuilder();
+                        for(int i=0;i<ids.length;i++){
+                            if (i > 0) {
+                                linksBuilder.append(", "); // Add a comma before each link except the first
+                            }
+                            // Append each link. Ensure that IDs and Symbols are aligned by index.
+                            linksBuilder.append("<a class='here' href='report/strain/main.html?id=")
+                                    .append(ids[i].trim())
+                                    .append("'>")
+                                    .append(symbols[i].trim())
+                                    .append("</a>");
+                        }
+                        if(linksBuilder.length()>0){%>
+                    <td><%=linksBuilder.toString()%></td>
+                    <%}else{%>
+                    <td></td>
+                    <%}%>
+                    <%}else{%>
                     <td></td>
                     <%}%>
                     <%if (str.getHasParentPhenoCount()>0) {%>
@@ -228,12 +242,27 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                 <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                 <td><a class="here" href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
-                    <%if(str.getAvailableStrainId()!=0){
-                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                    <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
+                        String[] ids = str.getAvailableStrainId().split(",");
+                        String[] symbols = str.getAvailableStrainSymbol().split(",");
+                        StringBuilder linksBuilder = new StringBuilder();
+                        for(int i=0;i<ids.length;i++){
+                            if (i > 0) {
+                                linksBuilder.append(", "); // Add a comma before each link except the first
+                            }
+                            // Append each link. Ensure that IDs and Symbols are aligned by index.
+                            linksBuilder.append("<a class='here' href='report/strain/main.html?id=")
+                                    .append(ids[i].trim())
+                                    .append("'>")
+                                    .append(symbols[i].trim())
+                                    .append("</a>");
+                        }
+                        if(linksBuilder.length()>0){%>
+                    <td><%=linksBuilder.toString()%></td>
                     <%}else{%>
-                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
-                    <%}}else{%>
+                    <td></td>
+                    <%}%>
+                    <%}else{%>
                     <td></td>
                     <%}%>
                 <%if (str.getHasParentPhenoCount()>0) {%>
@@ -296,12 +325,27 @@ To change this template use File | Settings | File Templates.
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
                     <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
-                    <%if(str.getAvailableStrainId()!=0){
-                        if(str.getAvailableStrainId()==str.getStrainId()) {%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
+                    <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
+                        String[] ids = str.getAvailableStrainId().split(",");
+                        String[] symbols = str.getAvailableStrainSymbol().split(",");
+                        StringBuilder linksBuilder = new StringBuilder();
+                        for(int i=0;i<ids.length;i++){
+                            if (i > 0) {
+                                linksBuilder.append(", "); // Add a comma before each link except the first
+                            }
+                            // Append each link. Ensure that IDs and Symbols are aligned by index.
+                            linksBuilder.append("<a class='here' href='report/strain/main.html?id=")
+                                    .append(ids[i].trim())
+                                    .append("'>")
+                                    .append(symbols[i].trim())
+                                    .append("</a>");
+                        }
+                        if(linksBuilder.length()>0){%>
+                    <td><%=linksBuilder.toString()%></td>
                     <%}else{%>
-                    <td style="text-align: center"><a class="here" href="report/strain/main.html?id=<%=str.getAvailableStrainId()%>"><%=str.getAvailableStrainSymbol()%></a></td>
-                    <%}}else{%>
+                    <td></td>
+                    <%}%>
+                    <%}else{%>
                     <td></td>
                     <%}%>
                     <%if (str.getHasParentPhenoCount()>0) {%>
