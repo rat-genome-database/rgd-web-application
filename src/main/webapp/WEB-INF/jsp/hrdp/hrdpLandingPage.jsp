@@ -192,7 +192,7 @@ To change this template use File | Settings | File Templates.
                     </td>
                     <%}
                     }else if(str.getHasParentPhenoCount()==0 && str.getHasChildPhenoCount()>0){%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
                         <input type="hidden" class="childOntIdInput" name="childontId" value="<%=str.getChildOntIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                     </td>
@@ -209,7 +209,7 @@ To change this template use File | Settings | File Templates.
                     <%}
                     }
                     else if (str.getHasParentSampleCount()==0&&str.getHasChildSampleCount()>0) {%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%=str.getChildSampleIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                     <%}
                     else {%>
@@ -276,7 +276,7 @@ To change this template use File | Settings | File Templates.
                 </td>
                 <%}
                 }else if(str.getHasParentPhenoCount()==0 && str.getHasChildPhenoCount()>0){%>
-                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                 <td style="display: none;">
                     <input type="hidden" class="childOntIdInput" name="childontId" value="<%=str.getChildOntIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                 </td>
@@ -293,7 +293,7 @@ To change this template use File | Settings | File Templates.
                 <%}
                 }
                 else if (str.getHasParentSampleCount()==0&&str.getHasChildSampleCount()>0) {%>
-                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                 <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%=str.getChildSampleIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                 <%}
                 else {%>
@@ -359,7 +359,7 @@ To change this template use File | Settings | File Templates.
                     </td>
                     <%}
                     }else if(str.getHasParentPhenoCount()==0 && str.getHasChildPhenoCount()>0){%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <td style="display: none;">
                         <input type="hidden" class="childOntIdInput" name="childontId" value="<%=str.getChildOntIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                     </td>
@@ -376,7 +376,7 @@ To change this template use File | Settings | File Templates.
                     <%}
                     }
                     else if (str.getHasParentSampleCount()==0&&str.getHasChildSampleCount()>0) {%>
-                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/yellowcheck.png" alt="yellowtick"></td>
+                    <td style="text-align: center"><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick"></td>
                     <input type="hidden" class="sampleChildInput" name="sampleChildIds" value="<%=str.getChildSampleIds()%>" disabled data-rgdid="<%=str.getStrainId()%>">
                     <%}
                     else {%>
