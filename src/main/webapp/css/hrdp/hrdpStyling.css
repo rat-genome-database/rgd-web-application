@@ -203,7 +203,7 @@ p,li, a.here, span{
     border-radius: 4px; /* Rounded corners */
     padding: 10px; /* Add padding inside the border */
     background-color: #f9f9f9;
-    top: 30%;
+    top: 40%;
     left: 75%; /* Position to the right of the table */
     transform: translateX(13px); /* Add a small offset for spacing */
 }
