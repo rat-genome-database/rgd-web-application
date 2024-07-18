@@ -282,7 +282,7 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
-
+                <prop key="/hrdp_panel.html">hrdpController</prop>
 
             </props>
         </property>
@@ -557,6 +557,8 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+
+    <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
 
     </beans>
 
