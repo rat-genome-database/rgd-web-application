@@ -1,19 +1,18 @@
 /* used by HTMLTableReportStrategy and FixedPriceSecurityReportStrategy */
 
+div.reportTable tr td:first-child {
+    min-width: 108px;
+}
+
 tr.evenRow td, tr.evenRow td a {
-    /*min-width: 110px;*/
     background-color: #ffffff;
     color: black;
     font-size: 12px;
     font-family: arial;
     overflow:auto;
 }
-tr td:first-child {
-    min-width: 108px;
-}
 
 tr.oddRow td, tr.oddRow td a {
-    /*min-width: 110px;*/
     background-color: #F1F1F1;
     color: black;
     font-size: 12px;
