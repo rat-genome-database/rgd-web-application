@@ -210,8 +210,22 @@
                                                                 sex = '';
                                                             var ageHigh = record["sample"]["ageDaysFromHighBound"];
                                                             var ageLow = record["sample"]["ageDaysFromLowBound"];
-                                                            var displayAge;
-                                                            if (ageHigh == ageLow)
+                                                            var displayAge = '';
+                                                            if (ageLow < 0 || ageHigh < 0){
+                                                                if (mapKey === 37 || mapKey === 38){
+                                                                    ageLow = ageLow + 280;
+                                                                    ageHigh = ageHigh + 280;
+                                                                    if (ageHigh === ageLow)
+                                                                        displayAge = ageLow + ' days post conception';
+                                                                    else
+                                                                        displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
+                                                                }
+                                                                else {
+                                                                    ageLow = ageLow + 21;
+                                                                    ageHigh = ageHigh + 23;
+                                                                    displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                                                }
+                                                            }else if (ageHigh === ageLow)
                                                                 displayAge = ageHigh + ' days';
                                                             else
                                                                 displayAge = ageLow + ' - ' + ageHigh + ' days';
