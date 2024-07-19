@@ -119,7 +119,7 @@
                     {
                         key: 'tissue',
                         formatter: value => {
-                            if (value == null || value == "")
+                            if (value == null || value === "")
                                 return "No Tissue Available"
                             return value;
                         },
@@ -329,18 +329,6 @@
 
                                                                 }
                                                             }
-                                                            // var refRgd = record["refRgdId"];
-
-                                                            //'<b-link :href="/rgdweb/report/reference/main.html?id='+refRgd+'">'+ refRgd +'</b-link>';
-                                                            // if (myStrain != null && myStrain !== '') {
-                                                            //  //strain = strain.replace(':','%3A');
-                                                            //     getTerm(myStrain);
-                                                            //
-                                                            // }
-
-                                                            // else {myStrain = 'No Strain Available';}
-
-
                                                         })
                                                     },
                                                     error: function (x, stat, err) {
@@ -367,19 +355,11 @@
                         console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
                     }
                 }); // end ajax getting all expression records
-                // console.log();
-                // console.log(this.expItems);
-                // console.log(someItems);
                 this.expItems = someItems;
                 // console.log(this.expItems);
                 showTable();
             }
-            // getRef(value){
-            //     return value;
-            // },
-            // LinkFormatter(value, row, index) {
-            //     return "<a href='"+value.mrLink+"'>"+value.myId+"</a>";
-            // }
+
         }
     })
 
@@ -433,22 +413,4 @@
         }
     }
 
-    function getTerm(termAcc) {
-        $.ajax({
-            type: "GET",
-            context: this,
-            url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + termAcc,
-            dataType: "json",
-            success: function (r, s, x) {
-                // console.log(r);
-                // console.log(r["term"]);
-                return r["term"];
-                // console.log("in: "+newStrain)
-
-            },
-            error: function(x, s, err){
-                console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-            }
-        }) // end ajax for ontology Term
-    }
 </script>
