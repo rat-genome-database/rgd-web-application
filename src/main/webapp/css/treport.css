@@ -1,6 +1,6 @@
 /* used by HTMLTableReportStrategy and FixedPriceSecurityReportStrategy */
 
-tr td:first-child {
+div.reportTable tr td:first-child {
     min-width: 108px;
 }
 
@@ -17,7 +17,7 @@ tr.oddRow td, tr.oddRow td a {
     color: black;
     font-size: 12px;
     font-family: arial;
-    overflow:auto;
+    overflow: auto;
 }
 
 tr.headerRow td {
@@ -46,3 +46,6 @@ tr.headerRow td {
   font-weight: 700;
   font-size: 12px;
 }
+
+/* from ontology.css */
+a.diaglnk { background-image:url("/rgdweb/images/icon-d.gif");background-repeat:no-repeat; width:20px; padding-left:13px;vertical-align:-2px;}
