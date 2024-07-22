@@ -1,8 +1,12 @@
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.math.RoundingMode" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
-    if (isGwas){ %>
+    if (isGwas){
+    QTLDAO qdao = new QTLDAO();
+%>
 <div class="gwasDataTable light-table-border" id="gwasDataTableWrapper">
-    <div class="sectionHeading" id="gwasData">GWAS Catalog Data</div>
+    <div class="sectionHeading" id="gwasData">GWAS QTLs Related by Peak Marker</div>
 
     <div class="search-and-pager">
         <div class="modelsViewContent" >
@@ -27,18 +31,40 @@
 
         <input class="search table-search" id="gwasDataSearch" type="search" data-column="all" placeholder="Search table">
     </div>
+    <table>
+
+        <tbody>
+        <tr>
+            <td>Data has come from the GWAS Catalog&nbsp;&nbsp;&nbsp;</td>
+
+            <td><img src='/rgdweb/common/images/bullet_green.png' /></td>
+                <td style="position: absolute;">
+                    <form id="downloadGwasVue">
+                        <input type="hidden" id="rsId" value="">
+                    <label style="cursor: pointer;" v-on:click="downloadGwas"><u>Download</u></label>
+                    </form>
+                </td>
+        </tr>
+        <% if (rgdId.getObjectKey()==6){%>
+        <tr>
+            <td>The highlighted row represents the current QTL</td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
 
     <div id="gwasDataTableDiv" class="annotation-detail">
         <table id="gwasDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' >
             <tr>
+                <td>QTL</td>
                 <td>GWAS Catalog Study</td>
                 <td>Disease&nbsp;Trait</td>
                 <td>Study&nbsp;Size</td>
                 <td>Risk&nbsp;Allele</td>
                 <td>Risk&nbsp;Allele&nbsp;Frequency</td>
                 <td>P&nbsp;Value</td>
-                <td>P Value MLOG</td>
-                <td>SNP Passing QC</td>
+                <td>P&nbsp;Value MLOG</td>
+                <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Accession</td>
                 <td>PubMed</td>
@@ -48,43 +74,67 @@
             String lessTerms = "";
             String moreTerms = "";
             List<Term> gwasTerms = new ArrayList<>();
-
-            String gwasTerm = gwas.getEfoId().replace('_', ':');
-            String[] terms = gwasTerm.split(",");
-
-            for (String termAcc : terms) {
-                if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
-                    continue;
-                String trimmed = termAcc.trim();
+            String gwasTerm = "";
+            String[] terms = {};
+            if (!Utils.isStringEmpty(gwas.getEfoId())) {
+                 gwasTerm = gwas.getEfoId().replace('_', ':');
+                 terms = gwasTerm.split(",");
+            }
+    for (String termAcc : terms) {
+        if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
+            continue;
+        String trimmed = termAcc.trim();
 //                System.out.println(trimmed);
-                Term term = odao.getTermByAccId(trimmed);
-                gwasTerms.add(term);
-            }
+        Term term = odao.getTermByAccId(trimmed);
+        gwasTerms.add(term);
+    }
 
-            for (int i = 0; i < gwasTerms.size(); i++) {
-                if (i < 4) {
-                    lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
-                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
-                } else {
-                    moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
-                            "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
-                }
+    for (int i = 0; i < gwasTerms.size(); i++) {
+        if (gwasTerms.get(i)!=null) {
+            if (i < 4) {
+                lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+            } else {
+                moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
             }
+        }
+    }
 
-    String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/"+gwas.getStudyAcc();
-        String pmid = gwas.getPmid().split(":")[1];
-        String url = "https://pubmed.ncbi.nlm.nih.gov/"+pmid;
+    QTL q = null;
+    String qtlExist = "";
+    if (gwas.getQtlRgdId() != null && gwas.getQtlRgdId() != 0) {
+        try {
+            q = qdao.getQTL(gwas.getQtlRgdId());
+            qtlExist = "<a href=\"/rgdweb/report/qtl/main.html?id=" + q.getRgdId() + "\">" + q.getSymbol() + "</a>";
+        } catch (Exception e) {
+            qtlExist = "None Available";
+        }
+    } else
+        qtlExist = "None Available";
+
+    String studiesUrl = "https://www.ebi.ac.uk/gwas/studies/" + gwas.getStudyAcc();
+    String pmid = gwas.getPmid().split(":")[1];
+    String url = "https://pubmed.ncbi.nlm.nih.gov/" + pmid;
+
+            DecimalFormat df = new DecimalFormat("#.###");
+            df.setRoundingMode(RoundingMode.CEILING);
+ if (gwas.getQtlRgdId()!= null && obj.getRgdId()==gwas.getQtlRgdId()){
 %>
-
+            <tr id="rowOfInterest" class="rowOfInterest">
+            <% } else {%>
             <tr>
+            <% } %>
+
+                <td><%=qtlExist%></td>
                 <td><span><a href="<%=studiesUrl%>"><%=gwas.getStudyAcc()%></a></span></td>
                 <td><%=gwas.getDiseaseTrait()%></td>
                 <td><%=gwas.getInitialSample()%></td>
                 <td><%=gwas.getStrongSnpRiskallele()%></td>
                 <td><%=Utils.NVL(gwas.getRiskAlleleFreq(),"N/A")%></td>
                 <td><%=gwas.getpVal()%></td>
-                <td><%=gwas.getpValMlog()%></td>
-                <td><%=gwas.getSnpPassQc()%></td>
+                <td><%=df.format(gwas.getpValMlog())%></td>
+                <td><a href="/rgdweb/report/rsId/main.html?id=<%=gwas.getSnps()%>"><%=gwas.getSnps()%></a></td>
                 <td><%=Utils.NVL(gwas.getOrBeta(),"N/A")%></td>
                 <td><%=Utils.NVL(lessTerms, "N/A")%>
                     <% if (gwasTerms.size()>4) {%>
@@ -116,5 +166,58 @@
         </div>
     </div>
 </div>
+<style>
+
+    #rowOfInterest td{
+        background-color: #fffeb4;
+    }
+</style>
+<script>
+    var table = document.getElementById("gwasDataTable");
+    var rows = table.getElementsByTagName("tr");
+    var secondRow = rows[1];
+    var rowOfInterest = document.getElementById("rowOfInterest");
+    if (secondRow!==rowOfInterest) {
+        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
+    }
+    var downloadGwasVue = new Vue ({
+        el: '#downloadGwasVue',
+        data: {
+            rsId: '<%=rsId%>'
+        },
+        methods: {
+            downloadGwas: function () {
+                // alert("Start vue");
+                axios
+                    .post('/rgdweb/report/variants/downloadGwas.html',
+                        {
+                            rsId: downloadGwasVue.rsId
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/csv' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "related_gwas_data.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                        // console.log(error);
+                        // console.log(error.response.data);
+                    })
+            }
+        }
+    });
+    function download(){
+        downloadGwasVue.downloadGwas();
+    }
+</script>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

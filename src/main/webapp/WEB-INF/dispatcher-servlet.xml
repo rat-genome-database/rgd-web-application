@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
@@ -148,6 +146,7 @@
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/variants/downloadGwas.html">GwasDownloadController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="report/rsId/download.html">VariantDownloadController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
@@ -282,7 +281,7 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
-                <prop key="/hrdp_panel.html">hrdpController</prop>
+                 <prop key="/hrdp_panel.html">hrdpController</prop>
 
             </props>
         </property>
@@ -338,6 +337,7 @@
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
+    <bean id="GwasDownloadController" class="edu.mcw.rgd.report.GwasDownloadController"/>
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
@@ -557,7 +557,6 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
-
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
 
     </beans>

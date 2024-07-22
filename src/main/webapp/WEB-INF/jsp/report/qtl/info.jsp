@@ -3,7 +3,6 @@
 <%@ page import="edu.mcw.rgd.report.*" %>
 
 
-
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
@@ -138,7 +137,18 @@
     </tr>
     <tr>
         <td class="label">P&nbsp;Value:</td>
+        <% if ((obj.getPValue() == null || obj.getPValue() == 0) && obj.getpValueMlog()!=null) {
+            double w = obj.getpValueMlog();
+            int x = (int) Math.ceil(w);
+            double y = x-w;
+            int z = (int) Math.round(Math.pow(10,y));
+            String convertedPVal = z+"E-"+x;
+//            System.out.println(convertedPVal);
+        %>
+        <td><%=convertedPVal%></td>
+        <%} else {%>
         <td><%=fu.chkNullNA(obj.getPValue())%></td>
+        <% } %>
     </tr>
     <tr>
         <td class="label">Variance:</td>
@@ -156,11 +166,12 @@
         <td class="label">Position</td>
         <td><%=MapDataFormatter.buildTable(obj.getRgdId(), obj.getSpeciesTypeKey(), rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
-
+    <%if (obj.getSpeciesTypeKey()!=1){%>
     <tr>
         <td class="label">Cross&nbsp;Type:</td>
         <td><%=crossType%></td>
     </tr>
+    <% } %>
     <tr>
         <% if(obj.getSpeciesTypeKey() == SpeciesType.RAT){ %>
         <td class="label">Strains&nbsp;Crossed:</td>

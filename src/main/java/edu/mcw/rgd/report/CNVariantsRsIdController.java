@@ -68,7 +68,7 @@ public class CNVariantsRsIdController implements Controller {
             else{
                 if (rsId!=null) {
                     if (!Utils.isStringEmpty(rsId) && !rsId.equals(".")) {
-                        objects = vdao.getAllVariantByRsId(rsId);
+                        objects = vdao.getAllActiveVariantsByRsId(rsId);
                         if (!objects.isEmpty()) {
                             request.setAttribute("mapKey", objects.get(0).getMapKey());
                             request.setAttribute("species", objects.get(0).getSpeciesTypeKey());

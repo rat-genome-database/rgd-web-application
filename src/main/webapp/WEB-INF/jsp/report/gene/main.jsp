@@ -190,7 +190,9 @@
 
                     <%@ include file="comparativeMapData.jsp"%>
                     <%@ include file="../cnVariants.jsp"%>
-                    <%@ include file="clinicalVariants.jsp"%>
+                    <%try {%>
+                    <jsp:include page="clinicalVariants.jsp"/>
+                    <%} catch (Exception e){e.printStackTrace();}%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
                     <%@ include file="../miRnaTargets.jsp"%>

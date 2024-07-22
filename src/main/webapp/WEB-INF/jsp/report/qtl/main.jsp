@@ -14,6 +14,7 @@
 
 <%
     QTL obj = (QTL) request.getAttribute("reportObject");
+//    System.out.println(obj.getRgdId());
     String objectType="qtl";
     String displayName=obj.getSymbol();
 
@@ -24,13 +25,20 @@
 
 
     edu.mcw.rgd.datamodel.Map refMap = mapDAO.getPrimaryRefAssembly(obj.getSpeciesTypeKey());
-    List<MapData> mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
-
+    List<MapData> mapDataList = new ArrayList<>();
+    try {
+        mapDataList = mapDAO.getMapData(obj.getRgdId(), refMap.getKey());
+    }
+    catch (Exception e){
+//        System.out.println(e);
+    }
     MapData md = null;
     if (mapDataList.size() > 0) {
         md = mapDataList.get(0);
     }
-    
+    boolean peakRs = Utils.isStringEmpty(obj.getPeakRsId());
+    boolean isGwas = obj.getSymbol().startsWith("GWAS");
+    String rsId = obj.getPeakRsId();
 %>
 
 <div id="top" ></div>
@@ -74,7 +82,7 @@
     <div id="content-wrap">
         <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
 <%@ include file="menu.jsp"%>
-<%  RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
+<%  RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if (view.equals("3")) { %>
 
 <% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) { %>
@@ -89,6 +97,7 @@
 <table width="95%" border="0">
     <tr>
         <td>
+
             <%@ include file="info.jsp"%>
 
             <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
@@ -118,13 +127,16 @@
 
 %>
             <%@ include file="../genesInRegion.jsp"%>
+            <%if (peakRs){%>
             <%@ include file="../markersInRegion.jsp"%>
+            <%}%>
             <%@ include file="markers.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
             <%@ include file="../relatedStrains.jsp"%>
 
-            <br><div class="subTitle" id="additionalInformation" >Additional Information</div><br>
 
+            <br><div class="subTitle" id="additionalInformation" >Additional Information</div><br>
+            <%@ include file="gwasQtlInfo.jsp"%>
             <%@ include file="../xdbs.jsp"%>
             <%@ include file="../nomen.jsp"%>
             <%@ include file="../curatorNotes.jsp"%>
