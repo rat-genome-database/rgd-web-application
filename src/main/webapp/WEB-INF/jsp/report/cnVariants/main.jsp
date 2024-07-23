@@ -19,8 +19,8 @@
     GWASCatalogDAO gwasDao = new GWASCatalogDAO();
 
     RgdId obj = managementDAO.getRgdId2((int)var.getId());
-    List<VariantMapData> vars = vdao.getVariantsByRgdId(obj.getRgdId());
-
+    List<VariantMapData> vars = vdao.getAllVariantsByRgdId(obj.getRgdId());
+    RgdId rgdId = obj;
     String objectType="RgdVariant";
     String displayName;
     if (Utils.isStringEmpty(var.getRsId()) || var.getRsId().equals("."))
@@ -28,7 +28,7 @@
     else
         displayName = var.getRsId();
     boolean isGwas = false;
-
+    String rsId = var.getRsId();
     int speciesType =  var.getSpeciesTypeKey();
     sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
     List<VariantSampleDetail> sampleDetails = vdao.getVariantSampleDetail(obj.getRgdId());

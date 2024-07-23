@@ -1,6 +1,13 @@
-<%@ page import="java.util.Arrays" %>
+<%@ page import="edu.mcw.rgd.datamodel.VariantInfo" %>
+<%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.MapData" %>
+<%@ page import="edu.mcw.rgd.datamodel.XDBIndex" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
+    MapDAO mapDAO = new MapDAO();
     List<VariantInfo> clinvars = (List<VariantInfo>) session.getAttribute("clinvars");
     if( !clinvars.isEmpty() ) {
         java.util.Map<Integer,List<MapData>> positionsForClinVars = getPositionsForClinVar(clinvars, mapDAO);
@@ -133,7 +140,7 @@
             int pos = cond.lastIndexOf("[RCV");
             if( pos>0 ) {
                 String clinVarId = cond.substring(pos + 1, cond.length() - 1);
-                conds[i] = cond.substring(0, pos+1)+XDBIndex.getInstance().getXDB(52).getALink(clinVarId, clinVarId)+"]";
+                conds[i] = cond.substring(0, pos+1)+ XDBIndex.getInstance().getXDB(52).getALink(clinVarId, clinVarId)+"]";
             }
         }
         return Utils.concatenate(Arrays.asList(conds), "|");

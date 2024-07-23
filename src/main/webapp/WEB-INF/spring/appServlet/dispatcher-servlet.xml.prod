@@ -74,6 +74,7 @@
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
                 <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/variants/downloadGwas.html">GwasDownloadController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
                 <prop key="report/rsId/download.html">VariantDownloadController</prop>
                 <prop key="report/cellline/main.html">CellLineReportController</prop>
@@ -256,6 +257,7 @@
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
+    <bean id="GwasDownloadController" class="edu.mcw.rgd.report.GwasDownloadController"/>
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>

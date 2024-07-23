@@ -196,6 +196,19 @@ function tableSorterReport() {
                 container: $('.importedAnnotationsCTDPager'),
                 size: 20
             });
+        $('#importedAnnotationsGWASTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['filter'],
+                widgetOptions: {
+                    filter_external: '#importedAnnotationsGWASSearch',
+                    filter_columnFilters: false
+                }
+            })
+            .tablesorterPager({
+                container: $('.importedAnnotationsGWASPager'),
+                size: 20
+            });
         $('#importedAnnotationsGADTable')
             .tablesorter({
                 theme: 'blue',
