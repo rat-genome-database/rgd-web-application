@@ -39,7 +39,7 @@
     int total = 0;
     HashMap<String,Integer> termCnt = new HashMap<>();
     for (String term : terms){
-        int sampleCnt = gedao.getGeneExpressionSamplesCountByTermRgdIdUnit(term,obj.getRgdId(),"TPM");
+        int sampleCnt = gedao.getGeneExpressionCountByTermRgdIdUnit(term,obj.getRgdId(),"TPM");
 //        System.out.println(sampleCnt);
         if (sampleCnt!=0){
             include.add(term);
@@ -126,6 +126,15 @@
                         sortable: true
                     },
                     {
+                        key: 'GeoSampleId',
+                        formatter: value => {
+                            if (value == null || value === "")
+                                return "No Geo Sample"
+                            return value;
+                        },
+                        sortable: true
+                    },
+                    {
                         key: 'tpmValue',
                         label: 'Value',
                         formatter:value => {
@@ -167,180 +176,183 @@
                 var studyMap = {};
                 var expIdList = [];
                 var someItems = [];
+                var counter = 0;
                 $.ajax({
                     type: "GET",
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
                         result.forEach((recVal) =>{
+                            counter++;
                             // console.log(recVal);
                             // console.log('here now');
-                            var geneExpRecId = recVal["geneExpressionRecordId"];
-                            var tpmVal = recVal["tpmValue"];
-                            var mapKey = recVal["mapKey"];
+                            var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
+                            var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
+                            var experimentId = recVal["geneExpressionRecord"]["experimentId"];
+                            var strainTerm = recVal["sample"]["strainAccId"];
+                            var sex = recVal["sample"]["sex"];
+                            if (sex == null)
+                                sex = '';
+                            var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
+                            var ageLow = recVal["sample"]["ageDaysFromLowBound"];
+                            var displayAge = '';
+                            if (ageLow < 0 || ageHigh < 0){
+                                if (mapKey === 37 || mapKey === 38){
+                                    ageLow = ageLow + 280;
+                                    ageHigh = ageHigh + 280;
+                                    if (ageHigh === ageLow)
+                                        displayAge = ageLow + ' days post conception';
+                                    else
+                                        displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
+                                }
+                                else {
+                                    ageLow = ageLow + 21;
+                                    ageHigh = ageHigh + 23;
+                                    displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                }
+                            }else if (ageHigh === ageLow)
+                                displayAge = ageHigh + ' days';
+                            else
+                                displayAge = ageLow + ' - ' + ageHigh + ' days';
+                            var tissue = recVal["sample"]["tissueAccId"];
+                            var geoSample = recVal["sample"]["geoSampleAcc"];
                             //var speciesName = mapKey;//speciesName.get(mapKey);
+                            console.log(geoSample);
                             $.ajax({
                                 type: "GET",
                                 url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/"+mapKey,
                                 dataType: "json",
                                 success: function (resMap, statMap, xhrMap){
                                     var speciesName = resMap["name"];
-                                    console.log(resMap);
-                                    console.log(speciesName);
-                                    $.ajax({
-                                        type: "GET",
-                                        url: "https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/"+geneExpRecId,
-                                        dataType: "json",
-                                        success: function (result2, status2, xhr2){
-                                            // console.log(result2);
-                                            var experimentId = result2["experimentId"];
-                                            if (!expIdList.includes(experimentId)){
-                                                expIdList.push(experimentId);
+                                    // console.log(resMap);
+                                   
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/"+experimentId,
+                                            dataType: "json",
+                                            success: function (res, stat, x){
+
+                                                // loop through results
+                                                // console.log("experiment: "+res);
+                                                var studyId = res["studyId"];
                                                 $.ajax({
                                                     type: "GET",
-                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/record/"+experimentId,
+                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/study/"+studyId,
                                                     dataType: "json",
-                                                    success: function (res, stat, x){
-                                                        // loop through results
-                                                        // console.log(res);
-                                                        res.forEach((record) => {
-                                                            var strainTerm = record["sample"]["strainAccId"];
-                                                            var sex = record["sample"]["sex"];
-                                                            if (sex == null)
-                                                                sex = '';
-                                                            var ageHigh = record["sample"]["ageDaysFromHighBound"];
-                                                            var ageLow = record["sample"]["ageDaysFromLowBound"];
-                                                            var displayAge = '';
-                                                            if (ageLow < 0 || ageHigh < 0){
-                                                                if (mapKey === 37 || mapKey === 38){
-                                                                    ageLow = ageLow + 280;
-                                                                    ageHigh = ageHigh + 280;
-                                                                    if (ageHigh === ageLow)
-                                                                        displayAge = ageLow + ' days post conception';
-                                                                    else
-                                                                        displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
+                                                    success: function (res1,stat1,x1){
+                                                        // console.log("study: "+res1)
+                                                        var reference = res1["refRgdId"];
+                                                        if (strainTerm != null || strainTerm !== ''){
+                                                            $.ajax({
+                                                                type: "GET",
+                                                                context: this,
+                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/"+strainTerm,
+                                                                dataType: "json",
+                                                                success: function (r, s, x){
+                                                                    // console.log("strain: "+r)
+                                                                    // console.log('tissue');
+                                                                    if (tissue == null || tissue=='') {
+                                                                        tissue = '';
+                                                                        someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                                strain: r["term"],
+                                                                                sex: sex,
+                                                                                age: displayAge,
+                                                                                tissue: tissue,
+                                                                                GeoSampleId: geoSample,
+                                                                                tpmValue: tpmVal,
+                                                                                unit: 'TPM',
+                                                                                assembly: speciesName,
+                                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                    else{
+                                                                        $.ajax({
+                                                                            type: "GET",
+                                                                            context: this,
+                                                                            url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                                            dataType: "json",
+                                                                            success: function (r2, s, x) {
+                                                                                // console.log('tissue');
+                                                                                // console.log("tissue: "+r)
+                                                                                someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                                        strain: r["term"],
+                                                                                        sex: sex,
+                                                                                        age: displayAge,
+                                                                                        tissue: r2["term"],
+                                                                                        GeoSampleId: geoSample,
+                                                                                        tpmValue: tpmVal,
+                                                                                        unit: 'TPM',
+                                                                                        assembly: speciesName,
+                                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                                    }
+                                                                                )
+
+                                                                            },
+                                                                            error: function(x, s, err){
+                                                                                console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                                                                            }
+                                                                        })
+                                                                    }
                                                                 }
-                                                                else {
-                                                                    ageLow = ageLow + 21;
-                                                                    ageHigh = ageHigh + 23;
-                                                                    displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
-                                                                }
-                                                            }else if (ageHigh === ageLow)
-                                                                displayAge = ageHigh + ' days';
-                                                            else
-                                                                displayAge = ageLow + ' - ' + ageHigh + ' days';
-                                                            var reference = record["refRgdId"];
-                                                            var tissue = record["sample"]["tissueAccId"];
-                                                            // console.log(record["sample"]);
-                                                            // console.log(tissue);
-                                                            if (strainTerm != null || strainTerm !== ''){
+                                                            })
+                                                        }
+                                                        else {
+                                                            if (tissue == null) {
+                                                                tissue = '';
+                                                                // console.log('tissue');
+                                                                // console.log(tpmVal);
+                                                                someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                        strain: strainTerm,
+                                                                        sex: sex,
+                                                                        age: displayAge,
+                                                                        tissue: tissue,
+                                                                        GeoSampleId: geoSample,
+                                                                        tpmValue: tpmVal,
+                                                                        unit: 'TPM',
+                                                                        assembly: speciesName,
+                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                    }
+                                                                )
+                                                            }
+                                                            else{
                                                                 $.ajax({
                                                                     type: "GET",
                                                                     context: this,
-                                                                    url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/"+strainTerm,
+                                                                    url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
                                                                     dataType: "json",
-                                                                    success: function (r, s, x){
-                                                                        // console.log(tissue)
-                                                                        if (tissue == null || tissue=='') {
-                                                                            tissue = '';
-                                                                            someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                    strain: r["term"],
-                                                                                    sex: sex,
-                                                                                    age: displayAge,
-                                                                                    tissue: tissue,
-                                                                                    tpmValue: tpmVal,
-                                                                                    unit: 'TPM',
-                                                                                    assembly: speciesName,
-                                                                                    refRgd: reference//{myId: reference, mrLink: link}
-                                                                                }
-                                                                            )
-                                                                        }
-                                                                        else{
-                                                                            $.ajax({
-                                                                                type: "GET",
-                                                                                context: this,
-                                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
-                                                                                dataType: "json",
-                                                                                success: function (r2, s, x) {
-                                                                                    // console.log(r2);
-                                                                                    // console.log(r2["term"]);
-                                                                                    someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                            strain: r["term"],
-                                                                                            sex: sex,
-                                                                                            age: displayAge,
-                                                                                            tissue: r2["term"],
-                                                                                            tpmValue: tpmVal,
-                                                                                            unit: 'TPM',
-                                                                                            assembly: speciesName,
-                                                                                            refRgd: reference//{myId: reference, mrLink: link}
-                                                                                        }
-                                                                                    )
+                                                                    success: function (r, s, x) {
+                                                                        // console.log("tissue: "+r)
+                                                                        // console.log('tissue');
+                                                                        someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                                strain: strainTerm,
+                                                                                sex: sex,
+                                                                                age: displayAge,
+                                                                                tissue: r["term"],
+                                                                                GeoSampleId: geoSample,
+                                                                                tpmValue: tpmVal,
+                                                                                unit: 'TPM',
+                                                                                assembly: speciesName,
+                                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                            }
+                                                                        )
 
-                                                                                },
-                                                                                error: function(x, s, err){
-                                                                                    console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-                                                                                }
-                                                                            })
-                                                                        }
+                                                                    },
+                                                                    error: function(x, s, err){
+                                                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                                     }
                                                                 })
-                                                            }
-                                                            else {
-                                                                if (tissue == null) {
-                                                                    tissue = '';
-                                                                    someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                            strain: strainTerm,
-                                                                            sex: sex,
-                                                                            age: displayAge,
-                                                                            tissue: tissue,
-                                                                            tpmValue: tpmVal,
-                                                                            unit: 'TPM',
-                                                                            assembly: speciesName,
-                                                                            refRgd: reference//{myId: reference, mrLink: link}
-                                                                        }
-                                                                    )
-                                                                }
-                                                                else{
-                                                                    $.ajax({
-                                                                        type: "GET",
-                                                                        context: this,
-                                                                        url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
-                                                                        dataType: "json",
-                                                                        success: function (r, s, x) {
-                                                                            // console.log(r);
-                                                                            // console.log(r["term"]);
-                                                                            someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                    strain: myStrain,
-                                                                                    sex: sex,
-                                                                                    age: displayAge,
-                                                                                    tissue: r["term"],
-                                                                                    tpmValue: tpmVal,
-                                                                                    unit: 'TPM',
-                                                                                    assembly: speciesName,
-                                                                                    refRgd: reference//{myId: reference, mrLink: link}
-                                                                                }
-                                                                            )
 
-                                                                        },
-                                                                        error: function(x, s, err){
-                                                                            console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-                                                                        }
-                                                                    })
-
-                                                                }
                                                             }
-                                                        })
-                                                    },
-                                                    error: function (x, stat, err) {
-                                                        console.log("Result: " + stat + " " + err + " " + x.status + " " + x.statusText);
+                                                        }
                                                     }
-                                                }); // end ajax for experiment
+                                                })
+                                            },
+                                            error: function (x, stat, err) {
+                                                console.log("Result: " + stat + " " + err + " " + x.status + " " + x.statusText);
                                             }
-                                        },
-                                        error: function(xhr2, status2, error){
-                                            console.log("Result: " + status2 + " " + error + " " + xhr2.status + " " + xhr2.statusText);
-                                        }
-                                    }); // end ajax for expression record
+                                        }); // end ajax for experiment
+
                                 },
                                 error: function(x, s, err){
                                     console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
