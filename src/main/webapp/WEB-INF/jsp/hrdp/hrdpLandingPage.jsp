@@ -46,7 +46,7 @@ To change this template use File | Settings | File Templates.
     </button>
 </div>
 <div style="text-align: center;padding-top: 50px">
-    <a title="Click here to jump to strain listing"  href="strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image"></a>
+    <a title="Click here to jump to strain listing"  href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image"></a>
 </div>
 <div style="margin-left: 15px;margin-top: 15px">
 <%--    <p style="padding-top: 10px">--%>
