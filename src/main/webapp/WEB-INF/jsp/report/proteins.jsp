@@ -162,7 +162,14 @@
     %>
     <table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
         <tr>
-            <td class="label" valign="top" width="110">RefSeq Acc Id:</td>
+            <%
+                String protSource = "RefSeq";
+                if (t.getProteinAccId().startsWith("EN")) {
+                    protSource = "Ensembl";
+                }
+            %>
+
+            <td class="label" valign="top" width="110"><%=protSource%> Acc Id:</td>
             <td style="font-weight: bold; color: #2865A3"><%=t.getProteinAccId()%> &nbsp; &xlArr; &nbsp; <%=t.getAccId()%></td>
         </tr>
         <% if( t.getPeptideLabel()!=null ) { %>
