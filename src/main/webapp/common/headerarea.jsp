@@ -67,8 +67,9 @@
         function getTermWatchAttributes() {
             return <%= WatchedTerm.getAllWatchedLabelsAsJSON()%>
         }
-    </script>
 
+    </script>
+    <script>window.onunload = function () { };</script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/rgdweb/css/elasticsearch/elasticsearch.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
