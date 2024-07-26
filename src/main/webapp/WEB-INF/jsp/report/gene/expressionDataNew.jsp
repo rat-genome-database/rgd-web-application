@@ -73,7 +73,7 @@
             </tr>
         </table>
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
-        <div id="coolTable" style="display: none; height: 500px; overflow-y: auto; padding-top: 10px;">
+        <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <template>
                 <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="475px">
                     <tempplate #cell(tissue)="data">
@@ -176,14 +176,12 @@
                 var studyMap = {};
                 var expIdList = [];
                 var someItems = [];
-                var counter = 0;
                 $.ajax({
                     type: "GET",
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
                         result.forEach((recVal) =>{
-                            counter++;
                             // console.log(recVal);
                             // console.log('here now');
                             var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
@@ -225,7 +223,7 @@
                                 success: function (resMap, statMap, xhrMap){
                                     var speciesName = resMap["name"];
                                     // console.log(resMap);
-                                   
+
                                         $.ajax({
                                             type: "GET",
                                             url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/"+experimentId,
@@ -370,6 +368,9 @@
                 this.expItems = someItems;
                 // console.log(this.expItems);
                 showTable();
+            },
+            downloadExpression(termAcc, rgdId){
+
             }
 
         }
