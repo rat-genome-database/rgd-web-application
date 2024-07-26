@@ -52,7 +52,14 @@
     <thead></thead>
     <tbody>
     <tr>
-        <td class="label" valign="top" width="100">RefSeq Acc Id:</td>
+        <%
+            String refDB = "RefSeq";
+            if (accStr.startsWith("ENS")) {
+                refDB="Ensembl";
+            }
+        %>
+
+        <td class="label" valign="top" width="100"><%=refDB%> Acc Id:</td>
         <td style="font-weight: bold; color: #2865A3"><%=accStr%></td>
     </tr>
     <% if( t.getRefSeqStatus()!=null ) { %>
