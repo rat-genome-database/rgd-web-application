@@ -133,7 +133,7 @@ To change this template use File | Settings | File Templates.
     <a id="strainList"></a>
     <br>
     <%if(hrdpClassicInbredStrains!=null||hrdpHXBStrains!=null||hrdpFXLEStrains!=null){%>
-    <span><strong>HRDP strains are listed below. To explore PhenoMiner or Variant Visualizer data, check strain(s) and "analyze"</strong></span>
+    <span><strong>HRDP strains are listed below. To explore PhenoMiner or Variant Visualizer data, check strain(s) and "analyze".</strong></span>
     </p>
     <form id="hrdpForm" method="post">
         <%if (hrdpClassicInbredStrains!=null) {%>
