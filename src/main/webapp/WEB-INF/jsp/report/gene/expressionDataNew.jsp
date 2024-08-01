@@ -207,9 +207,15 @@
                                         displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
                                 }
                                 else {
-                                    ageLow = ageLow + 21;
-                                    ageHigh = ageHigh + 23;
-                                    displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                    ageLow = ageLow + 22;
+                                    ageHigh = ageHigh + 22;
+                                    if (ageLow===ageHigh){
+                                        displayAge =  ageLow + ' embryonic days';
+                                    }
+                                    else {
+                                        displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                    }
+
                                 }
                             }else if (ageHigh === ageLow)
                                 displayAge = ageHigh + ' days';

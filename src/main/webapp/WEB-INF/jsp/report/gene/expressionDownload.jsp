@@ -50,8 +50,8 @@
                             age += " days post conception";
                         }
                     } else {
-                        String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 21);
-                        String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 23);
+                        String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 22);
+                        String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 22);
                         if (ageLow.equalsIgnoreCase(ageHigh))
                             age = ageLow + " embryonic days";
                         else {
