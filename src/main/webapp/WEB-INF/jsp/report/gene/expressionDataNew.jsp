@@ -50,10 +50,13 @@
 %>
 
 <div class="light-table-border">
-    <div class="sectionHeading" id="rnaSeqExpression">RNA-SEQ Expression</div>
+    <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
-
-    <div id="expresTable">
+    <form id="downloadExpressionData">
+        <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
+        <label style="cursor: pointer;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download</u></label>
+    </form>
+    <div id="expresTable" style="padding-top: 5px">
         <table id="exprData" name="exprData">
             <tr>
                 <%  int col = 0;
@@ -204,9 +207,15 @@
                                         displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
                                 }
                                 else {
-                                    ageLow = ageLow + 21;
-                                    ageHigh = ageHigh + 23;
-                                    displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                    ageLow = ageLow + 22;
+                                    ageHigh = ageHigh + 22;
+                                    if (ageLow===ageHigh){
+                                        displayAge =  ageLow + ' embryonic days';
+                                    }
+                                    else {
+                                        displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                    }
+
                                 }
                             }else if (ageHigh === ageLow)
                                 displayAge = ageHigh + ' days';
@@ -369,13 +378,44 @@
                 // console.log(this.expItems);
                 showTable();
             },
-            downloadExpression(termAcc, rgdId){
-
-            }
-
         }
     })
 
+    var downloadExpressionVue = new Vue ({
+        el: '#downloadExpressionData',
+        data: {
+            geneId: ''
+        },
+        methods: {
+            downloadExpression: function (geneId) {
+                // alert("Start vue");
+                axios
+                    .post('/rgdweb/report/gene/downloadExpression.html',
+                        {
+                            rgdId: geneId
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/csv' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "gene_expression_data.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // console.log(error.response.data);
+                    })
+            }
+        }
+    });
     function getJSON(url = ""){
         $.ajax({
             type: "GET",
