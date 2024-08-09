@@ -88,7 +88,7 @@ boolean isEva = false;
 <%--        <td><%=Utils.NVL(var.getName(), "")%></td>--%>
 <%--    </tr>--%>
     <tr>
-        <td class="label"><%=RgdContext.getSiteName(request)%> ID:</td>
+        <td class="label">RGD ID:</td>
         <td><%=obj.getRgdId()%></td>
     </tr>
     <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {%>
@@ -112,16 +112,16 @@ boolean isEva = false;
         <td><%=Utils.NVL(genicStatus, "")%></td>
     </tr>
 
+    <% if( t != null ) { %>
     <tr>
         <td class="label">Type:</td>
         <td>
             <%=t.getTerm()%>&nbsp;<a href="<%=Link.ontView(t.getAccId())%>" title="click to go to ontology page"><%= "("+ t.getAccId() + ")"%></a>&nbsp;
         </td>
     </tr>
+    <% } %>
 
-    <%  //if (genicStatus.equals("GENIC")) {
-
-        if (geneList.size() > 0) {
+    <%  if (geneList.size() > 0) {
 
             // sort strains by symbol
             Collections.sort(geneList, new Comparator<Gene>() {
@@ -140,8 +140,8 @@ boolean isEva = false;
         <td class="label" valign="top">Associated Genes:</td>
         <td><%=genes%></td>
     </tr>
-    <% }// genelist>0
-%>
+    <% }// genelist>0 %>
+
     <tr>
         <td class="label" valign="top">Reference Nucleotide:</td>
         <td class="wrap660"><%=Utils.NVL(var.getReferenceNucleotide(), "-")%></td>
