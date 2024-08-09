@@ -144,6 +144,9 @@ System.out.println("GENERATING REPORT....");
 
         vsb.setPosition(vsb.getChromosome(),start + "",mark + "");
         List<VariantResult> variantResults = getVariantResults(vsb, req, true);
+        if(variantResults==null){
+            throw new VVException("0 Results found. Try update search query parameters");
+        }
         //  start=mark;
         //  mark= Math.min(mark + limit, stop);
         TreeMap<String, List<VariantResult>> vrsMap=new TreeMap<>();

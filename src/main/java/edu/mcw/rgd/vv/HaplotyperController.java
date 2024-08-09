@@ -230,21 +230,31 @@ public abstract class HaplotyperController implements Controller {
 
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-            int mapKey = Integer.parseInt(req.getParameter("mapKey"));
-            List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
 
-            vsb.setMapKey(mapKey);
-
-            for (Sample s : samples) {
-                vsb.sampleIds.add(s.getId());
+            int mapKey = 372;
+            try {
+               mapKey= Integer.parseInt(req.getParameter("mapKey"));
+            }catch (Exception e){throw new VVException("INVALIED MAPKEY:"+ req.getParameter("mapKey"));}
+            if(mapKey>0) {
+                List<Sample> samples = sdao.getSamplesByMapKey(mapKey);
+                vsb.setMapKey(mapKey);
+                for (Sample s : samples) {
+                    vsb.sampleIds.add(s.getId());
+                }
             }
-
         } else {
             ArrayList<Integer> al = new ArrayList<Integer>();
             for (int i = 0; i < 999; i++) {
                 String sample = req.getParameter("sample" + i);
                 if (!sample.isEmpty()) {
-                    al.add(Integer.parseInt(sample));
+                    int sampleId=0;
+                    try {
+                       sampleId= Integer.parseInt(sample);
+                    }catch (Exception e){
+                        throw new VVException("Invalid Sample Id:"+ sample);
+                    }
+                    if(sampleId>0)
+                    al.add(sampleId);
                 }
             }
 
