@@ -61,9 +61,6 @@ public class VariantController extends HaplotyperController {
                     searchType="GENE";
                 }
             }
-           /* if (geneList.equals("") ) {
-               return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
-            }*/
 
             VariantSearchBean vsb = this.fillBean(req);
             if(!geneList.contains("|"))
@@ -82,7 +79,7 @@ public class VariantController extends HaplotyperController {
             }
             List<VariantResult> variantResults = this.getVariantResults(vsb, req, false);
             long count=variantResults.size();
-            if (count < 2000 || searchType.equals("GENE")) {
+            if ((count > 0 && count < 2000) || searchType.equals("GENE")) {
                 SNPlotyper snplotyper = new SNPlotyper();
 
                 snplotyper.addSampleIds(vsb.sampleIds);
@@ -140,9 +137,12 @@ public class VariantController extends HaplotyperController {
     }
 
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
-        Gson gson=new Gson();
         VVService service= new VVService();
         List<SearchHit> hits=service.getVariants(vsb,req);
+        if(hits==null){
+            throw new VVException("0 results found. Please verify query parameters");
+
+        }
         List<VariantResult> variantResults=new ArrayList<>();
         //System.out.println("HITS SIZE:" + hits.size());
         Map<Integer, List<TranscriptResult>> transcriptMap=new HashMap<>();
