@@ -76,9 +76,6 @@
             </tr>
         </table>
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
-        <div id="tooManyMsg" style="display: none;">
-            <label style="color: red; padding-top: 10px;">Too many to show, limit is 500. Download them if you want to view all of them.</label>
-        </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <template>
                 <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="475px">
@@ -111,7 +108,7 @@
             return {
                 fields: [
                     {
-                        key: 'strain/CellLine',
+                        key: 'strain',
                         sortable: true
                     },
                     {
@@ -179,91 +176,89 @@
             createTable(termAcc,rgdId){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
+                var studyMap = {};
+                var expIdList = [];
                 var someItems = [];
                 $.ajax({
                     type: "GET",
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
-                        // if (result.length>500){
-                        //     // console.log("inside if")
-                        //     showErrorMessage();
-                        //     hideTable();
-                        // }
-                        // else {
-                            result.forEach((recVal) => {
-                                // console.log(recVal);
-                                // console.log('here now');
-                                var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
-                                var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
-                                var experimentId = recVal["geneExpressionRecord"]["experimentId"];
-                                var strainTerm = recVal["sample"]["strainAccId"];
-                                var sex = recVal["sample"]["sex"];
-                                if (sex == null)
-                                    sex = '';
-                                var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
-                                var ageLow = recVal["sample"]["ageDaysFromLowBound"];
-                                var displayAge = '';
-                                if (ageLow < 0 || ageHigh < 0) {
-                                    if (mapKey === 37 || mapKey === 38) {
-                                        ageLow = ageLow + 280;
-                                        ageHigh = ageHigh + 280;
-                                        if (ageHigh === ageLow)
-                                            displayAge = ageLow + ' days post conception';
-                                        else
-                                            displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
-                                    } else {
-                                        ageLow = ageLow + 22;
-                                        ageHigh = ageHigh + 22;
-                                        if (ageLow === ageHigh) {
-                                            displayAge = ageLow + ' embryonic days';
-                                        } else {
-                                            displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
-                                        }
-
+                        result.forEach((recVal) =>{
+                            // console.log(recVal);
+                            // console.log('here now');
+                            var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
+                            var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
+                            var experimentId = recVal["geneExpressionRecord"]["experimentId"];
+                            var strainTerm = recVal["sample"]["strainAccId"];
+                            var sex = recVal["sample"]["sex"];
+                            if (sex == null)
+                                sex = '';
+                            var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
+                            var ageLow = recVal["sample"]["ageDaysFromLowBound"];
+                            var displayAge = '';
+                            if (ageLow < 0 || ageHigh < 0){
+                                if (mapKey === 37 || mapKey === 38){
+                                    ageLow = ageLow + 280;
+                                    ageHigh = ageHigh + 280;
+                                    if (ageHigh === ageLow)
+                                        displayAge = ageLow + ' days post conception';
+                                    else
+                                        displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
+                                }
+                                else {
+                                    ageLow = ageLow + 22;
+                                    ageHigh = ageHigh + 22;
+                                    if (ageLow===ageHigh){
+                                        displayAge =  ageLow + ' embryonic days';
                                     }
-                                } else if (ageHigh === ageLow)
-                                    displayAge = ageHigh + ' days';
-                                else
-                                    displayAge = ageLow + ' - ' + ageHigh + ' days';
-                                var tissue = recVal["sample"]["tissueAccId"];
-                                var geoSample = recVal["sample"]["geoSampleAcc"];
-                                //var speciesName = mapKey;//speciesName.get(mapKey);
-                                // console.log(geoSample);
-                                $.ajax({
-                                    type: "GET",
-                                    url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
-                                    dataType: "json",
-                                    success: function (resMap, statMap, xhrMap) {
-                                        var speciesName = resMap["name"];
-                                        // console.log(resMap);
+                                    else {
+                                        displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                    }
+
+                                }
+                            }else if (ageHigh === ageLow)
+                                displayAge = ageHigh + ' days';
+                            else
+                                displayAge = ageLow + ' - ' + ageHigh + ' days';
+                            var tissue = recVal["sample"]["tissueAccId"];
+                            var geoSample = recVal["sample"]["geoSampleAcc"];
+                            //var speciesName = mapKey;//speciesName.get(mapKey);
+                            console.log(geoSample);
+                            $.ajax({
+                                type: "GET",
+                                url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/"+mapKey,
+                                dataType: "json",
+                                success: function (resMap, statMap, xhrMap){
+                                    var speciesName = resMap["name"];
+                                    // console.log(resMap);
 
                                         $.ajax({
                                             type: "GET",
-                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/" + experimentId,
+                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/"+experimentId,
                                             dataType: "json",
-                                            success: function (res, stat, x) {
+                                            success: function (res, stat, x){
 
                                                 // loop through results
                                                 // console.log("experiment: "+res);
                                                 var studyId = res["studyId"];
                                                 $.ajax({
                                                     type: "GET",
-                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/study/" + studyId,
+                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/study/"+studyId,
                                                     dataType: "json",
-                                                    success: function (res1, stat1, x1) {
+                                                    success: function (res1,stat1,x1){
                                                         // console.log("study: "+res1)
                                                         var reference = res1["refRgdId"];
-                                                        if (strainTerm != null || strainTerm !== '') {
+                                                        if (strainTerm != null || strainTerm !== ''){
                                                             $.ajax({
                                                                 type: "GET",
                                                                 context: this,
-                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
+                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/"+strainTerm,
                                                                 dataType: "json",
-                                                                success: function (r, s, x) {
+                                                                success: function (r, s, x){
                                                                     // console.log("strain: "+r)
                                                                     // console.log('tissue');
-                                                                    if (tissue == null || tissue == '') {
+                                                                    if (tissue == null || tissue=='') {
                                                                         tissue = '';
                                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
                                                                                 strain: r["term"],
@@ -277,7 +272,8 @@
                                                                                 refRgd: reference//{myId: reference, mrLink: link}
                                                                             }
                                                                         )
-                                                                    } else {
+                                                                    }
+                                                                    else{
                                                                         $.ajax({
                                                                             type: "GET",
                                                                             context: this,
@@ -300,14 +296,15 @@
                                                                                 )
 
                                                                             },
-                                                                            error: function (x, s, err) {
+                                                                            error: function(x, s, err){
                                                                                 console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                                             }
                                                                         })
                                                                     }
                                                                 }
                                                             })
-                                                        } else {
+                                                        }
+                                                        else {
                                                             if (tissue == null) {
                                                                 tissue = '';
                                                                 // console.log('tissue');
@@ -324,7 +321,8 @@
                                                                         refRgd: reference//{myId: reference, mrLink: link}
                                                                     }
                                                                 )
-                                                            } else {
+                                                            }
+                                                            else{
                                                                 $.ajax({
                                                                     type: "GET",
                                                                     context: this,
@@ -347,7 +345,7 @@
                                                                         )
 
                                                                     },
-                                                                    error: function (x, s, err) {
+                                                                    error: function(x, s, err){
                                                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                                     }
                                                                 })
@@ -362,22 +360,20 @@
                                             }
                                         }); // end ajax for experiment
 
-                                    },
-                                    error: function (x, s, err) {
-                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-                                    }
-                                })
-                                // console.log(geneExpRecId);
-                                // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
+                                },
+                                error: function(x, s, err){
+                                    console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                                }
+                            })
+                            // console.log(geneExpRecId);
+                            // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
 
-                            });
-                        // }
+                        });
                     },
                     error: function (xhr, status, error) {
                         console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
                     }
                 }); // end ajax getting all expression records
-                // console.log("the end");
                 this.expItems = someItems;
                 // console.log(this.expItems);
                 showTable();
@@ -431,35 +427,23 @@
         })
     }
     function hideTable(){
-        // hideErrorMessage();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
         div.style.display = 'none';
-        button1.style.display = 'none';
+        button1.style.display = 'none'
         // button2.style.display = 'none'
         highlightCurrent(-1);
         var e = document.getElementById('rnaSeqExpression');
         e.scrollIntoView();
     }
     function showTable(){
-        hideErrorMessage();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
         div.style.display = 'block';
         button1.style.display = 'block'
         // button2.style.display = 'block'
-    }
-
-    function showErrorMessage(){
-        var div = document.getElementById("tooManyMsg");
-        div.style.display = 'block';
-    }
-
-    function hideErrorMessage(){
-        var div = document.getElementById("tooManyMsg");
-        div.style.display = 'none';
     }
 
     function highlightCurrent(colNum) {
