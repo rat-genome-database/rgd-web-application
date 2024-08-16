@@ -23,8 +23,9 @@ public class ExpressionDownloadController implements Controller {
             reader.close();
             // probably send rgdId
             int rgdId = obj.getInt("rgdId");
+            String term = obj.getString("term");
             request.setAttribute("rgdId",rgdId);
-            request.setAttribute("termAcc", "UBERON:9999999");
+            request.setAttribute("termAcc", term); //"UBERON:9999999"
 //            String rsId = obj.get("rsId").toString();
 //            request.setAttribute("rsId", rsId);
         }

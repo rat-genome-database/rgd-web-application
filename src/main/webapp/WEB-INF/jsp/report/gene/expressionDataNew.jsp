@@ -18,13 +18,41 @@
         border-spacing: 5px;
         /*overflow-y: auto;*/
     }
-    #exprData td, #exprData th{
+    #exprData td{
         border: 1px solid #dddddd;
         text-align: center;
         padding: 4px;
         /*display: block;*/
         /*height: 40px;*/
+        z-index: 2;
+        position: relative;
+    }
 
+    .outerDiv {
+        /*background: grey;*/
+        height: 200px;
+        width: 60px;
+        border: 1px solid black;
+        border-bottom: 0;
+        border-left: 0;
+        transform: skew(-22deg) translateX(70%);
+    }
+
+    th:first-child .outerDiv {
+        border-left: 1px solid black;
+        position: relative;
+    }
+
+    .innerDiv {
+        position: absolute;
+        width: 250px;
+        height: 85px;
+        bottom: -34%;
+        left: 10px;
+        transform: skew(30deg) rotate(-60deg);
+        transform-origin: 0 0;
+        text-align: left;
+        z-index: 1;
     }
 </style>
 <%@ include file="../sectionHeader.jsp"%>
@@ -52,9 +80,15 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
+    <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
     <form id="downloadExpressionData">
         <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
-        <label style="cursor: pointer;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download</u></label>
+        <label id="downloadBtn" style="cursor: pointer;z-index: 2; width: fit-content;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download All for this Gene</u></label>
+        <%for (String t : include){%>
+        <label id="downloadTerm<%=t%>" style="cursor: pointer;z-index: 2; display: none; width: fit-content;" v-on:click="downloadExpressionByTerm('<%=obj.getRgdId()%>','<%=t%>')">
+            <u>Download Selected</u>
+        </label>
+        <% } %>
     </form>
     <div id="expresTable" style="padding-top: 5px">
         <table id="exprData" name="exprData">
@@ -64,18 +98,35 @@
                     Term term = xdao.getTermByAccId(t);
                     if( term != null) {
                 %>
-                <th><%=xdao.getTerm(t).getTerm()%></th>
+                <th>
+                    <div class="outerDiv">
+                        <div class="innerDiv">
+                        <%=xdao.getTerm(t).getTerm()%>
+                        </div>
+                    </div>
+                </th>
                 <% } else{  %>
-                <th><%=t%></th>
+                <th>
+                    <div class="outerDiv">
+                        <div class="innerDiv">
+                            <%=t%>
+                        </div>
+                    </div>
+                </th>
                 <% } } %>
             </tr>
             <tr>
                 <% for (String t : include){%>
-                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>')"><%=termCnt.get(t)%></td>
+                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>','<%=t%>')" title="">
+                    <%=termCnt.get(t)%>
+                </td>
                 <% col++;} %>
             </tr>
         </table>
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
+        <div id="tooManyMsg" style="display: none;">
+            <label style="color: red; padding-top: 10px;">Too many to show, limit is 500. Download them if you would like to view them all.</label>
+        </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <template>
                 <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="475px">
@@ -108,7 +159,7 @@
             return {
                 fields: [
                     {
-                        key: 'strain',
+                        key: 'strain/CellLine',
                         sortable: true
                     },
                     {
@@ -176,92 +227,96 @@
             createTable(termAcc,rgdId){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
-                var studyMap = {};
-                var expIdList = [];
+                var download = document.getElementById("downloadTerm"+termAcc);
+                download.style.display = 'block';
                 var someItems = [];
                 $.ajax({
                     type: "GET",
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
-                        result.forEach((recVal) =>{
-                            // console.log(recVal);
-                            // console.log('here now');
-                            var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
-                            var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
-                            var experimentId = recVal["geneExpressionRecord"]["experimentId"];
-                            var strainTerm = recVal["sample"]["strainAccId"];
-                            var sex = recVal["sample"]["sex"];
-                            if (sex == null)
-                                sex = '';
-                            var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
-                            var ageLow = recVal["sample"]["ageDaysFromLowBound"];
-                            var displayAge = '';
-                            if (ageLow < 0 || ageHigh < 0){
-                                if (mapKey === 37 || mapKey === 38){
-                                    ageLow = ageLow + 280;
-                                    ageHigh = ageHigh + 280;
-                                    if (ageHigh === ageLow)
-                                        displayAge = ageLow + ' days post conception';
-                                    else
-                                        displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
-                                }
-                                else {
-                                    ageLow = ageLow + 22;
-                                    ageHigh = ageHigh + 22;
-                                    if (ageLow===ageHigh){
-                                        displayAge =  ageLow + ' embryonic days';
-                                    }
-                                    else {
-                                        displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
-                                    }
+                        // if (result.length>500){
+                        //     // console.log("inside if")
+                        //     showErrorMessage();
+                        //     hideTable();
+                        // }
+                        // else {
+                            result.forEach((recVal) => {
+                                // console.log(recVal);
+                                // console.log('here now');
+                                var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
+                                var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
+                                var experimentId = recVal["geneExpressionRecord"]["experimentId"];
+                                var strainTerm = recVal["sample"]["strainAccId"];
+                                var sex = recVal["sample"]["sex"];
+                                if (sex == null)
+                                    sex = '';
+                                var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
+                                var ageLow = recVal["sample"]["ageDaysFromLowBound"];
+                                var displayAge = '';
+                                if (ageLow < 0 || ageHigh < 0) {
+                                    if (mapKey === 37 || mapKey === 38) {
+                                        ageLow = ageLow + 280;
+                                        ageHigh = ageHigh + 280;
+                                        if (ageHigh === ageLow)
+                                            displayAge = ageLow + ' days post conception';
+                                        else
+                                            displayAge = ageLow + ' - ' + ageHigh + ' days post conception';
+                                    } else {
+                                        ageLow = ageLow + 22;
+                                        ageHigh = ageHigh + 22;
+                                        if (ageLow === ageHigh) {
+                                            displayAge = ageLow + ' embryonic days';
+                                        } else {
+                                            displayAge = ageLow + ' - ' + ageHigh + ' embryonic days';
+                                        }
 
-                                }
-                            }else if (ageHigh === ageLow)
-                                displayAge = ageHigh + ' days';
-                            else
-                                displayAge = ageLow + ' - ' + ageHigh + ' days';
-                            var tissue = recVal["sample"]["tissueAccId"];
-                            var geoSample = recVal["sample"]["geoSampleAcc"];
-                            //var speciesName = mapKey;//speciesName.get(mapKey);
-                            console.log(geoSample);
-                            $.ajax({
-                                type: "GET",
-                                url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/"+mapKey,
-                                dataType: "json",
-                                success: function (resMap, statMap, xhrMap){
-                                    var speciesName = resMap["name"];
-                                    // console.log(resMap);
+                                    }
+                                } else if (ageHigh === ageLow)
+                                    displayAge = ageHigh + ' days';
+                                else
+                                    displayAge = ageLow + ' - ' + ageHigh + ' days';
+                                var tissue = recVal["sample"]["tissueAccId"];
+                                var geoSample = recVal["sample"]["geoSampleAcc"];
+                                //var speciesName = mapKey;//speciesName.get(mapKey);
+                                // console.log(geoSample);
+                                $.ajax({
+                                    type: "GET",
+                                    url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
+                                    dataType: "json",
+                                    success: function (resMap, statMap, xhrMap) {
+                                        var speciesName = resMap["name"];
+                                        // console.log(resMap);
 
                                         $.ajax({
                                             type: "GET",
-                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/"+experimentId,
+                                            url: "https://dev.rgd.mcw.edu/rgdws/expression/experiment/" + experimentId,
                                             dataType: "json",
-                                            success: function (res, stat, x){
+                                            success: function (res, stat, x) {
 
                                                 // loop through results
                                                 // console.log("experiment: "+res);
                                                 var studyId = res["studyId"];
                                                 $.ajax({
                                                     type: "GET",
-                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/study/"+studyId,
+                                                    url: "https://dev.rgd.mcw.edu/rgdws/expression/study/" + studyId,
                                                     dataType: "json",
-                                                    success: function (res1,stat1,x1){
+                                                    success: function (res1, stat1, x1) {
                                                         // console.log("study: "+res1)
                                                         var reference = res1["refRgdId"];
-                                                        if (strainTerm != null || strainTerm !== ''){
+                                                        if (strainTerm != null || strainTerm !== '') {
                                                             $.ajax({
                                                                 type: "GET",
                                                                 context: this,
-                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/"+strainTerm,
+                                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
                                                                 dataType: "json",
-                                                                success: function (r, s, x){
+                                                                success: function (r, s, x) {
                                                                     // console.log("strain: "+r)
                                                                     // console.log('tissue');
-                                                                    if (tissue == null || tissue=='') {
+                                                                    if (tissue == null || tissue == '') {
                                                                         tissue = '';
                                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                strain: r["term"],
+                                                                                'strain/CellLine': r["term"],
                                                                                 sex: sex,
                                                                                 age: displayAge,
                                                                                 tissue: tissue,
@@ -272,8 +327,7 @@
                                                                                 refRgd: reference//{myId: reference, mrLink: link}
                                                                             }
                                                                         )
-                                                                    }
-                                                                    else{
+                                                                    } else {
                                                                         $.ajax({
                                                                             type: "GET",
                                                                             context: this,
@@ -283,7 +337,7 @@
                                                                                 // console.log('tissue');
                                                                                 // console.log("tissue: "+r)
                                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                        strain: r["term"],
+                                                                                       'strain/CellLine': r["term"],
                                                                                         sex: sex,
                                                                                         age: displayAge,
                                                                                         tissue: r2["term"],
@@ -296,21 +350,20 @@
                                                                                 )
 
                                                                             },
-                                                                            error: function(x, s, err){
+                                                                            error: function (x, s, err) {
                                                                                 console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                                             }
                                                                         })
                                                                     }
                                                                 }
                                                             })
-                                                        }
-                                                        else {
+                                                        } else {
                                                             if (tissue == null) {
                                                                 tissue = '';
                                                                 // console.log('tissue');
                                                                 // console.log(tpmVal);
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        strain: strainTerm,
+                                                                        'strain/CellLine': strainTerm,
                                                                         sex: sex,
                                                                         age: displayAge,
                                                                         tissue: tissue,
@@ -321,8 +374,7 @@
                                                                         refRgd: reference//{myId: reference, mrLink: link}
                                                                     }
                                                                 )
-                                                            }
-                                                            else{
+                                                            } else {
                                                                 $.ajax({
                                                                     type: "GET",
                                                                     context: this,
@@ -332,7 +384,7 @@
                                                                         // console.log("tissue: "+r)
                                                                         // console.log('tissue');
                                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                strain: strainTerm,
+                                                                                'strain/CellLine': strainTerm,
                                                                                 sex: sex,
                                                                                 age: displayAge,
                                                                                 tissue: r["term"],
@@ -345,7 +397,7 @@
                                                                         )
 
                                                                     },
-                                                                    error: function(x, s, err){
+                                                                    error: function (x, s, err) {
                                                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                                     }
                                                                 })
@@ -360,23 +412,25 @@
                                             }
                                         }); // end ajax for experiment
 
-                                },
-                                error: function(x, s, err){
-                                    console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-                                }
-                            })
-                            // console.log(geneExpRecId);
-                            // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
+                                    },
+                                    error: function (x, s, err) {
+                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                                    }
+                                })
+                                // console.log(geneExpRecId);
+                                // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
 
-                        });
+                            });
+                        // }
                     },
                     error: function (xhr, status, error) {
                         console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
                     }
                 }); // end ajax getting all expression records
+                // console.log("the end");
                 this.expItems = someItems;
                 // console.log(this.expItems);
-                showTable();
+                showTable(termAcc);
             },
         }
     })
@@ -389,10 +443,15 @@
         methods: {
             downloadExpression: function (geneId) {
                 // alert("Start vue");
+                var btn = document.getElementById('downloadExpressionData');
+                var spin = document.getElementById('spinner');
+                btn.style.display = 'none';
+                spin.style.display = 'block';
                 axios
                     .post('/rgdweb/report/gene/downloadExpression.html',
                         {
-                            rgdId: geneId
+                            rgdId: geneId,
+                            term: "UBERON:9999999"
                         },
                         {responseType: 'blob'})
                     .then(function (response) {
@@ -408,6 +467,54 @@
                         a.click();
                         window.URL.revokeObjectURL(url);
                         // window.open(url)
+                        btn.style.display = 'block';
+                        spin.style.display = 'none';
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // console.log(error.response.data);
+                    })
+            },
+            downloadExpressionByTerm: function (geneId,termAcc) {
+                // alert("Start vue");
+                var btn = document.getElementById('downloadBtn');
+                var spin = document.getElementById('spinner');
+                btn.style.display = 'none';
+                var elms = document.querySelectorAll("[id^='downloadTerm']");
+
+                for (var i = 0; i < elms.length; i++) {
+                    elms[i].style.display = 'none';
+                }
+                spin.style.display = 'block';
+                axios
+                    .post('/rgdweb/report/gene/downloadExpression.html',
+                        {
+                            rgdId: geneId,
+                            term: termAcc
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/csv' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "gene_expression_data.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        // window.open(url)
+                        btn.style.display = 'block';
+                        spin.style.display = 'none';
+                        for (var i = 0; i < elms.length; i++) {
+                            if (elms[i].id === 'downloadTerm' + termAcc) {
+                                elms[i].style.display = 'block';
+                            }
+                            else
+                                elms[i].style.display = 'none';
+                        }
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -427,28 +534,55 @@
         })
     }
     function hideTable(){
+        // hideErrorMessage();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
         div.style.display = 'none';
-        button1.style.display = 'none'
+        button1.style.display = 'none';
         // button2.style.display = 'none'
         highlightCurrent(-1);
+        var elms = document.querySelectorAll("[id^='downloadTerm']");
+
+        for(var i = 0; i < elms.length; i++)
+            elms[i].style.display='none';
+
         var e = document.getElementById('rnaSeqExpression');
         e.scrollIntoView();
+
     }
-    function showTable(){
+    function showTable(termAcc) {
+        hideErrorMessage();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
         div.style.display = 'block';
         button1.style.display = 'block'
         // button2.style.display = 'block'
+        var elms = document.querySelectorAll("[id^='downloadTerm']");
+
+        for (var i = 0; i < elms.length; i++) {
+            if (elms[i].id === 'downloadTerm' + termAcc) {
+                elms[i].style.display = 'block';
+            }
+            else
+                elms[i].style.display = 'none';
+        }
     }
 
-    function highlightCurrent(colNum) {
+    function showErrorMessage(){
+        var div = document.getElementById("tooManyMsg");
+        div.style.display = 'block';
+    }
+
+    function hideErrorMessage(){
+        var div = document.getElementById("tooManyMsg");
+        div.style.display = 'none';
+    }
+
+    function highlightCurrent(colNum,termAcc) {
         var table = document.getElementById("exprData");
-        var ths = table.getElementsByTagName("th");
+        var ths = table.getElementsByClassName("outerDiv");
         var cols = table.getElementsByTagName("td");
         for (var i = 0; i < cols.length; i++) {
             if (i == colNum) {
@@ -457,7 +591,7 @@
                 cols[i].style.background = 'yellow';
             } else {
                 // clear style
-                ths[i].removeAttribute("style");
+                ths[i].style.background = 'white';
                 cols[i].removeAttribute("style");
                 cols[i].style.background = 'lightcyan';
             }

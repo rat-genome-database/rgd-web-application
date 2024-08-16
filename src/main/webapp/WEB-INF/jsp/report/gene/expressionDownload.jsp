@@ -34,8 +34,12 @@
         Term strain = null;
         if ( !Utils.isStringEmpty(s.getStrainAccId()) )
             strain = xdao.getTermByAccId(s.getStrainAccId());
-        String age = "";
 
+        Term annat = null;
+        if(!Utils.isStringEmpty(s.getTissueAccId()))
+            annat = xdao.getTermByAccId(s.getTissueAccId());
+
+        String age = "";
             if (s.getAgeDaysFromLowBound() == 0 && s.getAgeDaysFromHighBound() == 0)
                 age = "not available";
             else {
@@ -71,13 +75,13 @@
         Experiment exp = pdao.getExperiment(r.getExperimentId());
         Study study = pdao.getStudy(exp.getStudyId());
 
-        out.print(strain != null ? strain.getTerm() : "No Strain Available");
+        out.print(strain != null ? strain.getTerm()+"|"+strain.getAccId() : "No Strain Available");
         out.print(",");
         out.print(s.getSex());
         out.print(",");
         out.print(age);
         out.print(",");
-        out.print(!Utils.isStringEmpty(s.getTissueAccId()) ? s.getTissueAccId() : "No Tissue Available");
+        out.print(annat!=null ? annat.getTerm() +"|"+annat.getAccId() : "No Tissue Available");
         out.print(",");
         out.print(!Utils.isStringEmpty(s.getGeoSampleAcc()) ? s.getGeoSampleAcc() : "No Geo Sample Id");
         out.print(",");
