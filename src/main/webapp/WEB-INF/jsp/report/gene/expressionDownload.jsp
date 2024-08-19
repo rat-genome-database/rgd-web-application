@@ -40,40 +40,37 @@
             annat = xdao.getTermByAccId(s.getTissueAccId());
 
         String age = "";
-            if (s.getAgeDaysFromLowBound() == 0 && s.getAgeDaysFromHighBound() == 0)
-                age = "not available";
-            else {
-                if (s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
-                    if (r.getSpeciesTypeKey() == SpeciesType.HUMAN) {
-                        String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 280);
-                        String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 280);
-                        if (ageLow.equalsIgnoreCase(ageHigh))
-                            age = ageLow + " days post conception";
-                        else {
-                            age = ageLow + " - " + ageHigh;
-                            age += " days post conception";
-                        }
-                    } else {
-                        String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 22);
-                        String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 22);
-                        if (ageLow.equalsIgnoreCase(ageHigh))
-                            age = ageLow + " embryonic days";
-                        else {
-                            age = ageLow + " - " + ageHigh;
-                            age += " embryonic days";
-                        }
+        if (s.getAgeDaysFromLowBound() == 0 && s.getAgeDaysFromHighBound() == 0)
+            age = "not available";
+        else {
+            if (s.getAgeDaysFromHighBound() < 0 || s.getAgeDaysFromLowBound() < 0) {
+                if (r.getSpeciesTypeKey() == SpeciesType.HUMAN) {
+                    String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 280);
+                    String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 280);
+                    if (ageLow.equalsIgnoreCase(ageHigh))
+                        age = ageLow + " days post conception";
+                    else {
+                        age = ageLow + " - " + ageHigh;
+                        age += " days post conception";
                     }
                 } else {
-                    if (s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0) {
-                        age = s.getAgeDaysFromLowBound() + " days";
-                    } else {
-                        age = s.getAgeDaysFromLowBound() + " - " + s.getAgeDaysFromHighBound() + " days";
+                    String ageLow = String.valueOf(s.getAgeDaysFromLowBound() + 22);
+                    String ageHigh = String.valueOf(s.getAgeDaysFromHighBound() + 22);
+                    if (ageLow.equalsIgnoreCase(ageHigh))
+                        age = ageLow + " embryonic days";
+                    else {
+                        age = ageLow + " - " + ageHigh;
+                        age += " embryonic days";
                     }
                 }
+            } else {
+                if (s.getAgeDaysFromLowBound().compareTo(s.getAgeDaysFromHighBound()) == 0) {
+                    age = s.getAgeDaysFromLowBound() + " days";
+                } else {
+                    age = s.getAgeDaysFromLowBound() + " - " + s.getAgeDaysFromHighBound() + " days";
+                }
             }
-
-        Experiment exp = pdao.getExperiment(r.getExperimentId());
-        Study study = pdao.getStudy(exp.getStudyId());
+        }
 
         out.print(strain != null ? strain.getTerm()+"|"+strain.getAccId() : "No Strain Available");
         out.print(",");
@@ -91,6 +88,6 @@
         out.print(",");
         out.print(asm.getName());
         out.print(",");
-        out.println("https://rgd.mcw.edu//rgdweb/report/reference/main.html?id="+study.getRefRgdId());
+        out.println("https://rgd.mcw.edu//rgdweb/report/reference/main.html?id="+ge.getRefRgdId());
     }
 %>
