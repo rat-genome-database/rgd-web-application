@@ -81,11 +81,11 @@
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
-    <form id="downloadExpressionData">
+    <form id="downloadExpressionData" style="z-index: 5; position: relative;">
         <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
-        <label id="downloadBtn" style="cursor: pointer;z-index: 2; width: fit-content;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download All Expressed Objects for this Gene</u></label>
+        <label id="downloadBtn" style="cursor: pointer; width: fit-content;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download All Expressed Objects for this Gene</u></label>
         <%for (String t : include){%>
-        <label id="downloadTerm<%=t%>" style="cursor: pointer;z-index: 2; display: none; width: fit-content;" v-on:click="downloadExpressionByTerm('<%=obj.getRgdId()%>','<%=t%>')">
+        <label id="downloadTerm<%=t%>" style="cursor: pointer; display: none; width: fit-content;" v-on:click="downloadExpressionByTerm('<%=obj.getRgdId()%>','<%=t%>')">
             <u>Download Selected Expressed Objects</u>
         </label>
         <% } %>
