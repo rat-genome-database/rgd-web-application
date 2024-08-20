@@ -80,6 +80,11 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
+    <b><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;
+    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>
+    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;
+    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>
+    <br><br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
     <form id="downloadExpressionData" style="z-index: 5; position: relative;">
         <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
