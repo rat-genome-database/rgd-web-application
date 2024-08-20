@@ -234,14 +234,14 @@
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
-                        if (result.length>500){
-                            // console.log("inside if")
-                            showErrorMessage();
-                            hideTableKeepSelected();
-                        }
-                        else { var zed = 0;
+                        // if (result.length>500){
+                        //     // console.log("inside if")
+                        //     showErrorMessage();
+                        //     hideTableKeepSelected();
+                        // }
+                        // else { var zed = 0;
                             result.forEach((recVal) => {
-                                zed++;
+                                // zed++;
                                 // console.log(recVal);
                                 // console.log('here now');
                                 var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
@@ -254,7 +254,9 @@
                                 var ageHigh = recVal["sample"]["ageDaysFromHighBound"];
                                 var ageLow = recVal["sample"]["ageDaysFromLowBound"];
                                 var displayAge = '';
-                                if (ageLow < 0 || ageHigh < 0) {
+                                if (ageHigh == 0 && ageLow == 0){
+                                    displayAge = 'not available';
+                                }else if (ageLow < 0 || ageHigh < 0) {
                                     if (mapKey === 37 || mapKey === 38) {
                                         ageLow = ageLow + 280;
                                         ageHigh = ageHigh + 280;
@@ -282,7 +284,8 @@
                                 //var speciesName = mapKey;//speciesName.get(mapKey);
                                 // console.log(geoSample);
                                 // console.log("|"+mapKey+"|");
-                                console.log(zed);
+                                // console.log(zed);
+
                                 $.ajax({
                                     type: "GET",
                                     url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
@@ -291,9 +294,10 @@
                                         // var json = $.parseJSON(resMap);
                                         // var speciesName = json.name;
                                         var speciesName = resMap["name"];
-                                        // console.log(resMap);
+                                        // console.log("in mapkey");
 
-                                        if (strainTerm != null || strainTerm !== '') {
+                                        if (strainTerm != null && strainTerm !== '') {
+                                            // console.log("here1");
                                             $.ajax({
                                                 type: "GET",
                                                 context: this,
@@ -317,6 +321,7 @@
                                                             }
                                                         )
                                                     } else {
+                                                        // console.log("here2")
                                                         $.ajax({
                                                             type: "GET",
                                                             context: this,
@@ -348,11 +353,12 @@
                                             })
                                         } else {
                                             if (tissue == null) {
+                                                // console.log("here3")
                                                 tissue = '';
                                                 // console.log('tissue');
                                                 // console.log(tpmVal);
                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                        'strain/CellLine': strainTerm,
+                                                        'strain/CellLine': 'None Available',
                                                         sex: sex,
                                                         age: displayAge,
                                                         tissue: tissue,
@@ -364,6 +370,7 @@
                                                     }
                                                 )
                                             } else {
+                                                // console.log("here4")
                                                 $.ajax({
                                                     type: "GET",
                                                     context: this,
@@ -373,7 +380,7 @@
                                                         // console.log("tissue: "+r)
                                                         // console.log('tissue');
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                'strain/CellLine': strainTerm,
+                                                                'strain/CellLine': 'None Available',
                                                                 sex: sex,
                                                                 age: displayAge,
                                                                 tissue: r["term"],
@@ -403,7 +410,7 @@
                                 // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
 
                             });
-                        }
+                        // }
                     },
                     error: function (xhr, status, error) {
                         console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
