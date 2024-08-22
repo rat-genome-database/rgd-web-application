@@ -30,12 +30,12 @@
 
     .outerDiv {
         /*background: grey;*/
-        height: 200px;
-        width: 60px;
+        height: 180px;
+        width: 55px;
         border: 1px solid black;
         border-bottom: 0;
         border-left: 0;
-        transform: skew(-22deg) translateX(70%);
+        transform: skew(-22deg) translateX(68%);
     }
 
     th:first-child .outerDiv {
@@ -45,8 +45,8 @@
 
     .innerDiv {
         position: absolute;
-        width: 250px;
-        height: 85px;
+        width: 225px;
+        height: 80px;
         bottom: -34%;
         left: 10px;
         transform: skew(30deg) rotate(-60deg);
@@ -62,7 +62,7 @@
     RgdId rgdId = managementDAO.getRgdId(obj.getRgdId());
     GeneExpressionDAO gedao = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
-    List<String> terms = xdao.getAllSlimTerms("UBERON","AGR");
+    List<String> terms = xdao.getAllSlimTermsOrdered("UBERON","AGR");
     List<String> include = new ArrayList<>();
     int total = 0;
     HashMap<String,Integer> termCnt = new HashMap<>();
@@ -135,6 +135,12 @@
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <template>
                 <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="475px">
+                    <template v-slot:table-busy>
+                        <div>
+                            <b-spinner></b-spinner>
+                            <strong>Loading...</strong>
+                        </div>
+                    </template>
                     <tempplate #cell(tissue)="data">
                         {{data.value}}
                     </tempplate>
@@ -152,17 +158,11 @@
 <%@ include file="../sectionFooter.jsp"%>
 
 <script>
-    <%--var speciesMap = {--%>
-    <%--    <%for (Map m : mapDAO.getMaps(obj.getSpeciesTypeKey())){--%>
-    <%--        out.print(m.getKey()+": "+ m.getName());--%>
-    <%--            out.print(",");--%>
-    <%--    }%>--%>
-    <%--};--%>
-    // var tableVue =
         new Vue({
         el: '#expresTable',
         data() {
             return {
+                isBusy: false,
                 fields: [
                     {
                         key: 'strain/CellLine',
@@ -231,6 +231,8 @@
             createTable(termAcc,rgdId){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
+                var busyState = true;
+                // this.isBusy = busyState;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
                 var someItems = [];
@@ -239,19 +241,10 @@
                     url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
-                        // if (result.length>500){
-                        //     // console.log("inside if")
-                        //     showErrorMessage();
-                        //     hideTableKeepSelected();
-                        // }
-                        // else { var zed = 0;
                             result.forEach((recVal) => {
-                                // zed++;
-                                // console.log(recVal);
-                                // console.log('here now');
                                 var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
                                 var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
-                                var experimentId = recVal["geneExpressionRecord"]["experimentId"];
+                                // var experimentId = recVal["geneExpressionRecord"]["experimentId"];
                                 var strainTerm = recVal["sample"]["strainAccId"];
                                 var sex = recVal["sample"]["sex"];
                                 if (sex == null)
@@ -286,10 +279,6 @@
                                 var tissue = recVal["sample"]["tissueAccId"];
                                 var geoSample = recVal["sample"]["geoSampleAcc"];
                                 var reference = recVal["refRgdId"];
-                                //var speciesName = mapKey;//speciesName.get(mapKey);
-                                // console.log(geoSample);
-                                // console.log("|"+mapKey+"|");
-                                // console.log(zed);
 
                                 $.ajax({
                                     type: "GET",
@@ -300,9 +289,8 @@
                                         // var speciesName = json.name;
                                         var speciesName = resMap["name"];
                                         // console.log("in mapkey");
-
+                                        // busyState = false;
                                         if (strainTerm != null && strainTerm !== '') {
-                                            // console.log("here1");
                                             $.ajax({
                                                 type: "GET",
                                                 context: this,
@@ -407,6 +395,11 @@
                                         }
 
                                     },
+                                    complete: function (){
+                                        // console.log(this.isBusy);
+
+                                      this.isBusy = false;
+                                    },
                                     error: function (x, s, err) {
                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                     }
@@ -423,8 +416,10 @@
                 }); // end ajax getting all expression records
                 // console.log("the end");
                 this.expItems = someItems;
+                this.isBusy = busyState;
                 // console.log(this.expItems);
                 showTable(termAcc);
+                // return someItems;
             }
         }
     });
