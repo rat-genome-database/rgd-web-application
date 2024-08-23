@@ -24,7 +24,7 @@
         padding: 4px;
         /*display: block;*/
         /*height: 40px;*/
-        z-index: 2;
+        z-index: 29;
         position: relative;
     }
 
@@ -86,7 +86,7 @@
     <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>
     <br><br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
-    <form id="downloadExpressionData" style="z-index: 5; position: relative;">
+    <form id="downloadExpressionData" style="z-index: 30; position: relative;">
         <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
         <label id="downloadBtn" style="cursor: pointer; width: fit-content;" v-on:click="downloadExpression('<%=obj.getRgdId()%>')"><u>Download All Expressed Objects for this Gene</u></label>
         <%for (String t : include){%>
@@ -95,8 +95,8 @@
         </label>
         <% } %>
     </form>
-    <div id="expresTable" style="padding-top: 5px">
-        <table id="exprData" name="exprData">
+    <div id="expresTable" style="padding-top: 5px;">
+        <table id="exprData" name="exprData" >
             <tr>
                 <%  int col = 0;
                     for(String t:include) {
@@ -134,10 +134,10 @@
         </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <template>
-                <b-table :items="expItems" :fields="fields" responsive="sm" sticky-header="475px">
+                <b-table :items="expItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
                     <template v-slot:table-busy>
-                        <div>
-                            <b-spinner></b-spinner>
+                        <div class="text-center text-primary my-2">
+                            <b-spinner class="align-middle"></b-spinner>
                             <strong>Loading...</strong>
                         </div>
                     </template>
@@ -158,7 +158,7 @@
 <%@ include file="../sectionFooter.jsp"%>
 
 <script>
-        new Vue({
+        var tableVue = new Vue({
         el: '#expresTable',
         data() {
             return {
@@ -231,8 +231,7 @@
             createTable(termAcc,rgdId){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
-                var busyState = true;
-                // this.isBusy = busyState;
+                tableVue.isBusy = true;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
                 var someItems = [];
@@ -342,6 +341,9 @@
                                                             }
                                                         })
                                                     }
+                                                },
+                                                complete: function (){
+                                                    tableVue.isBusy = false;
                                                 }
                                             })
                                         } else {
@@ -362,6 +364,7 @@
                                                         refRgd: reference//{myId: reference, mrLink: link}
                                                     }
                                                 )
+                                                tableVue.isBusy = false;
                                             } else {
                                                 // console.log("here4")
                                                 $.ajax({
@@ -386,6 +389,9 @@
                                                         )
 
                                                     },
+                                                    complete: function (){
+                                                        tableVue.isBusy = false;
+                                                    },
                                                     error: function (x, s, err) {
                                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                     }
@@ -394,11 +400,6 @@
                                             }
                                         }
 
-                                    },
-                                    complete: function (){
-                                        // console.log(this.isBusy);
-
-                                      this.isBusy = false;
                                     },
                                     error: function (x, s, err) {
                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
@@ -416,7 +417,7 @@
                 }); // end ajax getting all expression records
                 // console.log("the end");
                 this.expItems = someItems;
-                this.isBusy = busyState;
+                // this.isBusy = busyState;
                 // console.log(this.expItems);
                 showTable(termAcc);
                 // return someItems;
@@ -512,13 +513,7 @@
             }
         }
     });
-    function getJSON(url = ""){
-        return $.ajax({
-            type: "GET",
-            url: url,
-            dataType: "json"
-        });
-    }
+
     function hideTable(){
         // hideErrorMessage();
         var div = document.getElementById("coolTable");
@@ -532,24 +527,6 @@
 
         for(var i = 0; i < elms.length; i++)
             elms[i].style.display='none';
-
-        var e = document.getElementById('rnaSeqExpression');
-        e.scrollIntoView();
-    }
-
-    function hideTableKeepSelected(){
-        // hideErrorMessage();
-        var div = document.getElementById("coolTable");
-        var button1 = document.getElementById("hideBtn1");
-        // var button2 = document.getElementById("hideBtn2");
-        div.style.display = 'none';
-        button1.style.display = 'none';
-        // button2.style.display = 'none'
-        // highlightCurrent(-1);
-        // var elms = document.querySelectorAll("[id^='downloadTerm']");
-        //
-        // for(var i = 0; i < elms.length; i++)
-        //     elms[i].style.display='none';
 
         var e = document.getElementById('rnaSeqExpression');
         e.scrollIntoView();
@@ -603,5 +580,5 @@
 
         }
     }
-
+    tableVue;
 </script>
