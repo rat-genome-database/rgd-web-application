@@ -85,7 +85,7 @@
 <%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
 <%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
     <label style="font-size: 16px">
-        <b>Click the number to show expressed objects</b>
+        <b>Click a number to show that many expressed objects</b>
     </label>
     <br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
