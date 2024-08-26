@@ -80,11 +80,14 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
-    <b><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;
-    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>
-    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;
-    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>
-    <br><br>
+<%--    <b><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;--%>
+<%--    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>--%>
+<%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
+<%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
+    <label style="font-size: 16px">
+        <b>Click the number to show expressed objects</b>
+    </label>
+    <br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
     <form id="downloadExpressionData" style="z-index: 30; position: relative;">
         <input type="hidden" id="geneId" value="<%=obj.getRgdId()%>">
@@ -189,7 +192,7 @@
                         key: 'GeoSampleId',
                         formatter: value => {
                             if (value == null || value === "")
-                                return "No Geo Sample"
+                                return "N/A"
                             return value;
                         },
                         sortable: true
@@ -237,7 +240,7 @@
                 var someItems = [];
                 $.ajax({
                     type: "GET",
-                    url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
+                    url: "https://rest.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
                             result.forEach((recVal) => {
@@ -281,7 +284,7 @@
 
                                 $.ajax({
                                     type: "GET",
-                                    url: "https://dev.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
+                                    url: "https://rest.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
                                     dataType: "json",
                                     success: function (resMap) {
                                         // var json = $.parseJSON(resMap);
@@ -293,7 +296,7 @@
                                             $.ajax({
                                                 type: "GET",
                                                 context: this,
-                                                url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
+                                                url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
                                                 dataType: "json",
                                                 success: function (r, s, x) {
                                                     // console.log("strain: "+r)
@@ -317,7 +320,7 @@
                                                         $.ajax({
                                                             type: "GET",
                                                             context: this,
-                                                            url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                            url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
                                                             dataType: "json",
                                                             success: function (r2, s, x) {
                                                                 // console.log('tissue');
@@ -370,7 +373,7 @@
                                                 $.ajax({
                                                     type: "GET",
                                                     context: this,
-                                                    url: "https://dev.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
                                                     dataType: "json",
                                                     success: function (r, s, x) {
                                                         // console.log("tissue: "+r)
@@ -405,9 +408,6 @@
                                         console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                     }
                                 });
-                                // console.log(geneExpRecId);
-                                // var geneExpRecord = getJSON('https://dev.rgd.mcw.edu/rgdws/expression/expressionRecord/'+geneExpRecId);
-
                             });
                         // }
                     },
