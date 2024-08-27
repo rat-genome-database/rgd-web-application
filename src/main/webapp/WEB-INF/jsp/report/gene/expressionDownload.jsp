@@ -1,13 +1,18 @@
-<%@ page import="edu.mcw.rgd.dao.impl.GeneExpressionDAO" %><%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %><%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %><%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%
+<%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%@ page import="edu.mcw.rgd.datamodel.RgdId" %><%@ page import="edu.mcw.rgd.dao.impl.*" %><%
     response.setHeader("Content-disposition","attachment;filename=\"gene_expression_data.csv\"");
+    RGDManagementDAO rdao = new RGDManagementDAO();
     int rgdId = (int) request.getAttribute("rgdId");
+    RgdId geneId = rdao.getRgdId2(rgdId);
     String termAcc = (String) request.getAttribute("termAcc");
     GeneExpressionDAO gdao = new GeneExpressionDAO();
     PhenominerDAO pdao = new PhenominerDAO();
     MapDAO mdao = new MapDAO();
     OntologyXDAO xdao = new OntologyXDAO();
     List<GeneExpression> expressionList = gdao.getGeneExpressionObjectsByTermRgdIdUnit(termAcc, rgdId, "TPM");
-    out.print("Strain");
+    if (geneId.getSpeciesTypeKey()==1)
+        out.print("Cell Line");
+    else
+        out.print("Strain");
     out.print(",");
     out.print("Sex");
     out.print(",");
