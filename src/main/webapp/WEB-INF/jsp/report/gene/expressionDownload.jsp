@@ -1,14 +1,14 @@
-<%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%@ page import="edu.mcw.rgd.datamodel.RgdId" %><%@ page import="edu.mcw.rgd.dao.impl.*" %><%
+<%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%@ page import="edu.mcw.rgd.datamodel.RgdId" %><%@ page import="edu.mcw.rgd.dao.impl.*" %><%@ page import="java.util.HashMap" %><%
     response.setHeader("Content-disposition","attachment;filename=\"gene_expression_data.csv\"");
     RGDManagementDAO rdao = new RGDManagementDAO();
     int rgdId = (int) request.getAttribute("rgdId");
     RgdId geneId = rdao.getRgdId2(rgdId);
     String termAcc = (String) request.getAttribute("termAcc");
     GeneExpressionDAO gdao = new GeneExpressionDAO();
-    PhenominerDAO pdao = new PhenominerDAO();
     MapDAO mdao = new MapDAO();
     OntologyXDAO xdao = new OntologyXDAO();
     List<GeneExpression> expressionList = gdao.getGeneExpressionObjectsByTermRgdIdUnit(termAcc, rgdId, "TPM");
+    HashMap<String, String> tissueTerms = new HashMap<>();
     if (geneId.getSpeciesTypeKey()==1)
         out.print("Cell Line");
     else
@@ -41,8 +41,22 @@
             strain = xdao.getTermByAccId(s.getStrainAccId());
 
         Term annat = null;
-        if(!Utils.isStringEmpty(s.getTissueAccId()))
-            annat = xdao.getTermByAccId(s.getTissueAccId());
+        String tissueTermAcc = s.getTissueAccId();
+        tissueTerms.put(null, "No Tissue Available");
+        tissueTerms.put("", "No Tissue Available");
+        if(!Utils.isStringEmpty(s.getTissueAccId())) {
+            if (tissueTerms.get(s.getTissueAccId())==null){
+                annat = xdao.getTermByAccId(s.getTissueAccId());
+//                System.out.println(annat.getAccId());
+                if (annat==null)
+                    tissueTermAcc = null;
+                else {
+//                    System.out.println(annat.getAccId()+"|"+annat.getTerm());
+                    tissueTermAcc = annat.getAccId();
+                    tissueTerms.put(annat.getAccId(), annat.getTerm());
+                }
+            }
+        }
 
         String age = "";
         if (s.getAgeDaysFromLowBound() == 0 && s.getAgeDaysFromHighBound() == 0)
@@ -83,7 +97,7 @@
         out.print(",");
         out.print(age);
         out.print(",");
-        out.print(annat!=null ? annat.getTerm() +"|"+annat.getAccId() : "No Tissue Available");
+        out.print(tissueTerms.get(tissueTermAcc));
         out.print(",");
         out.print(!Utils.isStringEmpty(s.getGeoSampleAcc()) ? s.getGeoSampleAcc() : "No Geo Sample Id");
         out.print(",");
