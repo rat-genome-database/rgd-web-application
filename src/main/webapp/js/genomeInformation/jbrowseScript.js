@@ -30,6 +30,8 @@ $(document).ready(function() {
             $jbrowse.src = URL + "data_hg18&loc=Chr"+chr;
     }
     else if(species=='Mouse') {
+        if(mapKey==239)
+            $jbrowse.src  = URL + "data_mm39&loc=Chr"+chr;
         if(mapKey==35)
             $jbrowse.src  = URL + "data_mm38&loc=Chr"+chr;
         if(mapKey==18)
