@@ -85,7 +85,7 @@
 <%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
 <%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
     <label style="font-size: 16px">
-        <b>Click on the number in the shaded box (record #) to display table with the record details</b>
+        <b>Click on the number in the shaded box (# of records) to display a table with the record details</b>
     </label>
     <br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">

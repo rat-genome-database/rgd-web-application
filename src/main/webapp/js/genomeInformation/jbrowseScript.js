@@ -6,8 +6,11 @@ $(document).ready(function() {
     var chr=$('#chr').val();
     var $jbrowse= document.getElementById('jbrowseMini');
     var URL="https://rgd.mcw.edu/jbrowse/?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
-    console.log("MapKEY: "+ mapKey);
+    // console.log("MapKEY: "+ mapKey);
     if(species=='Rat') {
+        if (mapKey==372){
+            $jbrowse.src  = URL + "data_rn7_2&loc=Chr"+chr;
+        }
         if(mapKey==360) {
             $jbrowse.src  = URL + "data_rgd6&loc=Chr"+chr;
         }
