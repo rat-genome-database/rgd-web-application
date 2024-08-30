@@ -39,7 +39,10 @@
     })
 </script>
 <%
-    String term = (String) request.getAttribute("term");
+    String term = "";
+    if(request.getAttribute("term")!=null){
+        term+=(String) request.getAttribute("term");
+    }
 %>
 <div class="">
 <form id="models-form" action="findModels.html" method="post">
