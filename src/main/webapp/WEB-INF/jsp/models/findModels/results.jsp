@@ -89,7 +89,7 @@
         <ul class="list-group">
             <%for (Terms.Bucket condition : aggregations.get("conditionsAgg")) {%>
                 <li class="list-group-item" style="padding: 0">
-                    <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>', '','<%=condition.getKey()%>')"><%=condition.getKey()%> (<%=condition.getDocCount()%>)</a></li>
+                    <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>','', '<%=condition.getKey()%>')"><%=condition.getKey()%> (<%=condition.getDocCount()%>)</a></li>
             <% } %>
         </ul>
     </div>
@@ -107,13 +107,14 @@
         var  $tmp=$contentDiv.html();
          var url;
           if(searchType!=="MODEL" || typeof searchType == 'undefined')
-                 url= "findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect;
-          else url="findModels.html?qualifier="+qualifier+"&modelsSearchTerm="+term+"&models-aspect="+aspect+"&searchType=model";
-       //   alert("URL: "+ url);
+                 url= "findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term+"&models-aspect="+aspect;
+          else url="findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term+"&models-aspect="+aspect+"&searchType=model";
+         // alert("URL: "+ url);
          if(strainType!=null && typeof strainType!='undefined')
              url=url+"&strainType="+strainType;
           if(condition!=null && typeof condition!='undefined')
-              url=url+"&condition="+condition;
+              url=url+"&condition="+condition.replaceAll(" ","+");
+          console.log("URL:"+ url);
           $($contentDiv).load(url);
           // $.get(url, function (data, status) {
           //     $contentDiv.html(data);
