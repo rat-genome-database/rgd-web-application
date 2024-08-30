@@ -9,7 +9,7 @@ p,li, a.here, span{
     padding: 20px;
 }
 
-.btn-analyze,#btn-contact {
+.btn-analyze,.btn-ok,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;
     border: none;
@@ -33,7 +33,7 @@ p,li, a.here, span{
     color: white;
 }
 
-.btn-analyze:hover,#btn-contact:hover {
+.btn-analyze:hover,.btn-ok:hover,#btn-contact:hover {
     background-color: #5289B5;
 }
 
@@ -223,6 +223,36 @@ p,li, a.here, span{
     justify-content: center;
     width: 100%;
 }
+
+#selectedStrainsList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates four columns */
+    gap: 10px; /* Sets the gap between items */
+    list-style: none;
+    padding: 10px;
+    margin: 0 auto; /* Centers the list in the modal */
+    background-color: #fff;
+    max-width: 580px; /* max-width of items in the modal */
+    overflow-y: auto;
+    max-height: 400px; /* max-height of the list in the modal */
+}
+
+#selectedStrainsList li {
+    padding: 10px;
+    text-align: center;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+#selectedStrainsList li:hover {
+    background-color: #e1e1e1;
+    /*cursor: pointer; !* Changes cursor to indicate interactivity *!*/
+}
+
 
 @media (max-width: 768px) {
     .legend {

@@ -49,32 +49,6 @@ To change this template use File | Settings | File Templates.
     <a title="Click here to jump to strain listing"  href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image"></a>
 </div>
 <div style="margin-left: 15px;margin-top: 15px">
-<%--    <p style="padding-top: 10px">--%>
-<%--        The Hybrid Rat Diversity Panel (HRDP) is a panel of 96 inbred rat strains carefully chosen to maximize power to detect specific genetic loci associated with a complex trait and to maximize the genetic diversity among strains. The HRDP includes 33 genetically diverse inbred strains of rat and two panels of recombinant inbred rat strains, the FXLE/LEXF (33 strains) from Japan and the HXB/BXH (30 strains) from the Czech Republic.--%>
-<%--        Recombinant inbred strains are panels of inbred strains derived from two inbred parental rat strains. The two parental strains are crossed to produce F1 pups. F1 pups are subsequently intercrossed to create an F2 generation.--%>
-<%--        These genetically unique F2 generation rats are paired as founders and brother-sister mated for at least 20 generations to fix their genomes. The two RI panels used in the HRDP have been well characterized through studies focused on seizures, epilepsy, lymphoma and leukemia, blood pressure regulation, metabolic syndrome, and alcohol consumption.--%>
-<%--    </p>--%>
-<%--    <p>--%>
-<%--        The HXB/BXH recombinant inbred strains were derived from the Spontaneously Hypertensive Rat (SHR/Olalpcv) and the normotensive BN-Lx (BN-Lx/Cub), a Brown Norway congenic rat strain with polydactyly-luxate syndrome.--%>
-<%--        The FXLE x LEXF recombinant inbred strains were derived from the Long Evans strain (LE/Stm) and the Fischer F344 strain (F344/Stm).--%>
-<%--    </p>--%>
-<%--    <p>--%>
-<%--        <b>Notes:</b>--%>
-<%--    <ul style="margin-top: -10px">--%>
-<%--        <li>--%>
-<%--            In the tables below, an asterisk (*) designates that the tagged strain has been sequenced. The VCF files for these (48 strains in total) are available for download.--%>
-<%--            These data have been mapped to both Rn6 and Rn7 and can be accessed <a class="here" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/Dec2021/?_gl=1*umtyp9*_ga*OTEwNTM3NjMyLjE2OTg2ODE3MzM.*_ga_BTF869XJFG*MTcwOTIxODk0Ni4xNi4xLjE3MDkyMTkzOTcuMC4wLjA">here</a>.--%>
-<%--        </li>--%>
-<%--        <br>--%>
-<%--        <li>--%>
-<%--            The double dagger icons (<strong>&#8225;</strong>) designate the strains that have been found by whole genome sequence comparison to be the most genetically similar to the Heterogeneous Stock (HS) Founder Strains. This data is courtesy of Dr. Abraham Palmer (University of California, San Diego) and Dr. Hao Chen (University of Tennessee Health Sciences Center).--%>
-<%--            For more information about the HS Founders and the HRDP strains that are similar to them, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>.--%>
-<%--        </li>--%>
-<%--        <br>--%>
-<%--        <li>--%>
-<%--            The inbred Wistar WN/N strain is no longer available and no closely related substrains are included in the HRDP panel. However, DNA from a frozen tissue sample from the original NIH strain has been sequenced and that sequence compared to WGS from the HRDP strains. Of the strains currently available from the HRDP, the one found in this analysis to be most closely related to WN/N is WAG/RijCrl with a sequence similarity of approximately 76%.--%>
-<%--        </li>--%>
-<%--    </ul>--%>
     <div class="hrdpContent">
     <h3>What is the Hybrid Rat Diversity Panel (HRDP)?</h3>
     <br>
@@ -135,7 +109,7 @@ To change this template use File | Settings | File Templates.
     <%if(hrdpClassicInbredStrains!=null||hrdpHXBStrains!=null||hrdpFXLEStrains!=null){%>
     <span><strong>HRDP strains are listed below. To explore PhenoMiner or Variant Visualizer data, check strain(s) and "analyze".</strong></span>
     </p>
-    <form id="hrdpForm" method="post">
+    <form id="hrdpForm" method="post" target="_blank">
         <%if (hrdpClassicInbredStrains!=null) {%>
         <div class="legend">
             <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strains exist and related strains may exist.</div>
@@ -157,7 +131,7 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (HrdpPortalCache str : hrdpClassicInbredStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
-                    <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
+                    <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>" data-strain-symbol="<%=str.getStrainSymbol()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                     <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
                         String[] ids = str.getAvailableStrainId().split(",");
@@ -241,7 +215,7 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (HrdpPortalCache str : hrdpHXBStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
-                <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
+                <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>" data-strain-symbol="<%=str.getStrainSymbol()%>"></td>
                 <td><a class="here" href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                     <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
                         String[] ids = str.getAvailableStrainId().split(",");
@@ -324,7 +298,7 @@ To change this template use File | Settings | File Templates.
                 <tbody>
                 <%for (HrdpPortalCache str : hrdpFXLEStrains) {%>
                 <tr data-has-phenominer="<%=str.getHasPhenominer()>0%>" data-has-variant-visualizer="<%=str.getHasVariantVisualizer()>0%>">
-                    <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>"></td>
+                    <td style="text-align: center;"><input type="checkbox" name="rgdId" value="<%=str.getStrainId()%>" data-strain-symbol="<%=str.getStrainSymbol()%>"></td>
                     <td><a class="here"href="report/strain/main.html?id=<%=str.getStrainId()%>"><%=str.getStrainSymbol()%></a></td>
                     <% if (str.getAvailableStrainId() != null && !str.getAvailableStrainId().isEmpty()) {
                         String[] ids = str.getAvailableStrainId().split(",");
@@ -393,10 +367,10 @@ To change this template use File | Settings | File Templates.
         </div>
         <div style="text-align: center;padding-top: 30px;">
             <input type="hidden" name="userChoice" id="userChoice" value="">
-            <input type="submit" class="btn-analyze fixed-bottom-center hidden" value="Analyze" style="color: white; font-size: 11pt" onclick="showWindow()">
+            <input type="submit" class="btn-analyze fixed-bottom-center hidden" value="Analyze" style="color: white; font-size: 11pt" onclick="showSelectedStrains()">
         </div>
         <%}%>
-        <!-- Popup window structure -->
+        <!-- Popup window structure of options -->
         <div id="optionsModal" class="modal-hrdp">
             <div class="modal-content-hrdp">
                 <div class="modal-header-hrdp">
@@ -419,6 +393,23 @@ To change this template use File | Settings | File Templates.
                     <!-- Add more rows and cells as needed for additional options -->
 
                 </table>
+            </div>
+        </div>
+
+<%--        Modal Structure of Strains Selected--%>
+        <div id="selectedStrainsModal" class="modal-hrdp">
+            <div class="modal-content-hrdp">
+                <div class="modal-header-hrdp">
+                    <h3>Strains Selected</h3>
+                    <span class="close-button" onclick="closeSelectedStrainsModal()">&times;</span>
+                </div>
+                <hr>
+                <ul id="selectedStrainsList">
+                    <!-- List items will be dynamically inserted here -->
+                </ul>
+                <div style="text-align: center;margin-top: 15px">
+                <button id="confirmStrainsSelection" class="btn-ok" style="color: white; font-size: 11pt;" onclick="showWindow()">Proceed</button>
+                </div>
             </div>
         </div>
     </form>
@@ -474,13 +465,16 @@ To change this template use File | Settings | File Templates.
         document.querySelector('td[onclick="optionSelected(\'phenominer\');"]').style.display = hasPhenominerData ? '' : 'none';
         document.querySelector('td[onclick="optionSelected(\'variantVisualizer\');"]').style.display = hasVariantVisualizerData ? '' : 'none';
 
-        document.getElementById("noDataMessage").style.display=!hasPhenominerData&&!hasVariantVisualizerData?'block':'none'
-        document.getElementById("optionsModal").style.display='block'
+        document.getElementById("noDataMessage").style.display=!hasPhenominerData&&!hasVariantVisualizerData?'block':'none';
+
+        //close the selected strains modal and open the options modal
+        closeSelectedStrainsModal();
+        document.getElementById("optionsModal").style.display='block';
 
     }
 
     function closeWindow(){
-        document.getElementById("optionsModal").style.display='none'
+        document.getElementById("optionsModal").style.display='none';
     }
 
 
@@ -507,7 +501,7 @@ To change this template use File | Settings | File Templates.
         if (!isAnyCheckboxChecked) {
             alert('Please select at least one strain before analyzing.');
         } else {
-            document.getElementById("optionsModal").style.display = "none";
+            document.getElementById("optionsModal").style.display = "block";
             document.getElementById("hrdpForm").submit();
         }
     }
@@ -535,6 +529,24 @@ To change this template use File | Settings | File Templates.
             analyzeButton.classList.add("hidden");
         }
 
+    }
+
+    //code responsible for displaying and closing of selected strains modal
+    function showSelectedStrains(){
+       let selectedStrains= document.querySelectorAll('input[type="checkbox"][name="rgdId"]:checked');
+       let strainList = document.getElementById('selectedStrainsList');
+       strainList.innerHTML="";
+       selectedStrains.forEach(function (strain){
+          let strainSymbol = strain.getAttribute('data-strain-symbol');
+          let listItem = document.createElement("li");
+          listItem.textContent = strainSymbol;
+          strainList.append(listItem);
+       });
+        document.getElementById('selectedStrainsModal').style.display = 'block';
+    }
+
+    function closeSelectedStrainsModal(){
+        document.getElementById('selectedStrainsModal').style.display = 'none';
     }
 
     document.querySelector(".close-button").addEventListener("click",closeWindow);
