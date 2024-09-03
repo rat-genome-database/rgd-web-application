@@ -14,7 +14,7 @@
     int hitsCount = (Integer) request.getAttribute("hitsCount");
 %>
 <h1 style="text-align: center">Rat Models Results</h1>
-<div class="jumbotron" style="height: 100px;padding-top: 10px">
+<div class="jumbotron" style="height: 200px;padding-top: 10px">
 <%@ include file="header.jsp"%>
 </div>
 

@@ -54,8 +54,6 @@
 
                 <div class="form-group col-md-2">
                     <input type="hidden" id="modelsAspect" value="all">
-
-
                 </div>
                 <div class="form-group col-md-8">
                     <small class="form-text text-muted" style="font-size: 14px">Enter a Disease or Phenotype or Strain or Condition to find the rat models</small>
@@ -73,6 +71,27 @@
                     <small class="form-text text-muted">Examples: <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=hypertension" >Hypertension</a>, <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=cancer" >Cancer</a>,
                         <a href="/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=MHS/Gib&models-aspect=MODEL" >MHS/Gib</a>
                     </small>
+                    <br>
+                    <h4>(OR) Browse Ontology Tree, Select Term & Search:</h4>
+                    <div class="row" >
+                    <div id="rdoSelect" class="roundSelect col-4" style="text-align: left">
+
+                                    <input type="hidden" id="rdo_acc_id" name="rdo_acc_id" value=""/>
+                                    <a href="" id="rdo_popup">Browse Disease Ontology&nbsp; <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+
+                    </div>
+                    <div id="mpSelect" class="roundSelect col-5">
+                                    <input type="hidden" id="mp_acc_id" name="mp_acc_id" value=""/>
+                                    <a href="" id="mp_popup">Browse Mammalian Phenotype Ontology&nbsp; <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+
+                    </div>
+                        <div id="rsSelect" class="roundSelect col-sm">
+                              <input type="hidden" id="rs_acc_id" name="rs_acc_id" value=""/>
+                                        <a href="" id="rs_popup">Browse Strain Ontology &nbsp; <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,3 +110,53 @@
     </div>
 </form>
 </div>
+<script>
+    $(document).ready(function() {
+
+        // handle to popup windows
+        var rdo_popup_wnd = null;
+        var xco_popup_wnd = null;
+        var mp_popup_wnd = null;
+        var rs_popup_wnd = null;
+
+        $("#rdo_popup").click(function () {
+            document.getElementById("modelsSearchTerm").value="";
+            if (rdo_popup_wnd != null) {
+                if (!rdo_popup_wnd.closed) {
+                    rdo_popup_wnd.focus();
+                    return;
+                }
+            }
+            rdo_popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=RDO&sel_term=modelsSearchTerm&sel_acc_id=rdo_acc_id&term="
+                + document.getElementById("modelsSearchTerm").value,
+                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
+        });
+
+        $("#mp_popup").click(function(){
+            document.getElementById("modelsSearchTerm").value="";
+            if( mp_popup_wnd!=null ) {
+                if( !mp_popup_wnd.closed ) {
+                    mp_popup_wnd.focus();
+                    return;
+                }
+            }
+            mp_popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=MP&sel_term=modelsSearchTerm&&sel_acc_id=mp_acc_id&term="
+                +document.getElementById("modelsSearchTerm").value,
+                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
+        });
+        $("#rs_popup").click(function(){
+            document.getElementById("modelsSearchTerm").value="";
+            if( rs_popup_wnd!=null ) {
+                if( !rs_popup_wnd.closed ) {
+                    rs_popup_wnd.focus();
+                    return;
+                }
+            }
+            rs_popup_wnd = window.open("/rgdweb/ontology/view.html?mode=popup&ont=RS&sel_term=modelsSearchTerm&sel_acc_id=rs_acc_id&term="
+                +document.getElementById("modelsSearchTerm").value,
+                '', "width=900,height=500,resizable=1,scrollbars=1,center=1,toolbar=1");
+        });
+
+    })
+
+</script>
