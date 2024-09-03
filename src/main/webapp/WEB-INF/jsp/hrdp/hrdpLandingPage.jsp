@@ -398,9 +398,9 @@ To change this template use File | Settings | File Templates.
 
 <%--        Modal Structure of Strains Selected--%>
         <div id="selectedStrainsModal" class="modal-hrdp">
-            <div class="modal-content-hrdp">
+            <div class="modal-content-hrdp-strain-selected">
                 <div class="modal-header-hrdp">
-                    <h3>Strains Selected</h3>
+                    <h3>Selected Strains For Analysis</h3>
                     <span class="close-button" onclick="closeSelectedStrainsModal()">&times;</span>
                 </div>
                 <hr>
@@ -536,11 +536,15 @@ To change this template use File | Settings | File Templates.
        let selectedStrains= document.querySelectorAll('input[type="checkbox"][name="rgdId"]:checked');
        let strainList = document.getElementById('selectedStrainsList');
        strainList.innerHTML="";
+       let uniqueSymbols = new Set();
        selectedStrains.forEach(function (strain){
           let strainSymbol = strain.getAttribute('data-strain-symbol');
-          let listItem = document.createElement("li");
-          listItem.textContent = strainSymbol;
-          strainList.append(listItem);
+          if(!uniqueSymbols.has(strainSymbol)) {
+              uniqueSymbols.add(strainSymbol);
+              let listItem = document.createElement("li");
+              listItem.textContent = strainSymbol;
+              strainList.append(listItem);
+          }
        });
         document.getElementById('selectedStrainsModal').style.display = 'block';
     }
