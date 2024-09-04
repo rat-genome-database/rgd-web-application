@@ -16,7 +16,7 @@
         <a href="/"><img src="/rgdweb/common/images/rgd_LOGO_small.gif" border=0/></a>
     </td>
     <td>
-        <a style="font-size:16px; color:white;" href="/phenotypes"><<< Return to Phenominer Home</a>
+        <a style="font-size:16px; color:white;" href="/rgdweb/pa/termCompare.html?term1=RS%3A0000457&term2=CMO%3A0000000&countType=rec&species=3"><<< Return to Home</a>
     </td>
 </tr></tbody></table>
 <% } %>
