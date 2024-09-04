@@ -9,7 +9,7 @@ p,li, a.here, span{
     padding: 20px;
 }
 
-.btn-analyze,.btn-ok,#btn-contact {
+.btn-analyze,.btn-ok,.btn-cancel,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;
     border: none;
@@ -33,7 +33,7 @@ p,li, a.here, span{
     color: white;
 }
 
-.btn-analyze:hover,.btn-ok:hover,#btn-contact:hover {
+.btn-analyze:hover,.btn-cancel:hover,.btn-ok:hover,#btn-contact:hover {
     background-color: #5289B5;
 }
 

@@ -407,9 +407,15 @@ To change this template use File | Settings | File Templates.
                 <ul id="selectedStrainsList">
                     <!-- List items will be dynamically inserted here -->
                 </ul>
-                <div style="text-align: center;margin-top: 15px">
-                <button id="confirmStrainsSelection" class="btn-ok" style="color: white; font-size: 11pt;" onclick="showWindow()">Proceed</button>
+<%--                <div style="text-align: center;margin-top: 15px">--%>
+<%--                <button id="confirmStrainsSelection" class="btn-ok" style="color: white; font-size: 11pt;" onclick="showWindow()">Proceed</button>--%>
+<%--                </div>--%>
+                <div style="text-align: center; margin-top: 15px; display: flex; justify-content: center;">
+                    <button id="cancelStrainsSelection" class="btn-cancel" style="color: white; font-size: 11pt; margin-right: 10px;" onclick="closeSelectedStrainsModal()">Cancel</button>
+                    <button id="confirmStrainsSelection" class="btn-ok" style="color: white; font-size: 11pt;" onclick="showWindow()">Proceed</button>
                 </div>
+
+
             </div>
         </div>
     </form>
