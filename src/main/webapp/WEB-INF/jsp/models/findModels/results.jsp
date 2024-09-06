@@ -107,8 +107,8 @@
         var  $tmp=$contentDiv.html();
          var url;
           if(searchType!=="MODEL" || typeof searchType == 'undefined')
-                 url= "findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term+"&models-aspect="+aspect;
-          else url="findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term+"&models-aspect="+aspect+"&searchType=model";
+                 url= "findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term.replaceAll(" ", "+")+"&models-aspect="+aspect;
+          else url="findModels.html?qualifier="+qualifier.replaceAll(" ", "+")+"&modelsSearchTerm="+term.replaceAll(" ", "+")+"&models-aspect="+aspect+"&searchType=model";
          // alert("URL: "+ url);
          if(strainType!=null && typeof strainType!='undefined')
              url=url+"&strainType="+strainType;
