@@ -285,7 +285,7 @@
                 <prop key="ai/output.html">aiController</prop>
 
                 <prop key="/hrdp_panel.html">hrdpController</prop>
-
+                <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
             </props>
         </property>
     </bean>
@@ -565,6 +565,7 @@
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
 
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
+    <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
 
     </beans>
 
