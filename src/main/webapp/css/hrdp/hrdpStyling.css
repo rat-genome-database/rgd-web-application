@@ -9,7 +9,7 @@ p,li, a.here, span{
     padding: 20px;
 }
 
-.btn-analyze,#btn-contact {
+.btn-analyze,.btn-ok,.btn-cancel,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;
     border: none;
@@ -33,7 +33,7 @@ p,li, a.here, span{
     color: white;
 }
 
-.btn-analyze:hover,#btn-contact:hover {
+.btn-analyze:hover,.btn-cancel:hover,.btn-ok:hover,#btn-contact:hover {
     background-color: #5289B5;
 }
 
@@ -132,6 +132,14 @@ p,li, a.here, span{
     max-width: 600px;
 }
 
+.modal-content-hrdp-strain-selected {
+    background-color: #fefefe;
+    margin: 10% auto; /* Adjusted for centering */
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 700px;
+}
+
 /* Table Styles for modal content */
 .options-table {
     width: 100%; /* Full width of the modal content */
@@ -181,6 +189,14 @@ p,li, a.here, span{
     padding-right: 20px;
 }
 
+.modal-content-hrdp-strain-selected h3 {
+    color: #333; /* Dark grey color for the text */
+    text-align: center;
+    font-weight: bold;
+    margin: 0;
+    padding-right: 20px;
+}
+
 .modal-header-hrdp {
     position: relative;
     width: 100%;
@@ -222,6 +238,26 @@ p,li, a.here, span{
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+#selectedStrainsList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Adjusts to five columns */
+    gap: 10px; /* Maintains gap between items */
+    /*list-style: none;*/
+    margin: 0 auto; /* Centers the list in the modal */
+    background-color: #fff; /* Keeps a clean background */
+    max-width: 680px; /* Max width of items in the modal */
+    overflow-y: auto;
+    max-height: 500px; /* Max height of the list in the modal */
+}
+
+#selectedStrainsList li {
+    padding: 3px;
+    /*text-align: center;*/
+    background-color: transparent; /* Removes any background color for a more list-like appearance */
+    font-size: 14px;
+    color: #333; /* Maintains text color for readability */
 }
 
 @media (max-width: 768px) {
