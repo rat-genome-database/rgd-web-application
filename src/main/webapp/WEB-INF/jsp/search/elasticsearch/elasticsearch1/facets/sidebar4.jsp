@@ -96,7 +96,8 @@
                                 <ul>
                                     <c:forEach items="${model.aggregations.ontology}" var="ontItem">
                                         <li>
-                                            <button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('Ontology', '','${ontItem.key}')">${ontItem.key}</button>(${ontItem.docCount})</li>
+                                            <button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('Ontology', '','${ontItem.key}')">${ontItem.key}&nbsp;(${ontItem.docCount})</button>
+                                        </li>
                                     </c:forEach>
                                 </ul>
                             </li>
