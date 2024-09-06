@@ -244,12 +244,13 @@ public class FindModelsController implements Controller {
             query.filter(QueryBuilders.termQuery("infoTerms.term.keyword", condition));
         }
        // srb.query(QueryBuilders.matchAllQuery());
+        System.out.println("QUERY:"+ query);
         srb.query(query);
         srb.aggregation(getAggregations("aspect"));
         srb.aggregation(getAggregations("annotatedObjectType"));
         srb.aggregation(getAggregations("infoTerms.term"));
     //    srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
-        srb.size(1000);
+        srb.size(10000);
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("models"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);

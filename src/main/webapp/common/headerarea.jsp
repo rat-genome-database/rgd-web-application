@@ -298,7 +298,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="/rgdweb/models/findModels.html">Find Models&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;color:red">new</span></a>
+                                            <a href="/rgdweb/models/findModels.html">Find Models</a>
                                             <a href="/rgdweb/models/allModels.html">Genetic Models</a>
                                             <a href="/wg/autism-rat-model-resource/">Autism Models</a>
                                             <a href="/rgdweb/phenominer/ontChoices.html?species=3">Rat PhenoMiner (Quantitative Phenotypes)</a>
