@@ -244,7 +244,6 @@ public class FindModelsController implements Controller {
             query.filter(QueryBuilders.termQuery("infoTerms.term.keyword", condition));
         }
        // srb.query(QueryBuilders.matchAllQuery());
-        System.out.println("QUERY:"+ query);
         srb.query(query);
         srb.aggregation(getAggregations("aspect"));
         srb.aggregation(getAggregations("annotatedObjectType"));
