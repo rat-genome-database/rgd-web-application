@@ -93,7 +93,7 @@
     <div class=" sidebar">
         <%@include file="sideBar.jsp"%>
     </div>
-    <main role="main" class="col" id="results">
+    <main role="main" class="col" id="results" style="width: 50%">
 
         <div class="row">
             <div class="col-sm-5">
