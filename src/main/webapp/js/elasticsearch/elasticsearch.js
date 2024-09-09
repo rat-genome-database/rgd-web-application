@@ -382,12 +382,12 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
             if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
                 html=html+interviewer+gviewer+moet;
 
-            }
+            }else
             if(species!='Squirrel' && species!='Bonobo'  && species!='Pig'){
                 html=html+moet;
 
             }
-            if(species=='Human' || species=='Rat'){
+            if(species=='Human' || species=='Rat' || species=='Dog'){
                 html=html+damage+vv;
             }
             $toolsDiv.html(html);
