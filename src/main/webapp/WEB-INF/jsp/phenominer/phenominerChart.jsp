@@ -48,7 +48,7 @@
         $("#mytable").tableSelectionToCSV();
     }
 </script>
-<div id="display"></div>
+<div id="display" class="container"></div>
 <c:set var="missedColumCount" value="0"/>
 
 <c:if test="${columns.averageType==null}">
