@@ -83,7 +83,6 @@ public class VVService {
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-        System.out.println("BUILDER:"+builder);
         srb.size(10000);
         SearchRequest searchRequest=new SearchRequest(variantIndex);
         searchRequest.source(srb);
