@@ -66,7 +66,6 @@ public class DistributionController extends HaplotyperController {
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
         request.setAttribute("speciesTypeKey", speciesTypeKey);
-        // System.out.println("MAPKEY IN DIST CONTRL:"+ mapKey+ "\tchromosome: "+chromosome+"\tstart: "+start+"\tstop:" +stop);
         String index=new String();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
         index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+mapKey);
@@ -81,29 +80,7 @@ public class DistributionController extends HaplotyperController {
        try {
 
         if (!req.getParameter("geneList").equals("") && !req.getParameter("geneList").contains("|")) {
-            symbols= Utils.symbolSplit(req.getParameter("geneList"));
-
-            List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
-            ObjectMapper om = new ObjectMapper();
-            om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
-            List result= om.getMapped();
-            List<Gene> genes = new ArrayList<Gene>();
-
-            Iterator it = result.iterator();
-            while (it.hasNext()) {
-                Object o = it.next();
-                if (o instanceof Gene) {
-                    Gene gene= (Gene) o;
-                    if(gene.getSymbol().contains("'")){
-                        gene.setSymbol(gene.getSymbol().replace("'", "''"));
-                    }
-                    genes.add((Gene) o);
-                }else {
-                    errors.add("Symbol <b>" + (String) o + "</b> not found. ");
-                }
-            }
-
-            mgs = gdao.getActiveMappedGenesByGeneList(mapKey,genes);
+            mapGeneSymbols(req.getParameter("geneList"),vsb);
         }
 
         if (sampleIds.size() > 0) {
@@ -115,14 +92,6 @@ public class DistributionController extends HaplotyperController {
             for (String sample: sampleIds) {
                 vsb.sampleIds.add(Integer.parseInt(sample));
             }
-            if (mgs.size() > 0) {
-                vsb.setMappedGenes(mgs);
-
-                for (MappedGene mg: vsb.getMappedGenes()) {
-                    vsb.genes.add(mg.getGene().getSymbol());
-                }
-            }
-
 
             // conservation parameters
             float conLow = -1;

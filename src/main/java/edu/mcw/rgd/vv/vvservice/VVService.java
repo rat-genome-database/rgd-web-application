@@ -385,11 +385,12 @@ public class VVService {
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
 
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        if((vsb.getChromosome()==null || vsb.getChromosome().equals("")) && vsb.genes!=null && vsb.genes.size()>0){
+        if(vsb.genes!=null && vsb.genes.size()>0){
             dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.stream().map(g->g.toLowerCase()).toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
-        }else {
+        }
+       else {
             if(vsb.getChromosome()!=null && !vsb.getChromosome().equals("") ){
                 BoolQueryBuilder qb= QueryBuilders.boolQuery().must(
                         QueryBuilders.termQuery("chromosome.keyword", vsb.getChromosome())
@@ -421,7 +422,6 @@ public class VVService {
                 }
             }
         }
-        System.out.println("INNER QUERIES SIZE:"+ dqb.innerQueries().size());
         if(dqb.innerQueries().size()>0) {
             return dqb;
         }else return null;
