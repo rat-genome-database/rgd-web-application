@@ -6,6 +6,7 @@ import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.dao.impl.SSLPDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.search.Position;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -16,9 +17,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.mvc.Controller;
 
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -392,5 +392,38 @@ public abstract class HaplotyperController implements Controller {
         vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
         vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
         return vsb;
+    }
+    public void mapGeneSymbols(String geneList, VariantSearchBean vsb) throws Exception {
+        GeneDAO gdao=new GeneDAO();
+        List<String> symbols=null;
+        int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey());
+        if(!geneList.contains("|")) {
+            symbols= Utils.symbolSplit(geneList).stream().map(g -> g.toLowerCase()).collect(Collectors.toList());
+        } else
+            symbols= Collections.singletonList(geneList.toLowerCase());
+
+        List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
+        edu.mcw.rgd.process.mapping.ObjectMapper om = new edu.mcw.rgd.process.mapping.ObjectMapper();
+        om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
+        List result= om.getMapped();
+        List<Gene> genes = new ArrayList<Gene>();
+
+        Iterator it = result.iterator();
+        while (it.hasNext()) {
+            Object o = it.next();
+            if (o instanceof Gene gene) {
+                if(gene.getSymbol().contains("'")){
+                    gene.setSymbol(gene.getSymbol().replace("'", "''"));
+                }
+                genes.add((Gene) o);
+            }
+        }
+        List<MappedGene> mgs = new ArrayList<MappedGene>();
+        mgs = gdao.getActiveMappedGenesByGeneList(vsb.getMapKey(),genes);
+        List<String> geneSymbols=new ArrayList<>();
+        for(MappedGene gene:mgs){
+            geneSymbols.add(gene.getGene().getSymbol());
+        }
+        vsb.setGenes(geneSymbols);
     }
 }

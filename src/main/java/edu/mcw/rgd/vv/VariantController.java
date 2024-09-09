@@ -61,14 +61,10 @@ public class VariantController extends HaplotyperController {
                     searchType="GENE";
                 }
             }
-
             VariantSearchBean vsb = this.fillBean(req);
-            if(!geneList.contains("|"))
-                vsb.genes=Utils.symbolSplit(geneList).stream().map(g->g.toLowerCase()).collect(Collectors.toList());
-            else
-                vsb.genes= Collections.singletonList(geneList.toLowerCase());
-            String index=new String();
+            mapGeneSymbols(geneList,vsb);
             String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey())).replace(" ","");
+            String index=new String();
             index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
             VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
@@ -130,6 +126,7 @@ public class VariantController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/vv/region.jsp");
         }
     }
+
     public List<MappedGene> getActiveMappedGenes(VariantSearchBean vsb) throws Exception {
         GeneDAO gdao= new GeneDAO();
         List<MappedGene> mappedGenes= gdao.getActiveMappedGenes(vsb.getChromosome(),vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
