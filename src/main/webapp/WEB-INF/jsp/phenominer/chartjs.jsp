@@ -12,9 +12,9 @@
 </style>
 <div style="color: blueviolet; font-weight: bold">Table "column sort"  updates the order of the bars in the chart.</div>
 
-<div class="chart-container container" id = "chartDiv" style="margin-top:2%" >
+<div class="chart-container" id = "chartDiv" style="margin-top:2%" >
 
-    <canvas id="resultChart" style="position: relative; ; width:80vw;"></canvas>
+    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
 </div>
 

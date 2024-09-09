@@ -48,7 +48,7 @@
         $("#mytable").tableSelectionToCSV();
     }
 </script>
-<div id="display" class="container"></div>
+<div id="display"></div>
 <c:set var="missedColumCount" value="0"/>
 
 <c:if test="${columns.averageType==null}">
@@ -76,7 +76,7 @@
 
             <th>Study</th>
             <th>Experiment Name</th>
-            <th>Trait</th>
+
 
             <th>Sex</th>
             <th>Age</th>
@@ -181,7 +181,7 @@
                 <td>${hit.sourceAsMap.xcoTerm}</td>
                 <td>${hit.sourceAsMap.study}</td>
                 <td>${hit.sourceAsMap.experimentName}</td>
-                <td>${hit.sourceAsMap.vtTerm}</td>
+
                 <td>${hit.sourceAsMap.sex}</td>
                 <td>
                     <c:choose>
