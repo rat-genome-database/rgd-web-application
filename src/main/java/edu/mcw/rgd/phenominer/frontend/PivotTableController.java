@@ -43,7 +43,7 @@ public class PivotTableController implements Controller {
             formatStr="1";
         }
         int speciesTypeKey=3;
-        if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
+        if(req.getParameter("species")!=null && !req.getParameter("species").equals("") && !req.getParameter("species").equals("null"))
             speciesTypeKey= Integer.parseInt(req.getParameter("species"));
         request.setAttribute("species", speciesTypeKey);
         int format = Integer.parseInt(formatStr);
