@@ -41,7 +41,7 @@
 
                                 <ul>
 
-                                    <li style="color:grey"><a href="/wg/portals/">RGD Disease Portals</a></li>
+                                    <li style="color:grey"><a href="/rgdweb/portal/index.jsp">RGD Disease Portals</a></li>
                                     <li style="color:grey"><a href="/rgdweb/phenominer/home.jsp">Phenominer</a> </li>
                                     <li style="color:grey"><a href="/rgdweb/phenominer/phenominerExpectedRanges/views/home.html">Expected Ranges</a></li>
                                     <li style="color:grey"><a href="/wg/gerrc/">GERRC</a></li>
