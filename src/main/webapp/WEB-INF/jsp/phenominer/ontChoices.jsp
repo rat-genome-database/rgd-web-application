@@ -13,7 +13,7 @@
     int species=3;
     String speciesOntology="RS";
 
-    if (request.getParameter("species") != null && !request.getParameter("species").equals("3")) {
+    if (request.getParameter("species") != null && !request.getParameter("species").equals("3") && !request.getParameter("species").equals("null") && !request.getParameter("species").equals("")) {
         species=Integer.parseInt(request.getParameter("species"));
         speciesOntology="CS";
     }
