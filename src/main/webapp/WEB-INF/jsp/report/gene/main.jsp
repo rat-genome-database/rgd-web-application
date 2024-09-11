@@ -207,9 +207,9 @@
                     <br>
                     <div class="subTitle" id="expression">Expression</div>
                     <br>
-
-                    <%@ include file="expressionData.jsp"%>
-
+                    <%try {%>
+                    <jsp:include page="expressionDataNew.jsp"/>
+                    <%} catch (Exception e){e.printStackTrace();}%>
                     <!--above sequence table--->
                     <a name="sequence"></a>
                     <br>

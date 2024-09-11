@@ -2,6 +2,7 @@
 <%@ page import="edu.mcw.rgd.dao.impl.RgdVariantDAO" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.RgdVariant" %>
+<%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="java.util.ArrayList" %>
 
 <%@ include file="sectionHeader.jsp"%>
