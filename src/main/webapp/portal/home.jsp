@@ -314,77 +314,77 @@
             $scope.portalLinks["DOID:9007801"] = {};
             $scope.portalLinks["DOID:9007801"].tools = "/wg/portals/aging-disease-portal-tools/";
             $scope.portalLinks["DOID:9007801"].links = "/wg/portals/aging-disease-portal-related-links/";
-            $scope.portalLinks["DOID:9007801"].models = "/wg/portals/aging-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:9007801"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=Diseases of the Aged";
 
             $scope.portalLinks["DOID:14566"] = {};
             $scope.portalLinks["DOID:14566"].tools = "/wg/cancer_portal_tools/";
             $scope.portalLinks["DOID:14566"].links = "/wg/cancer_portal_related_links/";
-            $scope.portalLinks["DOID:14566"].models = "/wg/cancer_portal_models/";
+            $scope.portalLinks["DOID:14566"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=disease of cellular proliferation";
 
             $scope.portalLinks["DOID:1287"] = {};
             $scope.portalLinks["DOID:1287"].tools = "/wg/cardio_portal_tools/";
             $scope.portalLinks["DOID:1287"].links = "/wg/cardio_portal_related_links/";
-            $scope.portalLinks["DOID:1287"].models = "/wg/cardiovascular-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:1287"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=cardiovascular system disease";
 
             $scope.portalLinks["DOID:9351"] = {};
             $scope.portalLinks["DOID:9351"].tools = "/wg/diabetes_portal_tools/";
             $scope.portalLinks["DOID:9351"].links = "/wg/diabetes_portal_related_links/";
-            $scope.portalLinks["DOID:9351"].models = "/wg/diabetes_portal_models/";
+            $scope.portalLinks["DOID:9351"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=diabetes mellitus";
 
             $scope.portalLinks["DOID:74"] = {};
             $scope.portalLinks["DOID:74"].tools = "/wg/portals/hematologic-disease-portal-tools/";
             $scope.portalLinks["DOID:74"].links = "/wg/portals/hematologic-disease-portal-related-links/";
-            $scope.portalLinks["DOID:74"].models = "/wg/portals/hematologic-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:74"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=hematopoietic system disease";
 
             $scope.portalLinks["DOID:9003859"] = {};
             $scope.portalLinks["DOID:9003859"].tools = "/wg/home/immune-inflammatory_portal_tools/";
             $scope.portalLinks["DOID:9003859"].links = "/wg/home/immune-inflammatory_portal_related_links/";
-            $scope.portalLinks["DOID:9003859"].models = "/wg/home/immune-inflammatory_portal_models/";
+            $scope.portalLinks["DOID:9003859"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=Immune & Inflammatory Diseases";
 
             $scope.portalLinks["DOID:863"] = {};
             $scope.portalLinks["DOID:863"].tools = "/wg/nuro_portal_tools/";
             $scope.portalLinks["DOID:863"].links = "/wg/nuro_related_links/";
-            $scope.portalLinks["DOID:863"].models = "/wg/nuro_rat_strain_models/";
+            $scope.portalLinks["DOID:863"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=nervous system disease";
 
             $scope.portalLinks["DOID:9008231"] = {};
             $scope.portalLinks["DOID:9008231"].tools = "/wg/obesity_portal_tools/";
             $scope.portalLinks["DOID:9008231"].links = "/wg/obesity_portal_related_links/";
-            $scope.portalLinks["DOID:9008231"].models = "/wg/obesity-metabolic-syndrome-rat-strain-models/";
+            $scope.portalLinks["DOID:9008231"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=Nutritional and Metabolic Diseases";
 
             $scope.portalLinks["DOID:557"] = {};
             $scope.portalLinks["DOID:557"].tools = "/wg/portals/renal-disease-portal-tools/";
             $scope.portalLinks["DOID:557"].links = "/wg/portals/renal-disease-portal-related-links/";
-            $scope.portalLinks["DOID:557"].models = "/wg/portals/renal-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:557"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=kidney disease";
 
             $scope.portalLinks["DOID:1579"] = {};
             $scope.portalLinks["DOID:1579"].tools = "/wg/respiratory_portal_tools/";
             $scope.portalLinks["DOID:1579"].links = "/wg/respiratory_portal_related_links/";
-            $scope.portalLinks["DOID:1579"].models = "/wg/respiratory_portal_models/";
+            $scope.portalLinks["DOID:1579"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=respiratory system disease";
 
             $scope.portalLinks["DOID:0050155"] = {};
             $scope.portalLinks["DOID:0050155"].tools = "/wg/portals/sensory-organ-disease-portal-tools/";
             $scope.portalLinks["DOID:0050155"].links = "/wg/portals/sensory-organ-disease-portal-related-links/";
-            $scope.portalLinks["DOID:0050155"].models = "/wg/portals/sensory-organ-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:0050155"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=sensory system disease";
 
             $scope.portalLinks["DOID:9008582"] = {};
             $scope.portalLinks["DOID:9008582"].tools = "/wg/portals/developmental-disease-portal-tools/";
             $scope.portalLinks["DOID:9008582"].links = "/wg/portals/developmental-disease-portal-related-links/";
-            $scope.portalLinks["DOID:9008582"].models = "/wg/portals/developmental-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:9008582"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=Developmental Disease";
 
             $scope.portalLinks["DOID:409"] = {};
             $scope.portalLinks["DOID:409"].tools = "/wg/portals/liver-disease-portal-tools/";
             $scope.portalLinks["DOID:409"].links = "/wg/portals/liver-disease-portal-related-links/";
-            $scope.portalLinks["DOID:409"].models = "/wg/portals/liver-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:409"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=liver disease";
 
             $scope.portalLinks["DOID:0080599"] = {};
             $scope.portalLinks["DOID:0080599"].tools = "/wg/portals/covid-19-disease-portal-tools/";
             $scope.portalLinks["DOID:0080599"].links = "/wg/portals/covid-19-disease-portal-related-links/";
-            $scope.portalLinks["DOID:0080599"].models = "/wg/portals/covid-19-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:0080599"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=Coronavirus infectious disease";
 
             $scope.portalLinks["DOID:0050117"] = {};
             $scope.portalLinks["DOID:0050117"].tools = "/wg/portals/infectious-disease-portal-tools/";
             $scope.portalLinks["DOID:0050117"].links = "/wg/portals/infectious-disease-portal-related-links/";
-            $scope.portalLinks["DOID:0050117"].models = "/wg/portals/infectious-disease-portal-rat-strain-models/";
+            $scope.portalLinks["DOID:0050117"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=disease by infectious agent";
 
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
