@@ -100,6 +100,7 @@
             font-family: Helvetica, Arial, sans-serif;
             color: #1a0dab;
             text-decoration: none;
+            display: none;
     }
 
     .abstract:hover {
@@ -161,6 +162,57 @@
         color: #666;
     }
 
+    .reception-card {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 800px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .reception-header h3 {
+        font-size: 24px;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e6e6e6;
+        padding-bottom: 10px;
+    }
+
+    .reception-details {
+        list-style: none;
+        padding:0;
+        margin: 0;
+    }
+
+    .reception-details li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .reception-details li i {
+        font-size: 11pt;
+        color: #3498db;
+        margin-right: 10px;
+        align-self: center;
+    }
+
+    .reception-details li span {
+        color: #34495e;
+    }
+
+    .reception-details li strong {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    /*.reception-time i, .reception-location i {*/
+    /*    margin-top: -1.75px; !* Adjust this value as needed to raise or lower the icon relative to text *!*/
+    /*}*/
+
 
     @media (max-width: 600px) {
         .tab-links {
@@ -177,16 +229,38 @@
 </div>
 <header class="ctcHeader">
     <h1>CTC-RG2024 Meeting Agenda</h1>
-    <p >October 3-5, 2024 | Medical College Of Wisconsin</p>
+    <p >October 2-5, 2024 | Medical College Of Wisconsin</p>
     <span>All times listed are in Central Time (CT), US.</span>
 </header>
 <div class="tabs">
-    <button class="tab-links active" onclick="openDay(event, 'Day1')">October 3</button>
+    <button class="tab-links active" onclick="openDay(event, 'Day0')">October 2</button>
+    <button class="tab-links" onclick="openDay(event, 'Day1')">October 3</button>
     <button class="tab-links" onclick="openDay(event, 'Day2')">October 4</button>
     <button class="tab-links" onclick="openDay(event, 'Day3')">October 5</button>
 </div>
-<div id="Day1" class="tab-content active">
-    <h2 class="day">October 3 (Thursday):Day 1</h2>
+
+<div id="Day0" class="tab-content active">
+    <h2 class="day">October 2 (Wednesday)</h2>
+    <div class="reception-card">
+        <div class="reception-header">
+            <h3>Reception</h3>
+        </div>
+        <ul class="reception-details">
+            <li class="reception-time">
+                <i class="fa fa-clock"></i>
+                <span><strong>6:00 PM to 8:00 PM</strong></span>
+            </li>
+            <li class="reception-location" style="padding-left: 3px">
+                <i class="fa fa-map-marker-alt"></i>
+                <span><strong>&nbsp;Location: To be announced</strong></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="Day1" class="tab-content">
+    <h2 class="day">October 3 (Thursday)</h2>
+    <br>
     <h2>Registration and Introduction</h2>
     <ul class="session-details">
     <li><strong>8:00 AM to 9:00 AM</strong> - Registration</li>
@@ -194,7 +268,8 @@
     </ul>
     <h2>Session 1 - Genome Biology</h2>
     <ul class="session-details">
-        <li><strong>9:15 AM to 9:30 AM</strong> - Pangenome mapping enhances genotype-phenotype associations in BXD mouse family by <strong class="author">Flavia Villani</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
+        <li><strong>9:15 AM to 9:30 AM</strong> - Pangenome mapping enhances genotype-phenotype associations in BXD mouse family by <strong class="author">Flavia Villani</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Villani_FV.pdf" download target="_blank">(Download Abstract)</a>
+        </li>
         <li><strong>9:30 AM to 9:45 AM</strong> - Haplotype-based analyses of phylogeny and regional genome diversity in laboratory rats by <strong class="author">Yanchao Pan</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
         <li><strong>9:45 AM to 10:00 AM</strong> - Genomics and Genetics of Immunoglobulin in the Rat by <strong class="author">Peter Doris</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
         <li><strong>10:00 AM to 10:30 AM</strong> - Y and mitochondrial chromosomes in the heterogeneous stock rat population by <strong class="author">Faith Okamoto</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
@@ -214,8 +289,9 @@
         <i class="fa fa-utensils"></i>
         <strong>12:00 PM to 1:00 PM - LUNCH</strong>
     </div>
+    <h2>Keynote 1</h2>
     <ul class="session-details">
-    <li><strong>1:00 PM to 2:00 PM</strong> - Keynote 1: Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>1:00 PM to 2:00 PM</strong> - Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     </ul>
     <h2>Session 3 - Data Science and Resources</h2>
     <ul class="session-Details">
@@ -238,12 +314,12 @@
     </div>
 </div>
 <div id="Day2" class="tab-content">
-    <h2 class="day">October 4 (Friday):Day 2</h2>
+    <h2 class="day">October 4 (Friday)</h2>
     <br>
     <h2>Session 4 - Workshop</h2>
     <ul class="session-details">
-    <li><strong>8:30 AM to 9:30 AM</strong> - Use case 1</li>
-    <li><strong>9:30 AM to 10:30 AM</strong> - Use case 2</li>
+    <li><strong>8:30 AM to 9:30 AM</strong> - <strong>Use case 1:</strong> Navigating the public resources for quantitative genetics, phenotypes and omics data for my research.</li>
+    <li><strong>9:30 AM to 10:30 AM</strong> - <strong>Use case 2:</strong> Using online resources to find a model for my disease of interest (in this case, obesity).</li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
@@ -267,44 +343,49 @@
     <ul class="session-details">
         <li><strong>1:00 PM to 2:15 PM</strong> - POSTERS</li>
     </ul>
+    <h2>Session 6 - Disease Models I</h2>
+    <ul class="session-details">
+        <li><strong>2:15 PM to 2:30 PM</strong> - Developmental systems genomics identifies expression quantitative trait loci underlying strain differences in skeletal differentiation and developmental pace by <strong class="author">Ian Welsh</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+        <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+        <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    </ul>
     <h2>Session 7 - Genome Biology II</h2>
     <ul class="session-details">
-    <li><strong>2:15 PM to 2:30 PM</strong> - Developmental systems genomics identifies expression quantitative trait loci underlying strain differences in skeletal differentiation and developmental pace by <strong class="author">Ian Welsh</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>2:45 PM to 3:00 PM</strong> - Multi-platform genome assembly of an SHR/OlaIpcv X BN-Lx/Cub F1 rat trio by <strong class="author">Andrea Guarracino</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>3:00 PM to 3:30 PM</strong> - Telomere-to-Telomere Assembly of the SHRSP/BbbUtx (SHR-A3) Rat by <strong class="author">Kai Li</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>3:00 PM to 3:15 PM</strong> - Multi-platform genome assembly of an SHR/OlaIpcv X BN-Lx/Cub F1 rat trio by <strong class="author">Andrea Guarracino</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>3:15 PM to 3:30 PM</strong> - Telomere-to-Telomere Assembly of the SHRSP/BbbUtx (SHR-A3) Rat by <strong class="author">Kai Li</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
         <strong>3:30 PM to 4:00 PM - BREAK</strong>
     </div>
+    <h2>Keynote 2</h2>
     <ul class="session-details">
-    <li><strong>4:00 PM to 5:00 PM</strong> - Keynote 2: <strong class="author">Sean Carrol (livestreamed?)</strong></li>
+    <li><strong>4:00 PM to 5:00 PM</strong> - The Serengeti Rules: The Regulation and Restoration of Biodiversity by <strong class="author">Sean Carrol.</strong></li>
     </ul>
     <div class="break-item">
         <strong>Dinner - On Your Own</strong>
     </div>
 </div>
 <div id="Day3" class="tab-content">
-    <h2 class="day">October 5 (Saturday):Day 3</h2>
+    <h2 class="day">October 5 (Saturday)</h2>
     <br>
     <h2>Session 8 - Substance Use Disorders and Behavior</h2>
     <ul class="session-details">
     <li><strong>9:15 AM to 9:30 AM</strong> - Genome-wide association study of cocaine use in Heterogeneous Stock rats by <strong class="author">Montana Lara</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>9:30 AM to 9:45 AM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>9:45 AM to 10:00 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>10:00 AM to 10:30 AM</strong> - Improved representation of behavior data in the Rat Genome Database's PhenoMiner tool by <strong class="author">Jennifer Smith</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>9:45 AM to 10:00 AM</strong> - Improved representation of behavior data in the Rat Genome Database's PhenoMiner tool by <strong class="author">Jennifer Smith</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
-        <strong>10:30 AM to 10:45 AM - BREAK</strong>
+        <strong>10:00 AM to 10:30 AM - BREAK</strong>
     </div>
     <h2>Session 9 - Disease Models II</h2>
     <ul class="session-details">
-    <li><strong>10:45 AM to 11:00 AM</strong> - Oxidative stress induced suppression of metabolism pathways in Dahl Salt-Sensitive rat by <strong class="author">Satoshi Shimada</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>11:00 AM to 11:15 AM</strong> - Meta-analysis of hundreds of seizure-related traits reveals putative modifiers of epilepsy resilience and susceptibility by <strong class="author">Matt Mahoney</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>11:15 AM to 11:30 AM</strong> - Genome-wide association study for age-related hearing loss in CFW mice by <strong class="author">Oksana Polesskaya</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>11:30 AM to 12:00 PM</strong> - The dark matter of the genome and blood pressure regulation – modeling non-coding genetic mechanisms in cellular models and rats by <strong class="author">Aron Geurts</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>10:30 AM to 10:45 AM</strong> - Oxidative stress induced suppression of metabolism pathways in Dahl Salt-Sensitive rat by <strong class="author">Satoshi Shimada</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>10:45 AM to 11:00 AM</strong> - Meta-analysis of hundreds of seizure-related traits reveals putative modifiers of epilepsy resilience and susceptibility by <strong class="author">Matt Mahoney</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>11:00 AM to 11:15 AM</strong> - Genome-wide association study for age-related hearing loss in CFW mice by <strong class="author">Oksana Polesskaya</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>11:15 AM to 11:30 PM</strong> - The dark matter of the genome and blood pressure regulation – modeling non-coding genetic mechanisms in cellular models and rats by <strong class="author">Aron Geurts</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+        <li><strong>11:30 AM to Noon</strong> - Parting comments and CTC-RG 25</li>
     </ul>
     <div class="break-item">
         <strong>Noon - Adjourn</strong>
