@@ -298,11 +298,11 @@
     <li><strong>2:00 PM to 2:15 PM</strong> - ClassifyGxT: Probabilistic classification of gene-by-treatment effects in molecular count phenotypes by <strong class="author">William Valdar</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>2:15 PM to 2:30 PM</strong> - PipeRat: A high-throughput python package to perform and visualize large-scale genetic association analysis by <strong class="author">Thiago Missfeldt Sanches</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>2:30 PM to 2:45 PM</strong> - 2024 Update on GeneNetwork.org by <strong class="author">Pjotr Prins</strong>.</li>
-    <li><strong>2:45 PM to 3:15 PM</strong> - MoTrPAC Data Hub: Multi-omic, Multi-tissue Collection of Exercise Molecular Responses in Young Adult Rats by <strong class="author">Christopher Jin</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>2:45 PM to 3:00 PM</strong> - MoTrPAC Data Hub: Multi-omic, Multi-tissue Collection of Exercise Molecular Responses in Young Adult Rats by <strong class="author">Christopher Jin</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
-        <strong>3:15 PM to 3:30 PM - BREAK</strong>
+        <strong>3:00 PM to 3:30 PM - BREAK</strong>
     </div>
     <ul class="session-Details">
     <li><strong>3:30 PM to 3:45 PM</strong> - Introducing the center for genetics, genomics, and epigenetics of substance use disorders in outbred rats by <strong class="author">Abraham Palmer</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
@@ -343,13 +343,13 @@
     <ul class="session-details">
         <li><strong>1:00 PM to 2:15 PM</strong> - POSTERS</li>
     </ul>
-    <h2>Session 6 - Disease Models I</h2>
+    <h2>Session 7 - Disease Models I</h2>
     <ul class="session-details">
         <li><strong>2:15 PM to 2:30 PM</strong> - Developmental systems genomics identifies expression quantitative trait loci underlying strain differences in skeletal differentiation and developmental pace by <strong class="author">Ian Welsh</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
         <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
         <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     </ul>
-    <h2>Session 7 - Genome Biology II</h2>
+    <h2>Session 8 - Genome Biology II</h2>
     <ul class="session-details">
     <li><strong>3:00 PM to 3:15 PM</strong> - Multi-platform genome assembly of an SHR/OlaIpcv X BN-Lx/Cub F1 rat trio by <strong class="author">Andrea Guarracino</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>3:15 PM to 3:30 PM</strong> - Telomere-to-Telomere Assembly of the SHRSP/BbbUtx (SHR-A3) Rat by <strong class="author">Kai Li</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
@@ -369,7 +369,7 @@
 <div id="Day3" class="tab-content">
     <h2 class="day">October 5 (Saturday)</h2>
     <br>
-    <h2>Session 8 - Substance Use Disorders and Behavior</h2>
+    <h2>Session 9 - Substance Use Disorders and Behavior</h2>
     <ul class="session-details">
     <li><strong>9:15 AM to 9:30 AM</strong> - Genome-wide association study of cocaine use in Heterogeneous Stock rats by <strong class="author">Montana Lara</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
@@ -379,7 +379,7 @@
         <i class="fa fa-coffee"></i>
         <strong>10:00 AM to 10:30 AM - BREAK</strong>
     </div>
-    <h2>Session 9 - Disease Models II</h2>
+    <h2>Session 10 - Disease Models II</h2>
     <ul class="session-details">
     <li><strong>10:30 AM to 10:45 AM</strong> - Oxidative stress induced suppression of metabolism pathways in Dahl Salt-Sensitive rat by <strong class="author">Satoshi Shimada</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>10:45 AM to 11:00 AM</strong> - Meta-analysis of hundreds of seizure-related traits reveals putative modifiers of epilepsy resilience and susceptibility by <strong class="author">Matt Mahoney</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
