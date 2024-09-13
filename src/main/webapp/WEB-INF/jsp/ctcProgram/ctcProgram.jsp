@@ -272,7 +272,8 @@
         </li>
         <li><strong>9:30 AM to 9:45 AM</strong> - Haplotype-based analyses of phylogeny and regional genome diversity in laboratory rats by <strong class="author">Yanchao Pan</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
         <li><strong>9:45 AM to 10:00 AM</strong> - Genomics and Genetics of Immunoglobulin in the Rat by <strong class="author">Peter Doris</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
-        <li><strong>10:00 AM to 10:30 AM</strong> - Y and mitochondrial chromosomes in the heterogeneous stock rat population by <strong class="author">Faith Okamoto</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
+        <li><strong>10:00 AM to 10:15 AM</strong> - Y and mitochondrial chromosomes in the heterogeneous stock rat population by <strong class="author">Faith Okamoto</strong>. <a class="abstract" href="#">(Download Abstract)</a></li>
+        <li><strong>10:15 AM to 10:30 AM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
@@ -283,7 +284,8 @@
     <li><strong>10:45 AM to 11:00 AM</strong> - Genome-wide association of adiposity in heterogeneous stock rats by <strong class="author">Apurva Chitre</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>11:00 AM to 11:15 AM</strong> - Identification of genes that link obesity and stress/emotional behaviors using outbred rats by <strong class="author">Leah Solberg-Woods</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
     <li><strong>11:15 AM to 11:30 AM</strong> - Complex metabolic traits are mediated by genes with distal heritability by <strong class="author">Greg Carter</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>11:30 AM to 12:00 PM</strong> - Health Outcomes of PFAS Exposure Through Genetics and Environmental Interactions in Heterogenous Stock Founder Rats by <strong class="author">Katie Holl</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>11:30 AM to 11:45 AM</strong> - Health Outcomes of PFAS Exposure Through Genetics and Environmental Interactions in Heterogenous Stock Founder Rats by <strong class="author">Katie Holl</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+        <li><strong>11:45 AM to 12:00 PM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
         <i class="fa fa-utensils"></i>
@@ -333,7 +335,8 @@
     <h2>Session 6 - The Microbiome</h2>
     <ul class="session-details">
     <li><strong>11:15 AM to 11:30 AM</strong> - Differences in gut microbiota significantly modulate colon cancer susceptibility in the rat genetic model of familial colon cancer by <strong class="author">James Amos-Landgraf</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
-    <li><strong>11:30 AM to 12:00 PM</strong> - Multi-cohort analysis identifies robust host genetic effects on the rat gut microbiome by <strong class="author">Amelie Baud</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+    <li><strong>11:30 AM to 11:45 AM</strong> - Multi-cohort analysis identifies robust host genetic effects on the rat gut microbiome by <strong class="author">Amelie Baud</strong>. <a class="abstract" href="">(Download Abstract)</a></li>
+        <li><strong>11:45 AM to 12:00 PM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
         <i class="fa fa-utensils"></i>
