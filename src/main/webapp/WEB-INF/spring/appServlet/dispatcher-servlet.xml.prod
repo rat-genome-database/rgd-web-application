@@ -211,7 +211,7 @@
                 <prop key="projects/project.html">ProjectController</prop>
                 <prop key="report/project/main.html">ProjectReportController</prop>
                 <prop key="/hrdp_panel.html">hrdpController</prop>
-
+                <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
             </props>
         </property>
     </bean>
@@ -418,5 +418,6 @@
     <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
     <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
+    <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
 </beans>
 
