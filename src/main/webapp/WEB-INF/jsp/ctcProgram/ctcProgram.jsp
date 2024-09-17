@@ -252,7 +252,7 @@
             </li>
             <li class="reception-location" style="padding-left: 3px">
                 <i class="fa fa-map-marker-alt"></i>
-                <span><strong>&nbsp;Location: To be announced</strong></span>
+                <span style="font-family: Helvetica, Arial, sans-serif;"><strong>&nbsp;Location: <a style="font-family: Helvetica, Arial, sans-serif;font-size: 11pt;text-decoration: none" href="https://www.google.co.in/maps/dir//7677+W+State+St,+Wauwatosa,+WI+53213/@43.0492321,-88.0904818,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x88051b2dc10cb82f:0x6f4a991dde13877e!2m2!1d-88.0080811!2d43.0492617?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D" target="_new">Café Hollander in Wauwatosa</a></strong></span>
             </li>
         </ul>
     </div>
