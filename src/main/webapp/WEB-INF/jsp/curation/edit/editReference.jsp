@@ -133,7 +133,12 @@
                     <td class="label">URL Web Reference:</td>
                     <td><input type="text" name="urlWebReference" size="50" value="<%=dm.out("urlWebReference",ref.getUrlWebReference())%>" /></td>
                 </tr>
-
+                <tr>
+                    <td class="label">Last Modified:</td>
+                    <td>
+                        <input type="text" name="lastModified" value="<%= ref.getLastModifiedDate() %>" readonly>
+                    </td>
+                </tr>
                 <tr>
                 <% if( isClone ) { %>
                     <td colspan="2" align="center"><input type="submit" value="Clone Reference"/></td>
