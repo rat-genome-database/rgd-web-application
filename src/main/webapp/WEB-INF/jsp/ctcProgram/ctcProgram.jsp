@@ -212,12 +212,82 @@
     /*.reception-time i, .reception-location i {*/
     /*    margin-top: -1.75px; !* Adjust this value as needed to raise or lower the icon relative to text *!*/
     /*}*/
+    /*.sponsors {*/
+    /*    display: flex;  !* Uses Flexbox for layout *!*/
+    /*    justify-content: center; !* Center logos horizontally *!*/
+    /*    align-items: center; !* Center logos vertically *!*/
+    /*    padding: 20px 0; !* Padding above and below the logos *!*/
+    /*    border-top: 1px solid #ccc; !* Adds a subtle border on top for separation *!*/
+    /*    gap:20px;*/
+    /*}*/
+
+    /*.sponsor-logo {*/
+    /*    width: 120px; !* Uniform width for all logos *!*/
+    /*    margin: 0 20px; !* Horizontal spacing between logos *!*/
+    /*    vertical-align: middle; !* Aligns logos vertically for aesthetic symmetry *!*/
+    /*}*/
+
+    /*.sponsors {*/
+    /*    display: flex;  !* Uses Flexbox for layout *!*/
+    /*    justify-content: center; !* Center logos horizontally *!*/
+    /*    align-items: center; !* Center logos vertically *!*/
+    /*    flex-wrap: wrap; !* Allows logos to wrap onto the next line as needed *!*/
+    /*    border-top: 1px solid #ccc; !* Adds a subtle border on top for separation *!*/
+    /*}*/
+
+    /*.sponsor-logo {*/
+    /*    width: 200px; !* Uniform width for all logos *!*/
+    /*    margin: 10px; !* Horizontal and vertical spacing between logos *!*/
+    /*    vertical-align: middle; !* Aligns logos vertically for aesthetic symmetry *!*/
+    /*}*/
+
+    /*!* Media query for smaller screens *!*/
+    /*@media (max-width: 600px) {*/
+    /*    .sponsors {*/
+    /*        flex-direction: column; !* Stacks logos vertically *!*/
+    /*    }*/
+    /*    .sponsor-logo {*/
+    /*        margin: 10px auto; !* Centers logos and adds spacing above and below *!*/
+    /*    }*/
+    /*}*/
+
+    .sponsors-section {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #ccc;
+    }
+
+    .sponsors-header {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px; /* Adds space between the header and logos */
+        font-family: Arial, sans-serif;
+    }
+
+    .sponsors {
+        display: flex;
+        justify-content: center; /* Center logos horizontally */
+        align-items: center; /* Center logos vertically */
+        padding-top: 7px;
+        gap:20px;
+    }
+
+    .sponsor-logo {
+        width: 110px;
+        margin: 0 20px;
+        vertical-align: middle;
+    }
 
 
     @media (max-width: 600px) {
         .tab-links {
             padding: 8px 10px;
             font-size: 10pt;
+        }
+        .sponsor-logo {
+            width: 70px; /* Smaller width for logos on smaller screens */
+            margin: 0 5px;
         }
     }
 
@@ -252,7 +322,7 @@
             </li>
             <li class="reception-location" style="padding-left: 3px">
                 <i class="fa fa-map-marker-alt"></i>
-                <span style="font-family: Helvetica, Arial, sans-serif;"><strong>&nbsp;<a style="font-family: Helvetica, Arial, sans-serif;font-size: 11pt;text-decoration: none" href="https://www.google.co.in/maps/dir//7677+W+State+St,+Wauwatosa,+WI+53213/@43.0492321,-88.0904818,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x88051b2dc10cb82f:0x6f4a991dde13877e!2m2!1d-88.0080811!2d43.0492617?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D" target="_new">Location: Café Hollander in Wauwatosa</a></strong></span>
+                <span style="font-family: Helvetica, Arial, sans-serif;"><strong>&nbsp;<a style="font-family: Helvetica, Arial, sans-serif;font-size: 11pt;text-decoration: none" href="https://www.google.co.in/maps/dir//7677+W+State+St,+Wauwatosa,+WI+53213/@43.0492321,-88.0904818,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x88051b2dc10cb82f:0x6f4a991dde13877e!2m2!1d-88.0080811!2d43.0492617?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D" target="_new">Location: Dinner buffet with cash bar at Café Hollander in Wauwatosa</a></strong></span>
             </li>
         </ul>
     </div>
@@ -314,6 +384,14 @@
     <div class="break-item">
     <strong>Dinner - On Your Own</strong>
     </div>
+    <div class="sponsors-section">
+        <p class="sponsors-header">Lunch supported by generous sponsors:</p>
+        <div class="sponsors">
+            <img src="/rgdweb/common/images/ctcSponsors/MilliporeSigmaLogo.png" alt="MilliporeSigma Logo" class="sponsor-logo">
+            <img src="/rgdweb/common/images/ctcSponsors/IlluminaLogo.png" alt="Illumina Logo" class="sponsor-logo">
+            <img src="/rgdweb/common/images/ctcSponsors/FrontageLogo.png" alt="Frontage Logo" class="sponsor-logo">
+        </div>
+    </div>
 </div>
 <div id="Day2" class="tab-content">
     <h2 class="day">October 4 (Friday)</h2>
@@ -367,6 +445,14 @@
     </ul>
     <div class="break-item">
         <strong>Dinner - On Your Own</strong>
+    </div>
+    <div class="sponsors-section">
+        <p class="sponsors-header">Lunch supported by generous sponsors:</p>
+        <div class="sponsors">
+            <img src="/rgdweb/common/images/ctcSponsors/MilliporeSigmaLogo.png" alt="MilliporeSigma Logo" class="sponsor-logo">
+            <img src="/rgdweb/common/images/ctcSponsors/IlluminaLogo.png" alt="Illumina Logo" class="sponsor-logo">
+            <img src="/rgdweb/common/images/ctcSponsors/FrontageLogo.png" alt="Frontage Logo" class="sponsor-logo">
+        </div>
     </div>
 </div>
 <div id="Day3" class="tab-content">
