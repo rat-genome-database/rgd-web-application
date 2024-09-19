@@ -481,6 +481,19 @@ function tableSorterReport() {
                 container: $('.ratStrainPager'),
                 size: 20
             });
+        $('#efoAnnotTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['filter'],
+                widgetOptions: {
+                    filter_external: '#ratStrainSearch',
+                    filter_columnFilters: false
+                }
+            })
+            .tablesorterPager({
+                container: $('.efoAnnotPager'),
+                size: 20
+            });
 
         $('#clinicalMeasurementTable')
             .tablesorter({
