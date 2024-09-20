@@ -1306,6 +1306,7 @@
     List<Annotation> mmoList = af.filterList(annotList,"M");
     List<Annotation> xcoList = af.filterList(annotList,"X");
 
+
     int rgdid = phenominerDAO.getNumOfRecords(obj.getRgdId());
 
     if((( clList.size() + vtList.size() + cmoList.size() + mmoList.size() + xcoList.size() > 0 ) && (isReferenceRgd==0)) ||
@@ -1520,10 +1521,61 @@
     <% }%>
 </div>
   <%  } %>
-
 <br>
 <%//ui.dynClose("expAssociationC")%>
+<% }
+    List<Annotation> efoList = af.filterList(annotList,"T");
+    if (efoList.size()>0){%>
+<div class="light-table-border">
+    <div class="sectionHeading" id="experimentalFactorAnnotationsCurator">Experimental Factor Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('experimentalDataAnnotationsCurator', 'experimentalDataAnnotations');">Click to see Annotation Detail View</a></div>
+
+<div class="search-and-pager">
+    <div class="modelsViewContent" >
+        <div class="pager efoAnnotPager" >
+            <form>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+                <span type="text" class="pagedisplay"></span>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+                <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option  value="40">40</option>
+                    <option   value="100">100</option>
+                    <option value="9999">All Rows</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <input class="search table-search" id="efoAnnotSearch" type="search" data-column="all" placeholder="Search table">
+</div>
+<div id="efoAnnotTableDiv" class="annotation-detail">
+    <%=af.createGridFormatAnnotationsTable(efoList)%>
+</div>
+<div class="modelsViewContent" >
+    <div class="pager efoAnnotPager" >
+        <form>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first"/>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev"/>
+            <span type="text" class="pagedisplay"></span>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
+            <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
+            <select class="pagesize">
+                <option selected="selected" value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option  value="40">40</option>
+                <option   value="100">100</option>
+                <option value="9999">All Rows</option>
+            </select>
+        </form>
+    </div>
+</div>
+</div>
 <% } %>
+
 <script>
     function hideEvidence(table) {
         var oTable = document.getElementById(table.toString());
