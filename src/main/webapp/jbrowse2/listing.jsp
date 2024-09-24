@@ -93,7 +93,9 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
                 <ul>
                     <li>Rat</li>
                 <ul>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=GRCr8&tracklist=true&tracks=Rat GRCr8 (rn8) Genes and Transcripts-GRCr8">GRCr8</a></li>
                 <li><a href="/jbrowse2/">mRatBN7.2</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_6.0&tracklist=true&tracks=Rat Rnor_6.0 (rn6) Genes and Transcripts-Rnor_6.0">Rnor_6.0</a></li>
                                 <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_6.0&tracklist=true&tracks=Rat Rnor_6.0 (rn6) Genes and Transcripts-Rnor_6.0">Rnor_6.0</a></li>
                                 <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_5.0&tracklist=true&tracks=Rat Rnor_5.0 (rn5) Genes and Transcripts-Rnor_5.0">Rnor_5.0</a></li>
                                 <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=RGSC_v3.4&tracklist=true&tracks=Rat RGSC_v3.4 (rn4) Genes and Transcripts-RGSC_v3.4">RGSC_v3.4</a></li>
