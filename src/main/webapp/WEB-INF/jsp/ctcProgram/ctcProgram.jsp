@@ -412,7 +412,7 @@
     </div>
     <h2>Poster Presentation</h2>
     <ul class="session-details">
-        <li><strong>1:00 PM to 2:15 PM</strong> - <a style="font-size: 11pt;" href="posters.html" target="_new">POSTERS</a><a class="abstract" href="posters.html" target="_blank">  (View Posters)</a></li>
+        <li><strong>1:00 PM to 2:15 PM</strong> - <a style="font-size: 11pt;" href="posters.html" target="_new">Poster Session</a></li>
     </ul>
     <h2 class="session-title">Session 7 - Disease Models I</h2>
     <div class="moderator-text">Moderated by Denghui Chen and Chris Jin</div>

@@ -132,7 +132,7 @@
 <div class="poster-entry">
     <p class="poster-name">Kaldunski</p>
     <p class="poster-title">Finding a rat model for researching human disease using RGD resources.</p>
-    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Kaldunski.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Kaldunski_M.pdf" download target="_blank">(Download Abstract)</a>
 </div>
 
 <div class="poster-entry">
@@ -154,7 +154,7 @@
 </div>
 
 <div class="poster-entry">
-    <p class="poster-name">Saleh</p>
+    <p class="poster-name">Salehi</p>
     <p class="poster-title">Exploring residual heterozygosity in inbred rat strains: How much, where, and why?</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Salehi_F.pdf" download target="_blank">(Download Abstract)</a>
 </div>
