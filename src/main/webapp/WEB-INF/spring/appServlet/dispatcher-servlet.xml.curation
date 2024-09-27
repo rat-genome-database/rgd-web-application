@@ -284,7 +284,7 @@
                  <prop key="report/project/main.html">ProjectReportController</prop>
                  <prop key="/hrdp_panel.html">hrdpController</prop>
                  <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
-
+                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
             </props>
         </property>
     </bean>
@@ -561,6 +561,7 @@
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
-<bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
+    <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
+    <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
     </beans>
 
