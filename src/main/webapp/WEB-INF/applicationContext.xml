@@ -3,28 +3,93 @@
 <beans>
 
  
-    <bean id="elasticsearchclient" class="edu.mcw.rgd.services.ClientInit" init-method="init" destroy-method="destroy"/>
+     <bean id="nomenclatureManager" class="edu.mcw.rgd.nomenclatureinterface.NomenclatureManager">
+                <property name="informaticPrescreener"><ref bean="informaticPrescreener"/></property>
+       </bean>
+<!--       <bean id="elasticsearchclient" class="edu.mcw.rgd.services.ClientInit" init-method="init" destroy-method="destroy"/>-->
+
+
+    <bean id="informaticPrescreener" class="edu.mcw.rgd.nomenclatureinterface.InformaticPrescreener">
+	    <property name="untouchableNames">
+			<list>
+				<value>tuba.*</value>
+				<value>prl\d+.*</value>
+				<value>prl</value>
+				<value>cyp.*</value>
+				<value>defb.*</value>
+				<value>olr.*</value>
+				<value>vom2r.*</value>		
+                <value>tas2r.*</value>				
+                <value>zfp.*</value>				
+                <value>vom1r.*</value>				
+			</list>
+		</property>	
+		<property name="excludeSymbolStart">
+			<list>
+				<value>loc</value>
+				<value>mgc</value>
+				<value>kiaa</value>
+				<value>flj</value>			
+			</list>
+		</property>	
+		<property name="excludeSymbolEnd">
+			<list>
+				<value>rik</value>	
+			</list>
+		</property>	
+		<property name="excludeSymbolContain">
+			<list>
+				<value>.*c\d+orf\d+.*</value>	
+				<value>.*cxorf\d+.*</value>	
+				<value>.*cyorf\d+.*</value>	
+				<value>.*c\d+ert.*</value>	
+			</list>
+		</property>	
+		<property name="excludeGeneNames">
+			<list>
+				<value>hypothetical protein</value>	
+				<value>dna segment, chr</value>
+			</list>
+		</property>	
+		<property name="excludeGeneNameStart">
+			<list>
+				<value>cdna sequence</value>
+				<value>expressed sequence</value>
+				<value>gene model</value>
+				<value>predicted gene</value>
+			</list>
+		</property>	
+		<property name="excludeGeneNameEnd">
+			<list>
+				<value>(rat)</value>	
+				<value>(rattus)</value>
+				<value>(rattus norvegicus)</value>				
+			</list>
+		</property>		
+	</bean>
+
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
          <property name="basename" value="views"/>
     </bean>
 
-          <bean id="sequenceGenerator" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
-              <property name="dataSource" ref="dataSource"/>
-              <property name="incrementerName" value=""/>
-          </bean>
+    <bean id="sequenceGenerator" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="incrementerName" value=""/>
+    </bean>
+
+   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/carpe"/>
+    </bean>
 
 
-        <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-              <property name="jndiName" value="java:comp/env/jdbc/carpe"/>
-          </bean>
-
-          <bean id="transactionManager"
-                class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-              <property name="dataSource" ref="dataSource"/>
-          </bean>
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
     <bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector">
 
-    </bean>
+	</bean>
 </beans>
 
 
