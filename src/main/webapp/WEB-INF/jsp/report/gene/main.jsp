@@ -62,6 +62,7 @@
     String pageTitle = obj.getSymbol() + " (" + obj.getName() + ") - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = description;
+    SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 %>
 
 <div id="top" ></div>
@@ -104,7 +105,7 @@
         <div id="species-image">
             <img border="0" src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
         </div>
-
+        <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " reportSidebar.jsp" + sdt.format(new Date(System.currentTimeMillis())));%>
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
@@ -130,7 +131,7 @@
 
 
 
-
+        <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " menu.jsp" + sdt.format(new Date(System.currentTimeMillis())));%>
         <%@ include file="menu.jsp"%>
 
         <% if (view.equals("2")) { %>
@@ -158,21 +159,22 @@
         <table width="95%" border="0">
             <tr>
                 <td>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " info.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
                     <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " associationsCurator.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
                     </div>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " associations.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <div id="associationsStandard" style="display:block;">
                         <%@ include file="../associations.jsp"%>
                     </div>
 
                     <div class ="subTitle" id="references">References</div>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " references.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../references.jsp"%>
                     <%@ include file="../pubMedReferences.jsp"%>
                     <!--above genomics table--->
@@ -187,26 +189,37 @@
                         sb.setTerm(obj.getSymbol() + "[gene]");
                         sb.setSpeciesType(obj.getSpeciesTypeKey());
                     %>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " comparativeMapData.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="comparativeMapData.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " cnVariants.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../cnVariants.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " clinicalVariants.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%try {%>
                     <jsp:include page="clinicalVariants.jsp"/>
                     <%} catch (Exception e){e.printStackTrace();}%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " damagingVariants.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="damagingVariants.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " rgdVariants.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../rgdVariants.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " miRnaTargets.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../miRnaTargets.jsp"%>
 <%--                    <%@ include file="candidateGenes.jsp"%>--%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " qtlsInRegion.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../qtlsInRegion.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " markers.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="markers.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " cellLines.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../cellLines.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " relatedStrains.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../relatedStrains.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " geneticModels.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../geneticModels.jsp"%>
                     <!---Above expression table-->
                     <a name="expression"></a>
                     <br>
                     <div class="subTitle" id="expression">Expression</div>
                     <br>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " expressionDataNew.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%try {%>
                     <jsp:include page="expressionDataNew.jsp"/>
                     <%} catch (Exception e){e.printStackTrace();}%>
@@ -215,20 +228,26 @@
                     <br>
                     <div class="subTitle" id="sequence">Sequence</div>
                     <br>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " nucleotide.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../nucleotide.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " proteins.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../proteins.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " proteinStructures.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="proteinStructures.jsp"%>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " transcriptome.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../transcriptome.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " promoters.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../promoters.jsp"%>
 <%--                    <%@ include file="../variants.jsp"%>--%>
                     
                     <!--above additional information--->
                     <a name="additional"></a>
                     <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
-
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " xdbs.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../xdbs.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " nomen.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../nomen.jsp"%>
+                    <%System.out.println(obj.getSymbol()+":"+obj.getRgdId() + " curatorNotes.jsp " + sdt.format(new Date(System.currentTimeMillis())));%>
                     <%@ include file="../curatorNotes.jsp"%>
 <%--                    <%@ include file="../rgdVariants.jsp"%>--%>
 
